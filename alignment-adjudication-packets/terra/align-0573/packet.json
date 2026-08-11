@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a442982ba5119b3ffef6",
+      "declaration": "Etingof.centralCharacter",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/44/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {A : Type u_2} \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          {V : Type u_3} \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [IsScalarTower.{u_1, u_2, u_3} k A V] \u2192\n                    [IsAlgClosed.{u_1} k] \u2192\n                      [IsSimpleModule.{u_2, u_3} A V] \u2192\n                        [FiniteDimensional.{u_1, u_3} k V] \u2192\n                          AlgHom.{u_1, u_2, u_1} k\n                            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Subalgebra.center.{u_1, u_2} k A) x)\n                            k",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_16"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.3.16",
+  "packet_id": "align-0573",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0573"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.3.16:claim-04",
+  "source_text": "These scalars form an algebra homomorphism \u03c7_V : Z(A) \u2192 k, the central character."
+}

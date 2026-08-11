@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Section6.6_heading",
+    "kind": "discussion",
+    "title": "Section 6.6 heading: Reflection functors",
+    "node_id": "chapter-06/section-6-6",
+    "order": 438,
+    "slug": "section6-6-heading",
+    "span": {
+      "start": {
+        "page": "168",
+        "line": 3
+      },
+      "end": {
+        "page": "168",
+        "line": 4
+      }
+    },
+    "source_sha256": "9854aab3902838b665a5d5b00187fc7e656cb87b2e33e22fd9a3b83405011bf6",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section66Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

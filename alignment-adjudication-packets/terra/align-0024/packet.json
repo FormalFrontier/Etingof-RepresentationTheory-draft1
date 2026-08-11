@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0788c3302e32adf14099",
+      "declaration": "Etingof.Ext",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/538/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C] \u2192 [CategoryTheory.HasExt.{u_3, u_2, u_1} C] \u2192 C \u2192 C \u2192 Nat \u2192 Type u_3",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_2_4"
+    },
+    {
+      "association_id": "association:deae7d7f6eec82bcef35",
+      "declaration": "Etingof.extIsoCohomologyHom\u2096",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/538/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (A : Type u) \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{u, u} k A] \u2192\n          (M N : ModuleCat.{u, u} A) \u2192\n            (P : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n              (n : Nat) \u2192\n                CategoryTheory.Iso.{u, u + 1} (Etingof.Ext\u2096.{u} k A M N n)\n                  (HomologicalComplex.homology.{u, u + 1, 0}\n                    (ChainComplex.linearYonedaObj.{u, u + 1, 0, u}\n                      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) k N)\n                    n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.ExtCohomologyHomK"
+    }
+  ],
+  "canonical_reference": "Chapter8/Definition8.2.4",
+  "packet_id": "align-0024",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0024"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:050fee709465a9c7260b",
+  "source_text": "Ext^i_A(M,N) is the cohomology of Hom_A(P_i,N) for a projective resolution P of M."
+}

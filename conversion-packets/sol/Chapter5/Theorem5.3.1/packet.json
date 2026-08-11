@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.3.1",
+    "kind": "theorem",
+    "title": "Dimension of irreducible representation divides order of group",
+    "node_id": "chapter-05/section-5-3",
+    "order": 264,
+    "slug": "theorem5-3-1",
+    "span": {
+      "start": {
+        "page": "98",
+        "line": 15
+      },
+      "end": {
+        "page": "99",
+        "line": 4
+      }
+    },
+    "source_sha256": "f6622733f993834aaffcc0b474df0a0dbc9fffbd2d0c21b4b1675776d810ab61",
+    "features": {
+      "line_count": 7,
+      "crosses_page": true,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem531",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,20 @@
+{
+  "module_name": "GroupTheory.ConjugacyClassBounds",
+  "declarations": [
+    {
+      "temporary_id": "decl-001218",
+      "new_name": "fintypeCard_le_card_conjClasses_of_linearIndependent_auxiliary",
+      "docstring": "A finite linearly independent family of auxiliary linear maps has cardinality bounded by the conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-001219",
+      "new_name": "fintypeCard_le_card_conjClasses_of_linearIndependent_family",
+      "docstring": "A finite family with linearly independent associated maps has cardinality bounded by the conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-001260",
+      "new_name": "card_le_card_conjClasses_of_linearIndependent_auxiliary",
+      "docstring": "A finite linearly independent family of auxiliary linear maps has cardinality bounded by the conjugacy classes."
+    }
+  ]
+}

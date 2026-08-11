@@ -1,0 +1,295 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{p : Nat} \u2192 Complex \u2192 Representation.{0, 0, 0} Complex (decl-010860 p) (ZMod p \u2192 Complex) \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010860",
+        "decl-010881"
+      ],
+      "structural_type_hash": "231405664",
+      "temporary_id": "decl-011839"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (z : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    Ne.{1} z 1 \u2192\n      \u2200 (\u03c1 : Representation.{0, 0, 0} Complex (decl-010860 p) (ZMod p \u2192 Complex)),\n        decl-011839 z \u03c1 \u2192\n          \u2200 (a b c : ZMod p),\n            Eq.{1}\n              (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (ZMod p \u2192 Complex))\n                (DFunLike.coe.{1, 1, 1} \u03c1 { a := a, b := b, c := c }))\n              (ite.{1} (And (Eq.{1} a 0) (Eq.{1} b 0))\n                (HMul.hMul.{0, 0, 0} (Nat.cast.{0} p) (HPow.hPow.{0, 0, 0} (Inv.inv.{0} z) c.val)) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010860",
+        "decl-010881",
+        "decl-010898",
+        "decl-011839"
+      ],
+      "structural_type_hash": "3282147302",
+      "temporary_id": "decl-011840"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} (\u03c7 : MonoidHom.{0, 0} (decl-010860 p) (Units.{0} Complex))\n  (g : decl-010860 p),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex Complex)\n      (DFunLike.coe.{1, 1, 1} (decl-002498.{0} \u03c7) g))\n    (Units.val.{0} (DFunLike.coe.{1, 1, 1} \u03c7 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002498",
+        "decl-010860",
+        "decl-010881"
+      ],
+      "structural_type_hash": "3796901251",
+      "temporary_id": "decl-011841"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)]\n  (\u03c1 : Representation.{0, 0, 0} Complex (decl-010860 p) (ZMod p \u2192 Complex))\n  (g : decl-010860 p),\n  Eq.{1} (FDRep.character.{0, 0} (FDRep.of.{0, 0} \u03c1) g)\n    (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (ZMod p \u2192 Complex)) (DFunLike.coe.{1, 1, 1} \u03c1 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010860",
+        "decl-010881"
+      ],
+      "structural_type_hash": "3205529817",
+      "temporary_id": "decl-011842"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [Fact (Nat.Prime p)], Finite.{1} (MonoidHom.{0, 0} (decl-010860 p) (Units.{0} Complex))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010860",
+        "decl-010881"
+      ],
+      "structural_type_hash": "2903782081",
+      "temporary_id": "decl-011843"
+    },
+    {
+      "formal_type": "{p : Nat} \u2192\n  [Fact (Nat.Prime p)] \u2192 Fintype.{0} (MonoidHom.{0, 0} (decl-010860 p) (Units.{0} Complex))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010860",
+        "decl-010881"
+      ],
+      "structural_type_hash": "4143330028",
+      "temporary_id": "decl-011844"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (z : Complex) (hz : Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1)\n  (\u03c1 : Representation.{0, 0, 0} Complex (decl-010860 p) (ZMod p \u2192 Complex)),\n  decl-011839 z \u03c1 \u2192 Eq.{1} \u03c1 (decl-010954 z hz)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010860",
+        "decl-010881",
+        "decl-010954",
+        "decl-011839"
+      ],
+      "structural_type_hash": "1037881496",
+      "temporary_id": "decl-011845"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (a b c : ZMod p),\n  Eq.{1}\n    (Finset.sum.{0, 0} Finset.univ.{0} fun \u03c7 => Units.val.{0} (DFunLike.coe.{1, 1, 1} \u03c7 { a := a, b := b, c := c }))\n    (ite.{1} (And (Eq.{1} a 0) (Eq.{1} b 0)) (HPow.hPow.{0, 0, 0} (Nat.cast.{0} p) 2) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010860",
+        "decl-010881",
+        "decl-010898",
+        "decl-011844"
+      ],
+      "structural_type_hash": "1622016767",
+      "temporary_id": "decl-011846"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] {z : Complex},\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    Ne.{1} z 1 \u2192 Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun u => HPow.hPow.{0, 0, 0} z u.val) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3948173771",
+      "temporary_id": "decl-011848"
+    },
+    {
+      "formal_type": "{p : Nat} \u2192\n  (\u03c7 \u03c7' : MonoidHom.{0, 0} (decl-010860 p) (Units.{0} Complex)) \u2192\n    CategoryTheory.Iso.{0, 1}\n      (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1} (FDRep.of.{0, 0} (decl-002498.{0} \u03c7))\n        (FDRep.of.{0, 0} (decl-002498.{0} \u03c7')))\n      (FDRep.of.{0, 0} (decl-002498.{0} (HMul.hMul.{0, 0, 0} \u03c7 \u03c7')))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002498",
+        "decl-010860",
+        "decl-010881"
+      ],
+      "structural_type_hash": "3228065511",
+      "temporary_id": "decl-011849"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [Fact (Nat.Prime p)] (\u03c7 : MonoidHom.{0, 0} (decl-010860 p) (Units.{0} Complex))\n  (z : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    Ne.{1} z 1 \u2192\n      \u2200 (\u03c1 : Representation.{0, 0, 0} Complex (decl-010860 p) (ZMod p \u2192 Complex)),\n        decl-011839 z \u03c1 \u2192\n          \u2200 (a b c : ZMod p),\n            Eq.{1}\n              (HMul.hMul.{0, 0, 0}\n                (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex Complex)\n                  (DFunLike.coe.{1, 1, 1} (decl-002498.{0} \u03c7) { a := a, b := b, c := c }))\n                (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (ZMod p \u2192 Complex))\n                  (DFunLike.coe.{1, 1, 1} \u03c1 { a := a, b := b, c := c })))\n              (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (ZMod p \u2192 Complex))\n                (DFunLike.coe.{1, 1, 1} \u03c1 { a := a, b := b, c := c }))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002498",
+        "decl-010860",
+        "decl-010881",
+        "decl-010898",
+        "decl-011839"
+      ],
+      "structural_type_hash": "1089720929",
+      "temporary_id": "decl-011854"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} (\u03c7 \u03c7' : MonoidHom.{0, 0} (decl-010860 p) (Units.{0} Complex))\n  (g : decl-010860 p),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0}\n      (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex Complex)\n        (DFunLike.coe.{1, 1, 1} (decl-002498.{0} \u03c7) g))\n      (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex Complex)\n        (DFunLike.coe.{1, 1, 1} (decl-002498.{0} \u03c7') g)))\n    (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex Complex)\n      (DFunLike.coe.{1, 1, 1} (decl-002498.{0} (HMul.hMul.{0, 0, 0} \u03c7 \u03c7')) g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002498",
+        "decl-010860",
+        "decl-010881"
+      ],
+      "structural_type_hash": "2744498923",
+      "temporary_id": "decl-011855"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (z w : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    Ne.{1} z 1 \u2192\n      Ne.{1} w 1 \u2192\n        Eq.{1} (HMul.hMul.{0, 0, 0} z w) 1 \u2192\n          \u2200 (\u03c1z \u03c1w : Representation.{0, 0, 0} Complex (decl-010860 p) (ZMod p \u2192 Complex)),\n            decl-011839 z \u03c1z \u2192\n              decl-011839 w \u03c1w \u2192\n                \u2200 (a b c : ZMod p),\n                  Eq.{1}\n                    (HMul.hMul.{0, 0, 0}\n                      (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (ZMod p \u2192 Complex))\n                        (DFunLike.coe.{1, 1, 1} \u03c1z { a := a, b := b, c := c }))\n                      (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (ZMod p \u2192 Complex))\n                        (DFunLike.coe.{1, 1, 1} \u03c1w { a := a, b := b, c := c })))\n                    (ite.{1} (And (Eq.{1} a 0) (Eq.{1} b 0)) (HPow.hPow.{0, 0, 0} (Nat.cast.{0} p) 2) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010860",
+        "decl-010881",
+        "decl-010898",
+        "decl-011839"
+      ],
+      "structural_type_hash": "3136843339",
+      "temporary_id": "decl-011856"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [Fact (Nat.Prime p)] (z w : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    Eq.{1} (HPow.hPow.{0, 0, 0} w p) 1 \u2192\n      Ne.{1} z 1 \u2192\n        Ne.{1} w 1 \u2192\n          Ne.{1} (HMul.hMul.{0, 0, 0} z w) 1 \u2192\n            \u2200 (\u03c1z \u03c1w \u03c1zw : Representation.{0, 0, 0} Complex (decl-010860 p) (ZMod p \u2192 Complex)),\n              decl-011839 z \u03c1z \u2192\n                decl-011839 w \u03c1w \u2192\n                  decl-011839 (HMul.hMul.{0, 0, 0} z w) \u03c1zw \u2192\n                    \u2200 (g : decl-010860 p),\n                      Eq.{1}\n                        (HMul.hMul.{0, 0, 0}\n                          (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (ZMod p \u2192 Complex))\n                            (DFunLike.coe.{1, 1, 1} \u03c1z g))\n                          (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (ZMod p \u2192 Complex))\n                            (DFunLike.coe.{1, 1, 1} \u03c1w g)))\n                        (HMul.hMul.{0, 0, 0} (Nat.cast.{0} p)\n                          (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (ZMod p \u2192 Complex))\n                            (DFunLike.coe.{1, 1, 1} \u03c1zw g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010860",
+        "decl-010881",
+        "decl-011839"
+      ],
+      "structural_type_hash": "2579409855",
+      "temporary_id": "decl-011857"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (z w : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    Eq.{1} (HPow.hPow.{0, 0, 0} w p) 1 \u2192\n      Ne.{1} z 1 \u2192\n        Ne.{1} w 1 \u2192\n          Ne.{1} (HMul.hMul.{0, 0, 0} z w) 1 \u2192\n            \u2200 (\u03c1z \u03c1w \u03c1zw : Representation.{0, 0, 0} Complex (decl-010860 p) (ZMod p \u2192 Complex)),\n              decl-011839 z \u03c1z \u2192\n                decl-011839 w \u03c1w \u2192\n                  decl-011839 (HMul.hMul.{0, 0, 0} z w) \u03c1zw \u2192\n                    Nonempty.{1}\n                      (CategoryTheory.Iso.{0, 1}\n                        (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1} (FDRep.of.{0, 0} \u03c1z)\n                          (FDRep.of.{0, 0} \u03c1w))\n                        (decl-004227 fun x => FDRep.of.{0, 0} \u03c1zw))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004227",
+        "decl-010860",
+        "decl-010881",
+        "decl-011839"
+      ],
+      "structural_type_hash": "3807106363",
+      "temporary_id": "decl-011858"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (z w : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    Eq.{1} (HPow.hPow.{0, 0, 0} w p) 1 \u2192\n      Ne.{1} z 1 \u2192\n        Ne.{1} w 1 \u2192\n          Ne.{1} (HMul.hMul.{0, 0, 0} z w) 1 \u2192\n            \u2200 (\u03c1z \u03c1w \u03c1zw : Representation.{0, 0, 0} Complex (decl-010860 p) (ZMod p \u2192 Complex)),\n              decl-011839 z \u03c1z \u2192\n                decl-011839 w \u03c1w \u2192\n                  decl-011839 (HMul.hMul.{0, 0, 0} z w) \u03c1zw \u2192\n                    Nonempty.{1}\n                      (CategoryTheory.Iso.{0, 1}\n                        (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1} (FDRep.of.{0, 0} \u03c1z)\n                          (FDRep.of.{0, 0} \u03c1w))\n                        (CategoryTheory.Limits.biproduct.{0, 0, 1} fun x => FDRep.of.{0, 0} \u03c1zw))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004204",
+        "decl-010860",
+        "decl-010881",
+        "decl-011839"
+      ],
+      "structural_type_hash": "3655345797",
+      "temporary_id": "decl-011859"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (\u03c7 : MonoidHom.{0, 0} (decl-010860 p) (Units.{0} Complex))\n  (z : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    Ne.{1} z 1 \u2192\n      \u2200 (\u03c1 : Representation.{0, 0, 0} Complex (decl-010860 p) (ZMod p \u2192 Complex)),\n        decl-011839 z \u03c1 \u2192\n          Nonempty.{1}\n            (CategoryTheory.Iso.{0, 1}\n              (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1}\n                (FDRep.of.{0, 0} (decl-002498.{0} \u03c7)) (FDRep.of.{0, 0} \u03c1))\n              (FDRep.of.{0, 0} \u03c1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002498",
+        "decl-010860",
+        "decl-010881",
+        "decl-011839"
+      ],
+      "structural_type_hash": "3855465756",
+      "temporary_id": "decl-011860"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} (\u03c7 \u03c7' : MonoidHom.{0, 0} (decl-010860 p) (Units.{0} Complex)),\n  Nonempty.{1}\n    (CategoryTheory.Iso.{0, 1}\n      (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1} (FDRep.of.{0, 0} (decl-002498.{0} \u03c7))\n        (FDRep.of.{0, 0} (decl-002498.{0} \u03c7')))\n      (FDRep.of.{0, 0} (decl-002498.{0} (HMul.hMul.{0, 0, 0} \u03c7 \u03c7'))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002498",
+        "decl-010860",
+        "decl-010881"
+      ],
+      "structural_type_hash": "797020119",
+      "temporary_id": "decl-011861"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (z w : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    Ne.{1} z 1 \u2192\n      Ne.{1} w 1 \u2192\n        Eq.{1} (HMul.hMul.{0, 0, 0} z w) 1 \u2192\n          \u2200 (\u03c1z \u03c1w : Representation.{0, 0, 0} Complex (decl-010860 p) (ZMod p \u2192 Complex)),\n            decl-011839 z \u03c1z \u2192\n              decl-011839 w \u03c1w \u2192\n                Nonempty.{1}\n                  (CategoryTheory.Iso.{0, 1}\n                    (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1} (FDRep.of.{0, 0} \u03c1z) (FDRep.of.{0, 0} \u03c1w))\n                    (decl-004227 fun \u03c7 => FDRep.of.{0, 0} (decl-002498.{0} \u03c7)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002498",
+        "decl-004227",
+        "decl-010860",
+        "decl-010881",
+        "decl-011839",
+        "decl-011844"
+      ],
+      "structural_type_hash": "4252033901",
+      "temporary_id": "decl-011862"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (z w : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    Ne.{1} z 1 \u2192\n      Ne.{1} w 1 \u2192\n        Eq.{1} (HMul.hMul.{0, 0, 0} z w) 1 \u2192\n          \u2200 (\u03c1z \u03c1w : Representation.{0, 0, 0} Complex (decl-010860 p) (ZMod p \u2192 Complex)),\n            decl-011839 z \u03c1z \u2192\n              decl-011839 w \u03c1w \u2192\n                Nonempty.{1}\n                  (CategoryTheory.Iso.{0, 1}\n                    (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1} (FDRep.of.{0, 0} \u03c1z) (FDRep.of.{0, 0} \u03c1w))\n                    (CategoryTheory.Limits.biproduct.{0, 0, 1} fun \u03c7 =>\n                      FDRep.of.{0, 0} (decl-002498.{0} \u03c7)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002498",
+        "decl-004204",
+        "decl-010860",
+        "decl-010881",
+        "decl-011839",
+        "decl-011843"
+      ],
+      "structural_type_hash": "2754455345",
+      "temporary_id": "decl-011863"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (z : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    Ne.{1} z 1 \u2192\n      \u2200 (g : decl-010860 p),\n        Eq.{1}\n          (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (ZMod p \u2192 Complex))\n            (decl-010963 z g))\n          (ite.{1} (And (Eq.{1} g.a 0) (Eq.{1} g.b 0))\n            (HMul.hMul.{0, 0, 0} (Nat.cast.{0} p) (HPow.hPow.{0, 0, 0} (Inv.inv.{0} z) g.c.val)) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010860",
+        "decl-010863",
+        "decl-010864",
+        "decl-010865",
+        "decl-010963"
+      ],
+      "structural_type_hash": "1874130984",
+      "temporary_id": "decl-011864"
+    },
+    {
+      "formal_type": "\u2200 {p : Nat} [NeZero.{0} p] {z : Complex},\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    \u2200 (c : ZMod p), Eq.{1} (HPow.hPow.{0, 0, 0} z (Neg.neg.{0} c).val) (HPow.hPow.{0, 0, 0} (Inv.inv.{0} z) c.val)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3480930063",
+      "temporary_id": "decl-011866"
+    }
+  ],
+  "module_temporary_id": "module-0234",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

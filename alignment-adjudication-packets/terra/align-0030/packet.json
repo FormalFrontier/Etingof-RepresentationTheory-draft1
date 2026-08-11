@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1359d39c00ec2bb4b7aa",
+      "declaration": "Etingof.tensorMultiplicity",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/219/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type} \u2192 [inst : Group.{0} G] \u2192 FDRep.{0, 0} Complex G \u2192 FDRep.{0, 0} Complex G \u2192 FDRep.{0, 0} Complex G \u2192 Nat",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Introduction_4_9"
+    },
+    {
+      "association_id": "association:5f094abea90503d2696d",
+      "declaration": "Etingof.tensorMultiplicity_eq_inner",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/219/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (X Y S : FDRep.{0, 0} Complex G),\n  Eq.{1} (Nat.cast.{0} (Etingof.tensorMultiplicity X Y S))\n    (HSMul.hSMul.{0, 0, 0} (Invertible.invOf.{0} (Nat.cast.{0} (Fintype.card.{0} G)))\n      (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n        HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} X g) (FDRep.character.{0, 0} Y g))\n          (FDRep.character.{0, 0} S (Inv.inv.{0} g))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Introduction_4_9"
+    }
+  ],
+  "canonical_reference": "Chapter4/Introduction_4.9",
+  "packet_id": "align-0030",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0030"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0819e40e04282fa25b5d",
+  "source_text": "The multiplicity of Vk in Vi\u2297Vj is the character pairing (\u03c7i\u03c7j,\u03c7k)."
+}

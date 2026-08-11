@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8aae5433f92d28880a4e",
+      "declaration": "Etingof.qMono_mul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/55/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (q : Units.{u_1} k) (p p' : Prod.{0, 0} Int Int),\n  Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (Etingof.qMono.{u_1} k q p) (Etingof.qMono.{u_1} k q p'))\n    (HSMul.hSMul.{u_1, u_1, u_1}\n      (Units.val.{u_1} (HPow.hPow.{u_1, 0, u_1} q (HMul.hMul.{0, 0, 0} (Prod.snd.{0, 0} p) (Prod.fst.{0, 0} p'))))\n      (Etingof.qMono.{u_1} k q\n        (Prod.mk.{0, 0} (HAdd.hAdd.{0, 0, 0} (Prod.fst.{0, 0} p) (Prod.fst.{0, 0} p'))\n          (HAdd.hAdd.{0, 0, 0} (Prod.snd.{0, 0} p) (Prod.snd.{0, 0} p')))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii"
+    }
+  ],
+  "canonical_reference": "Chapter2/Proposition2.7.1",
+  "packet_id": "align-0013",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0013"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:024f60e7f0f12fc0d1b3",
+  "source_text": "Reordering q-Weyl monomials only introduces a power of q."
+}

@@ -1,0 +1,468 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    {I : Type} \u2192\n      [Fintype.{0} I] \u2192\n        [DecidableEq.{1} I] \u2192\n          (V : FDRep.{0, 0} Complex G) \u2192\n            Module.Basis.{0, 0, 0} I Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V)) \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "229508639",
+      "temporary_id": "decl-012132"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {I J : Type} [inst_1 : Fintype.{0} I] [inst_2 : Fintype.{0} J]\n  [inst_3 : DecidableEq.{1} I] [inst_4 : DecidableEq.{1} J] {V : FDRep.{0, 0} Complex G}\n  {b : Module.Basis.{0, 0, 0} I Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))},\n  decl-012132 V b \u2192\n    \u2200 (e : Equiv.{1, 1} I J), decl-012132 V (Module.Basis.reindex.{0, 0, 0, 0} b e)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-012132",
+      "project_type_dependencies": [
+        "decl-012132"
+      ],
+      "structural_type_hash": "834978441",
+      "temporary_id": "decl-012134"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    IntermediateField.{0, 0} Rat Complex \u2192\n      {I : Type} \u2192\n        [Fintype.{0} I] \u2192\n          [DecidableEq.{1} I] \u2192\n            (V : FDRep.{0, 0} Complex G) \u2192\n              Module.Basis.{0, 0, 0} I Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V)) \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3603865520",
+      "temporary_id": "decl-012135"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {K : IntermediateField.{0, 0} Rat Complex} {I J : Type} [inst_1 : Fintype.{0} I]\n  [inst_2 : Fintype.{0} J] [inst_3 : DecidableEq.{1} I] [inst_4 : DecidableEq.{1} J] {V : FDRep.{0, 0} Complex G}\n  {b : Module.Basis.{0, 0, 0} I Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))},\n  decl-012135 K V b \u2192\n    \u2200 (e : Equiv.{1, 1} I J), decl-012135 K V (Module.Basis.reindex.{0, 0, 0, 0} b e)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-012135",
+      "project_type_dependencies": [
+        "decl-012135"
+      ],
+      "structural_type_hash": "3930612526",
+      "temporary_id": "decl-012137"
+    },
+    {
+      "formal_type": "{G : Type} \u2192 [inst : Group.{0} G] \u2192 FDRep.{0, 0} Complex G \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1254210631",
+      "temporary_id": "decl-012138"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {V W : FDRep.{0, 0} Complex G} (e : CategoryTheory.Iso.{0, 1} V W),\n  decl-012138 V \u2192 decl-012138 W",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-012138",
+      "project_type_dependencies": [
+        "decl-012138"
+      ],
+      "structural_type_hash": "47311609",
+      "temporary_id": "decl-012139"
+    },
+    {
+      "formal_type": "{G : Type} \u2192 [inst : Group.{0} G] \u2192 IntermediateField.{0, 0} Rat Complex \u2192 FDRep.{0, 0} Complex G \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "307451820",
+      "temporary_id": "decl-012140"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {K L : IntermediateField.{0, 0} Rat Complex},\n  LE.le.{0} K L \u2192\n    \u2200 {V : FDRep.{0, 0} Complex G},\n      decl-012140 K V \u2192 decl-012140 L V",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-012140",
+      "project_type_dependencies": [
+        "decl-012140"
+      ],
+      "structural_type_hash": "984764136",
+      "temporary_id": "decl-012144"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {K : IntermediateField.{0, 0} Rat Complex} {V W : FDRep.{0, 0} Complex G}\n  (e : CategoryTheory.Iso.{0, 1} V W),\n  decl-012140 K V \u2192 decl-012140 K W",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-012140",
+      "project_type_dependencies": [
+        "decl-012140"
+      ],
+      "structural_type_hash": "2539842536",
+      "temporary_id": "decl-012145"
+    },
+    {
+      "formal_type": "Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-012146"
+    },
+    {
+      "formal_type": "(H : Type) \u2192 [inst : Group.{0} H] \u2192 [inst_1 : Fintype.{0} H] \u2192 decl-025031.{0, 0} decl-012146 H",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146",
+        "decl-012169",
+        "decl-012205",
+        "decl-025031"
+      ],
+      "structural_type_hash": "4170448667",
+      "temporary_id": "decl-012147"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (V : FDRep.{0, 0} Complex G),\n  decl-012138 V",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012138"
+      ],
+      "structural_type_hash": "399191190",
+      "temporary_id": "decl-012148"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  [CategoryTheory.Simple.{0, 1} V],\n  LT.lt.{0} 1 (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))) \u2192\n    (\u2200 (g : G), Ne.{1} (FDRep.character.{0, 0} V g) 0) \u2192\n      And\n        (LT.lt.{0} 0\n          (Finset.prod.{0, 0} (Finset.filter.{0} (fun x => Ne.{1} x 1) Finset.univ.{0}) fun g =>\n            DFunLike.coe.{1, 1, 1} Complex.normSq (FDRep.character.{0, 0} V g)))\n        (LT.lt.{0}\n          (Finset.prod.{0, 0} (Finset.filter.{0} (fun x => Ne.{1} x 1) Finset.univ.{0}) fun g =>\n            DFunLike.coe.{1, 1, 1} Complex.normSq (FDRep.character.{0, 0} V g))\n          1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "615876232",
+      "temporary_id": "decl-012149"
+    },
+    {
+      "formal_type": "\u2200 (H : Type) [Group.{0} H] [Fintype.{0} H], NeZero.{0} (Nat.cast.{0} (Nat.card.{0} H))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1397219084",
+      "temporary_id": "decl-012150"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] [DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  [CategoryTheory.Simple.{0, 1} V],\n  LT.lt.{0} 1 (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))) \u2192\n    Exists.{1} fun g => Eq.{1} (FDRep.character.{0, 0} V g) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2093342482",
+      "temporary_id": "decl-012151"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] {I : Type} [Fintype.{0} I] (V : I \u2192 FDRep.{0, 0} Complex G),\n  (\u2200 (i : I), decl-012138 (V i)) \u2192\n    Exists.{1} fun K =>\n      And (FiniteDimensional.{0, 0} Rat (Subtype.{1} fun x => Membership.mem.{0, 0} K x))\n        (And (IsGalois.{0, 0} Rat (Subtype.{1} fun x => Membership.mem.{0, 0} K x))\n          (\u2200 (i : I), decl-012140 K (V i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012138",
+        "decl-012140"
+      ],
+      "structural_type_hash": "489941041",
+      "temporary_id": "decl-012152"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G],\n  Exists.{1} fun K =>\n    And (FiniteDimensional.{0, 0} Rat (Subtype.{1} fun x => Membership.mem.{0, 0} K x))\n      (And (IsGalois.{0, 0} Rat (Subtype.{1} fun x => Membership.mem.{0, 0} K x))\n        (\u2200 (V : FDRep.{0, 0} Complex G), decl-012140 K V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012140"
+      ],
+      "structural_type_hash": "3020726250",
+      "temporary_id": "decl-012153"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (V : FDRep.{0, 0} Complex G) [Fintype.{0} G],\n  decl-012138 V \u2192\n    Exists.{1} fun K =>\n      And (FiniteDimensional.{0, 0} Rat (Subtype.{1} fun x => Membership.mem.{0, 0} K x))\n        (And (IsGalois.{0, 0} Rat (Subtype.{1} fun x => Membership.mem.{0, 0} K x))\n          (decl-012140 K V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012138",
+        "decl-012140"
+      ],
+      "structural_type_hash": "3899932447",
+      "temporary_id": "decl-012154"
+    },
+    {
+      "formal_type": "(A C G : Type) \u2192\n  [inst : Field.{0} A] \u2192\n    [inst_1 : Field.{0} C] \u2192\n      [inst_2 : Algebra.{0, 0} A C] \u2192\n        [inst_3 : Group.{0} G] \u2192\n          AlgEquiv.{0, 0, 0} C (TensorProduct.{0, 0, 0} A C (MonoidAlgebra.{0, 0} A G)) (MonoidAlgebra.{0, 0} C G)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3658620301",
+      "temporary_id": "decl-012155"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (V : FDRep.{0, 0} Complex G),\n  Iff (decl-012138 V)\n    (decl-012140 (algebraicClosure.{0, 0} Rat Complex) V)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012138",
+        "decl-012140"
+      ],
+      "structural_type_hash": "973040695",
+      "temporary_id": "decl-012163"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {I : Type} [inst_1 : Fintype.{0} I] [inst_2 : DecidableEq.{1} I]\n  {V : FDRep.{0, 0} Complex G}\n  (b : Module.Basis.{0, 0, 0} I Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))),\n  decl-012132 V b \u2192 decl-012138 V",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012132",
+        "decl-012138"
+      ],
+      "structural_type_hash": "2698402675",
+      "temporary_id": "decl-012164"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] {I : Type} [Fintype.{0} I] (T : I \u2192 FDRep.{0, 0} Complex G),\n  (\u2200 (i : I), CategoryTheory.Simple.{0, 1} (T i)) \u2192\n    (\u2200 (i j : I), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (T i) (T j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (S : FDRep.{0, 0} Complex G),\n          CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (T i))) \u2192\n        (\u2200 (i : I), decl-012138 (T i)) \u2192\n          \u2200 (V : FDRep.{0, 0} Complex G), decl-012138 V",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012138"
+      ],
+      "structural_type_hash": "1821413398",
+      "temporary_id": "decl-012165"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {I : Type} [inst_1 : Fintype.{0} I] (V : I \u2192 FDRep.{0, 0} Complex G),\n  (\u2200 (i : I), decl-012138 (V i)) \u2192\n    decl-012138 (decl-004227 V)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004227",
+        "decl-012138"
+      ],
+      "structural_type_hash": "1058133062",
+      "temporary_id": "decl-012166"
+    },
+    {
+      "formal_type": "IsAlgClosed.{0} decl-012146",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146"
+      ],
+      "structural_type_hash": "2224083533",
+      "temporary_id": "decl-012169"
+    },
+    {
+      "formal_type": "IsAlgClosure.{0, 0} Rat decl-012146",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146"
+      ],
+      "structural_type_hash": "4272531021",
+      "temporary_id": "decl-012170"
+    },
+    {
+      "formal_type": "\u2200 {H : Type} [inst : Group.{0} H] [inst_1 : Fintype.{0} H]\n  (i : Fin (decl-025117.{0, 0} (decl-012172 H))),\n  decl-012138\n    (decl-025052.{0, 0} (decl-012172 H) i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012138",
+        "decl-012150",
+        "decl-012172",
+        "decl-025052",
+        "decl-025117"
+      ],
+      "structural_type_hash": "230621831",
+      "temporary_id": "decl-012171"
+    },
+    {
+      "formal_type": "(H : Type) \u2192 [inst : Group.{0} H] \u2192 [inst_1 : Fintype.{0} H] \u2192 decl-025031.{0, 0} Complex H",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012150",
+        "decl-025031"
+      ],
+      "structural_type_hash": "3548993246",
+      "temporary_id": "decl-012172"
+    },
+    {
+      "formal_type": "(H : Type) \u2192\n  [inst : Group.{0} H] \u2192\n    [inst_1 : Fintype.{0} H] \u2192\n      MonoidHom.{0, 0} H\n        ((i : Fin (decl-025117.{0, 0} (decl-012147 H))) \u2192\n          Matrix.{0, 0, 0} (Fin (decl-025074.{0, 0} (decl-012147 H) i))\n            (Fin (decl-025074.{0, 0} (decl-012147 H) i)) Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146",
+        "decl-012147",
+        "decl-012169",
+        "decl-012205",
+        "decl-025074",
+        "decl-025117"
+      ],
+      "structural_type_hash": "234096198",
+      "temporary_id": "decl-012175"
+    },
+    {
+      "formal_type": "(H : Type) \u2192\n  [inst : Group.{0} H] \u2192\n    [inst_1 : Fintype.{0} H] \u2192\n      AlgHom.{0, 0, 0} Complex (MonoidAlgebra.{0, 0} Complex H)\n        ((i : Fin (decl-025117.{0, 0} (decl-012147 H))) \u2192\n          Matrix.{0, 0, 0} (Fin (decl-025074.{0, 0} (decl-012147 H) i))\n            (Fin (decl-025074.{0, 0} (decl-012147 H) i)) Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146",
+        "decl-012147",
+        "decl-012169",
+        "decl-012205",
+        "decl-025074",
+        "decl-025117"
+      ],
+      "structural_type_hash": "1200452658",
+      "temporary_id": "decl-012180"
+    },
+    {
+      "formal_type": "\u2200 {H : Type} [inst : Group.{0} H] [inst_1 : Fintype.{0} H],\n  Eq.{1} (AlgHom.toLinearMap.{0, 0, 0} (decl-012180 H))\n    (LinearEquiv.toLinearMap.{0, 0, 0, 0} (decl-012184 H))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146",
+        "decl-012147",
+        "decl-012169",
+        "decl-012180",
+        "decl-012184",
+        "decl-012205",
+        "decl-025074",
+        "decl-025117"
+      ],
+      "structural_type_hash": "2962578762",
+      "temporary_id": "decl-012182"
+    },
+    {
+      "formal_type": "\u2200 {H : Type} [inst : Group.{0} H] [inst_1 : Fintype.{0} H] (a : MonoidAlgebra.{0, 0} decl-012146 H)\n  (i : Fin (decl-025117.{0, 0} (decl-012147 H)))\n  (p q : Fin (decl-025074.{0, 0} (decl-012147 H) i)),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-012180 H)\n      (DFunLike.coe.{1, 1, 1}\n        (MonoidAlgebra.mapAlgHom.{0, 0, 0, 0} H (Algebra.ofId.{0, 0} decl-012146 Complex)) a)\n      i p q)\n    (Subtype.val.{1}\n      (DFunLike.coe.{1, 1, 1} (decl-025104.{0, 0} (decl-012147 H)) a i p q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146",
+        "decl-012147",
+        "decl-012169",
+        "decl-012180",
+        "decl-012205",
+        "decl-025074",
+        "decl-025104",
+        "decl-025117"
+      ],
+      "structural_type_hash": "2321342316",
+      "temporary_id": "decl-012183"
+    },
+    {
+      "formal_type": "(H : Type) \u2192\n  [inst : Group.{0} H] \u2192\n    [inst_1 : Fintype.{0} H] \u2192\n      LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex) (MonoidAlgebra.{0, 0} Complex H)\n        ((i : Fin (decl-025117.{0, 0} (decl-012147 H))) \u2192\n          Matrix.{0, 0, 0} (Fin (decl-025074.{0, 0} (decl-012147 H) i))\n            (Fin (decl-025074.{0, 0} (decl-012147 H) i)) Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146",
+        "decl-012147",
+        "decl-012169",
+        "decl-012205",
+        "decl-025074",
+        "decl-025117"
+      ],
+      "structural_type_hash": "4154145419",
+      "temporary_id": "decl-012184"
+    },
+    {
+      "formal_type": "\u2200 {H : Type} [inst : Group.{0} H] [inst_1 : Fintype.{0} H] (g : H)\n  (i : Fin (decl-025117.{0, 0} (decl-012147 H)))\n  (p q : Fin (decl-025074.{0, 0} (decl-012147 H) i)),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-012184 H)\n      (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex H) g) i p q)\n    (Subtype.val.{1}\n      (DFunLike.coe.{1, 1, 1} (decl-025104.{0, 0} (decl-012147 H))\n        (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} decl-012146 H) g) i p q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146",
+        "decl-012147",
+        "decl-012169",
+        "decl-012184",
+        "decl-012205",
+        "decl-025074",
+        "decl-025104",
+        "decl-025117"
+      ],
+      "structural_type_hash": "3059101441",
+      "temporary_id": "decl-012189"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {K : IntermediateField.{0, 0} Rat Complex} {I : Type} [inst_1 : Fintype.{0} I]\n  [inst_2 : DecidableEq.{1} I] {V : FDRep.{0, 0} Complex G}\n  (b : Module.Basis.{0, 0, 0} I Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))),\n  decl-012135 K V b \u2192 decl-012140 K V",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012135",
+        "decl-012140"
+      ],
+      "structural_type_hash": "2062085019",
+      "temporary_id": "decl-012190"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] {K : IntermediateField.{0, 0} Rat Complex} {I : Type} [Fintype.{0} I]\n  (T : I \u2192 FDRep.{0, 0} Complex G),\n  (\u2200 (i : I), CategoryTheory.Simple.{0, 1} (T i)) \u2192\n    (\u2200 (i j : I), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (T i) (T j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (S : FDRep.{0, 0} Complex G),\n          CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (T i))) \u2192\n        (\u2200 (i : I), decl-012140 K (T i)) \u2192\n          \u2200 (V : FDRep.{0, 0} Complex G), decl-012140 K V",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012140"
+      ],
+      "structural_type_hash": "4136462550",
+      "temporary_id": "decl-012191"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {I : Type} [inst_1 : Fintype.{0} I] (V : I \u2192 FDRep.{0, 0} Complex G)\n  {K : IntermediateField.{0, 0} Rat Complex},\n  (\u2200 (i : I), decl-012140 K (V i)) \u2192\n    decl-012140 K (decl-004227 V)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004227",
+        "decl-012140"
+      ],
+      "structural_type_hash": "185854598",
+      "temporary_id": "decl-012192"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n    (TensorProduct.{0, 0, 0} decl-012146 Complex\n      (Matrix.{0, 0, 0} (Fin n) (Fin n) decl-012146))\n    (Matrix.{0, 0, 0} (Fin n) (Fin n) Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146"
+      ],
+      "structural_type_hash": "3395808024",
+      "temporary_id": "decl-012195"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (M : Matrix.{0, 0, 0} (Fin n) (Fin n) decl-012146) (p q : Fin n),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-012195 n)\n      (TensorProduct.tmul.{0, 0, 0} decl-012146 1 M) p q)\n    (Subtype.val.{1} (M p q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146",
+        "decl-012195"
+      ],
+      "structural_type_hash": "2253276396",
+      "temporary_id": "decl-012202"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192\n  (d : Fin n \u2192 Nat) \u2192\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n      (TensorProduct.{0, 0, 0} decl-012146 Complex\n        ((i : Fin n) \u2192 Matrix.{0, 0, 0} (Fin (d i)) (Fin (d i)) decl-012146))\n      ((i : Fin n) \u2192 Matrix.{0, 0, 0} (Fin (d i)) (Fin (d i)) Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146"
+      ],
+      "structural_type_hash": "3246462483",
+      "temporary_id": "decl-012203"
+    },
+    {
+      "formal_type": "\u2200 (H : Type) [Group.{0} H] [Fintype.{0} H], NeZero.{0} (Nat.cast.{0} (Nat.card.{0} H))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012146"
+      ],
+      "structural_type_hash": "1466083089",
+      "temporary_id": "decl-012205"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  [CategoryTheory.Simple.{0, 1} V] [Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} G))],\n  Eq.{1}\n    (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n      HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} V g) (FDRep.character.{0, 0} V (Inv.inv.{0} g)))\n    (Nat.cast.{0} (Fintype.card.{0} G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "791838831",
+      "temporary_id": "decl-012206"
+    }
+  ],
+  "module_temporary_id": "module-0395",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.SimpleModule.Endomorphisms",
+  "declarations": [
+    {
+      "temporary_id": "decl-001469",
+      "new_name": "endomorphism_eq_smul",
+      "docstring": "Every linear endomorphism of a finite-dimensional simple module over an algebraically closed field is scalar multiplication."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d00088d1cbc7918fa7ff",
+      "declaration": "Etingof.n_le_m_of_field_embedding",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/401/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n m : Nat}\n  (g :\n    AlgHom.{0, 0, 0} k (FractionRing.{0} (MvPolynomial.{0, 0} (Fin n) k))\n      (FractionRing.{0} (MvPolynomial.{0, 0} (Fin m) k))),\n  LE.le.{0} n m",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_1"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.1",
+  "packet_id": "align-0773",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0773"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.1.1:field_embedding",
+  "source_text": "The same dimension inequality holds for a k-linear embedding of rational-function fields."
+}

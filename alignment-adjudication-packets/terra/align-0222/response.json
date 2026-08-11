@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0222",
+  "associations": [
+    {
+      "association_id": "association:80275fe0e5f8769c47ca",
+      "role": "primary",
+      "rationale": "It directly gives the sign action on the column-partition Specht module."
+    },
+    {
+      "association_id": "association:99e051fb3e0432b6103f",
+      "role": "primary",
+      "rationale": "It directly gives the trivial action on the row-partition Specht module."
+    }
+  ]
+}

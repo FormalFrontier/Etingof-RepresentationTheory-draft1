@@ -1,0 +1,200 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] [CharZero.{u} k] (N n : Nat),\n  Exists.{2} fun \u03b9 =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{u + 1} fun S =>\n          Exists.{0} fun x_1 =>\n            Exists.{0} fun x_2 =>\n              Exists.{0} fun x_3 =>\n                Exists.{u + 2} fun L =>\n                  Exists.{0} fun x_4 =>\n                    Exists.{u + 1} fun L_carrier =>\n                      Exists.{u + 1} fun e =>\n                        And\n                          (\u2200 (i : \u03b9) (v : Subtype.{u + 1} fun x => Membership.mem.{u, u} (S i) x)\n                            (l : FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (L i))),\n                            Eq.{u + 1}\n                              (DFunLike.coe.{u + 1, u + 1, u + 1} (LinearEquiv.symm.{u, u, u, u} e)\n                                (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                  (DirectSum.of.{0, u}\n                                    (fun i =>\n                                      TensorProduct.{u, u, u} k (Subtype.{u + 1} fun x => Membership.mem.{u, u} (S i) x)\n                                        (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (L i))))\n                                    i)\n                                  (TensorProduct.tmul.{u, u, u} k v l)))\n                              (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (L_carrier i) l)\n                                v))\n                          (\u2200 (i : \u03b9) (g : Matrix.GeneralLinearGroup.{0, u} (Fin N) k)\n                            (l : FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (L i)))\n                            (v : Subtype.{u + 1} fun x => Membership.mem.{u, u} (S i) x),\n                            Eq.{u + 1}\n                              (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                (DFunLike.coe.{u + 1, u + 1, u + 1} (L_carrier i)\n                                  (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                    (DFunLike.coe.{u + 1, u + 1, u + 1} (FDRep.\u03c1.{u, u} (L i)) g) l))\n                                v)\n                              (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                (PiTensorProduct.map.{0, u, u, u} fun x => Matrix.mulVecLin.{u, 0, 0} (Units.val.{u} g))\n                                (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (L_carrier i) l)\n                                  v)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627",
+        "decl-023635"
+      ],
+      "structural_type_hash": "3127879922",
+      "temporary_id": "decl-016572"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] [CharZero.{u} k] (N n : Nat),\n  LE.le.{0} n N \u2192\n    Exists.{2} fun \u03b9 =>\n      Exists.{1} fun x =>\n        Exists.{1} fun x =>\n          Exists.{u + 2} fun S =>\n            Exists.{u + 1} fun x =>\n              Exists.{u + 1} fun x_1 =>\n                Exists.{u + 1} fun x_2 =>\n                  Exists.{0} fun x_3 =>\n                    Exists.{0} fun x_4 =>\n                      Exists.{0} fun x_5 =>\n                        Exists.{u + 2} fun L =>\n                          Exists.{0} fun x_6 =>\n                            Nonempty.{u + 1}\n                              (LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) (decl-016473.{u, u} k (Fin N \u2192 k) n)\n                                (DirectSum.{0, u} \u03b9 fun i =>\n                                  TensorProduct.{u, u, u} k (S i)\n                                    (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (L i)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627",
+        "decl-023635"
+      ],
+      "structural_type_hash": "3390596396",
+      "temporary_id": "decl-016573"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] [Infinite.{u + 1} k] (n : Nat),\n  Eq.{max (u + 1) (v + 1)}\n    (Algebra.adjoin.{u, max u v} k\n      (Set.range.{max u v, v + 1} fun g => PiTensorProduct.map.{0, u, v, v} fun x => Units.val.{v} g))\n    (decl-018384.{u, v} k V n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018384"
+      ],
+      "structural_type_hash": "251005190",
+      "temporary_id": "decl-017135"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    {V : Type u_1} \u2192\n      [inst_1 : AddCommGroup.{u_1} V] \u2192\n        [inst_2 : Module.{u, u_1} k V] \u2192\n          [Module.Finite.{u, u_1} k V] \u2192\n            (n : Nat) \u2192\n              Ring.{max u u_1}\n                (Subtype.{(max u u_1) + 1} fun x =>\n                  Membership.mem.{max u u_1, max u u_1} (decl-018384.{u, u_1} k V n) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-018384"
+      ],
+      "structural_type_hash": "978425493",
+      "temporary_id": "decl-018385"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (f : Module.End.{u, v} k V),\n  Exists.{u + 1} fun S =>\n    \u2200 (c : k), Not (Membership.mem.{u, u} S c) \u2192 IsUnit.{v} (HSub.hSub.{v, v, v} f (HSMul.hSMul.{u, v, v} c 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2679702991",
+      "temporary_id": "decl-018841"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {N n : Nat} {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M]\n  [inst_2 : Module.{u, u_1} k M] [Module.Finite.{u, u_1} k M]\n  [inst_4 :\n    Module.{u, u_1}\n      (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-018384.{u, u} k (Fin N \u2192 k) n) x) M]\n  [IsScalarTower.{u, u, u_1} k\n      (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-018384.{u, u} k (Fin N \u2192 k) n) x) M]\n  [IsSimpleModule.{u, u_1}\n      (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-018384.{u, u} k (Fin N \u2192 k) n) x) M]\n  [IsAlgClosed.{u} k] (\u03c1 : Representation.{u, u, u_1} k (Matrix.GeneralLinearGroup.{0, u} (Fin N) k) M),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, u} (Fin N) k) (x : M),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{max (u + 1) (u_1 + 1), u + 1, u_1 + 1} \u03c1 g) x)\n        (HSMul.hSMul.{u, u_1, u_1}\n          (Subtype.mk.{u + 1} (PiTensorProduct.map.{0, u, u, u} fun x => Matrix.mulVecLin.{u, 0, 0} (Units.val.{u} g))\n            \u22ef)\n          x)) \u2192\n    IsSimpleModule.{u, u_1} (MonoidAlgebra.{u, u} k (Matrix.GeneralLinearGroup.{0, u} (Fin N) k))\n      (Representation.asModule.{u, u, u_1} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-018384",
+        "decl-018385",
+        "decl-023628",
+        "decl-023629"
+      ],
+      "structural_type_hash": "1874264631",
+      "temporary_id": "decl-020909"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    {V : Type v} \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          (n : Nat) \u2192\n            Module.End.{u, v} k V \u2192 Finset.{0} (Fin n) \u2192 Module.End.{u, max v u} k (decl-016473.{u, v} k V n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473"
+      ],
+      "structural_type_hash": "4076932286",
+      "temporary_id": "decl-021601"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] (n : Nat)\n  (f : Module.End.{u, v} k V),\n  Eq.{max (u + 1) (v + 1)} (decl-021601.{u, v} k n f Finset.univ.{0})\n    (PiTensorProduct.map.{0, u, v, v} fun x => f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-021601"
+      ],
+      "structural_type_hash": "1896937951",
+      "temporary_id": "decl-021602"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {M : Type u_1} [inst_1 : AddCommGroup.{u_1} M] [inst_2 : Module.{u, u_1} k M]\n  (W : Submodule.{u, u_1} k M) {n : Nat} (m : Fin (HAdd.hAdd.{0, 0, 0} n 1) \u2192 M)\n  (c : Fin (HAdd.hAdd.{0, 0, 0} n 1) \u2192 k),\n  Function.Injective.{1, u + 1} c \u2192\n    (\u2200 (j : Fin (HAdd.hAdd.{0, 0, 0} n 1)),\n        Membership.mem.{u_1, u_1} W\n          (Finset.sum.{0, u_1} Finset.univ.{0} fun i =>\n            HSMul.hSMul.{u, u_1, u_1} (HPow.hPow.{u, 0, u} (c j) i.val) (m i))) \u2192\n      \u2200 (i : Fin (HAdd.hAdd.{0, 0, 0} n 1)), Membership.mem.{u_1, u_1} W (m i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "90685614",
+      "temporary_id": "decl-023464"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [inst_3 : Module.Finite.{u, v} k V] [Infinite.{u + 1} k] {n : Nat} {M : Type u_1} [inst_5 : AddCommGroup.{u_1} M]\n  [inst_6 : Module.{u, u_1} k M]\n  [inst_7 :\n    Module.{max u v, u_1}\n      (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (decl-018384.{u, v} k V n) x)\n      M]\n  [IsScalarTower.{u, max u v, u_1} k\n      (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (decl-018384.{u, v} k V n) x)\n      M]\n  [IsSimpleModule.{max u v, u_1}\n      (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (decl-018384.{u, v} k V n) x)\n      M]\n  (W : Submodule.{u, u_1} k M),\n  (\u2200 (g : Units.{v} (Module.End.{u, v} k V)) (x : M),\n      Membership.mem.{u_1, u_1} W x \u2192\n        Membership.mem.{u_1, u_1} W\n          (HSMul.hSMul.{max u v, u_1, u_1}\n            (Subtype.mk.{max (u + 1) (v + 1)} (PiTensorProduct.map.{0, u, v, v} fun x => Units.val.{v} g) \u22ef) x)) \u2192\n    Or (Eq.{u_1 + 1} W Bot.bot.{u_1}) (Eq.{u_1 + 1} W Top.top.{u_1})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-018384",
+        "decl-018385",
+        "decl-023628",
+        "decl-023629"
+      ],
+      "structural_type_hash": "4049963124",
+      "temporary_id": "decl-023467"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] [Infinite.{u + 1} k] {n : Nat} {M : Type u_1} [inst_5 : AddCommGroup.{u_1} M]\n  [inst_6 : Module.{u, u_1} k M]\n  [inst_7 :\n    Module.{max u v, u_1}\n      (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (decl-018384.{u, v} k V n) x)\n      M]\n  [IsScalarTower.{u, max u v, u_1} k\n      (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (decl-018384.{u, v} k V n) x)\n      M]\n  (W : Submodule.{u, u_1} k M),\n  (\u2200 (g : Units.{v} (Module.End.{u, v} k V)) (x : M),\n      Membership.mem.{u_1, u_1} W x \u2192\n        Membership.mem.{u_1, u_1} W\n          (HSMul.hSMul.{max u v, u_1, u_1}\n            (Subtype.mk.{max (u + 1) (v + 1)} (PiTensorProduct.map.{0, u, v, v} fun x => Units.val.{v} g) \u22ef) x)) \u2192\n    \u2200\n      (b :\n        Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (decl-018384.{u, v} k V n) x)\n      (x : M), Membership.mem.{u_1, u_1} W x \u2192 Membership.mem.{u_1, u_1} W (HSMul.hSMul.{max u v, u_1, u_1} b x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-018384",
+        "decl-023628",
+        "decl-023629"
+      ],
+      "structural_type_hash": "755105061",
+      "temporary_id": "decl-023468"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    {V : Type u_1} \u2192\n      [inst_1 : AddCommGroup.{u_1} V] \u2192\n        [inst_2 : Module.{u, u_1} k V] \u2192\n          [Module.Finite.{u, u_1} k V] \u2192\n            (n : Nat) \u2192\n              Ring.{max u u_1}\n                (Subtype.{(max u u_1) + 1} fun x =>\n                  Membership.mem.{max u u_1, max u u_1} (decl-023627.{u, u_1} k V n) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627"
+      ],
+      "structural_type_hash": "2848173500",
+      "temporary_id": "decl-023635"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    {V : Type v} \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          (n : Nat) \u2192 Module.End.{u, v} k V \u2192 Nat \u2192 Module.End.{u, max v u} k (decl-016473.{u, v} k V n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473"
+      ],
+      "structural_type_hash": "3239238172",
+      "temporary_id": "decl-024014"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] (n : Nat)\n  (f : Module.End.{u, v} k V),\n  Eq.{max (u + 1) (v + 1)} (decl-024014.{u, v} k n f 0) (PiTensorProduct.map.{0, u, v, v} fun x => f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-024014"
+      ],
+      "structural_type_hash": "2543336344",
+      "temporary_id": "decl-024017"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] [Infinite.{u + 1} k] (n : Nat) (f : Module.End.{u, v} k V),\n  Membership.mem.{max u v, max u v}\n    (Submodule.span.{u, max u v} k\n      (Set.range.{max u v, v + 1} fun g => PiTensorProduct.map.{0, u, v, v} fun x => Units.val.{v} g))\n    (PiTensorProduct.map.{0, u, v, v} fun x => f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1522618073",
+      "temporary_id": "decl-024021"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] (n : Nat)\n  (f : Module.End.{u, v} k V) (c : k),\n  Eq.{max (u + 1) (v + 1)} (PiTensorProduct.map.{0, u, v, v} fun x => HSub.hSub.{v, v, v} f (HSMul.hSMul.{u, v, v} c 1))\n    (Finset.sum.{0, max u v} (Finset.range (HAdd.hAdd.{0, 0, 0} n 1)) fun i =>\n      HSMul.hSMul.{u, max u v, max u v} (HPow.hPow.{u, 0, u} c i) (decl-024014.{u, v} k n f i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-024014"
+      ],
+      "structural_type_hash": "1513758703",
+      "temporary_id": "decl-024022"
+    }
+  ],
+  "module_temporary_id": "module-0431",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

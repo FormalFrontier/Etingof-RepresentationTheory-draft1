@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0330",
+  "associations": [
+    {
+      "association_id": "association:0ba6f444db09f8aa6271",
+      "rationale": "The formal type failed to pretty print, so packet-only evidence cannot verify that the declaration directly states the induced-character formula with chosen coset representatives.",
+      "role": "supporting"
+    }
+  ]
+}

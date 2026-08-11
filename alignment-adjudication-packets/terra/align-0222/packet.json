@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:80275fe0e5f8769c47ca",
+      "declaration": "Etingof.Example5_12_3.Example5_12_3_sign_rep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/310/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (hn : LT.lt.{0} 0 n) (\u03c3 : Equiv.Perm.{1} (Fin n))\n  (v :\n    Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n (Etingof.Example5_12_3.columnPartition n hn)) x),\n  Eq.{1} (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) \u03c3) v)\n    (HSMul.hSMul.{0, 0, 0} (Int.cast.{0} (Units.val.{0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} \u03c3))) v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_12_3"
+    },
+    {
+      "association_id": "association:99e051fb3e0432b6103f",
+      "declaration": "Etingof.Example5_12_3.Example5_12_3_trivial_rep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/310/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (hn : LT.lt.{0} 0 n) (\u03c3 : Equiv.Perm.{1} (Fin n))\n  (v : Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n (Etingof.Example5_12_3.rowPartition n hn)) x),\n  Eq.{1} (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) \u03c3) v)\n    v",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_12_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Example5.12.3",
+  "packet_id": "align-0222",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0222"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:424f93caa56c45858f61",
+  "source_text": "The one-row and one-column Specht modules are the trivial and sign representations."
+}

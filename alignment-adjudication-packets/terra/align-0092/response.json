@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0092",
+  "associations": [
+    {
+      "association_id": "association:3d772bcce2a7b129dcf3",
+      "role": "primary",
+      "rationale": "Its conjunction explicitly gives equivalent module categories and the absence of a ring equivalence."
+    }
+  ]
+}

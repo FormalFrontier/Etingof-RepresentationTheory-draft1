@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Problem5.10.2",
+    "kind": "exercise",
+    "title": "Tensor products over k-algebras framework for Ind and Res (continues to missing page)",
+    "node_id": "chapter-05/section-5-10",
+    "order": 302,
+    "slug": "problem5-10-2",
+    "span": {
+      "start": {
+        "page": "110",
+        "line": 35
+      },
+      "end": {
+        "page": "110",
+        "line": 35
+      }
+    },
+    "source_sha256": "233c51fab482c72add1596008d5c7586e855de2b01157f391e0265600aaf7da1",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem5102",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

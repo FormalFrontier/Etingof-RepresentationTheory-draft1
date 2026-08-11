@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Problem8.2.5",
+    "kind": "exercise",
+    "title": "Independence of Tor and Ext from projective resolution",
+    "node_id": "chapter-08/section-8-2",
+    "order": 540,
+    "slug": "problem8-2-5",
+    "span": {
+      "start": {
+        "page": "208",
+        "line": 23
+      },
+      "end": {
+        "page": "209",
+        "line": 8
+      }
+    },
+    "source_sha256": "4ffc5c0c2b05f0a657f0cf312b5b90f81156b4b215ca804a9a06285e37720e33",
+    "features": {
+      "line_count": 15,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Problem825",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

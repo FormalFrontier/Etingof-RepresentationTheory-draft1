@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Discussion_after_Definition7.6.1",
+    "kind": "discussion",
+    "title": "Uniqueness of adjoints and analogy with linear algebra",
+    "node_id": "chapter-07/section-7-6",
+    "order": 490,
+    "slug": "discussion-after-definition7-6-1",
+    "span": {
+      "start": {
+        "page": "188",
+        "line": 15
+      },
+      "end": {
+        "page": "189",
+        "line": 21
+      }
+    },
+    "source_sha256": "5ba43e25d337cfee0dcc871713bba1ac45fbe6aeb4bc0cd70d6fd6dc232e228f",
+    "features": {
+      "line_count": 22,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 16,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.DiscussionAfterDefinition761",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

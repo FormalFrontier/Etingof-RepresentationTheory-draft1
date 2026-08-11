@@ -1,0 +1,7 @@
+{
+  "packet_id": "align-0030",
+  "associations": [
+    {"association_id": "association:1359d39c00ec2bb4b7aa", "role": "supporting", "rationale": "tensorMultiplicity defines the multiplicity being discussed, but does not give its character-pairing formula."},
+    {"association_id": "association:5f094abea90503d2696d", "role": "primary", "rationale": "The equality directly expresses the tensor multiplicity as the finite-group character inner-product sum."}
+  ]
+}

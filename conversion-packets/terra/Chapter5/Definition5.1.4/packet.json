@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Definition5.1.4",
+    "kind": "definition",
+    "title": "Frobenius-Schur indicator",
+    "node_id": "chapter-05/section-5-1",
+    "order": 248,
+    "slug": "definition5-1-4",
+    "span": {
+      "start": {
+        "page": "94",
+        "line": 7
+      },
+      "end": {
+        "page": "94",
+        "line": 8
+      }
+    },
+    "source_sha256": "01dd191ec472397b94f4d0c9d472664eda7900b6e15dafd5fc1cd86f02c9f80a",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Definition514",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

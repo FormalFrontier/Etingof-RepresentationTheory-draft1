@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3a4b617a3dc1887035c7",
+      "declaration": "Etingof.Problem2_8_6.Book.arrowGen_mul_source",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/68/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (Q : Type u_2) [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  [inst_3 : Fintype.{u_2} Q] {i j : Q} (e : Quiver.Hom.{u_3, u_2} i j),\n  Eq.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1)}\n    (HMul.hMul.{max (max u_1 u_2) u_3, max (max u_1 u_2) u_3, max (max u_1 u_2) u_3}\n      (Etingof.Problem2_8_6.Book.arrowGen.{u_1, u_2, u_3} k Q e)\n      (Etingof.Problem2_8_6.Book.vertexIdem.{u_1, u_2, u_3} k Q i))\n    (Etingof.Problem2_8_6.Book.arrowGen.{u_1, u_2, u_3} k Q e)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6"
+    },
+    {
+      "association_id": "association:c7a6591a8571b8d1935b",
+      "declaration": "Etingof.Problem2_8_6.Book.arrowGen_mul_vertexIdem_of_ne",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/68/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (Q : Type u_2) [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  [inst_3 : Fintype.{u_2} Q] {i j : Q} (l : Q) (e : Quiver.Hom.{u_3, u_2} i j),\n  Ne.{u_2 + 1} l i \u2192\n    Eq.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1)}\n      (HMul.hMul.{max (max u_1 u_2) u_3, max (max u_1 u_2) u_3, max (max u_1 u_2) u_3}\n        (Etingof.Problem2_8_6.Book.arrowGen.{u_1, u_2, u_3} k Q e)\n        (Etingof.Problem2_8_6.Book.vertexIdem.{u_1, u_2, u_3} k Q l))\n      0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.8.6",
+  "packet_id": "align-0621",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0621"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.8.6:claim-03",
+  "source_text": "Exactly as printed, a_h p_{h'} = a_h and a_h p_j = 0 for j \u2260 h'."
+}

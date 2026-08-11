@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Remark2.9.10",
+    "kind": "remark",
+    "title": "Basis-dependent definition of universal enveloping algebra",
+    "node_id": "chapter-02/section-2-9",
+    "order": 90,
+    "slug": "remark2-9-10",
+    "span": {
+      "start": {
+        "page": "24",
+        "line": 24
+      },
+      "end": {
+        "page": "24",
+        "line": 24
+      }
+    },
+    "source_sha256": "f981afe12168266151d4e5338c5400eabc86367bb2e3e6de06ce11f1a55c9ef0",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2910",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

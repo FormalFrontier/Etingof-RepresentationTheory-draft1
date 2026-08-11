@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0100",
+  "associations": [
+    {
+      "association_id": "association:9cc8590ac092c22baf20",
+      "role": "primary",
+      "rationale": "Its conclusion supplies the partition-indexed decomposition together with the stated bimodule equivariance."
+    },
+    {
+      "association_id": "association:5797469d9c6691141854",
+      "role": "primary",
+      "rationale": "Its linear equivalence directly gives the decomposition reindexed by partitions of n."
+    }
+  ]
+}

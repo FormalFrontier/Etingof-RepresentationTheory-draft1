@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:db1548ec37ae25ac10c6",
+      "declaration": "Etingof.Corollary5_12_4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/311/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (M : Type) [inst : AddCommGroup.{0} M] [inst_1 : Module.{0, 0} (Etingof.SymGroupAlgebra n) M]\n  [IsSimpleModule.{0, 0} (Etingof.SymGroupAlgebra n) M],\n  Exists.{1} fun la =>\n    And\n      (Nonempty.{1}\n        (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.SymGroupAlgebra n)) M\n          (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n la) x)))\n      (And\n        (IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Rat (Equiv.Perm.{1} (Fin n)))\n          (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModuleK.{0} Rat n la) x))\n        (Exists.{1} fun e =>\n          \u2200 (g : Equiv.Perm.{1} (Fin n)) (z : Complex)\n            (w : Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModuleK.{0} Rat n la) x),\n            Eq.{1}\n              (Subtype.val.{1}\n                (DFunLike.coe.{1, 1, 1} e\n                  (TensorProduct.tmul.{0, 0, 0} Rat z\n                    (HSMul.hSMul.{0, 0, 0}\n                      (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Rat (Equiv.Perm.{1} (Fin n))) g) w))))\n              (HSMul.hSMul.{0, 0, 0}\n                (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) g)\n                (Subtype.val.{1} (DFunLike.coe.{1, 1, 1} e (TensorProduct.tmul.{0, 0, 0} Rat z w))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Corollary5_12_4"
+    },
+    {
+      "association_id": "association:5e85d45a26ddba7597c6",
+      "declaration": "Etingof.SpechtModule_complexification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/311/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Exists.{1} fun e =>\n    \u2200 (g : Equiv.Perm.{1} (Fin n)) (z : Complex)\n      (w : Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModuleK.{0} Rat n la) x),\n      Eq.{1}\n        (Subtype.val.{1}\n          (DFunLike.coe.{1, 1, 1} e\n            (TensorProduct.tmul.{0, 0, 0} Rat z\n              (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Rat (Equiv.Perm.{1} (Fin n))) g)\n                w))))\n        (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) g)\n          (Subtype.val.{1} (DFunLike.coe.{1, 1, 1} e (TensorProduct.tmul.{0, 0, 0} Rat z w))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Corollary5_12_4"
+    }
+  ],
+  "canonical_reference": "Chapter5/Corollary5.12.4",
+  "packet_id": "align-0453",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0453"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:9160967b574395c754f6",
+  "source_text": "Every irreducible complex S_n-representation admits a rational form, hence matrices with rational entries in a suitable basis."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Proposition5.2.4",
+    "kind": "proposition",
+    "title": "Algebraic integers form a ring; algebraic numbers form a field",
+    "node_id": "chapter-05/section-5-2",
+    "order": 257,
+    "slug": "proposition5-2-4",
+    "span": {
+      "start": {
+        "page": "96",
+        "line": 17
+      },
+      "end": {
+        "page": "97",
+        "line": 10
+      }
+    },
+    "source_sha256": "d9c603d5830421154db7e46b7ef45ded4a2072c0597a0a40eb849466268dd1a5",
+    "features": {
+      "line_count": 21,
+      "crosses_page": true,
+      "display_math_delimiters": 8,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition524",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

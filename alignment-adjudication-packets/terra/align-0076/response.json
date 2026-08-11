@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0076",
+  "associations": [
+    {
+      "association_id": "association:72bb32e7631746744566",
+      "role": "primary",
+      "rationale": "Its equality identifies the bracket on R^3 with the cross product named in the claim."
+    },
+    {
+      "association_id": "association:568fb35c0a0010ea20af",
+      "role": "primary",
+      "rationale": "This declaration supplies the LieAlgebra structure on R^3 asserted by the claim."
+    }
+  ]
+}

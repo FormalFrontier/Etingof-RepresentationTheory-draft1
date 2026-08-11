@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7f57a83406620600527b",
+      "declaration": "Etingof.Sl2Irrep.lie_e_eq_zero_on_maxGenEigenspace",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) M]\n  (lambda : Complex),\n  Not (Module.End.HasEigenvalue.{0, u_1} Etingof.Sl2Irrep.H\u271d.{u_1} (HAdd.hAdd.{0, 0, 0} lambda 2)) \u2192\n    \u2200 {v : M},\n      Membership.mem.{u_1, u_1} (Module.End.maxGenEigenspace.{0, u_1} Etingof.Sl2Irrep.H\u271d.{u_1} lambda) v \u2192\n        Eq.{u_1 + 1} (Bracket.bracket.{0, u_1} Etingof.Sl2Irrep.sl2_e v) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_a_e"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.15.1",
+  "packet_id": "align-0526",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0526"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.15.1:claim-02",
+  "source_text": "Part (a): E vanishes on the generalized H-eigenspace whose eigenvalue has maximal real part."
+}

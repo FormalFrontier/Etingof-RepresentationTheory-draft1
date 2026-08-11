@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_quiver_rep_bijection",
+    "kind": "discussion",
+    "title": "Bijection between representations of path algebra and quiver",
+    "node_id": "chapter-02/section-2-8",
+    "order": 70,
+    "slug": "discussion-quiver-rep-bijection",
+    "span": {
+      "start": {
+        "page": "20",
+        "line": 17
+      },
+      "end": {
+        "page": "21",
+        "line": 4
+      }
+    },
+    "source_sha256": "cf6676b2b8c79a0110125f509a08d3e21ebe9d7587e99a2753d6cb2f2d4ad03f",
+    "features": {
+      "line_count": 11,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionQuiverRepBijection",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

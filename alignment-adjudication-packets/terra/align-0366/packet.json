@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:701c0575155968ad8dbc",
+      "declaration": "Etingof.VirtualRepresentation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/284/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(G : Type) \u2192 [Group.{0} G] \u2192 [Fintype.{0} G] \u2192 Type 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_7_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Introduction_5.7",
+  "packet_id": "align-0366",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0366"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:72a266d1f073cfeaa6ab",
+  "source_text": "The section introduces virtual representations."
+}

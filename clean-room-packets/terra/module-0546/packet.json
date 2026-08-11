@@ -1,0 +1,196 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)]\n  {L\u2081 L\u2082 : List.{1} (decl-014909.{0, 0, 0, 0} k (Fin n))},\n  List.Forall\u2082.{1, 1} decl-014910.{0, 0, 0, 0} L\u2081 L\u2082 \u2192\n    decl-014910.{0, 0, 0, 0} (decl-014967.{0, 0} L\u2081)\n      (decl-014967.{0, 0} L\u2082)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014910",
+        "decl-014967"
+      ],
+      "structural_type_hash": "2441830849",
+      "temporary_id": "decl-017219"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)]\n  {L : List.{1} (decl-014909.{0, 0, 0, 0} k (Fin n))}\n  {R : decl-014909.{0, 0, 0, 0} k (Fin n) \u2192 decl-014909.{0, 0, 0, 0} k (Fin n)},\n  (\u2200 (W : decl-014909.{0, 0, 0, 0} k (Fin n)),\n      Membership.mem.{1, 1} L W \u2192 decl-014910.{0, 0, 0, 0} W (R W)) \u2192\n    decl-014910.{0, 0, 0, 0} (decl-014967.{0, 0} L)\n      (decl-014967.{0, 0} (List.map.{1, 1} R L))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014910",
+        "decl-014967"
+      ],
+      "structural_type_hash": "113699886",
+      "temporary_id": "decl-017220"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] (m : Fin n \u2192 Nat)\n  (V : decl-014909.{0, 0, u_1, 0} k (Fin n)),\n  (\u2200 (i : Fin n),\n      Nonempty.{u_1 + 1}\n        (LinearEquiv.{0, 0, u_1, 0} (RingHom.id.{0} k) (decl-014996.{0, 0, u_1, 0} V i)\n          (Fin (m i) \u2192 k))) \u2192\n    Exists.{1} fun x => decl-014910.{0, 0, 0, u_1} (decl-022608.{0} m x) V",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014910",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996",
+        "decl-022608",
+        "decl-022624"
+      ],
+      "structural_type_hash": "4190034531",
+      "temporary_id": "decl-018912"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] {v : Fin n}\n  {L : List.{1} (decl-014909.{0, 0, 0, 0} k (Fin n))},\n  (\u2200 (W : decl-014909.{0, 0, 0, 0} k (Fin n)),\n      Membership.mem.{1, 1} L W \u2192 Module.Finite.{0, 0} k (decl-014996.{0, 0, 0, 0} W v)) \u2192\n    Module.Finite.{0, 0} k\n      (decl-014996.{0, 0, 0, 0} (decl-014967.{0, 0} L) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014967",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "1362873294",
+      "temporary_id": "decl-019402"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] {v : Fin n}\n  {L : List.{1} (decl-014909.{0, 0, 0, 0} k (Fin n))},\n  Module.Finite.{0, 0} k\n      (decl-014996.{0, 0, 0, 0} (decl-014967.{0, 0} L) v) \u2192\n    \u2200 {W : decl-014909.{0, 0, 0, 0} k (Fin n)},\n      Membership.mem.{1, 1} L W \u2192 Module.Finite.{0, 0} k (decl-014996.{0, 0, 0, 0} W v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014967",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "2467974807",
+      "temporary_id": "decl-019407"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)]\n  {L : List.{1} (decl-014909.{0, 0, 0, 0} k (Fin n))},\n  (\u2200 (W : decl-014909.{0, 0, 0, 0} k (Fin n)),\n      Membership.mem.{1, 1} L W \u2192\n        \u2200 (v : Fin n), Module.Finite.{0, 0} k (decl-014996.{0, 0, 0, 0} W v)) \u2192\n    Eq.{1}\n      (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n        Module.finrank.{0, 0} k\n          (decl-014996.{0, 0, 0, 0} (decl-014967.{0, 0} L) i))\n      (List.sum.{0}\n        (List.map.{1, 0}\n          (fun W =>\n            Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n              Module.finrank.{0, 0} k (decl-014996.{0, 0, 0, 0} W i))\n          L))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014967",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "1682364936",
+      "temporary_id": "decl-019463"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] (m : Fin n \u2192 Nat)\n  (x : decl-022624.{0} m) {L : List.{1} (decl-014909.{0, 0, 0, 0} k (Fin n))},\n  decl-014910.{0, 0, 0, 0} (decl-014967.{0, 0} L)\n      (decl-022608.{0} m x) \u2192\n    (\u2200 (W : decl-014909.{0, 0, 0, 0} k (Fin n)),\n        Membership.mem.{1, 1} L W \u2192 decl-014923.{0, 0, 0, 0} W) \u2192\n      LE.le.{0} (List.length.{1} L) (Finset.sum.{0, 0} Finset.univ.{0} fun i => m i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014910",
+        "decl-014923",
+        "decl-014967",
+        "decl-022608",
+        "decl-022624"
+      ],
+      "structural_type_hash": "1260288770",
+      "temporary_id": "decl-021459"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)]\n  {W : decl-014909.{0, 0, u_1, 0} k (Fin n)},\n  (\u2200 (v : Fin n), Module.Finite.{0, u_1} k (decl-014996.{0, 0, u_1, 0} W v)) \u2192\n    decl-014923.{0, 0, 0, u_1} W \u2192\n      LE.le.{0} 1\n        (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n          Module.finrank.{0, u_1} k (decl-014996.{0, 0, u_1, 0} W i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014923",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "2525582788",
+      "temporary_id": "decl-021814"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] (m : Fin n \u2192 Nat)\n  (reps : Set.{1} (decl-014909.{0, 0, 0, 0} k (Fin n))),\n  Set.Finite.{1} reps \u2192\n    (\u2200 (W : decl-014909.{0, 0, 0, 0} k (Fin n)),\n        (\u2200 (v : Fin n), Module.Free.{0, 0} k (decl-014996.{0, 0, 0, 0} W v)) \u2192\n          (\u2200 (v : Fin n), Module.Finite.{0, 0} k (decl-014996.{0, 0, 0, 0} W v)) \u2192\n            decl-014923.{0, 0, 0, 0} W \u2192\n              Exists.{2} fun V =>\n                And (Membership.mem.{1, 1} reps V) (decl-014910.{0, 0, 0, 0} W V)) \u2192\n      Finite.{1} (MulAction.orbitRel.Quotient.{0, 0} (decl-022586.{0} k m) (decl-022624.{0} m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014910",
+        "decl-014923",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996",
+        "decl-022586",
+        "decl-022624",
+        "decl-022625"
+      ],
+      "structural_type_hash": "1050633413",
+      "temporary_id": "decl-021828"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] [IsAlgClosed.{0} k]\n  (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int) [\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)],\n  decl-005208.{0} inst_1 adj \u2192\n    decl-005177 n adj \u2192\n      \u2200 (m : Fin n \u2192 Nat),\n        Finite.{1} (MulAction.orbitRel.Quotient.{0, 0} (decl-022586.{0} k m) (decl-022624.{0} m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005177",
+        "decl-005208",
+        "decl-022586",
+        "decl-022624",
+        "decl-022625"
+      ],
+      "structural_type_hash": "13520624",
+      "temporary_id": "decl-021829"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {n : Nat} \u2192\n      [inst_1 : Quiver.{0, 0} (Fin n)] \u2192\n        (m : Fin n \u2192 Nat) \u2192 decl-014909.{0, 0, u_1, 0} k (Fin n) \u2192 decl-022624.{0} m",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-022624"
+      ],
+      "structural_type_hash": "3370464437",
+      "temporary_id": "decl-022322"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] (m : Fin n \u2192 Nat)\n  (V : decl-014909.{0, 0, u_1, 0} k (Fin n)),\n  (\u2200 (i : Fin n),\n      Nonempty.{u_1 + 1}\n        (LinearEquiv.{0, 0, u_1, 0} (RingHom.id.{0} k) (decl-014996.{0, 0, u_1, 0} V i)\n          (Fin (m i) \u2192 k))) \u2192\n    decl-014910.{0, 0, 0, u_1}\n      (decl-022608.{0} m (decl-022322.{u_1} m V)) V",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014910",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996",
+        "decl-022322",
+        "decl-022608"
+      ],
+      "structural_type_hash": "2869778847",
+      "temporary_id": "decl-022613"
+    }
+  ],
+  "module_temporary_id": "module-0546",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

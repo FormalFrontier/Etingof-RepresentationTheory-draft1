@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Remark3.8.6",
+    "kind": "remark",
+    "title": "Krull-Schmidt for modules of finite length",
+    "node_id": "chapter-03/section-3-8",
+    "order": 170,
+    "slug": "remark3-8-6",
+    "span": {
+      "start": {
+        "page": "56",
+        "line": 11
+      },
+      "end": {
+        "page": "56",
+        "line": 12
+      }
+    },
+    "source_sha256": "376aeea40aaa7702de671385ef291c2d87d2e48e0edd775ed3655602db73fbc8",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Remark386",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

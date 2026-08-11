@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.Quiver.Representation.Constructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-014966",
+      "new_name": "binaryConstruction",
+      "docstring": "Combines two quiver-indexed objects over a commutative semiring into one object."
+    }
+  ]
+}

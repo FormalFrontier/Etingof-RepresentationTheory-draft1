@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3461e9391fda18ee217a",
+      "declaration": "Etingof.dimensionVector",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/434/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{V : Type u_1} \u2192\n  [Fintype.{u_1} V] \u2192\n    (k : Type u_2) \u2192\n      [inst : Field.{u_2} k] \u2192\n        (spaces : V \u2192 Type u_3) \u2192\n          [inst_1 : (v : V) \u2192 AddCommGroup.{u_3} (spaces v)] \u2192\n            [inst_2 : (v : V) \u2192 Module.{u_2, u_3} k (spaces v)] \u2192\n              [\u2200 (v : V), FiniteDimensional.{u_2, u_3} k (spaces v)] \u2192 V \u2192 Nat",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Definition6_5_1"
+    }
+  ],
+  "canonical_reference": "Chapter6/Definition6.5.1",
+  "packet_id": "align-0376",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0376"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:763c5ec9386942adffe2",
+  "source_text": "The dimension vector records the finite dimension of the representation at each vertex."
+}

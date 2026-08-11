@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0090",
+  "associations": [
+    {
+      "association_id": "association:9d733f2487f6f6854199",
+      "role": "primary",
+      "rationale": "This predicate defines the corepresentable dual notion named for the opposite category."
+    },
+    {
+      "association_id": "association:e65764992175a0ce994e",
+      "role": "primary",
+      "rationale": "This predicate defines the representability notion by natural isomorphism to a Hom functor."
+    }
+  ]
+}

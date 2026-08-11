@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:db4e759209237fae5865",
+      "declaration": "Etingof.algebraicClosure_zmod_charP",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/14/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)], CharP.{0} (AlgebraicClosure.{0} (ZMod p)) p",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_2_intro"
+    },
+    {
+      "association_id": "association:d7497e010417ffe97d7e",
+      "declaration": "Etingof.algebraicClosure_zmod_isAlgClosed",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/14/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)], IsAlgClosed.{0} (AlgebraicClosure.{0} (ZMod p))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_2_intro"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.2_intro",
+  "packet_id": "align-0400",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0400"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:7ff20c8cd94cc582303e",
+  "source_text": "The algebraic closure of F_p is algebraically closed and has characteristic p."
+}

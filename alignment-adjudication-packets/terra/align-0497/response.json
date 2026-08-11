@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0497",
+  "associations": [
+    {
+      "association_id": "association:132ead06234b99db42be",
+      "rationale": "The formal type supplies the quotient with a k-module structure, but it does not itself identify the quotient with the tensor product or state the generator formula.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3f81b70e05d8287adbdb",
+      "rationale": "The formal type directly gives a k-linear equivalence from the quotient construction to the tensor product.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:3e7726b49ccf6e536157",
+      "rationale": "The formal equality directly states that the equivalence sends the class of the generator (v,w) to the pure tensor v tensor w.",
+      "role": "primary"
+    }
+  ]
+}

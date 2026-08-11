@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:dd18d8fab2111eb0c961",
+      "declaration": "Etingof.Problem3_9_2.jrep_iso_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (a c a' c' : Fin n \u2192 Complex),\n  Iff\n    (Nonempty.{1}\n      (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.polyAlg n)) (Etingof.Problem3_9_2.Jrep a c)\n        (Etingof.Problem3_9_2.Jrep a' c')))\n    (And (Eq.{1} a a') (Exists.{1} fun lam => And (Ne.{1} lam 0) (Eq.{1} c' (HSMul.hSMul.{0, 0, 0} lam c))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2_Classification"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.2",
+  "packet_id": "align-0670",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0670"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.2:claim-05",
+  "source_text": "Jrep(a,c)\u2245Jrep(a',c') exactly when a=a' and c,c' are related by a nonzero scalar."
+}

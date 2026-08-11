@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:55e2d95ac49e102d2e52",
+      "declaration": "Etingof.Problem6_1_3_tildeE.affine_dynkin_classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/408/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  LE.le.{0} 1 n \u2192\n    Iff (Etingof.Problem6_1_3_tildeE.IsAffineDynkinDiagram n adj)\n      (Exists.{1} fun t =>\n        Exists.{1} fun \u03c3 =>\n          \u2200 (i j : Fin t.rank), Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) (t.adj i j))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.3_continued_tildeE",
+  "packet_id": "align-0786",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0786"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.1.3_continued_tildeE:part_g",
+  "source_text": "Part (g): exhaustively classify simply-laced affine Dynkin diagrams."
+}

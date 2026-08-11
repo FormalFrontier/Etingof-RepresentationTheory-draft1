@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5320e6f9e30c1a614484",
+      "declaration": "Etingof.Example5_1_3_A5",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/246/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type} [inst : AddCommGroup.{0} V] [inst_1 : Module.{0, 0} Complex V] [inst_2 : Module.Finite.{0, 0} Complex V]\n  (\u03c1 :\n    Representation.{0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x) V),\n  IsSimpleModule.{0, 0}\n      (MonoidAlgebra.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x))\n      (Representation.asModule.{0, 0, 0} \u03c1) \u2192\n    Etingof.IsRealType.{0, 0} \u03c1",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_1_3"
+    },
+    {
+      "association_id": "association:154d7a385cb1ae834b29",
+      "declaration": "Etingof.Example5_1_3_S3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/246/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.Finite.{0, u_1} Complex V] (\u03c1 : Representation.{0, 0, u_1} Complex (Equiv.Perm.{1} (Fin 3)) V),\n  IsSimpleModule.{0, u_1} (MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin 3)))\n      (Representation.asModule.{0, 0, u_1} \u03c1) \u2192\n    Etingof.IsRealType.{0, u_1} \u03c1",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_1_3"
+    },
+    {
+      "association_id": "association:61ce23dd12f4ea5ce762",
+      "declaration": "Etingof.Example5_1_3_S4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/246/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.Finite.{0, u_1} Complex V] (\u03c1 : Representation.{0, 0, u_1} Complex (Equiv.Perm.{1} (Fin 4)) V),\n  IsSimpleModule.{0, u_1} (MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin 4)))\n      (Representation.asModule.{0, 0, u_1} \u03c1) \u2192\n    Etingof.IsRealType.{0, u_1} \u03c1",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_1_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Example5.1.3",
+  "packet_id": "align-0934",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0934"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:aa73312cbe0e62e09aed",
+  "source_text": "All irreducible representations of S\u2083, S\u2084, and A\u2085 are of real type."
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2de925152b9c0e4aebd7",
+      "declaration": "Etingof.Problem6_1_6.mckay_isAffineDynkin",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/412/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)}\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] {m : Nat}\n  (W : Fin m \u2192 FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} G x)),\n  Etingof.Problem6_1_6.IsCompleteIrreps W \u2192\n    LE.le.{0} 3 m \u2192\n      Nontrivial.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) \u2192\n        Etingof.Problem6_1_3_tildeE.IsAffineDynkinDiagram m (Etingof.Problem6_1_6.mckayAdj W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_6"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.6",
+  "packet_id": "align-0793",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0793"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.1.6:part_c_affine",
+  "source_text": "Part (c): for at least three vertices, prove the affine-Cartan positive-semidefinite/nondefinite conclusion."
+}

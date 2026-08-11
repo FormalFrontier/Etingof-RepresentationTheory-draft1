@@ -1,0 +1,34 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    \u2200 (\u03b5 : Fin n \u2192 Complex),\n      (\u2200 (i : Fin n), Exists.{1} fun m => And (LT.lt.{0} 0 m) (Eq.{1} (HPow.hPow.{0, 0, 0} (\u03b5 i) m) 1)) \u2192\n        IsIntegral.{0, 0} Int (HDiv.hDiv.{0, 0, 0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => \u03b5 i) (Nat.cast.{0} n)) \u2192\n          Or (\u2200 (i j : Fin n), Eq.{1} (\u03b5 i) (\u03b5 j)) (Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun i => \u03b5 i) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2593327",
+      "temporary_id": "decl-005507"
+    }
+  ],
+  "module_temporary_id": "module-0356",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_before_Theorem5.18.4",
+    "kind": "discussion",
+    "title": "Schur-Weyl duality context from Maschke's theorem and DCT",
+    "node_id": "chapter-05/section-5-18",
+    "order": 352,
+    "slug": "discussion-before-theorem5-18-4",
+    "span": {
+      "start": {
+        "page": "124",
+        "line": 3
+      },
+      "end": {
+        "page": "124",
+        "line": 4
+      }
+    },
+    "source_sha256": "9d7c49ef4d2a9fecd37106df9a314dc0bc1b8c9283993cd44cd85a7170d2bf96",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionBeforeTheorem5184",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,6 @@
+{
+  "packet_id": "align-0038",
+  "associations": [
+    {"association_id": "association:3d70d348b5d75a3e1d5b", "role": "primary", "rationale": "This iff directly equates the internal indecomposability formulation with the direct-sum formulation."}
+  ]
+}

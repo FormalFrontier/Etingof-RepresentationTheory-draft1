@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1c4ad7df85fac8cf784d",
+      "declaration": "Etingof.frobeniusSchurIndicator",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/247/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    [Fintype.{u_1} G] \u2192\n      [DecidableEq.{u_1 + 1} G] \u2192\n        {V : Type u_2} \u2192\n          [inst_3 : AddCommGroup.{u_2} V] \u2192\n            [inst_4 : Module.{0, u_2} Complex V] \u2192\n              [Module.Finite.{0, u_2} Complex V] \u2192 Representation.{0, u_1, u_2} Complex G V \u2192 Complex",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_1_4"
+    },
+    {
+      "association_id": "association:047893ac0e06f7658ada",
+      "declaration": "Etingof.isComplexType_iff_frobeniusSchurIndicator_eq_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/247/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [inst_2 : DecidableEq.{u_1 + 1} G] {V : Type u_2}\n  [inst_3 : AddCommGroup.{u_2} V] [inst_4 : Module.{0, u_2} Complex V] [inst_5 : Module.Finite.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    Iff (Etingof.IsComplexType.{u_1, u_2} \u03c1) (Eq.{1} (Etingof.frobeniusSchurIndicator.{u_1, u_2} \u03c1) 0)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.FrobeniusSchurTrichotomy"
+    },
+    {
+      "association_id": "association:e6f43764382bc1f25b84",
+      "declaration": "Etingof.isQuaternionicType_iff_frobeniusSchurIndicator_eq_neg_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/247/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.FrobeniusSchurTrichotomy"
+    },
+    {
+      "association_id": "association:7a76541c620adea66a70",
+      "declaration": "Etingof.isRealType_iff_frobeniusSchurIndicator_eq_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/247/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [inst_2 : DecidableEq.{u_1 + 1} G] {V : Type u_2}\n  [inst_3 : AddCommGroup.{u_2} V] [inst_4 : Module.{0, u_2} Complex V] [inst_5 : Module.Finite.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    Iff (Etingof.IsRealType.{u_1, u_2} \u03c1) (Eq.{1} (Etingof.frobeniusSchurIndicator.{u_1, u_2} \u03c1) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.FrobeniusSchurTrichotomy"
+    }
+  ],
+  "canonical_reference": "Chapter5/Definition5.1.4",
+  "packet_id": "align-0212",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0212"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:404e91460a1f543de585",
+  "source_text": "The Frobenius\u2013Schur indicator is 0, 1, or -1 exactly for complex, real, or quaternionic type, respectively."
+}

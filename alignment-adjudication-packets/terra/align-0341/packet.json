@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e5ddf435d7a5e0e28969",
+      "declaration": "Etingof.jacobson_tensorProduct_range_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/181/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (B : Type u_3) (M : Type u_4) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k]\n  [inst_2 : Ring.{u_2} A] [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : Ring.{u_3} B] [inst_5 : Algebra.{u_1, u_3} k B]\n  [inst_6 : AddCommGroup.{u_4} M] [inst_7 : Module.{u_1, u_4} k M] [FiniteDimensional.{u_1, u_4} k M]\n  [inst_9 : Module.{u_2, u_4} A M] [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A M] [inst_11 : Module.{u_3, u_4} B M]\n  [inst_12 : IsScalarTower.{u_1, u_3, u_4} k B M],\n  Eq.{u_4 + 1}\n    (Ring.jacobson.{u_4}\n      (TensorProduct.{u_1, u_4, u_4} k\n        (Subtype.{u_4 + 1} fun x =>\n          Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_2, u_4} (Algebra.lsmul.{u_1, u_2, u_1, u_4} k k M)) x)\n        (Subtype.{u_4 + 1} fun x =>\n          Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_3, u_4} (Algebra.lsmul.{u_1, u_3, u_1, u_4} k k M)) x)))\n    (Etingof.radTensorSum.{u_1, u_4, u_4} k\n      (Subtype.{u_4 + 1} fun x =>\n        Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_2, u_4} (Algebra.lsmul.{u_1, u_2, u_1, u_4} k k M)) x)\n      (Subtype.{u_4 + 1} fun x =>\n        Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_3, u_4} (Algebra.lsmul.{u_1, u_3, u_1, u_4} k k M)) x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.10.2",
+  "packet_id": "align-0341",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0341"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6a08220cc7e46895994f",
+  "source_text": "For the finite-dimensional image algebras A' and B' in End(M), Rad(A' \u2297 B') = Rad(A') \u2297 B' + A' \u2297 Rad(B')."
+}

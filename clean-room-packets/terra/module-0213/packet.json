@@ -1,0 +1,75 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k G : Type u) [inst : Field.{u} k] [inst_1 : Group.{u} G] [Fintype.{u} G],\n  LE.le.{0} (Nat.card.{u + 1} (decl-005067.{u, u} k G)) (Nat.card.{u} (ConjClasses.{u} G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005067"
+      ],
+      "structural_type_hash": "1150048605",
+      "temporary_id": "decl-021699"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u) (G : Type v) [inst : Field.{u} K] [IsAlgClosed.{u} K] [inst_2 : Group.{v} G] [Fintype.{v} G],\n  LE.le.{0} (Nat.card.{max v (u + 1)} (decl-005067.{u, v} K G)) (Nat.card.{v} (ConjClasses.{v} G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005067"
+      ],
+      "structural_type_hash": "1688483228",
+      "temporary_id": "decl-021700"
+    },
+    {
+      "formal_type": "\u2200 (k K G : Type u) [inst : Field.{u} k] [inst_1 : Field.{u} K] [Algebra.{u, u} k K] [inst_3 : Group.{u} G]\n  [Fintype.{u} G],\n  LE.le.{0} (Nat.card.{u + 1} (decl-005067.{u, u} k G)) (Nat.card.{u + 1} (decl-005067.{u, u} K G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005067"
+      ],
+      "structural_type_hash": "3195490851",
+      "temporary_id": "decl-021701"
+    },
+    {
+      "formal_type": "\u2200 {K : Type u} {G : Type v} [inst : Field.{u} K] [IsAlgClosed.{u} K] [inst_2 : Group.{v} G] [Fintype.{v} G]\n  (D : decl-016122.{u, v} K G),\n  LinearIndependent.{0, u, max u v} K fun i =>\n    decl-001276.{u, v, u} K (decl-016123.{u, v} D i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001217",
+        "decl-001242",
+        "decl-001276",
+        "decl-016122",
+        "decl-016123",
+        "decl-016136",
+        "decl-016158",
+        "decl-016167",
+        "decl-016168",
+        "decl-016185"
+      ],
+      "structural_type_hash": "268642516",
+      "temporary_id": "decl-024278"
+    }
+  ],
+  "module_temporary_id": "module-0213",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.8.1",
+    "kind": "definition",
+    "title": "Quiver",
+    "node_id": "chapter-02/section-2-8",
+    "order": 62,
+    "slug": "definition2-8-1",
+    "span": {
+      "start": {
+        "page": "19",
+        "line": 21
+      },
+      "end": {
+        "page": "19",
+        "line": 24
+      }
+    },
+    "source_sha256": "38b69155482574fce07b2287ae3a751e7d7e73431eff875daba1e1b25354798d",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition281",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

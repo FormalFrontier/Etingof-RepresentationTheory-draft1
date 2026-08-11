@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0110",
+  "associations": [
+    {
+      "association_id": "association:c7c8e439029ddd550db7",
+      "role": "primary",
+      "rationale": "This TFAE directly packages all five equivalent semisimplicity, dimension, matrix-product, and complete-reducibility conditions."
+    }
+  ]
+}

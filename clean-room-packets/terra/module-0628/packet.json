@@ -1,0 +1,213 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (M : ModuleCat.{u, u} A),\n  Nonempty.{u + 2} (decl-014585.{u + 1, u} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585"
+      ],
+      "structural_type_hash": "2969315703",
+      "temporary_id": "decl-004101"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (M : ModuleCat.{u, u} A),\n  Exists.{u + 2} fun P =>\n    \u2200 (n : Nat),\n      Module.Free.{u, u} A\n        (ModuleCat.carrier.{u, u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585"
+      ],
+      "structural_type_hash": "2505021605",
+      "temporary_id": "decl-004102"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : Ring.{u} A] \u2192\n    (M : ModuleCat.{u, u} A) \u2192\n      Module.Basis.{u, u, u} (ModuleCat.carrier.{u, u} M) A\n        (ModuleCat.carrier.{u, u} (decl-004311.{u} M))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004311"
+      ],
+      "structural_type_hash": "663673633",
+      "temporary_id": "decl-004310"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192 [inst : Ring.{u} A] \u2192 ModuleCat.{u, u} A \u2192 ModuleCat.{u, u} A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2468625487",
+      "temporary_id": "decl-004311"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] (M : ModuleCat.{u, u} A),\n  Module.Free.{u, u} A (ModuleCat.carrier.{u, u} (decl-004311.{u} M))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004311"
+      ],
+      "structural_type_hash": "1953298088",
+      "temporary_id": "decl-004312"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] (M : ModuleCat.{u, u} A),\n  CategoryTheory.Projective.{u, u + 1} (decl-004311.{u} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004311"
+      ],
+      "structural_type_hash": "3089082137",
+      "temporary_id": "decl-004313"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : Ring.{u} A] \u2192 (M : ModuleCat.{u, u} A) \u2192 Quiver.Hom.{u, u + 1} (decl-004311.{u} M) M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004311"
+      ],
+      "structural_type_hash": "4048098174",
+      "temporary_id": "decl-004314"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] (M : ModuleCat.{u, u} A),\n  CategoryTheory.Epi.{u, u + 1} (decl-004314.{u} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004311",
+        "decl-004314"
+      ],
+      "structural_type_hash": "4262903938",
+      "temporary_id": "decl-004315"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192 [inst : Ring.{u} A] \u2192 (M : ModuleCat.{u, u} A) \u2192 decl-014585.{u + 1, u} M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585"
+      ],
+      "structural_type_hash": "2472700990",
+      "temporary_id": "decl-004316"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] (M : ModuleCat.{u, u} A) (n : Nat),\n  Module.Free.{u, u} A\n    (ModuleCat.carrier.{u, u}\n      (HomologicalComplex.X.{u, u + 1, 0}\n        (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (decl-004316.{u} M)) n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004316"
+      ],
+      "structural_type_hash": "1606883231",
+      "temporary_id": "decl-004318"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      (over : C \u2192 C) \u2192\n        ((X : C) \u2192 Quiver.Hom.{v, u} (over X) X) \u2192\n          {X Y : C} \u2192 (f : Quiver.Hom.{v, u} X Y) \u2192 Quiver.Hom.{v, u} (over (CategoryTheory.Limits.kernel.{v, u} f)) X",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2171117896",
+      "temporary_id": "decl-004319"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C] (over : C \u2192 C)\n  (\u03c0 : (X : C) \u2192 Quiver.Hom.{v, u} (over X) X) {X Y : C} (f : Quiver.Hom.{v, u} X Y),\n  Eq.{v + 1} (CategoryTheory.CategoryStruct.comp.{v, u} (decl-004319.{v, u} over \u03c0 f) f) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004319"
+      ],
+      "structural_type_hash": "2784680301",
+      "temporary_id": "decl-004321"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C] (over : C \u2192 C)\n  (\u03c0 : (X : C) \u2192 Quiver.Hom.{v, u} (over X) X) [\u2200 (X : C), CategoryTheory.Epi.{v, u} (\u03c0 X)] {X Y : C}\n  (f : Quiver.Hom.{v, u} X Y),\n  CategoryTheory.ShortComplex.Exact.{v, u}\n    (CategoryTheory.ShortComplex.mk.{v, u} (decl-004319.{v, u} over \u03c0 f) f \u22ef)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004319",
+        "decl-004321"
+      ],
+      "structural_type_hash": "171461403",
+      "temporary_id": "decl-004322"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      (over : C \u2192 C) \u2192\n        (\u03c0 : (X : C) \u2192 Quiver.Hom.{v, u} (over X) X) \u2192\n          [\u2200 (X : C), CategoryTheory.Projective.{v, u} (over X)] \u2192\n            [\u2200 (X : C), CategoryTheory.Epi.{v, u} (\u03c0 X)] \u2192 (Z : C) \u2192 decl-014585.{u, v} Z",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585"
+      ],
+      "structural_type_hash": "2198272437",
+      "temporary_id": "decl-004323"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      (over : C \u2192 C) \u2192 ((X : C) \u2192 Quiver.Hom.{v, u} (over X) X) \u2192 C \u2192 ChainComplex.{v, u, 0} C Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2362103858",
+      "temporary_id": "decl-004329"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C] (over : C \u2192 C)\n  (\u03c0 : (X : C) \u2192 Quiver.Hom.{v, u} (over X) X) (Z : C),\n  Eq.{v + 1} (HomologicalComplex.d.{v, u, 0} (decl-004329.{v, u} over \u03c0 Z) 1 0)\n    (decl-004319.{v, u} over \u03c0 (\u03c0 Z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004319",
+        "decl-004329"
+      ],
+      "structural_type_hash": "3879009513",
+      "temporary_id": "decl-004333"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C] (over : C \u2192 C)\n  (\u03c0 : (X : C) \u2192 Quiver.Hom.{v, u} (over X) X) [\u2200 (X : C), CategoryTheory.Epi.{v, u} (\u03c0 X)] (Z : C) (n : Nat),\n  HomologicalComplex.ExactAt.{v, u, 0} (decl-004329.{v, u} over \u03c0 Z)\n    (HAdd.hAdd.{0, 0, 0} n 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004329"
+      ],
+      "structural_type_hash": "8072742",
+      "temporary_id": "decl-004334"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C] (over : C \u2192 C)\n  (\u03c0 : (X : C) \u2192 Quiver.Hom.{v, u} (over X) X) [inst_2 : \u2200 (X : C), CategoryTheory.Projective.{v, u} (over X)]\n  [inst_3 : \u2200 (X : C), CategoryTheory.Epi.{v, u} (\u03c0 X)] (Z : C) (n : Nat),\n  Exists.{u + 1} fun Y =>\n    Eq.{u + 1}\n      (HomologicalComplex.X.{v, u, 0}\n        (CategoryTheory.ProjectiveResolution.complex.{v, u} (decl-004323.{v, u} over \u03c0 Z)) n)\n      (over Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004323"
+      ],
+      "structural_type_hash": "3973096599",
+      "temporary_id": "decl-004336"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C] (over : C \u2192 C)\n  (\u03c0 : (X : C) \u2192 Quiver.Hom.{v, u} (over X) X) [\u2200 (X : C), CategoryTheory.Projective.{v, u} (over X)] (Z : C) (n : Nat),\n  CategoryTheory.Projective.{v, u}\n    (HomologicalComplex.X.{v, u, 0} (decl-004329.{v, u} over \u03c0 Z) n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004329"
+      ],
+      "structural_type_hash": "1791010385",
+      "temporary_id": "decl-004337"
+    }
+  ],
+  "module_temporary_id": "module-0628",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

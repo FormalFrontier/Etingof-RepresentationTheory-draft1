@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_1dim_reps",
+    "kind": "discussion",
+    "title": "G/[G,G] \u2245 F_q^\u00d7 and description of 1-dimensional representations C_xi",
+    "node_id": "chapter-05/section-5-25/subsection-5-25-2",
+    "order": 383,
+    "slug": "discussion-1dim-reps",
+    "span": {
+      "start": {
+        "page": "138",
+        "line": 21
+      },
+      "end": {
+        "page": "138",
+        "line": 40
+      }
+    },
+    "source_sha256": "7795c2b2be7e07bd362c80a523cb9dd73876dec08995552b4f1af7a04e5a4a44",
+    "features": {
+      "line_count": 20,
+      "crosses_page": false,
+      "display_math_delimiters": 6,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Discussion1dimReps",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

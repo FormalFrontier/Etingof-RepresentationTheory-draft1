@@ -1,0 +1,34 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (n : Nat) (\u03b9 : Type) [inst : Fintype.{0} \u03b9] (V : \u03b9 \u2192 FDRep.{0, 0} Complex (Equiv.Perm.{1} (Fin n))),\n  (\u2200 (i : \u03b9), CategoryTheory.Simple.{0, 1} (V i)) \u2192\n    (\u2200 (i j : \u03b9), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (W : FDRep.{0, 0} Complex (Equiv.Perm.{1} (Fin n))),\n          CategoryTheory.Simple.{0, 1} W \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} W (V i))) \u2192\n        Eq.{1}\n          (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n            Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (V i))))\n          (Fintype.card.{0} (Subtype.{1} fun g => Eq.{1} (HMul.hMul.{0, 0, 0} g g) 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2919283032",
+      "temporary_id": "decl-023539"
+    }
+  ],
+  "module_temporary_id": "module-0383",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

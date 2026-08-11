@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Section6.2_heading",
+    "kind": "discussion",
+    "title": "Section 6.2 heading and introduction",
+    "node_id": "chapter-06/section-6-2",
+    "order": 414,
+    "slug": "section6-2-heading",
+    "span": {
+      "start": {
+        "page": "154",
+        "line": 7
+      },
+      "end": {
+        "page": "154",
+        "line": 10
+      }
+    },
+    "source_sha256": "89d46595ca3d789fa1d7c07a19c427cfa67d5dca1da990806698fb5cb97cd4ce",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section62Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

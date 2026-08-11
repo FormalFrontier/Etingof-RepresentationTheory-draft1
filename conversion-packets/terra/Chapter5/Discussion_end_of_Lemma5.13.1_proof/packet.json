@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_end_of_Lemma5.13.1_proof",
+    "kind": "discussion",
+    "title": "End of proof of Lemma 5.13.1 (statement on missing page)",
+    "node_id": "chapter-05/section-5-13",
+    "order": 316,
+    "slug": "discussion-end-of-lemma5-13-1-proof",
+    "span": {
+      "start": {
+        "page": "115",
+        "line": 1
+      },
+      "end": {
+        "page": "115",
+        "line": 2
+      }
+    },
+    "source_sha256": "f526b2355b1765c59fec65e9bfae73317924039351c7fa841d11fe14a2eb32f7",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionEndOfLemma5131Proof",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

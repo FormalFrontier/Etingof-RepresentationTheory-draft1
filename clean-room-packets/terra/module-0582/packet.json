@@ -1,0 +1,96 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  {D : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} C] \u2192\n      [inst_1 : CategoryTheory.Category.{u_4, u_2} D] \u2192 CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "184916615",
+      "temporary_id": "decl-001924"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] {F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D},\n  decl-001924.{u_1, u_2, u_3, u_4} F \u2192 decl-005440.{u_1, u_2, u_3, u_4} F",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-001924",
+      "project_type_dependencies": [
+        "decl-001924",
+        "decl-005440"
+      ],
+      "structural_type_hash": "2214611463",
+      "temporary_id": "decl-001925"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] {F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D},\n  decl-005440.{u_1, u_2, u_3, u_4} F \u2192\n    decl-015497.{u_1, u_2, u_3, u_4} F \u2192 decl-001924.{u_1, u_2, u_3, u_4} F",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-001924",
+      "project_type_dependencies": [
+        "decl-001924",
+        "decl-005440",
+        "decl-015497"
+      ],
+      "structural_type_hash": "2803404037",
+      "temporary_id": "decl-001926"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] {F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D},\n  decl-001924.{u_1, u_2, u_3, u_4} F \u2192 decl-015497.{u_1, u_2, u_3, u_4} F",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-001924",
+      "project_type_dependencies": [
+        "decl-001924",
+        "decl-015497"
+      ],
+      "structural_type_hash": "948571423",
+      "temporary_id": "decl-001927"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  {D : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} C] \u2192\n      [inst_1 : CategoryTheory.Category.{u_4, u_2} D] \u2192 CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "184916615",
+      "temporary_id": "decl-005440"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  {D : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} C] \u2192\n      [inst_1 : CategoryTheory.Category.{u_4, u_2} D] \u2192 CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "184916615",
+      "temporary_id": "decl-015497"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] {F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D},\n  Iff (decl-001924.{u_1, u_2, u_3, u_4} F)\n    (And (decl-005440.{u_1, u_2, u_3, u_4} F) (decl-015497.{u_1, u_2, u_3, u_4} F))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001924",
+        "decl-005440",
+        "decl-015497"
+      ],
+      "structural_type_hash": "3422668688",
+      "temporary_id": "decl-018738"
+    }
+  ],
+  "module_temporary_id": "module-0582",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

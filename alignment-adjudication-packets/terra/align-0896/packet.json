@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:da698adfa92fd7783605",
+      "declaration": "Etingof.Discussion2_4.mem_ker_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/47/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {B : Type u_2} [inst_1 : NonAssocSemiring.{u_2} B] (f : RingHom.{u_1, u_2} A B)\n  (x : A),\n  Iff (Membership.mem.{u_1, u_1} (TwoSidedIdeal.ker.{u_1, u_2, max u_1 u_2} f) x)\n    (Eq.{u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} f x) 0)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.4_heading",
+  "packet_id": "align-0896",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0896"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a2acf7b522b1d58e29d7",
+  "source_text": "The kernel of an algebra homomorphism is a two-sided ideal."
+}

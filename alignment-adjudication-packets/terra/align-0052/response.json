@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0052",
+  "associations": [
+    {
+      "association_id": "association:4ffffbb3ccb0fa357abd",
+      "role": "supporting",
+      "rationale": "Its type constructs an N-coordinate finitely supported encoding of a partition, providing the variable-count-aware representation used by the formula but defining neither the Vandermonde polynomial nor rho itself."
+    },
+    {
+      "association_id": "association:427ef019534c3f8340c5",
+      "role": "primary",
+      "rationale": "Its type directly defines the staircase shift rho as a natural-valued finitely supported function indexed by Fin n, with n as the independent variable count."
+    },
+    {
+      "association_id": "association:382fb79a69e9af7968fb",
+      "role": "primary",
+      "rationale": "Its type directly defines the Vandermonde polynomial in variables indexed by Fin n, exposing the source's independent variable-count parameter."
+    }
+  ]
+}

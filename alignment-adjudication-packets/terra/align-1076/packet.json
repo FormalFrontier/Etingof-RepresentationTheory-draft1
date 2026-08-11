@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9d63b7094c2fdf4fe5ac",
+      "declaration": "Etingof.Theorem5_4_4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/275/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type) [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  [CategoryTheory.Simple.{0, 1} V] (g : G),\n  (Fintype.card.{0} (Subtype.{1} fun h => IsConj.{0} g h)).Coprime\n      (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))) \u2192\n    Or (Eq.{1} (FDRep.character.{0, 0} V g) 0)\n      (Exists.{1} fun c =>\n        Eq.{1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} V) g) (HSMul.hSMul.{0, 0, 0} c LinearMap.id.{0, 0}))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_4_4"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_proof_of_Theorem5.4.4",
+  "packet_id": "align-1076",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1076"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d3b5fb2ef8c838954a90",
+  "source_text": "Bezout combines integrality of chi(g) and |C|chi(g)/dim(V) to make the eigenvalue average integral."
+}

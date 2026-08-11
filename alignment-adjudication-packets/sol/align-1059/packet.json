@@ -1,0 +1,98 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:44024744f82a7b1523f1",
+      "declaration": "Etingof.Introduction_4_8_A4_character",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/217/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (i j : Fin 4),\n  Eq.{1} (FDRep.character.{0, 0} (Etingof.Introduction_4_8_A4_irrep i) (Etingof.Introduction_4_8.A4.classRepA4 j))\n    (Etingof.Introduction_4_8.A4.tblA4 i j)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Introduction_4_8"
+    },
+    {
+      "association_id": "association:277bc7d1b33285469481",
+      "declaration": "Etingof.Introduction_4_8_A4_class_sizes",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/217/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (j : Fin 4),\n  Eq.{1}\n    (Finset.card.{0} (Finset.filter.{0} (fun g => Eq.{1} (Etingof.Introduction_4_8.A4.classIdxA4 g) j) Finset.univ.{0}))\n    (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 4 (Matrix.vecCons.{0} 4 (Matrix.vecCons.{0} 3 Matrix.vecEmpty.{0}))) j)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Introduction_4_8"
+    },
+    {
+      "association_id": "association:53ef2439c459b9b8e132",
+      "declaration": "Etingof.Introduction_4_8_A4_complete",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/217/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (V : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 4)) x))\n  [CategoryTheory.Simple.{0, 1} V],\n  Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} V (Etingof.Introduction_4_8_A4_irrep i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Introduction_4_8"
+    },
+    {
+      "association_id": "association:972d94fb23d54a103459",
+      "declaration": "Etingof.Introduction_4_8_A4_pairwise",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/217/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (i j : Fin 4),\n  Ne.{1} i j \u2192\n    Not\n      (Nonempty.{1}\n        (CategoryTheory.Iso.{0, 1} (Etingof.Introduction_4_8_A4_irrep i) (Etingof.Introduction_4_8_A4_irrep j)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Introduction_4_8"
+    },
+    {
+      "association_id": "association:7c00149a75dec913dc11",
+      "declaration": "Etingof.Introduction_4_8_A4_quotient",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/217/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And (Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Introduction_4_8.A4.qHom))\n  (Eq.{1} (MonoidHom.ker.{0, 0} Etingof.Introduction_4_8.A4.qHom) (alternatingGroup.kleinFour.{0} (Fin 4)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Introduction_4_8"
+    },
+    {
+      "association_id": "association:4a4b7b22c1226f09bdfe",
+      "declaration": "Etingof.Introduction_4_8_A4_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/217/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (i : Fin 4), CategoryTheory.Simple.{0, 1} (Etingof.Introduction_4_8_A4_irrep i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Introduction_4_8"
+    }
+  ],
+  "canonical_reference": "Chapter4/Introduction_4.8",
+  "packet_id": "align-1059",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1059"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:cee2ba404d3d1279d2e8",
+  "source_text": "A\u2084 has the displayed four classes and four complete irreducible rows, including the quotient A\u2084/V\u2084 \u2243 Z/3 and the deleted natural three-dimensional representation."
+}

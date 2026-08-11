@@ -1,0 +1,189 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    (ConjClasses.{0} G \u2192 FDRep.{0, 0} Complex G) \u2192 Matrix.{0, 0, 0} (ConjClasses.{0} G) (ConjClasses.{0} G) Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3372336855",
+      "temporary_id": "decl-015322"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (V : ConjClasses.{0} G \u2192 FDRep.{0, 0} Complex G)\n  (i j c : ConjClasses.{0} G),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-015322 V i c) (Star.star.{0} (decl-015322 V j c)))\n    (HDiv.hDiv.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} (V i) (Quotient.out.{1} c))\n        (FDRep.character.{0, 0} (V j) (Inv.inv.{0} (Quotient.out.{1} c))))\n      (Nat.cast.{0} (decl-015325 (Quotient.out.{1} c))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015322",
+        "decl-015325"
+      ],
+      "structural_type_hash": "616072745",
+      "temporary_id": "decl-015324"
+    },
+    {
+      "formal_type": "{G : Type} \u2192 [Group.{0} G] \u2192 G \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4036387807",
+      "temporary_id": "decl-015325"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (g : G), LT.lt.{0} 0 (decl-015325 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015325"
+      ],
+      "structural_type_hash": "962409965",
+      "temporary_id": "decl-015327"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (W : FDRep.{0, 0} Complex G) (g : G),\n  Eq.{1} (Star.star.{0} (FDRep.character.{0, 0} W g)) (FDRep.character.{0, 0} W (Inv.inv.{0} g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2319870992",
+      "temporary_id": "decl-015328"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (V : ConjClasses.{0} G \u2192 FDRep.{0, 0} Complex G)\n  [\u2200 (i : ConjClasses.{0} G), CategoryTheory.Simple.{0, 1} (V i)],\n  (\u2200 (i j : ConjClasses.{0} G), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n    \u2200 [Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} G))],\n      Eq.{1} (HMul.hMul.{0, 0, 0} (Matrix.conjTranspose.{0, 0, 0} (decl-015322 V)) (decl-015322 V))\n        1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015322"
+      ],
+      "structural_type_hash": "3974570515",
+      "temporary_id": "decl-015329"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (V : ConjClasses.{0} G \u2192 FDRep.{0, 0} Complex G)\n  [\u2200 (i : ConjClasses.{0} G), CategoryTheory.Simple.{0, 1} (V i)],\n  (\u2200 (i j : ConjClasses.{0} G), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n    \u2200 [Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} G))],\n      Eq.{1} (HMul.hMul.{0, 0, 0} (decl-015322 V) (Matrix.conjTranspose.{0, 0, 0} (decl-015322 V)))\n        1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015322"
+      ],
+      "structural_type_hash": "2210184014",
+      "temporary_id": "decl-015330"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (V : ConjClasses.{0} G \u2192 FDRep.{0, 0} Complex G)\n  [\u2200 (i : ConjClasses.{0} G), CategoryTheory.Simple.{0, 1} (V i)],\n  (\u2200 (i j : ConjClasses.{0} G), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n    \u2200 [Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} G))] (c c' : ConjClasses.{0} G),\n      Eq.{1}\n        (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n          HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} (V i) (Inv.inv.{0} (Quotient.out.{1} c)))\n            (FDRep.character.{0, 0} (V i) (Quotient.out.{1} c')))\n        (ite.{1} (Eq.{1} c c') (Nat.cast.{0} (decl-015325 (Quotient.out.{1} c))) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015325"
+      ],
+      "structural_type_hash": "2362730983",
+      "temporary_id": "decl-015338"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (c : ConjClasses.{0} G),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0}\n      (Finset.card.{0} (Finset.filter.{0} (fun a => Eq.{1} (ConjClasses.mk.{0} a) c) Finset.univ.{0}))\n      (decl-015325 (Quotient.out.{1} c)))\n    (Fintype.card.{0} G)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015325"
+      ],
+      "structural_type_hash": "1180868824",
+      "temporary_id": "decl-015339"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (c : ConjClasses.{0} G),\n  Eq.{1} (ConjClasses.mk.{0} (Quotient.out.{1} c)) c",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2567597575",
+      "temporary_id": "decl-015341"
+    },
+    {
+      "formal_type": "{G : Type} \u2192 [inst : Group.{0} G] \u2192 ConjClasses.{0} G \u2192 Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "472263882",
+      "temporary_id": "decl-015342"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (c : ConjClasses.{0} G),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-015342 c) (decl-015342 c))\n    (Nat.cast.{0} (decl-015325 (Quotient.out.{1} c)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015325",
+        "decl-015342"
+      ],
+      "structural_type_hash": "3540316258",
+      "temporary_id": "decl-015344"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (c : ConjClasses.{0} G), Ne.{1} (decl-015342 c) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015342"
+      ],
+      "structural_type_hash": "3683690560",
+      "temporary_id": "decl-015345"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (c : ConjClasses.{0} G),\n  LT.lt.{0} 0 (Nat.cast.{0} (decl-015325 (Quotient.out.{1} c))).sqrt",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015325"
+      ],
+      "structural_type_hash": "2735384808",
+      "temporary_id": "decl-015346"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (V : ConjClasses.{0} G \u2192 FDRep.{0, 0} Complex G)\n  (i c c' : ConjClasses.{0} G),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Star.star.{0} (decl-015322 V i c)) (decl-015322 V i c'))\n    (HDiv.hDiv.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} (V i) (Inv.inv.{0} (Quotient.out.{1} c)))\n        (FDRep.character.{0, 0} (V i) (Quotient.out.{1} c')))\n      (HMul.hMul.{0, 0, 0} (decl-015342 c) (decl-015342 c')))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015322",
+        "decl-015342"
+      ],
+      "structural_type_hash": "3905314426",
+      "temporary_id": "decl-015347"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (c : ConjClasses.{0} G),\n  Eq.{1} (Star.star.{0} (decl-015342 c)) (decl-015342 c)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015342"
+      ],
+      "structural_type_hash": "3806454477",
+      "temporary_id": "decl-015348"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (F : G \u2192 Complex),\n  (\u2200 (a b : G), Eq.{1} (F (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} b a) (Inv.inv.{0} b))) (F a)) \u2192\n    \u2200 [inst_2 : Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} G))],\n      Eq.{1}\n        (Finset.sum.{0, 0} Finset.univ.{0} fun c =>\n          HDiv.hDiv.{0, 0, 0} (F (Quotient.out.{1} c)) (Nat.cast.{0} (decl-015325 (Quotient.out.{1} c))))\n        (HSMul.hSMul.{0, 0, 0} (Invertible.invOf.{0} (Nat.cast.{0} (Fintype.card.{0} G)))\n          (Finset.sum.{0, 0} Finset.univ.{0} fun g => F g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015325"
+      ],
+      "structural_type_hash": "3102536066",
+      "temporary_id": "decl-015349"
+    }
+  ],
+  "module_temporary_id": "module-0240",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

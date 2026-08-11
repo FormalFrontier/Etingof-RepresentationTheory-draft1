@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f1167b08c10e638af588",
+      "declaration": "Etingof.Lemma5_2_6",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/259/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (m : Nat) (\u03b1 : Fin m \u2192 Complex),\n  (\u2200 (i : Fin m), IsAlgebraic.{0, 0} Rat (\u03b1 i)) \u2192\n    \u2200 (\u03b2 : Complex),\n      IsConjRoot.{0, 0} Rat (Finset.sum.{0, 0} Finset.univ.{0} fun i => \u03b1 i) \u03b2 \u2192\n        Exists.{1} fun \u03b1' =>\n          And (\u2200 (i : Fin m), IsConjRoot.{0, 0} Rat (\u03b1 i) (\u03b1' i))\n            (Eq.{1} \u03b2 (Finset.sum.{0, 0} Finset.univ.{0} fun i => \u03b1' i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_2_6"
+    }
+  ],
+  "canonical_reference": "Chapter5/Lemma5.2.6",
+  "packet_id": "align-1024",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1024"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c39abb72b593f786c339",
+  "source_text": "Every algebraic conjugate of a finite sum of algebraic numbers is a sum of chosen conjugates of the summands."
+}

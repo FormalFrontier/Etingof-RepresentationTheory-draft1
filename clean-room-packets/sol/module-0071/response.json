@@ -1,0 +1,1190 @@
+{
+  "module_name": "LieAlgebra.ExplicitConstructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-007284",
+      "new_name": "matrix",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-007326",
+      "new_name": "matrix_aux1",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-007328",
+      "new_name": "matrix_aux2",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-007366",
+      "new_name": "AuxiliaryIndex",
+      "docstring": "An auxiliary indexing type."
+    },
+    {
+      "temporary_id": "decl-007389",
+      "new_name": "toNat",
+      "docstring": "Maps each value of the indexing type to a natural number."
+    },
+    {
+      "temporary_id": "decl-007402",
+      "new_name": "toMatrix",
+      "docstring": "Associates a three-by-three matrix to each value of the indexing type."
+    },
+    {
+      "temporary_id": "decl-007414",
+      "new_name": "position",
+      "docstring": "A construction with the displayed domain and codomain."
+    },
+    {
+      "temporary_id": "decl-007420",
+      "new_name": "matrix_aux4",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-007423",
+      "new_name": "map_apply",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-007424",
+      "new_name": "mem_submodule",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-007425",
+      "new_name": "matrix_aux5",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-007428",
+      "new_name": "matrix_aux6",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-007431",
+      "new_name": "map_apply_aux1",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-007432",
+      "new_name": "mem_submodule_aux1",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-007433",
+      "new_name": "matrix_aux7",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-007463",
+      "new_name": "matrix_aux8",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-007465",
+      "new_name": "distinguishedElement",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-007466",
+      "new_name": "displayed_eq",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-007469",
+      "new_name": "displayed_eq_aux1",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-007470",
+      "new_name": "bracket_eq",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007471",
+      "new_name": "displayed_eq_aux2",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-007479",
+      "new_name": "auxiliary_fact",
+      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-007480",
+      "new_name": "bracket_eq_aux1",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007481",
+      "new_name": "bracket_eq_aux2",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007483",
+      "new_name": "bracket_eq_aux3",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007485",
+      "new_name": "bracket_eq_aux4",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007487",
+      "new_name": "bracket_eq_aux5",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007489",
+      "new_name": "bracket_eq_aux6",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007491",
+      "new_name": "bracket_eq_aux7",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007493",
+      "new_name": "bracket_eq_aux8",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007494",
+      "new_name": "bracket_eq_aux9",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007495",
+      "new_name": "bracket_eq_aux10",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007496",
+      "new_name": "bracket_eq_aux11",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007498",
+      "new_name": "bracket_eq_aux12",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007499",
+      "new_name": "bracket_eq_aux13",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007500",
+      "new_name": "bracket_eq_aux14",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007501",
+      "new_name": "bracket_eq_aux15",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007502",
+      "new_name": "bracket_eq_aux16",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007523",
+      "new_name": "matrix_aux9",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-007524",
+      "new_name": "coeff_eq",
+      "docstring": "The indicated polynomial coefficient has the displayed value."
+    },
+    {
+      "temporary_id": "decl-007525",
+      "new_name": "map_apply_aux2",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-007526",
+      "new_name": "algHom",
+      "docstring": "An algebra homomorphism between the displayed algebras."
+    },
+    {
+      "temporary_id": "decl-007528",
+      "new_name": "map_apply_aux3",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-007529",
+      "new_name": "distinguishedElement_aux1",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-007569",
+      "new_name": "linearMap",
+      "docstring": "A linear map between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-007572",
+      "new_name": "map_apply_aux4",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-007574",
+      "new_name": "mem_submodule_aux2",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-007575",
+      "new_name": "mem_submodule_aux3",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-007576",
+      "new_name": "mem_submodule_aux4",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-007577",
+      "new_name": "bracket_eq_aux17",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007578",
+      "new_name": "auxiliary_fact_aux1",
+      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-007579",
+      "new_name": "mem_submodule_aux5",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-007580",
+      "new_name": "map_apply_aux5",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-007581",
+      "new_name": "mem_submodule_aux6",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-007582",
+      "new_name": "mem_submodule_aux7",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-007583",
+      "new_name": "mem_submodule_aux8",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-007584",
+      "new_name": "mem_submodule_aux9",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-007585",
+      "new_name": "linearMap_aux1",
+      "docstring": "A linear map between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-007589",
+      "new_name": "displayed_eq_aux3",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-007618",
+      "new_name": "exists_witness",
+      "docstring": "There exists a value satisfying the displayed conditions."
+    },
+    {
+      "temporary_id": "decl-007621",
+      "new_name": "range_finite_of_domain_finite",
+      "docstring": "Finite generation of the domain implies finite generation of the displayed linear-map range."
+    },
+    {
+      "temporary_id": "decl-007622",
+      "new_name": "finrank_eq",
+      "docstring": "The finite rank of the displayed module has the stated value."
+    },
+    {
+      "temporary_id": "decl-007623",
+      "new_name": "finrank_eq_aux1",
+      "docstring": "The finite rank of the displayed module has the stated value."
+    },
+    {
+      "temporary_id": "decl-007624",
+      "new_name": "finrank_eq_aux2",
+      "docstring": "The finite rank of the displayed module has the stated value."
+    },
+    {
+      "temporary_id": "decl-007628",
+      "new_name": "AuxiliaryType",
+      "docstring": "A type-valued construction determined by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-007664",
+      "new_name": "linearMap_aux2",
+      "docstring": "A linear map between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-007712",
+      "new_name": "matrix_aux10",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-007715",
+      "new_name": "matrix_aux11",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-007754",
+      "new_name": "linearIndependent_family",
+      "docstring": "The displayed family is linearly independent."
+    },
+    {
+      "temporary_id": "decl-007755",
+      "new_name": "linearIndependent_family_aux1",
+      "docstring": "The displayed family is linearly independent."
+    },
+    {
+      "temporary_id": "decl-007756",
+      "new_name": "linearIndependent_family_aux2",
+      "docstring": "The displayed family is linearly independent."
+    },
+    {
+      "temporary_id": "decl-007772",
+      "new_name": "instLieAlgebra",
+      "docstring": "Provides the indicated LieAlgebra structure on the specified type."
+    },
+    {
+      "temporary_id": "decl-007782",
+      "new_name": "instLieRing",
+      "docstring": "Provides the indicated LieRing structure on the specified type."
+    },
+    {
+      "temporary_id": "decl-007863",
+      "new_name": "displayed_eq_aux4",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-007864",
+      "new_name": "freeLie_eq",
+      "docstring": "The displayed expressions in the free Lie algebra are equal."
+    },
+    {
+      "temporary_id": "decl-007865",
+      "new_name": "bracket_eq_aux18",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007866",
+      "new_name": "auxiliary_fact_aux2",
+      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-007867",
+      "new_name": "bracket_eq_aux19",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007868",
+      "new_name": "bracket_eq_aux20",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007869",
+      "new_name": "bracket_eq_aux21",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007870",
+      "new_name": "bracket_eq_aux22",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007871",
+      "new_name": "bracket_eq_aux23",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007872",
+      "new_name": "bracket_eq_aux24",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007874",
+      "new_name": "bracket_eq_aux25",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007876",
+      "new_name": "bracket_eq_aux26",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007877",
+      "new_name": "bracket_eq_aux27",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007878",
+      "new_name": "bracket_eq_aux28",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007879",
+      "new_name": "bracket_eq_aux29",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007881",
+      "new_name": "bracket_eq_aux30",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007882",
+      "new_name": "bracket_eq_aux31",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007892",
+      "new_name": "mem_span",
+      "docstring": "The specified element belongs to the span of the displayed generators."
+    },
+    {
+      "temporary_id": "decl-007910",
+      "new_name": "bracket_eq_aux32",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007913",
+      "new_name": "auxiliary_fact_aux3",
+      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-007914",
+      "new_name": "auxiliary_fact_aux4",
+      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-007917",
+      "new_name": "bracket_eq_aux33",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007918",
+      "new_name": "auxiliary_fact_aux5",
+      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-007919",
+      "new_name": "bracket_eq_aux34",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007920",
+      "new_name": "auxiliary_fact_aux6",
+      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-007924",
+      "new_name": "bracket_eq_aux35",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007925",
+      "new_name": "bracket_eq_aux36",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007926",
+      "new_name": "auxiliary_fact_aux7",
+      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-007927",
+      "new_name": "auxiliary_fact_aux8",
+      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-007948",
+      "new_name": "bracket_eq_aux37",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007949",
+      "new_name": "bracket_eq_aux38",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007950",
+      "new_name": "bracket_eq_aux39",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007951",
+      "new_name": "bracket_eq_aux40",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007952",
+      "new_name": "bracket_eq_aux41",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007953",
+      "new_name": "bracket_eq_aux42",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007954",
+      "new_name": "bracket_eq_aux43",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007955",
+      "new_name": "bracket_eq_aux44",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007956",
+      "new_name": "bracket_eq_aux45",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007957",
+      "new_name": "bracket_eq_aux46",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007958",
+      "new_name": "bracket_eq_aux47",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007959",
+      "new_name": "bracket_eq_aux48",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007960",
+      "new_name": "bracket_eq_aux49",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007961",
+      "new_name": "bracket_eq_aux50",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007962",
+      "new_name": "bracket_eq_aux51",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007963",
+      "new_name": "bracket_eq_aux52",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007964",
+      "new_name": "bracket_eq_aux53",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007965",
+      "new_name": "bracket_eq_aux54",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-007974",
+      "new_name": "linearIndependent_family_aux3",
+      "docstring": "The displayed family is linearly independent."
+    },
+    {
+      "temporary_id": "decl-007978",
+      "new_name": "linearIndependent_family_aux4",
+      "docstring": "The displayed family is linearly independent."
+    },
+    {
+      "temporary_id": "decl-007979",
+      "new_name": "linearIndependent_family_aux5",
+      "docstring": "The displayed family is linearly independent."
+    },
+    {
+      "temporary_id": "decl-007980",
+      "new_name": "linearIndependent_family_aux6",
+      "docstring": "The displayed family is linearly independent."
+    },
+    {
+      "temporary_id": "decl-007982",
+      "new_name": "linearIndependent_family_aux7",
+      "docstring": "The displayed family is linearly independent."
+    },
+    {
+      "temporary_id": "decl-007983",
+      "new_name": "distinguishedElement_aux2",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-007987",
+      "new_name": "map_apply_aux6",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-007999",
+      "new_name": "linearMap_aux3",
+      "docstring": "A linear map between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-008003",
+      "new_name": "map_apply_aux7",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008012",
+      "new_name": "distinguishedElement_aux3",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-008014",
+      "new_name": "displayed_eq_aux5",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008023",
+      "new_name": "matrixPolynomialLieSubalgebra",
+      "docstring": "A Lie subalgebra of three-by-three matrices over the displayed polynomial ring."
+    },
+    {
+      "temporary_id": "decl-008045",
+      "new_name": "matrix_aux13",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-008047",
+      "new_name": "mem_submodule_aux11",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-008051",
+      "new_name": "mem_submodule_aux12",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-008052",
+      "new_name": "bracket_eq_aux55",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008053",
+      "new_name": "lieHom",
+      "docstring": "A Lie algebra homomorphism between the displayed Lie algebras."
+    },
+    {
+      "temporary_id": "decl-008055",
+      "new_name": "bracket_eq_aux56",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008056",
+      "new_name": "bracket_eq_aux57",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008057",
+      "new_name": "map_apply_aux8",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008058",
+      "new_name": "map_apply_aux9",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008059",
+      "new_name": "lieHom_aux1",
+      "docstring": "A Lie algebra homomorphism between the displayed Lie algebras."
+    },
+    {
+      "temporary_id": "decl-008061",
+      "new_name": "bracket_eq_aux58",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008062",
+      "new_name": "bracket_eq_aux59",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008063",
+      "new_name": "map_apply_aux10",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008064",
+      "new_name": "map_apply_aux11",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008065",
+      "new_name": "lieHom_aux2",
+      "docstring": "A Lie algebra homomorphism between the displayed Lie algebras."
+    },
+    {
+      "temporary_id": "decl-008067",
+      "new_name": "bracket_eq_aux60",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008068",
+      "new_name": "bracket_eq_aux61",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008069",
+      "new_name": "map_apply_aux12",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008070",
+      "new_name": "map_apply_aux13",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008071",
+      "new_name": "lieHom_aux3",
+      "docstring": "A Lie algebra homomorphism between the displayed Lie algebras."
+    },
+    {
+      "temporary_id": "decl-008073",
+      "new_name": "bracket_eq_aux62",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008074",
+      "new_name": "bracket_eq_aux63",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008075",
+      "new_name": "map_indexedElement_eq_matrixSingles",
+      "docstring": "The Lie homomorphism sends the indexed free-Lie element to the difference of the two displayed single-entry matrices."
+    },
+    {
+      "temporary_id": "decl-008076",
+      "new_name": "bracket_eq_aux64",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008077",
+      "new_name": "bracket_eq_aux65",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008078",
+      "new_name": "map_apply_aux14",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008079",
+      "new_name": "map_apply_aux15",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008080",
+      "new_name": "lieHom_aux4",
+      "docstring": "A Lie algebra homomorphism between the displayed Lie algebras."
+    },
+    {
+      "temporary_id": "decl-008082",
+      "new_name": "bracket_eq_aux66",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008083",
+      "new_name": "bracket_eq_aux67",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008084",
+      "new_name": "bracket_eq_aux68",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008085",
+      "new_name": "iteratedBracket_eq_X_smul",
+      "docstring": "When three vanishes in the coefficient ring, the displayed iterated bracket advances the polynomial power by one."
+    },
+    {
+      "temporary_id": "decl-008086",
+      "new_name": "map_iterate_eq_X_smul",
+      "docstring": "When three vanishes, the displayed map sends the indexed iterate to the stated polynomial multiple."
+    },
+    {
+      "temporary_id": "decl-008087",
+      "new_name": "map_apply_aux16",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008088",
+      "new_name": "map_apply_aux17",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008090",
+      "new_name": "mem_matrixPolynomialLieSubalgebra_iff",
+      "docstring": "Membership in the displayed matrix Lie subalgebra is equivalent to the stated trace, symmetry, and span conditions."
+    },
+    {
+      "temporary_id": "decl-008092",
+      "new_name": "mem_span_aux2",
+      "docstring": "The specified element belongs to the span of the displayed generators."
+    },
+    {
+      "temporary_id": "decl-008094",
+      "new_name": "mem_span_aux3",
+      "docstring": "The specified element belongs to the span of the displayed generators."
+    },
+    {
+      "temporary_id": "decl-008096",
+      "new_name": "mem_span_aux4",
+      "docstring": "The specified element belongs to the span of the displayed generators."
+    },
+    {
+      "temporary_id": "decl-008098",
+      "new_name": "not_moduleFinite",
+      "docstring": "The displayed module over a field is not finitely generated."
+    },
+    {
+      "temporary_id": "decl-008100",
+      "new_name": "not_moduleFinite_of_range",
+      "docstring": "Non-finiteness of the displayed linear-map range implies non-finiteness of the ambient module."
+    },
+    {
+      "temporary_id": "decl-008101",
+      "new_name": "not_moduleFinite_of_three_eq_zero",
+      "docstring": "If three vanishes in the field, the displayed module is not finitely generated."
+    },
+    {
+      "temporary_id": "decl-008119",
+      "new_name": "polynomial",
+      "docstring": "The polynomial specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-008121",
+      "new_name": "displayed_eq_aux6",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008122",
+      "new_name": "auxiliary_fact_aux9",
+      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-008123",
+      "new_name": "lieHom_aux5",
+      "docstring": "A Lie algebra homomorphism between the displayed Lie algebras."
+    },
+    {
+      "temporary_id": "decl-008126",
+      "new_name": "lieHom_apply_eq_quotient_mk",
+      "docstring": "The Lie homomorphism agrees on every free-Lie element with the quotient map by the displayed Lie ideal."
+    },
+    {
+      "temporary_id": "decl-008127",
+      "new_name": "mem_submodule_aux13",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-008128",
+      "new_name": "bracket_eq_aux69",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008130",
+      "new_name": "map_surjective",
+      "docstring": "The displayed map is surjective."
+    },
+    {
+      "temporary_id": "decl-008132",
+      "new_name": "displayed_eq_aux7",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008133",
+      "new_name": "submodule_eq_aux1",
+      "docstring": "The displayed submodules are equal."
+    },
+    {
+      "temporary_id": "decl-008134",
+      "new_name": "range_eq",
+      "docstring": "The range of the displayed Lie homomorphism is the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-008135",
+      "new_name": "submodule_le",
+      "docstring": "The first displayed submodule is contained in the second."
+    },
+    {
+      "temporary_id": "decl-008136",
+      "new_name": "range_not_moduleFinite",
+      "docstring": "Under the stated characteristic hypothesis, the displayed linear-map range is not finitely generated."
+    },
+    {
+      "temporary_id": "decl-008137",
+      "new_name": "indexedLieIdeal",
+      "docstring": "An indexed Lie ideal in the displayed free Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008144",
+      "new_name": "submodule_le_aux1",
+      "docstring": "The first displayed submodule is contained in the second."
+    },
+    {
+      "temporary_id": "decl-008147",
+      "new_name": "submodule_le_aux2",
+      "docstring": "The first displayed submodule is contained in the second."
+    },
+    {
+      "temporary_id": "decl-008150",
+      "new_name": "submodule_le_aux3",
+      "docstring": "The first displayed submodule is contained in the second."
+    },
+    {
+      "temporary_id": "decl-008153",
+      "new_name": "submodule_le_aux4",
+      "docstring": "The first displayed submodule is contained in the second."
+    },
+    {
+      "temporary_id": "decl-008156",
+      "new_name": "submodule_le_aux5",
+      "docstring": "The first displayed submodule is contained in the second."
+    },
+    {
+      "temporary_id": "decl-008159",
+      "new_name": "mem_submodule_aux15",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-008173",
+      "new_name": "matrix_aux14",
+      "docstring": "The matrix specified by the displayed parameters."
+    },
+    {
+      "temporary_id": "decl-008175",
+      "new_name": "displayed_eq_aux8",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008176",
+      "new_name": "displayed_eq_aux9",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008177",
+      "new_name": "auxiliary_fact_aux10",
+      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-008178",
+      "new_name": "displayed_eq_aux10",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008180",
+      "new_name": "displayed_eq_aux11",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008184",
+      "new_name": "bracket_eq_aux70",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    },
+    {
+      "temporary_id": "decl-008186",
+      "new_name": "displayed_eq_aux12",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008187",
+      "new_name": "displayed_eq_aux13",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008188",
+      "new_name": "displayed_eq_aux14",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008189",
+      "new_name": "matrixSingle_eq_aux1",
+      "docstring": "The displayed single-entry matrix identity holds."
+    },
+    {
+      "temporary_id": "decl-008191",
+      "new_name": "displayed_eq_aux15",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008192",
+      "new_name": "displayed_eq_aux16",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008193",
+      "new_name": "displayed_eq_aux17",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008195",
+      "new_name": "mem_submodule_aux16",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-008196",
+      "new_name": "submodule_eq_aux2",
+      "docstring": "The displayed submodules are equal."
+    },
+    {
+      "temporary_id": "decl-008197",
+      "new_name": "submodule_eq_aux3",
+      "docstring": "The displayed submodules are equal."
+    },
+    {
+      "temporary_id": "decl-008200",
+      "new_name": "submodule_eq_aux4",
+      "docstring": "The displayed submodules are equal."
+    },
+    {
+      "temporary_id": "decl-008203",
+      "new_name": "submodule_eq_aux5",
+      "docstring": "The displayed submodules are equal."
+    },
+    {
+      "temporary_id": "decl-008206",
+      "new_name": "submodule_eq_aux6",
+      "docstring": "The displayed submodules are equal."
+    },
+    {
+      "temporary_id": "decl-008218",
+      "new_name": "displayed_eq_aux18",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-008241",
+      "new_name": "freeLieElement_aux1",
+      "docstring": "A distinguished element of the displayed free Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008248",
+      "new_name": "linearIndependent_family_aux8",
+      "docstring": "The displayed family is linearly independent."
+    },
+    {
+      "temporary_id": "decl-008250",
+      "new_name": "linearMap_aux4",
+      "docstring": "A linear map between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-008255",
+      "new_name": "map_apply_aux18",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008256",
+      "new_name": "map_apply_aux19",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-008257",
+      "new_name": "trace_eq_zero",
+      "docstring": "The trace of the specified matrix is zero."
+    },
+    {
+      "temporary_id": "decl-008258",
+      "new_name": "trace_monomialMatrix",
+      "docstring": "The trace of the monomial matrix is the corresponding monomial applied to the trace."
+    },
+    {
+      "temporary_id": "decl-008259",
+      "new_name": "trace_eq_zero_aux2",
+      "docstring": "The trace of the specified matrix is zero."
+    },
+    {
+      "temporary_id": "decl-008260",
+      "new_name": "trace_eq_zero_aux3",
+      "docstring": "The trace of the specified matrix is zero."
+    },
+    {
+      "temporary_id": "decl-008261",
+      "new_name": "algHom_aux1",
+      "docstring": "An algebra homomorphism between the displayed algebras."
+    },
+    {
+      "temporary_id": "decl-008263",
+      "new_name": "algHom_aux2",
+      "docstring": "An algebra homomorphism between the displayed algebras."
+    },
+    {
+      "temporary_id": "decl-008265",
+      "new_name": "auxiliary_fact_aux11",
+      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+    },
+    {
+      "temporary_id": "decl-008272",
+      "new_name": "distinguishedElement_aux4",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-008274",
+      "new_name": "distinguishedElement_aux5",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-008276",
+      "new_name": "freeLieElement_aux2",
+      "docstring": "A distinguished element of the displayed free Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008282",
+      "new_name": "distinguishedElement_aux6",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-008284",
+      "new_name": "freeLieElement_aux3",
+      "docstring": "A distinguished element of the displayed free Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008288",
+      "new_name": "distinguishedElement_aux7",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-008291",
+      "new_name": "freeLieElement_aux4",
+      "docstring": "A distinguished element of the displayed free Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008294",
+      "new_name": "distinguishedElement_aux8",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-008297",
+      "new_name": "distinguishedElement_aux9",
+      "docstring": "A distinguished value of the displayed type."
+    },
+    {
+      "temporary_id": "decl-008299",
+      "new_name": "bracket_eq_aux71",
+      "docstring": "The bracket of the displayed elements has the stated value."
+    }
+  ]
+}

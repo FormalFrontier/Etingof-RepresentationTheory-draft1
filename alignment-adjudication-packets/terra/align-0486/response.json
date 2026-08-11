@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0486",
+  "associations": [
+    {
+      "association_id": "association:aa959c4a1b6d9380b774",
+      "rationale": "The formal type directly states that the bracket of every element with itself is zero, exactly the alternating-bracket claim.",
+      "role": "primary"
+    }
+  ]
+}

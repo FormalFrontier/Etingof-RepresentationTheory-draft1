@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.DesignatedElements",
+  "declarations": [
+    {
+      "temporary_id": "decl-000625",
+      "new_name": "DesignatedElement",
+      "docstring": "A predicate on elements of a vector space equipped with an associative bilinear multiplication structure."
+    },
+    {
+      "temporary_id": "decl-000635",
+      "new_name": "DesignatedElement.eq",
+      "docstring": "Any two elements satisfying the designated-element predicate are equal."
+    }
+  ]
+}

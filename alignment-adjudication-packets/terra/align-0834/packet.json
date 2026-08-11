@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a95c91084013a12a6fdc",
+      "declaration": "Etingof.Problem_8_2_10_ii",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/545/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k U W : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : AddCommGroup.{u} U] \u2192\n      [inst_2 : Module.{u, u} k U] \u2192\n        [FiniteDimensional.{u, u} k U] \u2192\n          [inst_4 : AddCommGroup.{u} W] \u2192\n            [inst_5 : Module.{u, u} k W] \u2192\n              CategoryTheory.ProjectiveResolution.{u, u + 1} (Etingof.koszulComplementModule.{u} k U W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10"
+    },
+    {
+      "association_id": "association:aff23f6e906c276927ae",
+      "declaration": "Etingof.Problem_8_2_10_ii_quasiIso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/545/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k U W : Type u) [inst : Field.{u} k] [inst_1 : AddCommGroup.{u} U] [inst_2 : Module.{u, u} k U]\n  [inst_3 : FiniteDimensional.{u, u} k U] [inst_4 : AddCommGroup.{u} W] [inst_5 : Module.{u, u} k W],\n  QuasiIso.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} (Etingof.Problem_8_2_10_ii.{u} k U W))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10"
+    },
+    {
+      "association_id": "association:8e5f26c6866edf8ee5eb",
+      "declaration": "Etingof.Problem_8_2_10_ii_termIso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/545/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k U W : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : AddCommGroup.{u} U] \u2192\n      [inst_2 : Module.{u, u} k U] \u2192\n        [inst_3 : FiniteDimensional.{u, u} k U] \u2192\n          [inst_4 : AddCommGroup.{u} W] \u2192\n            [inst_5 : Module.{u, u} k W] \u2192\n              (i : Nat) \u2192\n                CategoryTheory.Iso.{u, u + 1}\n                  (HomologicalComplex.X.{u, u + 1, 0}\n                    (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (Etingof.Problem_8_2_10_ii.{u} k U W)) i)\n                  (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k (Prod.{u, u} U W))\n                    (Etingof.koszulComplementX.{u} k U W i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.10",
+  "packet_id": "align-0834",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0834"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.10:part_ii",
+  "source_text": "Part (ii): construct the free SV-resolution of SW with terms SV tensor exterior^i U."
+}

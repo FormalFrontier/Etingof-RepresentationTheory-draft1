@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0485",
+  "associations": [
+    {
+      "association_id": "association:22b425f29a06f2f133cd",
+      "role": "supporting",
+      "rationale": "The disjunction directly establishes exhaustiveness of the three named representations among simple representations, but it does not assert that those three are themselves simple, pairwise distinct, or that the standard representation is two-dimensional."
+    }
+  ]
+}

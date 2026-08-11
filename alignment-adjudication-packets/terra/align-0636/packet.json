@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ee899f97c61f328d7d3b",
+      "declaration": "Etingof.Problem3_3_3.std_isSimpleModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/142/claim_coverage/claims/11/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (d : Nat) [NeZero.{0} d],\n  IsSimpleModule.{u_1, u_1} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) (Fin d \u2192 k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_3_3"
+    },
+    {
+      "association_id": "association:06d17c4474d9ea03ce68",
+      "declaration": "Matrix.single",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/142/claim_coverage/claims/11/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Data.Matrix.Basis"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.3.3",
+  "packet_id": "align-0636",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0636"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.3.3:claim-12",
+  "source_text": "The matrix units E_ij have the standard single-entry definition and multiplication action."
+}

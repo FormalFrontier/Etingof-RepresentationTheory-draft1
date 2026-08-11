@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c1c9432d548a386692a3",
+      "declaration": "Etingof.Problem_8_2_7_i_tor_fg",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/541/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {M N : Type} [inst : AddCommGroup.{0} M] [inst_1 : AddCommGroup.{0} N] [Module.Finite.{0, 0} Int M]\n  [Module.Finite.{0, 0} Int N],\n  Exists.{2} fun D =>\n    Exists.{2} fun E =>\n      And\n        (Nonempty.{1}\n          (AddEquiv.{0, 0} (AddCommGrpCat.carrier.{0} (Etingof.Tor.{0} Int N (Etingof.mopOf.{0} Int M) 0))\n            ((j : Etingof.PIDDecomposition.index.{0} D) \u2192\n              (l : Etingof.PIDDecomposition.index.{0} E) \u2192\n                ZMod\n                  ((Etingof.PIDDecomposition.genOf.{0} D j).natAbs.gcd\n                    (Etingof.PIDDecomposition.genOf.{0} E l).natAbs))))\n        (And\n          (Nonempty.{1}\n            (AddEquiv.{0, 0} (AddCommGrpCat.carrier.{0} (Etingof.Tor.{0} Int N (Etingof.mopOf.{0} Int M) 1))\n              ((i : Etingof.PIDDecomposition.torsionIndex.{0} D) \u2192\n                (l : Etingof.PIDDecomposition.torsionIndex.{0} E) \u2192\n                  ZMod\n                    ((Etingof.PIDDecomposition.gen.{0} D i).natAbs.gcd (Etingof.PIDDecomposition.gen.{0} E l).natAbs))))\n          (\u2200 (n : Nat),\n            Subsingleton.{1}\n              (AddCommGrpCat.carrier.{0} (Etingof.Tor.{0} Int N (Etingof.mopOf.{0} Int M) (HAdd.hAdd.{0, 0, 0} n 2)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_7_TorInt"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.7",
+  "packet_id": "align-0851",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0851"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.7:part_i_tor",
+  "source_text": "Part (i): compute every Tor group of finitely generated abelian groups."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Definition7.9.4",
+    "kind": "definition",
+    "title": "Semisimple abelian category",
+    "node_id": "chapter-07/section-7-9",
+    "order": 515,
+    "slug": "definition7-9-4",
+    "span": {
+      "start": {
+        "page": "195",
+        "line": 1
+      },
+      "end": {
+        "page": "195",
+        "line": 8
+      }
+    },
+    "source_sha256": "10f4af9b39ca89f009fb62f608d62ff8c866da0bd3fdd214bf22b039c1fcef48",
+    "features": {
+      "line_count": 8,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition794",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

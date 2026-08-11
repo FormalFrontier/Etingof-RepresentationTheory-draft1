@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8c5b4d4791486e692de0",
+      "declaration": "Etingof.IsIndecomposable.of_isSimpleModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/13/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) (V : Type u_2) [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V],\n  IsSimpleModule.{u_1, u_2} A V \u2192 Etingof.IsIndecomposable.{u_1, u_2} A V",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_1_irreducible_indecomposable"
+    },
+    {
+      "association_id": "association:55177566d7309d733056",
+      "declaration": "Etingof.IsSimpleModule.of_isIndecomposable_of_isSemisimpleModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/13/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) (V : Type u_2) [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  [IsSemisimpleModule.{u_1, u_2} A V], Etingof.IsIndecomposable.{u_1, u_2} A V \u2192 IsSimpleModule.{u_1, u_2} A V",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_1_irreducible_indecomposable"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_after_Theorem2.1.2",
+  "packet_id": "align-0143",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0143"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2c3ca04b9bd03b72cf8e",
+  "source_text": "For complex representations of a finite group, irreducible and indecomposable are equivalent notions."
+}

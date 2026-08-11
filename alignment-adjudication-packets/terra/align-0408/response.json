@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:378c5417fb6c963f88cd",
+      "rationale": "The formal type states the final one-dimensionality result for a simple module over a commutative algebra. It does not state the prerequisite claim that multiplication by each a commutes with the A-action and hence defines an intertwiner.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0408"
+}

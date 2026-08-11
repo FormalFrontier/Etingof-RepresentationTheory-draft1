@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Exercise3.10.1",
+    "kind": "exercise",
+    "title": "Tensor product of matrix algebras",
+    "node_id": "chapter-03/section-3-10",
+    "order": 178,
+    "slug": "exercise3-10-1",
+    "span": {
+      "start": {
+        "page": "59",
+        "line": 9
+      },
+      "end": {
+        "page": "59",
+        "line": 10
+      }
+    },
+    "source_sha256": "676a95f8c4ed4df69373c032e8a4631cfdae1209559ee3012b95d9209ee7e250",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Exercise3101",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

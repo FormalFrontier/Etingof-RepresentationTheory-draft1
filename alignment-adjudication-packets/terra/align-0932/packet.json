@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:14e3f7649fa9479516ba",
+      "declaration": "Etingof.Example2_9_12.sl2_universal_relations",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/91/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_12"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.9.12",
+  "packet_id": "align-0932",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0932"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a99ff6a979449438b527",
+  "source_text": "The generators e,f,h satisfy he-eh=2e, hf-fh=-2f, ef-fe=h in U(sl2)."
+}

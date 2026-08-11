@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e098f424ec3e289014f2",
+      "declaration": "Etingof.Theorem4_1_1_semisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/189/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (G : Type u_2) [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [inst_2 : Fintype.{u_2} G],\n  IsUnit.{u_1} (Nat.cast.{u_1} (Fintype.card.{u_2} G)) \u2192 IsSemisimpleRing.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Theorem4_1_1"
+    },
+    {
+      "association_id": "association:1a25c0eff2f4621a05cc",
+      "declaration": "Etingof.characters_basis_semisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/189/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type v) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{v} A]\n  [inst_3 : Algebra.{u_1, v} k A] [FiniteDimensional.{u_1, v} k A] [IsSemisimpleRing.{v} A] {\u03b9 : Type u_2}\n  [Finite.{u_2 + 1} \u03b9] (V : \u03b9 \u2192 Type u_3) [inst_7 : (i : \u03b9) \u2192 AddCommGroup.{u_3} (V i)]\n  [inst_8 : (i : \u03b9) \u2192 Module.{u_1, u_3} k (V i)] [inst_9 : (i : \u03b9) \u2192 Module.{v, u_3} A (V i)]\n  [inst_10 : \u2200 (i : \u03b9), IsScalarTower.{u_1, v, u_3} k A (V i)]\n  [inst_11 : \u2200 (i : \u03b9), FiniteDimensional.{u_1, u_3} k (V i)] [\u2200 (i : \u03b9), IsSimpleModule.{v, u_3} A (V i)],\n  (\u2200 (i j : \u03b9), Ne.{u_2 + 1} i j \u2192 IsEmpty.{u_3 + 1} (LinearEquiv.{v, v, u_3, u_3} (RingHom.id.{v} A) (V i) (V j))) \u2192\n    (\u2200 (W : Type v) [inst_13 : AddCommGroup.{v} W] [inst_14 : Module.{u_1, v} k W] [inst_15 : Module.{v, v} A W]\n        [IsScalarTower.{u_1, v, v} k A W] [FiniteDimensional.{u_1, v} k W] [IsSimpleModule.{v, v} A W],\n        Exists.{u_2 + 1} fun i =>\n          Nonempty.{max (u_3 + 1) (v + 1)} (LinearEquiv.{v, v, v, u_3} (RingHom.id.{v} A) W (V i))) \u2192\n      \u2200 (f : Module.Dual.{u_1, v} k A),\n        (\u2200 (a b : A),\n            Eq.{u_1 + 1} (DFunLike.coe.{max (u_1 + 1) (v + 1), v + 1, u_1 + 1} f (HMul.hMul.{v, v, v} a b))\n              (DFunLike.coe.{max (u_1 + 1) (v + 1), v + 1, u_1 + 1} f (HMul.hMul.{v, v, v} b a))) \u2192\n          Membership.mem.{max u_1 v, max u_1 v}\n            (Submodule.span.{u_1, max u_1 v} k\n              (Set.range.{max u_1 v, u_2 + 1} fun i => Etingof.character.{u_1, v, u_3} k A (V i)))\n            f",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_6_2"
+    }
+  ],
+  "canonical_reference": "Chapter4/Theorem4.2.1",
+  "packet_id": "align-0044",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0044"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0c365229f41ee43d1c39",
+  "source_text": "Maschke and the semisimple-algebra character theorem supply the book's algebraic proof inputs."
+}

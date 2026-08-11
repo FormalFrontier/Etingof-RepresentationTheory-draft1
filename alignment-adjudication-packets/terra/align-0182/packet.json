@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cafa76ddb04e4f0a569b",
+      "declaration": "Etingof.Theorem5_18_2.centralizer_eq_universalEnvelopingImage",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/348/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (V : Type u_2) [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  [Module.Finite.{u_1, u_2} k V] (n : Nat) [CharZero.{u_1} k],\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (Subalgebra.centralizer.{u_1, max u_1 u_2} k\n      (SetLike.coe.{max u_1 u_2, max u_1 u_2} (Etingof.Theorem5_18_2.symGroupImage.{u_1, u_2} k V n)))\n    (AlgHom.range.{u_1, max u_1 u_2, max u_1 u_2} (Etingof.Theorem5_18_2.universalEnvelopingToEnd.{u_1, u_2} k V n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.18.2",
+  "packet_id": "align-0182",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0182"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:375b4454412c555b92be",
+  "source_text": "The centralizer of the symmetric-group action on V tensor n is exactly the image of the universal enveloping algebra under the diagonal Lie action."
+}

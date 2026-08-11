@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:84cff35677d5cb95a264",
+      "declaration": "Etingof.tensor_product_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/181/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (B : Type u_3) (V : Type u_4) (W : Type u_5) [inst : Field.{u_1} k]\n  [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u_2} A] [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : Ring.{u_3} B]\n  [inst_5 : Algebra.{u_1, u_3} k B] [inst_6 : AddCommGroup.{u_4} V] [inst_7 : Module.{u_1, u_4} k V]\n  [inst_8 : Module.{u_2, u_4} A V] [inst_9 : IsScalarTower.{u_1, u_2, u_4} k A V] [inst_10 : AddCommGroup.{u_5} W]\n  [inst_11 : Module.{u_1, u_5} k W] [inst_12 : Module.{u_3, u_5} B W] [inst_13 : IsScalarTower.{u_1, u_3, u_5} k B W]\n  [FiniteDimensional.{u_1, u_4} k V] [FiniteDimensional.{u_1, u_5} k W] [IsSimpleModule.{u_2, u_4} A V]\n  [IsSimpleModule.{u_3, u_5} B W] (U : Submodule.{u_1, max u_5 u_4} k (TensorProduct.{u_1, u_4, u_5} k V W)),\n  (\u2200 (a : A) (b : B) (x : TensorProduct.{u_1, u_4, u_5} k V W),\n      Membership.mem.{max u_4 u_5, max u_4 u_5} U x \u2192\n        Membership.mem.{max u_4 u_5, max u_4 u_5} U\n          (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), max (u_4 + 1) (u_5 + 1), max (u_4 + 1) (u_5 + 1)}\n            (TensorProduct.map.{u_1, u_1, u_4, u_5, u_4, u_5}\n              (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} (Algebra.lsmul.{u_1, u_2, u_1, u_4} k k V) a)\n              (DFunLike.coe.{max (u_3 + 1) (u_5 + 1), u_3 + 1, u_5 + 1} (Algebra.lsmul.{u_1, u_3, u_1, u_5} k k W) b))\n            x)) \u2192\n    Or (Eq.{max (u_4 + 1) (u_5 + 1)} U Bot.bot.{max u_4 u_5}) (Eq.{max (u_4 + 1) (u_5 + 1)} U Top.top.{max u_4 u_5})",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_10_2"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.10.2",
+  "packet_id": "align-1142",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1142"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e9eaffa44b9bd6318edf",
+  "source_text": "The resulting tensor-product action reaches enough endomorphisms of V \u2297 W to make V \u2297 W irreducible."
+}

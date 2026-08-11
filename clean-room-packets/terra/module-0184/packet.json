@@ -1,0 +1,46 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V],\n  Exists.{1} fun n =>\n    Exists.{u_3 + 1} fun W =>\n      And\n        (\u2200 (i : Fin n),\n          decl-005194.{u_2, u_3} A (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (W i) x))\n        (And (Eq.{u_3 + 1} (iSup.{u_3, 1} W) Top.top.{u_3}) (iSupIndep.{1, u_3} W))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "3668860072",
+      "temporary_id": "decl-021300"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V] {n m : Nat}\n  (W : Fin n \u2192 Submodule.{u_2, u_3} A V) (W' : Fin m \u2192 Submodule.{u_2, u_3} A V),\n  (\u2200 (i : Fin n),\n      decl-005194.{u_2, u_3} A (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (W i) x)) \u2192\n    (\u2200 (i : Fin m),\n        decl-005194.{u_2, u_3} A (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (W' i) x)) \u2192\n      (\u2200 (i : Fin n), Ne.{u_3 + 1} (W i) Bot.bot.{u_3}) \u2192\n        (\u2200 (i : Fin m), Ne.{u_3 + 1} (W' i) Bot.bot.{u_3}) \u2192\n          Eq.{u_3 + 1} (iSup.{u_3, 1} W) Top.top.{u_3} \u2192\n            iSupIndep.{1, u_3} W \u2192\n              Eq.{u_3 + 1} (iSup.{u_3, 1} W') Top.top.{u_3} \u2192\n                iSupIndep.{1, u_3} W' \u2192\n                  And (Eq.{1} n m)\n                    (Exists.{1} fun \u03c3 =>\n                      \u2200 (i : Fin n),\n                        Nonempty.{u_3 + 1}\n                          (LinearEquiv.{u_2, u_2, u_3, u_3} (RingHom.id.{u_2} A)\n                            (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (W i) x)\n                            (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (W' (DFunLike.coe.{1, 1, 1} \u03c3 i)) x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "2133379881",
+      "temporary_id": "decl-021301"
+    }
+  ],
+  "module_temporary_id": "module-0184",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

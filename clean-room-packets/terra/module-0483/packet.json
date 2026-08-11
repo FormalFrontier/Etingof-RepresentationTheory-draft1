@@ -1,0 +1,90 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {\u03b9 : Type u_2} \u2192\n      {S : \u03b9 \u2192 Type u_3} \u2192\n        [inst_1 : (i : \u03b9) \u2192 Ring.{u_3} (S i)] \u2192\n          [inst_2 : (i : \u03b9) \u2192 Algebra.{u_1, u_3} k (S i)] \u2192\n            LinearEquiv.{u_1, u_1, max u_2 u_3, max u_2 u_3} (RingHom.id.{u_1} k)\n              (Subtype.{(max u_2 u_3) + 1} fun x =>\n                Membership.mem.{max u_2 u_3, max u_2 u_3} (Subalgebra.center.{u_1, max u_2 u_3} k ((i : \u03b9) \u2192 S i)) x)\n              ((i : \u03b9) \u2192 Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (Subalgebra.center.{u_1, u_3} k (S i)) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "388881221",
+      "temporary_id": "decl-017789"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] [IsAlgClosed.{u_2} k] (R : Type u_3) [inst_2 : Ring.{u_3} R]\n  [inst_3 : Algebra.{u_2, u_3} k R] [IsSemisimpleRing.{u_3} R] [FiniteDimensional.{u_2, u_3} k R],\n  Exists.{1} fun d =>\n    And\n      (\u2200\n        (i :\n          Fin\n            (Module.finrank.{u_2, u_3} k\n              (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (Subalgebra.center.{u_2, u_3} k R) x))),\n        Ne.{1} (d i) 0)\n      (Nonempty.{max (u_2 + 1) (u_3 + 1)}\n        (AlgEquiv.{u_2, u_3, u_2} k R\n          ((i :\n              Fin\n                (Module.finrank.{u_2, u_3} k\n                  (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (Subalgebra.center.{u_2, u_3} k R) x))) \u2192\n            Matrix.{0, 0, u_2} (Fin (d i)) (Fin (d i)) k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3007416761",
+      "temporary_id": "decl-018971"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {R : Type u_2} {P : Type u_3} [inst_1 : Ring.{u_2} R] [inst_2 : Ring.{u_3} P]\n  [inst_3 : Algebra.{u_1, u_2} k R] [inst_4 : Algebra.{u_1, u_3} k P] (e : AlgEquiv.{u_1, u_2, u_3} k R P),\n  Eq.{1}\n    (Module.finrank.{u_1, u_2} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Subalgebra.center.{u_1, u_2} k R) x))\n    (Module.finrank.{u_1, u_3} k\n      (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} (Subalgebra.center.{u_1, u_3} k P) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2456611723",
+      "temporary_id": "decl-019420"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {R : Type u_2} [inst_1 : Ring.{u_2} R] [inst_2 : Algebra.{u_1, u_2} k R]\n  {\u03b9 : Type u_3} [inst_3 : Fintype.{u_3} \u03b9] {d : \u03b9 \u2192 Nat},\n  (\u2200 (i : \u03b9), Ne.{1} (d i) 0) \u2192\n    \u2200 (e : AlgEquiv.{u_1, u_2, max u_1 u_3} k R ((i : \u03b9) \u2192 Matrix.{0, 0, u_1} (Fin (d i)) (Fin (d i)) k)),\n      Eq.{1}\n        (Module.finrank.{u_1, u_2} k\n          (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Subalgebra.center.{u_1, u_2} k R) x))\n        (Fintype.card.{u_3} \u03b9)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1579408887",
+      "temporary_id": "decl-019421"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {n : Type u_2} [inst_1 : Fintype.{u_2} n] [inst_2 : DecidableEq.{u_2 + 1} n]\n  [Nonempty.{u_2 + 1} n],\n  Eq.{1}\n    (Module.finrank.{u_1, max u_1 u_2} k\n      (Subtype.{(max u_1 u_2) + 1} fun x =>\n        Membership.mem.{max u_1 u_2, max u_1 u_2}\n          (Subalgebra.center.{u_1, max u_1 u_2} k (Matrix.{u_2, u_2, u_1} n n k)) x))\n    1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1151601130",
+      "temporary_id": "decl-019422"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] [IsAlgClosed.{u_2} k] [CharZero.{u_2} k] (G : Type u_3) [inst_3 : Group.{u_3} G]\n  [Fintype.{u_3} G],\n  Exists.{1} fun d =>\n    And\n      (\u2200\n        (i :\n          Fin\n            (Module.finrank.{u_2, max u_2 u_3} k\n              (Subtype.{(max u_2 u_3) + 1} fun x =>\n                Membership.mem.{max u_2 u_3, max u_2 u_3}\n                  (Subalgebra.center.{u_2, max u_3 u_2} k (MonoidAlgebra.{u_2, u_3} k G)) x))),\n        Ne.{1} (d i) 0)\n      (Nonempty.{max (u_2 + 1) ((max u_3 u_2) + 1)}\n        (AlgEquiv.{u_2, max u_3 u_2, u_2} k (MonoidAlgebra.{u_2, u_3} k G)\n          ((i :\n              Fin\n                (Module.finrank.{u_2, max u_2 u_3} k\n                  (Subtype.{(max u_2 u_3) + 1} fun x =>\n                    Membership.mem.{max u_2 u_3, max u_2 u_3}\n                      (Subalgebra.center.{u_2, max u_3 u_2} k (MonoidAlgebra.{u_2, u_3} k G)) x))) \u2192\n            Matrix.{0, 0, u_2} (Fin (d i)) (Fin (d i)) k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2509414427",
+      "temporary_id": "decl-019423"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u03b9 : Type u_2} [inst_1 : Fintype.{u_2} \u03b9] {d : \u03b9 \u2192 Nat},\n  (\u2200 (i : \u03b9), Ne.{1} (d i) 0) \u2192\n    Eq.{1}\n      (Module.finrank.{u_1, max u_1 u_2} k\n        (Subtype.{(max u_1 u_2) + 1} fun x =>\n          Membership.mem.{max u_1 u_2, max u_1 u_2}\n            (Subalgebra.center.{u_1, max u_1 u_2} k ((i : \u03b9) \u2192 Matrix.{0, 0, u_1} (Fin (d i)) (Fin (d i)) k)) x))\n      (Fintype.card.{u_2} \u03b9)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1535819446",
+      "temporary_id": "decl-019424"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {R : Type u_2} {P : Type u_3} [inst_1 : Ring.{u_2} R] [inst_2 : Ring.{u_3} P]\n  [inst_3 : Algebra.{u_1, u_2} k R] [inst_4 : Algebra.{u_1, u_3} k P] (e : AlgEquiv.{u_1, u_2, u_3} k R P),\n  Eq.{u_3 + 1} (Subalgebra.map.{u_1, u_2, u_3} (AlgEquiv.toAlgHom.{u_1, u_2, u_3} e) (Subalgebra.center.{u_1, u_2} k R))\n    (Subalgebra.center.{u_1, u_3} k P)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "600172658",
+      "temporary_id": "decl-021538"
+    }
+  ],
+  "module_temporary_id": "module-0483",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

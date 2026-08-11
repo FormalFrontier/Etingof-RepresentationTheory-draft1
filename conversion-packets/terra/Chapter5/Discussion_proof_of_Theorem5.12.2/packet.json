@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_proof_of_Theorem5.12.2",
+    "kind": "discussion",
+    "title": "Proof of Theorem 5.12.2 using Lemmas 5.13.1-5.13.4",
+    "node_id": "chapter-05/section-5-13",
+    "order": 322,
+    "slug": "discussion-proof-of-theorem5-12-2",
+    "span": {
+      "start": {
+        "page": "116",
+        "line": 3
+      },
+      "end": {
+        "page": "116",
+        "line": 8
+      }
+    },
+    "source_sha256": "4868e03f72570d532d0fe0823ef3249e4d67fd2e8ad2d2ff650aff6da245c557",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem5122",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0088",
+  "associations": [
+    {
+      "association_id": "association:1e617bdf156a1d707d14",
+      "role": "primary",
+      "rationale": "This linear equivalence directly realizes the stated decomposition of the regular representation."
+    }
+  ]
+}

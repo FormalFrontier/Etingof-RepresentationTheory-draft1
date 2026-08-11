@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Problem9.6.5",
+    "kind": "exercise",
+    "title": "Proof of Theorem 9.6.4 via quasi-inverse functors",
+    "node_id": "chapter-09/section-9-6",
+    "order": 576,
+    "slug": "problem9-6-5",
+    "span": {
+      "start": {
+        "page": "219",
+        "line": 11
+      },
+      "end": {
+        "page": "219",
+        "line": 29
+      }
+    },
+    "source_sha256": "89a2c1d8032c15fd32df993029a5054ad7d4f4c749388fcb8358f4be8d0d0dfb",
+    "features": {
+      "line_count": 19,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Problem965",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

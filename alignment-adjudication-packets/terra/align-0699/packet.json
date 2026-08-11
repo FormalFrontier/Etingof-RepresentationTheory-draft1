@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:71b605f071c1bea491b8",
+      "declaration": "Etingof.exists_orbitEval_surjection",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/239/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type} [inst : AddCommGroup.{0} V] [inst_1 : Module.{0, 0} Complex V] [Module.Finite.{0, 0} Complex V]\n  {G : Type u_1} [inst_3 : Group.{u_1} G] [Fintype.{u_1} G] (\u03c1 : Representation.{0, u_1, 0} Complex G V),\n  Function.Injective.{u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c1) \u2192\n    Exists.{u_1 + 1} fun \u03c6 =>\n      And (Function.Surjective.{1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c6))\n        (\u2200 (g : G),\n          Eq.{u_1 + 1}\n            (LinearMap.comp.{0, 0, 0, 0, 0, u_1} \u03c6\n              (DFunLike.coe.{u_1 + 1, u_1 + 1, 1}\n                (Representation.directSum.{0, u_1, 0, 0} fun n => Etingof.symPowRep.{u_1} \u03c1 n) g))\n            (LinearMap.comp.{0, 0, 0, 0, u_1, u_1}\n              (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Representation.ofMulAction.{0, u_1, u_1} Complex G G) g) \u03c6))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_10_OrbitEval"
+    },
+    {
+      "association_id": "association:6322916fea489531fad3",
+      "declaration": "Etingof.orbitEval",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/239/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{V : Type} \u2192\n  [inst : AddCommGroup.{0} V] \u2192\n    [inst_1 : Module.{0, 0} Complex V] \u2192\n      [Module.Finite.{0, 0} Complex V] \u2192\n        {G : Type u_1} \u2192\n          [inst_3 : Group.{u_1} G] \u2192\n            Representation.{0, u_1, 0} Complex G V \u2192\n              Module.Dual.{0, 0} Complex V \u2192\n                LinearMap.{0, 0, 0, u_1} (RingHom.id.{0} Complex)\n                  (DirectSum.{0, 0} Nat fun n => SymmetricPower.{0, 0} Complex (Fin n) V) (G \u2192 Complex)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_10_OrbitEval"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.10",
+  "packet_id": "align-0699",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0699"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.10:orbit_evaluation",
+  "source_text": "Construct the orbit-evaluation surjection from the symmetric algebra to the regular representation."
+}

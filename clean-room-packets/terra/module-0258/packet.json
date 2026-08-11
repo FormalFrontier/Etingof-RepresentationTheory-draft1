@@ -1,0 +1,39 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat)\n  (L : FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)),\n  IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n      (Representation.asModule.{0, 0, 0} (FDRep.\u03c1.{0, 0} L)) \u2192\n    \u2200\n      (\u03c6 :\n        LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} L))\n          (HasQuotient.Quotient.{0, 0} (MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k)\n            (decl-005335.{0} k N))),\n      Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} \u03c6) \u2192\n        (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (v : FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} L)),\n            Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c6 (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} L) g) v))\n              (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-005351.{0} k N) g)\n                (DFunLike.coe.{1, 1, 1} \u03c6 v))) \u2192\n          Exists.{1} fun \u03bd =>\n            And (Antitone.{0, 0} \u03bd)\n              (And (Membership.mem.{0, 0} (Set.range.{0, 1} \u03bd) 0)\n                (Eq.{1} (decl-019511.{0} k N L) (decl-023030 N \u03bd)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005335",
+        "decl-005351",
+        "decl-019511",
+        "decl-023030"
+      ],
+      "structural_type_hash": "3228160828",
+      "temporary_id": "decl-005356"
+    }
+  ],
+  "module_temporary_id": "module-0258",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

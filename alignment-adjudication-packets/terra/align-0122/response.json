@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0122",
+  "associations": [
+    {
+      "association_id": "association:c759ac7c9ebfcd095ece",
+      "role": "primary",
+      "rationale": "Its iff directly states that the Schur module vanishes exactly when the number of parts exceeds N."
+    }
+  ]
+}

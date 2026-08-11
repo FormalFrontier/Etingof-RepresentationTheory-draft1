@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Problem7.7.3",
+    "kind": "exercise",
+    "title": "Finitely generated modules over finitely generated commutative ring",
+    "node_id": "chapter-07/section-7-7",
+    "order": 497,
+    "slug": "problem7-7-3",
+    "span": {
+      "start": {
+        "page": "191",
+        "line": 3
+      },
+      "end": {
+        "page": "191",
+        "line": 6
+      }
+    },
+    "source_sha256": "1721fa8c5c7a13e1518df21c303e88443854ae280fe777c2357aad618d938b49",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Problem773",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

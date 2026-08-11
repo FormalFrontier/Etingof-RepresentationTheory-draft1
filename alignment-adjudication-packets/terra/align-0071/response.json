@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0071",
+  "associations": [
+    {
+      "association_id": "association:84b322190c92c17fab17",
+      "role": "primary",
+      "rationale": "This declaration defines the normalized Young projector named in the claim."
+    },
+    {
+      "association_id": "association:66c0cf18923fb986a7ab",
+      "role": "primary",
+      "rationale": "This declaration defines the normalized column projector named in the claim."
+    },
+    {
+      "association_id": "association:9f2560767b9c280315a0",
+      "role": "primary",
+      "rationale": "This declaration defines the normalized row projector named in the claim."
+    }
+  ]
+}

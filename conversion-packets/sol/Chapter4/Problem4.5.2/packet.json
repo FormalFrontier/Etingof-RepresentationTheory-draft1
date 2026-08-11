@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Problem4.5.2",
+    "kind": "exercise",
+    "title": "Idempotents from characters in the group algebra",
+    "node_id": "chapter-04/section-4-5",
+    "order": 204,
+    "slug": "problem4-5-2",
+    "span": {
+      "start": {
+        "page": "68",
+        "line": 33
+      },
+      "end": {
+        "page": "69",
+        "line": 10
+      }
+    },
+    "source_sha256": "cbda7b60282a0d7a60a6053f518a1fec9f78ee51de4257d1bc575e8847ab42c2",
+    "features": {
+      "line_count": 11,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Problem452",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

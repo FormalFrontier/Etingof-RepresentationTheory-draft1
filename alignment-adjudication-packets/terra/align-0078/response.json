@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0078",
+  "associations": [
+    {
+      "association_id": "association:64c3a22fe15f215d2664",
+      "role": "primary",
+      "rationale": "This finite-index linear equivalence directly realizes the coincidence of direct sums and products."
+    }
+  ]
+}

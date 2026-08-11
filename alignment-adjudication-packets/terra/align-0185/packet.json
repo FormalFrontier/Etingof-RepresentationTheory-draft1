@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e453004bf9e1740cf690",
+      "declaration": "Submodule.Quotient.module",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/146/claim_coverage/claims/4/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.LinearAlgebra.Quotient.Defs"
+    }
+  ],
+  "canonical_reference": "Chapter3/Lemma3.4.2",
+  "packet_id": "align-0185",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0185"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:38525875e938faaa9154",
+  "source_text": "The quotient U = V/V\u2081 is again a representation of A."
+}

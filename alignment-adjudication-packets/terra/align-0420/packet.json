@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c0abc454ee8e39b2703d",
+      "declaration": "Etingof.alternating_kostka_eq_delta",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/331/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
+    },
+    {
+      "association_id": "association:a506bfe208873dfe5e50",
+      "declaration": "Etingof.spechtCharacter_eq_alternating_sum_permCharacter",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/331/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
+    },
+    {
+      "association_id": "association:3a3b84f1dee3ef733e12",
+      "declaration": "Etingof.youngsRule_character",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/331/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (mu : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (Nat.cast.{0} (Etingof.permModuleCharacter n mu \u03c3))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun nu =>\n      HMul.hMul.{0, 0, 0} (Nat.cast.{0} (Etingof.spechtMultiplicity n mu nu)) (Etingof.spechtModuleCharacter n nu \u03c3))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_proof_of_Theorem5.15.1",
+  "packet_id": "align-0420",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0420"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:88138a40252c16ff78c0",
+  "source_text": "The Frobenius coefficient class function has a triangular expansion in irreducible Specht characters with diagonal coefficient one."
+}

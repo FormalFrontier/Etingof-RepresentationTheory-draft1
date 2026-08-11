@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Remark6.2.1",
+    "kind": "remark",
+    "title": "Remark 6.2.1: Notation for dimension diagrams",
+    "node_id": "chapter-06/section-6-2",
+    "order": 415,
+    "slug": "remark6-2-1",
+    "span": {
+      "start": {
+        "page": "154",
+        "line": 11
+      },
+      "end": {
+        "page": "154",
+        "line": 12
+      }
+    },
+    "source_sha256": "b106e7dc6977b452d4c938786430576b04ad173e24505c880eec8380079b4ced",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Remark621",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

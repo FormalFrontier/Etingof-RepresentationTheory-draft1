@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0449",
+  "associations": [
+    {
+      "association_id": "association:d59a2e9c7495776828ff",
+      "role": "primary",
+      "rationale": "The equivalence directly characterizes algebraic complex numbers as roots of nonzero rational polynomials; over the rational field such a polynomial can be normalized to monic form."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cb1bed00dbe064e0bfa7",
+      "declaration": "Etingof.Theorem5_18_4_bimodule_decomposition_equivariant",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/352/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat) [IsAlgClosed.{u} k] [CharZero.{u} k],\n  Exists.{2} fun \u03b9 =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{max (u + 1) (v + 1)} fun S =>\n          Exists.{0} fun x_1 =>\n            Exists.{0} fun x_2 =>\n              Exists.{0} fun x_3 =>\n                Exists.{0} fun x_4 =>\n                  Exists.{max (u + 1) (v + 1)} fun e =>\n                    And\n                      (\u2200 (i : \u03b9) (s : Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                        (l :\n                          LinearMap.{max u v, max u v, max u v, max v u}\n                            (RingHom.id.{max u v}\n                              (Subtype.{(max u v) + 1} fun x =>\n                                Membership.mem.{max u v, max u v} (Etingof.symGroupImage.{u, v} k V n) x))\n                            (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                            (Etingof.TensorPower.{u, v} k V n)),\n                        Eq.{max (u + 1) (v + 1)}\n                          (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                            (LinearEquiv.symm.{u, u, max u v, max u v}\n                              (Etingof.BimoduleDecompositionEquiv.toLinearEquiv.{u, max u v, 0} e))\n                            (DFunLike.coe.{(max u v) + 1, (max u v) + 1, (max u v) + 1}\n                              (DirectSum.of.{0, max u v}\n                                (fun i =>\n                                  TensorProduct.{u, max u v, max u v} k\n                                    (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                                    (LinearMap.{max u v, max u v, max u v, max u v}\n                                      (RingHom.id.{max u v}\n                                        (Subtype.{(max u v) + 1} fun x =>\n                                          Membership.mem.{max u v, max u v} (Etingof.symGroupImage.{u, v} k V n) x))\n                                      (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                                      (Etingof.TensorPower.{u, v} k V n)))\n                                i)\n                              (TensorProduct.tmul.{u, max u v, max u v} k s l)))\n                          (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)} l s))\n                      (\u2200\n                        (b :\n                          Subtype.{(max u v) + 1} fun x =>\n                            Membership.mem.{max u v, max u v} (Etingof.diagonalActionImage.{u, v} k V n) x)\n                        (x : Etingof.TensorPower.{u, v} k V n),\n                        Eq.{max (u + 1) (v + 1)}\n                          (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                            (Etingof.BimoduleDecompositionEquiv.toLinearEquiv.{u, max u v, 0} e)\n                            (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                              (Subtype.val.{max (u + 1) (v + 1)} b) x))\n                          (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                            (Etingof.bimoduleDecompositionCentralizerAction.{u, max v u, 0} k\n                              (Etingof.TensorPower.{u, v} k V n) S\n                              (Subtype.mk.{max (u + 1) (v + 1)} (Subtype.val.{max (u + 1) (v + 1)} b) \u22ef))\n                            (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                              (Etingof.BimoduleDecompositionEquiv.toLinearEquiv.{u, max u v, 0} e) x)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_4"
+    },
+    {
+      "association_id": "association:403f4b8975560004be40",
+      "declaration": "Etingof.Theorem5_18_4_bimodule_decomposition_full",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/352/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat) [IsAlgClosed.{u} k] [CharZero.{u} k],\n  Exists.{2} fun \u03b9 =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{max (u + 2) (v + 2)} fun S =>\n          Exists.{max (u + 1) (v + 1)} fun x =>\n            Exists.{max (u + 1) (v + 1)} fun x_1 =>\n              Exists.{max (u + 1) (v + 1)} fun x_2 =>\n                Exists.{0} fun x_3 =>\n                  Exists.{0} fun x_4 =>\n                    Exists.{0} fun x_5 =>\n                      Exists.{0} fun x_6 =>\n                        Exists.{max (u + 2) (v + 2)} fun L =>\n                          Exists.{max (u + 1) (v + 1)} fun x_7 =>\n                            Exists.{max (u + 1) (v + 1)} fun x_8 =>\n                              Exists.{max (u + 1) (v + 1)} fun x_9 =>\n                                Exists.{0} fun x_10 =>\n                                  And\n                                    (\u2200 (i j : \u03b9),\n                                      Nonempty.{(max u v) + 1}\n                                          (LinearEquiv.{max u v, max u v, max u v, max u v}\n                                            (RingHom.id.{max u v}\n                                              (Subtype.{(max u v) + 1} fun x =>\n                                                Membership.mem.{max u v, max u v}\n                                                  (Etingof.diagonalActionImage.{u, v} k V n) x))\n                                            (L i) (L j)) \u2192\n                                        Eq.{1} i j)\n                                    (Nonempty.{max ((max u v) + 1) ((max v u) + 1)}\n                                      (LinearEquiv.{u, u, max v u, max u v} (RingHom.id.{u} k)\n                                        (Etingof.TensorPower.{u, v} k V n)\n                                        (DirectSum.{0, max u v} \u03b9 fun i =>\n                                          TensorProduct.{u, max u v, max u v} k (S i) (L i))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SchurWeylBimoduleFull"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.18.4",
+  "packet_id": "align-0478",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0478"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:9714040b02a4db7a83a7",
+  "source_text": "The tensor power has a decomposition into simple, pairwise distinct left factors and simple, pairwise distinct multiplicity factors, equivariant for both actions."
+}

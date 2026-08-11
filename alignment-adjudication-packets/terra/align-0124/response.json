@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0124",
+  "associations": [
+    {
+      "association_id": "association:6874570eaf3b77c51d48",
+      "role": "primary",
+      "rationale": "Its equality directly identifies the Jacobson radical of the upper-triangular algebra with the strictly upper-triangular ideal."
+    }
+  ]
+}

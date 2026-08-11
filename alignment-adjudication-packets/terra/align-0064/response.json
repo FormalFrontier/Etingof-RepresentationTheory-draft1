@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0064",
+  "associations": [
+    {
+      "association_id": "association:bd56c8488f81a4538b2f",
+      "role": "primary",
+      "rationale": "Its type directly proves indecomposability for each of the six explicit representatives of the first A3 orientation."
+    },
+    {
+      "association_id": "association:1749bcec277e9558d406",
+      "role": "primary",
+      "rationale": "Its type directly proves indecomposability for each of the six explicit representatives of the sink A3 orientation."
+    }
+  ]
+}

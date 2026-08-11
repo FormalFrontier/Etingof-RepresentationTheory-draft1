@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:35bae3bcbf6faf585351",
+      "declaration": "Etingof.Remark_6_4_4_roots_finite",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/425/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Etingof.IsDynkinDiagram n adj \u2192 Set.Finite.{0} (setOf.{0} fun x => Etingof.IsRoot n adj x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Remark6_4_4"
+    }
+  ],
+  "canonical_reference": "Chapter6/Remark6.4.4",
+  "packet_id": "align-1162",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1162"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f070185108d2d6378fc9",
+  "source_text": "A Dynkin diagram has finitely many roots."
+}

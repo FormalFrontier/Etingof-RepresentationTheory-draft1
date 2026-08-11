@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e1a216f40f97bfd0f8f8",
+      "declaration": "Etingof.centralAction_sub_smul_isNilpotent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/44/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_4} [inst : Field.{u_4} k] {A : Type u_5} [inst_1 : Ring.{u_5} A] [inst_2 : Algebra.{u_4, u_5} k A]\n  {V : Type u_6} [inst_3 : AddCommGroup.{u_6} V] [inst_4 : Module.{u_4, u_6} k V] [inst_5 : Module.{u_5, u_6} A V]\n  [inst_6 : IsScalarTower.{u_4, u_5, u_6} k A V] [FiniteDimensional.{u_4, u_6} k V],\n  Etingof.IsIndecomposable.{u_5, u_6} A V \u2192\n    \u2200 (z : Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} (Subalgebra.center.{u_4, u_5} k A) x) {\u03c7 : k} {v\u2080 : V},\n      Ne.{u_6 + 1} v\u2080 0 \u2192\n        Eq.{u_6 + 1} (HSMul.hSMul.{u_5, u_6, u_6} (Subtype.val.{u_5 + 1} z) v\u2080) (HSMul.hSMul.{u_4, u_6, u_6} \u03c7 v\u2080) \u2192\n          IsNilpotent.{u_6}\n            (HSub.hSub.{u_6, u_6, u_6} (Etingof.centralAction.{u_4, u_5, u_6} z) (HSMul.hSMul.{u_4, u_6, u_6} \u03c7 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_16"
+    },
+    {
+      "association_id": "association:a9a296c932202aea0d23",
+      "declaration": "Etingof.indecEigenvalue_unique",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/44/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_4} [inst : Field.{u_4} k] {A : Type u_5} [inst_1 : Ring.{u_5} A] [inst_2 : Algebra.{u_4, u_5} k A]\n  {V : Type u_6} [inst_3 : AddCommGroup.{u_6} V] [inst_4 : Module.{u_4, u_6} k V] [inst_5 : Module.{u_5, u_6} A V]\n  [inst_6 : IsScalarTower.{u_4, u_5, u_6} k A V],\n  Etingof.IsIndecomposable.{u_5, u_6} A V \u2192\n    \u2200 (z : Subtype.{u_5 + 1} fun x => Membership.mem.{u_5, u_5} (Subalgebra.center.{u_4, u_5} k A) x) {\u03c7 \u03c7' : k},\n      IsNilpotent.{u_6}\n          (HSub.hSub.{u_6, u_6, u_6} (Etingof.centralAction.{u_4, u_5, u_6} z) (HSMul.hSMul.{u_4, u_6, u_6} \u03c7 1)) \u2192\n        IsNilpotent.{u_6}\n            (HSub.hSub.{u_6, u_6, u_6} (Etingof.centralAction.{u_4, u_5, u_6} z) (HSMul.hSMul.{u_4, u_6, u_6} \u03c7' 1)) \u2192\n          Eq.{u_4 + 1} \u03c7 \u03c7'",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_16"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.3.16",
+  "packet_id": "align-0574",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0574"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.3.16:claim-05",
+  "source_text": "On an indecomposable finite-dimensional representation, every central action has a unique eigenvalue \u03c7_V(z)."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Remark5.15.5",
+    "kind": "remark",
+    "title": "Partial order on partitions and vanishing of Kostka numbers",
+    "node_id": "chapter-05/section-5-15",
+    "order": 338,
+    "slug": "remark5-15-5",
+    "span": {
+      "start": {
+        "page": "120",
+        "line": 11
+      },
+      "end": {
+        "page": "120",
+        "line": 16
+      }
+    },
+    "source_sha256": "e006bb57f30f3055d0e3649b9ef337fc6796e7c6c3c3c7d3fc5c213db6592f80",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Remark5155",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

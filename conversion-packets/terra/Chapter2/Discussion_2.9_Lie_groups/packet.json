@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_2.9_Lie_groups",
+    "kind": "discussion",
+    "title": "Linear algebraic groups, Lie groups, and Lie's correspondence",
+    "node_id": "chapter-02/section-2-9",
+    "order": 95,
+    "slug": "discussion-2-9-lie-groups",
+    "span": {
+      "start": {
+        "page": "26",
+        "line": 1
+      },
+      "end": {
+        "page": "26",
+        "line": 6
+      }
+    },
+    "source_sha256": "c7330416e846d5e1c2fc6b54642bc93bd6957d713c57e9cbf4ff9141bdf8be2a",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion29LieGroups",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

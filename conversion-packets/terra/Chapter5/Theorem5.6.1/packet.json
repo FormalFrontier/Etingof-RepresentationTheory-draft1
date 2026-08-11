@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.6.1",
+    "kind": "theorem",
+    "title": "Irreducible representations of G x H are tensor products V_i \u2297 W_j",
+    "node_id": "chapter-05/section-5-6",
+    "order": 284,
+    "slug": "theorem5-6-1",
+    "span": {
+      "start": {
+        "page": "107",
+        "line": 3
+      },
+      "end": {
+        "page": "107",
+        "line": 6
+      }
+    },
+    "source_sha256": "1354813dfc991e85d2e7fca4f734e1051fe8dfbbfed11179beb26b1b272453b4",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem561",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

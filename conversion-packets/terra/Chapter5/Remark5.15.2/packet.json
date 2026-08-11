@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Remark5.15.2",
+    "kind": "remark",
+    "title": "Equivalent formulation of Theorem 5.15.1 using Laurent polynomials",
+    "node_id": "chapter-05/section-5-15",
+    "order": 331,
+    "slug": "remark5-15-2",
+    "span": {
+      "start": {
+        "page": "118",
+        "line": 19
+      },
+      "end": {
+        "page": "118",
+        "line": 22
+      }
+    },
+    "source_sha256": "e8a8638867c80e297c11de15d03b9d65709004d1c236c19a4d70f7633e138672",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Remark5152",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

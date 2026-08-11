@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.13.1",
+    "kind": "exercise",
+    "title": "Hilbert's third problem and the Dehn invariant",
+    "node_id": "chapter-02/section-2-13",
+    "order": 112,
+    "slug": "problem2-13-1",
+    "span": {
+      "start": {
+        "page": "36",
+        "line": 18
+      },
+      "end": {
+        "page": "37",
+        "line": 8
+      }
+    },
+    "source_sha256": "144f2b3ddd9750a84f390f0cf47ab28e8a1e07833522f9203278269410d4acca",
+    "features": {
+      "line_count": 16,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2131",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

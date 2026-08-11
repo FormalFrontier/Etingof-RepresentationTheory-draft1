@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:77042c8b636ae5e10700",
+      "declaration": "Etingof.Problem2_7_4.finrank_eq_zero_of_charZero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/59/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k] (V : Type u_2) [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{u_1, u_2} k V] [inst_4 : Module.{u_1, u_2} (Etingof.WeylAlgebra.{u_1} k) V]\n  [IsScalarTower.{u_1, u_1, u_2} k (Etingof.WeylAlgebra.{u_1} k) V] [FiniteDimensional.{u_1, u_2} k V],\n  Eq.{1} (Module.finrank.{u_1, u_2} k V) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.7.4",
+  "packet_id": "align-0600",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0600"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.7.4:claim-01",
+  "source_text": "In characteristic zero the Weyl algebra has no nonzero finite-dimensional representations."
+}

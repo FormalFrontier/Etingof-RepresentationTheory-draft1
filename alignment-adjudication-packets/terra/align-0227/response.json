@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0227",
+  "associations": [
+    {
+      "association_id": "association:1516df5f41d228bf72f0",
+      "role": "primary",
+      "rationale": "It directly identifies the character of the displayed complement representation with its formula function."
+    },
+    {
+      "association_id": "association:35a83091d7fdc482a493",
+      "role": "primary",
+      "rationale": "It directly identifies the character of the displayed principal-series representation with its formula function."
+    }
+  ]
+}

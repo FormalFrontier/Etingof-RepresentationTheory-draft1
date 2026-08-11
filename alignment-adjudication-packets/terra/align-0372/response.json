@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0372",
+  "associations": [
+    {
+      "association_id": "association:38955d2aa6a012d0dc1b",
+      "role": "primary",
+      "rationale": "The formal type directly states that each standard module for the product of matrix algebras is simple, covering the irreducibility assertion."
+    }
+  ]
+}

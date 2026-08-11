@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.12",
+    "kind": "introduction",
+    "title": "Section 5.12: Representations of S_n",
+    "node_id": "chapter-05/section-5-12",
+    "order": 307,
+    "slug": "introduction-5-12",
+    "span": {
+      "start": {
+        "page": "112",
+        "line": 25
+      },
+      "end": {
+        "page": "112",
+        "line": 28
+      }
+    },
+    "source_sha256": "9db1b2de0b2ce5b86ac19945390cd7657bba4f0d53e6185c61756bb646deedad",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction512",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

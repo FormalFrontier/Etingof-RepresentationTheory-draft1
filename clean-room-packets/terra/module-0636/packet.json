@@ -1,0 +1,60 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (A\u2081 A\u2082 : Type u) \u2192\n      [inst_1 : Ring.{u} A\u2081] \u2192\n        [inst_2 : Ring.{u} A\u2082] \u2192\n          [inst_3 : Algebra.{u, u} k A\u2081] \u2192\n            [inst_4 : Algebra.{u, u} k A\u2082] \u2192\n              (M\u2081 M\u2082 : Type u) \u2192\n                [inst_5 : AddCommGroup.{u} M\u2081] \u2192\n                  [inst_6 : Module.{u, u} k M\u2081] \u2192\n                    [inst_7 : Module.{u, u} (MulOpposite.{u} A\u2081) M\u2081] \u2192\n                      [IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2081) M\u2081] \u2192\n                        [inst_9 : AddCommGroup.{u} M\u2082] \u2192\n                          [inst_10 : Module.{u, u} k M\u2082] \u2192\n                            [inst_11 : Module.{u, u} (MulOpposite.{u} A\u2082) M\u2082] \u2192\n                              [IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2082) M\u2082] \u2192\n                                Module.{u, u} (MulOpposite.{u} (TensorProduct.{u, u, u} k A\u2081 A\u2082))\n                                  (TensorProduct.{u, u, u} k M\u2081 M\u2082)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3620943711",
+      "temporary_id": "decl-019173"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : CommRing.{u} k] (A\u2081 A\u2082 : Type u) [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] (M\u2081 M\u2082 : Type u) [inst_5 : AddCommGroup.{u} M\u2081]\n  [inst_6 : Module.{u, u} k M\u2081] [inst_7 : Module.{u, u} (MulOpposite.{u} A\u2081) M\u2081]\n  [inst_8 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2081) M\u2081] [inst_9 : AddCommGroup.{u} M\u2082]\n  [inst_10 : Module.{u, u} k M\u2082] [inst_11 : Module.{u, u} (MulOpposite.{u} A\u2082) M\u2082]\n  [inst_12 : IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2082) M\u2082] (a\u2081 : A\u2081) (a\u2082 : A\u2082) (m\u2081 : M\u2081) (m\u2082 : M\u2082),\n  Eq.{u + 1}\n    (SMul.smul.{u, u} (MulOpposite.op.{u} (TensorProduct.tmul.{u, u, u} k a\u2081 a\u2082))\n      (TensorProduct.tmul.{u, u, u} k m\u2081 m\u2082))\n    (TensorProduct.tmul.{u, u, u} k (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} a\u2081) m\u2081)\n      (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} a\u2082) m\u2082))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019173"
+      ],
+      "structural_type_hash": "583481394",
+      "temporary_id": "decl-019178"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (A\u2081 A\u2082 : Type u) \u2192\n      [inst_1 : Ring.{u} A\u2081] \u2192\n        [inst_2 : Ring.{u} A\u2082] \u2192\n          [inst_3 : Algebra.{u, u} k A\u2081] \u2192\n            [inst_4 : Algebra.{u, u} k A\u2082] \u2192\n              (M\u2081 M\u2082 : Type u) \u2192\n                [inst_5 : AddCommGroup.{u} M\u2081] \u2192\n                  [inst_6 : Module.{u, u} k M\u2081] \u2192\n                    [inst_7 : Module.{u, u} (MulOpposite.{u} A\u2081) M\u2081] \u2192\n                      [IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2081) M\u2081] \u2192\n                        [inst_9 : AddCommGroup.{u} M\u2082] \u2192\n                          [inst_10 : Module.{u, u} k M\u2082] \u2192\n                            [inst_11 : Module.{u, u} (MulOpposite.{u} A\u2082) M\u2082] \u2192\n                              [IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2082) M\u2082] \u2192\n                                AlgHom.{u, u, u} k (MulOpposite.{u} (TensorProduct.{u, u, u} k A\u2081 A\u2082))\n                                  (Module.End.{u, u} k (TensorProduct.{u, u, u} k M\u2081 M\u2082))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2061371754",
+      "temporary_id": "decl-019190"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (A\u2081 A\u2082 : Type u) \u2192\n      [inst_1 : Ring.{u} A\u2081] \u2192\n        [inst_2 : Ring.{u} A\u2082] \u2192\n          [inst_3 : Algebra.{u, u} k A\u2081] \u2192\n            [inst_4 : Algebra.{u, u} k A\u2082] \u2192\n              (M\u2081 M\u2082 : Type u) \u2192\n                [inst_5 : AddCommGroup.{u} M\u2081] \u2192\n                  [inst_6 : Module.{u, u} k M\u2081] \u2192\n                    [inst_7 : Module.{u, u} (MulOpposite.{u} A\u2081) M\u2081] \u2192\n                      [IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2081) M\u2081] \u2192\n                        [inst_9 : AddCommGroup.{u} M\u2082] \u2192\n                          [inst_10 : Module.{u, u} k M\u2082] \u2192\n                            [inst_11 : Module.{u, u} (MulOpposite.{u} A\u2082) M\u2082] \u2192\n                              [IsScalarTower.{u, u, u} k (MulOpposite.{u} A\u2082) M\u2082] \u2192\n                                AlgHom.{u, u, u} k (TensorProduct.{u, u, u} k (MulOpposite.{u} A\u2081) (MulOpposite.{u} A\u2082))\n                                  (Module.End.{u, u} k (TensorProduct.{u, u, u} k M\u2081 M\u2082))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3815648749",
+      "temporary_id": "decl-019197"
+    }
+  ],
+  "module_temporary_id": "module-0636",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

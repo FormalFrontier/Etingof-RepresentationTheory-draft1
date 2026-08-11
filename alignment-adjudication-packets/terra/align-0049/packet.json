@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:bfaa37737be92efa28e3",
+      "declaration": "Etingof.sum_nilpotent_endo_indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/164/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (W : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W]\n  [inst_5 : Module.{u_2, u_3} A W] [IsScalarTower.{u_1, u_2, u_3} k A W] [FiniteDimensional.{u_1, u_3} k W],\n  Etingof.IsIndecomposable.{u_2, u_3} A W \u2192\n    \u2200 {n : Nat} (\u03b8 : Fin n \u2192 LinearMap.{u_2, u_2, u_3, u_3} (RingHom.id.{u_2} A) W W),\n      (\u2200 (i : Fin n), IsNilpotent.{u_3} (\u03b8 i)) \u2192 IsNilpotent.{u_3} (Finset.sum.{0, u_3} Finset.univ.{0} fun i => \u03b8 i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Lemma3_8_2"
+    },
+    {
+      "association_id": "association:291bb53262be58750b50",
+      "declaration": "IsNilpotent.isUnit_one_sub",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/164/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RingTheory.Nilpotent.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter3/Lemma3.8.2",
+  "packet_id": "align-0049",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0049"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0e17822f98b53e5593d1",
+  "source_text": "The sum result is proved inductively using the unit-or-nilpotent dichotomy and the fact that one minus a nilpotent endomorphism is invertible."
+}

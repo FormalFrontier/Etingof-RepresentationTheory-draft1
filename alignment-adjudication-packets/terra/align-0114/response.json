@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0114",
+  "associations": [
+    {
+      "association_id": "association:76ea838ae9f2ade5eb39",
+      "role": "primary",
+      "rationale": "This linear equivalence directly identifies Hom_A(V,U) with the product of maps between the multiplicity spaces."
+    }
+  ]
+}

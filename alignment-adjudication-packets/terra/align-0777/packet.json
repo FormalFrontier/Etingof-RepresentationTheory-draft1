@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:46eac0afa402babbb1cb",
+      "declaration": "Etingof.Problem6_1_2.finrank_le_sum_sq_of_finite_orbits",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/402/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [Infinite.{1} k] {r : Nat} (m : Fin r \u2192 Nat) {V : Type u_1}\n  [inst_2 : AddCommGroup.{u_1} V] [inst_3 : Module.{0, u_1} k V] [inst_4 : Module.Finite.{0, u_1} k V]\n  (\u03c1 : Representation.{0, 0, u_1} k (Etingof.repGroup.{0} k m) V),\n  Etingof.Problem6_1_2.IsAlgebraicProductRepresentation.{u_1} m \u03c1 \u2192\n    \u2200 [Finite.{u_1 + 1} (Etingof.Problem6_1_2.RepresentationOrbitQuotient.{0, u_1} \u03c1)],\n      LE.le.{0} (Module.finrank.{0, u_1} k V) (Finset.sum.{0, 0} Finset.univ.{0} fun i => HPow.hPow.{0, 0, 0} (m i) 2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_2"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.2",
+  "packet_id": "align-0777",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0777"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.1.2:part_c",
+  "source_text": "Part (c): generalize the bound to a product of general linear groups."
+}

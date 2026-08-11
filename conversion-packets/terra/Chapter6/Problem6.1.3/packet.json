@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Problem6.1.3",
+    "kind": "exercise",
+    "title": "Problem 6.1.3: Dynkin diagrams",
+    "node_id": "chapter-06/section-6-1",
+    "order": 404,
+    "slug": "problem6-1-3",
+    "span": {
+      "start": {
+        "page": "150",
+        "line": 1
+      },
+      "end": {
+        "page": "150",
+        "line": 2
+      }
+    },
+    "source_sha256": "ecdef8b79c0837cbce37301c2e227cbdf31bc29a217b6edb2d1c905a273fe650",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem613",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

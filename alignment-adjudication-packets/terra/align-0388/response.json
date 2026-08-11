@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0388",
+  "associations": [
+    {
+      "association_id": "association:9e9562203cb23cfdc864",
+      "role": "primary",
+      "rationale": "The declaration directly asserts the existence of a simple quaternionic-type representation of the quaternion group."
+    },
+    {
+      "association_id": "association:a85ff4a980c6c1037ac5",
+      "role": "primary",
+      "rationale": "The theorem directly states that every representation on the one-dimensional complex space is of real type."
+    },
+    {
+      "association_id": "association:d064d7cadb444e8d4d04",
+      "role": "primary",
+      "rationale": "The theorem directly identifies every simple two-dimensional representation with the distinguished representation, giving the stated uniqueness component."
+    }
+  ]
+}

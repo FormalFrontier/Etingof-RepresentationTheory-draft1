@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7f24b433a091e71e60bb",
+      "declaration": "Etingof.Theorem5_23_2_i",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/372/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [IsAlgClosed.{0} k] [CharZero.{0} k] (n : Nat) {Y : Type}\n  [inst_3 : AddCommGroup.{0} Y] [inst_4 : Module.{0, 0} k Y] [inst_5 : Module.Finite.{0, 0} k Y]\n  (\u03c1 : Representation.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) Y),\n  Etingof.IsAlgebraicCoefficientFamily.{0, 0} n (DFunLike.coe.{1, 1, 1} \u03c1) \u2192\n    IsSemisimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k))\n      (Representation.asModule.{0, 0, 0} \u03c1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_23_2"
+    },
+    {
+      "association_id": "association:a76a87db8707173c765d",
+      "declaration": "Etingof.exists_directSum_algIrrepGL_of_isAlgebraic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/372/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] {Y : Type}\n  [inst_3 : AddCommGroup.{0} Y] [inst_4 : Module.{0, 0} k Y] [inst_5 : Module.Finite.{0, 0} k Y]\n  (\u03c1 : Representation.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) Y),\n  Etingof.IsAlgebraicCoefficientFamily.{0, 0} n (DFunLike.coe.{1, 1, 1} \u03c1) \u2192\n    Exists.{1} fun p =>\n      Exists.{1} fun lam =>\n        Nonempty.{1}\n          (LinearEquiv.{0, 0, 0, 0}\n            (RingHom.id.{0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k)))\n            (Representation.asModule.{0, 0, 0} \u03c1)\n            (DirectSum.{0, 0} (Fin p) fun j =>\n              Representation.asModule.{0, 0, 0} (Etingof.algIrrepGLRep\u03c1.{0} n (lam j) k)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.AlgIrrepGLExhaustive"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.23.2",
+  "packet_id": "align-0200",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0200"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3bb37d75f1fc82234b97",
+  "source_text": "Every finite-dimensional algebraic GL_N representation is completely reducible into named pairwise nonisomorphic L_lambda summands."
+}

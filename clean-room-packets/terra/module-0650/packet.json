@@ -1,0 +1,177 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {\u03ba : Type w} [inst : DecidableEq.{w + 1} \u03ba] {i : Nat}\n  (s : Set.Elem.{w} (Set.powersetCard.{w} \u03ba (HAdd.hAdd.{0, 0, 0} i 1)))\n  (a : Subtype.{w + 1} fun x => Membership.mem.{w, w} (Subtype.val.{w + 1} s) x),\n  Eq.{w + 1} (Subtype.val.{w + 1} (decl-018634.{w} s a))\n    (Finset.erase.{w} (Subtype.val.{w + 1} s) (Subtype.val.{w + 1} a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018634"
+      ],
+      "structural_type_hash": "3649685573",
+      "temporary_id": "decl-017996"
+    },
+    {
+      "formal_type": "{\u03ba : Type w} \u2192\n  [DecidableEq.{w + 1} \u03ba] \u2192\n    {i : Nat} \u2192\n      (s : Set.Elem.{w} (Set.powersetCard.{w} \u03ba (HAdd.hAdd.{0, 0, 0} i 1))) \u2192\n        (Subtype.{w + 1} fun x => Membership.mem.{w, w} (Subtype.val.{w + 1} s) x) \u2192\n          Set.Elem.{w} (Set.powersetCard.{w} \u03ba i)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3653673376",
+      "temporary_id": "decl-018634"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019262",
+        "decl-019466"
+      ],
+      "structural_type_hash": "2679330332",
+      "temporary_id": "decl-019265"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [inst_3 : LinearOrder.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V) (a : \u03ba) (n : Nat)\n  (s : Set.Elem.{w} (Set.powersetCard.{w} \u03ba (HAdd.hAdd.{0, 0, 0} n 1))),\n  Not (Membership.mem.{w, w} (Subtype.val.{w + 1} s) a) \u2192\n    Eq.{max (u + 1) (v + 1)}\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n        (decl-019262.{u, v} k (Module.Basis.coord.{w, u, v} b a) n)\n        (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, max (u + 1) (v + 1)}\n          (Module.Basis.exteriorPower.{u, v, w} (HAdd.hAdd.{0, 0, 0} n 1) b) s))\n      0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019262"
+      ],
+      "structural_type_hash": "358048523",
+      "temporary_id": "decl-019267"
+    },
+    {
+      "formal_type": "{\u03ba : Type w} \u2192 [LinearOrder.{w} \u03ba] \u2192 Finset.{w} \u03ba \u2192 \u03ba \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2160247500",
+      "temporary_id": "decl-019466"
+    },
+    {
+      "formal_type": "\u2200 {\u03ba : Type w} [inst : LinearOrder.{w} \u03ba] {s : Finset.{w} \u03ba} {a : \u03ba},\n  Membership.mem.{w, w} s a \u2192 LT.lt.{0} (decl-019466.{w} s a) (Finset.card.{w} s)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019466"
+      ],
+      "structural_type_hash": "2948651344",
+      "temporary_id": "decl-019472"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [inst_3 : LinearOrder.{w} \u03ba] [inst_4 : DecidableEq.{w + 1} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V)\n  (\u03b1 : Finsupp.{w, 0} \u03ba Nat) (s : Set.Elem.{w} (Set.powersetCard.{w} \u03ba 0)),\n  Eq.{u + 1}\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1} (decl-005408.{u, v} k V)\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)} (decl-021036.{u, v} k V)\n        (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, max (u + 1) (v + 1)}\n          (decl-021222.{u, v, w} k V b 0) (Prod.mk.{w, w} \u03b1 s))))\n    (ite.{u + 1} (Eq.{w + 1} \u03b1 0) 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005408",
+        "decl-005410",
+        "decl-005428",
+        "decl-005436",
+        "decl-021036",
+        "decl-021222",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "3988638319",
+      "temporary_id": "decl-021057"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018634",
+        "decl-019466",
+        "decl-021150",
+        "decl-021222",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "3206812591",
+      "temporary_id": "decl-021167"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          {\u03ba : Type w} \u2192\n            [LinearOrder.{w} \u03ba] \u2192\n              Module.Basis.{w, u, v} \u03ba k V \u2192\n                (i : Nat) \u2192\n                  Module.Basis.{w, u, max v u}\n                    (Prod.{w, w} (Finsupp.{w, 0} \u03ba Nat) (Set.Elem.{w} (Set.powersetCard.{w} \u03ba i))) k\n                    (decl-021285.{u, v} k V i)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "184559115",
+      "temporary_id": "decl-021222"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [inst_3 : LinearOrder.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V) (i : Nat)\n  (p : Prod.{w, w} (Finsupp.{w, 0} \u03ba Nat) (Set.Elem.{w} (Set.powersetCard.{w} \u03ba i))),\n  Eq.{max (u + 1) (v + 1)}\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, max (u + 1) (v + 1)}\n      (decl-021222.{u, v, w} k V b i) p)\n    (TensorProduct.tmul.{u, max u v, max u v} k\n      (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, max (u + 1) (v + 1)}\n        (Module.Basis.symmetricAlgebra.{w, u, v} b) (Prod.fst.{w, w} p))\n      (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, max (u + 1) (v + 1)}\n        (Module.Basis.exteriorPower.{u, v, w} i b) (Prod.snd.{w, w} p)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021222",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "1628379014",
+      "temporary_id": "decl-021227"
+    },
+    {
+      "formal_type": "\u2200 {\u03ba : Type w} [inst : LinearOrder.{w} \u03ba] [inst_1 : DecidableEq.{w + 1} \u03ba] {s : Finset.{w} \u03ba} {n : Nat}\n  (h : Eq.{1} (Finset.card.{w} s) (HAdd.hAdd.{0, 0, 0} n 1)) {a : \u03ba} (ha : Membership.mem.{w, w} s a)\n  (herase : Eq.{1} (Finset.card.{w} (Finset.erase.{w} s a)) n),\n  Eq.{w + 1}\n    (fun i =>\n      DFunLike.coe.{w + 1, 1, w + 1} (Finset.orderEmbOfFin.{w} s h) (\u27e8decl-019466.{w} s a, \u22ef\u27e9.succAbove i))\n    (DFunLike.coe.{w + 1, 1, w + 1} (Finset.orderEmbOfFin.{w} (Finset.erase.{w} s a) herase))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019466",
+        "decl-019472"
+      ],
+      "structural_type_hash": "3468747352",
+      "temporary_id": "decl-021834"
+    },
+    {
+      "formal_type": "\u2200 {\u03ba : Type w} [inst : LinearOrder.{w} \u03ba] {s : Finset.{w} \u03ba} {n : Nat} (h : Eq.{1} (Finset.card.{w} s) n) {a : \u03ba}\n  (ha : Membership.mem.{w, w} s a),\n  Eq.{w + 1} (DFunLike.coe.{w + 1, 1, w + 1} (Finset.orderEmbOfFin.{w} s h) \u27e8decl-019466.{w} s a, \u22ef\u27e9) a",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019466",
+        "decl-019472"
+      ],
+      "structural_type_hash": "2785319326",
+      "temporary_id": "decl-021835"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} (b : Module.Basis.{w, u, v} \u03ba k V) (\u03b1 : Finsupp.{w, 0} \u03ba Nat),\n  Eq.{max (u + 1) (v + 1)}\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, max (u + 1) (v + 1)}\n      (Module.Basis.symmetricAlgebra.{w, u, v} b) \u03b1)\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), max (u + 1) (w + 1), max (u + 1) (v + 1)}\n      (AlgEquiv.symm.{u, max u v, max u w} (SymmetricAlgebra.equivMvPolynomial.{w, u, v} b))\n      (DFunLike.coe.{max (w + 1) (u + 1), u + 1, max (w + 1) (u + 1)} (MvPolynomial.monomial.{u, w} \u03b1) 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2135559424",
+      "temporary_id": "decl-023716"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} (b : Module.Basis.{w, u, v} \u03ba k V) (a : \u03ba) (\u03b1 : Finsupp.{w, 0} \u03ba Nat),\n  Eq.{max (u + 1) (v + 1)}\n    (HMul.hMul.{max u v, max u v, max u v}\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (SymmetricAlgebra.\u03b9.{u, v} k V)\n        (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, v + 1} b a))\n      (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, max (u + 1) (v + 1)}\n        (Module.Basis.symmetricAlgebra.{w, u, v} b) \u03b1))\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, max (u + 1) (v + 1)}\n      (Module.Basis.symmetricAlgebra.{w, u, v} b) (HAdd.hAdd.{w, w, w} \u03b1 (Finsupp.single.{w, 0} a 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "167583329",
+      "temporary_id": "decl-024745"
+    }
+  ],
+  "module_temporary_id": "module-0650",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

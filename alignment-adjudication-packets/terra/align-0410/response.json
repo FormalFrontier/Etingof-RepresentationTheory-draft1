@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:575555954e92d81bb8c5",
+      "rationale": "The formal type rules out a uniform one-dimensionality property for ranges of the displayed forgetful maps. It supplies an obstruction used for nonrepresentability, but it does not itself state that a functor is not representable.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0410"
+}

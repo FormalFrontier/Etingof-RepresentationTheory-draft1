@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0315",
+  "associations": [
+    {
+      "association_id": "association:45e25c29cc94ab9085a0",
+      "rationale": "No formal type is provided, so the packet shows only a general linear-category declaration and does not directly state enrichment for representations of a k-algebra.",
+      "role": "supporting"
+    }
+  ]
+}

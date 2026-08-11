@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5e4c4e3cd6dab6c8df5d",
+      "declaration": "Etingof.Exercise2_11_5.algebraMap_right_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/105/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (K : Type u_1) (L : Type u_2) (A : Type u_3) [inst : CommRing.{u_1} K] [inst_1 : CommRing.{u_2} L]\n  [inst_2 : Algebra.{u_1, u_2} K L] [inst_3 : Ring.{u_3} A] [inst_4 : Algebra.{u_1, u_3} K A] (l : L),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, max (u_2 + 1) (u_3 + 1)}\n      (Algebra.algebraMap.{u_2, max u_2 u_3} L (TensorProduct.{u_1, u_3, u_2} K A L)) l)\n    (TensorProduct.tmul.{u_1, u_3, u_2} K 1 l)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_11_5"
+    },
+    {
+      "association_id": "association:c1b2dae69d4fd4d88d86",
+      "declaration": "Etingof.Exercise2_11_5.instRightAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/105/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(K : Type u_1) \u2192\n  (L : Type u_2) \u2192\n    (A : Type u_3) \u2192\n      [inst : CommRing.{u_1} K] \u2192\n        [inst_1 : CommRing.{u_2} L] \u2192\n          [inst_2 : Algebra.{u_1, u_2} K L] \u2192\n            [inst_3 : Ring.{u_3} A] \u2192\n              [inst_4 : Algebra.{u_1, u_3} K A] \u2192 Algebra.{u_2, max u_2 u_3} L (TensorProduct.{u_1, u_3, u_2} K A L)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_11_5"
+    }
+  ],
+  "canonical_reference": "Chapter2/Exercise2.11.5",
+  "packet_id": "align-0498",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0498"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Exercise2.11.5:claim-01",
+  "source_text": "If L/K is a field extension and A is a K-algebra, then A \u2297_K L is naturally an L-algebra."
+}

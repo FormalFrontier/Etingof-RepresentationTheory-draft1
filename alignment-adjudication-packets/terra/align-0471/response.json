@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0471",
+  "associations": [
+    {
+      "association_id": "association:802c79dc3c802b39a262",
+      "role": "primary",
+      "rationale": "The equality directly identifies the i-th component of the endomorphism-algebra isomorphism evaluated at a group element with that element's action on the i-th irreducible representation."
+    }
+  ]
+}

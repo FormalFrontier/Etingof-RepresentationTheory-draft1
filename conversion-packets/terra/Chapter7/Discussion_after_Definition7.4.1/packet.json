@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Discussion_after_Definition7.4.1",
+    "kind": "discussion",
+    "title": "Examples of equivalent categories",
+    "node_id": "chapter-07/section-7-4",
+    "order": 483,
+    "slug": "discussion-after-definition7-4-1",
+    "span": {
+      "start": {
+        "page": "187",
+        "line": 5
+      },
+      "end": {
+        "page": "187",
+        "line": 14
+      }
+    },
+    "source_sha256": "8fe701f9334cc037a77100d5ad981da3dfbc499235b885110b6282a980805d15",
+    "features": {
+      "line_count": 10,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.DiscussionAfterDefinition741",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

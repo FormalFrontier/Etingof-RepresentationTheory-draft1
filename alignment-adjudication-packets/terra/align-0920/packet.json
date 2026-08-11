@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:560852d2dd7afff2ae6d",
+      "declaration": "GL2.conjugacyClass_partition",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : GL2'\u271d p n),\n  Or\n    (And (GL2.IsScalar g)\n      (And (Not (GL2.IsParabolic g)) (And (Not (GL2.IsSplitSemisimple g)) (Not (GL2.IsElliptic g)))))\n    (Or\n      (And (GL2.IsParabolic g)\n        (And (Not (GL2.IsScalar g)) (And (Not (GL2.IsSplitSemisimple g)) (Not (GL2.IsElliptic g)))))\n      (Or\n        (And (GL2.IsSplitSemisimple g)\n          (And (Not (GL2.IsScalar g)) (And (Not (GL2.IsParabolic g)) (Not (GL2.IsElliptic g)))))\n        (And (GL2.IsElliptic g)\n          (And (Not (GL2.IsScalar g)) (And (Not (GL2.IsParabolic g)) (Not (GL2.IsSplitSemisimple g)))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClasses"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_5.25.1",
+  "packet_id": "align-0920",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0920"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a6eb55eddb996c39bdb3",
+  "source_text": "Every element of GL\u2082(F_q) belongs to exactly one of the scalar, parabolic, split-semisimple, or elliptic types."
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0bae14e6d65a80bfff19",
+      "declaration": "LinearMap.equivariantProjection_condition",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/183/claim_coverage/claims/13/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RepresentationTheory.Maschke"
+    },
+    {
+      "association_id": "association:23f356d8309040979bbf",
+      "declaration": "MonoidAlgebra.exists_leftInverse_of_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/183/claim_coverage/claims/13/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RepresentationTheory.Maschke"
+    }
+  ],
+  "canonical_reference": "Chapter4/Theorem4.1.1",
+  "packet_id": "align-1136",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1136"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e7cbe64b1448ae1c0e2e",
+  "source_text": "The averaged operator restricts to the identity on W and has image contained in W, so it is a projection."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.14.3",
+    "kind": "theorem",
+    "title": "Character of U_lambda as coefficient of x^lambda in product of power sums",
+    "node_id": "chapter-05/section-5-14",
+    "order": 328,
+    "slug": "theorem5-14-3",
+    "span": {
+      "start": {
+        "page": "117",
+        "line": 1
+      },
+      "end": {
+        "page": "118",
+        "line": 9
+      }
+    },
+    "source_sha256": "5528f0359ab0131ec3d1e35a0119f63a23be950e2e6e6f233e0389b17bc64625",
+    "features": {
+      "line_count": 42,
+      "crosses_page": true,
+      "display_math_delimiters": 18,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5143",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

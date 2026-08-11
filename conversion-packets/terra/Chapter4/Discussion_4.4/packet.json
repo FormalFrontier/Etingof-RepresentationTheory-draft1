@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Discussion_4.4",
+    "kind": "discussion",
+    "title": "Section 4.4: Duals and tensor products of representations",
+    "node_id": "chapter-04/section-4-4",
+    "order": 200,
+    "slug": "discussion-4-4",
+    "span": {
+      "start": {
+        "page": "67",
+        "line": 3
+      },
+      "end": {
+        "page": "67",
+        "line": 24
+      }
+    },
+    "source_sha256": "17ca3ccb82ef96feab0ab96ba32a3c9d11c9e405691147ec101685b5754d106c",
+    "features": {
+      "line_count": 22,
+      "crosses_page": false,
+      "display_math_delimiters": 6,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Discussion44",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

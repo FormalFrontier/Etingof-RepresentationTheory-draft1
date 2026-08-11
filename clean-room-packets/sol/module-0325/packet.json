@@ -1,0 +1,472 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat}, \u03bc.IsOuterCorner i j \u2192 Eq.{1} (\u03bc.colLen j) (HAdd.hAdd.{0, 0, 0} i 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595"
+      ],
+      "structural_type_hash": "3630765942",
+      "temporary_id": "decl-017013"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat}, \u03bc.IsOuterCorner i j \u2192 Eq.{1} (\u03bc.rowLen i) (HAdd.hAdd.{0, 0, 0} j 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595"
+      ],
+      "structural_type_hash": "2887794795",
+      "temporary_id": "decl-017015"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat}, \u03bc.IsOuterCorner i j \u2192 Eq.{1} (\u03bc.hookLength i j) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025606"
+      ],
+      "structural_type_hash": "575364051",
+      "temporary_id": "decl-017017"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat} (hc : \u03bc.IsOuterCorner i j),\n  Eq.{1}\n    (HDiv.hDiv.{0, 0, 0} (Nat.cast.{0} \u03bc.hookLengthProduct) (Nat.cast.{0} (\u03bc.removeCorner i j hc).hookLengthProduct))\n    (Finset.prod.{0, 0} (Finset.erase.{0} \u03bc.cells (Prod.mk.{0, 0} i j)) fun c =>\n      HDiv.hDiv.{0, 0, 0} (Nat.cast.{0} (\u03bc.hookLength (Prod.fst.{0, 0} c) (Prod.snd.{0, 0} c)))\n        (Nat.cast.{0} ((\u03bc.removeCorner i j hc).hookLength (Prod.fst.{0, 0} c) (Prod.snd.{0, 0} c))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025606",
+        "decl-025608",
+        "decl-025641"
+      ],
+      "structural_type_hash": "2112770025",
+      "temporary_id": "decl-017019"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat} (hc : \u03bc.IsOuterCorner i j) {a b : Nat},\n  Iff (Membership.mem.{0, 0} (\u03bc.removeCorner i j hc) (Prod.mk.{0, 0} a b))\n    (And (Membership.mem.{0, 0} \u03bc (Prod.mk.{0, 0} a b)) (Ne.{1} (Prod.mk.{0, 0} a b) (Prod.mk.{0, 0} i j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025641"
+      ],
+      "structural_type_hash": "1557940101",
+      "temporary_id": "decl-017020"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat} (hc : \u03bc.IsOuterCorner i j), Eq.{1} ((\u03bc.removeCorner i j hc).colLen j) i",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025641"
+      ],
+      "structural_type_hash": "2424977542",
+      "temporary_id": "decl-017021"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat} (hc : \u03bc.IsOuterCorner i j) {b : Nat},\n  Ne.{1} b j \u2192 Eq.{1} ((\u03bc.removeCorner i j hc).colLen b) (\u03bc.colLen b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025641"
+      ],
+      "structural_type_hash": "862986982",
+      "temporary_id": "decl-017025"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat} (hc : \u03bc.IsOuterCorner i j) {a : Nat},\n  LT.lt.{0} a i \u2192 Eq.{1} ((\u03bc.removeCorner i j hc).hookLength a j) (HSub.hSub.{0, 0, 0} (\u03bc.hookLength a j) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025606",
+        "decl-025641"
+      ],
+      "structural_type_hash": "2547494379",
+      "temporary_id": "decl-017026"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat} (hc : \u03bc.IsOuterCorner i j) {a b : Nat},\n  Ne.{1} a i \u2192 Ne.{1} b j \u2192 Eq.{1} ((\u03bc.removeCorner i j hc).hookLength a b) (\u03bc.hookLength a b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025606",
+        "decl-025641"
+      ],
+      "structural_type_hash": "1962225873",
+      "temporary_id": "decl-017029"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat} (hc : \u03bc.IsOuterCorner i j) {b : Nat},\n  LT.lt.{0} b j \u2192 Eq.{1} ((\u03bc.removeCorner i j hc).hookLength i b) (HSub.hSub.{0, 0, 0} (\u03bc.hookLength i b) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025606",
+        "decl-025641"
+      ],
+      "structural_type_hash": "3127395538",
+      "temporary_id": "decl-017030"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat} (hc : \u03bc.IsOuterCorner i j), Eq.{1} ((\u03bc.removeCorner i j hc).rowLen i) j",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025641"
+      ],
+      "structural_type_hash": "3386943745",
+      "temporary_id": "decl-017033"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat} (hc : \u03bc.IsOuterCorner i j) {a : Nat},\n  Ne.{1} a i \u2192 Eq.{1} ((\u03bc.removeCorner i j hc).rowLen a) (\u03bc.rowLen a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025641"
+      ],
+      "structural_type_hash": "100355327",
+      "temporary_id": "decl-017037"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1} (Nat.card.{0} (decl-016206 n la))\n    (HDiv.hDiv.{0, 0, 0} n.factorial la.toYoungDiagram.hookLengthProduct)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016206",
+        "decl-025225",
+        "decl-025608"
+      ],
+      "structural_type_hash": "297116558",
+      "temporary_id": "decl-017741"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Nat.card.{0} (decl-016206 n la)) la.toYoungDiagram.hookLengthProduct)\n    n.factorial",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016206",
+        "decl-025225",
+        "decl-025608"
+      ],
+      "structural_type_hash": "234329594",
+      "temporary_id": "decl-017742"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat),\n  (\u2200 (la' : n.Partition),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (Nat.card.{0} (decl-016206 n la')) la'.toYoungDiagram.hookLengthProduct)\n        n.factorial) \u2192\n    \u2200 (la : (HAdd.hAdd.{0, 0, 0} n 1).Partition),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (Nat.card.{0} (decl-016206 (HAdd.hAdd.{0, 0, 0} n 1) la))\n          la.toYoungDiagram.hookLengthProduct)\n        (HAdd.hAdd.{0, 0, 0} n 1).factorial",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016206",
+        "decl-025225",
+        "decl-025608"
+      ],
+      "structural_type_hash": "2740580649",
+      "temporary_id": "decl-017743"
+    },
+    {
+      "formal_type": "\u2200 (la : Nat.Partition 0),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Nat.card.{0} (decl-016206 0 la)) la.toYoungDiagram.hookLengthProduct)\n    (Nat.factorial 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016206",
+        "decl-025225",
+        "decl-025608"
+      ],
+      "structural_type_hash": "2586153015",
+      "temporary_id": "decl-017744"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition), Dvd.dvd.{0} la.toYoungDiagram.hookLengthProduct n.factorial",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025225",
+        "decl-025608"
+      ],
+      "structural_type_hash": "1605348197",
+      "temporary_id": "decl-020290"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : (HAdd.hAdd.{0, 0, 0} n 1).Partition),\n  (\u2200 (la' : n.Partition),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (Nat.card.{0} (decl-016206 n la')) la'.toYoungDiagram.hookLengthProduct)\n        n.factorial) \u2192\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0}\n        (Finset.sum.{0, 0} (Finset.attach.{0} la.toYoungDiagram.outerCorners) fun c =>\n          Nat.card.{0} (decl-016206 n (la.removeOuterCorner (Subtype.val.{1} c) \u22ef)))\n        la.toYoungDiagram.hookLengthProduct)\n      (HAdd.hAdd.{0, 0, 0} n 1).factorial",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016206",
+        "decl-025214",
+        "decl-025225",
+        "decl-025595",
+        "decl-025608",
+        "decl-025636",
+        "decl-025638"
+      ],
+      "structural_type_hash": "43645810",
+      "temporary_id": "decl-020303"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : (HAdd.hAdd.{0, 0, 0} n 1).Partition),\n  Eq.{1} (Nat.card.{0} (decl-016206 (HAdd.hAdd.{0, 0, 0} n 1) la))\n    (Finset.sum.{0, 0} (Finset.attach.{0} la.toYoungDiagram.outerCorners) fun c =>\n      Nat.card.{0} (decl-016206 n (la.removeOuterCorner (Subtype.val.{1} c) \u22ef)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016206",
+        "decl-025214",
+        "decl-025225",
+        "decl-025595",
+        "decl-025636",
+        "decl-025638"
+      ],
+      "structural_type_hash": "498528349",
+      "temporary_id": "decl-023751"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192\n  (la : (HAdd.hAdd.{0, 0, 0} n 1).Partition) \u2192\n    (c : Prod.{0, 0} Nat Nat) \u2192 la.toYoungDiagram.IsOuterCorner (Prod.fst.{0, 0} c) (Prod.snd.{0, 0} c) \u2192 n.Partition",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025225",
+        "decl-025595"
+      ],
+      "structural_type_hash": "162404720",
+      "temporary_id": "decl-025214"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition), Eq.{1} (Finset.card.{0} la.toYoungDiagram.cells) n",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025225"
+      ],
+      "structural_type_hash": "4219203193",
+      "temporary_id": "decl-025228"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : (HAdd.hAdd.{0, 0, 0} n 1).Partition) (c : Prod.{0, 0} Nat Nat)\n  (hc : la.toYoungDiagram.IsOuterCorner (Prod.fst.{0, 0} c) (Prod.snd.{0, 0} c)),\n  Eq.{1} (la.removeOuterCorner c hc).toYoungDiagram\n    (la.toYoungDiagram.removeCorner (Prod.fst.{0, 0} c) (Prod.snd.{0, 0} c) hc)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025214",
+        "decl-025225",
+        "decl-025595",
+        "decl-025641"
+      ],
+      "structural_type_hash": "1279734490",
+      "temporary_id": "decl-025229"
+    },
+    {
+      "formal_type": "YoungDiagram \u2192 Nat \u2192 Nat \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1314868782",
+      "temporary_id": "decl-025595"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat},\n  Membership.mem.{0, 0} \u03bc.cells (Prod.mk.{0, 0} i j) \u2192\n    Eq.{1} (Finset.card.{0} (\u03bc.hookCellsExcl i j)) (HSub.hSub.{0, 0, 0} (\u03bc.hookLength i j) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025600",
+        "decl-025606"
+      ],
+      "structural_type_hash": "1148725514",
+      "temporary_id": "decl-025597"
+    },
+    {
+      "formal_type": "YoungDiagram \u2192 Nat \u2192 Nat \u2192 Finset.{0} (Prod.{0, 0} Nat Nat)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "75500292",
+      "temporary_id": "decl-025600"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat},\n  Membership.mem.{0, 0} \u03bc.cells (Prod.mk.{0, 0} i j) \u2192\n    \u2200 {v : Prod.{0, 0} Nat Nat}, Membership.mem.{0, 0} (\u03bc.hookCellsExcl i j) v \u2192 Membership.mem.{0, 0} \u03bc.cells v",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025600"
+      ],
+      "structural_type_hash": "120136191",
+      "temporary_id": "decl-025602"
+    },
+    {
+      "formal_type": "YoungDiagram \u2192 Nat \u2192 Nat \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3894605355",
+      "temporary_id": "decl-025606"
+    },
+    {
+      "formal_type": "YoungDiagram \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4283035689",
+      "temporary_id": "decl-025608"
+    },
+    {
+      "formal_type": "\u2200 (\u03bc : YoungDiagram), LT.lt.{0} 0 \u03bc.hookLengthProduct",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025608"
+      ],
+      "structural_type_hash": "2151578531",
+      "temporary_id": "decl-025610"
+    },
+    {
+      "formal_type": "\u2200 (\u03bc : YoungDiagram) (i j : Nat), Membership.mem.{0, 0} \u03bc.cells (Prod.mk.{0, 0} i j) \u2192 LT.lt.{0} 0 (\u03bc.hookLength i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025606"
+      ],
+      "structural_type_hash": "2217293276",
+      "temporary_id": "decl-025611"
+    },
+    {
+      "formal_type": "YoungDiagram \u2192 Nat \u2192 Nat \u2192 Prod.{0, 0} Nat Nat \u2192 Rat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2684458434",
+      "temporary_id": "decl-025613"
+    },
+    {
+      "formal_type": "\u2200 (\u03bc : YoungDiagram) {i j : Nat} (hc : \u03bc.IsOuterCorner i j),\n  Eq.{1}\n    (Finset.sum.{0, 0} \u03bc.cells fun u => \u03bc.hookWalkWeight (Prod.fst.{0, 0} u) (Prod.snd.{0, 0} u) (Prod.mk.{0, 0} i j))\n    (HDiv.hDiv.{0, 0, 0} (Nat.cast.{0} \u03bc.hookLengthProduct) (Nat.cast.{0} (\u03bc.removeCorner i j hc).hookLengthProduct))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025608",
+        "decl-025613",
+        "decl-025641"
+      ],
+      "structural_type_hash": "214937231",
+      "temporary_id": "decl-025620"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat}, \u03bc.IsOuterCorner i j \u2192 Eq.{1} (\u03bc.hookWalkWeight i j (Prod.mk.{0, 0} i j)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025613"
+      ],
+      "structural_type_hash": "1980747994",
+      "temporary_id": "decl-025629"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j i' j' : Nat},\n  \u03bc.IsOuterCorner i j \u2192\n    Ne.{1} (Prod.mk.{0, 0} i j) (Prod.mk.{0, 0} i' j') \u2192 Eq.{1} (\u03bc.hookWalkWeight i j (Prod.mk.{0, 0} i' j')) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025613"
+      ],
+      "structural_type_hash": "1521580459",
+      "temporary_id": "decl-025630"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {i j : Nat},\n  Not (Membership.mem.{0, 0} \u03bc.cells (Prod.mk.{0, 0} i j)) \u2192\n    \u2200 (c : Prod.{0, 0} Nat Nat), Eq.{1} (\u03bc.hookWalkWeight i j c) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025613"
+      ],
+      "structural_type_hash": "3462285708",
+      "temporary_id": "decl-025631"
+    },
+    {
+      "formal_type": "\u2200 (\u03bc : YoungDiagram) (i j : Nat),\n  Membership.mem.{0, 0} \u03bc.cells (Prod.mk.{0, 0} i j) \u2192\n    Eq.{1} (Finset.sum.{0, 0} \u03bc.outerCorners fun c => \u03bc.hookWalkWeight i j c) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025613",
+        "decl-025638"
+      ],
+      "structural_type_hash": "3456489866",
+      "temporary_id": "decl-025632"
+    },
+    {
+      "formal_type": "\u2200 {\u03bc : YoungDiagram} {c : Prod.{0, 0} Nat Nat},\n  Iff (Membership.mem.{0, 0} \u03bc.outerCorners c) (\u03bc.IsOuterCorner (Prod.fst.{0, 0} c) (Prod.snd.{0, 0} c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025638"
+      ],
+      "structural_type_hash": "3755496877",
+      "temporary_id": "decl-025636"
+    },
+    {
+      "formal_type": "YoungDiagram \u2192 Finset.{0} (Prod.{0, 0} Nat Nat)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2200022685",
+      "temporary_id": "decl-025638"
+    },
+    {
+      "formal_type": "\u2200 (\u03bc : YoungDiagram), Finset.Nonempty.{0} \u03bc.cells \u2192 Finset.Nonempty.{0} \u03bc.outerCorners",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025638"
+      ],
+      "structural_type_hash": "1997149495",
+      "temporary_id": "decl-025640"
+    },
+    {
+      "formal_type": "(\u03bc : YoungDiagram) \u2192 (i j : Nat) \u2192 \u03bc.IsOuterCorner i j \u2192 YoungDiagram",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595"
+      ],
+      "structural_type_hash": "31438956",
+      "temporary_id": "decl-025641"
+    },
+    {
+      "formal_type": "\u2200 (\u03bc : YoungDiagram) (i j : Nat) (hc : \u03bc.IsOuterCorner i j),\n  Eq.{1} (Finset.card.{0} (\u03bc.removeCorner i j hc).cells) (HSub.hSub.{0, 0, 0} (Finset.card.{0} \u03bc.cells) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025595",
+        "decl-025641"
+      ],
+      "structural_type_hash": "1897598331",
+      "temporary_id": "decl-025647"
+    }
+  ],
+  "module_temporary_id": "module-0325",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

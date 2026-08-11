@@ -1,0 +1,100 @@
+{
+  "module_name": "LinearAlgebra.Triangularization",
+  "declarations": [
+    {
+      "temporary_id": "decl-006828",
+      "new_name": "HasTriangularBasis",
+      "docstring": "A predicate relating an endomorphism, a finite basis, and an indexed scalar family through triangularization data."
+    },
+    {
+      "temporary_id": "decl-006829",
+      "new_name": "blockTriangular",
+      "docstring": "The matrix of an endomorphism in such a basis is block triangular with respect to the index order."
+    },
+    {
+      "temporary_id": "decl-006831",
+      "new_name": "charpoly_eq",
+      "docstring": "Expresses the characteristic polynomial as the product formed from the indexed scalars."
+    },
+    {
+      "temporary_id": "decl-006832",
+      "new_name": "diagonal_eq",
+      "docstring": "Identifies each diagonal matrix entry with its corresponding indexed scalar."
+    },
+    {
+      "temporary_id": "decl-006853",
+      "new_name": "eq_of_le_of_indexData_eq",
+      "docstring": "Two pointwise ordered finite index maps are equal when their associated index data agree."
+    },
+    {
+      "temporary_id": "decl-006857",
+      "new_name": "exists_hasTriangularBasis",
+      "docstring": "A splitting characteristic polynomial and the stated dimension yield a basis and scalar family satisfying the triangularity predicate."
+    },
+    {
+      "temporary_id": "decl-006873",
+      "new_name": "exteriorPowerMap_commutes",
+      "docstring": "The displayed map on an exterior-power subspace commutes with the induced endomorphism."
+    },
+    {
+      "temporary_id": "decl-006904",
+      "new_name": "hasTriangularBasis_of_blockTriangular",
+      "docstring": "A block triangular matrix gives the triangularity predicate for its associated linear map, standard basis, and diagonal entries."
+    },
+    {
+      "temporary_id": "decl-006923",
+      "new_name": "prod_orderEmbOfFin",
+      "docstring": "Reindexes a product over a finite ordered set by its order embedding from a finite type."
+    },
+    {
+      "temporary_id": "decl-006924",
+      "new_name": "matrixEntryProduct_eq_zero_of_ne",
+      "docstring": "A product of selected matrix entries vanishes for distinct index maps satisfying the stated condition."
+    },
+    {
+      "temporary_id": "decl-006937",
+      "new_name": "repr_auxiliaryBasisVector_eq_single",
+      "docstring": "Computes the coordinates of the specified vector in the constructed basis as a single supported function."
+    },
+    {
+      "temporary_id": "decl-007017",
+      "new_name": "exteriorPowerMatrix_diag_eq_minorDet",
+      "docstring": "A diagonal entry of the induced exterior-power matrix equals the determinant of the corresponding minor."
+    },
+    {
+      "temporary_id": "decl-007019",
+      "new_name": "trace_exteriorPower_eq_subsetSum",
+      "docstring": "Computes the trace of the indicated exterior-power endomorphism as a sum of products of indexed scalars."
+    },
+    {
+      "temporary_id": "decl-007021",
+      "new_name": "trace_exteriorPower_eq_subsetSum_of_charpoly",
+      "docstring": "Derives the exterior-power trace formula from a factorization of the characteristic polynomial."
+    },
+    {
+      "temporary_id": "decl-007022",
+      "new_name": "trace_exteriorPower_one_eq_sum",
+      "docstring": "Computes the degree-one exterior-power trace as the sum of the indexed scalars."
+    },
+    {
+      "temporary_id": "decl-007023",
+      "new_name": "trace_exteriorPower_top_eq_prod",
+      "docstring": "Computes the top exterior-power trace as the product of the indexed scalars."
+    },
+    {
+      "temporary_id": "decl-007024",
+      "new_name": "trace_symmetricPower_eq_multisetSum",
+      "docstring": "Computes the trace of the indicated symmetric-power endomorphism by a sum over multisets."
+    },
+    {
+      "temporary_id": "decl-007025",
+      "new_name": "trace_symmetricPower_eq_multisetSum_of_charpoly",
+      "docstring": "Derives the symmetric-power trace formula from the displayed characteristic-polynomial factorization."
+    },
+    {
+      "temporary_id": "decl-007026",
+      "new_name": "trace_symmetricPower_one_eq_sum",
+      "docstring": "Computes the degree-one symmetric-power trace as the sum of the indexed scalars."
+    }
+  ]
+}

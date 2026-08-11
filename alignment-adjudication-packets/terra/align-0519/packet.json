@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a934fdd1031a6b94d300",
+      "declaration": "Module",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/106/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Module.Defs"
+    },
+    {
+      "association_id": "association:6aca6f7becff5b51cd5e",
+      "declaration": "Module.compHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/106/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Module.RingHom"
+    },
+    {
+      "association_id": "association:1d7b224e5af2d9e168fd",
+      "declaration": "SMulCommClass",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/106/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Group.Action.Defs"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.11.6",
+  "packet_id": "align-0519",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0519"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.11.6:claim-01",
+  "source_text": "An (A,B)-bimodule is a vector space with commuting left A- and right B-module structures; left and right modules are the special cases (A,k) and (k,B)."
+}

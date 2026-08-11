@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e8ea0afe8fcdfb5132d1",
+      "declaration": "Etingof.Sl2Irrep.casimir_central",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/7/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) M]\n  (x : Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) (m : M),\n  Eq.{u_1 + 1}\n    (Bracket.bracket.{0, u_1} x (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Etingof.Sl2Irrep.casimir.{u_1} M) m))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Etingof.Sl2Irrep.casimir.{u_1} M) (Bracket.bracket.{0, u_1} x m))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_complete_reducibility"
+    },
+    {
+      "association_id": "association:b90602ebee72ef692df1",
+      "declaration": "Etingof.Sl2Irrep.casimir_eq_scalar_lambda",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/7/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (lam : Nat),\n  Eq.{1}\n    (HAdd.hAdd.{0, 0, 0}\n      (HAdd.hAdd.{0, 0, 0}\n        (HMul.hMul.{0, 0, 0}\n          (DFunLike.coe.{1, 1, 1} (Etingof.Sl2Irrep.rhoLieHom (HAdd.hAdd.{0, 0, 0} lam 1)) Etingof.Sl2Irrep.sl2_e)\n          (DFunLike.coe.{1, 1, 1} (Etingof.Sl2Irrep.rhoLieHom (HAdd.hAdd.{0, 0, 0} lam 1)) Etingof.Sl2Irrep.sl2_f))\n        (HMul.hMul.{0, 0, 0}\n          (DFunLike.coe.{1, 1, 1} (Etingof.Sl2Irrep.rhoLieHom (HAdd.hAdd.{0, 0, 0} lam 1)) Etingof.Sl2Irrep.sl2_f)\n          (DFunLike.coe.{1, 1, 1} (Etingof.Sl2Irrep.rhoLieHom (HAdd.hAdd.{0, 0, 0} lam 1)) Etingof.Sl2Irrep.sl2_e)))\n      (HSMul.hSMul.{0, 0, 0} (Inv.inv.{0} 2)\n        (HMul.hMul.{0, 0, 0}\n          (DFunLike.coe.{1, 1, 1} (Etingof.Sl2Irrep.rhoLieHom (HAdd.hAdd.{0, 0, 0} lam 1)) Etingof.Sl2Irrep.sl2_h)\n          (DFunLike.coe.{1, 1, 1} (Etingof.Sl2Irrep.rhoLieHom (HAdd.hAdd.{0, 0, 0} lam 1)) Etingof.Sl2Irrep.sl2_h))))\n    (HSMul.hSMul.{0, 0, 0}\n      (HDiv.hDiv.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Nat.cast.{0} lam) (HAdd.hAdd.{0, 0, 0} (Nat.cast.{0} lam) 2)) 2) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.15.1",
+  "packet_id": "align-0532",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0532"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.15.1:claim-08",
+  "source_text": "Part (g): the Casimir C=EF+FE+H^2/2 is central and acts on V_lambda by lambda(lambda+2)/2."
+}

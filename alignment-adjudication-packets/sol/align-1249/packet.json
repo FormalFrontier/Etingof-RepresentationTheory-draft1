@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:28cdb8e8f9ea0d1bb57a",
+      "declaration": "Etingof.Definition5_8_1_functionSpace_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/291/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) (g : G)\n  (f :\n    Subtype.{(max u_1 u_2) + 1} fun x =>\n      Membership.mem.{max u_1 u_2, max u_1 u_2} (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n        x)\n  (x : G),\n  Eq.{u_2 + 1}\n    (Subtype.val.{max (u_1 + 1) (u_2 + 1)}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n          (Etingof.Definition5_8_1_functionSpace.{u_1, u_2} H \u03c1) g)\n        f)\n      x)\n    (Subtype.val.{max (u_1 + 1) (u_2 + 1)} f (HMul.hMul.{u_1, u_1, u_1} x g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
+    },
+    {
+      "association_id": "association:e48b3f38a518edcf670b",
+      "declaration": "Etingof.Definition5_8_1_functionSpace_condition",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/291/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V)\n  (f :\n    Subtype.{(max u_1 u_2) + 1} fun x =>\n      Membership.mem.{max u_1 u_2, max u_1 u_2} (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n        x)\n  (h : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) (x : G),\n  Eq.{u_2 + 1} (Subtype.val.{max (u_1 + 1) (u_2 + 1)} f (HMul.hMul.{u_1, u_1, u_1} (Subtype.val.{u_1 + 1} h) x))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 h)\n      (Subtype.val.{max (u_1 + 1) (u_2 + 1)} f x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
+    },
+    {
+      "association_id": "association:d955eaa088c5570ca05d",
+      "declaration": "Etingof.Definition5_8_1_functionSpace_mul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/291/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) (g g' : G)\n  (f :\n    Subtype.{(max u_1 u_2) + 1} fun x =>\n      Membership.mem.{max u_1 u_2, max u_1 u_2} (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n        x),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n        (Etingof.Definition5_8_1_functionSpace.{u_1, u_2} H \u03c1) (HMul.hMul.{u_1, u_1, u_1} g g'))\n      f)\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n        (Etingof.Definition5_8_1_functionSpace.{u_1, u_2} H \u03c1) g)\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n          (Etingof.Definition5_8_1_functionSpace.{u_1, u_2} H \u03c1) g')\n        f))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
+    },
+    {
+      "association_id": "association:bc7e33c57c9d97c3b6b2",
+      "declaration": "Etingof.Definition5_8_1_functionSpace_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/291/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V)\n  (f :\n    Subtype.{(max u_1 u_2) + 1} fun x =>\n      Membership.mem.{max u_1 u_2, max u_1 u_2} (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n        x),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n        (Etingof.Definition5_8_1_functionSpace.{u_1, u_2} H \u03c1) 1)\n      f)\n    f",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
+    },
+    {
+      "association_id": "association:98fd564344323edbbb0c",
+      "declaration": "Etingof.mem_Definition5_8_1_functionSpace",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/291/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) (f : G \u2192 V),\n  Iff\n    (Membership.mem.{max u_1 u_2, max u_1 u_2} (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n      f)\n    (\u2200 (h : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) (x : G),\n      Eq.{u_2 + 1} (f (HMul.hMul.{u_1, u_1, u_1} (Subtype.val.{u_1 + 1} h) x))\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 h) (f x)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_verification_of_Ind",
+  "packet_id": "align-1249",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1249"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Discussion_verification_of_Ind",
+  "source_text": "Let us check that $\\operatorname{Ind}_H^G V$ is well defined as a representation. Indeed, we have\n\n$$g(f)(hx) = f(hxg) = \\rho_V(h) f(xg) = \\rho_V(h) g(f)(x),$$\n\nand\n\n$$g(g'(f))(x) = g'(f)(xg) = f(xgg') = (gg')(f)(x)$$\n\nfor any $g, g', x \\in G$ and $h \\in H$.\n\n"
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:921b6cc87b989c060adb",
+      "declaration": "CategoryTheory.Category",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/468/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.CategoryTheory.Category.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter7/Discussion_after_Example7.1.3",
+  "packet_id": "align-1041",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1041"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c9ea34a906364f39ac88",
+  "source_text": "Categories may have a proper class of objects while each hom collection is small."
+}

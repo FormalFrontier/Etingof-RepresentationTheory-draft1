@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3a2b28a6b4acf0093ac6",
+      "declaration": "Etingof.schurPoly",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/360/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(N : Nat) \u2192 (Fin N \u2192 Nat) \u2192 MvPolynomial.{0, 0} (Fin N) Rat",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_21_1"
+    },
+    {
+      "association_id": "association:3afdd27d9d2dc98a75f1",
+      "declaration": "Etingof.schurPoly_mul_vandermonde",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/360/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0} (Etingof.schurPoly N lam)\n      (Matrix.det.{0, 0} (Etingof.alternantMatrix N (Etingof.vandermondeExps N))))\n    (Matrix.det.{0, 0} (Etingof.alternantMatrix N (Etingof.shiftedExps N lam)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_21_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_Schur_polynomials",
+  "packet_id": "align-1032",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1032"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c7d0c69d15c979c04e26",
+  "source_text": "D_0 divides D_lambda and the resulting Schur polynomial satisfies S_lambda D_0 = D_lambda."
+}

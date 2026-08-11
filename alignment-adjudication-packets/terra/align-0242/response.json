@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0242",
+  "associations": [
+    {
+      "association_id": "association:cf77ccac3e6c51809c59",
+      "role": "supporting",
+      "rationale": "Its displayed type only introduces a type-valued exterior-algebra construction and does not expose the asserted tensor-algebra quotient or its defining relation."
+    },
+    {
+      "association_id": "association:347a36409f599d524d57",
+      "role": "primary",
+      "rationale": "It directly states the defining square-zero relation for every degree-one generator."
+    }
+  ]
+}

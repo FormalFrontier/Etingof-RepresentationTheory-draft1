@@ -1,0 +1,80 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (N : Nat) (k : Type u_1) [inst : Field.{u_1} k] (\u03c3 : Equiv.Perm.{1} (Fin N))\n  (d : Finsupp.{0, 0} (decl-001144 N) Nat),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (MvPowerSeries.coeff.{0, u_1} d)\n      (Finset.prod.{0, u_1} Finset.univ.{0} fun j =>\n        MvPowerSeries.invOfUnit.{0, u_1}\n          (HSub.hSub.{u_1, u_1, u_1} 1\n            (HMul.hMul.{u_1, u_1, u_1} (MvPowerSeries.X.{0, u_1} (Sum.inl.{0, 0} j))\n              (MvPowerSeries.X.{0, u_1} (Sum.inr.{0, 0} (DFunLike.coe.{1, 1, 1} \u03c3 j)))))\n          1))\n    (ite.{u_1 + 1}\n      (\u2200 (j : Fin N),\n        Eq.{1} (DFunLike.coe.{1, 1, 1} d (Sum.inl.{0, 0} j))\n          (DFunLike.coe.{1, 1, 1} d (Sum.inr.{0, 0} (DFunLike.coe.{1, 1, 1} \u03c3 j))))\n      1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001144"
+      ],
+      "structural_type_hash": "2378380309",
+      "temporary_id": "decl-017774"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k] (\u03b1 : Fin N \u2192 Nat),\n  Function.Injective.{1, 1} \u03b1 \u2192\n    Eq.{u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (MvPowerSeries.coeff.{0, u_1} (decl-018350 N \u03b1))\n        (decl-017775.{u_1} N k))\n      1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001144",
+        "decl-017775",
+        "decl-018350"
+      ],
+      "structural_type_hash": "2192238930",
+      "temporary_id": "decl-017778"
+    },
+    {
+      "formal_type": "(N : Nat) \u2192 (Fin N \u2192 Nat) \u2192 Finsupp.{0, 0} (decl-001144 N) Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001144"
+      ],
+      "structural_type_hash": "3189066802",
+      "temporary_id": "decl-018350"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (\u03b1 : Fin N \u2192 Nat) (i : Fin N),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-018350 N \u03b1) (Sum.inl.{0, 0} i)) (\u03b1 i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001144",
+        "decl-018350"
+      ],
+      "structural_type_hash": "1118995262",
+      "temporary_id": "decl-018354"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (\u03b1 : Fin N \u2192 Nat) (j : Fin N),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-018350 N \u03b1) (Sum.inr.{0, 0} j)) (\u03b1 j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001144",
+        "decl-018350"
+      ],
+      "structural_type_hash": "3823073005",
+      "temporary_id": "decl-018355"
+    }
+  ],
+  "module_temporary_id": "module-0379",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

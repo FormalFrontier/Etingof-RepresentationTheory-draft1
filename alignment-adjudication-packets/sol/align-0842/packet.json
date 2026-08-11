@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3ca39619560f6baccc9e",
+      "declaration": "Etingof.Problem825.torComparison",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/539/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{A : Type u} \u2192\n  [inst : Ring.{u} A] \u2192\n    (N : ModuleCat.{u, u} A) \u2192\n      {M : ModuleCat.{u, u} (MulOpposite.{u} A)} \u2192\n        (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n          (n : Nat) \u2192\n            CategoryTheory.Iso.{u, u + 1} (Etingof.Problem825.TorByResolution.{u} N P n)\n              (Etingof.Problem825.TorByResolution.{u} N Q n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_5"
+    },
+    {
+      "association_id": "association:bb699f752813c5b4b786",
+      "declaration": "Etingof.Problem825.torComparison_refl",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/539/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] (N : ModuleCat.{u, u} A) {M : ModuleCat.{u, u} (MulOpposite.{u} A)}\n  (P : CategoryTheory.ProjectiveResolution.{u, u + 1} M) (n : Nat),\n  Eq.{u + 1} (CategoryTheory.Iso.hom.{u, u + 1} (Etingof.Problem825.torComparison.{u} N P P n))\n    (CategoryTheory.CategoryStruct.id.{u, u + 1} (Etingof.Problem825.TorByResolution.{u} N P n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_5"
+    },
+    {
+      "association_id": "association:cade92bd809cdab1bac6",
+      "declaration": "Etingof.Problem825.torComparison_trans",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/539/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] (N : ModuleCat.{u, u} A) {M : ModuleCat.{u, u} (MulOpposite.{u} A)}\n  (P Q R : CategoryTheory.ProjectiveResolution.{u, u + 1} M) (n : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1} (Etingof.Problem825.torComparison.{u} N P Q n))\n      (CategoryTheory.Iso.hom.{u, u + 1} (Etingof.Problem825.torComparison.{u} N Q R n)))\n    (CategoryTheory.Iso.hom.{u, u + 1} (Etingof.Problem825.torComparison.{u} N P R n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_5"
+    },
+    {
+      "association_id": "association:a83d5f15af8dd004e342",
+      "declaration": "Etingof.Problem825.torLiftMap_eq_comparison",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/539/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] (N : ModuleCat.{u, u} A) {M : ModuleCat.{u, u} (MulOpposite.{u} A)}\n  (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M)\n  (\u03c6 :\n    Quiver.Hom.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P)\n      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q)),\n  Eq.{u + 1}\n      (CategoryTheory.CategoryStruct.comp.{u, u + 1} (HomologicalComplex.Hom.f.{u, u + 1, 0} \u03c6 0)\n        (HomologicalComplex.Hom.f.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} Q) 0))\n      (HomologicalComplex.Hom.f.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P) 0) \u2192\n    \u2200 (n : Nat),\n      Eq.{u + 1} (Etingof.Problem825.torLiftMap.{u} N P Q \u03c6 n)\n        (CategoryTheory.Iso.hom.{u, u + 1} (Etingof.Problem825.torComparison.{u} N P Q n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_5"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.5",
+  "packet_id": "align-0842",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0842"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.5:part_iv",
+  "source_text": "Part (iv): the Tor comparison maps are isomorphisms with identity/composition laws."
+}

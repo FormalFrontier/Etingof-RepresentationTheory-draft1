@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0342",
+  "associations": [
+    {
+      "association_id": "association:754ae6142a72ba9239f4",
+      "rationale": "The formal type directly states that the Specht module associated to every partition is a simple module over the symmetric-group algebra.",
+      "role": "primary"
+    }
+  ]
+}

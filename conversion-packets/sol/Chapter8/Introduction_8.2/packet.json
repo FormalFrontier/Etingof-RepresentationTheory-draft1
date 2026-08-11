@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Introduction_8.2",
+    "kind": "introduction",
+    "title": "Section 8.2: Tor and Ext functors",
+    "node_id": "chapter-08/section-8-2",
+    "order": 535,
+    "slug": "introduction-8-2",
+    "span": {
+      "start": {
+        "page": "207",
+        "line": 27
+      },
+      "end": {
+        "page": "208",
+        "line": 2
+      }
+    },
+    "source_sha256": "fef4b721f0911b85f237809a305240dd96d9efb5ecad3470128d01d411f9d4f6",
+    "features": {
+      "line_count": 5,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Introduction82",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

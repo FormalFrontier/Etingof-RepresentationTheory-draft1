@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0062",
+  "associations": [
+    {
+      "association_id": "association:65e7160a74546acccc09",
+      "role": "primary",
+      "rationale": "Its type directly supplies the tensor-product isomorphism to the multiplicity sum for every pair of the three irreducibles."
+    },
+    {
+      "association_id": "association:0eade5e00dd72a3f27f1",
+      "role": "primary",
+      "rationale": "Its type directly supplies the same table entries as tensor-product isomorphisms to explicit biproducts of irreducibles."
+    }
+  ]
+}

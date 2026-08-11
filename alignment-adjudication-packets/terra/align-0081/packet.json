@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:782b7bb0ccc7ab70a475",
+      "declaration": "Etingof.formalCharacter_schurModule_eq_schurPoly",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/365/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    Eq.{1} (Etingof.formalCharacter.{u_1} k N (Etingof.SchurModule.{u_1} k N lam)) (Etingof.schurPoly N lam)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_computing_characters_of_L_lambda",
+  "packet_id": "align-0081",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0081"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:19f23049e56b7b1f3109",
+  "source_text": "Schur-Weyl decomposition and character comparison identify the Schur-module formal character."
+}

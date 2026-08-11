@@ -1,0 +1,7 @@
+{
+  "packet_id": "align-0037",
+  "associations": [
+    {"association_id": "association:2457910f9c8403ad6456", "role": "primary", "rationale": "The proposition directly states that a rational number integral over the integers is an integer."},
+    {"association_id": "association:0f64aa9b9e1a575c8beb", "role": "primary", "rationale": "The theorem directly gives the resulting divisibility conclusion for an irreducible finite-group representation."}
+  ]
+}

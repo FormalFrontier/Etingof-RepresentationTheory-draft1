@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8cfd56b0ef6534338101",
+      "declaration": "Etingof.Sl2Irrep.clebsch_gordan_charPoly",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/117/claim_coverage/claims/13/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (lam mu : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Etingof.Sl2Irrep.charPoly lam) (Etingof.Sl2Irrep.charPoly mu))\n    (Finset.sum.{0, 0} (Finset.range (HAdd.hAdd.{0, 0, 0} (Min.min.{0} lam mu) 1)) fun k =>\n      HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} Polynomial.X.{0} k)\n        (Etingof.Sl2Irrep.charPoly (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} lam mu) (HMul.hMul.{0, 0, 0} 2 k))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.15.1",
+  "packet_id": "align-0538",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0538"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.15.1:claim-14",
+  "source_text": "Part (m), hint route: analytic characters Tr(exp(xH)) are additive on direct sums and multiplicative on tensor products."
+}

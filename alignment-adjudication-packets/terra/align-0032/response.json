@@ -1,0 +1,7 @@
+{
+  "packet_id": "align-0032",
+  "associations": [
+    {"association_id": "association:6fe4e99505918ec42098", "role": "primary", "rationale": "This theorem directly gives the q minus one cardinality of the one-dimensional representations."},
+    {"association_id": "association:25025eafdea55c956cd3", "role": "primary", "rationale": "The equivalence directly classifies one-dimensional representations by multiplicative characters composed with determinant."}
+  ]
+}

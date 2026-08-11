@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b76c88f08a9293b8ae61",
+      "declaration": "Etingof.Example_2_3_14.jordanRep_equiv_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/41/claim_coverage/claims/7/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (lam mu : k) (n m : Nat) [NeZero.{0} n] [NeZero.{0} m],\n  Iff\n    (Nonempty.{u_1 + 1}\n      (LinearEquiv.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} (Polynomial.{u_1} k))\n        (Etingof.Example_2_3_14.jordanRep.{u_1} lam n) (Etingof.Example_2_3_14.jordanRep.{u_1} mu m)))\n    (And (Eq.{u_1 + 1} lam mu) (Eq.{1} n m))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.3.14",
+  "packet_id": "align-1208",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1208"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:fe9197db95e5e567b2b9",
+  "source_text": "The Jordan-block representations V_{\u03bb,n} are pairwise nonisomorphic, with both \u03bb and n determined."
+}

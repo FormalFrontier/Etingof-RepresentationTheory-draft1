@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0af51e42e100cb73f606",
+      "declaration": "Etingof.doubleDualNatIso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/479/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    CategoryTheory.Iso.{u + 1, u + 1} (CategoryTheory.Functor.id.{u, u + 1} (FGModuleCat.{u, u} k))\n      (Etingof.doubleDualFunctor.{u} k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_3_2"
+    },
+    {
+      "association_id": "association:6e1298aed50089784745",
+      "declaration": "Etingof.linearEquiv_dualDual_iff_finiteDimensional",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/479/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k V : Type u) [inst : Field.{u} k] [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V],\n  Iff (Nonempty.{u + 1} (LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) V (Module.Dual.{u, u} k (Module.Dual.{u, u} k V))))\n    (FiniteDimensional.{u, u} k V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_3_2"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.3.2",
+  "packet_id": "align-0375",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0375"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:76349a30c66de4083947",
+  "source_text": "Finite-dimensional vector spaces are naturally isomorphic to their double dual, while finite dimensionality characterizes the underlying double-dual equivalence."
+}

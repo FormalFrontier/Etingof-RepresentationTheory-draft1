@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4833cad15248608d4e6f",
+      "declaration": "Etingof.Theorem5_9_1_coset",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/296/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_9_1_Coset"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.9.1",
+  "packet_id": "align-0394",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0394"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:7e5ef652823e5fbaa050",
+  "source_text": "The induced character equals the source's sum over fixed right cosets of chi_V(x_sigma g x_sigma\u207b\u00b9)."
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0079",
+  "associations": [
+    {
+      "association_id": "association:02b169a724d36b60799b",
+      "role": "primary",
+      "rationale": "This predicate defines injective objects in an arbitrary category, one of the two notions named in the claim."
+    },
+    {
+      "association_id": "association:e62f03ac8210d8ffd4b8",
+      "role": "primary",
+      "rationale": "This predicate defines projective objects in an arbitrary category, the other notion named in the claim."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0143",
+  "associations": [
+    {
+      "association_id": "association:8c5b4d4791486e692de0",
+      "role": "primary",
+      "rationale": "This implication states that irreducible modules are indecomposable."
+    },
+    {
+      "association_id": "association:55177566d7309d733056",
+      "role": "primary",
+      "rationale": "Under semisimplicity, this implication gives the converse from indecomposable to irreducible."
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(v : Fin 4) \u2192 AddCommGroup.{0} (decl-014996.{0, 0, 0, 0} decl-003485 v)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-003485",
+        "decl-014996"
+      ],
+      "structural_type_hash": "2641109998",
+      "temporary_id": "decl-003486"
+    },
+    {
+      "formal_type": "decl-014927.{0, 0, 0, 0, 0} decl-003485\n  decl-003507",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-003485",
+        "decl-003507",
+        "decl-014927"
+      ],
+      "structural_type_hash": "3989263279",
+      "temporary_id": "decl-003492"
+    },
+    {
+      "formal_type": "decl-014909.{0, 0, 0, 0} Complex (Fin 4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-014909"
+      ],
+      "structural_type_hash": "1822581611",
+      "temporary_id": "decl-003507"
+    },
+    {
+      "formal_type": "Quiver.Hom.{0, 0} 3 0",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448"
+      ],
+      "structural_type_hash": "3143815661",
+      "temporary_id": "decl-003527"
+    },
+    {
+      "formal_type": "Quiver.Hom.{0, 0} 3 1",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448"
+      ],
+      "structural_type_hash": "3462563601",
+      "temporary_id": "decl-003529"
+    },
+    {
+      "formal_type": "Quiver.Hom.{0, 0} 3 2",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448"
+      ],
+      "structural_type_hash": "3079155368",
+      "temporary_id": "decl-003531"
+    },
+    {
+      "formal_type": "LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n  (decl-014996.{0, 0, 0, 0} decl-003485 3)\n  (decl-014996.{0, 0, 0, 0} decl-003485 0)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-003485",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "725825031",
+      "temporary_id": "decl-003533"
+    },
+    {
+      "formal_type": "LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n  (decl-014996.{0, 0, 0, 0} decl-003485 3)\n  (decl-014996.{0, 0, 0, 0} decl-003485 1)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-003485",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "4178225178",
+      "temporary_id": "decl-003534"
+    },
+    {
+      "formal_type": "LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n  (decl-014996.{0, 0, 0, 0} decl-003485 3)\n  (decl-014996.{0, 0, 0, 0} decl-003485 2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-003485",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "687027147",
+      "temporary_id": "decl-003535"
+    },
+    {
+      "formal_type": "And (Function.Bijective.{1, 1} (DFunLike.coe.{1, 1, 1} decl-003533))\n  (And (Function.Bijective.{1, 1} (DFunLike.coe.{1, 1, 1} decl-003534))\n    (Function.Bijective.{1, 1} (DFunLike.coe.{1, 1, 1} decl-003535)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-003485",
+        "decl-003533",
+        "decl-003534",
+        "decl-003535",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "597078739",
+      "temporary_id": "decl-003536"
+    }
+  ],
+  "module_temporary_id": "module-0531",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

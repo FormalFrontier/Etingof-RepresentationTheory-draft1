@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6ede10a2a8598a077a66",
+      "declaration": "Etingof.Theorem_6_1_5",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/410/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n      (\u2200 (i j : Fin n),\n          Exists.{1} fun path =>\n            And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n              (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n                (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n                  Eq.{1} (adj (List.get.{0} path \u27e8k, \u22ef\u27e9) (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) 1))) \u2192\n        Iff (Etingof.IsFiniteTypeQuiver n adj) (Etingof.IsDynkinDiagram n adj)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_5_theorem"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.5_theorem",
+  "packet_id": "align-1264",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1264"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter6/Problem6.1.5_theorem",
+  "source_text": "## 6.1. Problems\n\n**Theorem.** *A connected quiver $Q$ is of finite type if and only if the corresponding unoriented graph (i.e., with directions of arrows forgotten) is a Dynkin diagram (see Theorem 6.5.2 below).*\n\n"
+}

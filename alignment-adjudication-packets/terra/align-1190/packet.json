@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:946654f13ae8f2f51567",
+      "declaration": "Etingof.frobeniusSummand_congr",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/296/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_9_1_Coset"
+    },
+    {
+      "association_id": "association:e8c8a3942b4c47701aeb",
+      "declaration": "Etingof.frobeniusSummand_smul_left",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/296/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_9_1_Coset"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.9.1",
+  "packet_id": "align-1190",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1190"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f8a41e1ef54b74c52a22",
+  "source_text": "The summand is independent of the representative chosen for a right coset."
+}

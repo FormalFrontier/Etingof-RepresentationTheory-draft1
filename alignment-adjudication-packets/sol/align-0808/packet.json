@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:59d2d666f7a26d4d55fe",
+      "declaration": "Etingof.IsSimpleStep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/462/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        {\u03c1 : Etingof.QuiverRepresentation.{u_1, u_2, u_4, u_3} k Q} \u2192\n          [DecidableEq.{u_2 + 1} Q] \u2192\n            Etingof.QuiverSubrepresentation.{u_1, u_2, u_3, u_4} k Q \u03c1 \u2192\n              Etingof.QuiverSubrepresentation.{u_1, u_2, u_3, u_4} k Q \u03c1 \u2192 Q \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Infrastructure.QuiverCompositionSeries"
+    },
+    {
+      "association_id": "association:cab109a33b1cdac9158b",
+      "declaration": "Etingof.Problem6_9_3.exists_compositionSeries_of_positiveRoot",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/462/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Etingof.IsDynkinDiagram n adj \u2192\n    \u2200 (\u03b1 : Fin n \u2192 Int),\n      Etingof.IsPositiveRoot n adj \u03b1 \u2192\n        \u2200 (k : Type u) [inst : Field.{u} k] [Q : Quiver.{0, 0} (Fin n)],\n          Etingof.IsOrientationOf.{0} Q adj \u2192\n            \u2200 [\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)],\n              Exists.{u + 2} fun V\u03b1 =>\n                And (Etingof.QuiverRepresentation.IsIndecomposable.{u, 0, 0, u} V\u03b1)\n                  (And (\u2200 (v : Fin n), Eq.{1} (Nat.cast.{0} (Etingof.Problem6_9_3.dimVec.{u, 0, 0, u} V\u03b1 v)) (\u03b1 v))\n                    (Exists.{u + 1} fun s =>\n                      \u2200 (i : Fin n),\n                        Eq.{1} (Nat.cast.{0} (Etingof.QuiverRepCompositionSeries.mult.{u, 0, 0, u} s i)) (\u03b1 i)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_3_JordanHolder"
+    },
+    {
+      "association_id": "association:3076497d4db3cf969b0a",
+      "declaration": "Etingof.Problem6_9_3.exists_jordanHolderSeries",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/462/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_4, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  (V\u03b1 : Etingof.QuiverRepresentation.{u_1, u_2, u_3, u_4} k Q) (n : Nat) (order : Equiv.{u_2 + 1, 1} Q (Fin n)),\n  (\u2200 {v w : Q} (a : Quiver.Hom.{u_4, u_2} v w),\n      LT.lt.{0} (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} order w).val (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} order v).val) \u2192\n    \u2200 (\u03b1 : Q \u2192 Nat)\n      (basis :\n        (v : Q) \u2192\n          Module.Basis.{0, u_1, u_3} (Fin (\u03b1 v)) k (Etingof.QuiverRepresentation.obj.{u_1, u_2, u_3, u_4} V\u03b1 v)),\n      Exists.{max (u_2 + 1) (u_3 + 1)} fun s =>\n        And\n          (Eq.{1} (Etingof.QuiverRepCompositionSeries.length.{u_1, u_2, u_4, u_3} s)\n            (Finset.sum.{0, 0} Finset.univ.{0} fun l =>\n              \u03b1 (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (Equiv.symm.{u_2 + 1, 1} order) l)))\n          (\u2200 (i : Q),\n            Eq.{1} (Etingof.QuiverRepCompositionSeries.mult.{u_1, u_2, u_4, u_3} s i)\n              (Etingof.Problem6_9_3.dimVec.{u_1, u_2, u_4, u_3} V\u03b1 i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_3"
+    },
+    {
+      "association_id": "association:84b0cbff856092a77c29",
+      "declaration": "Etingof.QuiverRepCompositionSeries",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/462/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        [DecidableEq.{u_2 + 1} Q] \u2192 Etingof.QuiverRepresentation.{u_1, u_2, u_4, u_3} k Q \u2192 Type (max u_2 u_4)",
+      "provider_module": "EtingofRepresentationTheory.Infrastructure.QuiverCompositionSeries"
+    },
+    {
+      "association_id": "association:2870beabb5e458adf587",
+      "declaration": "Etingof.exists_compositionSeries",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/462/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_4, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  (\u03c1 : Etingof.QuiverRepresentation.{u_1, u_2, u_3, u_4} k Q) (n : Nat) (e : Equiv.{u_2 + 1, 1} Q (Fin n)),\n  (\u2200 {v w : Q} (a : Quiver.Hom.{u_4, u_2} v w),\n      LT.lt.{0} (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} e w).val (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} e v).val) \u2192\n    \u2200 (d : Q \u2192 Nat)\n      (b :\n        (v : Q) \u2192 Module.Basis.{0, u_1, u_3} (Fin (d v)) k (Etingof.QuiverRepresentation.obj.{u_1, u_2, u_3, u_4} \u03c1 v)),\n      Exists.{max (u_2 + 1) (u_3 + 1)} fun s =>\n        And\n          (Eq.{1} (Etingof.QuiverRepCompositionSeries.length.{u_1, u_2, u_4, u_3} s)\n            (Finset.sum.{0, 0} Finset.univ.{0} fun l =>\n              d (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (Equiv.symm.{u_2 + 1, 1} e) l)))\n          (\u2200 (i : Q), Eq.{1} (Etingof.QuiverRepCompositionSeries.mult.{u_1, u_2, u_4, u_3} s i) (d i))",
+      "provider_module": "EtingofRepresentationTheory.Infrastructure.QuiverCompositionSeries"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.9.3",
+  "packet_id": "align-0808",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0808"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.9.3:part_b",
+  "source_text": "Part (b): construct the orientation-dependent Jordan-H\u00f6lder series with the stated simple multiplicities."
+}

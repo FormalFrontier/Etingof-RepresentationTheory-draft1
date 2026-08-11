@@ -1,0 +1,414 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : CommRing.{u} A] \u2192 (M : Type u) \u2192 [inst_1 : AddCommGroup.{u} M] \u2192 [Module.{u, u} A M] \u2192 Type (u + 1)",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1043061451",
+      "temporary_id": "decl-005749"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : CommRing.{u} A] \u2192\n    {M : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} M] \u2192\n        [inst_2 : Module.{u, u} A M] \u2192\n          (D : decl-005749.{u} A M) \u2192\n            CategoryTheory.Iso.{u, u + 1} (ModuleCat.of.{u, u} A M)\n              (CategoryTheory.Limits.biproduct.{u, u, u + 1} (decl-005789.{u} D))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005765",
+        "decl-005770",
+        "decl-005789",
+        "decl-005799",
+        "decl-005800"
+      ],
+      "structural_type_hash": "1931323942",
+      "temporary_id": "decl-005752"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : CommRing.{u} A] \u2192\n    {M : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} M] \u2192\n        [inst_2 : Module.{u, u} A M] \u2192\n          (D : decl-005749.{u} A M) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) M\n              (DirectSum.{u, u} (decl-005770.{u} D) fun j =>\n                ModuleCat.carrier.{u, u} (decl-005789.{u} D j))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005770",
+        "decl-005789"
+      ],
+      "structural_type_hash": "3518421976",
+      "temporary_id": "decl-005758"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : CommRing.{u} A] \u2192\n    {M : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} M] \u2192\n        [inst_2 : Module.{u, u} A M] \u2192\n          (self : decl-005749.{u} A M) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) M\n              (Prod.{u, u} (Fin (decl-005765.{u} self) \u2192 A)\n                ((i : decl-005800.{u} self) \u2192\n                  HasQuotient.Quotient.{u, u} A\n                    (Ideal.span.{u} (Singleton.singleton.{u, u} (decl-005766.{u} self i)))))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005765",
+        "decl-005766",
+        "decl-005800"
+      ],
+      "structural_type_hash": "1600797090",
+      "temporary_id": "decl-005764"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : CommRing.{u} A] \u2192\n    {M : Type u} \u2192 [inst_1 : AddCommGroup.{u} M] \u2192 [inst_2 : Module.{u, u} A M] \u2192 decl-005749.{u} A M \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749"
+      ],
+      "structural_type_hash": "4054829306",
+      "temporary_id": "decl-005765"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : CommRing.{u} A] \u2192\n    {M : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} M] \u2192\n        [inst_2 : Module.{u, u} A M] \u2192\n          (self : decl-005749.{u} A M) \u2192 decl-005800.{u} self \u2192 A",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005800"
+      ],
+      "structural_type_hash": "3082884105",
+      "temporary_id": "decl-005766"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : CommRing.{u} A] \u2192\n    {M : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} M] \u2192 [inst_2 : Module.{u, u} A M] \u2192 decl-005749.{u} A M \u2192 Type u",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749"
+      ],
+      "structural_type_hash": "3349704879",
+      "temporary_id": "decl-005770"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : CommRing.{u} A] \u2192\n    {M : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} M] \u2192\n        [inst_2 : Module.{u, u} A M] \u2192\n          (D : decl-005749.{u} A M) \u2192\n            CategoryTheory.Iso.{u, u + 1} (decl-021648.{u} A M)\n              (CategoryTheory.Limits.biproduct.{u, u, u + 1} (decl-005781.{u} D))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005765",
+        "decl-005770",
+        "decl-005781",
+        "decl-005799",
+        "decl-005800",
+        "decl-021648"
+      ],
+      "structural_type_hash": "3136347754",
+      "temporary_id": "decl-005777"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : CommRing.{u} A] \u2192\n    {M : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} M] \u2192\n        [inst_2 : Module.{u, u} A M] \u2192\n          (D : decl-005749.{u} A M) \u2192\n            decl-005770.{u} D \u2192 ModuleCat.{u, u} (MulOpposite.{u} A)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005770"
+      ],
+      "structural_type_hash": "3924560825",
+      "temporary_id": "decl-005781"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : CommRing.{u} A] {M : Type u} [inst_1 : AddCommGroup.{u} M] [inst_2 : Module.{u, u} A M]\n  (D : decl-005749.{u} A M) (i : Fin (decl-005765.{u} D)),\n  Eq.{u + 2} (decl-005781.{u} D (Sum.inl.{0, u} i)) (decl-021648.{u} A A)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005765",
+        "decl-005781",
+        "decl-005800",
+        "decl-021648"
+      ],
+      "structural_type_hash": "760531320",
+      "temporary_id": "decl-005783"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : CommRing.{u} A] {M : Type u} [inst_1 : AddCommGroup.{u} M] [inst_2 : Module.{u, u} A M]\n  (D : decl-005749.{u} A M) (i : decl-005800.{u} D),\n  Eq.{u + 2} (decl-005781.{u} D (Sum.inr.{0, u} i))\n    (decl-021648.{u} A\n      (HasQuotient.Quotient.{u, u} A\n        (Ideal.span.{u} (Singleton.singleton.{u, u} (decl-005766.{u} D i)))))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005765",
+        "decl-005766",
+        "decl-005781",
+        "decl-005800",
+        "decl-021648"
+      ],
+      "structural_type_hash": "4131866364",
+      "temporary_id": "decl-005784"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : CommRing.{u} A] \u2192\n    {M : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} M] \u2192\n        [inst_2 : Module.{u, u} A M] \u2192\n          (D : decl-005749.{u} A M) \u2192 decl-005770.{u} D \u2192 ModuleCat.{u, u} A",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005770"
+      ],
+      "structural_type_hash": "4255716765",
+      "temporary_id": "decl-005789"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : CommRing.{u} A] {M : Type u} [inst_1 : AddCommGroup.{u} M] [inst_2 : Module.{u, u} A M]\n  (D : decl-005749.{u} A M) (i : Fin (decl-005765.{u} D)),\n  Eq.{u + 2} (decl-005789.{u} D (Sum.inl.{0, u} i)) (ModuleCat.of.{u, u} A A)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005765",
+        "decl-005789",
+        "decl-005800"
+      ],
+      "structural_type_hash": "1343584914",
+      "temporary_id": "decl-005796"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : CommRing.{u} A] {M : Type u} [inst_1 : AddCommGroup.{u} M] [inst_2 : Module.{u, u} A M]\n  (D : decl-005749.{u} A M) (i : decl-005800.{u} D),\n  Eq.{u + 2} (decl-005789.{u} D (Sum.inr.{0, u} i))\n    (ModuleCat.of.{u, u} A\n      (HasQuotient.Quotient.{u, u} A\n        (Ideal.span.{u} (Singleton.singleton.{u, u} (decl-005766.{u} D i)))))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005765",
+        "decl-005766",
+        "decl-005789",
+        "decl-005800"
+      ],
+      "structural_type_hash": "2510743879",
+      "temporary_id": "decl-005797"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : CommRing.{u} A] \u2192\n    {M : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} M] \u2192\n        [inst_2 : Module.{u, u} A M] \u2192\n          (self : decl-005749.{u} A M) \u2192\n            DecidableEq.{u + 1} (decl-005800.{u} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005800"
+      ],
+      "structural_type_hash": "2784135349",
+      "temporary_id": "decl-005798"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : CommRing.{u} A] \u2192\n    {M : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} M] \u2192\n        [inst_2 : Module.{u, u} A M] \u2192\n          (self : decl-005749.{u} A M) \u2192 Fintype.{u} (decl-005800.{u} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005800"
+      ],
+      "structural_type_hash": "2376938466",
+      "temporary_id": "decl-005799"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : CommRing.{u} A] \u2192\n    {M : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} M] \u2192 [inst_2 : Module.{u, u} A M] \u2192 decl-005749.{u} A M \u2192 Type u",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749"
+      ],
+      "structural_type_hash": "3349704879",
+      "temporary_id": "decl-005800"
+    },
+    {
+      "formal_type": "decl-005749.{0} Int (Prod.{0, 0} Int (ZMod 4))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005749"
+      ],
+      "structural_type_hash": "430026547",
+      "temporary_id": "decl-018748"
+    },
+    {
+      "formal_type": "decl-005749.{0} Int (ZMod 6)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005749"
+      ],
+      "structural_type_hash": "234626429",
+      "temporary_id": "decl-018751"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : CommRing.{u} A] [IsDomain.{u} A] [IsPrincipalIdealRing.{u} A] (M : Type u)\n  [inst_3 : AddCommGroup.{u} M] [inst_4 : Module.{u, u} A M] [Module.Finite.{u, u} A M],\n  Nonempty.{u + 2} (decl-005749.{u} A M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005749"
+      ],
+      "structural_type_hash": "934607657",
+      "temporary_id": "decl-018908"
+    },
+    {
+      "formal_type": "\u2200 (M : Type) [inst : AddCommGroup.{0} M] [Module.Finite.{0, 0} Int M], Nonempty.{2} (decl-005749.{0} Int M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005749"
+      ],
+      "structural_type_hash": "1963000979",
+      "temporary_id": "decl-018910"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (M : Type u) [inst_1 : AddCommGroup.{u} M]\n  [inst_2 : Module.{u, u} (Polynomial.{u} k) M] [Module.Finite.{u, u} (Polynomial.{u} k) M],\n  Nonempty.{u + 2} (decl-005749.{u} (Polynomial.{u} k) M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005749"
+      ],
+      "structural_type_hash": "2570201782",
+      "temporary_id": "decl-018911"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : CommRing.{u} A], CategoryTheory.Functor.Additive.{u, u + 1, u, u + 1} (decl-021644.{u} A)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021644"
+      ],
+      "structural_type_hash": "3082377347",
+      "temporary_id": "decl-020579"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : CommRing.{u} A],\n  CategoryTheory.Functor.IsEquivalence.{u, u, u + 1, u + 1} (decl-021644.{u} A)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021644"
+      ],
+      "structural_type_hash": "731021597",
+      "temporary_id": "decl-020622"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : CommRing.{u} A] {J : Type u} [Finite.{u + 1} J] (f : J \u2192 ModuleCat.{u, u} A),\n  CategoryTheory.Limits.PreservesBiproduct.{u, u, u, u + 1, u + 1} f (decl-021644.{u} A)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020579",
+        "decl-021644"
+      ],
+      "structural_type_hash": "156599568",
+      "temporary_id": "decl-020654"
+    },
+    {
+      "formal_type": "(a : Nat) \u2192\n  LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Int)\n    (HasQuotient.Quotient.{0, 0} Int (Ideal.span.{0} (Singleton.singleton.{0, 0} (Nat.cast.{0} a)))) (ZMod a)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3167545665",
+      "temporary_id": "decl-020683"
+    },
+    {
+      "formal_type": "(a : Nat) \u2192\n  CategoryTheory.Iso.{0, 1}\n    (ModuleCat.of.{0, 0} Int\n      (HasQuotient.Quotient.{0, 0} Int (Ideal.span.{0} (Singleton.singleton.{0, 0} (Nat.cast.{0} a)))))\n    (ModuleCat.of.{0, 0} Int (ZMod a))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1582065862",
+      "temporary_id": "decl-020684"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : CommRing.{u} A] \u2192\n    CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} A) (ModuleCat.{u, u} (MulOpposite.{u} A))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2834760647",
+      "temporary_id": "decl-021644"
+    },
+    {
+      "formal_type": "(a : Nat) \u2192\n  CategoryTheory.Iso.{0, 1}\n    (decl-021648.{0} Int\n      (HasQuotient.Quotient.{0, 0} Int (Ideal.span.{0} (Singleton.singleton.{0, 0} (Nat.cast.{0} a)))))\n    (ModuleCat.of.{0, 0} (MulOpposite.{0} Int) (ZMod a))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021648",
+        "decl-021672"
+      ],
+      "structural_type_hash": "2759520013",
+      "temporary_id": "decl-021646"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : CommRing.{u} A] \u2192\n    (M : Type u) \u2192 [inst_1 : AddCommGroup.{u} M] \u2192 [Module.{u, u} A M] \u2192 ModuleCat.{u, u} (MulOpposite.{u} A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "472851192",
+      "temporary_id": "decl-021648"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : CommRing.{u} A] (M : Type u) [inst_1 : AddCommGroup.{u} M] [inst_2 : Module.{u, u} A M],\n  Eq.{u + 2} (decl-021648.{u} A M) (ModuleCat.of.{u, u} (MulOpposite.{u} A) M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021648"
+      ],
+      "structural_type_hash": "599330373",
+      "temporary_id": "decl-021649"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (f : Polynomial.{u} k) \u2192\n      CategoryTheory.Iso.{u, u + 1}\n        (decl-021648.{u} (Polynomial.{u} k)\n          (HasQuotient.Quotient.{u, u} (Polynomial.{u} k) (Ideal.span.{u} (Singleton.singleton.{u, u} f))))\n        (ModuleCat.of.{u, u} (MulOpposite.{u} (Polynomial.{u} k))\n          (HasQuotient.Quotient.{u, u} (Polynomial.{u} k) (Ideal.span.{u} (Singleton.singleton.{u, u} f))))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021648",
+        "decl-021651"
+      ],
+      "structural_type_hash": "3222649816",
+      "temporary_id": "decl-021650"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192 [inst : CommRing.{u} A] \u2192 RingEquiv.{u, u} (MulOpposite.{u} A) A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2687222643",
+      "temporary_id": "decl-021654"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : CommRing.{u} A] (x : MulOpposite.{u} A),\n  Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-021654.{u} A) x) (MulOpposite.unop.{u} x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021654"
+      ],
+      "structural_type_hash": "4131661675",
+      "temporary_id": "decl-021659"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : CommRing.{u} A],\n  Eq.{u + 1} (RingEquiv.toRingHom.{u, u} (decl-021654.{u} A))\n    (RingHom.fromOpposite.{u, u} (RingHom.id.{u} A) \u22ef)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021654"
+      ],
+      "structural_type_hash": "3628229434",
+      "temporary_id": "decl-021660"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : CommRing.{u} A] \u2192\n    CategoryTheory.Iso.{u, u + 1} (decl-021648.{u} A A) (ModuleCat.of.{u, u} (MulOpposite.{u} A) A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021648"
+      ],
+      "structural_type_hash": "199075570",
+      "temporary_id": "decl-021661"
+    }
+  ],
+  "module_temporary_id": "module-0660",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

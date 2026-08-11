@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0080",
+  "associations": [
+    {
+      "association_id": "association:9a1b98b54b87dd04d881",
+      "role": "primary",
+      "rationale": "This projection theorem directly identifies the chosen complement as the kernel."
+    },
+    {
+      "association_id": "association:8bbe0ca6f20a556e6cbd",
+      "role": "primary",
+      "rationale": "This projection formula directly states identity behavior on the selected submodule."
+    },
+    {
+      "association_id": "association:5aa0015dc33a66831692",
+      "role": "primary",
+      "rationale": "This projection formula directly states vanishing behavior on the selected complement."
+    }
+  ]
+}

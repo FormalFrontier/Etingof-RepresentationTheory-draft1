@@ -1,0 +1,73 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    {G : Type u_2} \u2192\n      [inst_1 : Group.{u_2} G] \u2192\n        (H : Subgroup.{u_2} G) \u2192\n          [DecidableRel.{u_2 + 1, u_2 + 1} Setoid.r.{u_2 + 1}] \u2192\n            [Subgroup.FiniteIndex.{u_2} H] \u2192\n              (A : Rep.{max u_1 u_2, u_1, u_2} k (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} H x)) \u2192\n                CategoryTheory.Iso.{max u_1 u_2, max (max (u_2 + 1) (u_1 + 1)) ((max u_1 u_2) + 1)}\n                  (Rep.ind.{max u_1 u_2, u_1, u_2, u_2} (Subgroup.subtype.{u_2} H) A)\n                  (Rep.coind'.{u_1, u_2, u_2} (Subgroup.subtype.{u_2} H) A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4062068877",
+      "temporary_id": "decl-015427"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    {G : Type u_2} \u2192\n      [inst_1 : Group.{u_2} G] \u2192\n        (H : Subgroup.{u_2} G) \u2192\n          [DecidableRel.{u_2 + 1, u_2 + 1} Setoid.r.{u_2 + 1}] \u2192\n            [Subgroup.FiniteIndex.{u_2} H] \u2192\n              CategoryTheory.Iso.{max (u_1 + 1) (u_2 + 1), max (max (max (u_1 + 1) (u_2 + 1)) u_2) ((max u_1 u_2) + 1)}\n                (Rep.indFunctor.{max u_1 u_2, u_1, u_2, u_2} k (Subgroup.subtype.{u_2} H))\n                (Rep.coindFunctor'.{u_1, u_2, u_2} k (Subgroup.subtype.{u_2} H))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2820458166",
+      "temporary_id": "decl-015428"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {G : Type u_2} [inst_1 : Group.{u_2} G] (H : Subgroup.{u_2} G)\n  [inst_2 : DecidableRel.{u_2 + 1, u_2 + 1} Setoid.r.{u_2 + 1}] [inst_3 : Subgroup.FiniteIndex.{u_2} H]\n  (A : Rep.{max u_1 u_2, u_1, u_2} k (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} H x)),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (CategoryTheory.Iso.app.{max u_2 u_1, max u_2 u_1, max (u_2 + 1) (u_1 + 1), max (u_2 + 1) (u_1 + 1)}\n      (decl-015428.{u_1, u_2} H) A)\n    (decl-015427.{u_1, u_2} H A)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015427",
+        "decl-015428"
+      ],
+      "structural_type_hash": "1745528018",
+      "temporary_id": "decl-015429"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {G : Type u_2} [inst_1 : Group.{u_2} G] (H : Subgroup.{u_2} G)\n  [inst_2 : DecidableRel.{u_2 + 1, u_2 + 1} Setoid.r.{u_2 + 1}] [inst_3 : Subgroup.FiniteIndex.{u_2} H]\n  (X : Rep.{max u_1 u_2, u_1, u_2} k (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} H x))\n  (x :\n    Rep.V.{max u_1 u_2, u_1, u_2}\n      (CategoryTheory.Functor.obj.{max u_1 u_2, max u_1 u_2, max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n        (Rep.indFunctor.{max u_1 u_2, u_1, u_2, u_2} k (Subgroup.subtype.{u_2} H)) X))\n  (x_1 : Rep.V.{max u_1 u_2, u_1, u_2} (Rep.leftRegular.{u_1, u_2} k G)),\n  Eq.{(max u_1 u_2) + 1}\n    (DFunLike.coe.{(max u_1 u_2) + 1, (max u_1 u_2) + 1, (max u_1 u_2) + 1}\n      (Rep.Hom.hom.{max u_1 u_2, u_1, u_2}\n        (DFunLike.coe.{(max u_1 u_2) + 1, (max u_1 u_2) + 1, (max u_1 u_2) + 1}\n          (Rep.Hom.hom.{max u_1 u_2, u_1, u_2}\n            (CategoryTheory.NatTrans.app.{max u_1 u_2, max u_1 u_2, max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n              (CategoryTheory.Iso.hom.{max (u_1 + 1) (u_2 + 1),\n                  max (max (max (u_1 + 1) (u_2 + 1)) u_2) ((max u_1 u_2) + 1)}\n                (decl-015428.{u_1, u_2} H))\n              X))\n          x))\n      x_1)\n    (DFunLike.coe.{(max u_1 u_2) + 1, (max u_1 u_2) + 1, (max u_1 u_2) + 1}\n      (Finsupp.linearCombination.{u_2, max u_1 u_2, u_1} k\n        (Subtype.val.{max (u_1 + 1) (u_2 + 1)}\n          (DFunLike.coe.{(max u_1 u_2) + 1, (max u_1 u_2) + 1, (max u_1 u_2) + 1}\n            (Rep.Hom.hom'.{max u_1 u_2, u_1, u_2}\n              (CategoryTheory.Iso.hom.{max u_1 u_2, max (u_1 + 1) (u_2 + 1)} (Rep.indCoindIso.{u_2, u_1, u_2} X)))\n            x)))\n      (MonoidAlgebra.coeff.{u_1, u_2} x_1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015428"
+      ],
+      "structural_type_hash": "2823013917",
+      "temporary_id": "decl-015430"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {G : Type u_2} [inst_1 : Group.{u_2} G] (H : Subgroup.{u_2} G)\n  [inst_2 : DecidableRel.{u_2 + 1, u_2 + 1} Setoid.r.{u_2 + 1}] [inst_3 : Subgroup.FiniteIndex.{u_2} H]\n  (X : Rep.{max u_1 u_2, u_1, u_2} k (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} H x))\n  (x :\n    Rep.V.{max u_1 u_2, u_1, u_2}\n      (CategoryTheory.Functor.obj.{max u_1 u_2, max u_1 u_2, max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n        (Rep.coindFunctor'.{u_1, u_2, u_2} k (Subgroup.subtype.{u_2} H)) X)),\n  Eq.{(max u_1 u_2) + 1}\n    (DFunLike.coe.{(max u_1 u_2) + 1, (max u_1 u_2) + 1, (max u_1 u_2) + 1}\n      (Rep.Hom.hom.{max u_1 u_2, u_1, u_2}\n        (CategoryTheory.NatTrans.app.{max u_1 u_2, max u_1 u_2, max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n          (CategoryTheory.Iso.inv.{max (u_1 + 1) (u_2 + 1), max (max (max (u_1 + 1) (u_2 + 1)) u_2) ((max u_1 u_2) + 1)}\n            (decl-015428.{u_1, u_2} H))\n          X))\n      x)\n    (DFunLike.coe.{(max u_1 u_2) + 1, (max u_1 u_2) + 1, (max u_1 u_2) + 1}\n      (Rep.Hom.hom'.{max u_1 u_2, u_1, u_2}\n        (CategoryTheory.Iso.inv.{max u_1 u_2, max (u_1 + 1) (u_2 + 1)} (Rep.indCoindIso.{u_2, u_1, u_2} X)))\n      (DFunLike.coe.{(max u_1 u_2) + 1, (max u_1 u_2) + 1, (max u_1 u_2) + 1}\n        (Rep.Hom.hom'.{max u_1 u_2, u_1, u_2}\n          (CategoryTheory.NatTrans.app.{max u_1 u_2, max u_1 u_2, max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n            (CategoryTheory.Iso.inv.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n              (Rep.coindFunctorIso.{u_1, u_2, u_2} (Subgroup.subtype.{u_2} H)))\n            X))\n        x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015428"
+      ],
+      "structural_type_hash": "4240960534",
+      "temporary_id": "decl-015431"
+    }
+  ],
+  "module_temporary_id": "module-0415",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

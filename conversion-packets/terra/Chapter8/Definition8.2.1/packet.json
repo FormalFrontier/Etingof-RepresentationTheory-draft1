@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Definition8.2.1",
+    "kind": "definition",
+    "title": "Projective resolution",
+    "node_id": "chapter-08/section-8-2",
+    "order": 536,
+    "slug": "definition8-2-1",
+    "span": {
+      "start": {
+        "page": "208",
+        "line": 3
+      },
+      "end": {
+        "page": "208",
+        "line": 8
+      }
+    },
+    "source_sha256": "1e5a0484e9779f370e66cb987e9ef12cc761a5aedc27dee164066e185e93da5c",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Definition821",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

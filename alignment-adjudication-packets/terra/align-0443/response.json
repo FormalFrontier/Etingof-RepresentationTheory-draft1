@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0443",
+  "associations": [
+    {
+      "association_id": "association:794055ef63b373554edf",
+      "role": "supporting",
+      "rationale": "This theorem treats the distinct-character principal series and does not state the equal-character splitting described by the source claim."
+    },
+    {
+      "association_id": "association:4470c128f5c7dcd09011",
+      "role": "primary",
+      "rationale": "The theorem directly supplies the biproduct decomposition for equal characters and states both simplicity and q-dimensionality of the complementary summand."
+    }
+  ]
+}

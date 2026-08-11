@@ -1,0 +1,150 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n    \u2200 (a : Fin n),\n      Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun b => adj a b) (Nat.cast.{0} (decl-024478 adj a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024478"
+      ],
+      "structural_type_hash": "1240144510",
+      "temporary_id": "decl-017134"
+    },
+    {
+      "formal_type": "\u2200 (p q r : Nat),\n  LE.le.{0} 1 p \u2192\n    LE.le.{0} p q \u2192\n      LE.le.{0} q r \u2192\n        GT.gt.{0}\n            (HAdd.hAdd.{0, 0, 0}\n              (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} q 1) (HAdd.hAdd.{0, 0, 0} r 1))\n                (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} p 1) (HAdd.hAdd.{0, 0, 0} r 1)))\n              (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} p 1) (HAdd.hAdd.{0, 0, 0} q 1)))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} p 1) (HAdd.hAdd.{0, 0, 0} q 1))\n              (HAdd.hAdd.{0, 0, 0} r 1)) \u2192\n          Or (And (Eq.{1} p 1) (Eq.{1} q 1))\n            (Or (And (Eq.{1} p 1) (And (Eq.{1} q 2) (Eq.{1} r 2)))\n              (Or (And (Eq.{1} p 1) (And (Eq.{1} q 2) (Eq.{1} r 3)))\n                (And (Eq.{1} p 1) (And (Eq.{1} q 2) (Eq.{1} r 4)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3386698311",
+      "temporary_id": "decl-017224"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192 \u2200 (i : Fin n), LE.le.{0} (decl-024478 adj i) 3",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-024478"
+      ],
+      "structural_type_hash": "4085656372",
+      "temporary_id": "decl-018477"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192 LE.le.{0} 1 n \u2192 Eq.{1} (decl-018556 adj) (HSub.hSub.{0, 0, 0} n 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-018556"
+      ],
+      "structural_type_hash": "2350130488",
+      "temporary_id": "decl-018483"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    LE.le.{0} 1 n \u2192\n      (\u2200 (i : Fin n), LE.le.{0} (decl-024478 adj i) 2) \u2192\n        Exists.{1} fun v => LE.le.{0} (decl-024478 adj v) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-024478"
+      ],
+      "structural_type_hash": "1638579446",
+      "temporary_id": "decl-018489"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (cycle : List.{0} (Fin n)) (hlen : LE.le.{0} 3 (List.length.{0} cycle)),\n      List.Nodup.{0} cycle \u2192\n        (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} cycle)),\n            Eq.{1} (adj (List.get.{0} cycle \u27e8k, \u22ef\u27e9) (List.get.{0} cycle \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) 1) \u2192\n          Eq.{1} (adj (List.getLast.{0} cycle \u22ef) (List.get.{0} cycle \u27e80, \u22ef\u27e9)) 1 \u2192 False",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-018492",
+        "decl-018523"
+      ],
+      "structural_type_hash": "3645543277",
+      "temporary_id": "decl-018491"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1796513979",
+      "temporary_id": "decl-018556"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (G : SimpleGraph.{0} (Fin n)) (path : List.{0} (Fin n)) (u v : Fin n),\n  Eq.{1} (List.head?.{0} path) (Option.some.{0} u) \u2192\n    Eq.{1} (List.getLast?.{0} path) (Option.some.{0} v) \u2192\n      (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n          SimpleGraph.Adj.{0} G (List.get.{0} path \u27e8k, \u22ef\u27e9) (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) \u2192\n        SimpleGraph.Reachable.{0} G u v",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018492"
+      ],
+      "structural_type_hash": "2668044363",
+      "temporary_id": "decl-021520"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (hn : LE.le.{0} 1 n),\n      (\u2200 (i : Fin n), LE.le.{0} (decl-024478 adj i) 2) \u2192\n        Exists.{1} fun \u03c3 =>\n          \u2200 (i j : Fin n),\n            Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) ((decl-001862 n hn).adj i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001862",
+        "decl-001887",
+        "decl-005140",
+        "decl-024478"
+      ],
+      "structural_type_hash": "3299727356",
+      "temporary_id": "decl-021897"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (hn : LE.le.{0} 1 n),\n      (\u2200 (i : Fin n), LE.le.{0} (decl-024478 adj i) 2) \u2192\n        \u2200 (v\u2080 : Fin n),\n          LE.le.{0} (decl-024478 adj v\u2080) 1 \u2192\n            Exists.{1} fun \u03c3 =>\n              And (Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c3 \u27e80, \u22ef\u27e9) v\u2080)\n                (And\n                  (\u2200 (k : Fin n) (hk : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k.val 1) n),\n                    Eq.{1}\n                      (adj (DFunLike.coe.{1, 1, 1} \u03c3 k) (DFunLike.coe.{1, 1, 1} \u03c3 \u27e8HAdd.hAdd.{0, 0, 0} k.val 1, hk\u27e9)) 1)\n                  (\u2200 (i j : Fin n),\n                    Eq.{1} (adj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j)) 1 \u2192\n                      Or (Eq.{1} (HAdd.hAdd.{0, 0, 0} i.val 1) j.val) (Eq.{1} (HAdd.hAdd.{0, 0, 0} j.val 1) i.val)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-021899",
+        "decl-024478"
+      ],
+      "structural_type_hash": "2750279410",
+      "temporary_id": "decl-021898"
+    },
+    {
+      "formal_type": "\u2200 {n m : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (adj_sub : Matrix.{0, 0, 0} (Fin m) (Fin m) Int) (\u03c6 : Function.Embedding.{1, 1} (Fin m) (Fin n)),\n      (\u2200 (i j : Fin m), LE.le.{0} (adj_sub i j) (adj (DFunLike.coe.{1, 1, 1} \u03c6 i) (DFunLike.coe.{1, 1, 1} \u03c6 j))) \u2192\n        \u2200 (v : Fin m \u2192 Int),\n          (\u2200 (i : Fin m), LE.le.{0} 0 (v i)) \u2192\n            Ne.{1} v 0 \u2192\n              LE.le.{0}\n                  (dotProduct.{0, 0} v\n                    (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj_sub) v))\n                  0 \u2192\n                False",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140"
+      ],
+      "structural_type_hash": "261468350",
+      "temporary_id": "decl-023454"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 Fin n \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3683356798",
+      "temporary_id": "decl-024478"
+    }
+  ],
+  "module_temporary_id": "module-0513",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

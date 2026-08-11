@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_proof_Corollary2.3.10",
+    "kind": "discussion",
+    "title": "Proof of Corollary 2.3.10",
+    "node_id": "chapter-02/section-2-3",
+    "order": 38,
+    "slug": "discussion-proof-corollary2-3-10",
+    "span": {
+      "start": {
+        "page": "12",
+        "line": 18
+      },
+      "end": {
+        "page": "12",
+        "line": 20
+      }
+    },
+    "source_sha256": "75e64568006748e234aff7a0aceecc47e1db6c5e78e46241e75dfdaf8f603cb3",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionProofCorollary2310",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

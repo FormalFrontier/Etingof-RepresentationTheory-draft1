@@ -1,0 +1,848 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (\u03c1 : decl-025310.{0, u_1, u_2} Complex),\n  decl-025359.{0, u_1, u_2} \u03c1 \u2192\n    Or\n      (Eq.{1} (Module.finrank.{0, u_1} Complex (decl-025464.{0, u_1, u_2} \u03c1))\n        (Module.finrank.{0, u_2} Complex (decl-025465.{0, u_1, u_2} \u03c1)))\n      (Or\n        (Eq.{1} (Module.finrank.{0, u_1} Complex (decl-025464.{0, u_1, u_2} \u03c1))\n          (HAdd.hAdd.{0, 0, 0} (Module.finrank.{0, u_2} Complex (decl-025465.{0, u_1, u_2} \u03c1)) 1))\n        (Eq.{1} (Module.finrank.{0, u_2} Complex (decl-025465.{0, u_1, u_2} \u03c1))\n          (HAdd.hAdd.{0, 0, 0} (Module.finrank.{0, u_1} Complex (decl-025464.{0, u_1, u_2} \u03c1)) 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025359",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "1455512962",
+      "temporary_id": "decl-012972"
+    },
+    {
+      "formal_type": "\u2200 (\u03c1 : decl-025310.{0, u_1, u_2} Complex),\n  Not\n      (IsNilpotent.{u_2}\n        (LinearMap.comp.{0, 0, 0, u_2, u_1, u_2} (decl-025311.{0, u_1, u_2} \u03c1) (decl-025313.{0, u_1, u_2} \u03c1))) \u2192\n    Exists.{u_1 + 1} fun pV =>\n      Exists.{u_1 + 1} fun qV =>\n        Exists.{u_2 + 1} fun pW =>\n          Exists.{u_2 + 1} fun qW =>\n            And (IsCompl.{u_1} pV qV)\n              (And (IsCompl.{u_2} pW qW)\n                (And\n                  (\u2200 (x : decl-025464.{0, u_1, u_2} \u03c1),\n                    Membership.mem.{u_1, u_1} pV x \u2192\n                      Membership.mem.{u_2, u_2} pW\n                        (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_1 + 1, u_2 + 1} (decl-025311.{0, u_1, u_2} \u03c1) x))\n                  (And\n                    (\u2200 (x : decl-025464.{0, u_1, u_2} \u03c1),\n                      Membership.mem.{u_1, u_1} qV x \u2192\n                        Membership.mem.{u_2, u_2} qW\n                          (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_1 + 1, u_2 + 1} (decl-025311.{0, u_1, u_2} \u03c1) x))\n                    (And\n                      (\u2200 (x : decl-025465.{0, u_1, u_2} \u03c1),\n                        Membership.mem.{u_2, u_2} pW x \u2192\n                          Membership.mem.{u_1, u_1} pV\n                            (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_2 + 1, u_1 + 1} (decl-025313.{0, u_1, u_2} \u03c1) x))\n                      (And\n                        (\u2200 (x : decl-025465.{0, u_1, u_2} \u03c1),\n                          Membership.mem.{u_2, u_2} qW x \u2192\n                            Membership.mem.{u_1, u_1} qV\n                              (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_2 + 1, u_1 + 1} (decl-025313.{0, u_1, u_2} \u03c1) x))\n                        (Eq.{1}\n                          (Module.finrank.{0, u_1} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} qV x))\n                          (Module.finrank.{0, u_2} Complex\n                            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} qW x))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "1607934457",
+      "temporary_id": "decl-012982"
+    },
+    {
+      "formal_type": "\u2200 (\u03c1 : decl-025310.{0, u_1, u_2} Complex),\n  IsNilpotent.{u_2} (LinearMap.comp.{0, 0, 0, u_2, u_1, u_2} (decl-025311.{0, u_1, u_2} \u03c1) (decl-025313.{0, u_1, u_2} \u03c1)) \u2192\n    IsNilpotent.{max u_2 u_1} (decl-025469.{u_1, u_2} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025464",
+        "decl-025465",
+        "decl-025469",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "2307179164",
+      "temporary_id": "decl-012995"
+    },
+    {
+      "formal_type": "\u2200 (\u03c1 : decl-025310.{0, u_1, u_2} Complex),\n  decl-025359.{0, u_1, u_2} \u03c1 \u2192\n    IsNilpotent.{u_2} (LinearMap.comp.{0, 0, 0, u_2, u_1, u_2} (decl-025311.{0, u_1, u_2} \u03c1) (decl-025313.{0, u_1, u_2} \u03c1)) \u2192\n      LT.lt.{0} 0 (Module.finrank.{0, u_1} Complex (decl-025464.{0, u_1, u_2} \u03c1)) \u2192\n        LT.lt.{0} 0 (Module.finrank.{0, u_2} Complex (decl-025465.{0, u_1, u_2} \u03c1)) \u2192\n          Eq.{1}\n            (Module.finrank.{0, max u_2 u_1} Complex\n              (Subtype.{(max u_2 u_1) + 1} fun x =>\n                Membership.mem.{max u_2 u_1, max u_2 u_1}\n                  (LinearMap.ker.{0, 0, max u_2 u_1, max u_2 u_1} (decl-025469.{u_1, u_2} \u03c1)) x))\n            1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025359",
+        "decl-025464",
+        "decl-025465",
+        "decl-025469",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "1845151936",
+      "temporary_id": "decl-012996"
+    },
+    {
+      "formal_type": "Type",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-015132"
+    },
+    {
+      "formal_type": "\u2200 {c d : decl-015132} (e : decl-025361.{0, 0, 0, 0, 0} c.rep d.rep), Eq.{1} c d",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015132",
+      "project_type_dependencies": [
+        "decl-015132",
+        "decl-015174",
+        "decl-025361"
+      ],
+      "structural_type_hash": "4281545051",
+      "temporary_id": "decl-015139"
+    },
+    {
+      "formal_type": "decl-015132 \u2192 decl-025310.{0, 0, 0} Complex",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015132",
+      "project_type_dependencies": [
+        "decl-015132",
+        "decl-025310"
+      ],
+      "structural_type_hash": "2596350357",
+      "temporary_id": "decl-015174"
+    },
+    {
+      "formal_type": "\u2200 (c : decl-015132),\n  Eq.{1}\n    (Prod.mk.{0, 0} (Module.finrank.{0, 0} Complex (decl-025464.{0, 0, 0} c.rep))\n      (Module.finrank.{0, 0} Complex (decl-025465.{0, 0, 0} c.rep)))\n    (decl-015180.{1} (fun c => Prod.{0, 0} Nat Nat) c\n      (fun n eigenval => Prod.mk.{0, 0} (Subtype.val.{1} n) (Subtype.val.{1} n))\n      (fun n => Prod.mk.{0, 0} (Subtype.val.{1} n) (Subtype.val.{1} n))\n      (fun n => Prod.mk.{0, 0} (Subtype.val.{1} n) (HSub.hSub.{0, 0, 0} (Subtype.val.{1} n) 1)) fun n =>\n      Prod.mk.{0, 0} (HSub.hSub.{0, 0, 0} (Subtype.val.{1} n) 1) (Subtype.val.{1} n))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015132",
+      "project_type_dependencies": [
+        "decl-015132",
+        "decl-015174",
+        "decl-015180",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "3480088480",
+      "temporary_id": "decl-015181"
+    },
+    {
+      "formal_type": "\u2200 (c : decl-015132), decl-025359.{0, 0, 0} c.rep",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015132",
+      "project_type_dependencies": [
+        "decl-015132",
+        "decl-015174",
+        "decl-025359"
+      ],
+      "structural_type_hash": "1825879723",
+      "temporary_id": "decl-015182"
+    },
+    {
+      "formal_type": "decl-025310.{0, u_1, u_2} Complex \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025310"
+      ],
+      "structural_type_hash": "2167936813",
+      "temporary_id": "decl-015183"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 LT.lt.{0} 0 n \u2192 Complex \u2192 decl-025310.{0, 0, 0} Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025310"
+      ],
+      "structural_type_hash": "374335149",
+      "temporary_id": "decl-015186"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (hn : LT.lt.{0} 0 n) (eigenval : Complex), decl-025359.{0, 0, 0} (decl-015186 n hn eigenval)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015186",
+        "decl-025359"
+      ],
+      "structural_type_hash": "879302248",
+      "temporary_id": "decl-015192"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 LT.lt.{0} 0 n \u2192 decl-025310.{0, 0, 0} Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025310"
+      ],
+      "structural_type_hash": "1486585934",
+      "temporary_id": "decl-015198"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (hn : LT.lt.{0} 0 n), decl-025359.{0, 0, 0} (decl-015198 n hn)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015198",
+        "decl-025359"
+      ],
+      "structural_type_hash": "2311873228",
+      "temporary_id": "decl-015201"
+    },
+    {
+      "formal_type": "\u2200 {n m : Nat} {hn : LT.lt.{0} 0 n} {hm : LT.lt.{0} 0 m} {eigenval eigenval' : Complex}\n  (e : decl-025361.{0, 0, 0, 0, 0} (decl-015186 n hn eigenval) (decl-015186 m hm eigenval')),\n  And (Eq.{1} n m) (Eq.{1} eigenval eigenval')",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015186",
+        "decl-025361"
+      ],
+      "structural_type_hash": "3282670837",
+      "temporary_id": "decl-015202"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (hn : LT.lt.{0} 0 n) (eigenval : Complex),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (decl-025464.{0, 0, 0} (decl-015186 n hn eigenval)))\n      (LinearMap.comp.{0, 0, 0, 0, 0, 0} (decl-025313.{0, 0, 0} (decl-015186 n hn eigenval))\n        (decl-025311.{0, 0, 0} (decl-015186 n hn eigenval))))\n    (HMul.hMul.{0, 0, 0} (Nat.cast.{0} n) eigenval)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015186",
+        "decl-025311",
+        "decl-025313",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "4162252558",
+      "temporary_id": "decl-015203"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 LT.lt.{0} 0 n \u2192 decl-025310.{0, 0, 0} Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025310"
+      ],
+      "structural_type_hash": "1486585934",
+      "temporary_id": "decl-015204"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (hn : LT.lt.{0} 0 n), decl-025359.{0, 0, 0} (decl-015204 n hn)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015204",
+        "decl-025359"
+      ],
+      "structural_type_hash": "4171144912",
+      "temporary_id": "decl-015209"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 LT.lt.{0} 0 n \u2192 decl-025310.{0, 0, 0} Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025310"
+      ],
+      "structural_type_hash": "1486585934",
+      "temporary_id": "decl-015210"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (hn : LT.lt.{0} 0 n), decl-025359.{0, 0, 0} (decl-015210 n hn)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015210",
+        "decl-025359"
+      ],
+      "structural_type_hash": "285420912",
+      "temporary_id": "decl-015213"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [FiniteDimensional.{0, u_1} Complex M] (T : Module.End.{0, u_1} Complex M),\n  IsNilpotent.{u_1} T \u2192\n    Eq.{1}\n        (Module.finrank.{0, u_1} Complex\n          (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (LinearMap.ker.{0, 0, u_1, u_1} T) x))\n        1 \u2192\n      decl-005194.{0, u_1} (Polynomial.{0} Complex) (Module.AEval'.{0, u_1} T)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "3274255301",
+      "temporary_id": "decl-021715"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (hn : LT.lt.{0} 0 n) (q : Fin n \u2192 Complex),\n  Ne.{1} (q \u27e8HSub.hSub.{0, 0, 0} n 1, \u22ef\u27e9) 0 \u2192\n    LinearIndependent.{0, 0, 0} Complex fun i =>\n      DFunLike.coe.{1, 1, 1} (HPow.hPow.{0, 0, 0} (decl-003667.{0} n) i.val) q",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003667",
+        "decl-023114"
+      ],
+      "structural_type_hash": "2745478806",
+      "temporary_id": "decl-023113"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [Field.{u_1} k] \u2192 Type (max (max u_1 (u_2 + 1)) (u_3 + 1))",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1174554302",
+      "temporary_id": "decl-025310"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (self : decl-025310.{u_1, u_2, u_3} k) \u2192\n      LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) (decl-025464.{u_1, u_2, u_3} self) (decl-025465.{u_1, u_2, u_3} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "1233735454",
+      "temporary_id": "decl-025311"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (self : decl-025310.{u_1, u_2, u_3} k) \u2192\n      LinearMap.{u_1, u_1, u_3, u_2} (RingHom.id.{u_1} k) (decl-025465.{u_1, u_2, u_3} self) (decl-025464.{u_1, u_2, u_3} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "892317021",
+      "temporary_id": "decl-025313"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : Field.{u_1} k] \u2192 decl-025310.{u_1, u_2, u_3} k \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310"
+      ],
+      "structural_type_hash": "2790392798",
+      "temporary_id": "decl-025359"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192 decl-025310.{u_1, u_2, u_3} k \u2192 decl-025310.{u_1, u_4, u_5} k \u2192 Type (max (max (max u_2 u_3) u_4) u_5)",
+      "kind": "inductive",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310"
+      ],
+      "structural_type_hash": "2605284615",
+      "temporary_id": "decl-025361"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u03c1 : decl-025310.{u_1, u_2, u_3} k} {\u03c3 : decl-025310.{u_1, u_4, u_5} k}\n  (e : decl-025361.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u03c3),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (u_4 + 1) (u_2 + 1), u_2 + 1, u_4 + 1}\n      (LinearEquiv.conj.{u_1, u_1, u_2, u_4} (decl-025367.{u_1, u_2, u_3, u_4, u_5} e))\n      (LinearMap.comp.{u_1, u_1, u_1, u_2, u_3, u_2} (decl-025313.{u_1, u_2, u_3} \u03c1) (decl-025311.{u_1, u_2, u_3} \u03c1)))\n    (LinearMap.comp.{u_1, u_1, u_1, u_4, u_5, u_4} (decl-025313.{u_1, u_4, u_5} \u03c3) (decl-025311.{u_1, u_4, u_5} \u03c3))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025361",
+        "decl-025367",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "2988610518",
+      "temporary_id": "decl-025365"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {\u03c1 : decl-025310.{u_1, u_2, u_3} k} \u2192\n      {\u03c3 : decl-025310.{u_1, u_4, u_5} k} \u2192\n        decl-025361.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u03c3 \u2192\n          LinearEquiv.{u_1, u_1, u_2, u_4} (RingHom.id.{u_1} k) (decl-025464.{u_1, u_2, u_3} \u03c1) (decl-025464.{u_1, u_4, u_5} \u03c3)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025361",
+        "decl-025464",
+        "decl-025481",
+        "decl-025485"
+      ],
+      "structural_type_hash": "312778420",
+      "temporary_id": "decl-025367"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {\u03c1 : decl-025310.{u_1, u_2, u_3} k} \u2192\n      {\u03c3 : decl-025310.{u_1, u_4, u_5} k} \u2192\n        decl-025361.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u03c3 \u2192\n          LinearEquiv.{u_1, u_1, u_3, u_5} (RingHom.id.{u_1} k) (decl-025465.{u_1, u_2, u_3} \u03c1) (decl-025465.{u_1, u_4, u_5} \u03c3)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025361",
+        "decl-025465",
+        "decl-025482",
+        "decl-025486"
+      ],
+      "structural_type_hash": "1999304958",
+      "temporary_id": "decl-025368"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u03c1 : decl-025310.{u_1, u_2, u_3} k} {\u03c3 : decl-025310.{u_1, u_4, u_5} k}\n  (e : decl-025361.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u03c3),\n  And\n    (Eq.{1} (Module.finrank.{u_1, u_2} k (decl-025464.{u_1, u_2, u_3} \u03c1))\n      (Module.finrank.{u_1, u_4} k (decl-025464.{u_1, u_4, u_5} \u03c3)))\n    (Eq.{1} (Module.finrank.{u_1, u_3} k (decl-025465.{u_1, u_2, u_3} \u03c1))\n      (Module.finrank.{u_1, u_5} k (decl-025465.{u_1, u_4, u_5} \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025361",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "309489325",
+      "temporary_id": "decl-025369"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u03c1 : decl-025310.{u_1, u_2, u_3} k} {\u03c3 : decl-025310.{u_1, u_4, u_5} k}\n  (e : decl-025361.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u03c3),\n  Iff (decl-025359.{u_1, u_2, u_3} \u03c1) (decl-025359.{u_1, u_4, u_5} \u03c3)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025359",
+        "decl-025361"
+      ],
+      "structural_type_hash": "3088089122",
+      "temporary_id": "decl-025370"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u03c1 : decl-025310.{u_1, u_2, u_3} k} {\u03c3 : decl-025310.{u_1, u_4, u_5} k}\n  (e : decl-025361.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u03c3),\n  decl-025359.{u_1, u_2, u_3} \u03c1 \u2192 decl-025359.{u_1, u_4, u_5} \u03c3",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025359",
+        "decl-025361"
+      ],
+      "structural_type_hash": "947194661",
+      "temporary_id": "decl-025371"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u03c1 : decl-025310.{u_1, u_2, u_3} k} {\u03c3 : decl-025310.{u_1, u_4, u_5} k}\n  (e : decl-025361.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u03c3),\n  Iff\n    (Function.Injective.{u_3 + 1, u_2 + 1}\n      (DFunLike.coe.{max (u_3 + 1) (u_2 + 1), u_3 + 1, u_2 + 1} (decl-025313.{u_1, u_2, u_3} \u03c1)))\n    (Function.Injective.{u_5 + 1, u_4 + 1}\n      (DFunLike.coe.{max (u_5 + 1) (u_4 + 1), u_5 + 1, u_4 + 1} (decl-025313.{u_1, u_4, u_5} \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025313",
+        "decl-025361",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "2589201240",
+      "temporary_id": "decl-025372"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u03c1 : decl-025310.{u_1, u_2, u_3} k} {\u03c3 : decl-025310.{u_1, u_4, u_5} k}\n  (self : decl-025361.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u03c3) (v : decl-025464.{u_1, u_2, u_3} \u03c1),\n  Eq.{u_5 + 1}\n    (DFunLike.coe.{max (u_3 + 1) (u_5 + 1), u_3 + 1, u_5 + 1} (decl-025368.{u_1, u_2, u_3, u_4, u_5} self)\n      (DFunLike.coe.{max (u_3 + 1) (u_2 + 1), u_2 + 1, u_3 + 1} (decl-025311.{u_1, u_2, u_3} \u03c1) v))\n    (DFunLike.coe.{max (u_5 + 1) (u_4 + 1), u_4 + 1, u_5 + 1} (decl-025311.{u_1, u_4, u_5} \u03c3)\n      (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} (decl-025367.{u_1, u_2, u_3, u_4, u_5} self) v))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025361",
+        "decl-025367",
+        "decl-025368",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "2337813913",
+      "temporary_id": "decl-025373"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {\u03c1 : decl-025310.{u_1, u_2, u_3} k} {\u03c3 : decl-025310.{u_1, u_4, u_5} k}\n  (self : decl-025361.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u03c3) (w : decl-025465.{u_1, u_2, u_3} \u03c1),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} (decl-025367.{u_1, u_2, u_3, u_4, u_5} self)\n      (DFunLike.coe.{max (u_3 + 1) (u_2 + 1), u_3 + 1, u_2 + 1} (decl-025313.{u_1, u_2, u_3} \u03c1) w))\n    (DFunLike.coe.{max (u_5 + 1) (u_4 + 1), u_5 + 1, u_4 + 1} (decl-025313.{u_1, u_4, u_5} \u03c3)\n      (DFunLike.coe.{max (u_3 + 1) (u_5 + 1), u_3 + 1, u_5 + 1} (decl-025368.{u_1, u_2, u_3, u_4, u_5} self) w))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025313",
+        "decl-025361",
+        "decl-025367",
+        "decl-025368",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "45712287",
+      "temporary_id": "decl-025374"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : Field.{u_1} k] \u2192 (\u03c1 : decl-025310.{u_1, u_2, u_3} k) \u2192 decl-025361.{u_1, u_2, u_3, u_2, u_3} \u03c1 \u03c1",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025361"
+      ],
+      "structural_type_hash": "3545037894",
+      "temporary_id": "decl-025385"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {\u03c1 : decl-025310.{u_1, u_2, u_3} k} \u2192\n      {\u03c3 : decl-025310.{u_1, u_4, u_5} k} \u2192 decl-025361.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u03c3 \u2192 decl-025361.{u_1, u_4, u_5, u_2, u_3} \u03c3 \u03c1",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025361"
+      ],
+      "structural_type_hash": "2145224507",
+      "temporary_id": "decl-025390"
+    },
+    {
+      "formal_type": "\u2200 {\u03c1 : decl-025310.{0, u_1, u_2} Complex} {\u03c3 : decl-025310.{0, u_3, u_4} Complex} (e : decl-025361.{0, u_1, u_2, u_3, u_4} \u03c1 \u03c3),\n  Eq.{1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (LinearMap.trace.{0, u_1} Complex (decl-025464.{0, u_1, u_2} \u03c1))\n      (LinearMap.comp.{0, 0, 0, u_1, u_2, u_1} (decl-025313.{0, u_1, u_2} \u03c1) (decl-025311.{0, u_1, u_2} \u03c1)))\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, 1} (LinearMap.trace.{0, u_3} Complex (decl-025464.{0, u_3, u_4} \u03c3))\n      (LinearMap.comp.{0, 0, 0, u_3, u_4, u_3} (decl-025313.{0, u_3, u_4} \u03c3) (decl-025311.{0, u_3, u_4} \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025361",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "3590633143",
+      "temporary_id": "decl-025393"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {\u03c1 : decl-025310.{u_1, u_2, u_3} k} \u2192\n      {\u03c3 : decl-025310.{u_1, u_4, u_5} k} \u2192\n        {\u03c4 : decl-025310.{u_1, u_6, u_7} k} \u2192\n          decl-025361.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u03c3 \u2192\n            decl-025361.{u_1, u_4, u_5, u_6, u_7} \u03c3 \u03c4 \u2192 decl-025361.{u_1, u_2, u_3, u_6, u_7} \u03c1 \u03c4",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025361",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025361"
+      ],
+      "structural_type_hash": "2191589835",
+      "temporary_id": "decl-025394"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : Field.{u_1} k] \u2192 decl-025310.{u_1, u_2, u_3} k \u2192 Type u_2",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310"
+      ],
+      "structural_type_hash": "76272236",
+      "temporary_id": "decl-025464"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : Field.{u_1} k] \u2192 decl-025310.{u_1, u_2, u_3} k \u2192 Type u_3",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310"
+      ],
+      "structural_type_hash": "2402874244",
+      "temporary_id": "decl-025465"
+    },
+    {
+      "formal_type": "(\u03c1 : decl-025310.{0, u_1, u_2} Complex) \u2192\n  LinearMap.{0, 0, max u_2 u_1, max u_2 u_1} (RingHom.id.{0} Complex)\n    (Prod.{u_1, u_2} (decl-025464.{0, u_1, u_2} \u03c1) (decl-025465.{0, u_1, u_2} \u03c1))\n    (Prod.{u_1, u_2} (decl-025464.{0, u_1, u_2} \u03c1) (decl-025465.{0, u_1, u_2} \u03c1))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "475288622",
+      "temporary_id": "decl-025469"
+    },
+    {
+      "formal_type": "\u2200 (\u03c1 : decl-025310.{0, u_1, u_2} Complex) (v : decl-025464.{0, u_1, u_2} \u03c1) (w : decl-025465.{0, u_1, u_2} \u03c1),\n  Eq.{max (u_2 + 1) (u_1 + 1)}\n    (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), max (u_2 + 1) (u_1 + 1), max (u_2 + 1) (u_1 + 1)}\n      (decl-025469.{u_1, u_2} \u03c1) (Prod.mk.{u_1, u_2} v w))\n    (Prod.mk.{u_1, u_2} (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_2 + 1, u_1 + 1} (decl-025313.{0, u_1, u_2} \u03c1) w)\n      (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_1 + 1, u_2 + 1} (decl-025311.{0, u_1, u_2} \u03c1) v))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025464",
+        "decl-025465",
+        "decl-025469",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "769463459",
+      "temporary_id": "decl-025471"
+    },
+    {
+      "formal_type": "\u2200 (\u03c1 : decl-025310.{0, u_1, u_2} Complex),\n  Eq.{1}\n    (Module.finrank.{0, max u_2 u_1} Complex\n      (Subtype.{(max u_2 u_1) + 1} fun x =>\n        Membership.mem.{max u_2 u_1, max u_2 u_1}\n          (LinearMap.ker.{0, 0, max u_2 u_1, max u_2 u_1} (decl-025469.{u_1, u_2} \u03c1)) x))\n    (HAdd.hAdd.{0, 0, 0}\n      (Module.finrank.{0, u_1} Complex\n        (Subtype.{u_1 + 1} fun x =>\n          Membership.mem.{u_1, u_1} (LinearMap.ker.{0, 0, u_1, u_2} (decl-025311.{0, u_1, u_2} \u03c1)) x))\n      (Module.finrank.{0, u_2} Complex\n        (Subtype.{u_2 + 1} fun x =>\n          Membership.mem.{u_2, u_2} (LinearMap.ker.{0, 0, u_2, u_1} (decl-025313.{0, u_1, u_2} \u03c1)) x)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025464",
+        "decl-025465",
+        "decl-025469",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "3747698804",
+      "temporary_id": "decl-025472"
+    },
+    {
+      "formal_type": "\u2200 (\u03c1 : decl-025310.{0, u_1, u_2} Complex) {v\u2081 v\u2082 : decl-025464.{0, u_1, u_2} \u03c1},\n  Membership.mem.{u_1, u_1}\n      (iInf.{u_1, 1} fun n =>\n        LinearMap.range.{0, 0, u_1, u_1}\n          (HPow.hPow.{u_1, 0, u_1}\n            (LinearMap.comp.{0, 0, 0, u_1, u_2, u_1} (decl-025313.{0, u_1, u_2} \u03c1) (decl-025311.{0, u_1, u_2} \u03c1)) n))\n      v\u2081 \u2192\n    Membership.mem.{u_1, u_1}\n        (iInf.{u_1, 1} fun n =>\n          LinearMap.range.{0, 0, u_1, u_1}\n            (HPow.hPow.{u_1, 0, u_1}\n              (LinearMap.comp.{0, 0, 0, u_1, u_2, u_1} (decl-025313.{0, u_1, u_2} \u03c1) (decl-025311.{0, u_1, u_2} \u03c1)) n))\n        v\u2082 \u2192\n      Eq.{u_2 + 1} (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_1 + 1, u_2 + 1} (decl-025311.{0, u_1, u_2} \u03c1) v\u2081)\n          (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_1 + 1, u_2 + 1} (decl-025311.{0, u_1, u_2} \u03c1) v\u2082) \u2192\n        Eq.{u_1 + 1} v\u2081 v\u2082",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "346418511",
+      "temporary_id": "decl-025474"
+    },
+    {
+      "formal_type": "\u2200 (\u03c1 : decl-025310.{0, u_1, u_2} Complex) (x : decl-025464.{0, u_1, u_2} \u03c1),\n  Membership.mem.{u_1, u_1}\n      (iSup.{u_1, 1} fun n =>\n        LinearMap.ker.{0, 0, u_1, u_1}\n          (HPow.hPow.{u_1, 0, u_1}\n            (LinearMap.comp.{0, 0, 0, u_1, u_2, u_1} (decl-025313.{0, u_1, u_2} \u03c1) (decl-025311.{0, u_1, u_2} \u03c1)) n))\n      x \u2192\n    Membership.mem.{u_2, u_2}\n      (iSup.{u_2, 1} fun n =>\n        LinearMap.ker.{0, 0, u_2, u_2}\n          (HPow.hPow.{u_2, 0, u_2}\n            (LinearMap.comp.{0, 0, 0, u_2, u_1, u_2} (decl-025311.{0, u_1, u_2} \u03c1) (decl-025313.{0, u_1, u_2} \u03c1)) n))\n      (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_1 + 1, u_2 + 1} (decl-025311.{0, u_1, u_2} \u03c1) x)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "3726824638",
+      "temporary_id": "decl-025475"
+    },
+    {
+      "formal_type": "\u2200 (\u03c1 : decl-025310.{0, u_1, u_2} Complex) (x : decl-025464.{0, u_1, u_2} \u03c1),\n  Membership.mem.{u_1, u_1}\n      (iInf.{u_1, 1} fun n =>\n        LinearMap.range.{0, 0, u_1, u_1}\n          (HPow.hPow.{u_1, 0, u_1}\n            (LinearMap.comp.{0, 0, 0, u_1, u_2, u_1} (decl-025313.{0, u_1, u_2} \u03c1) (decl-025311.{0, u_1, u_2} \u03c1)) n))\n      x \u2192\n    Membership.mem.{u_2, u_2}\n      (iInf.{u_2, 1} fun n =>\n        LinearMap.range.{0, 0, u_2, u_2}\n          (HPow.hPow.{u_2, 0, u_2}\n            (LinearMap.comp.{0, 0, 0, u_2, u_1, u_2} (decl-025311.{0, u_1, u_2} \u03c1) (decl-025313.{0, u_1, u_2} \u03c1)) n))\n      (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_1 + 1, u_2 + 1} (decl-025311.{0, u_1, u_2} \u03c1) x)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "3575573683",
+      "temporary_id": "decl-025476"
+    },
+    {
+      "formal_type": "\u2200 (\u03c1 : decl-025310.{0, u_1, u_2} Complex) {w\u2081 w\u2082 : decl-025465.{0, u_1, u_2} \u03c1},\n  Membership.mem.{u_2, u_2}\n      (iInf.{u_2, 1} fun n =>\n        LinearMap.range.{0, 0, u_2, u_2}\n          (HPow.hPow.{u_2, 0, u_2}\n            (LinearMap.comp.{0, 0, 0, u_2, u_1, u_2} (decl-025311.{0, u_1, u_2} \u03c1) (decl-025313.{0, u_1, u_2} \u03c1)) n))\n      w\u2081 \u2192\n    Membership.mem.{u_2, u_2}\n        (iInf.{u_2, 1} fun n =>\n          LinearMap.range.{0, 0, u_2, u_2}\n            (HPow.hPow.{u_2, 0, u_2}\n              (LinearMap.comp.{0, 0, 0, u_2, u_1, u_2} (decl-025311.{0, u_1, u_2} \u03c1) (decl-025313.{0, u_1, u_2} \u03c1)) n))\n        w\u2082 \u2192\n      Eq.{u_1 + 1} (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_2 + 1, u_1 + 1} (decl-025313.{0, u_1, u_2} \u03c1) w\u2081)\n          (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_2 + 1, u_1 + 1} (decl-025313.{0, u_1, u_2} \u03c1) w\u2082) \u2192\n        Eq.{u_2 + 1} w\u2081 w\u2082",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "696447161",
+      "temporary_id": "decl-025477"
+    },
+    {
+      "formal_type": "\u2200 (\u03c1 : decl-025310.{0, u_1, u_2} Complex) (w : decl-025465.{0, u_1, u_2} \u03c1),\n  Membership.mem.{u_2, u_2}\n      (iSup.{u_2, 1} fun n =>\n        LinearMap.ker.{0, 0, u_2, u_2}\n          (HPow.hPow.{u_2, 0, u_2}\n            (LinearMap.comp.{0, 0, 0, u_2, u_1, u_2} (decl-025311.{0, u_1, u_2} \u03c1) (decl-025313.{0, u_1, u_2} \u03c1)) n))\n      w \u2192\n    Membership.mem.{u_1, u_1}\n      (iSup.{u_1, 1} fun n =>\n        LinearMap.ker.{0, 0, u_1, u_1}\n          (HPow.hPow.{u_1, 0, u_1}\n            (LinearMap.comp.{0, 0, 0, u_1, u_2, u_1} (decl-025313.{0, u_1, u_2} \u03c1) (decl-025311.{0, u_1, u_2} \u03c1)) n))\n      (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_2 + 1, u_1 + 1} (decl-025313.{0, u_1, u_2} \u03c1) w)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "1732117350",
+      "temporary_id": "decl-025478"
+    },
+    {
+      "formal_type": "\u2200 (\u03c1 : decl-025310.{0, u_1, u_2} Complex) (w : decl-025465.{0, u_1, u_2} \u03c1),\n  Membership.mem.{u_2, u_2}\n      (iInf.{u_2, 1} fun n =>\n        LinearMap.range.{0, 0, u_2, u_2}\n          (HPow.hPow.{u_2, 0, u_2}\n            (LinearMap.comp.{0, 0, 0, u_2, u_1, u_2} (decl-025311.{0, u_1, u_2} \u03c1) (decl-025313.{0, u_1, u_2} \u03c1)) n))\n      w \u2192\n    Membership.mem.{u_1, u_1}\n      (iInf.{u_1, 1} fun n =>\n        LinearMap.range.{0, 0, u_1, u_1}\n          (HPow.hPow.{u_1, 0, u_1}\n            (LinearMap.comp.{0, 0, 0, u_1, u_2, u_1} (decl-025313.{0, u_1, u_2} \u03c1) (decl-025311.{0, u_1, u_2} \u03c1)) n))\n      (DFunLike.coe.{max (u_2 + 1) (u_1 + 1), u_2 + 1, u_1 + 1} (decl-025313.{0, u_1, u_2} \u03c1) w)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025311",
+        "decl-025313",
+        "decl-025464",
+        "decl-025465",
+        "decl-025481",
+        "decl-025482",
+        "decl-025485",
+        "decl-025486"
+      ],
+      "structural_type_hash": "912403493",
+      "temporary_id": "decl-025479"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (\u03c1 : decl-025310.{u_1, u_2, u_3} k),\n  Iff (decl-025359.{u_1, u_3, u_2} (decl-025516.{u_1, u_2, u_3} \u03c1)) (decl-025359.{u_1, u_2, u_3} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025359",
+        "decl-025516"
+      ],
+      "structural_type_hash": "1462994736",
+      "temporary_id": "decl-025480"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192 (self : decl-025310.{u_1, u_2, u_3} k) \u2192 AddCommGroup.{u_2} (decl-025464.{u_1, u_2, u_3} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025464"
+      ],
+      "structural_type_hash": "98940932",
+      "temporary_id": "decl-025481"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192 (self : decl-025310.{u_1, u_2, u_3} k) \u2192 AddCommGroup.{u_3} (decl-025465.{u_1, u_2, u_3} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025465"
+      ],
+      "structural_type_hash": "1576153495",
+      "temporary_id": "decl-025482"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (self : decl-025310.{u_1, u_2, u_3} k),\n  FiniteDimensional.{u_1, u_2} k (decl-025464.{u_1, u_2, u_3} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025464",
+        "decl-025481",
+        "decl-025485"
+      ],
+      "structural_type_hash": "2334915795",
+      "temporary_id": "decl-025483"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (self : decl-025310.{u_1, u_2, u_3} k),\n  FiniteDimensional.{u_1, u_3} k (decl-025465.{u_1, u_2, u_3} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025465",
+        "decl-025482",
+        "decl-025486"
+      ],
+      "structural_type_hash": "3199698598",
+      "temporary_id": "decl-025484"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192 (self : decl-025310.{u_1, u_2, u_3} k) \u2192 Module.{u_1, u_2} k (decl-025464.{u_1, u_2, u_3} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025464",
+        "decl-025481"
+      ],
+      "structural_type_hash": "76357040",
+      "temporary_id": "decl-025485"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192 (self : decl-025310.{u_1, u_2, u_3} k) \u2192 Module.{u_1, u_3} k (decl-025465.{u_1, u_2, u_3} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310",
+        "decl-025465",
+        "decl-025482"
+      ],
+      "structural_type_hash": "3725473900",
+      "temporary_id": "decl-025486"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : Field.{u_1} k] \u2192 decl-025310.{u_1, u_2, u_3} k \u2192 decl-025310.{u_1, u_3, u_2} k",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025310",
+      "project_type_dependencies": [
+        "decl-025310"
+      ],
+      "structural_type_hash": "4132249883",
+      "temporary_id": "decl-025516"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] {W : Type u_2} [inst_3 : AddCommGroup.{u_2} W]\n  [inst_4 : Module.{0, u_2} Complex W] [FiniteDimensional.{0, u_2} Complex W]\n  (A : LinearMap.{0, 0, u_1, u_2} (RingHom.id.{0} Complex) V W)\n  (B : LinearMap.{0, 0, u_2, u_1} (RingHom.id.{0} Complex) W V),\n  IsNilpotent.{u_2} (LinearMap.comp.{0, 0, 0, u_2, u_1, u_2} A B) \u2192\n    LE.le.{0} 2\n        (HAdd.hAdd.{0, 0, 0}\n          (Module.finrank.{0, u_1} Complex\n            (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (LinearMap.ker.{0, 0, u_1, u_2} A) x))\n          (Module.finrank.{0, u_2} Complex\n            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (LinearMap.ker.{0, 0, u_2, u_1} B) x))) \u2192\n      Exists.{u_1 + 1} fun pV =>\n        Exists.{u_1 + 1} fun qV =>\n          Exists.{u_2 + 1} fun pW =>\n            Exists.{u_2 + 1} fun qW =>\n              And (IsCompl.{u_1} pV qV)\n                (And (IsCompl.{u_2} pW qW)\n                  (And\n                    (\u2200 (x : V),\n                      Membership.mem.{u_1, u_1} pV x \u2192\n                        Membership.mem.{u_2, u_2} pW (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} A x))\n                    (And\n                      (\u2200 (x : V),\n                        Membership.mem.{u_1, u_1} qV x \u2192\n                          Membership.mem.{u_2, u_2} qW (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} A x))\n                      (And\n                        (\u2200 (x : W),\n                          Membership.mem.{u_2, u_2} pW x \u2192\n                            Membership.mem.{u_1, u_1} pV (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} B x))\n                        (And\n                          (\u2200 (x : W),\n                            Membership.mem.{u_2, u_2} qW x \u2192\n                              Membership.mem.{u_1, u_1} qV\n                                (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} B x))\n                          (And (Not (And (Eq.{u_1 + 1} pV Bot.bot.{u_1}) (Eq.{u_2 + 1} pW Bot.bot.{u_2})))\n                            (Not (And (Eq.{u_1 + 1} qV Bot.bot.{u_1}) (Eq.{u_2 + 1} qW Bot.bot.{u_2})))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3204147187",
+      "temporary_id": "decl-032955"
+    }
+  ],
+  "module_temporary_id": "module-0554",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

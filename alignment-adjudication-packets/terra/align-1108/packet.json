@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0ccddea57126ebd9f795",
+      "declaration": "Etingof.Discussion2_4.IsSimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/47/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192 [Ring.{u_1} A] \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading"
+    },
+    {
+      "association_id": "association:886d570b98325baf9b19",
+      "declaration": "Etingof.Discussion2_4.unitIdeal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/47/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 Etingof.Discussion2_4.Ideal.{u_1} A",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading"
+    },
+    {
+      "association_id": "association:b84a0d565b20c32ae82f",
+      "declaration": "Etingof.Discussion2_4.zeroIdeal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/47/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 Etingof.Discussion2_4.Ideal.{u_1} A",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.4_heading",
+  "packet_id": "align-1108",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1108"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:de445b296c770103cbbb",
+  "source_text": "The zero ideal and the whole ring are two-sided ideals, and a nonzero ring with no others is simple."
+}

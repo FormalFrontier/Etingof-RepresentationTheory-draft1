@@ -1,0 +1,51 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n la) x))\n    (HDiv.hDiv.{0, 0, 0} n.factorial la.toYoungDiagram.hookLengthProduct)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016224",
+        "decl-025225",
+        "decl-025608"
+      ],
+      "structural_type_hash": "397488149",
+      "temporary_id": "decl-016530"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n la) x))\n    (Nat.card.{0} (decl-016206 n la))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016206",
+        "decl-016224"
+      ],
+      "structural_type_hash": "918632284",
+      "temporary_id": "decl-019457"
+    }
+  ],
+  "module_temporary_id": "module-0459",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

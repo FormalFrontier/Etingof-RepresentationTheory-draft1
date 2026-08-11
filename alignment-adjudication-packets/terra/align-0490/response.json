@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0490",
+  "associations": [
+    {
+      "association_id": "association:c4f5c52bbf2129ea426f",
+      "rationale": "The displayed formal type only exposes the presented-algebra construction and does not identify it with a quotient by the generated two-sided ideal.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:88cff34e739d2bdc07e2",
+      "rationale": "The formal type directly identifies the finite presentation with the quotient by the two-sided ideal spanned by the range of the relators.",
+      "role": "primary"
+    }
+  ]
+}

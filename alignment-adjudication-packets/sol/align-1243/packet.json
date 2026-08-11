@@ -1,0 +1,306 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:53d104c395a41873bbcf",
+      "declaration": "GL2.card_conjClasses_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} (Nat.card.{0} (ConjClasses.{0} (GL2'\u271d p n)))\n        (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:f9941fe22c031c732e78",
+      "declaration": "GL2.card_isElliptic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun g => GL2.IsElliptic g) Finset.univ.{0}))\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2)\n            (HPow.hPow.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1) 2))\n          2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClasses"
+    },
+    {
+      "association_id": "association:795cbd681b53897ffaa5",
+      "declaration": "GL2.card_isParabolic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun g => GL2.IsParabolic g) Finset.univ.{0}))\n        (HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n          (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClasses"
+    },
+    {
+      "association_id": "association:44d1ff07e661bde827e1",
+      "declaration": "GL2.card_isScalar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} n 0 \u2192\n    Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun g => GL2.IsScalar g) Finset.univ.{0}))\n      (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClasses"
+    },
+    {
+      "association_id": "association:fa6be5a842153936fe73",
+      "declaration": "GL2.card_isSplitSemisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun g => GL2.IsSplitSemisimple g) Finset.univ.{0}))\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0}\n            (HMul.hMul.{0, 0, 0}\n              (HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n                (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2))\n              (Fintype.card.{0} (GaloisField p n)))\n            (HAdd.hAdd.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n          2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClasses"
+    },
+    {
+      "association_id": "association:d634aaf02dad707bd245",
+      "declaration": "GL2.centralizerCard_isElliptic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)] {g : GL2'\u271d p n},\n  GL2.IsElliptic g \u2192\n    Eq.{1}\n      (Nat.card.{0}\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.centralizer.{0} (Singleton.singleton.{0, 0} g)) x))\n      (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:e7195224a232e3ff86c8",
+      "declaration": "GL2.centralizerCard_isParabolic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)] {g : GL2'\u271d p n},\n  GL2.IsParabolic g \u2192\n    Eq.{1}\n      (Nat.card.{0}\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.centralizer.{0} (Singleton.singleton.{0, 0} g)) x))\n      (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n        (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:c093de4f3b0dc1e8e8fc",
+      "declaration": "GL2.centralizerCard_isScalar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)] {g : GL2'\u271d p n},\n  GL2.IsScalar g \u2192\n    Eq.{1}\n      (Nat.card.{0}\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.centralizer.{0} (Singleton.singleton.{0, 0} g)) x))\n      (HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1)\n        (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2)\n          (Fintype.card.{0} (GaloisField p n))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:5b2dd025c899264f10d1",
+      "declaration": "GL2.centralizerCard_isSplitSemisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    \u2200 {g : GL2'\u271d p n},\n      GL2.IsSplitSemisimple g \u2192\n        Eq.{1}\n          (Nat.card.{0}\n            (Subtype.{1} fun x => Membership.mem.{0, 0} (Subgroup.centralizer.{0} (Singleton.singleton.{0, 0} g)) x))\n          (HPow.hPow.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1) 2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:457c3759c7562519f44f",
+      "declaration": "GL2.classCard_isElliptic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} n 0 \u2192\n    \u2200 {g : GL2'\u271d p n},\n      GL2.IsElliptic g \u2192\n        Eq.{1} (Nat.card.{0} (Set.Elem.{0} (MulAction.orbit.{0, 0} (ConjAct.{0} (GL2'\u271d p n)) g)))\n          (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2)\n            (Fintype.card.{0} (GaloisField p n)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:2559a5968c5d56063352",
+      "declaration": "GL2.classCard_isParabolic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} n 0 \u2192\n    \u2200 {g : GL2'\u271d p n},\n      GL2.IsParabolic g \u2192\n        Eq.{1} (Nat.card.{0} (Set.Elem.{0} (MulAction.orbit.{0, 0} (ConjAct.{0} (GL2'\u271d p n)) g)))\n          (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:3457f30b7999eaf54d8a",
+      "declaration": "GL2.classCard_isScalar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [Fintype.{0} (GaloisField p n)] [DecidableEq.{1} (GaloisField p n)]\n  [Fintype.{0} (GL2'\u271d p n)] {g : GL2'\u271d p n},\n  GL2.IsScalar g \u2192 Eq.{1} (Nat.card.{0} (Set.Elem.{0} (MulAction.orbit.{0, 0} (ConjAct.{0} (GL2'\u271d p n)) g))) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:06d8e49dd6f2696ef5c7",
+      "declaration": "GL2.classCard_isSplitSemisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      \u2200 {g : GL2'\u271d p n},\n        GL2.IsSplitSemisimple g \u2192\n          Eq.{1} (Nat.card.{0} (Set.Elem.{0} (MulAction.orbit.{0, 0} (ConjAct.{0} (GL2'\u271d p n)) g)))\n            (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2)\n              (Fintype.card.{0} (GaloisField p n)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:0eb2e426031f4b340675",
+      "declaration": "GL2.conjugacyClass_partition",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} (g : GL2'\u271d p n),\n  Or\n    (And (GL2.IsScalar g)\n      (And (Not (GL2.IsParabolic g)) (And (Not (GL2.IsSplitSemisimple g)) (Not (GL2.IsElliptic g)))))\n    (Or\n      (And (GL2.IsParabolic g)\n        (And (Not (GL2.IsScalar g)) (And (Not (GL2.IsSplitSemisimple g)) (Not (GL2.IsElliptic g)))))\n      (Or\n        (And (GL2.IsSplitSemisimple g)\n          (And (Not (GL2.IsScalar g)) (And (Not (GL2.IsParabolic g)) (Not (GL2.IsElliptic g)))))\n        (And (GL2.IsElliptic g)\n          (And (Not (GL2.IsScalar g)) (And (Not (GL2.IsParabolic g)) (Not (GL2.IsSplitSemisimple g)))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClasses"
+    },
+    {
+      "association_id": "association:bb973f46d5511a3fdf37",
+      "declaration": "GL2.exists_conj_isElliptic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat},\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      \u2200 {g : GL2'\u271d p n},\n        GL2.IsElliptic g \u2192\n          \u2200 {\u03b5 : GaloisField p n} (h\u03b5 : Not (IsSquare.{0} \u03b5)),\n            Exists.{1} fun x => Exists.{1} fun y => Exists.{0} fun hy => IsConj.{0} g (GL2.ellipticRep \u03b5 x y h\u03b5 hy)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:213a2175c0cec8eb2a42",
+      "declaration": "GL2.exists_conj_isParabolic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat},\n  Ne.{1} p 2 \u2192\n    \u2200 {g : GL2'\u271d p n}, GL2.IsParabolic g \u2192 Exists.{1} fun x => Exists.{0} fun hx => IsConj.{0} g (GL2.jordanRepr x hx)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:18950213c8968fcde7ea",
+      "declaration": "GL2.exists_conj_isScalar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} {g : GL2'\u271d p n},\n  GL2.IsScalar g \u2192 Exists.{1} fun x => Exists.{0} fun hx => IsConj.{0} g (GL2.scalarRepr x hx)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:e7023bad6546c22a047b",
+      "declaration": "GL2.exists_conj_isSplitSemisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat},\n  Ne.{1} p 2 \u2192\n    \u2200 {g : GL2'\u271d p n},\n      GL2.IsSplitSemisimple g \u2192\n        Exists.{1} fun x =>\n          Exists.{1} fun y =>\n            Exists.{0} fun hx => Exists.{0} fun hy => And (Ne.{1} x y) (IsConj.{0} g (GL2.diagRepr x y hx hy))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:d7650b89e9f956470b01",
+      "declaration": "GL2.numEllipticClasses_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} GL2.numEllipticClasses\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n            (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n          2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:fe3f369ee84cedb13f70",
+      "declaration": "GL2.numParabolicClasses_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192 Ne.{1} n 0 \u2192 Eq.{1} GL2.numParabolicClasses (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:5f5c6f2e2687dd6c23b7",
+      "declaration": "GL2.numScalarClasses_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} n 0 \u2192 Eq.{1} GL2.numScalarClasses (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:53a9f23809a771c61cfc",
+      "declaration": "GL2.numSplitSemisimpleClasses_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/379/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat} [inst : Fintype.{0} (GaloisField p n)]\n  [DecidableEq.{1} (GaloisField p n)] [Fintype.{0} (GL2'\u271d p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1} GL2.numSplitSemisimpleClasses\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n            (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2))\n          2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_5.25.1",
+  "packet_id": "align-1243",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1243"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Discussion_5.25.1",
+  "source_text": "**5.25.1. Conjugacy classes in $GL_2(\\mathbb{F}_q)$.** Let $\\mathbb{F}_q$ be a finite field of size $q$ of characteristic other than 2 and $G = GL_2(\\mathbb{F}_q)$. Then\n\n$$\n|G| = (q^2 - 1)(q^2 - q),\n$$\n\nsince the first column of an invertible $2 \\times 2$ matrix must be nonzero and the second column may not be a multiple of the first one. Factoring,\n\n$$\n|GL_2(\\mathbb{F}_q)| = q(q + 1)(q - 1)^2.\n$$\nThe goal of this section is to describe the irreducible representations of $G$.\n\nTo begin, let us find the conjugacy classes in $GL_2(\\mathbb{F}_q)$.\n\n| Representatives | Number of elements in a conjugacy class | Number of classes |\n|---|---|---|\n| Scalar $\\begin{pmatrix} x & 0 \\\\ 0 & x \\end{pmatrix}$ | 1 (this is a central element) | $q - 1$ (one for every nonzero $x$) |\n| Parabolic $\\begin{pmatrix} x & 1 \\\\ 0 & x \\end{pmatrix}$ | $q^2 - 1$ (elements that commute with this one are of the form $\\begin{pmatrix} t & u \\\\ 0 & t \\end{pmatrix}$, $t \\neq 0$) | $q - 1$ (one for every nonzero $x$) |\n| Hyperbolic $\\begin{pmatrix} x & 0 \\\\ 0 & y \\end{pmatrix}$, $y \\neq x$ | $q^2 + q$ (elements that commute with this one are of the form $\\begin{pmatrix} t & 0 \\\\ 0 & u \\end{pmatrix}$, $t, u \\neq 0$) | $\\frac{1}{2}(q - 1)(q - 2)$ ($x, y \\neq 0$ and $x \\neq y$) |\n| Elliptic $\\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix}$, $x \\in \\mathbb{F}_q$, $y \\in \\mathbb{F}_q^\\times$, $\\varepsilon \\in \\mathbb{F}_q \\setminus \\mathbb{F}_q^2$ (characteristic polynomial over $\\mathbb{F}_q$ is irreducible) | $q^2 - q$ (the reason will be described below) | $\\frac{1}{2}q(q - 1)$ (matrices with $y$ and $-y$ are conjugate) |\n\nLet us explain the structure of the conjugacy class of elliptic matrices in more detail. These are the matrices whose characteristic polynomial is irreducible over $\\mathbb{F}_q$ and which therefore don't have eigenvalues in $\\mathbb{F}_q$. Let $A$ be such a matrix, and consider a quadratic extension of $\\mathbb{F}_q$, namely, $\\mathbb{F}_q(\\sqrt{\\varepsilon})$, where $\\varepsilon \\in \\mathbb{F}_q \\setminus \\mathbb{F}_q^2$. Over this field, $A$ will have eigenvalues\n\n$$\n\\alpha = \\alpha_1 + \\sqrt{\\varepsilon}\\,\\alpha_2\n$$\n\nand\n\n$$\n\\bar{\\alpha} = \\alpha_1 - \\sqrt{\\varepsilon}\\,\\alpha_2,\n$$\nwith corresponding eigenvectors\n\n$$\nv, \\bar{v} \\quad (Av = \\alpha v, \\, A\\bar{v} = \\bar{\\alpha}\\bar{v}).\n$$\n\nChoose a basis\n\n$$\n\\{e_1 = v + \\bar{v}, \\, e_2 = \\sqrt{\\varepsilon}(v - \\bar{v})\\}.\n$$\n\nIn this basis, the matrix $A$ will have the form\n\n$$\n\\begin{pmatrix} \\alpha_1 & \\varepsilon \\alpha_2 \\\\ \\alpha_2 & \\alpha_1 \\end{pmatrix},\n$$\n\njustifying the description of representative elements of this conjugacy class.\n\nIn the basis $\\{v, \\bar{v}\\}$, matrices that commute with $A$ will have the form\n\n$$\n\\begin{pmatrix} \\lambda & 0 \\\\ 0 & \\bar{\\lambda} \\end{pmatrix},\n$$\n\nfor all\n\n$$\n\\lambda \\in \\mathbb{F}_{q^2}^\\times,\n$$\n\nso the number of such matrices is $q^2 - 1$.\n\n"
+}

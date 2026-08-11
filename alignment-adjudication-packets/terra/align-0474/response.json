@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0474",
+  "associations": [
+    {
+      "association_id": "association:63df971144edbffa3c67",
+      "role": "primary",
+      "rationale": "The declaration directly concludes that the k-linear endomorphism module is semisimple as an A-module when V is finite-dimensional and simple over A."
+    }
+  ]
+}

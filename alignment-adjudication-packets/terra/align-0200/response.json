@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0200",
+  "associations": [
+    {
+      "association_id": "association:7f24b433a091e71e60bb",
+      "role": "supporting",
+      "rationale": "It directly gives semisimplicity but does not state the named direct-sum classification with pairwise nonisomorphism."
+    },
+    {
+      "association_id": "association:a76a87db8707173c765d",
+      "role": "supporting",
+      "rationale": "It gives a direct sum of named algebraic irreducibles but does not state the required pairwise-nonisomorphic condition."
+    }
+  ]
+}

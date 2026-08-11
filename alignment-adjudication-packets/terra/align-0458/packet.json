@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:94bfb8d0f4c1c972f7eb",
+      "declaration": "CategoryTheory.Functor.category",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/477/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.CategoryTheory.Functor.Category"
+    }
+  ],
+  "canonical_reference": "Chapter7/Introduction_7.3",
+  "packet_id": "align-0458",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0458"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:92ca3fd733d41b41e8a9",
+  "source_text": "Functors between fixed categories form a category with natural transformations as morphisms."
+}

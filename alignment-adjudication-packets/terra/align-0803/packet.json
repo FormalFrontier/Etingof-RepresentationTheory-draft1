@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:eec2a2165c6a052d3e00",
+      "declaration": "Etingof.Problem6_9_2.rootsOf_E8_isRootSystem",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/461/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Etingof.Problem6_9_2.IsSimplyLacedCrystallographicRootSystem\n  (Etingof.Problem6_9_2.rootsOf Etingof.Problem6_9_2.E8Lattice)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_2_RootSystem"
+    },
+    {
+      "association_id": "association:daa3ad9973cc9158afb0",
+      "declaration": "Etingof.Problem6_9_2.rootsOf_E8_type_E8",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/461/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And\n  (Etingof.Problem6_9_2.IsSimplyLacedCrystallographicRootSystem\n    (Etingof.Problem6_9_2.rootsOf Etingof.Problem6_9_2.E8Lattice))\n  (And\n    (\u2200 (i : Fin 8),\n      Membership.mem.{0, 0} (Etingof.Problem6_9_2.rootsOf Etingof.Problem6_9_2.E8Lattice) (Etingof.Problem6_9_2.\u03b1 i))\n    (And (Etingof.IsDynkinDiagram 8 Etingof.Problem6_9_2.gramAdj)\n      (Exists.{1} fun \u03c3 =>\n        \u2200 (i j : Fin 8),\n          Eq.{1} (Etingof.Problem6_9_2.gramAdj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j))\n            (Etingof.DynkinType.E8.adj i j))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_2_RootSystem"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.9.2",
+  "packet_id": "align-0803",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0803"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.9.2:part_b",
+  "source_text": "Part (b): construct the E8 root system and identify its Dynkin type."
+}

@@ -1,0 +1,1122 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_2) \u2192 [inst : Field.{u_2} k] \u2192 Nat \u2192 Units.{u_2} k \u2192 k \u2192 Type u_2",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2733311032",
+      "temporary_id": "decl-007076"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192 Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150"
+      ],
+      "structural_type_hash": "1009711930",
+      "temporary_id": "decl-007077"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192 Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150"
+      ],
+      "structural_type_hash": "1009711930",
+      "temporary_id": "decl-007080"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k],\n  Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} (decl-007077.{u_1} k) (decl-007080.{u_1} k))\n    (decl-007080.{u_1} k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007080",
+        "decl-007150"
+      ],
+      "structural_type_hash": "268659644",
+      "temporary_id": "decl-007088"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p] (a : k)\n  (\u03b3 : Units.{u_2} k),\n  Eq.{u_2 + 1}\n    (Bracket.bracket.{u_2, u_2} (decl-007107.{u_2} k p a)\n      (decl-007129.{u_2} k p \u03b3))\n    (decl-007129.{u_2} k p \u03b3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007107",
+        "decl-007129"
+      ],
+      "structural_type_hash": "2496637569",
+      "temporary_id": "decl-007089"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (p : Nat) [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  [IsAlgClosed.{u_2} k] (M : Type u_3) [inst_4 : AddCommGroup.{u_3} M] [inst_5 : Module.{u_2, u_3} k M]\n  [inst_6 :\n    LieRingModule.{u_2, u_3} (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n      M]\n  [LieModule.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M]\n  [FiniteDimensional.{u_2, u_3} k M]\n  [LieModule.IsIrreducible.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M],\n  Or\n    (Exists.{u_2 + 1} fun \u03bc =>\n      Nonempty.{max (u_2 + 1) (u_3 + 1)}\n        (LieModuleEquiv.{u_2, u_2, u_3, u_2} k\n          (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M\n          (decl-007244.{u_2} k \u03bc)))\n    (Exists.{u_2 + 1} fun \u03b3 =>\n      Exists.{u_2 + 1} fun a =>\n        Nonempty.{max (u_2 + 1) (u_3 + 1)}\n          (LieModuleEquiv.{u_2, u_2, u_3, u_2} k\n            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M\n            (decl-007076.{u_2} k p \u03b3 a)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007114",
+        "decl-007150",
+        "decl-007152",
+        "decl-007170",
+        "decl-007194",
+        "decl-007195",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "3523842183",
+      "temporary_id": "decl-007090"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (p : Nat) [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  [IsAlgClosed.{u_2} k] (M : Type u_3) [inst_4 : AddCommGroup.{u_3} M] [inst_5 : Module.{u_2, u_3} k M]\n  [inst_6 :\n    LieRingModule.{u_2, u_3} (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n      M]\n  [LieModule.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M]\n  [FiniteDimensional.{u_2, u_3} k M]\n  [LieModule.IsIrreducible.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M],\n  Or\n    (ExistsUnique.{u_2 + 1} fun \u03bc =>\n      Nonempty.{max (u_2 + 1) (u_3 + 1)}\n        (LieModuleEquiv.{u_2, u_2, u_3, u_2} k\n          (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M\n          (decl-007244.{u_2} k \u03bc)))\n    (Exists.{u_2 + 1} fun \u03b3 =>\n      Exists.{u_2 + 1} fun a =>\n        And\n          (Nonempty.{max (u_2 + 1) (u_3 + 1)}\n            (LieModuleEquiv.{u_2, u_2, u_3, u_2} k\n              (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M\n              (decl-007076.{u_2} k p \u03b3 a)))\n          (\u2200 (\u03b3' : Units.{u_2} k) (a' : k),\n            Nonempty.{max (u_2 + 1) (u_3 + 1)}\n                (LieModuleEquiv.{u_2, u_2, u_3, u_2} k\n                  (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M\n                  (decl-007076.{u_2} k p \u03b3' a')) \u2192\n              And (Eq.{u_2 + 1} \u03b3' \u03b3)\n                (Exists.{1} fun n =>\n                  Eq.{u_2 + 1} a'\n                    (HAdd.hAdd.{u_2, u_2, u_2} a\n                      (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-007216.{u_2} k p) n)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007114",
+        "decl-007150",
+        "decl-007152",
+        "decl-007170",
+        "decl-007194",
+        "decl-007195",
+        "decl-007203",
+        "decl-007216",
+        "decl-007244"
+      ],
+      "structural_type_hash": "3010517700",
+      "temporary_id": "decl-007091"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (M : Type u_2)\n  [inst_3 : AddCommGroup.{u_2} M] [inst_4 : Module.{u_1, u_2} k M]\n  [inst_5 :\n    LieRingModule.{u_1, u_2} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n      M]\n  [LieModule.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M]\n  [FiniteDimensional.{u_1, u_2} k M]\n  [LieModule.IsIrreducible.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M],\n  ExistsUnique.{u_1 + 1} fun \u03bc =>\n    \u2200 (m : M),\n      Eq.{u_2 + 1} (Bracket.bracket.{u_1, u_2} (decl-007077.{u_1} k) m) (HSMul.hSMul.{u_1, u_2, u_2} \u03bc m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007150"
+      ],
+      "structural_type_hash": "775189449",
+      "temporary_id": "decl-007092"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (M : Type u_2)\n  [inst_3 : AddCommGroup.{u_2} M] [inst_4 : Module.{u_1, u_2} k M]\n  [inst_5 :\n    LieRingModule.{u_1, u_2} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n      M]\n  [LieModule.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M]\n  [FiniteDimensional.{u_1, u_2} k M]\n  [LieModule.IsIrreducible.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M]\n  (m : M), Eq.{u_2 + 1} (Bracket.bracket.{u_1, u_2} (decl-007080.{u_1} k) m) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007080",
+        "decl-007150"
+      ],
+      "structural_type_hash": "3175986450",
+      "temporary_id": "decl-007093"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (M : Type u_2)\n  [inst_3 : AddCommGroup.{u_2} M] [inst_4 : Module.{u_1, u_2} k M]\n  [inst_5 :\n    LieRingModule.{u_1, u_2} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n      M]\n  [LieModule.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M]\n  [FiniteDimensional.{u_1, u_2} k M]\n  [LieModule.IsIrreducible.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M],\n  ExistsUnique.{u_1 + 1} fun \u03bc =>\n    Nonempty.{max (u_1 + 1) (u_2 + 1)}\n      (LieModuleEquiv.{u_1, u_1, u_2, u_1} k\n        (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M\n        (decl-007244.{u_1} k \u03bc))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150",
+        "decl-007170",
+        "decl-007194",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "2943951446",
+      "temporary_id": "decl-007094"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (M : Type u_2)\n  [inst_3 : AddCommGroup.{u_2} M] [inst_4 : Module.{u_1, u_2} k M]\n  [inst_5 :\n    LieRingModule.{u_1, u_2} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n      M]\n  [LieModule.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M]\n  [FiniteDimensional.{u_1, u_2} k M]\n  [LieModule.IsIrreducible.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M],\n  Eq.{1} (Module.finrank.{u_1, u_2} k M) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150"
+      ],
+      "structural_type_hash": "2635360023",
+      "temporary_id": "decl-007095"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k],\n  Eq.{u_2 + 1} (Subtype.val.{u_2 + 1} (decl-007077.{u_2} k)) (Matrix.single.{0, 0, u_2} 0 0 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007150"
+      ],
+      "structural_type_hash": "3053656221",
+      "temporary_id": "decl-007096"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k],\n  Eq.{u_2 + 1} (Subtype.val.{u_2 + 1} (decl-007080.{u_2} k)) (Matrix.single.{0, 0, u_2} 0 1 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007080",
+        "decl-007150"
+      ],
+      "structural_type_hash": "4056868839",
+      "temporary_id": "decl-007097"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 : Units.{u_2} k) (a : k) (N : Submodule.{u_2, u_2} k (ZMod p \u2192 k)),\n  (\u2200 (v : ZMod p \u2192 k),\n      Membership.mem.{u_2, u_2} N v \u2192\n        Membership.mem.{u_2, u_2} N\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007107.{u_2} k p a) v)) \u2192\n    (\u2200 (v : ZMod p \u2192 k),\n        Membership.mem.{u_2, u_2} N v \u2192\n          Membership.mem.{u_2, u_2} N\n            (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007129.{u_2} k p \u03b3) v)) \u2192\n      Or (Eq.{u_2 + 1} N Bot.bot.{u_2}) (Eq.{u_2 + 1} N Top.top.{u_2})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007107",
+        "decl-007129"
+      ],
+      "structural_type_hash": "1400525012",
+      "temporary_id": "decl-007099"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k]\n  (Z : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x),\n  Eq.{u_1 + 1} Z\n    (HAdd.hAdd.{u_1, u_1, u_1}\n      (HSMul.hSMul.{u_1, u_1, u_1} (Subtype.val.{u_1 + 1} Z 0 0) (decl-007077.{u_1} k))\n      (HSMul.hSMul.{u_1, u_1, u_1} (Subtype.val.{u_1 + 1} Z 0 1) (decl-007080.{u_1} k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007080",
+        "decl-007150"
+      ],
+      "structural_type_hash": "3412697674",
+      "temporary_id": "decl-007102"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (M : Type u_2) [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} k M]\n  [inst_3 :\n    LieRingModule.{u_1, u_2} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n      M]\n  [LieModule.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M]\n  [LieModule.IsIrreducible.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M]\n  (N : Submodule.{u_1, u_2} k M),\n  (\u2200 (m : M),\n      Membership.mem.{u_2, u_2} N m \u2192\n        Membership.mem.{u_2, u_2} N (Bracket.bracket.{u_1, u_2} (decl-007077.{u_1} k) m)) \u2192\n    (\u2200 (m : M),\n        Membership.mem.{u_2, u_2} N m \u2192\n          Membership.mem.{u_2, u_2} N (Bracket.bracket.{u_1, u_2} (decl-007080.{u_1} k) m)) \u2192\n      \u2200 {m\u2080 : M}, Membership.mem.{u_2, u_2} N m\u2080 \u2192 Ne.{u_2 + 1} m\u2080 0 \u2192 Eq.{u_2 + 1} N Top.top.{u_2}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007080",
+        "decl-007150"
+      ],
+      "structural_type_hash": "2611626872",
+      "temporary_id": "decl-007103"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p] (a c : k)\n  (w : ZMod p \u2192 k),\n  Ne.{u_2 + 1} w 0 \u2192\n    Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007107.{u_2} k p a) w)\n        (HSMul.hSMul.{u_2, u_2, u_2} c w) \u2192\n      Exists.{1} fun i =>\n        Eq.{u_2 + 1} c\n          (HAdd.hAdd.{u_2, u_2, u_2} a (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-007216.{u_2} k p) i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007107",
+        "decl-007216"
+      ],
+      "structural_type_hash": "1318388835",
+      "temporary_id": "decl-007104"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (p : Nat) [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  [IsAlgClosed.{u_2} k] (M : Type u_3) [inst_4 : AddCommGroup.{u_3} M] [inst_5 : Module.{u_2, u_3} k M]\n  [inst_6 :\n    LieRingModule.{u_2, u_3} (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n      M]\n  [LieModule.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M]\n  [FiniteDimensional.{u_2, u_3} k M]\n  [LieModule.IsIrreducible.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M],\n  (Exists.{u_3 + 1} fun m => Ne.{u_3 + 1} (Bracket.bracket.{u_2, u_3} (decl-007080.{u_2} k) m) 0) \u2192\n    Exists.{u_2 + 1} fun \u03b3 =>\n      Exists.{u_2 + 1} fun a =>\n        Nonempty.{max (u_2 + 1) (u_3 + 1)}\n          (LieModuleEquiv.{u_2, u_2, u_3, u_2} k\n            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M\n            (decl-007076.{u_2} k p \u03b3 a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007080",
+        "decl-007114",
+        "decl-007150",
+        "decl-007152",
+        "decl-007195"
+      ],
+      "structural_type_hash": "1564681217",
+      "temporary_id": "decl-007105"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] [IsAlgClosed.{u_2} k] (M : Type u_3) [inst_2 : AddCommGroup.{u_3} M]\n  [inst_3 : Module.{u_2, u_3} k M]\n  [inst_4 :\n    LieRingModule.{u_2, u_3} (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n      M]\n  [LieModule.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M]\n  [FiniteDimensional.{u_2, u_3} k M]\n  [LieModule.IsIrreducible.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M],\n  (\u2200 (m : M), Eq.{u_3 + 1} (Bracket.bracket.{u_2, u_3} (decl-007080.{u_2} k) m) 0) \u2192\n    Exists.{u_2 + 1} fun \u03bc =>\n      Nonempty.{max (u_2 + 1) (u_3 + 1)}\n        (LieModuleEquiv.{u_2, u_2, u_3, u_2} k\n          (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M\n          (decl-007244.{u_2} k \u03bc))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007080",
+        "decl-007150",
+        "decl-007170",
+        "decl-007194",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "2614802058",
+      "temporary_id": "decl-007106"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192\n    (p : Nat) \u2192 [Fact (Nat.Prime p)] \u2192 [CharP.{u_2} k p] \u2192 k \u2192 Module.End.{u_2, u_2} k (ZMod p \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3920012777",
+      "temporary_id": "decl-007107"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p] (a : k)\n  (v : ZMod p \u2192 k) (i : ZMod p),\n  Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007107.{u_2} k p a) v i)\n    (HMul.hMul.{u_2, u_2, u_2}\n      (HAdd.hAdd.{u_2, u_2, u_2} a (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-007216.{u_2} k p) i)) (v i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007107",
+        "decl-007216"
+      ],
+      "structural_type_hash": "772610936",
+      "temporary_id": "decl-007111"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p] (a : k),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007107.{u_2} k p a) (Pi.single.{0, u_2} 0 1))\n    (HSMul.hSMul.{u_2, u_2, u_2} a (Pi.single.{0, u_2} 0 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007107"
+      ],
+      "structural_type_hash": "1356526922",
+      "temporary_id": "decl-007112"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (p : Nat) [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 : Units.{u_2} k) (a : k),\n  LieModule.{u_2, u_2, u_2} k (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n    (decl-007076.{u_2} k p \u03b3 a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007114",
+        "decl-007150",
+        "decl-007152",
+        "decl-007195"
+      ],
+      "structural_type_hash": "323221687",
+      "temporary_id": "decl-007113"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192\n    (p : Nat) \u2192\n      [Fact (Nat.Prime p)] \u2192\n        [CharP.{u_2} k p] \u2192\n          (\u03b3 : Units.{u_2} k) \u2192\n            (a : k) \u2192\n              LieRingModule.{u_2, u_2}\n                (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n                (decl-007076.{u_2} k p \u03b3 a)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007150",
+        "decl-007152"
+      ],
+      "structural_type_hash": "561332599",
+      "temporary_id": "decl-007114"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192\n    (p : Nat) \u2192\n      [Fact (Nat.Prime p)] \u2192\n        [CharP.{u_2} k p] \u2192\n          Units.{u_2} k \u2192\n            k \u2192\n              LieHom.{u_2, u_2, u_2} k\n                (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n                (Module.End.{u_2, u_2} k (ZMod p \u2192 k))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150"
+      ],
+      "structural_type_hash": "1559748058",
+      "temporary_id": "decl-007117"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192\n    (p : Nat) \u2192\n      [Fact (Nat.Prime p)] \u2192\n        [CharP.{u_2} k p] \u2192\n          (\u03b3 : Units.{u_2} k) \u2192\n            (a : k) \u2192\n              LieHom.{u_2, u_2, u_2} k\n                (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n                (Module.End.{u_2, u_2} k (decl-007076.{u_2} k p \u03b3 a))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007150",
+        "decl-007152",
+        "decl-007195"
+      ],
+      "structural_type_hash": "2682310146",
+      "temporary_id": "decl-007118"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 : Units.{u_2} k) (a : k),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007118.{u_2} k p \u03b3 a)\n      (decl-007077.{u_2} k))\n    (decl-007107.{u_2} k p a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007077",
+        "decl-007107",
+        "decl-007118",
+        "decl-007150",
+        "decl-007152",
+        "decl-007195"
+      ],
+      "structural_type_hash": "971952131",
+      "temporary_id": "decl-007119"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 : Units.{u_2} k) (a : k),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007118.{u_2} k p \u03b3 a)\n      (decl-007080.{u_2} k))\n    (decl-007129.{u_2} k p \u03b3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007080",
+        "decl-007118",
+        "decl-007129",
+        "decl-007150",
+        "decl-007152",
+        "decl-007195"
+      ],
+      "structural_type_hash": "1621442740",
+      "temporary_id": "decl-007120"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 : Units.{u_2} k) (a : k),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007117.{u_2} k p \u03b3 a)\n      (decl-007077.{u_2} k))\n    (decl-007107.{u_2} k p a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007107",
+        "decl-007117",
+        "decl-007150"
+      ],
+      "structural_type_hash": "528326888",
+      "temporary_id": "decl-007127"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 : Units.{u_2} k) (a : k),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007117.{u_2} k p \u03b3 a)\n      (decl-007080.{u_2} k))\n    (decl-007129.{u_2} k p \u03b3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007080",
+        "decl-007117",
+        "decl-007129",
+        "decl-007150"
+      ],
+      "structural_type_hash": "618276293",
+      "temporary_id": "decl-007128"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192 (p : Nat) \u2192 [Fact (Nat.Prime p)] \u2192 Units.{u_2} k \u2192 Module.End.{u_2, u_2} k (ZMod p \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1642520677",
+      "temporary_id": "decl-007129"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] (\u03b3 : Units.{u_2} k) (v : ZMod p \u2192 k)\n  (i : ZMod p),\n  Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007129.{u_2} k p \u03b3) v i)\n    (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} \u03b3) (v (HSub.hSub.{0, 0, 0} i 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007129"
+      ],
+      "structural_type_hash": "623165245",
+      "temporary_id": "decl-007133"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] (\u03b3 : Units.{u_2} k),\n  Eq.{u_2 + 1} (HPow.hPow.{u_2, 0, u_2} (decl-007129.{u_2} k p \u03b3) p)\n    (HSMul.hSMul.{u_2, u_2, u_2} (HPow.hPow.{u_2, 0, u_2} (Units.val.{u_2} \u03b3) p) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007129"
+      ],
+      "structural_type_hash": "2155798871",
+      "temporary_id": "decl-007134"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] (\u03b3 : Units.{u_2} k) (j : ZMod p)\n  (c : k),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007129.{u_2} k p \u03b3) (Pi.single.{0, u_2} j c))\n    (Pi.single.{0, u_2} (HAdd.hAdd.{0, 0, 0} j 1) (HMul.hMul.{u_2, u_2, u_2} (Units.val.{u_2} \u03b3) c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007129"
+      ],
+      "structural_type_hash": "2495220534",
+      "temporary_id": "decl-007135"
+    },
+    {
+      "formal_type": "{k : Type u_2} \u2192\n  [inst : Field.{u_2} k] \u2192\n    {p : Nat} \u2192\n      [inst_1 : Fact (Nat.Prime p)] \u2192\n        [inst_2 : CharP.{u_2} k p] \u2192\n          (\u03b3 : Units.{u_2} k) \u2192\n            (a : k) \u2192\n              (n : ZMod p) \u2192\n                LieModuleEquiv.{u_2, u_2, u_2, u_2} k\n                  (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n                  (decl-007076.{u_2} k p \u03b3 a)\n                  (decl-007076.{u_2} k p \u03b3\n                    (HAdd.hAdd.{u_2, u_2, u_2} a\n                      (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-007216.{u_2} k p) n)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007114",
+        "decl-007150",
+        "decl-007152",
+        "decl-007195",
+        "decl-007216"
+      ],
+      "structural_type_hash": "409948433",
+      "temporary_id": "decl-007136"
+    },
+    {
+      "formal_type": "{k : Type u_2} \u2192\n  [inst : Field.{u_2} k] \u2192\n    {p : Nat} \u2192 [Fact (Nat.Prime p)] \u2192 (\u03b3 : Units.{u_2} k) \u2192 (a : k) \u2192 decl-007076.{u_2} k p \u03b3 a",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076"
+      ],
+      "structural_type_hash": "2510614756",
+      "temporary_id": "decl-007140"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] (\u03b3 : Units.{u_2} k) (a : k),\n  Ne.{u_2 + 1} (decl-007140.{u_2} \u03b3 a) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007140",
+        "decl-007152"
+      ],
+      "structural_type_hash": "275345648",
+      "temporary_id": "decl-007142"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [Fact (Nat.Prime p)] (\u03b3 : Units.{u_2} k) (a : k),\n  Eq.{1} (Module.finrank.{u_2, u_2} k (decl-007076.{u_2} k p \u03b3 a)) p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007152",
+        "decl-007195"
+      ],
+      "structural_type_hash": "1614440773",
+      "temporary_id": "decl-007143"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 : Units.{u_2} k) (a : k),\n  LieModule.IsIrreducible.{u_2, u_2, u_2} k\n    (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n    (decl-007076.{u_2} k p \u03b3 a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007114",
+        "decl-007150",
+        "decl-007152",
+        "decl-007195"
+      ],
+      "structural_type_hash": "3888781224",
+      "temporary_id": "decl-007144"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 : Units.{u_2} k) (a : k) (v : decl-007076.{u_2} k p \u03b3 a),\n  Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} (decl-007077.{u_2} k) v)\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007107.{u_2} k p a) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007077",
+        "decl-007107",
+        "decl-007114",
+        "decl-007150",
+        "decl-007152"
+      ],
+      "structural_type_hash": "1918704657",
+      "temporary_id": "decl-007145"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 : Units.{u_2} k) (a : k) (v : decl-007076.{u_2} k p \u03b3 a),\n  Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} (decl-007080.{u_2} k) v)\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007129.{u_2} k p \u03b3) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007080",
+        "decl-007114",
+        "decl-007129",
+        "decl-007150",
+        "decl-007152"
+      ],
+      "structural_type_hash": "1625217051",
+      "temporary_id": "decl-007146"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 \u03b3' : Units.{u_2} k) (a a' : k),\n  Iff\n    (Nonempty.{u_2 + 1}\n      (LieModuleEquiv.{u_2, u_2, u_2, u_2} k\n        (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n        (decl-007076.{u_2} k p \u03b3 a) (decl-007076.{u_2} k p \u03b3' a')))\n    (And (Eq.{u_2 + 1} \u03b3 \u03b3')\n      (Exists.{1} fun n =>\n        Eq.{u_2 + 1} a'\n          (HAdd.hAdd.{u_2, u_2, u_2} a (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-007216.{u_2} k p) n))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007114",
+        "decl-007150",
+        "decl-007152",
+        "decl-007195",
+        "decl-007216"
+      ],
+      "structural_type_hash": "4152071776",
+      "temporary_id": "decl-007147"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  {\u03b3 \u03b3' : Units.{u_2} k} {a a' : k},\n  Not\n      (And (Eq.{u_2 + 1} \u03b3 \u03b3')\n        (Exists.{1} fun n =>\n          Eq.{u_2 + 1} a'\n            (HAdd.hAdd.{u_2, u_2, u_2} a\n              (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-007216.{u_2} k p) n)))) \u2192\n    Not\n      (Nonempty.{u_2 + 1}\n        (LieModuleEquiv.{u_2, u_2, u_2, u_2} k\n          (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n          (decl-007076.{u_2} k p \u03b3 a) (decl-007076.{u_2} k p \u03b3' a')))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007114",
+        "decl-007150",
+        "decl-007152",
+        "decl-007195",
+        "decl-007216"
+      ],
+      "structural_type_hash": "722956897",
+      "temporary_id": "decl-007148"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : Field.{u_1} k] \u2192 LieSubalgebra.{u_1, u_1} k (Matrix.{0, 0, u_1} (Fin 2) (Fin 2) k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1465291259",
+      "temporary_id": "decl-007150"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192\n    (p : Nat) \u2192 (\u03b3 : Units.{u_2} k) \u2192 (a : k) \u2192 AddCommGroup.{u_2} (decl-007076.{u_2} k p \u03b3 a)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076"
+      ],
+      "structural_type_hash": "994679437",
+      "temporary_id": "decl-007152"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [Field.{u_1} k] \u2192 (\u03bc : k) \u2192 AddCommGroup.{u_1} (decl-007244.{u_1} k \u03bc)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007244"
+      ],
+      "structural_type_hash": "3618267015",
+      "temporary_id": "decl-007170"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (p : Nat) [Fact (Nat.Prime p)] (\u03b3 : Units.{u_2} k) (a : k),\n  FiniteDimensional.{u_2, u_2} k (decl-007076.{u_2} k p \u03b3 a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007152",
+        "decl-007195"
+      ],
+      "structural_type_hash": "1981416344",
+      "temporary_id": "decl-007188"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03bc : k),\n  FiniteDimensional.{u_1, u_1} k (decl-007244.{u_1} k \u03bc)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007170",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "2585445341",
+      "temporary_id": "decl-007190"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k],\n  LieAlgebra.IsSolvable.{u_1} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150"
+      ],
+      "structural_type_hash": "3371791565",
+      "temporary_id": "decl-007192"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03bc : k),\n  LieModule.{u_1, u_1, u_1} k (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n    (decl-007244.{u_1} k \u03bc)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150",
+        "decl-007170",
+        "decl-007194",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "2387895097",
+      "temporary_id": "decl-007193"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (\u03bc : k) \u2192\n      LieRingModule.{u_1, u_1}\n        (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n        (decl-007244.{u_1} k \u03bc)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150",
+        "decl-007170",
+        "decl-007244"
+      ],
+      "structural_type_hash": "2884185001",
+      "temporary_id": "decl-007194"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192\n    (p : Nat) \u2192 (\u03b3 : Units.{u_2} k) \u2192 (a : k) \u2192 Module.{u_2, u_2} k (decl-007076.{u_2} k p \u03b3 a)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007152"
+      ],
+      "structural_type_hash": "392079420",
+      "temporary_id": "decl-007195"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : Field.{u_1} k] \u2192 (\u03bc : k) \u2192 Module.{u_1, u_1} k (decl-007244.{u_1} k \u03bc)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007170",
+        "decl-007244"
+      ],
+      "structural_type_hash": "395118421",
+      "temporary_id": "decl-007203"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [Fact (Nat.Prime p)], NeZero.{0} p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "178106268",
+      "temporary_id": "decl-007211"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (p : Nat) (\u03b3 : Units.{u_2} k) (a : k),\n  Nontrivial.{u_2} (decl-007076.{u_2} k p \u03b3 a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076"
+      ],
+      "structural_type_hash": "2606427046",
+      "temporary_id": "decl-007212"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [Field.{u_1} k] (\u03bc : k), Nontrivial.{u_1} (decl-007244.{u_1} k \u03bc)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007244"
+      ],
+      "structural_type_hash": "4156220522",
+      "temporary_id": "decl-007214"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192 (p : Nat) \u2192 [inst_1 : Fact (Nat.Prime p)] \u2192 [CharP.{u_2} k p] \u2192 RingHom.{0, u_2} (ZMod p) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "731593829",
+      "temporary_id": "decl-007216"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (p : Nat) [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p],\n  Function.Injective.{1, u_2 + 1} (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-007216.{u_2} k p))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007216"
+      ],
+      "structural_type_hash": "3724852289",
+      "temporary_id": "decl-007218"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p] (n : Nat),\n  Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-007216.{u_2} k p) (Nat.cast.{0} n))\n    (Nat.cast.{u_2} n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007216"
+      ],
+      "structural_type_hash": "835673071",
+      "temporary_id": "decl-007219"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p] (i : ZMod p),\n  Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-007216.{u_2} k p) i) (Nat.cast.{u_2} i.val)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007216"
+      ],
+      "structural_type_hash": "4196775949",
+      "temporary_id": "decl-007220"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    {M : Type u_2} \u2192\n      {N : Type u_3} \u2192\n        [inst_1 : AddCommGroup.{u_2} M] \u2192\n          [inst_2 : Module.{u_1, u_2} k M] \u2192\n            [inst_3 :\n                LieRingModule.{u_1, u_2}\n                  (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M] \u2192\n              [LieModule.{u_1, u_1, u_2} k\n                    (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M] \u2192\n                [inst_5 : AddCommGroup.{u_3} N] \u2192\n                  [inst_6 : Module.{u_1, u_3} k N] \u2192\n                    [inst_7 :\n                        LieRingModule.{u_1, u_3}\n                          (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n                          N] \u2192\n                      [LieModule.{u_1, u_1, u_3} k\n                            (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n                            N] \u2192\n                        (e : LinearEquiv.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) M N) \u2192\n                          (\u2200 (m : M),\n                              Eq.{u_3 + 1}\n                                (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} e\n                                  (Bracket.bracket.{u_1, u_2} (decl-007077.{u_1} k) m))\n                                (Bracket.bracket.{u_1, u_3} (decl-007077.{u_1} k)\n                                  (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} e m))) \u2192\n                            (\u2200 (m : M),\n                                Eq.{u_3 + 1}\n                                  (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} e\n                                    (Bracket.bracket.{u_1, u_2} (decl-007080.{u_1} k) m))\n                                  (Bracket.bracket.{u_1, u_3} (decl-007080.{u_1} k)\n                                    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} e m))) \u2192\n                              LieModuleEquiv.{u_1, u_1, u_2, u_3} k\n                                (Subtype.{u_1 + 1} fun x =>\n                                  Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n                                M N",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007080",
+        "decl-007150"
+      ],
+      "structural_type_hash": "3406388510",
+      "temporary_id": "decl-007221"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] {M : Type u_2} {N : Type u_3} [inst_1 : AddCommGroup.{u_2} M]\n  [inst_2 : Module.{u_1, u_2} k M]\n  [inst_3 :\n    LieRingModule.{u_1, u_2} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n      M]\n  [inst_4 :\n    LieModule.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M]\n  [inst_5 : AddCommGroup.{u_3} N] [inst_6 : Module.{u_1, u_3} k N]\n  [inst_7 :\n    LieRingModule.{u_1, u_3} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n      N]\n  [inst_8 :\n    LieModule.{u_1, u_1, u_3} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) N]\n  (\u03c6 :\n    LieModuleEquiv.{u_1, u_1, u_2, u_3} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M N)\n  (Z : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) (n : Nat) (m : M),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c6\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n        (HPow.hPow.{u_2, 0, u_2}\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1}\n            (LieModule.toEnd.{u_1, u_1, u_2} k\n              (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M)\n            Z)\n          n)\n        m))\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n      (HPow.hPow.{u_3, 0, u_3}\n        (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_1 + 1, u_3 + 1}\n          (LieModule.toEnd.{u_1, u_1, u_3} k\n            (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) N)\n          Z)\n        n)\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c6 m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150"
+      ],
+      "structural_type_hash": "1904162052",
+      "temporary_id": "decl-007226"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (M : Type u_3) [inst_1 : AddCommGroup.{u_3} M] [inst_2 : Module.{u_2, u_3} k M]\n  [inst_3 :\n    LieRingModule.{u_2, u_3} (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n      M]\n  [LieModule.{u_2, u_2, u_3} k\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x) M]\n  (m : M),\n  Eq.{u_3 + 1}\n    (Bracket.bracket.{u_2, u_3} (decl-007077.{u_2} k)\n      (Bracket.bracket.{u_2, u_3} (decl-007080.{u_2} k) m))\n    (HAdd.hAdd.{u_3, u_3, u_3}\n      (Bracket.bracket.{u_2, u_3} (decl-007080.{u_2} k)\n        (Bracket.bracket.{u_2, u_3} (decl-007077.{u_2} k) m))\n      (Bracket.bracket.{u_2, u_3} (decl-007080.{u_2} k) m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007080",
+        "decl-007150"
+      ],
+      "structural_type_hash": "3869313614",
+      "temporary_id": "decl-007227"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (M : Type u_2) [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} k M]\n  [inst_3 :\n    LieRingModule.{u_1, u_2} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n      M]\n  [LieModule.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M]\n  (Z : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) (m : M),\n  Eq.{u_2 + 1} (Bracket.bracket.{u_1, u_2} Z m)\n    (HAdd.hAdd.{u_2, u_2, u_2}\n      (HSMul.hSMul.{u_1, u_2, u_2} (Subtype.val.{u_1 + 1} Z 0 0)\n        (Bracket.bracket.{u_1, u_2} (decl-007077.{u_1} k) m))\n      (HSMul.hSMul.{u_1, u_2, u_2} (Subtype.val.{u_1 + 1} Z 0 1)\n        (Bracket.bracket.{u_1, u_2} (decl-007080.{u_1} k) m)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007080",
+        "decl-007150"
+      ],
+      "structural_type_hash": "33031306",
+      "temporary_id": "decl-007228"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] (p : Nat) [Fact (Nat.Prime p)] [CharP.{0} k p],\n  Not\n    (\u2200 (M : Type) [inst_4 : AddCommGroup.{0} M] [inst_5 : Module.{0, 0} k M]\n      [inst_6 : LieRingModule.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-007150.{0} k) x) M]\n      [LieModule.{0, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-007150.{0} k) x) M]\n      [FiniteDimensional.{0, 0} k M]\n      [LieModule.IsIrreducible.{0, 0, 0} k\n          (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-007150.{0} k) x) M],\n      Eq.{1} (Module.finrank.{0, 0} k M) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150"
+      ],
+      "structural_type_hash": "1926162394",
+      "temporary_id": "decl-007229"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k]\n  (A : Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x),\n  And (Eq.{u_2 + 1} (Subtype.val.{u_2 + 1} A 1 0) 0) (Eq.{u_2 + 1} (Subtype.val.{u_2 + 1} A 1 1) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150"
+      ],
+      "structural_type_hash": "2500923265",
+      "temporary_id": "decl-007231"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] {v : ZMod p \u2192 k} {i : ZMod p},\n  Iff (Membership.mem.{0, 0} (decl-007282.{u_2} v) i) (Ne.{u_2 + 1} (v i) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007282"
+      ],
+      "structural_type_hash": "1924688736",
+      "temporary_id": "decl-007234"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (M : Type u_2) [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} k M]\n  [inst_3 :\n    LieRingModule.{u_1, u_2} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n      M]\n  [LieModule.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M]\n  {\u03bc : k},\n  (\u2200 (m : M),\n      Eq.{u_2 + 1} (Bracket.bracket.{u_1, u_2} (decl-007077.{u_1} k) m) (HSMul.hSMul.{u_1, u_2, u_2} \u03bc m)) \u2192\n    (\u2200 (m : M), Eq.{u_2 + 1} (Bracket.bracket.{u_1, u_2} (decl-007080.{u_1} k) m) 0) \u2192\n      Eq.{1} (Module.finrank.{u_1, u_2} k M) 1 \u2192\n        Nonempty.{max (u_1 + 1) (u_2 + 1)}\n          (LieModuleEquiv.{u_1, u_1, u_2, u_1} k\n            (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M\n            (decl-007244.{u_1} k \u03bc))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007080",
+        "decl-007150",
+        "decl-007170",
+        "decl-007194",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "1495596470",
+      "temporary_id": "decl-007235"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (M : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} M] \u2192\n        [inst_2 : Module.{u_1, u_2} k M] \u2192\n          [inst_3 :\n              LieRingModule.{u_1, u_2}\n                (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M] \u2192\n            [LieModule.{u_1, u_1, u_2} k\n                  (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M] \u2192\n              (N : Submodule.{u_1, u_2} k M) \u2192\n                (\u2200 (m : M),\n                    Membership.mem.{u_2, u_2} N m \u2192\n                      Membership.mem.{u_2, u_2} N (Bracket.bracket.{u_1, u_2} (decl-007077.{u_1} k) m)) \u2192\n                  (\u2200 (m : M),\n                      Membership.mem.{u_2, u_2} N m \u2192\n                        Membership.mem.{u_2, u_2} N (Bracket.bracket.{u_1, u_2} (decl-007080.{u_1} k) m)) \u2192\n                    LieSubmodule.{u_1, u_1, u_2} k\n                      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007080",
+        "decl-007150"
+      ],
+      "structural_type_hash": "1439349702",
+      "temporary_id": "decl-007236"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (M : Type u_2) [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} k M]\n  [inst_3 :\n    LieRingModule.{u_1, u_2} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n      M]\n  [inst_4 :\n    LieModule.{u_1, u_1, u_2} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x) M]\n  (N : Submodule.{u_1, u_2} k M)\n  (hX :\n    \u2200 (m : M),\n      Membership.mem.{u_2, u_2} N m \u2192\n        Membership.mem.{u_2, u_2} N (Bracket.bracket.{u_1, u_2} (decl-007077.{u_1} k) m))\n  (hY :\n    \u2200 (m : M),\n      Membership.mem.{u_2, u_2} N m \u2192\n        Membership.mem.{u_2, u_2} N (Bracket.bracket.{u_1, u_2} (decl-007080.{u_1} k) m)),\n  Eq.{u_2 + 1} (LieSubmodule.toSubmodule.{u_1, u_1, u_2} (decl-007236.{u_1, u_2} k M N hX hY)) N",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007080",
+        "decl-007150",
+        "decl-007236"
+      ],
+      "structural_type_hash": "3118880364",
+      "temporary_id": "decl-007238"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (\u03bc : k) \u2192 LinearEquiv.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k) k (decl-007244.{u_1} k \u03bc)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007170",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "3682956761",
+      "temporary_id": "decl-007239"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 k \u2192 Type u_1",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4246386609",
+      "temporary_id": "decl-007244"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (\u03bc : k) \u2192\n      LieHom.{u_1, u_1, u_1} k\n        (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n        (Module.End.{u_1, u_1} k (decl-007244.{u_1} k \u03bc))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150",
+        "decl-007170",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "302372730",
+      "temporary_id": "decl-007245"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03bc : k)\n  (A : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007245.{u_1} k \u03bc) A)\n    (HSMul.hSMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (Subtype.val.{u_1 + 1} A 0 0) \u03bc) LinearMap.id.{u_1, u_1})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150",
+        "decl-007170",
+        "decl-007203",
+        "decl-007244",
+        "decl-007245"
+      ],
+      "structural_type_hash": "2551429411",
+      "temporary_id": "decl-007251"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03bc : k),\n  LieModule.IsIrreducible.{u_1, u_1, u_1} k\n    (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n    (decl-007244.{u_1} k \u03bc)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150",
+        "decl-007170",
+        "decl-007194",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "3791453684",
+      "temporary_id": "decl-007252"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03bc : k)\n  (Z : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n  (x : decl-007244.{u_1} k \u03bc),\n  Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} Z x)\n    (HSMul.hSMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (Subtype.val.{u_1 + 1} Z 0 0) \u03bc) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150",
+        "decl-007170",
+        "decl-007194",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "2127186526",
+      "temporary_id": "decl-007253"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03bc : k) (x : decl-007244.{u_1} k \u03bc),\n  Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} (decl-007077.{u_1} k) x) (HSMul.hSMul.{u_1, u_1, u_1} \u03bc x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007150",
+        "decl-007170",
+        "decl-007194",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "2829769957",
+      "temporary_id": "decl-007254"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03bc : k) (x : decl-007244.{u_1} k \u03bc),\n  Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} (decl-007080.{u_1} k) x) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007080",
+        "decl-007150",
+        "decl-007170",
+        "decl-007194",
+        "decl-007244"
+      ],
+      "structural_type_hash": "3229954664",
+      "temporary_id": "decl-007255"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p] (\u03bc : k)\n  (\u03b3 : Units.{u_2} k) (a : k),\n  Not\n    (Nonempty.{u_2 + 1}\n      (LieModuleEquiv.{u_2, u_2, u_2, u_2} k\n        (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n        (decl-007244.{u_2} k \u03bc) (decl-007076.{u_2} k p \u03b3 a)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007114",
+        "decl-007150",
+        "decl-007152",
+        "decl-007170",
+        "decl-007194",
+        "decl-007195",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "1203991906",
+      "temporary_id": "decl-007256"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] {\u03bc\u2081 \u03bc\u2082 : k},\n  Ne.{u_1 + 1} \u03bc\u2081 \u03bc\u2082 \u2192\n    Not\n      (Nonempty.{u_1 + 1}\n        (LieModuleEquiv.{u_1, u_1, u_1, u_1} k\n          (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x)\n          (decl-007244.{u_1} k \u03bc\u2081) (decl-007244.{u_1} k \u03bc\u2082)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150",
+        "decl-007170",
+        "decl-007194",
+        "decl-007203",
+        "decl-007244"
+      ],
+      "structural_type_hash": "1928315549",
+      "temporary_id": "decl-007257"
+    },
+    {
+      "formal_type": "{k : Type u_2} \u2192\n  [inst : Field.{u_2} k] \u2192\n    {p : Nat} \u2192\n      [Fact (Nat.Prime p)] \u2192 ZMod p \u2192 LinearEquiv.{u_2, u_2, u_2, u_2} (RingHom.id.{u_2} k) (ZMod p \u2192 k) (ZMod p \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4178731186",
+      "temporary_id": "decl-007258"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] (n : ZMod p) (v : ZMod p \u2192 k)\n  (i : ZMod p),\n  Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007258.{u_2} n) v i)\n    (v (HAdd.hAdd.{0, 0, 0} i n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007258"
+      ],
+      "structural_type_hash": "2971604186",
+      "temporary_id": "decl-007264"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p] (a : k)\n  (n : ZMod p) (v : ZMod p \u2192 k),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007258.{u_2} n)\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007107.{u_2} k p a) v))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n      (decl-007107.{u_2} k p\n        (HAdd.hAdd.{u_2, u_2, u_2} a (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (decl-007216.{u_2} k p) n)))\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007258.{u_2} n) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007107",
+        "decl-007216",
+        "decl-007258"
+      ],
+      "structural_type_hash": "343044143",
+      "temporary_id": "decl-007265"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] (\u03b3 : Units.{u_2} k) (n : ZMod p)\n  (v : ZMod p \u2192 k),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007258.{u_2} n)\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007129.{u_2} k p \u03b3) v))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007129.{u_2} k p \u03b3)\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007258.{u_2} n) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007129",
+        "decl-007258"
+      ],
+      "structural_type_hash": "1295633356",
+      "temporary_id": "decl-007266"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192 [inst : Field.{u_2} k] \u2192 LieSubalgebra.{u_2, u_2} k (Matrix.{0, 0, u_2} (Fin 2) (Fin 2) k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3554110843",
+      "temporary_id": "decl-007267"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192 [inst : Field.{u_2} k] \u2192 (p : Nat) \u2192 [Fact (Nat.Prime p)] \u2192 Module.End.{u_2, u_2} k (ZMod p \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3529710596",
+      "temporary_id": "decl-007272"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] (v : ZMod p \u2192 k) (i : ZMod p),\n  Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007272.{u_2} k p) v i)\n    (v (HSub.hSub.{0, 0, 0} i 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007272"
+      ],
+      "structural_type_hash": "4030139821",
+      "temporary_id": "decl-007274"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] (n : Nat) (v : ZMod p \u2192 k) (i : ZMod p),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (HPow.hPow.{u_2, 0, u_2} (decl-007272.{u_2} k p) n) v i)\n    (v (HSub.hSub.{0, 0, 0} i (Nat.cast.{0} n)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007272"
+      ],
+      "structural_type_hash": "92533544",
+      "temporary_id": "decl-007275"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)],\n  Eq.{u_2 + 1} (HPow.hPow.{u_2, 0, u_2} (decl-007272.{u_2} k p) p) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007272"
+      ],
+      "structural_type_hash": "2032735558",
+      "temporary_id": "decl-007276"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] (j : ZMod p) (c : k),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-007272.{u_2} k p) (Pi.single.{0, u_2} j c))\n    (Pi.single.{0, u_2} (HAdd.hAdd.{0, 0, 0} j 1) c)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007272"
+      ],
+      "structural_type_hash": "227607616",
+      "temporary_id": "decl-007277"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 : Units.{u_2} k) (a : k) (n : Nat) (v : decl-007076.{u_2} k p \u03b3 a),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n      (HPow.hPow.{u_2, 0, u_2}\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n          (LieModule.toEnd.{u_2, u_2, u_2} k\n            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n            (decl-007076.{u_2} k p \u03b3 a))\n          (decl-007080.{u_2} k))\n        n)\n      v)\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (HPow.hPow.{u_2, 0, u_2} (decl-007129.{u_2} k p \u03b3) n)\n      v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007080",
+        "decl-007113",
+        "decl-007114",
+        "decl-007129",
+        "decl-007150",
+        "decl-007152",
+        "decl-007195"
+      ],
+      "structural_type_hash": "3584242073",
+      "temporary_id": "decl-007280"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {p : Nat} [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_2} k p]\n  (\u03b3 : Units.{u_2} k) (a : k) (v : decl-007076.{u_2} k p \u03b3 a),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n      (HPow.hPow.{u_2, 0, u_2}\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n          (LieModule.toEnd.{u_2, u_2, u_2} k\n            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-007150.{u_2} k) x)\n            (decl-007076.{u_2} k p \u03b3 a))\n          (decl-007080.{u_2} k))\n        p)\n      v)\n    (HSMul.hSMul.{u_2, u_2, u_2} (HPow.hPow.{u_2, 0, u_2} (Units.val.{u_2} \u03b3) p) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007076",
+        "decl-007080",
+        "decl-007113",
+        "decl-007114",
+        "decl-007150",
+        "decl-007152",
+        "decl-007195"
+      ],
+      "structural_type_hash": "4282719904",
+      "temporary_id": "decl-007281"
+    },
+    {
+      "formal_type": "{k : Type u_2} \u2192 [Field.{u_2} k] \u2192 {p : Nat} \u2192 [Fact (Nat.Prime p)] \u2192 (ZMod p \u2192 k) \u2192 Finset.{0} (ZMod p)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1582021786",
+      "temporary_id": "decl-007282"
+    }
+  ],
+  "module_temporary_id": "module-0070",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:bfd1655350742e142653",
+      "declaration": "Etingof.Lemma5_25_3_innerProduct",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/387/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (GL2\u271d p n)],\n  Ne.{1} p 2 \u2192\n    \u2200\n      (nu :\n        MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.GL2.ellipticSubgroup p n) x)\n          (Units.{0} Complex)),\n      LT.lt.{0} 0 n \u2192\n        (Exists.{1} fun k =>\n            Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n              (DFunLike.coe.{1, 1, 1} nu k)) \u2192\n          Eq.{1}\n            (HSMul.hSMul.{0, 0, 0} (Inv.inv.{0} (Nat.cast.{0} (Fintype.card.{0} (GL2\u271d p n))))\n              (Finset.sum.{0, 0} Finset.univ.{0} fun x =>\n                HMul.hMul.{0, 0, 0} (Etingof.GL2.complementarySeriesChar p n nu x)\n                  (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex) (Etingof.GL2.complementarySeriesChar p n nu x))))\n            1",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_25_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Lemma5.25.3",
+  "packet_id": "align-0369",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0369"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:73721e2acd5744836f04",
+  "source_text": "The complementary-series virtual character has inner product one with itself."
+}

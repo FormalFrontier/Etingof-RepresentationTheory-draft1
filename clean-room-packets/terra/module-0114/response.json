@@ -1,0 +1,25 @@
+{
+  "module_name": "Algebra.Lie.FaithfulFiniteDimensionalRepresentation",
+  "declarations": [
+    {
+      "temporary_id": "decl-017151",
+      "new_name": "exists_faithfulRepresentation_of_injective_lieHom",
+      "docstring": "An injective Lie homomorphism into a finite-dimensional algebra yields a faithful representation of the Lie algebra."
+    },
+    {
+      "temporary_id": "decl-017152",
+      "new_name": "exists_faithfulRepresentation_of_envelopingMap_injective",
+      "docstring": "An algebra map from the universal enveloping algebra that is injective on the canonical Lie image yields a faithful representation."
+    },
+    {
+      "temporary_id": "decl-019323",
+      "new_name": "exists_faithfulRepresentation_iff_exists_envelopingMap_injective",
+      "docstring": "Existence of a faithful representation is equivalent to existence of a suitable algebra map from the universal enveloping algebra that is injective on the canonical Lie image."
+    },
+    {
+      "temporary_id": "decl-019401",
+      "new_name": "exists_envelopingMap_injective_of_faithfulRepresentation",
+      "docstring": "A faithful finite-dimensional representation gives an algebra map from the universal enveloping algebra that is injective on the canonical Lie image."
+    }
+  ]
+}

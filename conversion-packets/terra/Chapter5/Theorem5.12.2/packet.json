@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.12.2",
+    "kind": "theorem",
+    "title": "Classification of irreducible representations of S_n via Specht modules V_lambda",
+    "node_id": "chapter-05/section-5-12",
+    "order": 310,
+    "slug": "theorem5-12-2",
+    "span": {
+      "start": {
+        "page": "113",
+        "line": 19
+      },
+      "end": {
+        "page": "113",
+        "line": 25
+      }
+    },
+    "source_sha256": "84dc7dc9bb48ec2c9b0d84c003b3414900f691bc4d245ac29665156e2e2745b2",
+    "features": {
+      "line_count": 7,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5122",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

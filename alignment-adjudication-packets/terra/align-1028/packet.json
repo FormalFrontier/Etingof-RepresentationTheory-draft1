@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0fbb2ab89eed8ed4a4dd",
+      "declaration": "Etingof.QuiverRepresentationHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/74/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (Q : Type u_2) \u2192\n    [inst : CommSemiring.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        Etingof.QuiverRepresentation.{u_1, u_2, u_4, u_3} k Q \u2192\n          Etingof.QuiverRepresentation.{u_1, u_2, u_5, u_3} k Q \u2192 Type (max (max u_2 u_4) u_5)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_10"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.8.10",
+  "packet_id": "align-1028",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1028"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c51b4daebddad053c9b5",
+  "source_text": "A homomorphism of quiver representations is a vertexwise family of linear maps satisfying y_h\u2218\u03c6_{h'}=\u03c6_{h''}\u2218x_h for every edge."
+}

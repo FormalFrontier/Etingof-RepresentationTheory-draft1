@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0344",
+  "associations": [
+    {
+      "association_id": "association:57f01c0683a1f3cab248",
+      "rationale": "The formal type directly states that the action on the top exterior power is the determinant scalar times the identity map.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:60029d45df3bff91897e",
+      "rationale": "The formal type directly gives an equivariant categorical isomorphism between the top exterior-power representation and the determinant representation.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{R : Type u_1} \u2192\n  {M : Type u_2} \u2192\n    [inst : Semiring.{u_1} R] \u2192\n      CoeFun.{max (u_2 + 1) (u_1 + 1), max (u_1 + 1) (u_2 + 1)} (MonoidAlgebra.{u_1, u_2} R M) fun x => M \u2192 R",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "959306518",
+      "temporary_id": "decl-023279"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (n : Nat) \u2192\n      (la : n.Partition) \u2192\n        Equiv.Perm.{1} (Fin n) \u2192\n          LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k)\n            (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-016118.{u_1} k n la) x)\n            (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-016118.{u_1} k n la) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016118"
+      ],
+      "structural_type_hash": "4146166008",
+      "temporary_id": "decl-023298"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [Field.{u_1} k] \u2192 (n : Nat) \u2192 n.Partition \u2192 Equiv.Perm.{1} (Fin n) \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3988316189",
+      "temporary_id": "decl-023313"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [inst_1 : CharZero.{u_1} k] (n : Nat) (la : n.Partition)\n  (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{u_1 + 1} (decl-023313.{u_1} k n la \u03c3)\n    (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (Algebra.algebraMap.{0, u_1} Rat k)\n      (decl-023313.{0} Rat n la \u03c3))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023313"
+      ],
+      "structural_type_hash": "1606769749",
+      "temporary_id": "decl-023316"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (decl-023313.{0} Complex n la \u03c3) (decl-023310 n la \u03c3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023310",
+        "decl-023313"
+      ],
+      "structural_type_hash": "3257335328",
+      "temporary_id": "decl-023317"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k] (n : Nat) {\u03bc \u03bd : n.Partition},\n  (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin n)),\n      Eq.{u_1 + 1} (decl-023313.{u_1} k n \u03bc \u03c3) (decl-023313.{u_1} k n \u03bd \u03c3)) \u2192\n    Eq.{1} \u03bc \u03bd",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023313"
+      ],
+      "structural_type_hash": "3177765114",
+      "temporary_id": "decl-023318"
+    }
+  ],
+  "module_temporary_id": "module-0441",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

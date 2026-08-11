@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7f1679669d715be03b30",
+      "declaration": "Etingof.quotientAlgHom_mul_eq_of_sub_mem_left",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/50/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (I : TwoSidedIdeal.{u_2} A) (a a' b : A),\n  Membership.mem.{u_2, u_2} I (HSub.hSub.{u_2, u_2, u_2} a' a) \u2192\n    Eq.{u_2 + 1}\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Etingof.quotientAlgHom.{u_1, u_2} k A I)\n        (HMul.hMul.{u_2, u_2, u_2} a' b))\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Etingof.quotientAlgHom.{u_1, u_2} k A I)\n        (HMul.hMul.{u_2, u_2, u_2} a b))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_5_well_defined"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.5_well_defined",
+  "packet_id": "align-0941",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0941"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:abc939e90c44458711e1",
+  "source_text": "Right-ideal absorption makes the quotient product independent of the representative chosen for its left factor."
+}

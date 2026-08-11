@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5e84e2f62bfff7b1ca61",
+      "declaration": "Etingof.Problem2_8_11.finrank_homogeneous_mvPolynomial",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (m n : Nat),\n  Eq.{1}\n    (Module.finrank.{u_1, u_1} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (MvPolynomial.homogeneousSubmodule.{0, u_1} (Fin m) k n) x))\n    ((HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} n m) 1).choose n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    },
+    {
+      "association_id": "association:ec15faa8b7f4469c0f16",
+      "declaration": "Etingof.Problem2_8_11.hilbertSeries_mvPolynomial",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/75/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (m : Nat),\n  Eq.{u_1 + 1}\n    (HMul.hMul.{u_1, u_1, u_1} (HPow.hPow.{u_1, 0, u_1} (HSub.hSub.{u_1, u_1, u_1} 1 PowerSeries.X.{u_1}) m)\n      (PowerSeries.mk.{u_1} fun n => Nat.cast.{u_1} ((HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} n m) 1).choose n)))\n    1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.8.11",
+  "packet_id": "align-0615",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0615"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.8.11:claim-02",
+  "source_text": "For k[x_1,\u2026,x_m], dim A[n]=C(n+m-1,n) and h_A(t)=1/(1-t)^m."
+}

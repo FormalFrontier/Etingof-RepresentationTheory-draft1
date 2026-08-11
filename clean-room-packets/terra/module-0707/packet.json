@@ -1,0 +1,92 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{C : Type u} \u2192 [inst : CategoryTheory.Category.{v, u} C] \u2192 [CategoryTheory.Limits.HasZeroMorphisms.{v, u} C] \u2192 C \u2192 Prop",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2356100434",
+      "temporary_id": "decl-005213"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} {inst : CategoryTheory.Category.{v, u} C} {inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{v, u} C}\n  {P : C} [self : decl-005213.{u, v} P] (X : C),\n  Exists.{1} fun n => Exists.{0} fun x => Exists.{v + 1} fun f => CategoryTheory.Epi.{v, u} f",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005213"
+      ],
+      "structural_type_hash": "738904169",
+      "temporary_id": "decl-005215"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} {inst : CategoryTheory.Category.{v, u} C} {inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{v, u} C}\n  {P : C} [self : decl-005213.{u, v} P], CategoryTheory.Projective.{v, u} P",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005213"
+      ],
+      "structural_type_hash": "2312196344",
+      "temporary_id": "decl-005269"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192 [CategoryTheory.Category.{v, u} C] \u2192 C \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1322735722",
+      "temporary_id": "decl-005270"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] {P : C}\n  [inst_1 : \u2200 (X : C), CategoryTheory.Limits.HasCoproduct.{v, v, u} fun x => P],\n  Iff (decl-005270.{u, v} P)\n    (And (CategoryTheory.Projective.{v, u} P)\n      (\u2200 (X : C), CategoryTheory.Epi.{v, u} (CategoryTheory.Limits.Sigma.desc.{v, v, u} fun f => f)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005270",
+      "project_type_dependencies": [
+        "decl-005270"
+      ],
+      "structural_type_hash": "2990666919",
+      "temporary_id": "decl-005271"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] {P : C},\n  decl-005270.{u, v} P \u2192 CategoryTheory.IsSeparator.{v, u} P",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005270",
+      "project_type_dependencies": [
+        "decl-005270"
+      ],
+      "structural_type_hash": "1870290121",
+      "temporary_id": "decl-005275"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] {P : C},\n  decl-005270.{u, v} P \u2192 CategoryTheory.Projective.{v, u} P",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005270",
+      "project_type_dependencies": [
+        "decl-005270"
+      ],
+      "structural_type_hash": "2614548200",
+      "temporary_id": "decl-005276"
+    }
+  ],
+  "module_temporary_id": "module-0707",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

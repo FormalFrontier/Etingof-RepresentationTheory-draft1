@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e52ec284572684005408",
+      "declaration": "IsCoatom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/48/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Order.Atoms"
+    },
+    {
+      "association_id": "association:10754a6046821f1eac60",
+      "declaration": "IsCoatom.lt_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/48/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Order.Atoms"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.4.1",
+  "packet_id": "align-0584",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0584"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.4.1:claim-01",
+  "source_text": "A maximal left, right, or two-sided ideal is a proper ideal for which every strictly larger ideal is the whole ring."
+}

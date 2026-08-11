@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.2.5",
+    "kind": "definition",
+    "title": "Commutative algebra",
+    "node_id": "chapter-02/section-2-2",
+    "order": 21,
+    "slug": "definition2-2-5",
+    "span": {
+      "start": {
+        "page": "9",
+        "line": 23
+      },
+      "end": {
+        "page": "9",
+        "line": 23
+      }
+    },
+    "source_sha256": "8f756e71bd4c78fb5cc1a4be176fa68b318b242c2ea74491f1635bc7babafcb3",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition225",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

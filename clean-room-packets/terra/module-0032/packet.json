@@ -1,0 +1,132 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(A : Type u_2) \u2192 [inst : Ring.{u_2} A] \u2192 TwoSidedIdeal.{u_2} A \u2192 Type u_2",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1286861494",
+      "temporary_id": "decl-015131"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [Ring.{u_1} A] \u2192 Type u_1",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1452250921",
+      "temporary_id": "decl-015216"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          (I : TwoSidedIdeal.{u_2} A) \u2192 AlgHom.{u_1, u_2, u_2} k A (decl-015131.{u_2} A I)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015131"
+      ],
+      "structural_type_hash": "1526879719",
+      "temporary_id": "decl-022263"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (I : TwoSidedIdeal.{u_2} A) (a b : A),\n  Iff\n    (Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-022263.{u_1, u_2} k A I) a)\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-022263.{u_1, u_2} k A I) b))\n    (Membership.mem.{u_2, u_2} I (HSub.hSub.{u_2, u_2, u_2} a b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015131",
+        "decl-022263"
+      ],
+      "structural_type_hash": "1958436435",
+      "temporary_id": "decl-022264"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (I : TwoSidedIdeal.{u_2} A) (a b : A),\n  Eq.{u_2 + 1}\n    (HMul.hMul.{u_2, u_2, u_2} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-022263.{u_1, u_2} k A I) a)\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-022263.{u_1, u_2} k A I) b))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-022263.{u_1, u_2} k A I) (HMul.hMul.{u_2, u_2, u_2} a b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015131",
+        "decl-022263"
+      ],
+      "structural_type_hash": "2717282301",
+      "temporary_id": "decl-022265"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (I : TwoSidedIdeal.{u_2} A) (a a' b : A),\n  Membership.mem.{u_2, u_2} I (HSub.hSub.{u_2, u_2, u_2} a' a) \u2192\n    Eq.{u_2 + 1}\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-022263.{u_1, u_2} k A I)\n        (HMul.hMul.{u_2, u_2, u_2} a' b))\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-022263.{u_1, u_2} k A I)\n        (HMul.hMul.{u_2, u_2, u_2} a b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015131",
+        "decl-022263"
+      ],
+      "structural_type_hash": "3521346423",
+      "temporary_id": "decl-022266"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (I : TwoSidedIdeal.{u_2} A) (a b b' : A),\n  Membership.mem.{u_2, u_2} I (HSub.hSub.{u_2, u_2, u_2} b' b) \u2192\n    Eq.{u_2 + 1}\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-022263.{u_1, u_2} k A I)\n        (HMul.hMul.{u_2, u_2, u_2} a b'))\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-022263.{u_1, u_2} k A I)\n        (HMul.hMul.{u_2, u_2, u_2} a b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015131",
+        "decl-022263"
+      ],
+      "structural_type_hash": "1059914382",
+      "temporary_id": "decl-022267"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [Algebra.{u_1, u_2} k A] \u2192\n          (I : TwoSidedIdeal.{u_2} A) \u2192 Algebra.{u_1, u_2} k (decl-015131.{u_2} A I)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015131"
+      ],
+      "structural_type_hash": "1976103475",
+      "temporary_id": "decl-022268"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) (V : Type u_2) [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  (W : Submodule.{u_1, u_2} A V) (a : A) (v : V),\n  Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} a (Submodule.Quotient.mk.{u_1, u_2} v))\n    (Submodule.Quotient.mk.{u_1, u_2} (HSMul.hSMul.{u_1, u_2, u_2} a v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3670752769",
+      "temporary_id": "decl-022272"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    [inst : Ring.{u_1} A] \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} A V] \u2192\n          (W : Submodule.{u_1, u_2} A V) \u2192 Module.{u_1, u_2} A (HasQuotient.Quotient.{u_2, u_2} V W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3703512095",
+      "temporary_id": "decl-022276"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192\n  [inst : Ring.{u_1} A] \u2192\n    (I : decl-015216.{u_1} A) \u2192 Module.{u_1, u_1} A (HasQuotient.Quotient.{u_1, u_1} A I)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015216"
+      ],
+      "structural_type_hash": "2045681163",
+      "temporary_id": "decl-022553"
+    }
+  ],
+  "module_temporary_id": "module-0032",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

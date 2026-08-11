@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0109",
+  "associations": [
+    {
+      "association_id": "association:496a56fecc4a9232decf",
+      "role": "primary",
+      "rationale": "Its implication directly states that a nonzero map from a simple module is injective."
+    }
+  ]
+}

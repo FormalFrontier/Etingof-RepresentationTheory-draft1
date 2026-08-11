@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Exercise2.9.5",
+    "kind": "exercise",
+    "title": "R^3 cross product as special case of so(3)",
+    "node_id": "chapter-02/section-2-9",
+    "order": 85,
+    "slug": "exercise2-9-5",
+    "span": {
+      "start": {
+        "page": "24",
+        "line": 6
+      },
+      "end": {
+        "page": "24",
+        "line": 6
+      }
+    },
+    "source_sha256": "8e996dc59dccd83e96c6de94c670b765a5a3688e2ce3e772255815689d20933f",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Exercise295",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

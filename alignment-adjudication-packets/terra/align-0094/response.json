@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0094",
+  "associations": [
+    {
+      "association_id": "association:2cc4f76e5fcb7b67ba8a",
+      "role": "supporting",
+      "rationale": "This defines the character-value function whose identity value is evaluated in the claim."
+    },
+    {
+      "association_id": "association:ea75c0c5febac666e14e",
+      "role": "primary",
+      "rationale": "Its equality directly gives the identity character value as the descending-factorial determinant."
+    },
+    {
+      "association_id": "association:c9465bd56d5449bfbea5",
+      "role": "supporting",
+      "rationale": "This specialized symmetric-polynomial identity is an ingredient in the coefficient-extraction reduction."
+    }
+  ]
+}

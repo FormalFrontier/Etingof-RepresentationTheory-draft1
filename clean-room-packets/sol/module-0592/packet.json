@@ -1,0 +1,858 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u) \u2192 [inst : Field.{u} k] \u2192 (L : Type u) \u2192 [inst_1 : LieRing.{u} L] \u2192 [LieAlgebra.{u, u} k L] \u2192 Type (u + 1)",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2950030782",
+      "temporary_id": "decl-004136"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type u) \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192 decl-004136.{u} k L \u2192 decl-004136.{u} k L \u2192 Type u",
+      "kind": "inductive",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136"
+      ],
+      "structural_type_hash": "1462466525",
+      "temporary_id": "decl-004137"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          {V W : decl-004136.{u} k L} \u2192\n            decl-004137.{u} k L V W \u2192\n              LieModuleHom.{u, u, u, u} k L (decl-004156.{u} V) (decl-004156.{u} W)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004137",
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004137",
+        "decl-004155",
+        "decl-004156",
+        "decl-004170",
+        "decl-004177"
+      ],
+      "structural_type_hash": "3420414027",
+      "temporary_id": "decl-004142"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          (self : decl-004136.{u} k L) \u2192 AddCommGroup.{u} (decl-004156.{u} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004156"
+      ],
+      "structural_type_hash": "3576925858",
+      "temporary_id": "decl-004155"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192 [inst_1 : LieRing.{u} L] \u2192 [inst_2 : LieAlgebra.{u, u} k L] \u2192 decl-004136.{u} k L \u2192 Type u",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136"
+      ],
+      "structural_type_hash": "1679811706",
+      "temporary_id": "decl-004156"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {L : Type u} [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L]\n  (self : decl-004136.{u} k L), FiniteDimensional.{u, u} k (decl-004156.{u} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156",
+        "decl-004177"
+      ],
+      "structural_type_hash": "3449893694",
+      "temporary_id": "decl-004159"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type u) [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L]\n  {U V W : decl-004136.{u} k L} (f : Quiver.Hom.{u, u + 1} U V) (g : Quiver.Hom.{u, u + 1} V W),\n  Eq.{u + 1} (decl-004142.{u} (CategoryTheory.CategoryStruct.comp.{u, u + 1} f g))\n    (LieModuleHom.comp.{u, u, u, u, u} (decl-004142.{u} g) (decl-004142.{u} f))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004142",
+        "decl-004155",
+        "decl-004156",
+        "decl-004164",
+        "decl-004170",
+        "decl-004177"
+      ],
+      "structural_type_hash": "1648327461",
+      "temporary_id": "decl-004160"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type u) [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L]\n  {V W : decl-004136.{u} k L} {f g : Quiver.Hom.{u, u + 1} V W},\n  Eq.{u + 1} (decl-004142.{u} f) (decl-004142.{u} g) \u2192 Eq.{u + 1} f g",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004142",
+        "decl-004155",
+        "decl-004156",
+        "decl-004164",
+        "decl-004170",
+        "decl-004177"
+      ],
+      "structural_type_hash": "52209141",
+      "temporary_id": "decl-004161"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type u) [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L]\n  (V : decl-004136.{u} k L),\n  Eq.{u + 1} (decl-004142.{u} (CategoryTheory.CategoryStruct.id.{u, u + 1} V)) LieModuleHom.id.{u, u, u}",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004142",
+        "decl-004155",
+        "decl-004156",
+        "decl-004164",
+        "decl-004170",
+        "decl-004177"
+      ],
+      "structural_type_hash": "1361936284",
+      "temporary_id": "decl-004163"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type u) \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192 CategoryTheory.Category.{u, u + 1} (decl-004136.{u} k L)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136"
+      ],
+      "structural_type_hash": "563890540",
+      "temporary_id": "decl-004164"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type u) \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192 CoeSort.{u + 2, u + 2} (decl-004136.{u} k L) (Type u)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136"
+      ],
+      "structural_type_hash": "1591842945",
+      "temporary_id": "decl-004168"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {L : Type u} [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L]\n  (self : decl-004136.{u} k L), LieModule.{u, u, u} k L (decl-004156.{u} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156",
+        "decl-004170",
+        "decl-004177"
+      ],
+      "structural_type_hash": "1112903675",
+      "temporary_id": "decl-004169"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          (self : decl-004136.{u} k L) \u2192 LieRingModule.{u, u} L (decl-004156.{u} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156"
+      ],
+      "structural_type_hash": "3578943589",
+      "temporary_id": "decl-004170"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          (self : decl-004136.{u} k L) \u2192 Module.{u, u} k (decl-004156.{u} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156"
+      ],
+      "structural_type_hash": "2095060415",
+      "temporary_id": "decl-004177"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type u) \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          (V : Type u) \u2192\n            [inst_3 : AddCommGroup.{u} V] \u2192\n              [inst_4 : Module.{u, u} k V] \u2192\n                [inst_5 : LieRingModule.{u, u} L V] \u2192\n                  [LieModule.{u, u, u} k L V] \u2192 [FiniteDimensional.{u, u} k V] \u2192 decl-004136.{u} k L",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136"
+      ],
+      "structural_type_hash": "508085399",
+      "temporary_id": "decl-004180"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type u) \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          {V W : Type u} \u2192\n            [inst_3 : AddCommGroup.{u} V] \u2192\n              [inst_4 : Module.{u, u} k V] \u2192\n                [inst_5 : LieRingModule.{u, u} L V] \u2192\n                  [inst_6 : LieModule.{u, u, u} k L V] \u2192\n                    [inst_7 : FiniteDimensional.{u, u} k V] \u2192\n                      [inst_8 : AddCommGroup.{u} W] \u2192\n                        [inst_9 : Module.{u, u} k W] \u2192\n                          [inst_10 : LieRingModule.{u, u} L W] \u2192\n                            [inst_11 : LieModule.{u, u, u} k L W] \u2192\n                              [inst_12 : FiniteDimensional.{u, u} k W] \u2192\n                                LieModuleHom.{u, u, u, u} k L V W \u2192\n                                  Quiver.Hom.{u, u + 1} (decl-004180.{u} k L V) (decl-004180.{u} k L W)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-004136",
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004164",
+        "decl-004180"
+      ],
+      "structural_type_hash": "1235051733",
+      "temporary_id": "decl-004181"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [CommRing.{u} R] \u2192 Type (u + 1)",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3364488684",
+      "temporary_id": "decl-005530"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : CommRing.{u} R] \u2192 decl-005530.{u} R \u2192 decl-005530.{u} R \u2192 Type u",
+      "kind": "inductive",
+      "owner_temporary_id": "decl-005530",
+      "project_type_dependencies": [
+        "decl-005530"
+      ],
+      "structural_type_hash": "2611733554",
+      "temporary_id": "decl-005531"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : CommRing.{u} R] \u2192\n    {L M : decl-005530.{u} R} \u2192\n      decl-005531.{u} R L M \u2192\n        LieHom.{u, u, u} R (decl-005549.{u} L) (decl-005549.{u} M)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005531",
+      "project_type_dependencies": [
+        "decl-005530",
+        "decl-005531",
+        "decl-005549",
+        "decl-005561",
+        "decl-005562"
+      ],
+      "structural_type_hash": "4263266181",
+      "temporary_id": "decl-005536"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192 [inst : CommRing.{u} R] \u2192 decl-005530.{u} R \u2192 Type u",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005530",
+      "project_type_dependencies": [
+        "decl-005530"
+      ],
+      "structural_type_hash": "3672537871",
+      "temporary_id": "decl-005549"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : CommRing.{u} R] {L M N : decl-005530.{u} R} (f : Quiver.Hom.{u, u + 1} L M)\n  (g : Quiver.Hom.{u, u + 1} M N),\n  Eq.{u + 1} (decl-005536.{u} (CategoryTheory.CategoryStruct.comp.{u, u + 1} f g))\n    (LieHom.comp.{u, u, u, u} (decl-005536.{u} g) (decl-005536.{u} f))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005530",
+      "project_type_dependencies": [
+        "decl-005530",
+        "decl-005536",
+        "decl-005549",
+        "decl-005556",
+        "decl-005561",
+        "decl-005562"
+      ],
+      "structural_type_hash": "3066112637",
+      "temporary_id": "decl-005552"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : CommRing.{u} R] {L M : decl-005530.{u} R} {f g : Quiver.Hom.{u, u + 1} L M},\n  Eq.{u + 1} (decl-005536.{u} f) (decl-005536.{u} g) \u2192 Eq.{u + 1} f g",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005530",
+      "project_type_dependencies": [
+        "decl-005530",
+        "decl-005536",
+        "decl-005549",
+        "decl-005556",
+        "decl-005561",
+        "decl-005562"
+      ],
+      "structural_type_hash": "84941337",
+      "temporary_id": "decl-005553"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : CommRing.{u} R] (L : decl-005530.{u} R),\n  Eq.{u + 1} (decl-005536.{u} (CategoryTheory.CategoryStruct.id.{u, u + 1} L)) LieHom.id.{u, u}",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005530",
+      "project_type_dependencies": [
+        "decl-005530",
+        "decl-005536",
+        "decl-005549",
+        "decl-005556",
+        "decl-005561",
+        "decl-005562"
+      ],
+      "structural_type_hash": "3519456299",
+      "temporary_id": "decl-005555"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : CommRing.{u} R] \u2192 CategoryTheory.Category.{u, u + 1} (decl-005530.{u} R)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005530",
+      "project_type_dependencies": [
+        "decl-005530"
+      ],
+      "structural_type_hash": "1406231727",
+      "temporary_id": "decl-005556"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : CommRing.{u} R] \u2192 CoeSort.{u + 2, u + 2} (decl-005530.{u} R) (Type u)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005530",
+      "project_type_dependencies": [
+        "decl-005530"
+      ],
+      "structural_type_hash": "374580333",
+      "temporary_id": "decl-005560"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : CommRing.{u} R] \u2192 (self : decl-005530.{u} R) \u2192 LieAlgebra.{u, u} R (decl-005549.{u} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005530",
+      "project_type_dependencies": [
+        "decl-005530",
+        "decl-005549",
+        "decl-005562"
+      ],
+      "structural_type_hash": "104328192",
+      "temporary_id": "decl-005561"
+    },
+    {
+      "formal_type": "{R : Type u} \u2192\n  [inst : CommRing.{u} R] \u2192 (self : decl-005530.{u} R) \u2192 LieRing.{u} (decl-005549.{u} self)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005530",
+      "project_type_dependencies": [
+        "decl-005530",
+        "decl-005549"
+      ],
+      "structural_type_hash": "4191147465",
+      "temporary_id": "decl-005562"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : CommRing.{u} R] \u2192 (L : Type u) \u2192 [inst_1 : LieRing.{u} L] \u2192 [LieAlgebra.{u, u} R L] \u2192 decl-005530.{u} R",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005530",
+      "project_type_dependencies": [
+        "decl-005530"
+      ],
+      "structural_type_hash": "1262262010",
+      "temporary_id": "decl-005571"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : CommRing.{u} R] \u2192\n    {L M : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} R L] \u2192\n          [inst_3 : LieRing.{u} M] \u2192\n            [inst_4 : LieAlgebra.{u, u} R M] \u2192\n              LieHom.{u, u, u} R L M \u2192\n                Quiver.Hom.{u, u + 1} (decl-005571.{u} R L) (decl-005571.{u} R M)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005530",
+      "project_type_dependencies": [
+        "decl-005530",
+        "decl-005556",
+        "decl-005571"
+      ],
+      "structural_type_hash": "43254038",
+      "temporary_id": "decl-005572"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192 CategoryTheory.Functor.{u, u, u + 1, u + 1} (CommAlgCat.{u, u} k) (ModuleCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3428040761",
+      "temporary_id": "decl-018109"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : CommRing.{u} R] \u2192 CategoryTheory.Functor.{u, u, u + 1, u + 1} (AlgCat.{u, u} R) (decl-005530.{u} R)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005530",
+        "decl-005556"
+      ],
+      "structural_type_hash": "3071260210",
+      "temporary_id": "decl-018110"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {L : Type u} [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L]\n  {A B : Type u} [inst_3 : AddCommGroup.{u} A] [inst_4 : Module.{u, u} k A] [inst_5 : AddCommGroup.{u} B]\n  [inst_6 : Module.{u, u} k B] (V : decl-004136.{u} k L) (g : LinearMap.{u, u, u, u} (RingHom.id.{u} k) A B)\n  (t : TensorProduct.{u, u, u} k (Module.Dual.{u, u} k (decl-004156.{u} V)) A)\n  (v : decl-004156.{u} V),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (dualTensorHom.{u, u, u} k (decl-004156.{u} V) B)\n        (DFunLike.coe.{u + 1, u + 1, u + 1} (TensorProduct.map.{u, u, u, u, u, u} LinearMap.id.{u, u} g) t))\n      v)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} g\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (DFunLike.coe.{u + 1, u + 1, u + 1} (dualTensorHom.{u, u, u} k (decl-004156.{u} V) A) t) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156",
+        "decl-004177"
+      ],
+      "structural_type_hash": "1061481084",
+      "temporary_id": "decl-018459"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {L : Type u} [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L]\n  (V W U : decl-004136.{u} k L)\n  (f :\n    LieModuleHom.{u, u, u, u} k L\n      (TensorProduct.{u, u, u} k (decl-004156.{u} V) (decl-004156.{u} W))\n      (decl-004156.{u} U))\n  (w : decl-004156.{u} W) (v : decl-004156.{u} V),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (dualTensorHom.{u, u, u} k (decl-004156.{u} V) (decl-004156.{u} U))\n        (DFunLike.coe.{u + 1, u + 1, u + 1}\n          (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-023943.{u} V W U) f) w))\n      v)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} f (TensorProduct.tmul.{u, u, u} k v w))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156",
+        "decl-004169",
+        "decl-004170",
+        "decl-004177",
+        "decl-023943"
+      ],
+      "structural_type_hash": "297830572",
+      "temporary_id": "decl-018460"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  {G H : Type u} \u2192\n    [inst : CommRing.{u} k] \u2192\n      [inst_1 : Group.{u} G] \u2192\n        [inst_2 : Group.{u} H] \u2192\n          (\u03c6 : MonoidHom.{u, u} G H) \u2192\n            CategoryTheory.Adjunction.{max u_1 u, max u_1 u, max u ((max u_1 u) + 1), max (u + 1) ((max u_1 u) + 1)}\n              (Rep.indFunctor.{max u_1 u, u, u, u} k \u03c6) (Rep.resFunctor.{max u_1 u, u, u, u} \u03c6)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "915949456",
+      "temporary_id": "decl-019716"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  {G : Type v} \u2192\n    [inst : CommRing.{u} k] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (S : Subgroup.{v} G) \u2192\n          [DecidableRel.{v + 1, v + 1} Setoid.r.{v + 1}] \u2192\n            [Subgroup.FiniteIndex.{v} S] \u2192\n              CategoryTheory.Adjunction.{max (max u_1 u) v, max (max u_1 u) v, max (max v u) ((max (max u_1 u) v) + 1),\n                  max (max v u) ((max (max u_1 u) v) + 1)}\n                (Rep.resFunctor.{max (max u_1 u) v, u, v, v} (Subgroup.subtype.{v} S))\n                (Rep.indFunctor.{max (max u_1 u) v, u, v, v} k (Subgroup.subtype.{v} S))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1719735574",
+      "temporary_id": "decl-019717"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    CategoryTheory.Adjunction.{u, u, u + 1, u + 1} (decl-019882.{u} k) (decl-024440.{u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019882",
+        "decl-024440"
+      ],
+      "structural_type_hash": "2231385248",
+      "temporary_id": "decl-019875"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (G : GrpCat.{u}) \u2192\n      (A : AlgCat.{u, u} k) \u2192\n        Equiv.{u + 1, u + 1}\n          (Quiver.Hom.{u, u + 1} (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-019882.{u} k) G)\n            A)\n          (Quiver.Hom.{u, u + 1} G (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-024440.{u} k) A))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019882",
+        "decl-024440"
+      ],
+      "structural_type_hash": "1876635315",
+      "temporary_id": "decl-019878"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : CommRing.{u} k] (G A : Type u) [inst_1 : Group.{u} G] [inst_2 : Ring.{u} A]\n  [inst_3 : Algebra.{u, u} k A] (f : MonoidHom.{u, u} G (Units.{u} A)),\n  Eq.{u + 1}\n    (AlgCat.Hom.hom.{u, u}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (Equiv.symm.{u + 1, u + 1}\n          (decl-019878.{u} k (GrpCat.of.{u} G) (AlgCat.of.{u, u} k A)))\n        (GrpCat.ofHom.{u} f)))\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-019893.{u, u, u} k G A) f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019878",
+        "decl-019882",
+        "decl-019893",
+        "decl-024440"
+      ],
+      "structural_type_hash": "1289264043",
+      "temporary_id": "decl-019881"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192 [inst : CommRing.{u} k] \u2192 CategoryTheory.Functor.{u, u, u + 1, u + 1} GrpCat.{u} (AlgCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "869479404",
+      "temporary_id": "decl-019882"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (G : Type u_2) \u2192\n      [inst_1 : Group.{u_2} G] \u2192\n        (A : Type u_3) \u2192\n          [inst_2 : Ring.{u_3} A] \u2192\n            [inst_3 : Algebra.{u_1, u_3} k A] \u2192\n              Equiv.{max (u_3 + 1) (u_2 + 1), max (u_3 + 1) ((max u_2 u_1) + 1)}\n                (MonoidHom.{u_2, u_3} G (Units.{u_3} A))\n                (AlgHom.{u_1, max u_2 u_1, u_3} k (MonoidAlgebra.{u_1, u_2} k G) A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "964095029",
+      "temporary_id": "decl-019893"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          {A B C : Type u} \u2192\n            [inst_3 : AddCommGroup.{u} A] \u2192\n              [inst_4 : Module.{u, u} k A] \u2192\n                [inst_5 : LieRingModule.{u, u} L A] \u2192\n                  [LieModule.{u, u, u} k L A] \u2192\n                    [inst_7 : AddCommGroup.{u} B] \u2192\n                      [inst_8 : Module.{u, u} k B] \u2192\n                        [inst_9 : LieRingModule.{u, u} L B] \u2192\n                          [LieModule.{u, u, u} k L B] \u2192\n                            [inst_11 : AddCommGroup.{u} C] \u2192\n                              [inst_12 : Module.{u, u} k C] \u2192\n                                [inst_13 : LieRingModule.{u, u} L C] \u2192\n                                  [inst_14 : LieModule.{u, u, u} k L C] \u2192\n                                    LieModuleEquiv.{u, u, u, u} k L A B \u2192\n                                      LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) (LieModuleHom.{u, u, u, u} k L A C)\n                                        (LieModuleHom.{u, u, u, u} k L B C)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1653568172",
+      "temporary_id": "decl-021460"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          (V : decl-004136.{u} k L) \u2192\n            LieModuleEquiv.{u, u, u, u} k L (decl-004156.{u} V)\n              (Module.Dual.{u, u} k (Module.Dual.{u, u} k (decl-004156.{u} V)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156",
+        "decl-004169",
+        "decl-004170",
+        "decl-004177"
+      ],
+      "structural_type_hash": "3283823434",
+      "temporary_id": "decl-021467"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192 [inst_2 : LieAlgebra.{u, u} k L] \u2192 decl-004136.{u} k L \u2192 decl-004136.{u} k L",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136"
+      ],
+      "structural_type_hash": "677897736",
+      "temporary_id": "decl-021476"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          (V W : decl-004136.{u} k L) \u2192\n            LieModuleEquiv.{u, u, u, u} k L\n              (TensorProduct.{u, u, u} k (decl-004156.{u} V) (decl-004156.{u} W))\n              (TensorProduct.{u, u, u} k (decl-004156.{u} W) (decl-004156.{u} V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156",
+        "decl-004169",
+        "decl-004170",
+        "decl-004177"
+      ],
+      "structural_type_hash": "4250187399",
+      "temporary_id": "decl-021479"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {L : Type u} [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L]\n  (V W : decl-004136.{u} k L) (w : decl-004156.{u} W) (v : decl-004156.{u} V),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (LieModuleEquiv.symm.{u, u, u, u} (decl-021479.{u} V W))\n      (TensorProduct.tmul.{u, u, u} k w v))\n    (TensorProduct.tmul.{u, u, u} k v w)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156",
+        "decl-004169",
+        "decl-004170",
+        "decl-004177",
+        "decl-021479"
+      ],
+      "structural_type_hash": "779369765",
+      "temporary_id": "decl-021484"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {L : Type u} [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L]\n  (V W : decl-004136.{u} k L) (v : decl-004156.{u} V) (w : decl-004156.{u} W),\n  Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-021479.{u} V W) (TensorProduct.tmul.{u, u, u} k v w))\n    (TensorProduct.tmul.{u, u, u} k w v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156",
+        "decl-004169",
+        "decl-004170",
+        "decl-004177",
+        "decl-021479"
+      ],
+      "structural_type_hash": "3695441056",
+      "temporary_id": "decl-021485"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    CategoryTheory.Adjunction.{u, u, u + 1, u + 1} (decl-023678.{u} k)\n      (decl-018109.{u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018109",
+        "decl-023678"
+      ],
+      "structural_type_hash": "3766997248",
+      "temporary_id": "decl-023662"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (V : ModuleCat.{u, u} k) \u2192\n      (A : CommAlgCat.{u, u} k) \u2192\n        Equiv.{u + 1, u + 1}\n          (Quiver.Hom.{u, u + 1}\n            (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-023678.{u} k) V) A)\n          (Quiver.Hom.{u, u + 1} V\n            (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-018109.{u} k) A))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018109",
+        "decl-023678"
+      ],
+      "structural_type_hash": "2730096854",
+      "temporary_id": "decl-023665"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : CommRing.{u} k] (V A : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  [inst_3 : CommRing.{u} A] [inst_4 : Algebra.{u, u} k A] (f : LinearMap.{u, u, u, u} (RingHom.id.{u} k) V A),\n  Eq.{u + 1}\n    (CommAlgCat.Hom.hom.{u, u}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (Equiv.symm.{u + 1, u + 1}\n          (decl-023665.{u} k (ModuleCat.of.{u, u} k V) (CommAlgCat.of.{u, u} k A)))\n        (ModuleCat.ofHom.{u, u} f)))\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-023734.{u, u, u} k V A) f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018109",
+        "decl-023665",
+        "decl-023678",
+        "decl-023734"
+      ],
+      "structural_type_hash": "1597729206",
+      "temporary_id": "decl-023669"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192 CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} k) (CommAlgCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2453741654",
+      "temporary_id": "decl-023678"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (V : Type u_2) \u2192\n      [inst_1 : AddCommMonoid.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192\n          (A : Type u_3) \u2192\n            [inst_3 : CommSemiring.{u_3} A] \u2192\n              [inst_4 : Algebra.{u_1, u_3} k A] \u2192\n                Equiv.{max (u_3 + 1) (u_2 + 1), max (u_3 + 1) ((max u_2 u_1) + 1)}\n                  (LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) V A)\n                  (AlgHom.{u_1, max u_2 u_1, u_3} k (SymmetricAlgebra.{u_1, u_2} k V) A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4056559414",
+      "temporary_id": "decl-023734"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    CategoryTheory.Adjunction.{u, u, u + 1, u + 1} (decl-023846.{u} k)\n      (CategoryTheory.forget\u2082.{u, u, u + 1, u, u, u + 1, u} (AlgCat.{u, u} k) (ModuleCat.{u, u} k))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023846"
+      ],
+      "structural_type_hash": "520221063",
+      "temporary_id": "decl-023835"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (V : ModuleCat.{u, u} k) \u2192\n      (A : AlgCat.{u, u} k) \u2192\n        Equiv.{u + 1, u + 1}\n          (Quiver.Hom.{u, u + 1}\n            (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-023846.{u} k) V) A)\n          (Quiver.Hom.{u, u + 1} V\n            (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n              (CategoryTheory.forget\u2082.{u, u, u + 1, u, u, u + 1, u} (AlgCat.{u, u} k) (ModuleCat.{u, u} k)) A))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023846"
+      ],
+      "structural_type_hash": "2298771549",
+      "temporary_id": "decl-023838"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : CommRing.{u} k] (V A : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  [inst_3 : Ring.{u} A] [inst_4 : Algebra.{u, u} k A] (f : LinearMap.{u, u, u, u} (RingHom.id.{u} k) V A),\n  Eq.{u + 1}\n    (AlgCat.Hom.hom.{u, u}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (Equiv.symm.{u + 1, u + 1}\n          (decl-023838.{u} k (ModuleCat.of.{u, u} k V) (AlgCat.of.{u, u} k A)))\n        (ModuleCat.ofHom.{u, u} f)))\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024107.{u, u, u} k V A) f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023838",
+        "decl-023846",
+        "decl-024107"
+      ],
+      "structural_type_hash": "1572700100",
+      "temporary_id": "decl-023841"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192 CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} k) (AlgCat.{u, u} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1736727532",
+      "temporary_id": "decl-023846"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          (V : decl-004136.{u} k L) \u2192\n            CategoryTheory.Adjunction.{u, u, u + 1, u + 1} (decl-023925.{u} (decl-021476.{u} V))\n              (decl-023925.{u} V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004164",
+        "decl-021476",
+        "decl-023925"
+      ],
+      "structural_type_hash": "437944136",
+      "temporary_id": "decl-023924"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          decl-004136.{u} k L \u2192\n            CategoryTheory.Functor.{u, u, u + 1, u + 1} (decl-004136.{u} k L) (decl-004136.{u} k L)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004164"
+      ],
+      "structural_type_hash": "2781767656",
+      "temporary_id": "decl-023925"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          {V V' : decl-004136.{u} k L} \u2192\n            LieModuleEquiv.{u, u, u, u} k L (decl-004156.{u} V) (decl-004156.{u} V') \u2192\n              CategoryTheory.Iso.{u + 1, u + 1} (decl-023925.{u} V)\n                (decl-023925.{u} V')",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156",
+        "decl-004164",
+        "decl-004170",
+        "decl-004177",
+        "decl-023925"
+      ],
+      "structural_type_hash": "1857574774",
+      "temporary_id": "decl-023930"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          (V : decl-004136.{u} k L) \u2192\n            CategoryTheory.Adjunction.{u, u, u + 1, u + 1} (decl-023925.{u} V)\n              (decl-023925.{u} (decl-021476.{u} V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004164",
+        "decl-021476",
+        "decl-023925"
+      ],
+      "structural_type_hash": "602706677",
+      "temporary_id": "decl-023934"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          (V W U : decl-004136.{u} k L) \u2192\n            Equiv.{u + 1, u + 1}\n              (Quiver.Hom.{u, u + 1}\n                (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-023925.{u} V) W) U)\n              (Quiver.Hom.{u, u + 1} W\n                (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                  (decl-023925.{u} (decl-021476.{u} V)) U))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004164",
+        "decl-021476",
+        "decl-023925"
+      ],
+      "structural_type_hash": "2809231349",
+      "temporary_id": "decl-023937"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {L : Type u} \u2192\n      [inst_1 : LieRing.{u} L] \u2192\n        [inst_2 : LieAlgebra.{u, u} k L] \u2192\n          (V W U : decl-004136.{u} k L) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n              (LieModuleHom.{u, u, u, u} k L\n                (TensorProduct.{u, u, u} k (decl-004156.{u} V) (decl-004156.{u} W))\n                (decl-004156.{u} U))\n              (LieModuleHom.{u, u, u, u} k L (decl-004156.{u} W)\n                (TensorProduct.{u, u, u} k (Module.Dual.{u, u} k (decl-004156.{u} V))\n                  (decl-004156.{u} U)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156",
+        "decl-004169",
+        "decl-004170",
+        "decl-004177"
+      ],
+      "structural_type_hash": "1129569266",
+      "temporary_id": "decl-023943"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {L : Type u} [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L]\n  (V W U : decl-004136.{u} k L)\n  (g :\n    LieModuleHom.{u, u, u, u} k L (decl-004156.{u} W)\n      (TensorProduct.{u, u, u} k (Module.Dual.{u, u} k (decl-004156.{u} V))\n        (decl-004156.{u} U)))\n  (v : decl-004156.{u} V) (w : decl-004156.{u} W),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (LinearEquiv.symm.{u, u, u, u} (decl-023943.{u} V W U)) g)\n      (TensorProduct.tmul.{u, u, u} k v w))\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (dualTensorHom.{u, u, u} k (decl-004156.{u} V) (decl-004156.{u} U))\n        (DFunLike.coe.{u + 1, u + 1, u + 1} g w))\n      v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004136",
+        "decl-004155",
+        "decl-004156",
+        "decl-004169",
+        "decl-004170",
+        "decl-004177",
+        "decl-023943"
+      ],
+      "structural_type_hash": "4237431261",
+      "temporary_id": "decl-023955"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {L : Type u} [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L]\n  {A B C D : Type u} [inst_3 : AddCommGroup.{u} A] [inst_4 : Module.{u, u} k A] [inst_5 : LieRingModule.{u, u} L A]\n  [inst_6 : LieModule.{u, u, u} k L A] [inst_7 : AddCommGroup.{u} B] [inst_8 : Module.{u, u} k B]\n  [inst_9 : LieRingModule.{u, u} L B] [inst_10 : LieModule.{u, u, u} k L B] [inst_11 : AddCommGroup.{u} C]\n  [inst_12 : Module.{u, u} k C] [inst_13 : LieRingModule.{u, u} L C] [inst_14 : LieModule.{u, u, u} k L C]\n  [inst_15 : AddCommGroup.{u} D] [inst_16 : Module.{u, u} k D] [inst_17 : LieRingModule.{u, u} L D]\n  [inst_18 : LieModule.{u, u, u} k L D] (f : LieModuleHom.{u, u, u, u} k L A C) (g : LieModuleHom.{u, u, u, u} k L B D)\n  (a : A) (b : B),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (TensorProduct.LieModule.map.{u, u, u, u, u, u} f g)\n      (TensorProduct.tmul.{u, u, u} k a b))\n    (TensorProduct.tmul.{u, u, u} k (DFunLike.coe.{u + 1, u + 1, u + 1} f a) (DFunLike.coe.{u + 1, u + 1, u + 1} g b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1537011352",
+      "temporary_id": "decl-024036"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (V : Type u_2) \u2192\n      [inst_1 : AddCommMonoid.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192\n          (A : Type u_3) \u2192\n            [inst_3 : Semiring.{u_3} A] \u2192\n              [inst_4 : Algebra.{u_1, u_3} k A] \u2192\n                Equiv.{max (u_3 + 1) (u_2 + 1), max (u_3 + 1) ((max u_2 u_1) + 1)}\n                  (LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} k) V A)\n                  (AlgHom.{u_1, max u_2 u_1, u_3} k (TensorAlgebra.{u_1, u_2} k V) A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "292994623",
+      "temporary_id": "decl-024107"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  (G : Type v) \u2192\n    [inst : Field.{u} k] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (V : FDRep.{u, v} k G) \u2192\n          CategoryTheory.Adjunction.{u, u, max (u + 1) v, max (u + 1) v}\n            (CategoryTheory.MonoidalCategory.tensorLeft.{u, max (u + 1) v}\n              (CategoryTheory.HasRightDual.rightDual.{u, max (u + 1) v} V))\n            (CategoryTheory.MonoidalCategory.tensorLeft.{u, max (u + 1) v} V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3078871708",
+      "temporary_id": "decl-024108"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  (G : Type v) \u2192\n    [inst : Field.{u} k] \u2192\n      [inst_1 : Group.{v} G] \u2192\n        (V : FDRep.{u, v} k G) \u2192\n          CategoryTheory.Adjunction.{u, u, max (u + 1) v, max (u + 1) v}\n            (CategoryTheory.MonoidalCategory.tensorLeft.{u, max (u + 1) v} V)\n            (CategoryTheory.MonoidalCategory.tensorLeft.{u, max (u + 1) v}\n              (CategoryTheory.HasRightDual.rightDual.{u, max (u + 1) v} V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3455476123",
+      "temporary_id": "decl-024110"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : CommRing.{u} R] \u2192\n    (L : decl-005530.{u} R) \u2192\n      (A : AlgCat.{u, u} R) \u2192\n        Equiv.{u + 1, u + 1}\n          (Quiver.Hom.{u, u + 1}\n            (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-024448.{u} R) L) A)\n          (Quiver.Hom.{u, u + 1} L\n            (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-018110.{u} R) A))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005530",
+        "decl-005556",
+        "decl-018110",
+        "decl-024448"
+      ],
+      "structural_type_hash": "3293475475",
+      "temporary_id": "decl-024382"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : CommRing.{u} R] (L A : Type u) [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} R L]\n  [inst_3 : Ring.{u} A] [inst_4 : Algebra.{u, u} R A] (f : LieHom.{u, u, u} R L A),\n  Eq.{u + 1}\n    (AlgCat.Hom.hom.{u, u}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (Equiv.symm.{u + 1, u + 1}\n          (decl-024382.{u} R (decl-005571.{u} R L) (AlgCat.of.{u, u} R A)))\n        (decl-005572.{u} R f)))\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024386.{u, u, u} R L A) f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005530",
+        "decl-005556",
+        "decl-005571",
+        "decl-005572",
+        "decl-018110",
+        "decl-024382",
+        "decl-024386",
+        "decl-024448"
+      ],
+      "structural_type_hash": "2438807009",
+      "temporary_id": "decl-024385"
+    },
+    {
+      "formal_type": "(R : Type u_1) \u2192\n  [inst : CommRing.{u_1} R] \u2192\n    (L : Type u_2) \u2192\n      [inst_1 : LieRing.{u_2} L] \u2192\n        [inst_2 : LieAlgebra.{u_1, u_2} R L] \u2192\n          (A : Type u_3) \u2192\n            [inst_3 : Ring.{u_3} A] \u2192\n              [inst_4 : Algebra.{u_1, u_3} R A] \u2192\n                Equiv.{max (u_3 + 1) (u_2 + 1), max (u_3 + 1) ((max u_2 u_1) + 1)} (LieHom.{u_1, u_2, u_3} R L A)\n                  (AlgHom.{u_1, max u_2 u_1, u_3} R (UniversalEnvelopingAlgebra.{u_1, u_2} R L) A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3273264972",
+      "temporary_id": "decl-024386"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192 [inst : CommRing.{u} k] \u2192 CategoryTheory.Functor.{u, u, u + 1, u + 1} (AlgCat.{u, u} k) GrpCat.{u}",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1787486859",
+      "temporary_id": "decl-024440"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : CommRing.{u} R] \u2192\n    CategoryTheory.Adjunction.{u, u, u + 1, u + 1} (decl-024448.{u} R)\n      (decl-018110.{u} R)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005530",
+        "decl-005556",
+        "decl-018110",
+        "decl-024448"
+      ],
+      "structural_type_hash": "4003014864",
+      "temporary_id": "decl-024444"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : CommRing.{u} R] \u2192 CategoryTheory.Functor.{u, u, u + 1, u + 1} (decl-005530.{u} R) (AlgCat.{u, u} R)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005530",
+        "decl-005556"
+      ],
+      "structural_type_hash": "1270221946",
+      "temporary_id": "decl-024448"
+    }
+  ],
+  "module_temporary_id": "module-0592",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

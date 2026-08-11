@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:38803b0b80275700a9ec",
+      "declaration": "Etingof.Problem3_9_2.split_not_iso_jrep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (b a a' c' : Fin n \u2192 Complex),\n  Ne.{1} b a \u2192\n    Not\n      (Nonempty.{1}\n        (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.Problem3_9_2.polyAlg n))\n          (Prod.{0, 0} (Etingof.Problem3_9_2.Vrep b) (Etingof.Problem3_9_2.Vrep a)) (Etingof.Problem3_9_2.Jrep a' c')))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2_Classification"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.2",
+  "packet_id": "align-0672",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0672"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.2:claim-07",
+  "source_text": "A split module with distinct weights is not isomorphic to any Jrep normal form."
+}

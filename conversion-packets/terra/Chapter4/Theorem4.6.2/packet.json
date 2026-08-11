@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Theorem4.6.2",
+    "kind": "theorem",
+    "title": "Existence and uniqueness of unitary structure for finite groups",
+    "node_id": "chapter-04/section-4-6",
+    "order": 211,
+    "slug": "theorem4-6-2",
+    "span": {
+      "start": {
+        "page": "71",
+        "line": 5
+      },
+      "end": {
+        "page": "71",
+        "line": 14
+      }
+    },
+    "source_sha256": "90df09513f54712f73589dae4915947050de36b5bbb81a9d744d3df32a95fcc7",
+    "features": {
+      "line_count": 10,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Theorem462",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

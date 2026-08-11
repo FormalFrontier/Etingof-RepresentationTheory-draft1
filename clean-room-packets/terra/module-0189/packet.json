@@ -1,0 +1,58 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] (V : FDRep.{u, u} k G) (g : G),\n  Eq.{u + 1} (FDRep.character.{u, u} (FDRep.of.{u, u} (Representation.dual.{u, u, u} (FDRep.\u03c1.{u, u} V))) g)\n    (FDRep.character.{u, u} V (Inv.inv.{u} g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2088359856",
+      "temporary_id": "decl-001829"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] (V W : FDRep.{u, u} k G) (g : G),\n  Eq.{u + 1} (FDRep.character.{u, u} (CategoryTheory.MonoidalCategoryStruct.tensorObj.{u, u + 1} V W) g)\n    (HMul.hMul.{u, u, u} (FDRep.character.{u, u} V g) (FDRep.character.{u, u} W g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1467997281",
+      "temporary_id": "decl-001830"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [Finite.{u + 1} G] (V : FDRep.{0, u} Complex G) (g : G),\n  Eq.{1} (FDRep.character.{0, u} V (Inv.inv.{u} g))\n    (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex) (FDRep.character.{0, u} V g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2734519202",
+      "temporary_id": "decl-017925"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Finite.{1} G] (V : FDRep.{0, 0} Complex G),\n  Iff (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (FDRep.of.{0, 0} (Representation.dual.{0, 0, 0} (FDRep.\u03c1.{0, 0} V))) V))\n    (\u2200 (g : G),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex) (FDRep.character.{0, 0} V g))\n        (FDRep.character.{0, 0} V g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3028455525",
+      "temporary_id": "decl-023070"
+    }
+  ],
+  "module_temporary_id": "module-0189",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

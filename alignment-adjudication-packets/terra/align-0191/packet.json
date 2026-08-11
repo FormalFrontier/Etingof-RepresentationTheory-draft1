@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:43891f75095e838e61b4",
+      "declaration": "Etingof.krull_schmidt_uniqueness_finiteLength",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/169/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  [IsArtinian.{u_1, u_2} A V] [IsNoetherian.{u_1, u_2} A V] {n m : Nat} (W : Fin n \u2192 Submodule.{u_1, u_2} A V)\n  (W' : Fin m \u2192 Submodule.{u_1, u_2} A V),\n  (\u2200 (i : Fin n),\n      Etingof.IsIndecomposable.{u_1, u_2} A (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (W i) x)) \u2192\n    (\u2200 (i : Fin m),\n        Etingof.IsIndecomposable.{u_1, u_2} A (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (W' i) x)) \u2192\n      (\u2200 (i : Fin n), Ne.{u_2 + 1} (W i) Bot.bot.{u_2}) \u2192\n        (\u2200 (i : Fin m), Ne.{u_2 + 1} (W' i) Bot.bot.{u_2}) \u2192\n          Eq.{u_2 + 1} (iSup.{u_2, 1} W) Top.top.{u_2} \u2192\n            iSupIndep.{1, u_2} W \u2192\n              Eq.{u_2 + 1} (iSup.{u_2, 1} W') Top.top.{u_2} \u2192\n                iSupIndep.{1, u_2} W' \u2192\n                  And (Eq.{1} n m)\n                    (Exists.{1} fun \u03c3 =>\n                      \u2200 (i : Fin n),\n                        Nonempty.{u_2 + 1}\n                          (LinearEquiv.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} A)\n                            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (W i) x)\n                            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (W' (DFunLike.coe.{1, 1, 1} \u03c3 i)) x)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_8_6"
+    }
+  ],
+  "canonical_reference": "Chapter3/Remark3.8.6",
+  "packet_id": "align-0191",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0191"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3a8f9d4b592e0453ab38",
+  "source_text": "The indecomposable decomposition of a finite-length module is unique up to permutation and isomorphism of corresponding summands."
+}

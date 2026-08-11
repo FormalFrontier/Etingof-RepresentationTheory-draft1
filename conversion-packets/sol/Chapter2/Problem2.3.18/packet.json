@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.3.18",
+    "kind": "exercise",
+    "title": "Infinite dimensional Schur lemma (Dixmier)",
+    "node_id": "chapter-02/section-2-3",
+    "order": 47,
+    "slug": "problem2-3-18",
+    "span": {
+      "start": {
+        "page": "14",
+        "line": 14
+      },
+      "end": {
+        "page": "15",
+        "line": 1
+      }
+    },
+    "source_sha256": "b5bb4fe021f6e0954ef93e0770e04097820a2f496c9d10a5a03a2a05cd4c7111",
+    "features": {
+      "line_count": 5,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2318",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,62 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Nat \u2192 (k : Type u_2) \u2192 [Field.{u_2} k] \u2192 Type (max u_2 0)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2778571659",
+      "temporary_id": "decl-004709"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [IsAlgClosed.{0} k] [CharZero.{0} k] (n : Nat) {Y : Type}\n  [inst_3 : AddCommGroup.{0} Y] [inst_4 : Module.{0, 0} k Y] [inst_5 : Module.Finite.{0, 0} k Y]\n  (\u03c1 : Representation.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) Y),\n  decl-005106.{0, 0} n (DFunLike.coe.{1, 1, 1} \u03c1) \u2192\n    IsSemisimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k))\n      (Representation.asModule.{0, 0, 0} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106"
+      ],
+      "structural_type_hash": "3935560013",
+      "temporary_id": "decl-016594"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] [CharZero.{u_1} k] [CharZero.{u_1} k] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    Nonempty.{u_1 + 1}\n      (LinearEquiv.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k) (decl-004709.{u_1} n k)\n        (DirectSum.{0, u_1} (decl-001833 n) fun lam =>\n          TensorProduct.{u_1, u_1, u_1} k (decl-000521.{u_1} n lam k) (decl-000516.{u_1} n lam k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-000521",
+        "decl-000522",
+        "decl-000524",
+        "decl-001833",
+        "decl-004708",
+        "decl-004709"
+      ],
+      "structural_type_hash": "3181179682",
+      "temporary_id": "decl-016595"
+    }
+  ],
+  "module_temporary_id": "module-0468",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

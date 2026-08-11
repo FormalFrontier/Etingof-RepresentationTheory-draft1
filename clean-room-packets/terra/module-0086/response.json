@@ -1,0 +1,21 @@
+{
+  "module_name": "Algebra.CenterAction",
+  "declarations": [
+    { "temporary_id": "decl-017801", "new_name": "centerActionEnd", "docstring": "The endomorphism of a module induced by an element of the algebra center." },
+    { "temporary_id": "decl-017804", "new_name": "centerActionAlgHom", "docstring": "The algebra homomorphism sending each central element to its action on the module." },
+    { "temporary_id": "decl-017811", "new_name": "centerActionEnd_apply", "docstring": "Applying the central-action endomorphism agrees with the given module action." },
+    { "temporary_id": "decl-017812", "new_name": "centerAction_sub_scalar_isNilpotent", "docstring": "A central action with a nonzero scalar eigenvector differs from that scalar action by a nilpotent endomorphism, under the displayed hypothesis." },
+    { "temporary_id": "decl-017813", "new_name": "centerCharacter", "docstring": "The scalar-valued algebra homomorphism describing central actions on a finite simple module." },
+    { "temporary_id": "decl-017815", "new_name": "centerAction_eq_character_smul", "docstring": "A central element acts by multiplication by its associated scalar on every vector." },
+    { "temporary_id": "decl-018585", "new_name": "endomorphismAlgebraEquiv", "docstring": "An algebra equivalence from the base field to the endomorphisms of a finite simple module." },
+    { "temporary_id": "decl-018586", "new_name": "endomorphismAlgebraEquiv_apply", "docstring": "The endomorphism algebra equivalence sends a scalar to its standard scalar action." },
+    { "temporary_id": "decl-018609", "new_name": "dualNumberEpsilonInCenter", "docstring": "The distinguished nilpotent element of the dual numbers, regarded as a central element." },
+    { "temporary_id": "decl-018613", "new_name": "dualNumberEpsilonInCenter_val", "docstring": "The underlying value of the selected central dual-number element is epsilon." },
+    { "temporary_id": "decl-018614", "new_name": "dualNumberEpsilon_not_scalarAction", "docstring": "Multiplication by epsilon on the dual numbers is not scalar multiplication by any field element." },
+    { "temporary_id": "decl-018616", "new_name": "scalarEndomorphism_isNilpotent_imp", "docstring": "A nilpotent scalar endomorphism of a nontrivial module has zero scalar." },
+    { "temporary_id": "decl-018773", "new_name": "exists_centerCharacter_sub_action_isNilpotent", "docstring": "Under the displayed condition, there is a central character whose scalar actions differ from central actions by nilpotents." },
+    { "temporary_id": "decl-018774", "new_name": "centerElement_smul_eq_scalar_smul", "docstring": "Every central element acts as multiplication by some scalar on the indicated module." },
+    { "temporary_id": "decl-018868", "new_name": "exists_simpleSubmodule_centerCharacter", "docstring": "Under the given condition, a simple submodule admits compatible scalar descriptions of all central actions." },
+    { "temporary_id": "decl-020529", "new_name": "centerCharacter_value_unique", "docstring": "Two scalars producing nilpotent deviations from the same central action are equal." }
+  ]
+}

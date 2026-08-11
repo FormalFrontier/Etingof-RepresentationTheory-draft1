@@ -1,0 +1,7 @@
+{"module_name":"Algebra.Module.BasisExpansion","declarations":[
+{"temporary_id":"decl-019569","new_name":"basisExpansion","docstring":"The linear map that expands a finite family of algebra coefficients against a module basis."},
+{"temporary_id":"decl-019572","new_name":"basisExpansion_apply","docstring":"The basis expansion is the sum of the coefficients acting on their basis elements."},
+{"temporary_id":"decl-019573","new_name":"basisExpansion_surjective","docstring":"A basis expansion is surjective under the displayed scalar-tower hypotheses."},
+{"temporary_id":"decl-019574","new_name":"eq_basisExpansion_of_apply","docstring":"A linear map with the displayed coefficient-expansion formula equals the basis expansion."},
+{"temporary_id":"decl-022269","new_name":"quotientKerBasisExpansionEquiv","docstring":"The quotient by the kernel of a basis expansion is linearly equivalent to the target module."}
+]}

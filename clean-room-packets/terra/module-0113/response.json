@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.Lie.UniversalEnveloping.BasisPresentation",
+  "declarations": [
+    {
+      "temporary_id": "decl-015221",
+      "new_name": "basisPresentationEquivUniversalEnveloping",
+      "docstring": "An algebra equivalence between a basis-dependent presentation of a Lie algebra and its universal enveloping algebra."
+    }
+  ]
+}

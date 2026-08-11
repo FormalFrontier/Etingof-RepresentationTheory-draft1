@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5b7a411a590a921a40cf",
+      "declaration": "Etingof.balancedLTensor_exact",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/517/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (X : Type u_2) [inst_1 : AddCommGroup.{u_2} X]\n  [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) X] {M : Type u_3} [inst_3 : AddCommGroup.{u_3} M]\n  [inst_4 : Module.{u_1, u_3} A M] {N : Type u_4} [inst_5 : AddCommGroup.{u_4} N] [inst_6 : Module.{u_1, u_4} A N]\n  {P : Type u_5} [inst_7 : AddCommGroup.{u_5} P] [inst_8 : Module.{u_1, u_5} A P]\n  (f : LinearMap.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} A) M N)\n  (g : LinearMap.{u_1, u_1, u_4, u_5} (RingHom.id.{u_1} A) N P),\n  Function.Exact.{u_3, u_4, u_5} (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} f)\n      (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), u_4 + 1, u_5 + 1} g) \u2192\n    Function.Surjective.{u_4 + 1, u_5 + 1} (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), u_4 + 1, u_5 + 1} g) \u2192\n      Function.Exact.{max u_2 u_3, max u_2 u_4, max u_2 u_5}\n        (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_4 + 1)}\n          (Etingof.balancedLTensor.{u_1, u_2, u_3, u_4} A X f))\n        (DFunLike.coe.{max (max (u_2 + 1) (u_4 + 1)) (u_5 + 1), max (u_2 + 1) (u_4 + 1), max (u_2 + 1) (u_5 + 1)}\n          (Etingof.balancedLTensor.{u_1, u_2, u_4, u_5} A X g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_9_6"
+    },
+    {
+      "association_id": "association:9624714a1df41b9b102b",
+      "declaration": "Etingof.balancedLTensor_not_left_exact",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/517/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Not\n  (Function.Injective.{1, 1}\n    (DFunLike.coe.{1, 1, 1}\n      (Etingof.balancedLTensor.{0, 0, 0, 0} Int (ZMod 2) (DFunLike.coe.{1, 1, 1} (LinearMap.lsmul.{0, 0} Int Int) 2))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_9_6"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.9.6",
+  "packet_id": "align-1113",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1113"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e02c2b2a69213a8f78e4",
+  "source_text": "Balanced tensor by a right module is right exact but need not be left exact, with the stated Z/2 counterexample."
+}

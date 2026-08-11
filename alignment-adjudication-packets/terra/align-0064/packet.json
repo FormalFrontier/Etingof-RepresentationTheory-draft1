@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:bd56c8488f81a4538b2f",
+      "declaration": "A\u2083Rep.rep_indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/417/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (i : Fin 6), A\u2083Rep.Indecomposable.{u_1, u_1, u_1, u_1} (A\u2083Rep.rep.{u_1} k i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_2_4_Source"
+    },
+    {
+      "association_id": "association:1749bcec277e9558d406",
+      "declaration": "A\u2083SinkRep.rep_indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/417/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (i : Fin 6),\n  A\u2083SinkRep.Indecomposable.{u_1, u_1, u_1, u_1} (A\u2083SinkRep.rep.{u_1} k i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_2_4_Sink"
+    }
+  ],
+  "canonical_reference": "Chapter6/Example6.2.4",
+  "packet_id": "align-0064",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0064"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:13286012cddc043bf8f6",
+  "source_text": "For each of the two A\u2083 orientations, the six positive-root dimension vectors have explicit indecomposable representatives."
+}

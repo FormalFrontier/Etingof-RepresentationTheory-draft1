@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0120",
+  "associations": [
+    {
+      "association_id": "association:cec61f1d6475ff23bac9",
+      "role": "supporting",
+      "rationale": "Irreducibility of each representation-block polynomial is an ingredient in the determinant factorization argument."
+    },
+    {
+      "association_id": "association:192a78254024e39b8599",
+      "role": "supporting",
+      "rationale": "Nonassociation of distinct block polynomials is an ingredient in separating the determinant factors."
+    }
+  ]
+}

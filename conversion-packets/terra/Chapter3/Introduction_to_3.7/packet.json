@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Introduction_to_3.7",
+    "kind": "introduction",
+    "title": "Section 3.7: The Jordan-Holder theorem \u2014 heading and overview",
+    "node_id": "chapter-03/section-3-7",
+    "order": 160,
+    "slug": "introduction-to-3-7",
+    "span": {
+      "start": {
+        "page": "53",
+        "line": 3
+      },
+      "end": {
+        "page": "53",
+        "line": 6
+      }
+    },
+    "source_sha256": "155f9c22d94575985e23cdebd1550931dcc48e0466113e2947e78184d90751ee",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.IntroductionTo37",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

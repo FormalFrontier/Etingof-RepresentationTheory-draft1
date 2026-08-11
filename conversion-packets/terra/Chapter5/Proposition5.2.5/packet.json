@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Proposition5.2.5",
+    "kind": "proposition",
+    "title": "Algebraic integers intersect rationals in the integers",
+    "node_id": "chapter-05/section-5-2",
+    "order": 258,
+    "slug": "proposition5-2-5",
+    "span": {
+      "start": {
+        "page": "97",
+        "line": 11
+      },
+      "end": {
+        "page": "97",
+        "line": 22
+      }
+    },
+    "source_sha256": "471877e96a5e1fff0e8c6ea63f407070dc739997aa9bb5f401ec42309c3991b1",
+    "features": {
+      "line_count": 12,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition525",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

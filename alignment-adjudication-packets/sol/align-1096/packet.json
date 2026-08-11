@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:24682afbdc0bfacb781e",
+      "declaration": "Etingof.WeylE",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/55/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 [CommRing.{u_1} k] \u2192 Type u_1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.FaithfulWeylModule"
+    },
+    {
+      "association_id": "association:e915d20a7a1ef8bae18c",
+      "declaration": "Etingof.repE",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/55/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    AlgHom.{u_1, u_1, u_1} k (Etingof.WeylAlgebra.{u_1} k) (Module.End.{u_1, u_1} k (Etingof.WeylE.{u_1} k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.FaithfulWeylModule"
+    },
+    {
+      "association_id": "association:e38d607fd5176d4f6ed7",
+      "declaration": "Etingof.repE_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/55/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] [Nontrivial.{u_1} k],\n  Function.Injective.{u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Etingof.repE.{u_1} k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.FaithfulWeylModule"
+    },
+    {
+      "association_id": "association:06ebadad09ed35eeb940",
+      "declaration": "Etingof.repE_x",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/55/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Etingof.repE.{u_1} k) (Etingof.WeylAlgebra.x.{u_1} k))\n    (Etingof.mulX.{u_1} k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.FaithfulWeylModule"
+    },
+    {
+      "association_id": "association:173380ebda405c84d894",
+      "declaration": "Etingof.repE_y",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/55/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Etingof.repE.{u_1} k) (Etingof.WeylAlgebra.y.{u_1} k))\n    (Etingof.weylD.{u_1} k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.FaithfulWeylModule"
+    }
+  ],
+  "canonical_reference": "Chapter2/Proposition2.7.1",
+  "packet_id": "align-1096",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1096"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d9fb47742277c7d4ef87",
+  "source_text": "The book's module E = t^a k[a][t,t^-1], with x acting by a shift and y by the twisted derivative, is a faithful Weyl-algebra representation and proves linear independence in every characteristic."
+}

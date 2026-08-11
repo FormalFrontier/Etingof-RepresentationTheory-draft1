@@ -1,0 +1,487 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_4, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_4} Q i)\n  [inst_2 : Fintype.{max u_4 u_2} (decl-000623.{u_2, u_4} Q i)],\n  And\n    (decl-015497.{max (max (max u_1 (u_3 + 1)) (u_4 + 1)) (u_2 + 1),\n        max (max (max u_1 (u_3 + 1)) (u_4 + 1)) (u_2 + 1), max (max u_3 u_4) u_2, max (max u_3 u_4) u_2}\n      (decl-022516.{u_1, u_2, u_4, u_3} hi))\n    (decl-005440.{max (max (max u_1 (u_5 + 1)) (u_4 + 1)) (u_2 + 1),\n        max (max (max u_1 (u_5 + 1)) (u_4 + 1)) (u_2 + 1), max (max u_5 u_4) u_2, max (max u_5 u_4) u_2}\n      (decl-022536.{u_1, u_2, u_4, u_5} hi))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-005440",
+        "decl-014909",
+        "decl-014981",
+        "decl-015497",
+        "decl-022516",
+        "decl-022536",
+        "decl-022764"
+      ],
+      "structural_type_hash": "3561997808",
+      "temporary_id": "decl-004092"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommSemiring.{u_1} k] {I\u2081 I\u2082 : Quiver.{u_3, u_2} Q}\n  (h : Eq.{max (u_2 + 1) (u_3 + 2)} I\u2081 I\u2082) {X Y : decl-014909.{u_1, u_2, u_4, u_3} k Q}\n  (f : Quiver.Hom.{max u_2 u_4, max (max (max u_1 u_2) u_3) (u_4 + 1)} X Y) (v : Q)\n  (x :\n    decl-014996.{u_1, u_2, u_4, u_3}\n      (CategoryTheory.Functor.obj.{max u_2 u_4, max u_2 u_4, max (max (max u_2 u_3) (u_4 + 1)) u_1,\n          max (max (max u_2 u_3) (u_4 + 1)) u_1}\n        (decl-015013.{u_1, u_2, u_3, u_4} h) X)\n      v),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1}\n      (decl-014997.{u_1, u_2, u_3, u_4} h Y v)\n      (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1}\n        (decl-015056.{u_1, u_2, u_3, u_4, u_4}\n          (CategoryTheory.Functor.map.{max u_2 u_4, max u_2 u_4, max (max (max u_2 u_3) (u_4 + 1)) u_1,\n              max (max (max u_2 u_3) (u_4 + 1)) u_1}\n            (decl-015013.{u_1, u_2, u_3, u_4} h) f)\n          v)\n        x))\n    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1} (decl-015056.{u_1, u_2, u_3, u_4, u_4} f v)\n      (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1}\n        (decl-014997.{u_1, u_2, u_3, u_4} h X v) x))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-014909",
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014980",
+        "decl-014981",
+        "decl-014985",
+        "decl-014996",
+        "decl-014997",
+        "decl-015013",
+        "decl-015056"
+      ],
+      "structural_type_hash": "85537178",
+      "temporary_id": "decl-015002"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommSemiring.{u_1} k] \u2192\n      {I\u2081 I\u2082 : Quiver.{u_3, u_2} Q} \u2192\n        Eq.{max (u_2 + 1) (u_3 + 2)} I\u2081 I\u2082 \u2192\n          CategoryTheory.Functor.{max u_2 u_4, max u_2 u_4, max (max (max u_3 (u_4 + 1)) u_2) u_1,\n              max (max (max u_3 (u_4 + 1)) u_2) u_1}\n            (decl-014909.{u_1, u_2, u_4, u_3} k Q)\n            (decl-014909.{u_1, u_2, u_4, u_3} k Q)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014909",
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014981"
+      ],
+      "structural_type_hash": "154785278",
+      "temporary_id": "decl-015013"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommSemiring.{u_1} k] {I\u2081 I\u2082 : Quiver.{u_3, u_2} Q}\n  (h : Eq.{max (u_2 + 1) (u_3 + 2)} I\u2081 I\u2082) (X : decl-014909.{u_1, u_2, u_4, u_3} k Q),\n  Eq.{max (max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1)) (u_4 + 2)}\n    (CategoryTheory.Functor.obj.{max u_2 u_4, max u_2 u_4, max (max (max u_2 u_3) (u_4 + 1)) u_1,\n        max (max (max u_2 u_3) (u_4 + 1)) u_1}\n      (decl-015013.{u_1, u_2, u_3, u_4} h) X)\n    (Eq.rec.{max (max (max (u_1 + 1) (u_2 + 1)) (u_4 + 2)) (u_3 + 1), max (u_2 + 1) (u_3 + 2)} X h)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-014909",
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014981",
+        "decl-015013"
+      ],
+      "structural_type_hash": "1707223609",
+      "temporary_id": "decl-015016"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommSemiring.{u_1} k] \u2192\n      {I\u2081 I\u2082 : Quiver.{u_3, u_2} Q} \u2192\n        (h : Eq.{max (u_2 + 1) (u_3 + 2)} I\u2081 I\u2082) \u2192\n          {X : decl-014909.{u_1, u_2, u_4, u_3} k Q} \u2192\n            {Y : decl-014909.{u_1, u_2, u_5, u_3} k Q} \u2192\n              decl-015053.{u_1, u_2, u_3, u_4, u_5} k Q X Y \u2192\n                decl-015053.{u_1, u_2, u_3, u_4, u_5} k Q\n                  (Eq.rec.{max (max (max (u_1 + 1) (u_2 + 1)) (u_4 + 2)) (u_3 + 1), max (u_2 + 1) (u_3 + 2)} X h)\n                  (Eq.rec.{max (max (max (u_1 + 1) (u_2 + 1)) (u_5 + 2)) (u_3 + 1), max (u_2 + 1) (u_3 + 2)} Y h)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014909",
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-015053"
+      ],
+      "structural_type_hash": "3390178912",
+      "temporary_id": "decl-015017"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommSemiring.{u_1} k] \u2192\n      [inst_1 : DecidableEq.{u_2 + 1} Q] \u2192\n        [inst_2 : Quiver.{u_3, u_2} Q] \u2192\n          (i : Q) \u2192\n            CategoryTheory.Functor.{max u_2 u_4, max u_2 u_4, max (max (max u_3 (u_4 + 1)) u_2) u_1,\n                max (max (max u_3 (u_4 + 1)) u_2) u_1}\n              (decl-014909.{u_1, u_2, u_4, u_3} k Q)\n              (decl-014909.{u_1, u_2, u_4, u_3} k Q)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014909",
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014981",
+        "decl-022764"
+      ],
+      "structural_type_hash": "3053867906",
+      "temporary_id": "decl-015021"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommSemiring.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [inst_2 : Quiver.{u_3, u_2} Q] (i : Q) (X : decl-014909.{u_1, u_2, u_4, u_3} k Q),\n  Eq.{max (max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1)) (u_4 + 2)}\n    (CategoryTheory.Functor.obj.{max u_2 u_4, max u_2 u_4, max (max (max u_2 u_3) (u_4 + 1)) u_1,\n        max (max (max u_2 u_3) (u_4 + 1)) u_1}\n      (decl-015021.{u_1, u_2, u_3, u_4} i) X)\n    (decl-015018.{u_1, u_2, u_3, u_4} X)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-014909",
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-014981",
+        "decl-015018",
+        "decl-015021",
+        "decl-022764"
+      ],
+      "structural_type_hash": "460863256",
+      "temporary_id": "decl-015022"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_3, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_3} Q i)\n  [inst_2 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)]\n  (V : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  (W : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  (f :\n    Quiver.Hom.{max (max u_2 u_3) u_4, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n      (CategoryTheory.Functor.obj.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n          max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n        (decl-022516.{u_1, u_2, u_3, u_4} hi) V)\n      W)\n  (v : Q) (hv : Ne.{u_2 + 1} v i),\n  Eq.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n    (decl-000502.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n          max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n        (decl-020044.{u_1, u_2, u_3, u_4, max (max u_2 u_3) u_4} hi V W) f)\n      v hv)\n    (LinearMap.comp.{u_1, u_1, u_1, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n      (decl-015056.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4} f v)\n      (LinearEquiv.toLinearMap.{u_1, u_1, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n        (LinearEquiv.symm.{u_1, u_1, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n          (decl-022438.{u_1, u_2, u_3, u_4} hi V v hv))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000493",
+        "decl-000502",
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014980",
+        "decl-014981",
+        "decl-014985",
+        "decl-014996",
+        "decl-015053",
+        "decl-015056",
+        "decl-020044",
+        "decl-022438",
+        "decl-022514",
+        "decl-022516",
+        "decl-022764"
+      ],
+      "structural_type_hash": "3628082818",
+      "temporary_id": "decl-020062"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_3, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_3} Q i)\n  [inst_2 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)]\n  (V : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  (W : decl-014909.{u_1, u_2, u_5, u_3} k Q)\n  (r : decl-000493.{u_1, u_2, u_3, max (max u_2 u_3) u_4, u_5} hi V W) (v : Q) (hv : Ne.{u_2 + 1} v i),\n  Eq.{max (max (max (u_2 + 1) (u_3 + 1)) (u_5 + 1)) (u_4 + 1)}\n    (decl-015056.{u_1, u_2, u_3, max (max u_2 u_3) u_4, u_5}\n      (DFunLike.coe.{max (max (max (u_2 + 1) (u_3 + 1)) (u_5 + 1)) (u_4 + 1),\n          max (max (max (u_2 + 1) (u_3 + 1)) (u_5 + 1)) (u_4 + 1),\n          max (max (max (u_2 + 1) (u_3 + 1)) (u_5 + 1)) (u_4 + 1)}\n        (Equiv.symm.{max (max (max (u_2 + 1) (u_3 + 1)) (u_5 + 1)) (u_4 + 1),\n            max (max (max (u_2 + 1) (u_3 + 1)) (u_5 + 1)) (u_4 + 1)}\n          (decl-020044.{u_1, u_2, u_3, u_4, u_5} hi V W))\n        r)\n      v)\n    (LinearMap.comp.{u_1, u_1, u_1, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4, u_5}\n      (decl-000502.{u_1, u_2, u_3, max (max u_2 u_3) u_4, u_5} r v hv)\n      (LinearEquiv.toLinearMap.{u_1, u_1, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n        (decl-022438.{u_1, u_2, u_3, u_4} hi V v hv)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000493",
+        "decl-000502",
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996",
+        "decl-015053",
+        "decl-015056",
+        "decl-020044",
+        "decl-022438",
+        "decl-022514",
+        "decl-022764"
+      ],
+      "structural_type_hash": "241782047",
+      "temporary_id": "decl-020063"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_3, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_3} Q i)\n  [inst_2 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)]\n  (V : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  (W : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  (g :\n    Quiver.Hom.{max (max u_2 u_3) u_4, max (max (max u_1 u_2) u_3) ((max (max u_2 u_3) u_4) + 1)} V\n      (CategoryTheory.Functor.obj.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n          max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n        (decl-022536.{u_1, u_2, u_3, u_4} hi) W))\n  (v : Q) (hv : Ne.{u_2 + 1} v i),\n  Eq.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n    (decl-000502.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n          max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n        (decl-020153.{u_1, u_2, u_3, max (max u_2 u_3) u_4, u_4} hi V W) g)\n      v hv)\n    (LinearMap.comp.{u_1, u_1, u_1, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n      (LinearEquiv.toLinearMap.{u_1, u_1, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n        (decl-022547.{u_1, u_2, u_3, u_4} hi W v hv))\n      (decl-015056.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4} g v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000493",
+        "decl-000502",
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014980",
+        "decl-014981",
+        "decl-014985",
+        "decl-014996",
+        "decl-015018",
+        "decl-015053",
+        "decl-015056",
+        "decl-020153",
+        "decl-020926",
+        "decl-022534",
+        "decl-022536",
+        "decl-022547",
+        "decl-022764"
+      ],
+      "structural_type_hash": "1635049675",
+      "temporary_id": "decl-020173"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_4, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_4} Q i)\n  [inst_2 : Fintype.{max u_4 u_2} (decl-000623.{u_2, u_4} Q i)]\n  (V : decl-014909.{u_1, u_2, u_3, u_4} k Q)\n  (W : decl-014909.{u_1, u_2, max (max u_2 u_4) u_5, u_4} k Q)\n  (r : decl-000493.{u_1, u_2, u_4, u_3, max (max u_2 u_4) u_5} hi V W) (v : Q) (hv : Ne.{u_2 + 1} v i),\n  Eq.{max (max (max (u_2 + 1) (u_4 + 1)) (u_3 + 1)) (u_5 + 1)}\n    (decl-015056.{u_1, u_2, u_4, u_3, max (max u_2 u_4) u_5}\n      (DFunLike.coe.{max (max (max (u_2 + 1) (u_4 + 1)) (u_3 + 1)) (u_5 + 1),\n          max (max (max (u_2 + 1) (u_4 + 1)) (u_3 + 1)) (u_5 + 1),\n          max (max (max (u_2 + 1) (u_4 + 1)) (u_3 + 1)) (u_5 + 1)}\n        (Equiv.symm.{max (max (max (u_2 + 1) (u_4 + 1)) (u_3 + 1)) (u_5 + 1),\n            max (max (max (u_2 + 1) (u_4 + 1)) (u_3 + 1)) (u_5 + 1)}\n          (decl-020153.{u_1, u_2, u_4, u_3, u_5} hi V W))\n        r)\n      v)\n    (LinearMap.comp.{u_1, u_1, u_1, u_3, max (max u_2 u_4) u_5, max (max u_2 u_4) u_5}\n      (LinearEquiv.toLinearMap.{u_1, u_1, max (max u_2 u_4) u_5, max (max u_2 u_4) u_5}\n        (LinearEquiv.symm.{u_1, u_1, max (max u_2 u_4) u_5, max (max u_2 u_4) u_5}\n          (decl-022547.{u_1, u_2, u_4, u_5} hi W v hv)))\n      (decl-000502.{u_1, u_2, u_4, u_3, max (max u_2 u_4) u_5} r v hv))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000493",
+        "decl-000502",
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014980",
+        "decl-014981",
+        "decl-014985",
+        "decl-014996",
+        "decl-015018",
+        "decl-015053",
+        "decl-015056",
+        "decl-020153",
+        "decl-020926",
+        "decl-022534",
+        "decl-022536",
+        "decl-022547",
+        "decl-022764"
+      ],
+      "structural_type_hash": "2477594399",
+      "temporary_id": "decl-020174"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : DecidableEq.{u_2 + 1} Q] \u2192\n        [instQ : Quiver.{u_3, u_2} Q] \u2192\n          {i : Q} \u2192\n            (hi : decl-005303.{u_2, u_3} Q i) \u2192\n              [inst_2 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)] \u2192\n                CategoryTheory.Adjunction.{max (max u_4 u_3) u_2, max (max u_4 u_3) u_2,\n                    max (max (max u_1 (u_4 + 1)) (u_3 + 1)) (u_2 + 1),\n                    max (max (max u_1 (u_4 + 1)) (u_3 + 1)) (u_2 + 1)}\n                  (decl-022516.{u_1, u_2, u_3, u_4} hi)\n                  (decl-022536.{u_1, u_2, u_3, u_4} hi)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014981",
+        "decl-022516",
+        "decl-022536",
+        "decl-022764"
+      ],
+      "structural_type_hash": "2642511207",
+      "temporary_id": "decl-022505"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_3, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_3} Q i)\n  [inst_2 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)]\n  (V : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  (W : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q),\n  Eq.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n    (CategoryTheory.Adjunction.homEquiv.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n        max (max (max u_1 (u_2 + 1)) (u_3 + 1)) (u_4 + 1), max (max (max u_1 (u_2 + 1)) (u_3 + 1)) (u_4 + 1)}\n      (decl-022505.{u_1, u_2, u_3, u_4} hi) V W)\n    (decl-022509.{u_1, u_2, u_3, u_4} hi V W)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014981",
+        "decl-022505",
+        "decl-022509",
+        "decl-022516",
+        "decl-022536",
+        "decl-022764"
+      ],
+      "structural_type_hash": "1063736752",
+      "temporary_id": "decl-022507"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : DecidableEq.{u_2 + 1} Q] \u2192\n        [instQ : Quiver.{u_3, u_2} Q] \u2192\n          {i : Q} \u2192\n            (hi : decl-005303.{u_2, u_3} Q i) \u2192\n              [inst_2 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)] \u2192\n                CategoryTheory.Adjunction.CoreHomEquiv.{max (max u_4 u_3) u_2, max (max u_4 u_3) u_2,\n                    max (max (max u_1 (u_4 + 1)) (u_3 + 1)) (u_2 + 1),\n                    max (max (max u_1 (u_4 + 1)) (u_3 + 1)) (u_2 + 1)}\n                  (decl-022516.{u_1, u_2, u_3, u_4} hi)\n                  (decl-022536.{u_1, u_2, u_3, u_4} hi)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014981",
+        "decl-022516",
+        "decl-022536",
+        "decl-022764"
+      ],
+      "structural_type_hash": "528474977",
+      "temporary_id": "decl-022508"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : DecidableEq.{u_2 + 1} Q] \u2192\n        [instQ : Quiver.{u_3, u_2} Q] \u2192\n          {i : Q} \u2192\n            (hi : decl-005303.{u_2, u_3} Q i) \u2192\n              [inst_2 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)] \u2192\n                (V : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q) \u2192\n                  (W : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q) \u2192\n                    Equiv.{(max (max u_2 u_3) u_4) + 1, (max (max u_2 u_3) u_4) + 1}\n                      (Quiver.Hom.{max (max u_2 u_3) u_4, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n                        (CategoryTheory.Functor.obj.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n                            max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1,\n                            max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n                          (decl-022516.{u_1, u_2, u_3, u_4} hi) V)\n                        W)\n                      (Quiver.Hom.{max (max u_2 u_3) u_4, max (max (max u_1 (u_2 + 1)) (u_3 + 1)) (u_4 + 1)} V\n                        (CategoryTheory.Functor.obj.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n                            max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1,\n                            max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n                          (decl-022536.{u_1, u_2, u_3, u_4} hi) W))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014981",
+        "decl-022516",
+        "decl-022536",
+        "decl-022764"
+      ],
+      "structural_type_hash": "3562225609",
+      "temporary_id": "decl-022509"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_3, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_3} Q i)\n  [inst_2 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)]\n  (V : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  (W : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  (f :\n    Quiver.Hom.{max (max u_2 u_3) u_4, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n      (CategoryTheory.Functor.obj.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n          max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n        (decl-022516.{u_1, u_2, u_3, u_4} hi) V)\n      W)\n  (v : Q) (hv : Ne.{u_2 + 1} v i) (x : decl-014996.{u_1, u_2, max (max u_2 u_3) u_4, u_3} V v),\n  Eq.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n        max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n      (decl-022547.{u_1, u_2, u_3, u_4} hi W v hv)\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n          max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n        (decl-015056.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n          (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n              max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n            (decl-022509.{u_1, u_2, u_3, u_4} hi V W) f)\n          v)\n        x))\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n        max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n      (decl-015056.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4} f v)\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n          max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n        (LinearEquiv.symm.{u_1, u_1, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n          (decl-022438.{u_1, u_2, u_3, u_4} hi V v hv))\n        x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014980",
+        "decl-014981",
+        "decl-014985",
+        "decl-014996",
+        "decl-015056",
+        "decl-022438",
+        "decl-022509",
+        "decl-022514",
+        "decl-022516",
+        "decl-022536",
+        "decl-022547",
+        "decl-022764"
+      ],
+      "structural_type_hash": "38906558",
+      "temporary_id": "decl-022510"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_3, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_3} Q i)\n  [inst_2 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)]\n  {V' V : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q}\n  {W : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q}\n  (f : Quiver.Hom.{max u_2 (max u_2 u_3) u_4, max (max (max u_1 u_2) u_3) ((max (max u_2 u_3) u_4) + 1)} V' V)\n  (g :\n    Quiver.Hom.{max (max u_2 u_3) u_4, max (max (max u_1 u_2) u_3) ((max (max u_2 u_3) u_4) + 1)} V\n      (CategoryTheory.Functor.obj.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n          max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n        (decl-022536.{u_1, u_2, u_3, u_4} hi) W)),\n  Eq.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n        max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n      (Equiv.symm.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n        (decl-022509.{u_1, u_2, u_3, u_4} hi V' W))\n      (CategoryTheory.CategoryStruct.comp.{max (max u_2 u_3) u_4, max (max (max u_1 (u_2 + 1)) (u_3 + 1)) (u_4 + 1)} f\n        g))\n    (CategoryTheory.CategoryStruct.comp.{max (max u_2 u_3) u_4, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n      (CategoryTheory.Functor.map.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n          max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n        (decl-022516.{u_1, u_2, u_3, u_4} hi) f)\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n          max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n        (Equiv.symm.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n          (decl-022509.{u_1, u_2, u_3, u_4} hi V W))\n        g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014981",
+        "decl-022509",
+        "decl-022516",
+        "decl-022536",
+        "decl-022764"
+      ],
+      "structural_type_hash": "4179128725",
+      "temporary_id": "decl-022511"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_3, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_3} Q i)\n  [inst_2 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)]\n  {V : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q}\n  {W W' : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q}\n  (f :\n    Quiver.Hom.{max (max u_2 u_3) u_4, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n      (CategoryTheory.Functor.obj.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n          max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n        (decl-022516.{u_1, u_2, u_3, u_4} hi) V)\n      W)\n  (g : Quiver.Hom.{max (max u_2 u_3) u_4, max (max (max u_1 (u_2 + 1)) (u_3 + 1)) (u_4 + 1)} W W'),\n  Eq.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n        max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n      (decl-022509.{u_1, u_2, u_3, u_4} hi V W')\n      (CategoryTheory.CategoryStruct.comp.{max (max u_2 u_3) u_4, max (max (max u_1 (u_2 + 1)) (u_3 + 1)) (u_4 + 1)} f\n        g))\n    (CategoryTheory.CategoryStruct.comp.{max (max u_2 u_3) u_4, max (max (max u_1 (u_2 + 1)) (u_3 + 1)) (u_4 + 1)}\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n          max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n        (decl-022509.{u_1, u_2, u_3, u_4} hi V W) f)\n      (CategoryTheory.Functor.map.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n          max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n        (decl-022536.{u_1, u_2, u_3, u_4} hi) g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014981",
+        "decl-022509",
+        "decl-022516",
+        "decl-022536",
+        "decl-022764"
+      ],
+      "structural_type_hash": "2584209449",
+      "temporary_id": "decl-022512"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_3, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_3} Q i)\n  [inst_2 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)]\n  (V : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  (W : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n  (g :\n    Quiver.Hom.{max (max u_2 u_3) u_4, max (max (max u_1 u_2) u_3) ((max (max u_2 u_3) u_4) + 1)} V\n      (CategoryTheory.Functor.obj.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n          max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n        (decl-022536.{u_1, u_2, u_3, u_4} hi) W))\n  (v : Q) (hv : Ne.{u_2 + 1} v i)\n  (x :\n    decl-014996.{u_1, u_2, max (max u_2 u_3) u_4, u_3}\n      (decl-022514.{u_1, u_2, u_3, u_4} Q i hi V) v),\n  Eq.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n        max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n      (decl-015056.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n        (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n            max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n          (Equiv.symm.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n            (decl-022509.{u_1, u_2, u_3, u_4} hi V W))\n          g)\n        v)\n      x)\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n        max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n      (decl-022547.{u_1, u_2, u_3, u_4} hi W v hv)\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n          max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n        (decl-015056.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4} g v)\n        (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n            max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n          (decl-022438.{u_1, u_2, u_3, u_4} hi V v hv) x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014980",
+        "decl-014981",
+        "decl-014985",
+        "decl-014996",
+        "decl-015056",
+        "decl-022438",
+        "decl-022509",
+        "decl-022514",
+        "decl-022516",
+        "decl-022536",
+        "decl-022547",
+        "decl-022764"
+      ],
+      "structural_type_hash": "1686221828",
+      "temporary_id": "decl-022513"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : DecidableEq.{u_2 + 1} Q] \u2192\n        [instQ : Quiver.{u_3, u_2} Q] \u2192\n          {i : Q} \u2192\n            decl-005303.{u_2, u_3} Q i \u2192\n              [Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)] \u2192\n                CategoryTheory.Functor.{max u_2 (max u_2 u_3) u_4, max u_2 (max u_2 u_3) u_4,\n                    max (max (max u_3 ((max (max u_2 u_3) u_4) + 1)) u_2) u_1,\n                    max (max (max u_3 ((max (max u_2 u_3) u_4) + 1)) u_2) u_1}\n                  (decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n                  (decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014981",
+        "decl-022764"
+      ],
+      "structural_type_hash": "1001854698",
+      "temporary_id": "decl-022516"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_3, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_3} Q i)\n  [inst_2 : Fintype.{max u_3 u_2} (decl-000623.{u_2, u_3} Q i)]\n  {V' V : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q}\n  (f : Quiver.Hom.{max u_2 (max u_2 u_3) u_4, max (max (max u_1 u_2) u_3) ((max (max u_2 u_3) u_4) + 1)} V' V) (v : Q)\n  (hv : Ne.{u_2 + 1} v i)\n  (x :\n    decl-014996.{u_1, u_2, max (max u_2 u_3) u_4, u_3}\n      (CategoryTheory.Functor.obj.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n          max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n        (decl-022516.{u_1, u_2, u_3, u_4} hi) V')\n      v),\n  Eq.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n        max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n      (decl-022438.{u_1, u_2, u_3, u_4} hi V v hv)\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n          max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n        (decl-015056.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n          (CategoryTheory.Functor.map.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n              max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n            (decl-022516.{u_1, u_2, u_3, u_4} hi) f)\n          v)\n        x))\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n        max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n      (decl-015056.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4} f v)\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n          max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n        (decl-022438.{u_1, u_2, u_3, u_4} hi V' v hv) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014980",
+        "decl-014981",
+        "decl-014985",
+        "decl-014996",
+        "decl-015056",
+        "decl-022438",
+        "decl-022514",
+        "decl-022516",
+        "decl-022764"
+      ],
+      "structural_type_hash": "4087719141",
+      "temporary_id": "decl-022517"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_4, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_4} Q i)\n  [inst_2 : Fintype.{max u_4 u_2} (decl-000623.{u_2, u_4} Q i)],\n  decl-015497.{max (max (max u_1 (u_3 + 1)) (u_4 + 1)) (u_2 + 1),\n      max (max (max u_1 (u_3 + 1)) (u_4 + 1)) (u_2 + 1), max (max u_3 u_4) u_2, max (max u_3 u_4) u_2}\n    (decl-022516.{u_1, u_2, u_4, u_3} hi)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-014909",
+        "decl-014981",
+        "decl-015497",
+        "decl-022516",
+        "decl-022764"
+      ],
+      "structural_type_hash": "3709664894",
+      "temporary_id": "decl-022533"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : DecidableEq.{u_2 + 1} Q] \u2192\n        [instQ : Quiver.{u_3, u_2} Q] \u2192\n          {i : Q} \u2192\n            decl-005303.{u_2, u_3} Q i \u2192\n              CategoryTheory.Functor.{max u_2 (max u_2 u_3) u_4, max u_2 (max u_2 u_3) u_4,\n                  max (max (max u_3 ((max (max u_2 u_3) u_4) + 1)) u_2) u_1,\n                  max (max (max u_3 ((max (max u_2 u_3) u_4) + 1)) u_2) u_1}\n                (decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)\n                (decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005303",
+        "decl-014909",
+        "decl-014981",
+        "decl-022764"
+      ],
+      "structural_type_hash": "567301344",
+      "temporary_id": "decl-022536"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_4, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_4} Q i)\n  [Fintype.{max u_4 u_2} (decl-000623.{u_2, u_4} Q i)],\n  decl-005440.{max (max (max u_1 (u_3 + 1)) (u_4 + 1)) (u_2 + 1),\n      max (max (max u_1 (u_3 + 1)) (u_4 + 1)) (u_2 + 1), max (max u_3 u_4) u_2, max (max u_3 u_4) u_2}\n    (decl-022536.{u_1, u_2, u_4, u_3} hi)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-005303",
+        "decl-005440",
+        "decl-014909",
+        "decl-014981",
+        "decl-022536",
+        "decl-022764"
+      ],
+      "structural_type_hash": "1017743866",
+      "temporary_id": "decl-022546"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : DecidableEq.{u_2 + 1} Q] \u2192\n        [instQ : Quiver.{u_3, u_2} Q] \u2192\n          {i : Q} \u2192\n            (hi : decl-005303.{u_2, u_3} Q i) \u2192\n              (W : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q) \u2192\n                (v : Q) \u2192\n                  Ne.{u_2 + 1} v i \u2192\n                    LinearEquiv.{u_1, u_1, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4} (RingHom.id.{u_1} k)\n                      (decl-014996.{u_1, u_2, max (max u_2 u_3) u_4, u_3}\n                        (CategoryTheory.Functor.obj.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n                            max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1,\n                            max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n                          (decl-022536.{u_1, u_2, u_3, u_4} hi) W)\n                        v)\n                      (decl-014996.{u_1, u_2, max (max u_2 u_3) u_4, u_3} W v)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005303",
+        "decl-014909",
+        "decl-014980",
+        "decl-014981",
+        "decl-014985",
+        "decl-014996",
+        "decl-022536",
+        "decl-022764"
+      ],
+      "structural_type_hash": "1571605580",
+      "temporary_id": "decl-022547"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : DecidableEq.{u_2 + 1} Q]\n  [instQ : Quiver.{u_3, u_2} Q] {i : Q} (hi : decl-005303.{u_2, u_3} Q i)\n  {W W' : decl-014909.{u_1, u_2, max (max u_2 u_3) u_4, u_3} k Q}\n  (g : Quiver.Hom.{max u_2 (max u_2 u_3) u_4, max (max (max u_1 u_2) u_3) ((max (max u_2 u_3) u_4) + 1)} W W') (v : Q)\n  (hv : Ne.{u_2 + 1} v i)\n  (x :\n    decl-014996.{u_1, u_2, max (max u_2 u_3) u_4, u_3}\n      (CategoryTheory.Functor.obj.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n          max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n        (decl-022536.{u_1, u_2, u_3, u_4} hi) W)\n      v),\n  Eq.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n        max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n      (decl-022547.{u_1, u_2, u_3, u_4} hi W' v hv)\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n          max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n        (decl-015056.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4}\n          (CategoryTheory.Functor.map.{max (max u_2 u_3) u_4, max (max u_2 u_3) u_4,\n              max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1, max (max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)) u_1}\n            (decl-022536.{u_1, u_2, u_3, u_4} hi) g)\n          v)\n        x))\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n        max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n      (decl-015056.{u_1, u_2, u_3, max (max u_2 u_3) u_4, max (max u_2 u_3) u_4} g v)\n      (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1),\n          max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)}\n        (decl-022547.{u_1, u_2, u_3, u_4} hi W v hv) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005303",
+        "decl-014909",
+        "decl-014980",
+        "decl-014981",
+        "decl-014985",
+        "decl-014996",
+        "decl-015056",
+        "decl-022536",
+        "decl-022547",
+        "decl-022764"
+      ],
+      "structural_type_hash": "1550881786",
+      "temporary_id": "decl-022551"
+    }
+  ],
+  "module_temporary_id": "module-0601",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

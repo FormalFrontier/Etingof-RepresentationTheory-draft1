@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4ebe553956903e94647b",
+      "declaration": "Etingof.PathAlgebra.forwardRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/11/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_4, u_2} Q] \u2192\n        [inst_2 : DecidableEq.{u_2 + 1} Q] \u2192\n          [inst_3 : Fintype.{u_2} Q] \u2192\n            {V : Type u_3} \u2192\n              [inst_4 : AddCommMonoid.{u_3} V] \u2192\n                [inst_5 : Module.{u_1, u_3} k V] \u2192\n                  [inst_6 : Module.{max (max u_4 u_2) u_1, u_3} (Etingof.PathAlgebra.{u_1, u_2, u_4} k Q) V] \u2192\n                    [IsScalarTower.{u_1, max (max u_4 u_2) u_1, u_3} k (Etingof.PathAlgebra.{u_1, u_2, u_4} k Q) V] \u2192\n                      Etingof.QuiverRepresentation.{u_1, u_2, u_3, u_4} k (Opposite.{u_2 + 1} Q)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection"
+    },
+    {
+      "association_id": "association:7cdc7bb859704ac5b219",
+      "declaration": "Etingof.PathAlgebra.isoClassEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/11/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  (Q : Type v) \u2192\n    [inst : Field.{u} k] \u2192\n      [inst_1 : Quiver.{u_3, v} Q] \u2192\n        [inst_2 : DecidableEq.{v + 1} Q] \u2192\n          [inst_3 : Fintype.{v} Q] \u2192\n            Equiv.{max (max (max ((max u_4 v) + 2) (u_3 + 1)) (v + 1)) (u + 1),\n                max (max (max ((max u_4 v) + 2) (u_3 + 1)) (v + 1)) (u + 1)}\n              (Etingof.PathAlgebra.PathModuleIsoClass.{u, v, u_3, max u_4 v} k Q)\n              (Etingof.PathAlgebra.QuiverRepresentationIsoClass.{u, v, u_3, max u_4 v} k Q)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection"
+    },
+    {
+      "association_id": "association:8781edc551c6b6b503d6",
+      "declaration": "Etingof.PathAlgebra.moduleRoundTrip",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/11/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "{k : Type u_3} \u2192\n  {Q : Type u_4} \u2192\n    [inst : Field.{u_3} k] \u2192\n      [inst_1 : Quiver.{u_6, u_4} Q] \u2192\n        [inst_2 : DecidableEq.{u_4 + 1} Q] \u2192\n          [inst_3 : Fintype.{u_4} Q] \u2192\n            {V : Type u_5} \u2192\n              [inst_4 : AddCommGroup.{u_5} V] \u2192\n                [inst_5 : Module.{u_3, u_5} k V] \u2192\n                  [inst_6 : Module.{max (max u_6 u_4) u_3, u_5} (Etingof.PathAlgebra.{u_3, u_4, u_6} k Q) V] \u2192\n                    [inst_7 :\n                        IsScalarTower.{u_3, max (max u_6 u_4) u_3, u_5} k (Etingof.PathAlgebra.{u_3, u_4, u_6} k Q) V] \u2192\n                      LinearEquiv.{max (max u_3 u_4) u_6, max (max u_3 u_4) u_6, max u_5 u_4, u_5}\n                        (RingHom.id.{max (max u_6 u_4) u_3} (Etingof.PathAlgebra.{u_3, u_4, u_6} k Q))\n                        (DirectSum.{u_4, u_5} Q\n                          (Etingof.PathAlgebra.reverseFam.{u_3, u_4, u_6, u_5}\n                            Etingof.PathAlgebra.forwardRep.{u_3, u_4, u_5, u_6}))\n                        V",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection"
+    },
+    {
+      "association_id": "association:d273f5fe714e3caac473",
+      "declaration": "Etingof.PathAlgebra.repRoundTrip",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/11/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "{k : Type u_3} \u2192\n  {Q : Type u_4} \u2192\n    [inst : Field.{u_3} k] \u2192\n      [inst_1 : Quiver.{u_5, u_4} Q] \u2192\n        [inst_2 : DecidableEq.{u_4 + 1} Q] \u2192\n          [inst_3 : Fintype.{u_4} Q] \u2192\n            (R : Etingof.QuiverRepresentation.{u_3, u_4, u_6, u_5} k (Opposite.{u_4 + 1} Q)) \u2192\n              Etingof.QuiverRepresentationEquiv.{u_3, u_4, u_5, u_6, max u_6 u_4} k (Opposite.{u_4 + 1} Q) R\n                Etingof.PathAlgebra.forwardRep.{u_3, u_4, max u_6 u_4, u_5}",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection"
+    },
+    {
+      "association_id": "association:d2a07369987a1a532fbb",
+      "declaration": "Etingof.PathAlgebra.reverseModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/11/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        [inst_2 : DecidableEq.{u_2 + 1} Q] \u2192\n          [inst_3 : Fintype.{u_2} Q] \u2192\n            (R : Etingof.QuiverRepresentation.{u_1, u_2, u_4, u_3} k (Opposite.{u_2 + 1} Q)) \u2192\n              Module.{max (max u_3 u_2) u_1, max u_4 u_2} (Etingof.PathAlgebra.{u_1, u_2, u_3} k Q)\n                (DirectSum.{u_2, u_4} Q (Etingof.PathAlgebra.reverseFam.{u_1, u_2, u_3, u_4} R))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_after_Theorem2.1.1",
+  "packet_id": "align-0239",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0239"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:47a10129abc34d786a13",
+  "source_text": "Representations of Q are the same as modules over its path algebra, up to the explicit opposite-quiver convention used by the project."
+}

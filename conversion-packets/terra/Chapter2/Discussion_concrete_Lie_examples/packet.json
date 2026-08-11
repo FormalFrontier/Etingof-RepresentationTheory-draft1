@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_concrete_Lie_examples",
+    "kind": "discussion",
+    "title": "Concrete examples of Lie algebras: R^3, sl(n), Heisenberg",
+    "node_id": "chapter-02/section-2-9",
+    "order": 83,
+    "slug": "discussion-concrete-lie-examples",
+    "span": {
+      "start": {
+        "page": "23",
+        "line": 8
+      },
+      "end": {
+        "page": "23",
+        "line": 31
+      }
+    },
+    "source_sha256": "281451800364bba684c76758f31c5e46e085eba781aa9b51ad684924c4642a4d",
+    "features": {
+      "line_count": 24,
+      "crosses_page": false,
+      "display_math_delimiters": 6,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionConcreteLieExamples",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

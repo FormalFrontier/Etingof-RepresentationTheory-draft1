@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f4d0696e1f2c13602271",
+      "declaration": "Etingof.Theorem5_12_2_distinct",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/309/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la mu : n.Partition),\n  Ne.{1} la mu \u2192\n    IsEmpty.{1}\n      (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (Etingof.SymGroupAlgebra n))\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n la) x)\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n mu) x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Distinct"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.12.2",
+  "packet_id": "align-0472",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0472"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:9647d3e34671a12d06d7",
+  "source_text": "Specht modules for distinct partitions are nonisomorphic."
+}

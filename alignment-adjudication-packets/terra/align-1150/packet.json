@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:aff3bed68076ce28fe3b",
+      "declaration": "Etingof.exists_composition_series",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/160/claim_coverage/claims/16/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V],\n  Exists.{u_3 + 1} fun s =>\n    And (Eq.{u_3 + 1} (RelSeries.head.{u_3} s) Bot.bot.{u_3}) (Eq.{u_3 + 1} (RelSeries.last.{u_3} s) Top.top.{u_3})",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Lemma3_4_2"
+    }
+  ],
+  "canonical_reference": "Chapter3/Theorem3.7.1",
+  "packet_id": "align-1150",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1150"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ec0579466a9b1dea9363",
+  "source_text": "The quotient U admits a filtration with simple successive quotients Z_i."
+}

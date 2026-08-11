@@ -1,0 +1,25 @@
+{
+  "module_name": "LieModule.HomTensorAdjunction",
+  "declarations": [
+    {
+      "temporary_id": "decl-007046",
+      "new_name": "lieModuleHomCongr",
+      "docstring": "Transfers equivariant linear maps along an equivalence of their target Lie modules."
+    },
+    {
+      "temporary_id": "decl-007053",
+      "new_name": "linearMapLieModuleEquivTensorDual",
+      "docstring": "A Lie-module equivalence identifies the linear-map module with the tensor product of the target and the dual of the finite-dimensional source."
+    },
+    {
+      "temporary_id": "decl-007067",
+      "new_name": "nonempty_lieModuleHomTensorDualEquiv",
+      "docstring": "Establishes existence of the equivariant Hom--tensor-dual linear equivalence."
+    },
+    {
+      "temporary_id": "decl-007068",
+      "new_name": "lieModuleHomTensorDualEquiv",
+      "docstring": "The equivariant Hom--tensor-dual equivalence for a finite-dimensional middle Lie module."
+    }
+  ]
+}

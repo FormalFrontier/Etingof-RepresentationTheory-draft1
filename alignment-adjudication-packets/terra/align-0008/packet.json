@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d955660fb70b8eb6f7f7",
+      "declaration": "Algebra.TensorProduct.tmul_mul_tmul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/176/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RingTheory.TensorProduct.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter3/Introduction_to_3.10",
+  "packet_id": "align-0008",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0008"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:011b65207dacaeb73da7",
+  "source_text": "For algebras A and B, A \u2297 B is an algebra and multiplication on pure tensors satisfies (a\u2081 \u2297 b\u2081)(a\u2082 \u2297 b\u2082) = a\u2081a\u2082 \u2297 b\u2081b\u2082."
+}

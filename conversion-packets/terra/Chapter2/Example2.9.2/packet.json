@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Example2.9.2",
+    "kind": "example",
+    "title": "Examples of Lie algebras",
+    "node_id": "chapter-02/section-2-9",
+    "order": 79,
+    "slug": "example2-9-2",
+    "span": {
+      "start": {
+        "page": "22",
+        "line": 22
+      },
+      "end": {
+        "page": "22",
+        "line": 35
+      }
+    },
+    "source_sha256": "f0dc6a9141a7636d326e49082405de47a5494355e0da954d1eb4c26dc17bfd19",
+    "features": {
+      "line_count": 14,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example292",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

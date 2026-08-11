@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9ba4d2cb4046b7095ad4",
+      "declaration": "Etingof.Problem945.homologicalDimension_problem932_eq_top",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/563/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Etingof.homologicalDimension.{0} Etingof.Problem932.A) Top.top.{0}",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_5"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.4.5",
+  "packet_id": "align-0868",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0868"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.4.5:part_ii_problem932",
+  "source_text": "Part (ii): the algebra of Problem 9.3.2 has infinite homological dimension."
+}

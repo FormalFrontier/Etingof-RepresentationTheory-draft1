@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7044b3f09f30e4411625",
+      "declaration": "Etingof.Problem2_7_4.exists_toFamEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/59/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (p : Nat) [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_1} k p]\n  [IsAlgClosed.{u_1} k] (V : Type u_2) [inst_4 : AddCommGroup.{u_2} V] [inst_5 : Module.{u_1, u_2} k V]\n  [inst_6 : Module.{u_1, u_2} (Etingof.WeylAlgebra.{u_1} k) V]\n  [IsScalarTower.{u_1, u_1, u_2} k (Etingof.WeylAlgebra.{u_1} k) V] [FiniteDimensional.{u_1, u_2} k V]\n  [IsSimpleModule.{u_1, u_2} (Etingof.WeylAlgebra.{u_1} k) V],\n  Exists.{u_1 + 1} fun \u03b1 =>\n    Exists.{u_1 + 1} fun c => Nonempty.{max (u_2 + 1) (u_1 + 1)} (Etingof.Problem2_7_4.ToFamEquiv.{u_1, u_2} k p V \u03b1 c)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_4_Family"
+    },
+    {
+      "association_id": "association:aaa88b91f9dade6deb22",
+      "declaration": "Etingof.Problem2_7_4.famModule_finrank",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/59/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (p : Nat), Eq.{1} (Module.finrank.{u_1, u_1} k (Fin p \u2192 k)) p",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_4_Family"
+    },
+    {
+      "association_id": "association:d760626dd1c6a4dbfafb",
+      "declaration": "Etingof.Problem2_7_4.famModule_isSimpleModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/59/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (p : Nat) [inst_1 : Fact (Nat.Prime p)] [inst_2 : CharP.{u_1} k p] (\u03b1 c : k),\n  IsSimpleModule.{u_1, u_1} (Etingof.WeylAlgebra.{u_1} k) (Fin p \u2192 k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_4_Family"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.7.4",
+  "packet_id": "align-0605",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0605"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.7.4:claim-06",
+  "source_text": "The explicit modules V(alpha,c) are p-dimensional and irreducible, and every finite-dimensional irreducible is isomorphic to one of them."
+}

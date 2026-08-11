@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0048",
+  "associations": [
+    {
+      "association_id": "association:933b664dca13ca157bd9",
+      "role": "primary",
+      "rationale": "Its type directly concludes that an A- and B-equivariant equivalence V tensor W ≃ V' tensor W' forces A-linear equivalence of V with V' and B-linear equivalence of W with W'."
+    }
+  ]
+}

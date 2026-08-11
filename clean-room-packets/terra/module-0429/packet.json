@@ -1,0 +1,50 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat) [IsAlgClosed.{u} k] [CharZero.{u} k],\n  Exists.{2} fun \u03b9 =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{max (u + 2) (v + 2)} fun S =>\n          Exists.{max (u + 1) (v + 1)} fun x =>\n            Exists.{max (u + 1) (v + 1)} fun x_1 =>\n              Exists.{max (u + 1) (v + 1)} fun x_2 =>\n                Exists.{0} fun x_3 =>\n                  Exists.{0} fun x_4 =>\n                    Exists.{0} fun x_5 =>\n                      Exists.{0} fun x_6 =>\n                        Exists.{max (u + 2) (v + 2)} fun L =>\n                          Exists.{max (u + 1) (v + 1)} fun x_7 =>\n                            Exists.{max (u + 1) (v + 1)} fun x_8 =>\n                              Exists.{max (u + 1) (v + 1)} fun x_9 =>\n                                Exists.{0} fun x_10 =>\n                                  And\n                                    (\u2200 (i j : \u03b9),\n                                      Nonempty.{(max u v) + 1}\n                                          (LinearEquiv.{max u v, max u v, max u v, max u v}\n                                            (RingHom.id.{max u v}\n                                              (Subtype.{(max u v) + 1} fun x =>\n                                                Membership.mem.{max u v, max u v}\n                                                  (decl-018384.{u, v} k V n) x))\n                                            (L i) (L j)) \u2192\n                                        Eq.{1} i j)\n                                    (Nonempty.{max ((max u v) + 1) ((max v u) + 1)}\n                                      (LinearEquiv.{u, u, max v u, max u v} (RingHom.id.{u} k)\n                                        (decl-016473.{u, v} k V n)\n                                        (DirectSum.{0, max u v} \u03b9 fun i =>\n                                          TensorProduct.{u, max u v, max u v} k (S i) (L i))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-018384",
+        "decl-023627",
+        "decl-023632"
+      ],
+      "structural_type_hash": "3365579510",
+      "temporary_id": "decl-016577"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          (n : Nat) \u2192\n            Ring.{max u v}\n              (Subtype.{(max u v) + 1} fun x =>\n                Membership.mem.{max u v, max u v} (decl-023627.{u, v} k V n) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627"
+      ],
+      "structural_type_hash": "519758275",
+      "temporary_id": "decl-023632"
+    }
+  ],
+  "module_temporary_id": "module-0429",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0aaa7216559f1c462151",
+      "declaration": "Etingof.IsSink",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/438/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(V : Type u_1) \u2192 [Quiver.{u_2, u_1} V] \u2192 V \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Definition6_6_1"
+    },
+    {
+      "association_id": "association:1aec1da530120bffc435",
+      "declaration": "Etingof.IsSource",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/438/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(V : Type u_1) \u2192 [Quiver.{u_2, u_1} V] \u2192 V \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Definition6_6_1"
+    }
+  ],
+  "canonical_reference": "Chapter6/Definition6.6.1",
+  "packet_id": "align-0488",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0488"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:99913765f6e9e1091332",
+  "source_text": "Sinks and sources are vertices with no outgoing and no incoming arrows, respectively."
+}

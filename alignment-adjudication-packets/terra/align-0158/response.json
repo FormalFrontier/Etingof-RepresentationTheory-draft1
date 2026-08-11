@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0158",
+  "associations": [
+    {
+      "association_id": "association:44aca1902593bf134ea6",
+      "role": "primary",
+      "rationale": "This structure defines a quiver subrepresentation by compatible vertex subspaces."
+    },
+    {
+      "association_id": "association:9f1b389eda43c5282606",
+      "role": "primary",
+      "rationale": "This construction gives the subrepresentation arrow maps as restrictions of the ambient arrows."
+    }
+  ]
+}

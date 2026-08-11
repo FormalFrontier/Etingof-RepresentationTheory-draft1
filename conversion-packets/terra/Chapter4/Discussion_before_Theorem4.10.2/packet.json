@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Discussion_before_Theorem4.10.2",
+    "kind": "discussion",
+    "title": "Historical context: Dedekind and Frobenius",
+    "node_id": "chapter-04/section-4-10",
+    "order": 224,
+    "slug": "discussion-before-theorem4-10-2",
+    "span": {
+      "start": {
+        "page": "78",
+        "line": 9
+      },
+      "end": {
+        "page": "78",
+        "line": 10
+      }
+    },
+    "source_sha256": "cc7b253fef588690fa30dc95fbd84b1a88ff7c7f90a97dd2f4a77e521ae5050f",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.DiscussionBeforeTheorem4102",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

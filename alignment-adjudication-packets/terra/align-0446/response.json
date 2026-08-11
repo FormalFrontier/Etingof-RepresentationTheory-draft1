@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0446",
+  "associations": [
+    {
+      "association_id": "association:4357996b6a7b975f1ad5",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the packet does not directly expose the asserted multiplication formula for group-algebra basis elements."
+    }
+  ]
+}

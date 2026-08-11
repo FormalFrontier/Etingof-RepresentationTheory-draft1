@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0070",
+  "associations": [
+    {
+      "association_id": "association:89107332ed13fccae52e",
+      "role": "primary",
+      "rationale": "Its implication from the stated weight relation to ShiftEquiv directly formalizes the converse shift criterion."
+    }
+  ]
+}

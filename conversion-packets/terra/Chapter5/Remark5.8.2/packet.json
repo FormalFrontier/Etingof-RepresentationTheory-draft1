@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Remark5.8.2",
+    "kind": "remark",
+    "title": "Ind_H^G V is isomorphic to Hom_H(k[G], V)",
+    "node_id": "chapter-05/section-5-8",
+    "order": 291,
+    "slug": "remark5-8-2",
+    "span": {
+      "start": {
+        "page": "108",
+        "line": 7
+      },
+      "end": {
+        "page": "108",
+        "line": 8
+      }
+    },
+    "source_sha256": "5275ae4956594f75a5d42224b9df57f54350836d64b3ca7571ec8f4999c82806",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Remark582",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

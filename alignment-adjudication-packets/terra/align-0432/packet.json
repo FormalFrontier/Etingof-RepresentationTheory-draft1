@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ffc526709bedbe53e6fb",
+      "declaration": "FreeAlgebra.lift_symm_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/26/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.FreeAlgebra"
+    },
+    {
+      "association_id": "association:c0aef85ee08a23e1d615",
+      "declaration": "FreeAlgebra.lift_\u03b9_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/26/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.FreeAlgebra"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.3.3",
+  "packet_id": "align-0432",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0432"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:8bebc85ae442effcd7ef",
+  "source_text": "Under this equivalence, the action on each free generator is the chosen endomorphism."
+}

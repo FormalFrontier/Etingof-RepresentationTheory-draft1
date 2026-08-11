@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.3.7",
+    "kind": "definition",
+    "title": "Direct sum of representations",
+    "node_id": "chapter-02/section-2-3",
+    "order": 31,
+    "slug": "definition2-3-7",
+    "span": {
+      "start": {
+        "page": "11",
+        "line": 9
+      },
+      "end": {
+        "page": "11",
+        "line": 9
+      }
+    },
+    "source_sha256": "eb79ea380dbaea75f8f05a0671453d65023504674f0d667f9ca08818e0b047bc",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition237",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

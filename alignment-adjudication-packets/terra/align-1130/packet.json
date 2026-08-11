@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0ec8f14a649890a843fe",
+      "declaration": "Etingof.subsingleton_algEquiv_pi_matrix",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/155/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [Subsingleton.{u_2 + 1} A]\n  [inst_3 : Algebra.{u_1, u_2} k A],\n  Nonempty.{max (u_1 + 1) (u_2 + 1)} (AlgEquiv.{u_1, u_2, u_1} k A (Fin 0 \u2192 Matrix.{0, 0, u_1} (Fin 0) (Fin 0) k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Proposition3_5_8"
+    }
+  ],
+  "canonical_reference": "Chapter3/Proposition3.5.8",
+  "packet_id": "align-1130",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1130"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e5449e3c26c098107405",
+  "source_text": "The zero algebra is the empty product/direct sum of matrix algebras, the n = 0 Wedderburn case."
+}

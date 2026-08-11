@@ -1,0 +1,10 @@
+{
+  "module_name": "LinearAlgebra.Matrix.TensorProduct",
+  "declarations": [
+    {
+      "temporary_id": "decl-021570",
+      "new_name": "matrixTensorProduct_algEquiv",
+      "docstring": "The tensor product of square matrix algebras of sizes m and n is nonemptily algebra-equivalent to the square matrix algebra of size m times n."
+    }
+  ]
+}

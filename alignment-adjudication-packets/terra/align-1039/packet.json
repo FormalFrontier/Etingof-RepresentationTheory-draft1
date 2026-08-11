@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e8edba467836a6a6c8fe",
+      "declaration": "Etingof.exists_dominantWeight_equivariant_realization",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/373/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k]\n  (S : Subrepresentation.{0, 0, 0} (Etingof.LocalizationGLAction.localRightRep.{0} k n))\n  [FiniteDimensional.{0, 0} k\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (Subrepresentation.toSubmodule.{0, 0, 0} S) x)],\n  IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k))\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (Subrepresentation.asSubmodule.{0, 0, 0} S) x) \u2192\n    Exists.{1} fun lam =>\n      Exists.{1} fun \u03b9 =>\n        And\n          (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) (v : Etingof.AlgIrrepGL.{0} n lam k),\n            Eq.{1}\n              (DFunLike.coe.{1, 1, 1} \u03b9\n                (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (Etingof.algIrrepGLRep\u03c1.{0} n lam k) g) v))\n              (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (Etingof.LocalizationGLAction.localRightRep.{0} k n) g)\n                (DFunLike.coe.{1, 1, 1} \u03b9 v)))\n          (Eq.{1} (LinearMap.range.{0, 0, 0, 0} \u03b9) (Subrepresentation.toSubmodule.{0, 0, 0} S))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_23_2_PeterWeyl"
+    },
+    {
+      "association_id": "association:6ef4a66f04bfac7cb50d",
+      "declaration": "Etingof.simpleSubrep_localRightRep_le_iSup_range",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/373/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [inst_2 : CharZero.{0} k]\n  (S : Subrepresentation.{0, 0, 0} (Etingof.LocalizationGLAction.localRightRep.{0} k n))\n  [FiniteDimensional.{0, 0} k\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (Subrepresentation.toSubmodule.{0, 0, 0} S) x)],\n  IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k))\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (Subrepresentation.asSubmodule.{0, 0, 0} S) x) \u2192\n    LE.le.{0} (Subrepresentation.toSubmodule.{0, 0, 0} S)\n      (iSup.{0, 1} fun lam => LinearMap.range.{0, 0, 0, 0} (Etingof.peterWeylSummandMap n lam k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_23_2_PeterWeyl"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_proof_of_Theorem5.23.2",
+  "packet_id": "align-1039",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1039"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c9b3d575cf299df847da",
+  "source_text": "Matrix coefficients realize simple algebraic representations inside the coordinate-ring decomposition."
+}

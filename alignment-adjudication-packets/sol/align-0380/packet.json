@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:55a416faa878d17c0a5f",
+      "declaration": "Etingof.TensorProductOverRing",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/104/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192\n  [inst : Ring.{u_1} A] \u2192\n    (V : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [Module.{u_1, u_2} (MulOpposite.{u_1} A) V] \u2192\n          (W : Type u_3) \u2192 [inst_3 : AddCommGroup.{u_3} W] \u2192 [Module.{u_1, u_3} A W] \u2192 Type (max (max u_2 u_3) u_3 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_11_4"
+    },
+    {
+      "association_id": "association:4de6159b56e669637bbe",
+      "declaration": "Etingof.TensorProductOverRing.add_tmul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/104/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) V] {W : Type u_3} [inst_3 : AddCommGroup.{u_3} W]\n  [inst_4 : Module.{u_1, u_3} A W] (v\u2081 v\u2082 : V) (w : W),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (Etingof.TensorProductOverRing.tmul.{u_1, u_2, u_3} A (HAdd.hAdd.{u_2, u_2, u_2} v\u2081 v\u2082) w)\n    (HAdd.hAdd.{max u_2 u_3, max u_2 u_3, max u_2 u_3} (Etingof.TensorProductOverRing.tmul.{u_1, u_2, u_3} A v\u2081 w)\n      (Etingof.TensorProductOverRing.tmul.{u_1, u_2, u_3} A v\u2082 w))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_11_4"
+    },
+    {
+      "association_id": "association:b7a8f37b1cff5e572ec1",
+      "declaration": "Etingof.TensorProductOverRing.smul_tmul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/104/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) V] {W : Type u_3} [inst_3 : AddCommGroup.{u_3} W]\n  [inst_4 : Module.{u_1, u_3} A W] (v : V) (a : A) (w : W),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (Etingof.TensorProductOverRing.tmul.{u_1, u_2, u_3} A (HSMul.hSMul.{u_1, u_2, u_2} (MulOpposite.op.{u_1} a) v) w)\n    (Etingof.TensorProductOverRing.tmul.{u_1, u_2, u_3} A v (HSMul.hSMul.{u_1, u_3, u_3} a w))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_11_4"
+    },
+    {
+      "association_id": "association:17b7b5f64903e8cc4ab1",
+      "declaration": "Etingof.TensorProductOverRing.tmul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/104/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192\n  [inst : Ring.{u_1} A] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) V] \u2192\n          {W : Type u_3} \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} A W] \u2192 V \u2192 W \u2192 Etingof.TensorProductOverRing.{u_1, u_2, u_3} A V W",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_11_4"
+    },
+    {
+      "association_id": "association:d85b6b1b09595638f6cf",
+      "declaration": "Etingof.TensorProductOverRing.tmul_add",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/104/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) V] {W : Type u_3} [inst_3 : AddCommGroup.{u_3} W]\n  [inst_4 : Module.{u_1, u_3} A W] (v : V) (w\u2081 w\u2082 : W),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (Etingof.TensorProductOverRing.tmul.{u_1, u_2, u_3} A v (HAdd.hAdd.{u_3, u_3, u_3} w\u2081 w\u2082))\n    (HAdd.hAdd.{max u_2 u_3, max u_2 u_3, max u_2 u_3} (Etingof.TensorProductOverRing.tmul.{u_1, u_2, u_3} A v w\u2081)\n      (Etingof.TensorProductOverRing.tmul.{u_1, u_2, u_3} A v w\u2082))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_11_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Remark2.11.4",
+  "packet_id": "align-0380",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0380"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:7767873cfe7240a50de4",
+  "source_text": "For an arbitrary ring A, a right A-module V, and a left A-module W, V \u2297_A W is the free abelian group on V \u00d7 W modulo additivity and the balancing relation (va) \u2297 w = v \u2297 (aw)."
+}

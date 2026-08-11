@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0475",
+  "associations": [
+    {
+      "association_id": "association:b34341ccd11c8a955409",
+      "role": "supporting",
+      "rationale": "No formal type is displayed, so this declaration cannot be verified here as directly stating a uniform filtration-length bound."
+    },
+    {
+      "association_id": "association:0460f1715850af743c9d",
+      "role": "supporting",
+      "rationale": "No formal type is displayed; the declaration may support filtration bounds through order-theoretic length, but it cannot directly establish the source claim from the packet evidence."
+    },
+    {
+      "association_id": "association:7d1ea28f5b650377d1af",
+      "role": "supporting",
+      "rationale": "No formal type is displayed; the named finite-length characterization is at most a prerequisite for the claimed uniform bound in this packet."
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a23ca856547ebfd8a33c",
+      "declaration": "Etingof.Problem4_12_2.card_irreducibles",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [Fact (Nat.Prime p)],\n  Eq.{1} (Nat.card.{1} (Etingof.IrrepClasses.{0, 0} Complex (Etingof.Problem4_12_2.Heisenberg p)))\n    (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} p 2) (HSub.hSub.{0, 0, 0} p 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:6d86718540d6c9e2682c",
+      "declaration": "Etingof.Problem4_12_2.card_nontrivial_pthRoots",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [Fact (Nat.Prime p)],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun z => And (Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1) (Ne.{1} z 1)))\n    (HSub.hSub.{0, 0, 0} p 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:2b8ddad290eb694c4414",
+      "declaration": "Etingof.Problem4_12_2.charRep_iso_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} (\u03c7 \u03c7' : MonoidHom.{0, 0} (Etingof.Problem4_12_2.Heisenberg p) (Units.{0} Complex)),\n  Iff\n    (Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (FDRep.of.{0, 0} (Etingof.Example4_3_S3.charRep.{0} \u03c7))\n        (FDRep.of.{0, 0} (Etingof.Example4_3_S3.charRep.{0} \u03c7'))))\n    (Eq.{1} \u03c7 \u03c7')",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:4368c5413a2fa63d37e3",
+      "declaration": "Etingof.Problem4_12_2.charRep_not_iso_rhoHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (\u03c7 : MonoidHom.{0, 0} (Etingof.Problem4_12_2.Heisenberg p) (Units.{0} Complex))\n  {z : Complex} (hz : Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1),\n  Not\n    (Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (FDRep.of.{0, 0} (Etingof.Example4_3_S3.charRep.{0} \u03c7))\n        (FDRep.of.{0, 0} (Etingof.Problem4_12_2.rhoHom z hz))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:0810afe7378f144f01b5",
+      "declaration": "Etingof.Problem4_12_2.irreducible_dim",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [Fact (Nat.Prime p)] {W : Type u_1} [inst : AddCommGroup.{u_1} W] [inst_1 : Module.{0, u_1} Complex W]\n  [FiniteDimensional.{0, u_1} Complex W]\n  (\u03c3 : Representation.{0, 0, u_1} Complex (Etingof.Problem4_12_2.Heisenberg p) W),\n  IsSimpleModule.{0, u_1} (MonoidAlgebra.{0, 0} Complex (Etingof.Problem4_12_2.Heisenberg p))\n      (Representation.asModule.{0, 0, u_1} \u03c3) \u2192\n    Or (Eq.{1} (Module.finrank.{0, u_1} Complex W) 1) (Eq.{1} (Module.finrank.{0, u_1} Complex W) p)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:8ca3497678de9121df96",
+      "declaration": "Etingof.Problem4_12_2.nonempty_irrepClasses_equiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [Fact (Nat.Prime p)],\n  Nonempty.{2}\n    (Equiv.{2, 1} (Etingof.IrrepClasses.{0, 0} Complex (Etingof.Problem4_12_2.Heisenberg p))\n      (Etingof.Problem4_12_2.IrrepIndex p))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:1b392233f5b25981f38a",
+      "declaration": "Etingof.Problem4_12_2.rhoHom_iso_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] {z z' : Complex} (hz : Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1)\n  (hz' : Eq.{1} (HPow.hPow.{0, 0, 0} z' p) 1),\n  Iff\n    (Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (FDRep.of.{0, 0} (Etingof.Problem4_12_2.rhoHom z hz))\n        (FDRep.of.{0, 0} (Etingof.Problem4_12_2.rhoHom z' hz'))))\n    (Eq.{1} z z')",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:80138a25744349684510",
+      "declaration": "Etingof.Problem4_12_2.simple_iso_charRep_or_rhoHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (U : FDRep.{0, 0} Complex (Etingof.Problem4_12_2.Heisenberg p))\n  [hUsimple : CategoryTheory.Simple.{0, 1} U],\n  Or\n    (Exists.{1} fun \u03c7 =>\n      Nonempty.{1} (CategoryTheory.Iso.{0, 1} U (FDRep.of.{0, 0} (Etingof.Example4_3_S3.charRep.{0} \u03c7))))\n    (Exists.{1} fun z =>\n      Exists.{0} fun hz =>\n        And (Ne.{1} z 1)\n          (Nonempty.{1} (CategoryTheory.Iso.{0, 1} U (FDRep.of.{0, 0} (Etingof.Problem4_12_2.rhoHom z hz)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    },
+    {
+      "association_id": "association:0f9fb8159908d3ee043d",
+      "declaration": "Etingof.Problem4_12_2.sum_sq_dim_eq_card",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)],\n  Eq.{1}\n    (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} p 2) (HPow.hPow.{0, 0, 0} 1 2))\n      (HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} p 1) (HPow.hPow.{0, 0, 0} p 2)))\n    (Fintype.card.{0} (Etingof.Problem4_12_2.Heisenberg p))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.2",
+  "packet_id": "align-0712",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0712"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.2:part_d",
+  "source_text": "Part (d): give the exhaustive, irredundant classification of all irreducible representations."
+}

@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2a179fa91c147bf54fd5",
+      "declaration": "minpoly",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/258/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.FieldTheory.Minpoly.Basic"
+    },
+    {
+      "association_id": "association:b9cca6c2280e06a5302b",
+      "declaration": "minpoly.aeval",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/258/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.FieldTheory.Minpoly.Basic"
+    },
+    {
+      "association_id": "association:4b4610ed05f6fda6b403",
+      "declaration": "minpoly.dvd",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/258/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.FieldTheory.Minpoly.Field"
+    },
+    {
+      "association_id": "association:484665d666688fa4b615",
+      "declaration": "minpoly.min",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/258/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.FieldTheory.Minpoly.Basic"
+    },
+    {
+      "association_id": "association:49a303f046786f983116",
+      "declaration": "minpoly.monic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/258/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.FieldTheory.Minpoly.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_after_Proposition5.2.5",
+  "packet_id": "align-0229",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0229"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:443e438fb3b921932a1c",
+  "source_text": "The minimal polynomial is monic, annihilates the element, has least degree, and divides every rational polynomial annihilating it."
+}

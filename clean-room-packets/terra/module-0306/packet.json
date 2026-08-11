@@ -1,0 +1,120 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(p : Nat) \u2192 [Fact (Nat.Prime p)] \u2192 Nat \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3165478047",
+      "temporary_id": "decl-001818"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    LT.lt.{0} 2 (Nat.card.{0} (GaloisField p n)) \u2192\n      Eq.{1} (Nat.card.{0} (MonoidHom.{0, 0} (decl-001818 p n) (Units.{0} Complex)))\n        (HSub.hSub.{0, 0, 0} (Nat.card.{0} (GaloisField p n)) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001818"
+      ],
+      "structural_type_hash": "3265452095",
+      "temporary_id": "decl-001819"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192\n  [inst : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      LT.lt.{0} 0 n \u2192\n        LT.lt.{0} 2 (Nat.card.{0} (GaloisField p n)) \u2192\n          Equiv.{1, 1} (MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex))\n            (MonoidHom.{0, 0} (decl-001818 p n) (Units.{0} Complex))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001818"
+      ],
+      "structural_type_hash": "18308378",
+      "temporary_id": "decl-001820"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) (hn : LT.lt.{0} 0 n)\n  (hq : LT.lt.{0} 2 (Nat.card.{0} (GaloisField p n)))\n  (\u03be : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-001820 p n hn hq) \u03be)\n    (MonoidHom.comp.{0, 0, 0} \u03be (decl-001822 p n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001818",
+        "decl-001820",
+        "decl-001822"
+      ],
+      "structural_type_hash": "3078238472",
+      "temporary_id": "decl-001821"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192\n  [inst : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192 MonoidHom.{0, 0} (decl-001818 p n) (Units.{0} (GaloisField p n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001818"
+      ],
+      "structural_type_hash": "1064752620",
+      "temporary_id": "decl-001822"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    LT.lt.{0} 2 (Nat.card.{0} (GaloisField p n)) \u2192\n      Eq.{1} (MonoidHom.ker.{0, 0} (decl-001822 p n))\n        (commutator.{0} (decl-001818 p n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001818",
+        "decl-001822"
+      ],
+      "structural_type_hash": "3684892675",
+      "temporary_id": "decl-001823"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    LT.lt.{0} 2 (Nat.card.{0} (GaloisField p n)) \u2192\n      \u2200 (\u03c1 : MonoidHom.{0, 0} (decl-001818 p n) (Units.{0} Complex)),\n        LE.le.{0} (MonoidHom.ker.{0, 0} (decl-001822 p n)) (MonoidHom.ker.{0, 0} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001818",
+        "decl-001822"
+      ],
+      "structural_type_hash": "3570739579",
+      "temporary_id": "decl-001824"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat),\n  Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} (decl-001822 p n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001818",
+        "decl-001822"
+      ],
+      "structural_type_hash": "2866237032",
+      "temporary_id": "decl-001825"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat),\n  Eq.{1} (MonoidHom.range.{0, 0} Matrix.SpecialLinearGroup.toGL.{0, 0})\n    (MonoidHom.ker.{0, 0} (decl-001822 p n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001818",
+        "decl-001822"
+      ],
+      "structural_type_hash": "67400597",
+      "temporary_id": "decl-001826"
+    }
+  ],
+  "module_temporary_id": "module-0306",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

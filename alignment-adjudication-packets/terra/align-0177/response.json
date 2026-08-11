@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0177",
+  "associations": [
+    {
+      "association_id": "association:e5fbe466c71d6a2f7136",
+      "role": "supporting",
+      "rationale": "It constrains simple representations in characteristic p but does not itself state non-semisimplicity of the group algebra."
+    },
+    {
+      "association_id": "association:99c88eb28e1cc61943b3",
+      "role": "supporting",
+      "rationale": "It gives a semisimplicity consequence about the group order; the source conclusion needs its characteristic-p contrapositive specialization."
+    }
+  ]
+}

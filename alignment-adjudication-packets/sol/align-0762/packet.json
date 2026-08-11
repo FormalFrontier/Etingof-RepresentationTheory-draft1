@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:19e2d67b7c4259718ae5",
+      "declaration": "Etingof.content",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/340/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 Int",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_2"
+    },
+    {
+      "association_id": "association:cedfabeceb685eefeae6",
+      "declaration": "Etingof.sumTranspositions",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/340/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 Etingof.SymGroupAlgebra n",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_2"
+    },
+    {
+      "association_id": "association:527b5b3a2d79428c09bd",
+      "declaration": "Etingof.sumTranspositions_central",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/340/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (y : Etingof.SymGroupAlgebra n),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Etingof.sumTranspositions n) y) (HMul.hMul.{0, 0, 0} y (Etingof.sumTranspositions n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_2"
+    },
+    {
+      "association_id": "association:beab0919d8480f8bd8f0",
+      "declaration": "Etingof.sumTranspositions_mul_eq_content_smul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/340/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (x : Etingof.SymGroupAlgebra n),\n  Membership.mem.{0, 0} (Etingof.SpechtModule n la) x \u2192\n    Eq.{1} (HMul.hMul.{0, 0, 0} (Etingof.sumTranspositions n) x)\n      (HSMul.hSMul.{0, 0, 0} (Int.cast.{0} (Etingof.content la)) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_2"
+    },
+    {
+      "association_id": "association:bc90b8cb43b9dd468ff8",
+      "declaration": "Etingof.sumTranspositions_mul_youngSymmetrizer",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/340/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Etingof.sumTranspositions n) (Etingof.YoungSymmetrizer n la))\n    (HSMul.hSMul.{0, 0, 0} (Int.cast.{0} (Etingof.content la)) (Etingof.YoungSymmetrizer n la))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Problem5.16.2",
+  "packet_id": "align-0762",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0762"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Problem5.16.2:content_action",
+  "source_text": "The sum of transpositions acts on each Specht module by the scalar equal to the diagram content."
+}

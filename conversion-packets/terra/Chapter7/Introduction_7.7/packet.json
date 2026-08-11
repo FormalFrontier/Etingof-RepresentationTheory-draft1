@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Introduction_7.7",
+    "kind": "introduction",
+    "title": "Section 7.7: Abelian categories",
+    "node_id": "chapter-07/section-7-7",
+    "order": 494,
+    "slug": "introduction-7-7",
+    "span": {
+      "start": {
+        "page": "190",
+        "line": 13
+      },
+      "end": {
+        "page": "190",
+        "line": 16
+      }
+    },
+    "source_sha256": "13048dfd74486f92ec263e21a2e38abf411c1c306b9273c86c3ccc33d4bb0d02",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction77",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

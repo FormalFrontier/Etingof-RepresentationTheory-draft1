@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:769da3c87ca1a24e613d",
+      "rationale": "The displayed formal type is only a predicate on a natural number and an integer matrix; it does not expose connectedness, simple lacing, or positive definiteness, so direct coverage of the definition cannot be confirmed.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0411"
+}

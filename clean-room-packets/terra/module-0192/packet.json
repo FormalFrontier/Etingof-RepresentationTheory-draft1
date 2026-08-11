@@ -1,0 +1,34 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u_1) (p : Nat) [inst : Field.{u_1} k] [hp : Fact (Nat.Prime p)] [CharP.{u_1} k p] (V : Type u_2)\n  [inst_2 : AddCommGroup.{u_2} V] [inst_3 : Module.{u_1, u_2} k V] [Module.Finite.{u_1, u_2} k V]\n  (\u03c1 : Representation.{u_1, 0, u_2} k (Multiplicative.{0} (ZMod p)) V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{u_1, 0} k (Multiplicative.{0} (ZMod p)))\n      (Representation.asModule.{u_1, 0, u_2} \u03c1) \u2192\n    \u2200 (g : Multiplicative.{0} (ZMod p)), Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} \u03c1 g) LinearMap.id.{u_1, u_2}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3948716884",
+      "temporary_id": "decl-002374"
+    }
+  ],
+  "module_temporary_id": "module-0192",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

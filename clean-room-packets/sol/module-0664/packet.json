@@ -1,0 +1,962 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          [FiniteDimensional.{u, u} k V] \u2192\n            (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192 decl-014585.{u + 1, u} M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585",
+        "decl-015546"
+      ],
+      "structural_type_hash": "764391337",
+      "temporary_id": "decl-014382"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  [inst_3 : FiniteDimensional.{u, u} k V] (M : ModuleCat.{u, u} (decl-015546.{u} k V)) (i : Nat),\n  LT.lt.{0} (Module.finrank.{u, u} k V) i \u2192\n    CategoryTheory.Limits.IsZero.{u, u + 1}\n      (HomologicalComplex.X.{u, u + 1, 0}\n        (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (decl-014382.{u} k V M)) i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014382",
+        "decl-015546"
+      ],
+      "structural_type_hash": "3311078068",
+      "temporary_id": "decl-014385"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192 [inst_2 : Module.{u, u} k V] \u2192 Nat \u2192 ModuleCat.{u, u} (decl-001913.{u} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546"
+      ],
+      "structural_type_hash": "3642263913",
+      "temporary_id": "decl-017408"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (i : Nat) \u2192 decl-015546.{u} k V \u2192 decl-021061.{u} k V i \u2192 decl-021061.{u} k V i",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-021061"
+      ],
+      "structural_type_hash": "2185595162",
+      "temporary_id": "decl-017410"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] (i : Nat)\n  (a : decl-015546.{u} k V) (x y : decl-021061.{u} k V i),\n  Eq.{u + 1} (decl-017410.{u} k V i a (HAdd.hAdd.{u, u, u} x y))\n    (HAdd.hAdd.{u, u, u} (decl-017410.{u} k V i a x)\n      (decl-017410.{u} k V i a y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017410",
+        "decl-021061"
+      ],
+      "structural_type_hash": "66973921",
+      "temporary_id": "decl-017411"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] (i : Nat)\n  (a s t : decl-015546.{u} k V)\n  (x : Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x),\n  Eq.{u + 1}\n    (decl-017410.{u} k V i a\n      (TensorProduct.tmul.{u, u, u} k (TensorProduct.tmul.{u, u, u} k s t) x))\n    (TensorProduct.tmul.{u, u, u} k (TensorProduct.tmul.{u, u, u} k s (HMul.hMul.{u, u, u} a t)) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017410",
+        "decl-021061"
+      ],
+      "structural_type_hash": "1176595463",
+      "temporary_id": "decl-017412"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] (i : Nat)\n  (a : decl-015546.{u} k V), Eq.{u + 1} (decl-017410.{u} k V i a 0) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017410",
+        "decl-021061"
+      ],
+      "structural_type_hash": "4083854140",
+      "temporary_id": "decl-017413"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (i : Nat) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} (decl-015546.{u} k V))\n              (ModuleCat.carrier.{u, u}\n                (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V)\n                  (decl-017408.{u} k V i)))\n              (TensorProduct.{u, u, u} k (decl-015546.{u} k V) (decl-021285.{u, u} k V i))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017408",
+        "decl-021285",
+        "decl-021286",
+        "decl-022841"
+      ],
+      "structural_type_hash": "1122050364",
+      "temporary_id": "decl-017414"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            (i : Nat) \u2192\n              LinearEquiv.{u, u, u, u} (RingHom.id.{u} (decl-015546.{u} k V))\n                (ModuleCat.carrier.{u, u} (decl-017457.{u} k V M (decl-017408.{u} k V i)))\n                (TensorProduct.{u, u, u} k (decl-015546.{u} k V)\n                  (TensorProduct.{u, u, u} k\n                    (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x)\n                    (ModuleCat.carrier.{u, u} M)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-017408",
+        "decl-017457",
+        "decl-021622"
+      ],
+      "structural_type_hash": "3490322278",
+      "temporary_id": "decl-017422"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            (i : Nat) \u2192\n              decl-021061.{u} k V i \u2192\n                ModuleCat.carrier.{u, u} M \u2192\n                  TensorProduct.{u, u, u} (decl-015546.{u} k V)\n                    (ModuleCat.carrier.{u, u}\n                      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V)\n                        (decl-017408.{u} k V i)))\n                    (ModuleCat.carrier.{u, u} M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017408",
+        "decl-021061",
+        "decl-022841"
+      ],
+      "structural_type_hash": "2274757861",
+      "temporary_id": "decl-017427"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) (i : Nat) (p q : decl-021061.{u} k V i)\n  (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1} (decl-017427.{u} k V M i (HAdd.hAdd.{u, u, u} p q) m)\n    (HAdd.hAdd.{u, u, u} (decl-017427.{u} k V M i p m)\n      (decl-017427.{u} k V M i q m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017408",
+        "decl-017427",
+        "decl-021061",
+        "decl-022841"
+      ],
+      "structural_type_hash": "3187267106",
+      "temporary_id": "decl-017428"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) (i : Nat) (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1} (decl-017427.{u} k V M i 0 m) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017408",
+        "decl-017427",
+        "decl-021061",
+        "decl-022841"
+      ],
+      "structural_type_hash": "653329562",
+      "temporary_id": "decl-017429"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192 [inst_1 : AddCommGroup.{u} V] \u2192 [inst_2 : Module.{u, u} k V] \u2192 ModuleCat.{u, u} (decl-001913.{u} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546"
+      ],
+      "structural_type_hash": "3884364899",
+      "temporary_id": "decl-017431"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            ModuleCat.carrier.{u, u}\n                (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V)\n                  (decl-017431.{u} k V)) \u2192\n              ModuleCat.carrier.{u, u} M \u2192\n                TensorProduct.{u, u, u} (decl-015546.{u} k V)\n                  (ModuleCat.carrier.{u, u}\n                    (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V)\n                      (decl-017431.{u} k V)))\n                  (ModuleCat.carrier.{u, u} M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017431",
+        "decl-022841"
+      ],
+      "structural_type_hash": "285787371",
+      "temporary_id": "decl-017432"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            (X : ModuleCat.{u, u} (decl-001913.{u} k V)) \u2192\n              decl-015546.{u} k V \u2192\n                TensorProduct.{u, u, u} (decl-015546.{u} k V)\n                    (ModuleCat.carrier.{u, u}\n                      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V) X))\n                    (ModuleCat.carrier.{u, u} M) \u2192\n                  TensorProduct.{u, u, u} (decl-015546.{u} k V)\n                    (ModuleCat.carrier.{u, u}\n                      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V) X))\n                    (ModuleCat.carrier.{u, u} M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-022841"
+      ],
+      "structural_type_hash": "3076154282",
+      "temporary_id": "decl-017433"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) (X : ModuleCat.{u, u} (decl-001913.{u} k V)) (a : decl-015546.{u} k V)\n  (x y :\n    TensorProduct.{u, u, u} (decl-015546.{u} k V)\n      (ModuleCat.carrier.{u, u}\n        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V) X))\n      (ModuleCat.carrier.{u, u} M)),\n  Eq.{u + 1} (decl-017433.{u} k V M X a (HAdd.hAdd.{u, u, u} x y))\n    (HAdd.hAdd.{u, u, u} (decl-017433.{u} k V M X a x) (decl-017433.{u} k V M X a y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017433",
+        "decl-022841"
+      ],
+      "structural_type_hash": "868603138",
+      "temporary_id": "decl-017434"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) (i : Nat) (a s t : decl-015546.{u} k V)\n  (x : Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x)\n  (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1}\n    (decl-017433.{u} k V M (decl-017408.{u} k V i) a\n      (decl-017427.{u} k V M i\n        (TensorProduct.tmul.{u, u, u} k (TensorProduct.tmul.{u, u, u} k s t) x) m))\n    (decl-017427.{u} k V M i\n      (TensorProduct.tmul.{u, u, u} k (TensorProduct.tmul.{u, u, u} k (HMul.hMul.{u, u, u} a s) t) x) m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017408",
+        "decl-017427",
+        "decl-017433",
+        "decl-022841"
+      ],
+      "structural_type_hash": "319781128",
+      "temporary_id": "decl-017435"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) (a : decl-015546.{u} k V)\n  (s :\n    ModuleCat.carrier.{u, u}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V)\n        (decl-017431.{u} k V)))\n  (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1}\n    (decl-017433.{u} k V M (decl-017431.{u} k V) a\n      (decl-017432.{u} k V M s m))\n    (decl-017432.{u} k V M\n      (have this :=\n        HMul.hMul.{u, u, u} a\n          (have this := s;\n          this);\n      this)\n      m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017431",
+        "decl-017432",
+        "decl-017433",
+        "decl-022841"
+      ],
+      "structural_type_hash": "1254347223",
+      "temporary_id": "decl-017436"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) (X : ModuleCat.{u, u} (decl-001913.{u} k V)) (a : decl-015546.{u} k V)\n  (x :\n    ModuleCat.carrier.{u, u}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V) X))\n  (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1} (decl-017433.{u} k V M X a (TensorProduct.tmul.{u, u, u} (decl-015546.{u} k V) x m))\n    (TensorProduct.tmul.{u, u, u} (decl-015546.{u} k V)\n      (have this :=\n        HSMul.hSMul.{u, u, u} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-021444.{u} k V) a)\n          (have this := x;\n          this);\n      this)\n      m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017433",
+        "decl-021444",
+        "decl-022841"
+      ],
+      "structural_type_hash": "1206325727",
+      "temporary_id": "decl-017437"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) (X : ModuleCat.{u, u} (decl-001913.{u} k V)) (a : decl-015546.{u} k V),\n  Eq.{u + 1} (decl-017433.{u} k V M X a 0) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017433",
+        "decl-022841"
+      ],
+      "structural_type_hash": "51977804",
+      "temporary_id": "decl-017438"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            CategoryTheory.Iso.{u + 1, u + 1}\n              (CategoryTheory.Functor.comp.{u, u, u, u + 1, u + 1, u + 1} (decl-017441.{u} k V M)\n                (CategoryTheory.forget\u2082.{u, u, u + 1, u, u, u + 1, u} (ModuleCat.{u, u} (decl-015546.{u} k V))\n                  AddCommGrpCat.{u}))\n              (CategoryTheory.Functor.comp.{u, u, u, u + 1, u + 1, u + 1} (decl-021839.{u} k V M)\n                (CategoryTheory.forget\u2082.{u, u, u + 1, u, u, u + 1, u} (ModuleCat.{u, u} (decl-015546.{u} k V))\n                  AddCommGrpCat.{u}))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017441",
+        "decl-021839"
+      ],
+      "structural_type_hash": "3018469719",
+      "temporary_id": "decl-017439"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          ModuleCat.{u, u} (decl-015546.{u} k V) \u2192\n            CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} (decl-001913.{u} k V))\n              (ModuleCat.{u, u} (decl-015546.{u} k V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546"
+      ],
+      "structural_type_hash": "3457705892",
+      "temporary_id": "decl-017441"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            {X Y : ModuleCat.{u, u} (decl-001913.{u} k V)} \u2192\n              Quiver.Hom.{u, u + 1} X Y \u2192\n                LinearMap.{u, u, u, u} (RingHom.id.{u} (decl-015546.{u} k V))\n                  (ModuleCat.carrier.{u, u} (decl-017457.{u} k V M X))\n                  (ModuleCat.carrier.{u, u} (decl-017457.{u} k V M Y))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017457"
+      ],
+      "structural_type_hash": "2695401798",
+      "temporary_id": "decl-017444"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            {X Y : ModuleCat.{u, u} (decl-001913.{u} k V)} \u2192\n              Quiver.Hom.{u, u + 1} X Y \u2192\n                Quiver.Hom.{u, u + 1} (decl-017457.{u} k V M X) (decl-017457.{u} k V M Y)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017457"
+      ],
+      "structural_type_hash": "2696887106",
+      "temporary_id": "decl-017447"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            {X Y : ModuleCat.{u, u} (decl-001913.{u} k V)} \u2192\n              Quiver.Hom.{u, u + 1} X Y \u2192\n                TensorProduct.{u, u, u} (decl-015546.{u} k V)\n                    (ModuleCat.carrier.{u, u}\n                      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V) X))\n                    (ModuleCat.carrier.{u, u} M) \u2192\n                  TensorProduct.{u, u, u} (decl-015546.{u} k V)\n                    (ModuleCat.carrier.{u, u}\n                      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V) Y))\n                    (ModuleCat.carrier.{u, u} M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-022841"
+      ],
+      "structural_type_hash": "4085079643",
+      "temporary_id": "decl-017449"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) {X Y : ModuleCat.{u, u} (decl-001913.{u} k V)}\n  (f : Quiver.Hom.{u, u + 1} X Y)\n  (x y :\n    TensorProduct.{u, u, u} (decl-015546.{u} k V)\n      (ModuleCat.carrier.{u, u}\n        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V) X))\n      (ModuleCat.carrier.{u, u} M)),\n  Eq.{u + 1} (decl-017449.{u} k V M f (HAdd.hAdd.{u, u, u} x y))\n    (HAdd.hAdd.{u, u, u} (decl-017449.{u} k V M f x) (decl-017449.{u} k V M f y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017449",
+        "decl-022841"
+      ],
+      "structural_type_hash": "3502417430",
+      "temporary_id": "decl-017450"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) {X Y : ModuleCat.{u, u} (decl-001913.{u} k V)}\n  (f : Quiver.Hom.{u, u + 1} X Y)\n  (x :\n    ModuleCat.carrier.{u, u}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V) X))\n  (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1} (decl-017449.{u} k V M f (TensorProduct.tmul.{u, u, u} (decl-015546.{u} k V) x m))\n    (TensorProduct.tmul.{u, u, u} (decl-015546.{u} k V)\n      (have this := DFunLike.coe.{u + 1, u + 1, u + 1} (ModuleCat.Hom.hom.{u, u} f) x;\n      this)\n      m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017449",
+        "decl-022841"
+      ],
+      "structural_type_hash": "3220158614",
+      "temporary_id": "decl-017451"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) {X Y : ModuleCat.{u, u} (decl-001913.{u} k V)}\n  (f : Quiver.Hom.{u, u + 1} X Y), Eq.{u + 1} (decl-017449.{u} k V M f 0) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017449",
+        "decl-022841"
+      ],
+      "structural_type_hash": "3863645117",
+      "temporary_id": "decl-017452"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) {X Y : ModuleCat.{u, u} (decl-001913.{u} k V)}\n  (f : Quiver.Hom.{u, u + 1} X Y),\n  Eq.{u + 1} (ModuleCat.Hom.hom.{u, u} (decl-017447.{u} k V M f))\n    (decl-017444.{u} k V M f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017444",
+        "decl-017447",
+        "decl-017457"
+      ],
+      "structural_type_hash": "721714229",
+      "temporary_id": "decl-017453"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) {X Y : ModuleCat.{u, u} (decl-001913.{u} k V)}\n  (f : Quiver.Hom.{u, u + 1} X Y)\n  (x :\n    ModuleCat.carrier.{u, u}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V) X))\n  (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (ModuleCat.Hom.hom.{u, u} (decl-017447.{u} k V M f))\n      (have this := TensorProduct.tmul.{u, u, u} (decl-015546.{u} k V) x m;\n      this))\n    (TensorProduct.tmul.{u, u, u} (decl-015546.{u} k V)\n      (have this := DFunLike.coe.{u + 1, u + 1, u + 1} (ModuleCat.Hom.hom.{u, u} f) x;\n      this)\n      m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017447",
+        "decl-017457",
+        "decl-022841"
+      ],
+      "structural_type_hash": "2468473358",
+      "temporary_id": "decl-017454"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            (X : ModuleCat.{u, u} (decl-001913.{u} k V)) \u2192\n              Module.{u, u} (decl-015546.{u} k V)\n                (TensorProduct.{u, u, u} (decl-015546.{u} k V)\n                  (ModuleCat.carrier.{u, u}\n                    (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V) X))\n                  (ModuleCat.carrier.{u, u} M))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-022841"
+      ],
+      "structural_type_hash": "2021644275",
+      "temporary_id": "decl-017455"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          ModuleCat.{u, u} (decl-015546.{u} k V) \u2192\n            ModuleCat.{u, u} (decl-001913.{u} k V) \u2192 ModuleCat.{u, u} (decl-015546.{u} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546"
+      ],
+      "structural_type_hash": "4043518626",
+      "temporary_id": "decl-017457"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            CategoryTheory.Iso.{u, u + 1}\n              (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-017441.{u} k V M)\n                (decl-017431.{u} k V))\n              M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017431",
+        "decl-017441"
+      ],
+      "structural_type_hash": "1315254344",
+      "temporary_id": "decl-017458"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (b : Module.Basis.{0, u, u} (Fin (Module.finrank.{u, u} k V)) k V) (M : ModuleCat.{u, u} (decl-015546.{u} k V)),\n  QuasiIso.{u, u + 1, 0}\n    (CategoryTheory.Functor.map.{u, u, u + 1, u + 1}\n      (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1} (decl-017441.{u} k V M)\n        (ComplexShape.down.{0} Nat))\n      (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} (decl-021062.{u} k V b)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017430",
+        "decl-017441",
+        "decl-020575",
+        "decl-021062"
+      ],
+      "structural_type_hash": "1024336050",
+      "temporary_id": "decl-017463"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            AddEquiv.{u, u}\n              (TensorProduct.{u, u, u} (decl-015546.{u} k V)\n                (ModuleCat.carrier.{u, u}\n                  (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V)\n                    (decl-017431.{u} k V)))\n                (ModuleCat.carrier.{u, u} M))\n              (ModuleCat.carrier.{u, u} M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017431",
+        "decl-022841"
+      ],
+      "structural_type_hash": "1467622737",
+      "temporary_id": "decl-017693"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V))\n  (s :\n    ModuleCat.carrier.{u, u}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V)\n        (decl-017431.{u} k V)))\n  (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-017693.{u} k V M)\n      (TensorProduct.tmul.{u, u, u} (decl-015546.{u} k V) s m))\n    (HSMul.hSMul.{u, u, u}\n      (have this := s;\n      this)\n      m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017431",
+        "decl-017693",
+        "decl-022841"
+      ],
+      "structural_type_hash": "4135317717",
+      "temporary_id": "decl-017695"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            (i : Nat) \u2192\n              AddEquiv.{u, u}\n                (TensorProduct.{u, u, u} (decl-015546.{u} k V)\n                  (ModuleCat.carrier.{u, u}\n                    (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-022841.{u} k V)\n                      (decl-017408.{u} k V i)))\n                  (ModuleCat.carrier.{u, u} M))\n                (TensorProduct.{u, u, u} k (decl-015546.{u} k V)\n                  (TensorProduct.{u, u, u} k\n                    (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x)\n                    (ModuleCat.carrier.{u, u} M)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017408",
+        "decl-021622",
+        "decl-022841"
+      ],
+      "structural_type_hash": "2267762097",
+      "temporary_id": "decl-017710"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) (i : Nat) (s t : decl-015546.{u} k V)\n  (x : Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x)\n  (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-017710.{u} k V M i)\n      (TensorProduct.tmul.{u, u, u} (decl-015546.{u} k V)\n        (TensorProduct.tmul.{u, u, u} k (TensorProduct.tmul.{u, u, u} k s t) x) m))\n    (TensorProduct.tmul.{u, u, u} k s (TensorProduct.tmul.{u, u, u} k x (HSMul.hSMul.{u, u, u} t m)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017408",
+        "decl-017710",
+        "decl-021622",
+        "decl-022841"
+      ],
+      "structural_type_hash": "2072337334",
+      "temporary_id": "decl-017712"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n            (i : Nat) \u2192\n              AddEquiv.{u, u}\n                (TensorProduct.{u, u, u} (decl-015546.{u} k V)\n                  (ModuleCat.carrier.{u, u} (decl-022823.{u} k V i))\n                  (ModuleCat.carrier.{u, u} M))\n                (TensorProduct.{u, u, u} k (decl-015546.{u} k V)\n                  (TensorProduct.{u, u, u} k\n                    (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x)\n                    (ModuleCat.carrier.{u, u} M)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-021622",
+        "decl-022823"
+      ],
+      "structural_type_hash": "4023257573",
+      "temporary_id": "decl-017713"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)) (i : Nat) (s t : decl-015546.{u} k V)\n  (x : Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x)\n  (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-017713.{u} k V M i)\n      (TensorProduct.tmul.{u, u, u} (decl-015546.{u} k V)\n        (have this := decl-018976.{u} k V i (TensorProduct.tmul.{u, u, u} k s x) t;\n        this)\n        m))\n    (TensorProduct.tmul.{u, u, u} k s (TensorProduct.tmul.{u, u, u} k x (HSMul.hSMul.{u, u, u} t m)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-017713",
+        "decl-018976",
+        "decl-021286",
+        "decl-021622",
+        "decl-022823"
+      ],
+      "structural_type_hash": "332097397",
+      "temporary_id": "decl-017720"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)),\n  CategoryTheory.Functor.Additive.{u, u + 1, u, u + 1} (decl-017441.{u} k V M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017441"
+      ],
+      "structural_type_hash": "2281466913",
+      "temporary_id": "decl-020575"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192 RingHom.{u, u} (decl-015546.{u} k V) (decl-001913.{u} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546"
+      ],
+      "structural_type_hash": "4290910357",
+      "temporary_id": "decl-021444"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192 Module.{u, u} k (ModuleCat.carrier.{u, u} M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546"
+      ],
+      "structural_type_hash": "1730021192",
+      "temporary_id": "decl-021622"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          ModuleCat.{u, u} (decl-015546.{u} k V) \u2192\n            CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} (decl-001913.{u} k V))\n              (ModuleCat.{u, u} (decl-015546.{u} k V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546"
+      ],
+      "structural_type_hash": "3457705892",
+      "temporary_id": "decl-021839"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (b : Module.Basis.{0, u, u} (Fin (Module.finrank.{u, u} k V)) k V) (M : ModuleCat.{u, u} (decl-015546.{u} k V)),\n  QuasiIso.{u, u + 1, 0}\n    (CategoryTheory.Functor.map.{u, u, u + 1, u + 1}\n      (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1}\n        (decl-021839.{u} k V M) (ComplexShape.down.{0} Nat))\n      (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} (decl-021062.{u} k V b)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017430",
+        "decl-021062",
+        "decl-021839",
+        "decl-022841"
+      ],
+      "structural_type_hash": "3743166656",
+      "temporary_id": "decl-021840"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192 RingHom.{u, u} (decl-015546.{u} k V) (decl-001913.{u} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546"
+      ],
+      "structural_type_hash": "4290910357",
+      "temporary_id": "decl-022791"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          Module.Basis.{0, u, u} (Fin (Module.finrank.{u, u} k V)) k V \u2192\n            decl-014585.{u + 1, u} (decl-022552.{u} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585",
+        "decl-015546",
+        "decl-022552"
+      ],
+      "structural_type_hash": "3420611879",
+      "temporary_id": "decl-022804"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (b : Module.Basis.{0, u, u} (Fin (Module.finrank.{u, u} k V)) k V) \u2192\n            (i : Nat) \u2192\n              CategoryTheory.Iso.{u, u + 1}\n                (HomologicalComplex.X.{u, u + 1, 0}\n                  (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                    (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1}\n                      (decl-022841.{u} k V) (ComplexShape.down.{0} Nat))\n                    (CategoryTheory.ProjectiveResolution.complex.{u, u + 1}\n                      (decl-021062.{u} k V b)))\n                  i)\n                (decl-022823.{u} k V i)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017430",
+        "decl-021062",
+        "decl-022823",
+        "decl-022841"
+      ],
+      "structural_type_hash": "3980710454",
+      "temporary_id": "decl-022812"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (b : Module.Basis.{0, u, u} (Fin (Module.finrank.{u, u} k V)) k V) (i : Nat),\n  Module.Free.{u, u} (decl-015546.{u} k V)\n    (ModuleCat.carrier.{u, u}\n      (HomologicalComplex.X.{u, u + 1, 0}\n        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n          (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1}\n            (decl-022841.{u} k V) (ComplexShape.down.{0} Nat))\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (decl-021062.{u} k V b)))\n        i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017430",
+        "decl-021062",
+        "decl-022841"
+      ],
+      "structural_type_hash": "1529738595",
+      "temporary_id": "decl-022815"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192 [inst_1 : AddCommGroup.{u} V] \u2192 [inst_2 : Module.{u, u} k V] \u2192 ModuleCat.{u, u} (decl-015546.{u} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546"
+      ],
+      "structural_type_hash": "3640753416",
+      "temporary_id": "decl-022816"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          CategoryTheory.Iso.{u, u + 1} (decl-022816.{u} k V) (decl-022552.{u} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-022552",
+        "decl-022816"
+      ],
+      "structural_type_hash": "1818233265",
+      "temporary_id": "decl-022817"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (s : ModuleCat.carrier.{u, u} (decl-022816.{u} k V)),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (ModuleCat.Hom.hom.{u, u} (CategoryTheory.Iso.hom.{u, u + 1} (decl-022817.{u} k V)))\n      s)\n    (have this := s;\n    this)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-022552",
+        "decl-022816",
+        "decl-022817"
+      ],
+      "structural_type_hash": "555045371",
+      "temporary_id": "decl-022822"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192 [inst_2 : Module.{u, u} k V] \u2192 Nat \u2192 ModuleCat.{u, u} (decl-015546.{u} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546"
+      ],
+      "structural_type_hash": "3306532813",
+      "temporary_id": "decl-022823"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (i : Nat) \u2192 decl-015546.{u} k V \u2192 decl-021087.{u} k V i \u2192 decl-021087.{u} k V i",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-021087"
+      ],
+      "structural_type_hash": "653974511",
+      "temporary_id": "decl-022825"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] (i : Nat)\n  (a : decl-015546.{u} k V) (x y : decl-021087.{u} k V i),\n  Eq.{u + 1} (decl-022825.{u} k V i a (HAdd.hAdd.{u, u, u} x y))\n    (HAdd.hAdd.{u, u, u} (decl-022825.{u} k V i a x)\n      (decl-022825.{u} k V i a y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001914",
+        "decl-015546",
+        "decl-018999",
+        "decl-021087",
+        "decl-021285",
+        "decl-022825"
+      ],
+      "structural_type_hash": "3624686611",
+      "temporary_id": "decl-022826"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] (i : Nat)\n  (a : decl-015546.{u} k V) (q : decl-021285.{u, u} k V i) (t : decl-015546.{u} k V),\n  Eq.{u + 1} (decl-022825.{u} k V i a (decl-018976.{u} k V i q t))\n    (decl-018976.{u} k V i q (HMul.hMul.{u, u, u} a t))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-018976",
+        "decl-021087",
+        "decl-021285",
+        "decl-022825"
+      ],
+      "structural_type_hash": "1189550577",
+      "temporary_id": "decl-022827"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] (i : Nat)\n  (a : decl-015546.{u} k V), Eq.{u + 1} (decl-022825.{u} k V i a 0) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001914",
+        "decl-015546",
+        "decl-018999",
+        "decl-021087",
+        "decl-021285",
+        "decl-022825"
+      ],
+      "structural_type_hash": "3266967297",
+      "temporary_id": "decl-022828"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (i : Nat) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} (decl-015546.{u} k V))\n              (ModuleCat.carrier.{u, u} (decl-022823.{u} k V i))\n              (TensorProduct.{u, u, u} k (decl-015546.{u} k V) (decl-021285.{u, u} k V i))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-021285",
+        "decl-021286",
+        "decl-022823"
+      ],
+      "structural_type_hash": "947860087",
+      "temporary_id": "decl-022829"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] (i : Nat)\n  (s t : decl-015546.{u} k V)\n  (x : Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-022829.{u} k V i)\n      (have this := decl-018976.{u} k V i (TensorProduct.tmul.{u, u, u} k s x) t;\n      this))\n    (TensorProduct.tmul.{u, u, u} k t (TensorProduct.tmul.{u, u, u} k s x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-018976",
+        "decl-021285",
+        "decl-021286",
+        "decl-022823",
+        "decl-022829"
+      ],
+      "structural_type_hash": "809906784",
+      "temporary_id": "decl-022838"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] (i : Nat),\n  Module.Free.{u, u} (decl-015546.{u} k V) (ModuleCat.carrier.{u, u} (decl-022823.{u} k V i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-022823"
+      ],
+      "structural_type_hash": "1943770927",
+      "temporary_id": "decl-022839"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] (i : Nat)\n  (a : decl-015546.{u} k V) (q : decl-021285.{u, u} k V i) (t : decl-015546.{u} k V),\n  Eq.{u + 1}\n    (HSMul.hSMul.{u, u, u} a\n      (have this := decl-018976.{u} k V i q t;\n      this))\n    (decl-018976.{u} k V i q (HMul.hMul.{u, u, u} a t))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-018976",
+        "decl-021285",
+        "decl-022823"
+      ],
+      "structural_type_hash": "640936439",
+      "temporary_id": "decl-022840"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} (decl-001913.{u} k V))\n            (ModuleCat.{u, u} (decl-015546.{u} k V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546"
+      ],
+      "structural_type_hash": "2073217728",
+      "temporary_id": "decl-022841"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          Module.Basis.{0, u, u} (Fin (Module.finrank.{u, u} k V)) k V \u2192\n            (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192 decl-014585.{u + 1, u} M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585",
+        "decl-015546"
+      ],
+      "structural_type_hash": "3769570346",
+      "temporary_id": "decl-023859"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (b : Module.Basis.{0, u, u} (Fin (Module.finrank.{u, u} k V)) k V) \u2192\n            (M : ModuleCat.{u, u} (decl-015546.{u} k V)) \u2192\n              (i : Nat) \u2192\n                CategoryTheory.Iso.{u, u + 1}\n                  (HomologicalComplex.X.{u, u + 1, 0}\n                    (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                      (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1}\n                        (decl-017441.{u} k V M) (ComplexShape.down.{0} Nat))\n                      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1}\n                        (decl-021062.{u} k V b)))\n                    i)\n                  (ModuleCat.of.{u, u} (decl-015546.{u} k V)\n                    (TensorProduct.{u, u, u} k (decl-015546.{u} k V)\n                      (TensorProduct.{u, u, u} k\n                        (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x)\n                        (ModuleCat.carrier.{u, u} M))))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017430",
+        "decl-017441",
+        "decl-020575",
+        "decl-021062",
+        "decl-021622"
+      ],
+      "structural_type_hash": "979888287",
+      "temporary_id": "decl-023863"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (b : Module.Basis.{0, u, u} (Fin (Module.finrank.{u, u} k V)) k V) (M : ModuleCat.{u, u} (decl-015546.{u} k V))\n  (i : Nat),\n  Module.Free.{u, u} (decl-015546.{u} k V)\n    (ModuleCat.carrier.{u, u}\n      (HomologicalComplex.X.{u, u + 1, 0}\n        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n          (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1}\n            (decl-017441.{u} k V M) (ComplexShape.down.{0} Nat))\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (decl-021062.{u} k V b)))\n        i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017430",
+        "decl-017441",
+        "decl-020575",
+        "decl-021062"
+      ],
+      "structural_type_hash": "1802521638",
+      "temporary_id": "decl-023865"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (b : Module.Basis.{0, u, u} (Fin (Module.finrank.{u, u} k V)) k V) (M : ModuleCat.{u, u} (decl-015546.{u} k V))\n  (i : Nat),\n  LT.lt.{0} (Module.finrank.{u, u} k V) i \u2192\n    CategoryTheory.Limits.IsZero.{u, u + 1}\n      (HomologicalComplex.X.{u, u + 1, 0}\n        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n          (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1}\n            (decl-017441.{u} k V M) (ComplexShape.down.{0} Nat))\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (decl-021062.{u} k V b)))\n        i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017430",
+        "decl-017441",
+        "decl-020575",
+        "decl-021062"
+      ],
+      "structural_type_hash": "977656086",
+      "temporary_id": "decl-023866"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (b : Module.Basis.{0, u, u} (Fin (Module.finrank.{u, u} k V)) k V) (M : ModuleCat.{u, u} (decl-015546.{u} k V))\n  (i : Nat),\n  CategoryTheory.Projective.{u, u + 1}\n    (HomologicalComplex.X.{u, u + 1, 0}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n        (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1} (decl-017441.{u} k V M)\n          (ComplexShape.down.{0} Nat))\n        (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (decl-021062.{u} k V b)))\n      i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001913",
+        "decl-001914",
+        "decl-015546",
+        "decl-017430",
+        "decl-017441",
+        "decl-020575",
+        "decl-021062"
+      ],
+      "structural_type_hash": "2737056623",
+      "temporary_id": "decl-023867"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (b : Module.Basis.{0, u, u} (Fin (Module.finrank.{u, u} k V)) k V) (M : ModuleCat.{u, u} (decl-015546.{u} k V))\n  (i : Nat),\n  LT.lt.{0} (Module.finrank.{u, u} k V) i \u2192\n    CategoryTheory.Limits.IsZero.{u, u + 1}\n      (HomologicalComplex.X.{u, u + 1, 0}\n        (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (decl-023859.{u} k V b M)) i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-023859"
+      ],
+      "structural_type_hash": "3578189598",
+      "temporary_id": "decl-023868"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (decl-015546.{u} k V)), IsScalarTower.{u, u, u} k (decl-015546.{u} k V) (ModuleCat.carrier.{u, u} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015546",
+        "decl-021622"
+      ],
+      "structural_type_hash": "1734067341",
+      "temporary_id": "decl-024265"
+    }
+  ],
+  "module_temporary_id": "module-0664",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

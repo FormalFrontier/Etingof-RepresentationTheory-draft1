@@ -1,0 +1,11 @@
+{
+  "module_name": "Algebra.Representation.Equivalences",
+  "declarations": [
+    {"temporary_id":"decl-003684","new_name":"groupHomUnitsEquiv","docstring":"Equivalence between homomorphisms from a group to a monoid and homomorphisms to its units."},
+    {"temporary_id":"decl-003687","new_name":"representationAlgHomEquiv","docstring":"Equivalence from representations to algebra homomorphisms from the monoid algebra into module endomorphisms."},
+    {"temporary_id":"decl-003691","new_name":"representationAlgHomEquiv_apply_single","docstring":"The algebra homomorphism associated with a representation sends a singleton basis element to the corresponding action."},
+    {"temporary_id":"decl-003692","new_name":"representationLinearEquivHomEquiv","docstring":"Equivalence from representations to group homomorphisms into linear automorphisms."},
+    {"temporary_id":"decl-003694","new_name":"representationLinearEquivHomEquiv_apply","docstring":"The linear automorphism obtained from a representation acts as the original representation."},
+    {"temporary_id":"decl-003695","new_name":"representationLinearEquivHomEquiv_symm_apply","docstring":"The representation recovered from a homomorphism to linear automorphisms has its specified action."}
+  ]
+}

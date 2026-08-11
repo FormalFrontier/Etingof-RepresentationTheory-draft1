@@ -1,0 +1,57 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (G : Type) [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (X : Set.{0} (Subgroup.{0} G)),\n  (\u2200 (H : Subgroup.{0} G),\n      Membership.mem.{0, 0} X H \u2192\n        \u2200 (g : G),\n          Membership.mem.{0, 0} X\n            (Subgroup.map.{0, 0} (MulEquiv.toMonoidHom.{0, 0} (DFunLike.coe.{1, 1, 1} MulAut.conj.{0} g)) H)) \u2192\n    Iff (\u2200 (g : G), Exists.{1} fun H => And (Membership.mem.{0, 0} X H) (Membership.mem.{0, 0} H g))\n      (\u2200 (V : FDRep.{0, 0} Complex G),\n        CategoryTheory.Simple.{0, 1} V \u2192\n          Membership.mem.{0, 0}\n            (Submodule.span.{0, 0} Rat\n              (setOf.{0} fun f =>\n                Exists.{1} fun H =>\n                  And (Membership.mem.{0, 0} X H)\n                    (Exists.{2} fun W => Eq.{1} f (decl-020539 H (FDRep.character.{0, 0} W)))))\n            (FDRep.character.{0, 0} V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020539"
+      ],
+      "structural_type_hash": "4169997162",
+      "temporary_id": "decl-016601"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    [Fintype.{0} G] \u2192 (H : Subgroup.{0} G) \u2192 ((Subtype.{1} fun x => Membership.mem.{0, 0} H x) \u2192 Complex) \u2192 G \u2192 Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4052087361",
+      "temporary_id": "decl-020539"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : NeZero.{0} (Nat.cast.{0} (Nat.card.{0} G))]\n  (D : decl-025031.{0, 0} Complex G) (H : Subgroup.{0} G)\n  (W : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n  Eq.{1} (decl-020539 H (FDRep.character.{0, 0} W))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n      HSMul.hSMul.{0, 0, 0}\n        (Nat.cast.{0}\n          (Module.finrank.{0, 0} Complex\n            (Quiver.Hom.{0, 1} W\n              (FDRep.of.{0, 0}\n                (MonoidHom.comp.{0, 0, 0} (FDRep.\u03c1.{0, 0} (decl-025052.{0, 0} D i))\n                  (Subgroup.subtype.{0} H))))))\n        (FDRep.character.{0, 0} (decl-025052.{0, 0} D i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020539",
+        "decl-025031",
+        "decl-025052",
+        "decl-025117"
+      ],
+      "structural_type_hash": "4283967191",
+      "temporary_id": "decl-020541"
+    }
+  ],
+  "module_temporary_id": "module-0472",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c996804bf586db22c013",
+      "declaration": "Etingof.Problem4_1_4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/187/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p n : Nat} [Fact (Nat.Prime p)] {k : Type u_1} [inst : Field.{u_1} k] [CharP.{u_1} k p] {G : Type u_2}\n  [inst_2 : Group.{u_2} G] [inst_3 : Fintype.{u_2} G],\n  Eq.{1} (Fintype.card.{u_2} G) (HPow.hPow.{0, 0, 0} p n) \u2192\n    \u2200 {V : Type u_3} [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V]\n      (\u03c1 : Representation.{u_1, u_2, u_3} k G V),\n      IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_3} \u03c1) \u2192\n        \u2200 (g : G), Eq.{u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g) LinearMap.id.{u_1, u_3}",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_1_4"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.1.4",
+  "packet_id": "align-0698",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0698"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.1.4:claim-01",
+  "source_text": "If G has order p^n and k has characteristic p, then every irreducible k-representation of G is trivial."
+}

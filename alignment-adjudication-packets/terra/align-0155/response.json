@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0155",
+  "associations": [
+    {
+      "association_id": "association:f87afce4fb199dc7b295",
+      "role": "primary",
+      "rationale": "This natural tensor-product associator directly gives the stated identification."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Discussion_proof_Theorem4.10.2",
+    "kind": "discussion",
+    "title": "Proof of Theorem 4.10.2 (Frobenius determinant factorization)",
+    "node_id": "chapter-04/section-4-10",
+    "order": 228,
+    "slug": "discussion-proof-theorem4-10-2",
+    "span": {
+      "start": {
+        "page": "78",
+        "line": 23
+      },
+      "end": {
+        "page": "79",
+        "line": 20
+      }
+    },
+    "source_sha256": "212683b7432bf117e003da2890f4b58b3c36c552515643f8da480dfd5e86573c",
+    "features": {
+      "line_count": 25,
+      "crosses_page": true,
+      "display_math_delimiters": 10,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.DiscussionProofTheorem4102",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

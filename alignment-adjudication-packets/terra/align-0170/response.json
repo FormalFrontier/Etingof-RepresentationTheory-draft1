@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:4ecd5c8fe2f6c3b7b11e",
+      "rationale": "The theorem says that every A-linear endomorphism of the simple module is scalar. This is the Schur-lemma input used in the source argument, but it does not say that each action operator is such an endomorphism or that every subspace is A-stable.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0808981ac0bc5e8d5c9e",
+      "rationale": "The theorem concludes that the simple module has finrank one. That is a consequence of the source argument and can imply the limited form of its subspace conclusion, but it does not state that scalar action makes every subspace a subrepresentation.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0170"
+}

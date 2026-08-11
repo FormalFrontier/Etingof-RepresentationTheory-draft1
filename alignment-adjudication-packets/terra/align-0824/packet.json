@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:57417773cd3d2b101d25",
+      "declaration": "Etingof.Exercise_8_2_2_free",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/536/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (M : ModuleCat.{u, u} A),\n  Exists.{u + 2} fun P =>\n    \u2200 (n : Nat),\n      Module.Free.{u, u} A\n        (ModuleCat.carrier.{u, u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Exercise8_2_2"
+    },
+    {
+      "association_id": "association:c86c60c49148bb7825e3",
+      "declaration": "Etingof.FreeResolution.resolution",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/536/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{A : Type u} \u2192 [inst : Ring.{u} A] \u2192 (M : ModuleCat.{u, u} A) \u2192 Etingof.ProjectiveResolution.{u + 1, u} M",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Exercise8_2_2"
+    }
+  ],
+  "canonical_reference": "Chapter8/Exercise8.2.2",
+  "packet_id": "align-0824",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0824"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Exercise8.2.2:free_resolution",
+  "source_text": "Construct one whose terms are free modules."
+}

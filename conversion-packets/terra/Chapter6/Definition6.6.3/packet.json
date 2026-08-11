@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Definition6.6.3",
+    "kind": "definition",
+    "title": "Definition 6.6.3: Reflection functor F_i^+",
+    "node_id": "chapter-06/section-6-6",
+    "order": 442,
+    "slug": "definition6-6-3",
+    "span": {
+      "start": {
+        "page": "168",
+        "line": 21
+      },
+      "end": {
+        "page": "168",
+        "line": 35
+      }
+    },
+    "source_sha256": "557d7de56754d6c7291f512c686f1f63c4848e2efbbff2e09375c6533ce78911",
+    "features": {
+      "line_count": 15,
+      "crosses_page": false,
+      "display_math_delimiters": 6,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition663",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,114 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 LieSubalgebra.{u_1, u_1} k (Matrix.{0, 0, u_1} (Fin 3) (Fin 3) k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "926965633",
+      "temporary_id": "decl-001797"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    LieEquiv.{u_1, u_1, u_1} k (decl-002110.{u_1} k)\n      (Subtype.{u_1 + 1} fun x =>\n        Membership.mem.{u_1, u_1} (decl-001797.{u_1} k) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001797",
+        "decl-002110",
+        "decl-002209",
+        "decl-002211"
+      ],
+      "structural_type_hash": "2889463255",
+      "temporary_id": "decl-001802"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1}\n    (Subtype.val.{u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-001802.{u_1} k)\n        decl-002134.{u_1}))\n    (Matrix.single.{0, 0, u_1} 0 2 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001797",
+        "decl-001802",
+        "decl-002110",
+        "decl-002134",
+        "decl-002209",
+        "decl-002211"
+      ],
+      "structural_type_hash": "1377566388",
+      "temporary_id": "decl-001812"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1}\n    (Subtype.val.{u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-001802.{u_1} k)\n        decl-002280.{u_1}))\n    (Matrix.single.{0, 0, u_1} 1 2 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001797",
+        "decl-001802",
+        "decl-002110",
+        "decl-002209",
+        "decl-002211",
+        "decl-002280"
+      ],
+      "structural_type_hash": "2258341464",
+      "temporary_id": "decl-001813"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1}\n    (Subtype.val.{u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-001802.{u_1} k)\n        decl-002282.{u_1}))\n    (Matrix.single.{0, 0, u_1} 0 1 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001797",
+        "decl-001802",
+        "decl-002110",
+        "decl-002209",
+        "decl-002211",
+        "decl-002282"
+      ],
+      "structural_type_hash": "3216662590",
+      "temporary_id": "decl-001814"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192 decl-002110.{u_1} k \u2192 Matrix.{0, 0, u_1} (Fin 3) (Fin 3) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002110"
+      ],
+      "structural_type_hash": "26371582",
+      "temporary_id": "decl-001815"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (u : decl-002110.{u_1} k),\n  Membership.mem.{u_1, u_1} (decl-001797.{u_1} k)\n    (decl-001815.{u_1} k u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001797",
+        "decl-001815",
+        "decl-002110"
+      ],
+      "structural_type_hash": "2062387125",
+      "temporary_id": "decl-001817"
+    }
+  ],
+  "module_temporary_id": "module-0036",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

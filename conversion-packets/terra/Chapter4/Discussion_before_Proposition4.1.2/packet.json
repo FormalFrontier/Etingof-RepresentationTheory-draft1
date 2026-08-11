@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Discussion_before_Proposition4.1.2",
+    "kind": "discussion",
+    "title": "Converse of Maschke's theorem",
+    "node_id": "chapter-04/section-4-1",
+    "order": 185,
+    "slug": "discussion-before-proposition4-1-2",
+    "span": {
+      "start": {
+        "page": "62",
+        "line": 21
+      },
+      "end": {
+        "page": "62",
+        "line": 22
+      }
+    },
+    "source_sha256": "558ec9e45e20e9d2fc199931d1d9ed37ebb5ef53aebde9d25efb78f285d48300",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.DiscussionBeforeProposition412",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

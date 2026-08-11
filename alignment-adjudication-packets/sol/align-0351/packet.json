@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9c7c0d9594af4d3225d9",
+      "declaration": "Etingof.Example2_9_12.slEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/82/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    LieEquiv.{u_2, u_2, u_2} k (Etingof.Example2_9_12.sl2.{u_2} k)\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (LieAlgebra.SpecialLinear.sl.{u_2, 0} (Fin 2) k) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_12"
+    },
+    {
+      "association_id": "association:2ce686a11530e4196f26",
+      "declaration": "Etingof.Example2_9_12.slEquiv_e",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/82/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (Subtype.val.{u_2 + 1}\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Etingof.Example2_9_12.slEquiv.{u_2} k) Etingof.Example2_9_12.e.{u_2}))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} Matrix.of.{u_2, 0, 0}\n      (Matrix.vecCons.{u_2} (Matrix.vecCons.{u_2} 0 (Matrix.vecCons.{u_2} 1 Matrix.vecEmpty.{u_2}))\n        (Matrix.vecCons.{u_2} (Matrix.vecCons.{u_2} 0 (Matrix.vecCons.{u_2} 0 Matrix.vecEmpty.{u_2}))\n          Matrix.vecEmpty.{u_2})))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_12"
+    },
+    {
+      "association_id": "association:4f034cdd7d67b5404ff4",
+      "declaration": "Etingof.Example2_9_12.slEquiv_f",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/82/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (Subtype.val.{u_2 + 1}\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (Etingof.Example2_9_12.slEquiv.{u_2} k) Etingof.Example2_9_12.f.{u_2}))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} Matrix.of.{u_2, 0, 0}\n      (Matrix.vecCons.{u_2} (Matrix.vecCons.{u_2} 0 (Matrix.vecCons.{u_2} 0 Matrix.vecEmpty.{u_2}))\n        (Matrix.vecCons.{u_2} (Matrix.vecCons.{u_2} 1 (Matrix.vecCons.{u_2} 0 Matrix.vecEmpty.{u_2}))\n          Matrix.vecEmpty.{u_2})))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_12"
+    },
+    {
+      "association_id": "association:17fde40df168b9129bab",
+      "declaration": "Etingof.Example2_9_12.slEquiv_h",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/82/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_12"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_concrete_Lie_examples",
+  "packet_id": "align-0351",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0351"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6d2d68804d091bf95b0c",
+  "source_text": "For sl(2), e, f, h are the displayed matrix basis."
+}

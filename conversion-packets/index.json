@@ -1,0 +1,2924 @@
+{
+  "schema_version": 1,
+  "routes": {
+    "sol": [
+      {
+        "id": "Frontmatter/TableOfContents",
+        "node_id": "frontmatter",
+        "packet": "sol/Frontmatter/TableOfContents"
+      },
+      {
+        "id": "Chapter1/Introduction",
+        "node_id": "chapter-01",
+        "packet": "sol/Chapter1/Introduction"
+      },
+      {
+        "id": "Chapter1/Discussion_BookOrganization",
+        "node_id": "chapter-01",
+        "packet": "sol/Chapter1/Discussion_BookOrganization"
+      },
+      {
+        "id": "Chapter1/Acknowledgments",
+        "node_id": "chapter-01",
+        "packet": "sol/Chapter1/Acknowledgments"
+      },
+      {
+        "id": "Chapter2/Discussion_after_Theorem2.1.1",
+        "node_id": "chapter-02/section-2-1",
+        "packet": "sol/Chapter2/Discussion_after_Theorem2.1.1"
+      },
+      {
+        "id": "Chapter2/Theorem2.1.2",
+        "node_id": "chapter-02/section-2-1",
+        "packet": "sol/Chapter2/Theorem2.1.2"
+      },
+      {
+        "id": "Chapter2/Problem2.3.18",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "sol/Chapter2/Problem2.3.18"
+      },
+      {
+        "id": "Chapter2/Proposition2.7.1",
+        "node_id": "chapter-02/section-2-7",
+        "packet": "sol/Chapter2/Proposition2.7.1"
+      },
+      {
+        "id": "Chapter2/Problem2.7.4",
+        "node_id": "chapter-02/section-2-7",
+        "packet": "sol/Chapter2/Problem2.7.4"
+      },
+      {
+        "id": "Chapter2/Discussion_quiver_rep_bijection",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "sol/Chapter2/Discussion_quiver_rep_bijection"
+      },
+      {
+        "id": "Chapter2/Problem2.8.11",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "sol/Chapter2/Problem2.8.11"
+      },
+      {
+        "id": "Chapter2/Discussion_2.10_heading",
+        "node_id": "chapter-02/section-2-10",
+        "packet": "sol/Chapter2/Discussion_2.10_heading"
+      },
+      {
+        "id": "Chapter2/Discussion_pure_tensors",
+        "node_id": "chapter-02/section-2-11",
+        "packet": "sol/Chapter2/Discussion_pure_tensors"
+      },
+      {
+        "id": "Chapter2/Discussion_tensor_product_maps",
+        "node_id": "chapter-02/section-2-11",
+        "packet": "sol/Chapter2/Discussion_tensor_product_maps"
+      },
+      {
+        "id": "Chapter2/Remark2.11.4",
+        "node_id": "chapter-02/section-2-11",
+        "packet": "sol/Chapter2/Remark2.11.4"
+      },
+      {
+        "id": "Chapter2/Problem2.11.6",
+        "node_id": "chapter-02/section-2-11",
+        "packet": "sol/Chapter2/Problem2.11.6"
+      },
+      {
+        "id": "Chapter2/Problem2.13.1",
+        "node_id": "chapter-02/section-2-13",
+        "packet": "sol/Chapter2/Problem2.13.1"
+      },
+      {
+        "id": "Chapter2/Problem2.15.1",
+        "node_id": "chapter-02/section-2-15",
+        "packet": "sol/Chapter2/Problem2.15.1"
+      },
+      {
+        "id": "Chapter2/Problem2.16.1",
+        "node_id": "chapter-02/section-2-16",
+        "packet": "sol/Chapter2/Problem2.16.1"
+      },
+      {
+        "id": "Chapter2/Problem2.16.5",
+        "node_id": "chapter-02/section-2-16",
+        "packet": "sol/Chapter2/Problem2.16.5"
+      },
+      {
+        "id": "Chapter3/Remark3.1.5",
+        "node_id": "chapter-03/section-3-1",
+        "packet": "sol/Chapter3/Remark3.1.5"
+      },
+      {
+        "id": "Chapter3/Introduction_to_3.2",
+        "node_id": "chapter-03/section-3-2",
+        "packet": "sol/Chapter3/Introduction_to_3.2"
+      },
+      {
+        "id": "Chapter3/Theorem3.2.2",
+        "node_id": "chapter-03/section-3-2",
+        "packet": "sol/Chapter3/Theorem3.2.2"
+      },
+      {
+        "id": "Chapter3/Remark3.3.4",
+        "node_id": "chapter-03/section-3-3",
+        "packet": "sol/Chapter3/Remark3.3.4"
+      },
+      {
+        "id": "Chapter3/Proposition3.5.3",
+        "node_id": "chapter-03/section-3-5",
+        "packet": "sol/Chapter3/Proposition3.5.3"
+      },
+      {
+        "id": "Chapter3/Corollary3.5.5",
+        "node_id": "chapter-03/section-3-5",
+        "packet": "sol/Chapter3/Corollary3.5.5"
+      },
+      {
+        "id": "Chapter3/Proposition3.5.8",
+        "node_id": "chapter-03/section-3-5",
+        "packet": "sol/Chapter3/Proposition3.5.8"
+      },
+      {
+        "id": "Chapter3/Theorem3.6.2",
+        "node_id": "chapter-03/section-3-6",
+        "packet": "sol/Chapter3/Theorem3.6.2"
+      },
+      {
+        "id": "Chapter3/Theorem3.7.1",
+        "node_id": "chapter-03/section-3-7",
+        "packet": "sol/Chapter3/Theorem3.7.1"
+      },
+      {
+        "id": "Chapter3/Lemma3.8.2",
+        "node_id": "chapter-03/section-3-8",
+        "packet": "sol/Chapter3/Lemma3.8.2"
+      },
+      {
+        "id": "Chapter3/Problem3.8.4",
+        "node_id": "chapter-03/section-3-8",
+        "packet": "sol/Chapter3/Problem3.8.4"
+      },
+      {
+        "id": "Chapter3/Problem3.9.1",
+        "node_id": "chapter-03/section-3-9",
+        "packet": "sol/Chapter3/Problem3.9.1"
+      },
+      {
+        "id": "Chapter3/Problem3.9.5",
+        "node_id": "chapter-03/section-3-9",
+        "packet": "sol/Chapter3/Problem3.9.5"
+      },
+      {
+        "id": "Chapter3/Discussion_proof_of_Theorem3.10.2",
+        "node_id": "chapter-03/section-3-10",
+        "packet": "sol/Chapter3/Discussion_proof_of_Theorem3.10.2"
+      },
+      {
+        "id": "Chapter4/Theorem4.1.1",
+        "node_id": "chapter-04/section-4-1",
+        "packet": "sol/Chapter4/Theorem4.1.1"
+      },
+      {
+        "id": "Chapter4/Proposition4.1.2",
+        "node_id": "chapter-04/section-4-1",
+        "packet": "sol/Chapter4/Proposition4.1.2"
+      },
+      {
+        "id": "Chapter4/Theorem4.2.1",
+        "node_id": "chapter-04/section-4-2",
+        "packet": "sol/Chapter4/Theorem4.2.1"
+      },
+      {
+        "id": "Chapter4/Example4.3_FiniteAbelianGroups",
+        "node_id": "chapter-04/section-4-3",
+        "packet": "sol/Chapter4/Example4.3_FiniteAbelianGroups"
+      },
+      {
+        "id": "Chapter4/Example4.3_Q8",
+        "node_id": "chapter-04/section-4-3",
+        "packet": "sol/Chapter4/Example4.3_Q8"
+      },
+      {
+        "id": "Chapter4/Example4.3_S4",
+        "node_id": "chapter-04/section-4-3",
+        "packet": "sol/Chapter4/Example4.3_S4"
+      },
+      {
+        "id": "Chapter4/Introduction_4.5",
+        "node_id": "chapter-04/section-4-5",
+        "packet": "sol/Chapter4/Introduction_4.5"
+      },
+      {
+        "id": "Chapter4/Problem4.5.2",
+        "node_id": "chapter-04/section-4-5",
+        "packet": "sol/Chapter4/Problem4.5.2"
+      },
+      {
+        "id": "Chapter4/Discussion_after_Theorem4.6.2",
+        "node_id": "chapter-04/section-4-6",
+        "packet": "sol/Chapter4/Discussion_after_Theorem4.6.2"
+      },
+      {
+        "id": "Chapter4/Proposition4.7.1",
+        "node_id": "chapter-04/section-4-7",
+        "packet": "sol/Chapter4/Proposition4.7.1"
+      },
+      {
+        "id": "Chapter4/Introduction_4.8",
+        "node_id": "chapter-04/section-4-8",
+        "packet": "sol/Chapter4/Introduction_4.8"
+      },
+      {
+        "id": "Chapter4/Example4.8.1",
+        "node_id": "chapter-04/section-4-8",
+        "packet": "sol/Chapter4/Example4.8.1"
+      },
+      {
+        "id": "Chapter4/Example4.9.1",
+        "node_id": "chapter-04/section-4-9",
+        "packet": "sol/Chapter4/Example4.9.1"
+      },
+      {
+        "id": "Chapter4/Discussion_proof_Theorem4.10.2",
+        "node_id": "chapter-04/section-4-10",
+        "packet": "sol/Chapter4/Discussion_proof_Theorem4.10.2"
+      },
+      {
+        "id": "Chapter4/Discussion_4.11",
+        "node_id": "chapter-04/section-4-11",
+        "packet": "sol/Chapter4/Discussion_4.11"
+      },
+      {
+        "id": "Chapter4/Problem4.12.2",
+        "node_id": "chapter-04/section-4-12",
+        "packet": "sol/Chapter4/Problem4.12.2"
+      },
+      {
+        "id": "Chapter4/Problem4.12.5",
+        "node_id": "chapter-04/section-4-12",
+        "packet": "sol/Chapter4/Problem4.12.5"
+      },
+      {
+        "id": "Chapter4/Problem4.12.7",
+        "node_id": "chapter-04/section-4-12",
+        "packet": "sol/Chapter4/Problem4.12.7"
+      },
+      {
+        "id": "Chapter4/Problem4.12.8",
+        "node_id": "chapter-04/section-4-12",
+        "packet": "sol/Chapter4/Problem4.12.8"
+      },
+      {
+        "id": "Chapter4/Problem4.12.11",
+        "node_id": "chapter-04/section-4-12",
+        "packet": "sol/Chapter4/Problem4.12.11"
+      },
+      {
+        "id": "Chapter4/Discussion_4.13",
+        "node_id": "chapter-04/section-4-13",
+        "packet": "sol/Chapter4/Discussion_4.13"
+      },
+      {
+        "id": "Chapter5/Problem5.1.2",
+        "node_id": "chapter-05/section-5-1",
+        "packet": "sol/Chapter5/Problem5.1.2"
+      },
+      {
+        "id": "Chapter5/Theorem5.1.5",
+        "node_id": "chapter-05/section-5-1",
+        "packet": "sol/Chapter5/Theorem5.1.5"
+      },
+      {
+        "id": "Chapter5/Proposition5.2.4",
+        "node_id": "chapter-05/section-5-2",
+        "packet": "sol/Chapter5/Proposition5.2.4"
+      },
+      {
+        "id": "Chapter5/Lemma5.2.6",
+        "node_id": "chapter-05/section-5-2",
+        "packet": "sol/Chapter5/Lemma5.2.6"
+      },
+      {
+        "id": "Chapter5/Theorem5.3.1",
+        "node_id": "chapter-05/section-5-3",
+        "packet": "sol/Chapter5/Theorem5.3.1"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Theorem5.3.1",
+        "node_id": "chapter-05/section-5-3",
+        "packet": "sol/Chapter5/Discussion_proof_of_Theorem5.3.1"
+      },
+      {
+        "id": "Chapter5/Lemma5.4.5",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "sol/Chapter5/Lemma5.4.5"
+      },
+      {
+        "id": "Chapter5/Lemma5.4.7",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "sol/Chapter5/Lemma5.4.7"
+      },
+      {
+        "id": "Chapter5/Discussion_5.5",
+        "node_id": "chapter-05/section-5-5",
+        "packet": "sol/Chapter5/Discussion_5.5"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Theorem5.9.1",
+        "node_id": "chapter-05/section-5-9",
+        "packet": "sol/Chapter5/Discussion_proof_of_Theorem5.9.1"
+      },
+      {
+        "id": "Chapter5/Discussion_Problem5.10.2_parts",
+        "node_id": "chapter-05/section-5-10",
+        "packet": "sol/Chapter5/Discussion_Problem5.10.2_parts"
+      },
+      {
+        "id": "Chapter5/Definition5.12.1",
+        "node_id": "chapter-05/section-5-12",
+        "packet": "sol/Chapter5/Definition5.12.1"
+      },
+      {
+        "id": "Chapter5/Example5.12.3",
+        "node_id": "chapter-05/section-5-12",
+        "packet": "sol/Chapter5/Example5.12.3"
+      },
+      {
+        "id": "Chapter5/Theorem5.14.3",
+        "node_id": "chapter-05/section-5-14",
+        "packet": "sol/Chapter5/Theorem5.14.3"
+      },
+      {
+        "id": "Chapter5/Discussion_hook_length_derivation",
+        "node_id": "chapter-05/section-5-17",
+        "packet": "sol/Chapter5/Discussion_hook_length_derivation"
+      },
+      {
+        "id": "Chapter5/Theorem5.18.1",
+        "node_id": "chapter-05/section-5-18",
+        "packet": "sol/Chapter5/Theorem5.18.1"
+      },
+      {
+        "id": "Chapter5/Discussion_5.20",
+        "node_id": "chapter-05/section-5-20",
+        "packet": "sol/Chapter5/Discussion_5.20"
+      },
+      {
+        "id": "Chapter5/Discussion_5.25.1",
+        "node_id": "chapter-05/section-5-25/subsection-5-25-1",
+        "packet": "sol/Chapter5/Discussion_5.25.1"
+      },
+      {
+        "id": "Chapter5/Proposition5.25.1",
+        "node_id": "chapter-05/section-5-25/subsection-5-25-2",
+        "packet": "sol/Chapter5/Proposition5.25.1"
+      },
+      {
+        "id": "Chapter5/Discussion_5.25.3",
+        "node_id": "chapter-05/section-5-25/subsection-5-25-3",
+        "packet": "sol/Chapter5/Discussion_5.25.3"
+      },
+      {
+        "id": "Chapter5/Theorem5.25.2",
+        "node_id": "chapter-05/section-5-25/subsection-5-25-3",
+        "packet": "sol/Chapter5/Theorem5.25.2"
+      },
+      {
+        "id": "Chapter5/Discussion_5.25.4",
+        "node_id": "chapter-05/section-5-25/subsection-5-25-4",
+        "packet": "sol/Chapter5/Discussion_5.25.4"
+      },
+      {
+        "id": "Chapter5/Lemma5.25.3",
+        "node_id": "chapter-05/section-5-25/subsection-5-25-4",
+        "packet": "sol/Chapter5/Lemma5.25.3"
+      },
+      {
+        "id": "Chapter5/Discussion_semidirect_products",
+        "node_id": "chapter-05/section-5-27",
+        "packet": "sol/Chapter5/Discussion_semidirect_products"
+      },
+      {
+        "id": "Chapter5/Theorem5.27.1",
+        "node_id": "chapter-05/section-5-27",
+        "packet": "sol/Chapter5/Theorem5.27.1"
+      },
+      {
+        "id": "Chapter6/Problem6.1.3_continued_E7_E8",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "sol/Chapter6/Problem6.1.3_continued_E7_E8"
+      },
+      {
+        "id": "Chapter6/Problem6.1.3_continued_tildeE",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "sol/Chapter6/Problem6.1.3_continued_tildeE"
+      },
+      {
+        "id": "Chapter6/Problem6.1.6",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "sol/Chapter6/Problem6.1.6"
+      },
+      {
+        "id": "Chapter6/Example6.2.3",
+        "node_id": "chapter-06/section-6-2",
+        "packet": "sol/Chapter6/Example6.2.3"
+      },
+      {
+        "id": "Chapter6/Example6.2.4",
+        "node_id": "chapter-06/section-6-2",
+        "packet": "sol/Chapter6/Example6.2.4"
+      },
+      {
+        "id": "Chapter6/Example6.3.1",
+        "node_id": "chapter-06/section-6-3",
+        "packet": "sol/Chapter6/Example6.3.1"
+      },
+      {
+        "id": "Chapter6/Lemma6.4.6",
+        "node_id": "chapter-06/section-6-4",
+        "packet": "sol/Chapter6/Lemma6.4.6"
+      },
+      {
+        "id": "Chapter6/Example6.4.9",
+        "node_id": "chapter-06/section-6-4",
+        "packet": "sol/Chapter6/Example6.4.9"
+      },
+      {
+        "id": "Chapter6/Proposition6.6.5",
+        "node_id": "chapter-06/section-6-6",
+        "packet": "sol/Chapter6/Proposition6.6.5"
+      },
+      {
+        "id": "Chapter6/Proposition6.6.6",
+        "node_id": "chapter-06/section-6-6",
+        "packet": "sol/Chapter6/Proposition6.6.6"
+      },
+      {
+        "id": "Chapter6/Proposition6.6.7",
+        "node_id": "chapter-06/section-6-6",
+        "packet": "sol/Chapter6/Proposition6.6.7"
+      },
+      {
+        "id": "Chapter6/Proposition6.6.8",
+        "node_id": "chapter-06/section-6-6",
+        "packet": "sol/Chapter6/Proposition6.6.8"
+      },
+      {
+        "id": "Chapter6/Lemma6.7.2",
+        "node_id": "chapter-06/section-6-7",
+        "packet": "sol/Chapter6/Lemma6.7.2"
+      },
+      {
+        "id": "Chapter6/Corollary6.8.3",
+        "node_id": "chapter-06/section-6-8",
+        "packet": "sol/Chapter6/Corollary6.8.3"
+      },
+      {
+        "id": "Chapter6/Corollary6.8.4",
+        "node_id": "chapter-06/section-6-8",
+        "packet": "sol/Chapter6/Corollary6.8.4"
+      },
+      {
+        "id": "Chapter6/Problem6.9.1",
+        "node_id": "chapter-06/section-6-9",
+        "packet": "sol/Chapter6/Problem6.9.1"
+      },
+      {
+        "id": "Chapter6/Problem6.9.3",
+        "node_id": "chapter-06/section-6-9",
+        "packet": "sol/Chapter6/Problem6.9.3"
+      },
+      {
+        "id": "Chapter7/Definition7.1.1",
+        "node_id": "chapter-07/section-7-1",
+        "packet": "sol/Chapter7/Definition7.1.1"
+      },
+      {
+        "id": "Chapter7/Discussion_after_Example7.1.3",
+        "node_id": "chapter-07/section-7-1",
+        "packet": "sol/Chapter7/Discussion_after_Example7.1.3"
+      },
+      {
+        "id": "Chapter7/Definition7.2.1",
+        "node_id": "chapter-07/section-7-2",
+        "packet": "sol/Chapter7/Definition7.2.1"
+      },
+      {
+        "id": "Chapter7/Lemma7.5.1",
+        "node_id": "chapter-07/section-7-5",
+        "packet": "sol/Chapter7/Lemma7.5.1"
+      },
+      {
+        "id": "Chapter7/Discussion_after_Definition7.6.1",
+        "node_id": "chapter-07/section-7-6",
+        "packet": "sol/Chapter7/Discussion_after_Definition7.6.1"
+      },
+      {
+        "id": "Chapter7/Definition7.8.1",
+        "node_id": "chapter-07/section-7-8",
+        "packet": "sol/Chapter7/Definition7.8.1"
+      },
+      {
+        "id": "Chapter7/Problem7.8.7",
+        "node_id": "chapter-07/section-7-8",
+        "packet": "sol/Chapter7/Problem7.8.7"
+      },
+      {
+        "id": "Chapter7/Discussion_7.10",
+        "node_id": "chapter-07/section-7-10",
+        "packet": "sol/Chapter7/Discussion_7.10"
+      },
+      {
+        "id": "Chapter8/Theorem8.1.1",
+        "node_id": "chapter-08/section-8-1",
+        "packet": "sol/Chapter8/Theorem8.1.1"
+      },
+      {
+        "id": "Chapter8/Theorem8.1.5",
+        "node_id": "chapter-08/section-8-1",
+        "packet": "sol/Chapter8/Theorem8.1.5"
+      },
+      {
+        "id": "Chapter8/Introduction_8.2",
+        "node_id": "chapter-08/section-8-2",
+        "packet": "sol/Chapter8/Introduction_8.2"
+      },
+      {
+        "id": "Chapter8/Problem8.2.5",
+        "node_id": "chapter-08/section-8-2",
+        "packet": "sol/Chapter8/Problem8.2.5"
+      },
+      {
+        "id": "Chapter8/Problem8.2.6",
+        "node_id": "chapter-08/section-8-2",
+        "packet": "sol/Chapter8/Problem8.2.6"
+      },
+      {
+        "id": "Chapter8/Problem8.2.10",
+        "node_id": "chapter-08/section-8-2",
+        "packet": "sol/Chapter8/Problem8.2.10"
+      },
+      {
+        "id": "Chapter9/Proposition9.1.1",
+        "node_id": "chapter-09/section-9-1",
+        "packet": "sol/Chapter9/Proposition9.1.1"
+      },
+      {
+        "id": "Chapter9/Theorem9.2.1",
+        "node_id": "chapter-09/section-9-2",
+        "packet": "sol/Chapter9/Theorem9.2.1"
+      },
+      {
+        "id": "Chapter9/Problem9.4.2",
+        "node_id": "chapter-09/section-9-4",
+        "packet": "sol/Chapter9/Problem9.4.2"
+      },
+      {
+        "id": "Chapter9/Definition9.5.1",
+        "node_id": "chapter-09/section-9-5",
+        "packet": "sol/Chapter9/Definition9.5.1"
+      },
+      {
+        "id": "Chapter9/Definition9.6.2",
+        "node_id": "chapter-09/section-9-6",
+        "packet": "sol/Chapter9/Definition9.6.2"
+      },
+      {
+        "id": "Backmatter/ReferencesHistorical",
+        "node_id": "backmatter",
+        "packet": "sol/Backmatter/ReferencesHistorical"
+      }
+    ],
+    "terra": [
+      {
+        "id": "Frontmatter/TitlePage",
+        "node_id": "frontmatter",
+        "packet": "terra/Frontmatter/TitlePage"
+      },
+      {
+        "id": "Frontmatter/BlankPage1",
+        "node_id": "frontmatter",
+        "packet": "terra/Frontmatter/BlankPage1"
+      },
+      {
+        "id": "Frontmatter/BlankPage2",
+        "node_id": "frontmatter",
+        "packet": "terra/Frontmatter/BlankPage2"
+      },
+      {
+        "id": "Chapter2/Introduction",
+        "node_id": "chapter-02/section-2-1",
+        "packet": "terra/Chapter2/Introduction"
+      },
+      {
+        "id": "Chapter2/Discussion_2.1_overview",
+        "node_id": "chapter-02/section-2-1",
+        "packet": "terra/Chapter2/Discussion_2.1_overview"
+      },
+      {
+        "id": "Chapter2/Discussion_2.1_irreducible_indecomposable",
+        "node_id": "chapter-02/section-2-1",
+        "packet": "terra/Chapter2/Discussion_2.1_irreducible_indecomposable"
+      },
+      {
+        "id": "Chapter2/Theorem2.1.1",
+        "node_id": "chapter-02/section-2-1",
+        "packet": "terra/Chapter2/Theorem2.1.1"
+      },
+      {
+        "id": "Chapter2/Discussion_after_Theorem2.1.2",
+        "node_id": "chapter-02/section-2-1",
+        "packet": "terra/Chapter2/Discussion_after_Theorem2.1.2"
+      },
+      {
+        "id": "Chapter2/Discussion_2.2_intro",
+        "node_id": "chapter-02/section-2-2",
+        "packet": "terra/Chapter2/Discussion_2.2_intro"
+      },
+      {
+        "id": "Chapter2/Definition2.2.1",
+        "node_id": "chapter-02/section-2-2",
+        "packet": "terra/Chapter2/Definition2.2.1"
+      },
+      {
+        "id": "Chapter2/Definition2.2.2",
+        "node_id": "chapter-02/section-2-2",
+        "packet": "terra/Chapter2/Definition2.2.2"
+      },
+      {
+        "id": "Chapter2/Proposition2.2.3",
+        "node_id": "chapter-02/section-2-2",
+        "packet": "terra/Chapter2/Proposition2.2.3"
+      },
+      {
+        "id": "Chapter2/Discussion_after_Proposition2.2.3",
+        "node_id": "chapter-02/section-2-2",
+        "packet": "terra/Chapter2/Discussion_after_Proposition2.2.3"
+      },
+      {
+        "id": "Chapter2/Example2.2.4",
+        "node_id": "chapter-02/section-2-2",
+        "packet": "terra/Chapter2/Example2.2.4"
+      },
+      {
+        "id": "Chapter2/Definition2.2.5",
+        "node_id": "chapter-02/section-2-2",
+        "packet": "terra/Chapter2/Definition2.2.5"
+      },
+      {
+        "id": "Chapter2/Discussion_commutativity_examples",
+        "node_id": "chapter-02/section-2-2",
+        "packet": "terra/Chapter2/Discussion_commutativity_examples"
+      },
+      {
+        "id": "Chapter2/Definition2.2.6",
+        "node_id": "chapter-02/section-2-2",
+        "packet": "terra/Chapter2/Definition2.2.6"
+      },
+      {
+        "id": "Chapter2/Definition2.3.1",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Definition2.3.1"
+      },
+      {
+        "id": "Chapter2/Remark2.3.2",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Remark2.3.2"
+      },
+      {
+        "id": "Chapter2/Discussion_examples_intro",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Discussion_examples_intro"
+      },
+      {
+        "id": "Chapter2/Example2.3.3",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Example2.3.3"
+      },
+      {
+        "id": "Chapter2/Definition2.3.4",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Definition2.3.4"
+      },
+      {
+        "id": "Chapter2/Definition2.3.5",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Definition2.3.5"
+      },
+      {
+        "id": "Chapter2/Definition2.3.6",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Definition2.3.6"
+      },
+      {
+        "id": "Chapter2/Definition2.3.7",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Definition2.3.7"
+      },
+      {
+        "id": "Chapter2/Definition2.3.8",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Definition2.3.8"
+      },
+      {
+        "id": "Chapter2/Discussion_irreducible_vs_indecomposable",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Discussion_irreducible_vs_indecomposable"
+      },
+      {
+        "id": "Chapter2/Discussion_Schur_intro",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Discussion_Schur_intro"
+      },
+      {
+        "id": "Chapter2/Proposition2.3.9",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Proposition2.3.9"
+      },
+      {
+        "id": "Chapter2/Corollary2.3.10",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Corollary2.3.10"
+      },
+      {
+        "id": "Chapter2/Remark2.3.11",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Remark2.3.11"
+      },
+      {
+        "id": "Chapter2/Discussion_proof_Corollary2.3.10",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Discussion_proof_Corollary2.3.10"
+      },
+      {
+        "id": "Chapter2/Corollary2.3.12",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Corollary2.3.12"
+      },
+      {
+        "id": "Chapter2/Remark2.3.13",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Remark2.3.13"
+      },
+      {
+        "id": "Chapter2/Discussion_proof_Corollary2.3.12",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Discussion_proof_Corollary2.3.12"
+      },
+      {
+        "id": "Chapter2/Example2.3.14",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Example2.3.14"
+      },
+      {
+        "id": "Chapter2/Example2.3.14_continued",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Example2.3.14_continued"
+      },
+      {
+        "id": "Chapter2/Problem2.3.15",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Problem2.3.15"
+      },
+      {
+        "id": "Chapter2/Problem2.3.16",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Problem2.3.16"
+      },
+      {
+        "id": "Chapter2/Problem2.3.17",
+        "node_id": "chapter-02/section-2-3",
+        "packet": "terra/Chapter2/Problem2.3.17"
+      },
+      {
+        "id": "Chapter2/Discussion_2.4_heading",
+        "node_id": "chapter-02/section-2-4",
+        "packet": "terra/Chapter2/Discussion_2.4_heading"
+      },
+      {
+        "id": "Chapter2/Problem2.4.1",
+        "node_id": "chapter-02/section-2-4",
+        "packet": "terra/Chapter2/Problem2.4.1"
+      },
+      {
+        "id": "Chapter2/Discussion_2.5_heading",
+        "node_id": "chapter-02/section-2-5",
+        "packet": "terra/Chapter2/Discussion_2.5_heading"
+      },
+      {
+        "id": "Chapter2/Discussion_2.5_well_defined",
+        "node_id": "chapter-02/section-2-5",
+        "packet": "terra/Chapter2/Discussion_2.5_well_defined"
+      },
+      {
+        "id": "Chapter2/Problem2.5.1",
+        "node_id": "chapter-02/section-2-5",
+        "packet": "terra/Chapter2/Problem2.5.1"
+      },
+      {
+        "id": "Chapter2/Problem2.5.2",
+        "node_id": "chapter-02/section-2-5",
+        "packet": "terra/Chapter2/Problem2.5.2"
+      },
+      {
+        "id": "Chapter2/Discussion_2.6",
+        "node_id": "chapter-02/section-2-6",
+        "packet": "terra/Chapter2/Discussion_2.6"
+      },
+      {
+        "id": "Chapter2/Discussion_2.7_intro",
+        "node_id": "chapter-02/section-2-7",
+        "packet": "terra/Chapter2/Discussion_2.7_intro"
+      },
+      {
+        "id": "Chapter2/Remark2.7.2",
+        "node_id": "chapter-02/section-2-7",
+        "packet": "terra/Chapter2/Remark2.7.2"
+      },
+      {
+        "id": "Chapter2/Definition2.7.3",
+        "node_id": "chapter-02/section-2-7",
+        "packet": "terra/Chapter2/Definition2.7.3"
+      },
+      {
+        "id": "Chapter2/Discussion_faithful_example",
+        "node_id": "chapter-02/section-2-7",
+        "packet": "terra/Chapter2/Discussion_faithful_example"
+      },
+      {
+        "id": "Chapter2/Problem2.7.5",
+        "node_id": "chapter-02/section-2-7",
+        "packet": "terra/Chapter2/Problem2.7.5"
+      },
+      {
+        "id": "Chapter2/Definition2.8.1",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Definition2.8.1"
+      },
+      {
+        "id": "Chapter2/Example2.8.2",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Example2.8.2"
+      },
+      {
+        "id": "Chapter2/Discussion_quiver_notation",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Discussion_quiver_notation"
+      },
+      {
+        "id": "Chapter2/Definition2.8.3",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Definition2.8.3"
+      },
+      {
+        "id": "Chapter2/Discussion_path_algebra_intro",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Discussion_path_algebra_intro"
+      },
+      {
+        "id": "Chapter2/Definition2.8.4",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Definition2.8.4"
+      },
+      {
+        "id": "Chapter2/Remark2.8.5",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Remark2.8.5"
+      },
+      {
+        "id": "Chapter2/Problem2.8.6",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Problem2.8.6"
+      },
+      {
+        "id": "Chapter2/Remark2.8.7",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Remark2.8.7"
+      },
+      {
+        "id": "Chapter2/Definition2.8.8",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Definition2.8.8"
+      },
+      {
+        "id": "Chapter2/Definition2.8.9",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Definition2.8.9"
+      },
+      {
+        "id": "Chapter2/Discussion_quiver_irreducible_indecomposable",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Discussion_quiver_irreducible_indecomposable"
+      },
+      {
+        "id": "Chapter2/Definition2.8.10",
+        "node_id": "chapter-02/section-2-8",
+        "packet": "terra/Chapter2/Definition2.8.10"
+      },
+      {
+        "id": "Chapter2/Discussion_2.9_heading",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Discussion_2.9_heading"
+      },
+      {
+        "id": "Chapter2/Definition2.9.1",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Definition2.9.1"
+      },
+      {
+        "id": "Chapter2/Example2.9.2",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Example2.9.2"
+      },
+      {
+        "id": "Chapter2/Example2.9.2_continued",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Example2.9.2_continued"
+      },
+      {
+        "id": "Chapter2/Remark2.9.3",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Remark2.9.3"
+      },
+      {
+        "id": "Chapter2/Remark2.9.4",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Remark2.9.4"
+      },
+      {
+        "id": "Chapter2/Discussion_concrete_Lie_examples",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Discussion_concrete_Lie_examples"
+      },
+      {
+        "id": "Chapter2/Discussion_concrete_Lie_examples_continued",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Discussion_concrete_Lie_examples_continued"
+      },
+      {
+        "id": "Chapter2/Exercise2.9.5",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Exercise2.9.5"
+      },
+      {
+        "id": "Chapter2/Definition2.9.6",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Definition2.9.6"
+      },
+      {
+        "id": "Chapter2/Definition2.9.7",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Definition2.9.7"
+      },
+      {
+        "id": "Chapter2/Example2.9.8",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Example2.9.8"
+      },
+      {
+        "id": "Chapter2/Definition2.9.9",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Definition2.9.9"
+      },
+      {
+        "id": "Chapter2/Remark2.9.10",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Remark2.9.10"
+      },
+      {
+        "id": "Chapter2/Exercise2.9.11",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Exercise2.9.11"
+      },
+      {
+        "id": "Chapter2/Example2.9.12",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Example2.9.12"
+      },
+      {
+        "id": "Chapter2/Example2.9.13",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Example2.9.13"
+      },
+      {
+        "id": "Chapter2/Remark2.9.14",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Remark2.9.14"
+      },
+      {
+        "id": "Chapter2/Discussion_2.9_Lie_groups",
+        "node_id": "chapter-02/section-2-9",
+        "packet": "terra/Chapter2/Discussion_2.9_Lie_groups"
+      },
+      {
+        "id": "Chapter2/Discussion_2.10_continued",
+        "node_id": "chapter-02/section-2-10",
+        "packet": "terra/Chapter2/Discussion_2.10_continued"
+      },
+      {
+        "id": "Chapter2/Discussion_2.11_heading",
+        "node_id": "chapter-02/section-2-11",
+        "packet": "terra/Chapter2/Discussion_2.11_heading"
+      },
+      {
+        "id": "Chapter2/Definition2.11.1",
+        "node_id": "chapter-02/section-2-11",
+        "packet": "terra/Chapter2/Definition2.11.1"
+      },
+      {
+        "id": "Chapter2/Exercise2.11.2",
+        "node_id": "chapter-02/section-2-11",
+        "packet": "terra/Chapter2/Exercise2.11.2"
+      },
+      {
+        "id": "Chapter2/Discussion_tensors_type",
+        "node_id": "chapter-02/section-2-11",
+        "packet": "terra/Chapter2/Discussion_tensors_type"
+      },
+      {
+        "id": "Chapter2/Problem2.11.3",
+        "node_id": "chapter-02/section-2-11",
+        "packet": "terra/Chapter2/Problem2.11.3"
+      },
+      {
+        "id": "Chapter2/Exercise2.11.5",
+        "node_id": "chapter-02/section-2-11",
+        "packet": "terra/Chapter2/Exercise2.11.5"
+      },
+      {
+        "id": "Chapter2/Exercise2.11.7",
+        "node_id": "chapter-02/section-2-11",
+        "packet": "terra/Chapter2/Exercise2.11.7"
+      },
+      {
+        "id": "Chapter2/Discussion_2.12_heading",
+        "node_id": "chapter-02/section-2-12",
+        "packet": "terra/Chapter2/Discussion_2.12_heading"
+      },
+      {
+        "id": "Chapter2/Definition2.12.1",
+        "node_id": "chapter-02/section-2-12",
+        "packet": "terra/Chapter2/Definition2.12.1"
+      },
+      {
+        "id": "Chapter2/Discussion_2.13_heading",
+        "node_id": "chapter-02/section-2-13",
+        "packet": "terra/Chapter2/Discussion_2.13_heading"
+      },
+      {
+        "id": "Chapter2/Discussion_2.14_heading",
+        "node_id": "chapter-02/section-2-14",
+        "packet": "terra/Chapter2/Discussion_2.14_heading"
+      },
+      {
+        "id": "Chapter2/Definition2.14.1",
+        "node_id": "chapter-02/section-2-14",
+        "packet": "terra/Chapter2/Definition2.14.1"
+      },
+      {
+        "id": "Chapter2/Definition2.14.2",
+        "node_id": "chapter-02/section-2-14",
+        "packet": "terra/Chapter2/Definition2.14.2"
+      },
+      {
+        "id": "Chapter2/Problem2.14.3",
+        "node_id": "chapter-02/section-2-14",
+        "packet": "terra/Chapter2/Problem2.14.3"
+      },
+      {
+        "id": "Chapter2/Discussion_2.15_heading",
+        "node_id": "chapter-02/section-2-15",
+        "packet": "terra/Chapter2/Discussion_2.15_heading"
+      },
+      {
+        "id": "Chapter2/Discussion_2.16_heading",
+        "node_id": "chapter-02/section-2-16",
+        "packet": "terra/Chapter2/Discussion_2.16_heading"
+      },
+      {
+        "id": "Chapter2/Problem2.16.2",
+        "node_id": "chapter-02/section-2-16",
+        "packet": "terra/Chapter2/Problem2.16.2"
+      },
+      {
+        "id": "Chapter2/Problem2.16.3",
+        "node_id": "chapter-02/section-2-16",
+        "packet": "terra/Chapter2/Problem2.16.3"
+      },
+      {
+        "id": "Chapter2/Problem2.16.4",
+        "node_id": "chapter-02/section-2-16",
+        "packet": "terra/Chapter2/Problem2.16.4"
+      },
+      {
+        "id": "Chapter3/Introduction",
+        "node_id": "chapter-03/section-3-1",
+        "packet": "terra/Chapter3/Introduction"
+      },
+      {
+        "id": "Chapter3/Definition3.1.1",
+        "node_id": "chapter-03/section-3-1",
+        "packet": "terra/Chapter3/Definition3.1.1"
+      },
+      {
+        "id": "Chapter3/Example3.1.2",
+        "node_id": "chapter-03/section-3-1",
+        "packet": "terra/Chapter3/Example3.1.2"
+      },
+      {
+        "id": "Chapter3/Remark3.1.3",
+        "node_id": "chapter-03/section-3-1",
+        "packet": "terra/Chapter3/Remark3.1.3"
+      },
+      {
+        "id": "Chapter3/Discussion_before_Proposition3.1.4",
+        "node_id": "chapter-03/section-3-1",
+        "packet": "terra/Chapter3/Discussion_before_Proposition3.1.4"
+      },
+      {
+        "id": "Chapter3/Proposition3.1.4",
+        "node_id": "chapter-03/section-3-1",
+        "packet": "terra/Chapter3/Proposition3.1.4"
+      },
+      {
+        "id": "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
+        "node_id": "chapter-03/section-3-1",
+        "packet": "terra/Chapter3/Discussion_alternative_proof_of_Proposition3.1.4"
+      },
+      {
+        "id": "Chapter3/Lemma3.1.6",
+        "node_id": "chapter-03/section-3-1",
+        "packet": "terra/Chapter3/Lemma3.1.6"
+      },
+      {
+        "id": "Chapter3/Discussion_after_Lemma3.1.6",
+        "node_id": "chapter-03/section-3-1",
+        "packet": "terra/Chapter3/Discussion_after_Lemma3.1.6"
+      },
+      {
+        "id": "Chapter3/Corollary3.2.1",
+        "node_id": "chapter-03/section-3-2",
+        "packet": "terra/Chapter3/Corollary3.2.1"
+      },
+      {
+        "id": "Chapter3/Introduction_to_3.3",
+        "node_id": "chapter-03/section-3-3",
+        "packet": "terra/Chapter3/Introduction_to_3.3"
+      },
+      {
+        "id": "Chapter3/Theorem3.3.1",
+        "node_id": "chapter-03/section-3-3",
+        "packet": "terra/Chapter3/Theorem3.3.1"
+      },
+      {
+        "id": "Chapter3/Discussion_before_Definition3.3.2",
+        "node_id": "chapter-03/section-3-3",
+        "packet": "terra/Chapter3/Discussion_before_Definition3.3.2"
+      },
+      {
+        "id": "Chapter3/Definition3.3.2",
+        "node_id": "chapter-03/section-3-3",
+        "packet": "terra/Chapter3/Definition3.3.2"
+      },
+      {
+        "id": "Chapter3/Discussion_proof_of_Theorem3.3.1",
+        "node_id": "chapter-03/section-3-3",
+        "packet": "terra/Chapter3/Discussion_proof_of_Theorem3.3.1"
+      },
+      {
+        "id": "Chapter3/Problem3.3.3",
+        "node_id": "chapter-03/section-3-3",
+        "packet": "terra/Chapter3/Problem3.3.3"
+      },
+      {
+        "id": "Chapter3/Introduction_to_3.4",
+        "node_id": "chapter-03/section-3-4",
+        "packet": "terra/Chapter3/Introduction_to_3.4"
+      },
+      {
+        "id": "Chapter3/Definition3.4.1",
+        "node_id": "chapter-03/section-3-4",
+        "packet": "terra/Chapter3/Definition3.4.1"
+      },
+      {
+        "id": "Chapter3/Lemma3.4.2",
+        "node_id": "chapter-03/section-3-4",
+        "packet": "terra/Chapter3/Lemma3.4.2"
+      },
+      {
+        "id": "Chapter3/Introduction_to_3.5",
+        "node_id": "chapter-03/section-3-5",
+        "packet": "terra/Chapter3/Introduction_to_3.5"
+      },
+      {
+        "id": "Chapter3/Definition3.5.1",
+        "node_id": "chapter-03/section-3-5",
+        "packet": "terra/Chapter3/Definition3.5.1"
+      },
+      {
+        "id": "Chapter3/Proposition3.5.2",
+        "node_id": "chapter-03/section-3-5",
+        "packet": "terra/Chapter3/Proposition3.5.2"
+      },
+      {
+        "id": "Chapter3/Theorem3.5.4",
+        "node_id": "chapter-03/section-3-5",
+        "packet": "terra/Chapter3/Theorem3.5.4"
+      },
+      {
+        "id": "Chapter3/Example3.5.6",
+        "node_id": "chapter-03/section-3-5",
+        "packet": "terra/Chapter3/Example3.5.6"
+      },
+      {
+        "id": "Chapter3/Definition3.5.7",
+        "node_id": "chapter-03/section-3-5",
+        "packet": "terra/Chapter3/Definition3.5.7"
+      },
+      {
+        "id": "Chapter3/Introduction_to_3.6",
+        "node_id": "chapter-03/section-3-6",
+        "packet": "terra/Chapter3/Introduction_to_3.6"
+      },
+      {
+        "id": "Chapter3/Exercise3.6.1",
+        "node_id": "chapter-03/section-3-6",
+        "packet": "terra/Chapter3/Exercise3.6.1"
+      },
+      {
+        "id": "Chapter3/Introduction_to_3.7",
+        "node_id": "chapter-03/section-3-7",
+        "packet": "terra/Chapter3/Introduction_to_3.7"
+      },
+      {
+        "id": "Chapter3/Discussion_after_Theorem3.7.1",
+        "node_id": "chapter-03/section-3-7",
+        "packet": "terra/Chapter3/Discussion_after_Theorem3.7.1"
+      },
+      {
+        "id": "Chapter3/Introduction_to_3.8",
+        "node_id": "chapter-03/section-3-8",
+        "packet": "terra/Chapter3/Introduction_to_3.8"
+      },
+      {
+        "id": "Chapter3/Theorem3.8.1",
+        "node_id": "chapter-03/section-3-8",
+        "packet": "terra/Chapter3/Theorem3.8.1"
+      },
+      {
+        "id": "Chapter3/Discussion_proof_of_Theorem3.8.1",
+        "node_id": "chapter-03/section-3-8",
+        "packet": "terra/Chapter3/Discussion_proof_of_Theorem3.8.1"
+      },
+      {
+        "id": "Chapter3/Problem3.8.3",
+        "node_id": "chapter-03/section-3-8",
+        "packet": "terra/Chapter3/Problem3.8.3"
+      },
+      {
+        "id": "Chapter3/Problem3.8.5",
+        "node_id": "chapter-03/section-3-8",
+        "packet": "terra/Chapter3/Problem3.8.5"
+      },
+      {
+        "id": "Chapter3/Remark3.8.6",
+        "node_id": "chapter-03/section-3-8",
+        "packet": "terra/Chapter3/Remark3.8.6"
+      },
+      {
+        "id": "Chapter3/Introduction_to_3.9",
+        "node_id": "chapter-03/section-3-9",
+        "packet": "terra/Chapter3/Introduction_to_3.9"
+      },
+      {
+        "id": "Chapter3/Problem3.9.2",
+        "node_id": "chapter-03/section-3-9",
+        "packet": "terra/Chapter3/Problem3.9.2"
+      },
+      {
+        "id": "Chapter3/Problem3.9.3",
+        "node_id": "chapter-03/section-3-9",
+        "packet": "terra/Chapter3/Problem3.9.3"
+      },
+      {
+        "id": "Chapter3/Problem3.9.4",
+        "node_id": "chapter-03/section-3-9",
+        "packet": "terra/Chapter3/Problem3.9.4"
+      },
+      {
+        "id": "Chapter3/Introduction_to_3.10",
+        "node_id": "chapter-03/section-3-10",
+        "packet": "terra/Chapter3/Introduction_to_3.10"
+      },
+      {
+        "id": "Chapter3/Exercise3.10.1",
+        "node_id": "chapter-03/section-3-10",
+        "packet": "terra/Chapter3/Exercise3.10.1"
+      },
+      {
+        "id": "Chapter3/Discussion_before_Theorem3.10.2",
+        "node_id": "chapter-03/section-3-10",
+        "packet": "terra/Chapter3/Discussion_before_Theorem3.10.2"
+      },
+      {
+        "id": "Chapter3/Theorem3.10.2",
+        "node_id": "chapter-03/section-3-10",
+        "packet": "terra/Chapter3/Theorem3.10.2"
+      },
+      {
+        "id": "Chapter3/Remark3.10.3",
+        "node_id": "chapter-03/section-3-10",
+        "packet": "terra/Chapter3/Remark3.10.3"
+      },
+      {
+        "id": "Chapter4/Introduction",
+        "node_id": "chapter-04",
+        "packet": "terra/Chapter4/Introduction"
+      },
+      {
+        "id": "Chapter4/Discussion_before_Proposition4.1.2",
+        "node_id": "chapter-04/section-4-1",
+        "packet": "terra/Chapter4/Discussion_before_Proposition4.1.2"
+      },
+      {
+        "id": "Chapter4/Example4.1.3",
+        "node_id": "chapter-04/section-4-1",
+        "packet": "terra/Chapter4/Example4.1.3"
+      },
+      {
+        "id": "Chapter4/Problem4.1.4",
+        "node_id": "chapter-04/section-4-1",
+        "packet": "terra/Chapter4/Problem4.1.4"
+      },
+      {
+        "id": "Chapter4/Introduction_4.2",
+        "node_id": "chapter-04/section-4-2",
+        "packet": "terra/Chapter4/Introduction_4.2"
+      },
+      {
+        "id": "Chapter4/Corollary4.2.2",
+        "node_id": "chapter-04/section-4-2",
+        "packet": "terra/Chapter4/Corollary4.2.2"
+      },
+      {
+        "id": "Chapter4/Exercise4.2.3",
+        "node_id": "chapter-04/section-4-2",
+        "packet": "terra/Chapter4/Exercise4.2.3"
+      },
+      {
+        "id": "Chapter4/Corollary4.2.4",
+        "node_id": "chapter-04/section-4-2",
+        "packet": "terra/Chapter4/Corollary4.2.4"
+      },
+      {
+        "id": "Chapter4/Introduction_4.3",
+        "node_id": "chapter-04/section-4-3",
+        "packet": "terra/Chapter4/Introduction_4.3"
+      },
+      {
+        "id": "Chapter4/Example4.3_S3",
+        "node_id": "chapter-04/section-4-3",
+        "packet": "terra/Chapter4/Example4.3_S3"
+      },
+      {
+        "id": "Chapter4/Exercise4.3.1",
+        "node_id": "chapter-04/section-4-3",
+        "packet": "terra/Chapter4/Exercise4.3.1"
+      },
+      {
+        "id": "Chapter4/Discussion_4.4",
+        "node_id": "chapter-04/section-4-4",
+        "packet": "terra/Chapter4/Discussion_4.4"
+      },
+      {
+        "id": "Chapter4/Theorem4.5.1",
+        "node_id": "chapter-04/section-4-5",
+        "packet": "terra/Chapter4/Theorem4.5.1"
+      },
+      {
+        "id": "Chapter4/Discussion_after_Theorem4.5.1",
+        "node_id": "chapter-04/section-4-5",
+        "packet": "terra/Chapter4/Discussion_after_Theorem4.5.1"
+      },
+      {
+        "id": "Chapter4/Remark4.5.3",
+        "node_id": "chapter-04/section-4-5",
+        "packet": "terra/Chapter4/Remark4.5.3"
+      },
+      {
+        "id": "Chapter4/Discussion_before_Theorem4.5.4",
+        "node_id": "chapter-04/section-4-5",
+        "packet": "terra/Chapter4/Discussion_before_Theorem4.5.4"
+      },
+      {
+        "id": "Chapter4/Theorem4.5.4",
+        "node_id": "chapter-04/section-4-5",
+        "packet": "terra/Chapter4/Theorem4.5.4"
+      },
+      {
+        "id": "Chapter4/Remark4.5.5",
+        "node_id": "chapter-04/section-4-5",
+        "packet": "terra/Chapter4/Remark4.5.5"
+      },
+      {
+        "id": "Chapter4/Introduction_4.6",
+        "node_id": "chapter-04/section-4-6",
+        "packet": "terra/Chapter4/Introduction_4.6"
+      },
+      {
+        "id": "Chapter4/Definition4.6.1",
+        "node_id": "chapter-04/section-4-6",
+        "packet": "terra/Chapter4/Definition4.6.1"
+      },
+      {
+        "id": "Chapter4/Theorem4.6.2",
+        "node_id": "chapter-04/section-4-6",
+        "packet": "terra/Chapter4/Theorem4.6.2"
+      },
+      {
+        "id": "Chapter4/Theorem4.6.3",
+        "node_id": "chapter-04/section-4-6",
+        "packet": "terra/Chapter4/Theorem4.6.3"
+      },
+      {
+        "id": "Chapter4/Discussion_after_Theorem4.6.3",
+        "node_id": "chapter-04/section-4-6",
+        "packet": "terra/Chapter4/Discussion_after_Theorem4.6.3"
+      },
+      {
+        "id": "Chapter4/Remark4.6.4",
+        "node_id": "chapter-04/section-4-6",
+        "packet": "terra/Chapter4/Remark4.6.4"
+      },
+      {
+        "id": "Chapter4/Introduction_4.7",
+        "node_id": "chapter-04/section-4-7",
+        "packet": "terra/Chapter4/Introduction_4.7"
+      },
+      {
+        "id": "Chapter4/Introduction_4.9",
+        "node_id": "chapter-04/section-4-9",
+        "packet": "terra/Chapter4/Introduction_4.9"
+      },
+      {
+        "id": "Chapter4/Introduction_4.10",
+        "node_id": "chapter-04/section-4-10",
+        "packet": "terra/Chapter4/Introduction_4.10"
+      },
+      {
+        "id": "Chapter4/Definition4.10.1",
+        "node_id": "chapter-04/section-4-10",
+        "packet": "terra/Chapter4/Definition4.10.1"
+      },
+      {
+        "id": "Chapter4/Discussion_before_Theorem4.10.2",
+        "node_id": "chapter-04/section-4-10",
+        "packet": "terra/Chapter4/Discussion_before_Theorem4.10.2"
+      },
+      {
+        "id": "Chapter4/Theorem4.10.2",
+        "node_id": "chapter-04/section-4-10",
+        "packet": "terra/Chapter4/Theorem4.10.2"
+      },
+      {
+        "id": "Chapter4/Discussion_before_Lemma4.10.3",
+        "node_id": "chapter-04/section-4-10",
+        "packet": "terra/Chapter4/Discussion_before_Lemma4.10.3"
+      },
+      {
+        "id": "Chapter4/Lemma4.10.3",
+        "node_id": "chapter-04/section-4-10",
+        "packet": "terra/Chapter4/Lemma4.10.3"
+      },
+      {
+        "id": "Chapter4/Introduction_4.12",
+        "node_id": "chapter-04/section-4-12",
+        "packet": "terra/Chapter4/Introduction_4.12"
+      },
+      {
+        "id": "Chapter4/Problem4.12.1",
+        "node_id": "chapter-04/section-4-12",
+        "packet": "terra/Chapter4/Problem4.12.1"
+      },
+      {
+        "id": "Chapter4/Problem4.12.3",
+        "node_id": "chapter-04/section-4-12",
+        "packet": "terra/Chapter4/Problem4.12.3"
+      },
+      {
+        "id": "Chapter4/Problem4.12.4",
+        "node_id": "chapter-04/section-4-12",
+        "packet": "terra/Chapter4/Problem4.12.4"
+      },
+      {
+        "id": "Chapter4/Problem4.12.6",
+        "node_id": "chapter-04/section-4-12",
+        "packet": "terra/Chapter4/Problem4.12.6"
+      },
+      {
+        "id": "Chapter4/Problem4.12.9",
+        "node_id": "chapter-04/section-4-12",
+        "packet": "terra/Chapter4/Problem4.12.9"
+      },
+      {
+        "id": "Chapter4/Problem4.12.10",
+        "node_id": "chapter-04/section-4-12",
+        "packet": "terra/Chapter4/Problem4.12.10"
+      },
+      {
+        "id": "Chapter5/Introduction",
+        "node_id": "chapter-05/section-5-1",
+        "packet": "terra/Chapter5/Introduction"
+      },
+      {
+        "id": "Chapter5/Definition5.1.1",
+        "node_id": "chapter-05/section-5-1",
+        "packet": "terra/Chapter5/Definition5.1.1"
+      },
+      {
+        "id": "Chapter5/Discussion_after_Definition5.1.1",
+        "node_id": "chapter-05/section-5-1",
+        "packet": "terra/Chapter5/Discussion_after_Definition5.1.1"
+      },
+      {
+        "id": "Chapter5/Example5.1.3",
+        "node_id": "chapter-05/section-5-1",
+        "packet": "terra/Chapter5/Example5.1.3"
+      },
+      {
+        "id": "Chapter5/Definition5.1.4",
+        "node_id": "chapter-05/section-5-1",
+        "packet": "terra/Chapter5/Definition5.1.4"
+      },
+      {
+        "id": "Chapter5/Corollary5.1.6",
+        "node_id": "chapter-05/section-5-1",
+        "packet": "terra/Chapter5/Corollary5.1.6"
+      },
+      {
+        "id": "Chapter5/Exercise5.1.7",
+        "node_id": "chapter-05/section-5-1",
+        "packet": "terra/Chapter5/Exercise5.1.7"
+      },
+      {
+        "id": "Chapter5/Introduction_5.2",
+        "node_id": "chapter-05/section-5-2",
+        "packet": "terra/Chapter5/Introduction_5.2"
+      },
+      {
+        "id": "Chapter5/Definition5.2.1",
+        "node_id": "chapter-05/section-5-2",
+        "packet": "terra/Chapter5/Definition5.2.1"
+      },
+      {
+        "id": "Chapter5/Definition5.2.2",
+        "node_id": "chapter-05/section-5-2",
+        "packet": "terra/Chapter5/Definition5.2.2"
+      },
+      {
+        "id": "Chapter5/Proposition5.2.3",
+        "node_id": "chapter-05/section-5-2",
+        "packet": "terra/Chapter5/Proposition5.2.3"
+      },
+      {
+        "id": "Chapter5/Discussion_after_Proposition5.2.3",
+        "node_id": "chapter-05/section-5-2",
+        "packet": "terra/Chapter5/Discussion_after_Proposition5.2.3"
+      },
+      {
+        "id": "Chapter5/Proposition5.2.5",
+        "node_id": "chapter-05/section-5-2",
+        "packet": "terra/Chapter5/Proposition5.2.5"
+      },
+      {
+        "id": "Chapter5/Discussion_after_Proposition5.2.5",
+        "node_id": "chapter-05/section-5-2",
+        "packet": "terra/Chapter5/Discussion_after_Proposition5.2.5"
+      },
+      {
+        "id": "Chapter5/Problem5.2.7",
+        "node_id": "chapter-05/section-5-2",
+        "packet": "terra/Chapter5/Problem5.2.7"
+      },
+      {
+        "id": "Chapter5/Remark5.2.8",
+        "node_id": "chapter-05/section-5-2",
+        "packet": "terra/Chapter5/Remark5.2.8"
+      },
+      {
+        "id": "Chapter5/Introduction_5.3",
+        "node_id": "chapter-05/section-5-3",
+        "packet": "terra/Chapter5/Introduction_5.3"
+      },
+      {
+        "id": "Chapter5/Proposition5.3.2",
+        "node_id": "chapter-05/section-5-3",
+        "packet": "terra/Chapter5/Proposition5.3.2"
+      },
+      {
+        "id": "Chapter5/Exercise5.3.3",
+        "node_id": "chapter-05/section-5-3",
+        "packet": "terra/Chapter5/Exercise5.3.3"
+      },
+      {
+        "id": "Chapter5/Introduction_5.4",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "terra/Chapter5/Introduction_5.4"
+      },
+      {
+        "id": "Chapter5/Definition5.4.1",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "terra/Chapter5/Definition5.4.1"
+      },
+      {
+        "id": "Chapter5/Remark5.4.2",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "terra/Chapter5/Remark5.4.2"
+      },
+      {
+        "id": "Chapter5/Theorem5.4.3",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "terra/Chapter5/Theorem5.4.3"
+      },
+      {
+        "id": "Chapter5/Discussion_after_Theorem5.4.3",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "terra/Chapter5/Discussion_after_Theorem5.4.3"
+      },
+      {
+        "id": "Chapter5/Theorem5.4.4",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "terra/Chapter5/Theorem5.4.4"
+      },
+      {
+        "id": "Chapter5/Discussion_before_Lemma5.4.5",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "terra/Chapter5/Discussion_before_Lemma5.4.5"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Theorem5.4.4",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "terra/Chapter5/Discussion_proof_of_Theorem5.4.4"
+      },
+      {
+        "id": "Chapter5/Theorem5.4.6",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "terra/Chapter5/Theorem5.4.6"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Theorem5.4.6",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "terra/Chapter5/Discussion_proof_of_Theorem5.4.6"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Theorem5.4.3",
+        "node_id": "chapter-05/section-5-4",
+        "packet": "terra/Chapter5/Discussion_proof_of_Theorem5.4.3"
+      },
+      {
+        "id": "Chapter5/Introduction_5.5",
+        "node_id": "chapter-05/section-5-5",
+        "packet": "terra/Chapter5/Introduction_5.5"
+      },
+      {
+        "id": "Chapter5/Introduction_5.6",
+        "node_id": "chapter-05/section-5-6",
+        "packet": "terra/Chapter5/Introduction_5.6"
+      },
+      {
+        "id": "Chapter5/Theorem5.6.1",
+        "node_id": "chapter-05/section-5-6",
+        "packet": "terra/Chapter5/Theorem5.6.1"
+      },
+      {
+        "id": "Chapter5/Introduction_5.7",
+        "node_id": "chapter-05/section-5-7",
+        "packet": "terra/Chapter5/Introduction_5.7"
+      },
+      {
+        "id": "Chapter5/Definition5.7.1",
+        "node_id": "chapter-05/section-5-7",
+        "packet": "terra/Chapter5/Definition5.7.1"
+      },
+      {
+        "id": "Chapter5/Discussion_before_Lemma5.7.2",
+        "node_id": "chapter-05/section-5-7",
+        "packet": "terra/Chapter5/Discussion_before_Lemma5.7.2"
+      },
+      {
+        "id": "Chapter5/Lemma5.7.2",
+        "node_id": "chapter-05/section-5-7",
+        "packet": "terra/Chapter5/Lemma5.7.2"
+      },
+      {
+        "id": "Chapter5/Introduction_5.8",
+        "node_id": "chapter-05/section-5-8",
+        "packet": "terra/Chapter5/Introduction_5.8"
+      },
+      {
+        "id": "Chapter5/Definition5.8.1",
+        "node_id": "chapter-05/section-5-8",
+        "packet": "terra/Chapter5/Definition5.8.1"
+      },
+      {
+        "id": "Chapter5/Remark5.8.2",
+        "node_id": "chapter-05/section-5-8",
+        "packet": "terra/Chapter5/Remark5.8.2"
+      },
+      {
+        "id": "Chapter5/Discussion_verification_of_Ind",
+        "node_id": "chapter-05/section-5-8",
+        "packet": "terra/Chapter5/Discussion_verification_of_Ind"
+      },
+      {
+        "id": "Chapter5/Remark5.8.3",
+        "node_id": "chapter-05/section-5-8",
+        "packet": "terra/Chapter5/Remark5.8.3"
+      },
+      {
+        "id": "Chapter5/Problem5.8.4",
+        "node_id": "chapter-05/section-5-8",
+        "packet": "terra/Chapter5/Problem5.8.4"
+      },
+      {
+        "id": "Chapter5/Exercise5.8.5",
+        "node_id": "chapter-05/section-5-8",
+        "packet": "terra/Chapter5/Exercise5.8.5"
+      },
+      {
+        "id": "Chapter5/Introduction_5.9",
+        "node_id": "chapter-05/section-5-9",
+        "packet": "terra/Chapter5/Introduction_5.9"
+      },
+      {
+        "id": "Chapter5/Theorem5.9.1",
+        "node_id": "chapter-05/section-5-9",
+        "packet": "terra/Chapter5/Theorem5.9.1"
+      },
+      {
+        "id": "Chapter5/Remark5.9.2",
+        "node_id": "chapter-05/section-5-9",
+        "packet": "terra/Chapter5/Remark5.9.2"
+      },
+      {
+        "id": "Chapter5/Introduction_5.10",
+        "node_id": "chapter-05/section-5-10",
+        "packet": "terra/Chapter5/Introduction_5.10"
+      },
+      {
+        "id": "Chapter5/Theorem5.10.1",
+        "node_id": "chapter-05/section-5-10",
+        "packet": "terra/Chapter5/Theorem5.10.1"
+      },
+      {
+        "id": "Chapter5/Problem5.10.2",
+        "node_id": "chapter-05/section-5-10",
+        "packet": "terra/Chapter5/Problem5.10.2"
+      },
+      {
+        "id": "Chapter5/Introduction_5.11",
+        "node_id": "chapter-05/section-5-11",
+        "packet": "terra/Chapter5/Introduction_5.11"
+      },
+      {
+        "id": "Chapter5/Discussion_5.11_examples",
+        "node_id": "chapter-05/section-5-11",
+        "packet": "terra/Chapter5/Discussion_5.11_examples"
+      },
+      {
+        "id": "Chapter5/Problem5.11.1",
+        "node_id": "chapter-05/section-5-11",
+        "packet": "terra/Chapter5/Problem5.11.1"
+      },
+      {
+        "id": "Chapter5/Introduction_5.12",
+        "node_id": "chapter-05/section-5-12",
+        "packet": "terra/Chapter5/Introduction_5.12"
+      },
+      {
+        "id": "Chapter5/Discussion_Young_projectors",
+        "node_id": "chapter-05/section-5-12",
+        "packet": "terra/Chapter5/Discussion_Young_projectors"
+      },
+      {
+        "id": "Chapter5/Theorem5.12.2",
+        "node_id": "chapter-05/section-5-12",
+        "packet": "terra/Chapter5/Theorem5.12.2"
+      },
+      {
+        "id": "Chapter5/Corollary5.12.4",
+        "node_id": "chapter-05/section-5-12",
+        "packet": "terra/Chapter5/Corollary5.12.4"
+      },
+      {
+        "id": "Chapter5/Problem5.12.5",
+        "node_id": "chapter-05/section-5-12",
+        "packet": "terra/Chapter5/Problem5.12.5"
+      },
+      {
+        "id": "Chapter5/Introduction_5.13",
+        "node_id": "chapter-05/section-5-13",
+        "packet": "terra/Chapter5/Introduction_5.13"
+      },
+      {
+        "id": "Chapter5/Lemma5.13.1",
+        "node_id": "chapter-05/section-5-13",
+        "packet": "terra/Chapter5/Lemma5.13.1"
+      },
+      {
+        "id": "Chapter5/Discussion_end_of_Lemma5.13.1_proof",
+        "node_id": "chapter-05/section-5-13",
+        "packet": "terra/Chapter5/Discussion_end_of_Lemma5.13.1_proof"
+      },
+      {
+        "id": "Chapter5/Discussion_lexicographic_ordering",
+        "node_id": "chapter-05/section-5-13",
+        "packet": "terra/Chapter5/Discussion_lexicographic_ordering"
+      },
+      {
+        "id": "Chapter5/Lemma5.13.2",
+        "node_id": "chapter-05/section-5-13",
+        "packet": "terra/Chapter5/Lemma5.13.2"
+      },
+      {
+        "id": "Chapter5/Lemma5.13.3",
+        "node_id": "chapter-05/section-5-13",
+        "packet": "terra/Chapter5/Lemma5.13.3"
+      },
+      {
+        "id": "Chapter5/Lemma5.13.4",
+        "node_id": "chapter-05/section-5-13",
+        "packet": "terra/Chapter5/Lemma5.13.4"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Lemma5.13.4",
+        "node_id": "chapter-05/section-5-13",
+        "packet": "terra/Chapter5/Discussion_proof_of_Lemma5.13.4"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Theorem5.12.2",
+        "node_id": "chapter-05/section-5-13",
+        "packet": "terra/Chapter5/Discussion_proof_of_Theorem5.12.2"
+      },
+      {
+        "id": "Chapter5/Introduction_5.14",
+        "node_id": "chapter-05/section-5-14",
+        "packet": "terra/Chapter5/Introduction_5.14"
+      },
+      {
+        "id": "Chapter5/Proposition5.14.1",
+        "node_id": "chapter-05/section-5-14",
+        "packet": "terra/Chapter5/Proposition5.14.1"
+      },
+      {
+        "id": "Chapter5/Definition5.14.2",
+        "node_id": "chapter-05/section-5-14",
+        "packet": "terra/Chapter5/Definition5.14.2"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Proposition5.14.1",
+        "node_id": "chapter-05/section-5-14",
+        "packet": "terra/Chapter5/Discussion_proof_of_Proposition5.14.1"
+      },
+      {
+        "id": "Chapter5/Discussion_character_computation_setup",
+        "node_id": "chapter-05/section-5-14",
+        "packet": "terra/Chapter5/Discussion_character_computation_setup"
+      },
+      {
+        "id": "Chapter5/Introduction_5.15",
+        "node_id": "chapter-05/section-5-15",
+        "packet": "terra/Chapter5/Introduction_5.15"
+      },
+      {
+        "id": "Chapter5/Theorem5.15.1",
+        "node_id": "chapter-05/section-5-15",
+        "packet": "terra/Chapter5/Theorem5.15.1"
+      },
+      {
+        "id": "Chapter5/Remark5.15.2",
+        "node_id": "chapter-05/section-5-15",
+        "packet": "terra/Chapter5/Remark5.15.2"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Theorem5.15.1",
+        "node_id": "chapter-05/section-5-15",
+        "packet": "terra/Chapter5/Discussion_proof_of_Theorem5.15.1"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Frobenius_character_formula",
+        "node_id": "chapter-05/section-5-15",
+        "packet": "terra/Chapter5/Discussion_proof_of_Frobenius_character_formula"
+      },
+      {
+        "id": "Chapter5/Lemma5.15.3",
+        "node_id": "chapter-05/section-5-15",
+        "packet": "terra/Chapter5/Lemma5.15.3"
+      },
+      {
+        "id": "Chapter5/Discussion_footnote_5.15",
+        "node_id": "chapter-05/section-5-15",
+        "packet": "terra/Chapter5/Discussion_footnote_5.15"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Lemma5.15.3",
+        "node_id": "chapter-05/section-5-15",
+        "packet": "terra/Chapter5/Discussion_proof_of_Lemma5.15.3"
+      },
+      {
+        "id": "Chapter5/Corollary5.15.4",
+        "node_id": "chapter-05/section-5-15",
+        "packet": "terra/Chapter5/Corollary5.15.4"
+      },
+      {
+        "id": "Chapter5/Remark5.15.5",
+        "node_id": "chapter-05/section-5-15",
+        "packet": "terra/Chapter5/Remark5.15.5"
+      },
+      {
+        "id": "Chapter5/Introduction_5.16",
+        "node_id": "chapter-05/section-5-16",
+        "packet": "terra/Chapter5/Introduction_5.16"
+      },
+      {
+        "id": "Chapter5/Problem5.16.1",
+        "node_id": "chapter-05/section-5-16",
+        "packet": "terra/Chapter5/Problem5.16.1"
+      },
+      {
+        "id": "Chapter5/Problem5.16.2",
+        "node_id": "chapter-05/section-5-16",
+        "packet": "terra/Chapter5/Problem5.16.2"
+      },
+      {
+        "id": "Chapter5/Problem5.16.3",
+        "node_id": "chapter-05/section-5-16",
+        "packet": "terra/Chapter5/Problem5.16.3"
+      },
+      {
+        "id": "Chapter5/Introduction_5.17",
+        "node_id": "chapter-05/section-5-17",
+        "packet": "terra/Chapter5/Introduction_5.17"
+      },
+      {
+        "id": "Chapter5/Theorem5.17.1",
+        "node_id": "chapter-05/section-5-17",
+        "packet": "terra/Chapter5/Theorem5.17.1"
+      },
+      {
+        "id": "Chapter5/Introduction_5.18",
+        "node_id": "chapter-05/section-5-18",
+        "packet": "terra/Chapter5/Introduction_5.18"
+      },
+      {
+        "id": "Chapter5/Discussion_before_Theorem5.18.2",
+        "node_id": "chapter-05/section-5-18",
+        "packet": "terra/Chapter5/Discussion_before_Theorem5.18.2"
+      },
+      {
+        "id": "Chapter5/Theorem5.18.2",
+        "node_id": "chapter-05/section-5-18",
+        "packet": "terra/Chapter5/Theorem5.18.2"
+      },
+      {
+        "id": "Chapter5/Lemma5.18.3",
+        "node_id": "chapter-05/section-5-18",
+        "packet": "terra/Chapter5/Lemma5.18.3"
+      },
+      {
+        "id": "Chapter5/Discussion_Theorem5.18.2_proof_end",
+        "node_id": "chapter-05/section-5-18",
+        "packet": "terra/Chapter5/Discussion_Theorem5.18.2_proof_end"
+      },
+      {
+        "id": "Chapter5/Discussion_before_Theorem5.18.4",
+        "node_id": "chapter-05/section-5-18",
+        "packet": "terra/Chapter5/Discussion_before_Theorem5.18.4"
+      },
+      {
+        "id": "Chapter5/Theorem5.18.4",
+        "node_id": "chapter-05/section-5-18",
+        "packet": "terra/Chapter5/Theorem5.18.4"
+      },
+      {
+        "id": "Chapter5/Introduction_5.19",
+        "node_id": "chapter-05/section-5-19",
+        "packet": "terra/Chapter5/Introduction_5.19"
+      },
+      {
+        "id": "Chapter5/Proposition5.19.1",
+        "node_id": "chapter-05/section-5-19",
+        "packet": "terra/Chapter5/Proposition5.19.1"
+      },
+      {
+        "id": "Chapter5/Corollary5.19.2",
+        "node_id": "chapter-05/section-5-19",
+        "packet": "terra/Chapter5/Corollary5.19.2"
+      },
+      {
+        "id": "Chapter5/Example5.19.3",
+        "node_id": "chapter-05/section-5-19",
+        "packet": "terra/Chapter5/Example5.19.3"
+      },
+      {
+        "id": "Chapter5/Introduction_5.20",
+        "node_id": "chapter-05/section-5-20",
+        "packet": "terra/Chapter5/Introduction_5.20"
+      },
+      {
+        "id": "Chapter5/Introduction_5.21",
+        "node_id": "chapter-05/section-5-21",
+        "packet": "terra/Chapter5/Introduction_5.21"
+      },
+      {
+        "id": "Chapter5/Discussion_Schur_polynomials",
+        "node_id": "chapter-05/section-5-21",
+        "packet": "terra/Chapter5/Discussion_Schur_polynomials"
+      },
+      {
+        "id": "Chapter5/Proposition5.21.1",
+        "node_id": "chapter-05/section-5-21",
+        "packet": "terra/Chapter5/Proposition5.21.1"
+      },
+      {
+        "id": "Chapter5/Discussion_before_Proposition5.21.2",
+        "node_id": "chapter-05/section-5-21",
+        "packet": "terra/Chapter5/Discussion_before_Proposition5.21.2"
+      },
+      {
+        "id": "Chapter5/Proposition5.21.2",
+        "node_id": "chapter-05/section-5-21",
+        "packet": "terra/Chapter5/Proposition5.21.2"
+      },
+      {
+        "id": "Chapter5/Introduction_5.22",
+        "node_id": "chapter-05/section-5-22",
+        "packet": "terra/Chapter5/Introduction_5.22"
+      },
+      {
+        "id": "Chapter5/Discussion_computing_characters_of_L_lambda",
+        "node_id": "chapter-05/section-5-22",
+        "packet": "terra/Chapter5/Discussion_computing_characters_of_L_lambda"
+      },
+      {
+        "id": "Chapter5/Theorem5.22.1",
+        "node_id": "chapter-05/section-5-22",
+        "packet": "terra/Chapter5/Theorem5.22.1"
+      },
+      {
+        "id": "Chapter5/Discussion_after_Theorem5.22.1",
+        "node_id": "chapter-05/section-5-22",
+        "packet": "terra/Chapter5/Discussion_after_Theorem5.22.1"
+      },
+      {
+        "id": "Chapter5/Proposition5.22.2",
+        "node_id": "chapter-05/section-5-22",
+        "packet": "terra/Chapter5/Proposition5.22.2"
+      },
+      {
+        "id": "Chapter5/Introduction_5.23",
+        "node_id": "chapter-05/section-5-23",
+        "packet": "terra/Chapter5/Introduction_5.23"
+      },
+      {
+        "id": "Chapter5/Definition5.23.1",
+        "node_id": "chapter-05/section-5-23",
+        "packet": "terra/Chapter5/Definition5.23.1"
+      },
+      {
+        "id": "Chapter5/Discussion_after_Definition5.23.1",
+        "node_id": "chapter-05/section-5-23",
+        "packet": "terra/Chapter5/Discussion_after_Definition5.23.1"
+      },
+      {
+        "id": "Chapter5/Theorem5.23.2",
+        "node_id": "chapter-05/section-5-23",
+        "packet": "terra/Chapter5/Theorem5.23.2"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Theorem5.23.2",
+        "node_id": "chapter-05/section-5-23",
+        "packet": "terra/Chapter5/Discussion_proof_of_Theorem5.23.2"
+      },
+      {
+        "id": "Chapter5/Remark5.23.3",
+        "node_id": "chapter-05/section-5-23",
+        "packet": "terra/Chapter5/Remark5.23.3"
+      },
+      {
+        "id": "Chapter5/Introduction_5.24",
+        "node_id": "chapter-05/section-5-24",
+        "packet": "terra/Chapter5/Introduction_5.24"
+      },
+      {
+        "id": "Chapter5/Problem5.24.1",
+        "node_id": "chapter-05/section-5-24",
+        "packet": "terra/Chapter5/Problem5.24.1"
+      },
+      {
+        "id": "Chapter5/Problem5.24.2",
+        "node_id": "chapter-05/section-5-24",
+        "packet": "terra/Chapter5/Problem5.24.2"
+      },
+      {
+        "id": "Chapter5/Introduction_5.25",
+        "node_id": "chapter-05/section-5-25",
+        "packet": "terra/Chapter5/Introduction_5.25"
+      },
+      {
+        "id": "Chapter5/Discussion_5.25.2",
+        "node_id": "chapter-05/section-5-25/subsection-5-25-2",
+        "packet": "terra/Chapter5/Discussion_5.25.2"
+      },
+      {
+        "id": "Chapter5/Discussion_1dim_reps",
+        "node_id": "chapter-05/section-5-25/subsection-5-25-2",
+        "packet": "terra/Chapter5/Discussion_1dim_reps"
+      },
+      {
+        "id": "Chapter5/Discussion_principal_series_name",
+        "node_id": "chapter-05/section-5-25/subsection-5-25-3",
+        "packet": "terra/Chapter5/Discussion_principal_series_name"
+      },
+      {
+        "id": "Chapter5/Discussion_complementary_series_summary",
+        "node_id": "chapter-05/section-5-25/subsection-5-25-4",
+        "packet": "terra/Chapter5/Discussion_complementary_series_summary"
+      },
+      {
+        "id": "Chapter5/Introduction_5.26",
+        "node_id": "chapter-05/section-5-26",
+        "packet": "terra/Chapter5/Introduction_5.26"
+      },
+      {
+        "id": "Chapter5/Theorem5.26.1",
+        "node_id": "chapter-05/section-5-26",
+        "packet": "terra/Chapter5/Theorem5.26.1"
+      },
+      {
+        "id": "Chapter5/Remark5.26.2",
+        "node_id": "chapter-05/section-5-26",
+        "packet": "terra/Chapter5/Remark5.26.2"
+      },
+      {
+        "id": "Chapter5/Discussion_proof_of_Theorem5.26.1",
+        "node_id": "chapter-05/section-5-26",
+        "packet": "terra/Chapter5/Discussion_proof_of_Theorem5.26.1"
+      },
+      {
+        "id": "Chapter5/Corollary5.26.3",
+        "node_id": "chapter-05/section-5-26",
+        "packet": "terra/Chapter5/Corollary5.26.3"
+      },
+      {
+        "id": "Chapter5/Introduction_5.27",
+        "node_id": "chapter-05/section-5-27",
+        "packet": "terra/Chapter5/Introduction_5.27"
+      },
+      {
+        "id": "Chapter5/Exercise5.27.2",
+        "node_id": "chapter-05/section-5-27",
+        "packet": "terra/Chapter5/Exercise5.27.2"
+      },
+      {
+        "id": "Chapter5/Exercise5.27.3",
+        "node_id": "chapter-05/section-5-27",
+        "packet": "terra/Chapter5/Exercise5.27.3"
+      },
+      {
+        "id": "Chapter6/Introduction",
+        "node_id": "chapter-06",
+        "packet": "terra/Chapter6/Introduction"
+      },
+      {
+        "id": "Chapter6/Section6.1_heading",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "terra/Chapter6/Section6.1_heading"
+      },
+      {
+        "id": "Chapter6/Problem6.1.1",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "terra/Chapter6/Problem6.1.1"
+      },
+      {
+        "id": "Chapter6/Problem6.1.2",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "terra/Chapter6/Problem6.1.2"
+      },
+      {
+        "id": "Chapter6/Problem6.1.3",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "terra/Chapter6/Problem6.1.3"
+      },
+      {
+        "id": "Chapter6/Definition6.1.4",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "terra/Chapter6/Definition6.1.4"
+      },
+      {
+        "id": "Chapter6/Discussion_after_Definition6.1.4",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "terra/Chapter6/Discussion_after_Definition6.1.4"
+      },
+      {
+        "id": "Chapter6/Theorem_Dynkin_classification",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "terra/Chapter6/Theorem_Dynkin_classification"
+      },
+      {
+        "id": "Chapter6/Problem6.1.5",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "terra/Chapter6/Problem6.1.5"
+      },
+      {
+        "id": "Chapter6/Problem6.1.5_theorem",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "terra/Chapter6/Problem6.1.5_theorem"
+      },
+      {
+        "id": "Chapter6/Problem6.1.5_parts",
+        "node_id": "chapter-06/section-6-1",
+        "packet": "terra/Chapter6/Problem6.1.5_parts"
+      },
+      {
+        "id": "Chapter6/Section6.2_heading",
+        "node_id": "chapter-06/section-6-2",
+        "packet": "terra/Chapter6/Section6.2_heading"
+      },
+      {
+        "id": "Chapter6/Remark6.2.1",
+        "node_id": "chapter-06/section-6-2",
+        "packet": "terra/Chapter6/Remark6.2.1"
+      },
+      {
+        "id": "Chapter6/Example6.2.2",
+        "node_id": "chapter-06/section-6-2",
+        "packet": "terra/Chapter6/Example6.2.2"
+      },
+      {
+        "id": "Chapter6/Section6.3_heading",
+        "node_id": "chapter-06/section-6-3",
+        "packet": "terra/Chapter6/Section6.3_heading"
+      },
+      {
+        "id": "Chapter6/Discussion_after_Example6.3.1",
+        "node_id": "chapter-06/section-6-3",
+        "packet": "terra/Chapter6/Discussion_after_Example6.3.1"
+      },
+      {
+        "id": "Chapter6/Section6.4_heading",
+        "node_id": "chapter-06/section-6-4",
+        "packet": "terra/Chapter6/Section6.4_heading"
+      },
+      {
+        "id": "Chapter6/Definition6.4.1",
+        "node_id": "chapter-06/section-6-4",
+        "packet": "terra/Chapter6/Definition6.4.1"
+      },
+      {
+        "id": "Chapter6/Lemma6.4.2",
+        "node_id": "chapter-06/section-6-4",
+        "packet": "terra/Chapter6/Lemma6.4.2"
+      },
+      {
+        "id": "Chapter6/Definition6.4.3",
+        "node_id": "chapter-06/section-6-4",
+        "packet": "terra/Chapter6/Definition6.4.3"
+      },
+      {
+        "id": "Chapter6/Remark6.4.4",
+        "node_id": "chapter-06/section-6-4",
+        "packet": "terra/Chapter6/Remark6.4.4"
+      },
+      {
+        "id": "Chapter6/Definition6.4.5",
+        "node_id": "chapter-06/section-6-4",
+        "packet": "terra/Chapter6/Definition6.4.5"
+      },
+      {
+        "id": "Chapter6/Definition6.4.7",
+        "node_id": "chapter-06/section-6-4",
+        "packet": "terra/Chapter6/Definition6.4.7"
+      },
+      {
+        "id": "Chapter6/Remark6.4.8",
+        "node_id": "chapter-06/section-6-4",
+        "packet": "terra/Chapter6/Remark6.4.8"
+      },
+      {
+        "id": "Chapter6/Definition6.4.10",
+        "node_id": "chapter-06/section-6-4",
+        "packet": "terra/Chapter6/Definition6.4.10"
+      },
+      {
+        "id": "Chapter6/Remark6.4.11",
+        "node_id": "chapter-06/section-6-4",
+        "packet": "terra/Chapter6/Remark6.4.11"
+      },
+      {
+        "id": "Chapter6/Section6.5_heading",
+        "node_id": "chapter-06/section-6-5",
+        "packet": "terra/Chapter6/Section6.5_heading"
+      },
+      {
+        "id": "Chapter6/Definition6.5.1",
+        "node_id": "chapter-06/section-6-5",
+        "packet": "terra/Chapter6/Definition6.5.1"
+      },
+      {
+        "id": "Chapter6/Discussion_before_Theorem6.5.2",
+        "node_id": "chapter-06/section-6-5",
+        "packet": "terra/Chapter6/Discussion_before_Theorem6.5.2"
+      },
+      {
+        "id": "Chapter6/Theorem6.5.2",
+        "node_id": "chapter-06/section-6-5",
+        "packet": "terra/Chapter6/Theorem6.5.2"
+      },
+      {
+        "id": "Chapter6/Section6.6_heading",
+        "node_id": "chapter-06/section-6-6",
+        "packet": "terra/Chapter6/Section6.6_heading"
+      },
+      {
+        "id": "Chapter6/Definition6.6.1",
+        "node_id": "chapter-06/section-6-6",
+        "packet": "terra/Chapter6/Definition6.6.1"
+      },
+      {
+        "id": "Chapter6/Definition6.6.2",
+        "node_id": "chapter-06/section-6-6",
+        "packet": "terra/Chapter6/Definition6.6.2"
+      },
+      {
+        "id": "Chapter6/Discussion_before_Definition6.6.3",
+        "node_id": "chapter-06/section-6-6",
+        "packet": "terra/Chapter6/Discussion_before_Definition6.6.3"
+      },
+      {
+        "id": "Chapter6/Definition6.6.3",
+        "node_id": "chapter-06/section-6-6",
+        "packet": "terra/Chapter6/Definition6.6.3"
+      },
+      {
+        "id": "Chapter6/Definition6.6.3_maps",
+        "node_id": "chapter-06/section-6-6",
+        "packet": "terra/Chapter6/Definition6.6.3_maps"
+      },
+      {
+        "id": "Chapter6/Definition6.6.4",
+        "node_id": "chapter-06/section-6-6",
+        "packet": "terra/Chapter6/Definition6.6.4"
+      },
+      {
+        "id": "Chapter6/Section6.7_heading",
+        "node_id": "chapter-06/section-6-7",
+        "packet": "terra/Chapter6/Section6.7_heading"
+      },
+      {
+        "id": "Chapter6/Definition6.7.1",
+        "node_id": "chapter-06/section-6-7",
+        "packet": "terra/Chapter6/Definition6.7.1"
+      },
+      {
+        "id": "Chapter6/Section6.8_heading",
+        "node_id": "chapter-06/section-6-8",
+        "packet": "terra/Chapter6/Section6.8_heading"
+      },
+      {
+        "id": "Chapter6/Theorem6.8.1",
+        "node_id": "chapter-06/section-6-8",
+        "packet": "terra/Chapter6/Theorem6.8.1"
+      },
+      {
+        "id": "Chapter6/Discussion_after_Theorem6.8.1",
+        "node_id": "chapter-06/section-6-8",
+        "packet": "terra/Chapter6/Discussion_after_Theorem6.8.1"
+      },
+      {
+        "id": "Chapter6/Corollary6.8.2",
+        "node_id": "chapter-06/section-6-8",
+        "packet": "terra/Chapter6/Corollary6.8.2"
+      },
+      {
+        "id": "Chapter6/Discussion_after_Corollary6.8.3",
+        "node_id": "chapter-06/section-6-8",
+        "packet": "terra/Chapter6/Discussion_after_Corollary6.8.3"
+      },
+      {
+        "id": "Chapter6/Example6.8.5",
+        "node_id": "chapter-06/section-6-8",
+        "packet": "terra/Chapter6/Example6.8.5"
+      },
+      {
+        "id": "Chapter6/Section6.9_heading",
+        "node_id": "chapter-06/section-6-9",
+        "packet": "terra/Chapter6/Section6.9_heading"
+      },
+      {
+        "id": "Chapter6/Problem6.9.2",
+        "node_id": "chapter-06/section-6-9",
+        "packet": "terra/Chapter6/Problem6.9.2"
+      },
+      {
+        "id": "Chapter7/Introduction",
+        "node_id": "chapter-07",
+        "packet": "terra/Chapter7/Introduction"
+      },
+      {
+        "id": "Chapter7/Introduction_7.1",
+        "node_id": "chapter-07/section-7-1",
+        "packet": "terra/Chapter7/Introduction_7.1"
+      },
+      {
+        "id": "Chapter7/Remark7.1.2",
+        "node_id": "chapter-07/section-7-1",
+        "packet": "terra/Chapter7/Remark7.1.2"
+      },
+      {
+        "id": "Chapter7/Example7.1.3",
+        "node_id": "chapter-07/section-7-1",
+        "packet": "terra/Chapter7/Example7.1.3"
+      },
+      {
+        "id": "Chapter7/Definition7.1.4",
+        "node_id": "chapter-07/section-7-1",
+        "packet": "terra/Chapter7/Definition7.1.4"
+      },
+      {
+        "id": "Chapter7/Example7.1.5",
+        "node_id": "chapter-07/section-7-1",
+        "packet": "terra/Chapter7/Example7.1.5"
+      },
+      {
+        "id": "Chapter7/Discussion_after_Example7.1.5",
+        "node_id": "chapter-07/section-7-1",
+        "packet": "terra/Chapter7/Discussion_after_Example7.1.5"
+      },
+      {
+        "id": "Chapter7/Example7.1.6",
+        "node_id": "chapter-07/section-7-1",
+        "packet": "terra/Chapter7/Example7.1.6"
+      },
+      {
+        "id": "Chapter7/Introduction_7.2",
+        "node_id": "chapter-07/section-7-2",
+        "packet": "terra/Chapter7/Introduction_7.2"
+      },
+      {
+        "id": "Chapter7/Discussion_after_Definition7.2.1",
+        "node_id": "chapter-07/section-7-2",
+        "packet": "terra/Chapter7/Discussion_after_Definition7.2.1"
+      },
+      {
+        "id": "Chapter7/Example7.2.2",
+        "node_id": "chapter-07/section-7-2",
+        "packet": "terra/Chapter7/Example7.2.2"
+      },
+      {
+        "id": "Chapter7/Introduction_7.3",
+        "node_id": "chapter-07/section-7-3",
+        "packet": "terra/Chapter7/Introduction_7.3"
+      },
+      {
+        "id": "Chapter7/Definition7.3.1",
+        "node_id": "chapter-07/section-7-3",
+        "packet": "terra/Chapter7/Definition7.3.1"
+      },
+      {
+        "id": "Chapter7/Example7.3.2",
+        "node_id": "chapter-07/section-7-3",
+        "packet": "terra/Chapter7/Example7.3.2"
+      },
+      {
+        "id": "Chapter7/Introduction_7.4",
+        "node_id": "chapter-07/section-7-4",
+        "packet": "terra/Chapter7/Introduction_7.4"
+      },
+      {
+        "id": "Chapter7/Definition7.4.1",
+        "node_id": "chapter-07/section-7-4",
+        "packet": "terra/Chapter7/Definition7.4.1"
+      },
+      {
+        "id": "Chapter7/Discussion_after_Definition7.4.1",
+        "node_id": "chapter-07/section-7-4",
+        "packet": "terra/Chapter7/Discussion_after_Definition7.4.1"
+      },
+      {
+        "id": "Chapter7/Introduction_7.5",
+        "node_id": "chapter-07/section-7-5",
+        "packet": "terra/Chapter7/Introduction_7.5"
+      },
+      {
+        "id": "Chapter7/Remark7.5.2",
+        "node_id": "chapter-07/section-7-5",
+        "packet": "terra/Chapter7/Remark7.5.2"
+      },
+      {
+        "id": "Chapter7/Example7.5.3",
+        "node_id": "chapter-07/section-7-5",
+        "packet": "terra/Chapter7/Example7.5.3"
+      },
+      {
+        "id": "Chapter7/Introduction_7.6",
+        "node_id": "chapter-07/section-7-6",
+        "packet": "terra/Chapter7/Introduction_7.6"
+      },
+      {
+        "id": "Chapter7/Definition7.6.1",
+        "node_id": "chapter-07/section-7-6",
+        "packet": "terra/Chapter7/Definition7.6.1"
+      },
+      {
+        "id": "Chapter7/Remark7.6.2",
+        "node_id": "chapter-07/section-7-6",
+        "packet": "terra/Chapter7/Remark7.6.2"
+      },
+      {
+        "id": "Chapter7/Example7.6.3",
+        "node_id": "chapter-07/section-7-6",
+        "packet": "terra/Chapter7/Example7.6.3"
+      },
+      {
+        "id": "Chapter7/Discussion_after_Example7.6.3",
+        "node_id": "chapter-07/section-7-6",
+        "packet": "terra/Chapter7/Discussion_after_Example7.6.3"
+      },
+      {
+        "id": "Chapter7/Introduction_7.7",
+        "node_id": "chapter-07/section-7-7",
+        "packet": "terra/Chapter7/Introduction_7.7"
+      },
+      {
+        "id": "Chapter7/Definition7.7.1",
+        "node_id": "chapter-07/section-7-7",
+        "packet": "terra/Chapter7/Definition7.7.1"
+      },
+      {
+        "id": "Chapter7/Example7.7.2",
+        "node_id": "chapter-07/section-7-7",
+        "packet": "terra/Chapter7/Example7.7.2"
+      },
+      {
+        "id": "Chapter7/Problem7.7.3",
+        "node_id": "chapter-07/section-7-7",
+        "packet": "terra/Chapter7/Problem7.7.3"
+      },
+      {
+        "id": "Chapter7/Discussion_after_Problem7.7.3",
+        "node_id": "chapter-07/section-7-7",
+        "packet": "terra/Chapter7/Discussion_after_Problem7.7.3"
+      },
+      {
+        "id": "Chapter7/Remark7.7.4",
+        "node_id": "chapter-07/section-7-7",
+        "packet": "terra/Chapter7/Remark7.7.4"
+      },
+      {
+        "id": "Chapter7/Discussion_after_Remark7.7.4",
+        "node_id": "chapter-07/section-7-7",
+        "packet": "terra/Chapter7/Discussion_after_Remark7.7.4"
+      },
+      {
+        "id": "Chapter7/Introduction_7.8",
+        "node_id": "chapter-07/section-7-8",
+        "packet": "terra/Chapter7/Introduction_7.8"
+      },
+      {
+        "id": "Chapter7/Discussion_after_Definition7.8.1",
+        "node_id": "chapter-07/section-7-8",
+        "packet": "terra/Chapter7/Discussion_after_Definition7.8.1"
+      },
+      {
+        "id": "Chapter7/Definition7.8.2",
+        "node_id": "chapter-07/section-7-8",
+        "packet": "terra/Chapter7/Definition7.8.2"
+      },
+      {
+        "id": "Chapter7/Example7.8.3",
+        "node_id": "chapter-07/section-7-8",
+        "packet": "terra/Chapter7/Example7.8.3"
+      },
+      {
+        "id": "Chapter7/Exercise7.8.4",
+        "node_id": "chapter-07/section-7-8",
+        "packet": "terra/Chapter7/Exercise7.8.4"
+      },
+      {
+        "id": "Chapter7/Problem7.8.5",
+        "node_id": "chapter-07/section-7-8",
+        "packet": "terra/Chapter7/Problem7.8.5"
+      },
+      {
+        "id": "Chapter7/Definition7.8.6",
+        "node_id": "chapter-07/section-7-8",
+        "packet": "terra/Chapter7/Definition7.8.6"
+      },
+      {
+        "id": "Chapter7/Introduction_7.9",
+        "node_id": "chapter-07/section-7-9",
+        "packet": "terra/Chapter7/Introduction_7.9"
+      },
+      {
+        "id": "Chapter7/Definition7.9.1",
+        "node_id": "chapter-07/section-7-9",
+        "packet": "terra/Chapter7/Definition7.9.1"
+      },
+      {
+        "id": "Chapter7/Discussion_after_Definition7.9.1",
+        "node_id": "chapter-07/section-7-9",
+        "packet": "terra/Chapter7/Discussion_after_Definition7.9.1"
+      },
+      {
+        "id": "Chapter7/Example7.9.2",
+        "node_id": "chapter-07/section-7-9",
+        "packet": "terra/Chapter7/Example7.9.2"
+      },
+      {
+        "id": "Chapter7/Definition7.9.3",
+        "node_id": "chapter-07/section-7-9",
+        "packet": "terra/Chapter7/Definition7.9.3"
+      },
+      {
+        "id": "Chapter7/Definition7.9.4",
+        "node_id": "chapter-07/section-7-9",
+        "packet": "terra/Chapter7/Definition7.9.4"
+      },
+      {
+        "id": "Chapter7/Example7.9.5",
+        "node_id": "chapter-07/section-7-9",
+        "packet": "terra/Chapter7/Example7.9.5"
+      },
+      {
+        "id": "Chapter7/Discussion_after_Example7.9.5",
+        "node_id": "chapter-07/section-7-9",
+        "packet": "terra/Chapter7/Discussion_after_Example7.9.5"
+      },
+      {
+        "id": "Chapter7/Example7.9.6",
+        "node_id": "chapter-07/section-7-9",
+        "packet": "terra/Chapter7/Example7.9.6"
+      },
+      {
+        "id": "Chapter7/Exercise7.9.7",
+        "node_id": "chapter-07/section-7-9",
+        "packet": "terra/Chapter7/Exercise7.9.7"
+      },
+      {
+        "id": "Chapter7/Exercise7.9.8",
+        "node_id": "chapter-07/section-7-9",
+        "packet": "terra/Chapter7/Exercise7.9.8"
+      },
+      {
+        "id": "Chapter7/Introduction_7.10",
+        "node_id": "chapter-07/section-7-10",
+        "packet": "terra/Chapter7/Introduction_7.10"
+      },
+      {
+        "id": "Chapter8/Introduction",
+        "node_id": "chapter-08",
+        "packet": "terra/Chapter8/Introduction"
+      },
+      {
+        "id": "Chapter8/Introduction_8.1",
+        "node_id": "chapter-08/section-8-1",
+        "packet": "terra/Chapter8/Introduction_8.1"
+      },
+      {
+        "id": "Chapter8/Definition8.1.2",
+        "node_id": "chapter-08/section-8-1",
+        "packet": "terra/Chapter8/Definition8.1.2"
+      },
+      {
+        "id": "Chapter8/Problem8.1.3",
+        "node_id": "chapter-08/section-8-1",
+        "packet": "terra/Chapter8/Problem8.1.3"
+      },
+      {
+        "id": "Chapter8/Exercise8.1.4",
+        "node_id": "chapter-08/section-8-1",
+        "packet": "terra/Chapter8/Exercise8.1.4"
+      },
+      {
+        "id": "Chapter8/Discussion_after_Exercise8.1.4",
+        "node_id": "chapter-08/section-8-1",
+        "packet": "terra/Chapter8/Discussion_after_Exercise8.1.4"
+      },
+      {
+        "id": "Chapter8/Definition8.1.6",
+        "node_id": "chapter-08/section-8-1",
+        "packet": "terra/Chapter8/Definition8.1.6"
+      },
+      {
+        "id": "Chapter8/Example8.1.7",
+        "node_id": "chapter-08/section-8-1",
+        "packet": "terra/Chapter8/Example8.1.7"
+      },
+      {
+        "id": "Chapter8/Discussion_after_Example8.1.7",
+        "node_id": "chapter-08/section-8-1",
+        "packet": "terra/Chapter8/Discussion_after_Example8.1.7"
+      },
+      {
+        "id": "Chapter8/Definition8.1.8",
+        "node_id": "chapter-08/section-8-1",
+        "packet": "terra/Chapter8/Definition8.1.8"
+      },
+      {
+        "id": "Chapter8/Definition8.2.1",
+        "node_id": "chapter-08/section-8-2",
+        "packet": "terra/Chapter8/Definition8.2.1"
+      },
+      {
+        "id": "Chapter8/Exercise8.2.2",
+        "node_id": "chapter-08/section-8-2",
+        "packet": "terra/Chapter8/Exercise8.2.2"
+      },
+      {
+        "id": "Chapter8/Definition8.2.3",
+        "node_id": "chapter-08/section-8-2",
+        "packet": "terra/Chapter8/Definition8.2.3"
+      },
+      {
+        "id": "Chapter8/Definition8.2.4",
+        "node_id": "chapter-08/section-8-2",
+        "packet": "terra/Chapter8/Definition8.2.4"
+      },
+      {
+        "id": "Chapter8/Problem8.2.7",
+        "node_id": "chapter-08/section-8-2",
+        "packet": "terra/Chapter8/Problem8.2.7"
+      },
+      {
+        "id": "Chapter8/Problem8.2.8",
+        "node_id": "chapter-08/section-8-2",
+        "packet": "terra/Chapter8/Problem8.2.8"
+      },
+      {
+        "id": "Chapter8/Discussion_after_Problem8.2.8",
+        "node_id": "chapter-08/section-8-2",
+        "packet": "terra/Chapter8/Discussion_after_Problem8.2.8"
+      },
+      {
+        "id": "Chapter8/Exercise8.2.9",
+        "node_id": "chapter-08/section-8-2",
+        "packet": "terra/Chapter8/Exercise8.2.9"
+      },
+      {
+        "id": "Chapter9/Introduction",
+        "node_id": "chapter-09",
+        "packet": "terra/Chapter9/Introduction"
+      },
+      {
+        "id": "Chapter9/Introduction_9.1",
+        "node_id": "chapter-09/section-9-1",
+        "packet": "terra/Chapter9/Introduction_9.1"
+      },
+      {
+        "id": "Chapter9/Definition9.1.2",
+        "node_id": "chapter-09/section-9-1",
+        "packet": "terra/Chapter9/Definition9.1.2"
+      },
+      {
+        "id": "Chapter9/Corollary9.1.3",
+        "node_id": "chapter-09/section-9-1",
+        "packet": "terra/Chapter9/Corollary9.1.3"
+      },
+      {
+        "id": "Chapter9/Introduction_9.2",
+        "node_id": "chapter-09/section-9-2",
+        "packet": "terra/Chapter9/Introduction_9.2"
+      },
+      {
+        "id": "Chapter9/Definition9.2.2",
+        "node_id": "chapter-09/section-9-2",
+        "packet": "terra/Chapter9/Definition9.2.2"
+      },
+      {
+        "id": "Chapter9/Proposition9.2.3",
+        "node_id": "chapter-09/section-9-2",
+        "packet": "terra/Chapter9/Proposition9.2.3"
+      },
+      {
+        "id": "Chapter9/Introduction_9.3",
+        "node_id": "chapter-09/section-9-3",
+        "packet": "terra/Chapter9/Introduction_9.3"
+      },
+      {
+        "id": "Chapter9/Definition9.3.1",
+        "node_id": "chapter-09/section-9-3",
+        "packet": "terra/Chapter9/Definition9.3.1"
+      },
+      {
+        "id": "Chapter9/Problem9.3.2",
+        "node_id": "chapter-09/section-9-3",
+        "packet": "terra/Chapter9/Problem9.3.2"
+      },
+      {
+        "id": "Chapter9/Introduction_9.4",
+        "node_id": "chapter-09/section-9-4",
+        "packet": "terra/Chapter9/Introduction_9.4"
+      },
+      {
+        "id": "Chapter9/Definition9.4.1",
+        "node_id": "chapter-09/section-9-4",
+        "packet": "terra/Chapter9/Definition9.4.1"
+      },
+      {
+        "id": "Chapter9/Definition9.4.3",
+        "node_id": "chapter-09/section-9-4",
+        "packet": "terra/Chapter9/Definition9.4.3"
+      },
+      {
+        "id": "Chapter9/Example9.4.4",
+        "node_id": "chapter-09/section-9-4",
+        "packet": "terra/Chapter9/Example9.4.4"
+      },
+      {
+        "id": "Chapter9/Problem9.4.5",
+        "node_id": "chapter-09/section-9-4",
+        "packet": "terra/Chapter9/Problem9.4.5"
+      },
+      {
+        "id": "Chapter9/Problem9.4.6",
+        "node_id": "chapter-09/section-9-4",
+        "packet": "terra/Chapter9/Problem9.4.6"
+      },
+      {
+        "id": "Chapter9/Introduction_9.5",
+        "node_id": "chapter-09/section-9-5",
+        "packet": "terra/Chapter9/Introduction_9.5"
+      },
+      {
+        "id": "Chapter9/Example9.5.2",
+        "node_id": "chapter-09/section-9-5",
+        "packet": "terra/Chapter9/Example9.5.2"
+      },
+      {
+        "id": "Chapter9/Problem9.5.3",
+        "node_id": "chapter-09/section-9-5",
+        "packet": "terra/Chapter9/Problem9.5.3"
+      },
+      {
+        "id": "Chapter9/Introduction_9.6",
+        "node_id": "chapter-09/section-9-6",
+        "packet": "terra/Chapter9/Introduction_9.6"
+      },
+      {
+        "id": "Chapter9/Definition9.6.1",
+        "node_id": "chapter-09/section-9-6",
+        "packet": "terra/Chapter9/Definition9.6.1"
+      },
+      {
+        "id": "Chapter9/Exercise9.6.3",
+        "node_id": "chapter-09/section-9-6",
+        "packet": "terra/Chapter9/Exercise9.6.3"
+      },
+      {
+        "id": "Chapter9/Discussion_before_Theorem9.6.4",
+        "node_id": "chapter-09/section-9-6",
+        "packet": "terra/Chapter9/Discussion_before_Theorem9.6.4"
+      },
+      {
+        "id": "Chapter9/Theorem9.6.4",
+        "node_id": "chapter-09/section-9-6",
+        "packet": "terra/Chapter9/Theorem9.6.4"
+      },
+      {
+        "id": "Chapter9/Problem9.6.5",
+        "node_id": "chapter-09/section-9-6",
+        "packet": "terra/Chapter9/Problem9.6.5"
+      },
+      {
+        "id": "Chapter9/Introduction_9.7",
+        "node_id": "chapter-09/section-9-7",
+        "packet": "terra/Chapter9/Introduction_9.7"
+      },
+      {
+        "id": "Chapter9/Definition9.7.1",
+        "node_id": "chapter-09/section-9-7",
+        "packet": "terra/Chapter9/Definition9.7.1"
+      },
+      {
+        "id": "Chapter9/Discussion_after_Definition9.7.1",
+        "node_id": "chapter-09/section-9-7",
+        "packet": "terra/Chapter9/Discussion_after_Definition9.7.1"
+      },
+      {
+        "id": "Chapter9/Definition9.7.2",
+        "node_id": "chapter-09/section-9-7",
+        "packet": "terra/Chapter9/Definition9.7.2"
+      },
+      {
+        "id": "Chapter9/Corollary9.7.3",
+        "node_id": "chapter-09/section-9-7",
+        "packet": "terra/Chapter9/Corollary9.7.3"
+      },
+      {
+        "id": "Backmatter/MathematicalReferences",
+        "node_id": "backmatter",
+        "packet": "terra/Backmatter/MathematicalReferences"
+      }
+    ]
+  }
+}

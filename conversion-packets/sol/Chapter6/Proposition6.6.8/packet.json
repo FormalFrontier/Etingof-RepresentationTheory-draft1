@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Proposition6.6.8",
+    "kind": "proposition",
+    "title": "Proposition 6.6.8: Dimension vector under reflection is s_i(d(V))",
+    "node_id": "chapter-06/section-6-6",
+    "order": 448,
+    "slug": "proposition6-6-8",
+    "span": {
+      "start": {
+        "page": "172",
+        "line": 27
+      },
+      "end": {
+        "page": "173",
+        "line": 12
+      }
+    },
+    "source_sha256": "c2707cf55fa93b24790a665622ec27a472b901371f60731fad6d80e1b8f9abdc",
+    "features": {
+      "line_count": 49,
+      "crosses_page": true,
+      "display_math_delimiters": 16,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Proposition668",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

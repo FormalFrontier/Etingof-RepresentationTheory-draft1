@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Definition5.2.1",
+    "kind": "definition",
+    "title": "Algebraic number and algebraic integer via monic polynomials",
+    "node_id": "chapter-05/section-5-2",
+    "order": 253,
+    "slug": "definition5-2-1",
+    "span": {
+      "start": {
+        "page": "95",
+        "line": 29
+      },
+      "end": {
+        "page": "95",
+        "line": 29
+      }
+    },
+    "source_sha256": "c66b804397422f8fbdeedebe5132fa2255251d5ec75f93efcec54b9fe54ecd1f",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Definition521",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

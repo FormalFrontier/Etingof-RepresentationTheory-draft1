@@ -1,0 +1,134 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {n : Nat}\n  (b : Module.Basis.{0, u, u} (Fin n) k V),\n  Iff (decl-004746.{u} (SymmetricAlgebra.{u, u} k V) n)\n    (decl-004746.{u} (MvPolynomial.{0, u} (Fin n) k) n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004746"
+      ],
+      "structural_type_hash": "987304589",
+      "temporary_id": "decl-014377"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {n : Nat}\n  (b : Module.Basis.{0, u, u} (Fin n) k V) (M N : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) (i : Nat),\n  LT.lt.{0} n i \u2192 Subsingleton.{u + 1} (CategoryTheory.Abelian.Ext.{u, u, u + 1} M N i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3180451743",
+      "temporary_id": "decl-014378"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  [FiniteDimensional.{u, u} k V] (M N : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) (i : Nat),\n  LT.lt.{0} (Module.finrank.{u, u} k V) i \u2192 Subsingleton.{u + 1} (CategoryTheory.Abelian.Ext.{u, u, u + 1} M N i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2428521819",
+      "temporary_id": "decl-014379"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {n : Nat}\n  (b : Module.Basis.{0, u, u} (Fin n) k V),\n  And (\u2200 (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)), CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} M n)\n    (And\n      (\u2200 (M N : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) (i : Nat),\n        LT.lt.{0} n i \u2192 Subsingleton.{u + 1} (CategoryTheory.Abelian.Ext.{u, u, u + 1} M N i))\n      (\u2200 (M N : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) (i : Nat),\n        LT.lt.{0} n i \u2192\n          CategoryTheory.Limits.IsZero.{u, u + 1}\n            (decl-016772.{u} k (SymmetricAlgebra.{u, u} k V) (ModuleCat.carrier.{u, u} N)\n              (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-021644.{u} (SymmetricAlgebra.{u, u} k V)) M)\n              i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016772",
+        "decl-021644"
+      ],
+      "structural_type_hash": "1989196399",
+      "temporary_id": "decl-014380"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  [FiniteDimensional.{u, u} k V],\n  And\n    (\u2200 (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)),\n      CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} M (Module.finrank.{u, u} k V))\n    (And\n      (\u2200 (M N : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) (i : Nat),\n        LT.lt.{0} (Module.finrank.{u, u} k V) i \u2192 Subsingleton.{u + 1} (CategoryTheory.Abelian.Ext.{u, u, u + 1} M N i))\n      (\u2200 (M N : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) (i : Nat),\n        LT.lt.{0} (Module.finrank.{u, u} k V) i \u2192\n          CategoryTheory.Limits.IsZero.{u, u + 1}\n            (decl-016772.{u} k (SymmetricAlgebra.{u, u} k V) (ModuleCat.carrier.{u, u} N)\n              (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-021644.{u} (SymmetricAlgebra.{u, u} k V)) M)\n              i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016772",
+        "decl-021644"
+      ],
+      "structural_type_hash": "1747225902",
+      "temporary_id": "decl-014381"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {n : Nat}\n  (b : Module.Basis.{0, u, u} (Fin n) k V) (M : ModuleCat.{u, u} (MulOpposite.{u} (SymmetricAlgebra.{u, u} k V)))\n  (N : Type u) [inst_3 : AddCommGroup.{u} N] [inst_4 : Module.{u, u} (SymmetricAlgebra.{u, u} k V) N] (i : Nat),\n  LT.lt.{0} n i \u2192 CategoryTheory.Limits.IsZero.{u, u + 1} (decl-016772.{u} k (SymmetricAlgebra.{u, u} k V) N M i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016772"
+      ],
+      "structural_type_hash": "2140435131",
+      "temporary_id": "decl-014386"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  [FiniteDimensional.{u, u} k V] (M : ModuleCat.{u, u} (MulOpposite.{u} (SymmetricAlgebra.{u, u} k V))) (N : Type u)\n  [inst_4 : AddCommGroup.{u} N] [inst_5 : Module.{u, u} (SymmetricAlgebra.{u, u} k V) N] (i : Nat),\n  LT.lt.{0} (Module.finrank.{u, u} k V) i \u2192\n    CategoryTheory.Limits.IsZero.{u, u + 1} (decl-016772.{u} k (SymmetricAlgebra.{u, u} k V) N M i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016772"
+      ],
+      "structural_type_hash": "2397209068",
+      "temporary_id": "decl-014387"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {n : Nat}\n  (b : Module.Basis.{0, u, u} (Fin n) k V) (M N : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) (i : Nat),\n  LT.lt.{0} n i \u2192\n    CategoryTheory.Limits.IsZero.{u, u + 1}\n      (decl-016772.{u} k (SymmetricAlgebra.{u, u} k V) (ModuleCat.carrier.{u, u} N)\n        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-021644.{u} (SymmetricAlgebra.{u, u} k V)) M) i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016772",
+        "decl-021644"
+      ],
+      "structural_type_hash": "3936938114",
+      "temporary_id": "decl-014388"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  [FiniteDimensional.{u, u} k V] (M N : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) (i : Nat),\n  LT.lt.{0} (Module.finrank.{u, u} k V) i \u2192\n    CategoryTheory.Limits.IsZero.{u, u + 1}\n      (decl-016772.{u} k (SymmetricAlgebra.{u, u} k V) (ModuleCat.carrier.{u, u} N)\n        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-021644.{u} (SymmetricAlgebra.{u, u} k V)) M) i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016772",
+        "decl-021644"
+      ],
+      "structural_type_hash": "1316483830",
+      "temporary_id": "decl-014389"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [inst_2 : CategoryTheory.EnoughProjectives.{v, u} C] {D : Type u} [inst_3 : CategoryTheory.Category.{v, u} D]\n  [inst_4 : CategoryTheory.Abelian.{v, u} D] (F : CategoryTheory.Functor.{v, v, u, u} C D)\n  [inst_5 : CategoryTheory.Functor.Additive.{v, u, v, u} F] (X : C) (d i : Nat),\n  CategoryTheory.HasProjectiveDimensionLE.{v, u} X d \u2192\n    LT.lt.{0} d i \u2192\n      CategoryTheory.Limits.IsZero.{v, u}\n        (CategoryTheory.Functor.obj.{v, v, u, u} (CategoryTheory.Functor.leftDerived.{v, u, v, u} F i) X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "176490573",
+      "temporary_id": "decl-020933"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {n : Nat}\n  (b : Module.Basis.{0, u, u} (Fin n) k V), decl-004746.{u} (SymmetricAlgebra.{u, u} k V) n",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004746"
+      ],
+      "structural_type_hash": "415768256",
+      "temporary_id": "decl-023719"
+    }
+  ],
+  "module_temporary_id": "module-0663",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

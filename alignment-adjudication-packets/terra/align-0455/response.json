@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0455",
+  "associations": [
+    {
+      "association_id": "association:b20f58f0a69dbce22e5a",
+      "role": "supporting",
+      "rationale": "The displayed type only gives a polynomial matrix and does not expose its entries or determinant as the claimed alternant."
+    },
+    {
+      "association_id": "association:e25084492ccab44c157a",
+      "role": "supporting",
+      "rationale": "The displayed type is an opaque exponent family and does not show the book's shifted exponent formula."
+    },
+    {
+      "association_id": "association:64d5745493d975e3d360",
+      "role": "supporting",
+      "rationale": "The displayed type is an opaque exponent family and does not show the Vandermonde exponent sequence used for the second determinant."
+    }
+  ]
+}

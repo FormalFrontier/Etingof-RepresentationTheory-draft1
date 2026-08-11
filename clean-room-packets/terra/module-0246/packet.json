@@ -1,0 +1,42 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u} {G : Type v} [inst : Field.{u} k] [inst_1 : Group.{v} G] [inst_2 : Fintype.{v} G]\n  [inst_3 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{v} G))] (V W : FDRep.{u, v} k G),\n  Eq.{u + 1}\n    (HSMul.hSMul.{u, u, u} (Invertible.invOf.{u} (Nat.cast.{u} (Fintype.card.{v} G)))\n      (Finset.sum.{v, u} Finset.univ.{v} fun g =>\n        HMul.hMul.{u, u, u} (FDRep.character.{u, v} V g) (FDRep.character.{u, v} W (Inv.inv.{v} g))))\n    (Nat.cast.{u} (Module.finrank.{u, u} k (Quiver.Hom.{u, max (u + 1) v} W V)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1444452781",
+      "temporary_id": "decl-016504"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} {G : Type v} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{v} G] [inst_3 : Fintype.{v} G]\n  [inst_4 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{v} G))] (V W : FDRep.{u, v} k G)\n  [CategoryTheory.Simple.{u, max (u + 1) v} V] [CategoryTheory.Simple.{u, max (u + 1) v} W],\n  Eq.{u + 1}\n    (HSMul.hSMul.{u, u, u} (Invertible.invOf.{u} (Nat.cast.{u} (Fintype.card.{v} G)))\n      (Finset.sum.{v, u} Finset.univ.{v} fun g =>\n        HMul.hMul.{u, u, u} (FDRep.character.{u, v} V g) (FDRep.character.{u, v} W (Inv.inv.{v} g))))\n    (ite.{u + 1} (Nonempty.{u + 1} (CategoryTheory.Iso.{u, max (u + 1) v} V W)) 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2239984255",
+      "temporary_id": "decl-016505"
+    }
+  ],
+  "module_temporary_id": "module-0246",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2fe9df6ca9b03e930b60",
+      "declaration": "Etingof.Example4_8_1.A5.outerAutomorphism_classIdx",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/218/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Example4_8_1.A5.G x),\n  Eq.{1} (Etingof.Example4_8_1.A5.classIdxA5 (DFunLike.coe.{1, 1, 1} Etingof.Example4_8_1.A5.outerAutomorphism g))\n    (Matrix.vecCons.{0} 0\n      (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 4 (Matrix.vecCons.{0} 3 Matrix.vecEmpty.{0}))))\n      (Etingof.Example4_8_1.A5.classIdxA5 g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5OuterTwist"
+    },
+    {
+      "association_id": "association:e3305325792f826bd25b",
+      "declaration": "Etingof.Example4_8_1.A5.outerAutomorphism_not_inner",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/218/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Not (Exists.{1} fun a => Eq.{1} Etingof.Example4_8_1.A5.outerAutomorphism (DFunLike.coe.{1, 1, 1} MulAut.conj.{0} a))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5OuterTwist"
+    },
+    {
+      "association_id": "association:86c6d2f89820fc3ac9ea",
+      "declaration": "Etingof.Example4_8_1.A5.repC3plus_outerTwist_iso_repC3minus",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/218/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nonempty.{1} (CategoryTheory.Iso.{0, 1} Etingof.Example4_8_1.A5.repC3plusOuterTwist Etingof.Example4_8_1.A5.repC3minus)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5OuterTwist"
+    },
+    {
+      "association_id": "association:e2a90c767f462c30380d",
+      "declaration": "Etingof.Example4_8_1.A5.repC4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/218/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Example4_8_1.A5.G x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Reps"
+    },
+    {
+      "association_id": "association:afd743923ed16993f01d",
+      "declaration": "Etingof.Example4_8_1.A5.repC5",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/218/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Example4_8_1.A5.G x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Reps"
+    }
+  ],
+  "canonical_reference": "Chapter4/Example4.8.1",
+  "packet_id": "align-0067",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0067"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:15f0919df0e2e77c923b",
+  "source_text": "The A\u2085 four- and five-dimensional rows are deleted permutation representations; the two three-dimensional rows are exchanged by the stated outer automorphism."
+}

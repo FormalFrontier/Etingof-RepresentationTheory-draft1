@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0127",
+  "associations": [
+    {
+      "association_id": "association:80a81c0a7b876d6391cb",
+      "role": "primary",
+      "rationale": "Its conclusion is exactly nilpotence of the radical of a finite-dimensional algebra."
+    }
+  ]
+}

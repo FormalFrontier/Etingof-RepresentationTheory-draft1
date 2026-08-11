@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0331",
+  "associations": [
+    {
+      "association_id": "association:bc532e23e0682f3ab317",
+      "rationale": "The formal type directly gives an equivalence between isomorphism classes of path-algebra modules and quiver representations, with the stated assignments in both directions.",
+      "role": "primary"
+    }
+  ]
+}

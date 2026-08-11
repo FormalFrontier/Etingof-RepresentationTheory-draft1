@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:010917094caa8cc7aa6b",
+      "declaration": "Etingof.char_inv_eq_conj",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/199/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u} [inst : Group.{u} G] [Finite.{u + 1} G] (V : FDRep.{0, u} Complex G) (g : G),\n  Eq.{1} (FDRep.character.{0, u} V (Inv.inv.{u} g))\n    (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex) (FDRep.character.{0, u} V g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Discussion_4_4"
+    }
+  ],
+  "canonical_reference": "Chapter4/Discussion_4.4",
+  "packet_id": "align-0441",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0441"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:8eb742fafe4f4ae89f68",
+  "source_text": "For complex finite-group representations, \u03c7_V(g\u207b\u00b9)=conj(\u03c7_V(g))."
+}

@@ -1,0 +1,185 @@
+{
+  "module_name": "QuantumTorus.Representations",
+  "declarations": [
+    {
+      "temporary_id": "decl-014796",
+      "new_name": "monomialBasis",
+      "docstring": "The basis of the quantum torus indexed by pairs of integer exponents."
+    },
+    {
+      "temporary_id": "decl-014797",
+      "new_name": "monomialBasis_apply",
+      "docstring": "The basis vector at a pair of integer exponents is the corresponding quantum-torus monomial."
+    },
+    {
+      "temporary_id": "decl-014798",
+      "new_name": "scalarEndUnit_val",
+      "docstring": "The endomorphism underlying the scalar unit is the image of the coefficient-ring unit under the algebra map."
+    },
+    {
+      "temporary_id": "decl-014799",
+      "new_name": "scalarEndUnit_zpow_val",
+      "docstring": "The endomorphism underlying an integer power of the scalar unit is the algebra-map image of the corresponding power of the coefficient-ring unit."
+    },
+    {
+      "temporary_id": "decl-014800",
+      "new_name": "monomial_val",
+      "docstring": "The underlying value of a quantum-torus monomial is the corresponding displayed ambient element."
+    },
+    {
+      "temporary_id": "decl-014801",
+      "new_name": "scalarEndUnit_commute",
+      "docstring": "The scalar endomorphism unit commutes with every unit of the endomorphism algebra."
+    },
+    {
+      "temporary_id": "decl-014802",
+      "new_name": "mul_eq_scalarEndUnit_mul_of_qCommute",
+      "docstring": "For quantum-commuting endomorphism units, `Y * X` is the scalar endomorphism unit times `X * Y`."
+    },
+    {
+      "temporary_id": "decl-014803",
+      "new_name": "mul_inv_eq_invScalarEndUnit_mul_of_qCommute",
+      "docstring": "For quantum-commuting endomorphism units, moving `Y` past `X⁻¹` introduces the inverse scalar endomorphism unit."
+    },
+    {
+      "temporary_id": "decl-014811",
+      "new_name": "moduleOfQCommute",
+      "docstring": "The quantum-torus module structure determined by two invertible endomorphisms satisfying the quantum commutation relation."
+    },
+    {
+      "temporary_id": "decl-014812",
+      "new_name": "moduleOfQCommute_isScalarTower",
+      "docstring": "The coefficient-ring action and quantum-torus action determined by quantum-commuting units form a scalar tower."
+    },
+    {
+      "temporary_id": "decl-014813",
+      "new_name": "moduleOfQCommute_smul_eq_representation_apply",
+      "docstring": "The quantum-torus module action agrees with evaluation of the representation determined by the two quantum-commuting units."
+    },
+    {
+      "temporary_id": "decl-014814",
+      "new_name": "monomialEnd",
+      "docstring": "The endomorphism monomial determined by two invertible endomorphisms and two integer exponents."
+    },
+    {
+      "temporary_id": "decl-014817",
+      "new_name": "monomialEnd_mul",
+      "docstring": "Products of endomorphism monomials satisfy the displayed twisted exponent-addition formula under the quantum commutation relation."
+    },
+    {
+      "temporary_id": "decl-014825",
+      "new_name": "monomialEnd_zero_zero",
+      "docstring": "The endomorphism monomial with both exponents zero is one."
+    },
+    {
+      "temporary_id": "decl-014826",
+      "new_name": "scalarEndUnit",
+      "docstring": "The unit of the endomorphism algebra induced by a unit of the coefficient ring."
+    },
+    {
+      "temporary_id": "decl-014829",
+      "new_name": "scalarEndUnit_val_mul",
+      "docstring": "Left multiplication by the endomorphism underlying the scalar unit is scalar multiplication by the coefficient-ring unit."
+    },
+    {
+      "temporary_id": "decl-014830",
+      "new_name": "monomial",
+      "docstring": "The quantum-torus monomial associated with a pair of integer exponents."
+    },
+    {
+      "temporary_id": "decl-014833",
+      "new_name": "monomial_linearIndependent",
+      "docstring": "The quantum-torus monomials are linearly independent over the coefficient ring."
+    },
+    {
+      "temporary_id": "decl-014834",
+      "new_name": "monomial_mul",
+      "docstring": "The product of two quantum-torus monomials is the monomial at the sum of their exponent pairs, scaled by the indicated power of the quantum parameter."
+    },
+    {
+      "temporary_id": "decl-014835",
+      "new_name": "top_le_span_range_monomial",
+      "docstring": "The span of the quantum-torus monomials contains the whole algebra."
+    },
+    {
+      "temporary_id": "decl-014836",
+      "new_name": "monomial_firstExponent_pow",
+      "docstring": "A natural power of a monomial supported in the first exponent multiplies that exponent by the power."
+    },
+    {
+      "temporary_id": "decl-014837",
+      "new_name": "monomial_secondExponent_pow",
+      "docstring": "A natural power of a monomial supported in the second exponent multiplies that exponent by the power."
+    },
+    {
+      "temporary_id": "decl-014838",
+      "new_name": "monomial_zero_zero",
+      "docstring": "The quantum-torus monomial with both exponents zero is one."
+    },
+    {
+      "temporary_id": "decl-014839",
+      "new_name": "representationOfQCommute",
+      "docstring": "The quantum-torus algebra representation determined by two invertible endomorphisms satisfying the quantum commutation relation."
+    },
+    {
+      "temporary_id": "decl-014842",
+      "new_name": "monomialLinearMap",
+      "docstring": "The coefficient-linear map from the quantum torus to endomorphisms determined by two invertible endomorphisms."
+    },
+    {
+      "temporary_id": "decl-014846",
+      "new_name": "monomialLinearMap_map_mul_monomial",
+      "docstring": "Under the quantum commutation relation, the monomial linear map preserves products of basis monomials."
+    },
+    {
+      "temporary_id": "decl-014847",
+      "new_name": "monomialLinearMap_map_mul",
+      "docstring": "Under the quantum commutation relation, the monomial linear map preserves multiplication on all quantum-torus elements."
+    },
+    {
+      "temporary_id": "decl-014848",
+      "new_name": "monomialLinearMap_map_mul_monomial_right",
+      "docstring": "Under the quantum commutation relation, the monomial linear map preserves multiplication when the right factor is a basis monomial."
+    },
+    {
+      "temporary_id": "decl-014849",
+      "new_name": "monomialLinearMap_monomial",
+      "docstring": "The monomial linear map sends a quantum-torus monomial to the endomorphism monomial with the same exponent pair."
+    },
+    {
+      "temporary_id": "decl-014851",
+      "new_name": "representationOfQCommute_monomial",
+      "docstring": "The representation determined by quantum-commuting units sends a quantum-torus monomial to the corresponding endomorphism monomial."
+    },
+    {
+      "temporary_id": "decl-014852",
+      "new_name": "representationOfQCommute_firstGenerator",
+      "docstring": "The representation determined by quantum-commuting units sends the first distinguished monomial to the first endomorphism unit."
+    },
+    {
+      "temporary_id": "decl-014853",
+      "new_name": "representationOfQCommute_secondGenerator",
+      "docstring": "The representation determined by quantum-commuting units sends the second distinguished monomial to the second endomorphism unit."
+    },
+    {
+      "temporary_id": "decl-014854",
+      "new_name": "mul_zpow_eq_scalarEndUnit_zpow_mul_of_qCommute",
+      "docstring": "Moving `Y` past an integer power of `X` introduces the same integer power of the scalar endomorphism unit."
+    },
+    {
+      "temporary_id": "decl-014862",
+      "new_name": "zpow_mul_zpow_eq_scalarEndUnit_zpow_mul_of_qCommute",
+      "docstring": "Moving an integer power of `Y` past an integer power of `X` introduces the scalar endomorphism unit raised to the product of the exponents."
+    },
+    {
+      "temporary_id": "decl-014870",
+      "new_name": "val_zpow_mul_val_zpow",
+      "docstring": "The product of the underlying endomorphisms of two integer powers of a unit is the underlying endomorphism at the sum of the exponents."
+    },
+    {
+      "temporary_id": "decl-014871",
+      "new_name": "auxiliaryValZpowMulValZpow",
+      "docstring": "An auxiliary form of the identity multiplying the underlying endomorphisms of two integer powers of a unit."
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cdaf5c3830c7f8b9403b",
+      "declaration": "Etingof.isSemisimpleRing_tensorProduct",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/181/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] (A : Type u_2) (B : Type u_3) [inst_2 : Ring.{u_2} A]\n  [inst_3 : Algebra.{u_1, u_2} k A] [FiniteDimensional.{u_1, u_2} k A] [IsSemisimpleRing.{u_2} A]\n  [inst_6 : Ring.{u_3} B] [inst_7 : Algebra.{u_1, u_3} k B] [FiniteDimensional.{u_1, u_3} k B]\n  [IsSemisimpleRing.{u_3} B], IsSemisimpleRing.{max u_3 u_2} (TensorProduct.{u_1, u_2, u_3} k A B)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:109edd5c48082c648a14",
+      "declaration": "Etingof.jacobson_le_radTensorSum",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/181/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {B : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Ring.{u_3} B]\n  [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : Algebra.{u_1, u_3} k B],\n  IsSemisimpleRing.{max u_3 u_2}\n      (TensorProduct.{u_1, u_2, u_3} k (HasQuotient.Quotient.{u_2, u_2} A (Ring.jacobson.{u_2} A))\n        (HasQuotient.Quotient.{u_3, u_3} B (Ring.jacobson.{u_3} B))) \u2192\n    LE.le.{max u_2 u_3} (Ring.jacobson.{max u_3 u_2} (TensorProduct.{u_1, u_2, u_3} k A B))\n      (Etingof.radTensorSum.{u_1, u_2, u_3} k A B)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:47de7c63c4105afe0826",
+      "declaration": "Etingof.jacobson_tensorProduct_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/181/coverage/lean_decl",
+          "verdict": "proof_polished"
+        },
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/181/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {B : Type u_3} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u_2} A]\n  [inst_3 : Ring.{u_3} B] [inst_4 : Algebra.{u_1, u_2} k A] [inst_5 : Algebra.{u_1, u_3} k B]\n  [FiniteDimensional.{u_1, u_2} k A] [FiniteDimensional.{u_1, u_3} k B],\n  Eq.{max (u_2 + 1) (u_3 + 1)} (Ring.jacobson.{max u_3 u_2} (TensorProduct.{u_1, u_2, u_3} k A B))\n    (Etingof.radTensorSum.{u_1, u_2, u_3} k A B)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:01966d2f9f572e43835d",
+      "declaration": "Etingof.jacobson_tensorProduct_range_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/181/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (B : Type u_3) (M : Type u_4) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k]\n  [inst_2 : Ring.{u_2} A] [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : Ring.{u_3} B] [inst_5 : Algebra.{u_1, u_3} k B]\n  [inst_6 : AddCommGroup.{u_4} M] [inst_7 : Module.{u_1, u_4} k M] [FiniteDimensional.{u_1, u_4} k M]\n  [inst_9 : Module.{u_2, u_4} A M] [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A M] [inst_11 : Module.{u_3, u_4} B M]\n  [inst_12 : IsScalarTower.{u_1, u_3, u_4} k B M],\n  Eq.{u_4 + 1}\n    (Ring.jacobson.{u_4}\n      (TensorProduct.{u_1, u_4, u_4} k\n        (Subtype.{u_4 + 1} fun x =>\n          Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_2, u_4} (Algebra.lsmul.{u_1, u_2, u_1, u_4} k k M)) x)\n        (Subtype.{u_4 + 1} fun x =>\n          Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_3, u_4} (Algebra.lsmul.{u_1, u_3, u_1, u_4} k k M)) x)))\n    (Etingof.radTensorSum.{u_1, u_4, u_4} k\n      (Subtype.{u_4 + 1} fun x =>\n        Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_2, u_4} (Algebra.lsmul.{u_1, u_2, u_1, u_4} k k M)) x)\n      (Subtype.{u_4 + 1} fun x =>\n        Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_3, u_4} (Algebra.lsmul.{u_1, u_3, u_1, u_4} k k M)) x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:6e304e2dbd23b60163d0",
+      "declaration": "Etingof.quotientJacobsonTensorEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/181/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {B : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [IsAlgClosed.{u_1} k] \u2192\n          [inst_2 : Ring.{u_2} A] \u2192\n            [inst_3 : Ring.{u_3} B] \u2192\n              [inst_4 : Algebra.{u_1, u_2} k A] \u2192\n                [inst_5 : Algebra.{u_1, u_3} k B] \u2192\n                  [FiniteDimensional.{u_1, u_2} k A] \u2192\n                    [FiniteDimensional.{u_1, u_3} k B] \u2192\n                      AlgEquiv.{u_1, max (max u_2 u_3) u_3 u_2, max u_3 u_2} k\n                        (HasQuotient.Quotient.{max u_3 u_2, max u_2 u_3} (TensorProduct.{u_1, u_2, u_3} k A B)\n                          (Ring.jacobson.{max u_3 u_2} (TensorProduct.{u_1, u_2, u_3} k A B)))\n                        (TensorProduct.{u_1, u_2, u_3} k (HasQuotient.Quotient.{u_2, u_2} A (Ring.jacobson.{u_2} A))\n                          (HasQuotient.Quotient.{u_3, u_3} B (Ring.jacobson.{u_3} B)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:4f0cfaecee190eaced87",
+      "declaration": "Etingof.quotientRadTensorSumEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/181/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {B : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Ring.{u_3} B] \u2192\n            [inst_3 : Algebra.{u_1, u_2} k A] \u2192\n              [inst_4 : Algebra.{u_1, u_3} k B] \u2192\n                AlgEquiv.{u_1, max (max u_2 u_3) u_3 u_2, max u_3 u_2} k\n                  (HasQuotient.Quotient.{max u_3 u_2, max u_2 u_3} (TensorProduct.{u_1, u_2, u_3} k A B)\n                    (Etingof.radTensorSum.{u_1, u_2, u_3} k A B))\n                  (TensorProduct.{u_1, u_2, u_3} k (HasQuotient.Quotient.{u_2, u_2} A (Ring.jacobson.{u_2} A))\n                    (HasQuotient.Quotient.{u_3, u_3} B (Ring.jacobson.{u_3} B)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:fc3948c2453e9cbb2166",
+      "declaration": "Etingof.radTensorSum_eq_ker",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/181/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {B : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Ring.{u_3} B]\n  [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : Algebra.{u_1, u_3} k B],\n  Eq.{max (u_2 + 1) (u_3 + 1)} (Etingof.radTensorSum.{u_1, u_2, u_3} k A B)\n    (RingHom.ker.{max u_2 u_3, max u_2 u_3, max u_2 u_3} (Etingof.tensorRadQuot.{u_1, u_2, u_3} k A B))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:4ea12a00d874064783a2",
+      "declaration": "Etingof.radTensorSum_le_jacobson",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/181/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {B : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Ring.{u_3} B]\n  [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : Algebra.{u_1, u_3} k B] [FiniteDimensional.{u_1, u_2} k A]\n  [FiniteDimensional.{u_1, u_3} k B],\n  LE.le.{max u_2 u_3} (Etingof.radTensorSum.{u_1, u_2, u_3} k A B)\n    (Ring.jacobson.{max u_3 u_2} (TensorProduct.{u_1, u_2, u_3} k A B))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:b0b6d1223cec9199d6bf",
+      "declaration": "Etingof.tensorProductRangeModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/181/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {B : Type u_3} \u2192\n      {M : Type u_4} \u2192\n        [inst : CommSemiring.{u_1} k] \u2192\n          [inst_1 : Semiring.{u_2} A] \u2192\n            [inst_2 : Semiring.{u_3} B] \u2192\n              [inst_3 : Algebra.{u_1, u_2} k A] \u2192\n                [inst_4 : Algebra.{u_1, u_3} k B] \u2192\n                  [inst_5 : AddCommMonoid.{u_4} M] \u2192\n                    [inst_6 : Module.{u_1, u_4} k M] \u2192\n                      (rhoA : AlgHom.{u_1, u_2, u_4} k A (Module.End.{u_1, u_4} k M)) \u2192\n                        (rhoB : AlgHom.{u_1, u_3, u_4} k B (Module.End.{u_1, u_4} k M)) \u2192\n                          (\u2200 (a : A) (b : B),\n                              Commute.{u_4} (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} rhoA a)\n                                (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} rhoB b)) \u2192\n                            Module.{u_4, u_4}\n                              (TensorProduct.{u_1, u_4, u_4} k\n                                (Subtype.{u_4 + 1} fun x =>\n                                  Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_2, u_4} rhoA) x)\n                                (Subtype.{u_4 + 1} fun x =>\n                                  Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_3, u_4} rhoB) x))\n                              M",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:00c918830da67c1b1b38",
+      "declaration": "Etingof.tensorProductRangeRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/181/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    {B : Type u_3} \u2192\n      {M : Type u_4} \u2192\n        [inst : CommSemiring.{u_1} k] \u2192\n          [inst_1 : Semiring.{u_2} A] \u2192\n            [inst_2 : Semiring.{u_3} B] \u2192\n              [inst_3 : Algebra.{u_1, u_2} k A] \u2192\n                [inst_4 : Algebra.{u_1, u_3} k B] \u2192\n                  [inst_5 : AddCommMonoid.{u_4} M] \u2192\n                    [inst_6 : Module.{u_1, u_4} k M] \u2192\n                      (rhoA : AlgHom.{u_1, u_2, u_4} k A (Module.End.{u_1, u_4} k M)) \u2192\n                        (rhoB : AlgHom.{u_1, u_3, u_4} k B (Module.End.{u_1, u_4} k M)) \u2192\n                          (\u2200 (a : A) (b : B),\n                              Commute.{u_4} (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} rhoA a)\n                                (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} rhoB b)) \u2192\n                            AlgHom.{u_1, u_4, u_4} k\n                              (TensorProduct.{u_1, u_4, u_4} k\n                                (Subtype.{u_4 + 1} fun x =>\n                                  Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_2, u_4} rhoA) x)\n                                (Subtype.{u_4 + 1} fun x =>\n                                  Membership.mem.{u_4, u_4} (AlgHom.range.{u_1, u_3, u_4} rhoB) x))\n                              (Module.End.{u_1, u_4} k M)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    },
+    {
+      "association_id": "association:770be256168b5f568df4",
+      "declaration": "Etingof.tensorProductRangeRep_tmul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/181/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {B : Type u_3} {M : Type u_4} [inst : CommSemiring.{u_1} k] [inst_1 : Semiring.{u_2} A]\n  [inst_2 : Semiring.{u_3} B] [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : Algebra.{u_1, u_3} k B]\n  [inst_5 : AddCommMonoid.{u_4} M] [inst_6 : Module.{u_1, u_4} k M]\n  (rhoA : AlgHom.{u_1, u_2, u_4} k A (Module.End.{u_1, u_4} k M))\n  (rhoB : AlgHom.{u_1, u_3, u_4} k B (Module.End.{u_1, u_4} k M))\n  (hcomm :\n    \u2200 (a : A) (b : B),\n      Commute.{u_4} (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} rhoA a)\n        (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} rhoB b))\n  (a : A) (b : B),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1} (Etingof.tensorProductRangeRep.{u_1, u_2, u_3, u_4} rhoA rhoB hcomm)\n      (TensorProduct.tmul.{u_1, u_4, u_4} k\n        (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} (AlgHom.rangeRestrict.{u_1, u_2, u_4} rhoA) a)\n        (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} (AlgHom.rangeRestrict.{u_1, u_3, u_4} rhoB) b)))\n    (HMul.hMul.{u_4, u_4, u_4} (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} rhoA a)\n      (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} rhoB b))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.10.2",
+  "packet_id": "align-1231",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1231"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter3/Discussion_proof_of_Theorem3.10.2",
+  "source_text": "**Proof.** (i) By the density theorem, the maps $A \\to \\operatorname{End} V$ and $B \\to \\operatorname{End} W$ are surjective. Therefore, the map $A \\otimes B \\to \\operatorname{End} V \\otimes \\operatorname{End} W = \\operatorname{End}(V \\otimes W)$ is surjective. Thus, $V \\otimes W$ is irreducible.\n\n(ii) First we show the existence of $V$ and $W$. Let $A', B'$ be the images of $A, B$ in $\\operatorname{End} M$. Then $A', B'$ are finite dimensional algebras, and $M$ is a representation of $A' \\otimes B'$, so we may assume without loss of generality that $A$ and $B$ are finite dimensional.\n\nIn this case, we claim that\n\n$$\\operatorname{Rad}(A \\otimes B) = \\operatorname{Rad}(A) \\otimes B + A \\otimes \\operatorname{Rad}(B).$$\nIndeed, denote the latter by $J$. Then $J$ is a nilpotent ideal in $A \\otimes B$, as $\\operatorname{Rad}(A)$ and $\\operatorname{Rad}(B)$ are nilpotent. On the other hand, $(A \\otimes B)/J = (A/\\operatorname{Rad}(A)) \\otimes (B/\\operatorname{Rad}(B))$, which is a product of two semisimple algebras, hence semisimple. This implies $J \\supset \\operatorname{Rad}(A \\otimes B)$. Altogether, by Proposition 3.5.3, we see that $J = \\operatorname{Rad}(A \\otimes B)$, proving the claim.\n\nThus, we see that\n\n$$(A \\otimes B)/\\operatorname{Rad}(A \\otimes B) = A/\\operatorname{Rad}(A) \\otimes B/\\operatorname{Rad}(B).$$\n\nNow, $M$ is an irreducible representation of $(A \\otimes B)/\\operatorname{Rad}(A \\otimes B)$, so it is clearly of the form $M = V \\otimes W$, where $V$ is an irreducible representation of $A/\\operatorname{Rad}(A)$ and $W$ is an irreducible representation of $B/\\operatorname{Rad}(B)$. Also, $V, W$ are uniquely determined by $M$ (as all of the algebras involved are direct sums of matrix algebras). $\\square$\n"
+}

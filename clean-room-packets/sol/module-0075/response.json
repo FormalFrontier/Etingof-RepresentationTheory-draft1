@@ -1,0 +1,140 @@
+{
+  "module_name": "LieAlgebra.BigradedPairing",
+  "declarations": [
+    {
+      "temporary_id": "decl-007331",
+      "new_name": "apply_eq_zero_of_not_compatible",
+      "docstring": "A pairing satisfying the owner's condition vanishes on two displayed indexed elements whenever their indices are not compatible."
+    },
+    {
+      "temporary_id": "decl-007344",
+      "new_name": "IndexPairCompatible",
+      "docstring": "The displayed compatibility relation on pairs of indices."
+    },
+    {
+      "temporary_id": "decl-007597",
+      "new_name": "auxiliaryCoeff3",
+      "docstring": "An auxiliary ring-valued coefficient function on `Fin 3`."
+    },
+    {
+      "temporary_id": "decl-007619",
+      "new_name": "eq_rev_of_val_add_eq_two",
+      "docstring": "Two indices in `Fin 3` whose values sum to two are reverses of one another."
+    },
+    {
+      "temporary_id": "decl-007620",
+      "new_name": "eq_rev_of_val_add_eq_four",
+      "docstring": "Two indices in `Fin 5` whose values sum to four are reverses of one another."
+    },
+    {
+      "temporary_id": "decl-007735",
+      "new_name": "sequenceCoefficient",
+      "docstring": "An auxiliary scalar assigned to an index from a scalar sequence."
+    },
+    {
+      "temporary_id": "decl-007741",
+      "new_name": "auxiliaryPairing",
+      "docstring": "A scalar-valued auxiliary pairing on the displayed subtype, determined by a scalar sequence when two is nonzero."
+    },
+    {
+      "temporary_id": "decl-007744",
+      "new_name": "auxiliaryPairing_base_familyTwo",
+      "docstring": "The auxiliary pairing of the displayed base element with the indexed family element at position two equals the corresponding sequence value."
+    },
+    {
+      "temporary_id": "decl-007745",
+      "new_name": "auxiliaryPairing_family3",
+      "docstring": "For complementary `Fin 3` indices, the auxiliary pairing of the two displayed family elements is the three-index coefficient times the sequence value at `a + b + 1`."
+    },
+    {
+      "temporary_id": "decl-007746",
+      "new_name": "auxiliaryPairing_family5",
+      "docstring": "For complementary `Fin 5` indices, the auxiliary pairing of the two displayed family elements is the five-index coefficient times the sequence value at `a + b`."
+    },
+    {
+      "temporary_id": "decl-007747",
+      "new_name": "auxiliaryLinearForm",
+      "docstring": "A scalar-valued linear map on the displayed subtype associated with a scalar sequence when two is nonzero."
+    },
+    {
+      "temporary_id": "decl-007753",
+      "new_name": "auxiliaryLinearForm_apply_indexedElement",
+      "docstring": "The auxiliary linear form evaluated at a displayed indexed element equals its sequence coefficient."
+    },
+    {
+      "temporary_id": "decl-007805",
+      "new_name": "indexPairCompatible_iff",
+      "docstring": "Two indices are compatible exactly in one of the four displayed base, three-index-family, or five-index-family configurations."
+    },
+    {
+      "temporary_id": "decl-007847",
+      "new_name": "auxiliaryPairing_property",
+      "docstring": "The auxiliary pairing associated with a scalar sequence satisfies the displayed predicate."
+    },
+    {
+      "temporary_id": "decl-007856",
+      "new_name": "auxiliaryBidegreeSubmodule_eq_span_familyOne",
+      "docstring": "At bidegree `(2 * m + 2, 4 * m + 4)`, the displayed submodule is the span of the corresponding indexed family element at position one."
+    },
+    {
+      "temporary_id": "decl-007857",
+      "new_name": "auxiliaryBidegreeSubmodule_eq_span",
+      "docstring": "The displayed submodule at an index's bidegree is the span of the corresponding indexed element."
+    },
+    {
+      "temporary_id": "decl-007915",
+      "new_name": "bracket_family5_rev",
+      "docstring": "The bracket of a displayed five-index family element with its reverse-index element is its auxiliary coefficient times the displayed common element."
+    },
+    {
+      "temporary_id": "decl-007929",
+      "new_name": "bracket_family3_rev",
+      "docstring": "The bracket of a displayed three-index family element with its reverse-index element is its auxiliary coefficient times the displayed common element."
+    },
+    {
+      "temporary_id": "decl-007930",
+      "new_name": "bracket_base_familyTwo",
+      "docstring": "The bracket of the displayed base indexed element with the family element at position two is the corresponding family element at position one."
+    },
+    {
+      "temporary_id": "decl-007932",
+      "new_name": "bracket_familyTwo_base",
+      "docstring": "The bracket of the displayed family element at position two with the base indexed element is the negation of the corresponding family element at position one."
+    },
+    {
+      "temporary_id": "decl-007933",
+      "new_name": "bracket_family3_of_val_add_eq_two",
+      "docstring": "When two `Fin 3` indices have values summing to two, the bracket of the corresponding family elements is the auxiliary coefficient times the family element indexed by `a + b + 1` at position one."
+    },
+    {
+      "temporary_id": "decl-007934",
+      "new_name": "bracket_family3_rev_index",
+      "docstring": "The bracket of two displayed three-index family elements at reverse indices is the auxiliary coefficient times the family element indexed by `a + b + 1` at position one."
+    },
+    {
+      "temporary_id": "decl-007936",
+      "new_name": "bracket_mem_span_of_bidegree_add_eq",
+      "docstring": "Under the stated nonvanishing assumptions, if two index bidegrees sum to `(2 * m + 2, 4 * m + 4)`, then the bracket of their displayed elements belongs to the span of the corresponding family element at position one."
+    },
+    {
+      "temporary_id": "decl-007938",
+      "new_name": "bracket_family5_of_val_add_eq_four",
+      "docstring": "When two `Fin 5` indices have values summing to four, the bracket of the corresponding family elements is the auxiliary coefficient times the family element indexed by `a + b` at position one."
+    },
+    {
+      "temporary_id": "decl-007939",
+      "new_name": "bracket_family5_rev_index",
+      "docstring": "The bracket of two displayed five-index family elements at reverse indices is the auxiliary coefficient times the family element indexed by `a + b` at position one."
+    },
+    {
+      "temporary_id": "decl-008102",
+      "new_name": "forall_bidegree_add_ne_iff_not_indexPairCompatible",
+      "docstring": "A pair of indices is incompatible exactly when its bidegree sum differs from `(2 * m + 2, 4 * m + 4)` for every natural number `m`."
+    },
+    {
+      "temporary_id": "decl-008103",
+      "new_name": "auxiliaryCoeff5",
+      "docstring": "An auxiliary ring-valued coefficient function on `Fin 5`."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.22.1",
+    "kind": "theorem",
+    "title": "Weyl character formula: vanishing criterion, character of L_lambda, and dimension formula",
+    "node_id": "chapter-05/section-5-22",
+    "order": 367,
+    "slug": "theorem5-22-1",
+    "span": {
+      "start": {
+        "page": "132",
+        "line": 33
+      },
+      "end": {
+        "page": "132",
+        "line": 37
+      }
+    },
+    "source_sha256": "4adb4f985ef8b29376adbf6848dc15f6a2c37f733c7c636518c1b30ff29690a7",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5221",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

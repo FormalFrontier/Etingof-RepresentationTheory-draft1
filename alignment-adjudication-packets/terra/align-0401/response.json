@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0401",
+  "associations": [
+    {
+      "association_id": "association:d0cf3d4bab4a1af56b93",
+      "role": "primary",
+      "rationale": "The definition directly constructs the A-linear map from the finite free module associated with a chosen basis into X."
+    },
+    {
+      "association_id": "association:09d2fd811f92c5c3edb4",
+      "role": "primary",
+      "rationale": "The formal type directly states the map's value as the finite sum of the coefficients acting on the chosen basis vectors."
+    }
+  ]
+}

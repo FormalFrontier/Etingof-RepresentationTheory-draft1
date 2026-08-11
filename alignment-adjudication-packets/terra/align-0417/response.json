@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0417",
+  "associations": [
+    {
+      "association_id": "association:20f3b3c75fec79df85e7",
+      "role": "primary",
+      "rationale": "The theorem directly says that every endomorphism of a finite-dimensional indecomposable module is bijective or nilpotent."
+    }
+  ]
+}

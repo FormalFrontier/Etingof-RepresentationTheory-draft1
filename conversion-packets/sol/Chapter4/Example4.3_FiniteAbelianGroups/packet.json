@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Example4.3_FiniteAbelianGroups",
+    "kind": "example",
+    "title": "Representations of finite abelian groups and dual groups",
+    "node_id": "chapter-04/section-4-3",
+    "order": 195,
+    "slug": "example4-3-finiteabeliangroups",
+    "span": {
+      "start": {
+        "page": "64",
+        "line": 21
+      },
+      "end": {
+        "page": "65",
+        "line": 2
+      }
+    },
+    "source_sha256": "c7a5e39f60ef67351cc9e67e631038373d21301a0743dd71119b242bb28132dc",
+    "features": {
+      "line_count": 7,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Example43FiniteAbelianGroups",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

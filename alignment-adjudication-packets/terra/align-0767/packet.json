@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:94e7351319894993ffa9",
+      "declaration": "Etingof.Problem5_2_7.exists_character_eq_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/260/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] [DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  [CategoryTheory.Simple.{0, 1} V],\n  LT.lt.{0} 1 (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))) \u2192\n    Exists.{1} fun g => Eq.{1} (FDRep.character.{0, 0} V g) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_2_7"
+    }
+  ],
+  "canonical_reference": "Chapter5/Problem5.2.7",
+  "packet_id": "align-0767",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0767"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Problem5.2.7:part_b",
+  "source_text": "Part (b): an irreducible complex representation of dimension greater than one has a zero character value."
+}

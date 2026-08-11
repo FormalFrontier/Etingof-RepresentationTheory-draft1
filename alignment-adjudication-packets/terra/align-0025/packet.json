@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8208af222f7d33239a77",
+      "declaration": "CategoryTheory.Functor.comp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/475/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.CategoryTheory.Functor.Basic"
+    },
+    {
+      "association_id": "association:ced9ee448cccf51a74b6",
+      "declaration": "CategoryTheory.Functor.id",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/475/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.CategoryTheory.Functor.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter7/Discussion_after_Definition7.2.1",
+  "packet_id": "align-0025",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0025"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:05343d272fac7214815b",
+  "source_text": "Functors compose and every category has an identity functor."
+}

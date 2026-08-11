@@ -1,0 +1,11 @@
+{
+  "module_name": "LieAlgebra.BracketIdentities",
+  "declarations": [
+    {"temporary_id": "decl-001660", "new_name": "bracket_add_left", "docstring": "The bracket distributes over addition in its left argument."},
+    {"temporary_id": "decl-001661", "new_name": "bracket_add_right", "docstring": "The bracket distributes over addition in its right argument."},
+    {"temporary_id": "decl-001662", "new_name": "bracket_self", "docstring": "The bracket of an element with itself is zero."},
+    {"temporary_id": "decl-001663", "new_name": "bracket_eq_neg_bracket_swap", "docstring": "Interchanging the arguments of a bracket negates its value."},
+    {"temporary_id": "decl-001664", "new_name": "bracket_smul_left", "docstring": "Scalar multiplication may be pulled out of the left argument of a Lie bracket."},
+    {"temporary_id": "decl-001665", "new_name": "bracket_smul_right", "docstring": "Scalar multiplication may be pulled out of the right argument of a Lie bracket."}
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0468",
+  "associations": [
+    {
+      "association_id": "association:d02a10716be1008d73b6",
+      "role": "primary",
+      "rationale": "The equality directly states that converting a representation to a group homomorphism into invertible linear endomorphisms preserves its action on every vector."
+    },
+    {
+      "association_id": "association:8edbe42b078eda842b6c",
+      "role": "primary",
+      "rationale": "The equality directly states that the inverse conversion from a group homomorphism into linear equivalences preserves its action on every vector."
+    }
+  ]
+}

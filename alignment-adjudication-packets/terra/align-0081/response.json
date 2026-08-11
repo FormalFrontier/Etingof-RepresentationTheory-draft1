@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0081",
+  "associations": [
+    {
+      "association_id": "association:782b7bb0ccc7ab70a475",
+      "role": "primary",
+      "rationale": "Its equality directly identifies the Schur-module formal character with the corresponding Schur polynomial."
+    }
+  ]
+}

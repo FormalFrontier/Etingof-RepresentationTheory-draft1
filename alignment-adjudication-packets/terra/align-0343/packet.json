@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b16832656c8145dd0ed0",
+      "declaration": "Etingof.Example2_9_8.trivialRepresentation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/87/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (L : Type u_2) [inst_1 : LieRing.{u_2} L]\n  [inst_2 : LieAlgebra.{u_1, u_2} k L] (V : Type u_3) [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V],\n  Etingof.LieAlgebraRepresentation.{u_1, u_2, u_3} k L (TrivialLieModule.{u_1, u_2, u_3} k L V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_8"
+    },
+    {
+      "association_id": "association:a6b3c77fcd7247559aa4",
+      "declaration": "Etingof.Example2_9_8.trivialRepresentation_bracket",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/87/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (L : Type u_2) [inst : LieRing.{u_2} L] (V : Type u_3) [inst_1 : AddCommGroup.{u_3} V] (a : L)\n  (v : TrivialLieModule.{u_1, u_2, u_3} k L V), Eq.{u_3 + 1} (Bracket.bracket.{u_2, u_3} a v) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_8"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.9.8",
+  "packet_id": "align-0343",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0343"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6a616892f038deb929bc",
+  "source_text": "Every vector space carries the trivial representation rho=0."
+}

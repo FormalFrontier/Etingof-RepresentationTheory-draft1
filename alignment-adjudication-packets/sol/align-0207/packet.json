@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:41baad5e08afe40ae010",
+      "declaration": "Etingof.GL2.complementarySeriesRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/386/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(p : Nat) \u2192\n  [hp : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      [inst : Fintype.{0} (GaloisField p n)] \u2192\n        [Fintype.{0} (GL2\u271d p n)] \u2192\n          (nu :\n              MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.GL2.ellipticSubgroup p n) x)\n                (Units.{0} Complex)) \u2192\n            Ne.{1} p 2 \u2192\n              LT.lt.{0} 0 n \u2192\n                (Exists.{1} fun k =>\n                    Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n                      (DFunLike.coe.{1, 1, 1} nu k)) \u2192\n                  FDRep.{0, 0} Complex (GL2\u271d p n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeries"
+    },
+    {
+      "association_id": "association:433f214c524974c94ff6",
+      "declaration": "Etingof.GL2.complementarySeriesRep_character",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/386/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (GL2\u271d p n)]\n  (nu :\n    MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.GL2.ellipticSubgroup p n) x)\n      (Units.{0} Complex))\n  (hp2 : Ne.{1} p 2) (hn : LT.lt.{0} 0 n)\n  (hnu_ne :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} nu k))\n  (g : GL2\u271d p n),\n  Eq.{1} (FDRep.character.{0, 0} (Etingof.GL2.complementarySeriesRep p n nu hp2 hn hnu_ne) g)\n    (Etingof.GL2.complementarySeriesChar p n nu g)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeries"
+    },
+    {
+      "association_id": "association:4fb7ff6203e56f52869c",
+      "declaration": "Etingof.GL2.complementarySeriesRep_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/386/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : Fintype.{0} (GL2\u271d p n)]\n  (nu :\n    MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.GL2.ellipticSubgroup p n) x)\n      (Units.{0} Complex))\n  (hp2 : Ne.{1} p 2) (hn : LT.lt.{0} 0 n)\n  (hnu_ne :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} nu k)),\n  CategoryTheory.Simple.{0, 1} (Etingof.GL2.complementarySeriesRep p n nu hp2 hn hnu_ne)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeries"
+    },
+    {
+      "association_id": "association:aff5507840210e4ee4da",
+      "declaration": "Etingof.GL2.finrank_complementarySeriesRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/386/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : Fintype.{0} (GL2\u271d p n)]\n  (nu :\n    MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.GL2.ellipticSubgroup p n) x)\n      (Units.{0} Complex))\n  (hp2 : Ne.{1} p 2) (hn : LT.lt.{0} 0 n)\n  (hnu_ne :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} nu k)),\n  Eq.{1}\n    (Module.finrank.{0, 0} Complex\n      (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (Etingof.GL2.complementarySeriesRep p n nu hp2 hn hnu_ne))))\n    (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeries"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_5.25.4",
+  "packet_id": "align-0207",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0207"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3f58f94d22dd21c3db8c",
+  "source_text": "The complementary virtual character is the character of an honest simple representation of dimension q\u22121."
+}

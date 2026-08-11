@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e211c49deddcb5f92316",
+      "declaration": "Etingof.Definition5_2_2_algebraic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/253/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (z : Complex),\n  Iff (IsAlgebraic.{0, 0} Rat z)\n    (Exists.{1} fun n =>\n      Exists.{1} fun M =>\n        Polynomial.IsRoot.{0}\n          (Matrix.charpoly.{0, 0}\n            (Matrix.map.{0, 0, 0, 0} M (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Rat Complex))))\n          z)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_2_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Definition5.2.2",
+  "packet_id": "align-1147",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1147"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ebd381549388dfa2cfcc",
+  "source_text": "A complex number is algebraic exactly when it is an eigenvalue of a finite matrix over Q."
+}

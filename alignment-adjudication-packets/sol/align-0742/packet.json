@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:66257fa7b48e9df96939",
+      "declaration": "Etingof.Exercise5_27_2.DihedralSemidirect",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nat \u2192 Type",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral"
+    },
+    {
+      "association_id": "association:b790725c56ecfea037fc",
+      "declaration": "Etingof.Exercise5_27_2.dihedralEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(N : Nat) \u2192 MulEquiv.{0, 0} (DihedralGroup N) (Etingof.Exercise5_27_2.DihedralSemidirect N)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral"
+    },
+    {
+      "association_id": "association:ad393b103ddb4293d8ce",
+      "declaration": "Etingof.Exercise5_27_2.dihedral_classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (N : Nat) [NeZero.{0} N],\n  Exists.{1} fun n =>\n    Exists.{2} fun W =>\n      And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n        (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n          (And\n            (\u2200 (S : FDRep.{0, 0} Complex (DihedralGroup N)),\n              CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n            (And\n              (\u2200 (i : Fin n),\n                Or (Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1)\n                  (Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 2))\n              (And\n                (Odd.{0} N \u2192\n                  And\n                    (Eq.{1}\n                      (Finset.card.{0}\n                        (Finset.filter.{0}\n                          (fun i =>\n                            Eq.{1}\n                              (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1)\n                          Finset.univ.{0}))\n                      2)\n                    (Eq.{1}\n                      (Finset.card.{0}\n                        (Finset.filter.{0}\n                          (fun i =>\n                            Eq.{1}\n                              (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 2)\n                          Finset.univ.{0}))\n                      (HDiv.hDiv.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) 2)))\n                (Even.{0} N \u2192\n                  And\n                    (Eq.{1}\n                      (Finset.card.{0}\n                        (Finset.filter.{0}\n                          (fun i =>\n                            Eq.{1}\n                              (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1)\n                          Finset.univ.{0}))\n                      4)\n                    (Eq.{1}\n                      (Finset.card.{0}\n                        (Finset.filter.{0}\n                          (fun i =>\n                            Eq.{1}\n                              (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 2)\n                          Finset.univ.{0}))\n                      (HDiv.hDiv.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 2) 2)))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral"
+    },
+    {
+      "association_id": "association:e7abcaad8e4e15c9f5ce",
+      "declaration": "Etingof.Exercise5_27_2.semidirect_classification",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/397/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (N : Nat) [NeZero.{0} N],\n  Exists.{1} fun n =>\n    Exists.{2} fun W =>\n      And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n        (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n          (And\n            (\u2200 (S : FDRep.{0, 0} Complex (Etingof.Exercise5_27_2.DihedralSemidirect N)),\n              CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n            (And\n              (\u2200 (i : Fin n),\n                Or (Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1)\n                  (Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 2))\n              (And\n                (Odd.{0} N \u2192\n                  And\n                    (Eq.{1}\n                      (Finset.card.{0}\n                        (Finset.filter.{0}\n                          (fun i =>\n                            Eq.{1}\n                              (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1)\n                          Finset.univ.{0}))\n                      2)\n                    (Eq.{1}\n                      (Finset.card.{0}\n                        (Finset.filter.{0}\n                          (fun i =>\n                            Eq.{1}\n                              (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 2)\n                          Finset.univ.{0}))\n                      (HDiv.hDiv.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) 2)))\n                (Even.{0} N \u2192\n                  And\n                    (Eq.{1}\n                      (Finset.card.{0}\n                        (Finset.filter.{0}\n                          (fun i =>\n                            Eq.{1}\n                              (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1)\n                          Finset.univ.{0}))\n                      4)\n                    (Eq.{1}\n                      (Finset.card.{0}\n                        (Finset.filter.{0}\n                          (fun i =>\n                            Eq.{1}\n                              (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 2)\n                          Finset.univ.{0}))\n                      (HDiv.hDiv.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 2) 2)))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral"
+    }
+  ],
+  "canonical_reference": "Chapter5/Exercise5.27.2",
+  "packet_id": "align-0742",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0742"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Exercise5.27.2:dihedral_reprise",
+  "source_text": "Re-derive the dihedral classification using the semidirect-product theorem."
+}

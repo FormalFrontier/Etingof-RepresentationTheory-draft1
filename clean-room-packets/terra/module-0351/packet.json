@@ -1,0 +1,34 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{A : Type u_1} \u2192\n  [inst : Ring.{u_1} A] \u2192\n    (e : A) \u2192\n      IsIdempotentElem.{u_1} e \u2192\n        (M : Type u_2) \u2192\n          [inst_1 : AddCommGroup.{u_2} M] \u2192\n            [inst_2 : Module.{u_1, u_2} A M] \u2192\n              Equiv.{max (u_2 + 1) (u_1 + 1), max 1 (u_2 + 1)}\n                (LinearMap.{u_1, u_1, u_1, u_2} (RingHom.id.{u_1} A)\n                  (Subtype.{u_1 + 1} fun x =>\n                    Membership.mem.{u_1, u_1} (Submodule.span.{u_1, u_1} A (Singleton.singleton.{u_1, u_1} e)) x)\n                  M)\n                (Subtype.{u_2 + 1} fun m => Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} e m) m)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2287419277",
+      "temporary_id": "decl-005460"
+    }
+  ],
+  "module_temporary_id": "module-0351",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,50 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {V\u2081 : Type u_2} [inst_1 : AddCommGroup.{u_2} V\u2081]\n  [inst_2 : Module.{u_1, u_2} R V\u2081] [IsSimpleModule.{u_1, u_2} R V\u2081] {V\u2082 : Type u_3} [inst_4 : AddCommGroup.{u_3} V\u2082]\n  [inst_5 : Module.{u_1, u_3} R V\u2082] [IsSimpleModule.{u_1, u_3} R V\u2082]\n  (\u03c6 : LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} R) V\u2081 V\u2082),\n  Ne.{max (u_2 + 1) (u_3 + 1)} \u03c6 0 \u2192\n    Function.Bijective.{u_2 + 1, u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3195619518",
+      "temporary_id": "decl-014744"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {V\u2081 : Type u_2} [inst_1 : AddCommGroup.{u_2} V\u2081]\n  [inst_2 : Module.{u_1, u_2} R V\u2081] [IsSimpleModule.{u_1, u_2} R V\u2081] {V\u2082 : Type u_3} [inst_4 : AddCommGroup.{u_3} V\u2082]\n  [inst_5 : Module.{u_1, u_3} R V\u2082] (\u03c6 : LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} R) V\u2081 V\u2082),\n  Ne.{max (u_2 + 1) (u_3 + 1)} \u03c6 0 \u2192\n    Function.Injective.{u_2 + 1, u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2279959609",
+      "temporary_id": "decl-014745"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {V\u2081 : Type u_2} [inst_1 : AddCommGroup.{u_2} V\u2081]\n  [inst_2 : Module.{u_1, u_2} R V\u2081] {V\u2082 : Type u_3} [inst_3 : AddCommGroup.{u_3} V\u2082] [inst_4 : Module.{u_1, u_3} R V\u2082]\n  [IsSimpleModule.{u_1, u_3} R V\u2082] (\u03c6 : LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} R) V\u2081 V\u2082),\n  Ne.{max (u_2 + 1) (u_3 + 1)} \u03c6 0 \u2192\n    Function.Surjective.{u_2 + 1, u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2703164387",
+      "temporary_id": "decl-014746"
+    }
+  ],
+  "module_temporary_id": "module-0103",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

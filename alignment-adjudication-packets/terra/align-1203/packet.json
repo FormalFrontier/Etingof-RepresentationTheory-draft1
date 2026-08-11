@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c44c45199b0897a96a2d",
+      "declaration": "Etingof.symmetricAlgebraEquivPolynomial",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/109/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          {\u03b9 : Type w} \u2192\n            Module.Basis.{w, u, v} \u03b9 k V \u2192\n              AlgEquiv.{u, max v u, max u w} k (Etingof.SymmetricAlgebraDef.{u, v} k V) (MvPolynomial.{w, u} \u03b9 k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_12_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.12.1",
+  "packet_id": "align-1203",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1203"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:fd61d50a13e8c4161d7c",
+  "source_text": "A chosen basis identifies S(V) with the polynomial algebra on the basis indices."
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0322",
+  "associations": [
+    {
+      "association_id": "association:64257cc1ed28c76529db",
+      "role": "primary",
+      "rationale": "The theorem directly states that the span of the displayed set of diagonal tensors is the top submodule."
+    }
+  ]
+}

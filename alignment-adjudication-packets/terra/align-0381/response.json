@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0381",
+  "associations": [
+    {
+      "association_id": "association:e5295966d9ba83a21acb",
+      "role": "primary",
+      "rationale": "The formal equality directly identifies left ideals of a ring with subrepresentations of the regular module."
+    }
+  ]
+}

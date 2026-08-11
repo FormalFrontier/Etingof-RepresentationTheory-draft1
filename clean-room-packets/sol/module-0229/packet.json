@@ -1,0 +1,642 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-010983"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {n : Nat} \u2192\n      Representation.{0, u_1, 0} Complex G (Fin n \u2192 Complex) \u2192 Submodule.{0, 0} Complex (Fin n \u2192 Complex) \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "316194456",
+      "temporary_id": "decl-010984"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] [DecidableEq.{u_1 + 1} G] {n : Nat}\n  (act : MonoidHom.{u_1, 0} G (Equiv.Perm.{1} (Fin n))) (g x : G) (i\u2080 : Fin n),\n  Iff\n    (Eq.{1}\n      (DFunLike.coe.{1, 1, 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} act\n          (HMul.hMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (Inv.inv.{u_1} x) g) x))\n        i\u2080)\n      i\u2080)\n    (Eq.{1}\n      (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} act g)\n        (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} act x) i\u2080))\n      (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} act x) i\u2080))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1348529045",
+      "temporary_id": "decl-010985"
+    },
+    {
+      "formal_type": "Eq.{1} (Nat.card.{0} decl-010983) 60",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "3441973111",
+      "temporary_id": "decl-010986"
+    },
+    {
+      "formal_type": "\u2200 (s : decl-010983),\n  Eq.{1} (HPow.hPow.{0, 0, 0} s 2) 1 \u2192 Ne.{1} s 1 \u2192 Eq.{1} (decl-002785 s) 2",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-010983"
+      ],
+      "structural_type_hash": "1939950961",
+      "temporary_id": "decl-011000"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [DecidableEq.{u_1 + 1} G] (g c : G)\n  (S T : Subgroup.{u_1} G) [inst_3 : DecidablePred.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} S x]\n  [inst_4 : DecidablePred.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} T x],\n  (\u2200 (y : G),\n      Iff (Membership.mem.{u_1, u_1} T y)\n        (Membership.mem.{u_1, u_1} S (HMul.hMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (Inv.inv.{u_1} c) y) c))) \u2192\n    Eq.{1}\n      (Finset.card.{u_1}\n        (Finset.filter.{u_1}\n          (fun x =>\n            Membership.mem.{u_1, u_1} S (HMul.hMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (Inv.inv.{u_1} x) g) x))\n          Finset.univ.{u_1}))\n      (Finset.card.{u_1}\n        (Finset.filter.{u_1}\n          (fun x =>\n            Membership.mem.{u_1, u_1} T (HMul.hMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (Inv.inv.{u_1} x) g) x))\n          Finset.univ.{u_1}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3222061105",
+      "temporary_id": "decl-011001"
+    },
+    {
+      "formal_type": "\u2200 (c t : decl-010983),\n  Eq.{1} (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} MulAut.conj.{0} c) (Subgroup.zpowers.{0} t))\n    (Subgroup.zpowers.{0} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} c t) (Inv.inv.{0} c)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "1810466223",
+      "temporary_id": "decl-011010"
+    },
+    {
+      "formal_type": "\u2200 (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin 30))),\n  (\u2200 (i j : Fin 30), Exists.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) j) \u2192\n    (\u2200 (i : Fin 30),\n        Eq.{1} (Nat.card.{0} (Subtype.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) i))\n          2) \u2192\n      Exists.{1} fun S =>\n        Exists.{0} fun hS =>\n          And (DirectSum.IsInternal.{0, 0, 0} S)\n            (And (\u2200 (k : Fin 8), decl-010984.{0} (decl-011124.{0} act) (S k))\n              (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 0) x)) 1)\n                (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 1) x)) 3)\n                  (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 2) x)) 3)\n                    (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 3) x)) 4)\n                      (And\n                        (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 4) x)) 4)\n                        (And\n                          (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 5) x))\n                            5)\n                          (And\n                            (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 6) x))\n                              5)\n                            (And\n                              (Eq.{1}\n                                (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 7) x)) 5)\n                              (Exists.{1} fun g =>\n                                Ne.{1}\n                                  (decl-011167.{0} (decl-011124.{0} act) (S 1) \u22ef g)\n                                  (decl-011167.{0} (decl-011124.{0} act) (S 2) \u22ef\n                                    g)))))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-010984",
+        "decl-011124",
+        "decl-011167"
+      ],
+      "structural_type_hash": "3972323977",
+      "temporary_id": "decl-011032"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} [inst : NeZero.{0} N] (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin N))),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-011162 act 0) x)) 2 \u2192\n    Exists.{1} fun c =>\n      \u2200 (y : decl-010983),\n        Iff (Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 2)) y)\n          (Membership.mem.{0, 0} (decl-011162 act 0)\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} c) y) c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-010983",
+        "decl-011162"
+      ],
+      "structural_type_hash": "2009424426",
+      "temporary_id": "decl-011044"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} [inst : NeZero.{0} N] {p : Nat} [Fact (Nat.Prime p)]\n  (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin N))) (a : decl-010983),\n  Eq.{1} (orderOf.{0} a) p \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} (Nat.card.{0} decl-010983).factorization p) 1 \u2192\n      Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-011162 act 0) x)) p \u2192\n        Exists.{1} fun c =>\n          \u2200 (y : decl-010983),\n            Iff (Membership.mem.{0, 0} (Subgroup.zpowers.{0} a) y)\n              (Membership.mem.{0, 0} (decl-011162 act 0)\n                (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} c) y) c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-011162"
+      ],
+      "structural_type_hash": "4062526120",
+      "temporary_id": "decl-011053"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (\u03c1 : Representation.{0, 0, 0} Complex decl-010983 (Fin n \u2192 Complex)),\n  Exists.{1} fun m =>\n    Exists.{1} fun S =>\n      And\n        (\u2200 (k : Fin m) (g : decl-010983) (v : Fin n \u2192 Complex),\n          Membership.mem.{0, 0} (S k) v \u2192\n            Membership.mem.{0, 0} (S k) (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} \u03c1 g) v))\n        (And (DirectSum.IsInternal.{0, 0, 0} S) (\u2200 (k : Fin m), decl-010984.{0} \u03c1 (S k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-010984"
+      ],
+      "structural_type_hash": "905164379",
+      "temporary_id": "decl-011055"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin n))),\n  Exists.{1} fun m =>\n    Exists.{1} fun S =>\n      Exists.{0} fun hS =>\n        Exists.{1} fun type =>\n          And (DirectSum.IsInternal.{0, 0, 0} S)\n            (And (\u2200 (k : Fin m), decl-010984.{0} (decl-011124.{0} act) (S k))\n              (And (Monotone.{0, 0} type)\n                (And\n                  (\u2200 (k : Fin m) (g : decl-010983),\n                    Eq.{1} (decl-011167.{0} (decl-011124.{0} act) (S k) \u22ef g)\n                      (FDRep.character.{0, 0} (decl-002816 (type k)) g))\n                  (And\n                    (\u2200 (k : Fin m),\n                      Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S k) x))\n                        (Matrix.vecCons.{0} 1\n                          (Matrix.vecCons.{0} 3\n                            (Matrix.vecCons.{0} 3 (Matrix.vecCons.{0} 4 (Matrix.vecCons.{0} 5 Matrix.vecEmpty.{0}))))\n                          (type k)))\n                    (\u2200 (i : Fin 5),\n                      Eq.{1}\n                        (Nat.cast.{0}\n                          (Finset.card.{0} (Finset.filter.{0} (fun k => Eq.{1} (type k) i) Finset.univ.{0})))\n                        (HSMul.hSMul.{0, 0, 0}\n                          (Invertible.invOf.{0} (Nat.cast.{0} (Fintype.card.{0} decl-010983)))\n                          (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n                            HMul.hMul.{0, 0, 0}\n                              (Nat.cast.{0}\n                                (Finset.card.{0}\n                                  (Finset.filter.{0}\n                                    (fun p => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) p) p)\n                                    Finset.univ.{0})))\n                              (FDRep.character.{0, 0} (decl-002816 i) (Inv.inv.{0} g)))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002816",
+        "decl-010983",
+        "decl-010984",
+        "decl-011103",
+        "decl-011124",
+        "decl-011167"
+      ],
+      "structural_type_hash": "1357051324",
+      "temporary_id": "decl-011056"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {\u03c1 : Representation.{0, 0, 0} Complex decl-010983 (Fin n \u2192 Complex)}\n  (S : Submodule.{0, 0} Complex (Fin n \u2192 Complex))\n  (hS :\n    \u2200 (g : decl-010983) (v : Fin n \u2192 Complex),\n      Membership.mem.{0, 0} S v \u2192 Membership.mem.{0, 0} S (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} \u03c1 g) v)),\n  decl-010984.{0} \u03c1 S \u2192\n    Exists.{1} fun t =>\n      Nonempty.{1}\n        (CategoryTheory.Iso.{0, 1} (decl-011171 \u03c1 S hS) (decl-002816 t))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002816",
+        "decl-010983",
+        "decl-010984",
+        "decl-011171"
+      ],
+      "structural_type_hash": "389780161",
+      "temporary_id": "decl-011060"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin n))),\n  Exists.{1} fun m =>\n    Exists.{1} fun S =>\n      Exists.{0} fun hS =>\n        Exists.{1} fun type =>\n          And (DirectSum.IsInternal.{0, 0, 0} S)\n            (And (\u2200 (k : Fin m), decl-010984.{0} (decl-011124.{0} act) (S k))\n              (And\n                (\u2200 (k : Fin m) (g : decl-010983),\n                  Eq.{1} (decl-011167.{0} (decl-011124.{0} act) (S k) \u22ef g)\n                    (FDRep.character.{0, 0} (decl-002816 (type k)) g))\n                (And\n                  (\u2200 (k : Fin m),\n                    Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S k) x))\n                      (Matrix.vecCons.{0} 1\n                        (Matrix.vecCons.{0} 3\n                          (Matrix.vecCons.{0} 3 (Matrix.vecCons.{0} 4 (Matrix.vecCons.{0} 5 Matrix.vecEmpty.{0}))))\n                        (type k)))\n                  (\u2200 (i : Fin 5),\n                    Eq.{1}\n                      (Nat.cast.{0} (Finset.card.{0} (Finset.filter.{0} (fun k => Eq.{1} (type k) i) Finset.univ.{0})))\n                      (HSMul.hSMul.{0, 0, 0}\n                        (Invertible.invOf.{0} (Nat.cast.{0} (Fintype.card.{0} decl-010983)))\n                        (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n                          HMul.hMul.{0, 0, 0}\n                            (Nat.cast.{0}\n                              (Finset.card.{0}\n                                (Finset.filter.{0}\n                                  (fun p => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) p) p)\n                                  Finset.univ.{0})))\n                            (FDRep.character.{0, 0} (decl-002816 i) (Inv.inv.{0} g))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002816",
+        "decl-010983",
+        "decl-010984",
+        "decl-011103",
+        "decl-011124",
+        "decl-011167"
+      ],
+      "structural_type_hash": "1072758147",
+      "temporary_id": "decl-011061"
+    },
+    {
+      "formal_type": "\u2200 (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin 20))),\n  (\u2200 (i j : Fin 20), Exists.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) j) \u2192\n    (\u2200 (i : Fin 20),\n        Eq.{1} (Nat.card.{0} (Subtype.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) i))\n          3) \u2192\n      Exists.{1} fun S =>\n        Exists.{0} fun hS =>\n          And (DirectSum.IsInternal.{0, 0, 0} S)\n            (And (\u2200 (k : Fin 6), decl-010984.{0} (decl-011124.{0} act) (S k))\n              (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 0) x)) 1)\n                (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 1) x)) 3)\n                  (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 2) x)) 3)\n                    (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 3) x)) 4)\n                      (And\n                        (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 4) x)) 4)\n                        (And\n                          (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 5) x))\n                            5)\n                          (Exists.{1} fun g =>\n                            Ne.{1} (decl-011167.{0} (decl-011124.{0} act) (S 1) \u22ef g)\n                              (decl-011167.{0} (decl-011124.{0} act) (S 2) \u22ef\n                                g)))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-010984",
+        "decl-011124",
+        "decl-011167"
+      ],
+      "structural_type_hash": "1125530779",
+      "temporary_id": "decl-011071"
+    },
+    {
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} (Nat.card.{0} decl-010983).factorization 3) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "128033362",
+      "temporary_id": "decl-011083"
+    },
+    {
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} (Nat.card.{0} decl-010983).factorization 5) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "1329670922",
+      "temporary_id": "decl-011084"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin n))) (g : decl-010983),\n  Eq.{1}\n    (Nat.cast.{0}\n      (Finset.card.{0}\n        (Finset.filter.{0} (fun p => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) p) p)\n          Finset.univ.{0})))\n    (Nat.cast.{0}\n      (Finset.card.{0}\n        (Finset.filter.{0}\n          (fun p =>\n            Eq.{1}\n              (DFunLike.coe.{1, 1, 1}\n                (DFunLike.coe.{1, 1, 1} act (decl-002788 (decl-002785 g)))\n                p)\n              p)\n          Finset.univ.{0})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-002788",
+        "decl-010983"
+      ],
+      "structural_type_hash": "1000185640",
+      "temporary_id": "decl-011085"
+    },
+    {
+      "formal_type": "\u2200 {n m : Nat} (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin n)))\n  (S : Fin m \u2192 Submodule.{0, 0} Complex (Fin n \u2192 Complex))\n  (hS :\n    \u2200 (k : Fin m) (g : decl-010983) (v : Fin n \u2192 Complex),\n      Membership.mem.{0, 0} (S k) v \u2192\n        Membership.mem.{0, 0} (S k)\n          (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-011124.{0} act) g) v)),\n  DirectSum.IsInternal.{0, 0, 0} S \u2192\n    \u2200 (g : decl-010983),\n      Eq.{1}\n        (Nat.cast.{0}\n          (Finset.card.{0}\n            (Finset.filter.{0} (fun i => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) i)\n              Finset.univ.{0})))\n        (Finset.sum.{0, 0} Finset.univ.{0} fun k =>\n          decl-011167.{0} (decl-011124.{0} act) (S k) \u22ef g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-011124",
+        "decl-011167"
+      ],
+      "structural_type_hash": "1168904757",
+      "temporary_id": "decl-011086"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin n))) (g c : decl-010983),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun i =>\n          Eq.{1}\n            (DFunLike.coe.{1, 1, 1}\n              (DFunLike.coe.{1, 1, 1} act (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} c g) (Inv.inv.{0} c))) i)\n            i)\n        Finset.univ.{0}))\n    (Finset.card.{0}\n      (Finset.filter.{0} (fun i => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) i) Finset.univ.{0}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "3296645624",
+      "temporary_id": "decl-011087"
+    },
+    {
+      "formal_type": "\u2200 (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin 30))),\n  (\u2200 (i j : Fin 30), Exists.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) j) \u2192\n    (\u2200 (i : Fin 30),\n        Eq.{1} (Nat.card.{0} (Subtype.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) i))\n          2) \u2192\n      \u2200 (j : Fin 5),\n        Eq.{1}\n          (Finset.card.{0}\n            (Finset.filter.{0}\n              (fun i =>\n                Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act (decl-002788 j)) i) i)\n              Finset.univ.{0}))\n          (Matrix.vecCons.{0} 30\n            (Matrix.vecCons.{0} 0\n              (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n            j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-010983"
+      ],
+      "structural_type_hash": "3167189342",
+      "temporary_id": "decl-011089"
+    },
+    {
+      "formal_type": "\u2200 (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin 20))),\n  (\u2200 (i j : Fin 20), Exists.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) j) \u2192\n    (\u2200 (i : Fin 20),\n        Eq.{1} (Nat.card.{0} (Subtype.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) i))\n          3) \u2192\n      \u2200 (j : Fin 5),\n        Eq.{1}\n          (Finset.card.{0}\n            (Finset.filter.{0}\n              (fun i =>\n                Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act (decl-002788 j)) i) i)\n              Finset.univ.{0}))\n          (Matrix.vecCons.{0} 20\n            (Matrix.vecCons.{0} 2\n              (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n            j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-010983"
+      ],
+      "structural_type_hash": "1400083930",
+      "temporary_id": "decl-011091"
+    },
+    {
+      "formal_type": "\u2200 (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin 12))),\n  (\u2200 (i j : Fin 12), Exists.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) j) \u2192\n    (\u2200 (i : Fin 12),\n        Eq.{1} (Nat.card.{0} (Subtype.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) i))\n          5) \u2192\n      \u2200 (j : Fin 5),\n        Eq.{1}\n          (Finset.card.{0}\n            (Finset.filter.{0}\n              (fun i =>\n                Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act (decl-002788 j)) i) i)\n              Finset.univ.{0}))\n          (Matrix.vecCons.{0} 12\n            (Matrix.vecCons.{0} 0\n              (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 2 Matrix.vecEmpty.{0}))))\n            j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-010983"
+      ],
+      "structural_type_hash": "755546000",
+      "temporary_id": "decl-011093"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [DecidableEq.{u_1 + 1} G] {n : Nat}\n  (act : MonoidHom.{u_1, 0} G (Equiv.Perm.{1} (Fin n))) (g : G) (i\u2080 : Fin n),\n  (\u2200 (j : Fin n),\n      Exists.{u_1 + 1} fun x => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} act x) i\u2080) j) \u2192\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0}\n        (Finset.card.{0}\n          (Finset.filter.{0} (fun i => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} act g) i) i)\n            Finset.univ.{0}))\n        (Finset.card.{u_1}\n          (Finset.filter.{u_1}\n            (fun x => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} act x) i\u2080) i\u2080)\n            Finset.univ.{u_1})))\n      (Finset.card.{u_1}\n        (Finset.filter.{u_1}\n          (fun x =>\n            Eq.{1}\n              (DFunLike.coe.{1, 1, 1}\n                (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} act\n                  (HMul.hMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (Inv.inv.{u_1} x) g) x))\n                i\u2080)\n              i\u2080)\n          Finset.univ.{u_1}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1581992007",
+      "temporary_id": "decl-011095"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} [inst : NeZero.{0} N] (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin N)))\n  (a g : decl-010983),\n  (\u2200 (i j : Fin N), Exists.{1} fun x => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act x) i) j) \u2192\n    \u2200 (c : decl-010983),\n      (\u2200 (y : decl-010983),\n          Iff (Membership.mem.{0, 0} (Subgroup.zpowers.{0} a) y)\n            (Membership.mem.{0, 0} (decl-011162 act 0)\n              (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} c) y) c))) \u2192\n        Eq.{1}\n          (HMul.hMul.{0, 0, 0}\n            (Finset.card.{0}\n              (Finset.filter.{0} (fun i => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) i)\n                Finset.univ.{0}))\n            (Finset.card.{0}\n              (Finset.filter.{0} (fun x => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act x) 0) 0)\n                Finset.univ.{0})))\n          (Finset.card.{0}\n            (Finset.filter.{0}\n              (fun x =>\n                Membership.mem.{0, 0} (Subgroup.zpowers.{0} a)\n                  (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} x) g) x))\n              Finset.univ.{0}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-011162"
+      ],
+      "structural_type_hash": "4039150869",
+      "temporary_id": "decl-011099"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (\u03c1 : Representation.{0, 0, 0} Complex decl-010983 (Fin n \u2192 Complex)),\n  Module.Finite.{0, 0} (MonoidAlgebra.{0, 0} Complex decl-010983) (Representation.asModule.{0, 0, 0} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "4137909817",
+      "temporary_id": "decl-011102"
+    },
+    {
+      "formal_type": "Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} decl-010983))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "1980241385",
+      "temporary_id": "decl-011103"
+    },
+    {
+      "formal_type": "NeZero.{0} (Nat.cast.{0} (Nat.card.{0} decl-010983))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "3456434820",
+      "temporary_id": "decl-011105"
+    },
+    {
+      "formal_type": "\u2200 (a b : Fin 5),\n  Iff (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (decl-002816 a) (decl-002816 b)))\n    (Eq.{1} a b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002816"
+      ],
+      "structural_type_hash": "3450372655",
+      "temporary_id": "decl-011106"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {\u03c1 : Representation.{0, 0, 0} Complex decl-010983 (Fin n \u2192 Complex)}\n  (\u03c3 : Subrepresentation.{0, 0, 0} \u03c1),\n  Iff (decl-010984.{0} \u03c1 (Subrepresentation.toSubmodule.{0, 0, 0} \u03c3)) (IsAtom.{0} \u03c3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-010984"
+      ],
+      "structural_type_hash": "3283085092",
+      "temporary_id": "decl-011107"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {\u03c1 : Representation.{0, 0, 0} Complex decl-010983 (Fin n \u2192 Complex)}\n  (\u03c3 : Subrepresentation.{0, 0, 0} \u03c1),\n  Iff (decl-010984.{0} \u03c1 (Subrepresentation.toSubmodule.{0, 0, 0} \u03c3))\n    (IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Complex decl-010983)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (Subrepresentation.asSubmodule.{0, 0, 0} \u03c3) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-010984"
+      ],
+      "structural_type_hash": "2185495891",
+      "temporary_id": "decl-011108"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (\u03c1 : Representation.{0, 0, 0} Complex decl-010983 (Fin n \u2192 Complex)),\n  IsSemisimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Complex decl-010983)\n    (Representation.asModule.{0, 0, 0} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "647540415",
+      "temporary_id": "decl-011109"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin N))) (i\u2080 : Fin N)\n  (a : decl-010983),\n  Iff (Membership.mem.{0, 0} (decl-011162 act i\u2080) a)\n    (Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act a) i\u2080) i\u2080)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-011162"
+      ],
+      "structural_type_hash": "1814025391",
+      "temporary_id": "decl-011110"
+    },
+    {
+      "formal_type": "\u2200 (a : decl-010983) (m : Nat),\n  Eq.{1} (orderOf.{0} a) m \u2192\n    \u2200 (y : decl-010983),\n      Iff (Membership.mem.{0, 0} (Subgroup.zpowers.{0} a) y)\n        (Membership.mem.{0, 0} (Finset.image.{0, 0} (fun x => HPow.hPow.{0, 0, 0} a x) (Finset.range m)) y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "3531080435",
+      "temporary_id": "decl-011112"
+    },
+    {
+      "formal_type": "\u2200 {m : Nat} {P : Fin 5 \u2192 Prop} [inst : DecidablePred.{1} P],\n  (\u2200 \u2983a b : Fin 5\u2984, LE.le.{0} a b \u2192 P b \u2192 P a) \u2192\n    \u2200 {t : Fin m \u2192 Fin 5},\n      Monotone.{0, 0} t \u2192\n        \u2200 (k : Fin m),\n          Iff (P (t k)) (LT.lt.{0} k.val (Finset.card.{0} (Finset.filter.{0} (fun j => P (t j)) Finset.univ.{0})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "551451000",
+      "temporary_id": "decl-011113"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [DecidableEq.{u_1 + 1} G] {n : Nat}\n  (act : MonoidHom.{u_1, 0} G (Equiv.Perm.{1} (Fin n))) (i\u2080 i : Fin n) (xi : G),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} act xi) i\u2080) i \u2192\n    Eq.{1}\n      (Finset.card.{u_1}\n        (Finset.filter.{u_1} (fun x => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} act x) i\u2080) i)\n          Finset.univ.{u_1}))\n      (Finset.card.{u_1}\n        (Finset.filter.{u_1} (fun x => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} act x) i\u2080) i\u2080)\n          Finset.univ.{u_1}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "953477732",
+      "temporary_id": "decl-011116"
+    },
+    {
+      "formal_type": "Eq.{1} (orderOf.{0} (decl-002788 1)) 3",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788"
+      ],
+      "structural_type_hash": "4097133500",
+      "temporary_id": "decl-011118"
+    },
+    {
+      "formal_type": "Eq.{1} (orderOf.{0} (decl-002788 2)) 2",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788"
+      ],
+      "structural_type_hash": "2559570782",
+      "temporary_id": "decl-011119"
+    },
+    {
+      "formal_type": "Eq.{1} (orderOf.{0} (decl-002788 3)) 5",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788"
+      ],
+      "structural_type_hash": "2133858130",
+      "temporary_id": "decl-011120"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {n : Nat} \u2192 MonoidHom.{u_1, 0} G (Equiv.Perm.{1} (Fin n)) \u2192 Representation.{0, u_1, 0} Complex G (Fin n \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2956300930",
+      "temporary_id": "decl-011124"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin n))) (g : decl-010983),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-011124.{0} act) g)\n    (DFunLike.coe.{1, 1, 1} Matrix.toLin'.{0, 0, 0}\n      (Equiv.Perm.permMatrix.{0, 0} Complex (DFunLike.coe.{1, 1, 1} act (Inv.inv.{0} g))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-011124"
+      ],
+      "structural_type_hash": "3108391746",
+      "temporary_id": "decl-011127"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin n))) (g : decl-010983),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (LinearMap.trace.{0, 0} Complex (Fin n \u2192 Complex))\n      (DFunLike.coe.{1, 1, 1} (decl-011124.{0} act) g))\n    (Nat.cast.{0}\n      (Finset.card.{0}\n        (Finset.filter.{0} (fun i => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) i)\n          Finset.univ.{0})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-011124"
+      ],
+      "structural_type_hash": "3257356046",
+      "temporary_id": "decl-011128"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin n))) (i : Fin 5),\n  Eq.{1}\n    (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n      HMul.hMul.{0, 0, 0}\n        (Nat.cast.{0}\n          (Finset.card.{0}\n            (Finset.filter.{0} (fun p => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) p) p)\n              Finset.univ.{0})))\n        (FDRep.character.{0, 0} (decl-002816 i) (Inv.inv.{0} g)))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun j =>\n      HMul.hMul.{0, 0, 0}\n        (HMul.hMul.{0, 0, 0}\n          (Nat.cast.{0}\n            (Matrix.vecCons.{0} 1\n              (Matrix.vecCons.{0} 20\n                (Matrix.vecCons.{0} 15 (Matrix.vecCons.{0} 12 (Matrix.vecCons.{0} 12 Matrix.vecEmpty.{0}))))\n              j))\n          (Nat.cast.{0}\n            (Finset.card.{0}\n              (Finset.filter.{0}\n                (fun p =>\n                  Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act (decl-002788 j)) p)\n                    p)\n                Finset.univ.{0}))))\n        (decl-003006 (decl-003195 i j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002816",
+        "decl-003006",
+        "decl-003195",
+        "decl-010983"
+      ],
+      "structural_type_hash": "3247113761",
+      "temporary_id": "decl-011130"
+    },
+    {
+      "formal_type": "{N : Nat} \u2192\n  MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin N)) \u2192 Fin N \u2192 Subgroup.{0} decl-010983",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "358910013",
+      "temporary_id": "decl-011162"
+    },
+    {
+      "formal_type": "\u2200 {N : Nat} (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin N))) (i\u2080 : Fin N) (p : Nat),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act x) i\u2080) i\u2080)) p \u2192\n    Eq.{1}\n      (Finset.card.{0}\n        (Finset.filter.{0} (fun x => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act x) i\u2080) i\u2080)\n          Finset.univ.{0}))\n      p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "226201819",
+      "temporary_id": "decl-011166"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {n : Nat} \u2192\n      (\u03c1 : Representation.{0, u_1, 0} Complex G (Fin n \u2192 Complex)) \u2192\n        (S : Submodule.{0, 0} Complex (Fin n \u2192 Complex)) \u2192\n          (\u2200 (g : G) (v : Fin n \u2192 Complex),\n              Membership.mem.{0, 0} S v \u2192\n                Membership.mem.{0, 0} S (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c1 g) v)) \u2192\n            G \u2192 Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4060439836",
+      "temporary_id": "decl-011167"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (\u03c1 : Representation.{0, 0, 0} Complex decl-010983 (Fin n \u2192 Complex))\n  (S : Submodule.{0, 0} Complex (Fin n \u2192 Complex))\n  (hS :\n    \u2200 (g : decl-010983) (v : Fin n \u2192 Complex),\n      Membership.mem.{0, 0} S v \u2192 Membership.mem.{0, 0} S (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} \u03c1 g) v))\n  (g : decl-010983),\n  Eq.{1} (decl-011167.{0} \u03c1 S hS g)\n    (FDRep.character.{0, 0}\n      (FDRep.of.{0, 0} (Subrepresentation.toRepresentation.{0, 0, 0} (Subrepresentation.mk.{0, 0, 0} S hS))) g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-011167"
+      ],
+      "structural_type_hash": "209314576",
+      "temporary_id": "decl-011169"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (\u03c1 : Representation.{0, 0, 0} Complex decl-010983 (Fin n \u2192 Complex))\n  (S : Submodule.{0, 0} Complex (Fin n \u2192 Complex))\n  (hS :\n    \u2200 (g : decl-010983) (v : Fin n \u2192 Complex),\n      Membership.mem.{0, 0} S v \u2192 Membership.mem.{0, 0} S (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} \u03c1 g) v))\n  (g : decl-010983),\n  Eq.{1} (decl-011167.{0} \u03c1 S hS g) (FDRep.character.{0, 0} (decl-011171 \u03c1 S hS) g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-011167",
+        "decl-011171"
+      ],
+      "structural_type_hash": "1760338087",
+      "temporary_id": "decl-011170"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192\n  (\u03c1 : Representation.{0, 0, 0} Complex decl-010983 (Fin n \u2192 Complex)) \u2192\n    (S : Submodule.{0, 0} Complex (Fin n \u2192 Complex)) \u2192\n      (\u2200 (g : decl-010983) (v : Fin n \u2192 Complex),\n          Membership.mem.{0, 0} S v \u2192 Membership.mem.{0, 0} S (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} \u03c1 g) v)) \u2192\n        FDRep.{0, 0} Complex decl-010983",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "462069868",
+      "temporary_id": "decl-011171"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {\u03c1 : Representation.{0, 0, 0} Complex decl-010983 (Fin n \u2192 Complex)}\n  (S : Submodule.{0, 0} Complex (Fin n \u2192 Complex))\n  (hS :\n    \u2200 (g : decl-010983) (v : Fin n \u2192 Complex),\n      Membership.mem.{0, 0} S v \u2192 Membership.mem.{0, 0} S (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} \u03c1 g) v)),\n  decl-010984.{0} \u03c1 S \u2192 CategoryTheory.Simple.{0, 1} (decl-011171 \u03c1 S hS)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-010984",
+        "decl-011171"
+      ],
+      "structural_type_hash": "1610451699",
+      "temporary_id": "decl-011173"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {\u03c1 : Representation.{0, 0, 0} Complex decl-010983 (Fin n \u2192 Complex)}\n  {\u03c4 \u03c3 : Subrepresentation.{0, 0, 0} \u03c1},\n  Iff (LE.le.{0} \u03c4 \u03c3)\n    (LE.le.{0} (Subrepresentation.toSubmodule.{0, 0, 0} \u03c4) (Subrepresentation.toSubmodule.{0, 0, 0} \u03c3))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "1889649599",
+      "temporary_id": "decl-011174"
+    },
+    {
+      "formal_type": "\u2200 (F : decl-010983 \u2192 Complex),\n  (\u2200 (g c : decl-010983),\n      Eq.{1} (F (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} c g) (Inv.inv.{0} c))) (F g)) \u2192\n    Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun g => F g)\n      (Finset.sum.{0, 0} Finset.univ.{0} fun j =>\n        HMul.hMul.{0, 0, 0}\n          (Nat.cast.{0}\n            (Matrix.vecCons.{0} 1\n              (Matrix.vecCons.{0} 20\n                (Matrix.vecCons.{0} 15 (Matrix.vecCons.{0} 12 (Matrix.vecCons.{0} 12 Matrix.vecEmpty.{0}))))\n              j))\n          (F (decl-002788 j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-010983"
+      ],
+      "structural_type_hash": "1267652660",
+      "temporary_id": "decl-011175"
+    },
+    {
+      "formal_type": "\u2200 (a g : decl-010983) (m : Nat),\n  Eq.{1} (orderOf.{0} a) m \u2192\n    Eq.{1}\n      (Finset.filter.{0}\n        (fun x =>\n          Membership.mem.{0, 0} (Subgroup.zpowers.{0} a)\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} x) g) x))\n        Finset.univ.{0})\n      (Finset.filter.{0}\n        (fun x =>\n          Membership.mem.{0, 0} (Finset.image.{0, 0} (fun x => HPow.hPow.{0, 0, 0} a x) (Finset.range m))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} x) g) x))\n        Finset.univ.{0})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983"
+      ],
+      "structural_type_hash": "3327548532",
+      "temporary_id": "decl-011176"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun x =>\n          Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 2))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} x) (decl-002788 j)) x))\n        Finset.univ.{0}))\n    (Matrix.vecCons.{0} 60\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 4 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-010983"
+      ],
+      "structural_type_hash": "381917641",
+      "temporary_id": "decl-011179"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun x =>\n          Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 1))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} x) (decl-002788 j)) x))\n        Finset.univ.{0}))\n    (Matrix.vecCons.{0} 60\n      (Matrix.vecCons.{0} 6 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-010983"
+      ],
+      "structural_type_hash": "909013046",
+      "temporary_id": "decl-011180"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun x =>\n          Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 3))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} x) (decl-002788 j)) x))\n        Finset.univ.{0}))\n    (Matrix.vecCons.{0} 60\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 10 (Matrix.vecCons.{0} 10 Matrix.vecEmpty.{0}))))\n      j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-010983"
+      ],
+      "structural_type_hash": "4239907519",
+      "temporary_id": "decl-011181"
+    },
+    {
+      "formal_type": "\u2200 (act : MonoidHom.{0, 0} decl-010983 (Equiv.Perm.{1} (Fin 12))),\n  (\u2200 (i j : Fin 12), Exists.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) j) \u2192\n    (\u2200 (i : Fin 12),\n        Eq.{1} (Nat.card.{0} (Subtype.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) i))\n          5) \u2192\n      Exists.{1} fun S =>\n        Exists.{0} fun hS =>\n          And (DirectSum.IsInternal.{0, 0, 0} S)\n            (And (\u2200 (k : Fin 4), decl-010984.{0} (decl-011124.{0} act) (S k))\n              (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 0) x)) 1)\n                (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 1) x)) 3)\n                  (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 2) x)) 3)\n                    (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 3) x)) 5)\n                      (Exists.{1} fun g =>\n                        Ne.{1} (decl-011167.{0} (decl-011124.{0} act) (S 1) \u22ef g)\n                          (decl-011167.{0} (decl-011124.{0} act) (S 2) \u22ef g)))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-010984",
+        "decl-011124",
+        "decl-011167"
+      ],
+      "structural_type_hash": "2284309990",
+      "temporary_id": "decl-011191"
+    }
+  ],
+  "module_temporary_id": "module-0229",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

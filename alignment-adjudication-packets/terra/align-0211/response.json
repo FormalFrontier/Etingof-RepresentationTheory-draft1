@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0211",
+  "associations": [
+    {
+      "association_id": "association:8acb3212c90cce89929b",
+      "role": "primary",
+      "rationale": "It directly gives the diagonal Hom-space dimension as one."
+    },
+    {
+      "association_id": "association:19278520f84733080769",
+      "role": "primary",
+      "rationale": "It directly states the indicated Hom-map vanishing under failure of dominance."
+    },
+    {
+      "association_id": "association:59b77edc7e342e02b650",
+      "role": "primary",
+      "rationale": "It directly supplies the Young-rule direct-sum decomposition of the permutation module."
+    }
+  ]
+}

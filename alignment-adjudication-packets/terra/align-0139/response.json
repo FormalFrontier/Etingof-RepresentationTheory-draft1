@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0139",
+  "associations": [
+    {
+      "association_id": "association:38eb5100aec5b6797b3d",
+      "role": "primary",
+      "rationale": "Its implication directly states that isomorphic standard representations must have the same index."
+    }
+  ]
+}

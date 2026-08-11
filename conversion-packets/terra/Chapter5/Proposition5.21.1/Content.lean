@@ -1,0 +1,25 @@
+import VersoManual
+
+open Verso.Genre Manual
+
+namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition5211
+
+#doc (Manual) "Character expansion in terms of Schur polynomials" =>
+
+# Character expansion in terms of Schur polynomials
+%%%
+tag := "Chapter5/Proposition5.21.1"
+number := false
+%%%
+
+*Proposition 5.21.1.*
+
+$$`\prod_m (x_1^m + \cdots + x_N^m)^{i_m} = \sum_{\lambda: p \leq N} \chi_\lambda(C_\mathbf{i}) S_\lambda(x).`
+
+*Proof.* We will prove that
+
+$$`\Delta(x) \prod_{m \geq 1} (x_1^m + \cdots + x_N^m)^{i_m} = \sum_{\lambda: p \leq N} \chi_\lambda(C_\mathbf{i}) D_\lambda(x)`
+
+(where the sum is over partitions of $`n` with at most $`N` parts) by comparing the coefficients of $`x^\nu` for all $`\nu = (\nu_1, \ldots, \nu_N)`. Both sides are antisymmetric polynomials, so it is enough to consider the case in which $`\nu_1 > \cdots > \nu_N`. Also, both sides are homogeneous polynomials of degree $`(N - 1) + (N - 2) + \cdots + 1 + n`, so we may assume that $`\nu_1 + \cdots + \nu_N` equals this. Let $`\rho = (N - 1, \ldots, 1, 0)`; then $`\nu = \mu + \rho` where $`\mu_1 \geq \cdots \geq \mu_N \geq 0` and $`\mu_1 + \cdots + \mu_N = n`.
+
+The coefficient of $`x^\nu` on the left side is $`\chi_\mu(C_\mathbf{i})` by the Frobenius character formula. The only monomial in $`D_\lambda(x)` with strictly decreasing exponents is $`x^{\lambda + \rho}` (the $`\sigma = 1` term in the determinant), so the coefficient of $`x^\nu` in the right side is the coefficient of $`x^{\mu + \rho}` in $`\sum_{\lambda: p \leq N} \chi_\lambda(C_\mathbf{i}) x^{\lambda + \rho}`, which again is $`\chi_\mu(C_\mathbf{i})`: only the $`\lambda = \mu` term contributes. $`\square`

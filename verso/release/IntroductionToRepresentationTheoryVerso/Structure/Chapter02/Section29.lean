@@ -1,0 +1,73 @@
+/-
+Copyright (c) 2026 American Mathematical Society. All rights reserved.
+-/
+
+import VersoManual
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion29Heading
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition291
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example292
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example292Continued
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark293
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark294
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionConcreteLieExamples
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionConcreteLieExamplesContinued
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Exercise295
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition296
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition297
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example298
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition299
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2910
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Exercise2911
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example2912
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example2913
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2914
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion29LieGroups
+
+open Verso.Genre Manual
+
+namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter02.Section29
+
+#doc (Manual) "2.9. Lie algebras" =>
+%%%
+tag := "chapter-02/section-2-9"
+number := false
+%%%
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion29Heading}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition291}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example292}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example292Continued}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark293}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark294}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionConcreteLieExamples}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionConcreteLieExamplesContinued}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Exercise295}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition296}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition297}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example298}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition299}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2910}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Exercise2911}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example2912}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example2913}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2914}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion29LieGroups}
+

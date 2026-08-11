@@ -1,0 +1,88 @@
+/-
+Copyright (c) 2026 American Mathematical Society. All rights reserved.
+-/
+
+import VersoManual
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition231
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark232
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionExamplesIntro
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example233
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition234
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition235
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition236
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition237
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition238
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionIrreducibleVsIndecomposable
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionSchurIntro
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Proposition239
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Corollary2310
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2311
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionProofCorollary2310
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Corollary2312
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2313
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionProofCorollary2312
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example2314
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example2314Continued
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2315
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2316
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2317
+import IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2318
+
+open Verso.Genre Manual
+
+namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter02.Section23
+
+#doc (Manual) "2.3. Representations" =>
+%%%
+tag := "chapter-02/section-2-3"
+number := false
+%%%
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition231}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark232}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionExamplesIntro}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example233}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition234}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition235}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition236}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition237}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition238}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionIrreducibleVsIndecomposable}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionSchurIntro}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Proposition239}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Corollary2310}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2311}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionProofCorollary2310}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Corollary2312}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2313}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionProofCorollary2312}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example2314}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example2314Continued}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2315}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2316}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2317}
+
+{include 1 IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2318}
+

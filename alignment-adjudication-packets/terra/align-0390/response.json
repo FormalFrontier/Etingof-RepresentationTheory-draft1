@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0390",
+  "associations": [
+    {
+      "association_id": "association:04660f1c54b4b2dea047",
+      "role": "supporting",
+      "rationale": "The displayed type only constructs a permutation subgroup; it does not formally expose the column-preservation membership condition."
+    },
+    {
+      "association_id": "association:a26bdd291236775f7c6f",
+      "role": "supporting",
+      "rationale": "The displayed type only constructs a permutation subgroup; it does not formally expose the row-preservation membership condition."
+    }
+  ]
+}

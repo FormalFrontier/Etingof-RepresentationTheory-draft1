@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e6572c0ea7b95158b1ce",
+      "declaration": "Etingof.IsIndecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/9/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192\n  (V : Type u_2) \u2192 [inst : Ring.{u_1} A] \u2192 [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} A V] \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_8"
+    },
+    {
+      "association_id": "association:9bafb6f0d59786137093",
+      "declaration": "Etingof.IsIndecomposable.not_exists_nontrivial_compl",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/9/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} {V : Type u_2} [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V],\n  Etingof.IsIndecomposable.{u_1, u_2} A V \u2192\n    Not\n      (Exists.{u_2 + 1} fun M =>\n        Exists.{u_2 + 1} fun N =>\n          And (Ne.{u_2 + 1} M Bot.bot.{u_2})\n            (And (Ne.{u_2 + 1} N Bot.bot.{u_2})\n              (And (Eq.{u_2 + 1} (Max.max.{u_2} M N) Top.top.{u_2}) (Eq.{u_2 + 1} (Min.min.{u_2} M N) Bot.bot.{u_2}))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_8"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.1_irreducible_indecomposable",
+  "packet_id": "align-0134",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0134"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:29bff9497d97e4134aa1",
+  "source_text": "A nonzero representation is indecomposable when it is not a direct sum of two nonzero subrepresentations."
+}

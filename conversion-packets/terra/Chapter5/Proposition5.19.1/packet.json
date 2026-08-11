@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Proposition5.19.1",
+    "kind": "proposition",
+    "title": "Image of GL(V) in End(V^{\u2297n}) spans B",
+    "node_id": "chapter-05/section-5-19",
+    "order": 355,
+    "slug": "proposition5-19-1",
+    "span": {
+      "start": {
+        "page": "124",
+        "line": 21
+      },
+      "end": {
+        "page": "124",
+        "line": 27
+      }
+    },
+    "source_sha256": "3a49925daa33b442201538c32001f8de9899cc3cb07c93c141abb605a408f084",
+    "features": {
+      "line_count": 7,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition5191",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

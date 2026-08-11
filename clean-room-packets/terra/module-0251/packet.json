@@ -1,0 +1,166 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(n : Nat) \u2192\n  (lam : decl-001833 n) \u2192\n    (k : Type) \u2192\n      [inst : Field.{0} k] \u2192\n        [inst_1 : IsAlgClosed.{0} k] \u2192\n          [CharZero.{0} k] \u2192\n            LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k)\n              (TensorProduct.{0, 0, 0} k (decl-000521.{0} n lam k) (decl-000516.{0} n lam k)) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-000521",
+        "decl-000522",
+        "decl-000524",
+        "decl-001833"
+      ],
+      "structural_type_hash": "3568314721",
+      "temporary_id": "decl-017155"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (lam : decl-001833 n) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k]\n  [inst_2 : CharZero.{0} k] (g : Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) (u : decl-000521.{0} n lam k)\n  (v : decl-000516.{0} n lam k),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-017155 n lam k)\n      (TensorProduct.tmul.{0, 0, 0} k\n        (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-017169.{0} n lam k) g) u)\n        (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-017172.{0} n lam k) g) v)))\n    (DFunLike.coe.{1, 1, 1} (decl-017155 n lam k) (TensorProduct.tmul.{0, 0, 0} k u v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-000521",
+        "decl-000522",
+        "decl-000524",
+        "decl-001833",
+        "decl-017155",
+        "decl-017169",
+        "decl-017172"
+      ],
+      "structural_type_hash": "4056354693",
+      "temporary_id": "decl-017159"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (lam : decl-001833 n) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k]\n  [inst_2 : CharZero.{0} k] [Nontrivial.{0} (decl-000516.{0} n lam k)],\n  Ne.{1} (decl-017155 n lam k) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-000521",
+        "decl-000522",
+        "decl-000524",
+        "decl-001833",
+        "decl-017155"
+      ],
+      "structural_type_hash": "1557691833",
+      "temporary_id": "decl-017160"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (lam : decl-001833 n),\n  LE.le.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam.toNatWeight i) n \u2192\n    LE.le.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam.w0Twist.toNatWeight i) n \u2192\n      And\n        (\u2200 (u : decl-000521.{0} n lam Complex),\n          (\u2200 (v : decl-000516.{0} n lam Complex),\n              Eq.{1}\n                (DFunLike.coe.{1, 1, 1} (decl-017155 n lam Complex)\n                  (TensorProduct.tmul.{0, 0, 0} Complex u v))\n                0) \u2192\n            Eq.{1} u 0)\n        (\u2200 (v : decl-000516.{0} n lam Complex),\n          (\u2200 (u : decl-000521.{0} n lam Complex),\n              Eq.{1}\n                (DFunLike.coe.{1, 1, 1} (decl-017155 n lam Complex)\n                  (TensorProduct.tmul.{0, 0, 0} Complex u v))\n                0) \u2192\n            Eq.{1} v 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-000521",
+        "decl-000522",
+        "decl-000524",
+        "decl-001833",
+        "decl-001851",
+        "decl-001857",
+        "decl-017155"
+      ],
+      "structural_type_hash": "2223623270",
+      "temporary_id": "decl-017161"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (lam : decl-001833 n) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k]\n  [inst_2 : CharZero.{0} k] (u : decl-000521.{0} n lam k) (v : decl-000516.{0} n lam k),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-017155 n lam k) (TensorProduct.tmul.{0, 0, 0} k u v))\n    (DFunLike.coe.{1, 1, 1} (contractLeft.{0, 0} k (decl-000516.{0} n lam k))\n      (TensorProduct.tmul.{0, 0, 0} k (DFunLike.coe.{1, 1, 1} (decl-017163 n lam k) u) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-000521",
+        "decl-000522",
+        "decl-000524",
+        "decl-001833",
+        "decl-017155",
+        "decl-017163"
+      ],
+      "structural_type_hash": "3077016712",
+      "temporary_id": "decl-017162"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (lam : decl-001833 n) \u2192\n    (k : Type) \u2192\n      [inst : Field.{0} k] \u2192\n        [inst_1 : IsAlgClosed.{0} k] \u2192\n          [CharZero.{0} k] \u2192\n            LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) (decl-000521.{0} n lam k)\n              (Module.Dual.{0, 0} k (decl-000516.{0} n lam k))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-000521",
+        "decl-000522",
+        "decl-000524",
+        "decl-001833"
+      ],
+      "structural_type_hash": "3637098766",
+      "temporary_id": "decl-017163"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (lam : decl-001833 n) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k]\n  [inst_2 : CharZero.{0} k] (g : Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) (v : decl-000521.{0} n lam k),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-017163 n lam k)\n      (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-017169.{0} n lam k) g) v))\n    (DFunLike.coe.{1, 1, 1}\n      (DFunLike.coe.{1, 1, 1} (Representation.dual.{0, 0, 0} (decl-017172.{0} n lam k)) g)\n      (DFunLike.coe.{1, 1, 1} (decl-017163 n lam k) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-000521",
+        "decl-000522",
+        "decl-000524",
+        "decl-001833",
+        "decl-017163",
+        "decl-017169",
+        "decl-017172"
+      ],
+      "structural_type_hash": "1064530316",
+      "temporary_id": "decl-017167"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} {V : Type u_3} {W : Type u_4} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G]\n  [inst_2 : AddCommGroup.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] [inst_4 : AddCommGroup.{u_4} W]\n  [inst_5 : Module.{u_1, u_4} k W] (\u03c1V : Representation.{u_1, u_2, u_3} k G V)\n  (\u03c1W : Representation.{u_1, u_2, u_4} k G W),\n  IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_3} \u03c1V) \u2192\n    \u2200\n      (B :\n        LinearMap.{u_1, u_1, u_3, max u_1 u_4} (RingHom.id.{u_1} k) V\n          (LinearMap.{u_1, u_1, u_4, u_1} (RingHom.id.{u_1} k) W k)),\n      Ne.{max (max (u_1 + 1) (u_3 + 1)) (u_4 + 1)} B 0 \u2192\n        (\u2200 (g : G) (v : V) (w : W),\n            Eq.{u_1 + 1}\n              (DFunLike.coe.{max (u_1 + 1) (u_4 + 1), u_4 + 1, u_1 + 1}\n                (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_4 + 1), u_3 + 1, max (u_1 + 1) (u_4 + 1)} B\n                  (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n                    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1V g) v))\n                (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1}\n                  (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} \u03c1W g) w))\n              (DFunLike.coe.{max (u_1 + 1) (u_4 + 1), u_4 + 1, u_1 + 1}\n                (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_4 + 1), u_3 + 1, max (u_1 + 1) (u_4 + 1)} B v) w)) \u2192\n          \u2200 (v : V),\n            (\u2200 (w : W),\n                Eq.{u_1 + 1}\n                  (DFunLike.coe.{max (u_1 + 1) (u_4 + 1), u_4 + 1, u_1 + 1}\n                    (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_4 + 1), u_3 + 1, max (u_1 + 1) (u_4 + 1)} B v) w)\n                  0) \u2192\n              Eq.{u_3 + 1} v 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3161223075",
+      "temporary_id": "decl-021020"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} {V : Type u_3} {W : Type u_4} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G]\n  [inst_2 : AddCommGroup.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] [inst_4 : AddCommGroup.{u_4} W]\n  [inst_5 : Module.{u_1, u_4} k W] (\u03c1V : Representation.{u_1, u_2, u_3} k G V)\n  (\u03c1W : Representation.{u_1, u_2, u_4} k G W),\n  IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_3} \u03c1V) \u2192\n    IsSimpleModule.{max u_2 u_1, u_4} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_4} \u03c1W) \u2192\n      \u2200\n        (B :\n          LinearMap.{u_1, u_1, u_3, max u_1 u_4} (RingHom.id.{u_1} k) V\n            (LinearMap.{u_1, u_1, u_4, u_1} (RingHom.id.{u_1} k) W k)),\n        Ne.{max (max (u_1 + 1) (u_3 + 1)) (u_4 + 1)} B 0 \u2192\n          (\u2200 (g : G) (v : V) (w : W),\n              Eq.{u_1 + 1}\n                (DFunLike.coe.{max (u_1 + 1) (u_4 + 1), u_4 + 1, u_1 + 1}\n                  (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_4 + 1), u_3 + 1, max (u_1 + 1) (u_4 + 1)} B\n                    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n                      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1V g) v))\n                  (DFunLike.coe.{u_4 + 1, u_4 + 1, u_4 + 1}\n                    (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} \u03c1W g) w))\n                (DFunLike.coe.{max (u_1 + 1) (u_4 + 1), u_4 + 1, u_1 + 1}\n                  (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_4 + 1), u_3 + 1, max (u_1 + 1) (u_4 + 1)} B v) w)) \u2192\n            And\n              (\u2200 (v : V),\n                (\u2200 (w : W),\n                    Eq.{u_1 + 1}\n                      (DFunLike.coe.{max (u_1 + 1) (u_4 + 1), u_4 + 1, u_1 + 1}\n                        (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_4 + 1), u_3 + 1, max (u_1 + 1) (u_4 + 1)} B v)\n                        w)\n                      0) \u2192\n                  Eq.{u_3 + 1} v 0)\n              (\u2200 (w : W),\n                (\u2200 (v : V),\n                    Eq.{u_1 + 1}\n                      (DFunLike.coe.{max (u_1 + 1) (u_4 + 1), u_4 + 1, u_1 + 1}\n                        (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_4 + 1), u_3 + 1, max (u_1 + 1) (u_4 + 1)} B v)\n                        w)\n                      0) \u2192\n                  Eq.{u_4 + 1} w 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3518319092",
+      "temporary_id": "decl-021723"
+    }
+  ],
+  "module_temporary_id": "module-0251",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

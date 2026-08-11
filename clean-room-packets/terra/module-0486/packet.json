@@ -1,0 +1,133 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 n.Partition \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1258237489",
+      "temporary_id": "decl-017038"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (mu : n.Partition) \u2192 n.Partition \u2192 Submodule.{0, 0} (decl-016224 n) (decl-006575 n mu)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006575",
+        "decl-006576",
+        "decl-015532",
+        "decl-016224"
+      ],
+      "structural_type_hash": "2336103610",
+      "temporary_id": "decl-017039"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 n.Partition \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2987367450",
+      "temporary_id": "decl-017041"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (mu nu : n.Partition),\n  Not (decl-005702 nu mu) \u2192 Subsingleton.{1} (decl-017038 n mu nu)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005702",
+        "decl-017038"
+      ],
+      "structural_type_hash": "927583133",
+      "temporary_id": "decl-024602"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (mu : n.Partition) \u2192\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (decl-016224 n)) (decl-006575 n mu)\n      (DirectSum.{0, 0} n.Partition fun nu => decl-017038 n mu nu)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006575",
+        "decl-006576",
+        "decl-015532",
+        "decl-016116",
+        "decl-016224",
+        "decl-017038",
+        "decl-017041"
+      ],
+      "structural_type_hash": "208002509",
+      "temporary_id": "decl-024603"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (mu : n.Partition) \u2192\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (decl-016224 n)) (decl-017038 n mu mu)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n mu) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016224",
+        "decl-017038",
+        "decl-017041"
+      ],
+      "structural_type_hash": "1001443091",
+      "temporary_id": "decl-024607"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192\n  (mu nu : n.Partition) \u2192\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (decl-016224 n))\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-017039 n mu nu) x)\n      (decl-017038 n mu nu)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006575",
+        "decl-006576",
+        "decl-015532",
+        "decl-016116",
+        "decl-016224",
+        "decl-017038",
+        "decl-017039",
+        "decl-017041"
+      ],
+      "structural_type_hash": "3990071130",
+      "temporary_id": "decl-024624"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (mu : n.Partition), Eq.{1} (decl-017041 n mu mu) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017041"
+      ],
+      "structural_type_hash": "3120768977",
+      "temporary_id": "decl-024636"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (mu nu : n.Partition),\n  Not (decl-005702 nu mu) \u2192 Eq.{1} (decl-017041 n mu nu) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005702",
+        "decl-017041"
+      ],
+      "structural_type_hash": "1736421104",
+      "temporary_id": "decl-024643"
+    }
+  ],
+  "module_temporary_id": "module-0486",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

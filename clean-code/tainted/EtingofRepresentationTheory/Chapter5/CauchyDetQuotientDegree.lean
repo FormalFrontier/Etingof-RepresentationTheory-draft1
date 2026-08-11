@@ -1,0 +1,822 @@
+import Mathlib
+import EtingofRepresentationTheory.Chapter5.CauchyCharacterRightAssembly
+import EtingofRepresentationTheory.Chapter5.CauchyCharDiff
+import EtingofRepresentationTheory.Chapter5.PolyRightGrading
+
+/-!
+# The determinant-quotient degree component `(A/det)_d` and its formal character
+
+This file builds the degree-`d` component of the
+determinant quotient `A/det = k[Xᵢⱼ]/(det)`, packaged as a finite-dimensional
+right-`GL_N`-representation `quotDetDegreeFDRep k N d`, together with the formula
+for its formal character (the `0 ∈ range ν.parts`, i.e. `ν_N = 0`, constituents).
+
+## The argument
+
+The right-`GL_N`-equivariant per-degree short exact sequence
+
+  `0 → A_{d-N} ⊗ χ  --mulDet-->  A_d  --mk-->  (A/det)_d → 0`
+
+(`detSubmodule_inf_homogeneous`, `PolyRightGrading.lean`) gives, by
+additivity of the formal character over short exact sequences
+(`formalCharacter_add_of_shortExact`),
+
+  `char (A/det)_d = char A_d − char (A_{d-N} ⊗ χ)`.
+
+The twist character of `A_{d-N} ⊗ χ` is `(char A_{d-N}) · ∏ᵢ Xᵢ`
+(`formalCharacter_twistFDRep`, the determinant character shifts every weight by
+`(1,…,1)`). Substituting `polyRightDegreeFDRep_formalCharacter`
+(`CauchyCharacterRightAssembly.lean`) for both degrees and applying the
+combinatorial core `cauchyMult_mul_prodX_eq_lastPart_pos` (`CauchyCharDiff.lean`)
+leaves exactly the `0 ∈ range ν.parts` part.
+-/
+
+namespace Etingof.CauchyDetQuotient
+
+open MvPolynomial Etingof Etingof.PolynomialGLAction Etingof.PolyRightGrading
+  Etingof.KernelLemmaKPrime Etingof.DetShiftIso Etingof.CauchyCharacterRight
+  Etingof.CauchyWeightSpaceDimension
+
+variable {k : Type*} [Field k] [IsAlgClosed k] [CharZero k]
+
+/-! ### General formal-character additivity over an equivariant short exact sequence -/
+
+/-- Membership in the `μ`-weight space, unfolded: `v` is a weight-`μ` vector iff
+every diagonal torus element acts on `v` by the scalar `t ^ μ i`. -/
+theorem mem_glWeightSpace_iff (N : ℕ)
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) (μ : Fin N → ℕ) (v : M) :
+    v ∈ glWeightSpace k N M μ ↔
+      ∀ (i : Fin N) (t : kˣ), M.ρ (diagUnit k N i t) v = (t : k) ^ μ i • v := by
+  simp only [glWeightSpace, Submodule.mem_iInf, LinearMap.mem_ker, LinearMap.sub_apply,
+    LinearMap.smul_apply, LinearMap.id_apply, sub_eq_zero]
+
+/-- **An equivariant linear map sends the `μ`-weight space into the `μ`-weight
+space.** -/
+theorem glWeightSpace_map_le (N : ℕ)
+    (V W : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (f : V →ₗ[k] W) (hf : ∀ g v, f (V.ρ g v) = W.ρ g (f v)) (μ : Fin N → ℕ) :
+    (glWeightSpace k N V μ).map f ≤ glWeightSpace k N W μ := by
+  rintro _ ⟨v, hv, rfl⟩
+  simp only [SetLike.mem_coe, mem_glWeightSpace_iff] at hv ⊢
+  intro i t
+  rw [← hf, hv i t, map_smul]
+
+/-- **The `μ`-weight space of `V` meets the range of an injective equivariant
+`ι : U → V` exactly in the image of the `μ`-weight space of `U`.** -/
+theorem glWeightSpace_inf_range (N : ℕ)
+    (U V : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (ι : U →ₗ[k] V) (hι : ∀ g u, ι (U.ρ g u) = V.ρ g (ι u))
+    (hι_inj : Function.Injective ι) (μ : Fin N → ℕ) :
+    glWeightSpace k N V μ ⊓ LinearMap.range ι = (glWeightSpace k N U μ).map ι := by
+  apply le_antisymm
+  · rintro x ⟨hxV, u, rfl⟩
+    refine ⟨u, ?_, rfl⟩
+    simp only [SetLike.mem_coe, mem_glWeightSpace_iff] at hxV ⊢
+    intro i t
+    apply hι_inj
+    rw [hι, map_smul, hxV i t]
+  · refine le_inf (glWeightSpace_map_le N U V ι hι μ) ?_
+    rintro _ ⟨u, _, rfl⟩
+    exact ⟨u, rfl⟩
+
+/-- **Formal characters are additive over an equivariant short exact sequence.**
+Given finite-dimensional `GL_N`-representations `U, V, W` with an injective
+equivariant `ι : U → V`, a surjective equivariant `π : V → W`, exactness
+`range ι = ker π`, and spanning weight-space decompositions for `U` and `V`,
+
+  `char V = char U + char W`.
+
+The proof is the termwise inequality `dim V_μ ≤ dim U_μ + dim W_μ` (left-exactness)
+upgraded to equality by the global count `∑_μ dim V_μ = dim V = dim U + dim W`
+(rank–nullity plus the spanning hypotheses). -/
+theorem formalCharacter_add_of_shortExact (N : ℕ)
+    (U V W : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (ι : U →ₗ[k] V) (π : V →ₗ[k] W)
+    (hι : ∀ g u, ι (U.ρ g u) = V.ρ g (ι u))
+    (hπ : ∀ g v, π (V.ρ g v) = W.ρ g (π v))
+    (hι_inj : Function.Injective ι)
+    (hπ_surj : Function.Surjective π)
+    (hexact : LinearMap.range ι = LinearMap.ker π)
+    (hUtop : ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N U (fun i => μ i) = ⊤)
+    (hVtop : ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N V (fun i => μ i) = ⊤) :
+    formalCharacter k N V = formalCharacter k N U + formalCharacter k N W := by
+  classical
+  -- spanning for W, from spanning of V plus surjectivity of π
+  have hWtop : ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N W (fun i => μ i) = ⊤ := by
+    have h1 : (⨆ μ : Fin N →₀ ℕ, glWeightSpace k N V (fun i => μ i)).map π
+        = ⨆ μ : Fin N →₀ ℕ, (glWeightSpace k N V (fun i => μ i)).map π :=
+      Submodule.map_iSup _ _
+    rw [hVtop, Submodule.map_top, LinearMap.range_eq_top.mpr hπ_surj] at h1
+    have h2 : (⨆ μ : Fin N →₀ ℕ, (glWeightSpace k N V (fun i => μ i)).map π)
+        ≤ ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N W (fun i => μ i) :=
+      iSup_mono fun μ => glWeightSpace_map_le N V W π hπ _
+    exact top_le_iff.mp (h1 ▸ h2)
+  -- per-weight split:  dim V_μ = dim ((V_μ).map π) + dim U_μ
+  have hsplit : ∀ μ : Fin N →₀ ℕ,
+      Module.finrank k (glWeightSpace k N V (fun i => μ i))
+        = Module.finrank k ((glWeightSpace k N V (fun i => μ i)).map π)
+          + Module.finrank k (glWeightSpace k N U (fun i => μ i)) := by
+    intro μ
+    have hrn := LinearMap.finrank_range_add_finrank_ker
+      (π ∘ₗ (glWeightSpace k N V (fun i => μ i)).subtype)
+    rw [LinearMap.range_comp, Submodule.range_subtype] at hrn
+    have hk : Module.finrank k
+          (LinearMap.ker (π ∘ₗ (glWeightSpace k N V (fun i => μ i)).subtype))
+        = Module.finrank k (glWeightSpace k N U (fun i => μ i)) := by
+      rw [LinearMap.ker_comp,
+        (Submodule.equivMapOfInjective _
+          (Submodule.injective_subtype (glWeightSpace k N V (fun i => μ i)))
+          (Submodule.comap (glWeightSpace k N V (fun i => μ i)).subtype
+            (LinearMap.ker π))).finrank_eq,
+        Submodule.map_comap_subtype, ← hexact,
+        glWeightSpace_inf_range N U V ι hι hι_inj (fun i => μ i),
+        ← (Submodule.equivMapOfInjective ι hι_inj
+            (glWeightSpace k N U (fun i => μ i))).finrank_eq]
+    rw [hk] at hrn
+    omega
+  -- per-weight inequality:  dim V_μ ≤ dim U_μ + dim W_μ
+  have hle : ∀ μ : Fin N →₀ ℕ,
+      Module.finrank k (glWeightSpace k N V (fun i => μ i))
+        ≤ Module.finrank k (glWeightSpace k N U (fun i => μ i))
+          + Module.finrank k (glWeightSpace k N W (fun i => μ i)) := by
+    intro μ
+    rw [hsplit μ, add_comm]
+    exact Nat.add_le_add_left
+      (Submodule.finrank_mono (glWeightSpace_map_le N V W π hπ (fun i => μ i))) _
+  -- finite supports and common index set
+  set S : Finset (Fin N →₀ ℕ) :=
+    (glWeightSpace_finite_support k N U).toFinset
+      ∪ (glWeightSpace_finite_support k N V).toFinset
+      ∪ (glWeightSpace_finite_support k N W).toFinset with hS
+  have zero_of : ∀ (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) (μ : Fin N →₀ ℕ),
+      μ ∉ (glWeightSpace_finite_support k N M).toFinset →
+      Module.finrank k (glWeightSpace k N M (fun i => μ i)) = 0 := by
+    intro M μ hμ
+    have : glWeightSpace k N M (fun i => μ i) = ⊥ := by
+      by_contra h; exact hμ ((glWeightSpace_finite_support k N M).mem_toFinset.mpr h)
+    rw [this, finrank_bot]
+  -- global sums over the common index set S
+  have hsumV : ∑ μ ∈ S, Module.finrank k (glWeightSpace k N V (fun i => μ i))
+      = Module.finrank k V := by
+    rw [finrank_eq_sum_glWeightSpace k N V hVtop]
+    refine (Finset.sum_subset ?_ (fun μ _ hμ => zero_of V μ hμ)).symm
+    rw [hS]; exact Finset.subset_union_right.trans Finset.subset_union_left
+  have hsumU : ∑ μ ∈ S, Module.finrank k (glWeightSpace k N U (fun i => μ i))
+      = Module.finrank k U := by
+    rw [finrank_eq_sum_glWeightSpace k N U hUtop]
+    refine (Finset.sum_subset ?_ (fun μ _ hμ => zero_of U μ hμ)).symm
+    rw [hS]; exact Finset.subset_union_left.trans Finset.subset_union_left
+  have hsumW : ∑ μ ∈ S, Module.finrank k (glWeightSpace k N W (fun i => μ i))
+      = Module.finrank k W := by
+    rw [finrank_eq_sum_glWeightSpace k N W hWtop]
+    refine (Finset.sum_subset ?_ (fun μ _ hμ => zero_of W μ hμ)).symm
+    rw [hS]; exact Finset.subset_union_right
+  -- rank–nullity for the whole sequence:  dim V = dim U + dim W
+  have hrnπ := LinearMap.finrank_range_add_finrank_ker π
+  rw [LinearMap.range_eq_top.mpr hπ_surj, finrank_top, ← hexact,
+    ← (LinearEquiv.ofInjective ι hι_inj).finrank_eq] at hrnπ
+  -- termwise equality on S from the equal sums and termwise inequality
+  have hsumeq : ∑ μ ∈ S, Module.finrank k (glWeightSpace k N V (fun i => μ i))
+      = ∑ μ ∈ S, (Module.finrank k (glWeightSpace k N U (fun i => μ i))
+          + Module.finrank k (glWeightSpace k N W (fun i => μ i))) := by
+    rw [Finset.sum_add_distrib, hsumU, hsumW, hsumV]; omega
+  have hterm := (Finset.sum_eq_sum_iff_of_le (fun μ _ => hle μ)).mp hsumeq
+  -- conclude coefficient by coefficient
+  have hdim : ∀ μ : Fin N →₀ ℕ,
+      Module.finrank k (glWeightSpace k N V (fun i => μ i))
+        = Module.finrank k (glWeightSpace k N U (fun i => μ i))
+          + Module.finrank k (glWeightSpace k N W (fun i => μ i)) := by
+    intro μ
+    by_cases hμS : μ ∈ S
+    · exact hterm μ hμS
+    · have hVμ := zero_of V μ (fun h => hμS (by
+        rw [hS]; exact Finset.mem_union_left _ (Finset.mem_union_right _ h)))
+      have hUμ := zero_of U μ (fun h => hμS (by
+        rw [hS]; exact Finset.mem_union_left _ (Finset.mem_union_left _ h)))
+      have hWμ := zero_of W μ (fun h => hμS (by rw [hS]; exact Finset.mem_union_right _ h))
+      rw [hVμ, hUμ, hWμ]
+  ext μ
+  rw [MvPolynomial.coeff_add, formalCharacter_coeff, formalCharacter_coeff,
+    formalCharacter_coeff]
+  rw [hdim μ]; push_cast; ring
+
+/-! ### The determinant character on the diagonal torus -/
+
+/-- `det (diagUnit i t) = t`: the determinant character has right-torus weight
+`(1,…,1)`. -/
+theorem detChar_diagUnit_val (N : ℕ) (i : Fin N) (t : kˣ) :
+    ((detChar k N (diagUnit k N i t) : kˣ) : k) = (t : k) := by
+  rw [detChar, Matrix.GeneralLinearGroup.val_det_apply]
+  change (Matrix.diagonal (Function.update (1 : Fin N → k) i (t : k))).det = (t : k)
+  rw [Matrix.det_diagonal, Finset.prod_update_of_mem (Finset.mem_univ i)]
+  simp
+
+/-! ### Spanning of the weight spaces of `A_d` -/
+
+/-- **The weight spaces of `A_d` span.** Every degree-`d` monomial is a weight
+vector (its weight is its column-degree vector), and the degree-`d` monomials span
+`A_d`, so `⨆_μ (A_d)_μ = ⊤`. -/
+theorem polyRight_iSup_glWeightSpace_eq_top {N : ℕ} (d : ℕ) :
+    ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (polyRightDegreeFDRep k N d) (fun i => μ i) = ⊤ := by
+  classical
+  refine Submodule.map_injective_of_injective (polyOf_injective d) ?_
+  rw [Submodule.map_iSup, Submodule.map_top]
+  have hrange : LinearMap.range (polyOf d)
+      = MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d :=
+    Submodule.range_subtype _
+  rw [hrange]
+  simp_rw [map_polyOf_glWeightSpace, ← Submodule.span_iUnion]
+  -- the union of the `Dset`s over all weights is all degree-`d` exponents
+  have hunion : (⋃ μ : Fin N →₀ ℕ,
+        (fun s => MvPolynomial.monomial s (1 : k)) '' (Dset N d μ : Set _))
+      = (fun s => MvPolynomial.monomial s (1 : k)) ''
+          { s : (Fin N × Fin N) →₀ ℕ | ∑ p, s p = d } := by
+    ext x
+    simp only [Set.mem_iUnion, Set.mem_image, Finset.mem_coe, mem_Dset, Set.mem_setOf_eq]
+    constructor
+    · rintro ⟨μ, s, ⟨hsum, _⟩, rfl⟩; exact ⟨s, hsum, rfl⟩
+    · rintro ⟨s, hsum, rfl⟩
+      exact ⟨Finsupp.equivFunOnFinite.symm (fun j => ∑ i, s (i, j)), s,
+        ⟨hsum, fun j => by simp⟩, rfl⟩
+  rw [hunion]
+  -- the span of all degree-`d` monomials is `A_d`
+  apply le_antisymm
+  · rw [Submodule.span_le]
+    rintro _ ⟨s, hs, rfl⟩
+    exact (MvPolynomial.mem_homogeneousSubmodule d _).2
+      (MvPolynomial.isHomogeneous_monomial _ (by rw [Finsupp.degree_eq_sum]; exact hs))
+  · intro f hf
+    rw [(f).as_sum]
+    refine Submodule.sum_mem _ fun s hs => ?_
+    have hdeg : ∑ p, s p = d := by
+      have hH : f.IsHomogeneous d := (MvPolynomial.mem_homogeneousSubmodule d _).1 hf
+      have := hH (MvPolynomial.mem_support_iff.mp hs)
+      rwa [← Finsupp.degree_eq_sum, Finsupp.degree_eq_weight_one]
+    rw [show (MvPolynomial.monomial s (MvPolynomial.coeff s f)
+          : MvPolynomial (Fin N × Fin N) k)
+        = MvPolynomial.coeff s f • MvPolynomial.monomial s 1 by
+        rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]]
+    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨s, hdeg, rfl⟩)
+
+/-- **Homogeneity of the weight spaces of `A_d`.** A nonzero `μ`-weight space of
+`A_d` forces `∑ μ = d`: every weight-`μ` vector is a combination of degree-`d`
+monomials with column-degree vector `μ` (`map_polyOf_glWeightSpace`), and each such
+monomial has total degree `∑ⱼ μ_j`, so the weight space is `⊥` unless `∑ μ = d`. -/
+theorem polyRight_glWeightSpace_homog {N : ℕ} (d : ℕ) (μ : Fin N → ℕ)
+    (h : glWeightSpace k N (polyRightDegreeFDRep k N d) μ ≠ ⊥) : ∑ i, μ i = d := by
+  classical
+  by_contra hne
+  apply h
+  have hDset : Dset N d μ = ∅ := by
+    rw [Finset.eq_empty_iff_forall_notMem]
+    intro s hs
+    rw [mem_Dset] at hs
+    obtain ⟨hsum, hcol⟩ := hs
+    apply hne
+    calc ∑ i, μ i = ∑ j, ∑ i, s (i, j) := Finset.sum_congr rfl (fun j _ => (hcol j).symm)
+      _ = ∑ p, s p := by rw [Fintype.sum_prod_type]; exact Finset.sum_comm.symm
+      _ = d := hsum
+  apply Submodule.map_injective_of_injective (polyOf_injective d)
+  rw [Submodule.map_bot, map_polyOf_glWeightSpace, hDset]
+  simp
+
+/-! ### The degree-`d` component of the determinant quotient as an `FDRep` -/
+
+/-- **The degree-`d` component `(A/det)_d`, as a subrepresentation of `quotDetRep`.**
+Its carrier is the image of `A_d` under the quotient projection `A → A/det`. -/
+noncomputable def quotDetDegreeSubrep (k : Type*) [Field k] (N d : ℕ) :
+    Subrepresentation (quotDetRep k N) where
+  toSubmodule :=
+    (MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d).map (Submodule.mkQ (detSubmodule k N))
+  apply_mem_toSubmodule g x hx := by
+    obtain ⟨f, hf, rfl⟩ := hx
+    refine ⟨polyRightRep k N g f, ?_, ?_⟩
+    · exact (MvPolynomial.mem_homogeneousSubmodule d _).2
+        (polyRightRep_isHomogeneous g ((MvPolynomial.mem_homogeneousSubmodule d _).1 hf))
+    · rw [Submodule.mkQ_apply, Submodule.mkQ_apply, quotDetRep_mk]
+
+/-- **The degree-`d` component `(A/det)_d` as an `FDRep`** of `GL_N(k)`: the cokernel
+of `mulDet : A_{d-N} → A_d` in the per-degree short exact sequence
+`0 → A_{d-N} ⊗ χ → A_d → (A/det)_d → 0`. -/
+noncomputable def quotDetDegreeFDRep (k : Type*) [Field k] (N d : ℕ) :
+    FDRep k (Matrix.GeneralLinearGroup (Fin N) k) :=
+  haveI : FiniteDimensional k (MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d) :=
+    CauchyCharacterRight.finiteDimensional_homogeneousSubmodule d
+  haveI : FiniteDimensional k (quotDetDegreeSubrep k N d).toSubmodule :=
+    inferInstanceAs (FiniteDimensional k
+      ((MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d).map (Submodule.mkQ (detSubmodule k N))))
+  FDRep.of (quotDetDegreeSubrep k N d).toRepresentation
+
+/-! ### Spanning and homogeneity of the weight spaces of `(A/det)_d`
+
+The two structural facts about `M = quotDetDegreeFDRep k N d` used by
+`Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`:
+its weight spaces span (`quotDetDegree_iSup_glWeightSpace_eq_top`) and every nonzero
+weight space sits in degree `d` (`quotDetDegree_homog`). Both descend from the
+surjective `GL_N`-equivariant quotient projection `π : A_d → (A/det)_d` together
+with the corresponding facts for `A_d`. -/
+
+/-- The surjective `GL_N`-equivariant quotient projection `π : A_d → (A/det)_d`,
+sending a degree-`d` polynomial to its class in `A/det = k[Xᵢⱼ]/(det)`. -/
+noncomputable def quotDetDegreeProj (k : Type*) [Field k] (N d : ℕ) :
+    polyRightDegreeFDRep k N d →ₗ[k] quotDetDegreeFDRep k N d :=
+  (Submodule.mkQ (detSubmodule k N)).restrict
+    (fun _ (hx : _ ∈ MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d) =>
+      Submodule.mem_map_of_mem hx)
+
+/-- `π` is surjective: every element of `(A/det)_d` is the class of a degree-`d`
+polynomial. -/
+theorem quotDetDegreeProj_surjective {N : ℕ} (d : ℕ) :
+    Function.Surjective (quotDetDegreeProj k N d) := by
+  rintro ⟨_, f, hf, rfl⟩
+  exact ⟨⟨f, hf⟩, rfl⟩
+
+/-- `π` is `GL_N`-equivariant (from `quotDetRep_mk`). -/
+theorem quotDetDegreeProj_equivariant {N : ℕ} (d : ℕ)
+    (g : Matrix.GeneralLinearGroup (Fin N) k) (v : polyRightDegreeFDRep k N d) :
+    quotDetDegreeProj k N d ((polyRightDegreeFDRep k N d).ρ g v)
+      = (quotDetDegreeFDRep k N d).ρ g (quotDetDegreeProj k N d v) := by
+  let eV : polyRightDegreeFDRep k N d →ₗ[k] MvPolynomial (Fin N × Fin N) k := polyOf d
+  let eW : quotDetDegreeFDRep k N d →ₗ[k] (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) :=
+    (quotDetDegreeSubrep k N d).toSubmodule.subtype
+  have eW_inj : Function.Injective eW := Subtype.coe_injective
+  have eV_rho : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : polyRightDegreeFDRep k N d),
+      eV ((polyRightDegreeFDRep k N d).ρ g v) = polyRightRep k N g (eV v) := fun _ _ => rfl
+  have eW_rho : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (w : quotDetDegreeFDRep k N d),
+      eW ((quotDetDegreeFDRep k N d).ρ g w) = quotDetRep k N g (eW w) := fun _ _ => rfl
+  have eW_π : ∀ v, eW (quotDetDegreeProj k N d v) = Submodule.mkQ (detSubmodule k N) (eV v) :=
+    fun _ => rfl
+  apply eW_inj
+  rw [eW_π, eW_rho, eW_π, eV_rho]
+  simp only [Submodule.mkQ_apply, quotDetRep_mk]
+
+/-- **The weight spaces of `(A/det)_d` span.** The image under the surjective
+equivariant `π : A_d → (A/det)_d` of the spanning weight-space decomposition of
+`A_d` (`polyRight_iSup_glWeightSpace_eq_top`) is everything; each `A_d` weight space
+maps into the same-weight space of `(A/det)_d` (`glWeightSpace_map_le`). -/
+theorem quotDetDegree_iSup_glWeightSpace_eq_top {N : ℕ} (d : ℕ) :
+    ⨆ μ : Fin N →₀ ℕ,
+        glWeightSpace k N (quotDetDegreeFDRep k N d) (fun i => μ i) = ⊤ := by
+  have h1 : (⨆ μ : Fin N →₀ ℕ,
+        glWeightSpace k N (polyRightDegreeFDRep k N d) (fun i => μ i)).map
+          (quotDetDegreeProj k N d)
+      = ⨆ μ : Fin N →₀ ℕ,
+          (glWeightSpace k N (polyRightDegreeFDRep k N d) (fun i => μ i)).map
+            (quotDetDegreeProj k N d) :=
+    Submodule.map_iSup _ _
+  rw [polyRight_iSup_glWeightSpace_eq_top, Submodule.map_top,
+    LinearMap.range_eq_top.mpr (quotDetDegreeProj_surjective d)] at h1
+  have h2 : (⨆ μ : Fin N →₀ ℕ,
+        (glWeightSpace k N (polyRightDegreeFDRep k N d) (fun i => μ i)).map
+          (quotDetDegreeProj k N d))
+      ≤ ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (quotDetDegreeFDRep k N d) (fun i => μ i) :=
+    iSup_mono fun μ => glWeightSpace_map_le N _ _ (quotDetDegreeProj k N d)
+      (quotDetDegreeProj_equivariant d) _
+  exact top_le_iff.mp (h1 ▸ h2)
+
+/-- **Homogeneity of the weight spaces of `(A/det)_d`.** A nonzero `μ`-weight space
+forces `∑ μ = d`. Writing `μ` as a finsupp `μ₀`, the surjective equivariant `π`
+identifies `⊤ = range π` with `⨆_ν (A_d)_ν.map π`; only the degree-`d` weights `ν`
+contribute (`polyRight_glWeightSpace_homog`), and since `∑ μ ≠ d` every contributing
+`ν ≠ μ₀`, so `⨆_{ν ≠ μ₀} (A/det)_ν = ⊤`. Independence of the weight spaces
+(`glWeightSpace_iSupIndep`) then forces the `μ₀`-weight space to be `⊥`. -/
+theorem quotDetDegree_homog {N : ℕ} (d : ℕ) (μ : Fin N → ℕ)
+    (h : glWeightSpace k N (quotDetDegreeFDRep k N d) μ ≠ ⊥) : ∑ i, μ i = d := by
+  classical
+  by_contra hne
+  set μ₀ : Fin N →₀ ℕ := Finsupp.equivFunOnFinite.symm μ with hμ₀
+  have hμ₀μ : (fun i => μ₀ i) = μ := by funext i; rw [hμ₀]; simp
+  have hindep := glWeightSpace_iSupIndep k N (quotDetDegreeFDRep k N d)
+  have hdisj := hindep μ₀
+  have hsup : (⊤ : Submodule k (quotDetDegreeFDRep k N d))
+      ≤ ⨆ (ν : Fin N →₀ ℕ) (_ : ν ≠ μ₀),
+          glWeightSpace k N (quotDetDegreeFDRep k N d) (fun i => ν i) := by
+    have hrange : (⨆ ν : Fin N →₀ ℕ,
+          (glWeightSpace k N (polyRightDegreeFDRep k N d) (fun i => ν i)).map
+            (quotDetDegreeProj k N d)) = ⊤ := by
+      rw [← Submodule.map_iSup, polyRight_iSup_glWeightSpace_eq_top, Submodule.map_top,
+        LinearMap.range_eq_top.mpr (quotDetDegreeProj_surjective d)]
+    rw [← hrange]
+    refine iSup_le fun ν => ?_
+    by_cases hν : ν = μ₀
+    · rw [hν]
+      have hVbot : glWeightSpace k N (polyRightDegreeFDRep k N d) (fun i => μ₀ i) = ⊥ := by
+        by_contra hVne
+        have hsum : ∑ i, μ₀ i = d := polyRight_glWeightSpace_homog d (fun i => μ₀ i) hVne
+        exact hne (by simpa only [hμ₀μ] using hsum)
+      rw [hVbot, Submodule.map_bot]
+      exact bot_le
+    · exact le_iSup₂_of_le ν hν
+        (glWeightSpace_map_le N _ _ (quotDetDegreeProj k N d)
+          (quotDetDegreeProj_equivariant d) _)
+  rw [top_le_iff] at hsup
+  rw [hsup] at hdisj
+  have hbot := hdisj.eq_bot_of_le le_top
+  simp only [hμ₀μ] at hbot
+  exact h hbot
+
+/-! ### The determinant-character twist `A_e ⊗ χ` and its formal character -/
+
+/-- The degree-`e` homogeneous component `A_e` of `k[Xᵢⱼ]` twisted by the
+determinant character `χ = detChar`, as an `FDRep` on the same carrier as
+`polyRightDegreeFDRep k N e`. This is the left object `A_{d-N} ⊗ χ` of the
+per-degree short exact sequence. -/
+noncomputable def twistFDRep (k : Type*) [Field k] (N e : ℕ) :
+    FDRep k (Matrix.GeneralLinearGroup (Fin N) k) :=
+  haveI : FiniteDimensional k (polyRightHomogeneousSubrep k N e).toSubmodule :=
+    finiteDimensional_homogeneousSubmodule e
+  FDRep.of (charTwistRep (detChar k N) (polyRightHomogeneousSubrep k N e).toRepresentation)
+
+/-- The action of `twistFDRep` is `detChar`-scaled `polyRightDegreeFDRep` action. -/
+theorem twistFDRep_ρ_apply (e : ℕ) (g : Matrix.GeneralLinearGroup (Fin N) k)
+    (v : twistFDRep k N e) :
+    (twistFDRep k N e).ρ g v
+      = (detChar k N g : k) • (polyRightDegreeFDRep k N e).ρ g v := by
+  change (charTwistRep (detChar k N) (polyRightHomogeneousSubrep k N e).toRepresentation) g v
+      = (detChar k N g : k) • (polyRightHomogeneousSubrep k N e).toRepresentation g v
+  rw [charTwistRep_apply]
+
+/-- **The twist shifts every weight up by one** (positive case): for `μ` with all
+coordinates `≥ 1`, the `μ`-weight space of `A_e ⊗ χ` is the `(μ-1)`-weight space of
+`A_e`. -/
+theorem glWeightSpace_twistFDRep_pos (e : ℕ) (μ : Fin N → ℕ) (hμ : ∀ i, 1 ≤ μ i) :
+    glWeightSpace k N (twistFDRep k N e) μ
+      = glWeightSpace k N (polyRightDegreeFDRep k N e) (fun i => μ i - 1) := by
+  ext v
+  rw [mem_glWeightSpace_iff, mem_glWeightSpace_iff]
+  refine forall_congr' fun i => forall_congr' fun t => ?_
+  rw [twistFDRep_ρ_apply, detChar_diagUnit_val]
+  constructor
+  · intro h
+    refine smul_right_injective _ (Units.ne_zero t) ?_
+    change (t : k) • (polyRightDegreeFDRep k N e).ρ (diagUnit k N i t) v
+        = (t : k) • ((t : k) ^ (μ i - 1) • v)
+    rw [h, smul_smul, ← pow_succ', Nat.sub_add_cancel (hμ i)]
+  · intro h
+    rw [h, smul_smul, ← pow_succ', Nat.sub_add_cancel (hμ i)]
+
+/-- **The twist has no weight with a zero coordinate**: if some `μ j = 0` then the
+`μ`-weight space of `A_e ⊗ χ` is trivial (its weight vectors would have a negative
+`A_e`-weight). -/
+theorem glWeightSpace_twistFDRep_zero (e : ℕ) (μ : Fin N → ℕ) (j : Fin N) (hj : μ j = 0) :
+    glWeightSpace k N (twistFDRep k N e) μ = ⊥ := by
+  rw [eq_bot_iff]
+  intro v hv
+  rw [Submodule.mem_bot]
+  rw [mem_glWeightSpace_iff] at hv
+  apply polyOf_injective e
+  rw [map_zero]
+  ext s
+  rw [MvPolynomial.coeff_zero]
+  by_contra hcoeff
+  obtain ⟨t, ht⟩ := exists_unit_pow_ne_one k ((∑ l, s (l, j)) + 1) (by omega)
+  have hkey : (t : k) • (polyRightDegreeFDRep k N e).ρ (diagUnit k N j t) v = v := by
+    have := hv j t
+    rwa [twistFDRep_ρ_apply, detChar_diagUnit_val, hj, pow_zero, one_smul] at this
+  have hpoly := congrArg (polyOf e) hkey
+  rw [map_smul, polyOf_rho] at hpoly
+  have hc := congrArg (MvPolynomial.coeff s) hpoly
+  rw [MvPolynomial.coeff_smul, coeff_polyRightRep_diagUnit, smul_eq_mul,
+    ← mul_assoc, ← pow_succ'] at hc
+  exact ht (mul_right_cancel₀ hcoeff (by rw [hc, one_mul]))
+
+/-- All-ones exponent vector. -/
+private noncomputable def allOnes (N : ℕ) : Fin N →₀ ℕ :=
+  ∑ i : Fin N, Finsupp.single i 1
+
+private theorem allOnes_apply (N : ℕ) (i : Fin N) : allOnes N i = 1 := by
+  classical
+  simp only [allOnes, Finsupp.finsetSum_apply, Finsupp.single_apply,
+    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+
+private theorem prod_X_eq_monomial_allOnes (N : ℕ) :
+    (∏ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ))
+      = MvPolynomial.monomial (allOnes N) 1 := by
+  classical
+  have hsupp : (allOnes N).support = Finset.univ := by
+    ext i; simp only [Finsupp.mem_support_iff, allOnes_apply, Finset.mem_univ, ne_eq,
+      one_ne_zero, not_false_eq_true]
+  rw [← MvPolynomial.prod_X_pow_eq_monomial, hsupp]
+  exact Finset.prod_congr rfl fun i _ => by rw [allOnes_apply, pow_one]
+
+set_option maxHeartbeats 800000 in
+/-- **The formal character of the determinant-character twist** `A_e ⊗ χ` is
+`(∏ᵢ Xᵢ) · char A_e`: twisting by `χ` shifts every weight by `(1,…,1)`. -/
+theorem formalCharacter_twistFDRep (e : ℕ) :
+    formalCharacter k N (twistFDRep k N e)
+      = (∏ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ))
+          * formalCharacter k N (polyRightDegreeFDRep k N e) := by
+  classical
+  rw [prod_X_eq_monomial_allOnes]
+  ext μ
+  rw [formalCharacter_coeff, MvPolynomial.coeff_monomial_mul']
+  by_cases hμ : allOnes N ≤ μ
+  · have hμ1 : ∀ i, 1 ≤ μ i := fun i => by
+      have := (Finsupp.le_def.mp hμ) i; rwa [allOnes_apply] at this
+    have harg : (fun i => μ i - 1) = (fun i => (μ - allOnes N) i) := by
+      funext i; rw [Finsupp.tsub_apply, allOnes_apply]
+    rw [if_pos hμ, one_mul, formalCharacter_coeff]
+    refine Nat.cast_inj.mpr ?_
+    rw [glWeightSpace_twistFDRep_pos e (fun i => μ i) hμ1]
+    exact congrArg
+      (fun w => Module.finrank k (glWeightSpace k N (polyRightDegreeFDRep k N e) w)) harg
+  · rw [if_neg hμ]
+    have hj : ∃ j, μ j = 0 := by
+      by_contra h; push Not at h
+      exact hμ (Finsupp.le_def.mpr fun i => by rw [allOnes_apply]; have := h i; omega)
+    obtain ⟨j, hj0⟩ := hj
+    rw [glWeightSpace_twistFDRep_zero e (fun i => μ i) j hj0, finrank_bot,
+      Nat.cast_zero]
+
+/-! ### The formal character of the degree-`d` determinant quotient -/
+
+set_option maxHeartbeats 3200000 in
+-- The SES argument chains many `FDRep`-carrier defeq unfoldings (`restrict`,
+-- `toRepresentation`, `FDRep.of_ρ'`) through the rank-nullity character argument,
+-- so the default heartbeat budget is raised.
+/-- **The formal character of the degree-`d` determinant quotient** `(A/det)_d`.
+For `d ≥ N`, the per-degree short exact sequence
+`0 → A_{d-N} ⊗ χ --mulDet--> A_d --mk--> (A/det)_d → 0` gives, by additivity of the
+formal character (`formalCharacter_add_of_shortExact`) and the det-twist character
+(`formalCharacter_twistFDRep`), `char (A/det)_d = char A_d − ∏ᵢ Xᵢ · char A_{d-N}`.
+The combinatorial core `cauchyMult_mul_prodX_eq_lastPart_pos` identifies the
+subtracted term with the `0 ∉ range ν.parts` part of the degree-`d` Cauchy
+character, so the difference is exactly the `0 ∈ range ν.parts` (i.e. `ν_N = 0`)
+part. -/
+theorem quotDetDegreeFDRep_formalCharacter (d : ℕ) (hd : N ≤ d) :
+    formalCharacter k N (quotDetDegreeFDRep k N d)
+      = ∑ ν ∈ Finset.univ.filter
+            (fun ν : BoundedPartition N d => (0 : ℕ) ∈ Set.range ν.parts),
+          (MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N ν.parts)) • schurPoly N ν.parts := by
+  classical
+  -- the SES `0 → A_{d-N} ⊗ χ → A_d → (A/det)_d → 0`
+  -- left map `ι = mulDet` restricted `A_{d-N} → A_d`
+  have hmem_ι : ∀ x ∈ MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k (d - N),
+      mulDet k N x ∈ MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d := by
+    intro x hx
+    have h := mulDet_homogeneousSubmodule_le (k := k) (N := N) (d - N)
+      (Submodule.mem_map_of_mem hx)
+    rwa [show N + (d - N) = d from by omega] at h
+  let ι : twistFDRep k N (d - N) →ₗ[k] polyRightDegreeFDRep k N d :=
+    (mulDet k N).restrict hmem_ι
+  -- right map `π = mkQ` restricted `A_d → (A/det)_d`
+  have hmem_π : ∀ x ∈ MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d,
+      Submodule.mkQ (detSubmodule k N) x
+        ∈ (MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d).map
+            (Submodule.mkQ (detSubmodule k N)) :=
+    fun x hx => Submodule.mem_map_of_mem hx
+  let π : polyRightDegreeFDRep k N d →ₗ[k] quotDetDegreeFDRep k N d :=
+    (Submodule.mkQ (detSubmodule k N)).restrict hmem_π
+  -- underlying-polynomial extraction maps (subtype inclusions of the FDRep carriers)
+  let eU : twistFDRep k N (d - N) →ₗ[k] MvPolynomial (Fin N × Fin N) k :=
+    (MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k (d - N)).subtype
+  let eV : polyRightDegreeFDRep k N d →ₗ[k] MvPolynomial (Fin N × Fin N) k := polyOf d
+  let eW : quotDetDegreeFDRep k N d →ₗ[k] (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) :=
+    (quotDetDegreeSubrep k N d).toSubmodule.subtype
+  have eU_inj : Function.Injective eU := Subtype.coe_injective
+  have eV_inj : Function.Injective eV := Subtype.coe_injective
+  have eW_inj : Function.Injective eW := Subtype.coe_injective
+  -- underlying actions and maps (all definitional)
+  have eU_rho : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (u : twistFDRep k N (d - N)),
+      eU ((twistFDRep k N (d - N)).ρ g u)
+        = charTwistRep (detChar k N) (polyRightRep k N) g (eU u) := fun _ _ => rfl
+  have eV_rho : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : polyRightDegreeFDRep k N d),
+      eV ((polyRightDegreeFDRep k N d).ρ g v) = polyRightRep k N g (eV v) := fun _ _ => rfl
+  have eW_rho : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (w : quotDetDegreeFDRep k N d),
+      eW ((quotDetDegreeFDRep k N d).ρ g w) = quotDetRep k N g (eW w) := fun _ _ => rfl
+  have eV_ι : ∀ u, eV (ι u) = mulDet k N (eU u) := fun _ => rfl
+  have eW_π : ∀ v, eW (π v) = Submodule.mkQ (detSubmodule k N) (eV v) := fun _ => rfl
+  -- equivariance of `ι` (from `mulDet_intertwine`)
+  have hι : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (u : twistFDRep k N (d - N)),
+      ι ((twistFDRep k N (d - N)).ρ g u) = (polyRightDegreeFDRep k N d).ρ g (ι u) := by
+    intro g u
+    apply eV_inj
+    rw [eV_ι, eV_rho, eV_ι, eU_rho, mulDet_intertwine]
+  -- equivariance of `π` (from `quotDetRep_mk`)
+  have hπ : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : polyRightDegreeFDRep k N d),
+      π ((polyRightDegreeFDRep k N d).ρ g v) = (quotDetDegreeFDRep k N d).ρ g (π v) := by
+    intro g v
+    apply eW_inj
+    rw [eW_π, eW_rho, eW_π, eV_rho]
+    simp only [Submodule.mkQ_apply, quotDetRep_mk]
+  -- `ι` injective (from `mulDet_injective`)
+  have hι_inj : Function.Injective ι := by
+    intro a b hab
+    apply eU_inj
+    apply mulDet_injective
+    rw [← eV_ι, ← eV_ι, hab]
+  -- `π` surjective (every element of `(A/det)_d` is `mk` of a degree-`d` polynomial)
+  have hπ_surj : Function.Surjective π := by
+    rintro ⟨_, f, hf, rfl⟩
+    exact ⟨⟨f, hf⟩, rfl⟩
+  -- exactness `range ι = ker π` (from `detSubmodule_inf_homogeneous`)
+  have hexact : LinearMap.range ι = LinearMap.ker π := by
+    apply Submodule.ext
+    intro x
+    rw [LinearMap.mem_range, LinearMap.mem_ker]
+    constructor
+    · rintro ⟨u, rfl⟩
+      apply eW_inj
+      rw [eW_π, eV_ι, map_zero, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, ← range_mulDet]
+      exact ⟨eU u, rfl⟩
+    · intro hx
+      have hxdet : eV x ∈ detSubmodule k N := by
+        have hxv : eW (π x) = 0 := by rw [hx, map_zero]
+        rw [eW_π, Submodule.mkQ_apply] at hxv
+        exact (Submodule.Quotient.mk_eq_zero _).1 hxv
+      have hxhom : eV x ∈ MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d := x.2
+      have hmem : eV x
+          ∈ (MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k (d - N)).map (mulDet k N) := by
+        rw [← detSubmodule_inf_homogeneous d hd]; exact ⟨hxdet, hxhom⟩
+      obtain ⟨Q, hQ, hQx⟩ := hmem
+      refine ⟨⟨Q, hQ⟩, eV_inj ?_⟩
+      rw [eV_ι]; exact hQx
+  -- spanning of `A_d` weight spaces
+  have hVtop : ⨆ μ : Fin N →₀ ℕ,
+      glWeightSpace k N (polyRightDegreeFDRep k N d) (fun i => μ i) = ⊤ :=
+    polyRight_iSup_glWeightSpace_eq_top d
+  -- spanning of `A_{d-N} ⊗ χ` weight spaces (reindex the `A_{d-N}` spanning by the shift)
+  have hUtop : ⨆ μ : Fin N →₀ ℕ,
+      glWeightSpace k N (twistFDRep k N (d - N)) (fun i => μ i) = ⊤ := by
+    rw [eq_top_iff, ← polyRight_iSup_glWeightSpace_eq_top (k := k) (N := N) (d - N)]
+    refine iSup_le fun ν => le_iSup_of_le (ν + allOnes N) (le_of_eq ?_)
+    have hμ : ∀ i, 1 ≤ (ν + allOnes N) i := fun i => by
+      rw [Finsupp.add_apply, allOnes_apply]; omega
+    rw [glWeightSpace_twistFDRep_pos (d - N) (fun i => (ν + allOnes N) i) hμ]
+    congr 1
+    funext i
+    simp only [Finsupp.add_apply, allOnes_apply]
+    omega
+  -- the formal character of the twist, in Cauchy form: the `0 ∉ range` part
+  have htwist : formalCharacter k N (twistFDRep k N (d - N))
+      = ∑ ν ∈ Finset.univ.filter
+            (fun ν : BoundedPartition N d => (0 : ℕ) ∉ Set.range ν.parts),
+          (MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N ν.parts)) • schurPoly N ν.parts := by
+    rw [formalCharacter_twistFDRep (d - N), polyRightDegreeFDRep_formalCharacter k N (d - N),
+      mul_comm, cauchyMult_mul_prodX_eq_lastPart_pos hd]
+  -- additivity of the formal character over the SES
+  have hSES := formalCharacter_add_of_shortExact N (twistFDRep k N (d - N))
+    (polyRightDegreeFDRep k N d) (quotDetDegreeFDRep k N d) ι π hι hπ hι_inj hπ_surj hexact
+    hUtop hVtop
+  -- conclude:  char (A/det)_d = char A_d − char (A_{d-N} ⊗ χ) = the `0 ∈ range` part
+  rw [polyRightDegreeFDRep_formalCharacter k N d, htwist] at hSES
+  have hW : formalCharacter k N (quotDetDegreeFDRep k N d)
+      = (∑ ν : BoundedPartition N d,
+            (MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N ν.parts)) • schurPoly N ν.parts)
+        - ∑ ν ∈ Finset.univ.filter
+              (fun ν : BoundedPartition N d => (0 : ℕ) ∉ Set.range ν.parts),
+            (MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N ν.parts)) • schurPoly N ν.parts := by
+    rw [hSES]; ring
+  rw [hW, sub_eq_iff_eq_add]
+  exact (Finset.sum_filter_add_sum_filter_not Finset.univ _ _).symm
+
+/-! ### `(A/det)_d` character as an antitone-indexed Schur sum
+
+`Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`
+consumes the character of `M = quotDetDegreeFDRep k N d` in the exact shape
+`∑ ν ∈ S, (c ν : ℚ) • schurPoly N ν.val` with `S : Finset {l : Fin N → ℕ // Antitone l}`,
+`c : {l // Antitone l} → ℕ`, and every `ν ∈ S` carrying a zero coordinate. The two
+steps from the formula `quotDetDegreeFDRep_formalCharacter` are: translating the
+`BoundedPartition`-index / `ℚ`-coefficient into the antitone subtype with `ℕ`
+coefficients, and supplying the `d < N` case (where `det` has degree `N > d`,
+so `(A/det)_d ≅ A_d`). -/
+
+/-- **Schur dimensions are natural numbers.** For an antitone weight `l`, the value
+`s_l(1,…,1) = eval₁(schurPoly N l)` is a nonnegative integer: it is the dimension of the
+Schur module `L_l`, namely the sum over all weight monomials of the natural-number
+weight-space dimensions `dim (L_l)_μ = [x^μ] s_l` (`schurModule_weight_eq_schurPoly_coeff`). -/
+theorem schurPoly_eval_one_isNat (k : Type*) [Field k] [IsAlgClosed k] [CharZero k]
+    {N : ℕ} (l : Fin N → ℕ) (hl : Antitone l) :
+    ∃ m : ℕ, MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N l) = (m : ℚ) := by
+  classical
+  refine ⟨∑ d ∈ (schurPoly N l).support,
+      Module.finrank k (glWeightSpace k N (SchurModule k N l) (fun i => d i)), ?_⟩
+  rw [MvPolynomial.eval_eq', Nat.cast_sum]
+  refine Finset.sum_congr rfl (fun d _ => ?_)
+  rw [schurModule_weight_eq_schurPoly_coeff k N l hl d]
+  simp
+
+/-- The injection `BoundedPartition N d ↪ {l : Fin N → ℕ // Antitone l}` sending a
+bounded partition to its (antitone) sequence of parts. -/
+def boundedToAntitone {N d : ℕ} (ν : BoundedPartition N d) :
+    {l : Fin N → ℕ // Antitone l} :=
+  ⟨ν.parts, ν.decreasing⟩
+
+theorem boundedToAntitone_injective {N d : ℕ} :
+    Function.Injective (boundedToAntitone (N := N) (d := d)) := by
+  intro ν₁ ν₂ h
+  obtain ⟨p₁, d₁, s₁⟩ := ν₁
+  obtain ⟨p₂, d₂, s₂⟩ := ν₂
+  have hp : p₁ = p₂ := congrArg Subtype.val h
+  subst hp; rfl
+
+omit [IsAlgClosed k] [CharZero k] in
+/-- **For `d < N` the determinant ideal misses degree `d`.** Since `detPoly` is
+homogeneous of degree `N`, every nonzero element of the principal ideal `(det)` has
+degree `≥ N`, so the slice in degree `d < N` is trivial. -/
+theorem detSubmodule_inf_homogeneous_lt {N : ℕ} (d : ℕ) (hd : d < N) :
+    detSubmodule k N ⊓ MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d = ⊥ := by
+  rw [eq_bot_iff]
+  rintro x ⟨hxdet, hxhom⟩
+  rw [Submodule.mem_bot]
+  rw [← range_mulDet] at hxdet
+  obtain ⟨g, hg⟩ := LinearMap.mem_range.1 hxdet
+  have hx0 : MvPolynomial.homogeneousComponent d x = 0 := by
+    rw [← hg, mulDet_apply]
+    conv_lhs => rw [← MvPolynomial.sum_homogeneousComponent g, Finset.mul_sum, map_sum]
+    refine Finset.sum_eq_zero (fun j _ => ?_)
+    rw [MvPolynomial.homogeneousComponent_of_mem
+        ((MvPolynomial.mem_homogeneousSubmodule (N + j) _).2
+          (detPoly_isHomogeneous.mul (MvPolynomial.homogeneousComponent_isHomogeneous j g))),
+      if_neg (by omega)]
+  have hxeq : MvPolynomial.homogeneousComponent d x = x := by
+    rw [MvPolynomial.homogeneousComponent_of_mem hxhom, if_pos rfl]
+  rw [← hxeq]; exact hx0
+
+/-- **`(A/det)_d ≅ A_d` for `d < N`, at the level of formal characters.** When `d < N`
+the determinant ideal misses degree `d` (`detSubmodule_inf_homogeneous_lt`), so the
+quotient projection `π : A_d → (A/det)_d` is injective as well as surjective and
+`GL_N`-equivariant; hence the two reps have equal formal characters. -/
+theorem quotDetDegree_formalCharacter_eq_polyRight_of_lt {N : ℕ} (d : ℕ) (hd : d < N) :
+    formalCharacter k N (quotDetDegreeFDRep k N d)
+      = formalCharacter k N (polyRightDegreeFDRep k N d) := by
+  have hinj : Function.Injective (quotDetDegreeProj k N d) := by
+    rw [injective_iff_map_eq_zero]
+    intro v hv
+    have hco : Submodule.mkQ (detSubmodule k N) (polyOf d v) = 0 := by
+      have h := Subtype.ext_iff.mp hv
+      -- the restrict/coe reductions are defeq, so `h` already has the goal's type.
+      exact h
+    rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at hco
+    have hv0 : polyOf d v = 0 := by
+      have hmem : polyOf d v ∈ (⊥ : Submodule k (MvPolynomial (Fin N × Fin N) k)) := by
+        rw [← detSubmodule_inf_homogeneous_lt d hd]
+        exact ⟨hco, polyOf_mem d v⟩
+      simpa using hmem
+    exact polyOf_injective d (by simpa using hv0)
+  haveI : Module.Finite k (polyRightHomogeneousSubrep k N d).toSubmodule :=
+    inferInstanceAs (Module.Finite k (polyRightDegreeFDRep k N d))
+  haveI : Module.Finite k (quotDetDegreeSubrep k N d).toSubmodule :=
+    inferInstanceAs (Module.Finite k (quotDetDegreeFDRep k N d))
+  exact (formalCharacter_eq_of_rep_iso k N
+    (polyRightHomogeneousSubrep k N d).toRepresentation
+    (quotDetDegreeSubrep k N d).toRepresentation
+    (LinearEquiv.ofBijective (quotDetDegreeProj k N d)
+      ⟨hinj, quotDetDegreeProj_surjective d⟩)
+    (fun g v => quotDetDegreeProj_equivariant d g v)).symm
+
+/-- **Character of `(A/det)_d` as a nonnegative `ℕ`-combination of distinct Schur
+polynomials indexed by antitone weights with a zero coordinate.** For every `d`, the
+formal character of the determinant-quotient degree
+component is `∑_{ν ∈ S} c_ν · S_ν` with `S` a finite set of antitone weights, each
+having `0` among its coordinates, and `c_ν ∈ ℕ`. This is the exact input shape
+consumed by `simple_constituent_formalCharacter_eq_schurPoly_mem`. -/
+theorem quotDetDegree_char_as_antitone_sum (N d : ℕ) :
+    ∃ (S : Finset {l : Fin N → ℕ // Antitone l}) (c : {l : Fin N → ℕ // Antitone l} → ℕ),
+      (∀ ν ∈ S, (0 : ℕ) ∈ Set.range ν.val) ∧
+      formalCharacter k N (quotDetDegreeFDRep k N d)
+        = ∑ ν ∈ S, (c ν : ℚ) • schurPoly N ν.val := by
+  classical
+  have hc : ∀ ν : {l : Fin N → ℕ // Antitone l},
+      ((schurPoly_eval_one_isNat k ν.val ν.property).choose : ℚ)
+        = MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N ν.val) :=
+    fun ν => ((schurPoly_eval_one_isNat k ν.val ν.property).choose_spec).symm
+  rcases Nat.lt_or_ge d N with hd | hd
+  · -- `d < N`: `(A/det)_d ≅ A_d`, the full degree-`d` Cauchy character; every bounded
+    -- partition of `d < N` has a zero part by pigeonhole.
+    refine ⟨(Finset.univ : Finset (BoundedPartition N d)).image boundedToAntitone,
+      fun ν => (schurPoly_eval_one_isNat k ν.val ν.property).choose, ?_, ?_⟩
+    · intro ν' hν'
+      rw [Finset.mem_image] at hν'
+      obtain ⟨ν, _, rfl⟩ := hν'
+      change (0 : ℕ) ∈ Set.range ν.parts
+      by_contra h
+      have hpos : ∀ i, 1 ≤ ν.parts i := fun i => by
+        rcases Nat.eq_zero_or_pos (ν.parts i) with h0 | h1
+        · exact absurd ⟨i, h0⟩ h
+        · exact h1
+      have hge : N ≤ ∑ i, ν.parts i := by
+        calc N = ∑ _i : Fin N, 1 := by simp
+          _ ≤ ∑ i, ν.parts i := Finset.sum_le_sum (fun i _ => hpos i)
+      rw [ν.sum_eq] at hge; omega
+    · rw [quotDetDegree_formalCharacter_eq_polyRight_of_lt d hd,
+        polyRightDegreeFDRep_formalCharacter k N d,
+        Finset.sum_image (fun x _ y _ h => boundedToAntitone_injective h)]
+      refine Finset.sum_congr rfl (fun ν _ => ?_)
+      have hval : (boundedToAntitone ν).val = ν.parts := rfl
+      rw [hc (boundedToAntitone ν), hval]
+  · -- `d ≥ N`: translate the formula along `boundedToAntitone`.
+    refine ⟨(Finset.univ.filter
+        (fun ν : BoundedPartition N d => (0 : ℕ) ∈ Set.range ν.parts)).image boundedToAntitone,
+      fun ν => (schurPoly_eval_one_isNat k ν.val ν.property).choose, ?_, ?_⟩
+    · intro ν' hν'
+      rw [Finset.mem_image] at hν'
+      obtain ⟨ν, hν, rfl⟩ := hν'
+      exact (Finset.mem_filter.mp hν).2
+    · rw [quotDetDegreeFDRep_formalCharacter d hd,
+        Finset.sum_image (fun x _ y _ h => boundedToAntitone_injective h)]
+      refine Finset.sum_congr rfl (fun ν _ => ?_)
+      have hval : (boundedToAntitone ν).val = ν.parts := rfl
+      rw [hc (boundedToAntitone ν), hval]
+
+end Etingof.CauchyDetQuotient

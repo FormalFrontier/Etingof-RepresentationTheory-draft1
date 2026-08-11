@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b69a94ed96022d322738",
+      "declaration": "Etingof.Problem3_3_3.finite_iso_std_pow",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/142/claim_coverage/claims/15/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (d : Nat) [NeZero.{0} d] (V : Type u_2) [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{u_1, u_2} k V] [inst_4 : Module.{u_1, u_2} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) V]\n  [IsScalarTower.{u_1, u_1, u_2} k (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) V] [FiniteDimensional.{u_1, u_2} k V],\n  Exists.{1} fun n =>\n    Nonempty.{max (u_1 + 1) (u_2 + 1)}\n      (LinearEquiv.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k)) V (Fin n \u2192 Fin d \u2192 k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_3_3"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.3.3",
+  "packet_id": "align-0640",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0640"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.3.3:claim-16",
+  "source_text": "A basis of E_11 V yields a direct-sum decomposition V = S(v_1) \u2295 \u22ef \u2295 S(v_k)."
+}

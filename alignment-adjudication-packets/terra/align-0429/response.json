@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0429",
+  "associations": [
+    {
+      "association_id": "association:88fe602bb2b0b0f447d4",
+      "role": "primary",
+      "rationale": "The equivalence directly identifies representations of the group with monoid homomorphisms from the group to linear automorphisms of the module."
+    }
+  ]
+}

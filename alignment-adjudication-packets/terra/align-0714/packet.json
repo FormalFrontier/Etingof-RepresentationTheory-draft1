@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ba3b200484bc8214d422",
+      "declaration": "Etingof.Example5_19_3_symmetric_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/232/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {V : Type} [inst_1 : AddCommGroup.{0} V] [inst_2 : Module.{0, 0} k V] [CharZero.{0} k]\n  [Module.Finite.{0, 0} k V] (n : Nat) (W : Submodule.{0, 0} k (SymmetricPower.{0, 0} k (Fin n) V)),\n  (\u2200 (g : LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) V V) (w : SymmetricPower.{0, 0} k (Fin n) V),\n      Membership.mem.{0, 0} W w \u2192\n        Membership.mem.{0, 0} W\n          (DFunLike.coe.{1, 1, 1} (Etingof.symmetricPowerMap (LinearEquiv.toLinearMap.{0, 0, 0, 0} g)) w)) \u2192\n    Or (Eq.{1} W Bot.bot.{0}) (Eq.{1} W Top.top.{0})",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SymmetricIrreducible"
+    },
+    {
+      "association_id": "association:3eaa11f8e24149329a02",
+      "declaration": "Etingof.symmetricPower_eq_bot_or_top",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/232/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {V : Type} [inst_1 : AddCommGroup.{0} V] [inst_2 : Module.{0, 0} k V] [CharZero.{0} k]\n  [Module.Finite.{0, 0} k V] {n : Nat} (W : Submodule.{0, 0} k (SymmetricPower.{0, 0} k (Fin n) V)),\n  (\u2200 (g : LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) V V) (w : SymmetricPower.{0, 0} k (Fin n) V),\n      Membership.mem.{0, 0} W w \u2192\n        Membership.mem.{0, 0} W\n          (DFunLike.coe.{1, 1, 1} (Etingof.symmetricPowerMap (LinearEquiv.toLinearMap.{0, 0, 0, 0} g)) w)) \u2192\n    Or (Eq.{1} W Bot.bot.{0}) (Eq.{1} W Top.top.{0})",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SymmetricIrreducible"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.3",
+  "packet_id": "align-0714",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0714"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.3:symmetric_power",
+  "source_text": "Every symmetric power Sn V is an irreducible GL(V)-representation."
+}

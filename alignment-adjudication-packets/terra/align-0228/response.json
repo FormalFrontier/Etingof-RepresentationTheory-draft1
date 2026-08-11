@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0228",
+  "associations": [
+    {
+      "association_id": "association:234ad76c0d17055eaba3",
+      "role": "primary",
+      "rationale": "It directly identifies postcomposition of a composite map with componentwise composition."
+    },
+    {
+      "association_id": "association:7913e8ce6d5e9e826147",
+      "role": "primary",
+      "rationale": "It directly identifies the image of the identity with the componentwise identity family."
+    }
+  ]
+}

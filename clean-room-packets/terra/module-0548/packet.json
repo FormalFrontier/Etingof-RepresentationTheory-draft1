@@ -1,0 +1,191 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{n : Nat} \u2192 [inst : Quiver.{0, 0} (Fin n)] \u2192 [(i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)] \u2192 Fin n \u2192 Fin n \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1778267061",
+      "temporary_id": "decl-017227"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {p : Nat} \u2192\n      Matrix.GeneralLinearGroup.{0, u} (Fin p) k \u2192 LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) (Fin p \u2192 k) (Fin p \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1436292860",
+      "temporary_id": "decl-019818"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {p : Nat} (g : Matrix.GeneralLinearGroup.{0, u} (Fin p) k),\n  Eq.{u + 1} (LinearEquiv.toLinearMap.{u, u, u, u} (decl-019818.{u} g))\n    (DFunLike.coe.{max 1 (u + 1), max 1 (u + 1), max 1 (u + 1)} Matrix.toLin'.{u, 0, 0} (Units.val.{u} g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019818"
+      ],
+      "structural_type_hash": "2998587348",
+      "temporary_id": "decl-019824"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {p : Nat} \u2192\n      LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) (Fin p \u2192 k) (Fin p \u2192 k) \u2192 Matrix.GeneralLinearGroup.{0, u} (Fin p) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2128569808",
+      "temporary_id": "decl-019825"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {p : Nat} (e : LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) (Fin p \u2192 k) (Fin p \u2192 k)),\n  Eq.{u + 1} (Units.val.{u} (decl-019825.{u} e))\n    (DFunLike.coe.{max 1 (u + 1), max 1 (u + 1), max 1 (u + 1)} LinearMap.toMatrix'.{u, 0, 0}\n      (LinearEquiv.toLinearMap.{u, u, u, u} e))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019825"
+      ],
+      "structural_type_hash": "512223423",
+      "temporary_id": "decl-019828"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] (m : Fin n \u2192 Nat)\n  (x y : decl-022624.{u} m),\n  Iff (Exists.{u + 1} fun g => Eq.{u + 1} (HSMul.hSMul.{u, u, u} g x) y)\n    (decl-014910.{u, 0, u, u} (decl-022608.{u} m x) (decl-022608.{u} m y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014910",
+        "decl-022586",
+        "decl-022608",
+        "decl-022624",
+        "decl-022628"
+      ],
+      "structural_type_hash": "1096812207",
+      "temporary_id": "decl-021832"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192 [Field.{u} k] \u2192 {n : Nat} \u2192 (Fin n \u2192 Nat) \u2192 Type u",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2611047231",
+      "temporary_id": "decl-022586"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {n : Nat} (m : Fin n \u2192 Nat),\n  Eq.{1} (Module.finrank.{u, u} k ((i : Fin n) \u2192 Matrix.{0, 0, u} (Fin (m i)) (Fin (m i)) k))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun i => HPow.hPow.{0, 0, 0} (m i) 2)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "335701449",
+      "temporary_id": "decl-022587"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {n : Nat} \u2192\n      [inst_1 : Quiver.{0, 0} (Fin n)] \u2192\n        (m : Fin n \u2192 Nat) \u2192 decl-022624.{u} m \u2192 decl-014909.{u, 0, u, 0} k (Fin n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-022624"
+      ],
+      "structural_type_hash": "1117352479",
+      "temporary_id": "decl-022608"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] (m : Fin n \u2192 Nat)\n  (x : decl-022624.{u} m) {i j : Fin n} (e : Quiver.Hom.{0, 0} i j),\n  Eq.{u + 1} (decl-014986.{u, 0, u, 0} (decl-022608.{u} m x) e)\n    (DFunLike.coe.{max 1 (u + 1), max 1 (u + 1), max 1 (u + 1)} Matrix.toLin'.{u, 0, 0} (x i j e))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014980",
+        "decl-014985",
+        "decl-014986",
+        "decl-014996",
+        "decl-022608",
+        "decl-022624"
+      ],
+      "structural_type_hash": "1192895790",
+      "temporary_id": "decl-022611"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] (m : Fin n \u2192 Nat)\n  (x : decl-022624.{u} m) (i : Fin n),\n  Eq.{u + 2} (decl-014996.{u, 0, u, 0} (decl-022608.{u} m x) i) (Fin (m i) \u2192 k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014996",
+        "decl-022608",
+        "decl-022624"
+      ],
+      "structural_type_hash": "3100725545",
+      "temporary_id": "decl-022612"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192 {n : Nat} \u2192 [Quiver.{0, 0} (Fin n)] \u2192 (Fin n \u2192 Nat) \u2192 Type u",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2589736543",
+      "temporary_id": "decl-022624"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {n : Nat} \u2192\n      [inst_1 : Quiver.{0, 0} (Fin n)] \u2192\n        (m : Fin n \u2192 Nat) \u2192 MulAction.{u, u} (decl-022586.{u} k m) (decl-022624.{u} m)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022586",
+        "decl-022624"
+      ],
+      "structural_type_hash": "317649073",
+      "temporary_id": "decl-022625"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {n : Nat} \u2192\n      [inst_1 : Quiver.{0, 0} (Fin n)] \u2192\n        (m : Fin n \u2192 Nat) \u2192 SMul.{u, u} (decl-022586.{u} k m) (decl-022624.{u} m)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022586",
+        "decl-022624"
+      ],
+      "structural_type_hash": "797954383",
+      "temporary_id": "decl-022628"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)]\n  [inst_2 : (i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)] (m : Fin n \u2192 Nat),\n  Eq.{1} (Module.finrank.{u, u} k (decl-022624.{u} m))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n      Finset.sum.{0, 0} Finset.univ.{0} fun j =>\n        HMul.hMul.{0, 0, 0} (decl-017227 i j) (HMul.hMul.{0, 0, 0} (m i) (m j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017227",
+        "decl-022624"
+      ],
+      "structural_type_hash": "2501118262",
+      "temporary_id": "decl-022629"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] (m : Fin n \u2192 Nat)\n  (g : decl-022586.{u} k m) (x : decl-022624.{u} m) (i j : Fin n) (e : Quiver.Hom.{0, 0} i j),\n  Eq.{u + 1} (HSMul.hSMul.{u, u, u} g x i j e)\n    (HMul.hMul.{u, u, u} (HMul.hMul.{u, u, u} (Units.val.{u} (g j)) (x i j e)) (Units.val.{u} (Inv.inv.{u} (g i))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022586",
+        "decl-022624",
+        "decl-022628"
+      ],
+      "structural_type_hash": "1549946495",
+      "temporary_id": "decl-022630"
+    }
+  ],
+  "module_temporary_id": "module-0548",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

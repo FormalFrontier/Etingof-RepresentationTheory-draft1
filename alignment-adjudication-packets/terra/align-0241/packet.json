@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:13668ef57cd23afa500b",
+      "declaration": "Etingof.yoneda_lemma",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/484/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] (X Y : C)\n  (\u03c6 :\n    CategoryTheory.Iso.{max u_1 u_2, max u_1 (u_2 + 1)}\n      (CategoryTheory.Functor.obj.{u_2, max u_1 u_2, u_1, max u_1 (u_2 + 1)} CategoryTheory.yoneda.{u_2, u_1} X)\n      (CategoryTheory.Functor.obj.{u_2, max u_1 u_2, u_1, max u_1 (u_2 + 1)} CategoryTheory.yoneda.{u_2, u_1} Y)),\n  ExistsUnique.{u_2 + 1} fun a =>\n    Eq.{max (u_1 + 1) (u_2 + 1)}\n      (CategoryTheory.Functor.map.{u_2, max u_1 u_2, u_1, max u_1 (u_2 + 1)} CategoryTheory.yoneda.{u_2, u_1}\n        (CategoryTheory.Iso.hom.{u_2, u_1} a))\n      (CategoryTheory.Iso.hom.{max u_1 u_2, max u_1 (u_2 + 1)} \u03c6)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Lemma7_5_1"
+    }
+  ],
+  "canonical_reference": "Chapter7/Lemma7.5.1",
+  "packet_id": "align-0241",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0241"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4877de94bed19d23f6ff",
+  "source_text": "A natural isomorphism between represented Hom functors is induced by a unique isomorphism of representing objects."
+}

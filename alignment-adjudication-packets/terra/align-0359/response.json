@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0359",
+  "associations": [
+    {
+      "association_id": "association:22e5fc0ea16bfb8706e2",
+      "role": "primary",
+      "rationale": "The formal type directly gives the left-action identity `(a * b) • v = a • (b • v)`."
+    },
+    {
+      "association_id": "association:52046035c47ac180a144",
+      "role": "primary",
+      "rationale": "Using the opposite-ring action, the formal type directly gives the right-action identity corresponding to `(v a) b = v (a b)`."
+    }
+  ]
+}

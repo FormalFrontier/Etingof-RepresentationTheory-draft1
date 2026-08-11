@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0366",
+  "associations": [
+    {
+      "association_id": "association:701c0575155968ad8dbc",
+      "role": "supporting",
+      "rationale": "The formal type exposes only a type-valued construction for a finite group and does not display what makes its elements virtual representations."
+    }
+  ]
+}

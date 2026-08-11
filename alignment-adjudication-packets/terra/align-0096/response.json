@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0096",
+  "associations": [
+    {
+      "association_id": "association:b2ee7324484c718ba2d5",
+      "role": "primary",
+      "rationale": "This instance states simplicity of every representation in the dominant-weight family."
+    },
+    {
+      "association_id": "association:8aa08e68db17651264e2",
+      "role": "primary",
+      "rationale": "Its iff directly states that two family members are isomorphic exactly when their dominant weights agree."
+    }
+  ]
+}

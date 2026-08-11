@@ -1,0 +1,36 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {n : Nat} (N : Nat) (I : Ideal.{u_1} (MvPolynomial.{0, u_1} (Fin n) k)),\n  Ne.{u_1 + 1} I Top.top.{u_1} \u2192\n    (\u2200 (d : Nat) (p : MvPolynomial.{0, u_1} (Fin n) k),\n        LE.le.{0} N d \u2192 MvPolynomial.IsHomogeneous.{0, u_1} p d \u2192 Membership.mem.{u_1, u_1} I p) \u2192\n      decl-005194.{u_1, u_1} (MvPolynomial.{0, u_1} (Fin n) k)\n        (HasQuotient.Quotient.{u_1, u_1} (MvPolynomial.{0, u_1} (Fin n) k) I)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005194"
+      ],
+      "structural_type_hash": "2789005372",
+      "temporary_id": "decl-008844"
+    }
+  ],
+  "module_temporary_id": "module-0090",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

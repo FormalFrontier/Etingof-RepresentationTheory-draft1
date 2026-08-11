@@ -1,0 +1,143 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Multiset.{0} Nat \u2192 Nat \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3331156965",
+      "temporary_id": "decl-015614"
+    },
+    {
+      "formal_type": "\u2200 (a : Nat) (s : Multiset.{0} Nat) (k : Nat),\n  Eq.{1} (decl-015614 (Multiset.cons.{0} a s) k)\n    (HAdd.hAdd.{0, 0, 0} (ite.{1} (LE.le.{0} k a) 1 0) (decl-015614 s k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015614"
+      ],
+      "structural_type_hash": "1540072798",
+      "temporary_id": "decl-015616"
+    },
+    {
+      "formal_type": "\u2200 (s : Multiset.{0} Nat) (v : Nat),\n  Eq.{1} (decl-015614 s v)\n    (HAdd.hAdd.{0, 0, 0} (Multiset.count.{0} v s) (decl-015614 s (HAdd.hAdd.{0, 0, 0} v 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015614"
+      ],
+      "structural_type_hash": "236447776",
+      "temporary_id": "decl-015617"
+    },
+    {
+      "formal_type": "Multiset.{0} Nat \u2192 Nat \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3331156965",
+      "temporary_id": "decl-015625"
+    },
+    {
+      "formal_type": "\u2200 (a : Nat) (s : Multiset.{0} Nat) (m : Nat),\n  Eq.{1} (decl-015625 (Multiset.cons.{0} a s) m)\n    (HAdd.hAdd.{0, 0, 0} (Min.min.{0} m a) (decl-015625 s m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015625"
+      ],
+      "structural_type_hash": "1381094583",
+      "temporary_id": "decl-015627"
+    },
+    {
+      "formal_type": "\u2200 (s : Multiset.{0} Nat) (k : Nat),\n  Eq.{1} (decl-015625 s (HAdd.hAdd.{0, 0, 0} k 1))\n    (HAdd.hAdd.{0, 0, 0} (decl-015625 s k)\n      (decl-015614 s (HAdd.hAdd.{0, 0, 0} k 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015614",
+        "decl-015625"
+      ],
+      "structural_type_hash": "1117116775",
+      "temporary_id": "decl-015628"
+    },
+    {
+      "formal_type": "{\u03b9 : Type u_1} \u2192\n  {W : \u03b9 \u2192 Type u_2} \u2192\n    [inst : (i : \u03b9) \u2192 AddCommGroup.{u_2} (W i)] \u2192\n      [inst_1 : (i : \u03b9) \u2192 Module.{0, u_2} Complex (W i)] \u2192\n        (g : (i : \u03b9) \u2192 Module.End.{0, u_2} Complex (W i)) \u2192\n          LinearEquiv.{0, 0, max u_1 u_2, max u_1 u_2} (RingHom.id.{0} Complex)\n            (Subtype.{(max u_1 u_2) + 1} fun x =>\n              Membership.mem.{max u_1 u_2, max u_1 u_2}\n                (LinearMap.ker.{0, 0, max u_2 u_1, max u_2 u_1} (LinearMap.piMap.{0, u_1, u_2, u_2} g)) x)\n            ((i : \u03b9) \u2192 Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (LinearMap.ker.{0, 0, u_2, u_2} (g i)) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2739987862",
+      "temporary_id": "decl-015939"
+    },
+    {
+      "formal_type": "\u2200 {s t : Multiset.{0} Nat},\n  Not (Membership.mem.{0, 0} s 0) \u2192\n    Not (Membership.mem.{0, 0} t 0) \u2192\n      (\u2200 (k : Nat), Eq.{1} (decl-015625 s k) (decl-015625 t k)) \u2192\n        Eq.{1} s t",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015625"
+      ],
+      "structural_type_hash": "262498033",
+      "temporary_id": "decl-016008"
+    },
+    {
+      "formal_type": "\u2200 {\u03b9 : Type u_1} {W : \u03b9 \u2192 Type u_2} [inst : (i : \u03b9) \u2192 AddCommGroup.{u_2} (W i)]\n  [inst_1 : (i : \u03b9) \u2192 Module.{0, u_2} Complex (W i)] [inst_2 : Fintype.{u_1} \u03b9]\n  [\u2200 (i : \u03b9), FiniteDimensional.{0, u_2} Complex (W i)] (g : (i : \u03b9) \u2192 Module.End.{0, u_2} Complex (W i)),\n  Eq.{1}\n    (Module.finrank.{0, max u_1 u_2} Complex\n      (Subtype.{(max u_1 u_2) + 1} fun x =>\n        Membership.mem.{max u_1 u_2, max u_1 u_2}\n          (LinearMap.ker.{0, 0, max u_2 u_1, max u_2 u_1} (LinearMap.piMap.{0, u_1, u_2, u_2} g)) x))\n    (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun i =>\n      Module.finrank.{0, u_2} Complex\n        (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (LinearMap.ker.{0, 0, u_2, u_2} (g i)) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3497380255",
+      "temporary_id": "decl-016017"
+    },
+    {
+      "formal_type": "\u2200 {\u03b9 : Type u_1} {W : \u03b9 \u2192 Type u_2} [inst : (i : \u03b9) \u2192 AddCommGroup.{u_2} (W i)]\n  [inst_1 : (i : \u03b9) \u2192 Module.{0, u_2} Complex (W i)] (f g : (i : \u03b9) \u2192 Module.End.{0, u_2} Complex (W i)),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2} (LinearMap.piMap.{0, u_1, u_2, u_2} f)\n      (LinearMap.piMap.{0, u_1, u_2, u_2} g))\n    (LinearMap.piMap.{0, u_1, u_2, u_2} fun i => HMul.hMul.{u_2, u_2, u_2} (f i) (g i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3401141666",
+      "temporary_id": "decl-016018"
+    },
+    {
+      "formal_type": "\u2200 {\u03b9 : Type u_1} {W : \u03b9 \u2192 Type u_2} [inst : (i : \u03b9) \u2192 AddCommGroup.{u_2} (W i)]\n  [inst_1 : (i : \u03b9) \u2192 Module.{0, u_2} Complex (W i)] (f : (i : \u03b9) \u2192 Module.End.{0, u_2} Complex (W i)) (k : Nat),\n  Eq.{max (u_1 + 1) (u_2 + 1)} (HPow.hPow.{max u_1 u_2, 0, max u_1 u_2} (LinearMap.piMap.{0, u_1, u_2, u_2} f) k)\n    (LinearMap.piMap.{0, u_1, u_2, u_2} fun i => HPow.hPow.{u_2, 0, u_2} (f i) k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2585796578",
+      "temporary_id": "decl-016019"
+    },
+    {
+      "formal_type": "\u2200 {\u03b9 : Type u_1} {W : \u03b9 \u2192 Type u_2} [inst : (i : \u03b9) \u2192 AddCommGroup.{u_2} (W i)]\n  [inst_1 : (i : \u03b9) \u2192 Module.{0, u_2} Complex (W i)] [inst_2 : Fintype.{u_1} \u03b9]\n  [\u2200 (i : \u03b9), FiniteDimensional.{0, u_2} Complex (W i)] (f : (i : \u03b9) \u2192 Module.End.{0, u_2} Complex (W i)) (k : Nat),\n  Eq.{1}\n    (Module.finrank.{0, max u_1 u_2} Complex\n      (Subtype.{(max u_1 u_2) + 1} fun x =>\n        Membership.mem.{max u_1 u_2, max u_1 u_2}\n          (LinearMap.ker.{0, 0, max u_1 u_2, max u_1 u_2}\n            (HPow.hPow.{max u_1 u_2, 0, max u_1 u_2} (LinearMap.piMap.{0, u_1, u_2, u_2} f) k))\n          x))\n    (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun i =>\n      Module.finrank.{0, u_2} Complex\n        (Subtype.{u_2 + 1} fun x =>\n          Membership.mem.{u_2, u_2} (LinearMap.ker.{0, 0, u_2, u_2} (HPow.hPow.{u_2, 0, u_2} (f i) k)) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "993188001",
+      "temporary_id": "decl-016020"
+    },
+    {
+      "formal_type": "\u2200 {\u03b9 : Type u_1} [inst : Fintype.{u_1} \u03b9] (n : \u03b9 \u2192 Nat) (k : Nat),\n  Eq.{1}\n    (Module.finrank.{0, u_1} Complex\n      (Subtype.{u_1 + 1} fun x =>\n        Membership.mem.{u_1, u_1}\n          (LinearMap.ker.{0, 0, u_1, u_1}\n            (HPow.hPow.{u_1, 0, u_1} (LinearMap.piMap.{0, u_1, 0, 0} fun i => decl-015913 (n i)) k))\n          x))\n    (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun i => Min.min.{0} k (n i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015913"
+      ],
+      "structural_type_hash": "3922998625",
+      "temporary_id": "decl-016021"
+    }
+  ],
+  "module_temporary_id": "module-0119",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

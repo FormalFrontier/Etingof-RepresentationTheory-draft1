@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:013b2b2b66ae3ca4fbf5",
+      "declaration": "Etingof.hom_not_right_exact",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/517/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (g : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Int) Int (ZMod 2)),\n  Not (Function.Surjective.{1, 1} fun \u03c6 => LinearMap.comp.{0, 0, 0, 0, 0, 0} g \u03c6)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_9_6"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.9.6",
+  "packet_id": "align-1118",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1118"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e0c991a91689c3871d8f",
+  "source_text": "Hom(X,-) is left exact but need not be right exact, with the stated Z/2 counterexample."
+}

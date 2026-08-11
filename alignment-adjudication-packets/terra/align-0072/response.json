@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0072",
+  "associations": [
+    {
+      "association_id": "association:06bfe1831d896e007363",
+      "role": "primary",
+      "rationale": "Its type is precisely a linear functional on the quotient by the commutator submodule."
+    },
+    {
+      "association_id": "association:9c621e4629a15c0e12c9",
+      "role": "supporting",
+      "rationale": "This evaluation theorem verifies that the quotient functional agrees with the original character on representatives."
+    }
+  ]
+}

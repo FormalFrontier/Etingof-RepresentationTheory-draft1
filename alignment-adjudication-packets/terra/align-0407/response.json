@@ -1,0 +1,20 @@
+{
+  "associations": [
+    {
+      "association_id": "association:eb1f48d27a863e54f9f9",
+      "rationale": "The formal type failed to print, so the displayed evidence does not establish that this declaration itself states the coset averaging identity.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3f6ccd74d58ed562e28c",
+      "rationale": "The formal type failed to print, leaving no displayed statement that can be compared directly with the asserted normalized coset formula.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:cd72eea5fc7b361bf52d",
+      "rationale": "For a function invariant under left multiplication by the subgroup, the formal type directly equates the sum over coset representatives with the total group sum multiplied by the inverse subgroup cardinality.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0407"
+}

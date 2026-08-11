@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1516df5f41d228bf72f0",
+      "declaration": "Etingof.GL2.character_complementW",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/383/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] (g : GL2\u271d p n),\n  Eq.{1} (FDRep.character.{0, 0} (Etingof.GL2.complementW p n 1) g) (Etingof.GL2.charW\u2081 p n g)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2CharacterIdentification"
+    },
+    {
+      "association_id": "association:35a83091d7fdc482a493",
+      "declaration": "Etingof.GL2.character_principalSeries",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/383/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (GL2\u271d p n)]\n  (alpha : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)) (g : GL2\u271d p n),\n  Eq.{1} (FDRep.character.{0, 0} (Etingof.GL2.principalSeries p n alpha 1) g) (Etingof.GL2.charV\u03b1\u2081 p n alpha g)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2CharacterIdentification"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_5.25.3",
+  "packet_id": "align-0227",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0227"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:43c3ab58a2397cc2d990",
+  "source_text": "Its character agrees with the conjugacy-class formula used in the book."
+}

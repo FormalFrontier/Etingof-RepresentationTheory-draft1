@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.4.3",
+    "kind": "theorem",
+    "title": "Burnside's theorem: groups of order p^a q^b are solvable",
+    "node_id": "chapter-05/section-5-4",
+    "order": 271,
+    "slug": "theorem5-4-3",
+    "span": {
+      "start": {
+        "page": "100",
+        "line": 15
+      },
+      "end": {
+        "page": "100",
+        "line": 16
+      }
+    },
+    "source_sha256": "e5f66206efbbffb4297ea0dcc98b97a4cddbd7321e34eb3f032426c3f186ab80",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem543",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:165fbf2d84fb10f36988",
+      "declaration": "Etingof.Problem_8_2_7_ii_ext_fg",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/541/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {M N : Type u} [inst_1 : AddCommGroup.{u} M]\n  [inst_2 : Module.{u, u} (Polynomial.{u} k) M] [inst_3 : AddCommGroup.{u} N]\n  [inst_4 : Module.{u, u} (Polynomial.{u} k) N] [Module.Finite.{u, u} (Polynomial.{u} k) M]\n  [Module.Finite.{u, u} (Polynomial.{u} k) N],\n  Exists.{u + 2} fun D =>\n    Exists.{u + 2} fun E =>\n      And\n        (Nonempty.{u + 1}\n          (AddEquiv.{u, u}\n            (Etingof.Ext.{u + 1, u, u} (ModuleCat.of.{u, u} (Polynomial.{u} k) M)\n              (ModuleCat.of.{u, u} (Polynomial.{u} k) N) 0)\n            (Prod.{u, u} (Fin (Etingof.PIDDecomposition.freeRank.{u} D) \u2192 N)\n              ((i : Etingof.PIDDecomposition.torsionIndex.{u} D) \u2192\n                (l : Etingof.PIDDecomposition.torsionIndex.{u} E) \u2192\n                  HasQuotient.Quotient.{u, u} (Polynomial.{u} k)\n                    (Ideal.span.{u}\n                      (Insert.insert.{u, u} (Etingof.PIDDecomposition.gen.{u} D i)\n                        (Singleton.singleton.{u, u} (Etingof.PIDDecomposition.gen.{u} E l))))))))\n        (And\n          (Nonempty.{u + 1}\n            (AddEquiv.{u, u}\n              (Etingof.Ext.{u + 1, u, u} (ModuleCat.of.{u, u} (Polynomial.{u} k) M)\n                (ModuleCat.of.{u, u} (Polynomial.{u} k) N) 1)\n              ((i : Etingof.PIDDecomposition.torsionIndex.{u} D) \u2192\n                (l : Etingof.PIDDecomposition.index.{u} E) \u2192\n                  HasQuotient.Quotient.{u, u} (Polynomial.{u} k)\n                    (Ideal.span.{u}\n                      (Insert.insert.{u, u} (Etingof.PIDDecomposition.gen.{u} D i)\n                        (Singleton.singleton.{u, u} (Etingof.PIDDecomposition.genOf.{u} E l)))))))\n          (\u2200 (n : Nat),\n            Subsingleton.{u + 1}\n              (Etingof.Ext.{u + 1, u, u} (ModuleCat.of.{u, u} (Polynomial.{u} k) M)\n                (ModuleCat.of.{u, u} (Polynomial.{u} k) N) (HAdd.hAdd.{0, 0, 0} n 2))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtPoly"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.7",
+  "packet_id": "align-0852",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0852"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.7:part_ii_ext",
+  "source_text": "Part (ii): compute every Ext group of finitely generated k[x]-modules."
+}

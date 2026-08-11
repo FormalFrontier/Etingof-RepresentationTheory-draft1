@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.Module.EndomorphismDichotomy",
+  "declarations": [
+    {
+      "temporary_id": "decl-018601",
+      "new_name": "bijective_or_nilpotent_of_auxiliaryProperty",
+      "docstring": "Under the displayed module property, every endomorphism is either bijective or nilpotent."
+    },
+    {
+      "temporary_id": "decl-023540",
+      "new_name": "sum_nilpotent_of_auxiliaryProperty",
+      "docstring": "Under the displayed module property, a finite sum of nilpotent endomorphisms is nilpotent."
+    }
+  ]
+}

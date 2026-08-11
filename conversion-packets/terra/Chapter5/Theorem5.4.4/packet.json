@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.4.4",
+    "kind": "theorem",
+    "title": "Character vanishes or element acts as scalar when gcd(|C|, dim V) = 1",
+    "node_id": "chapter-05/section-5-4",
+    "order": 273,
+    "slug": "theorem5-4-4",
+    "span": {
+      "start": {
+        "page": "100",
+        "line": 21
+      },
+      "end": {
+        "page": "100",
+        "line": 22
+      }
+    },
+    "source_sha256": "74a83802e0c6a063df7decdd69978d33bf6a9ae1706257efa047806656e4ab82",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem544",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

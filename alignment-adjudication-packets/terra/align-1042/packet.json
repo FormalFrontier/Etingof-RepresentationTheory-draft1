@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b390b12d1b669e6b9788",
+      "declaration": "Etingof.EnrichedRepresentable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/485/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(V : Type v) \u2192\n  [inst : CategoryTheory.Category.{w, v} V] \u2192\n    [inst_1 : CategoryTheory.MonoidalCategory.{w, v} V] \u2192\n      {C : Type u} \u2192\n        [inst_2 : CategoryTheory.Category.{u_1, u} C] \u2192\n          [CategoryTheory.EnrichedOrdinaryCategory.{w, u_1, u, v} V C] \u2192\n            CategoryTheory.Functor.{u_1, w, u, v} C V \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.EnrichedRepresentability"
+    },
+    {
+      "association_id": "association:26138737c12d6fdaa2c8",
+      "declaration": "Etingof.eCoyoneda_enrichedRepresentable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/485/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (V : Type v) [inst : CategoryTheory.Category.{w, v} V] [inst_1 : CategoryTheory.MonoidalCategory.{w, v} V]\n  {C : Type u} [inst_2 : CategoryTheory.Category.{u_1, u} C]\n  [inst_3 : CategoryTheory.EnrichedOrdinaryCategory.{w, u_1, u, v} V C] (X : C),\n  Etingof.EnrichedRepresentable.{w, v, u, u_1} V (CategoryTheory.eCoyoneda.{w, u_1, u, v} V X)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.EnrichedRepresentability"
+    }
+  ],
+  "canonical_reference": "Chapter7/Remark7.5.2",
+  "packet_id": "align-1042",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1042"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ca1d8ce56da60ae4a750",
+  "source_text": "Representability extends to enriched categories via the enriched co-Yoneda functor."
+}

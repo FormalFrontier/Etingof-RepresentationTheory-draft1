@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Problem9.4.2",
+    "kind": "exercise",
+    "title": "Properties of projective dimension",
+    "node_id": "chapter-09/section-9-4",
+    "order": 561,
+    "slug": "problem9-4-2",
+    "span": {
+      "start": {
+        "page": "216",
+        "line": 19
+      },
+      "end": {
+        "page": "217",
+        "line": 2
+      }
+    },
+    "source_sha256": "3da4efb17695d91df32e92cce12ca1ea51f038f256c5fdc1876fe8a325d9a9e1",
+    "features": {
+      "line_count": 9,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Problem942",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

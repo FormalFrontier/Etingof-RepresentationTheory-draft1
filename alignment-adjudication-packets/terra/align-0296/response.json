@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0296",
+  "associations": [
+    {
+      "association_id": "association:b41debbdc58d89ae8225",
+      "role": "primary",
+      "rationale": "The formal equality directly states that the last term of the filtration is top, i.e. the whole module."
+    }
+  ]
+}

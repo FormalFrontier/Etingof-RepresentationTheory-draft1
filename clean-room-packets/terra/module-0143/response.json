@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.Module.Filtrations",
+  "declarations": [
+    {
+      "temporary_id": "decl-018809",
+      "new_name": "exists_relSeries_bot_top",
+      "docstring": "A finite-dimensional module admits a relation series with bottom head and top last term."
+    },
+    {
+      "temporary_id": "decl-018838",
+      "new_name": "exists_filtration_simple_quotients",
+      "docstring": "A finite-dimensional module admits a filtration whose displayed successive quotients are simple modules."
+    }
+  ]
+}

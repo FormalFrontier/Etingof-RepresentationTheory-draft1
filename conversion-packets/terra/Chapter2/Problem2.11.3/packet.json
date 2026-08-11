@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.11.3",
+    "kind": "exercise",
+    "title": "Properties of tensor products: universal property, basis, duals, symmetric and exterior powers",
+    "node_id": "chapter-02/section-2-11",
+    "order": 104,
+    "slug": "problem2-11-3",
+    "span": {
+      "start": {
+        "page": "33",
+        "line": 2
+      },
+      "end": {
+        "page": "33",
+        "line": 15
+      }
+    },
+    "source_sha256": "7e4b02a1e408c7802c23587427ce59605942c2b94c3a6a13b852ffaad6b196b3",
+    "features": {
+      "line_count": 14,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2113",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

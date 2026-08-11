@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Problem6.1.5_parts",
+    "kind": "exercise",
+    "title": "Problem 6.1.5 parts (a)-(c)",
+    "node_id": "chapter-06/section-6-1",
+    "order": 412,
+    "slug": "problem6-1-5-parts",
+    "span": {
+      "start": {
+        "page": "153",
+        "line": 5
+      },
+      "end": {
+        "page": "153",
+        "line": 20
+      }
+    },
+    "source_sha256": "0ead9e474ce1e94af4ab75591c26faaa365a7cfe21ff3d196d4cf3aa97f9340f",
+    "features": {
+      "line_count": 16,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem615Parts",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

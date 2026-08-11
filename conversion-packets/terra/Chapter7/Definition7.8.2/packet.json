@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Definition7.8.2",
+    "kind": "definition",
+    "title": "Short exact sequence",
+    "node_id": "chapter-07/section-7-8",
+    "order": 504,
+    "slug": "definition7-8-2",
+    "span": {
+      "start": {
+        "page": "192",
+        "line": 13
+      },
+      "end": {
+        "page": "192",
+        "line": 20
+      }
+    },
+    "source_sha256": "eaa6cf3bc430b185c8ab5d5c56cf12fa6ab54fb10114986e60e02c4a92bdb1e6",
+    "features": {
+      "line_count": 8,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition782",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

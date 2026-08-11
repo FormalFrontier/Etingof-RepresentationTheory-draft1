@@ -1,0 +1,50 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          [FiniteDimensional.{u_1, u_2} k A] \u2192\n            CategoryTheory.Abelian.{u_3, max u_2 (u_3 + 1)} (FGModuleCat.{u_3, u_2} A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2912610286",
+      "temporary_id": "decl-032678"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  [FiniteDimensional.{u_1, u_2} k A], IsNoetherianRing.{u_2} A",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "197075357",
+      "temporary_id": "decl-032915"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  [FiniteDimensional.{u_1, u_2} k A] (M : Type u_3) [inst_4 : AddCommGroup.{u_3} M] [inst_5 : Module.{u_2, u_3} A M]\n  [inst_6 : Module.{u_1, u_3} k M] [IsScalarTower.{u_1, u_2, u_3} k A M],\n  Iff (Module.Finite.{u_2, u_3} A M) (FiniteDimensional.{u_1, u_3} k M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3073519312",
+      "temporary_id": "decl-032934"
+    }
+  ],
+  "module_temporary_id": "module-0593",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

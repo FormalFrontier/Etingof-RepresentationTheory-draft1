@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0416",
+  "associations": [
+    {
+      "association_id": "association:197169ac8118e87f2c1d",
+      "role": "primary",
+      "rationale": "The equivalence directly states that the shifted-permutation expression equals the partition vector exactly for the identity permutation."
+    },
+    {
+      "association_id": "association:229e20b1e0fcd38521f4",
+      "role": "supporting",
+      "rationale": "This equality criterion concerns the permuted rho vector and supports the equality case, but it does not itself state the claim about the shifted partition expression."
+    },
+    {
+      "association_id": "association:ccff0c8dbf2d675df58d",
+      "role": "supporting",
+      "rationale": "The lexicographic inequality for the permuted rho vector is a prerequisite for the asserted shifted-term order, not the source claim itself."
+    }
+  ]
+}

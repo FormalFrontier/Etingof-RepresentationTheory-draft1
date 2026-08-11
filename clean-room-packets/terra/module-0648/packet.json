@@ -1,0 +1,54 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C] \u2192\n      {X X' Y : C} \u2192\n        CategoryTheory.Iso.{u_2, u_1} X X' \u2192\n          AddEquiv.{u_2, u_2} (Quiver.Hom.{u_2, u_1} X Y) (Quiver.Hom.{u_2, u_1} X' Y)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3156929558",
+      "temporary_id": "decl-020952"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C]\n  {X X' Y : C} (\u03b1 : CategoryTheory.Iso.{u_2, u_1} X X') (f : Quiver.Hom.{u_2, u_1} X Y),\n  Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-020952.{u_1, u_2} \u03b1) f)\n    (CategoryTheory.CategoryStruct.comp.{u_2, u_1} (CategoryTheory.Iso.inv.{u_2, u_1} \u03b1) f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020952"
+      ],
+      "structural_type_hash": "1468917187",
+      "temporary_id": "decl-020956"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C]\n  {X X' Y : C} (\u03b1 : CategoryTheory.Iso.{u_2, u_1} X X') (g : Quiver.Hom.{u_2, u_1} X' Y),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (AddEquiv.symm.{u_2, u_2} (decl-020952.{u_1, u_2} \u03b1)) g)\n    (CategoryTheory.CategoryStruct.comp.{u_2, u_1} (CategoryTheory.Iso.hom.{u_2, u_1} \u03b1) g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020952"
+      ],
+      "structural_type_hash": "3047068030",
+      "temporary_id": "decl-020957"
+    }
+  ],
+  "module_temporary_id": "module-0648",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

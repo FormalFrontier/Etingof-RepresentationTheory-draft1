@@ -1,0 +1,509 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{u_2, u} C] \u2192\n    [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_2, u} C] \u2192\n      [inst_2 : CategoryTheory.CategoryWithHomology.{u_2, u} C] \u2192\n        {\u03b9 : Type u_1} \u2192\n          {c : ComplexShape.{u_1} \u03b9} \u2192\n            (K : HomologicalComplex.{u_2, u, u_1} C c) \u2192\n              (\u2200 (i j : \u03b9), Eq.{u_2 + 1} (HomologicalComplex.d.{u_2, u, u_1} K i j) 0) \u2192\n                (i : \u03b9) \u2192\n                  CategoryTheory.Iso.{u_2, u} (HomologicalComplex.homology.{u_2, u, u_1} K i)\n                    (HomologicalComplex.X.{u_2, u, u_1} K i)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1135119308",
+      "temporary_id": "decl-020206"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)),\n  SMulCommClass.{u, u, u} k (MulOpposite.{u} (SymmetricAlgebra.{u, u} k V))\n    (ModuleCat.carrier.{u, u}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-021644.{u} (SymmetricAlgebra.{u, u} k V)) M))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020631",
+        "decl-021644"
+      ],
+      "structural_type_hash": "113845896",
+      "temporary_id": "decl-020591"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (MulOpposite.{u} (SymmetricAlgebra.{u, u} k V))),\n  SMulCommClass.{u, u, u} k (MulOpposite.{u} (SymmetricAlgebra.{u, u} k V)) (ModuleCat.carrier.{u, u} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020632"
+      ],
+      "structural_type_hash": "1457830415",
+      "temporary_id": "decl-020592"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) \u2192\n            Module.{u, u} k\n              (ModuleCat.carrier.{u, u}\n                (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-021644.{u} (SymmetricAlgebra.{u, u} k V))\n                  M))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021644"
+      ],
+      "structural_type_hash": "1275530323",
+      "temporary_id": "decl-020631"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (MulOpposite.{u} (SymmetricAlgebra.{u, u} k V))) \u2192\n            Module.{u, u} k (ModuleCat.carrier.{u, u} M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3055787621",
+      "temporary_id": "decl-020632"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) \u2192 Module.{u, u} k (ModuleCat.carrier.{u, u} M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2046981485",
+      "temporary_id": "decl-020634"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) \u2192\n            Module.{u, u} (SymmetricAlgebra.{u, u} k V)\n              (ModuleCat.carrier.{u, u}\n                (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-021644.{u} (SymmetricAlgebra.{u, u} k V))\n                  M))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021644"
+      ],
+      "structural_type_hash": "1930522912",
+      "temporary_id": "decl-020643"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (MulOpposite.{u} (SymmetricAlgebra.{u, u} k V))),\n  IsScalarTower.{u, u, u} k (MulOpposite.{u} (SymmetricAlgebra.{u, u} k V)) (ModuleCat.carrier.{u, u} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020632"
+      ],
+      "structural_type_hash": "3895860633",
+      "temporary_id": "decl-020679"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)),\n  IsScalarTower.{u, u, u} k (SymmetricAlgebra.{u, u} k V)\n    (ModuleCat.carrier.{u, u}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-021644.{u} (SymmetricAlgebra.{u, u} k V)) M))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020631",
+        "decl-020643",
+        "decl-021644"
+      ],
+      "structural_type_hash": "583058327",
+      "temporary_id": "decl-020681"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)),\n  IsScalarTower.{u, u, u} k (SymmetricAlgebra.{u, u} k V) (ModuleCat.carrier.{u, u} M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020634"
+      ],
+      "structural_type_hash": "310654426",
+      "temporary_id": "decl-020682"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (i : Nat) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n              (TensorProduct.{u, u, u} (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V)\n                (decl-021285.{u, u} k V i))\n              (TensorProduct.{u, u, u} k (decl-005407.{u, u} k V)\n                (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005428",
+        "decl-005436",
+        "decl-020626",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "2864926560",
+      "temporary_id": "decl-021088"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (i : Nat) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n              (Quiver.Hom.{u, u + 1} (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k V) (decl-021285.{u, u} k V i))\n                (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V)))\n              (Module.Dual.{u, u} k\n                (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005428",
+        "decl-005436",
+        "decl-020626",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "3443719797",
+      "temporary_id": "decl-021094"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {\u03ba : Type u}\n  [inst_3 : Fintype.{u} \u03ba] (b : Module.Basis.{u, u, u} \u03ba k V) (i : Nat)\n  (m : decl-021285.{u, u} k V (HAdd.hAdd.{0, 0, 0} i 1)) (c : decl-005407.{u, u} k V),\n  Eq.{u + 1}\n    (TensorProduct.tmul.{u, u, u} (SymmetricAlgebra.{u, u} k V)\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-021150.{u, u, u} b i) m) c)\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021150",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "1650530022",
+      "temporary_id": "decl-021174"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {\u03ba : Type u}\n  [inst_3 : Fintype.{u} \u03ba] (b : Module.Basis.{u, u, u} \u03ba k V) (i : Nat) (s : SymmetricAlgebra.{u, u} k V)\n  (w :\n    Subtype.{u + 1} fun x =>\n      Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k (HAdd.hAdd.{0, 0, 0} i 1) V) x)\n  (c : decl-005407.{u, u} k V),\n  Eq.{u + 1}\n    (TensorProduct.tmul.{u, u, u} (SymmetricAlgebra.{u, u} k V)\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-021150.{u, u, u} b i) (TensorProduct.tmul.{u, u, u} k s w)) c)\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021150",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "292858277",
+      "temporary_id": "decl-021176"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          {\u03ba : Type u} \u2192\n            [LinearOrder.{u} \u03ba] \u2192\n              [Fintype.{u} \u03ba] \u2192\n                Module.Basis.{u, u, u} \u03ba k V \u2192\n                  (i : Nat) \u2192\n                    CategoryTheory.Iso.{u, u + 1}\n                      (decl-004134.{u} k (SymmetricAlgebra.{u, u} k V)\n                        (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V))\n                        (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V)) i)\n                      (ModuleCat.of.{u, u} k\n                        (Module.Dual.{u, u} k\n                          (Subtype.{u + 1} fun x =>\n                            Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004134",
+        "decl-005407",
+        "decl-005410",
+        "decl-005436"
+      ],
+      "structural_type_hash": "2625134934",
+      "temporary_id": "decl-021185"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (i : Nat) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n              (LinearMap.{u, u, u, u} (RingHom.id.{u} (SymmetricAlgebra.{u, u} k V)) (decl-021285.{u, u} k V i)\n                (decl-005407.{u, u} k V))\n              (Module.Dual.{u, u} k\n                (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005428",
+        "decl-005436",
+        "decl-020626",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "719101002",
+      "temporary_id": "decl-021200"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (i : Nat) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n              (LinearMap.{u, u, u, u} (RingHom.id.{u} (SymmetricAlgebra.{u, u} k V)) (decl-021285.{u, u} k V i)\n                (decl-005407.{u, u} k V))\n              (LinearMap.{u, u, u, u} (RingHom.id.{u} k)\n                (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x)\n                (decl-005407.{u, u} k V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005428",
+        "decl-005436",
+        "decl-020626",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "2072765151",
+      "temporary_id": "decl-021206"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] (i : Nat)\n  (f :\n    LinearMap.{u, u, u, u} (RingHom.id.{u} (SymmetricAlgebra.{u, u} k V)) (decl-021285.{u, u} k V i)\n      (decl-005407.{u, u} k V))\n  (w : Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-021206.{u} k V i) f)\n      w)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} f (TensorProduct.tmul.{u, u, u} k 1 w))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005428",
+        "decl-005436",
+        "decl-020626",
+        "decl-021206",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "1281864889",
+      "temporary_id": "decl-021220"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {\u03ba : Type u}\n  [inst_3 : Fintype.{u} \u03ba] (b : Module.Basis.{u, u, u} \u03ba k V) (i : Nat)\n  (f :\n    LinearMap.{u, u, u, u} (RingHom.id.{u} (SymmetricAlgebra.{u, u} k V)) (decl-021285.{u, u} k V i)\n      (decl-005407.{u, u} k V)),\n  Eq.{u + 1} (LinearMap.comp.{u, u, u, u, u, u} f (decl-021150.{u, u, u} b i)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021150",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "3045986455",
+      "temporary_id": "decl-021221"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          {\u03ba : Type u} \u2192\n            [inst_3 : LinearOrder.{u} \u03ba] \u2192\n              [inst_4 : Fintype.{u} \u03ba] \u2192\n                (b : Module.Basis.{u, u, u} \u03ba k V) \u2192\n                  (i : Nat) \u2192\n                    CategoryTheory.Iso.{u, u + 1}\n                      (HomologicalComplex.X.{u, u + 1, 0}\n                        (ChainComplex.linearYonedaObj.{u, u + 1, 0, u}\n                          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1}\n                            (decl-021242.{u, u, u} b))\n                          k (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V)))\n                        i)\n                      (ModuleCat.of.{u, u} k\n                        (Module.Dual.{u, u} k\n                          (Subtype.{u + 1} fun x =>\n                            Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021242"
+      ],
+      "structural_type_hash": "4096691399",
+      "temporary_id": "decl-021228"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {\u03ba : Type u}\n  [inst_3 : LinearOrder.{u} \u03ba] [inst_4 : Fintype.{u} \u03ba] (b : Module.Basis.{u, u, u} \u03ba k V) (i j : Nat),\n  Eq.{u + 1}\n    (HomologicalComplex.d.{u, u + 1, 0}\n      (ChainComplex.linearYonedaObj.{u, u + 1, 0, u}\n        (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (decl-021242.{u, u, u} b)) k\n        (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V)))\n      i j)\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021242"
+      ],
+      "structural_type_hash": "1165912365",
+      "temporary_id": "decl-021234"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {\u03ba : Type u}\n  [inst_3 : LinearOrder.{u} \u03ba] [inst_4 : Fintype.{u} \u03ba] (b : Module.Basis.{u, u, u} \u03ba k V) (i : Nat),\n  Eq.{u + 1}\n    (HomologicalComplex.d.{u, u + 1, 0}\n      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (decl-021242.{u, u, u} b))\n      (HAdd.hAdd.{0, 0, 0} i 1) i)\n    (ModuleCat.ofHom.{u, u} (decl-021150.{u, u, u} b i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021150",
+        "decl-021242",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "328428322",
+      "temporary_id": "decl-021248"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          {\u03ba : Type u} \u2192\n            [LinearOrder.{u} \u03ba] \u2192\n              [Fintype.{u} \u03ba] \u2192\n                Module.Basis.{u, u, u} \u03ba k V \u2192\n                  CategoryTheory.ProjectiveResolution.{u, u + 1}\n                    (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                      (decl-021644.{u} (SymmetricAlgebra.{u, u} k V))\n                      (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021644"
+      ],
+      "structural_type_hash": "4036905964",
+      "temporary_id": "decl-021251"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (i : Nat) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n              (TensorProduct.{u, u, u} (SymmetricAlgebra.{u, u} k V) (decl-021285.{u, u} k V i)\n                (decl-005407.{u, u} k V))\n              (TensorProduct.{u, u, u} (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V)\n                (decl-021285.{u, u} k V i))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005428",
+        "decl-005436",
+        "decl-020626",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "3838166005",
+      "temporary_id": "decl-021259"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          {\u03ba : Type u} \u2192\n            [LinearOrder.{u} \u03ba] \u2192\n              [Fintype.{u} \u03ba] \u2192\n                Module.Basis.{u, u, u} \u03ba k V \u2192\n                  HomologicalComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) (ComplexShape.down.{0} Nat)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1921273342",
+      "temporary_id": "decl-021263"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          {\u03ba : Type u} \u2192\n            [inst_3 : LinearOrder.{u} \u03ba] \u2192\n              [inst_4 : Fintype.{u} \u03ba] \u2192\n                (b : Module.Basis.{u, u, u} \u03ba k V) \u2192\n                  (i : Nat) \u2192\n                    CategoryTheory.Iso.{u, u + 1}\n                      (HomologicalComplex.X.{u, u + 1, 0} (decl-021263.{u} k V b) i)\n                      (ModuleCat.of.{u, u} k\n                        (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021263"
+      ],
+      "structural_type_hash": "2604704096",
+      "temporary_id": "decl-021267"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {\u03ba : Type u}\n  [inst_3 : LinearOrder.{u} \u03ba] [inst_4 : Fintype.{u} \u03ba] (b : Module.Basis.{u, u, u} \u03ba k V) (i j : Nat),\n  Eq.{u + 1} (HomologicalComplex.d.{u, u + 1, 0} (decl-021263.{u} k V b) i j) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021263"
+      ],
+      "structural_type_hash": "234270516",
+      "temporary_id": "decl-021268"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] {\u03ba : Type u}\n  [inst_3 : Fintype.{u} \u03ba] (b : Module.Basis.{u, u, u} \u03ba k V) (i : Nat),\n  Eq.{u + 1}\n    (decl-024075.{u} k (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V)\n      (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-021644.{u} (SymmetricAlgebra.{u, u} k V))\n        (ModuleCat.ofHom.{u, u} (decl-021150.{u, u, u} b i))))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-017273",
+        "decl-020593",
+        "decl-020633",
+        "decl-020644",
+        "decl-021150",
+        "decl-021285",
+        "decl-021286",
+        "decl-021644",
+        "decl-023968",
+        "decl-024075"
+      ],
+      "structural_type_hash": "1462867294",
+      "temporary_id": "decl-021270"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (i : Nat) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n              (decl-023968.{u} (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V)\n                (ModuleCat.carrier.{u, u}\n                  (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                    (decl-021644.{u} (SymmetricAlgebra.{u, u} k V))\n                    (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k V) (decl-021285.{u, u} k V i)))))\n              (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-017273",
+        "decl-020591",
+        "decl-020631",
+        "decl-020644",
+        "decl-021285",
+        "decl-021286",
+        "decl-021644",
+        "decl-023968"
+      ],
+      "structural_type_hash": "3466775388",
+      "temporary_id": "decl-021271"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          {\u03ba : Type u} \u2192\n            [LinearOrder.{u} \u03ba] \u2192\n              [Fintype.{u} \u03ba] \u2192\n                Module.Basis.{u, u, u} \u03ba k V \u2192\n                  (i : Nat) \u2192\n                    CategoryTheory.Iso.{u, u + 1}\n                      (decl-016772.{u} k (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V)\n                        (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                          (decl-021644.{u} (SymmetricAlgebra.{u, u} k V))\n                          (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V)))\n                        i)\n                      (ModuleCat.of.{u, u} k\n                        (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-016772",
+        "decl-021644"
+      ],
+      "structural_type_hash": "604791840",
+      "temporary_id": "decl-021282"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} (SymmetricAlgebra.{u, u} k V))\n              (ModuleCat.carrier.{u, u}\n                (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-021644.{u} (SymmetricAlgebra.{u, u} k V))\n                  M))\n              (ModuleCat.carrier.{u, u} M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020643",
+        "decl-021644"
+      ],
+      "structural_type_hash": "3333914082",
+      "temporary_id": "decl-021638"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) (a : SymmetricAlgebra.{u, u} k V)\n  (x : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1}\n    (HSMul.hSMul.{u, u, u} (MulOpposite.op.{u} a)\n      (have this := x;\n      this))\n    (HSMul.hSMul.{u, u, u} a x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021644"
+      ],
+      "structural_type_hash": "663957620",
+      "temporary_id": "decl-021645"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n              (TensorProduct.{u, u, u} (SymmetricAlgebra.{u, u} k V)\n                (ModuleCat.carrier.{u, u}\n                  (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                    (decl-021644.{u} (SymmetricAlgebra.{u, u} k V)) M))\n                (decl-005407.{u, u} k V))\n              (TensorProduct.{u, u, u} (SymmetricAlgebra.{u, u} k V) (ModuleCat.carrier.{u, u} M)\n                (decl-005407.{u, u} k V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-020631",
+        "decl-020634",
+        "decl-020643",
+        "decl-020681",
+        "decl-020682",
+        "decl-021644"
+      ],
+      "structural_type_hash": "3545256670",
+      "temporary_id": "decl-021668"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V] (v : V)\n  (c : decl-005407.{u, u} k V),\n  Eq.{u + 1} (HSMul.hSMul.{u, u, u} (DFunLike.coe.{u + 1, u + 1, u + 1} (SymmetricAlgebra.\u03b9.{u, u} k V) v) c) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436"
+      ],
+      "structural_type_hash": "45224889",
+      "temporary_id": "decl-023720"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V)) \u2192\n            LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n              (decl-023968.{u} (SymmetricAlgebra.{u, u} k V) (decl-005407.{u, u} k V)\n                (ModuleCat.carrier.{u, u}\n                  (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                    (decl-021644.{u} (SymmetricAlgebra.{u, u} k V)) M)))\n              (TensorProduct.{u, u, u} (SymmetricAlgebra.{u, u} k V)\n                (ModuleCat.carrier.{u, u}\n                  (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                    (decl-021644.{u} (SymmetricAlgebra.{u, u} k V)) M))\n                (decl-005407.{u, u} k V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-017273",
+        "decl-020591",
+        "decl-020631",
+        "decl-020643",
+        "decl-020644",
+        "decl-020681",
+        "decl-021644",
+        "decl-023968"
+      ],
+      "structural_type_hash": "1145073776",
+      "temporary_id": "decl-024004"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  (M : ModuleCat.{u, u} (SymmetricAlgebra.{u, u} k V))\n  (m :\n    ModuleCat.carrier.{u, u}\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1} (decl-021644.{u} (SymmetricAlgebra.{u, u} k V)) M))\n  (c : decl-005407.{u, u} k V),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-024004.{u} k V M)\n      (QuotientAddGroup.mk.{u} (TensorProduct.tmul.{0, u, u} Int m c)))\n    (TensorProduct.tmul.{u, u, u} (SymmetricAlgebra.{u, u} k V) m c)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-017273",
+        "decl-020591",
+        "decl-020631",
+        "decl-020643",
+        "decl-020644",
+        "decl-020681",
+        "decl-021644",
+        "decl-023968",
+        "decl-024004"
+      ],
+      "structural_type_hash": "2755002471",
+      "temporary_id": "decl-024009"
+    }
+  ],
+  "module_temporary_id": "module-0655",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

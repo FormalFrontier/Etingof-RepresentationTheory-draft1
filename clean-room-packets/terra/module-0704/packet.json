@@ -1,0 +1,141 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 ModuleCat.{v, u} R \u2192 ModuleCat.{v, u} R \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "132722706",
+      "temporary_id": "decl-000621"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 Type (max u (v + 1))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "746124740",
+      "temporary_id": "decl-000898"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 ModuleCat.{v, u} R \u2192 ModuleCat.{v, u} R \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "132722706",
+      "temporary_id": "decl-001638"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 ModuleCat.{v, u} R \u2192 ModuleCat.{v, u} R \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "132722706",
+      "temporary_id": "decl-004112"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 ModuleCat.{v, u} R \u2192 ModuleCat.{v, u} R \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "132722706",
+      "temporary_id": "decl-004113"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 ModuleCat.{v, u} R \u2192 ModuleCat.{v, u} R \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "132722706",
+      "temporary_id": "decl-004834"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 ModuleCat.{v, u} R \u2192 ModuleCat.{v, u} R \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2080156618",
+      "temporary_id": "decl-005131"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 Type (max u (v + 1))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3892389612",
+      "temporary_id": "decl-015612"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R],\n  Equivalence.{max (v + 2) (u + 1)} (decl-000621.{v, u} R)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621"
+      ],
+      "structural_type_hash": "2128154018",
+      "temporary_id": "decl-017221"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {X Y : ModuleCat.{v, u} R},\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} X) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} Y) \u2192\n      decl-004112.{v, u} R X Y \u2192 decl-000621.{v, u} R X Y",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621",
+        "decl-004112"
+      ],
+      "structural_type_hash": "3013331067",
+      "temporary_id": "decl-017222"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {X Y : ModuleCat.{v, u} R},\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} X) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} Y) \u2192\n      \u2200 (e : CategoryTheory.Iso.{v, max u (v + 1)} X Y), decl-000621.{v, u} R X Y",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621"
+      ],
+      "structural_type_hash": "1472417974",
+      "temporary_id": "decl-017223"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 Setoid.{max (v + 2) (u + 1)} (decl-015612.{v, u} R)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015612"
+      ],
+      "structural_type_hash": "4040621316",
+      "temporary_id": "decl-017494"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {S T : ModuleCat.{v, u} R},\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} T) \u2192\n      Not (decl-000621.{v, u} R S T) \u2192\n        Subsingleton.{v + 1} (CategoryTheory.Abelian.Ext.{v, v, max u (v + 1)} S T 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621"
+      ],
+      "structural_type_hash": "2312665688",
+      "temporary_id": "decl-019251"
+    }
+  ],
+  "module_temporary_id": "module-0704",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

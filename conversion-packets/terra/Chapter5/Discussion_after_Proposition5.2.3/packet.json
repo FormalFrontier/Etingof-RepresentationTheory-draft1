@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_after_Proposition5.2.3",
+    "kind": "discussion",
+    "title": "Notation for algebraic numbers and algebraic integers",
+    "node_id": "chapter-05/section-5-2",
+    "order": 256,
+    "slug": "discussion-after-proposition5-2-3",
+    "span": {
+      "start": {
+        "page": "96",
+        "line": 15
+      },
+      "end": {
+        "page": "96",
+        "line": 16
+      }
+    },
+    "source_sha256": "8a809d7bce724c00dd9fc0db3b6a0b2cd84e9a15846fdb8b6e80719485c27a83",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionAfterProposition523",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

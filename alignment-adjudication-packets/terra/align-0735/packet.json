@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c95591f9808fd0897d9e",
+      "declaration": "Etingof.Theorem5_10_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/302/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k G : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      (H : Subgroup.{0} G) \u2192\n        CategoryTheory.Iso.{w + 1, w + 1} (Etingof.homIndBifunctor.{w} k G H) (Etingof.homResBifunctor.{w} k G H)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_10_1"
+    },
+    {
+      "association_id": "association:9c1937637b7d708db201",
+      "declaration": "Etingof.Theorem5_10_1_homEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/302/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k G : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      {H : Subgroup.{0} G} \u2192\n        (V : Rep.{w, 0, 0} k G) \u2192\n          (W : Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) \u2192\n            LinearEquiv.{0, 0, w, w} (RingHom.id.{0} k)\n              (Quiver.Hom.{w, w + 1} V\n                (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1} (Etingof.indSubgroupFunctor.{w} k G H) W))\n              (Quiver.Hom.{w, w + 1}\n                (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1} (Etingof.resSubgroupFunctor.{w} k G H) V) W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_10_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_Problem5.10.2_parts",
+  "packet_id": "align-0735",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0735"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Discussion_Problem5.10.2_parts:part_b",
+  "source_text": "Part (b): obtain Frobenius reciprocity from the tensor-Hom framework or the accepted direct adjunction theorem."
+}

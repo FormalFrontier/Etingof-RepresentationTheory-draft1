@@ -1,0 +1,228 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(A : Type u_1) \u2192 [Ring.{u_1} A] \u2192 Type u_1",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1452250921",
+      "temporary_id": "decl-001639"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 decl-001639.{u_1} A \u2192 decl-001643.{u_1} A",
+      "kind": "definition",
+      "owner_temporary_id": "decl-001639",
+      "project_type_dependencies": [
+        "decl-001639",
+        "decl-001643"
+      ],
+      "structural_type_hash": "2060629352",
+      "temporary_id": "decl-001640"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 decl-001639.{u_1} A \u2192 decl-001644.{u_1} A",
+      "kind": "definition",
+      "owner_temporary_id": "decl-001639",
+      "project_type_dependencies": [
+        "decl-001639",
+        "decl-001644"
+      ],
+      "structural_type_hash": "4141516315",
+      "temporary_id": "decl-001641"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [Ring.{u_1} A] \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "641166847",
+      "temporary_id": "decl-001642"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [Ring.{u_1} A] \u2192 Type u_1",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1452250921",
+      "temporary_id": "decl-001643"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [Ring.{u_1} A] \u2192 Type u_1",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1452250921",
+      "temporary_id": "decl-001644"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 Set.{u_1} A \u2192 decl-001639.{u_1} A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001639"
+      ],
+      "structural_type_hash": "1680955264",
+      "temporary_id": "decl-001645"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {S : Set.{u_1} A} {I : decl-001639.{u_1} A},\n  Iff (LE.le.{u_1} (decl-001645.{u_1} A S) I) (LE.le.{u_1} S (SetLike.coe.{u_1, u_1} I))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001639",
+        "decl-001645"
+      ],
+      "structural_type_hash": "2391044102",
+      "temporary_id": "decl-001646"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 Set.{u_1} A \u2192 decl-001643.{u_1} A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001643"
+      ],
+      "structural_type_hash": "2226073160",
+      "temporary_id": "decl-001647"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {S : Set.{u_1} A} {I : decl-001643.{u_1} A},\n  Iff (LE.le.{u_1} (decl-001647.{u_1} A S) I) (LE.le.{u_1} S (SetLike.coe.{u_1, u_1} I))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001643",
+        "decl-001647"
+      ],
+      "structural_type_hash": "3094056174",
+      "temporary_id": "decl-001648"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A],\n  Eq.{u_1 + 2} (decl-001643.{u_1} A) (decl-016223.{u_1, u_1} A A)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001643",
+        "decl-016223"
+      ],
+      "structural_type_hash": "309907964",
+      "temporary_id": "decl-001649"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {S : Set.{u_1} A} {x : A},\n  Iff (Membership.mem.{u_1, u_1} (decl-001645.{u_1} A S) x)\n    (Membership.mem.{u_1, u_1}\n      (AddSubgroup.closure.{u_1}\n        (HMul.hMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} Set.univ.{u_1} S) Set.univ.{u_1}))\n      x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001639",
+        "decl-001645"
+      ],
+      "structural_type_hash": "2427408441",
+      "temporary_id": "decl-001650"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {B : Type u_2} [inst_1 : NonAssocSemiring.{u_2} B] (f : RingHom.{u_1, u_2} A B)\n  (x : A),\n  Iff (Membership.mem.{u_1, u_1} (TwoSidedIdeal.ker.{u_1, u_2, max u_1 u_2} f) x)\n    (Eq.{u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} f x) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1177428003",
+      "temporary_id": "decl-001651"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {I : decl-001639.{u_1} A} {x : A},\n  Iff (Membership.mem.{u_1, u_1} (decl-001640.{u_1} A I) x) (Membership.mem.{u_1, u_1} I x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001639",
+        "decl-001640",
+        "decl-001643"
+      ],
+      "structural_type_hash": "2561819627",
+      "temporary_id": "decl-001652"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {I : decl-001639.{u_1} A} {x : MulOpposite.{u_1} A},\n  Iff (Membership.mem.{u_1, u_1} (decl-001641.{u_1} A I) x)\n    (Membership.mem.{u_1, u_1} I (MulOpposite.unop.{u_1} x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001639",
+        "decl-001641",
+        "decl-001644"
+      ],
+      "structural_type_hash": "1085899654",
+      "temporary_id": "decl-001653"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 Set.{u_1} A \u2192 decl-001644.{u_1} A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001644"
+      ],
+      "structural_type_hash": "1963399680",
+      "temporary_id": "decl-001655"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] {S : Set.{u_1} A} {I : decl-001644.{u_1} A},\n  Iff (LE.le.{u_1} (decl-001655.{u_1} A S) I)\n    (LE.le.{u_1} (Set.image.{u_1, u_1} MulOpposite.op.{u_1} S) (SetLike.coe.{u_1, u_1} I))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001644",
+        "decl-001655"
+      ],
+      "structural_type_hash": "1630219564",
+      "temporary_id": "decl-001656"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A],\n  Eq.{u_1 + 2} (decl-001644.{u_1} A)\n    (decl-016223.{u_1, u_1} (MulOpposite.{u_1} A) (MulOpposite.{u_1} A))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001644",
+        "decl-016223"
+      ],
+      "structural_type_hash": "3338086630",
+      "temporary_id": "decl-001657"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 decl-001639.{u_1} A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001639"
+      ],
+      "structural_type_hash": "2093151411",
+      "temporary_id": "decl-001658"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 decl-001639.{u_1} A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001639"
+      ],
+      "structural_type_hash": "2093151411",
+      "temporary_id": "decl-001659"
+    }
+  ],
+  "module_temporary_id": "module-0031",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.8",
+    "kind": "introduction",
+    "title": "Section 5.8: Induced representations \u2014 restriction and induction",
+    "node_id": "chapter-05/section-5-8",
+    "order": 289,
+    "slug": "introduction-5-8",
+    "span": {
+      "start": {
+        "page": "107",
+        "line": 17
+      },
+      "end": {
+        "page": "107",
+        "line": 21
+      }
+    },
+    "source_sha256": "0bcdc4fcd7a726bfc394b8e0decde38393a5c80f727d189b091d831e23ba4306",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction58",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,68 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {Q : Type u} [inst : Quiver.{u + 1, u} Q] {a c b\u2081 b\u2082 : Q} (p\u2081 : Quiver.Path.{u + 1, u} a b\u2081)\n  (e\u2081 : Quiver.Hom.{u + 1, u} b\u2081 c) (p\u2082 : Quiver.Path.{u + 1, u} a b\u2082) (e\u2082 : Quiver.Hom.{u + 1, u} b\u2082 c),\n  Eq.{u + 2} (Quiver.Path.comp.{u, u + 1} p\u2081 (Quiver.Hom.toPath.{u, u + 1} e\u2081))\n      (Quiver.Path.comp.{u, u + 1} p\u2082 (Quiver.Hom.toPath.{u, u + 1} e\u2082)) \u2192\n    And (Eq.{u + 1} b\u2081 b\u2082) (And (HEq.{u + 2} p\u2081 p\u2082) (HEq.{u + 2} e\u2081 e\u2082))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [],
+      "structural_type_hash": "2874532054",
+      "temporary_id": "decl-005947"
+    },
+    {
+      "formal_type": "\u2200 {Q : Type u} [inst : Quiver.{u + 1, u} Q] {a c : Q} (q : Quiver.Path.{u + 1, u} a c) {n : Nat},\n  Eq.{1} (Quiver.Path.length.{u, u + 1} q) (HAdd.hAdd.{0, 0, 0} n 1) \u2192\n    Exists.{u + 1} fun b =>\n      Exists.{u + 2} fun p =>\n        Exists.{u + 2} fun e =>\n          And (Eq.{u + 2} q (Quiver.Path.comp.{u, u + 1} p (Quiver.Hom.toPath.{u, u + 1} e)))\n            (Eq.{1} (Quiver.Path.length.{u, u + 1} p) n)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [],
+      "structural_type_hash": "1182125291",
+      "temporary_id": "decl-005989"
+    },
+    {
+      "formal_type": "\u2200 {k Q : Type u} [inst : Field.{u} k] [inst_1 : Quiver.{u + 1, u} Q] [inst_2 : DecidableEq.{u + 1} Q] {a c : Q}\n  (q : Quiver.Path.{u + 1, u} a c) {n : Nat},\n  Eq.{1} (Quiver.Path.length.{u, u + 1} q) (HAdd.hAdd.{0, 0, 0} n 1) \u2192\n    Exists.{u + 1} fun b =>\n      Exists.{u + 2} fun p =>\n        Exists.{u + 2} fun e =>\n          And\n            (Eq.{u + 2} (decl-006286.{u, u, u + 1} (Sigma.mk.{u, u + 1} a (Sigma.mk.{u, u + 1} c q)))\n              (HMul.hMul.{u + 1, u + 1, u + 1}\n                (decl-006286.{u, u, u + 1} (Sigma.mk.{u, u + 1} a (Sigma.mk.{u, u + 1} b p)))\n                (decl-005865.{u} (Sigma.mk.{u, u + 1} b (Sigma.mk.{u, u + 1} c e)))))\n            (Eq.{1} (Quiver.Path.length.{u, u + 1} p) n)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005820",
+        "decl-005865",
+        "decl-006185",
+        "decl-006286"
+      ],
+      "structural_type_hash": "1707859564",
+      "temporary_id": "decl-005990"
+    },
+    {
+      "formal_type": "\u2200 {k Q : Type u} [inst : Field.{u} k] [inst_1 : Quiver.{u + 1, u} Q] [inst_2 : DecidableEq.{u + 1} Q] {a c b\u2081 b\u2082 : Q}\n  (p\u2081 : Quiver.Path.{u + 1, u} a b\u2081) (e\u2081 : Quiver.Hom.{u + 1, u} b\u2081 c) (p\u2082 : Quiver.Path.{u + 1, u} a b\u2082)\n  (e\u2082 : Quiver.Hom.{u + 1, u} b\u2082 c),\n  Eq.{u + 2}\n      (HMul.hMul.{u + 1, u + 1, u + 1}\n        (decl-006286.{u, u, u + 1} (Sigma.mk.{u, u + 1} a (Sigma.mk.{u, u + 1} b\u2081 p\u2081)))\n        (decl-005865.{u} (Sigma.mk.{u, u + 1} b\u2081 (Sigma.mk.{u, u + 1} c e\u2081))))\n      (HMul.hMul.{u + 1, u + 1, u + 1}\n        (decl-006286.{u, u, u + 1} (Sigma.mk.{u, u + 1} a (Sigma.mk.{u, u + 1} b\u2082 p\u2082)))\n        (decl-005865.{u} (Sigma.mk.{u, u + 1} b\u2082 (Sigma.mk.{u, u + 1} c e\u2082)))) \u2192\n    And (Eq.{u + 1} b\u2081 b\u2082) (And (HEq.{u + 2} p\u2081 p\u2082) (HEq.{u + 2} e\u2081 e\u2082))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005820",
+      "project_type_dependencies": [
+        "decl-005820",
+        "decl-005865",
+        "decl-006185",
+        "decl-006286"
+      ],
+      "structural_type_hash": "230936122",
+      "temporary_id": "decl-006292"
+    }
+  ],
+  "module_temporary_id": "module-0732",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

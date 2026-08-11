@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0e5e50e4d150b2abc6ba",
+      "declaration": "Etingof.Problem4_12_2.irreducible_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/231/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [inst : Fact (Nat.Prime p)] (z : Complex),\n  Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1 \u2192\n    \u2200 (\u03c1 : Representation.{0, 0, 0} Complex (Etingof.Problem4_12_2.Heisenberg p) (ZMod p \u2192 Complex)),\n      (\u2200 (f : ZMod p \u2192 Complex) (t : ZMod p),\n          Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} \u03c1 (Etingof.Problem4_12_2.Heisenberg.xGen p)) f t)\n            (f (HSub.hSub.{0, 0, 0} t 1))) \u2192\n        (\u2200 (f : ZMod p \u2192 Complex) (t : ZMod p),\n            Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} \u03c1 (Etingof.Problem4_12_2.Heisenberg.yGen p)) f t)\n              (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} z t.val) (f t))) \u2192\n          Iff\n            (IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Complex (Etingof.Problem4_12_2.Heisenberg p))\n              (Representation.asModule.{0, 0, 0} \u03c1))\n            (Ne.{1} z 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.2",
+  "packet_id": "align-0710",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0710"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.2:part_b",
+  "source_text": "Part (b): Rz is irreducible exactly when z is nontrivial."
+}

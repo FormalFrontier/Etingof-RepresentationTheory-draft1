@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Exercise7.9.8",
+    "kind": "exercise",
+    "title": "Reflection functors as adjoint pair",
+    "node_id": "chapter-07/section-7-9",
+    "order": 520,
+    "slug": "exercise7-9-8",
+    "span": {
+      "start": {
+        "page": "195",
+        "line": 27
+      },
+      "end": {
+        "page": "195",
+        "line": 29
+      }
+    },
+    "source_sha256": "356dbe84daeb631e9dfbdfae6c7f36b915f5a439b4dead0f1f9b66ae91b6f184",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Exercise798",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

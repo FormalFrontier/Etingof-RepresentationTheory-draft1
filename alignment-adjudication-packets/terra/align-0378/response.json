@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0378",
+  "associations": [
+    {
+      "association_id": "association:8b537a42352c08fc7b74",
+      "role": "primary",
+      "rationale": "For two composition series running from bottom to top, the formal conclusion directly equates their lengths."
+    }
+  ]
+}

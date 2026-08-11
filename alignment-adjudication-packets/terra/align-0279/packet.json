@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:25d97cfa37e53761a62d",
+      "declaration": "Etingof.Example4_3_S4.S4_simple_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/198/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (S : FDRep.{0, 0} Complex Etingof.Example4_3_S4.S4) [CategoryTheory.Simple.{0, 1} S],\n  Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_S4.trivRep))\n    (Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_S4.signRep))\n      (Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_S4.twoDimRep))\n        (Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_S4.stdRep))\n          (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_S4.rotRep)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion5_11_S4S3"
+    },
+    {
+      "association_id": "association:691b42adec7052b5e121",
+      "declaration": "Etingof.Example4_3_S4.stdRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/198/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "FDRep.{0, 0} Complex Etingof.Example4_3_S4.S4",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_S4"
+    },
+    {
+      "association_id": "association:7068987df20d64a77e69",
+      "declaration": "Etingof.Example4_3_S4.twistRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/198/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{0, u_2} Complex V] \u2192\n          MonoidHom.{u_1, 0} G (Units.{0} Complex) \u2192\n            Representation.{0, u_1, u_2} Complex G V \u2192 Representation.{0, u_1, u_2} Complex G V",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_S4"
+    }
+  ],
+  "canonical_reference": "Chapter4/Example4.3_S4",
+  "packet_id": "align-0279",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0279"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:541aa8084296f76c8561",
+  "source_text": "The two three-dimensional representations differ, and the standard one is the zero-sum function model."
+}

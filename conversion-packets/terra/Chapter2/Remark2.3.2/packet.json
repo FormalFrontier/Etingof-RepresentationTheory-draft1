@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Remark2.3.2",
+    "kind": "remark",
+    "title": "Left and right modules over commutative rings",
+    "node_id": "chapter-02/section-2-3",
+    "order": 25,
+    "slug": "remark2-3-2",
+    "span": {
+      "start": {
+        "page": "10",
+        "line": 9
+      },
+      "end": {
+        "page": "10",
+        "line": 10
+      }
+    },
+    "source_sha256": "fe1dc7d82ae8f86061268cb15674ee40857d735a29a43d153a14b7b2225d9ecd",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark232",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

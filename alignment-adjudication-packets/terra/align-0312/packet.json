@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1648fe65c7322ec51a48",
+      "declaration": "Etingof.Corollary5_19_2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/355/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [CharZero.{u} k] {V : Type v} [inst_3 : AddCommGroup.{v} V]\n  [inst_4 : Module.{u, v} k V] [Module.Finite.{u, v} k V] (n : Nat),\n  Exists.{2} fun iota =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{max (u + 1) (v + 1)} fun S =>\n          Exists.{1} fun label =>\n            Exists.{max (u + 1) (v + 1)} fun specht =>\n              And\n                (\u2200 (p : n.Partition), Subsingleton.{1} (Subtype.{1} fun i => Eq.{1} (DFunLike.coe.{1, 1, 1} label i) p))\n                (And\n                  (\u2200 (i : iota),\n                    IsSimpleModule.{max u v, max (max v u) u v}\n                      (Subtype.{(max u v) + 1} fun x =>\n                        Membership.mem.{max u v, max u v}\n                          (Subalgebra.centralizer.{u, max u v} k\n                            (SetLike.coe.{max u v, max u v} (Etingof.symGroupImage.{u, v} k V n)))\n                          x)\n                      (LinearMap.{max u v, max u v, max u v, max v u}\n                        (RingHom.id.{max u v}\n                          (Subtype.{(max u v) + 1} fun x =>\n                            Membership.mem.{max u v, max u v} (Etingof.symGroupImage.{u, v} k V n) x))\n                        (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                        (Etingof.TensorPower.{u, v} k V n)))\n                  (And\n                    (\u2200 (i j : iota),\n                      Nonempty.{(max (max v u) u v) + 1}\n                          (LinearEquiv.{max u v, max u v, max (max v u) u v, max (max v u) u v}\n                            (RingHom.id.{max u v}\n                              (Subtype.{(max u v) + 1} fun x =>\n                                Membership.mem.{max u v, max u v}\n                                  (Subalgebra.centralizer.{u, max u v} k\n                                    (SetLike.coe.{max u v, max u v} (Etingof.symGroupImage.{u, v} k V n)))\n                                  x))\n                            (LinearMap.{max u v, max u v, max u v, max v u}\n                              (RingHom.id.{max u v}\n                                (Subtype.{(max u v) + 1} fun x =>\n                                  Membership.mem.{max u v, max u v} (Etingof.symGroupImage.{u, v} k V n) x))\n                              (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                              (Etingof.TensorPower.{u, v} k V n))\n                            (LinearMap.{max u v, max u v, max u v, max v u}\n                              (RingHom.id.{max u v}\n                                (Subtype.{(max u v) + 1} fun x =>\n                                  Membership.mem.{max u v, max u v} (Etingof.symGroupImage.{u, v} k V n) x))\n                              (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S j) x)\n                              (Etingof.TensorPower.{u, v} k V n))) \u2192\n                        Eq.{1} i j)\n                    (And\n                      (\u2200 (i : iota) (a : MonoidAlgebra.{u, 0} k (Equiv.Perm.{1} (Fin n)))\n                        (x : Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x),\n                        Eq.{u + 1}\n                          (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1} (specht i)\n                            (HSMul.hSMul.{max u v, max u v, max u v}\n                              (DFunLike.coe.{max (u + 1) (v + 1), u + 1, max (u + 1) (v + 1)}\n                                (Etingof.symGroupAlgHomToImage.{u, v} k V n) a)\n                              x))\n                          (HSMul.hSMul.{u, u, u} a\n                            (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1} (specht i) x)))\n                      (Exists.{max (u + 1) (v + 1)} fun e =>\n                        \u2200\n                          (b :\n                            Subtype.{(max u v) + 1} fun x =>\n                              Membership.mem.{max u v, max u v} (Etingof.diagonalActionImage.{u, v} k V n) x)\n                          (x_1 : Etingof.TensorPower.{u, v} k V n),\n                          Eq.{max (u + 1) (v + 1)}\n                            (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                              (Etingof.PartitionBimoduleDecompositionEquiv.toLinearEquiv.{u, max u v, 0} e)\n                              (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                                (Subtype.val.{max (u + 1) (v + 1)} b) x_1))\n                            (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                              (Etingof.partitionBimoduleCentralizerAction.{u, max u v, 0} k n S label\n                                (Subtype.mk.{max (u + 1) (v + 1)} (Subtype.val.{max (u + 1) (v + 1)} b) \u22ef))\n                              (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                                (Etingof.PartitionBimoduleDecompositionEquiv.toLinearEquiv.{u, max u v, 0} e) x_1))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Corollary5_19_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Corollary5.19.2",
+  "packet_id": "align-0312",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0312"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:5d2e7cf2a3439e55fd38",
+  "source_text": "The multiplicity factors are literal Hom spaces, simple and pairwise nonisomorphic under the centralizer/GL action, with absent partitions zero-padded."
+}

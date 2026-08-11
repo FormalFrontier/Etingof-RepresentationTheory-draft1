@@ -1,0 +1,39 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] [inst_5 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))]\n  (D : decl-025031.{u, u} k G) (i : Fin (decl-025117.{u, u} D)),\n  Representation.IsIrreducible.{u, u, u} (decl-025068.{u, u} D i)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025031",
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025068",
+        "decl-025074",
+        "decl-025117"
+      ],
+      "structural_type_hash": "483301474",
+      "temporary_id": "decl-025072"
+    }
+  ],
+  "module_temporary_id": "module-0769",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

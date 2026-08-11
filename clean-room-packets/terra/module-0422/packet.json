@@ -1,0 +1,66 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(n : Nat) \u2192\n  (la : n.Partition) \u2192\n    Fintype.{0}\n      (Subtype.{1} fun c =>\n        And (LT.lt.{0} (Prod.fst.{0, 0} c) (List.length.{0} la.sortedParts))\n          (LT.lt.{0} (Prod.snd.{0, 0} c) (List.getD.{0} la.sortedParts (Prod.fst.{0, 0} c) 0)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025220"
+      ],
+      "structural_type_hash": "2434807502",
+      "temporary_id": "decl-017781"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition), Eq.{1} (List.sum.{0} la.sortedParts) n",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025220"
+      ],
+      "structural_type_hash": "2371040458",
+      "temporary_id": "decl-023260"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition), Finite.{1} (decl-016206 n la)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016206"
+      ],
+      "structural_type_hash": "1423930529",
+      "temporary_id": "decl-023416"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 (la : n.Partition) \u2192 Fintype.{0} (decl-016206 n la)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016206"
+      ],
+      "structural_type_hash": "1479131984",
+      "temporary_id": "decl-023736"
+    }
+  ],
+  "module_temporary_id": "module-0422",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

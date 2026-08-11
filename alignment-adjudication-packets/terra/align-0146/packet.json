@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:236526378bc7da5ba358",
+      "declaration": "CompositionSeries",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/160/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Order.JordanHolder"
+    },
+    {
+      "association_id": "association:43499c0dd635935d9d14",
+      "declaration": "Etingof.jordan_holder_equivalent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/160/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) (V : Type u_2) [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  (s\u2081 s\u2082 : CompositionSeries.{u_2} (Submodule.{u_1, u_2} A V)),\n  Eq.{u_2 + 1} (RelSeries.head.{u_2} s\u2081) Bot.bot.{u_2} \u2192\n    Eq.{u_2 + 1} (RelSeries.last.{u_2} s\u2081) Top.top.{u_2} \u2192\n      Eq.{u_2 + 1} (RelSeries.head.{u_2} s\u2082) Bot.bot.{u_2} \u2192\n        Eq.{u_2 + 1} (RelSeries.last.{u_2} s\u2082) Top.top.{u_2} \u2192 CompositionSeries.Equivalent.{u_2} s\u2081 s\u2082",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_7_1"
+    },
+    {
+      "association_id": "association:3891eed7d77c077523e4",
+      "declaration": "covBy_iff_quot_is_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/160/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RingTheory.SimpleModule.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter3/Theorem3.7.1",
+  "packet_id": "align-0146",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0146"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2df065677dc76404c765",
+  "source_text": "A finite-dimensional representation V equipped with two filtrations from 0 to V whose successive quotients are irreducible is faithfully encoded by two endpoint composition series."
+}

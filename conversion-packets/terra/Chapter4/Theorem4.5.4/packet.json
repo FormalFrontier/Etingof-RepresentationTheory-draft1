@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Theorem4.5.4",
+    "kind": "theorem",
+    "title": "Column orthogonality of characters",
+    "node_id": "chapter-04/section-4-5",
+    "order": 207,
+    "slug": "theorem4-5-4",
+    "span": {
+      "start": {
+        "page": "70",
+        "line": 3
+      },
+      "end": {
+        "page": "70",
+        "line": 14
+      }
+    },
+    "source_sha256": "42b38d055338a72a1489e509214f95989a259bdecb77fc6daa0ce2a543fe38b0",
+    "features": {
+      "line_count": 12,
+      "crosses_page": false,
+      "display_math_delimiters": 6,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Theorem454",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

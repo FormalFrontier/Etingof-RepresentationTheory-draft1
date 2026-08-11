@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5d66fb099599e048a8bc",
+      "declaration": "TensorProduct.instModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/107/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.LinearAlgebra.TensorProduct.Defs"
+    },
+    {
+      "association_id": "association:1edd6bb2b5875335dfe3",
+      "declaration": "TensorProduct.smul_tmul'",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/107/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.LinearAlgebra.TensorProduct.Defs"
+    },
+    {
+      "association_id": "association:5c8c58616b9e6407a151",
+      "declaration": "TensorProduct.tmul_smul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/107/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.LinearAlgebra.TensorProduct.Defs"
+    }
+  ],
+  "canonical_reference": "Chapter2/Exercise2.11.7",
+  "packet_id": "align-0500",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0500"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Exercise2.11.7:claim-01",
+  "source_text": "For modules M and N over a commutative ring A, M \u2297_A N is naturally an A-module, with scalar multiplication acting equivalently on either factor."
+}

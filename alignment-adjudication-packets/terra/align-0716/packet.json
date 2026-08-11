@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:dee681f23f31a85342b2",
+      "declaration": "Etingof.Problem4_12_5.verticesAct_unique",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/234/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (act : MonoidHom.{0, 0} Etingof.Problem4_12_5.A5 (Equiv.Perm.{1} (Fin 12))),\n  (\u2200 (i j : Fin 12), Exists.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) j) \u2192\n    (\u2200 (i : Fin 12),\n        Eq.{1} (Nat.card.{0} (Subtype.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i) i))\n          5) \u2192\n      Exists.{1} fun \u03c6 =>\n        \u2200 (g : Etingof.Problem4_12_5.A5) (i : Fin 12),\n          Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c6 (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} act g) i))\n            (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Problem4_12_5.verticesAct g)\n              (DFunLike.coe.{1, 1, 1} \u03c6 i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_5_CosetModels"
+    },
+    {
+      "association_id": "association:e5e026574e93189869d0",
+      "declaration": "Etingof.Problem4_12_5.vertices_decomposition_icosahedral",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/234/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Exists.{1} fun S =>\n  Exists.{0} fun hS =>\n    And (DirectSum.IsInternal.{0, 0, 0} S)\n      (And\n        (\u2200 (k : Fin 4),\n          Etingof.Problem4_12_5.IsIrredSub.{0} (Etingof.Problem4_12_5.permRep.{0} Etingof.Problem4_12_5.verticesAct)\n            (S k))\n        (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 0) x)) 1)\n          (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 1) x)) 3)\n            (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 2) x)) 3)\n              (And (Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S 3) x)) 5)\n                (Exists.{1} fun g =>\n                  Ne.{1}\n                    (Etingof.Problem4_12_5.subChar.{0}\n                      (Etingof.Problem4_12_5.permRep.{0} Etingof.Problem4_12_5.verticesAct) (S 1) \u22ef g)\n                    (Etingof.Problem4_12_5.subChar.{0}\n                      (Etingof.Problem4_12_5.permRep.{0} Etingof.Problem4_12_5.verticesAct) (S 2) \u22ef g)))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_5_CosetModels"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.5",
+  "packet_id": "align-0716",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0716"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.5:part_a",
+  "source_text": "Part (a): decompose the A5 permutation representation on the twelve vertices of the icosahedron."
+}

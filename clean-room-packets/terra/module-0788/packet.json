@@ -1,0 +1,73 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G] [inst_3 : IsAlgClosed.{u} k]\n  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] [inst_5 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))]\n  (D : decl-025031.{u, u} k G) (i : Fin (decl-025117.{u, u} D)),\n  Ne.{u + 1} (Nat.cast.{u} (decl-025074.{u, u} D i)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025031",
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025074",
+        "decl-025117"
+      ],
+      "structural_type_hash": "3619616511",
+      "temporary_id": "decl-025075"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G] (g : G),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (LinearMap.trace.{u, u} k (MonoidAlgebra.{u, u} k G))\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (Representation.ofMulAction.{u, u, u} k G G) g))\n    (ite.{u + 1} (Eq.{u + 1} g 1) (Nat.cast.{u} (Fintype.card.{u} G)) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1434162166",
+      "temporary_id": "decl-032972"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [Finite.{u + 1} G] (g : G),\n  Ne.{u + 1} g 1 \u2192\n    Eq.{u + 1}\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (LinearMap.trace.{u, u} k (MonoidAlgebra.{u, u} k G))\n        (DFunLike.coe.{u + 1, u + 1, u + 1} (Representation.ofMulAction.{u, u, u} k G G) g))\n      0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3419378840",
+      "temporary_id": "decl-032973"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G],\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (LinearMap.trace.{u, u} k (MonoidAlgebra.{u, u} k G))\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (Representation.ofMulAction.{u, u, u} k G G) 1))\n    (Nat.cast.{u} (Fintype.card.{u} G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4223784675",
+      "temporary_id": "decl-032974"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G] [inst_3 : IsAlgClosed.{u} k]\n  [inst_4 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (D : decl-025031.{u, u} k G)\n  (V : Fin (decl-025117.{u, u} D) \u2192 FDRep.{u, u} k G),\n  (\u2200 (i : Fin (decl-025117.{u, u} D)), CategoryTheory.Simple.{u, u + 1} (V i)) \u2192\n    (\u2200 (i j : Fin (decl-025117.{u, u} D)),\n        Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      \u2200 (g : G),\n        Ne.{u + 1} g 1 \u2192\n          Eq.{u + 1}\n            (Finset.sum.{0, u} Finset.univ.{0} fun i =>\n              HMul.hMul.{u, u, u}\n                (Nat.cast.{u} (Module.finrank.{u, u} k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))))\n                (FDRep.character.{u, u} (V i) g))\n            0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025117"
+      ],
+      "structural_type_hash": "3096556296",
+      "temporary_id": "decl-033005"
+    }
+  ],
+  "module_temporary_id": "module-0788",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,71 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  {D : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} C] \u2192\n      [inst_1 : CategoryTheory.Category.{u_4, u_2} D] \u2192\n        [CategoryTheory.Preadditive.{u_3, u_1} C] \u2192\n          [CategoryTheory.Preadditive.{u_4, u_2} D] \u2192 CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "109758184",
+      "temporary_id": "decl-000488"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  {D : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} C] \u2192\n      [inst_1 : CategoryTheory.Category.{u_4, u_2} D] \u2192\n        [inst_2 : CategoryTheory.Preadditive.{u_3, u_1} C] \u2192\n          [inst_3 : CategoryTheory.Preadditive.{u_4, u_2} D] \u2192\n            [inst_4 : CategoryTheory.Limits.HasBinaryBiproducts.{u_3, u_1} C] \u2192\n              (F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D) \u2192\n                [inst_5 : CategoryTheory.Functor.Additive.{u_3, u_1, u_4, u_2} F] \u2192\n                  (X Y : C) \u2192\n                    CategoryTheory.Iso.{u_4, u_2}\n                      (CategoryTheory.Functor.obj.{u_3, u_4, u_1, u_2} F (CategoryTheory.Limits.biprod.{u_3, u_1} X Y))\n                      (CategoryTheory.Limits.biprod.{u_4, u_2} (CategoryTheory.Functor.obj.{u_3, u_4, u_1, u_2} F X)\n                        (CategoryTheory.Functor.obj.{u_3, u_4, u_1, u_2} F Y))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000488",
+      "project_type_dependencies": [
+        "decl-000492"
+      ],
+      "structural_type_hash": "695718387",
+      "temporary_id": "decl-000489"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_4, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_3, u_2} D] [inst_2 : CategoryTheory.Preadditive.{u_4, u_1} C]\n  [inst_3 : CategoryTheory.Preadditive.{u_3, u_2} D] [inst_4 : CategoryTheory.Limits.HasBinaryBiproducts.{u_4, u_1} C]\n  (F : CategoryTheory.Functor.{u_4, u_3, u_1, u_2} C D)\n  [inst_5 : CategoryTheory.Functor.Additive.{u_4, u_1, u_3, u_2} F] (X Y : C),\n  Eq.{u_3 + 1} (CategoryTheory.Iso.hom.{u_3, u_2} (decl-000489.{u_1, u_2, u_4, u_3} F X Y))\n    (CategoryTheory.Limits.biprod.lift.{u_3, u_2}\n      (CategoryTheory.Functor.map.{u_4, u_3, u_1, u_2} F CategoryTheory.Limits.biprod.fst.{u_4, u_1})\n      (CategoryTheory.Functor.map.{u_4, u_3, u_1, u_2} F CategoryTheory.Limits.biprod.snd.{u_4, u_1}))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-000488",
+      "project_type_dependencies": [
+        "decl-000489",
+        "decl-000492"
+      ],
+      "structural_type_hash": "709296746",
+      "temporary_id": "decl-000491"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] [inst_2 : CategoryTheory.Preadditive.{u_3, u_1} C]\n  [inst_3 : CategoryTheory.Preadditive.{u_4, u_2} D] (F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D)\n  [inst_4 : CategoryTheory.Functor.Additive.{u_3, u_1, u_4, u_2} F] (X Y : C),\n  CategoryTheory.Limits.PreservesBinaryBiproduct.{u_3, u_4, u_1, u_2} X Y F",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-000488",
+      "project_type_dependencies": [],
+      "structural_type_hash": "1454885131",
+      "temporary_id": "decl-000492"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Semiring.{u_1} k] \u2192\n    {C : Type u_2} \u2192\n      {D : Type u_3} \u2192\n        [inst_1 : CategoryTheory.Category.{u_4, u_2} C] \u2192\n          [inst_2 : CategoryTheory.Category.{u_5, u_3} D] \u2192\n            [inst_3 : CategoryTheory.Preadditive.{u_4, u_2} C] \u2192\n              [inst_4 : CategoryTheory.Preadditive.{u_5, u_3} D] \u2192\n                [CategoryTheory.Linear.{u_1, u_4, u_2} k C] \u2192\n                  [CategoryTheory.Linear.{u_1, u_5, u_3} k D] \u2192 CategoryTheory.Functor.{u_4, u_5, u_2, u_3} C D \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3261444321",
+      "temporary_id": "decl-005581"
+    }
+  ],
+  "module_temporary_id": "module-0581",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

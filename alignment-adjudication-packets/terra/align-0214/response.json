@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0214",
+  "associations": [
+    {
+      "association_id": "association:cd93adcea5d201ab6efb",
+      "role": "supporting",
+      "rationale": "It states the density conclusion, not the source's derivation of that conclusion from a basis argument."
+    },
+    {
+      "association_id": "association:775d31fd5a996f7fda97",
+      "role": "supporting",
+      "rationale": "It formalizes interpolation on linearly independent vectors, supporting the basis-values argument without stating the proof derivation."
+    }
+  ]
+}

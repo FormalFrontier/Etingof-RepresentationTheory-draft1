@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Definition7.9.1",
+    "kind": "definition",
+    "title": "Additive and k-linear functor",
+    "node_id": "chapter-07/section-7-9",
+    "order": 511,
+    "slug": "definition7-9-1",
+    "span": {
+      "start": {
+        "page": "194",
+        "line": 21
+      },
+      "end": {
+        "page": "194",
+        "line": 22
+      }
+    },
+    "source_sha256": "20cfb511e654578f2887bbc16d3c36bc14f427da6e028c5fcf97491ef0fa4cbd",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition791",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e144ef1c539b6e96ebfb",
+      "declaration": "Etingof.Problem3_9_1.coboundaryOf_eq_zero_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/171/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) (W : Type u_4) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [inst_7 : AddCommGroup.{u_4} W]\n  [inst_8 : Module.{u_1, u_4} k W] [inst_9 : Module.{u_2, u_4} A W] [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A W]\n  (X : LinearMap.{u_1, u_1, u_4, u_3} (RingHom.id.{u_1} k) W V),\n  Iff\n    (Eq.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)} (Etingof.Problem3_9_1.coboundaryOf.{u_1, u_2, u_3, u_4} k A V W X) 0)\n    (\u2200 (a : A) (w : W),\n      Eq.{u_3 + 1} (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_4 + 1, u_3 + 1} X (HSMul.hSMul.{u_2, u_4, u_4} a w))\n        (HSMul.hSMul.{u_2, u_3, u_3} a (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_4 + 1, u_3 + 1} X w)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.1",
+  "packet_id": "align-0659",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0659"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.1:claim-06",
+  "source_text": "The coboundary dX vanishes if and only if X is a homomorphism of representations."
+}

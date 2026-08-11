@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:795572fce0611680cecd",
+      "declaration": "IsConjRoot.isIntegral",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/258/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.FieldTheory.Minpoly.IsConjRoot"
+    },
+    {
+      "association_id": "association:eaa99bfc45b8ee0ee358",
+      "declaration": "minpoly.isIntegrallyClosed_eq_field_fractions'",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/258/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.FieldTheory.Minpoly.IsIntegrallyClosed"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_after_Proposition5.2.5",
+  "packet_id": "align-1069",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1069"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d18b5ff993acab513f42",
+  "source_text": "Every algebraic conjugate of an algebraic integer is integral, and its rational minimal polynomial comes from a monic integer polynomial."
+}

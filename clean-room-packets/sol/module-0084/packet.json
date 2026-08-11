@@ -1,0 +1,1227 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-008693"
+    },
+    {
+      "formal_type": "(q : Units.{0} Complex) \u2192 decl-008732 q",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008732"
+      ],
+      "structural_type_hash": "4062967140",
+      "temporary_id": "decl-008694"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex), Eq.{1} (HMul.hMul.{0, 0, 0} (decl-008694 q) (decl-008715 q)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "3420981177",
+      "temporary_id": "decl-008695"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] (w : V) (lam : Complex),\n  Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) w) (HSMul.hSMul.{0, u_1, u_1} lam w) \u2192\n    \u2200 (i : Nat),\n      Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) (decl-008756.{u_1} q V w i))\n        (HSMul.hSMul.{0, u_1, u_1} (decl-008823 q lam i) (decl-008756.{u_1} q V w i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008756",
+        "decl-008823"
+      ],
+      "structural_type_hash": "769435027",
+      "temporary_id": "decl-008696"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] (v : V) (lam : Complex),\n  Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) v) (HSMul.hSMul.{0, u_1, u_1} lam v) \u2192\n    \u2200 (i : Nat),\n      Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) (decl-008812.{u_1} q V v i))\n        (HSMul.hSMul.{0, u_1, u_1} (decl-008817 q lam i) (decl-008812.{u_1} q V v i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008812",
+        "decl-008817"
+      ],
+      "structural_type_hash": "3650766381",
+      "temporary_id": "decl-008697"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (n : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-008694 q) (HPow.hPow.{0, 0, 0} (decl-008744 q) n))\n    (HSMul.hSMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) n)\n      (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008744 q) n) (decl-008694 q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "2813711836",
+      "temporary_id": "decl-008698"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (n : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-008694 q) (HPow.hPow.{0, 0, 0} (decl-008768 q) n))\n    (HSMul.hSMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Inv.inv.{0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2)) n)\n      (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008768 q) n) (decl-008694 q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "1987403947",
+      "temporary_id": "decl-008699"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-008694 q) (decl-008744 q))\n    (HSMul.hSMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2)\n      (HMul.hMul.{0, 0, 0} (decl-008744 q) (decl-008694 q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "3630590247",
+      "temporary_id": "decl-008700"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-008694 q) (decl-008768 q))\n    (HSMul.hSMul.{0, 0, 0} (Inv.inv.{0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2))\n      (HMul.hMul.{0, 0, 0} (decl-008768 q) (decl-008694 q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "3098304407",
+      "temporary_id": "decl-008701"
+    },
+    {
+      "formal_type": "(q : Units.{0} Complex) \u2192\n  (V : Type u_1) \u2192\n    [inst : AddCommGroup.{u_1} V] \u2192\n      [inst_1 : Module.{0, u_1} Complex V] \u2192\n        [inst_2 : Module.{0, u_1} (decl-008732 q) V] \u2192\n          [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] \u2192 Module.End.{0, u_1} Complex V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "4221784319",
+      "temporary_id": "decl-008702"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [inst_3 : IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] (v : V),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008702.{u_1} q V) v)\n    (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008702",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "1924038981",
+      "temporary_id": "decl-008706"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  IsOfFinOrder.{0} q \u2192\n    \u2200 (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n      [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n      [inst_3 : IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V]\n      [FiniteDimensional.{0, u_1} Complex V] [IsSimpleModule.{0, u_1} (decl-008732 q) V],\n      And (Module.End.IsSemisimple.{0, u_1} (decl-008702.{u_1} q V))\n        (And\n          (Eq.{u_1 + 1} (iSup.{u_1, 1} fun \u03bc => Module.End.eigenspace.{0, u_1} (decl-008702.{u_1} q V) \u03bc)\n            Top.top.{u_1})\n          (Exists.{1} fun \u03b1 =>\n            And (Ne.{1} \u03b1 0)\n              (\u2200 (\u03bc : Complex),\n                Module.End.HasEigenvalue.{0, u_1} (decl-008702.{u_1} q V) \u03bc \u2192\n                  Eq.{1} (HPow.hPow.{0, 0, 0} \u03bc (orderOf.{0} q)) \u03b1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008702",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "2656817097",
+      "temporary_id": "decl-008707"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [inst_3 : IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] [FiniteDimensional.{0, u_1} Complex V]\n  (n : Nat) (v : V),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (HPow.hPow.{u_1, 0, u_1} (decl-008702.{u_1} q V) n) v)\n    (HSMul.hSMul.{0, u_1, u_1} (HPow.hPow.{0, 0, 0} (decl-008694 q) n) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008702",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "2497104113",
+      "temporary_id": "decl-008708"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (n : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008694 q) n) (decl-008744 q))\n    (HSMul.hSMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) n)\n      (HMul.hMul.{0, 0, 0} (decl-008744 q) (HPow.hPow.{0, 0, 0} (decl-008694 q) n)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "315108462",
+      "temporary_id": "decl-008709"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (n : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008694 q) n) (decl-008768 q))\n    (HSMul.hSMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Inv.inv.{0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2)) n)\n      (HMul.hMul.{0, 0, 0} (decl-008768 q) (HPow.hPow.{0, 0, 0} (decl-008694 q) n)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "3485657365",
+      "temporary_id": "decl-008710"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (a : decl-008732 q),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008694 q) (orderOf.{0} q)) a)\n    (HMul.hMul.{0, 0, 0} a (HPow.hPow.{0, 0, 0} (decl-008694 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "2847027941",
+      "temporary_id": "decl-008711"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  IsOfFinOrder.{0} q \u2192\n    \u2200 (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n      [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n      [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] [FiniteDimensional.{0, u_1} Complex V]\n      [IsSimpleModule.{0, u_1} (decl-008732 q) V],\n      Exists.{1} fun \u03b1 =>\n        And (Ne.{1} \u03b1 0)\n          (\u2200 (v : V),\n            Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (HPow.hPow.{0, 0, 0} (decl-008694 q) (orderOf.{0} q)) v)\n              (HSMul.hSMul.{0, u_1, u_1} \u03b1 v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "3522045874",
+      "temporary_id": "decl-008712"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008694 q) (orderOf.{0} q)) (decl-008744 q))\n    (HMul.hMul.{0, 0, 0} (decl-008744 q) (HPow.hPow.{0, 0, 0} (decl-008694 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "2994538114",
+      "temporary_id": "decl-008713"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008694 q) (orderOf.{0} q)) (decl-008768 q))\n    (HMul.hMul.{0, 0, 0} (decl-008768 q) (HPow.hPow.{0, 0, 0} (decl-008694 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "3074517518",
+      "temporary_id": "decl-008714"
+    },
+    {
+      "formal_type": "(q : Units.{0} Complex) \u2192 decl-008732 q",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008732"
+      ],
+      "structural_type_hash": "4062967140",
+      "temporary_id": "decl-008715"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex), Eq.{1} (HMul.hMul.{0, 0, 0} (decl-008715 q) (decl-008694 q)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "2310095454",
+      "temporary_id": "decl-008716"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] (w : V) (lam : Complex),\n  Ne.{1} lam 0 \u2192\n    Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) w) (HSMul.hSMul.{0, u_1, u_1} lam w) \u2192\n      \u2200 (i : Nat),\n        Eq.{u_1 + 1}\n          (HSMul.hSMul.{0, u_1, u_1} (decl-008715 q) (decl-008756.{u_1} q V w i))\n          (HSMul.hSMul.{0, u_1, u_1} (Inv.inv.{0} (decl-008823 q lam i))\n            (decl-008756.{u_1} q V w i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008756",
+        "decl-008823"
+      ],
+      "structural_type_hash": "853338125",
+      "temporary_id": "decl-008717"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] (v : V) (lam : Complex),\n  Ne.{1} lam 0 \u2192\n    Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) v) (HSMul.hSMul.{0, u_1, u_1} lam v) \u2192\n      \u2200 (i : Nat),\n        Eq.{u_1 + 1}\n          (HSMul.hSMul.{0, u_1, u_1} (decl-008715 q) (decl-008812.{u_1} q V v i))\n          (HSMul.hSMul.{0, u_1, u_1} (Inv.inv.{0} (decl-008817 q lam i))\n            (decl-008812.{u_1} q V v i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008812",
+        "decl-008817"
+      ],
+      "structural_type_hash": "2362636050",
+      "temporary_id": "decl-008718"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (n : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-008715 q) (HPow.hPow.{0, 0, 0} (decl-008744 q) n))\n    (HSMul.hSMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Inv.inv.{0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2)) n)\n      (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008744 q) n) (decl-008715 q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "3932438394",
+      "temporary_id": "decl-008719"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (n : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-008715 q) (HPow.hPow.{0, 0, 0} (decl-008768 q) n))\n    (HSMul.hSMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) n)\n      (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008768 q) n) (decl-008715 q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "986746191",
+      "temporary_id": "decl-008720"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-008715 q) (decl-008744 q))\n    (HSMul.hSMul.{0, 0, 0} (Inv.inv.{0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2))\n      (HMul.hMul.{0, 0, 0} (decl-008744 q) (decl-008715 q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "1002061228",
+      "temporary_id": "decl-008721"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-008715 q) (decl-008768 q))\n    (HSMul.hSMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2)\n      (HMul.hMul.{0, 0, 0} (decl-008768 q) (decl-008715 q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "519179099",
+      "temporary_id": "decl-008722"
+    },
+    {
+      "formal_type": "Units.{0} Complex \u2192\n  FreeAlgebra.{0, 0} Complex decl-008693 \u2192 FreeAlgebra.{0, 0} Complex decl-008693 \u2192 Prop",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693"
+      ],
+      "structural_type_hash": "566369915",
+      "temporary_id": "decl-008723"
+    },
+    {
+      "formal_type": "Units.{0} Complex \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3301946543",
+      "temporary_id": "decl-008732"
+    },
+    {
+      "formal_type": "(q : Units.{0} Complex) \u2192 AlgHom.{0, 0, 0} Complex (decl-008732 q) Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "3386845",
+      "temporary_id": "decl-008733"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex), Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} (decl-008733 q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008733"
+      ],
+      "structural_type_hash": "3651977358",
+      "temporary_id": "decl-008734"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] (x : decl-008732 q),\n  (\u2200 (a : decl-008732 q), Eq.{1} (HMul.hMul.{0, 0, 0} x a) (HMul.hMul.{0, 0, 0} a x)) \u2192\n    \u2200 [FiniteDimensional.{0, u_1} Complex V] [IsSimpleModule.{0, u_1} (decl-008732 q) V],\n      Exists.{1} fun \u03b1 => \u2200 (v : V), Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} x v) (HSMul.hSMul.{0, u_1, u_1} \u03b1 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "1420616941",
+      "temporary_id": "decl-008735"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Not (IsOfFinOrder.{0} q) \u2192\n    \u2200 (\u03bc\u2080 : Complex),\n      Ne.{1} \u03bc\u2080 0 \u2192\n        Function.Injective.{1, 1} fun n =>\n          HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) (HMul.hMul.{0, 0, 0} 2 n)) \u03bc\u2080",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2447518309",
+      "temporary_id": "decl-008736"
+    },
+    {
+      "formal_type": "Units.{0} Complex \u2192 Complex \u2192 Nat \u2192 Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2297138181",
+      "temporary_id": "decl-008738"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Not (IsOfFinOrder.{0} q) \u2192\n    \u2200 (lam : Complex),\n      Ne.{1} lam 0 \u2192\n        \u2200 (N : Nat),\n          Eq.{1} (decl-008738 q lam N) 0 \u2192\n            Eq.{1} (HPow.hPow.{0, 0, 0} lam 2) (HPow.hPow.{0, 0, 0} (Units.val.{0} q) (HMul.hMul.{0, 0, 0} 2 N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008738"
+      ],
+      "structural_type_hash": "1105428074",
+      "temporary_id": "decl-008740"
+    },
+    {
+      "formal_type": "(q : Units.{0} Complex) \u2192 decl-008732 q",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008732"
+      ],
+      "structural_type_hash": "4062967140",
+      "temporary_id": "decl-008744"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [inst_3 : IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] (\u03bc : Complex) (w : V),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008702.{u_1} q V) w)\n      (HSMul.hSMul.{0, u_1, u_1} \u03bc w) \u2192\n    Eq.{u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008702.{u_1} q V)\n        (HSMul.hSMul.{0, u_1, u_1} (decl-008744 q) w))\n      (HSMul.hSMul.{0, u_1, u_1} (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) \u03bc)\n        (HSMul.hSMul.{0, u_1, u_1} (decl-008744 q) w))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008702",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "4239019845",
+      "temporary_id": "decl-008745"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V],\n  Ne.{1} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))) 0 \u2192\n    \u2200 (v : V) (lam : Complex),\n      Ne.{1} lam 0 \u2192\n        Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008744 q) v) 0 \u2192\n          Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) v) (HSMul.hSMul.{0, u_1, u_1} lam v) \u2192\n            \u2200 (i : Nat),\n              Eq.{u_1 + 1}\n                (HSMul.hSMul.{0, u_1, u_1} (decl-008744 q)\n                  (decl-008812.{u_1} q V v (HAdd.hAdd.{0, 0, 0} i 1)))\n                (HSMul.hSMul.{0, u_1, u_1} (decl-008738 q lam i)\n                  (decl-008812.{u_1} q V v i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008738",
+        "decl-008744",
+        "decl-008812"
+      ],
+      "structural_type_hash": "1755819007",
+      "temporary_id": "decl-008746"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Ne.{1} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))) 0 \u2192\n    \u2200 (n : Nat),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008744 q) (HAdd.hAdd.{0, 0, 0} n 1))\n          (decl-008768 q))\n        (HSub.hSub.{0, 0, 0}\n          (HAdd.hAdd.{0, 0, 0}\n            (HMul.hMul.{0, 0, 0} (decl-008768 q)\n              (HPow.hPow.{0, 0, 0} (decl-008744 q) (HAdd.hAdd.{0, 0, 0} n 1)))\n            (HSMul.hSMul.{0, 0, 0}\n              (HMul.hMul.{0, 0, 0} (Inv.inv.{0} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))))\n                (Finset.sum.{0, 0} (Finset.range (HAdd.hAdd.{0, 0, 0} n 1)) fun k =>\n                  HPow.hPow.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) k))\n              (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008744 q) n) (decl-008694 q))))\n          (HSMul.hSMul.{0, 0, 0}\n            (HMul.hMul.{0, 0, 0} (Inv.inv.{0} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))))\n              (Finset.sum.{0, 0} (Finset.range (HAdd.hAdd.{0, 0, 0} n 1)) fun k =>\n                HPow.hPow.{0, 0, 0} (Inv.inv.{0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2)) k))\n            (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008744 q) n) (decl-008715 q))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744",
+        "decl-008768"
+      ],
+      "structural_type_hash": "1203225581",
+      "temporary_id": "decl-008747"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V],\n  Ne.{1} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))) 0 \u2192\n    \u2200 (x : V) (a : Complex),\n      Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) x) (HSMul.hSMul.{0, u_1, u_1} a x) \u2192\n        Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008715 q) x)\n            (HSMul.hSMul.{0, u_1, u_1} (Inv.inv.{0} a) x) \u2192\n          Eq.{u_1 + 1}\n            (HSMul.hSMul.{0, u_1, u_1} (decl-008744 q)\n              (HSMul.hSMul.{0, u_1, u_1} (decl-008768 q) x))\n            (HAdd.hAdd.{u_1, u_1, u_1}\n              (HSMul.hSMul.{0, u_1, u_1} (decl-008768 q)\n                (HSMul.hSMul.{0, u_1, u_1} (decl-008744 q) x))\n              (HSMul.hSMul.{0, u_1, u_1}\n                (HMul.hMul.{0, 0, 0}\n                  (Inv.inv.{0} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))))\n                  (HSub.hSub.{0, 0, 0} a (Inv.inv.{0} a)))\n                x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744",
+        "decl-008768"
+      ],
+      "structural_type_hash": "589219477",
+      "temporary_id": "decl-008750"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Ne.{1} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))) 0 \u2192\n    Eq.{1} (HMul.hMul.{0, 0, 0} (decl-008744 q) (decl-008768 q))\n      (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} (decl-008768 q) (decl-008744 q))\n        (HSMul.hSMul.{0, 0, 0} (Inv.inv.{0} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))))\n          (HSub.hSub.{0, 0, 0} (decl-008694 q) (decl-008715 q))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744",
+        "decl-008768"
+      ],
+      "structural_type_hash": "714810841",
+      "temporary_id": "decl-008752"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1}\n    (HSMul.hSMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q)))\n      (HSub.hSub.{0, 0, 0} (HMul.hMul.{0, 0, 0} (decl-008744 q) (decl-008768 q))\n        (HMul.hMul.{0, 0, 0} (decl-008768 q) (decl-008744 q))))\n    (HSub.hSub.{0, 0, 0} (decl-008694 q) (decl-008715 q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744",
+        "decl-008768"
+      ],
+      "structural_type_hash": "2378542546",
+      "temporary_id": "decl-008754"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [inst_3 : IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] (\u03bc : Complex),\n  Module.End.HasEigenvalue.{0, u_1} (decl-008702.{u_1} q V) \u03bc \u2192 Ne.{1} \u03bc 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008702",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "3140739693",
+      "temporary_id": "decl-008755"
+    },
+    {
+      "formal_type": "(q : Units.{0} Complex) \u2192\n  (V : Type u_1) \u2192 [inst : AddCommGroup.{u_1} V] \u2192 [Module.{0, u_1} (decl-008732 q) V] \u2192 V \u2192 Nat \u2192 V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "1809059183",
+      "temporary_id": "decl-008756"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V]\n  [inst_1 : Module.{0, u_1} (decl-008732 q) V] (w : V) (i : Nat),\n  Eq.{u_1 + 1} (decl-008756.{u_1} q V w (HAdd.hAdd.{0, 0, 0} i 1))\n    (HSMul.hSMul.{0, u_1, u_1} (decl-008744 q) (decl-008756.{u_1} q V w i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744",
+        "decl-008756"
+      ],
+      "structural_type_hash": "94990199",
+      "temporary_id": "decl-008758"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V]\n  [inst_1 : Module.{0, u_1} (decl-008732 q) V] (w : V),\n  Eq.{u_1 + 1} (decl-008756.{u_1} q V w 0) w",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008756"
+      ],
+      "structural_type_hash": "3349574266",
+      "temporary_id": "decl-008759"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n    \u2200 (a : decl-008732 q),\n      Eq.{1} (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q)) a)\n        (HMul.hMul.{0, 0, 0} a (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "2947546126",
+      "temporary_id": "decl-008760"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V],\n  Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n    \u2200 [FiniteDimensional.{0, u_1} Complex V] [IsSimpleModule.{0, u_1} (decl-008732 q) V],\n      Exists.{1} fun \u03b1 =>\n        \u2200 (v : V),\n          Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q)) v)\n            (HSMul.hSMul.{0, u_1, u_1} \u03b1 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "2896806715",
+      "temporary_id": "decl-008761"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q)) (decl-008694 q))\n    (HMul.hMul.{0, 0, 0} (decl-008694 q) (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "961757129",
+      "temporary_id": "decl-008762"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q)) (decl-008715 q))\n    (HMul.hMul.{0, 0, 0} (decl-008715 q) (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "3328663374",
+      "temporary_id": "decl-008763"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q)) (decl-008744 q))\n    (HMul.hMul.{0, 0, 0} (decl-008744 q) (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "908386198",
+      "temporary_id": "decl-008764"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q))\n        (decl-008768 q))\n      (HMul.hMul.{0, 0, 0} (decl-008768 q)\n        (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744",
+        "decl-008768"
+      ],
+      "structural_type_hash": "341815085",
+      "temporary_id": "decl-008765"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [inst_3 : IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] [FiniteDimensional.{0, u_1} Complex V],\n  Not (IsOfFinOrder.{0} q) \u2192\n    \u2200 [Nontrivial.{u_1} V],\n      Exists.{1} fun \u03bc =>\n        And (Module.End.HasEigenvalue.{0, u_1} (decl-008702.{u_1} q V) \u03bc)\n          (Not\n            (Module.End.HasEigenvalue.{0, u_1} (decl-008702.{u_1} q V)\n              (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) \u03bc)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008702",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "840893110",
+      "temporary_id": "decl-008766"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] [FiniteDimensional.{0, u_1} Complex V],\n  Not (IsOfFinOrder.{0} q) \u2192\n    \u2200 [Nontrivial.{u_1} V],\n      Exists.{u_1 + 1} fun v =>\n        Exists.{1} fun lam =>\n          And (Ne.{u_1 + 1} v 0)\n            (And (Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008744 q) v) 0)\n              (Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) v)\n                (HSMul.hSMul.{0, u_1, u_1} lam v)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "3798919389",
+      "temporary_id": "decl-008767"
+    },
+    {
+      "formal_type": "(q : Units.{0} Complex) \u2192 decl-008732 q",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008732"
+      ],
+      "structural_type_hash": "4062967140",
+      "temporary_id": "decl-008768"
+    },
+    {
+      "formal_type": "FreeAlgebra.{0, 0} Complex decl-008693",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693"
+      ],
+      "structural_type_hash": "3652111486",
+      "temporary_id": "decl-008769"
+    },
+    {
+      "formal_type": "FreeAlgebra.{0, 0} Complex decl-008693",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693"
+      ],
+      "structural_type_hash": "3652111486",
+      "temporary_id": "decl-008770"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [inst_3 : IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] (\u03bc : Complex) (w : V),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008702.{u_1} q V) w)\n      (HSMul.hSMul.{0, u_1, u_1} \u03bc w) \u2192\n    Eq.{u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008702.{u_1} q V)\n        (HSMul.hSMul.{0, u_1, u_1} (decl-008768 q) w))\n      (HSMul.hSMul.{0, u_1, u_1} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2)) \u03bc)\n        (HSMul.hSMul.{0, u_1, u_1} (decl-008768 q) w))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008702",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "3497684660",
+      "temporary_id": "decl-008771"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V],\n  Ne.{1} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))) 0 \u2192\n    \u2200 (w : V) (lam : Complex),\n      Ne.{1} lam 0 \u2192\n        Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008768 q) w) 0 \u2192\n          Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) w) (HSMul.hSMul.{0, u_1, u_1} lam w) \u2192\n            \u2200 (i : Nat),\n              Eq.{u_1 + 1}\n                (HSMul.hSMul.{0, u_1, u_1} (decl-008768 q)\n                  (decl-008756.{u_1} q V w (HAdd.hAdd.{0, 0, 0} i 1)))\n                (HSMul.hSMul.{0, u_1, u_1} (decl-008776 q lam i)\n                  (decl-008756.{u_1} q V w i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008756",
+        "decl-008768",
+        "decl-008776"
+      ],
+      "structural_type_hash": "2175519837",
+      "temporary_id": "decl-008772"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Ne.{1} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))) 0 \u2192\n    \u2200 (n : Nat),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008768 q) (HAdd.hAdd.{0, 0, 0} n 1))\n          (decl-008744 q))\n        (HAdd.hAdd.{0, 0, 0}\n          (HSub.hSub.{0, 0, 0}\n            (HMul.hMul.{0, 0, 0} (decl-008744 q)\n              (HPow.hPow.{0, 0, 0} (decl-008768 q) (HAdd.hAdd.{0, 0, 0} n 1)))\n            (HSMul.hSMul.{0, 0, 0}\n              (HMul.hMul.{0, 0, 0} (Inv.inv.{0} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))))\n                (Finset.sum.{0, 0} (Finset.range (HAdd.hAdd.{0, 0, 0} n 1)) fun k =>\n                  HPow.hPow.{0, 0, 0} (Inv.inv.{0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2)) k))\n              (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008768 q) n) (decl-008694 q))))\n          (HSMul.hSMul.{0, 0, 0}\n            (HMul.hMul.{0, 0, 0} (Inv.inv.{0} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))))\n              (Finset.sum.{0, 0} (Finset.range (HAdd.hAdd.{0, 0, 0} n 1)) fun k =>\n                HPow.hPow.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) k))\n            (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008768 q) n) (decl-008715 q))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744",
+        "decl-008768"
+      ],
+      "structural_type_hash": "1447015433",
+      "temporary_id": "decl-008773"
+    },
+    {
+      "formal_type": "Units.{0} Complex \u2192 Complex \u2192 Nat \u2192 Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2297138181",
+      "temporary_id": "decl-008776"
+    },
+    {
+      "formal_type": "FreeAlgebra.{0, 0} Complex decl-008693",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693"
+      ],
+      "structural_type_hash": "3652111486",
+      "temporary_id": "decl-008778"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V],\n  Ne.{1} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))) 0 \u2192\n    \u2200 (x : V) (a : Complex),\n      Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) x) (HSMul.hSMul.{0, u_1, u_1} a x) \u2192\n        Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008715 q) x)\n            (HSMul.hSMul.{0, u_1, u_1} (Inv.inv.{0} a) x) \u2192\n          Eq.{u_1 + 1}\n            (HSMul.hSMul.{0, u_1, u_1} (decl-008768 q)\n              (HSMul.hSMul.{0, u_1, u_1} (decl-008744 q) x))\n            (HSub.hSub.{u_1, u_1, u_1}\n              (HSMul.hSMul.{0, u_1, u_1} (decl-008744 q)\n                (HSMul.hSMul.{0, u_1, u_1} (decl-008768 q) x))\n              (HSMul.hSMul.{0, u_1, u_1}\n                (HMul.hMul.{0, 0, 0}\n                  (Inv.inv.{0} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))))\n                  (HSub.hSub.{0, 0, 0} a (Inv.inv.{0} a)))\n                x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744",
+        "decl-008768"
+      ],
+      "structural_type_hash": "1492244867",
+      "temporary_id": "decl-008779"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Ne.{1} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))) 0 \u2192\n    Eq.{1} (HMul.hMul.{0, 0, 0} (decl-008768 q) (decl-008744 q))\n      (HSub.hSub.{0, 0, 0} (HMul.hMul.{0, 0, 0} (decl-008744 q) (decl-008768 q))\n        (HSMul.hSMul.{0, 0, 0} (Inv.inv.{0} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))))\n          (HSub.hSub.{0, 0, 0} (decl-008694 q) (decl-008715 q))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744",
+        "decl-008768"
+      ],
+      "structural_type_hash": "3751544536",
+      "temporary_id": "decl-008781"
+    },
+    {
+      "formal_type": "FreeAlgebra.{0, 0} Complex decl-008693",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693"
+      ],
+      "structural_type_hash": "3652111486",
+      "temporary_id": "decl-008783"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  IsOfFinOrder.{0} q \u2192\n    Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n      \u2200 (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n        [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n        [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] [FiniteDimensional.{0, u_1} Complex V]\n        [IsSimpleModule.{0, u_1} (decl-008732 q) V],\n        LE.le.{0} (Module.finrank.{0, u_1} Complex V) (orderOf.{0} q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "3541008540",
+      "temporary_id": "decl-008784"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  IsOfFinOrder.{0} q \u2192\n    Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n      \u2200 (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n        [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n        [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] [FiniteDimensional.{0, u_1} Complex V]\n        [IsSimpleModule.{0, u_1} (decl-008732 q) V] (a : Complex),\n        (\u2200 (v : V),\n            Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q)) v)\n              (HSMul.hSMul.{0, u_1, u_1} a v)) \u2192\n          Ne.{1} a 0 \u2192\n            \u2200 (b : Complex),\n              (\u2200 (v : V),\n                  Eq.{u_1 + 1}\n                    (HSMul.hSMul.{0, u_1, u_1} (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q)) v)\n                    (HSMul.hSMul.{0, u_1, u_1} b v)) \u2192\n                Ne.{1} b 0 \u2192 LE.le.{0} (Module.finrank.{0, u_1} Complex V) (orderOf.{0} q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744",
+        "decl-008768"
+      ],
+      "structural_type_hash": "1709670165",
+      "temporary_id": "decl-008785"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  IsOfFinOrder.{0} q \u2192\n    Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n      \u2200 (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n        [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n        [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] [FiniteDimensional.{0, u_1} Complex V]\n        [IsSimpleModule.{0, u_1} (decl-008732 q) V],\n        (\u2200 (w : V),\n            Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (HPow.hPow.{0, 0, 0} (decl-008744 q) (orderOf.{0} q)) w)\n              0) \u2192\n          LE.le.{0} (Module.finrank.{0, u_1} Complex V) (orderOf.{0} q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "2848712323",
+      "temporary_id": "decl-008788"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  IsOfFinOrder.{0} q \u2192\n    Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n      \u2200 (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n        [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n        [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] [FiniteDimensional.{0, u_1} Complex V]\n        [IsSimpleModule.{0, u_1} (decl-008732 q) V],\n        (\u2200 (w : V),\n            Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q)) w)\n              0) \u2192\n          LE.le.{0} (Module.finrank.{0, u_1} Complex V) (orderOf.{0} q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "1254622402",
+      "temporary_id": "decl-008793"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n    \u2200 (a : decl-008732 q),\n      Eq.{1} (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q)) a)\n        (HMul.hMul.{0, 0, 0} a (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "2723022492",
+      "temporary_id": "decl-008798"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V],\n  Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n    \u2200 [FiniteDimensional.{0, u_1} Complex V] [IsSimpleModule.{0, u_1} (decl-008732 q) V],\n      Exists.{1} fun \u03b1 =>\n        \u2200 (v : V),\n          Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q)) v)\n            (HSMul.hSMul.{0, u_1, u_1} \u03b1 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "319695644",
+      "temporary_id": "decl-008799"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q)) (decl-008694 q))\n    (HMul.hMul.{0, 0, 0} (decl-008694 q) (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "3677251630",
+      "temporary_id": "decl-008800"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q)) (decl-008715 q))\n    (HMul.hMul.{0, 0, 0} (decl-008715 q) (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "330814226",
+      "temporary_id": "decl-008801"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q))\n        (decl-008744 q))\n      (HMul.hMul.{0, 0, 0} (decl-008744 q)\n        (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744",
+        "decl-008768"
+      ],
+      "structural_type_hash": "2030125524",
+      "temporary_id": "decl-008802"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q)) (decl-008768 q))\n    (HMul.hMul.{0, 0, 0} (decl-008768 q) (HPow.hPow.{0, 0, 0} (decl-008768 q) (orderOf.{0} q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768"
+      ],
+      "structural_type_hash": "2463457107",
+      "temporary_id": "decl-008803"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Not (IsOfFinOrder.{0} q) \u2192\n    \u2200 (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n      [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n      [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] [FiniteDimensional.{0, u_1} Complex V]\n      [IsSimpleModule.{0, u_1} (decl-008732 q) V],\n      Exists.{u_1 + 1} fun v =>\n        Exists.{1} fun \u03b5 =>\n          And (Ne.{u_1 + 1} v 0)\n            (And (Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008744 q) v) 0)\n              (And (Eq.{1} (HPow.hPow.{0, 0, 0} \u03b5 2) 1)\n                (Eq.{u_1 + 1} (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) v)\n                  (HSMul.hSMul.{0, u_1, u_1}\n                    (HMul.hMul.{0, 0, 0} \u03b5\n                      (HPow.hPow.{0, 0, 0} (Units.val.{0} q)\n                        (HSub.hSub.{0, 0, 0} (Module.finrank.{0, u_1} Complex V) 1)))\n                    v))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744"
+      ],
+      "structural_type_hash": "170962838",
+      "temporary_id": "decl-008804"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex), Nontrivial.{0} (decl-008732 q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008732"
+      ],
+      "structural_type_hash": "4250502954",
+      "temporary_id": "decl-008811"
+    },
+    {
+      "formal_type": "(q : Units.{0} Complex) \u2192\n  (V : Type u_1) \u2192 [inst : AddCommGroup.{u_1} V] \u2192 [Module.{0, u_1} (decl-008732 q) V] \u2192 V \u2192 Nat \u2192 V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "1809059183",
+      "temporary_id": "decl-008812"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V]\n  [inst_1 : Module.{0, u_1} (decl-008732 q) V] (v : V) (i : Nat),\n  Eq.{u_1 + 1} (decl-008812.{u_1} q V v (HAdd.hAdd.{0, 0, 0} i 1))\n    (HSMul.hSMul.{0, u_1, u_1} (decl-008768 q) (decl-008812.{u_1} q V v i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008768",
+        "decl-008812"
+      ],
+      "structural_type_hash": "3414484532",
+      "temporary_id": "decl-008814"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V]\n  [inst_1 : Module.{0, u_1} (decl-008732 q) V] (v : V),\n  Eq.{u_1 + 1} (decl-008812.{u_1} q V v 0) v",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008812"
+      ],
+      "structural_type_hash": "1777402112",
+      "temporary_id": "decl-008815"
+    },
+    {
+      "formal_type": "(q : Units.{0} Complex) \u2192\n  AlgHom.{0, 0, 0} Complex (FreeAlgebra.{0, 0} Complex decl-008693) (decl-008732 q)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "1362475250",
+      "temporary_id": "decl-008816"
+    },
+    {
+      "formal_type": "Units.{0} Complex \u2192 Complex \u2192 Nat \u2192 Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2297138181",
+      "temporary_id": "decl-008817"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Not (IsOfFinOrder.{0} q) \u2192\n    \u2200 (lam : Complex), Ne.{1} lam 0 \u2192 Function.Injective.{1, 1} (decl-008817 q lam)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008817"
+      ],
+      "structural_type_hash": "626138591",
+      "temporary_id": "decl-008819"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (lam : Complex), Ne.{1} lam 0 \u2192 \u2200 (i : Nat), Ne.{1} (decl-008817 q lam i) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008817"
+      ],
+      "structural_type_hash": "898364517",
+      "temporary_id": "decl-008821"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (lam : Complex), Eq.{1} (decl-008817 q lam 0) lam",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008817"
+      ],
+      "structural_type_hash": "139302154",
+      "temporary_id": "decl-008822"
+    },
+    {
+      "formal_type": "Units.{0} Complex \u2192 Complex \u2192 Nat \u2192 Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2297138181",
+      "temporary_id": "decl-008823"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (lam : Complex), Ne.{1} lam 0 \u2192 \u2200 (i : Nat), Ne.{1} (decl-008823 q lam i) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008823"
+      ],
+      "structural_type_hash": "3666313749",
+      "temporary_id": "decl-008825"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (lam : Complex), Eq.{1} (decl-008823 q lam 0) lam",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008823"
+      ],
+      "structural_type_hash": "2074975769",
+      "temporary_id": "decl-008826"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex), Not (IsOfFinOrder.{0} q) \u2192 Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2477566790",
+      "temporary_id": "decl-008827"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Not (IsOfFinOrder.{0} q) \u2192 Ne.{1} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2253370948",
+      "temporary_id": "decl-008828"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) 1 \u2192\n    Ne.{1} (HSub.hSub.{0, 0, 0} (Units.val.{0} q) (Inv.inv.{0} (Units.val.{0} q))) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3112462801",
+      "temporary_id": "decl-008829"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Not (IsOfFinOrder.{0} q) \u2192 \u2200 {n : Nat}, LT.lt.{0} 0 n \u2192 Ne.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) n) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3624128187",
+      "temporary_id": "decl-008830"
+    },
+    {
+      "formal_type": "(q : Units.{0} Complex) \u2192\n  (V : Type u_1) \u2192\n    [inst : AddCommGroup.{u_1} V] \u2192\n      [inst_1 : Module.{0, u_1} Complex V] \u2192\n        [inst_2 : Module.{0, u_1} (decl-008732 q) V] \u2192\n          [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] \u2192\n            decl-008732 q \u2192 Module.End.{0, u_1} Complex V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732"
+      ],
+      "structural_type_hash": "945751310",
+      "temporary_id": "decl-008831"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [inst_3 : IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] (x : decl-008732 q)\n  (v : V),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008831.{u_1} q V x) v)\n    (HSMul.hSMul.{0, u_1, u_1} x v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008723",
+        "decl-008732",
+        "decl-008831"
+      ],
+      "structural_type_hash": "1335841546",
+      "temporary_id": "decl-008835"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (decl-008732 q) V]\n  [IsScalarTower.{0, 0, u_1} Complex (decl-008732 q) V] (W : Submodule.{0, u_1} Complex V),\n  (\u2200 (x : V),\n      Membership.mem.{u_1, u_1} W x \u2192\n        Membership.mem.{u_1, u_1} W (HSMul.hSMul.{0, u_1, u_1} (decl-008744 q) x)) \u2192\n    (\u2200 (x : V),\n        Membership.mem.{u_1, u_1} W x \u2192\n          Membership.mem.{u_1, u_1} W (HSMul.hSMul.{0, u_1, u_1} (decl-008768 q) x)) \u2192\n      (\u2200 (x : V),\n          Membership.mem.{u_1, u_1} W x \u2192\n            Membership.mem.{u_1, u_1} W (HSMul.hSMul.{0, u_1, u_1} (decl-008694 q) x)) \u2192\n        (\u2200 (x : V),\n            Membership.mem.{u_1, u_1} W x \u2192\n              Membership.mem.{u_1, u_1} W (HSMul.hSMul.{0, u_1, u_1} (decl-008715 q) x)) \u2192\n          \u2200 (a : decl-008732 q) (x : V),\n            Membership.mem.{u_1, u_1} W x \u2192 Membership.mem.{u_1, u_1} W (HSMul.hSMul.{0, u_1, u_1} a x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-008693",
+        "decl-008694",
+        "decl-008715",
+        "decl-008723",
+        "decl-008732",
+        "decl-008744",
+        "decl-008768"
+      ],
+      "structural_type_hash": "2699319344",
+      "temporary_id": "decl-008836"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex), Eq.{1} (HPow.hPow.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Units.val.{0} q) 2) (orderOf.{0} q)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2023679648",
+      "temporary_id": "decl-008837"
+    }
+  ],
+  "module_temporary_id": "module-0084",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

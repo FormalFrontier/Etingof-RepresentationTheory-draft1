@@ -1,0 +1,226 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} k W] \u2192\n                AddEquiv.{max u_3 u_2, max u_3 u_2} (decl-003766.{u_1, u_2, u_3} k V W)\n                  (TensorProduct.{u_1, u_2, u_3} k V W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003764",
+        "decl-003766"
+      ],
+      "structural_type_hash": "2696062287",
+      "temporary_id": "decl-003740"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (V : Type u_2) (W : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W] (a : k)\n  (q : decl-003766.{u_1, u_2, u_3} k V W),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (DFunLike.coe.{(max u_2 u_3) + 1, (max u_2 u_3) + 1, (max u_2 u_3) + 1}\n      (decl-003740.{u_1, u_2, u_3} k V W)\n      (HSMul.hSMul.{u_1, max u_2 u_3, max u_2 u_3} a q))\n    (HSMul.hSMul.{u_1, max u_2 u_3, max u_2 u_3} a\n      (DFunLike.coe.{(max u_2 u_3) + 1, (max u_2 u_3) + 1, (max u_2 u_3) + 1}\n        (decl-003740.{u_1, u_2, u_3} k V W) q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003740",
+        "decl-003745",
+        "decl-003764",
+        "decl-003766"
+      ],
+      "structural_type_hash": "3286827616",
+      "temporary_id": "decl-003742"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} k W] \u2192\n                Module.{u_1, max u_3 u_2} k (decl-003766.{u_1, u_2, u_3} k V W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003764",
+        "decl-003766"
+      ],
+      "structural_type_hash": "267296247",
+      "temporary_id": "decl-003743"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} k W] \u2192\n                SMul.{u_1, max u_3 u_2} k (decl-003766.{u_1, u_2, u_3} k V W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003766"
+      ],
+      "structural_type_hash": "407950039",
+      "temporary_id": "decl-003745"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} k W] \u2192\n                LinearEquiv.{u_1, u_1, max u_3 u_2, max u_3 u_2} (RingHom.id.{u_1} k)\n                  (decl-003766.{u_1, u_2, u_3} k V W) (TensorProduct.{u_1, u_2, u_3} k V W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003743",
+        "decl-003764",
+        "decl-003766"
+      ],
+      "structural_type_hash": "1248129351",
+      "temporary_id": "decl-003746"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (V : Type u_2) (W : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W] (v : V) (w : W),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n      (decl-003746.{u_1, u_2, u_3} k V W)\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n        (QuotientAddGroup.mk'.{max u_2 u_3} (decl-003764.{u_1, u_2, u_3} k V W))\n        (FreeAbelianGroup.of.{max u_2 u_3} (Prod.mk.{u_2, u_3} v w))))\n    (TensorProduct.tmul.{u_1, u_2, u_3} k v w)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003743",
+        "decl-003746",
+        "decl-003764",
+        "decl-003766"
+      ],
+      "structural_type_hash": "3528455952",
+      "temporary_id": "decl-003751"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (V : Type u_2) (W : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W],\n  Nonempty.{(max u_3 u_2) + 1}\n    (AddEquiv.{max u_3 u_2, max u_3 u_2} (decl-003766.{u_1, u_2, u_3} k V W)\n      (TensorProduct.{u_1, u_2, u_3} k V W))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003764",
+        "decl-003766"
+      ],
+      "structural_type_hash": "2940509475",
+      "temporary_id": "decl-003752"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} k W] \u2192\n                AddMonoidHom.{max u_3 u_2, max u_3 u_2} (TensorProduct.{u_1, u_2, u_3} k V W)\n                  (decl-003766.{u_1, u_2, u_3} k V W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003764",
+        "decl-003766"
+      ],
+      "structural_type_hash": "3437786064",
+      "temporary_id": "decl-003753"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (V : Type u_2) (W : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W] (v : V) (w : W),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n      (decl-003753.{u_1, u_2, u_3} k V W) (TensorProduct.tmul.{u_1, u_2, u_3} k v w))\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n      (QuotientAddGroup.mk'.{max u_2 u_3} (decl-003764.{u_1, u_2, u_3} k V W))\n      (FreeAbelianGroup.of.{max u_2 u_3} (Prod.mk.{u_2, u_3} v w)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003753",
+        "decl-003764",
+        "decl-003766"
+      ],
+      "structural_type_hash": "884888450",
+      "temporary_id": "decl-003756"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (V : Type u_2) (W : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W]\n  (q : decl-003766.{u_1, u_2, u_3} k V W),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n      (decl-003753.{u_1, u_2, u_3} k V W)\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n        (decl-003767.{u_1, u_2, u_3} k V W) q))\n    q",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003753",
+        "decl-003764",
+        "decl-003766",
+        "decl-003767"
+      ],
+      "structural_type_hash": "1031943688",
+      "temporary_id": "decl-003757"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} k W] \u2192\n                AddMonoidHom.{u_2, max u_3 u_2} V\n                  (AddMonoidHom.{u_3, max u_3 u_2} W (decl-003766.{u_1, u_2, u_3} k V W))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003764",
+        "decl-003766"
+      ],
+      "structural_type_hash": "636023420",
+      "temporary_id": "decl-003758"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (V : Type u_2) (W : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W] (v : V) (w : W),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_3 + 1, max (u_2 + 1) (u_3 + 1)}\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, max (u_2 + 1) (u_3 + 1)}\n        (decl-003758.{u_1, u_2, u_3} k V W) v)\n      w)\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n      (QuotientAddGroup.mk'.{max u_2 u_3} (decl-003764.{u_1, u_2, u_3} k V W))\n      (FreeAbelianGroup.of.{max u_2 u_3} (Prod.mk.{u_2, u_3} v w)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003758",
+        "decl-003764",
+        "decl-003766"
+      ],
+      "structural_type_hash": "1921710970",
+      "temporary_id": "decl-003762"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [Module.{u_1, u_3} k W] \u2192 Set.{max u_3 u_2} (FreeAbelianGroup.{max u_3 u_2} (Prod.{u_2, u_3} V W))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1543330101",
+      "temporary_id": "decl-003763"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [Module.{u_1, u_3} k W] \u2192 AddSubgroup.{max u_3 u_2} (FreeAbelianGroup.{max u_3 u_2} (Prod.{u_2, u_3} V W))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1169762534",
+      "temporary_id": "decl-003764"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192 [Module.{u_1, u_3} k W] \u2192 Type (max (max u_3 u_2) u_2 u_3)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2426684796",
+      "temporary_id": "decl-003766"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} k W] \u2192\n                AddMonoidHom.{max u_3 u_2, max u_3 u_2} (decl-003766.{u_1, u_2, u_3} k V W)\n                  (TensorProduct.{u_1, u_2, u_3} k V W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003764",
+        "decl-003766"
+      ],
+      "structural_type_hash": "1249196296",
+      "temporary_id": "decl-003767"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (V : Type u_2) (W : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W]\n  (x : FreeAbelianGroup.{max u_3 u_2} (Prod.{u_2, u_3} V W)),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n      (decl-003767.{u_1, u_2, u_3} k V W) (QuotientAddGroup.mk.{max u_2 u_3} x))\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n      (DFunLike.coe.{max ((max u_3 u_2) + 1) ((max u_2 u_3) + 1), max ((max u_3 u_2) + 1) ((max u_2 u_3) + 1),\n          max ((max u_3 u_2) + 1) ((max u_2 u_3) + 1)}\n        FreeAbelianGroup.lift.{max u_2 u_3, max u_3 u_2} fun p =>\n        TensorProduct.tmul.{u_1, u_2, u_3} k (Prod.fst.{u_2, u_3} p) (Prod.snd.{u_2, u_3} p))\n      x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003764",
+        "decl-003766",
+        "decl-003767"
+      ],
+      "structural_type_hash": "262169470",
+      "temporary_id": "decl-003775"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (V : Type u_2) (W : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W]\n  (t : TensorProduct.{u_1, u_2, u_3} k V W),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n      (decl-003767.{u_1, u_2, u_3} k V W)\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n        (decl-003753.{u_1, u_2, u_3} k V W) t))\n    t",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003753",
+        "decl-003764",
+        "decl-003766",
+        "decl-003767"
+      ],
+      "structural_type_hash": "405710154",
+      "temporary_id": "decl-003776"
+    }
+  ],
+  "module_temporary_id": "module-0050",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0499",
+  "associations": [
+    {
+      "association_id": "association:0d2cffee5807a2a3615b",
+      "rationale": "The formal type displays the claimed pure-tensor action for an existentially quantified witness, but the witness type is elided, so it does not directly expose the asserted module structure.",
+      "role": "supporting"
+    }
+  ]
+}

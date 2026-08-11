@@ -1,0 +1,228 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(n : Nat) \u2192 (Fin n \u2192 Nat) \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2997554832",
+      "temporary_id": "decl-005637"
+    },
+    {
+      "formal_type": "{k G : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [IsAlgClosed.{u} k] \u2192\n      [inst_2 : Group.{u} G] \u2192\n        [inst_3 : Fintype.{u} G] \u2192\n          {n : Nat} \u2192\n            {d : Fin n \u2192 Nat} \u2192\n              {V : Fin n \u2192 FDRep.{u, u} k G} \u2192\n                {b :\n                    (i : Fin n) \u2192\n                      Module.Basis.{0, u, u} (Fin (d i)) k\n                        (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))} \u2192\n                  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] \u2192\n                    (\u2200 (i : Fin n), CategoryTheory.Simple.{u, u + 1} (V i)) \u2192\n                      (\u2200 (i j : Fin n), Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n                        (\u2200 (W : FDRep.{u, u} k G),\n                            CategoryTheory.Simple.{u, u + 1} W \u2192\n                              Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} W (V i))) \u2192\n                          (\u2200 (i : Fin n), Ne.{u + 1} (Nat.cast.{u} (d i)) 0) \u2192\n                            Module.Basis.{0, u, u} (decl-005637 n d) k (G \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005637"
+      ],
+      "structural_type_hash": "2828941280",
+      "temporary_id": "decl-005638"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G] {n : Nat}\n  {d : Fin n \u2192 Nat} {V : Fin n \u2192 FDRep.{u, u} k G} [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))],\n  (\u2200 (i : Fin n), CategoryTheory.Simple.{u, u + 1} (V i)) \u2192\n    (\u2200 (i j : Fin n), Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (W : FDRep.{u, u} k G),\n          CategoryTheory.Simple.{u, u + 1} W \u2192\n            Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} W (V i))) \u2192\n        \u2200\n          (b :\n            (i : Fin n) \u2192\n              Module.Basis.{0, u, u} (Fin (d i)) k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))),\n          Eq.{1} (Fintype.card.{0} (decl-005637 n d)) (Module.finrank.{u, u} k (G \u2192 k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005637"
+      ],
+      "structural_type_hash": "253581898",
+      "temporary_id": "decl-005640"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  {n : Nat} {d : Fin n \u2192 Nat} {V : Fin n \u2192 FDRep.{u, u} k G}\n  {b : (i : Fin n) \u2192 Module.Basis.{0, u, u} (Fin (d i)) k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))}\n  [inst_4 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))]\n  (hV : \u2200 (i : Fin n), CategoryTheory.Simple.{u, u + 1} (V i))\n  (hinj : \u2200 (i j : Fin n), Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j)\n  (hsurj :\n    \u2200 (W : FDRep.{u, u} k G),\n      CategoryTheory.Simple.{u, u + 1} W \u2192 Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} W (V i)))\n  (hd : \u2200 (i : Fin n), Ne.{u + 1} (Nat.cast.{u} (d i)) 0),\n  Eq.{u + 1} (DFunLike.coe.{u + 1, 1, u + 1} (decl-005638.{u} hV hinj hsurj hd))\n    (decl-005642.{u} V b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005637",
+        "decl-005638",
+        "decl-005642"
+      ],
+      "structural_type_hash": "2755899878",
+      "temporary_id": "decl-005641"
+    },
+    {
+      "formal_type": "{k G : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Group.{u} G] \u2192\n      {n : Nat} \u2192\n        {d : Fin n \u2192 Nat} \u2192\n          (V : Fin n \u2192 FDRep.{u, u} k G) \u2192\n            ((i : Fin n) \u2192\n                Module.Basis.{0, u, u} (Fin (d i)) k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))) \u2192\n              decl-005637 n d \u2192 G \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005637"
+      ],
+      "structural_type_hash": "4067635538",
+      "temporary_id": "decl-005642"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] {n : Nat} {d : Fin n \u2192 Nat} {V : Fin n \u2192 FDRep.{u, u} k G}\n  (b : (i : Fin n) \u2192 Module.Basis.{0, u, u} (Fin (d i)) k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i))))\n  (i : Fin n), Eq.{1} (Module.finrank.{u, u} k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))) (d i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "874755736",
+      "temporary_id": "decl-005646"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G] {n : Nat}\n  {d : Fin n \u2192 Nat} {V : Fin n \u2192 FDRep.{u, u} k G}\n  {b : (i : Fin n) \u2192 Module.Basis.{0, u, u} (Fin (d i)) k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))}\n  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))],\n  (\u2200 (i : Fin n), CategoryTheory.Simple.{u, u + 1} (V i)) \u2192\n    (\u2200 (i j : Fin n), Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (i : Fin n), Ne.{u + 1} (Nat.cast.{u} (d i)) 0) \u2192\n        LinearIndependent.{0, u, u} k (decl-005642.{u} V b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005637",
+        "decl-005642"
+      ],
+      "structural_type_hash": "3123215811",
+      "temporary_id": "decl-005647"
+    },
+    {
+      "formal_type": "{k G : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [Group.{u} G] \u2192\n      [inst_2 : Fintype.{u} G] \u2192 [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] \u2192 (G \u2192 k) \u2192 (G \u2192 k) \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1582264725",
+      "temporary_id": "decl-005648"
+    },
+    {
+      "formal_type": "{k G : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [Group.{u} G] \u2192\n      [inst_2 : Fintype.{u} G] \u2192\n        [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] \u2192\n          (G \u2192 k) \u2192 LinearMap.{u, u, u, u} (RingHom.id.{u} k) (G \u2192 k) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1691350220",
+      "temporary_id": "decl-005650"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G]\n  [inst_3 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (f h : G \u2192 k),\n  Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-005650.{u} h) f)\n    (decl-005648.{u} f h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005648",
+        "decl-005650"
+      ],
+      "structural_type_hash": "2768719649",
+      "temporary_id": "decl-005654"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G] {n : Nat}\n  {d : Fin n \u2192 Nat} {V : Fin n \u2192 FDRep.{u, u} k G}\n  {b : (i : Fin n) \u2192 Module.Basis.{0, u, u} (Fin (d i)) k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))}\n  [inst_4 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))],\n  (\u2200 (i : Fin n), CategoryTheory.Simple.{u, u + 1} (V i)) \u2192\n    (\u2200 (i j : Fin n), Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      \u2200 {i i' : Fin n},\n        Ne.{1} i i' \u2192\n          \u2200 (p' q' : Fin (d i')) (p q : Fin (d i)),\n            Eq.{u + 1}\n              (decl-005648.{u}\n                (decl-005642.{u} V b (Sigma.mk.{0, 0} i' (Prod.mk.{0, 0} p' q')))\n                (decl-005642.{u} V b (Sigma.mk.{0, 0} i (Prod.mk.{0, 0} q p))))\n              0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005642",
+        "decl-005648"
+      ],
+      "structural_type_hash": "4186668048",
+      "temporary_id": "decl-005655"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G] {n : Nat}\n  {d : Fin n \u2192 Nat} {V : Fin n \u2192 FDRep.{u, u} k G}\n  {b : (i : Fin n) \u2192 Module.Basis.{0, u, u} (Fin (d i)) k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))}\n  [inst_4 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))],\n  (\u2200 (i : Fin n), CategoryTheory.Simple.{u, u + 1} (V i)) \u2192\n    \u2200 {i : Fin n},\n      Ne.{u + 1} (Nat.cast.{u} (d i)) 0 \u2192\n        \u2200 (p' q' p q : Fin (d i)),\n          Eq.{u + 1}\n            (decl-005648.{u}\n              (decl-005642.{u} V b (Sigma.mk.{0, 0} i (Prod.mk.{0, 0} p' q')))\n              (decl-005642.{u} V b (Sigma.mk.{0, 0} i (Prod.mk.{0, 0} q p))))\n            (ite.{u + 1} (And (Eq.{1} p' p) (Eq.{1} q' q)) (Inv.inv.{u} (Nat.cast.{u} (d i))) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005642",
+        "decl-005648"
+      ],
+      "structural_type_hash": "3063326828",
+      "temporary_id": "decl-005656"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G]\n  [inst_3 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (f h : G \u2192 k),\n  Eq.{u + 1} (decl-005648.{u} f h) (decl-005648.{u} h f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005648"
+      ],
+      "structural_type_hash": "1135884039",
+      "temporary_id": "decl-005657"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005648"
+      ],
+      "structural_type_hash": "2876465846",
+      "temporary_id": "decl-014630"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [inst_4 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (V W : FDRep.{u, u} k G)\n  [CategoryTheory.Simple.{u, u + 1} V] [CategoryTheory.Simple.{u, u + 1} W],\n  IsEmpty.{u + 1} (CategoryTheory.Iso.{u, u + 1} V W) \u2192\n    \u2200 {nV nW : Nat} (bV : Module.Basis.{0, u, u} (Fin nV) k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} V)))\n      (bW : Module.Basis.{0, u, u} (Fin nW) k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} W))) (i j : Fin nV)\n      (p q : Fin nW),\n      Eq.{u + 1}\n        (HSMul.hSMul.{u, u, u} (Invertible.invOf.{u} (Nat.cast.{u} (Fintype.card.{u} G)))\n          (Finset.sum.{u, u} Finset.univ.{u} fun g =>\n            HMul.hMul.{u, u, u}\n              (DFunLike.coe.{u + 1, u + 1, u + 1} (LinearMap.toMatrix.{u, 0, 0, u, u} bV bV)\n                (DFunLike.coe.{u + 1, u + 1, u + 1} (FDRep.\u03c1.{u, u} V) g) i j)\n              (DFunLike.coe.{u + 1, u + 1, u + 1} (LinearMap.toMatrix.{u, 0, 0, u, u} bW bW)\n                (DFunLike.coe.{u + 1, u + 1, u + 1} (FDRep.\u03c1.{u, u} W) (Inv.inv.{u} g)) p q)))\n        0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2924701585",
+      "temporary_id": "decl-014631"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [inst_4 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (V : FDRep.{u, u} k G)\n  [CategoryTheory.Simple.{u, u + 1} V]\n  [inst_6 :\n    Invertible.{u} (Nat.cast.{u} (Module.finrank.{u, u} k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} V))))]\n  {n : Nat} (b : Module.Basis.{0, u, u} (Fin n) k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} V)))\n  (i j p q : Fin n),\n  Eq.{u + 1}\n    (HSMul.hSMul.{u, u, u} (Invertible.invOf.{u} (Nat.cast.{u} (Fintype.card.{u} G)))\n      (Finset.sum.{u, u} Finset.univ.{u} fun g =>\n        HMul.hMul.{u, u, u}\n          (DFunLike.coe.{u + 1, u + 1, u + 1} (LinearMap.toMatrix.{u, 0, 0, u, u} b b)\n            (DFunLike.coe.{u + 1, u + 1, u + 1} (FDRep.\u03c1.{u, u} V) g) i j)\n          (DFunLike.coe.{u + 1, u + 1, u + 1} (LinearMap.toMatrix.{u, 0, 0, u, u} b b)\n            (DFunLike.coe.{u + 1, u + 1, u + 1} (FDRep.\u03c1.{u, u} V) (Inv.inv.{u} g)) p q)))\n    (ite.{u + 1} (And (Eq.{1} i q) (Eq.{1} j p))\n      (Invertible.invOf.{u}\n        (Nat.cast.{u} (Module.finrank.{u, u} k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} V)))))\n      0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3209111462",
+      "temporary_id": "decl-014632"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005648"
+      ],
+      "structural_type_hash": "3454780300",
+      "temporary_id": "decl-014635"
+    },
+    {
+      "formal_type": "{k G : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Group.{u} G] \u2192\n      [inst_2 : Fintype.{u} G] \u2192\n        [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] \u2192\n          (V W : FDRep.{u, u} k G) \u2192\n            LinearMap.{u, u, u, u} (RingHom.id.{u} k) (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} W))\n                (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} V)) \u2192\n              LinearMap.{u, u, u, u} (RingHom.id.{u} k) (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} W))\n                (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1977830199",
+      "temporary_id": "decl-032680"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G]\n  [inst_3 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (V W : FDRep.{u, u} k G)\n  (f :\n    LinearMap.{u, u, u, u} (RingHom.id.{u} k) (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} W))\n      (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} V))),\n  Eq.{u + 1} (decl-032680.{u} V W f)\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (Representation.averageMap.{u, u, u} (Representation.linHom.{u, u, u, u} (FDRep.\u03c1.{u, u} W) (FDRep.\u03c1.{u, u} V)))\n      f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-032680"
+      ],
+      "structural_type_hash": "3885451524",
+      "temporary_id": "decl-032685"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G]\n  [inst_3 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] [IsAlgClosed.{u} k] (V W : FDRep.{u, u} k G)\n  [CategoryTheory.Simple.{u, u + 1} V] [CategoryTheory.Simple.{u, u + 1} W],\n  IsEmpty.{u + 1} (CategoryTheory.Iso.{u, u + 1} V W) \u2192\n    \u2200\n      (f :\n        LinearMap.{u, u, u, u} (RingHom.id.{u} k) (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} W))\n          (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} V))),\n      Eq.{u + 1} (decl-032680.{u} V W f) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-032680"
+      ],
+      "structural_type_hash": "2188449324",
+      "temporary_id": "decl-032686"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G]\n  [inst_3 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (V W : FDRep.{u, u} k G)\n  (f :\n    LinearMap.{u, u, u, u} (RingHom.id.{u} k) (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} W))\n      (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} V))),\n  Membership.mem.{u, u}\n    (Representation.invariants.{u, u, u} (Representation.linHom.{u, u, u, u} (FDRep.\u03c1.{u, u} W) (FDRep.\u03c1.{u, u} V)))\n    (decl-032680.{u} V W f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-032680"
+      ],
+      "structural_type_hash": "1258844712",
+      "temporary_id": "decl-032687"
+    }
+  ],
+  "module_temporary_id": "module-0238",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

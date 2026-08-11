@@ -1,0 +1,8 @@
+{
+  "module_name": "Algebra.TensorProduct.ScalarExtension",
+  "declarations": [
+    {"temporary_id":"decl-003777","new_name":"algebraMap_apply","docstring":"The algebra map into a tensor product sends a scalar to the pure tensor with left factor one."},
+    {"temporary_id":"decl-003778","new_name":"exists_tensorProductModule","docstring":"Existence of a module structure on a tensor product with the stated pure-tensor scalar action."},
+    {"temporary_id":"decl-003779","new_name":"rightTensorProductAlgebra","docstring":"Algebra structure over the right scalar algebra on a tensor product."}
+  ]
+}

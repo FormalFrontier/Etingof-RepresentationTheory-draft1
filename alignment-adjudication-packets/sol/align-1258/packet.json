@@ -1,0 +1,202 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5683a80671b9baaeb049",
+      "declaration": "Etingof.GL2.card_principalIndex",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat),\n  Ne.{1} n 0 \u2192\n    Eq.{1} (Nat.card.{0} (Etingof.GL2.PrincipalIndex p n))\n      (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) 1)\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) 1)) 2))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
+    },
+    {
+      "association_id": "association:58398f144632133db340",
+      "declaration": "Etingof.GL2.detChar_character",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) (mu : Etingof.GL2.Chars p n) (g : Etingof.GL2.Grp p n),\n  Eq.{1} (FDRep.character.{0, 0} (Etingof.GL2.detChar p n mu) g)\n    (Units.val.{0} (DFunLike.coe.{1, 1, 1} mu (DFunLike.coe.{1, 1, 1} Matrix.GeneralLinearGroup.det.{0, 0} g)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
+    },
+    {
+      "association_id": "association:1c11980bdc74c99a7009",
+      "declaration": "Etingof.GL2.detChar_finrank",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) (mu : Etingof.GL2.Chars p n),\n  Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (Etingof.GL2.detChar p n mu))))\n    1",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
+    },
+    {
+      "association_id": "association:e5c73f1da555fc81a606",
+      "declaration": "Etingof.GL2.detChar_iso_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) (mu nu : Etingof.GL2.Chars p n),\n  Iff (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (Etingof.GL2.detChar p n mu) (Etingof.GL2.detChar p n nu)))\n    (Eq.{1} mu nu)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
+    },
+    {
+      "association_id": "association:56d54b9a83150c82328b",
+      "declaration": "Etingof.GL2.detChar_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat)\n  (mu : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)),\n  CategoryTheory.Simple.{0, 1} (Etingof.GL2.detChar p n mu)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
+    },
+    {
+      "association_id": "association:167324181dc82c377377",
+      "declaration": "Etingof.GL2.exists_principal_family",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat),\n  Ne.{1} n 0 \u2192\n    Exists.{2} fun \u03b9 =>\n      Exists.{2} fun F =>\n        And (\u2200 (i : \u03b9), CategoryTheory.Simple.{0, 1} (F i))\n          (And (\u2200 (i j : \u03b9), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (F i) (F j)) \u2192 Eq.{1} i j)\n            (Eq.{1} (Nat.card.{0} \u03b9)\n              (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) 1)\n                (HDiv.hDiv.{0, 0, 0}\n                  (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) 1))\n                  2))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
+    },
+    {
+      "association_id": "association:f444961e878fd6c11cd2",
+      "declaration": "Etingof.GL2.principalFamily",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(p : Nat) \u2192\n  [hp : Fact (Nat.Prime p)] \u2192 (n : Nat) \u2192 Etingof.GL2.PrincipalIndex p n \u2192 FDRep.{0, 0} Complex (Etingof.GL2.Grp p n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
+    },
+    {
+      "association_id": "association:8b04653b1a8943c4226c",
+      "declaration": "Etingof.GL2.principalFamily_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat),\n  Ne.{1} n 0 \u2192\n    \u2200 (i j : Etingof.GL2.PrincipalIndex p n),\n      Nonempty.{1} (CategoryTheory.Iso.{0, 1} (Etingof.GL2.principalFamily p n i) (Etingof.GL2.principalFamily p n j)) \u2192\n        Eq.{1} i j",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
+    },
+    {
+      "association_id": "association:a691e05866f8c1028d44",
+      "declaration": "Etingof.GL2.principalFamily_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat),\n  Ne.{1} n 0 \u2192 \u2200 (i : Etingof.GL2.PrincipalIndex p n), CategoryTheory.Simple.{0, 1} (Etingof.GL2.principalFamily p n i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
+    },
+    {
+      "association_id": "association:93fb88af4c9174d446f4",
+      "declaration": "Etingof.GL2.principalSeries_finrank",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [NeZero.{0} n]\n  (chi1 chi2 : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)),\n  Eq.{1}\n    (Module.finrank.{0, 0} Complex\n      (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (Etingof.GL2.principalSeries p n chi1 chi2))))\n    (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
+    },
+    {
+      "association_id": "association:08c3d6afb1b252220a7d",
+      "declaration": "Etingof.Theorem5_25_2_part1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat)\n  (chi1 chi2 : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)),\n  Ne.{1} chi1 chi2 \u2192 CategoryTheory.Simple.{0, 1} (Etingof.GL2.principalSeries p n chi1 chi2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
+    },
+    {
+      "association_id": "association:2c2b0574fb0c2eb24454",
+      "declaration": "Etingof.Theorem5_25_2_part2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    \u2200 (mu : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)),\n      And\n        (Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (Etingof.GL2.principalSeries p n mu mu)\n            (CategoryTheory.Limits.biprod.{0, 1} (Etingof.GL2.detChar p n mu) (Etingof.GL2.complementW p n mu))))\n        (And (CategoryTheory.Simple.{0, 1} (Etingof.GL2.complementW p n mu))\n          (Eq.{1}\n            (Module.finrank.{0, 0} Complex\n              (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (Etingof.GL2.complementW p n mu))))\n            (HPow.hPow.{0, 0, 0} p n)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
+    },
+    {
+      "association_id": "association:6ae844f5ba649963440e",
+      "declaration": "Etingof.Theorem5_25_2_part3a",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat)\n  (mu nu : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)),\n  Iff (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (Etingof.GL2.complementW p n mu) (Etingof.GL2.complementW p n nu)))\n    (Eq.{1} mu nu)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
+    },
+    {
+      "association_id": "association:0d2b1fbfa40130a4b04a",
+      "declaration": "Etingof.Theorem5_25_2_part3b",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/384/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [NeZero.{0} n]\n  (chi1 chi2 chi1' chi2' : MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex)),\n  Ne.{1} chi1 chi2 \u2192\n    Ne.{1} chi1' chi2' \u2192\n      Iff\n        (Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (Etingof.GL2.principalSeries p n chi1 chi2)\n            (Etingof.GL2.principalSeries p n chi1' chi2')))\n        (Eq.{1} (Insert.insert.{0, 0} chi1 (Singleton.singleton.{0, 0} chi2))\n          (Insert.insert.{0, 0} chi1' (Singleton.singleton.{0, 0} chi2')))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.25.2",
+  "packet_id": "align-1258",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1258"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Theorem5.25.2",
+  "source_text": "**Theorem 5.25.2.** *(1) $\\lambda_1 \\neq \\lambda_2 \\Rightarrow V_{\\lambda_1, \\lambda_2}$ is irreducible.*\n\n*(2) $\\lambda_1 = \\lambda_2 = \\mu \\Rightarrow V_{\\lambda_1, \\lambda_2} = \\mathbb{C}_\\mu \\oplus W_\\mu$, where $W_\\mu$ is a $q$-dimensional irreducible representation of $G$.*\n\n*(3) $W_\\mu \\cong W_\\nu$ if and only if $\\mu = \\nu$; $V_{\\lambda_1, \\lambda_2} \\cong V_{\\lambda_1', \\lambda_2'}$ if and only if $\\{\\lambda_1, \\lambda_2\\} = \\{\\lambda_1', \\lambda_2'\\}$ (in the second case, $\\lambda_1 \\neq \\lambda_2$, $\\lambda_1' \\neq \\lambda_2'$).*\n\n**Proof.** From the Frobenius formula, we have\n\n$$\\operatorname{Tr}_{V_{\\lambda_1, \\lambda_2}}(g) = \\frac{1}{|B|} \\sum_{a \\in G,\\, aga^{-1} \\in B} \\lambda(aga^{-1}).$$\n\nIf\n\n$$g = \\begin{pmatrix} x & 0 \\\\ 0 & x \\end{pmatrix},$$\n\nthe expression on the right evaluates to\n\n$$\\lambda(g) \\frac{|G|}{|B|} = \\lambda_1(x)\\lambda_2(x)(q + 1).$$\n\nIf\n\n$$g = \\begin{pmatrix} x & 1 \\\\ 0 & x \\end{pmatrix},$$\n\nthe expression evaluates to\n\n$$\\lambda(g) \\cdot 1,$$\n\nsince here $aga^{-1} \\in B \\Rightarrow a \\in B$.\n\nIf\n\n$$g = \\begin{pmatrix} x & 0 \\\\ 0 & y \\end{pmatrix},$$\nthe expression evaluates to\n\n$$\\left(\\lambda_1(x)\\lambda_2(y) + \\lambda_1(y)\\lambda_2(x)\\right) \\cdot 1,$$\n\nsince here $aga^{-1} \\in B$ implies that $a \\in B$ or $a$ is an element of $B$ multiplied by the transposition matrix.\n\nIf\n\n$$g = \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix}, \\quad x \\neq y,$$\n\nthe expression on the right evaluates to 0 because matrices of this type do not have eigenvalues over $\\mathbb{F}_q$ (and thus cannot be conjugated into $B$). From the definition, $\\lambda_i(x)$ for $i = 1, 2$ is a root of unity, so\n\n$$|G|\\langle \\chi_{V_{\\lambda_1, \\lambda_2}}, \\chi_{V_{\\lambda_1, \\lambda_2}} \\rangle = (q + 1)^2(q - 1) + (q^2 - 1)(q - 1)$$\n\n$$+ 2(q^2 + q)\\frac{(q - 1)(q - 2)}{2} + (q^2 + q) \\sum_{x \\neq y} \\lambda_1(x)\\lambda_2(y)\\overline{\\lambda_1(y)\\lambda_2(x)}.$$\n\nThe last two summands come from the expansion\n\n$$|a + b|^2 = |a|^2 + |b|^2 + a\\overline{b} + \\overline{a}b.$$\n\nIf\n\n$$\\lambda_1 = \\lambda_2 = \\mu,$$\n\nthe last term is equal to\n\n$$(q^2 + q)(q - 2)(q - 1),$$\n\nand the total in this case is\n\n$$(q+1)(q-1)[(q+1)+(q-1)+2q(q-2)] = (q+1)(q-1)2q(q-1) = 2|G|,$$\n\nso\n\n$$\\langle \\chi_{V_{\\lambda_1, \\lambda_2}}, \\chi_{V_{\\lambda_1, \\lambda_2}} \\rangle = 2.$$\n\nClearly,\n\n$$\\mathbb{C}_\\mu \\subseteq \\operatorname{Ind}_B^G \\mathbb{C}_{\\mu,\\mu},$$\n\nsince\n\n$$\\operatorname{Hom}_G(\\mathbb{C}_\\mu, \\operatorname{Ind}_B^G \\mathbb{C}_{\\mu,\\mu}) = \\operatorname{Hom}_B(\\mathbb{C}_\\mu, \\mathbb{C}_\\mu) = \\mathbb{C} \\text{ (Theorem 5.10.1).}$$\n\nTherefore, $\\operatorname{Ind}_B^G \\mathbb{C}_{\\mu,\\mu} = \\mathbb{C}_\\mu \\oplus W_\\mu$; $W_\\mu$ is irreducible; and the character of $W_\\mu$ is different for distinct values of $\\mu$, proving that $W_\\mu$ are distinct.\nIf $\\lambda_1 \\neq \\lambda_2$, let $z = xy^{-1}$. Then the last term of the summation is\n\n$$\n(q^2 + q) \\sum_{x \\neq y} \\lambda_1(z) \\overline{\\lambda_2(z)} = (q^2 + q) \\sum_{\\substack{x, \\\\ z \\neq 1}} \\frac{\\lambda_1}{\\lambda_2}(z) = (q^2 + q)(q - 1) \\sum_{z \\neq 1} \\frac{\\lambda_1}{\\lambda_2}(z).\n$$\n\nSince\n\n$$\n\\sum_{z \\in \\mathbb{F}_q^\\times} \\frac{\\lambda_1}{\\lambda_2}(z) = 0,\n$$\n\nbecause the sum of all roots of unity of a given order $m > 1$ is zero, the last term becomes\n\n$$\n-(q^2 + q)(q - 1) \\frac{\\lambda_1}{\\lambda_2}(1) = -(q^2 + q)(q - 1).\n$$\n\nThe difference between this case and the case of $\\lambda_1 = \\lambda_2$ is equal to\n\n$$\n(q^2 + q)[(q - 2)(q - 1) + (q - 1)] = |G|,\n$$\n\nso this is an irreducible representation by Lemma 5.7.2.\n\nTo prove the third assertion of the theorem, we look at the characters on hyperbolic elements and note that the function\n\n$$\n\\lambda_1(x)\\lambda_2(y) + \\lambda_1(y)\\lambda_2(x)\n$$\n\ndetermines $\\lambda_1, \\lambda_2$ up to permutation. $\\square$\n\n"
+}

@@ -1,0 +1,62 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k],\n  CategoryTheory.MonoidalPreadditive.{u, u + 1}\n    (HomologicalComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) (ComplexShape.up.{0} Int))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "70720634",
+      "temporary_id": "decl-020652"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int \u2192\n      CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int \u2192 CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1481049884",
+      "temporary_id": "decl-023869"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (X Y Z : CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int) \u2192\n      CategoryTheory.Iso.{u, u + 1} (decl-023869.{u} (CategoryTheory.Limits.biprod.{u, u + 1} X Y) Z)\n        (CategoryTheory.Limits.biprod.{u, u + 1} (decl-023869.{u} X Z) (decl-023869.{u} Y Z))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023869"
+      ],
+      "structural_type_hash": "2675540581",
+      "temporary_id": "decl-023876"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    (X Y Z : CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int) \u2192\n      CategoryTheory.Iso.{u, u + 1} (decl-023869.{u} X (CategoryTheory.Limits.biprod.{u, u + 1} Y Z))\n        (CategoryTheory.Limits.biprod.{u, u + 1} (decl-023869.{u} X Y) (decl-023869.{u} X Z))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023869"
+      ],
+      "structural_type_hash": "3326044515",
+      "temporary_id": "decl-023887"
+    }
+  ],
+  "module_temporary_id": "module-0615",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

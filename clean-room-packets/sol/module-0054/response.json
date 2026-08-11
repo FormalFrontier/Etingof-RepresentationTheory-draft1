@@ -1,0 +1,140 @@
+{
+  "module_name": "Algebra.IntegerIndexedPolynomialOperators",
+  "declarations": [
+    {
+      "temporary_id": "decl-014748",
+      "new_name": "operatorMonomials_linearIndependent_and_span",
+      "docstring": "The doubly indexed operator monomials are linearly independent and their range spans the whole algebra."
+    },
+    {
+      "temporary_id": "decl-016904",
+      "new_name": "operatorMonomial_ne_zero",
+      "docstring": "Every operator monomial indexed by a pair of natural numbers is nonzero over a nontrivial commutative ring."
+    },
+    {
+      "temporary_id": "decl-016905",
+      "new_name": "operatorMonomials_linearIndependent",
+      "docstring": "The family of operator monomials indexed by pairs of natural numbers is linearly independent."
+    },
+    {
+      "temporary_id": "decl-016924",
+      "new_name": "comparisonMap_not_injective_of_charP",
+      "docstring": "In prime positive characteristic, the comparison map from the algebra is not injective."
+    },
+    {
+      "temporary_id": "decl-016939",
+      "new_name": "IntegerIndexedPolynomialModule",
+      "docstring": "The module used to realize operators on polynomial data indexed by integers."
+    },
+    {
+      "temporary_id": "decl-018322",
+      "new_name": "fallingFactorialPolynomial",
+      "docstring": "The polynomial family obtained by successively multiplying by `X - j`."
+    },
+    {
+      "temporary_id": "decl-018324",
+      "new_name": "fallingFactorialPolynomial_coeff_self",
+      "docstring": "The coefficient in degree `j` of the `j`-th falling-factorial polynomial is one."
+    },
+    {
+      "temporary_id": "decl-018325",
+      "new_name": "fallingFactorialPolynomial_monic",
+      "docstring": "Every falling-factorial polynomial is monic."
+    },
+    {
+      "temporary_id": "decl-018326",
+      "new_name": "fallingFactorialPolynomial_natDegree",
+      "docstring": "Over a nontrivial commutative ring, the `j`-th falling-factorial polynomial has natural degree `j`."
+    },
+    {
+      "temporary_id": "decl-018327",
+      "new_name": "fallingFactorialPolynomial_succ",
+      "docstring": "The next falling-factorial polynomial is the current one multiplied by `X - j`."
+    },
+    {
+      "temporary_id": "decl-018328",
+      "new_name": "fallingFactorialPolynomial_zero",
+      "docstring": "The zeroth falling-factorial polynomial is one."
+    },
+    {
+      "temporary_id": "decl-018698",
+      "new_name": "single_fallingFactorialPolynomial_linearIndependent",
+      "docstring": "Finsupp singletons placed at the difference of their two indices and valued in the corresponding falling-factorial polynomial are linearly independent."
+    },
+    {
+      "temporary_id": "decl-021679",
+      "new_name": "indexShift",
+      "docstring": "The linear endomorphism which shifts an integer index upward."
+    },
+    {
+      "temporary_id": "decl-021683",
+      "new_name": "indexShift_pow_single",
+      "docstring": "The `i`-th power of the index shift sends a singleton at `n` to the singleton at `n + i` with the same value."
+    },
+    {
+      "temporary_id": "decl-021684",
+      "new_name": "indexShift_single",
+      "docstring": "The index shift sends a singleton at `n` to the singleton at `n + 1` without changing its polynomial value."
+    },
+    {
+      "temporary_id": "decl-022575",
+      "new_name": "operatorRepresentation",
+      "docstring": "The algebra homomorphism realizing algebra elements as endomorphisms of the integer-indexed polynomial module."
+    },
+    {
+      "temporary_id": "decl-022577",
+      "new_name": "operatorRepresentation_injective",
+      "docstring": "The operator representation is injective over a nontrivial commutative ring."
+    },
+    {
+      "temporary_id": "decl-022578",
+      "new_name": "operatorRepresentation_injective_and_comparisonMap_not_injective",
+      "docstring": "In prime positive characteristic, the operator representation is injective while the comparison map is not."
+    },
+    {
+      "temporary_id": "decl-022579",
+      "new_name": "operatorRepresentation_monomial_apply_single",
+      "docstring": "Applying the represented `(i,j)` operator monomial to the unit singleton gives a singleton at `i - j` valued in the `j`-th falling-factorial polynomial."
+    },
+    {
+      "temporary_id": "decl-022580",
+      "new_name": "operatorRepresentation_indexShiftGenerator",
+      "docstring": "The representation sends the designated shift generator to the index-shift endomorphism."
+    },
+    {
+      "temporary_id": "decl-022581",
+      "new_name": "operatorRepresentation_weightedLoweringGenerator",
+      "docstring": "The representation sends the designated lowering generator to the weighted index-lowering endomorphism."
+    },
+    {
+      "temporary_id": "decl-022588",
+      "new_name": "operatorRepresentation_monomials_linearIndependent",
+      "docstring": "The represented family of doubly indexed operator monomials is linearly independent."
+    },
+    {
+      "temporary_id": "decl-024516",
+      "new_name": "weightedIndexLowering",
+      "docstring": "The linear endomorphism which lowers the integer index and multiplies the polynomial value by an index-dependent linear polynomial."
+    },
+    {
+      "temporary_id": "decl-024520",
+      "new_name": "weightedIndexLowering_mul_indexShift",
+      "docstring": "Weighted index lowering followed by shifting equals shifting followed by weighted lowering plus the identity."
+    },
+    {
+      "temporary_id": "decl-024521",
+      "new_name": "weightedIndexLowering_pow_single_zero",
+      "docstring": "The `j`-th power of weighted index lowering sends the unit singleton at zero to a singleton at `-j` valued in the `j`-th falling-factorial polynomial."
+    },
+    {
+      "temporary_id": "decl-024522",
+      "new_name": "weightedIndexLowering_single",
+      "docstring": "Weighted index lowering sends a singleton at `n` to one at `n - 1`, multiplying its value by `X + n`."
+    },
+    {
+      "temporary_id": "decl-024531",
+      "new_name": "distinguishedEndomorphism",
+      "docstring": "A pair of distinguished linear endomorphisms of the integer-indexed polynomial module."
+    }
+  ]
+}

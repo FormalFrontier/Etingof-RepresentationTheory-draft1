@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ffedb5b6a180d84c1cbc",
+      "declaration": "Etingof.Example2_9_13.HeisenbergWeylQuot",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_2) \u2192 [CommRing.{u_2} k] \u2192 Type u_2",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    },
+    {
+      "association_id": "association:c3f42d566516d6c3118d",
+      "declaration": "Etingof.Example2_9_13.heisenbergWeylEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    AlgEquiv.{u_2, u_2, u_2} k (Etingof.Example2_9_13.HeisenbergWeylQuot.{u_2} k) (Etingof.WeylAlgebra.{u_2} k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    },
+    {
+      "association_id": "association:14e5f4ce7a31d9df530d",
+      "declaration": "Etingof.Example2_9_13.weyl_c_eq_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/92/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (RingCon.mk'.{u_2} (Etingof.Example2_9_13.weylCon.{u_2} k))\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k)\n        Etingof.Example2_9_13.c.{u_2}))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (RingCon.mk'.{u_2} (Etingof.Example2_9_13.weylCon.{u_2} k)) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.9.13",
+  "packet_id": "align-0243",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0243"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:48d01989f82360615c36",
+  "source_text": "Imposing c=1 yields the Weyl algebra."
+}

@@ -1,0 +1,74 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {L : Type u_2} [inst : LieRing.{u_2} L] (x y z : L),\n  Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} (HAdd.hAdd.{u_2, u_2, u_2} x y) z)\n    (HAdd.hAdd.{u_2, u_2, u_2} (Bracket.bracket.{u_2, u_2} x z) (Bracket.bracket.{u_2, u_2} y z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "76006889",
+      "temporary_id": "decl-001660"
+    },
+    {
+      "formal_type": "\u2200 {L : Type u_2} [inst : LieRing.{u_2} L] (x y z : L),\n  Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} x (HAdd.hAdd.{u_2, u_2, u_2} y z))\n    (HAdd.hAdd.{u_2, u_2, u_2} (Bracket.bracket.{u_2, u_2} x y) (Bracket.bracket.{u_2, u_2} x z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3309297617",
+      "temporary_id": "decl-001661"
+    },
+    {
+      "formal_type": "\u2200 {L : Type u_2} [inst : LieRing.{u_2} L] (x : L), Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} x x) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "338380881",
+      "temporary_id": "decl-001662"
+    },
+    {
+      "formal_type": "\u2200 {L : Type u_2} [inst : LieRing.{u_2} L] (x y : L),\n  Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} x y) (Neg.neg.{u_2} (Bracket.bracket.{u_2, u_2} y x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "707069205",
+      "temporary_id": "decl-001663"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {L : Type u_2} [inst : Field.{u_1} k] [inst_1 : LieRing.{u_2} L] [inst_2 : LieAlgebra.{u_1, u_2} k L]\n  (a : k) (x y : L),\n  Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} (HSMul.hSMul.{u_1, u_2, u_2} a x) y)\n    (HSMul.hSMul.{u_1, u_2, u_2} a (Bracket.bracket.{u_2, u_2} x y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "902668433",
+      "temporary_id": "decl-001664"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {L : Type u_2} [inst : Field.{u_1} k] [inst_1 : LieRing.{u_2} L] [inst_2 : LieAlgebra.{u_1, u_2} k L]\n  (a : k) (x y : L),\n  Eq.{u_2 + 1} (Bracket.bracket.{u_2, u_2} x (HSMul.hSMul.{u_1, u_2, u_2} a y))\n    (HSMul.hSMul.{u_1, u_2, u_2} a (Bracket.bracket.{u_2, u_2} x y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2979775507",
+      "temporary_id": "decl-001665"
+    }
+  ],
+  "module_temporary_id": "module-0034",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

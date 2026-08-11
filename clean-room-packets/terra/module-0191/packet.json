@@ -1,0 +1,144 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Type u \u2192 Type u",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3807510281",
+      "temporary_id": "decl-001347"
+    },
+    {
+      "formal_type": "{V : Type u} \u2192 [AddCommGroup.{u} V] \u2192 AddCommGroup.{u} (decl-001347.{u} V)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-001347",
+      "project_type_dependencies": [
+        "decl-001347"
+      ],
+      "structural_type_hash": "1524025207",
+      "temporary_id": "decl-001348"
+    },
+    {
+      "formal_type": "{V : Type u} \u2192 [inst : AddCommGroup.{u} V] \u2192 [Module.{0, u} Complex V] \u2192 Module.{0, u} Complex (decl-001347.{u} V)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-001347",
+      "project_type_dependencies": [
+        "decl-001347",
+        "decl-001348"
+      ],
+      "structural_type_hash": "2056097082",
+      "temporary_id": "decl-001366"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u} [inst : AddCommGroup.{u} V] [inst_1 : Module.{0, u} Complex V] (z : Complex)\n  (v : decl-001347.{u} V),\n  Eq.{u + 1} (HSMul.hSMul.{0, u, u} z v)\n    (HSMul.hSMul.{0, u, u} (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex) z)\n      (have this := v;\n      this))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-001347",
+      "project_type_dependencies": [
+        "decl-001347",
+        "decl-001348",
+        "decl-001366"
+      ],
+      "structural_type_hash": "3470740244",
+      "temporary_id": "decl-001367"
+    },
+    {
+      "formal_type": "{V : Type u} \u2192\n  [inst : AddCommGroup.{u} V] \u2192\n    [inst_1 : Module.{0, u} Complex V] \u2192\n      [FiniteDimensional.{0, u} Complex V] \u2192\n        InnerProductSpace.Core.{0, u} Complex V \u2192\n          LinearEquiv.{0, 0, u, u} (RingHom.id.{0} Complex) (decl-001347.{u} V) (Module.Dual.{0, u} Complex V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001347",
+        "decl-001348",
+        "decl-001366"
+      ],
+      "structural_type_hash": "3922472952",
+      "temporary_id": "decl-018155"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u} [inst : AddCommGroup.{u} V] [inst_1 : Module.{0, u} Complex V]\n  [inst_2 : FiniteDimensional.{0, u} Complex V] (c : InnerProductSpace.Core.{0, u} Complex V)\n  (v : decl-001347.{u} V) (w : V),\n  Eq.{1} (DFunLike.coe.{u + 1, u + 1, 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-018155.{u} c) v) w)\n    (Inner.inner.{0, u} Complex v w)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001347",
+        "decl-001348",
+        "decl-001366",
+        "decl-018155"
+      ],
+      "structural_type_hash": "2847656008",
+      "temporary_id": "decl-018161"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u} [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{0, u} Complex V]\n  [inst_3 : FiniteDimensional.{0, u} Complex V] (\u03c1 : Representation.{0, u_1, u} Complex G V)\n  (c : InnerProductSpace.Core.{0, u} Complex V),\n  (\u2200 (g : G) (v w : V),\n      Eq.{1}\n        (Inner.inner.{0, u} Complex\n          (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{max (u + 1) (u_1 + 1), u_1 + 1, u + 1} \u03c1 g) v)\n          (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{max (u + 1) (u_1 + 1), u_1 + 1, u + 1} \u03c1 g) w))\n        (Inner.inner.{0, u} Complex v w)) \u2192\n    \u2200 (g : G) (v : decl-001347.{u} V),\n      Eq.{u + 1}\n        (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-018155.{u} c)\n          (DFunLike.coe.{u + 1, u + 1, u + 1}\n            (DFunLike.coe.{max (u + 1) (u_1 + 1), u_1 + 1, u + 1} (decl-018174.{u, u_1} \u03c1) g) v))\n        (DFunLike.coe.{u + 1, u + 1, u + 1}\n          (DFunLike.coe.{max (u + 1) (u_1 + 1), u_1 + 1, u + 1} (Representation.dual.{0, u_1, u} \u03c1) g)\n          (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-018155.{u} c) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001347",
+        "decl-001348",
+        "decl-001366",
+        "decl-018155",
+        "decl-018174"
+      ],
+      "structural_type_hash": "3079774017",
+      "temporary_id": "decl-018162"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {V : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{0, u} Complex V] \u2192\n          Representation.{0, u_1, u} Complex G V \u2192 Representation.{0, u_1, u} Complex G (decl-001347.{u} V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001347",
+        "decl-001348",
+        "decl-001366"
+      ],
+      "structural_type_hash": "3874276934",
+      "temporary_id": "decl-018174"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u} [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{0, u} Complex V]\n  (\u03c1 : Representation.{0, u_1, u} Complex G V) (g : G) (v : decl-001347.{u} V),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (DFunLike.coe.{max (u + 1) (u_1 + 1), u_1 + 1, u + 1} (decl-018174.{u, u_1} \u03c1) g) v)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{max (u + 1) (u_1 + 1), u_1 + 1, u + 1} \u03c1 g) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001347",
+        "decl-001348",
+        "decl-001366",
+        "decl-018174"
+      ],
+      "structural_type_hash": "2752892809",
+      "temporary_id": "decl-018183"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u} [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{0, u} Complex V]\n  [FiniteDimensional.{0, u} Complex V] [Fintype.{u_1} G] (\u03c1 : Representation.{0, u_1, u} Complex G V),\n  Exists.{u + 1} fun e =>\n    \u2200 (g : G) (v : decl-001347.{u} V),\n      Eq.{u + 1}\n        (DFunLike.coe.{u + 1, u + 1, u + 1} e\n          (DFunLike.coe.{u + 1, u + 1, u + 1}\n            (DFunLike.coe.{max (u + 1) (u_1 + 1), u_1 + 1, u + 1} (decl-018174.{u, u_1} \u03c1) g) v))\n        (DFunLike.coe.{u + 1, u + 1, u + 1}\n          (DFunLike.coe.{max (u + 1) (u_1 + 1), u_1 + 1, u + 1} (Representation.dual.{0, u_1, u} \u03c1) g)\n          (DFunLike.coe.{u + 1, u + 1, u + 1} e v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001347",
+        "decl-001348",
+        "decl-001366",
+        "decl-018174"
+      ],
+      "structural_type_hash": "3468850412",
+      "temporary_id": "decl-018184"
+    }
+  ],
+  "module_temporary_id": "module-0191",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

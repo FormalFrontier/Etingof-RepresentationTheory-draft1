@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:dc0d6dca051238949394",
+      "declaration": "Etingof.Theorem4_1_1_regularRep_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/183/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k G : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))],\n  Exists.{1} fun n =>\n    Exists.{u + 2} fun V =>\n      Exists.{u + 1} fun \u03c1_end =>\n        And (\u2200 (i : Fin n), CategoryTheory.Simple.{u, u + 1} (V i))\n          (And (\u2200 (i j : Fin n), Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j)\n            (And\n              (\u2200 (W : FDRep.{u, u} k G),\n                CategoryTheory.Simple.{u, u + 1} W \u2192\n                  Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} W (V i)))\n              (And\n                (\u2200 (g : G)\n                  (F : (i : Fin n) \u2192 Module.End.{u, u} k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i))))\n                  (i : Fin n),\n                  Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c1_end g) F i)\n                    (LinearMap.comp.{u, u, u, u, u, u} (DFunLike.coe.{u + 1, u + 1, u + 1} (FDRep.\u03c1.{u, u} (V i)) g)\n                      (F i)))\n                (Nonempty.{u + 1}\n                  (CategoryTheory.Iso.{u, u + 1} (MonoidAlgebra.regularFDRep.{u} k G) (FDRep.of.{u, u} \u03c1_end))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Theorem4_1_1"
+    },
+    {
+      "association_id": "association:e2661a11f1208676ec32",
+      "declaration": "IrrepDecomp.regularIso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/183/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k G : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : IsAlgClosed.{u} k] \u2192\n      [inst_2 : Group.{u} G] \u2192\n        [inst_3 : Fintype.{u} G] \u2192\n          [inst_4 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] \u2192\n            (D : IrrepDecomp.{u, u} k G) \u2192\n              CategoryTheory.Iso.{u, u + 1} (MonoidAlgebra.regularFDRep.{u} k G) (IrrepDecomp.endRegFDRep.{u} D)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Theorem4_1_1"
+    }
+  ],
+  "canonical_reference": "Chapter4/Theorem4.1.1",
+  "packet_id": "align-0197",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0197"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3aefd052cb18c3835c94",
+  "source_text": "The algebra isomorphism \u03c8 is also an isomorphism of G-representations when both sides carry left multiplication."
+}

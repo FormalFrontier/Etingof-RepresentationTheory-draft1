@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3b7ac6461018e0d14c89",
+      "declaration": "Etingof.Example4_3_Q8.repFD_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/196/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "CategoryTheory.Simple.{0, 1} Etingof.Example4_3_Q8.repFD",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
+    },
+    {
+      "association_id": "association:b511e54a4c5de62ffc57",
+      "declaration": "Etingof.Example4_3_Q8.rep_i",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/196/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} Etingof.Example4_3_Q8.rep (QuaternionGroup.a 1)) Etingof.Example4_3_Q8.rhoI",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
+    },
+    {
+      "association_id": "association:7aaaaa41d0bb7b01ff27",
+      "declaration": "Etingof.Example4_3_Q8.rep_j",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/196/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} Etingof.Example4_3_Q8.rep (QuaternionGroup.xa 0)) Etingof.Example4_3_Q8.rhoJ",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
+    },
+    {
+      "association_id": "association:da6b0b250b906ac16c01",
+      "declaration": "Etingof.Example4_3_Q8.rep_k",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/196/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} Etingof.Example4_3_Q8.rep (QuaternionGroup.xa 3)) Etingof.Example4_3_Q8.rhoK",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
+    }
+  ],
+  "canonical_reference": "Chapter4/Example4.3_Q8",
+  "packet_id": "align-1005",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1005"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c0dc88a4fa602221f860",
+  "source_text": "The two-dimensional representation acts by the displayed Pauli matrices and is irreducible."
+}

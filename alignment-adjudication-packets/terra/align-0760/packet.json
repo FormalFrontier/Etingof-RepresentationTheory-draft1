@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:37bce11acff5b693e2e8",
+      "declaration": "Etingof.restriction_spechtModule_iso_removeSquareSum",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/339/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (\u03bc : (HAdd.hAdd.{0, 0, 0} n 1).Partition),\n  Nonempty.{1} (CategoryTheory.Iso.{0, 1} (Etingof.restrictionSpechtFDRep n \u03bc) (Etingof.removeSquareSumFDRep n \u03bc))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_1_Iso"
+    }
+  ],
+  "canonical_reference": "Chapter5/Problem5.16.1",
+  "packet_id": "align-0760",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0760"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Problem5.16.1:part_a",
+  "source_text": "Part (a): give the restriction branching rule as an actual direct-sum representation isomorphism."
+}

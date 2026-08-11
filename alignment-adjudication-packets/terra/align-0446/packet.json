@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4357996b6a7b975f1ad5",
+      "declaration": "MonoidAlgebra.single_mul_single",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/19/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.MonoidAlgebra.Defs"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.2.4",
+  "packet_id": "align-0446",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0446"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:8f3bcc82c0e50dfdfa74",
+  "source_text": "The group-algebra basis multiplication satisfies a_g a_h = a_(gh)."
+}

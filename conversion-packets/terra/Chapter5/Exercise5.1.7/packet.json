@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Exercise5.1.7",
+    "kind": "exercise",
+    "title": "Nontrivial finite groups of odd order have non-real irreducible representations",
+    "node_id": "chapter-05/section-5-1",
+    "order": 251,
+    "slug": "exercise5-1-7",
+    "span": {
+      "start": {
+        "page": "95",
+        "line": 23
+      },
+      "end": {
+        "page": "95",
+        "line": 24
+      }
+    },
+    "source_sha256": "ffb69712b2da965e34b93f97ae8a6d56ca6c44a1ebd8d92eafc9f4e084513140",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Exercise517",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

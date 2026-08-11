@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f87afce4fb199dc7b295",
+      "declaration": "TensorProduct.assoc",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/100/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.LinearAlgebra.TensorProduct.Associator"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_pure_tensors",
+  "packet_id": "align-0155",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0155"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:305e329527ebff96fbd8",
+  "source_text": "Tensor products are naturally associative: (V\u2081 \u2297 V\u2082) \u2297 V\u2083 is naturally identified with V\u2081 \u2297 (V\u2082 \u2297 V\u2083)."
+}

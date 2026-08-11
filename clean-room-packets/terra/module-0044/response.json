@@ -1,0 +1,9 @@
+{
+  "module_name": "Algebra.Ring.ModuleStructures",
+  "declarations": [
+    {"temporary_id":"decl-021454","new_name":"selfModule","docstring":"The canonical module structure of a ring over itself."},
+    {"temporary_id":"decl-022802","new_name":"oppositeSelfModule","docstring":"The module structure in which an opposite-ring scalar acts by right multiplication."},
+    {"temporary_id":"decl-022803","new_name":"op_smul_eq_mul","docstring":"Scalar multiplication by an opposite-ring element is multiplication in reverse order."},
+    {"temporary_id":"decl-024709","new_name":"punitModule","docstring":"The canonical module structure on the singleton additive type."}
+  ]
+}

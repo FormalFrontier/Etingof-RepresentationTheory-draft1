@@ -1,0 +1,303 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192 [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} k V] \u2192 Type (max u_1 u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4108773055",
+      "temporary_id": "decl-004133"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192 [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} k V] \u2192 Type (max u_1 u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4108773055",
+      "temporary_id": "decl-016225"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type v) \u2192\n      [inst_1 : LieRing.{v} L] \u2192\n        [inst_2 : LieAlgebra.{u, v} k L] \u2192 {\u03b9 : Type w} \u2192 Module.Basis.{w, u, v} \u03b9 k L \u2192 Type (max u w)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3988916645",
+      "temporary_id": "decl-016799"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (L : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192 [inst_1 : LieRing.{u_2} L] \u2192 [LieAlgebra.{u_1, u_2} k L] \u2192 Type (max u_1 u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1149997197",
+      "temporary_id": "decl-016817"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type v) \u2192\n      [inst_1 : LieRing.{v} L] \u2192\n        [inst_2 : LieAlgebra.{u, v} k L] \u2192\n          {\u03b9 : Type w} \u2192\n            (b : Module.Basis.{w, u, v} \u03b9 k L) \u2192\n              LieHom.{u, v, max w u} k L (decl-016799.{u, v, w} k L b)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016799",
+        "decl-022160",
+        "decl-024375"
+      ],
+      "structural_type_hash": "2472226952",
+      "temporary_id": "decl-017312"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type v) \u2192\n      [inst_1 : LieRing.{v} L] \u2192\n        [inst_2 : LieAlgebra.{u, v} k L] \u2192\n          {\u03b9 : Type w} \u2192\n            (b : Module.Basis.{w, u, v} \u03b9 k L) \u2192\n              LinearMap.{u, u, v, max w u} (RingHom.id.{u} k) L (decl-016799.{u, v, w} k L b)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016799",
+        "decl-022160",
+        "decl-024375"
+      ],
+      "structural_type_hash": "3280998163",
+      "temporary_id": "decl-017322"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type v) [inst_1 : LieRing.{v} L] [inst_2 : LieAlgebra.{u, v} k L] {\u03b9 : Type w}\n  (b : Module.Basis.{w, u, v} \u03b9 k L) (i : \u03b9),\n  Eq.{max (u + 1) (w + 1)}\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), v + 1, max (u + 1) (w + 1)}\n      (decl-017322.{u, v, w} k L b) (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, v + 1} b i))\n    (decl-006814.{u, w, w} (decl-024375.{u, v, w} k L b) i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006814",
+        "decl-016799",
+        "decl-017322",
+        "decl-022160",
+        "decl-024375"
+      ],
+      "structural_type_hash": "1265162610",
+      "temporary_id": "decl-017326"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type v) \u2192\n      [inst_1 : LieRing.{v} L] \u2192\n        [inst_2 : LieAlgebra.{u, v} k L] \u2192\n          {\u03b9 : Type w} \u2192\n            (b : Module.Basis.{w, u, v} \u03b9 k L) \u2192\n              AlgHom.{u, max v u, max w u} k (decl-016817.{u, v} k L)\n                (decl-016799.{u, v, w} k L b)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016799",
+        "decl-016817",
+        "decl-022160",
+        "decl-024375"
+      ],
+      "structural_type_hash": "3893509489",
+      "temporary_id": "decl-018214"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type v) [inst_1 : LieRing.{v} L] [inst_2 : LieAlgebra.{u, v} k L] {\u03b9 : Type w}\n  (b : Module.Basis.{w, u, v} \u03b9 k L)\n  (F :\n    AlgHom.{u, max v u, max w u} k (decl-016817.{u, v} k L)\n      (decl-016799.{u, v, w} k L b)),\n  (\u2200 (x : L),\n      Eq.{max (u + 1) (w + 1)}\n        (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), max (u + 1) (v + 1), max (u + 1) (w + 1)} F\n          (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k) x))\n        (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), v + 1, max (u + 1) (w + 1)}\n          (decl-017322.{u, v, w} k L b) x)) \u2192\n    Eq.{max (max (u + 1) (v + 1)) (w + 1)} F (decl-018214.{u, v, w} k L b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016799",
+        "decl-016817",
+        "decl-017322",
+        "decl-018214",
+        "decl-022160",
+        "decl-024375"
+      ],
+      "structural_type_hash": "23578315",
+      "temporary_id": "decl-018216"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type v) [inst_1 : LieRing.{v} L] [inst_2 : LieAlgebra.{u, v} k L] {\u03b9 : Type w}\n  (b : Module.Basis.{w, u, v} \u03b9 k L) (x : L),\n  Eq.{max (u + 1) (w + 1)}\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), max (u + 1) (v + 1), max (u + 1) (w + 1)}\n      (decl-018214.{u, v, w} k L b)\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k) x))\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), v + 1, max (u + 1) (w + 1)}\n      (decl-017322.{u, v, w} k L b) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016799",
+        "decl-016817",
+        "decl-017322",
+        "decl-018214",
+        "decl-022160",
+        "decl-024375"
+      ],
+      "structural_type_hash": "3213402300",
+      "temporary_id": "decl-018217"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          {\u03b9 : Type w} \u2192\n            Module.Basis.{w, u, v} \u03b9 k V \u2192\n              AlgEquiv.{u, max v u, max u w} k (decl-004133.{u, v} k V)\n                (ExteriorAlgebra.{u, max u w} k (Finsupp.{w, u} \u03b9 k))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004133"
+      ],
+      "structural_type_hash": "2505498098",
+      "temporary_id": "decl-019255"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] {\u03b9 : Type w}\n  (b : Module.Basis.{w, u, v} \u03b9 k V) (x : V),\n  Eq.{max (u + 1) (w + 1)}\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), max (u + 1) (v + 1), max (u + 1) (w + 1)}\n      (decl-019255.{u, v, w} k V b)\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (ExteriorAlgebra.\u03b9.{u, v} k) x))\n    (DFunLike.coe.{max (u + 1) ((max u w) + 1), (max u w) + 1, max (u + 1) ((max u w) + 1)}\n      (ExteriorAlgebra.\u03b9.{u, max u w} k)\n      (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), v + 1, max (u + 1) (w + 1)} (Module.Basis.repr.{w, u, v} b) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004133",
+        "decl-019255"
+      ],
+      "structural_type_hash": "1721659167",
+      "temporary_id": "decl-019259"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          LinearEquiv.{u, u, max v u, max v u} (RingHom.id.{u} k) (decl-004133.{u, v} k V)\n            (DirectSum.{0, max v u} Nat fun n => decl-006827.{u, v} k V n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004133",
+        "decl-006827",
+        "decl-006838",
+        "decl-006881"
+      ],
+      "structural_type_hash": "1032340200",
+      "temporary_id": "decl-019260"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] (x : V),\n  Eq.{max (u + 1) (v + 1)}\n    (HMul.hMul.{max u v, max u v, max u v}\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (ExteriorAlgebra.\u03b9.{u, v} k) x)\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (ExteriorAlgebra.\u03b9.{u, v} k) x))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "579834583",
+      "temporary_id": "decl-019261"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          {\u03b9 : Type w} \u2192\n            Module.Basis.{w, u, v} \u03b9 k V \u2192\n              LinearEquiv.{u, u, max v u, max v u} (RingHom.id.{u} k) (decl-016225.{u, v} k V)\n                (DirectSum.{0, max v u} Nat fun n => decl-006837.{u, v} k V n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006837",
+        "decl-006838",
+        "decl-006974",
+        "decl-016225"
+      ],
+      "structural_type_hash": "342571188",
+      "temporary_id": "decl-023670"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          {\u03b9 : Type w} \u2192\n            Module.Basis.{w, u, v} \u03b9 k V \u2192\n              AlgEquiv.{u, max v u, max u w} k (decl-016225.{u, v} k V) (MvPolynomial.{w, u} \u03b9 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016225"
+      ],
+      "structural_type_hash": "646491583",
+      "temporary_id": "decl-023676"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] {\u03b9 : Type w}\n  (b : Module.Basis.{w, u, v} \u03b9 k V) (i : \u03b9),\n  Eq.{max (u + 1) (w + 1)}\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), max (u + 1) (v + 1), max (u + 1) (w + 1)}\n      (decl-023676.{u, v, w} k V b)\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (SymmetricAlgebra.\u03b9.{u, v} k V)\n        (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, v + 1} b i)))\n    (MvPolynomial.X.{u, w} i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016225",
+        "decl-023676"
+      ],
+      "structural_type_hash": "2041155917",
+      "temporary_id": "decl-023677"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] (x y : V),\n  Eq.{max (u + 1) (v + 1)}\n    (HMul.hMul.{max u v, max u v, max u v}\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (SymmetricAlgebra.\u03b9.{u, v} k V) x)\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (SymmetricAlgebra.\u03b9.{u, v} k V) y))\n    (HMul.hMul.{max u v, max u v, max u v}\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (SymmetricAlgebra.\u03b9.{u, v} k V) y)\n      (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (SymmetricAlgebra.\u03b9.{u, v} k V) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3963467719",
+      "temporary_id": "decl-023718"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1687527915",
+      "temporary_id": "decl-023721"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type v) \u2192\n      [inst_1 : LieRing.{v} L] \u2192\n        [inst_2 : LieAlgebra.{u, v} k L] \u2192\n          {\u03b9 : Type w} \u2192\n            (b : Module.Basis.{w, u, v} \u03b9 k L) \u2192\n              AlgEquiv.{u, max w u, max v u} k (decl-016799.{u, v, w} k L b)\n                (decl-016818.{u, v} k L)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016799",
+        "decl-016818",
+        "decl-022160",
+        "decl-024375"
+      ],
+      "structural_type_hash": "2453788857",
+      "temporary_id": "decl-024372"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type v) \u2192\n      [inst_1 : LieRing.{v} L] \u2192\n        [inst_2 : LieAlgebra.{u, v} k L] \u2192\n          {\u03b9 : Type w} \u2192 Module.Basis.{w, u, v} \u03b9 k L \u2192 Prod.{w, w} \u03b9 \u03b9 \u2192 FreeAlgebra.{u, w} k \u03b9",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1390185755",
+      "temporary_id": "decl-024375"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type v) \u2192\n      [inst_1 : LieRing.{v} L] \u2192\n        [inst_2 : LieAlgebra.{u, v} k L] \u2192\n          {\u03b9 : Type w} \u2192\n            (b : Module.Basis.{w, u, v} \u03b9 k L) \u2192\n              AlgHom.{u, max w u, max v u} k (decl-016799.{u, v, w} k L b)\n                (decl-016817.{u, v} k L)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016799",
+        "decl-016817",
+        "decl-022160",
+        "decl-024375"
+      ],
+      "structural_type_hash": "534222048",
+      "temporary_id": "decl-024377"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type v) [inst_1 : LieRing.{v} L] [inst_2 : LieAlgebra.{u, v} k L] {\u03b9 : Type w}\n  (b : Module.Basis.{w, u, v} \u03b9 k L) (i : \u03b9),\n  Eq.{max (u + 1) (v + 1)}\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), max (u + 1) (w + 1), max (u + 1) (v + 1)}\n      (decl-024377.{u, v, w} k L b)\n      (decl-006814.{u, w, w} (decl-024375.{u, v, w} k L b) i))\n    (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k)\n      (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, v + 1} b i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006814",
+        "decl-016799",
+        "decl-016817",
+        "decl-022160",
+        "decl-024375",
+        "decl-024377"
+      ],
+      "structural_type_hash": "844843905",
+      "temporary_id": "decl-024380"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type v) [inst_1 : LieRing.{v} L] [inst_2 : LieAlgebra.{u, v} k L] {\u03b9 : Type w}\n  (b : Module.Basis.{w, u, v} \u03b9 k L)\n  (F :\n    AlgHom.{u, max w u, max v u} k (decl-016799.{u, v, w} k L b)\n      (decl-016818.{u, v} k L)),\n  (\u2200 (i : \u03b9),\n      Eq.{max (u + 1) (v + 1)}\n        (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), max (u + 1) (w + 1), max (u + 1) (v + 1)} F\n          (decl-006814.{u, w, w} (decl-024375.{u, v, w} k L b) i))\n        (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k)\n          (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, v + 1} b i))) \u2192\n    Eq.{max (max (u + 1) (v + 1)) (w + 1)} F (decl-024377.{u, v, w} k L b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006814",
+        "decl-016799",
+        "decl-016818",
+        "decl-022160",
+        "decl-024375",
+        "decl-024377"
+      ],
+      "structural_type_hash": "787852720",
+      "temporary_id": "decl-024381"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type v) [inst_1 : LieRing.{v} L] [inst_2 : LieAlgebra.{u, v} k L] (x y : L),\n  Eq.{max (u + 1) (v + 1)}\n    (HSub.hSub.{max u v, max u v, max u v}\n      (HMul.hMul.{max u v, max u v, max u v}\n        (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k) x)\n        (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k) y))\n      (HMul.hMul.{max u v, max u v, max u v}\n        (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k) y)\n        (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k) x)))\n    (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (UniversalEnvelopingAlgebra.\u03b9.{u, v} k)\n      (Bracket.bracket.{v, v} x y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1931948369",
+      "temporary_id": "decl-024447"
+    }
+  ],
+  "module_temporary_id": "module-0004",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

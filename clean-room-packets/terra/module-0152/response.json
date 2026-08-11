@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.Module.TensorSplitDescent",
+  "declarations": [
+    {
+      "temporary_id": "decl-009450",
+      "new_name": "exists_retract_of_tensorRetract",
+      "docstring": "A retraction after tensor extension yields a retraction before tensor extension under finite-dimensionality hypotheses."
+    }
+  ]
+}

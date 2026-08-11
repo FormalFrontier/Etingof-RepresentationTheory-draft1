@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c107768a9d4696064af2",
+      "declaration": "Etingof.Problem_8_2_6_ii",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/540/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k A : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] (V W : Type u)\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W],\n  Nonempty.{u + 1}\n    (AddEquiv.{u, u} (Etingof.Ext.{u + 1, u, u} (ModuleCat.of.{u, u} A W) (ModuleCat.of.{u, u} A V) 1)\n      (Etingof.Problem3_9_1.Ext1.{u, u, u, u} k A V W))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_6"
+    },
+    {
+      "association_id": "association:74d515f89fa6d449bda7",
+      "declaration": "Etingof.extOneAddEquivProblem3Ext1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/540/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k A : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        (V W : Type u) \u2192\n          [inst_3 : AddCommGroup.{u} V] \u2192\n            [inst_4 : Module.{u, u} k V] \u2192\n              [inst_5 : Module.{u, u} A V] \u2192\n                [inst_6 : IsScalarTower.{u, u, u} k A V] \u2192\n                  [inst_7 : AddCommGroup.{u} W] \u2192\n                    [inst_8 : Module.{u, u} k W] \u2192\n                      [inst_9 : Module.{u, u} A W] \u2192\n                        [inst_10 : IsScalarTower.{u, u, u} k A W] \u2192\n                          AddEquiv.{u, u}\n                            (Etingof.Ext.{u + 1, u, u} (ModuleCat.of.{u, u} A W) (ModuleCat.of.{u, u} A V) 1)\n                            (Etingof.Problem3_9_1.Ext1.{u, u, u, u} k A V W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_6"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.6",
+  "packet_id": "align-0845",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0845"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.6:part_ii",
+  "source_text": "Part (ii): identify the resolution Ext1 with the extension-class Ext1."
+}

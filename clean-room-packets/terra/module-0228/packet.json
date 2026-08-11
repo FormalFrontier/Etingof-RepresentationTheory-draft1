@@ -1,0 +1,66 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {W : Type u_1} [inst : Fintype.{u_1} W] [inst_1 : DecidableEq.{u_1 + 1} W] (\u0393 : SimpleGraph.{u_1} W)\n  [inst_2 : DecidableRel.{u_1 + 1, u_1 + 1} (SimpleGraph.Adj.{u_1} \u0393)],\n  (Exists.{u_1 + 1} fun \u03c3 =>\n      Exists.{u_1 + 1} fun \u03c4 => Ne.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} \u03c3 \u03c4) (HMul.hMul.{u_1, u_1, u_1} \u03c4 \u03c3)) \u2192\n    Not (Squarefree.{0} (Matrix.charpoly.{0, u_1} (SimpleGraph.adjMatrix.{0, u_1} Real \u0393)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "798998895",
+      "temporary_id": "decl-010976"
+    },
+    {
+      "formal_type": "\u2200 {W : Type u_1} [inst : Fintype.{u_1} W] [inst_1 : DecidableEq.{u_1 + 1} W] (\u0393 : SimpleGraph.{u_1} W)\n  [inst_2 : DecidableRel.{u_1 + 1, u_1 + 1} (SimpleGraph.Adj.{u_1} \u0393)] (g : SimpleGraph.Iso.{u_1, u_1} \u0393 \u0393),\n  Eq.{u_1 + 1}\n    (HMul.hMul.{u_1, u_1, u_1} (SimpleGraph.adjMatrix.{0, u_1} Real \u0393)\n      (PEquiv.toMatrix.{u_1, u_1, 0} (Equiv.toPEquiv.{u_1, u_1} (RelIso.toEquiv.{u_1, u_1} g))))\n    (HMul.hMul.{u_1, u_1, u_1} (PEquiv.toMatrix.{u_1, u_1, 0} (Equiv.toPEquiv.{u_1, u_1} (RelIso.toEquiv.{u_1, u_1} g)))\n      (SimpleGraph.adjMatrix.{0, u_1} Real \u0393))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-010976",
+      "project_type_dependencies": [],
+      "structural_type_hash": "2310518766",
+      "temporary_id": "decl-010978"
+    },
+    {
+      "formal_type": "\u2200 {W : Type u_1} [inst : Fintype.{u_1} W] [inst_1 : DecidableEq.{u_1 + 1} W] {A : Matrix.{u_1, u_1, 0} W W Real},\n  Matrix.IsHermitian.{0, u_1} A \u2192\n    Squarefree.{0} (Matrix.charpoly.{0, u_1} A) \u2192\n      \u2200 {N\u2081 N\u2082 : Matrix.{u_1, u_1, 0} W W Real},\n        Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} A N\u2081) (HMul.hMul.{u_1, u_1, u_1} N\u2081 A) \u2192\n          Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} A N\u2082) (HMul.hMul.{u_1, u_1, u_1} N\u2082 A) \u2192\n            Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} N\u2081 N\u2082) (HMul.hMul.{u_1, u_1, u_1} N\u2082 N\u2081)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-010976",
+      "project_type_dependencies": [],
+      "structural_type_hash": "1287036274",
+      "temporary_id": "decl-010980"
+    },
+    {
+      "formal_type": "\u2200 {W : Type u_1} [inst : Fintype.{u_1} W] [inst_1 : DecidableEq.{u_1 + 1} W] {d : W \u2192 Real},\n  Function.Injective.{u_1 + 1, 1} d \u2192\n    \u2200 {M : Matrix.{u_1, u_1, 0} W W Real},\n      Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} M (Matrix.diagonal.{0, u_1} d))\n          (HMul.hMul.{u_1, u_1, u_1} (Matrix.diagonal.{0, u_1} d) M) \u2192\n        Eq.{u_1 + 1} M (Matrix.diagonal.{0, u_1} fun i => M i i)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-010976",
+      "project_type_dependencies": [],
+      "structural_type_hash": "4030961195",
+      "temporary_id": "decl-010981"
+    },
+    {
+      "formal_type": "\u2200 {W : Type u_1} [inst : Fintype.{u_1} W] {d : W \u2192 Real},\n  Squarefree.{0}\n      (Finset.prod.{u_1, 0} Finset.univ.{u_1} fun i =>\n        HSub.hSub.{0, 0, 0} Polynomial.X.{0} (DFunLike.coe.{1, 1, 1} Polynomial.C.{0} (d i))) \u2192\n    Function.Injective.{u_1 + 1, 1} d",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-010976",
+      "project_type_dependencies": [],
+      "structural_type_hash": "1444110193",
+      "temporary_id": "decl-010982"
+    }
+  ],
+  "module_temporary_id": "module-0228",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e5a00621e4a5028c6b66",
+      "declaration": "Etingof.Corollary5_1_6_realType",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/249/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G]\n  [inst_3 : NeZero.{0} (Nat.cast.{0} (Nat.card.{0} G))] [Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} G))]\n  (D : IrrepDecomp.{0, 0} Complex G) (V : Fin (IrrepDecomp.n.{0, 0} D) \u2192 FDRep.{0, 0} Complex G),\n  (\u2200 (i : Fin (IrrepDecomp.n.{0, 0} D)), CategoryTheory.Simple.{0, 1} (V i)) \u2192\n    (\u2200 (i j : Fin (IrrepDecomp.n.{0, 0} D)), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (i : Fin (IrrepDecomp.n.{0, 0} D)), Etingof.IsRealType.{0, 0} (FDRep.\u03c1.{0, 0} (V i))) \u2192\n        Eq.{1}\n          (Nat.cast.{0}\n            (Finset.card.{0} (Finset.filter.{0} (fun g => Eq.{1} (HMul.hMul.{0, 0, 0} g g) 1) Finset.univ.{0})))\n          (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n            Nat.cast.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (V i)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Corollary5_1_6"
+    }
+  ],
+  "canonical_reference": "Chapter5/Corollary5.1.6",
+  "packet_id": "align-0360",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0360"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6fc39a38499a7546ac6f",
+  "source_text": "If every irreducible complex representation is defined over the reals, its dimension sum equals the number of involutions."
+}

@@ -1,0 +1,34 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] {A : Type u_2} [inst_2 : Ring.{u_2} A]\n  [inst_3 : Algebra.{u_1, u_2} k A] {V : Type u_3} [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V]\n  [inst_6 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [IsSimpleModule.{u_2, u_3} A V]\n  [FiniteDimensional.{u_1, u_3} k V] (\u03c6 : LinearMap.{u_2, u_2, u_3, u_3} (RingHom.id.{u_2} A) V V),\n  Exists.{u_1 + 1} fun c =>\n    \u2200 (v : V), Eq.{u_3 + 1} (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} \u03c6 v) (HSMul.hSMul.{u_1, u_3, u_3} c v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1698322545",
+      "temporary_id": "decl-001469"
+    }
+  ],
+  "module_temporary_id": "module-0001",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

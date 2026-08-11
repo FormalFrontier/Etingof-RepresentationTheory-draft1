@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.14.1",
+    "kind": "definition",
+    "title": "Tensor product of Lie algebra representations",
+    "node_id": "chapter-02/section-2-14",
+    "order": 114,
+    "slug": "definition2-14-1",
+    "span": {
+      "start": {
+        "page": "37",
+        "line": 10
+      },
+      "end": {
+        "page": "37",
+        "line": 14
+      }
+    },
+    "source_sha256": "e429b8635da694bdc5ae9a3936f0cbc66dd184ff42f8a8dc0e92c692d3f94c43",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition2141",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

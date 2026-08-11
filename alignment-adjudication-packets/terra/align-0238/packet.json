@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b755b97c4e38fbb1a948",
+      "declaration": "Etingof.Theorem5_27_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/396/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_27_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.27.1",
+  "packet_id": "align-0238",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0238"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4770c1630e9c7d63d768",
+  "source_text": "Every irreducible representation of A\u22caG arises from the little-group construction."
+}

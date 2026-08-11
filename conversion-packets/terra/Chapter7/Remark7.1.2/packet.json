@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Remark7.1.2",
+    "kind": "remark",
+    "title": "Notation X in C",
+    "node_id": "chapter-07/section-7-1",
+    "order": 467,
+    "slug": "remark7-1-2",
+    "span": {
+      "start": {
+        "page": "182",
+        "line": 15
+      },
+      "end": {
+        "page": "182",
+        "line": 16
+      }
+    },
+    "source_sha256": "e01c0d66a9697fb1633b19d8fdde6f580cc8e91a939017cc004feb4c10cf95ab",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Remark712",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

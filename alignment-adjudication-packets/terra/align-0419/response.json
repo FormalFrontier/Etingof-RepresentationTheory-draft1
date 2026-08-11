@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0419",
+  "associations": [
+    {
+      "association_id": "association:4b1d4e00580b9572a59d",
+      "role": "primary",
+      "rationale": "The theorem directly gives a unique representative index to which every indecomposable A2 representation is nonemptily isomorphic."
+    }
+  ]
+}

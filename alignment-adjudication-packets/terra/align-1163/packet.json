@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:60721529a2e44ceedd32",
+      "declaration": "Etingof.BookPathAlgebra.exists_isoClassEquiv_induced_by_book_assignments",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/69/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) (Q : Type v) [inst : Field.{u} k] [inst_1 : Quiver.{q, v} Q] [inst_2 : DecidableEq.{v + 1} Q]\n  [inst_3 : Fintype.{v} Q],\n  Exists.{max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2)} fun e =>\n    And\n      (\u2200 (M : Etingof.BookPathAlgebra.PathModule.{u, v, max v w, q} k Q),\n        Eq.{max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2)}\n          (DFunLike.coe.{max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2),\n              max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2), max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2)}\n            e\n            (Quotient.mk.{max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2)}\n              (Etingof.BookPathAlgebra.pathModuleIsoSetoid.{u, v, q, max v w} k Q) M))\n          (Quotient.mk.{max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2)}\n            (Etingof.BookPathAlgebra.quiverRepresentationIsoSetoid.{u, v, q, max v w} k Q)\n            (Etingof.BookPathAlgebra.PathModule.toQuiverRepresentation.{u, v, q, max v w} k Q M)))\n      (\u2200 (R : Etingof.QuiverRepresentation.{u, v, max v w, q} k Q),\n        Exists.{max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2)} fun M =>\n          And (Etingof.BookPathAlgebra.IsDirectSumRealization.{u, v, q, max v w, max v w} k Q R M)\n            (Eq.{max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2)}\n              (DFunLike.coe.{max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2),\n                  max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2), max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2)}\n                (Equiv.symm.{max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2),\n                    max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2)}\n                  e)\n                (Quotient.mk.{max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2)}\n                  (Etingof.BookPathAlgebra.quiverRepresentationIsoSetoid.{u, v, q, max v w} k Q) R))\n              (Quotient.mk.{max (max (max (q + 1) (u + 1)) (v + 2)) (w + 2)}\n                (Etingof.BookPathAlgebra.pathModuleIsoSetoid.{u, v, q, max v w} k Q) M)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_quiver_rep_bijection",
+  "packet_id": "align-1163",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1163"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f085d5d18d6c1434425b",
+  "source_text": "The two assignments are inverse and induce a bijection on isomorphism classes."
+}

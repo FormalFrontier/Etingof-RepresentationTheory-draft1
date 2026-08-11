@@ -1,0 +1,30 @@
+/-
+Copyright (c) 2026 FormalFrontier. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENCE.
+Authors: Kim Morrison
+-/
+
+import Mathlib.Algebra.Module.LinearMap.End
+
+/-! # Endomorphisms of regular modules and opposite rings -/
+
+namespace RepresentationTheory.ModuleEnd.OppositeRing
+
+/-- The ring equivalence from endomorphisms of the regular module to the opposite ring. -/
+noncomputable def regularEndRingEquivOpposite (A : Type*) [Ring A] :
+    Module.End A A ≃+* Aᵐᵒᵖ :=
+  (RingEquiv.moduleEndSelf A).symm
+
+/-- Evaluating the equivalence on an endomorphism gives the opposite of its value at one. -/
+@[simp]
+theorem regularEndRingEquivOpposite_apply (A : Type*) [Ring A] (f : Module.End A A) :
+    regularEndRingEquivOpposite A f = MulOpposite.op (f 1) :=
+  rfl
+
+/-- The inverse equivalence sends an opposite element to right multiplication by that element. -/
+theorem regularEndRingEquivOpposite_symm_apply (A : Type*) [Ring A] (a x : A) :
+    (regularEndRingEquivOpposite A).symm (MulOpposite.op a) x = x * a := by
+  simp only [regularEndRingEquivOpposite, RingEquiv.symm_symm]
+  rfl
+
+end RepresentationTheory.ModuleEnd.OppositeRing

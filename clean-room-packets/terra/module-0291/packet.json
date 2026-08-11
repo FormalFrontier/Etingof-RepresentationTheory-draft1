@@ -1,0 +1,91 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (V : decl-016850 G) (g : G),\n  Eq.{1} (DFunLike.coe.{2, 2, 1} decl-016851 V g)\n    (Finset.sum.{1, 0} Finset.univ.{1} fun i =>\n      HMul.hMul.{0, 0, 0} (Int.cast.{0} (DFunLike.coe.{2, 2, 1} V (Subtype.val.{2} i)))\n        (FDRep.character.{0, 0} (decl-005096.{0, 0} (Subtype.val.{2} i)) g))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016850",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005096",
+        "decl-016850",
+        "decl-016851"
+      ],
+      "structural_type_hash": "2434178211",
+      "temporary_id": "decl-016855"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (V : decl-016850 G),\n  Eq.{1} V.dim\n    (Finset.sum.{1, 0} Finset.univ.{1} fun i =>\n      HMul.hMul.{0, 0, 0} (DFunLike.coe.{2, 2, 1} V (Subtype.val.{2} i))\n        (Nat.cast.{0}\n          (Module.finrank.{0, 0} Complex\n            (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (decl-005096.{0, 0} (Subtype.val.{2} i)))))))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016850",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005096",
+        "decl-016850",
+        "decl-016872"
+      ],
+      "structural_type_hash": "364651470",
+      "temporary_id": "decl-016875"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} G))]\n  (V : decl-016850 G),\n  Eq.{1}\n      (HSMul.hSMul.{0, 0, 0} (Invertible.invOf.{0} (Nat.cast.{0} (Fintype.card.{0} G)))\n        (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n          HMul.hMul.{0, 0, 0} (DFunLike.coe.{2, 2, 1} decl-016851 V g)\n            (DFunLike.coe.{2, 2, 1} decl-016851 V (Inv.inv.{0} g))))\n      1 \u2192\n    LT.lt.{0} 0 V.dim \u2192\n      Exists.{2} fun W => Exists.{0} fun hW => Eq.{2} V (decl-016883 W hW 1)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016850",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-016850",
+        "decl-016851",
+        "decl-016872",
+        "decl-016883"
+      ],
+      "structural_type_hash": "871356837",
+      "temporary_id": "decl-016878"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} G))]\n  (V : decl-016850 G),\n  Eq.{1}\n      (HSMul.hSMul.{0, 0, 0} (Invertible.invOf.{0} (Nat.cast.{0} (Fintype.card.{0} G)))\n        (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n          HMul.hMul.{0, 0, 0} (DFunLike.coe.{2, 2, 1} decl-016851 V g)\n            (DFunLike.coe.{2, 2, 1} decl-016851 V (Inv.inv.{0} g))))\n      1 \u2192\n    LT.lt.{0} 0 V.dim \u2192\n      Exists.{2} fun W =>\n        Exists.{0} fun x =>\n          Eq.{1} (DFunLike.coe.{2, 2, 1} decl-016851 V) (FDRep.character.{0, 0} W)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016850",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-016850",
+        "decl-016851",
+        "decl-016872"
+      ],
+      "structural_type_hash": "2155326071",
+      "temporary_id": "decl-016879"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (V : decl-016850 G)\n  (i j : Subtype.{2} fun x => Membership.mem.{1, 1} (Finsupp.support.{1, 0} V) x),\n  Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (decl-005096.{0, 0} (Subtype.val.{2} i))\n        (decl-005096.{0, 0} (Subtype.val.{2} j))) \u2192\n    Eq.{2} i j",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-016850",
+      "project_type_dependencies": [
+        "decl-005067",
+        "decl-005096",
+        "decl-016850"
+      ],
+      "structural_type_hash": "2061648507",
+      "temporary_id": "decl-016892"
+    }
+  ],
+  "module_temporary_id": "module-0291",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

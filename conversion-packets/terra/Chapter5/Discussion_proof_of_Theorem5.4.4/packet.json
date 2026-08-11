@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_proof_of_Theorem5.4.4",
+    "kind": "discussion",
+    "title": "Proof of Theorem 5.4.4",
+    "node_id": "chapter-05/section-5-4",
+    "order": 276,
+    "slug": "discussion-proof-of-theorem5-4-4",
+    "span": {
+      "start": {
+        "page": "101",
+        "line": 3
+      },
+      "end": {
+        "page": "101",
+        "line": 8
+      }
+    },
+    "source_sha256": "cad4b6df82171081ff6dcffb3c9d1750a3ebaddd22e71b5a32a841f490c23c76",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem544",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

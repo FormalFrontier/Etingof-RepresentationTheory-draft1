@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d0cf3d4bab4a1af56b93",
+      "declaration": "Etingof.freeCover",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/143/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  (A : Type u_2) \u2192\n    {X : Type u_3} \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : AddCommGroup.{u_3} X] \u2192\n            [inst_3 : Module.{u_1, u_3} k X] \u2192\n              [inst_4 : Module.{u_2, u_3} A X] \u2192\n                {\u03b9 : Type u_4} \u2192\n                  [Fintype.{u_4} \u03b9] \u2192\n                    Module.Basis.{u_4, u_1, u_3} \u03b9 k X \u2192\n                      LinearMap.{u_2, u_2, max u_2 u_4, u_3} (RingHom.id.{u_2} A) (\u03b9 \u2192 A) X",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_3_4"
+    },
+    {
+      "association_id": "association:09d2fd811f92c5c3edb4",
+      "declaration": "Etingof.freeCover_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/143/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} (A : Type u_2) {X : Type u_3} [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : AddCommGroup.{u_3} X] [inst_3 : Module.{u_1, u_3} k X] [inst_4 : Module.{u_2, u_3} A X] {\u03b9 : Type u_4}\n  [inst_5 : Fintype.{u_4} \u03b9] (b : Module.Basis.{u_4, u_1, u_3} \u03b9 k X) (a : \u03b9 \u2192 A),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1), max (u_2 + 1) (u_4 + 1), u_3 + 1}\n      (Etingof.freeCover.{u_1, u_2, u_3, u_4} A b) a)\n    (Finset.sum.{u_4, u_3} Finset.univ.{u_4} fun i =>\n      HSMul.hSMul.{u_2, u_3, u_3} (a i) (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_4 + 1), u_4 + 1, u_3 + 1} b i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_3_4"
+    }
+  ],
+  "canonical_reference": "Chapter3/Remark3.3.4",
+  "packet_id": "align-0401",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0401"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:7ffea3cab602fbd2853c",
+  "source_text": "For a basis x_i of X there is an A-linear map \u03c8 : A^n \u2192 X with \u03c8(a) = \u2211_i a_i x_i."
+}

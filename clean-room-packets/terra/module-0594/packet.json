@@ -1,0 +1,127 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C] \u2192\n      [CategoryTheory.Limits.HasBinaryBiproducts.{u_2, u_1} C] \u2192 C \u2192 C \u2192 CategoryTheory.ShortComplex.{u_2, u_1} C",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2574219653",
+      "temporary_id": "decl-023367"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C]\n  [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{u_2, u_1} C] [CategoryTheory.Limits.HasZeroObject.{u_2, u_1} C]\n  (X Z : C), CategoryTheory.ShortComplex.ShortExact.{u_2, u_1} (decl-023367.{u_1, u_2} X Z)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023367"
+      ],
+      "structural_type_hash": "159951730",
+      "temporary_id": "decl-023374"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C]\n  [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{u_2, u_1} C] (X Z : C),\n  Eq.{u_2 + 1}\n    (CategoryTheory.CategoryStruct.comp.{u_2, u_1} CategoryTheory.Limits.biprod.inl.{u_2, u_1}\n      (CategoryTheory.ShortComplex.Splitting.r.{u_2, u_1} (decl-023379.{u_1, u_2} X Z)))\n    (CategoryTheory.CategoryStruct.id.{u_2, u_1} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023367",
+        "decl-023379"
+      ],
+      "structural_type_hash": "4160761669",
+      "temporary_id": "decl-023375"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C]\n  [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{u_2, u_1} C] (X Z : C),\n  Eq.{u_2 + 1}\n    (CategoryTheory.CategoryStruct.comp.{u_2, u_1}\n      (CategoryTheory.ShortComplex.Splitting.s.{u_2, u_1} (decl-023379.{u_1, u_2} X Z))\n      CategoryTheory.Limits.biprod.snd.{u_2, u_1})\n    (CategoryTheory.CategoryStruct.id.{u_2, u_1} Z)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023367",
+        "decl-023379"
+      ],
+      "structural_type_hash": "4090928239",
+      "temporary_id": "decl-023376"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C] \u2192\n      [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{u_2, u_1} C] \u2192\n        (X Z : C) \u2192 CategoryTheory.SplitEpi.{u_2, u_1} CategoryTheory.Limits.biprod.snd.{u_2, u_1}",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3574654961",
+      "temporary_id": "decl-023377"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C] \u2192\n      [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{u_2, u_1} C] \u2192\n        (X Z : C) \u2192 CategoryTheory.SplitMono.{u_2, u_1} CategoryTheory.Limits.biprod.inl.{u_2, u_1}",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1539276477",
+      "temporary_id": "decl-023378"
+    },
+    {
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C] \u2192\n      [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{u_2, u_1} C] \u2192\n        (X Z : C) \u2192 CategoryTheory.ShortComplex.Splitting.{u_2, u_1} (decl-023367.{u_1, u_2} X Z)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023367"
+      ],
+      "structural_type_hash": "3947125987",
+      "temporary_id": "decl-023379"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C]\n  [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{u_2, u_1} C] (X Z : C),\n  Eq.{u_2 + 1}\n    (HAdd.hAdd.{u_2, u_2, u_2}\n      (CategoryTheory.CategoryStruct.comp.{u_2, u_1}\n        (CategoryTheory.ShortComplex.Splitting.r.{u_2, u_1} (decl-023379.{u_1, u_2} X Z))\n        CategoryTheory.Limits.biprod.inl.{u_2, u_1})\n      (CategoryTheory.CategoryStruct.comp.{u_2, u_1} CategoryTheory.Limits.biprod.snd.{u_2, u_1}\n        (CategoryTheory.ShortComplex.Splitting.s.{u_2, u_1} (decl-023379.{u_1, u_2} X Z))))\n    (CategoryTheory.CategoryStruct.id.{u_2, u_1} (CategoryTheory.Limits.biprod.{u_2, u_1} X Z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023367",
+        "decl-023379"
+      ],
+      "structural_type_hash": "3316560595",
+      "temporary_id": "decl-023380"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C]\n  [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{u_2, u_1} C] (X Z : C),\n  Eq.{u_2 + 1}\n    (CategoryTheory.ShortComplex.Splitting.r.{u_2, u_1} (decl-023379.{u_1, u_2} X Z))\n    CategoryTheory.Limits.biprod.fst.{u_2, u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023367",
+        "decl-023368",
+        "decl-023379"
+      ],
+      "structural_type_hash": "2996398286",
+      "temporary_id": "decl-023381"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C]\n  [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{u_2, u_1} C] (X Z : C),\n  Eq.{u_2 + 1}\n    (CategoryTheory.ShortComplex.Splitting.s.{u_2, u_1} (decl-023379.{u_1, u_2} X Z))\n    CategoryTheory.Limits.biprod.inr.{u_2, u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023367",
+        "decl-023368",
+        "decl-023379"
+      ],
+      "structural_type_hash": "2444100775",
+      "temporary_id": "decl-023382"
+    }
+  ],
+  "module_temporary_id": "module-0594",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

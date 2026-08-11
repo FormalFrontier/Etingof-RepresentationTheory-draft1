@@ -1,0 +1,62 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] [CharZero.{0} k] (N r : Nat),\n  LE.le.{0} 1 r \u2192\n    \u2200 (W : Subrepresentation.{0, 0, 0} (decl-005358.{0} k N r)),\n      LE.le.{0} (Subrepresentation.toSubmodule.{0, 0, 0} W)\n          (iSup.{0, 1} fun \u03bc =>\n            decl-005339.{0, 0} k N (decl-005358.{0} k N r)\n              fun i => Nat.cast.{0} (\u03bc i)) \u2192\n        Eq.{1} W Bot.bot.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005335",
+        "decl-005339",
+        "decl-005358"
+      ],
+      "structural_type_hash": "3331054007",
+      "temporary_id": "decl-005345"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] [CharZero.{0} k] (N r : Nat),\n  LE.le.{0} 1 r \u2192\n    \u2200\n      {W :\n        Submodule.{0, 0} k\n          (HasQuotient.Quotient.{0, 0} (MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k)\n            (decl-005335.{0} k N))},\n      (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)\n          (w :\n            HasQuotient.Quotient.{0, 0} (MvPolynomial.{0, 0} (Prod.{0, 0} (Fin N) (Fin N)) k)\n              (decl-005335.{0} k N)),\n          Membership.mem.{0, 0} W w \u2192\n            Membership.mem.{0, 0} W\n              (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-005358.{0} k N r) g)\n                w)) \u2192\n        LE.le.{0} W\n            (iSup.{0, 1} fun \u03bc =>\n              decl-005339.{0, 0} k N (decl-005358.{0} k N r)\n                fun i => Nat.cast.{0} (\u03bc i)) \u2192\n          Eq.{1} W Bot.bot.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005335",
+        "decl-005339",
+        "decl-005358"
+      ],
+      "structural_type_hash": "3597143963",
+      "temporary_id": "decl-005346"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] [CharZero.{0} k] (N r : Nat),\n  LE.le.{0} 1 r \u2192\n    \u2200 (W : Subrepresentation.{0, 0, 0} (decl-005358.{0} k N r)),\n      Ne.{1} W Bot.bot.{0} \u2192\n        Exists.{1} fun \u03bc =>\n          And (Exists.{1} fun i => LT.lt.{0} (\u03bc i) 0)\n            (Exists.{1} fun v =>\n              And (Membership.mem.{0, 0} (Subrepresentation.toSubmodule.{0, 0, 0} W) v)\n                (And (Ne.{1} v 0)\n                  (Membership.mem.{0, 0}\n                    (decl-005339.{0, 0} k N\n                      (decl-005358.{0} k N r) \u03bc)\n                    v)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005335",
+        "decl-005339",
+        "decl-005358"
+      ],
+      "structural_type_hash": "3146402161",
+      "temporary_id": "decl-005360"
+    }
+  ],
+  "module_temporary_id": "module-0346",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

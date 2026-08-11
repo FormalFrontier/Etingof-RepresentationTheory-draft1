@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0332",
+  "associations": [
+    {
+      "association_id": "association:8e2b6b2dd02e26cce957",
+      "rationale": "The displayed type only constructs a parameterized linear endomorphism and does not expose its action on the standard basis.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:343793621ecb8956bf5f",
+      "rationale": "The application theorem's formal type failed to pretty print, so packet-only evidence cannot verify the displayed standard-basis action directly.",
+      "role": "supporting"
+    }
+  ]
+}

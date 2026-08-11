@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_character_computation_setup",
+    "kind": "discussion",
+    "title": "Setup for computing characters of U_lambda: conjugacy classes C_i and power sums H_m",
+    "node_id": "chapter-05/section-5-14",
+    "order": 327,
+    "slug": "discussion-character-computation-setup",
+    "span": {
+      "start": {
+        "page": "116",
+        "line": 23
+      },
+      "end": {
+        "page": "116",
+        "line": 27
+      }
+    },
+    "source_sha256": "ac0658f2aa9fd7992ee4be218c150421b54328d18a087e99c008d1bca33f91be",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionCharacterComputationSetup",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d8ebff403244b7679dae",
+      "declaration": "Etingof.Problem_8_1_3_iii",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/526/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And (Module.Flat.{0, 0} (Polynomial.{0} Complex) (Localization.Away.{0} Polynomial.X.{0}))\n  (Not (Module.Projective.{0, 0} (Polynomial.{0} Complex) (Localization.Away.{0} Polynomial.X.{0})))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_1_3"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.1.3",
+  "packet_id": "align-0832",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0832"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.1.3:part_iii_not_projective",
+  "source_text": "Part (iii): C[x,x^-1] is not projective over C[x]."
+}

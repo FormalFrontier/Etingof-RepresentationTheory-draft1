@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0382",
+  "associations": [
+    {
+      "association_id": "association:21ce2984ac25b6e0dea4",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so packet-only evidence cannot show that this construction directly identifies abelian groups as a full subcategory of groups."
+    }
+  ]
+}

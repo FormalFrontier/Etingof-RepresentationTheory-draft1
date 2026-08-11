@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0111",
+  "associations": [
+    {
+      "association_id": "association:de5e34bf8db2a0411b57",
+      "role": "primary",
+      "rationale": "This declaration directly defines the type of commutative algebras described by the source claim."
+    }
+  ]
+}

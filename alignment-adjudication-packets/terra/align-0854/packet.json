@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4400289b56065becc985",
+      "declaration": "Etingof.Problem_8_2_8_ext",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/542/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (A\u2081 A\u2082 : Type u) [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] [FiniteDimensional.{u, u} k A\u2081]\n  [FiniteDimensional.{u, u} k A\u2082] (M\u2081 M\u2082 : Type u) [inst_7 : AddCommGroup.{u} M\u2081] [inst_8 : Module.{u, u} k M\u2081]\n  [inst_9 : Module.{u, u} A\u2081 M\u2081] [FiniteDimensional.{u, u} k M\u2081] [inst_11 : AddCommGroup.{u} M\u2082]\n  [inst_12 : Module.{u, u} k M\u2082] [inst_13 : Module.{u, u} A\u2082 M\u2082] [FiniteDimensional.{u, u} k M\u2082] (N\u2081 N\u2082 : Type u)\n  [inst_15 : AddCommGroup.{u} N\u2081] [inst_16 : Module.{u, u} k N\u2081] [inst_17 : Module.{u, u} A\u2081 N\u2081]\n  [FiniteDimensional.{u, u} k N\u2081] [inst_19 : AddCommGroup.{u} N\u2082] [inst_20 : Module.{u, u} k N\u2082]\n  [inst_21 : Module.{u, u} A\u2082 N\u2082] [FiniteDimensional.{u, u} k N\u2082] [IsScalarTower.{u, u, u} k A\u2081 M\u2081]\n  [IsScalarTower.{u, u, u} k A\u2082 M\u2082] [IsScalarTower.{u, u, u} k A\u2081 N\u2081] [IsScalarTower.{u, u, u} k A\u2082 N\u2082] (i : Nat)\n  [instM : Module.{u, u} (TensorProduct.{u, u, u} k A\u2081 A\u2082) (TensorProduct.{u, u, u} k M\u2081 M\u2082)]\n  [instN : Module.{u, u} (TensorProduct.{u, u, u} k A\u2081 A\u2082) (TensorProduct.{u, u, u} k N\u2081 N\u2082)],\n  (\u2200 (a\u2081 : A\u2081) (a\u2082 : A\u2082) (m\u2081 : M\u2081) (m\u2082 : M\u2082),\n      Eq.{u + 1} (HSMul.hSMul.{u, u, u} (TensorProduct.tmul.{u, u, u} k a\u2081 a\u2082) (TensorProduct.tmul.{u, u, u} k m\u2081 m\u2082))\n        (TensorProduct.tmul.{u, u, u} k (HSMul.hSMul.{u, u, u} a\u2081 m\u2081) (HSMul.hSMul.{u, u, u} a\u2082 m\u2082))) \u2192\n    (\u2200 (a\u2081 : A\u2081) (a\u2082 : A\u2082) (n\u2081 : N\u2081) (n\u2082 : N\u2082),\n        Eq.{u + 1} (HSMul.hSMul.{u, u, u} (TensorProduct.tmul.{u, u, u} k a\u2081 a\u2082) (TensorProduct.tmul.{u, u, u} k n\u2081 n\u2082))\n          (TensorProduct.tmul.{u, u, u} k (HSMul.hSMul.{u, u, u} a\u2081 n\u2081) (HSMul.hSMul.{u, u, u} a\u2082 n\u2082))) \u2192\n      Nonempty.{u + 1}\n        (LinearEquiv.{u, u, u, u} (RingHom.id.{u} k)\n          (Etingof.Ext.{u + 1, u, u}\n            (ModuleCat.of.{u, u} (TensorProduct.{u, u, u} k A\u2081 A\u2082) (TensorProduct.{u, u, u} k M\u2081 M\u2082))\n            (ModuleCat.of.{u, u} (TensorProduct.{u, u, u} k A\u2081 A\u2082) (TensorProduct.{u, u, u} k N\u2081 N\u2082)) i)\n          (DirectSum.{0, u}\n            (Subtype.{1} fun p => Eq.{1} (HAdd.hAdd.{0, 0, 0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) i) fun p =>\n            TensorProduct.{u, u, u} k\n              (Etingof.Ext.{u + 1, u, u} (ModuleCat.of.{u, u} A\u2081 M\u2081) (ModuleCat.of.{u, u} A\u2081 N\u2081)\n                (Prod.fst.{0, 0} (Subtype.val.{1} p)))\n              (Etingof.Ext.{u + 1, u, u} (ModuleCat.of.{u, u} A\u2082 M\u2082) (ModuleCat.of.{u, u} A\u2082 N\u2082)\n                (Prod.snd.{0, 0} (Subtype.val.{1} p)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_8"
+    },
+    {
+      "association_id": "association:4a50b69e75ff03d4a306",
+      "declaration": "Etingof.Problem_8_2_8_ext\u2096",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/542/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (A\u2081 A\u2082 : Type u) [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] [FiniteDimensional.{u, u} k A\u2081]\n  [FiniteDimensional.{u, u} k A\u2082] (M\u2081 M\u2082 : Type u) [inst_7 : AddCommGroup.{u} M\u2081] [inst_8 : Module.{u, u} k M\u2081]\n  [inst_9 : Module.{u, u} A\u2081 M\u2081] [FiniteDimensional.{u, u} k M\u2081] [inst_11 : AddCommGroup.{u} M\u2082]\n  [inst_12 : Module.{u, u} k M\u2082] [inst_13 : Module.{u, u} A\u2082 M\u2082] [FiniteDimensional.{u, u} k M\u2082] (N\u2081 N\u2082 : Type u)\n  [inst_15 : AddCommGroup.{u} N\u2081] [inst_16 : Module.{u, u} k N\u2081] [inst_17 : Module.{u, u} A\u2081 N\u2081]\n  [FiniteDimensional.{u, u} k N\u2081] [inst_19 : AddCommGroup.{u} N\u2082] [inst_20 : Module.{u, u} k N\u2082]\n  [inst_21 : Module.{u, u} A\u2082 N\u2082] [FiniteDimensional.{u, u} k N\u2082] (i : Nat)\n  (P\u2081 : Etingof.ProjectiveResolution.{u + 1, u} (ModuleCat.of.{u, u} A\u2081 M\u2081))\n  (P\u2082 : Etingof.ProjectiveResolution.{u + 1, u} (ModuleCat.of.{u, u} A\u2082 M\u2082))\n  [\u2200 (j : Nat),\n      Module.Finite.{u, u} A\u2081\n        (ModuleCat.carrier.{u, u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081) j))]\n  [\u2200 (j : Nat),\n      Module.Projective.{u, u} A\u2081\n        (ModuleCat.carrier.{u, u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2081) j))]\n  [\u2200 (m : Nat),\n      Module.Finite.{u, u} A\u2082\n        (ModuleCat.carrier.{u, u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) m))]\n  [\u2200 (m : Nat),\n      Module.Projective.{u, u} A\u2082\n        (ModuleCat.carrier.{u, u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P\u2082) m))]\n  [IsScalarTower.{u, u, u} k A\u2081 N\u2081] [IsScalarTower.{u, u, u} k A\u2082 N\u2082]\n  [instN : Module.{u, u} (TensorProduct.{u, u, u} k A\u2081 A\u2082) (TensorProduct.{u, u, u} k N\u2081 N\u2082)]\n  [IsScalarTower.{u, u, u} k (TensorProduct.{u, u, u} k A\u2081 A\u2082) (TensorProduct.{u, u, u} k N\u2081 N\u2082)],\n  (\u2200 (a\u2081 : A\u2081) (a\u2082 : A\u2082) (n\u2081 : N\u2081) (n\u2082 : N\u2082),\n      Eq.{u + 1} (HSMul.hSMul.{u, u, u} (TensorProduct.tmul.{u, u, u} k a\u2081 a\u2082) (TensorProduct.tmul.{u, u, u} k n\u2081 n\u2082))\n        (TensorProduct.tmul.{u, u, u} k (HSMul.hSMul.{u, u, u} a\u2081 n\u2081) (HSMul.hSMul.{u, u, u} a\u2082 n\u2082))) \u2192\n    Nonempty.{u + 1}\n      (CategoryTheory.Iso.{u, u + 1}\n        (Etingof.Ext\u2096.{u} k (TensorProduct.{u, u, u} k A\u2081 A\u2082)\n          (Etingof.extTensorFunctorLeftObj.{u} k A\u2081 A\u2082 (ModuleCat.of.{u, u} A\u2081 M\u2081) (ModuleCat.of.{u, u} A\u2082 M\u2082))\n          (ModuleCat.of.{u, u} (TensorProduct.{u, u, u} k A\u2081 A\u2082) (TensorProduct.{u, u, u} k N\u2081 N\u2082)) i)\n        (CategoryTheory.Limits.sigmaObj.{0, u, u + 1} fun p =>\n          CategoryTheory.MonoidalCategoryStruct.tensorObj.{u, u + 1}\n            (Etingof.Ext\u2096.{u} k A\u2081 (ModuleCat.of.{u, u} A\u2081 M\u2081) (ModuleCat.of.{u, u} A\u2081 N\u2081)\n              (Prod.fst.{0, 0} (Subtype.val.{1} p)))\n            (Etingof.Ext\u2096.{u} k A\u2082 (ModuleCat.of.{u, u} A\u2082 M\u2082) (ModuleCat.of.{u, u} A\u2082 N\u2082)\n              (Prod.snd.{0, 0} (Subtype.val.{1} p)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_8"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.8",
+  "packet_id": "align-0854",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0854"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.8:ext_corrected",
+  "source_text": "Prove the corrected Ext K\u00fcnneth formula under the finite-projective-resolution hypotheses actually needed."
+}

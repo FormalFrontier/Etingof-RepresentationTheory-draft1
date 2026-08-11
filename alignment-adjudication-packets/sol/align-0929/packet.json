@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4ee0c8f0666b1ec2e2c0",
+      "declaration": "Etingof.evalDirectSum",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/127/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    {\u03b9 : Type u_3} \u2192\n      (X : \u03b9 \u2192 Type u_4) \u2192\n        (V : Type u_5) \u2192\n          [inst : Field.{u_1} k] \u2192\n            [inst_1 : Ring.{u_2} A] \u2192\n              [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n                [DecidableEq.{u_3 + 1} \u03b9] \u2192\n                  [inst_4 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)] \u2192\n                    [inst_5 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (X i)] \u2192\n                      [inst_6 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)] \u2192\n                        [\u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (X i)] \u2192\n                          [inst_8 : AddCommGroup.{u_5} V] \u2192\n                            [inst_9 : Module.{u_1, u_5} k V] \u2192\n                              [inst_10 : Module.{u_2, u_5} A V] \u2192\n                                [inst_11 : IsScalarTower.{u_1, u_2, u_5} k A V] \u2192\n                                  LinearMap.{u_1, u_1, max (max u_5 u_4) u_3, u_5} (RingHom.id.{u_1} k)\n                                    (DirectSum.{u_3, max u_5 u_4} \u03b9 fun i =>\n                                      TensorProduct.{u_1, max u_5 u_4, u_4} k\n                                        (LinearMap.{u_2, u_2, u_4, u_5} (RingHom.id.{u_2} A) (X i) V) (X i))\n                                    V",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_1_3"
+    },
+    {
+      "association_id": "association:e0d78296ade46704b142",
+      "declaration": "Etingof.evalDirectSum_lof_tmul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/127/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) {\u03b9 : Type u_3} (X : \u03b9 \u2192 Type u_4) (V : Type u_5) [inst : Field.{u_1} k]\n  [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : DecidableEq.{u_3 + 1} \u03b9]\n  [inst_4 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)] [inst_5 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (X i)]\n  [inst_6 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)] [inst_7 : \u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (X i)]\n  [inst_8 : AddCommGroup.{u_5} V] [inst_9 : Module.{u_1, u_5} k V] [inst_10 : Module.{u_2, u_5} A V]\n  [inst_11 : IsScalarTower.{u_1, u_2, u_5} k A V] (i : \u03b9)\n  (g : LinearMap.{u_2, u_2, u_4, u_5} (RingHom.id.{u_2} A) (X i) V) (x : X i),\n  Eq.{u_5 + 1}\n    (DFunLike.coe.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), u_5 + 1}\n      (Etingof.evalDirectSum.{u_1, u_2, u_3, u_4, u_5} k A X V)\n      (DFunLike.coe.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), max (u_4 + 1) (u_5 + 1),\n          max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)}\n        (DirectSum.lof.{u_1, u_3, max u_5 u_4} k \u03b9\n          (fun i =>\n            TensorProduct.{u_1, max u_5 u_4, u_4} k (LinearMap.{u_2, u_2, u_4, u_5} (RingHom.id.{u_2} A) (X i) V) (X i))\n          i)\n        (TensorProduct.tmul.{u_1, max u_4 u_5, u_4} k g x)))\n    (DFunLike.coe.{max (u_4 + 1) (u_5 + 1), u_4 + 1, u_5 + 1} g x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_1_3"
+    },
+    {
+      "association_id": "association:1d12c9fc9b5622cd64c6",
+      "declaration": "Etingof.evalTensor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/127/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (X : Type u_3) \u2192\n      (V : Type u_4) \u2192\n        [inst : CommRing.{u_1} k] \u2192\n          [inst_1 : Ring.{u_2} A] \u2192\n            [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n              [inst_3 : AddCommGroup.{u_3} X] \u2192\n                [inst_4 : Module.{u_1, u_3} k X] \u2192\n                  [inst_5 : Module.{u_2, u_3} A X] \u2192\n                    [IsScalarTower.{u_1, u_2, u_3} k A X] \u2192\n                      [inst_7 : AddCommGroup.{u_4} V] \u2192\n                        [inst_8 : Module.{u_1, u_4} k V] \u2192\n                          [inst_9 : Module.{u_2, u_4} A V] \u2192\n                            [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A V] \u2192\n                              LinearMap.{u_1, u_1, max u_4 u_3, u_4} (RingHom.id.{u_1} k)\n                                (TensorProduct.{u_1, max u_4 u_3, u_3} k\n                                  (LinearMap.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} A) X V) X)\n                                V",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_1_3"
+    },
+    {
+      "association_id": "association:a2c026abf5e9088b982f",
+      "declaration": "Etingof.evalTensor_tmul",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/127/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (X : Type u_3) (V : Type u_4) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} X] [inst_4 : Module.{u_1, u_3} k X]\n  [inst_5 : Module.{u_2, u_3} A X] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A X] [inst_7 : AddCommGroup.{u_4} V]\n  [inst_8 : Module.{u_1, u_4} k V] [inst_9 : Module.{u_2, u_4} A V] [inst_10 : IsScalarTower.{u_1, u_2, u_4} k A V]\n  (g : LinearMap.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} A) X V) (x : X),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), max (u_3 + 1) (u_4 + 1), u_4 + 1}\n      (Etingof.evalTensor.{u_1, u_2, u_3, u_4} k A X V) (TensorProduct.tmul.{u_1, max u_3 u_4, u_3} k g x))\n    (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_3 + 1, u_4 + 1} g x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_1_3"
+    }
+  ],
+  "canonical_reference": "Chapter3/Remark3.1.3",
+  "packet_id": "align-0929",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0929"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a8d3ac5c716cb0cf5738",
+  "source_text": "There is a canonical evaluation map \u2a01_X Hom_A(X,V) \u2297 X \u2192 V whose value on a pure tensor g \u2297 x is g(x)."
+}

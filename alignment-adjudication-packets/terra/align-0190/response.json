@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0190",
+  "associations": [
+    {
+      "association_id": "association:d377195ea08fab1ef809",
+      "role": "supporting",
+      "rationale": "It defines cochain complexes, one component of the section overview rather than the overview itself."
+    },
+    {
+      "association_id": "association:b5708d08fc04b1d26825",
+      "role": "supporting",
+      "rationale": "It defines cohomology, one component of the section overview rather than the overview itself."
+    },
+    {
+      "association_id": "association:17565c6ca345b797cc8e",
+      "role": "supporting",
+      "rationale": "It supplies the Kunneth isomorphism, one component of the section overview rather than the overview itself."
+    }
+  ]
+}

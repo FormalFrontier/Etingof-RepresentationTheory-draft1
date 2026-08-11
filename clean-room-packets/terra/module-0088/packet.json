@@ -1,0 +1,34 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] [inst_1 : Algebra.{0, u_1} Complex A] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} Complex V] [inst_4 : Module.{u_1, 0} A V] [IsScalarTower.{0, u_1, 0} Complex A V]\n  [IsSimpleModule.{u_1, 0} A V],\n  LE.le.{1} (Module.rank.{0, 0} Complex V) Cardinal.aleph0.{0} \u2192\n    \u2200 (\u03c6 : LinearMap.{u_1, u_1, 0, 0} (RingHom.id.{u_1} A) V V),\n      Exists.{1} fun c => \u2200 (v : V), Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c6 v) (HSMul.hSMul.{0, 0, 0} c v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2662824684",
+      "temporary_id": "decl-014360"
+    }
+  ],
+  "module_temporary_id": "module-0088",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

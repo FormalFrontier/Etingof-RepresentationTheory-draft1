@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c7f71acca282a91f5904",
+      "declaration": "Etingof.Ext",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/534/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C] \u2192 [CategoryTheory.HasExt.{u_3, u_2, u_1} C] \u2192 C \u2192 C \u2192 Nat \u2192 Type u_3",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_2_4"
+    },
+    {
+      "association_id": "association:110fa864ef46d79fe434",
+      "declaration": "Etingof.TorFunctor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/534/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    (N : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} N] \u2192\n        [Module.{u, u} A N] \u2192\n          Nat \u2192 CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} (MulOpposite.{u} A)) AddCommGrpCat.{u}",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_2_3"
+    }
+  ],
+  "canonical_reference": "Chapter8/Introduction_8.2",
+  "packet_id": "align-1187",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1187"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f7fd1c5c59d919e72b06",
+  "source_text": "Tor and Ext quantify the failure of tensor and Hom to be exact through their derived functors."
+}

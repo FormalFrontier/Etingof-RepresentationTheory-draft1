@@ -1,0 +1,25 @@
+{
+  "module_name": "LinearAlgebra.TensorProduct",
+  "declarations": [
+    {
+      "temporary_id": "decl-006851",
+      "new_name": "det_comp",
+      "docstring": "The determinant of a composite of endomorphisms is the product of their determinants."
+    },
+    {
+      "temporary_id": "decl-006854",
+      "new_name": "exists_tensorProductBasis",
+      "docstring": "Produces a basis whose vectors at pairs of indices are pure tensors of the given basis vectors."
+    },
+    {
+      "temporary_id": "decl-006855",
+      "new_name": "exists_tensorProductLift",
+      "docstring": "Provides a linear map out of a tensor product with the stated values on pure tensors."
+    },
+    {
+      "temporary_id": "decl-006856",
+      "new_name": "exists_dualTensorAction",
+      "docstring": "Provides the linear action on a tensor of a dual vector and a vector, evaluated by scalar multiplication."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Discussion_7.10",
+    "kind": "discussion",
+    "title": "Eilenberg, Mac Lane, and general abstract nonsense",
+    "node_id": "chapter-07/section-7-10",
+    "order": 522,
+    "slug": "discussion-7-10",
+    "span": {
+      "start": {
+        "page": "196",
+        "line": 3
+      },
+      "end": {
+        "page": "204",
+        "line": 3
+      }
+    },
+    "source_sha256": "5b79a03cdd06760959827a6de994623ea9a167f06ebe71366e05cf7b75e8644a",
+    "features": {
+      "line_count": 45,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Discussion710",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

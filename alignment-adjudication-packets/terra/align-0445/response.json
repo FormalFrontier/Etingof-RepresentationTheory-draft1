@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0445",
+  "associations": [
+    {
+      "association_id": "association:2171706e74ab7c828c54",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the displayed evidence does not directly expose the asserted quotient filtration and its factors."
+    },
+    {
+      "association_id": "association:d9f1a4ac037d8dba0e2e",
+      "role": "supporting",
+      "rationale": "Submodule comap is an auxiliary construction for transporting filtrations, and its formal type is unavailable."
+    },
+    {
+      "association_id": "association:d666a6643d8452a5a1ad",
+      "role": "supporting",
+      "rationale": "Submodule map is an auxiliary construction for transporting filtrations, and its formal type is unavailable."
+    }
+  ]
+}

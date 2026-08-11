@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1e63e0c6be7ced613a04",
+      "declaration": "IrrepDecomp.blockPoly_totalDegree",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/227/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [DecidableEq.{u + 1} G] [inst_5 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (D : IrrepDecomp.{u, u} k G)\n  (i : Fin (IrrepDecomp.n.{u, u} D)),\n  Eq.{1} (MvPolynomial.totalDegree.{u, u} (IrrepDecomp.blockPoly.{u} D i)) (IrrepDecomp.d.{u, u} D i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Theorem4_10_2"
+    },
+    {
+      "association_id": "association:b2f46fd0ab36c068083b",
+      "declaration": "IrrepDecomp.frobeniusDet_eq_signSmul_prod",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/227/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [inst_4 : DecidableEq.{u + 1} G] [inst_5 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (D : IrrepDecomp.{u, u} k G),\n  Eq.{u + 1} (Etingof.FrobeniusDeterminant.{u, u} k G)\n    (HSMul.hSMul.{u, u, u}\n      (Int.cast.{u} (Units.val.{0} (DFunLike.coe.{u + 1, u + 1, 1} Equiv.Perm.sign.{u} (Equiv.inv.{u} G))))\n      (Finset.prod.{0, u} Finset.univ.{0} fun i =>\n        HPow.hPow.{u, 0, u} (IrrepDecomp.blockPoly.{u} D i) (IrrepDecomp.d.{u, u} D i)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Theorem4_10_2"
+    }
+  ],
+  "canonical_reference": "Chapter4/Discussion_proof_Theorem4.10.2",
+  "packet_id": "align-1156",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1156"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ef8682736539b4f032ee",
+  "source_text": "The regular-representation operator matrix agrees with XG up to the inversion column permutation and its determinant sign."
+}

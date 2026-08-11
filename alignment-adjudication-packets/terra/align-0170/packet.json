@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4ecd5c8fe2f6c3b7b11e",
+      "declaration": "Etingof.Corollary_2_3_10",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/40/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] {A : Type u_2} [inst_2 : Ring.{u_2} A]\n  [inst_3 : Algebra.{u_1, u_2} k A] {V : Type u_3} [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V]\n  [inst_6 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [IsSimpleModule.{u_2, u_3} A V]\n  [FiniteDimensional.{u_1, u_3} k V] (\u03c6 : LinearMap.{u_2, u_2, u_3, u_3} (RingHom.id.{u_2} A) V V),\n  Exists.{u_1 + 1} fun c =>\n    \u2200 (v : V), Eq.{u_3 + 1} (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} \u03c6 v) (HSMul.hSMul.{u_1, u_3, u_3} c v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Corollary2_3_10"
+    },
+    {
+      "association_id": "association:0808981ac0bc5e8d5c9e",
+      "declaration": "Etingof.Corollary_2_3_12",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/40/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] {A : Type u_2} [inst_2 : CommRing.{u_2} A]\n  [inst_3 : Algebra.{u_1, u_2} k A] {V : Type u_3} [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V]\n  [inst_6 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [IsSimpleModule.{u_2, u_3} A V]\n  [FiniteDimensional.{u_1, u_3} k V], Eq.{1} (Module.finrank.{u_1, u_3} k V) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Corollary2_3_12"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_proof_Corollary2.3.12",
+  "packet_id": "align-0170",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0170"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3489ce756f7950201ba9",
+  "source_text": "Schur's lemma makes every \u03c1(a) scalar, so every subspace is a subrepresentation."
+}

@@ -1,0 +1,223 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "And (Infinite.{1} (Multiplicative.{0} Int))\n  (Exists.{1} fun \u03c1 =>\n    And (decl-015353.{0, 0, 0} \u03c1) (Not (Representation.IsIrreducible.{0, 0, 0} \u03c1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015353"
+      ],
+      "structural_type_hash": "2980675610",
+      "temporary_id": "decl-015352"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {G : Type u_2} \u2192\n    {V : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : Monoid.{u_2} G] \u2192\n          [inst_2 : AddCommGroup.{u_3} V] \u2192\n            [inst_3 : Module.{u_1, u_3} k V] \u2192 Representation.{u_1, u_2, u_3} k G V \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [],
+      "structural_type_hash": "3083413304",
+      "temporary_id": "decl-015353"
+    },
+    {
+      "formal_type": "\u2200 {S : Subrepresentation.{0, 0, 0} decl-015369},\n  Ne.{1} S Bot.bot.{0} \u2192\n    Membership.mem.{0, 0} (Subrepresentation.toSubmodule.{0, 0, 0} S) (decl-003626.{0} 2)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-003626",
+        "decl-015369"
+      ],
+      "structural_type_hash": "1122989864",
+      "temporary_id": "decl-015354"
+    },
+    {
+      "formal_type": "Subrepresentation.{0, 0, 0} decl-015369",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-015369"
+      ],
+      "structural_type_hash": "4161577010",
+      "temporary_id": "decl-015355"
+    },
+    {
+      "formal_type": "Ne.{1} decl-015355 Bot.bot.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-015355",
+        "decl-015369"
+      ],
+      "structural_type_hash": "2750197600",
+      "temporary_id": "decl-015358"
+    },
+    {
+      "formal_type": "Ne.{1} decl-015355 Top.top.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-015355",
+        "decl-015369"
+      ],
+      "structural_type_hash": "3177843618",
+      "temporary_id": "decl-015359"
+    },
+    {
+      "formal_type": "Eq.{1} (Subrepresentation.toSubmodule.{0, 0, 0} decl-015355)\n  (Submodule.span.{0, 0} Complex (Singleton.singleton.{0, 0} (decl-003626.{0} 2)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-003626",
+        "decl-015355",
+        "decl-015369"
+      ],
+      "structural_type_hash": "3969163901",
+      "temporary_id": "decl-015360"
+    },
+    {
+      "formal_type": "Units.{0} (Module.End.{0, 0} Complex (Fin 2 \u2192 Complex))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [],
+      "structural_type_hash": "2763744900",
+      "temporary_id": "decl-015361"
+    },
+    {
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} (Units.val.{0} decl-015361) (decl-003626.{0} 2))\n  (decl-003626.{0} 2)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-003626",
+        "decl-015361"
+      ],
+      "structural_type_hash": "3789307484",
+      "temporary_id": "decl-015366"
+    },
+    {
+      "formal_type": "Eq.{1} (Units.val.{0} decl-015361) (decl-003645.{0} 1 2)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-003645",
+        "decl-015361"
+      ],
+      "structural_type_hash": "2483250900",
+      "temporary_id": "decl-015367"
+    },
+    {
+      "formal_type": "Eq.{1}\n  (DFunLike.coe.{1, 1, 1} (Units.val.{0} (Inv.inv.{0} decl-015361)) (decl-003626.{0} 2))\n  (decl-003626.{0} 2)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-003626",
+        "decl-015361"
+      ],
+      "structural_type_hash": "785321354",
+      "temporary_id": "decl-015368"
+    },
+    {
+      "formal_type": "Representation.{0, 0, 0} Complex (Multiplicative.{0} Int) (Fin 2 \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [],
+      "structural_type_hash": "2861717647",
+      "temporary_id": "decl-015369"
+    },
+    {
+      "formal_type": "\u2200 (n : Multiplicative.{0} Int),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-015369 n)\n    (Units.val.{0} (HPow.hPow.{0, 0, 0} decl-015361 (DFunLike.coe.{1, 1, 1} Multiplicative.toAdd.{0} n)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-015361",
+        "decl-015369"
+      ],
+      "structural_type_hash": "614798483",
+      "temporary_id": "decl-015370"
+    },
+    {
+      "formal_type": "\u2200 (n : Multiplicative.{0} Int),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} decl-015369 n) (decl-003626.{0} 2))\n    (decl-003626.{0} 2)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-003626",
+        "decl-015369"
+      ],
+      "structural_type_hash": "2882376320",
+      "temporary_id": "decl-015371"
+    },
+    {
+      "formal_type": "decl-015353.{0, 0, 0} decl-015369",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-015353",
+        "decl-015369"
+      ],
+      "structural_type_hash": "2732171823",
+      "temporary_id": "decl-015372"
+    },
+    {
+      "formal_type": "Not (Representation.IsIrreducible.{0, 0, 0} decl-015369)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-015369"
+      ],
+      "structural_type_hash": "240055440",
+      "temporary_id": "decl-015373"
+    },
+    {
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} decl-015369 (DFunLike.coe.{1, 1, 1} Multiplicative.ofAdd.{0} 1))\n  (decl-003645.{0} 1 2)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-003645",
+        "decl-015369"
+      ],
+      "structural_type_hash": "3909907639",
+      "temporary_id": "decl-015374"
+    },
+    {
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-003667.{0} 2) (decl-003626.{0} 2)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-003626",
+        "decl-003667"
+      ],
+      "structural_type_hash": "1491092275",
+      "temporary_id": "decl-015375"
+    },
+    {
+      "formal_type": "Eq.{1} (HPow.hPow.{0, 0, 0} (decl-003667.{0} 2) 2) 0",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015352",
+      "project_type_dependencies": [
+        "decl-003667"
+      ],
+      "structural_type_hash": "1632348517",
+      "temporary_id": "decl-015376"
+    }
+  ],
+  "module_temporary_id": "module-0241",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

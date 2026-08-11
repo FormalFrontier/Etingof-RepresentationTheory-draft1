@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:575555954e92d81bb8c5",
+      "declaration": "Etingof.Example753.forgetful_not_representable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/486/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  [Infinite.{u_1 + 1} k] [FiniteDimensional.{u_1, u_2} k V] (S : Module.End.{u_1, u_2} k V),\n  Not\n    (\u2200 (\u03bc : k),\n      Eq.{1}\n        (Module.finrank.{u_1, max u_1 u_2} k\n          (Subtype.{(max u_1 u_2) + 1} fun x =>\n            Membership.mem.{max u_1 u_2, max u_1 u_2} (Etingof.Example753.forgetfulHom.{u_1, u_2} S \u03bc) x))\n        1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_5_3"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.5.3",
+  "packet_id": "align-0410",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0410"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:83424397c39578c83fee",
+  "source_text": "For the stated infinite-dimensional example, the finite-dimensional forgetful functor is not representable."
+}

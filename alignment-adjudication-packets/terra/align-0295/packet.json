@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:016aca882104bf9df6fb",
+      "declaration": "Etingof.Proposition5_3_2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/265/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type u_1) [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [inst_2 : DecidableEq.{u_1 + 1} G]\n  (V : FDRep.{0, u_1} Complex G) [CategoryTheory.Simple.{0, max 1 u_1} V] (g : G),\n  LT.lt.{0} 0 (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, u_1} V))) \u2192\n    IsIntegral.{0, 0} Int\n      (HDiv.hDiv.{0, 0, 0}\n        (HMul.hMul.{0, 0, 0} (Nat.cast.{0} (Fintype.card.{u_1} (Subtype.{u_1 + 1} fun h => IsConj.{u_1} g h)))\n          (FDRep.character.{0, u_1} V g))\n        (Nat.cast.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, u_1} V)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_3_2"
+    },
+    {
+      "association_id": "association:817fce9b378834d4d628",
+      "declaration": "Etingof.Theorem5_3_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/265/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type u_1) [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (V : FDRep.{0, u_1} Complex G)\n  [CategoryTheory.Simple.{0, max 1 u_1} V],\n  Dvd.dvd.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, u_1} V)))\n    (Fintype.card.{u_1} G)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_3_1"
+    },
+    {
+      "association_id": "association:bf6671157b283374f5e9",
+      "declaration": "FDRep.character_isIntegral",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/265/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] (V : FDRep.{0, u_1} Complex G) (g : G),\n  IsIntegral.{0, 0} Int (FDRep.character.{0, u_1} V g)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_proof_of_Theorem5.3.1",
+  "packet_id": "align-0295",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0295"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:5859bd3ecf7999e7b7c2",
+  "source_text": "Character values and the class-sum scalars are algebraic integers, so their finite sum is integral."
+}

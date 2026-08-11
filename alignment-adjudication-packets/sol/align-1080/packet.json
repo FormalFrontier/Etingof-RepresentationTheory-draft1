@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:32add57c4b7c934de0c0",
+      "declaration": "Etingof.ExactFunctor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/513/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  {D : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} C] \u2192\n      [inst_1 : CategoryTheory.Category.{u_4, u_2} D] \u2192 CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_9_3"
+    },
+    {
+      "association_id": "association:90ef4787b0025ff45259",
+      "declaration": "Etingof.LeftExactFunctor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/513/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  {D : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} C] \u2192\n      [inst_1 : CategoryTheory.Category.{u_4, u_2} D] \u2192 CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_9_3"
+    },
+    {
+      "association_id": "association:3aee738bd1ddbd3a0cad",
+      "declaration": "Etingof.RightExactFunctor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/513/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  {D : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} C] \u2192\n      [inst_1 : CategoryTheory.Category.{u_4, u_2} D] \u2192 CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_9_3"
+    },
+    {
+      "association_id": "association:18b5f8dba7a6d322a310",
+      "declaration": "Etingof.exactFunctor_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/513/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] {F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D},\n  Iff (Etingof.ExactFunctor.{u_1, u_2, u_3, u_4} F)\n    (And (Etingof.LeftExactFunctor.{u_1, u_2, u_3, u_4} F) (Etingof.RightExactFunctor.{u_1, u_2, u_3, u_4} F))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_9_3"
+    }
+  ],
+  "canonical_reference": "Chapter7/Definition7.9.3",
+  "packet_id": "align-1080",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1080"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d58973c3a87d9b22e2d7",
+  "source_text": "Left exact, right exact, and exact functors preserve the corresponding ends of exact sequences."
+}

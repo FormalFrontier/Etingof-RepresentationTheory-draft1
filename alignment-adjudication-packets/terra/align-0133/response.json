@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0133",
+  "associations": [
+    {
+      "association_id": "association:ce3ddd7b4a5c9033b0bc",
+      "role": "primary",
+      "rationale": "Its implication directly states that every finite-dimensional indecomposable complex sl(2)-module is irreducible."
+    }
+  ]
+}

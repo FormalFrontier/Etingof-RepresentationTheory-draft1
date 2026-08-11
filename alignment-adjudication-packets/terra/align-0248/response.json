@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0248",
+  "associations": [
+    {
+      "association_id": "association:a577feb9f0c24fca49a8",
+      "role": "primary",
+      "rationale": "This declaration defines the IsUnit predicate on an element of a possibly non-unital associative algebra, directly representing the source definition."
+    }
+  ]
+}

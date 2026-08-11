@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Definition7.3.1",
+    "kind": "definition",
+    "title": "Natural transformation",
+    "node_id": "chapter-07/section-7-3",
+    "order": 479,
+    "slug": "definition7-3-1",
+    "span": {
+      "start": {
+        "page": "185",
+        "line": 5
+      },
+      "end": {
+        "page": "185",
+        "line": 8
+      }
+    },
+    "source_sha256": "4481d72fa9f5422ffaa9b95ebfe93966ed64f591a2736eaa2f9c58497c1addde",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition731",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

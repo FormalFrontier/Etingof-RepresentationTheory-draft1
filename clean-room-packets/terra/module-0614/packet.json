@@ -1,0 +1,108 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(R : Type) \u2192\n  [inst : CommRing.{0} R] \u2192 Nat \u2192 CategoryTheory.Functor.{v, v, v + 1, v + 1} (ModuleCat.{v, 0} R) (ModuleCat.{v, 0} R)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1667224546",
+      "temporary_id": "decl-025165"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : CommRing.{u} R] \u2192\n    Type u \u2192\n      CategoryTheory.Functor.{max u v, max u v, max (max (u + 1) (v + 1)) u, max (max (u + 1) (v + 1)) u}\n        (ModuleCat.{max u v, u} R) (ModuleCat.{max u v, u} R)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3531313382",
+      "temporary_id": "decl-025166"
+    },
+    {
+      "formal_type": "\u2200 {R \u03b9 : Type u} [inst : CommSemiring.{u} R] {M : Type v} [inst_1 : AddCommMonoid.{v} M] [inst_2 : Module.{u, v} R M]\n  {Q : Type u_1} [inst_3 : AddCommMonoid.{u_1} Q] [inst_4 : Module.{u, u_1} R Q]\n  {f g : LinearMap.{u, u, max v u, u_1} (RingHom.id.{u} R) (SymmetricPower.{u, v} R \u03b9 M) Q},\n  (\u2200 (x : PiTensorProduct.{u, u, v} R fun x => M),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{max (max (u + 1) (u_1 + 1)) (v + 1), max (u + 1) (v + 1), u_1 + 1} f\n          (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)} (SymmetricPower.mk.{u, v} R \u03b9 M)\n            x))\n        (DFunLike.coe.{max (max (u + 1) (u_1 + 1)) (v + 1), max (u + 1) (v + 1), u_1 + 1} g\n          (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)} (SymmetricPower.mk.{u, v} R \u03b9 M)\n            x))) \u2192\n    Eq.{max (max (u + 1) (u_1 + 1)) (v + 1)} f g",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2414022828",
+      "temporary_id": "decl-025584"
+    },
+    {
+      "formal_type": "{R \u03b9 : Type u} \u2192\n  [inst : CommSemiring.{u} R] \u2192\n    {M : Type v} \u2192\n      [inst_1 : AddCommMonoid.{v} M] \u2192\n        [inst_2 : Module.{u, v} R M] \u2192\n          {N : Type w} \u2192\n            [inst_3 : AddCommMonoid.{w} N] \u2192\n              [inst_4 : Module.{u, w} R N] \u2192\n                LinearMap.{u, u, v, w} (RingHom.id.{u} R) M N \u2192\n                  LinearMap.{u, u, max v u, max w u} (RingHom.id.{u} R) (SymmetricPower.{u, v} R \u03b9 M)\n                    (SymmetricPower.{u, w} R \u03b9 N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "32459867",
+      "temporary_id": "decl-025585"
+    },
+    {
+      "formal_type": "\u2200 {R \u03b9 : Type u} [inst : CommSemiring.{u} R] {M : Type v} [inst_1 : AddCommMonoid.{v} M] [inst_2 : Module.{u, v} R M]\n  {N : Type w} [inst_3 : AddCommMonoid.{w} N] [inst_4 : Module.{u, w} R N] {P : Type x} [inst_5 : AddCommMonoid.{x} P]\n  [inst_6 : Module.{u, x} R P] (g : LinearMap.{u, u, w, x} (RingHom.id.{u} R) N P)\n  (f : LinearMap.{u, u, v, w} (RingHom.id.{u} R) M N),\n  Eq.{max (max (u + 1) (v + 1)) (x + 1)} (decl-025585.{u, v, x} (LinearMap.comp.{u, u, u, v, w, x} g f))\n    (LinearMap.comp.{u, u, u, max u v, max u w, max u x} (decl-025585.{u, w, x} g)\n      (decl-025585.{u, v, w} f))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025585"
+      ],
+      "structural_type_hash": "596850969",
+      "temporary_id": "decl-025589"
+    },
+    {
+      "formal_type": "\u2200 {R \u03b9 : Type u} [inst : CommSemiring.{u} R] {M : Type v} [inst_1 : AddCommMonoid.{v} M] [inst_2 : Module.{u, v} R M]\n  {N : Type w} [inst_3 : AddCommMonoid.{w} N] [inst_4 : Module.{u, w} R N] {P : Type x} [inst_5 : AddCommMonoid.{x} P]\n  [inst_6 : Module.{u, x} R P] (g : LinearMap.{u, u, w, x} (RingHom.id.{u} R) N P)\n  (f : LinearMap.{u, u, v, w} (RingHom.id.{u} R) M N) (x : SymmetricPower.{u, v} R \u03b9 M),\n  Eq.{max (u + 1) (x + 1)}\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (x + 1), max (u + 1) (v + 1), max (u + 1) (x + 1)}\n      (decl-025585.{u, v, x} (LinearMap.comp.{u, u, u, v, w, x} g f)) x)\n    (DFunLike.coe.{max (max (u + 1) (w + 1)) (x + 1), max (u + 1) (w + 1), max (u + 1) (x + 1)}\n      (decl-025585.{u, w, x} g)\n      (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), max (u + 1) (v + 1), max (u + 1) (w + 1)}\n        (decl-025585.{u, v, w} f) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025585"
+      ],
+      "structural_type_hash": "3899095105",
+      "temporary_id": "decl-025590"
+    },
+    {
+      "formal_type": "\u2200 {R \u03b9 : Type u} [inst : CommSemiring.{u} R] {M : Type v} [inst_1 : AddCommMonoid.{v} M] [inst_2 : Module.{u, v} R M],\n  Eq.{max (u + 1) (v + 1)} (decl-025585.{u, v, v} LinearMap.id.{u, v}) LinearMap.id.{u, max u v}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025585"
+      ],
+      "structural_type_hash": "2281396616",
+      "temporary_id": "decl-025591"
+    },
+    {
+      "formal_type": "\u2200 {R \u03b9 : Type u} [inst : CommSemiring.{u} R] {M : Type v} [inst_1 : AddCommMonoid.{v} M] [inst_2 : Module.{u, v} R M]\n  {N : Type w} [inst_3 : AddCommMonoid.{w} N] [inst_4 : Module.{u, w} R N]\n  (f : LinearMap.{u, u, v, w} (RingHom.id.{u} R) M N) (x : PiTensorProduct.{u, u, v} R fun x => M),\n  Eq.{max (u + 1) (w + 1)}\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), max (u + 1) (v + 1), max (u + 1) (w + 1)}\n      (decl-025585.{u, v, w} f)\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)} (SymmetricPower.mk.{u, v} R \u03b9 M) x))\n    (DFunLike.coe.{max (u + 1) (w + 1), max (u + 1) (w + 1), max (u + 1) (w + 1)} (SymmetricPower.mk.{u, w} R \u03b9 N)\n      (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), max (u + 1) (v + 1), max (u + 1) (w + 1)}\n        (PiTensorProduct.map.{u, u, v, w} fun x => f) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025585"
+      ],
+      "structural_type_hash": "4218574117",
+      "temporary_id": "decl-025592"
+    },
+    {
+      "formal_type": "\u2200 {R \u03b9 : Type u} [inst : CommSemiring.{u} R] {M : Type v} [inst_1 : AddCommMonoid.{v} M] [inst_2 : Module.{u, v} R M]\n  {N : Type w} [inst_3 : AddCommMonoid.{w} N] [inst_4 : Module.{u, w} R N]\n  (f : LinearMap.{u, u, v, w} (RingHom.id.{u} R) M N) (g : \u03b9 \u2192 M),\n  Eq.{max (u + 1) (w + 1)}\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), max (u + 1) (v + 1), max (u + 1) (w + 1)}\n      (decl-025585.{u, v, w} f)\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)} (SymmetricPower.tprod.{u, v} R)\n        fun i => g i))\n    (DFunLike.coe.{max (u + 1) (w + 1), max (u + 1) (w + 1), max (u + 1) (w + 1)} (SymmetricPower.tprod.{u, w} R)\n      fun i => DFunLike.coe.{max (v + 1) (w + 1), v + 1, w + 1} f (g i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025585"
+      ],
+      "structural_type_hash": "1115057561",
+      "temporary_id": "decl-025593"
+    }
+  ],
+  "module_temporary_id": "module-0614",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

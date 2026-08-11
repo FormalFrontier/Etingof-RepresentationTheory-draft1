@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9836753b7d8af737b400",
+      "declaration": "Etingof.exists_structure_mod_radical",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/151/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u} A]\n  [inst_3 : Algebra.{u_1, u} k A] [FiniteDimensional.{u_1, u} k A],\n  Exists.{u + 1} fun s =>\n    And (\u2200 (M : Submodule.{u, u} A A), Membership.mem.{u, u} s M \u2192 IsCoatom.{u} M)\n      (And (LE.le.{0} (Finset.card.{u} s) (Module.finrank.{u_1, u} k A))\n        (And\n          (\u2200 (M : Submodule.{u, u} A A),\n            Membership.mem.{u, u} s M \u2192\n              \u2200 (N : Submodule.{u, u} A A),\n                Membership.mem.{u, u} s N \u2192\n                  Ne.{u + 1} M N \u2192\n                    IsEmpty.{u + 1}\n                      (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) (HasQuotient.Quotient.{u, u} A M)\n                        (HasQuotient.Quotient.{u, u} A N)))\n          (And\n            (\u2200 (W : Type u) [inst : AddCommGroup.{u} W] [inst_5 : Module.{u, u} A W] [IsSimpleModule.{u, u} A W],\n              Exists.{u + 1} fun M =>\n                And (Membership.mem.{u, u} s M)\n                  (Nonempty.{u + 1} (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) W (HasQuotient.Quotient.{u, u} A M))))\n            (Nonempty.{u + 1}\n              (AlgEquiv.{u_1, u, u} k (HasQuotient.Quotient.{u, u} A (Etingof.Radical.{u} A))\n                ((M : Subtype.{u + 1} fun x => Membership.mem.{u, u} s x) \u2192\n                  Module.End.{u_1, u} k (HasQuotient.Quotient.{u, u} A (Subtype.val.{u + 1} M))))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_5_4_CompleteFamily"
+    },
+    {
+      "association_id": "association:89fa0d63b1db9f55b434",
+      "declaration": "Etingof.structure_mod_radical",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/151/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u} A]\n  [inst_3 : Algebra.{u_1, u} k A] [FiniteDimensional.{u_1, u} k A] (\u03b9 : Type u_2) [Fintype.{u_2} \u03b9] (V : \u03b9 \u2192 Type u)\n  [inst_6 : (i : \u03b9) \u2192 AddCommGroup.{u} (V i)] [inst_7 : (i : \u03b9) \u2192 Module.{u_1, u} k (V i)]\n  [inst_8 : (i : \u03b9) \u2192 Module.{u, u} A (V i)] [\u2200 (i : \u03b9), IsScalarTower.{u_1, u, u} k A (V i)]\n  [\u2200 (i : \u03b9), FiniteDimensional.{u_1, u} k (V i)] [\u2200 (i : \u03b9), IsSimpleModule.{u, u} A (V i)],\n  (\u2200 (i j : \u03b9), Ne.{u_2 + 1} i j \u2192 IsEmpty.{u + 1} (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) (V i) (V j))) \u2192\n    (\u2200 (W : Type u) [inst_12 : AddCommGroup.{u} W] [inst_13 : Module.{u_1, u} k W] [inst_14 : Module.{u, u} A W]\n        [IsScalarTower.{u_1, u, u} k A W] [FiniteDimensional.{u_1, u} k W] [IsSimpleModule.{u, u} A W],\n        Exists.{u_2 + 1} fun i => Nonempty.{u + 1} (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) W (V i))) \u2192\n      Nonempty.{max ((max u u_2) + 1) (u + 1)}\n        (AlgEquiv.{u_1, u, max u u_2} k (HasQuotient.Quotient.{u, u} A (Etingof.Radical.{u} A))\n          ((i : \u03b9) \u2192 Module.End.{u_1, u} k (V i)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_5_4"
+    }
+  ],
+  "canonical_reference": "Chapter3/Theorem3.5.4",
+  "packet_id": "align-0288",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0288"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:5758639471441f3d8333",
+  "source_text": "For a finite complete family (V\u1d62), A/Rad(A) is isomorphic as a k-algebra to \u220f\u1d62 End_k(V\u1d62)."
+}

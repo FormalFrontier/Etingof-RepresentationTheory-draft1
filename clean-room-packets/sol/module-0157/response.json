@@ -1,0 +1,210 @@
+{
+  "module_name": "Algebra.Module.PolynomialEvaluationModules",
+  "declarations": [
+    {
+      "temporary_id": "decl-009710",
+      "new_name": "AuxiliaryFreeAlgebraRel",
+      "docstring": "An auxiliary relation on pairs of elements of a free algebra with finitely many generators."
+    },
+    {
+      "temporary_id": "decl-009715",
+      "new_name": "AuxiliaryModuleType",
+      "docstring": "An auxiliary family of types indexed by two natural numbers."
+    },
+    {
+      "temporary_id": "decl-009782",
+      "new_name": "EvaluationModule",
+      "docstring": "The module associated with evaluation at a tuple of complex scalars."
+    },
+    {
+      "temporary_id": "decl-009783",
+      "new_name": "smul_eq_aeval_smul",
+      "docstring": "Polynomial scalar multiplication on an evaluation module agrees with multiplication by the evaluated scalar."
+    },
+    {
+      "temporary_id": "decl-009785",
+      "new_name": "auxiliaryElement",
+      "docstring": "A distinguished element of the auxiliary module type."
+    },
+    {
+      "temporary_id": "decl-009787",
+      "new_name": "auxiliaryFinTwoVector",
+      "docstring": "An auxiliary complex-valued vector indexed by a two-element finite type."
+    },
+    {
+      "temporary_id": "decl-009789",
+      "new_name": "smul_eq_aeval_smul_of_generator_smul",
+      "docstring": "If every polynomial generator acts on a vector by its assigned scalar, then every polynomial acts by evaluation at those scalars."
+    },
+    {
+      "temporary_id": "decl-009790",
+      "new_name": "exists_common_eigenvector_of_finrank_two",
+      "docstring": "A two-dimensional complex module over the polynomial algebra has a nonzero common eigenvector for all polynomial generators."
+    },
+    {
+      "temporary_id": "decl-009792",
+      "new_name": "nonempty_auxiliaryType_linearEquiv",
+      "docstring": "The displayed auxiliary type associated with an evaluation module is nonempty linearly equivalent to the space of complex tuples."
+    },
+    {
+      "temporary_id": "decl-009793",
+      "new_name": "auxiliaryType_subsingleton_of_ne",
+      "docstring": "The displayed auxiliary type associated with two distinct evaluation points is a subsingleton."
+    },
+    {
+      "temporary_id": "decl-009794",
+      "new_name": "freeAlgebraRepresentation",
+      "docstring": "The representation of the free algebra on the auxiliary module type."
+    },
+    {
+      "temporary_id": "decl-009797",
+      "new_name": "freeAlgebraRepresentation_eq_of_rel",
+      "docstring": "Related elements of the free algebra have equal images under the auxiliary representation."
+    },
+    {
+      "temporary_id": "decl-009798",
+      "new_name": "distinguishedAlgebraElement",
+      "docstring": "A finite family of distinguished elements of the auxiliary algebra."
+    },
+    {
+      "temporary_id": "decl-009805",
+      "new_name": "auxiliaryEndomorphism",
+      "docstring": "An auxiliary family of complex-linear endomorphisms indexed by a finite type."
+    },
+    {
+      "temporary_id": "decl-009808",
+      "new_name": "auxiliaryEndomorphism_mul",
+      "docstring": "The product of any two endomorphisms in the auxiliary family is zero."
+    },
+    {
+      "temporary_id": "decl-009809",
+      "new_name": "exists_pairwise_nonisomorphic_auxiliaryModules",
+      "docstring": "When there is more than one generator, there is a natural-number-indexed family of auxiliary modules satisfying the displayed predicate and pairwise nonisomorphic over the auxiliary algebra."
+    },
+    {
+      "temporary_id": "decl-009811",
+      "new_name": "auxiliaryModuleAddCommGroup",
+      "docstring": "The additive commutative group structure on the auxiliary module type."
+    },
+    {
+      "temporary_id": "decl-009830",
+      "new_name": "auxiliaryModuleComplexModule",
+      "docstring": "The complex vector-space structure on the auxiliary module type."
+    },
+    {
+      "temporary_id": "decl-009838",
+      "new_name": "auxiliaryModuleAlgebraModule",
+      "docstring": "The module structure of the auxiliary algebra on the auxiliary module type."
+    },
+    {
+      "temporary_id": "decl-009839",
+      "new_name": "auxiliaryModuleNontrivial",
+      "docstring": "The auxiliary module type is nontrivial."
+    },
+    {
+      "temporary_id": "decl-009871",
+      "new_name": "evaluationIdeal",
+      "docstring": "The ideal of the polynomial algebra associated with evaluation at a tuple of complex scalars."
+    },
+    {
+      "temporary_id": "decl-009873",
+      "new_name": "coordinateEndomorphism",
+      "docstring": "The endomorphism of the auxiliary module determined by its zeroth coordinate and a distinguished vector."
+    },
+    {
+      "temporary_id": "decl-009874",
+      "new_name": "finTwoCoordinateEndomorphism",
+      "docstring": "An auxiliary endomorphism of complex vectors indexed by a two-element finite type."
+    },
+    {
+      "temporary_id": "decl-009878",
+      "new_name": "finTwoCoordinateEndomorphism_apply",
+      "docstring": "The auxiliary endomorphism on two-component vectors is scalar multiplication of its distinguished vector by the zeroth coordinate."
+    },
+    {
+      "temporary_id": "decl-009879",
+      "new_name": "finTwoCoordinateEndomorphism_sq",
+      "docstring": "The square of the auxiliary endomorphism on two-component vectors is zero."
+    },
+    {
+      "temporary_id": "decl-009880",
+      "new_name": "coordinateEndomorphism_apply",
+      "docstring": "The auxiliary endomorphism sends a vector to its zeroth coordinate times the distinguished vector."
+    },
+    {
+      "temporary_id": "decl-009881",
+      "new_name": "coordinateEndomorphism_sq",
+      "docstring": "The square of the auxiliary coordinate endomorphism is zero."
+    },
+    {
+      "temporary_id": "decl-009884",
+      "new_name": "linearEquivEvaluationModuleOfEigenvector",
+      "docstring": "A one-dimensional module with a nonzero simultaneous generator eigenvector is linearly equivalent to the corresponding evaluation module."
+    },
+    {
+      "temporary_id": "decl-009893",
+      "new_name": "PolynomialAlgebra",
+      "docstring": "The complex polynomial algebra with a finite family of variables."
+    },
+    {
+      "temporary_id": "decl-009894",
+      "new_name": "quotientMkOne_ne_zero",
+      "docstring": "The image of one in the quotient by an evaluation ideal is nonzero."
+    },
+    {
+      "temporary_id": "decl-009895",
+      "new_name": "auxiliaryAlgebraRepresentation",
+      "docstring": "The representation of the auxiliary algebra on the auxiliary module type."
+    },
+    {
+      "temporary_id": "decl-009897",
+      "new_name": "auxiliaryAlgebraRepresentation_algebraMap_apply",
+      "docstring": "The auxiliary-algebra representation sends an algebra-map scalar to scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-009898",
+      "new_name": "auxiliaryAlgebraRepresentation_distinguishedElement",
+      "docstring": "The auxiliary-algebra representation sends a distinguished indexed element to the corresponding coefficient times the coordinate endomorphism."
+    },
+    {
+      "temporary_id": "decl-009901",
+      "new_name": "distinguishedVector",
+      "docstring": "A distinguished nonzero vector in the auxiliary module type."
+    },
+    {
+      "temporary_id": "decl-009903",
+      "new_name": "finTwoDistinguishedVector",
+      "docstring": "A distinguished complex-valued vector indexed by a two-element finite type."
+    },
+    {
+      "temporary_id": "decl-009905",
+      "new_name": "distinguishedVector_ne_zero",
+      "docstring": "The distinguished vector in the auxiliary module is nonzero."
+    },
+    {
+      "temporary_id": "decl-009908",
+      "new_name": "exists_evaluation_submodule_and_quotient_of_finrank_two",
+      "docstring": "A two-dimensional complex module over the polynomial algebra has a submodule equivalent to one evaluation module whose quotient is equivalent to another."
+    },
+    {
+      "temporary_id": "decl-009934",
+      "new_name": "parameterCoefficients",
+      "docstring": "A family of complex coefficient tuples indexed by a natural-number parameter."
+    },
+    {
+      "temporary_id": "decl-009936",
+      "new_name": "parameterCoefficients_one",
+      "docstring": "For at least two coordinates, the first-coordinate parameter coefficient equals the natural-number parameter cast to the complex numbers."
+    },
+    {
+      "temporary_id": "decl-009937",
+      "new_name": "parameterCoefficients_zero",
+      "docstring": "The zeroth parameter coefficient is one."
+    },
+    {
+      "temporary_id": "decl-009938",
+      "new_name": "AuxiliaryAlgebra",
+      "docstring": "An auxiliary algebra type indexed by a natural number."
+    }
+  ]
+}

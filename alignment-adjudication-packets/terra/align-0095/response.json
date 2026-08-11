@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0095",
+  "associations": [
+    {
+      "association_id": "association:1dbb9f2bfa18bafbb44a",
+      "role": "primary",
+      "rationale": "This membership statement directly records the claimed maximal-root dimension vector (2,1,1,1)."
+    }
+  ]
+}

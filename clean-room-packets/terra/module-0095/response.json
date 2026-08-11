@@ -1,0 +1,9 @@
+{
+  "module_name": "ParameterizedAlgebra.SimpleModuleExistence",
+  "declarations": [
+    { "temporary_id": "decl-009060", "new_name": "exists_nontrivial_finiteSimpleModule_of_isOfFinOrder", "docstring": "A finite-order parameter yields a nontrivial finite-dimensional simple module of the stated dimension." },
+    { "temporary_id": "decl-009096", "new_name": "modelModule_isSimple", "docstring": "The displayed parameterized model module is simple when the parameter order is nonzero." },
+    { "temporary_id": "decl-009123", "new_name": "modelModule_finiteDimensional", "docstring": "The displayed parameterized model module is finite-dimensional over the complex numbers." },
+    { "temporary_id": "decl-009136", "new_name": "isOfFinOrder_iff_exists_nontrivial_finiteModule", "docstring": "The parameter has finite order exactly when a nontrivial finite-dimensional module exists." }
+  ]
+}

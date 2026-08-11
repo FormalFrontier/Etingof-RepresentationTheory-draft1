@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Theorem6.5.2",
+    "kind": "theorem",
+    "title": "Theorem 6.5.2: Gabriel's theorem",
+    "node_id": "chapter-06/section-6-5",
+    "order": 437,
+    "slug": "theorem6-5-2",
+    "span": {
+      "start": {
+        "page": "168",
+        "line": 1
+      },
+      "end": {
+        "page": "168",
+        "line": 2
+      }
+    },
+    "source_sha256": "74d1157736cce88e2dcc033336136c072dd3cf866c2b6d017e7bbc2e19fddc65",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Theorem652",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

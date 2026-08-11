@@ -1,0 +1,7 @@
+{
+  "module_name": "Module.SimpleSubmodule",
+  "declarations": [
+    {"temporary_id":"decl-018881","new_name":"exists_isSimpleModule_subtype","docstring":"Every nontrivial finite-dimensional module contains a subtype that is simple as a module."},
+    {"temporary_id":"decl-021765","new_name":"not_exists_isSimpleModule_polynomial_subtype","docstring":"Over a field, no subtype of the displayed polynomial module is simple."}
+  ]
+}

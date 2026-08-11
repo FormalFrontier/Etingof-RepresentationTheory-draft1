@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Definition9.3.1",
+    "kind": "definition",
+    "title": "Cartan matrix",
+    "node_id": "chapter-09/section-9-3",
+    "order": 557,
+    "slug": "definition9-3-1",
+    "span": {
+      "start": {
+        "page": "216",
+        "line": 5
+      },
+      "end": {
+        "page": "216",
+        "line": 8
+      }
+    },
+    "source_sha256": "da69b927208a368224cc8abdc0a1b59422b1a69cfb276c090bfd16288d6b9205",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Definition931",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

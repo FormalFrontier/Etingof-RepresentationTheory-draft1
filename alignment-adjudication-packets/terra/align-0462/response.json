@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0462",
+  "associations": [
+    {
+      "association_id": "association:f112bf64606293d64546",
+      "role": "primary",
+      "rationale": "The theorem directly concludes that a finite group whose cardinality is p^a q^b for primes p and q is solvable."
+    }
+  ]
+}

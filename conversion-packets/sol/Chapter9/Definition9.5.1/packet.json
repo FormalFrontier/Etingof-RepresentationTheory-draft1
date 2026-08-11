@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Definition9.5.1",
+    "kind": "definition",
+    "title": "Linked simple modules and blocks",
+    "node_id": "chapter-09/section-9-5",
+    "order": 567,
+    "slug": "definition9-5-1",
+    "span": {
+      "start": {
+        "page": "217",
+        "line": 19
+      },
+      "end": {
+        "page": "218",
+        "line": 4
+      }
+    },
+    "source_sha256": "02b20053a5ac959fc72ffc152fd5ca4038a3b37fe6d5ccbcdf894c3a57c65c55",
+    "features": {
+      "line_count": 5,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Definition951",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

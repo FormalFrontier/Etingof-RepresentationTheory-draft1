@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:be05e1a20fecc4ed862e",
+      "declaration": "Etingof.Problem_8_2_6_i_ext",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/540/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (M N : ModuleCat.{u, u} A),\n  Nonempty.{u + 1} (AddEquiv.{u, u} (Etingof.Ext.{u + 1, u, u} M N 0) (Quiver.Hom.{u, u + 1} M N))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_6"
+    },
+    {
+      "association_id": "association:6ec193bad218a512fe08",
+      "declaration": "Etingof.Problem_8_2_6_i_tor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/540/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (N : Type u) [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} A N]\n  (M : ModuleCat.{u, u} (MulOpposite.{u} A)),\n  Nonempty.{u + 1}\n    (CategoryTheory.Iso.{u, u + 1} (Etingof.Tor.{u} A N M 0)\n      (AddCommGrpCat.of.{u} (Etingof.tensorOver.{u} A N (ModuleCat.carrier.{u, u} M))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_6"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.6",
+  "packet_id": "align-0844",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0844"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.6:part_i",
+  "source_text": "Part (i): identify Tor0 with tensor product and Ext0 with Hom."
+}

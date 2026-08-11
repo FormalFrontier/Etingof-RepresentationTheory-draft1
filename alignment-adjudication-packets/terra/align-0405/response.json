@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0405",
+  "associations": [
+    {
+      "association_id": "association:025b69dd71b430a65a97",
+      "role": "supporting",
+      "rationale": "No formal type is displayed, so this kernel construction cannot itself be verified as stating closure under the representation action."
+    },
+    {
+      "association_id": "association:eb83ee33e844968a4963",
+      "role": "supporting",
+      "rationale": "No formal type is displayed, so this range construction cannot itself be verified as stating closure under the representation action."
+    }
+  ]
+}

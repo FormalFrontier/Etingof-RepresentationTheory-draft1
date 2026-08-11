@@ -1,0 +1,20 @@
+{
+  "module_name": "Algebra.Noncommutativity",
+  "declarations": [
+    {
+      "temporary_id": "decl-001919",
+      "new_name": "exists_noncommuting_pair_of_two_le_rank",
+      "docstring": "If a module over a field has rank at least two, there exist two elements whose products differ when their order is reversed."
+    },
+    {
+      "temporary_id": "decl-019544",
+      "new_name": "exists_noncommuting_pair_of_one_lt",
+      "docstring": "For a nontrivial commutative ring and a natural number greater than one, there are elements with unequal products in opposite orders."
+    },
+    {
+      "temporary_id": "decl-021632",
+      "new_name": "monoidAlgebra_mul_comm_iff",
+      "docstring": "All elements of a monoid algebra commute exactly when all elements of its indexing monoid commute."
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Introduction",
+    "kind": "introduction",
+    "title": "Introduction to representations of finite groups",
+    "node_id": "chapter-04",
+    "order": 183,
+    "slug": "introduction",
+    "span": {
+      "start": {
+        "page": "61",
+        "line": 1
+      },
+      "end": {
+        "page": "61",
+        "line": 10
+      }
+    },
+    "source_sha256": "5ce9aadbeaf5f05fcab10e61206b37024e3d03d26754e2090a483feecc3f58b4",
+    "features": {
+      "line_count": 10,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Introduction",
+    "verso_declaration": "content",
+    "verso_projection": {
+      "body_region": "before_section_heading",
+      "structure_only": true,
+      "inline_in_structure": true,
+      "structural_headings": [
+        {
+          "node_id": "chapter-04",
+          "source": "Chapter 4"
+        },
+        {
+          "node_id": "chapter-04",
+          "source": "Representations of finite groups: Basic results"
+        },
+        {
+          "node_id": "chapter-04/section-4-1",
+          "source": "4.1. Maschke's theorem"
+        }
+      ]
+    }
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

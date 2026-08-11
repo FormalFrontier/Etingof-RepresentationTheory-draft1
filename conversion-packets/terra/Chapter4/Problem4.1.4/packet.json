@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Problem4.1.4",
+    "kind": "exercise",
+    "title": "Irreducible representations of p-groups in characteristic p are trivial",
+    "node_id": "chapter-04/section-4-1",
+    "order": 188,
+    "slug": "problem4-1-4",
+    "span": {
+      "start": {
+        "page": "63",
+        "line": 15
+      },
+      "end": {
+        "page": "63",
+        "line": 16
+      }
+    },
+    "source_sha256": "84577d1fe93b0a87206f429a37c5267bd1cf30f5d74efb7fd1224bf7c8ca7f9b",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Problem414",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

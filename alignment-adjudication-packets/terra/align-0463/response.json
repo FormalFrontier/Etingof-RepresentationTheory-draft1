@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0463",
+  "associations": [
+    {
+      "association_id": "association:ab9abfcd2702dcfb0af6",
+      "role": "supporting",
+      "rationale": "The formal type supplies an algebra equivalence between the matrix algebra and its opposite, but it does not identify the underlying map as transpose or state the displayed transpose-of-a-product formula."
+    }
+  ]
+}

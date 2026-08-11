@@ -1,0 +1,6 @@
+{
+  "module_name": "RingTheory.SimpleModuleDimensionBound",
+  "declarations": [
+    {"temporary_id": "decl-023538", "new_name": "sum_finrank_sq_le", "docstring": "For a finite family of pairwise nonisomorphic finite-dimensional simple modules, the sum of the squares of their ranks is at most the rank of the algebra."}
+  ]
+}

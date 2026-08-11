@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.8.10",
+    "kind": "definition",
+    "title": "Homomorphism of quiver representations",
+    "node_id": "chapter-02/section-2-8",
+    "order": 75,
+    "slug": "definition2-8-10",
+    "span": {
+      "start": {
+        "page": "21",
+        "line": 15
+      },
+      "end": {
+        "page": "21",
+        "line": 16
+      }
+    },
+    "source_sha256": "08ca238bea2439295f2aee6131dfebdeaf3dbeaa35d786efcb002ea8c0a24df7",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition2810",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

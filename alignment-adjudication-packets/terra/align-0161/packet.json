@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:518712beb484ea8af563",
+      "declaration": "Etingof.InjectiveObject",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/533/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192 [CategoryTheory.Category.{u_2, u_1} C] \u2192 C \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_1_8"
+    },
+    {
+      "association_id": "association:a30c517e886e7d48ab00",
+      "declaration": "Etingof.injectiveObject_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/533/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Abelian.{u_2, u_1} C] (I : C),\n  Iff (Etingof.InjectiveObject.{u_1, u_2} I)\n    (And\n      (CategoryTheory.Limits.PreservesFiniteLimits.{u_2, u_2, u_1, u_2 + 1}\n        (CategoryTheory.preadditiveYonedaObj.{u_2, u_1} I))\n      (CategoryTheory.Limits.PreservesFiniteColimits.{u_2, u_2, u_1, u_2 + 1}\n        (CategoryTheory.preadditiveYonedaObj.{u_2, u_1} I)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_1_8"
+    }
+  ],
+  "canonical_reference": "Chapter8/Definition8.1.8",
+  "packet_id": "align-0161",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0161"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:31f7bfc1b73850b88c4a",
+  "source_text": "An injective object I in an abelian category is characterized by exactness of the contravariant Hom functor Hom(-, I)."
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c2cc84cfc4a93cff0f73",
+      "declaration": "Etingof.Proposition5_21_2_geometric_complex_zpow",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/363/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat) (z : Complex),\n  Ne.{1} z 0 \u2192\n    (\u2200 (i j : Fin N),\n        LT.lt.{0} i j \u2192\n          Ne.{1}\n            (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (Neg.neg.{0} (Nat.cast.{0} i.val)) 1))\n              (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (Neg.neg.{0} (Nat.cast.{0} j.val)) 1)))\n            0) \u2192\n      Eq.{1} (DFunLike.coe.{1, 1, 1} (Etingof.evalGeometricAt.{0} N Complex z) (Etingof.schurPoly N lam))\n        (HDiv.hDiv.{0, 0, 0}\n          (Finset.prod.{0, 0}\n            (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n            HSub.hSub.{0, 0, 0}\n              (HPow.hPow.{0, 0, 0} z\n                (HSub.hSub.{0, 0, 0}\n                  (HSub.hSub.{0, 0, 0} (Nat.cast.{0} (lam (Prod.fst.{0, 0} p))) (Nat.cast.{0} (Prod.fst.{0, 0} p).val))\n                  1))\n              (HPow.hPow.{0, 0, 0} z\n                (HSub.hSub.{0, 0, 0}\n                  (HSub.hSub.{0, 0, 0} (Nat.cast.{0} (lam (Prod.snd.{0, 0} p))) (Nat.cast.{0} (Prod.snd.{0, 0} p).val))\n                  1)))\n          (Finset.prod.{0, 0}\n            (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n            HSub.hSub.{0, 0, 0}\n              (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (Neg.neg.{0} (Nat.cast.{0} (Prod.fst.{0, 0} p).val)) 1))\n              (HPow.hPow.{0, 0, 0} z (HSub.hSub.{0, 0, 0} (Neg.neg.{0} (Nat.cast.{0} (Prod.snd.{0, 0} p).val)) 1))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_21_2"
+    },
+    {
+      "association_id": "association:7a42f4c702a6711bf0d2",
+      "declaration": "Etingof.Proposition5_21_2_geometric_field",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/363/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {K : Type u_1} [inst : Field.{u_1} K] [inst_1 : CharZero.{u_1} K] (N : Nat) (lam : Fin N \u2192 Nat) (z : K),\n  (\u2200 (i j : Fin N),\n      LT.lt.{0} i j \u2192\n        Ne.{u_1 + 1}\n          (HSub.hSub.{u_1, u_1, u_1} (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) i.val))\n            (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) j.val)))\n          0) \u2192\n    Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (Etingof.evalGeometricAt.{u_1} N K z) (Etingof.schurPoly N lam))\n      (HDiv.hDiv.{u_1, u_1, u_1}\n        (Finset.prod.{0, u_1}\n          (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n          HSub.hSub.{u_1, u_1, u_1}\n            (HPow.hPow.{u_1, 0, u_1} z\n              (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (lam (Prod.fst.{0, 0} p)) N) 1)\n                (Prod.fst.{0, 0} p).val))\n            (HPow.hPow.{u_1, 0, u_1} z\n              (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (lam (Prod.snd.{0, 0} p)) N) 1)\n                (Prod.snd.{0, 0} p).val)))\n        (Finset.prod.{0, u_1}\n          (Finset.filter.{0} (fun p => LT.lt.{0} (Prod.fst.{0, 0} p) (Prod.snd.{0, 0} p)) Finset.univ.{0}) fun p =>\n          HSub.hSub.{u_1, u_1, u_1}\n            (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) (Prod.fst.{0, 0} p).val))\n            (HPow.hPow.{u_1, 0, u_1} z (HSub.hSub.{0, 0, 0} (HSub.hSub.{0, 0, 0} N 1) (Prod.snd.{0, 0} p).val))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_21_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Proposition5.21.2",
+  "packet_id": "align-0284",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0284"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:56aef1885ff401cc7be3",
+  "source_text": "The Schur polynomial at (1,z,...,z^(N-1)) equals the book's product quotient, including its complex and integer-exponent forms."
+}

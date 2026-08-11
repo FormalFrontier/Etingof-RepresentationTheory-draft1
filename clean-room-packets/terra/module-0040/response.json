@@ -1,0 +1,11 @@
+{
+  "module_name": "Quiver.Arrows",
+  "declarations": [
+    {"temporary_id": "decl-014873", "new_name": "Arrow", "docstring": "The type of arrows in a quiver."},
+    {"temporary_id": "decl-014874", "new_name": "hom", "docstring": "The morphism underlying an arrow."},
+    {"temporary_id": "decl-014875", "new_name": "source", "docstring": "The source vertex of an arrow."},
+    {"temporary_id": "decl-014876", "new_name": "source_mk", "docstring": "The source of the arrow built from a morphism is its domain."},
+    {"temporary_id": "decl-014877", "new_name": "target", "docstring": "The target vertex of an arrow."},
+    {"temporary_id": "decl-014878", "new_name": "target_mk", "docstring": "The target of the arrow built from a morphism is its codomain."}
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192 (M : Type u) \u2192 [inst_1 : AddCommGroup.{u} M] \u2192 [Module.{u, u} (MulOpposite.{u} A) M] \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "293611963",
+      "temporary_id": "decl-005179"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {M : Type u} [inst_1 : AddCommGroup.{u} M]\n  [inst_2 : Module.{u, u} (MulOpposite.{u} A) M],\n  decl-005179.{u} A M \u2192\n    \u2200 {S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} A)},\n      CategoryTheory.ShortComplex.Exact.{u, u + 1} S \u2192\n        CategoryTheory.ShortComplex.Exact.{u, u + 1}\n          (CategoryTheory.ShortComplex.map.{u, u + 1, u, u + 1} S\n            (decl-023916.{u} A (ModuleCat.of.{u, u} (MulOpposite.{u} A) M)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005179",
+      "project_type_dependencies": [
+        "decl-005179",
+        "decl-020574",
+        "decl-023916"
+      ],
+      "structural_type_hash": "163069762",
+      "temporary_id": "decl-005181"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {M : Type u} [inst_1 : AddCommGroup.{u} M]\n  [inst_2 : Module.{u, u} (MulOpposite.{u} A) M],\n  decl-005179.{u} A M \u2192\n    \u2200 {S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} A)},\n      CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S \u2192\n        CategoryTheory.ShortComplex.ShortExact.{u, u + 1}\n          (CategoryTheory.ShortComplex.map.{u, u + 1, u, u + 1} S\n            (decl-023916.{u} A (ModuleCat.of.{u, u} (MulOpposite.{u} A) M)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005179",
+      "project_type_dependencies": [
+        "decl-005179",
+        "decl-020574",
+        "decl-023916"
+      ],
+      "structural_type_hash": "318546433",
+      "temporary_id": "decl-005182"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {M : Type u} [inst_1 : AddCommGroup.{u} M]\n  [inst_2 : Module.{u, u} (MulOpposite.{u} A) M],\n  decl-005179.{u} A M \u2192\n    CategoryTheory.Functor.PreservesHomology.{u, u + 1, u, u + 1}\n      (decl-023916.{u} A (ModuleCat.of.{u, u} (MulOpposite.{u} A) M))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005179",
+      "project_type_dependencies": [
+        "decl-005179",
+        "decl-020574",
+        "decl-023916"
+      ],
+      "structural_type_hash": "3552343025",
+      "temporary_id": "decl-005183"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (M : Type u) [inst_1 : AddCommGroup.{u} M]\n  [inst_2 : Module.{u, u} (MulOpposite.{u} A) M] [Module.Projective.{u, u} (MulOpposite.{u} A) M],\n  decl-005179.{u} A M",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005179"
+      ],
+      "structural_type_hash": "3496594701",
+      "temporary_id": "decl-014361"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : CommRing.{u_1} A] (M : Type u_2) [inst_1 : AddCommGroup.{u_2} M]\n  [inst_2 : Module.{u_1, u_2} A M] [Module.Projective.{u_1, u_2} A M], Module.Flat.{u_1, u_2} A M",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3268332101",
+      "temporary_id": "decl-014362"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : CommRing.{u_1} A] (S : Submonoid.{u_1} A), Module.Flat.{u_1, u_1} A (Localization.{u_1} S)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1142516867",
+      "temporary_id": "decl-014363"
+    },
+    {
+      "formal_type": "And (Module.Flat.{0, 0} (Polynomial.{0} Complex) (Localization.Away.{0} Polynomial.X.{0}))\n  (Not (Module.Projective.{0, 0} (Polynomial.{0} Complex) (Localization.Away.{0} Polynomial.X.{0})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2735619676",
+      "temporary_id": "decl-014364"
+    },
+    {
+      "formal_type": "\u2200\n  (f :\n    LinearMap.{0, 0, 0, 0} (RingHom.id.{0} (Polynomial.{0} Complex)) (Localization.Away.{0} Polynomial.X.{0})\n      (Polynomial.{0} Complex)),\n  Eq.{1} f 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3312010330",
+      "temporary_id": "decl-020150"
+    }
+  ],
+  "module_temporary_id": "module-0661",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

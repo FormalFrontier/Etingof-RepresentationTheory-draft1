@@ -1,0 +1,183 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k G : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      (H : Subgroup.{0} G) \u2192\n        CategoryTheory.Iso.{w + 1, w + 1} (decl-020085.{w} k G H) (decl-020136.{w} k G H)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020085",
+        "decl-020136"
+      ],
+      "structural_type_hash": "2984591687",
+      "temporary_id": "decl-016514"
+    },
+    {
+      "formal_type": "(k G : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      (H : Subgroup.{0} G) \u2192\n        CategoryTheory.Adjunction.{w, w, w + 1, w + 1} (decl-022648.{w} k G H)\n          (decl-020518.{w} k G H)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020518",
+        "decl-022648"
+      ],
+      "structural_type_hash": "572014398",
+      "temporary_id": "decl-016516"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type} [inst : Field.{0} k] [inst_1 : Group.{0} G] {H : Subgroup.{0} G} (V : Rep.{w, 0, 0} k G)\n  (W : Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x))\n  (\u03b1 :\n    Quiver.Hom.{w, w + 1} V (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1} (decl-020518.{w} k G H) W))\n  (v : Rep.V.{w, 0, 0} V),\n  Eq.{w + 1}\n    (DFunLike.coe.{w + 1, w + 1, w + 1}\n      (Rep.Hom.hom.{w, 0, 0} (DFunLike.coe.{w + 1, w + 1, w + 1} (decl-016518.{w} V W) \u03b1)) v)\n    (Subtype.val.{w + 1} (DFunLike.coe.{w + 1, w + 1, w + 1} (Rep.Hom.hom.{w, 0, 0} \u03b1) v) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016518",
+        "decl-020518",
+        "decl-022648"
+      ],
+      "structural_type_hash": "2099181669",
+      "temporary_id": "decl-016517"
+    },
+    {
+      "formal_type": "{k G : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      {H : Subgroup.{0} G} \u2192\n        (V : Rep.{w, 0, 0} k G) \u2192\n          (W : Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) \u2192\n            LinearEquiv.{0, 0, w, w} (RingHom.id.{0} k)\n              (Quiver.Hom.{w, w + 1} V\n                (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1} (decl-020518.{w} k G H) W))\n              (Quiver.Hom.{w, w + 1}\n                (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1} (decl-022648.{w} k G H) V) W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020518",
+        "decl-022648"
+      ],
+      "structural_type_hash": "2356665356",
+      "temporary_id": "decl-016518"
+    },
+    {
+      "formal_type": "\u2200 (k G : Type) [inst : Field.{0} k] [inst_1 : Group.{0} G] (H : Subgroup.{0} G) (V : Rep.{w, 0, 0} k G),\n  Eq.{w + 2}\n    (CategoryTheory.NatTrans.app.{w, w + 1, w + 1, w + 1}\n      (CategoryTheory.Iso.hom.{w + 1, w + 1} (decl-016514.{w} k G H)) (Opposite.op.{w + 2} V))\n    (CategoryTheory.Iso.hom.{w + 1, w + 1} (decl-019670.{w} V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016514",
+        "decl-019670",
+        "decl-020085",
+        "decl-020136"
+      ],
+      "structural_type_hash": "166448003",
+      "temporary_id": "decl-016519"
+    },
+    {
+      "formal_type": "\u2200 (k G : Type) [inst : Field.{0} k] [inst_1 : Group.{0} G] (H : Subgroup.{0} G) (V : Rep.{w, 0, 0} k G)\n  (W : Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x))\n  (\u03b1 :\n    Quiver.Hom.{w, w + 1} V (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1} (decl-020518.{w} k G H) W)),\n  Eq.{w + 1}\n    (DFunLike.coe.{w + 1, w + 1, w + 1}\n      (ModuleCat.Hom.hom.{w, 0}\n        (CategoryTheory.NatTrans.app.{w, w, w + 1, w + 1}\n          (CategoryTheory.NatTrans.app.{w, w + 1, w + 1, w + 1}\n            (CategoryTheory.Iso.hom.{w + 1, w + 1} (decl-016514.{w} k G H)) (Opposite.op.{w + 2} V))\n          W))\n      \u03b1)\n    (DFunLike.coe.{w + 1, w + 1, w + 1}\n      (LinearEquiv.symm.{0, 0, w, w} (Rep.resCoindHomEquiv.{w, 0, 0, 0} (Subgroup.subtype.{0} H) V W)) \u03b1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016514",
+        "decl-020085",
+        "decl-020136",
+        "decl-020518"
+      ],
+      "structural_type_hash": "2929281581",
+      "temporary_id": "decl-016520"
+    },
+    {
+      "formal_type": "\u2200 (k G : Type) [inst : Field.{0} k] [inst_1 : Group.{0} G] (H : Subgroup.{0} G) (V : Rep.{u_1, 0, 0} k G)\n  (W : Rep.{u_1, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n  Nonempty.{u_1 + 1}\n    (LinearEquiv.{0, 0, u_1, u_1} (RingHom.id.{0} k)\n      (Quiver.Hom.{u_1, u_1 + 1} V (Rep.coind.{0, 0, 0, u_1} (Subgroup.subtype.{0} H) W))\n      (Quiver.Hom.{u_1, u_1 + 1}\n        (CategoryTheory.Functor.obj.{u_1, u_1, u_1 + 1, u_1 + 1}\n          (Rep.resFunctor.{u_1, 0, 0, 0} (Subgroup.subtype.{0} H)) V)\n        W))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2652295657",
+      "temporary_id": "decl-016521"
+    },
+    {
+      "formal_type": "{k G : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      {H : Subgroup.{0} G} \u2192\n        (V : Rep.{w, 0, 0} k G) \u2192\n          CategoryTheory.Iso.{w + 1, w + 1}\n            (CategoryTheory.Functor.obj.{w, w + 1, w + 1, w + 1} (decl-020085.{w} k G H)\n              (Opposite.op.{w + 2} V))\n            (CategoryTheory.Functor.obj.{w, w + 1, w + 1, w + 1} (decl-020136.{w} k G H)\n              (Opposite.op.{w + 2} V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020085",
+        "decl-020136"
+      ],
+      "structural_type_hash": "3749242535",
+      "temporary_id": "decl-019670"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type} [inst : Field.{0} k] [inst_1 : Group.{0} G] {H : Subgroup.{0} G} (V : Rep.{w, 0, 0} k G)\n  (W : Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x))\n  (\u03b1 :\n    Quiver.Hom.{w, w + 1} V (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1} (decl-020518.{w} k G H) W)),\n  Eq.{w + 1}\n    (DFunLike.coe.{w + 1, w + 1, w + 1}\n      (ModuleCat.Hom.hom.{w, 0}\n        (CategoryTheory.NatTrans.app.{w, w, w + 1, w + 1}\n          (CategoryTheory.Iso.hom.{w + 1, w + 1} (decl-019670.{w} V)) W))\n      \u03b1)\n    (DFunLike.coe.{w + 1, w + 1, w + 1}\n      (LinearEquiv.symm.{0, 0, w, w} (Rep.resCoindHomEquiv.{w, 0, 0, 0} (Subgroup.subtype.{0} H) V W)) \u03b1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019670",
+        "decl-020085",
+        "decl-020136",
+        "decl-020518"
+      ],
+      "structural_type_hash": "2095385528",
+      "temporary_id": "decl-019673"
+    },
+    {
+      "formal_type": "(k G : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      (H : Subgroup.{0} G) \u2192\n        CategoryTheory.Functor.{w, w + 1, w + 1, w + 1} (Opposite.{max (w + 2) 1} (Rep.{w, 0, 0} k G))\n          (CategoryTheory.Functor.{w, w, w + 1, w + 1}\n            (Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) (ModuleCat.{w, 0} k))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2427744564",
+      "temporary_id": "decl-020085"
+    },
+    {
+      "formal_type": "\u2200 (k G : Type) [inst : Field.{0} k] [inst_1 : Group.{0} G] (H : Subgroup.{0} G) (V : Rep.{w, 0, 0} k G)\n  (W : Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n  Eq.{w + 2}\n    (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1}\n      (CategoryTheory.Functor.obj.{w, w + 1, w + 1, w + 1} (decl-020085.{w} k G H) (Opposite.op.{w + 2} V))\n      W)\n    (ModuleCat.of.{w, 0} k\n      (Quiver.Hom.{w, w + 1} V\n        (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1} (decl-020518.{w} k G H) W)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020085",
+        "decl-020518"
+      ],
+      "structural_type_hash": "3022466436",
+      "temporary_id": "decl-020086"
+    },
+    {
+      "formal_type": "(k G : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      (H : Subgroup.{0} G) \u2192\n        CategoryTheory.Functor.{w, w + 1, w + 1, w + 1} (Opposite.{max (w + 2) 1} (Rep.{w, 0, 0} k G))\n          (CategoryTheory.Functor.{w, w, w + 1, w + 1}\n            (Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) (ModuleCat.{w, 0} k))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2427744564",
+      "temporary_id": "decl-020136"
+    },
+    {
+      "formal_type": "\u2200 (k G : Type) [inst : Field.{0} k] [inst_1 : Group.{0} G] (H : Subgroup.{0} G) (V : Rep.{w, 0, 0} k G)\n  (W : Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n  Eq.{w + 2}\n    (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1}\n      (CategoryTheory.Functor.obj.{w, w + 1, w + 1, w + 1} (decl-020136.{w} k G H) (Opposite.op.{w + 2} V))\n      W)\n    (ModuleCat.of.{w, 0} k\n      (Quiver.Hom.{w, w + 1} (CategoryTheory.Functor.obj.{w, w, w + 1, w + 1} (decl-022648.{w} k G H) V)\n        W))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020136",
+        "decl-022648"
+      ],
+      "structural_type_hash": "450408797",
+      "temporary_id": "decl-020137"
+    },
+    {
+      "formal_type": "(k G : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      (H : Subgroup.{0} G) \u2192\n        CategoryTheory.Functor.{w, w, w + 1, w + 1} (Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x))\n          (Rep.{w, 0, 0} k G)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1198544370",
+      "temporary_id": "decl-020518"
+    },
+    {
+      "formal_type": "(k G : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      (H : Subgroup.{0} G) \u2192\n        CategoryTheory.Functor.{w, w, w + 1, w + 1} (Rep.{w, 0, 0} k G)\n          (Rep.{w, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} H x))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "713485146",
+      "temporary_id": "decl-022648"
+    }
+  ],
+  "module_temporary_id": "module-0448",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,132 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(C : Type u) \u2192 [CategoryTheory.Category.{v, u} C] \u2192 Type (max (max 1 u) v)",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1920381166",
+      "temporary_id": "decl-005147"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [decl-005147.{u, v} C] (X : C),\n  FiniteDimensionalOrder.{max u v} (CategoryTheory.Subobject.{v, u} X)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005147",
+      "project_type_dependencies": [
+        "decl-005147"
+      ],
+      "structural_type_hash": "2756620585",
+      "temporary_id": "decl-005150"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} {inst : CategoryTheory.Category.{v, u} C} [self : decl-005147.{u, v} C] (X : C),\n  FiniteDimensionalOrder.{max u v} (CategoryTheory.Subobject.{v, u} X)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005147",
+      "project_type_dependencies": [
+        "decl-005147"
+      ],
+      "structural_type_hash": "2756620585",
+      "temporary_id": "decl-005151"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  {inst : CategoryTheory.Category.{v, u} C} \u2192\n    [self : decl-005147.{u, v} C] \u2192 Fintype.{0} (decl-005166.{u, v} C)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005147",
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005166"
+      ],
+      "structural_type_hash": "3911984152",
+      "temporary_id": "decl-005152"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} {inst : CategoryTheory.Category.{v, u} C} [self : decl-005147.{u, v} C] (X : C),\n  CategoryTheory.Simple.{v, u} X \u2192\n    Exists.{1} fun i =>\n      Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} X (decl-005162.{u, v} i))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005147",
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005162",
+        "decl-005164",
+        "decl-005166"
+      ],
+      "structural_type_hash": "4058667157",
+      "temporary_id": "decl-005154"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  {inst : CategoryTheory.Category.{v, u} C} \u2192\n    [self : decl-005147.{u, v} C] \u2192 decl-005166.{u, v} C \u2192 C",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005147",
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005166"
+      ],
+      "structural_type_hash": "3527271747",
+      "temporary_id": "decl-005162"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} {inst : CategoryTheory.Category.{v, u} C} [self : decl-005147.{u, v} C]\n  (i : decl-005166.{u, v} C),\n  CategoryTheory.Simple.{v, u} (decl-005162.{u, v} i)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005147",
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005162",
+        "decl-005164",
+        "decl-005166"
+      ],
+      "structural_type_hash": "2862811693",
+      "temporary_id": "decl-005163"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  {inst : CategoryTheory.Category.{v, u} C} \u2192\n    [self : decl-005147.{u, v} C] \u2192 CategoryTheory.Abelian.{v, u} C",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005147",
+      "project_type_dependencies": [
+        "decl-005147"
+      ],
+      "structural_type_hash": "3522624464",
+      "temporary_id": "decl-005164"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} {inst : CategoryTheory.Category.{v, u} C} [self : decl-005147.{u, v} C],\n  CategoryTheory.EnoughProjectives.{v, u} C",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005147",
+      "project_type_dependencies": [
+        "decl-005147"
+      ],
+      "structural_type_hash": "3477549814",
+      "temporary_id": "decl-005165"
+    },
+    {
+      "formal_type": "(C : Type u) \u2192 {inst : CategoryTheory.Category.{v, u} C} \u2192 [self : decl-005147.{u, v} C] \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005147",
+      "project_type_dependencies": [
+        "decl-005147"
+      ],
+      "structural_type_hash": "449917021",
+      "temporary_id": "decl-005166"
+    }
+  ],
+  "module_temporary_id": "module-0705",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

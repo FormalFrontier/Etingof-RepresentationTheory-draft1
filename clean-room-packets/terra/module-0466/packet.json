@@ -1,0 +1,69 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Fintype.{u} G] [inst_3 : DecidableEq.{u + 1} G]\n  [inst_4 : IsAlgClosed.{u} k] [inst_5 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))]\n  [inst_6 : Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (D : decl-025031.{u, u} k G)\n  (V : Fin (decl-025117.{u, u} D) \u2192 FDRep.{u, u} k G),\n  (\u2200 (i : Fin (decl-025117.{u, u} D)), CategoryTheory.Simple.{u, u + 1} (V i)) \u2192\n    (\u2200 (i j : Fin (decl-025117.{u, u} D)),\n        Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      Eq.{u + 1}\n        (Nat.cast.{u}\n          (Finset.card.{u} (Finset.filter.{u} (fun g => Eq.{u + 1} (HMul.hMul.{u, u, u} g g) 1) Finset.univ.{u})))\n        (Finset.sum.{0, u} Finset.univ.{0} fun i =>\n          HMul.hMul.{u, u, u}\n            (Nat.cast.{u} (Module.finrank.{u, u} k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))))\n            (decl-024818.{u} (V i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024818",
+        "decl-025031",
+        "decl-025117"
+      ],
+      "structural_type_hash": "4084089604",
+      "temporary_id": "decl-016583"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G]\n  [inst_3 : Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} G))] (V : FDRep.{0, 0} Complex G),\n  Eq.{1} (decl-019674.{0, 0} (FDRep.\u03c1.{0, 0} V)) (decl-024818.{0} V)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019674",
+        "decl-024818"
+      ],
+      "structural_type_hash": "1844310418",
+      "temporary_id": "decl-019689"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G]\n  [inst_3 : NeZero.{0} (Nat.cast.{0} (Nat.card.{0} G))] [Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} G))]\n  (D : decl-025031.{0, 0} Complex G) (V : Fin (decl-025117.{0, 0} D) \u2192 FDRep.{0, 0} Complex G),\n  (\u2200 (i : Fin (decl-025117.{0, 0} D)), CategoryTheory.Simple.{0, 1} (V i)) \u2192\n    (\u2200 (i j : Fin (decl-025117.{0, 0} D)), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j) \u2192\n      Eq.{1}\n        (Nat.cast.{0}\n          (Finset.card.{0} (Finset.filter.{0} (fun g => Eq.{1} (HMul.hMul.{0, 0, 0} g g) 1) Finset.univ.{0})))\n        (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n          HMul.hMul.{0, 0, 0} (decl-019674.{0, 0} (FDRep.\u03c1.{0, 0} (V i)))\n            (Nat.cast.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (V i))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019674",
+        "decl-025031",
+        "decl-025117"
+      ],
+      "structural_type_hash": "4072744610",
+      "temporary_id": "decl-019691"
+    },
+    {
+      "formal_type": "{k G : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Group.{u} G] \u2192\n      [inst_2 : Fintype.{u} G] \u2192 [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] \u2192 FDRep.{u, u} k G \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "421732957",
+      "temporary_id": "decl-024818"
+    }
+  ],
+  "module_temporary_id": "module-0466",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

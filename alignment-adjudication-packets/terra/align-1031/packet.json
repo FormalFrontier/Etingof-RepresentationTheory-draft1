@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cd902fa38d234bbdd0aa",
+      "declaration": "Etingof.subsingleton_not_isSimpleModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/155/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] [Subsingleton.{u_1 + 1} A] (M : Type u_2) [inst_2 : AddCommGroup.{u_2} M]\n  [inst_3 : Module.{u_1, u_2} A M], Not (IsSimpleModule.{u_1, u_2} A M)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Proposition3_5_8"
+    }
+  ],
+  "canonical_reference": "Chapter3/Proposition3.5.8",
+  "packet_id": "align-1031",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1031"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c791e670ecefc25f1cc3",
+  "source_text": "The zero algebra has no irreducible representations."
+}

@@ -1,0 +1,58 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type u) [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L] {A : Type u}\n  [inst_3 : Ring.{u} A] [inst_4 : Algebra.{u, u} k A] [FiniteDimensional.{u, u} k A] (f : LieHom.{u, u, u} k L A),\n  Function.Injective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} f) \u2192\n    Exists.{u + 2} fun V =>\n      Exists.{u + 1} fun x =>\n        Exists.{u + 1} fun x_1 =>\n          Exists.{0} fun x_2 =>\n            Exists.{u + 1} fun \u03c1 => Function.Injective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "644589",
+      "temporary_id": "decl-017151"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type u) [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L] {A : Type u}\n  [inst_3 : Ring.{u} A] [inst_4 : Algebra.{u, u} k A] [FiniteDimensional.{u, u} k A]\n  (q : AlgHom.{u, u, u} k (UniversalEnvelopingAlgebra.{u, u} k L) A),\n  (Function.Injective.{u + 1, u + 1} fun x =>\n      DFunLike.coe.{u + 1, u + 1, u + 1} q\n        (DFunLike.coe.{u + 1, u + 1, u + 1} (UniversalEnvelopingAlgebra.\u03b9.{u, u} k) x)) \u2192\n    Exists.{u + 2} fun V =>\n      Exists.{u + 1} fun x =>\n        Exists.{u + 1} fun x_1 =>\n          Exists.{0} fun x_2 =>\n            Exists.{u + 1} fun \u03c1 => Function.Injective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2660704905",
+      "temporary_id": "decl-017152"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type u) [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L],\n  Iff\n    (Exists.{u + 2} fun V =>\n      Exists.{u + 1} fun x =>\n        Exists.{u + 1} fun x_1 =>\n          Exists.{0} fun x_2 =>\n            Exists.{u + 1} fun \u03c1 => Function.Injective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c1))\n    (Exists.{u + 2} fun A =>\n      Exists.{u + 1} fun x =>\n        Exists.{u + 1} fun x_1 =>\n          Exists.{0} fun x_2 =>\n            Exists.{u + 1} fun q =>\n              Function.Injective.{u + 1, u + 1} fun x_3 =>\n                DFunLike.coe.{u + 1, u + 1, u + 1} q\n                  (DFunLike.coe.{u + 1, u + 1, u + 1} (UniversalEnvelopingAlgebra.\u03b9.{u, u} k) x_3))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3913321148",
+      "temporary_id": "decl-019323"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type u) [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L] {V : Type u}\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [FiniteDimensional.{u, u} k V]\n  (\u03c1 : LieHom.{u, u, u} k L (Module.End.{u, u} k V)),\n  Function.Injective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c1) \u2192\n    Exists.{u + 2} fun A =>\n      Exists.{u + 1} fun x =>\n        Exists.{u + 1} fun x_1 =>\n          Exists.{0} fun x_2 =>\n            Exists.{u + 1} fun q =>\n              Function.Injective.{u + 1, u + 1} fun x_3 =>\n                DFunLike.coe.{u + 1, u + 1, u + 1} q\n                  (DFunLike.coe.{u + 1, u + 1, u + 1} (UniversalEnvelopingAlgebra.\u03b9.{u, u} k) x_3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3252060900",
+      "temporary_id": "decl-019401"
+    }
+  ],
+  "module_temporary_id": "module-0114",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

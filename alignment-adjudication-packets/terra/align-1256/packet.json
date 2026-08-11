@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7abaf1030f53435575a1",
+      "declaration": "Etingof.ind_ind_iso_ind",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/293/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V] (H K : Subgroup.{u_1} G) (hKH : LE.le.{u_1} K H)\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} K x) V),\n  Exists.{max (u_1 + 1) (u_2 + 1)} fun e =>\n    \u2200 (g : G)\n      (x :\n        Representation.IndV.{0, u_1, u_1, max u_1 u_2} (Subgroup.subtype.{u_1} H)\n          (Etingof.inducedTensorModel.{u_1, u_2} (Subgroup.subgroupOf.{u_1} K H)\n            (Etingof.indStagesInnerRep.{u_1, u_2} H K hKH \u03c1))),\n      Eq.{max (u_1 + 1) (u_2 + 1)}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)} e\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n            (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n              (Etingof.inducedTensorModel.{u_1, max u_1 u_2} H\n                (Etingof.inducedTensorModel.{u_1, u_2} (Subgroup.subgroupOf.{u_1} K H)\n                  (Etingof.indStagesInnerRep.{u_1, u_2} H K hKH \u03c1)))\n              g)\n            x))\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n            (Etingof.inducedTensorModel.{u_1, u_2} K \u03c1) g)\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)} e x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_8_4"
+    }
+  ],
+  "canonical_reference": "Chapter5/Problem5.8.4",
+  "packet_id": "align-1256",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1256"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Problem5.8.4",
+  "source_text": "**Problem 5.8.4.** Check that if $K \\subset H \\subset G$ are groups and if $V$ is a representation of $K$, then $\\operatorname{Ind}_H^G \\operatorname{Ind}_K^H V$ is isomorphic to $\\operatorname{Ind}_K^G V$.\n\n"
+}

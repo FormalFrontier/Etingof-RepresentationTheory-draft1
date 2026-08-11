@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Problem4.12.5",
+    "kind": "exercise",
+    "title": "Decomposition of representations of A_5 on icosahedron",
+    "node_id": "chapter-04/section-4-12",
+    "order": 235,
+    "slug": "problem4-12-5",
+    "span": {
+      "start": {
+        "page": "84",
+        "line": 19
+      },
+      "end": {
+        "page": "85",
+        "line": 4
+      }
+    },
+    "source_sha256": "bc5cbc6dcc9549768f2320c593c45513feea92406e68d8c82a3fc0ecb5ca080c",
+    "features": {
+      "line_count": 5,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Problem4125",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

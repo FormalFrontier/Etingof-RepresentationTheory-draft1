@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0321",
+  "associations": [
+    {
+      "association_id": "association:3fe53a104127b4c6c85b",
+      "role": "primary",
+      "rationale": "The declaration directly supplies a Lie algebra structure on the endomorphism algebra of a module over a commutative ring."
+    }
+  ]
+}

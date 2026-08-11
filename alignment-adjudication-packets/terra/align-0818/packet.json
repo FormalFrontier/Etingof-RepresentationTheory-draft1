@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e2ba87a48ee2b1a709bd",
+      "declaration": "Etingof.Problem7_8_5",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/506/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {S : CategoryTheory.ShortComplex.{0, 1} Etingof.Problem7_8_5_Complex}\n  (hS : CategoryTheory.ShortComplex.ShortExact.{0, 1} S) (i j : Int)\n  (hij : ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j),\n  And\n    (CategoryTheory.ShortComplex.Exact.{0, 1}\n      (CategoryTheory.ShortComplex.mk.{0, 1} (CategoryTheory.ShortComplex.ShortExact.\u03b4.{0, 1, 0} hS i j hij)\n        (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.f.{0, 1} S) j) \u22ef))\n    (And\n      (CategoryTheory.ShortComplex.Exact.{0, 1}\n        (CategoryTheory.ShortComplex.mk.{0, 1}\n          (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.f.{0, 1} S) i)\n          (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.g.{0, 1} S) i) \u22ef))\n      (CategoryTheory.ShortComplex.Exact.{0, 1}\n        (CategoryTheory.ShortComplex.mk.{0, 1}\n          (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.g.{0, 1} S) i)\n          (CategoryTheory.ShortComplex.ShortExact.\u03b4.{0, 1, 0} hS i j hij) \u22ef)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Problem7_8_5"
+    },
+    {
+      "association_id": "association:93c36e763ae2bfc5bd2c",
+      "declaration": "Etingof.Problem7_8_5_quotient",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/506/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {D : Etingof.Problem7_8_5_Complex} (C : Etingof.Problem7_8_5_Subcomplex D) (i j : Int)\n  (hij : ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j),\n  And\n    (CategoryTheory.ShortComplex.Exact.{0, 1}\n      (CategoryTheory.ShortComplex.mk.{0, 1} (C.concreteConnecting i j hij)\n        (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.f.{0, 1} C.shortComplex) j) \u22ef))\n    (And\n      (CategoryTheory.ShortComplex.Exact.{0, 1}\n        (CategoryTheory.ShortComplex.mk.{0, 1}\n          (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.f.{0, 1} C.shortComplex) i)\n          (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.g.{0, 1} C.shortComplex) i) \u22ef))\n      (CategoryTheory.ShortComplex.Exact.{0, 1}\n        (CategoryTheory.ShortComplex.mk.{0, 1}\n          (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.g.{0, 1} C.shortComplex) i)\n          (C.concreteConnecting i j hij) \u22ef)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Problem7_8_5"
+    }
+  ],
+  "canonical_reference": "Chapter7/Problem7.8.5",
+  "packet_id": "align-0818",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0818"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter7/Problem7.8.5:part_ii",
+  "source_text": "Part (ii): prove exactness of the resulting long cohomology sequence."
+}

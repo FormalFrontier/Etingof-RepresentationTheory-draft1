@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0889",
+  "associations": [
+    {
+      "association_id": "association:b83cdbfe11279a84c1b8",
+      "role": "primary",
+      "rationale": "This declaration defines the dual-representation type attached to a Lie module V, directly providing the representation whose underlying space is the dual of V."
+    }
+  ]
+}

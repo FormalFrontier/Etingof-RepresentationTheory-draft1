@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2eb3fd90f0627ff6a94d",
+      "declaration": "Etingof.Problem6_1_6.mckay_connected",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/412/claim_coverage/claims/3/lean_decl",
+          "verdict": "intentional_omission"
+        }
+      ],
+      "formal_type": "\u2200 {G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)}\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] {m : Nat}\n  (W : Fin m \u2192 FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} G x)),\n  Etingof.Problem6_1_6.IsCompleteIrreps W \u2192\n    \u2200 (i j : Fin m),\n      Exists.{1} fun path =>\n        And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n          (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n            (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n              LE.le.{0} 1\n                (Etingof.Problem6_1_6.mult W (List.get.{0} path \u27e8k, \u22ef\u27e9)\n                  (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_6"
+    },
+    {
+      "association_id": "association:afdeffaef2974c6a7954",
+      "declaration": "Etingof.Problem6_1_6.mckay_dims_are_marks",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/412/claim_coverage/claims/3/lean_decl",
+          "verdict": "intentional_omission"
+        }
+      ],
+      "formal_type": "\u2200 {G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)}\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] {m : Nat}\n  (W : Fin m \u2192 FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} G x)),\n  Etingof.Problem6_1_6.IsCompleteIrreps W \u2192\n    \u2200 (i : Fin m),\n      Eq.{1}\n        (Finset.sum.{0, 0} Finset.univ.{0} fun j =>\n          HMul.hMul.{0, 0, 0} (Etingof.Problem6_1_6.mckayCartan W i j)\n            (Nat.cast.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W j))))))\n        0",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_6"
+    },
+    {
+      "association_id": "association:aaf4bf23a2cb489daabe",
+      "declaration": "Etingof.Problem6_1_6.mckay_isAffineDynkin",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/412/claim_coverage/claims/3/lean_decl",
+          "verdict": "intentional_omission"
+        }
+      ],
+      "formal_type": "\u2200 {G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)}\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] {m : Nat}\n  (W : Fin m \u2192 FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} G x)),\n  Etingof.Problem6_1_6.IsCompleteIrreps W \u2192\n    LE.le.{0} 3 m \u2192\n      Nontrivial.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) \u2192\n        Etingof.Problem6_1_3_tildeE.IsAffineDynkinDiagram m (Etingof.Problem6_1_6.mckayAdj W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_6"
+    },
+    {
+      "association_id": "association:7c7cb50e2a94ad91b343",
+      "declaration": "Etingof.Problem6_1_6.mult_symm",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/412/claim_coverage/claims/3/lean_decl",
+          "verdict": "intentional_omission"
+        }
+      ],
+      "formal_type": "\u2200 {G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)}\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] {m : Nat}\n  (W : Fin m \u2192 FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} G x)),\n  Etingof.Problem6_1_6.IsCompleteIrreps W \u2192\n    \u2200 (i j : Fin m), Eq.{1} (Etingof.Problem6_1_6.mult W i j) (Etingof.Problem6_1_6.mult W j i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_6"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.6",
+  "packet_id": "align-0794",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0794"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.1.6:part_c_double_edge",
+  "source_text": "Part (c): handle the two-vertex double-edge affine A1 case."
+}

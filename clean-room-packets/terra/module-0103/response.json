@@ -1,0 +1,8 @@
+{
+  "module_name": "Module.SimpleLinearMaps",
+  "declarations": [
+    { "temporary_id": "decl-014744", "new_name": "linearMap_bijective_of_ne_zero_between_simple", "docstring": "A nonzero linear map between simple modules is bijective." },
+    { "temporary_id": "decl-014745", "new_name": "linearMap_injective_of_ne_zero_from_simple", "docstring": "A nonzero linear map out of a simple module is injective." },
+    { "temporary_id": "decl-014746", "new_name": "linearMap_surjective_of_ne_zero_to_simple", "docstring": "A nonzero linear map into a simple module is surjective." }
+  ]
+}

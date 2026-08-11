@@ -1,0 +1,1055 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Matrix.{0, 0, 0} (Fin 2) (Fin 2) Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3520096807",
+      "temporary_id": "decl-011456"
+    },
+    {
+      "formal_type": "Set.{0} (Quaternion.{0} Real)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1546054769",
+      "temporary_id": "decl-011458"
+    },
+    {
+      "formal_type": "\u2200 (x : Quaternion.{0} Real),\n  Membership.mem.{0, 0} decl-011458 x \u2192\n    \u2200 (y : Quaternion.{0} Real),\n      Membership.mem.{0, 0} decl-011458 y \u2192\n        Membership.mem.{0, 0} decl-011458 (HMul.hMul.{0, 0, 0} x y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011458"
+      ],
+      "structural_type_hash": "3813330118",
+      "temporary_id": "decl-011460"
+    },
+    {
+      "formal_type": "\u2200 (x : Quaternion.{0} Real),\n  Membership.mem.{0, 0} decl-011458 x \u2192 Membership.mem.{0, 0} decl-011458 (Star.star.{0} x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011458"
+      ],
+      "structural_type_hash": "1545057420",
+      "temporary_id": "decl-011463"
+    },
+    {
+      "formal_type": "\u2200 (x : Quaternion.{0} Real),\n  Membership.mem.{0, 0} decl-011458 x \u2192 Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) x",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011458"
+      ],
+      "structural_type_hash": "1211115280",
+      "temporary_id": "decl-011466"
+    },
+    {
+      "formal_type": "Real \u2192 Matrix.{0, 0, 0} (Fin 3) (Fin 3) Real",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1504067322",
+      "temporary_id": "decl-011469"
+    },
+    {
+      "formal_type": "Real \u2192 Matrix.{0, 0, 0} (Fin 3) (Fin 3) Real",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1504067322",
+      "temporary_id": "decl-011471"
+    },
+    {
+      "formal_type": "Subalgebra.{0, 0} Real (Module.End.{0, 0} Real (Fin 2 \u2192 Complex))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "101378505",
+      "temporary_id": "decl-011473"
+    },
+    {
+      "formal_type": "\u2200 (x : Subtype.{1} fun x => Membership.mem.{0, 0} decl-011473 x), Ne.{1} x 0 \u2192 IsUnit.{0} x",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011473"
+      ],
+      "structural_type_hash": "2344865027",
+      "temporary_id": "decl-011477"
+    },
+    {
+      "formal_type": "\u2200 {f : Module.End.{0, 0} Real (Fin 2 \u2192 Complex)},\n  Membership.mem.{0, 0} decl-011473 f \u2192\n    \u2200 (A : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)\n      (v : Fin 2 \u2192 Complex),\n      Membership.mem.{0, 0} (LinearMap.ker.{0, 0, 0, 0} f) v \u2192\n        Membership.mem.{0, 0} (LinearMap.ker.{0, 0, 0, 0} f) (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} A) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011473"
+      ],
+      "structural_type_hash": "2687394318",
+      "temporary_id": "decl-011478"
+    },
+    {
+      "formal_type": "\u2200 {f : Module.End.{0, 0} Real (Fin 2 \u2192 Complex)},\n  Membership.mem.{0, 0} decl-011473 f \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} f decl-026670) 0 \u2192 Eq.{1} f 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011473",
+        "decl-026670"
+      ],
+      "structural_type_hash": "1634552940",
+      "temporary_id": "decl-011479"
+    },
+    {
+      "formal_type": "LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Real)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} decl-011473 x) (Fin 2 \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011473"
+      ],
+      "structural_type_hash": "159693028",
+      "temporary_id": "decl-011480"
+    },
+    {
+      "formal_type": "\u2200 (x : Subtype.{1} fun x => Membership.mem.{0, 0} decl-011473 x),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-011480 x)\n    (DFunLike.coe.{1, 1, 1} (Subtype.val.{1} x) decl-026670)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011473",
+        "decl-011480",
+        "decl-026670"
+      ],
+      "structural_type_hash": "3908719643",
+      "temporary_id": "decl-011483"
+    },
+    {
+      "formal_type": "Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} decl-011480)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011473",
+        "decl-011480"
+      ],
+      "structural_type_hash": "2714955927",
+      "temporary_id": "decl-011484"
+    },
+    {
+      "formal_type": "Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} decl-011480)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011473",
+        "decl-011480"
+      ],
+      "structural_type_hash": "1053729861",
+      "temporary_id": "decl-011485"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2030869235",
+      "temporary_id": "decl-011486"
+    },
+    {
+      "formal_type": "Eq.{1} (Module.finrank.{0, 0} Real (Subtype.{1} fun x => Membership.mem.{0, 0} decl-011473 x)) 4",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011473"
+      ],
+      "structural_type_hash": "4144957606",
+      "temporary_id": "decl-011488"
+    },
+    {
+      "formal_type": "Eq.{1} (Module.finrank.{0, 0} Real (Quaternion.{0} Real)) 4",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1504652945",
+      "temporary_id": "decl-011489"
+    },
+    {
+      "formal_type": "Module.End.{0, 0} Real (Fin 2 \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2180077651",
+      "temporary_id": "decl-011490"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 2 \u2192 Complex),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-011490 v) (HSMul.hSMul.{0, 0, 0} Complex.I v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011490"
+      ],
+      "structural_type_hash": "181751583",
+      "temporary_id": "decl-011493"
+    },
+    {
+      "formal_type": "Membership.mem.{0, 0} decl-011473 decl-011490",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011473",
+        "decl-011490"
+      ],
+      "structural_type_hash": "4146155147",
+      "temporary_id": "decl-011494"
+    },
+    {
+      "formal_type": "Module.End.{0, 0} Real (Fin 2 \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2180077651",
+      "temporary_id": "decl-011495"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 2 \u2192 Complex),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-011495 v)\n    (Matrix.mulVec.{0, 0, 0} decl-011456 (Star.star.{0} v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011456",
+        "decl-011495"
+      ],
+      "structural_type_hash": "1378919624",
+      "temporary_id": "decl-011498"
+    },
+    {
+      "formal_type": "Membership.mem.{0, 0} decl-011473 decl-011495",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011473",
+        "decl-011495"
+      ],
+      "structural_type_hash": "514392201",
+      "temporary_id": "decl-011499"
+    },
+    {
+      "formal_type": "\u2200 {f : Module.End.{0, 0} Real (Fin 2 \u2192 Complex)},\n  Iff (Membership.mem.{0, 0} decl-011473 f)\n    (\u2200 (A : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)\n      (v : Fin 2 \u2192 Complex),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} f (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} A) v))\n        (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} A) (DFunLike.coe.{1, 1, 1} f v)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011473"
+      ],
+      "structural_type_hash": "3252067468",
+      "temporary_id": "decl-011500"
+    },
+    {
+      "formal_type": "\u2200 {q : Quaternion.{0} Real},\n  Iff (Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) q)\n    (Eq.{1} (DFunLike.coe.{1, 1, 1} Quaternion.normSq.{0} q) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1964061288",
+      "temporary_id": "decl-011502"
+    },
+    {
+      "formal_type": "\u2200 (q\u2081 q\u2082 : Quaternion.{0} Real),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} Quaternion.normSq.{0} (HMul.hMul.{0, 0, 0} q\u2081 q\u2082))\n    (HMul.hMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} Quaternion.normSq.{0} q\u2081)\n      (DFunLike.coe.{1, 1, 1} Quaternion.normSq.{0} q\u2082))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1596998618",
+      "temporary_id": "decl-011503"
+    },
+    {
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} Quaternion.normSq.{0} decl-011508) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508"
+      ],
+      "structural_type_hash": "1338130197",
+      "temporary_id": "decl-011504"
+    },
+    {
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} Quaternion.normSq.{0} decl-011518) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011518"
+      ],
+      "structural_type_hash": "965365468",
+      "temporary_id": "decl-011505"
+    },
+    {
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} Quaternion.normSq.{0} decl-011528) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011528"
+      ],
+      "structural_type_hash": "3770278108",
+      "temporary_id": "decl-011506"
+    },
+    {
+      "formal_type": "Membership.mem.{0, 0} decl-011458 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011458"
+      ],
+      "structural_type_hash": "3838456047",
+      "temporary_id": "decl-011507"
+    },
+    {
+      "formal_type": "Quaternion.{0} Real",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "644678215",
+      "temporary_id": "decl-011508"
+    },
+    {
+      "formal_type": "Eq.{1} (QuaternionAlgebra.imI.{0} decl-011508) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508"
+      ],
+      "structural_type_hash": "4099692440",
+      "temporary_id": "decl-011510"
+    },
+    {
+      "formal_type": "Eq.{1} (QuaternionAlgebra.imJ.{0} decl-011508) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508"
+      ],
+      "structural_type_hash": "4203521656",
+      "temporary_id": "decl-011511"
+    },
+    {
+      "formal_type": "Eq.{1} (QuaternionAlgebra.imK.{0} decl-011508) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508"
+      ],
+      "structural_type_hash": "3774667953",
+      "temporary_id": "decl-011512"
+    },
+    {
+      "formal_type": "Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) decl-011508",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508"
+      ],
+      "structural_type_hash": "2096093190",
+      "temporary_id": "decl-011513"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508"
+      ],
+      "structural_type_hash": "1578120596",
+      "temporary_id": "decl-011514"
+    },
+    {
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} decl-011508 decl-011518) decl-011528",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508",
+        "decl-011518",
+        "decl-011528"
+      ],
+      "structural_type_hash": "3445858879",
+      "temporary_id": "decl-011515"
+    },
+    {
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} decl-011508 decl-011528) (Neg.neg.{0} decl-011518)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508",
+        "decl-011518",
+        "decl-011528"
+      ],
+      "structural_type_hash": "1534482915",
+      "temporary_id": "decl-011516"
+    },
+    {
+      "formal_type": "Eq.{1} (QuaternionAlgebra.re.{0} decl-011508) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508"
+      ],
+      "structural_type_hash": "969479697",
+      "temporary_id": "decl-011517"
+    },
+    {
+      "formal_type": "Quaternion.{0} Real",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "644678215",
+      "temporary_id": "decl-011518"
+    },
+    {
+      "formal_type": "Eq.{1} (QuaternionAlgebra.imI.{0} decl-011518) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011518"
+      ],
+      "structural_type_hash": "2201255508",
+      "temporary_id": "decl-011520"
+    },
+    {
+      "formal_type": "Eq.{1} (QuaternionAlgebra.imJ.{0} decl-011518) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011518"
+      ],
+      "structural_type_hash": "2834230442",
+      "temporary_id": "decl-011521"
+    },
+    {
+      "formal_type": "Eq.{1} (QuaternionAlgebra.imK.{0} decl-011518) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011518"
+      ],
+      "structural_type_hash": "3528621278",
+      "temporary_id": "decl-011522"
+    },
+    {
+      "formal_type": "Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) decl-011518",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011518"
+      ],
+      "structural_type_hash": "2964103244",
+      "temporary_id": "decl-011523"
+    },
+    {
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} decl-011518 decl-011508) (Neg.neg.{0} decl-011528)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508",
+        "decl-011518",
+        "decl-011528"
+      ],
+      "structural_type_hash": "1307303331",
+      "temporary_id": "decl-011524"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011518"
+      ],
+      "structural_type_hash": "4182756409",
+      "temporary_id": "decl-011525"
+    },
+    {
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} decl-011518 decl-011528) decl-011508",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508",
+        "decl-011518",
+        "decl-011528"
+      ],
+      "structural_type_hash": "565807354",
+      "temporary_id": "decl-011526"
+    },
+    {
+      "formal_type": "Eq.{1} (QuaternionAlgebra.re.{0} decl-011518) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011518"
+      ],
+      "structural_type_hash": "1663293861",
+      "temporary_id": "decl-011527"
+    },
+    {
+      "formal_type": "Quaternion.{0} Real",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "644678215",
+      "temporary_id": "decl-011528"
+    },
+    {
+      "formal_type": "Eq.{1} (QuaternionAlgebra.imI.{0} decl-011528) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011528"
+      ],
+      "structural_type_hash": "2390937354",
+      "temporary_id": "decl-011530"
+    },
+    {
+      "formal_type": "Eq.{1} (QuaternionAlgebra.imJ.{0} decl-011528) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011528"
+      ],
+      "structural_type_hash": "172146120",
+      "temporary_id": "decl-011531"
+    },
+    {
+      "formal_type": "Eq.{1} (QuaternionAlgebra.imK.{0} decl-011528) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011528"
+      ],
+      "structural_type_hash": "306006147",
+      "temporary_id": "decl-011532"
+    },
+    {
+      "formal_type": "Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) decl-011528",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011528"
+      ],
+      "structural_type_hash": "2550302581",
+      "temporary_id": "decl-011533"
+    },
+    {
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} decl-011528 decl-011508) decl-011518",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508",
+        "decl-011518",
+        "decl-011528"
+      ],
+      "structural_type_hash": "2477260101",
+      "temporary_id": "decl-011534"
+    },
+    {
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} decl-011528 decl-011518) (Neg.neg.{0} decl-011508)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508",
+        "decl-011518",
+        "decl-011528"
+      ],
+      "structural_type_hash": "3322951809",
+      "temporary_id": "decl-011535"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011528"
+      ],
+      "structural_type_hash": "3930492716",
+      "temporary_id": "decl-011536"
+    },
+    {
+      "formal_type": "Eq.{1} (QuaternionAlgebra.re.{0} decl-011528) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011528"
+      ],
+      "structural_type_hash": "2012893441",
+      "temporary_id": "decl-011537"
+    },
+    {
+      "formal_type": "Quaternion.{0} Real \u2192 Matrix.{0, 0, 0} (Fin 2) (Fin 2) Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1664242874",
+      "temporary_id": "decl-011538"
+    },
+    {
+      "formal_type": "MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) x)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2166432781",
+      "temporary_id": "decl-011540"
+    },
+    {
+      "formal_type": "Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} decl-011540)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011540"
+      ],
+      "structural_type_hash": "300234388",
+      "temporary_id": "decl-011546"
+    },
+    {
+      "formal_type": "Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} decl-011540)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011540"
+      ],
+      "structural_type_hash": "3532312038",
+      "temporary_id": "decl-011547"
+    },
+    {
+      "formal_type": "\u2200 (q : Quaternion.{0} Real),\n  Eq.{1} (decl-011538 q 1 1)\n    (HSub.hSub.{0, 0, 0} (Complex.ofReal (QuaternionAlgebra.re.{0} q))\n      (HMul.hMul.{0, 0, 0} (Complex.ofReal (QuaternionAlgebra.imI.{0} q)) Complex.I))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011538"
+      ],
+      "structural_type_hash": "807135719",
+      "temporary_id": "decl-011549"
+    },
+    {
+      "formal_type": "\u2200 (q : Quaternion.{0} Real),\n  Eq.{1} (decl-011538 q 1 0)\n    (HAdd.hAdd.{0, 0, 0} (Neg.neg.{0} (Complex.ofReal (QuaternionAlgebra.imJ.{0} q)))\n      (HMul.hMul.{0, 0, 0} (Complex.ofReal (QuaternionAlgebra.imK.{0} q)) Complex.I))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011538"
+      ],
+      "structural_type_hash": "1260703863",
+      "temporary_id": "decl-011550"
+    },
+    {
+      "formal_type": "\u2200 (q : Quaternion.{0} Real),\n  Eq.{1} (decl-011538 q 0 1)\n    (HAdd.hAdd.{0, 0, 0} (Complex.ofReal (QuaternionAlgebra.imJ.{0} q))\n      (HMul.hMul.{0, 0, 0} (Complex.ofReal (QuaternionAlgebra.imK.{0} q)) Complex.I))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011538"
+      ],
+      "structural_type_hash": "57673991",
+      "temporary_id": "decl-011551"
+    },
+    {
+      "formal_type": "\u2200 (q : Quaternion.{0} Real),\n  Eq.{1} (decl-011538 q 0 0)\n    (HAdd.hAdd.{0, 0, 0} (Complex.ofReal (QuaternionAlgebra.re.{0} q))\n      (HMul.hMul.{0, 0, 0} (Complex.ofReal (QuaternionAlgebra.imI.{0} q)) Complex.I))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011538"
+      ],
+      "structural_type_hash": "1004967166",
+      "temporary_id": "decl-011552"
+    },
+    {
+      "formal_type": "\u2200 (q : Quaternion.{0} Real),\n  Eq.{1} (decl-011538 (Star.star.{0} q)) (Matrix.conjTranspose.{0, 0, 0} (decl-011538 q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011538"
+      ],
+      "structural_type_hash": "1497604753",
+      "temporary_id": "decl-011553"
+    },
+    {
+      "formal_type": "\u2200 (q : Quaternion.{0} Real),\n  Eq.{1} (Matrix.det.{0, 0} (decl-011538 q))\n    (Complex.ofReal (DFunLike.coe.{1, 1, 1} Quaternion.normSq.{0} q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011538"
+      ],
+      "structural_type_hash": "2671695936",
+      "temporary_id": "decl-011554"
+    },
+    {
+      "formal_type": "Function.Injective.{1, 1} decl-011538",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011538"
+      ],
+      "structural_type_hash": "490714772",
+      "temporary_id": "decl-011555"
+    },
+    {
+      "formal_type": "\u2200 (q\u2081 q\u2082 : Quaternion.{0} Real),\n  Eq.{1} (decl-011538 (HMul.hMul.{0, 0, 0} q\u2081 q\u2082))\n    (HMul.hMul.{0, 0, 0} (decl-011538 q\u2081) (decl-011538 q\u2082))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011538"
+      ],
+      "structural_type_hash": "4200184355",
+      "temporary_id": "decl-011556"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011538"
+      ],
+      "structural_type_hash": "1426166266",
+      "temporary_id": "decl-011557"
+    },
+    {
+      "formal_type": "Eq.{1} (decl-011538 1) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011538"
+      ],
+      "structural_type_hash": "1053912138",
+      "temporary_id": "decl-011558"
+    },
+    {
+      "formal_type": "Module.Basis.{0, 0, 0} (Fin 4) Real (Quaternion.{0} Real)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1120830696",
+      "temporary_id": "decl-011559"
+    },
+    {
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} decl-011559 1) decl-011508",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508",
+        "decl-011559"
+      ],
+      "structural_type_hash": "877774129",
+      "temporary_id": "decl-011560"
+    },
+    {
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} decl-011559 3) decl-011528",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011528",
+        "decl-011559"
+      ],
+      "structural_type_hash": "576396612",
+      "temporary_id": "decl-011561"
+    },
+    {
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} decl-011559 2) decl-011518",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011518",
+        "decl-011559"
+      ],
+      "structural_type_hash": "443822926",
+      "temporary_id": "decl-011562"
+    },
+    {
+      "formal_type": "Eq.{1} (DFunLike.coe.{1, 1, 1} decl-011559 0) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011559"
+      ],
+      "structural_type_hash": "2018927315",
+      "temporary_id": "decl-011563"
+    },
+    {
+      "formal_type": "\u2200 (W : Submodule.{0, 0} Real (Fin 2 \u2192 Complex)),\n  (\u2200 (A : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)\n      (v : Fin 2 \u2192 Complex),\n      Membership.mem.{0, 0} W v \u2192 Membership.mem.{0, 0} W (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} A) v)) \u2192\n    Or (Eq.{1} W Bot.bot.{0}) (Eq.{1} W Top.top.{0})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4284084138",
+      "temporary_id": "decl-011564"
+    },
+    {
+      "formal_type": "MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) x)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2127911417",
+      "temporary_id": "decl-011565"
+    },
+    {
+      "formal_type": "\u2200 (q : Subtype.{1} fun x => Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) x),\n  Eq.{1} (Subtype.val.{1} (DFunLike.coe.{1, 1, 1} decl-011565 q))\n    (decl-011573 (Subtype.val.{1} q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011565",
+        "decl-011573"
+      ],
+      "structural_type_hash": "3725676563",
+      "temporary_id": "decl-011571"
+    },
+    {
+      "formal_type": "Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} decl-011565)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011565"
+      ],
+      "structural_type_hash": "1383345365",
+      "temporary_id": "decl-011572"
+    },
+    {
+      "formal_type": "Quaternion.{0} Real \u2192 Matrix.{0, 0, 0} (Fin 3) (Fin 3) Real",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "824471201",
+      "temporary_id": "decl-011573"
+    },
+    {
+      "formal_type": "\u2200 (q : Quaternion.{0} Real),\n  Eq.{1} (decl-011573 q 0 0)\n    (HSub.hSub.{0, 0, 0}\n      (HSub.hSub.{0, 0, 0}\n        (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} (QuaternionAlgebra.re.{0} q) 2)\n          (HPow.hPow.{0, 0, 0} (QuaternionAlgebra.imI.{0} q) 2))\n        (HPow.hPow.{0, 0, 0} (QuaternionAlgebra.imJ.{0} q) 2))\n      (HPow.hPow.{0, 0, 0} (QuaternionAlgebra.imK.{0} q) 2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011573"
+      ],
+      "structural_type_hash": "4237625484",
+      "temporary_id": "decl-011575"
+    },
+    {
+      "formal_type": "\u2200 (q : Quaternion.{0} Real),\n  Eq.{1} (decl-011573 q 1 1)\n    (HSub.hSub.{0, 0, 0}\n      (HAdd.hAdd.{0, 0, 0}\n        (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (QuaternionAlgebra.re.{0} q) 2)\n          (HPow.hPow.{0, 0, 0} (QuaternionAlgebra.imI.{0} q) 2))\n        (HPow.hPow.{0, 0, 0} (QuaternionAlgebra.imJ.{0} q) 2))\n      (HPow.hPow.{0, 0, 0} (QuaternionAlgebra.imK.{0} q) 2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011573"
+      ],
+      "structural_type_hash": "2307259076",
+      "temporary_id": "decl-011576"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011573"
+      ],
+      "structural_type_hash": "333767633",
+      "temporary_id": "decl-011577"
+    },
+    {
+      "formal_type": "\u2200 (q : Quaternion.{0} Real),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} Quaternion.normSq.{0} q) 1 \u2192\n    Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) (decl-011573 q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011573"
+      ],
+      "structural_type_hash": "3255674917",
+      "temporary_id": "decl-011578"
+    },
+    {
+      "formal_type": "\u2200 (q\u2081 q\u2082 : Quaternion.{0} Real),\n  Eq.{1} (decl-011573 (HMul.hMul.{0, 0, 0} q\u2081 q\u2082))\n    (HMul.hMul.{0, 0, 0} (decl-011573 q\u2081) (decl-011573 q\u2082))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011573"
+      ],
+      "structural_type_hash": "356591280",
+      "temporary_id": "decl-011579"
+    },
+    {
+      "formal_type": "\u2200 (q : Quaternion.{0} Real), Eq.{1} (decl-011573 (Neg.neg.{0} q)) (decl-011573 q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011573"
+      ],
+      "structural_type_hash": "333987314",
+      "temporary_id": "decl-011580"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011573"
+      ],
+      "structural_type_hash": "1536636219",
+      "temporary_id": "decl-011581"
+    },
+    {
+      "formal_type": "Eq.{1} (decl-011573 1) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011573"
+      ],
+      "structural_type_hash": "2358469870",
+      "temporary_id": "decl-011582"
+    },
+    {
+      "formal_type": "\u2200 (c s : Real),\n  Eq.{1} (decl-011573 (QuaternionAlgebra.mk.{0} c s 0 0))\n    (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0}\n      (Matrix.vecCons.{0}\n        (Matrix.vecCons.{0} (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} c 2) (HPow.hPow.{0, 0, 0} s 2))\n          (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))\n        (Matrix.vecCons.{0}\n          (Matrix.vecCons.{0} 0\n            (Matrix.vecCons.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} c 2) (HPow.hPow.{0, 0, 0} s 2))\n              (Matrix.vecCons.{0} (Neg.neg.{0} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 c) s)) Matrix.vecEmpty.{0})))\n          (Matrix.vecCons.{0}\n            (Matrix.vecCons.{0} 0\n              (Matrix.vecCons.{0} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 c) s)\n                (Matrix.vecCons.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} c 2) (HPow.hPow.{0, 0, 0} s 2))\n                  Matrix.vecEmpty.{0})))\n            Matrix.vecEmpty.{0}))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011573"
+      ],
+      "structural_type_hash": "2838800918",
+      "temporary_id": "decl-011583"
+    },
+    {
+      "formal_type": "\u2200 (c s : Real),\n  Eq.{1} (decl-011573 (QuaternionAlgebra.mk.{0} c 0 s 0))\n    (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0}\n      (Matrix.vecCons.{0}\n        (Matrix.vecCons.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} c 2) (HPow.hPow.{0, 0, 0} s 2))\n          (Matrix.vecCons.{0} 0\n            (Matrix.vecCons.{0} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 c) s) Matrix.vecEmpty.{0})))\n        (Matrix.vecCons.{0}\n          (Matrix.vecCons.{0} 0\n            (Matrix.vecCons.{0} (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} c 2) (HPow.hPow.{0, 0, 0} s 2))\n              (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))\n          (Matrix.vecCons.{0}\n            (Matrix.vecCons.{0} (Neg.neg.{0} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 c) s))\n              (Matrix.vecCons.{0} 0\n                (Matrix.vecCons.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} c 2) (HPow.hPow.{0, 0, 0} s 2))\n                  Matrix.vecEmpty.{0})))\n            Matrix.vecEmpty.{0}))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011573"
+      ],
+      "structural_type_hash": "4106238211",
+      "temporary_id": "decl-011584"
+    },
+    {
+      "formal_type": "\u2200 (\u03b8 : Real),\n  Eq.{1}\n    (decl-011573\n      (QuaternionAlgebra.mk.{0} (Real.cos (HDiv.hDiv.{0, 0, 0} \u03b8 2)) 0 (Real.sin (HDiv.hDiv.{0, 0, 0} \u03b8 2)) 0))\n    (decl-011469 \u03b8)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011469",
+        "decl-011573"
+      ],
+      "structural_type_hash": "3054442325",
+      "temporary_id": "decl-011585"
+    },
+    {
+      "formal_type": "\u2200 (c s : Real),\n  Eq.{1} (decl-011573 (QuaternionAlgebra.mk.{0} c 0 0 s))\n    (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0}\n      (Matrix.vecCons.{0}\n        (Matrix.vecCons.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} c 2) (HPow.hPow.{0, 0, 0} s 2))\n          (Matrix.vecCons.{0} (Neg.neg.{0} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 c) s))\n            (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))\n        (Matrix.vecCons.{0}\n          (Matrix.vecCons.{0} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 c) s)\n            (Matrix.vecCons.{0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} c 2) (HPow.hPow.{0, 0, 0} s 2))\n              (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))\n          (Matrix.vecCons.{0}\n            (Matrix.vecCons.{0} 0\n              (Matrix.vecCons.{0} 0\n                (Matrix.vecCons.{0} (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} c 2) (HPow.hPow.{0, 0, 0} s 2))\n                  Matrix.vecEmpty.{0})))\n            Matrix.vecEmpty.{0}))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011573"
+      ],
+      "structural_type_hash": "61922117",
+      "temporary_id": "decl-011586"
+    },
+    {
+      "formal_type": "\u2200 (\u03b8 : Real),\n  Eq.{1}\n    (decl-011573\n      (QuaternionAlgebra.mk.{0} (Real.cos (HDiv.hDiv.{0, 0, 0} \u03b8 2)) 0 0 (Real.sin (HDiv.hDiv.{0, 0, 0} \u03b8 2))))\n    (decl-011471 \u03b8)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011471",
+        "decl-011573"
+      ],
+      "structural_type_hash": "1572638463",
+      "temporary_id": "decl-011587"
+    },
+    {
+      "formal_type": "\u2200 (R : Matrix.{0, 0, 0} (Fin 3) (Fin 3) Real),\n  Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) R \u2192\n    Exists.{1} fun \u03b1 =>\n      Exists.{1} fun \u03b2 =>\n        Exists.{1} fun \u03b3 =>\n          Eq.{1} R\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (decl-011471 \u03b1) (decl-011469 \u03b2))\n              (decl-011471 \u03b3))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011469",
+        "decl-011471"
+      ],
+      "structural_type_hash": "2738973876",
+      "temporary_id": "decl-011588"
+    },
+    {
+      "formal_type": "\u2200 (q\u2081 q\u2082 : Quaternion.{0} Real),\n  Eq.{1} (Star.star.{0} (HMul.hMul.{0, 0, 0} q\u2081 q\u2082)) (HMul.hMul.{0, 0, 0} (Star.star.{0} q\u2082) (Star.star.{0} q\u2081))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1482777276",
+      "temporary_id": "decl-011596"
+    },
+    {
+      "formal_type": "Eq.{1} (Star.star.{0} decl-011508) (Neg.neg.{0} decl-011508)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011508"
+      ],
+      "structural_type_hash": "2259337728",
+      "temporary_id": "decl-011597"
+    },
+    {
+      "formal_type": "Eq.{1} (Star.star.{0} decl-011518) (Neg.neg.{0} decl-011518)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011518"
+      ],
+      "structural_type_hash": "1768570504",
+      "temporary_id": "decl-011598"
+    },
+    {
+      "formal_type": "Eq.{1} (Star.star.{0} decl-011528) (Neg.neg.{0} decl-011528)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011528"
+      ],
+      "structural_type_hash": "165819291",
+      "temporary_id": "decl-011599"
+    },
+    {
+      "formal_type": "(Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x) \u2192\n  Module.End.{0, 0} Real (Fin 2 \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4188421608",
+      "temporary_id": "decl-011600"
+    },
+    {
+      "formal_type": "\u2200 (A : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)\n  (v : Fin 2 \u2192 Complex),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-011600 A) v) (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} A) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011600"
+      ],
+      "structural_type_hash": "1364928443",
+      "temporary_id": "decl-011603"
+    },
+    {
+      "formal_type": "\u2200 (A : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0} decl-011456\n      (Matrix.map.{0, 0, 0, 0} (Subtype.val.{1} A) (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex))))\n    (HMul.hMul.{0, 0, 0} (Subtype.val.{1} A) decl-011456)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011456"
+      ],
+      "structural_type_hash": "131736916",
+      "temporary_id": "decl-011604"
+    },
+    {
+      "formal_type": "\u2200 (A : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x),\n  And (Eq.{1} (Subtype.val.{1} A 1 1) (Star.star.{0} (Subtype.val.{1} A 0 0)))\n    (Eq.{1} (Subtype.val.{1} A 1 0) (Neg.neg.{0} (Star.star.{0} (Subtype.val.{1} A 0 1))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3731588892",
+      "temporary_id": "decl-011605"
+    },
+    {
+      "formal_type": "Nonempty.{1}\n  (MulEquiv.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) x)\n    (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4126168756",
+      "temporary_id": "decl-011606"
+    }
+  ],
+  "module_temporary_id": "module-0232",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

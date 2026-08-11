@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3cfaba4bfcc61e1271e6",
+      "declaration": "Etingof.BookPathAlgebra.sum_trivialPaths_eq_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/67/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  [inst_3 : Fintype.{u_2} Q],\n  Eq.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1)}\n    (Finset.sum.{u_2, max (max u_1 u_2) u_3} Finset.univ.{u_2} fun i =>\n      Etingof.BookPathAlgebra.trivialPath.{u_1, u_2, u_3} i)\n    1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Remark2.8.5",
+  "packet_id": "align-0423",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0423"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:8914fe9a65967b8fb3f0",
+  "source_text": "If the vertex set is finite, the sum of all trivial paths is 1, so P_Q is unital."
+}

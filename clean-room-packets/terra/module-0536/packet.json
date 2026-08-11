@@ -1,0 +1,74 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{n : Nat} \u2192 Quiver.{u_1, 0} (Fin n) \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1169947835",
+      "temporary_id": "decl-005208"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (v : Fin n), Eq.{1} (adj v v) 0) \u2192\n      \u2200 {Q : Quiver.{u_1, 0} (Fin n)},\n        decl-005208.{u_1} Q adj \u2192\n          \u2200 (p : Fin n), decl-005208.{u_1} (decl-022764.{0, u_1} (Fin n) p) adj",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005208",
+        "decl-022764"
+      ],
+      "structural_type_hash": "1872307896",
+      "temporary_id": "decl-022765"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 Quiver.{0, 0} (Fin n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1027281312",
+      "temporary_id": "decl-023412"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i : Fin n), Eq.{1} (adj i i) 0) \u2192 decl-005208.{0} (decl-023412 adj) adj",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005208",
+        "decl-023412"
+      ],
+      "structural_type_hash": "2334318613",
+      "temporary_id": "decl-023413"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int) (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023412"
+      ],
+      "structural_type_hash": "2875303717",
+      "temporary_id": "decl-023414"
+    }
+  ],
+  "module_temporary_id": "module-0536",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

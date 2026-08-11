@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e5c5d98397db279db114",
+      "declaration": "Etingof.FullSubcategory",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/469/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(C : Type u_1) \u2192 [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192 CategoryTheory.ObjectProperty.{u_2, u_1} C \u2192 Type u_1",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_1_4"
+    }
+  ],
+  "canonical_reference": "Chapter7/Definition7.1.4",
+  "packet_id": "align-1103",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1103"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:db5db3aecf9a36abbc70",
+  "source_text": "A full subcategory inherits every ambient morphism between its objects."
+}

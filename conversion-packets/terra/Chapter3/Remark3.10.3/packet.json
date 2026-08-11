@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Remark3.10.3",
+    "kind": "remark",
+    "title": "Failure of Theorem 3.10.2 for infinite dimensional representations",
+    "node_id": "chapter-03/section-3-10",
+    "order": 181,
+    "slug": "remark3-10-3",
+    "span": {
+      "start": {
+        "page": "59",
+        "line": 17
+      },
+      "end": {
+        "page": "59",
+        "line": 18
+      }
+    },
+    "source_sha256": "afd073d07c5f24244dd282e63dee4b9152b25d4e01e37293d0aa3aec508c2d62",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Remark3103",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

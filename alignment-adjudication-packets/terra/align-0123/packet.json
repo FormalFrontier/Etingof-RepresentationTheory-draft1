@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:86eec849c9b25aaadcac",
+      "declaration": "Etingof.Remark_2_3_11",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/36/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Not\n  (\u2200 {A : Type} [inst : Ring.{0} A] [inst_1 : Algebra.{0, 0} Real A] {V : Type} [inst_2 : AddCommGroup.{0} V]\n    [inst_3 : Module.{0, 0} Real V] [inst_4 : Module.{0, 0} A V] [IsScalarTower.{0, 0, 0} Real A V]\n    [IsSimpleModule.{0, 0} A V] [FiniteDimensional.{0, 0} Real V] (\u03c6 : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} A) V V),\n    Exists.{1} fun c => \u2200 (v : V), Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c6 v) (HSMul.hSMul.{0, 0, 0} c v))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_3_11"
+    },
+    {
+      "association_id": "association:7c7cf488453460f18c4c",
+      "declaration": "Etingof.Remark_2_3_11_witness",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/36/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Not\n  (Exists.{1} fun c =>\n    \u2200 (v : Complex),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} (HSMul.hSMul.{0, 0, 0} Complex.I LinearMap.id.{0, 0}) v)\n        (HSMul.hSMul.{0, 0, 0} c v))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_3_11"
+    }
+  ],
+  "canonical_reference": "Chapter2/Remark2.3.11",
+  "packet_id": "align-0123",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0123"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:266f2b1b86f214471840",
+  "source_text": "The preceding scalar-endomorphism corollary is false over \u211d; A = \u2102 and V = A give a counterexample."
+}

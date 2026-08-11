@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0178",
+  "associations": [
+    {
+      "association_id": "association:2b2ff2708c0787c86f89",
+      "role": "supporting",
+      "rationale": "The field, algebra, and algebraic-closure assumptions are prerequisites of this density theorem, not the section-wide setup statement itself."
+    },
+    {
+      "association_id": "association:b4664d206c8a200250fc",
+      "role": "supporting",
+      "rationale": "The field, algebra, and algebraic-closure assumptions are prerequisites of this density theorem, not the section-wide setup statement itself."
+    },
+    {
+      "association_id": "association:34e91e1f94e6aa0d6e3a",
+      "role": "supporting",
+      "rationale": "The field, algebra, and algebraic-closure assumptions are prerequisites of this interpolation theorem, not the section-wide setup statement itself."
+    }
+  ]
+}

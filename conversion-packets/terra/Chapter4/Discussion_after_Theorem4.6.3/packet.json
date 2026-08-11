@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Discussion_after_Theorem4.6.3",
+    "kind": "discussion",
+    "title": "Alternative proof of Maschke's theorem for complex representations",
+    "node_id": "chapter-04/section-4-6",
+    "order": 214,
+    "slug": "discussion-after-theorem4-6-3",
+    "span": {
+      "start": {
+        "page": "72",
+        "line": 7
+      },
+      "end": {
+        "page": "72",
+        "line": 8
+      }
+    },
+    "source_sha256": "33c45f6341dd546692eb26bd2e00b98ef124f714ef4967f6428cb79d039fea81",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.DiscussionAfterTheorem463",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,75 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (\u03b2 : Fin n \u2192 Int),\n      (\u2200 (i : Fin n), LE.le.{0} 0 (\u03b2 i)) \u2192\n        Ne.{1} \u03b2 0 \u2192 Exists.{1} fun N => Exists.{1} fun i => LT.lt.{0} (decl-018246 n adj N \u03b2 i) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-018246"
+      ],
+      "structural_type_hash": "2528323840",
+      "temporary_id": "decl-005518"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 (Fin n \u2192 Int) \u2192 Fin n \u2192 Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1027293670",
+      "temporary_id": "decl-018245"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 Nat \u2192 (Fin n \u2192 Int) \u2192 Fin n \u2192 Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4150734499",
+      "temporary_id": "decl-018246"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Matrix.IsSymm.{0, 0} (decl-017751 n adj) \u2192\n    (\u2200 (i : Fin n),\n        Eq.{1}\n          (dotProduct.{0, 0} (Pi.single.{0, 0} i 1)\n            (Matrix.mulVec.{0, 0, 0} (decl-017751 n adj) (Pi.single.{0, 0} i 1)))\n          2) \u2192\n      \u2200 (i : Fin n) (v : Fin n \u2192 Int),\n        Eq.{1}\n          (decl-023169 n (decl-017751 n adj) i\n            (decl-023169 n (decl-017751 n adj) i v))\n          v",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017751",
+        "decl-023169"
+      ],
+      "structural_type_hash": "3763598050",
+      "temporary_id": "decl-023186"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (i : Fin n),\n      Eq.{1}\n        (dotProduct.{0, 0} (Pi.single.{0, 0} i 1)\n          (Matrix.mulVec.{0, 0, 0} (decl-017751 n adj) (Pi.single.{0, 0} i 1)))\n        2",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-017751"
+      ],
+      "structural_type_hash": "2776633970",
+      "temporary_id": "decl-023201"
+    }
+  ],
+  "module_temporary_id": "module-0535",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

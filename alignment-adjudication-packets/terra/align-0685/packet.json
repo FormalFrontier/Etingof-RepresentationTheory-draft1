@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0494884423c27c07b829",
+      "declaration": "Etingof.Problem3_9_4.isTrivial_of_ext1_subsingleton",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/174/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V],\n  Subsingleton.{max (u_3 + 1) (u_2 + 1)} (Etingof.Problem3_9_1.Ext1.{u_1, u_2, u_3, u_3} k A V V) \u2192\n    \u2200 (D : Etingof.Problem3_9_4.FormalDeformation.{u_1, u_2, u_3} k A V),\n      Etingof.Problem3_9_4.IsTrivial.{u_1, u_2, u_3} k A V D",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_4"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.4",
+  "packet_id": "align-0685",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0685"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.4:claim-04",
+  "source_text": "If Ext\u00b9(V,V)=0, then every formal deformation of \u03c1 is trivial."
+}

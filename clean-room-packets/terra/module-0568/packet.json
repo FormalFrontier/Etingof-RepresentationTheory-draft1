@@ -1,0 +1,95 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (k : Type u) [inst : Field.{u} k] {Q : Quiver.{0, 0} (Fin n)},\n      decl-005208.{0} Q adj \u2192\n        \u2200 [\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)],\n          And (Set.Finite.{0} (setOf.{0} fun d => decl-005212 n adj d))\n            (And\n              (\u2200 (\u03c1 : decl-014909.{u, 0, 0, 0} k (Fin n))\n                [\u2200 (v : Fin n), Module.Free.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1 v)]\n                [\u2200 (v : Fin n), Module.Finite.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1 v)],\n                decl-014923.{u, 0, 0, 0} \u03c1 \u2192\n                  decl-005212 n adj fun v =>\n                    Nat.cast.{0} (Module.finrank.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1 v)))\n              (\u2200 (\u03b1 : Fin n \u2192 Int),\n                decl-005212 n adj \u03b1 \u2192\n                  And\n                    (Exists.{u + 2} fun \u03c1 =>\n                      Exists.{0} fun x =>\n                        Exists.{0} fun x =>\n                          And (decl-014923.{u, 0, 0, u} \u03c1)\n                            (\u2200 (v : Fin n),\n                              Eq.{1} (\u03b1 v)\n                                (Nat.cast.{0}\n                                  (Module.finrank.{u, u} k (decl-014996.{u, 0, u, 0} \u03c1 v)))))\n                    (\u2200 (\u03c1\u2081 \u03c1\u2082 : decl-014909.{u, 0, 0, 0} k (Fin n))\n                      [\u2200 (v : Fin n), Module.Free.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1\u2081 v)]\n                      [\u2200 (v : Fin n), Module.Finite.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1\u2081 v)]\n                      [\u2200 (v : Fin n), Module.Free.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1\u2082 v)]\n                      [\u2200 (v : Fin n), Module.Finite.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1\u2082 v)],\n                      decl-014923.{u, 0, 0, 0} \u03c1\u2081 \u2192\n                        decl-014923.{u, 0, 0, 0} \u03c1\u2082 \u2192\n                          (\u2200 (v : Fin n),\n                              Eq.{1} (\u03b1 v)\n                                (Nat.cast.{0}\n                                  (Module.finrank.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1\u2081 v)))) \u2192\n                            (\u2200 (v : Fin n),\n                                Eq.{1} (\u03b1 v)\n                                  (Nat.cast.{0}\n                                    (Module.finrank.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1\u2082 v)))) \u2192\n                              Nonempty.{1} (decl-014927.{u, 0, 0, 0, 0} \u03c1\u2081 \u03c1\u2082))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-005208",
+        "decl-005212",
+        "decl-014909",
+        "decl-014923",
+        "decl-014927",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "3936321040",
+      "temporary_id": "decl-016735"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192 Set.Finite.{0} (setOf.{0} fun d => decl-005212 n adj d)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-005212"
+      ],
+      "structural_type_hash": "447355753",
+      "temporary_id": "decl-016737"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (d : Fin n \u2192 Int),\n      (\u2200 (i : Fin n), LE.le.{0} 0 (d i)) \u2192\n        Ne.{1} d 0 \u2192\n          Eq.{1} (dotProduct.{0, 0} d (Matrix.mulVec.{0, 0, 0} (decl-017751 n adj) d)) 2 \u2192\n            decl-005212 n adj d",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-005212",
+        "decl-017751"
+      ],
+      "structural_type_hash": "2082761878",
+      "temporary_id": "decl-016740"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (k : Type u) [inst : Field.{u} k] {Q : Quiver.{0, 0} (Fin n)},\n      decl-005208.{0} Q adj \u2192\n        \u2200 [\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)] (\u03b1 : Fin n \u2192 Int),\n          decl-005212 n adj \u03b1 \u2192\n            And\n              (Exists.{u + 2} fun \u03c1 =>\n                Exists.{0} fun x =>\n                  Exists.{0} fun x =>\n                    And (decl-014923.{u, 0, 0, u} \u03c1)\n                      (\u2200 (v : Fin n),\n                        Eq.{1} (\u03b1 v)\n                          (Nat.cast.{0} (Module.finrank.{u, u} k (decl-014996.{u, 0, u, 0} \u03c1 v)))))\n              (\u2200 (\u03c1\u2081 \u03c1\u2082 : decl-014909.{u, 0, 0, 0} k (Fin n))\n                [\u2200 (v : Fin n), Module.Free.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1\u2081 v)]\n                [\u2200 (v : Fin n), Module.Finite.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1\u2081 v)]\n                [\u2200 (v : Fin n), Module.Free.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1\u2082 v)]\n                [\u2200 (v : Fin n), Module.Finite.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1\u2082 v)],\n                decl-014923.{u, 0, 0, 0} \u03c1\u2081 \u2192\n                  decl-014923.{u, 0, 0, 0} \u03c1\u2082 \u2192\n                    (\u2200 (v : Fin n),\n                        Eq.{1} (\u03b1 v)\n                          (Nat.cast.{0}\n                            (Module.finrank.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1\u2081 v)))) \u2192\n                      (\u2200 (v : Fin n),\n                          Eq.{1} (\u03b1 v)\n                            (Nat.cast.{0}\n                              (Module.finrank.{u, 0} k (decl-014996.{u, 0, 0, 0} \u03c1\u2082 v)))) \u2192\n                        Nonempty.{1} (decl-014927.{u, 0, 0, 0, 0} \u03c1\u2081 \u03c1\u2082))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-005208",
+        "decl-005212",
+        "decl-014909",
+        "decl-014923",
+        "decl-014927",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "3269432259",
+      "temporary_id": "decl-016741"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (x : Fin n \u2192 Int),\n      Ne.{1} x 0 \u2192\n        LE.le.{0} 2\n          (dotProduct.{0, 0} x (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140"
+      ],
+      "structural_type_hash": "330645333",
+      "temporary_id": "decl-022105"
+    }
+  ],
+  "module_temporary_id": "module-0568",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

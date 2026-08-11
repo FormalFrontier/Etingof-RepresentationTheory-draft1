@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_2.12_heading",
+    "kind": "discussion",
+    "title": "Section 2.12: The tensor algebra \u2014 heading and introduction",
+    "node_id": "chapter-02/section-2-12",
+    "order": 109,
+    "slug": "discussion-2-12-heading",
+    "span": {
+      "start": {
+        "page": "35",
+        "line": 28
+      },
+      "end": {
+        "page": "35",
+        "line": 33
+      }
+    },
+    "source_sha256": "c9c075b340358a95f57b8d5cc4728e4d3c5aebcc42f876d38af241f69219fac1",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion212Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

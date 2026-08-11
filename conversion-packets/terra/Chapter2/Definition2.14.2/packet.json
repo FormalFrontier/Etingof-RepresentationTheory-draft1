@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.14.2",
+    "kind": "definition",
+    "title": "Dual representation of a Lie algebra",
+    "node_id": "chapter-02/section-2-14",
+    "order": 115,
+    "slug": "definition2-14-2",
+    "span": {
+      "start": {
+        "page": "37",
+        "line": 15
+      },
+      "end": {
+        "page": "37",
+        "line": 17
+      }
+    },
+    "source_sha256": "cd932be4e4bdf5d364e08b62e7a06f248750903664ffc52adb447c403d3c4350",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition2142",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

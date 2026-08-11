@@ -1,0 +1,234 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] {M S : ModuleCat.{v, u} R} {f : R},\n  (\u2200 (m : ModuleCat.carrier.{v, u} M), Eq.{v + 1} (HSMul.hSMul.{u, v, v} f m) 0) \u2192\n    decl-005131.{v, u} R M S \u2192\n      \u2200 (s : ModuleCat.carrier.{v, u} S), Eq.{v + 1} (HSMul.hSMul.{u, v, v} f s) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005131"
+      ],
+      "structural_type_hash": "394239816",
+      "temporary_id": "decl-014092"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    [inst_1 : Small.{v, u} R] \u2192\n      (k : Type u_1) \u2192\n        [inst_2 : Field.{u_1} k] \u2192\n          [inst_3 : Algebra.{u_1, u} k R] \u2192\n            [FiniteDimensional.{u_1, u} k R] \u2192\n              Equiv.{max (v + 2) (u + 1), max 1 (u + 1)} (decl-000898.{v, u} R)\n                (Subtype.{u + 1} fun e => decl-013995.{u} R e)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000898",
+        "decl-013995"
+      ],
+      "structural_type_hash": "3252112282",
+      "temporary_id": "decl-014100"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] (k : Type u_1) [inst_2 : Field.{u_1} k]\n  [inst_3 : Algebra.{u_1, u} k R] [inst_4 : FiniteDimensional.{u_1, u} k R] (b : decl-000898.{v, u} R),\n  Eq.{u + 1}\n    (DFunLike.coe.{max (u + 1) (v + 2), max (u + 1) (v + 2), u + 1}\n      (decl-014100.{v, u, u_1} R k) b)\n    (decl-014109.{v, u, u_1} R k b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000898",
+        "decl-013995",
+        "decl-014100",
+        "decl-014109"
+      ],
+      "structural_type_hash": "800896476",
+      "temporary_id": "decl-014104"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    (k : Type u_1) \u2192\n      [inst_1 : Field.{u_1} k] \u2192\n        [inst_2 : Algebra.{u_1, u} k R] \u2192\n          [FiniteDimensional.{u_1, u} k R] \u2192\n            [inst_4 : Small.{v, u} R] \u2192\n              decl-000898.{v, u} R \u2192\n                Subtype.{u + 1} fun e => decl-013995.{u} R e",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000898",
+        "decl-013995"
+      ],
+      "structural_type_hash": "417656776",
+      "temporary_id": "decl-014109"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (k : Type u_1) [inst_1 : Field.{u_1} k] [inst_2 : Algebra.{u_1, u} k R]\n  [inst_3 : FiniteDimensional.{u_1, u} k R] [inst_4 : Small.{v, u} R] {S : ModuleCat.{v, u} R}\n  (hS : IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S)),\n  Eq.{u + 1}\n    (decl-014109.{v, u, u_1} R k\n      (Quotient.mk.{max (u + 1) (v + 2)} (decl-017494.{v, u} R) (Subtype.mk.{max (u + 1) (v + 2)} S hS)))\n    (decl-014195.{v, u, u_1} R k hS)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995",
+        "decl-014109",
+        "decl-014195",
+        "decl-015612",
+        "decl-017494"
+      ],
+      "structural_type_hash": "2198519666",
+      "temporary_id": "decl-014112"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] (k : Type u_1) [inst_2 : Field.{u_1} k]\n  [inst_3 : Algebra.{u_1, u} k R] [FiniteDimensional.{u_1, u} k R],\n  Nonempty.{max (max 1 (u + 1)) (v + 2) (u + 1)}\n    (Equiv.{max (v + 2) (u + 1), max 1 (u + 1)} (decl-000898.{v, u} R)\n      (Subtype.{u + 1} fun e => decl-013995.{u} R e))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000898",
+        "decl-013995"
+      ],
+      "structural_type_hash": "2908602556",
+      "temporary_id": "decl-014113"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] {f g : R},\n  decl-013995.{u} R f \u2192\n    decl-013995.{u} R g \u2192\n      \u2200 {S : ModuleCat.{v, u} R},\n        IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S) \u2192\n          (\u2200 (m : ModuleCat.carrier.{v, u} S), Eq.{v + 1} (HSMul.hSMul.{u, v, v} f m) m) \u2192\n            (\u2200 (m : ModuleCat.carrier.{v, u} S), Eq.{v + 1} (HSMul.hSMul.{u, v, v} g m) m) \u2192 Eq.{u + 1} f g",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995"
+      ],
+      "structural_type_hash": "3931569771",
+      "temporary_id": "decl-014140"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] {f g : R},\n  decl-013995.{u} R f \u2192\n    decl-013995.{u} R g \u2192\n      Ne.{u + 1} (HMul.hMul.{u, u, u} f g) 0 \u2192 Eq.{u + 1} f g",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995"
+      ],
+      "structural_type_hash": "2882383875",
+      "temporary_id": "decl-014141"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (k : Type u_1) [inst_1 : Field.{u_1} k] [inst_2 : Algebra.{u_1, u} k R]\n  [FiniteDimensional.{u_1, u} k R] {S : ModuleCat.{v, u} R},\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S) \u2192\n    ExistsUnique.{u + 1} fun e =>\n      \u2200 (m : ModuleCat.carrier.{v, u} S), Eq.{v + 1} (HSMul.hSMul.{u, v, v} (Subtype.val.{u + 1} e) m) m",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995"
+      ],
+      "structural_type_hash": "2778878071",
+      "temporary_id": "decl-014147"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    [Small.{v, u} R] \u2192\n      (Subtype.{u + 1} fun e => decl-013995.{u} R e) \u2192 ModuleCat.{v, u} R",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995"
+      ],
+      "structural_type_hash": "1267900907",
+      "temporary_id": "decl-014154"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R]\n  (e : Subtype.{u + 1} fun e => decl-013995.{u} R e),\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} (decl-014154.{v, u} R e))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995",
+        "decl-014154"
+      ],
+      "structural_type_hash": "298724412",
+      "temporary_id": "decl-014156"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R]\n  (e : Subtype.{u + 1} fun e => decl-013995.{u} R e)\n  (m : ModuleCat.carrier.{v, u} (decl-014154.{v, u} R e)),\n  Eq.{v + 1} (HSMul.hSMul.{u, v, v} (Subtype.val.{u + 1} e) m) m",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995",
+        "decl-014154"
+      ],
+      "structural_type_hash": "4290210501",
+      "temporary_id": "decl-014157"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] (k : Type u_1) [inst_2 : Field.{u_1} k]\n  [inst_3 : Algebra.{u_1, u} k R] [inst_4 : FiniteDimensional.{u_1, u} k R] {S : ModuleCat.{v, u} R}\n  (hS : IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S)) (M : ModuleCat.{v, u} R),\n  Iff (decl-004834.{v, u} R S M)\n    (\u2200 (m : ModuleCat.carrier.{v, u} M),\n      Eq.{v + 1}\n        (HSMul.hSMul.{u, v, v} (Subtype.val.{u + 1} (decl-014195.{v, u, u_1} R k hS)) m) m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004834",
+        "decl-013995",
+        "decl-014195"
+      ],
+      "structural_type_hash": "1303057904",
+      "temporary_id": "decl-014158"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (k : Type u_1) [inst_1 : Field.{u_1} k] [inst_2 : Algebra.{u_1, u} k R]\n  [FiniteDimensional.{u_1, u} k R], IsFiniteLength.{u, u} R R",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2606819855",
+      "temporary_id": "decl-014170"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    (k : Type u_1) \u2192\n      [inst_1 : Field.{u_1} k] \u2192\n        [inst_2 : Algebra.{u_1, u} k R] \u2192\n          [FiniteDimensional.{u_1, u} k R] \u2192\n            {S : ModuleCat.{v, u} R} \u2192\n              IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S) \u2192\n                Subtype.{u + 1} fun e => decl-013995.{u} R e",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995"
+      ],
+      "structural_type_hash": "2088292596",
+      "temporary_id": "decl-014195"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (k : Type u_1) [inst_1 : Field.{u_1} k] [inst_2 : Algebra.{u_1, u} k R]\n  [inst_3 : FiniteDimensional.{u_1, u} k R] [inst_4 : Small.{v, u} R] {S T : ModuleCat.{v, u} R}\n  (hS : IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S))\n  (hT : IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} T)),\n  decl-000621.{v, u} R S T \u2192\n    Eq.{u + 1} (decl-014195.{v, u, u_1} R k hS)\n      (decl-014195.{v, u, u_1} R k hT)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621",
+        "decl-013995",
+        "decl-014195"
+      ],
+      "structural_type_hash": "2713402495",
+      "temporary_id": "decl-014196"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (k : Type u_1) [inst_1 : Field.{u_1} k] [inst_2 : Algebra.{u_1, u} k R]\n  [inst_3 : FiniteDimensional.{u_1, u} k R] {S : ModuleCat.{v, u} R}\n  (hS : IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S)) (m : ModuleCat.carrier.{v, u} S),\n  Eq.{v + 1} (HSMul.hSMul.{u, v, v} (Subtype.val.{u + 1} (decl-014195.{v, u, u_1} R k hS)) m) m",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995",
+        "decl-014195"
+      ],
+      "structural_type_hash": "1265150398",
+      "temporary_id": "decl-014197"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (k : Type u_1) [inst_1 : Field.{u_1} k] [inst_2 : Algebra.{u_1, u} k R]\n  [inst_3 : FiniteDimensional.{u_1, u} k R] {S : ModuleCat.{v, u} R}\n  (hS : IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S)) {f : R},\n  decl-013995.{u} R f \u2192\n    (\u2200 (m : ModuleCat.carrier.{v, u} S), Eq.{v + 1} (HSMul.hSMul.{u, v, v} f m) m) \u2192\n      Eq.{u + 1} f (Subtype.val.{u + 1} (decl-014195.{v, u, u_1} R k hS))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995",
+        "decl-014195"
+      ],
+      "structural_type_hash": "3301209004",
+      "temporary_id": "decl-014198"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] (k : Type u_1) [inst_2 : Field.{u_1} k]\n  [inst_3 : Algebra.{u_1, u} k R] [inst_4 : FiniteDimensional.{u_1, u} k R] {S : ModuleCat.{v, u} R}\n  (hS : IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S)) {M : ModuleCat.{v, u} R},\n  decl-004834.{v, u} R S M \u2192\n    \u2200 {e : R},\n      decl-013995.{u} R e \u2192\n        Ne.{u + 1} e (Subtype.val.{u + 1} (decl-014195.{v, u, u_1} R k hS)) \u2192\n          \u2200 (m : ModuleCat.carrier.{v, u} M), Eq.{v + 1} (HSMul.hSMul.{u, v, v} e m) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004834",
+        "decl-013995",
+        "decl-014195"
+      ],
+      "structural_type_hash": "3771135261",
+      "temporary_id": "decl-014199"
+    }
+  ],
+  "module_temporary_id": "module-0750",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

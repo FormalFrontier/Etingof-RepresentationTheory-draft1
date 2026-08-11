@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Frontmatter/BlankPage1",
+    "kind": "discussion",
+    "title": "Blank page",
+    "node_id": "frontmatter",
+    "order": 2,
+    "slug": "blankpage1",
+    "span": {
+      "start": {
+        "page": "frontmatter-2",
+        "line": 1
+      },
+      "end": {
+        "page": "frontmatter-2",
+        "line": 1
+      }
+    },
+    "source_sha256": "6a2c4b585503eb2a4666ecfd7f6a98b743511618aa3be81f4df8c088937d0226",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Frontmatter.BlankPage1",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

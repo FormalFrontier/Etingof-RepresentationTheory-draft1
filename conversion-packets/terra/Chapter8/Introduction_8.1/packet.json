@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Introduction_8.1",
+    "kind": "introduction",
+    "title": "Section 8.1: Projective and injective modules",
+    "node_id": "chapter-08/section-8-1",
+    "order": 524,
+    "slug": "introduction-8-1",
+    "span": {
+      "start": {
+        "page": "205",
+        "line": 7
+      },
+      "end": {
+        "page": "205",
+        "line": 10
+      }
+    },
+    "source_sha256": "81f75f9505a663d9363ff6fdf6039ef9c55e8d7ac7badd19268e9b4ff3885d93",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Introduction81",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

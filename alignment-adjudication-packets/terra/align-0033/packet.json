@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9c75a9835a22a3f3375c",
+      "declaration": "Etingof.Example2_9_2.lieSubalgebraOfLieAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/79/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (L : Type u_2) \u2192\n      [inst_1 : LieRing.{u_2} L] \u2192\n        [inst_2 : LieAlgebra.{u_1, u_2} k L] \u2192\n          (S : LieSubalgebra.{u_1, u_2} k L) \u2192\n            LieAlgebra.{u_1, u_2} k (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} S x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2_continued"
+    },
+    {
+      "association_id": "association:e48104692f6ec7a2d8b2",
+      "declaration": "LieSubalgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/79/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Lie.Subalgebra"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.9.2_continued",
+  "packet_id": "align-0033",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0033"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:09556e23f46df04057a6",
+  "source_text": "A subspace of a Lie algebra closed under the bracket is a Lie subalgebra and inherits a Lie-algebra structure."
+}

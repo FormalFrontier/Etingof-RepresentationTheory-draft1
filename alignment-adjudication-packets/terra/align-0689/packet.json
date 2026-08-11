@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2a48f70240405990838e",
+      "declaration": "Etingof.Problem3_9_5.cliffBasis",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{V : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192\n      (B : LinearMap.BilinForm.{0, u_1} Complex V) \u2192\n        {N : Nat} \u2192\n          (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V) \u2192\n            LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n              Module.Basis.{0, 0, u_1} (Finset.{0} (Fin N)) Complex (Etingof.Problem3_9_5.CliffAlg.{u_1} B)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5"
+    },
+    {
+      "association_id": "association:4e3ecf18e0f62d6d8e72",
+      "declaration": "Etingof.Problem3_9_5.finrank_cliffAlg",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  Eq.{1} (Module.finrank.{0, u_1} Complex (Etingof.Problem3_9_5.CliffAlg.{u_1} B)) (HPow.hPow.{0, 0, 0} 2 N)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5"
+    },
+    {
+      "association_id": "association:c94f020f4ffebd6f1ef8",
+      "declaration": "Etingof.Problem3_9_5.span_e_eq_top",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (B : LinearMap.BilinForm.{0, u_1} Complex V) {N : Nat} (v : Module.Basis.{0, 0, u_1} (Fin N) Complex V),\n  LinearMap.IsOrtho\u1d62.{0, 0, 0, u_1, 0} B (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} v) \u2192\n    Eq.{u_1 + 1} (Submodule.span.{0, u_1} Complex (Set.range.{u_1, 1} (Etingof.Problem3_9_5.e.{u_1} B v))) Top.top.{u_1}",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.5",
+  "packet_id": "align-0689",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0689"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.5:claim-04",
+  "source_text": "Ordered Clifford monomials indexed by subsets span and form a 2^dim(V)-element basis, so dim Cl(V)=2^dim(V)."
+}

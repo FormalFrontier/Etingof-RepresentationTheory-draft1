@@ -1,0 +1,8 @@
+{
+  "module_name": "Ring.CoatomExistence",
+  "declarations": [
+    {"temporary_id":"decl-008838","new_name":"exists_coatom_subobject","docstring":"A nontrivial ring admits a coatom among the displayed subobjects."},
+    {"temporary_id":"decl-008840","new_name":"exists_coatom_subobject_aux1","docstring":"A nontrivial ring admits a coatom among the displayed subobjects."},
+    {"temporary_id":"decl-008842","new_name":"exists_coatom_subobject_aux2","docstring":"A nontrivial ring admits a coatom among the displayed subobjects."}
+  ]
+}

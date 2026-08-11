@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Corollary5.1.6",
+    "kind": "corollary",
+    "title": "Sum of dimensions equals number of involutions when all reps are real",
+    "node_id": "chapter-05/section-5-1",
+    "order": 250,
+    "slug": "corollary5-1-6",
+    "span": {
+      "start": {
+        "page": "95",
+        "line": 21
+      },
+      "end": {
+        "page": "95",
+        "line": 22
+      }
+    },
+    "source_sha256": "dd5feda9abb7de46ccda3bf2b7811d4069bffb6928dde327a4980b863588a40e",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Corollary516",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

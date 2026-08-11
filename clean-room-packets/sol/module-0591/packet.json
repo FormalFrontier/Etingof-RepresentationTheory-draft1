@@ -1,0 +1,282 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    Quiver.Hom.{u + 1, u + 1}\n      (CategoryTheory.Functor.obj.{u, u + 1, u + 1, u + 1} CategoryTheory.coyoneda.{u, u + 1}\n        (Opposite.op.{u + 2} (ModuleCat.of.{u, u} R R)))\n      (CategoryTheory.forget.{u, u, u + 1, u} (ModuleCat.{u, u} R))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3616100964",
+      "temporary_id": "decl-003543"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (M : ModuleCat.{u, u} R) (f : Quiver.Hom.{u, u + 1} (ModuleCat.of.{u, u} R R) M),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (CategoryTheory.ConcreteCategory.hom.{u, u, u + 1, u}\n        (CategoryTheory.NatTrans.app.{u, u, u + 1, u + 1} (decl-003543.{u} R) M))\n      f)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (ModuleCat.Hom.hom.{u, u} f) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003543"
+      ],
+      "structural_type_hash": "4078728706",
+      "temporary_id": "decl-003544"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (M : ModuleCat.{u, u} R) (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (CategoryTheory.ConcreteCategory.hom.{u, u, u + 1, u}\n        (CategoryTheory.NatTrans.app.{u, u, u + 1, u + 1} (decl-003543.{u} R) M))\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (CategoryTheory.ConcreteCategory.hom.{u, u, u + 1, u}\n          (CategoryTheory.NatTrans.app.{u, u, u + 1, u + 1} (decl-003571.{u} R) M))\n        m))\n    m",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003543",
+        "decl-003571"
+      ],
+      "structural_type_hash": "2972419596",
+      "temporary_id": "decl-003545"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R],\n  Eq.{u + 2}\n    (CategoryTheory.CategoryStruct.comp.{u + 1, u + 1} (decl-003543.{u} R)\n      (decl-003571.{u} R))\n    (CategoryTheory.CategoryStruct.id.{u + 1, u + 1}\n      (CategoryTheory.Functor.obj.{u, u + 1, u + 1, u + 1} CategoryTheory.coyoneda.{u, u + 1}\n        (Opposite.op.{u + 2} (ModuleCat.of.{u, u} R R))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003543",
+        "decl-003571"
+      ],
+      "structural_type_hash": "2660845716",
+      "temporary_id": "decl-003546"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] {M N : ModuleCat.{u, u} R} (g : Quiver.Hom.{u, u + 1} M N)\n  (f : Quiver.Hom.{u, u + 1} (ModuleCat.of.{u, u} R R) M),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (ModuleCat.Hom.hom.{u, u} (CategoryTheory.CategoryStruct.comp.{u, u + 1} f g))\n      1)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (CategoryTheory.ConcreteCategory.hom.{u, u, u + 1, u} g)\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (ModuleCat.Hom.hom.{u, u} f) 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2876117035",
+      "temporary_id": "decl-003547"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  [Infinite.{u_1 + 1} k] [FiniteDimensional.{u_1, u_2} k V] (S : Module.End.{u_1, u_2} k V),\n  Exists.{u_1 + 1} fun \u03bc =>\n    Eq.{max (u_1 + 1) (u_2 + 1)} (decl-003557.{u_1, u_2} S \u03bc) Bot.bot.{max u_1 u_2}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003557"
+      ],
+      "structural_type_hash": "1739723136",
+      "temporary_id": "decl-003548"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    CategoryTheory.Functor.CorepresentableBy.{u, u, u + 1} (CategoryTheory.forget.{u, u, u + 1, u} (ModuleCat.{u, u} R))\n      (ModuleCat.of.{u, u} R R)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3682857812",
+      "temporary_id": "decl-003550"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (M : ModuleCat.{u, u} R),\n  Eq.{u + 1}\n    (CategoryTheory.Functor.CorepresentableBy.homEquiv.{u, u, u + 1} (decl-003550.{u} R))\n    (decl-003563.{u} R M)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003550",
+        "decl-003563"
+      ],
+      "structural_type_hash": "299295129",
+      "temporary_id": "decl-003552"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (M : ModuleCat.{u, u} R),\n  Eq.{u + 1}\n    (CategoryTheory.Functor.CorepresentableBy.homEquiv.{u, u, u + 1} (decl-003550.{u} R))\n    (Equiv.trans.{u + 1, u + 1, u + 1} ModuleCat.homEquiv.{u, u}\n      (LinearEquiv.toEquiv.{0, 0, u, u} (decl-019507.{u, u} R (ModuleCat.carrier.{u, u} M))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003550",
+        "decl-019507"
+      ],
+      "structural_type_hash": "313446518",
+      "temporary_id": "decl-003553"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    CategoryTheory.Iso.{u + 1, u + 1}\n      (CategoryTheory.Functor.obj.{u, u + 1, u + 1, u + 1} CategoryTheory.coyoneda.{u, u + 1}\n        (Opposite.op.{u + 2} (ModuleCat.of.{u, u} R R)))\n      (CategoryTheory.forget.{u, u, u + 1, u} (ModuleCat.{u, u} R))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2111928022",
+      "temporary_id": "decl-003554"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R],\n  Eq.{u + 2} (CategoryTheory.Iso.hom.{u + 1, u + 1} (decl-003554.{u} R))\n    (decl-003543.{u} R)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003543",
+        "decl-003554"
+      ],
+      "structural_type_hash": "175906653",
+      "temporary_id": "decl-003555"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R],\n  Eq.{u + 2} (CategoryTheory.Iso.inv.{u + 1, u + 1} (decl-003554.{u} R))\n    (decl-003571.{u} R)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003554",
+        "decl-003571"
+      ],
+      "structural_type_hash": "2779556289",
+      "temporary_id": "decl-003556"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192\n          Module.End.{u_1, u_2} k V \u2192\n            k \u2192 Submodule.{u_1, max u_1 u_2} k (LinearMap.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} k) V k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1298162172",
+      "temporary_id": "decl-003557"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  [FiniteDimensional.{u_1, u_2} k V] (S : Module.End.{u_1, u_2} k V) (\u03bc : k),\n  Not (Module.End.HasEigenvalue.{u_1, u_2} S \u03bc) \u2192\n    Eq.{max (u_1 + 1) (u_2 + 1)} (decl-003557.{u_1, u_2} S \u03bc) Bot.bot.{max u_1 u_2}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003557"
+      ],
+      "structural_type_hash": "1963369387",
+      "temporary_id": "decl-003561"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  [Infinite.{u_1 + 1} k] [FiniteDimensional.{u_1, u_2} k V] (S : Module.End.{u_1, u_2} k V),\n  Not\n    (\u2200 (\u03bc : k),\n      Eq.{1}\n        (Module.finrank.{u_1, max u_1 u_2} k\n          (Subtype.{(max u_1 u_2) + 1} fun x =>\n            Membership.mem.{max u_1 u_2, max u_1 u_2} (decl-003557.{u_1, u_2} S \u03bc) x))\n        1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003557"
+      ],
+      "structural_type_hash": "2836178431",
+      "temporary_id": "decl-003562"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    (M : ModuleCat.{u, u} R) \u2192\n      Equiv.{u + 1, u + 1} (Quiver.Hom.{u, u + 1} (ModuleCat.of.{u, u} R R) M) (ModuleCat.carrier.{u, u} M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4148521995",
+      "temporary_id": "decl-003563"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (M : ModuleCat.{u, u} R) (f : Quiver.Hom.{u, u + 1} (ModuleCat.of.{u, u} R R) M),\n  Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-003563.{u} R M) f)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (ModuleCat.Hom.hom.{u, u} f) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003563"
+      ],
+      "structural_type_hash": "2717014185",
+      "temporary_id": "decl-003565"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (M : ModuleCat.{u, u} R) (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (Equiv.symm.{u + 1, u + 1} (decl-003563.{u} R M)) m)\n    (ModuleCat.ofHom.{u, u}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (LinearEquiv.symm.{0, 0, u, u} (LinearMap.ringLmapEquivSelf.{u, 0, u} R Nat (ModuleCat.carrier.{u, u} M))) m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003563"
+      ],
+      "structural_type_hash": "3194044656",
+      "temporary_id": "decl-003566"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R],\n  CategoryTheory.Functor.IsCorepresentable.{u, u, u + 1} (CategoryTheory.forget.{u, u, u + 1, u} (ModuleCat.{u, u} R))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2464700612",
+      "temporary_id": "decl-003567"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  (S : Module.End.{u_1, u_2} k V) (\u03bc : k) (\u03c6 : LinearMap.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} k) V k),\n  Iff (Membership.mem.{max u_1 u_2, max u_2 u_1} (decl-003557.{u_1, u_2} S \u03bc) \u03c6)\n    (Eq.{max (u_1 + 1) (u_2 + 1)} (LinearMap.comp.{u_1, u_1, u_1, u_2, u_2, u_1} \u03c6 S)\n      (HSMul.hSMul.{u_1, max u_1 u_2, max u_1 u_2} \u03bc \u03c6))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003557"
+      ],
+      "structural_type_hash": "2836965396",
+      "temporary_id": "decl-003568"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    Quiver.Hom.{u + 1, u + 1} (CategoryTheory.forget.{u, u, u + 1, u} (ModuleCat.{u, u} R))\n      (CategoryTheory.Functor.obj.{u, u + 1, u + 1, u + 1} CategoryTheory.coyoneda.{u, u + 1}\n        (Opposite.op.{u + 2} (ModuleCat.of.{u, u} R R)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1177268458",
+      "temporary_id": "decl-003571"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (M : ModuleCat.{u, u} R) (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (CategoryTheory.ConcreteCategory.hom.{u, u, u + 1, u}\n        (CategoryTheory.NatTrans.app.{u, u, u + 1, u + 1} (decl-003571.{u} R) M))\n      m)\n    (ModuleCat.ofHom.{u, u}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (LinearEquiv.symm.{0, 0, u, u} (LinearMap.ringLmapEquivSelf.{u, 0, u} R Nat (ModuleCat.carrier.{u, u} M))) m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003571"
+      ],
+      "structural_type_hash": "1428670590",
+      "temporary_id": "decl-003572"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (M : ModuleCat.{u, u} R) (f : Quiver.Hom.{u, u + 1} (ModuleCat.of.{u, u} R R) M),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (CategoryTheory.ConcreteCategory.hom.{u, u, u + 1, u}\n        (CategoryTheory.NatTrans.app.{u, u, u + 1, u + 1} (decl-003571.{u} R) M))\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (CategoryTheory.ConcreteCategory.hom.{u, u, u + 1, u}\n          (CategoryTheory.NatTrans.app.{u, u, u + 1, u + 1} (decl-003543.{u} R) M))\n        f))\n    f",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003543",
+        "decl-003571"
+      ],
+      "structural_type_hash": "3284951738",
+      "temporary_id": "decl-003573"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R],\n  Eq.{u + 2}\n    (CategoryTheory.CategoryStruct.comp.{u + 1, u + 1} (decl-003571.{u} R)\n      (decl-003543.{u} R))\n    (CategoryTheory.CategoryStruct.id.{u + 1, u + 1} (CategoryTheory.forget.{u, u, u + 1, u} (ModuleCat.{u, u} R)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003543",
+        "decl-003571"
+      ],
+      "structural_type_hash": "1222375633",
+      "temporary_id": "decl-003574"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] {M N : ModuleCat.{u, u} R} (g : Quiver.Hom.{u, u + 1} M N)\n  (m : ModuleCat.carrier.{u, u} M),\n  Eq.{u + 1}\n    (ModuleCat.ofHom.{u, u}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (LinearEquiv.symm.{0, 0, u, u} (LinearMap.ringLmapEquivSelf.{u, 0, u} R Nat (ModuleCat.carrier.{u, u} N)))\n        (DFunLike.coe.{u + 1, u + 1, u + 1} (CategoryTheory.ConcreteCategory.hom.{u, u, u + 1, u} g) m)))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (ModuleCat.ofHom.{u, u}\n        (DFunLike.coe.{u + 1, u + 1, u + 1}\n          (LinearEquiv.symm.{0, 0, u, u} (LinearMap.ringLmapEquivSelf.{u, 0, u} R Nat (ModuleCat.carrier.{u, u} M))) m))\n      g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3273913584",
+      "temporary_id": "decl-003575"
+    },
+    {
+      "formal_type": "(R : Type u) \u2192\n  [inst : Ring.{u} R] \u2192\n    {X : ModuleCat.{u, u} R} \u2192\n      CategoryTheory.Functor.CorepresentableBy.{u, u, u + 1}\n          (CategoryTheory.forget.{u, u, u + 1, u} (ModuleCat.{u, u} R)) X \u2192\n        CategoryTheory.Iso.{u, u + 1} (ModuleCat.of.{u, u} R R) X",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1805711287",
+      "temporary_id": "decl-003576"
+    },
+    {
+      "formal_type": "(R : Type u_1) \u2192\n  [inst : Semiring.{u_1} R] \u2192\n    (M : Type u_2) \u2192\n      [inst_1 : AddCommMonoid.{u_2} M] \u2192\n        [inst_2 : Module.{u_1, u_2} R M] \u2192\n          LinearEquiv.{0, 0, max u_2 u_1, u_2} (RingHom.id.{0} Nat)\n            (LinearMap.{u_1, u_1, u_1, u_2} (RingHom.id.{u_1} R) R M) M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4033557451",
+      "temporary_id": "decl-019507"
+    }
+  ],
+  "module_temporary_id": "module-0591",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

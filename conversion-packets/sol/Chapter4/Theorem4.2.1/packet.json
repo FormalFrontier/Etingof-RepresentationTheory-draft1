@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Theorem4.2.1",
+    "kind": "theorem",
+    "title": "Characters of irreducible representations form a basis of class functions",
+    "node_id": "chapter-04/section-4-2",
+    "order": 190,
+    "slug": "theorem4-2-1",
+    "span": {
+      "start": {
+        "page": "63",
+        "line": 23
+      },
+      "end": {
+        "page": "64",
+        "line": 8
+      }
+    },
+    "source_sha256": "99ee6e04a7ef93ea97df7e4cf0915c8886c2e1526b74bd68e92f7b7513cd4d76",
+    "features": {
+      "line_count": 9,
+      "crosses_page": true,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Theorem421",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0432",
+  "associations": [
+    {
+      "association_id": "association:ffc526709bedbe53e6fb",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so this lift evaluation result cannot be confirmed from the packet as directly stating the chosen-generator action."
+    },
+    {
+      "association_id": "association:c0aef85ee08a23e1d615",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the packet does not expose whether this generator evaluation is exactly the claimed action under the equivalence."
+    }
+  ]
+}

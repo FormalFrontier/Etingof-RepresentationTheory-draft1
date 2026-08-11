@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:314ca47e6f72bdeefb24",
+      "declaration": "Etingof.Problem_8_2_7_ii_tor_fg",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/541/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {M N : Type} [inst_1 : AddCommGroup.{0} M]\n  [inst_2 : Module.{0, 0} (Polynomial.{0} k) M] [inst_3 : AddCommGroup.{0} N]\n  [inst_4 : Module.{0, 0} (Polynomial.{0} k) N] [Module.Finite.{0, 0} (Polynomial.{0} k) M]\n  [Module.Finite.{0, 0} (Polynomial.{0} k) N],\n  Exists.{2} fun D =>\n    Exists.{2} fun E =>\n      And\n        (Nonempty.{1}\n          (AddEquiv.{0, 0}\n            (AddCommGrpCat.carrier.{0}\n              (Etingof.Tor.{0} (Polynomial.{0} k) N (Etingof.mopOf.{0} (Polynomial.{0} k) M) 0))\n            ((j : Etingof.PIDDecomposition.index.{0} D) \u2192\n              (l : Etingof.PIDDecomposition.index.{0} E) \u2192\n                HasQuotient.Quotient.{0, 0} (Polynomial.{0} k)\n                  (Ideal.span.{0}\n                    (Insert.insert.{0, 0} (Etingof.PIDDecomposition.genOf.{0} D j)\n                      (Singleton.singleton.{0, 0} (Etingof.PIDDecomposition.genOf.{0} E l)))))))\n        (And\n          (Nonempty.{1}\n            (AddEquiv.{0, 0}\n              (AddCommGrpCat.carrier.{0}\n                (Etingof.Tor.{0} (Polynomial.{0} k) N (Etingof.mopOf.{0} (Polynomial.{0} k) M) 1))\n              ((i : Etingof.PIDDecomposition.torsionIndex.{0} D) \u2192\n                (l : Etingof.PIDDecomposition.torsionIndex.{0} E) \u2192\n                  HasQuotient.Quotient.{0, 0} (Polynomial.{0} k)\n                    (Ideal.span.{0}\n                      (Insert.insert.{0, 0} (Etingof.PIDDecomposition.gen.{0} D i)\n                        (Singleton.singleton.{0, 0} (Etingof.PIDDecomposition.gen.{0} E l)))))))\n          (\u2200 (n : Nat),\n            Subsingleton.{1}\n              (AddCommGrpCat.carrier.{0}\n                (Etingof.Tor.{0} (Polynomial.{0} k) N (Etingof.mopOf.{0} (Polynomial.{0} k) M)\n                  (HAdd.hAdd.{0, 0, 0} n 2)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_7_TorPoly"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.7",
+  "packet_id": "align-0853",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0853"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.7:part_ii_tor",
+  "source_text": "Part (ii): compute every Tor group of finitely generated k[x]-modules."
+}

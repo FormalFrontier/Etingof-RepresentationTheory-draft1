@@ -1,0 +1,230 @@
+{
+  "module_name": "LieAlgebra.BigradedCocycleLifts",
+  "declarations": [
+    {
+      "temporary_id": "decl-007330",
+      "new_name": "SpecialBinaryFormCondition",
+      "docstring": "A distinguished condition on scalar-valued binary functions on the specified Lie subspace."
+    },
+    {
+      "temporary_id": "decl-007346",
+      "new_name": "IsBinaryLieCocycle",
+      "docstring": "A predicate on binary maps from a Lie algebra to a module expressing the binary cocycle condition."
+    },
+    {
+      "temporary_id": "decl-007347",
+      "new_name": "toIsAlternatingLieCocycle",
+      "docstring": "A binary Lie cocycle satisfies the explicit alternating Lie-cocycle conditions."
+    },
+    {
+      "temporary_id": "decl-007348",
+      "new_name": "IsAlternatingLieCocycle",
+      "docstring": "The explicit conditions that a module-valued binary map be additive and linear in both variables, alternating, and satisfy the cyclic bracket identity."
+    },
+    {
+      "temporary_id": "decl-007349",
+      "new_name": "add_left",
+      "docstring": "An alternating Lie cocycle is additive in its first argument."
+    },
+    {
+      "temporary_id": "decl-007350",
+      "new_name": "add_right",
+      "docstring": "An alternating Lie cocycle is additive in its second argument."
+    },
+    {
+      "temporary_id": "decl-007355",
+      "new_name": "cyclic_bracket",
+      "docstring": "The cyclic sum of an alternating Lie cocycle evaluated on brackets is zero."
+    },
+    {
+      "temporary_id": "decl-007356",
+      "new_name": "map",
+      "docstring": "Postcomposition with a linear map preserves the alternating Lie-cocycle conditions."
+    },
+    {
+      "temporary_id": "decl-007362",
+      "new_name": "self_eq_zero",
+      "docstring": "An alternating Lie cocycle vanishes when both arguments are equal."
+    },
+    {
+      "temporary_id": "decl-007364",
+      "new_name": "smul_left",
+      "docstring": "An alternating Lie cocycle commutes with scalar multiplication in its first argument."
+    },
+    {
+      "temporary_id": "decl-007365",
+      "new_name": "smul_right",
+      "docstring": "An alternating Lie cocycle commutes with scalar multiplication in its second argument."
+    },
+    {
+      "temporary_id": "decl-007400",
+      "new_name": "bidegree",
+      "docstring": "The pair of natural numbers giving the bidegree of an index."
+    },
+    {
+      "temporary_id": "decl-007517",
+      "new_name": "projectedSubtypeMap_val",
+      "docstring": "The underlying value of the subspace-valued projection agrees with the corresponding ambient linear map."
+    },
+    {
+      "temporary_id": "decl-007593",
+      "new_name": "specialBinaryFormCondition_apply_distinguished_eq_zero",
+      "docstring": "A binary form satisfying the distinguished condition vanishes on the displayed pair of indexed subspace elements."
+    },
+    {
+      "temporary_id": "decl-007666",
+      "new_name": "projectToDistinguishedSubspace",
+      "docstring": "A linear map from the ambient Lie algebra at parameter four to the distinguished Lie subspace."
+    },
+    {
+      "temporary_id": "decl-007671",
+      "new_name": "projectToDistinguishedSubspace_mem_bidegreeComponent",
+      "docstring": "Under the stated characteristic restrictions, projection sends each ambient bidegree component into the corresponding subspace component."
+    },
+    {
+      "temporary_id": "decl-007672",
+      "new_name": "projectToDistinguishedSubspace_bracket",
+      "docstring": "Projection to the distinguished subspace preserves Lie brackets."
+    },
+    {
+      "temporary_id": "decl-007673",
+      "new_name": "projectToDistinguishedSubspace_comp_lift",
+      "docstring": "Under the stated characteristic restrictions, projecting a lifted subspace element returns that element."
+    },
+    {
+      "temporary_id": "decl-007674",
+      "new_name": "projectToDistinguishedSubspace_specialFamily_eq_zero",
+      "docstring": "Under the stated characteristic restrictions, projection annihilates every member of the specified natural-number-indexed family."
+    },
+    {
+      "temporary_id": "decl-007697",
+      "new_name": "ambientMap_injective_of_cocycle_extension",
+      "docstring": "The ambient linear map is injective when every explicit alternating cocycle satisfying the distinguished condition also satisfies the binary cocycle predicate."
+    },
+    {
+      "temporary_id": "decl-007700",
+      "new_name": "ambientMap_comp_lift",
+      "docstring": "The ambient map applied to a lifted subspace element is its underlying value."
+    },
+    {
+      "temporary_id": "decl-007718",
+      "new_name": "linearFunctional_comp_bracketCorrection_specialCondition",
+      "docstring": "Composing the bracket-correction term with any linear functional produces a binary form satisfying the distinguished condition."
+    },
+    {
+      "temporary_id": "decl-007848",
+      "new_name": "bracketCorrection_isAlternatingLieCocycle",
+      "docstring": "Under the stated characteristic restrictions, the bracket-correction term is an alternating Lie cocycle."
+    },
+    {
+      "temporary_id": "decl-007854",
+      "new_name": "bidegreeComponent",
+      "docstring": "The submodule of the distinguished Lie subspace associated with a pair of natural-number degrees."
+    },
+    {
+      "temporary_id": "decl-007858",
+      "new_name": "distinguishedIndex_bidegree",
+      "docstring": "The distinguished index has bidegree `(0, 1)`."
+    },
+    {
+      "temporary_id": "decl-007859",
+      "new_name": "threeFamilyIndex_bidegree",
+      "docstring": "The bidegree of the three-member indexed family is `(2m + 2, 4m + 3 + i.rev)`."
+    },
+    {
+      "temporary_id": "decl-007860",
+      "new_name": "bidegree_injective",
+      "docstring": "The bidegree projection on indices is injective."
+    },
+    {
+      "temporary_id": "decl-007861",
+      "new_name": "associatedIndex_bidegree",
+      "docstring": "The index associated with `I` has the same bidegree as `I`."
+    },
+    {
+      "temporary_id": "decl-007862",
+      "new_name": "fiveFamilyIndex_bidegree",
+      "docstring": "The bidegree of the five-member indexed family is `(2m + 1, 4m + i.rev)`."
+    },
+    {
+      "temporary_id": "decl-007894",
+      "new_name": "cyclic_bracket_bracket",
+      "docstring": "The cyclic sum `[[a,b],d] + [[b,d],a] + [[d,a],b]` vanishes in any Lie ring."
+    },
+    {
+      "temporary_id": "decl-007903",
+      "new_name": "bracket_eq_bracket_lift_project",
+      "docstring": "Under the stated characteristic restrictions, the bracket of two ambient elements equals the bracket of the lifts of their projections."
+    },
+    {
+      "temporary_id": "decl-007905",
+      "new_name": "mem_ambientMap_ker_bracket_eq_zero",
+      "docstring": "Under the stated characteristic restrictions, an element in the kernel of the ambient map brackets to zero with every ambient element."
+    },
+    {
+      "temporary_id": "decl-007937",
+      "new_name": "bracket_indexedElement_mem_bidegreeComponent_add",
+      "docstring": "The bracket of two indexed subspace elements belongs to the component whose bidegree is the sum of their bidegrees."
+    },
+    {
+      "temporary_id": "decl-007941",
+      "new_name": "bracket_lift_eq_lift_bracket_add_correction",
+      "docstring": "The bracket of two lifted elements is the lift of their bracket plus the bracket-correction term."
+    },
+    {
+      "temporary_id": "decl-007988",
+      "new_name": "bracketCorrection",
+      "docstring": "The ambient-valued correction term comparing brackets of lifted subspace elements with lifts of their bracket."
+    },
+    {
+      "temporary_id": "decl-007990",
+      "new_name": "bracketCorrection_indexed_eq_zero_of_bidegree_ne",
+      "docstring": "The correction term on indexed elements vanishes when the sum of their bidegrees avoids every pair `(2m + 2, 4m + 4)`."
+    },
+    {
+      "temporary_id": "decl-007991",
+      "new_name": "bracketCorrection_mem_ambientMap_ker",
+      "docstring": "The bracket-correction term lies in the kernel of the ambient linear map."
+    },
+    {
+      "temporary_id": "decl-008015",
+      "new_name": "indexedElement_mem_bidegreeComponent",
+      "docstring": "Each indexed subspace element belongs to the component specified by the bidegree of its index."
+    },
+    {
+      "temporary_id": "decl-008035",
+      "new_name": "liftFromDistinguishedSubspace",
+      "docstring": "A characteristic-dependent linear lift from the distinguished Lie subspace to the ambient Lie algebra at parameter four."
+    },
+    {
+      "temporary_id": "decl-008041",
+      "new_name": "liftFromDistinguishedSubspace_mem_bidegreeComponent",
+      "docstring": "The lift sends a subspace bidegree component into the matching ambient bidegree component."
+    },
+    {
+      "temporary_id": "decl-008042",
+      "new_name": "liftFromDistinguishedSubspace_indexedElement",
+      "docstring": "The lift of an indexed subspace element is the corresponding ambient indexed element scaled by the inverse of its designated coefficient."
+    },
+    {
+      "temporary_id": "decl-008043",
+      "new_name": "liftFromDistinguishedSubspace_indexedElement_mem",
+      "docstring": "The lift of an indexed subspace element belongs to the ambient component determined by its bidegree."
+    },
+    {
+      "temporary_id": "decl-008168",
+      "new_name": "exceptionalBidegrees_ne_family",
+      "docstring": "The bidegrees `(2, 1)` and `(1, 5)` are distinct from every pair `(2m + 2, 4m + 4)`."
+    },
+    {
+      "temporary_id": "decl-008213",
+      "new_name": "indexedElements_span_eq_top_of_cocycle_extension",
+      "docstring": "Under the cocycle-extension hypothesis and the stated characteristic restrictions, the indexed ambient elements span the whole ambient space."
+    },
+    {
+      "temporary_id": "decl-008225",
+      "new_name": "specialFamily_eq_zero_of_cocycle_extension",
+      "docstring": "Under the cocycle-extension hypothesis and the stated characteristic restrictions, every element of the specified natural-number-indexed family is zero."
+    }
+  ]
+}

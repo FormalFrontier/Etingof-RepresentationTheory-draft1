@@ -1,0 +1,104 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 R \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "832884981",
+      "temporary_id": "decl-013995"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} {B : Type u_2} [inst : CommRing.{u_1} A] [inst_1 : CommRing.{u_2} B] (\u03c6 : RingEquiv.{u_1, u_2} A B)\n  {e : A},\n  decl-013995.{u_1} A e \u2192\n    decl-013995.{u_2} B\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c6 e)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-013995",
+      "project_type_dependencies": [
+        "decl-013995"
+      ],
+      "structural_type_hash": "2502903131",
+      "temporary_id": "decl-013996"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {k : Type u_1} [inst_1 : Field.{u_1} k] [inst_2 : Algebra.{u_1, u} k R]\n  [FiniteDimensional.{u_1, u} k R],\n  Exists.{u + 2} fun \u03b9 =>\n    Exists.{u + 1} fun x =>\n      Exists.{u + 1} fun e =>\n        And (Eq.{u + 1} (Finset.sum.{u, u} Finset.univ.{u} fun i => e i) 1)\n          (And (\u2200 (i j : \u03b9), Ne.{u + 1} i j \u2192 Eq.{u + 1} (HMul.hMul.{u, u, u} (e i) (e j)) 0)\n            (And (\u2200 (i : \u03b9), decl-013995.{u} R (e i))\n              (\u2200 (f : R),\n                decl-013995.{u} R f \u2192\n                  Exists.{u + 1} fun i => Eq.{u + 1} (e i) f)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995"
+      ],
+      "structural_type_hash": "66374489",
+      "temporary_id": "decl-014149"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : CommRing.{u} A] [IsArtinianRing.{u} A],\n  Exists.{u + 2} fun \u03b9 =>\n    Exists.{u + 1} fun x =>\n      Exists.{u + 1} fun e =>\n        And (CompleteOrthogonalIdempotents.{u, u} e)\n          (And (\u2200 (i : \u03b9), decl-013995.{u} A (e i))\n            (\u2200 (f : A),\n              decl-013995.{u} A f \u2192\n                Exists.{u + 1} fun i => Eq.{u + 1} (e i) f))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995"
+      ],
+      "structural_type_hash": "1422538575",
+      "temporary_id": "decl-014150"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (k : Type u_1) [inst_1 : Field.{u_1} k] [inst_2 : Algebra.{u_1, u} k R]\n  [FiniteDimensional.{u_1, u} k R],\n  Finite.{max 1 (u + 1)} (Subtype.{u + 1} fun e => decl-013995.{u} R e)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995"
+      ],
+      "structural_type_hash": "3146494824",
+      "temporary_id": "decl-014152"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {k : Type u_1} [inst_1 : Field.{u_1} k] [inst_2 : Algebra.{u_1, u} k R]\n  (z : Subtype.{u + 1} fun x => Membership.mem.{u, u} (Subalgebra.center.{u_1, u} k R) x),\n  Iff (decl-013995.{u} R (Subtype.val.{u + 1} z))\n    (decl-013995.{u}\n      (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Subalgebra.center.{u_1, u} k R) x) z)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995"
+      ],
+      "structural_type_hash": "3899198007",
+      "temporary_id": "decl-014171"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : CommRing.{u_1} A] {e : A},\n  Iff (decl-013995.{u_1} A e)\n    (And (Ne.{u_1 + 1} e 0)\n      (And (IsIdempotentElem.{u_1} e)\n        (\u2200 (x : A),\n          IsIdempotentElem.{u_1} x \u2192\n            Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} x e) x \u2192 Or (Eq.{u_1 + 1} x 0) (Eq.{u_1 + 1} x e))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995"
+      ],
+      "structural_type_hash": "3132972223",
+      "temporary_id": "decl-014172"
+    },
+    {
+      "formal_type": "\u2200 {\u03b9 : Type u_1} [Finite.{u_1 + 1} \u03b9] [inst : DecidableEq.{u_1 + 1} \u03b9] (K : \u03b9 \u2192 Type u_2)\n  [inst_1 : (i : \u03b9) \u2192 Field.{u_2} (K i)] (i : \u03b9),\n  decl-013995.{max u_1 u_2} ((j : \u03b9) \u2192 K j) (Pi.single.{u_1, u_2} i 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013995"
+      ],
+      "structural_type_hash": "116765959",
+      "temporary_id": "decl-014173"
+    }
+  ],
+  "module_temporary_id": "module-0754",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

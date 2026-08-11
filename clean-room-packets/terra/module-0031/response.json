@@ -1,0 +1,105 @@
+{
+  "module_name": "RingTheory.TwoSidedIdeal.Basic",
+  "declarations": [
+    {
+      "temporary_id": "decl-001639",
+      "new_name": "Ring.AuxiliaryType",
+      "docstring": "An auxiliary type depending on a ring."
+    },
+    {
+      "temporary_id": "decl-001640",
+      "new_name": "auxiliaryMap",
+      "docstring": "An auxiliary map from an element of the enclosing type to a second ring-dependent type."
+    },
+    {
+      "temporary_id": "decl-001641",
+      "new_name": "auxiliaryMap'",
+      "docstring": "An auxiliary map from an element of the enclosing type to a third ring-dependent type."
+    },
+    {
+      "temporary_id": "decl-001642",
+      "new_name": "Ring.AuxiliaryPredicate",
+      "docstring": "An auxiliary predicate on rings."
+    },
+    {
+      "temporary_id": "decl-001643",
+      "new_name": "Ring.AuxiliaryType'",
+      "docstring": "A second auxiliary type depending on a ring."
+    },
+    {
+      "temporary_id": "decl-001644",
+      "new_name": "Ring.AuxiliaryType''",
+      "docstring": "A third auxiliary type depending on a ring."
+    },
+    {
+      "temporary_id": "decl-001645",
+      "new_name": "Ring.auxiliarySetMap",
+      "docstring": "An auxiliary construction from sets of ring elements into the first auxiliary type."
+    },
+    {
+      "temporary_id": "decl-001646",
+      "new_name": "Ring.auxiliarySetMap_le_iff",
+      "docstring": "The auxiliary set construction lies below an element exactly when the set lies below its carrier."
+    },
+    {
+      "temporary_id": "decl-001647",
+      "new_name": "Ring.auxiliarySetMap'",
+      "docstring": "An auxiliary construction from sets of ring elements into the second auxiliary type."
+    },
+    {
+      "temporary_id": "decl-001648",
+      "new_name": "Ring.auxiliarySetMap'_le_iff",
+      "docstring": "The second auxiliary set construction lies below an element exactly when the set lies below its carrier."
+    },
+    {
+      "temporary_id": "decl-001649",
+      "new_name": "Ring.auxiliaryType'_eq",
+      "docstring": "The second auxiliary type agrees with the displayed dependent type."
+    },
+    {
+      "temporary_id": "decl-001650",
+      "new_name": "Ring.mem_auxiliarySetMap_iff",
+      "docstring": "Membership in the first auxiliary set construction is equivalent to membership in the additive closure of its two-sided products."
+    },
+    {
+      "temporary_id": "decl-001651",
+      "new_name": "TwoSidedIdeal.mem_ker_iff",
+      "docstring": "An element belongs to the two-sided kernel of a ring homomorphism exactly when its image is zero."
+    },
+    {
+      "temporary_id": "decl-001652",
+      "new_name": "Ring.mem_auxiliaryMap_iff",
+      "docstring": "The first auxiliary map preserves membership."
+    },
+    {
+      "temporary_id": "decl-001653",
+      "new_name": "Ring.mem_auxiliaryMap'_iff",
+      "docstring": "Membership after the second auxiliary map is equivalent to membership of the unopposite element in the source."
+    },
+    {
+      "temporary_id": "decl-001655",
+      "new_name": "Ring.auxiliarySetMap''",
+      "docstring": "An auxiliary construction from sets of ring elements into the third auxiliary type."
+    },
+    {
+      "temporary_id": "decl-001656",
+      "new_name": "Ring.auxiliarySetMap''_le_iff",
+      "docstring": "The third auxiliary set construction lies below an element exactly when the opposite image of the set lies below its carrier."
+    },
+    {
+      "temporary_id": "decl-001657",
+      "new_name": "Ring.auxiliaryType''_eq",
+      "docstring": "The third auxiliary type agrees with the displayed dependent type over the opposite ring."
+    },
+    {
+      "temporary_id": "decl-001658",
+      "new_name": "Ring.auxiliaryElement",
+      "docstring": "An auxiliary element of the first ring-dependent type."
+    },
+    {
+      "temporary_id": "decl-001659",
+      "new_name": "Ring.auxiliaryElement'",
+      "docstring": "A second auxiliary element of the first ring-dependent type."
+    }
+  ]
+}

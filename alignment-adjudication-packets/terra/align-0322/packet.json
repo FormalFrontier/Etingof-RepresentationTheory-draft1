@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:64257cc1ed28c76529db",
+      "declaration": "Etingof.Lemma5_18_3.span_diagonalTensors",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/349/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (U : Type u_1) [inst_1 : AddCommGroup.{u_1} U] [inst_2 : Module.{0, u_1} k U]\n  (n : Nat) [CharZero.{0} k],\n  Eq.{u_1 + 1} (Submodule.span.{0, u_1} k (Etingof.Lemma5_18_3.diagonalTensors.{u_1} k U n)) Top.top.{u_1}",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_18_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Lemma5.18.3",
+  "packet_id": "align-0322",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0322"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:62f763d3e09adee9cd6e",
+  "source_text": "The symmetric power is spanned by diagonal pure tensors u tensor ... tensor u."
+}

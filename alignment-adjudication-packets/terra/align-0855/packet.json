@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cbd796a25e79656cb51a",
+      "declaration": "TensorProduct.dualDistrib_not_surjective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/542/claim_coverage/claims/1/lean_decl",
+          "verdict": "source_correction"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k],\n  Not\n    (Function.Surjective.{u + 1, u + 1}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (TensorProduct.dualDistrib.{u, u, u} k (Finsupp.{0, u} Nat k) (Finsupp.{0, u} Nat k))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_8Counterexample"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.8",
+  "packet_id": "align-0855",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0855"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.8:ext_literal",
+  "source_text": "The literal Ext formula with only finite-dimensional target modules is false; prove and document the degree-zero counterexample."
+}

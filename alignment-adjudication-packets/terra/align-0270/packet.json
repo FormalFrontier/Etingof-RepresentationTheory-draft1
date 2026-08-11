@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e16789135ec1c39bb7cf",
+      "declaration": "Etingof.commutatorSubmodule_matrix_eq_ker_trace",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/158/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (n : Type u_2) [inst_1 : Fintype.{u_2} n] [inst_2 : DecidableEq.{u_2 + 1} n],\n  Eq.{max (u_1 + 1) (u_2 + 1)} (Etingof.commutatorSubmodule.{u_1, max u_1 u_2} k (Matrix.{u_2, u_2, u_1} n n k))\n    (LinearMap.ker.{u_1, u_1, max u_1 u_2, u_1} (Matrix.traceLinearMap.{u_2, u_1, u_1} n k k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.CommutatorMatrixTraceless"
+    },
+    {
+      "association_id": "association:e9cd7a2829ef0ce06c53",
+      "declaration": "Etingof.commutatorSubmodule_matrix_fin_eq_ker_trace",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/158/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (d : Nat),\n  Eq.{u_1 + 1} (Etingof.commutatorSubmodule.{u_1, u_1} k (Matrix.{0, 0, u_1} (Fin d) (Fin d) k))\n    (LinearMap.ker.{u_1, u_1, u_1, u_1} (Matrix.traceLinearMap.{0, u_1, u_1} (Fin d) k k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.CommutatorMatrixTraceless"
+    }
+  ],
+  "canonical_reference": "Chapter3/Theorem3.6.2",
+  "packet_id": "align-0270",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0270"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4f5b2e8abe4297e5534c",
+  "source_text": "For a full matrix algebra, [Mat_d(k),Mat_d(k)] is exactly sl_d(k), the traceless matrices."
+}

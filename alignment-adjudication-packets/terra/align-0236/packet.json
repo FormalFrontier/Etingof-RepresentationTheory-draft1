@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2286b6d14f6121e447e7",
+      "declaration": "GL2.card_generalLinearGroup_two",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat},\n  Eq.{1} (Nat.card.{0} (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n)))\n    (HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Nat.card.{0} (GaloisField p n)) 2) 1)\n      (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Nat.card.{0} (GaloisField p n)) 2) (Nat.card.{0} (GaloisField p n))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    },
+    {
+      "association_id": "association:54aa63aad0d1684e1fe7",
+      "declaration": "GL2.card_generalLinearGroup_two_factored",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/379/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {p : Nat} [hp : Fact (Nat.Prime p)] {n : Nat},\n  Eq.{1} (Nat.card.{0} (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n)))\n    (HMul.hMul.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0} (Nat.card.{0} (GaloisField p n)) (HAdd.hAdd.{0, 0, 0} (Nat.card.{0} (GaloisField p n)) 1))\n      (HPow.hPow.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Nat.card.{0} (GaloisField p n)) 1) 2))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_5.25.1",
+  "packet_id": "align-0236",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0236"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:46b9a3185e16712c93b3",
+  "source_text": "The order of GL\u2082(\ud835\udd3d_q) is (q\u00b2 \u2212 1)(q\u00b2 \u2212 q), equivalently q(q + 1)(q \u2212 1)\u00b2."
+}

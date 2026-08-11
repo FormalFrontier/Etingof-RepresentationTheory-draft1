@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:40d98c240486357bba4c",
+      "declaration": "Etingof.Problem6_9_1c",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/460/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (\u03c1 : Q\u2082Rep.{0, u_1, u_2} Complex),\n  IsNilpotent.{u_2} (LinearMap.comp.{0, 0, 0, u_2, u_1, u_2} (Q\u2082Rep.A.{0, u_1, u_2} \u03c1) (Q\u2082Rep.B.{0, u_1, u_2} \u03c1)) \u2192\n    IsNilpotent.{max u_2 u_1} (Q\u2082Rep.chainOperator.{u_1, u_2} \u03c1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_1"
+    },
+    {
+      "association_id": "association:fb50e3f9132a3ee4034c",
+      "declaration": "Etingof.Problem6_9_1c_exists_compatibleChainBasis",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/460/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (\u03c1 : Q\u2082Rep.{0, u_1, u_2} Complex),\n  IsNilpotent.{u_2} (LinearMap.comp.{0, 0, 0, u_2, u_1, u_2} (Q\u2082Rep.A.{0, u_1, u_2} \u03c1) (Q\u2082Rep.B.{0, u_1, u_2} \u03c1)) \u2192\n    Nonempty.{max (max 2 (u_2 + 1)) (u_1 + 1)} (Q\u2082Rep.CompatibleChainBasis.{u_1, u_2} \u03c1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_1_Classification"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.9.1",
+  "packet_id": "align-0800",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0800"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.9.1:part_c_chain_basis",
+  "source_text": "Part (c): construct a chain basis for the nilpotent swap operator compatible with V plus W."
+}

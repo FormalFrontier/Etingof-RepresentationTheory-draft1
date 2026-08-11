@@ -1,0 +1,112 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type) \u2192 [inst : Field.{0} k] \u2192 LieSubalgebra.{0, 0} k (Matrix.{0, 0, 0} (Fin 2) (Fin 2) k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "287269978",
+      "temporary_id": "decl-007083"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    Module.Basis.{0, 0, 0} (Fin 2) k (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-007150.{0} k) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150"
+      ],
+      "structural_type_hash": "143973439",
+      "temporary_id": "decl-007084"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (i : Fin 2),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-007084 k) i)\n    (Matrix.vecCons.{0} (decl-007077.{0} k)\n      (Matrix.vecCons.{0} (decl-007080.{0} k) Matrix.vecEmpty.{0}) i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007080",
+        "decl-007084",
+        "decl-007150"
+      ],
+      "structural_type_hash": "241818961",
+      "temporary_id": "decl-007087"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (z : Subtype.{1} fun x => Membership.mem.{0, 0} (decl-007150.{0} k) x),\n  Eq.{1} (Subtype.val.{1} z)\n    (HAdd.hAdd.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} (Subtype.val.{1} z 0 0) (Matrix.single.{0, 0, 0} 0 0 1))\n      (HSMul.hSMul.{0, 0, 0} (Subtype.val.{1} z 0 1) (Matrix.single.{0, 0, 0} 0 1 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150"
+      ],
+      "structural_type_hash": "1405623310",
+      "temporary_id": "decl-007098"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k],\n  Eq.{1} (Module.finrank.{0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-007150.{0} k) x)) 2",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150"
+      ],
+      "structural_type_hash": "710746614",
+      "temporary_id": "decl-007149"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k], Eq.{1} (decl-007150.{0} k) (decl-007267.{0} k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007150",
+        "decl-007267"
+      ],
+      "structural_type_hash": "2752049092",
+      "temporary_id": "decl-007151"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k],\n  LinearIndependent.{0, 0, 0} k\n    (Matrix.vecCons.{0} (decl-007077.{0} k)\n      (Matrix.vecCons.{0} (decl-007080.{0} k) Matrix.vecEmpty.{0}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007080",
+        "decl-007150"
+      ],
+      "structural_type_hash": "2319043638",
+      "temporary_id": "decl-007230"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k],\n  Eq.{1}\n    (Submodule.span.{0, 0} k\n      (Set.range.{0, 1}\n        (Matrix.vecCons.{0} (decl-007077.{0} k)\n          (Matrix.vecCons.{0} (decl-007080.{0} k) Matrix.vecEmpty.{0}))))\n    Top.top.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007077",
+        "decl-007080",
+        "decl-007150"
+      ],
+      "structural_type_hash": "3578215992",
+      "temporary_id": "decl-007279"
+    }
+  ],
+  "module_temporary_id": "module-0037",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

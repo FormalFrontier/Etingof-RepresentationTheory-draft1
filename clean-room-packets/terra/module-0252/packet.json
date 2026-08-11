@@ -1,0 +1,110 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] {Y : Type}\n  [inst_3 : AddCommGroup.{0} Y] [inst_4 : Module.{0, 0} k Y] [inst_5 : Module.Finite.{0, 0} k Y]\n  (\u03c1 : Representation.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) Y),\n  decl-005106.{0, 0} n (DFunLike.coe.{1, 1, 1} \u03c1) \u2192\n    \u2200\n      [IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k))\n          (Representation.asModule.{0, 0, 0} \u03c1)],\n      ExistsUnique.{1} fun lam =>\n        Nonempty.{1}\n          (LinearEquiv.{0, 0, 0, 0}\n            (RingHom.id.{0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k)))\n            (Representation.asModule.{0, 0, 0} \u03c1)\n            (Representation.asModule.{0, 0, 0} (decl-017172.{0} n lam k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-001833",
+        "decl-005106",
+        "decl-017172"
+      ],
+      "structural_type_hash": "3414851580",
+      "temporary_id": "decl-018754"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] {Y : Type}\n  [inst_3 : AddCommGroup.{0} Y] [inst_4 : Module.{0, 0} k Y] [inst_5 : Module.Finite.{0, 0} k Y]\n  (\u03c1 : Representation.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) Y),\n  decl-005106.{0, 0} n (DFunLike.coe.{1, 1, 1} \u03c1) \u2192\n    Exists.{1} fun p =>\n      Exists.{1} fun lam =>\n        Nonempty.{1}\n          (LinearEquiv.{0, 0, 0, 0}\n            (RingHom.id.{0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k)))\n            (Representation.asModule.{0, 0, 0} \u03c1)\n            (DirectSum.{0, 0} (Fin p) fun j =>\n              Representation.asModule.{0, 0, 0} (decl-017172.{0} n (lam j) k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-001833",
+        "decl-005106",
+        "decl-017172"
+      ],
+      "structural_type_hash": "1460697650",
+      "temporary_id": "decl-018813"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] {Y : Type}\n  [inst_3 : AddCommGroup.{0} Y] [inst_4 : Module.{0, 0} k Y] [inst_5 : Module.Finite.{0, 0} k Y]\n  (\u03c1 : Representation.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) Y),\n  decl-005106.{0, 0} n (DFunLike.coe.{1, 1, 1} \u03c1) \u2192\n    \u2200\n      [hsimp :\n        IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k))\n          (Representation.asModule.{0, 0, 0} \u03c1)],\n      Exists.{1} fun lam =>\n        Nonempty.{1}\n          (LinearEquiv.{0, 0, 0, 0}\n            (RingHom.id.{0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k)))\n            (Representation.asModule.{0, 0, 0} \u03c1)\n            (Representation.asModule.{0, 0, 0} (decl-017172.{0} n lam k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-001833",
+        "decl-005106",
+        "decl-017172"
+      ],
+      "structural_type_hash": "410257929",
+      "temporary_id": "decl-018820"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] {Y : Type}\n  [inst_3 : AddCommGroup.{0} Y] [inst_4 : Module.{0, 0} k Y] [inst_5 : Module.Finite.{0, 0} k Y]\n  (\u03c1 : Representation.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) Y),\n  decl-005106.{0, 0} n (DFunLike.coe.{1, 1, 1} \u03c1) \u2192\n    \u2200\n      (S :\n        Submodule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k))\n          (Representation.asModule.{0, 0, 0} \u03c1)),\n      IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k))\n          (Subtype.{1} fun x => Membership.mem.{0, 0} S x) \u2192\n        Exists.{1} fun lam =>\n          Nonempty.{1}\n            (LinearEquiv.{0, 0, 0, 0}\n              (RingHom.id.{0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k)))\n              (Subtype.{1} fun x => Membership.mem.{0, 0} S x)\n              (Representation.asModule.{0, 0, 0} (decl-017172.{0} n lam k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000516",
+        "decl-000517",
+        "decl-000520",
+        "decl-001833",
+        "decl-005106",
+        "decl-017172"
+      ],
+      "structural_type_hash": "1053130054",
+      "temporary_id": "decl-018821"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {k : Type} [inst : Field.{0} k] {Y : Type} [inst_1 : AddCommGroup.{0} Y] [inst_2 : Module.{0, 0} k Y]\n  [inst_3 : Module.Finite.{0, 0} k Y]\n  (\u03c1 : Matrix.GeneralLinearGroup.{0, 0} (Fin n) k \u2192 LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) Y Y),\n  decl-005106.{0, 0} n \u03c1 \u2192\n    \u2200 (u : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) Y k),\n      Exists.{1} fun mc =>\n        \u2200 (v : Y) (g : Matrix.GeneralLinearGroup.{0, 0} (Fin n) k),\n          Eq.{1} (DFunLike.coe.{1, 1, 1} decl-001537.{0} (DFunLike.coe.{1, 1, 1} mc v) g)\n            (DFunLike.coe.{1, 1, 1} u (DFunLike.coe.{1, 1, 1} (\u03c1 g) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-001537",
+        "decl-005106"
+      ],
+      "structural_type_hash": "1766499921",
+      "temporary_id": "decl-018830"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {k : Type} [inst : Field.{0} k] [CharZero.{0} k] {Y : Type} [inst_2 : AddCommGroup.{0} Y]\n  [inst_3 : Module.{0, 0} k Y] (\u03c1 : Representation.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) Y)\n  (u : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) Y k)\n  (mc : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) Y (Localization.Away.{0} (decl-001528.{0} k n))),\n  (\u2200 (v : Y) (g : Matrix.GeneralLinearGroup.{0, 0} (Fin n) k),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} decl-001537.{0} (DFunLike.coe.{1, 1, 1} mc v) g)\n        (DFunLike.coe.{1, 1, 1} u (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} \u03c1 g) v))) \u2192\n    \u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) (v : Y),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} mc (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} \u03c1 g) v))\n        (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-005625.{0} k n) g)\n          (DFunLike.coe.{1, 1, 1} mc v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-001537",
+        "decl-005625"
+      ],
+      "structural_type_hash": "918814680",
+      "temporary_id": "decl-021551"
+    }
+  ],
+  "module_temporary_id": "module-0252",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

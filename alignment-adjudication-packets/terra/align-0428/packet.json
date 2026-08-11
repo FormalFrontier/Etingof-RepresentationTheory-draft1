@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:319e9625faa9a9854bfb",
+      "declaration": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_isSimpleModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/180/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "IsSimpleModule.{0, 0}\n  (TensorProduct.{0, 0, 0} Complex (Etingof.WeylAlgebra.{0} Complex) (Etingof.WeylAlgebra.{0} Complex))\n  EtingofRepresentationTheory.Chapter3.Remark3_10_3.WeylCounterexampleModule",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_10_3"
+    },
+    {
+      "association_id": "association:ad88dea0f15342f1fc90",
+      "declaration": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_not_equiv_tensorProduct_of_simple_left",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/180/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (V : Type u_1) (W : Type u_2) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (Etingof.WeylAlgebra.{0} Complex) V]\n  [inst_3 : IsScalarTower.{0, 0, u_1} Complex (Etingof.WeylAlgebra.{0} Complex) V] [inst_4 : AddCommGroup.{u_2} W]\n  [inst_5 : Module.{0, u_2} Complex W] [inst_6 : Module.{0, u_2} (Etingof.WeylAlgebra.{0} Complex) W]\n  [inst_7 : IsScalarTower.{0, 0, u_2} Complex (Etingof.WeylAlgebra.{0} Complex) W]\n  [IsSimpleModule.{0, u_1} (Etingof.WeylAlgebra.{0} Complex) V] [Nontrivial.{u_2} W]\n  (e :\n    LinearEquiv.{0, 0, max u_2 u_1, 0} (RingHom.id.{0} Complex) (TensorProduct.{0, u_1, u_2} Complex V W)\n      EtingofRepresentationTheory.Chapter3.Remark3_10_3.WeylCounterexampleModule),\n  (\u2200 (a b : Etingof.WeylAlgebra.{0} Complex) (t : TensorProduct.{0, u_1, u_2} Complex V W),\n      Eq.{1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), 1} e\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n            (TensorProduct.map.{0, 0, u_1, u_2, u_1, u_2}\n              (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (Algebra.lsmul.{0, 0, 0, u_1} Complex Complex V) a)\n              (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (Algebra.lsmul.{0, 0, 0, u_2} Complex Complex W) b))\n            t))\n        (DFunLike.coe.{1, 1, 1}\n          (DFunLike.coe.{1, 1, 1} EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorRep\n            (TensorProduct.tmul.{0, 0, 0} Complex a b))\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), 1} e t))) \u2192\n    False",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_10_3"
+    }
+  ],
+  "canonical_reference": "Chapter3/Remark3.10.3",
+  "packet_id": "align-0428",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0428"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:8a2d3bdcfdf510cfd13b",
+  "source_text": "For the characteristic-zero Weyl algebra, the simple entangled module C[x,y]e^{xy} is not an external tensor product with a simple first factor."
+}

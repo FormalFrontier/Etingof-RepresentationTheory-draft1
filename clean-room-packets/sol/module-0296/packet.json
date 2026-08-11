@@ -1,0 +1,367 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat},\n  Function.Injective.{u_1 + 1, u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n      (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n        (Localization.Away.{u_1} (decl-001528.{u_1} k N))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "3600373922",
+      "temporary_id": "decl-001514"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (n : Nat),\n  Eq.{u_1 + 1}\n    (HMul.hMul.{u_1, u_1, u_1}\n      (HPow.hPow.{u_1, 0, u_1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n            (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n          (decl-001528.{u_1} k N))\n        n)\n      (HPow.hPow.{u_1, 0, u_1} (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N)) n))\n    1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "420708211",
+      "temporary_id": "decl-001515"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat}\n  {f : Localization.Away.{u_1} (decl-001528.{u_1} k N)} {r : Nat}\n  {Q : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k},\n  Eq.{u_1 + 1} f\n      (HMul.hMul.{u_1, u_1, u_1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n            (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n          Q)\n        (HPow.hPow.{u_1, 0, u_1} (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N))\n          r)) \u2192\n    Eq.{u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n        (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n          (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n        Q)\n      (HMul.hMul.{u_1, u_1, u_1} f\n        (HPow.hPow.{u_1, 0, u_1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n            (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n              (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n            (decl-001528.{u_1} k N))\n          r))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "2285244641",
+      "temporary_id": "decl-001516"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {N : Nat} \u2192\n      RingHom.{u_1, u_1} (MvPolynomial.{0, u_1} (decl-004708 N) k)\n        (Localization.Away.{u_1} (decl-001528.{u_1} k N))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-004708"
+      ],
+      "structural_type_hash": "2373417806",
+      "temporary_id": "decl-001517"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (r : k),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001517.{u_1}\n      (DFunLike.coe.{max 1 (u_1 + 1), u_1 + 1, max 1 (u_1 + 1)} MvPolynomial.C.{u_1, 0} r))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n      (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n        (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n      (DFunLike.coe.{max 1 (u_1 + 1), u_1 + 1, max 1 (u_1 + 1)} MvPolynomial.C.{u_1, 0} r))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001517",
+        "decl-001528",
+        "decl-004708"
+      ],
+      "structural_type_hash": "2042870100",
+      "temporary_id": "decl-001519"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (ij : Prod.{0, 0} (Fin N) (Fin N)),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001517.{u_1}\n      (MvPolynomial.X.{u_1, 0} (Sum.inl.{0, 0} ij)))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n      (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n        (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n      (MvPolynomial.X.{u_1, 0} ij))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001517",
+        "decl-001528",
+        "decl-004708"
+      ],
+      "structural_type_hash": "2562650412",
+      "temporary_id": "decl-001520"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (u : Unit),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001517.{u_1}\n      (MvPolynomial.X.{u_1, 0} (Sum.inr.{0, 0} u)))\n    (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001517",
+        "decl-001528",
+        "decl-004708"
+      ],
+      "structural_type_hash": "3178861516",
+      "temporary_id": "decl-001521"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192 {N : Nat} \u2192 Localization.Away.{u_1} (decl-001528.{u_1} k N) \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "2604557890",
+      "temporary_id": "decl-001522"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat}\n  {f : Localization.Away.{u_1} (decl-001528.{u_1} k N)} {r : Nat}\n  {Q : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k},\n  Eq.{u_1 + 1} f\n      (HMul.hMul.{u_1, u_1, u_1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n            (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n          Q)\n        (HPow.hPow.{u_1, 0, u_1} (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N))\n          r)) \u2192\n    Or (Eq.{1} r 0) (Not (Dvd.dvd.{u_1} (decl-001528.{u_1} k N) Q)) \u2192\n      Eq.{1} r (decl-001522.{u_1} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001522",
+        "decl-001528"
+      ],
+      "structural_type_hash": "1722887598",
+      "temporary_id": "decl-001523"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat}\n  (f : Localization.Away.{u_1} (decl-001528.{u_1} k N)),\n  Iff (Eq.{1} (decl-001522.{u_1} f) 0)\n    (Membership.mem.{u_1, u_1}\n      (Set.range.{u_1, u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n            (Localization.Away.{u_1} (decl-001528.{u_1} k N)))))\n      f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001522",
+        "decl-001528"
+      ],
+      "structural_type_hash": "2013188543",
+      "temporary_id": "decl-001525"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat}\n  {f : Localization.Away.{u_1} (decl-001528.{u_1} k N)} {r : Nat},\n  (Exists.{u_1 + 1} fun Q =>\n      Eq.{u_1 + 1} f\n        (HMul.hMul.{u_1, u_1, u_1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n            (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n              (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n            Q)\n          (HPow.hPow.{u_1, 0, u_1} (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N))\n            r))) \u2192\n    LE.le.{0} (decl-001522.{u_1} f) r",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001522",
+        "decl-001528"
+      ],
+      "structural_type_hash": "338210596",
+      "temporary_id": "decl-001526"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat}\n  (f : Localization.Away.{u_1} (decl-001528.{u_1} k N)),\n  Exists.{u_1 + 1} fun Q =>\n    Eq.{u_1 + 1} f\n      (HMul.hMul.{u_1, u_1, u_1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n            (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n          Q)\n        (HPow.hPow.{u_1, 0, u_1} (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N))\n          (decl-001522.{u_1} f)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001522",
+        "decl-001528"
+      ],
+      "structural_type_hash": "2158198637",
+      "temporary_id": "decl-001527"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192 [inst : Field.{u_2} k] \u2192 (N : Nat) \u2192 MvPolynomial.{0, u_2} (Prod.{0, 0} (Fin N) (Fin N)) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4007709239",
+      "temporary_id": "decl-001528"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat}, Ne.{u_1 + 1} (decl-001528.{u_1} k N) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "462113720",
+      "temporary_id": "decl-001531"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat}\n  {f : Localization.Away.{u_1} (decl-001528.{u_1} k N)} {r : Nat}\n  {Q : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k},\n  Eq.{u_1 + 1} f\n      (HMul.hMul.{u_1, u_1, u_1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n            (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n          Q)\n        (HPow.hPow.{u_1, 0, u_1} (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N))\n          r)) \u2192\n    LT.lt.{0} (decl-001522.{u_1} f) r \u2192 Dvd.dvd.{u_1} (decl-001528.{u_1} k N) Q",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001522",
+        "decl-001528"
+      ],
+      "structural_type_hash": "394538816",
+      "temporary_id": "decl-001533"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)\n  (p : MvPolynomial.{0, u_1} (decl-004708 N) k),\n  Eq.{u_1 + 1} (decl-018652.{u_1} g p)\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001537.{u_1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001517.{u_1} p) g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001517",
+        "decl-001528",
+        "decl-001537",
+        "decl-004708",
+        "decl-018652"
+      ],
+      "structural_type_hash": "3978588438",
+      "temporary_id": "decl-001536"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {N : Nat} \u2192\n      RingHom.{u_1, u_1} (Localization.Away.{u_1} (decl-001528.{u_1} k N))\n        (Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "2153887654",
+      "temporary_id": "decl-001537"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (a : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001537.{u_1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n        (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n          (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n        a))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001543.{u_1} a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-001537",
+        "decl-001543"
+      ],
+      "structural_type_hash": "1153479130",
+      "temporary_id": "decl-001539"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat},\n  Eq.{u_1 + 1}\n    (RingHom.comp.{u_1, u_1, u_1} decl-001537.{u_1}\n      (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n        (Localization.Away.{u_1} (decl-001528.{u_1} k N))))\n    decl-001543.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-001537",
+        "decl-001543"
+      ],
+      "structural_type_hash": "1430088646",
+      "temporary_id": "decl-001540"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} [Infinite.{u_1 + 1} k],\n  Function.Injective.{u_1 + 1, u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001537.{u_1})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-001537"
+      ],
+      "structural_type_hash": "4071901598",
+      "temporary_id": "decl-001541"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001537.{u_1}\n      (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N)) g)\n    (Inv.inv.{u_1} (Matrix.det.{u_1, 0} (Units.val.{u_1} g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-001537"
+      ],
+      "structural_type_hash": "1728114732",
+      "temporary_id": "decl-001542"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {N : Nat} \u2192\n      RingHom.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n        (Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1373959247",
+      "temporary_id": "decl-001543"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (p : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n  (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001543.{u_1} p g)\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n      (MvPolynomial.eval.{u_1, 0} fun ij => Units.val.{u_1} g (Prod.fst.{0, 0} ij) (Prod.snd.{0, 0} ij)) p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001543"
+      ],
+      "structural_type_hash": "2656829784",
+      "temporary_id": "decl-001544"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001543.{u_1}\n      (decl-001528.{u_1} k N) g)\n    (Matrix.det.{u_1, 0} (Units.val.{u_1} g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-001543"
+      ],
+      "structural_type_hash": "2900653663",
+      "temporary_id": "decl-001545"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} [Infinite.{u_1 + 1} k],\n  Function.Injective.{u_1 + 1, u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001543.{u_1})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001543"
+      ],
+      "structural_type_hash": "614640557",
+      "temporary_id": "decl-001546"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat}\n  (f : Localization.Away.{u_1} (decl-001528.{u_1} k N)),\n  Exists.{1} fun r =>\n    Exists.{u_1 + 1} fun Q =>\n      Eq.{u_1 + 1} f\n        (HMul.hMul.{u_1, u_1, u_1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n            (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n              (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n            Q)\n          (HPow.hPow.{u_1, 0, u_1} (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N))\n            r))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "201764400",
+      "temporary_id": "decl-001547"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat}\n  (f : Localization.Away.{u_1} (decl-001528.{u_1} k N)),\n  Exists.{1} fun r =>\n    Exists.{u_1 + 1} fun Q =>\n      And\n        (Eq.{u_1 + 1} f\n          (HMul.hMul.{u_1, u_1, u_1}\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n              (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n                (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n              Q)\n            (HPow.hPow.{u_1, 0, u_1}\n              (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N)) r)))\n        (And (LE.le.{0} 1 r \u2192 Not (Dvd.dvd.{u_1} (decl-001528.{u_1} k N) Q))\n          (\u2200 (r' : Nat) (Q' : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k),\n            Eq.{u_1 + 1} f\n                (HMul.hMul.{u_1, u_1, u_1}\n                  (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n                    (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n                      (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n                    Q')\n                  (HPow.hPow.{u_1, 0, u_1}\n                    (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N)) r')) \u2192\n              LE.le.{0} r r'))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "1206288495",
+      "temporary_id": "decl-001548"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat},\n  IsUnit.{u_1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-001543.{u_1}\n      (decl-001528.{u_1} k N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-001543"
+      ],
+      "structural_type_hash": "738972170",
+      "temporary_id": "decl-001551"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat}\n  {f : Localization.Away.{u_1} (decl-001528.{u_1} k N)} {r : Nat}\n  {Q\u2081 Q\u2082 : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k},\n  Eq.{u_1 + 1} f\n      (HMul.hMul.{u_1, u_1, u_1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n            (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n          Q\u2081)\n        (HPow.hPow.{u_1, 0, u_1} (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N))\n          r)) \u2192\n    Eq.{u_1 + 1} f\n        (HMul.hMul.{u_1, u_1, u_1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n            (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n              (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n            Q\u2082)\n          (HPow.hPow.{u_1, 0, u_1} (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N))\n            r)) \u2192\n      Eq.{u_1 + 1} Q\u2081 Q\u2082",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "1162999074",
+      "temporary_id": "decl-001552"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat}\n  {f : Localization.Away.{u_1} (decl-001528.{u_1} k N)}\n  {Q : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k},\n  Eq.{u_1 + 1} f\n      (HMul.hMul.{u_1, u_1, u_1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n            (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n          Q)\n        (HPow.hPow.{u_1, 0, u_1} (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N))\n          (decl-001522.{u_1} f))) \u2192\n    LE.le.{0} 1 (decl-001522.{u_1} f) \u2192\n      Not (Dvd.dvd.{u_1} (decl-001528.{u_1} k N) Q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001522",
+        "decl-001528"
+      ],
+      "structural_type_hash": "3689055411",
+      "temporary_id": "decl-001553"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat},\n  LE.le.{u_1} (Submonoid.powers.{u_1} (decl-001528.{u_1} k N))\n    (nonZeroDivisors.{u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "713429589",
+      "temporary_id": "decl-001555"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat}\n  {f : Localization.Away.{u_1} (decl-001528.{u_1} k N)} {r\u2081 r\u2082 : Nat}\n  {Q\u2081 Q\u2082 : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k},\n  Eq.{u_1 + 1} f\n      (HMul.hMul.{u_1, u_1, u_1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n            (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n          Q\u2081)\n        (HPow.hPow.{u_1, 0, u_1} (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N))\n          r\u2081)) \u2192\n    Or (Eq.{1} r\u2081 0) (Not (Dvd.dvd.{u_1} (decl-001528.{u_1} k N) Q\u2081)) \u2192\n      Eq.{u_1 + 1} f\n          (HMul.hMul.{u_1, u_1, u_1}\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n              (Algebra.algebraMap.{u_1, u_1} (MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k)\n                (Localization.Away.{u_1} (decl-001528.{u_1} k N)))\n              Q\u2082)\n            (HPow.hPow.{u_1, 0, u_1}\n              (IsLocalization.Away.invSelf.{u_1, u_1} (decl-001528.{u_1} k N)) r\u2082)) \u2192\n        Or (Eq.{1} r\u2082 0) (Not (Dvd.dvd.{u_1} (decl-001528.{u_1} k N) Q\u2082)) \u2192\n          And (Eq.{1} r\u2081 r\u2082) (Eq.{u_1 + 1} Q\u2081 Q\u2082)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528"
+      ],
+      "structural_type_hash": "1917112945",
+      "temporary_id": "decl-001557"
+    }
+  ],
+  "module_temporary_id": "module-0296",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c759ac7c9ebfcd095ece",
+      "declaration": "Etingof.SchurModuleP_eq_bot_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/366/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [CharZero.{u_1} k] [IsAlgClosed.{u_1} k] (N : Nat) {n : Nat} (la : n.Partition),\n  Iff (Eq.{u_1 + 1} (Etingof.SchurModulePSubmodule.{u_1} k N la) Bot.bot.{u_1})\n    (LT.lt.{0} N (Multiset.card.{0} la.parts))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.SchurModuleVanishing"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.22.1",
+  "packet_id": "align-0122",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0122"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:259b2463087d75b8f65a",
+  "source_text": "For an arbitrary partition, the Schur module vanishes exactly when its number of parts exceeds N."
+}

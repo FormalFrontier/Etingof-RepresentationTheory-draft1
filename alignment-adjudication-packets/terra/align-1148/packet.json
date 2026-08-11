@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c12eeffc0d46135d2646",
+      "declaration": "Etingof.Theorem4_1_1_semisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/13/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (G : Type u_2) [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [inst_2 : Fintype.{u_2} G],\n  IsUnit.{u_1} (Nat.cast.{u_1} (Fintype.card.{u_2} G)) \u2192 IsSemisimpleRing.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Theorem4_1_1"
+    },
+    {
+      "association_id": "association:0bd0fc682bedd7f6aad7",
+      "declaration": "IsSemisimpleRing.isSemisimpleModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/13/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RingTheory.SimpleModule.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_after_Theorem2.1.2",
+  "packet_id": "align-1148",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1148"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ebea7029b7f11bc25666",
+  "source_text": "Every finite-dimensional complex representation of a finite group is a direct sum of irreducible representations (Maschke's theorem)."
+}

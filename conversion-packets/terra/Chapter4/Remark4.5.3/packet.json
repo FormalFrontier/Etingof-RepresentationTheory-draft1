@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Remark4.5.3",
+    "kind": "remark",
+    "title": "Characters defined without representations via convolution algebra",
+    "node_id": "chapter-04/section-4-5",
+    "order": 205,
+    "slug": "remark4-5-3",
+    "span": {
+      "start": {
+        "page": "69",
+        "line": 11
+      },
+      "end": {
+        "page": "69",
+        "line": 19
+      }
+    },
+    "source_sha256": "ccb8985236c935bb23819cc98a73c1ce0648fcfd590f92c04b0cfacf9b7369ac",
+    "features": {
+      "line_count": 9,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Remark453",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Definition3.5.7",
+    "kind": "definition",
+    "title": "Semisimple algebra",
+    "node_id": "chapter-03/section-3-5",
+    "order": 155,
+    "slug": "definition3-5-7",
+    "span": {
+      "start": {
+        "page": "51",
+        "line": 9
+      },
+      "end": {
+        "page": "51",
+        "line": 10
+      }
+    },
+    "source_sha256": "eb23269d21068058fdcac149bbcc6dda4cd647c67b3ff9524335fcc89694274b",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Definition357",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0447",
+  "associations": [
+    {
+      "association_id": "association:2f99fb5bf4594727aa15",
+      "role": "primary",
+      "rationale": "The theorem directly supplies a finite family whose members are simple, pairwise nonisomorphic, and exhaustive among simple finite-dimensional representations."
+    }
+  ]
+}

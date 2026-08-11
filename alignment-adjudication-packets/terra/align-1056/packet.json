@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ae20a5cc3216ead8e791",
+      "declaration": "Etingof.Lemma5_7_2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/287/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} G))]\n  {\u03b9 : Type u_1} [inst_3 : Fintype.{u_1} \u03b9] (W : \u03b9 \u2192 FDRep.{0, 0} Complex G)\n  [\u2200 (i : \u03b9), CategoryTheory.Simple.{0, 1} (W i)],\n  (\u2200 (i j : \u03b9), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{u_1 + 1} i j) \u2192\n    \u2200 (n : \u03b9 \u2192 Int),\n      Eq.{1}\n          (HSMul.hSMul.{0, 0, 0} (Invertible.invOf.{0} (Nat.cast.{0} (Fintype.card.{0} G)))\n            (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n              HMul.hMul.{0, 0, 0}\n                (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun i =>\n                  HMul.hMul.{0, 0, 0} (Int.cast.{0} (n i)) (FDRep.character.{0, 0} (W i) g))\n                (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun j =>\n                  HMul.hMul.{0, 0, 0} (Int.cast.{0} (n j)) (FDRep.character.{0, 0} (W j) (Inv.inv.{0} g)))))\n          1 \u2192\n        LT.lt.{0} 0\n            (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun i =>\n              HMul.hMul.{0, 0, 0} (n i)\n                (Nat.cast.{0}\n                  (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))))) \u2192\n          Exists.{u_1 + 1} fun i\u2080 => And (Eq.{1} (n i\u2080) 1) (\u2200 (i : \u03b9), Ne.{u_1 + 1} i i\u2080 \u2192 Eq.{1} (n i) 0)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_7_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Lemma5.7.2",
+  "packet_id": "align-1056",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1056"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ce18b32e50eb34eb7b97",
+  "source_text": "A virtual character of squared norm one and positive value at the identity is the character of an irreducible representation."
+}

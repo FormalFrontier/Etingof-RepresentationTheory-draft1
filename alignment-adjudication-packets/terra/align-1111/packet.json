@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:78d67830b48f5ba901b8",
+      "declaration": "Etingof.IsSemisimpleCategory",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/514/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(C : Type u_1) \u2192 [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192 [CategoryTheory.Abelian.{u_2, u_1} C] \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_9_4"
+    }
+  ],
+  "canonical_reference": "Chapter7/Definition7.9.4",
+  "packet_id": "align-1111",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1111"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:df43cf7ad6ea06c4c580",
+  "source_text": "An abelian category is semisimple when every short exact sequence splits."
+}

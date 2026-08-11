@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Discussion_after_Lemma3.1.6",
+    "kind": "discussion",
+    "title": "Completion of alternative proof of Proposition 3.1.4",
+    "node_id": "chapter-03/section-3-1",
+    "order": 134,
+    "slug": "discussion-after-lemma3-1-6",
+    "span": {
+      "start": {
+        "page": "45",
+        "line": 17
+      },
+      "end": {
+        "page": "45",
+        "line": 22
+      }
+    },
+    "source_sha256": "2eea74d2bb3257ca5dc427a4079e1d034b2918940d3aef8bc1062458720cf0c3",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.DiscussionAfterLemma316",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

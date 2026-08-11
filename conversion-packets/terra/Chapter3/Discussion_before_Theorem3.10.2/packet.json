@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Discussion_before_Theorem3.10.2",
+    "kind": "discussion",
+    "title": "Introduction to irreducible representations of tensor products",
+    "node_id": "chapter-03/section-3-10",
+    "order": 179,
+    "slug": "discussion-before-theorem3-10-2",
+    "span": {
+      "start": {
+        "page": "59",
+        "line": 11
+      },
+      "end": {
+        "page": "59",
+        "line": 12
+      }
+    },
+    "source_sha256": "6c75d58c0fe3729e7e8faf184c4cb0f1d665a07cc39d86924724fdb708459408",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.DiscussionBeforeTheorem3102",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Discussion_before_Theorem4.5.4",
+    "kind": "discussion",
+    "title": "Second orthogonality formula introduction",
+    "node_id": "chapter-04/section-4-5",
+    "order": 206,
+    "slug": "discussion-before-theorem4-5-4",
+    "span": {
+      "start": {
+        "page": "70",
+        "line": 1
+      },
+      "end": {
+        "page": "70",
+        "line": 2
+      }
+    },
+    "source_sha256": "abb9ccfdb7ed9745f426ee519cd608ee127c14d51c945ccb3f6bbe3442313f52",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.DiscussionBeforeTheorem454",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:bb65472af03c89190284",
+      "declaration": "Etingof.disjoint_sup_of_disjoint",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/132/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} {V : Type u_2} [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  {W W' K : Submodule.{u_1, u_2} A V},\n  Disjoint.{u_2} W K \u2192 Disjoint.{u_2} W' (Max.max.{u_2} W K) \u2192 Disjoint.{u_2} (Max.max.{u_2} W W') K",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Lemma3_1_6"
+    },
+    {
+      "association_id": "association:9df53bcb546b9f2d5583",
+      "declaration": "Etingof.exists_subfamily_isCompl_ker",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/132/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} {V : Type u_2} {U : Type u_3} [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} A V] [inst_3 : AddCommGroup.{u_3} U] [inst_4 : Module.{u_1, u_3} A U] {\u03b9 : Type u_4}\n  (p : \u03b9 \u2192 Submodule.{u_1, u_2} A V),\n  (\u2200 (i : \u03b9), IsSimpleModule.{u_1, u_2} A (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (p i) x)) \u2192\n    Eq.{u_2 + 1} (iSup.{u_2, u_4 + 1} fun i => p i) Top.top.{u_2} \u2192\n      \u2200 (f : LinearMap.{u_1, u_1, u_2, u_3} (RingHom.id.{u_1} A) V U),\n        Exists.{u_4 + 1} fun J =>\n          IsCompl.{u_2} (iSup.{u_2, u_4 + 1} fun i => iSup.{u_2, 0} fun h => p i) (LinearMap.ker.{u_1, u_1, u_2, u_3} f)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Lemma3_1_6"
+    }
+  ],
+  "canonical_reference": "Chapter3/Lemma3.1.6",
+  "packet_id": "align-0077",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0077"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:19a590a8dba2ac200d16",
+  "source_text": "The maximal-injective-subfamily proof selects a concrete sub-sum complementary to ker f; any omitted simple summand not contained in its image-plus-kernel would enlarge it, contradicting maximality."
+}

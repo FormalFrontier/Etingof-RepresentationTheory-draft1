@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0397",
+  "associations": [
+    {
+      "association_id": "association:2d33a528f1fe07843abd",
+      "role": "primary",
+      "rationale": "The formal type directly states that a nonzero linear map into a simple module is surjective."
+    }
+  ]
+}

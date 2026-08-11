@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8590d30d1c19cbe8e1bd",
+      "declaration": "Etingof.Theorem5_4_4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/272/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type) [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  [CategoryTheory.Simple.{0, 1} V] (g : G),\n  (Fintype.card.{0} (Subtype.{1} fun h => IsConj.{0} g h)).Coprime\n      (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))) \u2192\n    Or (Eq.{1} (FDRep.character.{0, 0} V g) 0)\n      (Exists.{1} fun c =>\n        Eq.{1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} V) g) (HSMul.hSMul.{0, 0, 0} c LinearMap.id.{0, 0}))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_4_4"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.4.4",
+  "packet_id": "align-0440",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0440"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:8e8273fe1b6c6f3fcae0",
+  "source_text": "If gcd(|C(g)|,dim V)=1 for an irreducible V, then chi_V(g)=0 or rho_V(g) is scalar."
+}

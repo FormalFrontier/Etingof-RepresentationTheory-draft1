@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.Lie.Basic",
+  "declarations": [
+    {
+      "temporary_id": "decl-005575",
+      "new_name": "LieRing.AuxiliaryType",
+      "docstring": "An auxiliary type depending on a commutative ring and a Lie ring."
+    },
+    {
+      "temporary_id": "decl-021008",
+      "new_name": "LieRing.cyclic_iterated_bracket_sum_eq_zero",
+      "docstring": "The cyclic sum of the three iterated brackets of elements of a Lie ring is zero."
+    }
+  ]
+}

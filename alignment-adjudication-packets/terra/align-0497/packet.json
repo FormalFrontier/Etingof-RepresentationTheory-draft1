@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:132ead06234b99db42be",
+      "declaration": "Etingof.Exercise2_11_2.instModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/99/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} k W] \u2192\n                Module.{u_1, max u_3 u_2} k (Etingof.Exercise2_11_2.tensorQuot.{u_1, u_2, u_3} k V W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_11_2"
+    },
+    {
+      "association_id": "association:3f81b70e05d8287adbdb",
+      "declaration": "Etingof.Exercise2_11_2.linearEquivTensorProduct",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/99/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    (W : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [inst_3 : AddCommGroup.{u_3} W] \u2192\n              [inst_4 : Module.{u_1, u_3} k W] \u2192\n                LinearEquiv.{u_1, u_1, max u_3 u_2, max u_3 u_2} (RingHom.id.{u_1} k)\n                  (Etingof.Exercise2_11_2.tensorQuot.{u_1, u_2, u_3} k V W) (TensorProduct.{u_1, u_2, u_3} k V W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_11_2"
+    },
+    {
+      "association_id": "association:3e7726b49ccf6e536157",
+      "declaration": "Etingof.Exercise2_11_2.linearEquivTensorProduct_mk",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/99/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (V : Type u_2) (W : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W] (v : V) (w : W),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n      (Etingof.Exercise2_11_2.linearEquivTensorProduct.{u_1, u_2, u_3} k V W)\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1), max (u_2 + 1) (u_3 + 1)}\n        (QuotientAddGroup.mk'.{max u_2 u_3} (Etingof.Exercise2_11_2.relSubgroup.{u_1, u_2, u_3} k V W))\n        (FreeAbelianGroup.of.{max u_2 u_3} (Prod.mk.{u_2, u_3} v w))))\n    (TensorProduct.tmul.{u_1, u_2, u_3} k v w)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Exercise2_11_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Exercise2.11.2",
+  "packet_id": "align-0497",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0497"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Exercise2.11.2:claim-02",
+  "source_text": "This quotient is naturally a k-vector space linearly equivalent to V \u2297[k] W, with each generator class mapping to v \u2297\u209c w."
+}

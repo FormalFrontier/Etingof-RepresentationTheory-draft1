@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0075",
+  "associations": [
+    {
+      "association_id": "association:a0f3865d931d60e930cb",
+      "role": "primary",
+      "rationale": "This basis-indexed FreeAlgebra-valued declaration defines the relator described by the source formula."
+    }
+  ]
+}

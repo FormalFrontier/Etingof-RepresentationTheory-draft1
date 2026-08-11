@@ -1,0 +1,205 @@
+{
+  "module_name": "LieAlgebra.GradedMatrixRealization",
+  "declarations": [
+    {
+      "temporary_id": "decl-007472",
+      "new_name": "auxiliary_fact",
+      "docstring": "An auxiliary statement whose formal type is unavailable in this packet."
+    },
+    {
+      "temporary_id": "decl-007473",
+      "new_name": "auxiliary_fact_aux1",
+      "docstring": "An auxiliary statement whose formal type is unavailable in this packet."
+    },
+    {
+      "temporary_id": "decl-007543",
+      "new_name": "iterateOne_auxiliarySequence_ne_zero",
+      "docstring": "When two and three are nonzero, the first iterate of every auxiliary sequence element is nonzero."
+    },
+    {
+      "temporary_id": "decl-007573",
+      "new_name": "gradedMatrixMap_apply_eq_zero_iff",
+      "docstring": "For every grade, the displayed matrix map sends a matrix to zero exactly when the matrix itself is zero."
+    },
+    {
+      "temporary_id": "decl-007614",
+      "new_name": "auxiliarySequence_ne_zero",
+      "docstring": "When two and three are nonzero, every element of the displayed auxiliary sequence is nonzero."
+    },
+    {
+      "temporary_id": "decl-007684",
+      "new_name": "realizationMap_indexedIterate",
+      "docstring": "The realization of the displayed indexed element is the grade-one matrix image of the corresponding iterated bracket."
+    },
+    {
+      "temporary_id": "decl-007685",
+      "new_name": "auxiliary_fact_aux2",
+      "docstring": "An auxiliary statement whose formal type is unavailable in this packet."
+    },
+    {
+      "temporary_id": "decl-007686",
+      "new_name": "realizationMap_indexThree",
+      "docstring": "The realization of the indexed element at three is three times the grade-one image of the displayed five-index family element."
+    },
+    {
+      "temporary_id": "decl-007687",
+      "new_name": "realizationMap_indexZero",
+      "docstring": "The realization of the indexed element at zero is the grade-one image of the displayed five-index family element."
+    },
+    {
+      "temporary_id": "decl-007688",
+      "new_name": "realizationMap_iterateBracket",
+      "docstring": "If an element realizes as a scalar multiple of a graded matrix, then every iterate realizes as the same scalar multiple of the corresponding iterated matrix bracket."
+    },
+    {
+      "temporary_id": "decl-007689",
+      "new_name": "realizationMap_iterateOne_auxiliarySequence",
+      "docstring": "The realization of the first iterate of the `m`-th auxiliary sequence element is `3 * 6^m` times the displayed grade-`2 * m + 2` matrix."
+    },
+    {
+      "temporary_id": "decl-007690",
+      "new_name": "realizationMap_iterateBracket_one",
+      "docstring": "The realization of one bracket iterate is obtained by bracketing the representing matrix with the displayed three-index family element."
+    },
+    {
+      "temporary_id": "decl-007693",
+      "new_name": "realizationMap_bracketWithGeneratorThree",
+      "docstring": "Under the displayed realization hypothesis, the auxiliary bracket transform realizes as three times the next graded image of the indicated three-index family element."
+    },
+    {
+      "temporary_id": "decl-007694",
+      "new_name": "realizationMap_auxiliarySequence",
+      "docstring": "The realization of the `m`-th auxiliary sequence element is `3 * 6^m` times the displayed grade-`2 * m + 2` matrix."
+    },
+    {
+      "temporary_id": "decl-007699",
+      "new_name": "realizationMap_indexedFamily",
+      "docstring": "The realization of an indexed-family element is its displayed scalar coefficient times the corresponding matrix-family element."
+    },
+    {
+      "temporary_id": "decl-007702",
+      "new_name": "realizationMap_negBracketTransform",
+      "docstring": "Under the displayed realization hypothesis, the negated bracket transform realizes as twice the next graded image of the indicated five-index family element."
+    },
+    {
+      "temporary_id": "decl-007705",
+      "new_name": "realizationMap_auxiliaryCompanionFamily",
+      "docstring": "The realization of the `m`-th auxiliary companion-family element is `6^m` times the displayed grade-`2 * m + 1` matrix."
+    },
+    {
+      "temporary_id": "decl-007708",
+      "new_name": "realizationMap_initialElement",
+      "docstring": "The realization of the displayed initial element is the grade-zero image of the indicated three-index family element."
+    },
+    {
+      "temporary_id": "decl-007714",
+      "new_name": "family5_ne_zero",
+      "docstring": "Every member of the displayed five-index family is nonzero over a field."
+    },
+    {
+      "temporary_id": "decl-007717",
+      "new_name": "family3_ne_zero",
+      "docstring": "Every member of the displayed three-index family is nonzero over a field."
+    },
+    {
+      "temporary_id": "decl-007911",
+      "new_name": "bracket_family5_one_four",
+      "docstring": "The bracket of five-index family elements one and four is the displayed three-index family element two."
+    },
+    {
+      "temporary_id": "decl-007912",
+      "new_name": "bracket_family5_three_family3_two",
+      "docstring": "The bracket of five-index family element three with three-index family element two is twice five-index family element four."
+    },
+    {
+      "temporary_id": "decl-007916",
+      "new_name": "bracket_family3_zero_family5_zero",
+      "docstring": "The bracket of three-index family element zero with five-index family element zero is zero."
+    },
+    {
+      "temporary_id": "decl-007921",
+      "new_name": "bracket_family3_zero_self",
+      "docstring": "The bracket of three-index family element zero with itself is zero."
+    },
+    {
+      "temporary_id": "decl-007922",
+      "new_name": "auxiliary_fact_aux3",
+      "docstring": "An auxiliary statement whose formal type is unavailable in this packet."
+    },
+    {
+      "temporary_id": "decl-007923",
+      "new_name": "bracket_family3_zero_two",
+      "docstring": "The bracket of three-index family elements zero and two is family element one."
+    },
+    {
+      "temporary_id": "decl-007928",
+      "new_name": "auxiliary_fact_aux4",
+      "docstring": "An auxiliary statement whose formal type is unavailable in this packet."
+    },
+    {
+      "temporary_id": "decl-007947",
+      "new_name": "bracket_gradedMatrixMap",
+      "docstring": "The bracket of scalar multiples of graded matrix images is the product scalar times the image at the sum grade of the matrix bracket."
+    },
+    {
+      "temporary_id": "decl-007977",
+      "new_name": "linearIndependent_realizationMap_indexedFamily",
+      "docstring": "When two and three are nonzero, the realized indexed family is linearly independent."
+    },
+    {
+      "temporary_id": "decl-007981",
+      "new_name": "linearIndependent_indexedFamily",
+      "docstring": "When two and three are nonzero, the displayed indexed family is linearly independent."
+    },
+    {
+      "temporary_id": "decl-007992",
+      "new_name": "indexedCoefficient",
+      "docstring": "The displayed scalar coefficient associated with an auxiliary index."
+    },
+    {
+      "temporary_id": "decl-007998",
+      "new_name": "indexedCoefficient_ne_zero",
+      "docstring": "When two and three are nonzero, every displayed indexed coefficient is nonzero."
+    },
+    {
+      "temporary_id": "decl-008028",
+      "new_name": "indexInvolution",
+      "docstring": "The displayed involutive transformation of the auxiliary index type."
+    },
+    {
+      "temporary_id": "decl-008030",
+      "new_name": "indexInvolution_base",
+      "docstring": "The index involution fixes the displayed base index."
+    },
+    {
+      "temporary_id": "decl-008031",
+      "new_name": "indexInvolution_family3",
+      "docstring": "On the displayed three-index family, the index involution reverses the finite index."
+    },
+    {
+      "temporary_id": "decl-008032",
+      "new_name": "indexInvolution_injective",
+      "docstring": "The index involution is injective."
+    },
+    {
+      "temporary_id": "decl-008033",
+      "new_name": "indexInvolution_involutive",
+      "docstring": "Applying the index involution twice returns the original index."
+    },
+    {
+      "temporary_id": "decl-008034",
+      "new_name": "indexInvolution_family5",
+      "docstring": "On the displayed five-index family, the index involution reverses the finite index."
+    },
+    {
+      "temporary_id": "decl-008194",
+      "new_name": "six_ne_zero",
+      "docstring": "In a field where two and three are nonzero, six is nonzero."
+    },
+    {
+      "temporary_id": "decl-008238",
+      "new_name": "auxiliaryCompanionFamily_ne_zero",
+      "docstring": "When two and three are nonzero, every element of the auxiliary companion family is nonzero."
+    }
+  ]
+}

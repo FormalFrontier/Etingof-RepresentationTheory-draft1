@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3ac0afb79d29e5e8af3b",
+      "declaration": "Etingof.Extension",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/503/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(C : Type u_1) \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192 C \u2192 C \u2192 Type (max u_1 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_8_2"
+    },
+    {
+      "association_id": "association:c6821834a3baccf4375d",
+      "declaration": "Etingof.Extension.toShortExactSequence",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/503/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192\n      {Z X : C} \u2192 Etingof.Extension.{u_1, u_2} C Z X \u2192 Etingof.ShortExactSequence.{u_1, u_2} C",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_8_2"
+    },
+    {
+      "association_id": "association:1ddddf6cd3b589bdea00",
+      "declaration": "Etingof.ShortExactSequence.asExtension",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/503/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{u_2, u_1} C] \u2192\n      (S : Etingof.ShortExactSequence.{u_1, u_2} C) \u2192\n        Etingof.Extension.{u_1, u_2} C\n          (CategoryTheory.ShortComplex.X\u2083.{u_2, u_1} (Subtype.val.{max (u_1 + 1) (u_2 + 1)} S))\n          (CategoryTheory.ShortComplex.X\u2081.{u_2, u_1} (Subtype.val.{max (u_1 + 1) (u_2 + 1)} S))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_8_2"
+    }
+  ],
+  "canonical_reference": "Chapter7/Definition7.8.2",
+  "packet_id": "align-0356",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0356"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6e529062976a9c8ec075",
+  "source_text": "Short exact sequences with endpoints X and Z are extensions of Z by X."
+}

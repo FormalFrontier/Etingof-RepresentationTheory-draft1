@@ -1,0 +1,66 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} {L : Type} [inst_1 : CommRing.{0} L] [IsDomain.{0} L]\n  [inst_3 : Algebra.{0, 0} k L] (f : AlgHom.{0, 0, 0} k (MvPolynomial.{0, 0} (Fin n) k) L),\n  Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} f) \u2192 LE.le.{1} (Nat.cast.{1} n) (Algebra.trdeg.{0, 0} k L)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3912791401",
+      "temporary_id": "decl-021434"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n m : Nat}\n  (g :\n    AlgHom.{0, 0, 0} k (FractionRing.{0} (MvPolynomial.{0, 0} (Fin n) k))\n      (FractionRing.{0} (MvPolynomial.{0, 0} (Fin m) k))),\n  LE.le.{0} n m",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1124929923",
+      "temporary_id": "decl-021696"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n m : Nat} {L : Type} [inst_1 : Field.{0} L] [inst_2 : Algebra.{0, 0} k L]\n  (f : AlgHom.{0, 0, 0} k (MvPolynomial.{0, 0} (Fin n) k) L),\n  Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} f) \u2192\n    Eq.{2} (Algebra.trdeg.{0, 0} k L) (Nat.cast.{1} m) \u2192 LE.le.{0} n m",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2233870706",
+      "temporary_id": "decl-021697"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n m : Nat}\n  (f : AlgHom.{0, 0, 0} k (MvPolynomial.{0, 0} (Fin n) k) (FractionRing.{0} (MvPolynomial.{0, 0} (Fin m) k))),\n  Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} f) \u2192 LE.le.{0} n m",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2254081046",
+      "temporary_id": "decl-021698"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] (m : Nat),\n  Eq.{2} (Algebra.trdeg.{0, 0} k (FractionRing.{0} (MvPolynomial.{0, 0} (Fin m) k))) (Nat.cast.{1} m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3359954743",
+      "temporary_id": "decl-024333"
+    }
+  ],
+  "module_temporary_id": "module-0537",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

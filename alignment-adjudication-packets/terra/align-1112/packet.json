@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:238f7c99923758d2c754",
+      "declaration": "Etingof.radical_truncated_polynomial",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    Eq.{u_1 + 1} (Ring.jacobson.{u_1} (AdjoinRoot.{u_1} (HPow.hPow.{u_1, 0, u_1} Polynomial.X.{u_1} n)))\n      (Ideal.span.{u_1}\n        (Singleton.singleton.{u_1, u_1} (AdjoinRoot.root.{u_1} (HPow.hPow.{u_1, 0, u_1} Polynomial.X.{u_1} n))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    }
+  ],
+  "canonical_reference": "Chapter3/Example3.5.6",
+  "packet_id": "align-1112",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1112"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:dffb91f0e3b0b87fcc8f",
+  "source_text": "The radical of k[x]/(x\u207f) is the ideal (x)."
+}

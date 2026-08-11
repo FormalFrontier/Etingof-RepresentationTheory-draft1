@@ -1,0 +1,47 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int} {x : Fin n \u2192 Int},\n  decl-005281 n adj x \u2192 decl-005281 n adj (Neg.neg.{0} x)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005281",
+      "project_type_dependencies": [
+        "decl-005281"
+      ],
+      "structural_type_hash": "3575576667",
+      "temporary_id": "decl-005282"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192 Set.Finite.{0} (setOf.{0} fun x => decl-005281 n adj x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-005281"
+      ],
+      "structural_type_hash": "2712640559",
+      "temporary_id": "decl-015439"
+    }
+  ],
+  "module_temporary_id": "module-0567",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

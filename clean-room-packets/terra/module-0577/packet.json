@@ -1,0 +1,195 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(C : Type u_1) \u2192 [CategoryTheory.Category.{u_2, u_1} C] \u2192 Type (max u_1 u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "656462275",
+      "temporary_id": "decl-000473"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : Ring.{u} A] \u2192\n    (P : CategoryTheory.ObjectProperty.{v, max (v + 1) u} (ModuleCat.{v, u} A)) \u2192\n      [CategoryTheory.ObjectProperty.ContainsZero.{v, max u (v + 1)} P] \u2192\n        [CategoryTheory.ObjectProperty.IsClosedUnderKernels.{v, max u (v + 1)} P] \u2192\n          [CategoryTheory.ObjectProperty.IsClosedUnderCokernels.{v, max u (v + 1)} P] \u2192\n            [CategoryTheory.ObjectProperty.IsClosedUnderFiniteProducts.{v, max u (v + 1)} P] \u2192\n              decl-000473.{max u (v + 1), v} (CategoryTheory.ObjectProperty.FullSubcategory.{v, max u (v + 1)} P)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000473"
+      ],
+      "structural_type_hash": "3536122368",
+      "temporary_id": "decl-017122"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{v_1, u_1} C]\n  [inst_1 : CategoryTheory.Category.{v_2, u_2} D] (F : CategoryTheory.Functor.{v_1, v_2, u_1, u_2} C D)\n  [CategoryTheory.Limits.HasZeroObject.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroObject.{v_2, u_2} D]\n  [CategoryTheory.Limits.PreservesLimitsOfShape.{0, 0, v_1, v_2, u_1, u_2} (CategoryTheory.Discrete.{0} PEmpty.{1}) F],\n  CategoryTheory.ObjectProperty.ContainsZero.{v_2, u_2} (CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1904967672",
+      "temporary_id": "decl-018636"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{v_1, u_1} C]\n  [inst_1 : CategoryTheory.Category.{v_2, u_2} D] [CategoryTheory.Abelian.{v_1, u_1} C]\n  [inst_3 : CategoryTheory.Abelian.{v_2, u_2} D] (F : CategoryTheory.Functor.{v_1, v_2, u_1, u_2} C D)\n  [CategoryTheory.Functor.Full.{v_1, v_2, u_1, u_2} F] [CategoryTheory.Functor.Faithful.{v_1, v_2, u_1, u_2} F]\n  [CategoryTheory.Limits.PreservesFiniteLimits.{v_1, v_2, u_1, u_2} F]\n  [CategoryTheory.Limits.PreservesFiniteColimits.{v_1, v_2, u_1, u_2} F] {X Y : D} (f : Quiver.Hom.{v_2, u_2} X Y),\n  CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F X \u2192\n    CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F Y \u2192\n      CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F (CategoryTheory.Limits.image.{v_2, u_2} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "981180957",
+      "temporary_id": "decl-018637"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{v_1, u_1} C]\n  [inst_1 : CategoryTheory.Category.{v_2, u_2} D] (F : CategoryTheory.Functor.{v_1, v_2, u_1, u_2} C D)\n  [CategoryTheory.Functor.Full.{v_1, v_2, u_1, u_2} F] [CategoryTheory.Functor.Faithful.{v_1, v_2, u_1, u_2} F]\n  [inst_4 : CategoryTheory.Limits.HasZeroMorphisms.{v_2, u_2} D] [CategoryTheory.Limits.HasCoequalizers.{v_1, u_1} C]\n  [CategoryTheory.Limits.PreservesColimitsOfShape.{0, 0, v_1, v_2, u_1, u_2} CategoryTheory.Limits.WalkingParallelPair\n      F],\n  CategoryTheory.ObjectProperty.IsClosedUnderCokernels.{v_2, u_2}\n    (CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3232460765",
+      "temporary_id": "decl-018638"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{v_1, u_1} C]\n  [inst_1 : CategoryTheory.Category.{v_2, u_2} D] (F : CategoryTheory.Functor.{v_1, v_2, u_1, u_2} C D)\n  [CategoryTheory.Functor.Full.{v_1, v_2, u_1, u_2} F] [CategoryTheory.Functor.Faithful.{v_1, v_2, u_1, u_2} F]\n  (J : Type u_3) [inst_4 : CategoryTheory.Category.{v_3, u_3} J]\n  [CategoryTheory.Limits.HasColimitsOfShape.{v_3, u_3, v_1, u_1} J C]\n  [CategoryTheory.Limits.PreservesColimitsOfShape.{v_3, u_3, v_1, v_2, u_1, u_2} J F],\n  CategoryTheory.ObjectProperty.IsClosedUnderColimitsOfShape.{v_3, u_3, v_2, u_2}\n    (CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F) J",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1269639562",
+      "temporary_id": "decl-018639"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{v_1, u_1} C]\n  [inst_1 : CategoryTheory.Category.{v_2, u_2} D] (F : CategoryTheory.Functor.{v_1, v_2, u_1, u_2} C D)\n  [CategoryTheory.Functor.Full.{v_1, v_2, u_1, u_2} F] [CategoryTheory.Functor.Faithful.{v_1, v_2, u_1, u_2} F]\n  [CategoryTheory.Limits.HasFiniteCoproducts.{v_1, u_1} C]\n  [CategoryTheory.Limits.PreservesFiniteCoproducts.{v_1, v_2, u_1, u_2} F],\n  CategoryTheory.ObjectProperty.IsClosedUnderFiniteCoproducts.{v_2, u_2}\n    (CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3045183690",
+      "temporary_id": "decl-018640"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{v_1, u_1} C]\n  [inst_1 : CategoryTheory.Category.{v_2, u_2} D] (F : CategoryTheory.Functor.{v_1, v_2, u_1, u_2} C D)\n  [CategoryTheory.Functor.Full.{v_1, v_2, u_1, u_2} F] [CategoryTheory.Functor.Faithful.{v_1, v_2, u_1, u_2} F]\n  [CategoryTheory.Limits.HasFiniteProducts.{v_1, u_1} C]\n  [CategoryTheory.Limits.PreservesFiniteProducts.{v_1, v_2, u_1, u_2} F],\n  CategoryTheory.ObjectProperty.IsClosedUnderFiniteProducts.{v_2, u_2}\n    (CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "147737181",
+      "temporary_id": "decl-018641"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{v_1, u_1} C]\n  [inst_1 : CategoryTheory.Category.{v_2, u_2} D] (F : CategoryTheory.Functor.{v_1, v_2, u_1, u_2} C D)\n  [CategoryTheory.Functor.Full.{v_1, v_2, u_1, u_2} F] [CategoryTheory.Functor.Faithful.{v_1, v_2, u_1, u_2} F]\n  [inst_4 : CategoryTheory.Limits.HasZeroMorphisms.{v_2, u_2} D] [CategoryTheory.Limits.HasEqualizers.{v_1, u_1} C]\n  [CategoryTheory.Limits.PreservesLimitsOfShape.{0, 0, v_1, v_2, u_1, u_2} CategoryTheory.Limits.WalkingParallelPair F],\n  CategoryTheory.ObjectProperty.IsClosedUnderKernels.{v_2, u_2} (CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1670484485",
+      "temporary_id": "decl-018642"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{v_1, u_1} C]\n  [inst_1 : CategoryTheory.Category.{v_2, u_2} D] (F : CategoryTheory.Functor.{v_1, v_2, u_1, u_2} C D)\n  [CategoryTheory.Functor.Full.{v_1, v_2, u_1, u_2} F] [CategoryTheory.Functor.Faithful.{v_1, v_2, u_1, u_2} F]\n  (J : Type u_3) [inst_4 : CategoryTheory.Category.{v_3, u_3} J]\n  [CategoryTheory.Limits.HasLimitsOfShape.{v_3, u_3, v_1, u_1} J C]\n  [CategoryTheory.Limits.PreservesLimitsOfShape.{v_3, u_3, v_1, v_2, u_1, u_2} J F],\n  CategoryTheory.ObjectProperty.IsClosedUnderLimitsOfShape.{v_3, u_3, v_2, u_2}\n    (CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F) J",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1427594365",
+      "temporary_id": "decl-018643"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{v_1, u_1} C]\n  [inst_1 : CategoryTheory.Category.{v_2, u_2} D] (F : CategoryTheory.Functor.{v_1, v_2, u_1, u_2} C D)\n  [CategoryTheory.Functor.Full.{v_1, v_2, u_1, u_2} F] [CategoryTheory.Functor.Faithful.{v_1, v_2, u_1, u_2} F]\n  {J : Type u_3} [inst_4 : CategoryTheory.Category.{v_3, u_3} J]\n  [CategoryTheory.Limits.HasColimitsOfShape.{v_3, u_3, v_1, u_1} J C]\n  [CategoryTheory.Limits.PreservesColimitsOfShape.{v_3, u_3, v_1, v_2, u_1, u_2} J F]\n  {G : CategoryTheory.Functor.{v_3, v_2, u_3, u_2} J D},\n  (\u2200 (j : J),\n      CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F (CategoryTheory.Functor.obj.{v_3, v_2, u_3, u_2} G j)) \u2192\n    \u2200 {c : CategoryTheory.Limits.Cocone.{v_3, v_2, u_3, u_2} G}\n      (hc : CategoryTheory.Limits.IsColimit.{v_3, v_2, u_3, u_2} c),\n      CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F (CategoryTheory.Limits.Cocone.pt.{v_3, v_2, u_3, u_2} c)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1669300026",
+      "temporary_id": "decl-018644"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{v_1, u_1} C]\n  [inst_1 : CategoryTheory.Category.{v_2, u_2} D] (F : CategoryTheory.Functor.{v_1, v_2, u_1, u_2} C D)\n  [CategoryTheory.Functor.Full.{v_1, v_2, u_1, u_2} F] [CategoryTheory.Functor.Faithful.{v_1, v_2, u_1, u_2} F]\n  {J : Type u_3} [inst_4 : CategoryTheory.Category.{v_3, u_3} J]\n  [CategoryTheory.Limits.HasLimitsOfShape.{v_3, u_3, v_1, u_1} J C]\n  [CategoryTheory.Limits.PreservesLimitsOfShape.{v_3, u_3, v_1, v_2, u_1, u_2} J F]\n  {G : CategoryTheory.Functor.{v_3, v_2, u_3, u_2} J D},\n  (\u2200 (j : J),\n      CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F (CategoryTheory.Functor.obj.{v_3, v_2, u_3, u_2} G j)) \u2192\n    \u2200 {c : CategoryTheory.Limits.Cone.{v_3, v_2, u_3, u_2} G}\n      (hc : CategoryTheory.Limits.IsLimit.{v_3, v_2, u_3, u_2} c),\n      CategoryTheory.Functor.essImage.{v_1, v_2, u_1, u_2} F (CategoryTheory.Limits.Cone.pt.{v_3, v_2, u_3, u_2} c)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "705704537",
+      "temporary_id": "decl-018645"
+    },
+    {
+      "formal_type": "\u2200 (C : Type u) [inst : CategoryTheory.Category.{v, u} C] [CategoryTheory.Abelian.{v, u} C],\n  Exists.{max (u + 2) (v + 2)} fun A =>\n    Exists.{max (u + 1) (v + 1)} fun x =>\n      Exists.{max (u + 2) (v + 2)} fun P =>\n        And (CategoryTheory.ObjectProperty.ContainsZero.{max u v, max (u + 1) (v + 1)} P)\n          (And (CategoryTheory.ObjectProperty.IsClosedUnderIsomorphisms.{max u v, max (u + 1) (v + 1)} P)\n            (And (CategoryTheory.ObjectProperty.IsClosedUnderFiniteProducts.{max u v, max (u + 1) (v + 1)} P)\n              (And (CategoryTheory.ObjectProperty.IsClosedUnderFiniteCoproducts.{max u v, max (u + 1) (v + 1)} P)\n                (And (CategoryTheory.ObjectProperty.IsClosedUnderKernels.{max u v, max (u + 1) (v + 1)} P)\n                  (And (CategoryTheory.ObjectProperty.IsClosedUnderCokernels.{max u v, max (u + 1) (v + 1)} P)\n                    (And\n                      (\u2200 (X Y : ModuleCat.{max u v, max u v} A) (f : Quiver.Hom.{max u v, max (u + 1) (v + 1)} X Y),\n                        P X \u2192 P Y \u2192 P (CategoryTheory.Limits.image.{max u v, max (u + 1) (v + 1)} f))\n                      (Nonempty.{max (max (max ((max (u + 1) (v + 1)) + 1) (u + 1)) ((max u v) + 1)) (v + 1)}\n                        (CategoryTheory.Equivalence.{v, max u v, u, max (u + 1) (v + 1)} C\n                          (CategoryTheory.ObjectProperty.FullSubcategory.{max u v, max (u + 1) (v + 1)} P)))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "809063932",
+      "temporary_id": "decl-018828"
+    },
+    {
+      "formal_type": "(C : Type u) \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      CategoryTheory.Functor.{v, max u v, u, max (max (u + 1) (v + 1)) u v} C\n        (ModuleCat.{max u v, max u v} (decl-021612.{v, u} C))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021612"
+      ],
+      "structural_type_hash": "962926609",
+      "temporary_id": "decl-021611"
+    },
+    {
+      "formal_type": "(C : Type u) \u2192 [inst : CategoryTheory.Category.{v, u} C] \u2192 [CategoryTheory.Abelian.{v, u} C] \u2192 Type (max u v)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4009332787",
+      "temporary_id": "decl-021612"
+    },
+    {
+      "formal_type": "(C : Type u) \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      CategoryTheory.ObjectProperty.{max u v, max (max (u + 1) (v + 1)) u v}\n        (ModuleCat.{max u v, max u v} (decl-021612.{v, u} C))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021612"
+      ],
+      "structural_type_hash": "2193240723",
+      "temporary_id": "decl-021623"
+    },
+    {
+      "formal_type": "(C : Type u) \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      CategoryTheory.Equivalence.{v, max u v, u, max (u + 1) (v + 1)} C\n        (CategoryTheory.ObjectProperty.FullSubcategory.{max u v, max (u + 1) (v + 1)}\n          (decl-021623.{v, u} C))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021612",
+        "decl-021623"
+      ],
+      "structural_type_hash": "1370518117",
+      "temporary_id": "decl-021624"
+    },
+    {
+      "formal_type": "(C : Type u) \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      CategoryTheory.Iso.{max u v, max (max (max (max (u + 1) (v + 1)) u) u v) v}\n        (CategoryTheory.Functor.comp.{v, max u v, max u v, u, max (u + 1) (v + 1), max (u + 1) (v + 1)}\n          (CategoryTheory.Equivalence.functor.{v, max u v, u, max (u + 1) (v + 1)}\n            (decl-021624.{v, u} C))\n          (CategoryTheory.ObjectProperty.\u03b9.{max u v, max (u + 1) (v + 1)} (decl-021623.{v, u} C)))\n        (decl-021611.{v, u} C)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021611",
+        "decl-021612",
+        "decl-021623",
+        "decl-021624"
+      ],
+      "structural_type_hash": "1246597896",
+      "temporary_id": "decl-021626"
+    },
+    {
+      "formal_type": "\u2200 (C : Type u) [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  {X Y : ModuleCat.{max u v, max u v} (decl-021612.{v, u} C)}\n  (f : Quiver.Hom.{max u v, max (u + 1) (v + 1)} X Y),\n  decl-021623.{v, u} C X \u2192\n    decl-021623.{v, u} C Y \u2192\n      decl-021623.{v, u} C (CategoryTheory.Limits.image.{max u v, max (u + 1) (v + 1)} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021612",
+        "decl-021623"
+      ],
+      "structural_type_hash": "1270203284",
+      "temporary_id": "decl-021627"
+    }
+  ],
+  "module_temporary_id": "module-0577",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

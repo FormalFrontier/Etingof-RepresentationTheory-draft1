@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6a7b2406f7a718836b15",
+      "declaration": "D\u2084Rep.classIndex_card",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/419/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Fintype.card.{0} D\u2084Rep.ClassIndex) 12",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1_Classification"
+    },
+    {
+      "association_id": "association:5719bef3848c46cf3141",
+      "declaration": "Etingof.Example_6_3_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/419/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (\u03c1 : D\u2084Rep.{u_1, u_2, u_3, u_4, u_5} k),\n  D\u2084Rep.Indecomposable.{u_1, u_2, u_3, u_4, u_5} \u03c1 \u2192\n    Membership.mem.{0, 0} D\u2084_indecomposable_dimVectors (D\u2084Rep.dimVector.{u_1, u_2, u_3, u_4, u_5} \u03c1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter6/Example6.3.1",
+  "packet_id": "align-0885",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0885"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a0f6f08c1e0c47ce07f1",
+  "source_text": "The indecomposable D\u2084 dimension vectors are exactly the twelve positive roots listed in the example."
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a41da4fafd53911564a3",
+      "declaration": "Etingof.Problem4_12_7.real_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (W : Submodule.{0, 0} Real (Fin 2 \u2192 Complex)),\n  (\u2200 (A : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)\n      (v : Fin 2 \u2192 Complex),\n      Membership.mem.{0, 0} W v \u2192 Membership.mem.{0, 0} W (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} A) v)) \u2192\n    Or (Eq.{1} W Bot.bot.{0}) (Eq.{1} W Top.top.{0})",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.7",
+  "packet_id": "align-0722",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0722"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.7:part_a",
+  "source_text": "Part (a): the standard SU(2)-module is irreducible over the reals."
+}

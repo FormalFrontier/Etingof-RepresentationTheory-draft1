@@ -1,0 +1,271 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192 (V : Type v) \u2192 [inst_1 : AddCommGroup.{v} V] \u2192 [Module.{u, v} k V] \u2192 Type (max u v)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1406368799",
+      "temporary_id": "decl-005407"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          LinearEquiv.{u, u, max v u, u} (RingHom.id.{u} k) (decl-005407.{u, v} k V) k",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005407",
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005428"
+      ],
+      "structural_type_hash": "4121961460",
+      "temporary_id": "decl-005408"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  (s : SymmetricAlgebra.{u, v} k V) (x : decl-005407.{u, v} k V),\n  Eq.{u + 1}\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1} (decl-005408.{u, v} k V)\n      (HSMul.hSMul.{max u v, max u v, max u v} s x))\n    (HMul.hMul.{u, u, u}\n      (DFunLike.coe.{max (v + 1) (u + 1), max (v + 1) (u + 1), u + 1} SymmetricAlgebra.algebraMapInv.{u, v} s)\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1} (decl-005408.{u, v} k V) x))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005407",
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005408",
+        "decl-005410",
+        "decl-005428",
+        "decl-005436"
+      ],
+      "structural_type_hash": "2385436400",
+      "temporary_id": "decl-005409"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {V : Type v} \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192 AddCommGroup.{max v u} (decl-005407.{u, v} k V)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005407",
+      "project_type_dependencies": [
+        "decl-005407"
+      ],
+      "structural_type_hash": "1412990136",
+      "temporary_id": "decl-005410"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {V : Type v} \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192 Module.{u, max v u} k (decl-005407.{u, v} k V)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005407",
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410"
+      ],
+      "structural_type_hash": "323669740",
+      "temporary_id": "decl-005428"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : CommRing.{u} k] \u2192\n    {V : Type v} \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          Module.{max v u, max v u} (SymmetricAlgebra.{u, v} k V) (decl-005407.{u, v} k V)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005407",
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410"
+      ],
+      "structural_type_hash": "4186779297",
+      "temporary_id": "decl-005436"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          LinearMap.{max u v, max u v, max v u, max v u} (RingHom.id.{max v u} (SymmetricAlgebra.{u, v} k V))\n            (decl-021285.{u, v} k V 0) (decl-005407.{u, v} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "676799214",
+      "temporary_id": "decl-021036"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          LinearMap.{max u v, max u v, max v u, max v u} (RingHom.id.{max v u} (SymmetricAlgebra.{u, v} k V))\n            (SymmetricAlgebra.{u, v} k V) (decl-005407.{u, v} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436"
+      ],
+      "structural_type_hash": "1876919028",
+      "temporary_id": "decl-021044"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  (s : SymmetricAlgebra.{u, v} k V),\n  Eq.{u + 1}\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1} (decl-005408.{u, v} k V)\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)} (decl-021044.{u, v} k V)\n        s))\n    (DFunLike.coe.{max (v + 1) (u + 1), max (v + 1) (u + 1), u + 1} SymmetricAlgebra.algebraMapInv.{u, v} s)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005408",
+        "decl-005410",
+        "decl-005428",
+        "decl-005436",
+        "decl-021044"
+      ],
+      "structural_type_hash": "263705207",
+      "temporary_id": "decl-021048"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [inst_3 : Fintype.{w} \u03ba] (b : Module.Basis.{w, u, v} \u03ba k V),\n  Eq.{max (u + 1) (v + 1)}\n    (LinearMap.comp.{max u v, max u v, max u v, max u v, max u v, max u v} (decl-021036.{u, v} k V)\n      (decl-021150.{u, v, w} b 0))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021036",
+        "decl-021150",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "3678430094",
+      "temporary_id": "decl-021055"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V],\n  Function.Surjective.{max (u + 1) (v + 1), max (u + 1) (v + 1)}\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)} (decl-021036.{u, v} k V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005410",
+        "decl-005436",
+        "decl-021036",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "97789576",
+      "temporary_id": "decl-021059"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  (s : SymmetricAlgebra.{u, v} k V)\n  (w :\n    Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (ExteriorAlgebra.exteriorPower.{u, v} k 0 V) x),\n  Eq.{u + 1}\n    (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1} (decl-005408.{u, v} k V)\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)} (decl-021036.{u, v} k V)\n        (TensorProduct.tmul.{u, max u v, max u v} k s w)))\n    (HSMul.hSMul.{u, u, u}\n      (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), u + 1} (exteriorPower.zeroEquiv.{u, v} k V) w)\n      (DFunLike.coe.{max (v + 1) (u + 1), max (v + 1) (u + 1), u + 1} SymmetricAlgebra.algebraMapInv.{u, v} s))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005407",
+        "decl-005408",
+        "decl-005410",
+        "decl-005428",
+        "decl-005436",
+        "decl-021036",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "639062538",
+      "temporary_id": "decl-021060"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [inst_3 : Fintype.{w} \u03ba] {\u03ba' : Type w'} [inst_4 : Fintype.{w'} \u03ba'] (b : Module.Basis.{w, u, v} \u03ba k V)\n  (b' : Module.Basis.{w', u, v} \u03ba' k V),\n  Eq.{max (u + 2) (v + 2)} (decl-021141.{u, v, w} b) (decl-021141.{u, v, w'} b')",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021141"
+      ],
+      "structural_type_hash": "3628161766",
+      "temporary_id": "decl-021146"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {\u03ba : Type w} [inst_3 : Fintype.{w} \u03ba] {\u03ba' : Type w'} [inst_4 : Fintype.{w'} \u03ba'] (b : Module.Basis.{w, u, v} \u03ba k V)\n  (b' : Module.Basis.{w', u, v} \u03ba' k V) (i : Nat),\n  Eq.{max (u + 1) (v + 1)} (decl-021150.{u, v, w} b i) (decl-021150.{u, v, w'} b' i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021150",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "1094473600",
+      "temporary_id": "decl-021160"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021150",
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "80225943",
+      "temporary_id": "decl-021169"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          {I : Type w} \u2192\n            [LinearOrder.{w} I] \u2192\n              Module.Basis.{w, u, v} I k V \u2192\n                (i : Nat) \u2192\n                  Module.Basis.{w, max v u, max v u} (Set.Elem.{w} (Set.powersetCard.{w} I i))\n                    (SymmetricAlgebra.{u, v} k V) (decl-021285.{u, v} k V i)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "3543274961",
+      "temporary_id": "decl-021287"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {I : Type w} [inst_3 : LinearOrder.{w} I] (b : Module.Basis.{w, u, v} I k V) (i : Nat)\n  (s : Set.Elem.{w} (Set.powersetCard.{w} I i)),\n  Eq.{max (u + 1) (v + 1)}\n    (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, max (u + 1) (v + 1)}\n      (decl-021287.{u, v, w} k V b i) s)\n    (TensorProduct.tmul.{u, max u v, max u v} k 1\n      (DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), w + 1, max (u + 1) (v + 1)}\n        (Module.Basis.exteriorPower.{u, v, w} i b) s))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021285",
+        "decl-021286",
+        "decl-021287"
+      ],
+      "structural_type_hash": "1057032954",
+      "temporary_id": "decl-021288"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Free.{u, v} k V] (i : Nat),\n  Module.Free.{max v u, max v u} (SymmetricAlgebra.{u, v} k V) (decl-021285.{u, v} k V i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "481810983",
+      "temporary_id": "decl-021295"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  {N : Type u_1} [inst_3 : AddCommGroup.{u_1} N] [inst_4 : Module.{max v u, u_1} (SymmetricAlgebra.{u, v} k V) N]\n  {n : Nat}\n  {f g :\n    LinearMap.{max u v, max u v, max v u, u_1} (RingHom.id.{max v u} (SymmetricAlgebra.{u, v} k V))\n      (decl-021285.{u, v} k V n) N},\n  (\u2200 (v : Fin n \u2192 V),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{max (max (u + 1) (u_1 + 1)) (v + 1), max (u + 1) (v + 1), u_1 + 1} f\n          (TensorProduct.tmul.{u, max u v, max u v} k 1\n            (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (exteriorPower.\u03b9Multi.{u, v} k n) v)))\n        (DFunLike.coe.{max (max (u + 1) (u_1 + 1)) (v + 1), max (u + 1) (v + 1), u_1 + 1} g\n          (TensorProduct.tmul.{u, max u v, max u v} k 1\n            (DFunLike.coe.{max (u + 1) (v + 1), v + 1, max (u + 1) (v + 1)} (exteriorPower.\u03b9Multi.{u, v} k n) v)))) \u2192\n    Eq.{max (max (u + 1) (u_1 + 1)) (v + 1)} f g",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "3439577883",
+      "temporary_id": "decl-021297"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : CommRing.{u} k] {V : Type v} [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Free.{u, v} k V] (i : Nat),\n  Module.Projective.{max v u, max v u} (SymmetricAlgebra.{u, v} k V) (decl-021285.{u, v} k V i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021285",
+        "decl-021286"
+      ],
+      "structural_type_hash": "2041078058",
+      "temporary_id": "decl-021298"
+    }
+  ],
+  "module_temporary_id": "module-0649",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,86 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Finite.{1} G] (S : FDRep.{0, 0} Complex G),\n  Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} S))) 1 \u2192\n    Exists.{1} fun \u03be =>\n      Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (FDRep.of.{0, 0} (decl-002498.{0} \u03be)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002498"
+      ],
+      "structural_type_hash": "4204586582",
+      "temporary_id": "decl-003886"
+    },
+    {
+      "formal_type": "\u2200 {G H : Type} [inst : Group.{0} G] [inst_1 : Group.{0} H] {n : Nat} {W' : Fin n \u2192 FDRep.{0, 0} Complex G}\n  {W : Fin n \u2192 FDRep.{0, 0} Complex H},\n  (\u2200 (i : Fin n),\n      Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W' i))))\n        (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))) \u2192\n    \u2200 (d : Nat)\n      [inst_2 :\n        DecidablePred.{1} fun i =>\n          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W' i)))) d]\n      [inst_3 :\n        DecidablePred.{1} fun i =>\n          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) d],\n      Eq.{1}\n        (Finset.filter.{0}\n          (fun i => Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W' i)))) d)\n          Finset.univ.{0})\n        (Finset.filter.{0}\n          (fun i => Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) d)\n          Finset.univ.{0})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "330461290",
+      "temporary_id": "decl-003887"
+    },
+    {
+      "formal_type": "\u2200 {G H : Type} [inst : Group.{0} G] [inst_1 : Group.{0} H] (e : MulEquiv.{0, 0} G H) (V : FDRep.{0, 0} Complex H),\n  Eq.{1}\n    (Module.finrank.{0, 0} Complex\n      (FGModuleCat.carrier.{0, 0}\n        (Action.V.{0, 1, 0}\n          (CategoryTheory.Functor.obj.{0, 0, 1, 1}\n            (CategoryTheory.Equivalence.functor.{0, 0, 1, 1} (decl-003947 e)) V))))\n    (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003947"
+      ],
+      "structural_type_hash": "195296183",
+      "temporary_id": "decl-003889"
+    },
+    {
+      "formal_type": "{G H : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    [inst_1 : Group.{0} H] \u2192\n      MulEquiv.{0, 0} G H \u2192 CategoryTheory.Equivalence.{0, 0, 1, 1} (FDRep.{0, 0} Complex H) (FDRep.{0, 0} Complex G)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "199973245",
+      "temporary_id": "decl-003947"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] [inst_2 : CategoryTheory.Limits.HasZeroMorphisms.{u_3, u_1} C]\n  [inst_3 : CategoryTheory.Limits.HasZeroMorphisms.{u_4, u_2} D]\n  (E : CategoryTheory.Equivalence.{u_3, u_4, u_1, u_2} C D) (X : C) [CategoryTheory.Simple.{u_3, u_1} X],\n  CategoryTheory.Simple.{u_4, u_2}\n    (CategoryTheory.Functor.obj.{u_3, u_4, u_1, u_2} (CategoryTheory.Equivalence.functor.{u_3, u_4, u_1, u_2} E) X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2507983270",
+      "temporary_id": "decl-003951"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] [inst_2 : CategoryTheory.Limits.HasZeroMorphisms.{u_3, u_1} C]\n  [inst_3 : CategoryTheory.Limits.HasZeroMorphisms.{u_4, u_2} D] (F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D)\n  [CategoryTheory.Functor.Full.{u_3, u_4, u_1, u_2} F] [CategoryTheory.Functor.Faithful.{u_3, u_4, u_1, u_2} F]\n  [CategoryTheory.Functor.PreservesMonomorphisms.{u_3, u_4, u_1, u_2} F] (X : C)\n  [CategoryTheory.Simple.{u_4, u_2} (CategoryTheory.Functor.obj.{u_3, u_4, u_1, u_2} F X)],\n  CategoryTheory.Simple.{u_3, u_1} X",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3015388322",
+      "temporary_id": "decl-003953"
+    },
+    {
+      "formal_type": "\u2200 {G H : Type} [inst : Group.{0} G] [inst_1 : Group.{0} H] (e : MulEquiv.{0, 0} G H) {n : Nat}\n  (W : Fin n \u2192 FDRep.{0, 0} Complex H),\n  (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i)) \u2192\n    (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (S : FDRep.{0, 0} Complex H),\n          CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i))) \u2192\n        Exists.{2} fun W' =>\n          And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W' i))\n            (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W' i) (W' j)) \u2192 Eq.{1} i j)\n              (And\n                (\u2200 (S : FDRep.{0, 0} Complex G),\n                  CategoryTheory.Simple.{0, 1} S \u2192\n                    Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W' i)))\n                (\u2200 (i : Fin n),\n                  Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W' i))))\n                    (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2242287527",
+      "temporary_id": "decl-003954"
+    }
+  ],
+  "module_temporary_id": "module-0320",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

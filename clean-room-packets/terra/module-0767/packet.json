@@ -1,0 +1,107 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{A : Type u_1} \u2192 [Ring.{u_1} A] \u2192 A \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "798717576",
+      "temporary_id": "decl-005192"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A],\n  Exists.{u + 2} fun B =>\n    Exists.{u + 1} fun x =>\n      Exists.{u + 1} fun x_1 =>\n        Exists.{0} fun x_2 =>\n          And (decl-005126.{u, u, u} k B)\n            (And (decl-005123.{u, u} k B) (decl-005305.{u, u} k A B))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005126",
+        "decl-005305"
+      ],
+      "structural_type_hash": "3443510442",
+      "temporary_id": "decl-018759"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A],\n  Exists.{u + 2} fun B =>\n    Exists.{u + 1} fun x =>\n      Exists.{u + 1} fun x_1 =>\n        Exists.{0} fun x_2 => And (decl-005123.{u, u} k B) (decl-005663.{u, u} A B)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005663"
+      ],
+      "structural_type_hash": "3198312156",
+      "temporary_id": "decl-018760"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A],\n  Exists.{u + 1} fun e =>\n    Exists.{0} fun he =>\n      And\n        (decl-005126.{u, u, u} k\n          (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-001418.{u} e) x))\n        (decl-005123.{u, u} k (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-001418.{u} e) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001418",
+        "decl-001420",
+        "decl-001426",
+        "decl-005123",
+        "decl-005126",
+        "decl-005192"
+      ],
+      "structural_type_hash": "427735024",
+      "temporary_id": "decl-018844"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] {e : A}\n  (he : decl-005192.{u} e) [Module.Finite.{u, u} k A],\n  decl-005305.{u, u} k A\n    (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-001418.{u} e) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001418",
+        "decl-001420",
+        "decl-001426",
+        "decl-005192",
+        "decl-005305"
+      ],
+      "structural_type_hash": "3317057337",
+      "temporary_id": "decl-021024"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {c : R},\n  (\u2200 (w : R), IsNilpotent.{u_1} (HMul.hMul.{u_1, u_1, u_1} w c)) \u2192 Membership.mem.{u_1, u_1} (Ring.jacobson.{u_1} R) c",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "23454310",
+      "temporary_id": "decl-021587"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] {e : A}\n  (he : decl-005192.{u} e),\n  decl-005663.{u, u} A (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-001418.{u} e) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001418",
+        "decl-001426",
+        "decl-005192",
+        "decl-005663"
+      ],
+      "structural_type_hash": "4289275598",
+      "temporary_id": "decl-021676"
+    }
+  ],
+  "module_temporary_id": "module-0767",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

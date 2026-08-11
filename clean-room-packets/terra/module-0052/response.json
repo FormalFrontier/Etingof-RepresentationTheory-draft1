@@ -1,0 +1,6 @@
+{
+  "module_name": "Algebra.Lie.UniversalEnveloping",
+  "declarations": [
+    {"temporary_id":"decl-003780","new_name":"representationAlgHomEquiv","docstring":"Equivalence between Lie actions on a module and algebra homomorphisms from the universal enveloping algebra to its endomorphisms."}
+  ]
+}

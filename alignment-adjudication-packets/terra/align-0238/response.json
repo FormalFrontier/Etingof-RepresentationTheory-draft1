@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0238",
+  "associations": [
+    {
+      "association_id": "association:b755b97c4e38fbb1a948",
+      "role": "supporting",
+      "rationale": "The declaration is explicitly associated with the claim, but its formal type failed to print, so direct statement of the little-group classification cannot be verified from this packet."
+    }
+  ]
+}

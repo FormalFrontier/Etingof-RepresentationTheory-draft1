@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0119",
+  "associations": [
+    {
+      "association_id": "association:a1d54c3fa0e75fa90b4f",
+      "role": "primary",
+      "rationale": "This characteristic-p power identity directly yields x^p - 1 = (x - 1)^p for commuting elements."
+    }
+  ]
+}

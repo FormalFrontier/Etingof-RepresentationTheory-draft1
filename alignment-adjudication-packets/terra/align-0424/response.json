@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0424",
+  "associations": [
+    {
+      "association_id": "association:2b76c065f4f3b586e0e2",
+      "role": "primary",
+      "rationale": "The theorem directly states the equivalences between each span condition and linear independence of the corresponding rational or complex matrix rows."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "module_name": "Algebra.Semisimplicity.FiniteDimensional",
+  "declarations": [
+    {
+      "temporary_id": "decl-023075",
+      "new_name": "finiteDimensional_tfae",
+      "docstring": "The displayed finite-dimensional algebra conditions are equivalent under the stated hypotheses."
+    },
+    {
+      "temporary_id": "decl-023480",
+      "new_name": "nonempty_algEquiv_finZero_matrix",
+      "docstring": "A subsingleton algebra is algebraically equivalent to the indicated zero-indexed matrix algebra."
+    },
+    {
+      "temporary_id": "decl-023487",
+      "new_name": "auxiliaryProperty_of_subsingleton",
+      "docstring": "A finite-dimensional subsingleton algebra satisfies the displayed auxiliary property."
+    },
+    {
+      "temporary_id": "decl-023488",
+      "new_name": "isSemisimpleRing_of_subsingleton",
+      "docstring": "A subsingleton ring is semisimple."
+    },
+    {
+      "temporary_id": "decl-023489",
+      "new_name": "subsingleton_module_of_subsingleton_ring",
+      "docstring": "Every module over a subsingleton ring is subsingleton."
+    },
+    {
+      "temporary_id": "decl-023490",
+      "new_name": "not_auxiliaryProperty_of_subsingleton",
+      "docstring": "A module over a subsingleton ring does not satisfy the displayed auxiliary property."
+    },
+    {
+      "temporary_id": "decl-023491",
+      "new_name": "not_isSimpleModule_of_subsingleton",
+      "docstring": "A module over a subsingleton ring is not simple."
+    },
+    {
+      "temporary_id": "decl-023492",
+      "new_name": "not_isSimpleRing_of_subsingleton",
+      "docstring": "A subsingleton ring is not simple."
+    }
+  ]
+}

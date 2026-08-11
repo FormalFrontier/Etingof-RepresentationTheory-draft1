@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.16.2",
+    "kind": "exercise",
+    "title": "Irreducible representations of the 2d Lie algebra; Lie theorem in positive characteristic",
+    "node_id": "chapter-02/section-2-16",
+    "order": 121,
+    "slug": "problem2-16-2",
+    "span": {
+      "start": {
+        "page": "40",
+        "line": 5
+      },
+      "end": {
+        "page": "40",
+        "line": 6
+      }
+    },
+    "source_sha256": "95ec9739b3f1725d5b00390f6448b8360eb774fff0858ad2a93651ed7389c308",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2162",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

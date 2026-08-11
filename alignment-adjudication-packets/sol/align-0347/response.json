@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0347",
+  "associations": [
+    {
+      "association_id": "association:29dd3819a3f58f40baaf",
+      "role": "supporting",
+      "rationale": "Indecomposability of the antiperiodic module is one ingredient in the counterexample, but it does not alone state failure of Krull-Schmidt."
+    },
+    {
+      "association_id": "association:587cf1c64f24b53bf285",
+      "role": "supporting",
+      "rationale": "Indecomposability of the periodic module is another ingredient in the counterexample, not the failure statement itself."
+    },
+    {
+      "association_id": "association:8d46d054fefa46baad63",
+      "role": "supporting",
+      "rationale": "Nonisomorphism of the two indecomposable modules is needed to witness nonuniqueness, but does not by itself assert Krull-Schmidt failure."
+    },
+    {
+      "association_id": "association:35520e68f81034937bb0",
+      "role": "supporting",
+      "rationale": "The equivalence between the doubled modules supplies the competing decompositions; combined with the other candidates it yields the counterexample, but alone it does not state the source claim."
+    }
+  ]
+}

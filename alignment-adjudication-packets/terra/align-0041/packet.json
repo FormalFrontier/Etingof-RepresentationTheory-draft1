@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9c9f5a459ae7052832b1",
+      "declaration": "Finsupp.basisSingleOne",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/19/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.LinearAlgebra.Finsupp.VectorSpace"
+    },
+    {
+      "association_id": "association:ffa61cdd275224bf4b64",
+      "declaration": "MonoidAlgebra.algebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/19/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.MonoidAlgebra.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.2.4",
+  "packet_id": "align-0041",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0041"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0af1404163d038b3aa20",
+  "source_text": "The group algebra k[G] is a k-algebra with basis {a_g | g in G}."
+}

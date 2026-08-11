@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c72db86215e3cf193f0f",
+      "declaration": "Etingof.Problem6_9_1b_directSummand",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/460/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (\u03c1 : Q\u2082Rep.{0, uV, uW} Complex),\n  Not (IsNilpotent.{uW} (LinearMap.comp.{0, 0, 0, uW, uV, uW} (Q\u2082Rep.A.{0, uV, uW} \u03c1) (Q\u2082Rep.B.{0, uV, uW} \u03c1))) \u2192\n    Exists.{1} fun n =>\n      Exists.{0} fun hn =>\n        Exists.{1} fun lam =>\n          And (Ne.{1} lam 0)\n            (Exists.{max (uV + 2) (uW + 2)} fun \u03c4 =>\n              And (Nonempty.{max (uV + 1) (uW + 1)} (Q\u2082Rep.SplitEmbedding.{uV, uW, uV, uW} \u03c4 \u03c1))\n                (Nonempty.{max (max (uV + 1) (uW + 1)) 1} (Q\u2082Rep.Iso.{0, uV, uW, 0, 0} \u03c4 (Etingof.Q\u2082Rep_E n hn lam))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_1_Classification"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.9.1",
+  "packet_id": "align-0799",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0799"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.9.1:part_b",
+  "source_text": "Part (b): split off an actual E(n,lambda) summand in the nonnilpotent case."
+}

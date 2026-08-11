@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b2de63d922f202ea54a9",
+      "declaration": "Etingof.Exercise_8_1_4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/527/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (M\u2081 : Type u_2) (M\u2082 : Type u_3) (M : Type u_4) [inst_1 : AddCommGroup.{u_2} M\u2081]\n  [inst_2 : Module.{u_1, u_2} A M\u2081] [inst_3 : AddCommGroup.{u_3} M\u2082] [inst_4 : Module.{u_1, u_3} A M\u2082]\n  [inst_5 : AddCommGroup.{u_4} M] [inst_6 : Module.{u_1, u_4} A M] (P\u2081 : Type u_5) (P\u2082 : Type u_6)\n  [inst_7 : AddCommGroup.{u_5} P\u2081] [inst_8 : Module.{u_1, u_5} A P\u2081] [inst_9 : AddCommGroup.{u_6} P\u2082]\n  [inst_10 : Module.{u_1, u_6} A P\u2082] [Module.Projective.{u_1, u_5} A P\u2081] [Module.Projective.{u_1, u_6} A P\u2082]\n  (\u03b9 : LinearMap.{u_1, u_1, u_2, u_4} (RingHom.id.{u_1} A) M\u2081 M)\n  (\u03c0 : LinearMap.{u_1, u_1, u_4, u_3} (RingHom.id.{u_1} A) M M\u2082),\n  Function.Injective.{u_2 + 1, u_4 + 1} (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} \u03b9) \u2192\n    Function.Surjective.{u_4 + 1, u_3 + 1} (DFunLike.coe.{max (u_3 + 1) (u_4 + 1), u_4 + 1, u_3 + 1} \u03c0) \u2192\n      Eq.{u_4 + 1} (LinearMap.range.{u_1, u_1, u_2, u_4} \u03b9) (LinearMap.ker.{u_1, u_1, u_4, u_3} \u03c0) \u2192\n        \u2200 (f\u2081 : LinearMap.{u_1, u_1, u_5, u_2} (RingHom.id.{u_1} A) P\u2081 M\u2081)\n          (f\u2082 : LinearMap.{u_1, u_1, u_6, u_3} (RingHom.id.{u_1} A) P\u2082 M\u2082),\n          Exists.{max (max (u_4 + 1) (u_5 + 1)) (u_6 + 1)} fun f =>\n            And\n              (Eq.{max (u_4 + 1) (u_5 + 1)}\n                (LinearMap.comp.{u_1, u_1, u_1, u_5, max u_5 u_6, u_4} f (LinearMap.inl.{u_1, u_5, u_6} A P\u2081 P\u2082))\n                (LinearMap.comp.{u_1, u_1, u_1, u_5, u_2, u_4} \u03b9 f\u2081))\n              (Eq.{max (u_3 + 1) (u_6 + 1)}\n                (LinearMap.comp.{u_1, u_1, u_1, u_6, u_4, u_3} \u03c0\n                  (LinearMap.comp.{u_1, u_1, u_1, u_6, max u_5 u_6, u_4} f (LinearMap.inr.{u_1, u_5, u_6} A P\u2081 P\u2082)))\n                f\u2082)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Exercise8_1_4"
+    }
+  ],
+  "canonical_reference": "Chapter8/Exercise8.1.4",
+  "packet_id": "align-0823",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0823"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Exercise8.1.4:horseshoe_lift",
+  "source_text": "Construct the direct-sum lift through the extension with both prescribed component properties."
+}

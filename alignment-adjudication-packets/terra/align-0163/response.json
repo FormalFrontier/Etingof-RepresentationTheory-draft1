@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0163",
+  "associations": [
+    {
+      "association_id": "association:a6e45592a396ceb651ae",
+      "role": "primary",
+      "rationale": "The theorem directly gives a unique parameter classifying a simple algebraic GL representation up to module equivalence."
+    }
+  ]
+}

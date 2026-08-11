@@ -1,0 +1,130 @@
+{
+  "module_name": "Algebra.CliffordAlgebra.EvenDimensionalModules",
+  "declarations": [
+    {
+      "temporary_id": "decl-010193",
+      "new_name": "EvenCliffordModule",
+      "docstring": "A distinguished module carrier associated with a nondegenerate symmetric complex bilinear form of even dimension."
+    },
+    {
+      "temporary_id": "decl-010238",
+      "new_name": "firstIsotropicFamily",
+      "docstring": "The first indexed family of vectors for a nondegenerate symmetric complex bilinear form of dimension twice its index size."
+    },
+    {
+      "temporary_id": "decl-010240",
+      "new_name": "firstIsotropicFamily_pair_self",
+      "docstring": "The bilinear form vanishes on every pair of vectors in the first indexed family."
+    },
+    {
+      "temporary_id": "decl-010241",
+      "new_name": "firstIsotropicFamily_pair_secondIsotropicFamily",
+      "docstring": "Pairing the first and second indexed families gives one half on matching indices and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-010242",
+      "new_name": "cliffordAlgEquivEnd",
+      "docstring": "An algebra equivalence from the Clifford algebra of an even-dimensional nondegenerate symmetric form to an endomorphism algebra."
+    },
+    {
+      "temporary_id": "decl-010243",
+      "new_name": "secondIsotropicFamily",
+      "docstring": "The second indexed family of vectors for a nondegenerate symmetric complex bilinear form of dimension twice its index size."
+    },
+    {
+      "temporary_id": "decl-010245",
+      "new_name": "secondIsotropicFamily_pair_self",
+      "docstring": "The bilinear form vanishes on every pair of vectors in the second indexed family."
+    },
+    {
+      "temporary_id": "decl-010246",
+      "new_name": "standardEvenQuadraticFormIsometryEquiv",
+      "docstring": "An isometric equivalence from the quadratic form associated to the given bilinear form to the standard even-dimensional quadratic form."
+    },
+    {
+      "temporary_id": "decl-010263",
+      "new_name": "standardEvenQuadraticFormIsometryEquiv_associated",
+      "docstring": "The isometry identifies the given bilinear form with the form associated to the standard even-dimensional quadratic form."
+    },
+    {
+      "temporary_id": "decl-010264",
+      "new_name": "standardCliffordRepresentation",
+      "docstring": "The standard representation of the Clifford algebra of an even-dimensional nondegenerate symmetric complex bilinear form."
+    },
+    {
+      "temporary_id": "decl-010269",
+      "new_name": "standardCliffordRepresentation_bijective",
+      "docstring": "The standard Clifford representation is bijective."
+    },
+    {
+      "temporary_id": "decl-010270",
+      "new_name": "standardCliffordRepresentation_iota",
+      "docstring": "The standard representation sends a Clifford generator to the prescribed action of its image under the quadratic-form isometry."
+    },
+    {
+      "temporary_id": "decl-010271",
+      "new_name": "standardCliffordRepresentation_firstIsotropicFamily",
+      "docstring": "The standard representation sends a generator from the first isotropic family to the prescribed operator on the corresponding coordinate vector."
+    },
+    {
+      "temporary_id": "decl-010272",
+      "new_name": "standardCliffordRepresentation_secondIsotropicFamily",
+      "docstring": "The standard representation sends a generator from the second isotropic family to the prescribed operator on the corresponding coordinate covector."
+    },
+    {
+      "temporary_id": "decl-010273",
+      "new_name": "coordinateCovector",
+      "docstring": "The coordinate covector at an index of a finite complex function space."
+    },
+    {
+      "temporary_id": "decl-010275",
+      "new_name": "coordinateVector",
+      "docstring": "The coordinate vector at an index of a finite complex function space."
+    },
+    {
+      "temporary_id": "decl-010277",
+      "new_name": "evenCliffordModuleAddCommGroup",
+      "docstring": "The additive commutative group structure on the distinguished even-dimensional Clifford-module carrier."
+    },
+    {
+      "temporary_id": "decl-010295",
+      "new_name": "evenCliffordModuleModule",
+      "docstring": "The module structure over the Clifford algebra on the distinguished even-dimensional carrier."
+    },
+    {
+      "temporary_id": "decl-010296",
+      "new_name": "evenCliffordModuleComplexModule",
+      "docstring": "The complex module structure on the distinguished even-dimensional Clifford-module carrier."
+    },
+    {
+      "temporary_id": "decl-010304",
+      "new_name": "evenCliffordModuleAction",
+      "docstring": "The Clifford algebra action by complex-linear endomorphisms on the distinguished even-dimensional carrier."
+    },
+    {
+      "temporary_id": "decl-010307",
+      "new_name": "standardCarrier_isSimpleModule",
+      "docstring": "The standard carrier is a simple module for the even-dimensional Clifford algebra."
+    },
+    {
+      "temporary_id": "decl-010308",
+      "new_name": "evenCliffordModule_isSimpleModule",
+      "docstring": "The distinguished even-dimensional Clifford module is simple."
+    },
+    {
+      "temporary_id": "decl-010312",
+      "new_name": "simpleModule_linearEquiv_evenCliffordModule",
+      "docstring": "Every simple module over the even-dimensional Clifford algebra is linearly equivalent to the distinguished module carrier."
+    },
+    {
+      "temporary_id": "decl-010347",
+      "new_name": "standardEvenQuadraticForm_associated_separatingLeft",
+      "docstring": "The bilinear form associated to the standard even-dimensional quadratic form separates points in its left argument."
+    },
+    {
+      "temporary_id": "decl-010465",
+      "new_name": "standardCarrierLinearEquivEvenCliffordModule",
+      "docstring": "A complex-linear equivalence from the standard carrier to the distinguished even-dimensional Clifford-module carrier."
+    }
+  ]
+}

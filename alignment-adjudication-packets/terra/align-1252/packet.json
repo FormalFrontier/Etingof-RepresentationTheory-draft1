@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:eeb3d85ccded56c32773",
+      "declaration": "Etingof.isComplexType_of_odd_order_of_nontrivial_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/266/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} Complex V] [inst_4 : Module.Finite.{0, 0} Complex V],\n  Odd.{0} (Fintype.card.{u_1} G) \u2192\n    \u2200 (\u03c1 : Representation.{0, u_1, 0} Complex G V),\n      IsSimpleModule.{u_1, 0} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, 0} \u03c1) \u2192\n        (Exists.{u_1 + 1} fun g => Ne.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c1 g) 1) \u2192 Etingof.IsComplexType.{u_1, 0} \u03c1",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Exercise5_3_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Exercise5.3.3",
+  "packet_id": "align-1252",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1252"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Exercise5.3.3",
+  "source_text": "**Exercise 5.3.3.** Strengthen the result of Exercise 5.1.7: show that all nontrivial irreducible representations of a group of odd order are of complex type. (Use that any representation of quaternionic type is even-dimensional).\n\n"
+}

@@ -1,0 +1,299 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192 (V : Type v) \u2192 [inst_1 : AddCommGroup.{v} V] \u2192 [Module.{u, v} k V] \u2192 Nat \u2192 Type (max u v)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1984360868",
+      "temporary_id": "decl-016473"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] [CharZero.{u} k] (N n : Nat),\n  LE.le.{0} n N \u2192\n    Exists.{2} fun \u03b9 =>\n      Exists.{1} fun x =>\n        Exists.{1} fun x =>\n          Exists.{u + 2} fun S =>\n            Exists.{u + 1} fun x =>\n              Exists.{u + 1} fun x_1 =>\n                Exists.{u + 1} fun x_2 =>\n                  Exists.{0} fun x_3 =>\n                    Exists.{0} fun x_4 =>\n                      Exists.{0} fun x_5 =>\n                        Exists.{u + 2} fun L =>\n                          Nonempty.{u + 1}\n                            (LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) (decl-016473.{u, u} k (Fin N \u2192 k) n)\n                              (DirectSum.{0, u} \u03b9 fun i =>\n                                TensorProduct.{u, u, u} k (S i)\n                                  (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (L i)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627",
+        "decl-023631"
+      ],
+      "structural_type_hash": "1842805061",
+      "temporary_id": "decl-016570"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] [CharZero.{u} k] (N n : Nat),\n  LE.le.{0} n N \u2192\n    Exists.{2} fun \u03b9 =>\n      Exists.{1} fun x =>\n        Exists.{1} fun x =>\n          Exists.{u + 1} fun S =>\n            Exists.{0} fun x_1 =>\n              Exists.{0} fun x_2 =>\n                Exists.{0} fun x_3 =>\n                  Exists.{u + 2} fun L =>\n                    Exists.{u + 1} fun L_carrier =>\n                      Exists.{u + 1} fun e =>\n                        And\n                          (\u2200 (i : \u03b9) (v : Subtype.{u + 1} fun x => Membership.mem.{u, u} (S i) x)\n                            (l : FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (L i))),\n                            Eq.{u + 1}\n                              (DFunLike.coe.{u + 1, u + 1, u + 1} (LinearEquiv.symm.{u, u, u, u} e)\n                                (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                  (DirectSum.of.{0, u}\n                                    (fun i =>\n                                      TensorProduct.{u, u, u} k (Subtype.{u + 1} fun x => Membership.mem.{u, u} (S i) x)\n                                        (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (L i))))\n                                    i)\n                                  (TensorProduct.tmul.{u, u, u} k v l)))\n                              (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (L_carrier i) l)\n                                v))\n                          (\u2200 (i : \u03b9) (g : Matrix.GeneralLinearGroup.{0, u} (Fin N) k)\n                            (l : FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (L i)))\n                            (v : Subtype.{u + 1} fun x => Membership.mem.{u, u} (S i) x),\n                            Eq.{u + 1}\n                              (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                (DFunLike.coe.{u + 1, u + 1, u + 1} (L_carrier i)\n                                  (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                    (DFunLike.coe.{u + 1, u + 1, u + 1} (FDRep.\u03c1.{u, u} (L i)) g) l))\n                                v)\n                              (DFunLike.coe.{u + 1, u + 1, u + 1}\n                                (PiTensorProduct.map.{0, u, u, u} fun x => Matrix.mulVecLin.{u, 0, 0} (Units.val.{u} g))\n                                (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (L_carrier i) l)\n                                  v)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627",
+        "decl-023631"
+      ],
+      "structural_type_hash": "525929058",
+      "temporary_id": "decl-016571"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat) [IsAlgClosed.{u} k] [CharZero.{u} k],\n  Exists.{2} fun \u03b9 =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{max (u + 2) (v + 2)} fun S =>\n          Exists.{max (u + 1) (v + 1)} fun x =>\n            Exists.{max (u + 1) (v + 1)} fun x_1 =>\n              Exists.{max (u + 1) (v + 1)} fun x_2 =>\n                Exists.{0} fun x_3 =>\n                  Exists.{0} fun x_4 =>\n                    Exists.{0} fun x_5 =>\n                      Exists.{max (u + 2) (v + 2)} fun L =>\n                        Exists.{max (u + 1) (v + 1)} fun x_6 =>\n                          Exists.{max (u + 1) (v + 1)} fun x_7 =>\n                            Exists.{max (u + 1) (v + 1)} fun x_8 =>\n                              Nonempty.{max ((max u v) + 1) ((max v u) + 1)}\n                                (LinearEquiv.{u, u, max v u, max u v} (RingHom.id.{u} k)\n                                  (decl-016473.{u, v} k V n)\n                                  (DirectSum.{0, max u v} \u03b9 fun i => TensorProduct.{u, max u v, max u v} k (S i) (L i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-018384",
+        "decl-023627"
+      ],
+      "structural_type_hash": "2754911813",
+      "temporary_id": "decl-016574"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat) [IsAlgClosed.{u} k] [CharZero.{u} k],\n  Exists.{2} fun \u03b9 =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{max (u + 1) (v + 1)} fun S =>\n          Exists.{0} fun x_1 =>\n            Exists.{0} fun x_2 =>\n              Exists.{0} fun x_3 =>\n                Exists.{0} fun x_4 =>\n                  Exists.{max (u + 1) (v + 1)} fun e =>\n                    And\n                      (\u2200 (i : \u03b9) (s : Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                        (l :\n                          LinearMap.{max u v, max u v, max u v, max v u}\n                            (RingHom.id.{max u v}\n                              (Subtype.{(max u v) + 1} fun x =>\n                                Membership.mem.{max u v, max u v} (decl-023627.{u, v} k V n) x))\n                            (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                            (decl-016473.{u, v} k V n)),\n                        Eq.{max (u + 1) (v + 1)}\n                          (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                            (LinearEquiv.symm.{u, u, max u v, max u v}\n                              (decl-000897.{u, max u v, 0} e))\n                            (DFunLike.coe.{(max u v) + 1, (max u v) + 1, (max u v) + 1}\n                              (DirectSum.of.{0, max u v}\n                                (fun i =>\n                                  TensorProduct.{u, max u v, max u v} k\n                                    (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                                    (LinearMap.{max u v, max u v, max u v, max u v}\n                                      (RingHom.id.{max u v}\n                                        (Subtype.{(max u v) + 1} fun x =>\n                                          Membership.mem.{max u v, max u v} (decl-023627.{u, v} k V n) x))\n                                      (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                                      (decl-016473.{u, v} k V n)))\n                                i)\n                              (TensorProduct.tmul.{u, max u v, max u v} k s l)))\n                          (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)} l s))\n                      (\u2200\n                        (b :\n                          Subtype.{(max u v) + 1} fun x =>\n                            Membership.mem.{max u v, max u v} (decl-018384.{u, v} k V n) x)\n                        (x : decl-016473.{u, v} k V n),\n                        Eq.{max (u + 1) (v + 1)}\n                          (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                            (decl-000897.{u, max u v, 0} e)\n                            (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                              (Subtype.val.{max (u + 1) (v + 1)} b) x))\n                          (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                            (decl-017390.{u, max v u, 0} k\n                              (decl-016473.{u, v} k V n) S\n                              (Subtype.mk.{max (u + 1) (v + 1)} (Subtype.val.{max (u + 1) (v + 1)} b) \u22ef))\n                            (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                              (decl-000897.{u, max u v, 0} e) x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000866",
+        "decl-000897",
+        "decl-016473",
+        "decl-017390",
+        "decl-017816",
+        "decl-018384",
+        "decl-018386",
+        "decl-023627",
+        "decl-023631"
+      ],
+      "structural_type_hash": "377054748",
+      "temporary_id": "decl-016575"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat) [IsAlgClosed.{u} k] [CharZero.{u} k],\n  Exists.{2} fun \u03b9 =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{max (u + 1) (v + 1)} fun S =>\n          Exists.{0} fun x_1 =>\n            Exists.{0} fun x_2 =>\n              Exists.{0} fun x_3 =>\n                Exists.{0} fun x_4 =>\n                  Exists.{max (u + 1) (v + 1)} fun e =>\n                    \u2200 (i : \u03b9) (v : Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                      (l :\n                        LinearMap.{max u v, max u v, max u v, max v u}\n                          (RingHom.id.{max u v}\n                            (Subtype.{(max u v) + 1} fun x =>\n                              Membership.mem.{max u v, max u v} (decl-023627.{u, v} k V n) x))\n                          (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                          (decl-016473.{u, v} k V n)),\n                      Eq.{max (u + 1) (v + 1)}\n                        (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)}\n                          (LinearEquiv.symm.{u, u, max u v, max u v} e)\n                          (DFunLike.coe.{(max u v) + 1, (max u v) + 1, (max u v) + 1}\n                            (DirectSum.of.{0, max u v}\n                              (fun i =>\n                                TensorProduct.{u, max u v, max (max v u) u v} k\n                                  (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                                  (LinearMap.{max u v, max u v, max u v, max v u}\n                                    (RingHom.id.{max u v}\n                                      (Subtype.{(max u v) + 1} fun x =>\n                                        Membership.mem.{max u v, max u v} (decl-023627.{u, v} k V n) x))\n                                    (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (S i) x)\n                                    (decl-016473.{u, v} k V n)))\n                              i)\n                            (TensorProduct.tmul.{u, max u v, max u v} k v l)))\n                        (DFunLike.coe.{max (u + 1) (v + 1), max (u + 1) (v + 1), max (u + 1) (v + 1)} l v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-017816",
+        "decl-023627",
+        "decl-023631"
+      ],
+      "structural_type_hash": "1921549914",
+      "temporary_id": "decl-016576"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat) [CharZero.{u} k],\n  And\n    (Eq.{max (u + 1) (v + 1)} (decl-023627.{u, v} k V n)\n      (Subalgebra.centralizer.{u, max u v} k\n        (SetLike.coe.{max u v, max u v} (decl-018384.{u, v} k V n))))\n    (Eq.{max (u + 1) (v + 1)} (decl-018384.{u, v} k V n)\n      (Subalgebra.centralizer.{u, max u v} k (SetLike.coe.{max u v, max u v} (decl-023627.{u, v} k V n))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-018384",
+        "decl-023627"
+      ],
+      "structural_type_hash": "671830553",
+      "temporary_id": "decl-016578"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat) [CharZero.{u} k],\n  Exists.{2} fun \u03b9 =>\n    Exists.{1} fun x =>\n      Exists.{1} fun x =>\n        Exists.{max (u + 2) (v + 2)} fun S =>\n          Exists.{u + 2} fun L =>\n            Exists.{max (u + 1) (v + 1)} fun x =>\n              Exists.{max (u + 1) (v + 1)} fun x_1 =>\n                Exists.{max (u + 1) (v + 1)} fun x_2 =>\n                  Exists.{0} fun x_3 =>\n                    Exists.{u + 1} fun x_4 =>\n                      Exists.{u + 1} fun x_5 =>\n                        Nonempty.{max ((max u v) + 1) ((max v u) + 1)}\n                          (LinearEquiv.{u, u, max v u, max u v} (RingHom.id.{u} k) (decl-016473.{u, v} k V n)\n                            (DirectSum.{0, max u v} \u03b9 fun i => TensorProduct.{u, max u v, u} k (S i) (L i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627"
+      ],
+      "structural_type_hash": "4052788843",
+      "temporary_id": "decl-016579"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat) [CharZero.{u} k],\n  And\n    (IsSemisimpleRing.{max u v}\n      (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (decl-023627.{u, v} k V n) x))\n    (IsSemisimpleRing.{max u v}\n      (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (decl-018384.{u, v} k V n) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-018384",
+        "decl-023627"
+      ],
+      "structural_type_hash": "396420258",
+      "temporary_id": "decl-016582"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat) [CharZero.{u} k],\n  Eq.{max (u + 1) (v + 1)}\n    (Subalgebra.centralizer.{u, max u v} k (SetLike.coe.{max u v, max u v} (decl-023627.{u, v} k V n)))\n    (decl-018384.{u, v} k V n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-018384",
+        "decl-023627"
+      ],
+      "structural_type_hash": "2246861897",
+      "temporary_id": "decl-017864"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          (n : Nat) \u2192 Subalgebra.{u, max v u} k (Module.End.{u, max v u} k (decl-016473.{u, v} k V n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473"
+      ],
+      "structural_type_hash": "1723555780",
+      "temporary_id": "decl-018384"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] (n : Nat),\n  LE.le.{max u v} (decl-018384.{u, v} k V n)\n    (Subalgebra.centralizer.{u, max u v} k (SetLike.coe.{max u v, max u v} (decl-023627.{u, v} k V n)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-018384",
+        "decl-023627"
+      ],
+      "structural_type_hash": "3146134543",
+      "temporary_id": "decl-018386"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (N n : Nat) \u2192\n      MonoidHom.{u, u} (Matrix.GeneralLinearGroup.{0, u} (Fin N) k)\n        (Subtype.{u + 1} fun x =>\n          Membership.mem.{u, u}\n            (Subalgebra.centralizer.{u, u} k (SetLike.coe.{u, u} (decl-023627.{u, u} k (Fin N \u2192 k) n))) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627"
+      ],
+      "structural_type_hash": "1525302325",
+      "temporary_id": "decl-019810"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          (n : Nat) \u2192\n            Equiv.Perm.{1} (Fin n) \u2192\n              LinearEquiv.{u, u, max v u, max v u} (RingHom.id.{u} k) (decl-016473.{u, v} k V n)\n                (decl-016473.{u, v} k V n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473"
+      ],
+      "structural_type_hash": "3490827818",
+      "temporary_id": "decl-023613"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] (n : Nat)\n  (\u03c3 : Equiv.Perm.{1} (Fin n)) (f : Module.End.{u, v} k V),\n  Eq.{max (u + 1) (v + 1)}\n    (LinearMap.comp.{u, u, u, max u v, max u v, max u v}\n      (LinearEquiv.toLinearMap.{u, u, max u v, max u v} (decl-023613.{u, v} k V n \u03c3))\n      (PiTensorProduct.map.{0, u, v, v} fun x => f))\n    (LinearMap.comp.{u, u, u, max u v, max v u, max v u} (PiTensorProduct.map.{0, u, v, v} fun x => f)\n      (LinearEquiv.toLinearMap.{u, u, max u v, max u v} (decl-023613.{u, v} k V n \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023613"
+      ],
+      "structural_type_hash": "4220014978",
+      "temporary_id": "decl-023615"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          (n : Nat) \u2192\n            AlgHom.{u, u, max v u} k (MonoidAlgebra.{u, 0} k (Equiv.Perm.{1} (Fin n)))\n              (Module.End.{u, max v u} k (decl-016473.{u, v} k V n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473"
+      ],
+      "structural_type_hash": "3432573626",
+      "temporary_id": "decl-023618"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] (n : Nat),\n  Eq.{max (u + 1) (v + 1)} (AlgHom.range.{u, u, max u v} (decl-023618.{u, v} k V n))\n    (decl-023627.{u, v} k V n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023618",
+        "decl-023627"
+      ],
+      "structural_type_hash": "17558887",
+      "temporary_id": "decl-023626"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          (n : Nat) \u2192 Subalgebra.{u, max v u} k (Module.End.{u, max v u} k (decl-016473.{u, v} k V n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473"
+      ],
+      "structural_type_hash": "1723555780",
+      "temporary_id": "decl-023627"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          (n : Nat) \u2192\n            Ring.{max u v}\n              (Subtype.{(max u v) + 1} fun x =>\n                Membership.mem.{max u v, max u v} (decl-023627.{u, v} k V n) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627"
+      ],
+      "structural_type_hash": "519758275",
+      "temporary_id": "decl-023631"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] (n : Nat),\n  FaithfulSMul.{max u v, max v u}\n    (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (decl-023627.{u, v} k V n) x)\n    (decl-016473.{u, v} k V n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627"
+      ],
+      "structural_type_hash": "3187072858",
+      "temporary_id": "decl-023637"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] (n : Nat)\n  [CharZero.{u} k],\n  IsSemisimpleRing.{max u v}\n    (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (decl-023627.{u, v} k V n) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023627"
+      ],
+      "structural_type_hash": "763509530",
+      "temporary_id": "decl-023638"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] (n : Nat),\n  LE.le.{max u v} (decl-023627.{u, v} k V n)\n    (Subalgebra.centralizer.{u, max u v} k (SetLike.coe.{max u v, max u v} (decl-018384.{u, v} k V n)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-018384",
+        "decl-023627"
+      ],
+      "structural_type_hash": "2436461134",
+      "temporary_id": "decl-023639"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} V] \u2192\n        [inst_2 : Module.{u, v} k V] \u2192\n          (n : Nat) \u2192\n            MonoidHom.{0, max v u} (Equiv.Perm.{1} (Fin n))\n              (Module.End.{u, max v u} k (decl-016473.{u, v} k V n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473"
+      ],
+      "structural_type_hash": "303911257",
+      "temporary_id": "decl-023642"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat), Module.Finite.{u, max v u} k (decl-016473.{u, v} k V n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473"
+      ],
+      "structural_type_hash": "1337597850",
+      "temporary_id": "decl-024035"
+    }
+  ],
+  "module_temporary_id": "module-0465",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

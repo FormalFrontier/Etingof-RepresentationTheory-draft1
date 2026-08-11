@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0181",
+  "associations": [
+    {
+      "association_id": "association:b7e24c06ae65ba136b47",
+      "role": "supporting",
+      "rationale": "The displayed type supplies the subrepresentation type but does not expose the invariant-subspace characterization itself."
+    }
+  ]
+}

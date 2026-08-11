@@ -1,0 +1,182 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition} (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Membership.mem.{0, 0} (LinearMap.range.{0, 0, 0, 0} decl-023791)\n    (decl-019788 \u03c3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016224",
+        "decl-016261",
+        "decl-016262",
+        "decl-019788",
+        "decl-023791"
+      ],
+      "structural_type_hash": "2078963931",
+      "temporary_id": "decl-019795"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition} (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Membership.mem.{0, 0} (Submodule.span.{0, 0} Complex (Set.range.{0, 1} decl-022086))\n    (decl-019788 \u03c3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016206",
+        "decl-016261",
+        "decl-016262",
+        "decl-019788",
+        "decl-022086"
+      ],
+      "structural_type_hash": "956121195",
+      "temporary_id": "decl-019796"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition},\n  Eq.{1} (LinearMap.range.{0, 0, 0, 0} decl-023791)\n    (Submodule.span.{0, 0} Complex (Set.range.{0, 1} decl-022086))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016206",
+        "decl-016224",
+        "decl-016261",
+        "decl-016262",
+        "decl-022086",
+        "decl-023791"
+      ],
+      "structural_type_hash": "2716193542",
+      "temporary_id": "decl-022296"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition},\n  Eq.{1} (Submodule.span.{0, 0} Complex (Set.range.{0, 1} decl-023354)) Top.top.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016206",
+        "decl-016224",
+        "decl-023354"
+      ],
+      "structural_type_hash": "856044860",
+      "temporary_id": "decl-023267"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192\n  {la : n.Partition} \u2192\n    decl-016206 n la \u2192 Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n la) x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016206",
+        "decl-016224"
+      ],
+      "structural_type_hash": "1614109095",
+      "temporary_id": "decl-023354"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192\n  {la : n.Partition} \u2192\n    Module.Basis.{0, 0, 0} (decl-016206 n la) Complex\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n la) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016206",
+        "decl-016224"
+      ],
+      "structural_type_hash": "4183598754",
+      "temporary_id": "decl-023357"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition} (T : decl-016206 n la),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-023357 T) (decl-023354 T)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016206",
+        "decl-016224",
+        "decl-023354",
+        "decl-023357"
+      ],
+      "structural_type_hash": "568658557",
+      "temporary_id": "decl-023361"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition}, LinearIndependent.{0, 0, 0} Complex decl-023354",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016206",
+        "decl-016224",
+        "decl-023354"
+      ],
+      "structural_type_hash": "2326229370",
+      "temporary_id": "decl-023362"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192\n  {la : n.Partition} \u2192\n    LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n la) x) (decl-016262 n la)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016224",
+        "decl-016261",
+        "decl-016262"
+      ],
+      "structural_type_hash": "3451527328",
+      "temporary_id": "decl-023791"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition} (T : decl-016206 n la),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-023791 (decl-023354 T))\n    (decl-022086 T)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016206",
+        "decl-016224",
+        "decl-016261",
+        "decl-016262",
+        "decl-022086",
+        "decl-023354",
+        "decl-023791"
+      ],
+      "structural_type_hash": "781505324",
+      "temporary_id": "decl-023793"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition} (T : decl-016206 n la),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-023788 (Subtype.val.{1} (decl-023354 T)))\n    (decl-022086 T)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016206",
+        "decl-016224",
+        "decl-016261",
+        "decl-016262",
+        "decl-022086",
+        "decl-023354",
+        "decl-023788"
+      ],
+      "structural_type_hash": "1277497062",
+      "temporary_id": "decl-023803"
+    }
+  ],
+  "module_temporary_id": "module-0442",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

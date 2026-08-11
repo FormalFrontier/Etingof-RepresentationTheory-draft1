@@ -1,0 +1,37 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [inst_1 : IsAlgClosed.{u} k] (N : Nat) {\u03b9 : Type u_1}\n  (L : \u03b9 \u2192 FDRep.{u, u} k (Matrix.GeneralLinearGroup.{0, u} (Fin N) k))\n  (lam : \u03b9 \u2192 Subtype.{1} fun l => Antitone.{0, 0} l),\n  Function.Injective.{u_1 + 1, 1} lam \u2192\n    (\u2200 (i : \u03b9), Eq.{1} (decl-019511.{u} k N (L i)) (decl-023030 N (Subtype.val.{1} (lam i)))) \u2192\n      LinearIndependent.{u_1, 0, 0} Rat fun i => decl-019511.{u} k N (L i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019511",
+        "decl-023030"
+      ],
+      "structural_type_hash": "2535930442",
+      "temporary_id": "decl-019535"
+    }
+  ],
+  "module_temporary_id": "module-0435",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

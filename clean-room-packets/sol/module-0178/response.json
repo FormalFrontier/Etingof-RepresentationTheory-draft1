@@ -1,0 +1,250 @@
+{
+  "module_name": "Algebra.Matrix.ProductSemisimplicity",
+  "declarations": [
+    {
+      "temporary_id": "decl-020763",
+      "new_name": "matrixProduct_simpleModule_classification",
+      "docstring": "The standard column modules over a finite product of nonzero-size matrix algebras are simple, exhaust the finite-dimensional simple modules, and every module over the product is semisimple."
+    },
+    {
+      "temporary_id": "decl-025139",
+      "new_name": "MatrixProduct",
+      "docstring": "The type of a finite product of square matrix algebras with prescribed sizes."
+    },
+    {
+      "temporary_id": "decl-032714",
+      "new_name": "componentLinearMap",
+      "docstring": "The module-linear map from a product of matrix algebras to one matrix component."
+    },
+    {
+      "temporary_id": "decl-032716",
+      "new_name": "columnLinearMap",
+      "docstring": "The module-linear map extracting an indexed column vector from a selected matrix component."
+    },
+    {
+      "temporary_id": "decl-032804",
+      "new_name": "dualMap_injective_of_surjective",
+      "docstring": "The dual map of a surjective linear map between vector spaces is injective."
+    },
+    {
+      "temporary_id": "decl-032805",
+      "new_name": "dualPiLinearEquivPiDual",
+      "docstring": "The module-linear equivalence between the dual of a finite family of matrix-product elements and the corresponding family of duals."
+    },
+    {
+      "temporary_id": "decl-032811",
+      "new_name": "dualPiLinearEquiv",
+      "docstring": "The module-linear equivalence from the dual of a finite family of matrix-product elements to a finite family of matrix-product elements."
+    },
+    {
+      "temporary_id": "decl-032832",
+      "new_name": "exists_linearEquiv_directSum_standardModules",
+      "docstring": "Every finite-dimensional module over a product of nonzero-size matrix algebras is equivalent to a direct sum of finite multiplicities of the standard column modules."
+    },
+    {
+      "temporary_id": "decl-032833",
+      "new_name": "simpleModule_linearEquiv_standardModule",
+      "docstring": "Every finite-dimensional simple module over a product of nonzero-size matrix algebras is equivalent to one of its standard column modules."
+    },
+    {
+      "temporary_id": "decl-032863",
+      "new_name": "flattenedColumnMap",
+      "docstring": "The module-linear map that flattens the columns in a finite family of matrix-product elements into a family of standard column vectors."
+    },
+    {
+      "temporary_id": "decl-032864",
+      "new_name": "flattenedColumnMap_apply",
+      "docstring": "The flattened column map evaluates by unpairing its combined family-and-column index and reading the corresponding matrix entry."
+    },
+    {
+      "temporary_id": "decl-032865",
+      "new_name": "piMatrixProductLinearEquivDirectSum",
+      "docstring": "A module-linear equivalence from a finite family of matrix-product elements to the direct sum of their flattened standard-column families."
+    },
+    {
+      "temporary_id": "decl-032867",
+      "new_name": "traceDualLinearMap",
+      "docstring": "The module-linear map from a matrix product to its linear dual defined by the componentwise transpose-trace pairing."
+    },
+    {
+      "temporary_id": "decl-032871",
+      "new_name": "traceDualLinearMap_apply",
+      "docstring": "The trace-dual linear map evaluates as the sum of traces of the products of the transposed first components with the second components."
+    },
+    {
+      "temporary_id": "decl-032872",
+      "new_name": "traceDualLinearMap_bijective",
+      "docstring": "The transpose-trace map from a matrix product to its dual is bijective."
+    },
+    {
+      "temporary_id": "decl-032873",
+      "new_name": "traceDualLinearMap_injective",
+      "docstring": "The transpose-trace map from a matrix product to its dual is injective."
+    },
+    {
+      "temporary_id": "decl-032874",
+      "new_name": "traceDual",
+      "docstring": "The linear functional on a matrix product obtained from an element by the componentwise transpose-trace pairing."
+    },
+    {
+      "temporary_id": "decl-032877",
+      "new_name": "traceDual_apply",
+      "docstring": "The trace-dual functional evaluates as the sum of the componentwise traces of a transposed matrix times the argument matrix."
+    },
+    {
+      "temporary_id": "decl-032895",
+      "new_name": "standardModule_isScalarTower",
+      "docstring": "The base-field and matrix-product actions on a standard column module form a scalar tower."
+    },
+    {
+      "temporary_id": "decl-032899",
+      "new_name": "moduleDualModule",
+      "docstring": "The matrix-product module structure on the base-field dual of a module."
+    },
+    {
+      "temporary_id": "decl-032900",
+      "new_name": "moduleDual_isScalarTower",
+      "docstring": "The base-field action and matrix-product action on the dual module form a scalar tower."
+    },
+    {
+      "temporary_id": "decl-032918",
+      "new_name": "isSemisimpleModule_matrixProduct",
+      "docstring": "Every module over a finite product of matrix algebras is semisimple."
+    },
+    {
+      "temporary_id": "decl-032919",
+      "new_name": "standardModule_isSimpleModule",
+      "docstring": "Each standard column module over a product of nonzero-size matrix algebras is simple."
+    },
+    {
+      "temporary_id": "decl-032924",
+      "new_name": "algebraSmulLinearMap",
+      "docstring": "The base-field-linear endomorphism of a scalar-tower module given by the action of an algebra element."
+    },
+    {
+      "temporary_id": "decl-032927",
+      "new_name": "algebraSmulLinearMap_apply",
+      "docstring": "The linear endomorphism associated to an algebra element evaluates as scalar multiplication by that element."
+    },
+    {
+      "temporary_id": "decl-032928",
+      "new_name": "matrixProductLinearEquivDual",
+      "docstring": "A module-linear equivalence between a matrix product and its base-field dual."
+    },
+    {
+      "temporary_id": "decl-032929",
+      "new_name": "transposeRingEquivOpposite",
+      "docstring": "The ring equivalence from a product of matrix algebras to its opposite ring given componentwise by transpose."
+    },
+    {
+      "temporary_id": "decl-032930",
+      "new_name": "transposeRingEquivOpposite_apply",
+      "docstring": "After removing the opposite-ring wrapper, the transpose equivalence acts componentwise by matrix transpose."
+    },
+    {
+      "temporary_id": "decl-032931",
+      "new_name": "transposeRingEquivOpposite_smul",
+      "docstring": "The componentwise transpose equivalence commutes with scalar multiplication after removing the opposite-ring wrapper."
+    },
+    {
+      "temporary_id": "decl-032932",
+      "new_name": "transposeRingEquivOpposite_apply_apply",
+      "docstring": "Applying the componentwise transpose-to-opposite equivalence twice and removing both wrappers returns the original element."
+    },
+    {
+      "temporary_id": "decl-032933",
+      "new_name": "matrixAlgEquivOpposite",
+      "docstring": "An algebra equivalence from a square matrix algebra to its opposite algebra."
+    },
+    {
+      "temporary_id": "decl-032957",
+      "new_name": "piOppositeRingEquiv",
+      "docstring": "The ring equivalence between a family of opposite semirings and the opposite of the corresponding product semiring."
+    },
+    {
+      "temporary_id": "decl-032975",
+      "new_name": "matrixProductLinearEquivDirectSumColumns",
+      "docstring": "A module-linear equivalence from a product of matrix algebras to the direct sum of the column spaces of its components."
+    },
+    {
+      "temporary_id": "decl-032980",
+      "new_name": "matrixProductLinearEquivDirectSumColumns_apply",
+      "docstring": "The direct-sum column equivalence sends a matrix-product element to its component matrices with the row and column indices transposed in the column view."
+    },
+    {
+      "temporary_id": "decl-033007",
+      "new_name": "dualFreeEmbedding",
+      "docstring": "A module-linear map embedding a finite-dimensional module into the dual of a finite free module over the matrix-product algebra."
+    },
+    {
+      "temporary_id": "decl-033012",
+      "new_name": "dualFreeEmbedding_injective",
+      "docstring": "The map from a finite-dimensional module into the dual of the associated finite free module is injective."
+    },
+    {
+      "temporary_id": "decl-033013",
+      "new_name": "basisLinearCombination",
+      "docstring": "The module-linear map sending a family of matrix-product coefficients to the corresponding linear combination of a basis of the dual module."
+    },
+    {
+      "temporary_id": "decl-033017",
+      "new_name": "basisLinearCombination_apply",
+      "docstring": "The basis linear-combination map evaluates as the finite sum of each coefficient acting on its corresponding basis vector."
+    },
+    {
+      "temporary_id": "decl-033018",
+      "new_name": "basisLinearCombination_surjective",
+      "docstring": "The module-linear map forming combinations of a basis of the dual module is surjective."
+    },
+    {
+      "temporary_id": "decl-033024",
+      "new_name": "moduleDualMap",
+      "docstring": "The module-linear dual map associated with a module-linear map between matrix-product modules."
+    },
+    {
+      "temporary_id": "decl-033029",
+      "new_name": "moduleDualMap_injective_of_surjective",
+      "docstring": "The module-linear dual map of a surjective module homomorphism is injective."
+    },
+    {
+      "temporary_id": "decl-033030",
+      "new_name": "moduleDualOfRingEquivOpposite",
+      "docstring": "A module structure on a base-field dual induced by a ring equivalence from the acting algebra to its opposite."
+    },
+    {
+      "temporary_id": "decl-033038",
+      "new_name": "moduleDualOfRingEquivOpposite_smul_apply",
+      "docstring": "The induced action on a dual functional evaluates by applying the functional after the opposite-ring image acts on its argument."
+    },
+    {
+      "temporary_id": "decl-033039",
+      "new_name": "moduleDualOfRingEquivOpposite_isScalarTower",
+      "docstring": "A scalar-compatible equivalence to the opposite ring makes the base-field and induced dual actions into a scalar tower."
+    },
+    {
+      "temporary_id": "decl-033040",
+      "new_name": "toDoubleDualLinearEquiv",
+      "docstring": "The module-linear equivalence from a finite-dimensional matrix-product module to its base-field double dual."
+    },
+    {
+      "temporary_id": "decl-033047",
+      "new_name": "standardModule",
+      "docstring": "The standard module structure of a matrix-product algebra on the column space of a selected component."
+    },
+    {
+      "temporary_id": "decl-033048",
+      "new_name": "decompositionStandardModule",
+      "docstring": "The standard column-module structure used in direct-sum decompositions over a matrix-product algebra."
+    },
+    {
+      "temporary_id": "decl-033049",
+      "new_name": "standardModule_equiv_imp_eq",
+      "docstring": "Equivalent standard column modules of nonzero-size components have equal component indices."
+    },
+    {
+      "temporary_id": "decl-033050",
+      "new_name": "standardModule_smul",
+      "docstring": "The matrix-product action on a standard column vector is the action of the selected matrix component."
+    }
+  ]
+}

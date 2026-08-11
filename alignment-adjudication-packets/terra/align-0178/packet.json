@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2b2ff2708c0787c86f89",
+      "declaration": "Etingof.density_theorem_part1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/134/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u_2} A]\n  [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V]\n  [inst_6 : Module.{u_2, u_3} A V] [inst_7 : IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V]\n  [IsSimpleModule.{u_2, u_3} A V],\n  Function.Surjective.{u_2 + 1, u_3 + 1}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} (Algebra.lsmul.{u_1, u_2, u_1, u_3} k k V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_2_2"
+    },
+    {
+      "association_id": "association:b4664d206c8a200250fc",
+      "declaration": "Etingof.density_theorem_part2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/134/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (\u03b9 : Type u_3) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u_2} A]\n  [inst_3 : Algebra.{u_1, u_2} k A] [Finite.{u_3 + 1} \u03b9] (V : \u03b9 \u2192 Type u_4)\n  [inst_5 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (V i)] [inst_6 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (V i)]\n  [inst_7 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (V i)] [inst_8 : \u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (V i)]\n  [\u2200 (i : \u03b9), FiniteDimensional.{u_1, u_4} k (V i)] [\u2200 (i : \u03b9), IsSimpleModule.{u_2, u_4} A (V i)],\n  (\u2200 (i j : \u03b9),\n      Ne.{u_3 + 1} i j \u2192 IsEmpty.{u_4 + 1} (LinearEquiv.{u_2, u_2, u_4, u_4} (RingHom.id.{u_2} A) (V i) (V j))) \u2192\n    Function.Surjective.{u_2 + 1, max (u_3 + 1) (u_4 + 1)} fun a i =>\n      DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} (Algebra.lsmul.{u_1, u_2, u_1, u_4} k k (V i)) a",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_2_2"
+    },
+    {
+      "association_id": "association:34e91e1f94e6aa0d6e3a",
+      "declaration": "Etingof.irreducible_interpolation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/134/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u_2} A]\n  [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V]\n  [inst_6 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V]\n  [IsSimpleModule.{u_2, u_3} A V] {n : Nat} (v : Fin n \u2192 V),\n  LinearIndependent.{0, u_1, u_3} k v \u2192\n    \u2200 (w : Fin n \u2192 V), Exists.{u_2 + 1} fun a => \u2200 (i : Fin n), Eq.{u_3 + 1} (HSMul.hSMul.{u_2, u_3, u_3} a (v i)) (w i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Corollary3_2_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Introduction_to_3.2",
+  "packet_id": "align-0178",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0178"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:368f7ee067d3ae97aac4",
+  "source_text": "Throughout Section 3.2, A is an algebra over an algebraically closed field k."
+}

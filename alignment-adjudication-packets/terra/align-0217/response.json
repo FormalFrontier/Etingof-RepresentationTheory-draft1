@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0217",
+  "associations": [
+    {
+      "association_id": "association:7067103d78e6a10c81f4",
+      "role": "primary",
+      "rationale": "It directly produces a unital algebra homomorphism from A to the endomorphisms of the representation space."
+    }
+  ]
+}

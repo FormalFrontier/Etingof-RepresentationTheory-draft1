@@ -1,0 +1,203 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Eq.{1} (MonoidHom.ker.{0, 0} decl-002568) decl-002631",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002558",
+        "decl-002568",
+        "decl-002631"
+      ],
+      "structural_type_hash": "2096710317",
+      "temporary_id": "decl-002573"
+    },
+    {
+      "formal_type": "Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} decl-002568)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002558",
+        "decl-002568"
+      ],
+      "structural_type_hash": "3500511689",
+      "temporary_id": "decl-002574"
+    },
+    {
+      "formal_type": "Fin 3 \u2192 decl-002558",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002558"
+      ],
+      "structural_type_hash": "655825092",
+      "temporary_id": "decl-002630"
+    },
+    {
+      "formal_type": "Subgroup.{0} decl-002558",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002558"
+      ],
+      "structural_type_hash": "1374214885",
+      "temporary_id": "decl-002631"
+    },
+    {
+      "formal_type": "Subgroup.Normal.{0} decl-002631",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002558",
+        "decl-002631"
+      ],
+      "structural_type_hash": "972495193",
+      "temporary_id": "decl-002635"
+    },
+    {
+      "formal_type": "MulEquiv.{0, 0} (HasQuotient.Quotient.{0, 0} decl-002558 decl-002631)\n  (Equiv.Perm.{1} (Fin 3))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002558",
+        "decl-002631",
+        "decl-002635"
+      ],
+      "structural_type_hash": "965542768",
+      "temporary_id": "decl-002660"
+    },
+    {
+      "formal_type": "FDRep.{0, 0} Complex decl-002558",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002558"
+      ],
+      "structural_type_hash": "3981171146",
+      "temporary_id": "decl-002671"
+    },
+    {
+      "formal_type": "\u2200 (g : decl-002558),\n  Eq.{1} (FDRep.character.{0, 0} decl-002671 g)\n    (FDRep.character.{0, 0} decl-002532 (DFunLike.coe.{1, 1, 1} decl-002568 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002497",
+        "decl-002532",
+        "decl-002558",
+        "decl-002568",
+        "decl-002671"
+      ],
+      "structural_type_hash": "352023300",
+      "temporary_id": "decl-002672"
+    },
+    {
+      "formal_type": "Eq.{1} (FDRep.character.{0, 0} decl-002671)\n  (FDRep.character.{0, 0} decl-002731)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002558",
+        "decl-002671",
+        "decl-002731"
+      ],
+      "structural_type_hash": "185601487",
+      "temporary_id": "decl-002673"
+    },
+    {
+      "formal_type": "Nonempty.{1} (CategoryTheory.Iso.{0, 1} decl-002671 decl-002731)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002558",
+        "decl-002671",
+        "decl-002731"
+      ],
+      "structural_type_hash": "2143532942",
+      "temporary_id": "decl-002674"
+    },
+    {
+      "formal_type": "\u2200 (g : decl-002558),\n  Eq.{1} (decl-002506 (DFunLike.coe.{1, 1, 1} decl-002568 g))\n    (decl-002590 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002506",
+        "decl-002558",
+        "decl-002568",
+        "decl-002590"
+      ],
+      "structural_type_hash": "1135660030",
+      "temporary_id": "decl-002675"
+    },
+    {
+      "formal_type": "\u2200 (g : decl-003088) (i : Fin 3),\n  Eq.{1} (decl-003107 g i) (decl-002565 g i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002565",
+        "decl-003088",
+        "decl-003107"
+      ],
+      "structural_type_hash": "2617970266",
+      "temporary_id": "decl-003108"
+    },
+    {
+      "formal_type": "\u2200 (g : decl-003088), Eq.{1} (decl-003111 g) (decl-002590 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002590",
+        "decl-003088",
+        "decl-003097",
+        "decl-003111"
+      ],
+      "structural_type_hash": "2937108508",
+      "temporary_id": "decl-003118"
+    },
+    {
+      "formal_type": "Eq.{1} (FDRep.character.{0, 0} decl-003145)\n  (FDRep.character.{0, 0} decl-002671)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002558",
+        "decl-002671",
+        "decl-003088",
+        "decl-003145"
+      ],
+      "structural_type_hash": "1215384621",
+      "temporary_id": "decl-003149"
+    },
+    {
+      "formal_type": "Nonempty.{1} (CategoryTheory.Iso.{0, 1} decl-003145 decl-002671)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002671",
+        "decl-003088",
+        "decl-003145"
+      ],
+      "structural_type_hash": "1925963655",
+      "temporary_id": "decl-003150"
+    }
+  ],
+  "module_temporary_id": "module-0206",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

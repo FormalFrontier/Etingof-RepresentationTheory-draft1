@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Example7.7.2",
+    "kind": "example",
+    "title": "Module categories as abelian categories",
+    "node_id": "chapter-07/section-7-7",
+    "order": 496,
+    "slug": "example7-7-2",
+    "span": {
+      "start": {
+        "page": "191",
+        "line": 1
+      },
+      "end": {
+        "page": "191",
+        "line": 2
+      }
+    },
+    "source_sha256": "444d458b68b3f9de35ff689cc8a7c487b04909be1941e30b42d8b99b0f3f2fe5",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example772",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Theorem_Dynkin_classification",
+    "kind": "theorem",
+    "title": "Theorem: Classification of Dynkin diagrams",
+    "node_id": "chapter-06/section-6-1",
+    "order": 407,
+    "slug": "theorem-dynkin-classification",
+    "span": {
+      "start": {
+        "page": "150",
+        "line": 7
+      },
+      "end": {
+        "page": "150",
+        "line": 27
+      }
+    },
+    "source_sha256": "389898e5cb0151b0cd566e24bb11b6c1b89dcba1ab8344eb34df900510cc6677",
+    "features": {
+      "line_count": 21,
+      "crosses_page": false,
+      "display_math_delimiters": 14,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.TheoremDynkinClassification",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

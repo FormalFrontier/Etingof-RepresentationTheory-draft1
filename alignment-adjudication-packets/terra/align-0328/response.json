@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0328",
+  "associations": [
+    {
+      "association_id": "association:3db81d427551fd7f58d0",
+      "rationale": "The formal type is directly an equivalence between the two displayed categories.",
+      "role": "primary"
+    }
+  ]
+}

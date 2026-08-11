@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Exercise4.2.3",
+    "kind": "exercise",
+    "title": "Fewer irreducible representations when |G| = 0 in k",
+    "node_id": "chapter-04/section-4-2",
+    "order": 192,
+    "slug": "exercise4-2-3",
+    "span": {
+      "start": {
+        "page": "64",
+        "line": 11
+      },
+      "end": {
+        "page": "64",
+        "line": 14
+      }
+    },
+    "source_sha256": "7ffa1fa18ea48256660cc16146a9726f32755751938c250e81e8c2fff4dd9c73",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Exercise423",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

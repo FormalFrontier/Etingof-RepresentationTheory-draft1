@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_footnote_5.15",
+    "kind": "discussion",
+    "title": "Footnote on lexicographic ordering of sigma(rho)",
+    "node_id": "chapter-05/section-5-15",
+    "order": 335,
+    "slug": "discussion-footnote-5-15",
+    "span": {
+      "start": {
+        "page": "119",
+        "line": 27
+      },
+      "end": {
+        "page": "119",
+        "line": 29
+      }
+    },
+    "source_sha256": "ae751c68f52d222891ad2153a3dd659faccd0b72a0a2685fa92896bba375cc32",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionFootnote515",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

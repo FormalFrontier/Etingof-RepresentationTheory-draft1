@@ -1,0 +1,13 @@
+import VersoManual
+
+open Verso.Genre Manual
+
+namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem241
+
+#doc (Manual) "Existence of maximal ideals" =>
+# Existence of maximal ideals
+%%%
+tag := "Chapter2/Problem2.4.1"
+number := false
+%%%
+**Problem 2.4.1.** A **maximal** ideal in a ring $`A` is an ideal $`I \neq A` such that any strictly larger ideal coincides with $`A`. (This definition is made for left, right, or two-sided ideals.) Show that any unital ring has a maximal left, right, and two-sided ideal. (Hint: Use Zorn's lemma.)

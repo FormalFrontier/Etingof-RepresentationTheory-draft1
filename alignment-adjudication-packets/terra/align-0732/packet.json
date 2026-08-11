@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5da5bce0b1ba1cfe1882",
+      "declaration": "Etingof.psi",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/203/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192 [Fintype.{u_1} G] \u2192 FDRep.{0, u_1} Complex G \u2192 MonoidAlgebra.{0, u_1} Complex G",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_5_2"
+    },
+    {
+      "association_id": "association:7619e4bc17db8dc0684a",
+      "declaration": "Etingof.psi_acts_other",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/203/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (V W : FDRep.{0, u_1} Complex G)\n  [CategoryTheory.Simple.{0, max 1 u_1} V] [CategoryTheory.Simple.{0, max 1 u_1} W],\n  IsEmpty.{1} (CategoryTheory.Iso.{0, max 1 u_1} W V) \u2192\n    Eq.{1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Representation.asAlgebraHom.{0, u_1, 0} (FDRep.\u03c1.{0, u_1} W))\n        (Etingof.psi.{u_1} V))\n      0",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_5_2"
+    },
+    {
+      "association_id": "association:6ec27331d515b9fd2e2d",
+      "declaration": "Etingof.psi_acts_self",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/203/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (V : FDRep.{0, u_1} Complex G)\n  [CategoryTheory.Simple.{0, max 1 u_1} V],\n  Eq.{1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Representation.asAlgebraHom.{0, u_1, 0} (FDRep.\u03c1.{0, u_1} V))\n      (Etingof.psi.{u_1} V))\n    LinearMap.id.{0, 0}",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_5_2"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.5.2",
+  "packet_id": "align-0732",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0732"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.5.2:part_i",
+  "source_text": "Part (i): the displayed central element acts as identity on Vi and zero on every other irreducible Vj."
+}

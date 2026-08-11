@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0312",
+  "associations": [
+    {
+      "association_id": "association:1648fe65c7322ec51a48",
+      "rationale": "The formal type supplies partition-labelled simple, pairwise nonisomorphic modules and compatible actions, but it does not identify the multiplicity factors as literal Hom spaces or explicitly state zero-padding for absent partitions.",
+      "role": "supporting"
+    }
+  ]
+}

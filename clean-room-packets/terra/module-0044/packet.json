@@ -1,0 +1,58 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 Module.{u_1, u_1} A A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3226751441",
+      "temporary_id": "decl-021454"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 Module.{u_1, u_1} (MulOpposite.{u_1} A) A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4227632681",
+      "temporary_id": "decl-022802"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] (a b : A),\n  Eq.{u_1 + 1} (HSMul.hSMul.{u_1, u_1, u_1} (MulOpposite.op.{u_1} a) b) (HMul.hMul.{u_1, u_1, u_1} b a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3912875779",
+      "temporary_id": "decl-022803"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [inst : Ring.{u_1} A] \u2192 Module.{u_1, u_2} A PUnit.{u_2 + 1}",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1747205871",
+      "temporary_id": "decl-024709"
+    }
+  ],
+  "module_temporary_id": "module-0044",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

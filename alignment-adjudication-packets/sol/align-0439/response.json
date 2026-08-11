@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0439",
+  "associations": [
+    {
+      "association_id": "association:76fcce2ebc870b3d1359",
+      "role": "primary",
+      "rationale": "The theorem directly states that Specht modules associated with distinct partitions admit no linear equivalence over the symmetric-group algebra."
+    },
+    {
+      "association_id": "association:bbf814a72a868dd4e888",
+      "role": "primary",
+      "rationale": "The theorem directly states that every Specht module is simple over the symmetric-group algebra."
+    },
+    {
+      "association_id": "association:e735ac19828c1036ce9f",
+      "role": "supporting",
+      "rationale": "The nonzero scalar-square identity for the row-column symmetrizer is an input to the irreducibility argument, not the irreducibility or nonisomorphism conclusion itself."
+    },
+    {
+      "association_id": "association:bf064db3fbd1346b54e1",
+      "role": "supporting",
+      "rationale": "Simplicity of the Young-projector left ideal supports the Specht-module argument but does not itself state the source claim about the Specht modules."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:02d37210f6438466e85b",
+      "declaration": "Etingof.GL2.card_principalIndex",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/384/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat),\n  Ne.{1} n 0 \u2192\n    Eq.{1} (Nat.card.{0} (Etingof.GL2.PrincipalIndex p n))\n      (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) 1)\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) 1)) 2))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
+    },
+    {
+      "association_id": "association:d6ad3bbbd1bf8917934f",
+      "declaration": "Etingof.GL2.exists_principal_family",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/384/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat),\n  Ne.{1} n 0 \u2192\n    Exists.{2} fun \u03b9 =>\n      Exists.{2} fun F =>\n        And (\u2200 (i : \u03b9), CategoryTheory.Simple.{0, 1} (F i))\n          (And (\u2200 (i j : \u03b9), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (F i) (F j)) \u2192 Eq.{1} i j)\n            (Eq.{1} (Nat.card.{0} \u03b9)\n              (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) 1)\n                (HDiv.hDiv.{0, 0, 0}\n                  (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) 1))\n                  2))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
+    },
+    {
+      "association_id": "association:c7479cd0d7c62c100c94",
+      "declaration": "Etingof.GL2.principalFamily_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/384/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat),\n  Ne.{1} n 0 \u2192\n    \u2200 (i j : Etingof.GL2.PrincipalIndex p n),\n      Nonempty.{1} (CategoryTheory.Iso.{0, 1} (Etingof.GL2.principalFamily p n i) (Etingof.GL2.principalFamily p n j)) \u2192\n        Eq.{1} i j",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
+    },
+    {
+      "association_id": "association:af0aef848f8cdbbe5dc4",
+      "declaration": "Etingof.GL2.principalFamily_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/384/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat),\n  Ne.{1} n 0 \u2192 \u2200 (i : Etingof.GL2.PrincipalIndex p n), CategoryTheory.Simple.{0, 1} (Etingof.GL2.principalFamily p n i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.25.2",
+  "packet_id": "align-0215",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0215"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4134e9242efc81ccddca",
+  "source_text": "The one-dimensional and principal-series representations form a simple pairwise-nonisomorphic family of size (q\u22121)+q(q\u22121)/2."
+}

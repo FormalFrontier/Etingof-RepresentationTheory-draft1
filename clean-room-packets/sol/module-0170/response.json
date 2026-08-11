@@ -1,0 +1,205 @@
+{
+  "module_name": "Algebra.WeylAlgebra.PolynomialBimodule",
+  "declarations": [
+    {
+      "temporary_id": "decl-024751",
+      "new_name": "PolynomialCarrier",
+      "docstring": "The polynomial carrier for two commuting actions of a Weyl-type complex algebra."
+    },
+    {
+      "temporary_id": "decl-024752",
+      "new_name": "left_right_distinguishedElement_actions_one",
+      "docstring": "On the unit polynomial, the two actions exchange the values of two distinguished algebra elements."
+    },
+    {
+      "temporary_id": "decl-024753",
+      "new_name": "normalFormLinearMap",
+      "docstring": "The complex-linear polynomial normal-form map from the Weyl-type algebra."
+    },
+    {
+      "temporary_id": "decl-024756",
+      "new_name": "normalFormLinearMap_indexedElement",
+      "docstring": "The normal-form map sends the algebra element indexed by two natural numbers to the corresponding product of powers of the first two polynomial variables."
+    },
+    {
+      "temporary_id": "decl-024757",
+      "new_name": "leftPolynomialRepresentation",
+      "docstring": "The left algebra action on the polynomial carrier by complex-linear endomorphisms."
+    },
+    {
+      "temporary_id": "decl-024759",
+      "new_name": "left_right_polynomialRepresentations_commute",
+      "docstring": "Every endomorphism from the left polynomial representation commutes with every endomorphism from the right representation."
+    },
+    {
+      "temporary_id": "decl-024760",
+      "new_name": "leftPolynomialRepresentation_firstDistinguishedElement",
+      "docstring": "The left polynomial representation sends the first distinguished algebra element to the first left operator."
+    },
+    {
+      "temporary_id": "decl-024761",
+      "new_name": "leftPolynomialRepresentation_secondDistinguishedElement",
+      "docstring": "The left polynomial representation sends the second distinguished algebra element to the second left operator."
+    },
+    {
+      "temporary_id": "decl-024762",
+      "new_name": "polynomialAlgebraModule_aux1",
+      "docstring": "An auxiliary module structure over the Weyl-type algebra on the polynomial carrier."
+    },
+    {
+      "temporary_id": "decl-024763",
+      "new_name": "leftFirstOperator",
+      "docstring": "The first complex-linear endomorphism in the left action on the polynomial carrier."
+    },
+    {
+      "temporary_id": "decl-024766",
+      "new_name": "leftFirstOperator_commute_rightFirstOperator",
+      "docstring": "The first left operator commutes with the first right operator."
+    },
+    {
+      "temporary_id": "decl-024767",
+      "new_name": "leftFirstOperator_commute_rightSecondOperator",
+      "docstring": "The first left operator commutes with the second right operator."
+    },
+    {
+      "temporary_id": "decl-024768",
+      "new_name": "leftSecondOperator",
+      "docstring": "The second complex-linear endomorphism in the left action on the polynomial carrier."
+    },
+    {
+      "temporary_id": "decl-024770",
+      "new_name": "leftSecondOperator_commute_rightFirstOperator",
+      "docstring": "The second left operator commutes with the first right operator."
+    },
+    {
+      "temporary_id": "decl-024771",
+      "new_name": "leftSecondOperator_commute_rightSecondOperator",
+      "docstring": "The second left operator commutes with the second right operator."
+    },
+    {
+      "temporary_id": "decl-024772",
+      "new_name": "leftSecondOperator_mul_leftFirstOperator",
+      "docstring": "The product of the second and first left operators equals the reverse product plus the identity."
+    },
+    {
+      "temporary_id": "decl-024774",
+      "new_name": "polynomialAlgebraModule_aux2",
+      "docstring": "A second auxiliary module structure over the Weyl-type algebra on the polynomial carrier."
+    },
+    {
+      "temporary_id": "decl-024775",
+      "new_name": "endomorphismPair_aux1",
+      "docstring": "An auxiliary pair of complex-linear endomorphisms of the polynomial carrier."
+    },
+    {
+      "temporary_id": "decl-024779",
+      "new_name": "submodule_not_isSimpleModule_of_no_mul_eq_one",
+      "docstring": "If a nonzero element of a domain cannot be multiplied on the left to obtain one, no submodule of the regular module is simple."
+    },
+    {
+      "temporary_id": "decl-024780",
+      "new_name": "endomorphismPair_aux2",
+      "docstring": "A second auxiliary pair of complex-linear endomorphisms of the polynomial carrier."
+    },
+    {
+      "temporary_id": "decl-024782",
+      "new_name": "not_isField_tensorProduct_ratFunc_self",
+      "docstring": "The tensor product over the complex numbers of the rational-function field with itself is not a field."
+    },
+    {
+      "temporary_id": "decl-024783",
+      "new_name": "normalFormLinearEquiv",
+      "docstring": "A complex-linear equivalence between the Weyl-type algebra and its polynomial normal-form carrier."
+    },
+    {
+      "temporary_id": "decl-024785",
+      "new_name": "normalFormLinearEquiv_toLinearMap",
+      "docstring": "The linear map underlying the normal-form equivalence is the polynomial normal-form map."
+    },
+    {
+      "temporary_id": "decl-024786",
+      "new_name": "normalFormLinearEquiv_indexedElement",
+      "docstring": "The normal-form equivalence sends the algebra element indexed by two natural numbers to the corresponding product of polynomial-variable powers."
+    },
+    {
+      "temporary_id": "decl-024787",
+      "new_name": "regularLinearEquivPolynomialNormalForm",
+      "docstring": "A module-linear equivalence from the regular module to the polynomial normal-form module."
+    },
+    {
+      "temporary_id": "decl-024789",
+      "new_name": "regularLinearEquivPolynomialNormalForm_apply",
+      "docstring": "The regular-module equivalence sends an algebra element to its left action on the unit polynomial."
+    },
+    {
+      "temporary_id": "decl-024790",
+      "new_name": "regularSubmodule_not_isSimpleModule",
+      "docstring": "No submodule of the regular module of the Weyl-type complex algebra is simple."
+    },
+    {
+      "temporary_id": "decl-024791",
+      "new_name": "rightPolynomialRepresentation",
+      "docstring": "The right algebra action on the polynomial carrier by complex-linear endomorphisms."
+    },
+    {
+      "temporary_id": "decl-024793",
+      "new_name": "rightPolynomialRepresentation_firstDistinguishedElement",
+      "docstring": "The right polynomial representation sends the first distinguished algebra element to the first right operator."
+    },
+    {
+      "temporary_id": "decl-024794",
+      "new_name": "rightPolynomialRepresentation_secondDistinguishedElement",
+      "docstring": "The right polynomial representation sends the second distinguished algebra element to the second right operator."
+    },
+    {
+      "temporary_id": "decl-024795",
+      "new_name": "rightFirstOperator",
+      "docstring": "The first complex-linear endomorphism in the right action on the polynomial carrier."
+    },
+    {
+      "temporary_id": "decl-024797",
+      "new_name": "rightSecondOperator",
+      "docstring": "The second complex-linear endomorphism in the right action on the polynomial carrier."
+    },
+    {
+      "temporary_id": "decl-024799",
+      "new_name": "rightSecondOperator_mul_rightFirstOperator",
+      "docstring": "The product of the second and first right operators equals the reverse product plus the identity."
+    },
+    {
+      "temporary_id": "decl-024801",
+      "new_name": "polynomialTensorProductModule",
+      "docstring": "The module structure on the polynomial carrier over the tensor product of the two acting algebras."
+    },
+    {
+      "temporary_id": "decl-024802",
+      "new_name": "polynomialTensorProductModule_isSimpleModule",
+      "docstring": "The polynomial carrier is simple as a module over the tensor product algebra."
+    },
+    {
+      "temporary_id": "decl-024803",
+      "new_name": "not_equivariant_tensorProductFactorization",
+      "docstring": "The polynomial tensor-product-algebra module cannot be obtained from the stated equivariant tensor product of two modules when the first is simple and the second is nontrivial."
+    },
+    {
+      "temporary_id": "decl-024804",
+      "new_name": "tensorProductPolynomialRepresentation",
+      "docstring": "The tensor-product algebra representation on the polynomial carrier."
+    },
+    {
+      "temporary_id": "decl-024809",
+      "new_name": "tensorProductPolynomialRepresentation_not_factor_finiteDimensional",
+      "docstring": "The tensor-product polynomial representation does not factor through any finite-dimensional complex algebra."
+    },
+    {
+      "temporary_id": "decl-024810",
+      "new_name": "tensorProductPolynomialRepresentation_tmul",
+      "docstring": "On a pure tensor, the tensor-product representation is the product of the corresponding left and right actions."
+    },
+    {
+      "temporary_id": "decl-024811",
+      "new_name": "mul_secondDistinguishedElement_ne_one",
+      "docstring": "No element of the Weyl-type complex algebra multiplied by its second distinguished algebra element equals one."
+    }
+  ]
+}

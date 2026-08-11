@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Introduction_4.8",
+    "kind": "introduction",
+    "title": "Section 4.8: Character tables \u2014 definition and examples of S_3, A_4",
+    "node_id": "chapter-04/section-4-8",
+    "order": 218,
+    "slug": "introduction-4-8",
+    "span": {
+      "start": {
+        "page": "73",
+        "line": 25
+      },
+      "end": {
+        "page": "74",
+        "line": 27
+      }
+    },
+    "source_sha256": "4b33e3110ad810d76589faf0630272bba6533949d9835a8930eeb6595d42685d",
+    "features": {
+      "line_count": 32,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 13,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Introduction48",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

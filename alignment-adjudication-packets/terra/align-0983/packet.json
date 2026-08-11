@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:31d19e7198eb094a6708",
+      "declaration": "Etingof.rootLe_isPartialOrder",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/337/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat), IsPartialOrder.{1} n.Partition Nat.Partition.RootLe",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_15_5"
+    },
+    {
+      "association_id": "association:d2b0ddfedd17b56243b5",
+      "declaration": "Nat.Partition.rootLe_iff_dominates",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/337/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (la mu : n.Partition), Iff (la.RootLe mu) (Etingof.Nat.Partition.Dominates mu la)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_15_5"
+    }
+  ],
+  "canonical_reference": "Chapter5/Remark5.15.5",
+  "packet_id": "align-0983",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0983"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ba6fcf1deb62a3c7d154",
+  "source_text": "The positive-root relation is a partial order and is equivalent to dominance for partitions."
+}

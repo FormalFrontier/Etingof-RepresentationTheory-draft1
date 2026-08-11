@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cda4274e87b71a88834a",
+      "declaration": "Etingof.Filtration.chain",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/145/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{A : Type u_1} \u2192\n  {V : Type u_2} \u2192\n    [inst : Ring.{u_1} A] \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} A V] \u2192\n          Etingof.Filtration.{u_1, u_2} A V \u2192\n            RelSeries.{u_2} (setOf.{u_2} fun p => LT.lt.{u_2} (Prod.fst.{u_2, u_2} p) (Prod.snd.{u_2, u_2} p))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Definition3_4_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Definition3.4.1",
+  "packet_id": "align-1038",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1038"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c8e19421b67ff0b48cea",
+  "source_text": "A filtration is a finite sequence indexed from 0 through n."
+}

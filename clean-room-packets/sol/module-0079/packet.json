@@ -1,0 +1,689 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 Prod.{0, 0} Nat Nat \u2192 FreeLieAlgebra.{u_1, 0} k (Fin 2) \u2192 Prop",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2912561825",
+      "temporary_id": "decl-007332"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (n i : Nat),\n  Membership.mem.{u_1, u_1} (decl-007629.{u_1} k n (Prod.mk.{0, 0} 1 i))\n    (decl-007465.{u_1} k n i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007465",
+        "decl-007628",
+        "decl-007629",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "703516892",
+      "temporary_id": "decl-007467"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    Prod.{0, 0} Nat Nat \u2192 LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k) (decl-007564.{u_1} k) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007564"
+      ],
+      "structural_type_hash": "1301069634",
+      "temporary_id": "decl-007518"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (p q : Prod.{0, 0} Nat Nat),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007518.{u_1} k p)\n      (decl-007565.{u_1} k q))\n    (ite.{u_1 + 1} (Eq.{1} q p) 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007518",
+        "decl-007564",
+        "decl-007565"
+      ],
+      "structural_type_hash": "2910269598",
+      "temporary_id": "decl-007522"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [CommRing.{u_1} k] \u2192 Type u_1",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2658704163",
+      "temporary_id": "decl-007564"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 Prod.{0, 0} Nat Nat \u2192 decl-007564.{u_1} k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007564"
+      ],
+      "structural_type_hash": "1874534901",
+      "temporary_id": "decl-007565"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (p q : Prod.{0, 0} Nat Nat),\n  Eq.{u_1 + 1}\n    (HMul.hMul.{u_1, u_1, u_1} (decl-007565.{u_1} k p) (decl-007565.{u_1} k q))\n    (decl-007565.{u_1} k (HAdd.hAdd.{0, 0, 0} p q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007564",
+        "decl-007565"
+      ],
+      "structural_type_hash": "3129047420",
+      "temporary_id": "decl-007567"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (u : FreeLieAlgebra.{u_1, 0} k (Fin 2)),\n  Exists.{1} fun s =>\n    And\n      (\u2200 (p : Prod.{0, 0} Nat Nat),\n        Not (Membership.mem.{0, 0} s p) \u2192\n          Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007720.{u_1} k p) u) 0)\n      (Eq.{u_1 + 1}\n        (Finset.sum.{0, u_1} s fun p =>\n          DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007720.{u_1} k p) u)\n        u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007720"
+      ],
+      "structural_type_hash": "1462058122",
+      "temporary_id": "decl-007617"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192 Prod.{0, 0} Nat Nat \u2192 Submodule.{u_1, u_1} k (FreeLieAlgebra.{u_1, 0} k (Fin 2))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3901765283",
+      "temporary_id": "decl-007625"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192 DirectSum.Decomposition.{0, u_1, u_1} (decl-007625.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625"
+      ],
+      "structural_type_hash": "2100209454",
+      "temporary_id": "decl-007626"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (n : Nat) \u2192 Prod.{0, 0} Nat Nat \u2192 Submodule.{u_1, u_1} k (decl-007628.{u_1} k n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "22646176",
+      "temporary_id": "decl-007629"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192 (n : Nat) \u2192 DirectSum.Decomposition.{0, u_1, u_1} (decl-007629.{u_1} k n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "3353697577",
+      "temporary_id": "decl-007631"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {n : Nat} (p : Prod.{0, 0} Nat Nat)\n  {S : Set.{u_1} (decl-007628.{u_1} k n)},\n  Eq.{u_1 + 1} (Submodule.span.{u_1, u_1} k S) Top.top.{u_1} \u2192\n    Eq.{u_1 + 1} (decl-007629.{u_1} k n p)\n      (Submodule.span.{u_1, u_1} k\n        (Set.image.{u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007655.{u_1} k n p)) S))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007655",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "2414553071",
+      "temporary_id": "decl-007634"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (n : Nat) \u2192\n      Prod.{0, 0} Nat Nat \u2192\n        LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k) (decl-007628.{u_1} k n)\n          (decl-007628.{u_1} k n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "870682910",
+      "temporary_id": "decl-007655"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {n : Nat} {p q : Prod.{0, 0} Nat Nat}\n  {a : decl-007628.{u_1} k n},\n  Membership.mem.{u_1, u_1} (decl-007629.{u_1} k n p) a \u2192\n    Ne.{1} p q \u2192 Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007655.{u_1} k n q) a) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007655",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "2101593981",
+      "temporary_id": "decl-007658"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {n : Nat} {p : Prod.{0, 0} Nat Nat} {a : decl-007628.{u_1} k n},\n  Membership.mem.{u_1, u_1} (iSup.{u_1, 1} fun q => iSup.{u_1, 0} fun x => decl-007629.{u_1} k n q) a \u2192\n    Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007655.{u_1} k n p) a) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007655",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "1834443616",
+      "temporary_id": "decl-007659"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (n : Nat) (p : Prod.{0, 0} Nat Nat) (a : decl-007628.{u_1} k n),\n  Membership.mem.{u_1, u_1} (decl-007629.{u_1} k n p)\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007655.{u_1} k n p) a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007655",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "1215353866",
+      "temporary_id": "decl-007660"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {n : Nat} {p q : Prod.{0, 0} Nat Nat}\n  {a : decl-007628.{u_1} k n},\n  Membership.mem.{u_1, u_1} (decl-007629.{u_1} k n p) a \u2192\n    Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007655.{u_1} k n q) a)\n      (ite.{u_1 + 1} (Eq.{1} p q) a 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007655",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "2030756146",
+      "temporary_id": "decl-007661"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (n : Nat) (p : Prod.{0, 0} Nat Nat) (u : FreeLieAlgebra.{u_1, 0} k (Fin 2)),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007655.{u_1} k n p)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008123.{u_1} k n) u))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008123.{u_1} k n)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007720.{u_1} k p) u))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007655",
+        "decl-007720",
+        "decl-007772",
+        "decl-007782",
+        "decl-008123"
+      ],
+      "structural_type_hash": "3731538592",
+      "temporary_id": "decl-007662"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {n : Nat} {p : Prod.{0, 0} Nat Nat} {a : decl-007628.{u_1} k n},\n  Membership.mem.{u_1, u_1} (decl-007629.{u_1} k n p) a \u2192\n    Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007655.{u_1} k n p) a) a",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007655",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "3975607697",
+      "temporary_id": "decl-007663"
+    },
+    {
+      "formal_type": "Fin 2 \u2192 Prod.{0, 0} Nat Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1678340898",
+      "temporary_id": "decl-007709"
+    },
+    {
+      "formal_type": "Eq.{1} (decl-007709 1) (Prod.mk.{0, 0} 0 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007709"
+      ],
+      "structural_type_hash": "933751532",
+      "temporary_id": "decl-007710"
+    },
+    {
+      "formal_type": "Eq.{1} (decl-007709 0) (Prod.mk.{0, 0} 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007709"
+      ],
+      "structural_type_hash": "2797293667",
+      "temporary_id": "decl-007711"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    Prod.{0, 0} Nat Nat \u2192\n      LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k) (FreeLieAlgebra.{u_1, 0} k (Fin 2))\n        (FreeLieAlgebra.{u_1, 0} k (Fin 2))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "301609180",
+      "temporary_id": "decl-007720"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (p : Prod.{0, 0} Nat Nat) (u : FreeLieAlgebra.{u_1, 0} k (Fin 2)),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007720.{u_1} k p) u)\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008216.{u_1} k p)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008163.{u_1} k) u))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007564",
+        "decl-007720",
+        "decl-008163",
+        "decl-008216"
+      ],
+      "structural_type_hash": "3026239080",
+      "temporary_id": "decl-007721"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {p q : Prod.{0, 0} Nat Nat} {u : FreeLieAlgebra.{u_1, 0} k (Fin 2)},\n  Membership.mem.{u_1, u_1} (decl-007625.{u_1} k p) u \u2192\n    Ne.{1} p q \u2192 Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007720.{u_1} k q) u) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625",
+        "decl-007720"
+      ],
+      "structural_type_hash": "2325207704",
+      "temporary_id": "decl-007722"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {p : Prod.{0, 0} Nat Nat} {u : FreeLieAlgebra.{u_1, 0} k (Fin 2)},\n  Membership.mem.{u_1, u_1} (iSup.{u_1, 1} fun q => iSup.{u_1, 0} fun x => decl-007625.{u_1} k q) u \u2192\n    Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007720.{u_1} k p) u) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625",
+        "decl-007720"
+      ],
+      "structural_type_hash": "1620208811",
+      "temporary_id": "decl-007723"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (p : Prod.{0, 0} Nat Nat) (u : FreeLieAlgebra.{u_1, 0} k (Fin 2)),\n  Membership.mem.{u_1, u_1} (decl-007625.{u_1} k p)\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007720.{u_1} k p) u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625",
+        "decl-007720"
+      ],
+      "structural_type_hash": "1851217993",
+      "temporary_id": "decl-007724"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {n : Nat} {u : FreeLieAlgebra.{u_1, 0} k (Fin 2)},\n  Membership.mem.{u_1, u_1} (decl-008137.{u_1} k n) u \u2192\n    \u2200 (p : Prod.{0, 0} Nat Nat),\n      Membership.mem.{u_1, u_1} (decl-008137.{u_1} k n)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007720.{u_1} k p) u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007720",
+        "decl-008137"
+      ],
+      "structural_type_hash": "2842553190",
+      "temporary_id": "decl-007725"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {p q : Prod.{0, 0} Nat Nat} {u : FreeLieAlgebra.{u_1, 0} k (Fin 2)},\n  Membership.mem.{u_1, u_1} (decl-007625.{u_1} k p) u \u2192\n    Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007720.{u_1} k q) u)\n      (ite.{u_1 + 1} (Eq.{1} p q) u 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625",
+        "decl-007720"
+      ],
+      "structural_type_hash": "572253641",
+      "temporary_id": "decl-007726"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {p : Prod.{0, 0} Nat Nat} {u : FreeLieAlgebra.{u_1, 0} k (Fin 2)},\n  Membership.mem.{u_1, u_1} (decl-007625.{u_1} k p) u \u2192\n    Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007720.{u_1} k p) u) u",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625",
+        "decl-007720"
+      ],
+      "structural_type_hash": "2801170035",
+      "temporary_id": "decl-007727"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k], iSupIndep.{1, u_1} (decl-007625.{u_1} k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625"
+      ],
+      "structural_type_hash": "1574316688",
+      "temporary_id": "decl-007728"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (n : Nat), iSupIndep.{1, u_1} (decl-007629.{u_1} k n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "3816225406",
+      "temporary_id": "decl-007729"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (iSup.{u_1, 1} fun p => decl-007625.{u_1} k p) Top.top.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625"
+      ],
+      "structural_type_hash": "3760030054",
+      "temporary_id": "decl-007730"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (n : Nat),\n  Eq.{u_1 + 1} (iSup.{u_1, 1} fun p => decl-007629.{u_1} k n p) Top.top.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "68452875",
+      "temporary_id": "decl-007731"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k], DirectSum.IsInternal.{0, u_1, u_1} (decl-007625.{u_1} k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625"
+      ],
+      "structural_type_hash": "3679590989",
+      "temporary_id": "decl-007845"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (n : Nat),\n  DirectSum.IsInternal.{0, u_1, u_1} (decl-007629.{u_1} k n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "1106201395",
+      "temporary_id": "decl-007846"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {p q : Prod.{0, 0} Nat Nat} {u v : FreeLieAlgebra.{u_1, 0} k (Fin 2)},\n  Membership.mem.{u_1, u_1} (decl-007625.{u_1} k p) u \u2192\n    Membership.mem.{u_1, u_1} (decl-007625.{u_1} k q) v \u2192\n      Membership.mem.{u_1, u_1} (decl-007625.{u_1} k (HAdd.hAdd.{0, 0, 0} p q))\n        (Bracket.bracket.{u_1, u_1} u v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625"
+      ],
+      "structural_type_hash": "915862127",
+      "temporary_id": "decl-007943"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {n : Nat} {p q : Prod.{0, 0} Nat Nat}\n  {a b : decl-007628.{u_1} k n},\n  Membership.mem.{u_1, u_1} (decl-007629.{u_1} k n p) a \u2192\n    Membership.mem.{u_1, u_1} (decl-007629.{u_1} k n q) b \u2192\n      Membership.mem.{u_1, u_1} (decl-007629.{u_1} k n (HAdd.hAdd.{0, 0, 0} p q))\n        (Bracket.bracket.{u_1, u_1} a b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "2202553324",
+      "temporary_id": "decl-007944"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {n : Nat} {p : Prod.{0, 0} Nat Nat} {a : decl-007628.{u_1} k n},\n  Iff (Membership.mem.{u_1, u_1} (decl-007629.{u_1} k n p) a)\n    (Exists.{u_1 + 1} fun u =>\n      And (Membership.mem.{u_1, u_1} (decl-007625.{u_1} k p) u)\n        (Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008123.{u_1} k n) u) a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625",
+        "decl-007628",
+        "decl-007629",
+        "decl-007772",
+        "decl-007782",
+        "decl-008123"
+      ],
+      "structural_type_hash": "1844430653",
+      "temporary_id": "decl-008089"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (i : Fin 2),\n  Membership.mem.{u_1, u_1} (decl-007625.{u_1} k (decl-007709 i))\n    (FreeLieAlgebra.of.{u_1, 0} k i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625",
+        "decl-007709"
+      ],
+      "structural_type_hash": "351072003",
+      "temporary_id": "decl-008118"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {n : Nat} {p : Prod.{0, 0} Nat Nat} {u : FreeLieAlgebra.{u_1, 0} k (Fin 2)},\n  Membership.mem.{u_1, u_1} (decl-007625.{u_1} k p) u \u2192\n    Membership.mem.{u_1, u_1} (decl-007629.{u_1} k n p)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008123.{u_1} k n) u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625",
+        "decl-007628",
+        "decl-007629",
+        "decl-007772",
+        "decl-007782",
+        "decl-008123"
+      ],
+      "structural_type_hash": "1319275275",
+      "temporary_id": "decl-008129"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (n : Nat) (p : Prod.{0, 0} Nat Nat),\n  Eq.{u_1 + 1} (LinearMap.range.{u_1, u_1, u_1, u_1} (decl-007655.{u_1} k n p))\n    (decl-007629.{u_1} k n p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007655",
+        "decl-007772",
+        "decl-007782"
+      ],
+      "structural_type_hash": "4010333279",
+      "temporary_id": "decl-008131"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192 [inst : CommRing.{u_1} k] \u2192 Nat \u2192 LieIdeal.{u_1, u_1} k (FreeLieAlgebra.{u_1, 0} k (Fin 2))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1607272927",
+      "temporary_id": "decl-008139"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Membership.mem.{u_1, u_1} (decl-007625.{u_1} k (Prod.mk.{0, 0} 2 1))\n    (Bracket.bracket.{u_1, u_1} (decl-008284.{u_1} k)\n      (Bracket.bracket.{u_1, u_1} (decl-008284.{u_1} k) (decl-008291.{u_1} k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625",
+        "decl-008284",
+        "decl-008291"
+      ],
+      "structural_type_hash": "1749808095",
+      "temporary_id": "decl-008160"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (n : Nat),\n  Membership.mem.{u_1, u_1} (decl-007625.{u_1} k (Prod.mk.{0, 0} 1 (HAdd.hAdd.{0, 0, 0} n 1)))\n    (Nat.iterate.{u_1 + 1} (fun z => Bracket.bracket.{u_1, u_1} (decl-008291.{u_1} k) z)\n      (HAdd.hAdd.{0, 0, 0} n 1) (decl-008284.{u_1} k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625",
+        "decl-008284",
+        "decl-008291"
+      ],
+      "structural_type_hash": "2687166967",
+      "temporary_id": "decl-008161"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    LieHom.{u_1, u_1, u_1} k (FreeLieAlgebra.{u_1, 0} k (Fin 2))\n      (TensorProduct.{u_1, u_1, u_1} k (decl-007564.{u_1} k) (FreeLieAlgebra.{u_1, 0} k (Fin 2)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007564"
+      ],
+      "structural_type_hash": "3909511996",
+      "temporary_id": "decl-008163"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (i : Fin 2),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008163.{u_1} k) (FreeLieAlgebra.of.{u_1, 0} k i))\n    (TensorProduct.tmul.{u_1, u_1, u_1} k (decl-007565.{u_1} k (decl-007709 i))\n      (FreeLieAlgebra.of.{u_1, 0} k i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007564",
+        "decl-007565",
+        "decl-007709",
+        "decl-008163"
+      ],
+      "structural_type_hash": "3819348187",
+      "temporary_id": "decl-008165"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {p : Prod.{0, 0} Nat Nat} {u : FreeLieAlgebra.{u_1, 0} k (Fin 2)},\n  decl-007332.{u_1} k p u \u2192\n    Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008163.{u_1} k) u)\n      (TensorProduct.tmul.{u_1, u_1, u_1} k (decl-007565.{u_1} k p) u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007332",
+        "decl-007564",
+        "decl-007565",
+        "decl-008163"
+      ],
+      "structural_type_hash": "207271991",
+      "temporary_id": "decl-008166"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {p : Prod.{0, 0} Nat Nat} {u : FreeLieAlgebra.{u_1, 0} k (Fin 2)},\n  Membership.mem.{u_1, u_1} (decl-007625.{u_1} k p) u \u2192\n    Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008163.{u_1} k) u)\n      (TensorProduct.tmul.{u_1, u_1, u_1} k (decl-007565.{u_1} k p) u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007564",
+        "decl-007565",
+        "decl-007625",
+        "decl-008163"
+      ],
+      "structural_type_hash": "2410648417",
+      "temporary_id": "decl-008167"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] {p : Prod.{0, 0} Nat Nat} {u : FreeLieAlgebra.{u_1, 0} k (Fin 2)},\n  decl-007332.{u_1} k p u \u2192\n    Membership.mem.{u_1, u_1} (decl-007625.{u_1} k p) u",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007332",
+        "decl-007625"
+      ],
+      "structural_type_hash": "2727863582",
+      "temporary_id": "decl-008215"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    Prod.{0, 0} Nat Nat \u2192\n      LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k)\n        (TensorProduct.{u_1, u_1, u_1} k (decl-007564.{u_1} k) (FreeLieAlgebra.{u_1, 0} k (Fin 2)))\n        (FreeLieAlgebra.{u_1, 0} k (Fin 2))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007564"
+      ],
+      "structural_type_hash": "2121948806",
+      "temporary_id": "decl-008216"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (p : Prod.{0, 0} Nat Nat) (a : decl-007564.{u_1} k)\n  (u : FreeLieAlgebra.{u_1, 0} k (Fin 2)),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-008216.{u_1} k p)\n      (TensorProduct.tmul.{u_1, u_1, u_1} k a u))\n    (HSMul.hSMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-007518.{u_1} k p) a)\n      u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007518",
+        "decl-007564",
+        "decl-008216"
+      ],
+      "structural_type_hash": "2930809760",
+      "temporary_id": "decl-008217"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Membership.mem.{u_1, u_1} (decl-007625.{u_1} k (Prod.mk.{0, 0} 1 0))\n    (decl-008284.{u_1} k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625",
+        "decl-008284"
+      ],
+      "structural_type_hash": "1207151625",
+      "temporary_id": "decl-008287"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (n : Nat),\n  Membership.mem.{u_1, u_1} (decl-007629.{u_1} k n (Prod.mk.{0, 0} 1 0))\n    (decl-008288.{u_1} k n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007772",
+        "decl-007782",
+        "decl-008288"
+      ],
+      "structural_type_hash": "1156953713",
+      "temporary_id": "decl-008290"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k],\n  Membership.mem.{u_1, u_1} (decl-007625.{u_1} k (Prod.mk.{0, 0} 0 1))\n    (decl-008291.{u_1} k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007625",
+        "decl-008291"
+      ],
+      "structural_type_hash": "2265119247",
+      "temporary_id": "decl-008293"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (n : Nat),\n  Membership.mem.{u_1, u_1} (decl-007629.{u_1} k n (Prod.mk.{0, 0} 0 1))\n    (decl-008294.{u_1} k n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-007628",
+        "decl-007629",
+        "decl-007772",
+        "decl-007782",
+        "decl-008294"
+      ],
+      "structural_type_hash": "656444855",
+      "temporary_id": "decl-008296"
+    }
+  ],
+  "module_temporary_id": "module-0079",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

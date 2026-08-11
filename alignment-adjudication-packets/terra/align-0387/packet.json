@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2c4ac73d2535d850726d",
+      "declaration": "Etingof.irreducible_interpolation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/135/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{u_2} A]\n  [inst_3 : Algebra.{u_1, u_2} k A] [inst_4 : AddCommGroup.{u_3} V] [inst_5 : Module.{u_1, u_3} k V]\n  [inst_6 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V]\n  [IsSimpleModule.{u_2, u_3} A V] {n : Nat} (v : Fin n \u2192 V),\n  LinearIndependent.{0, u_1, u_3} k v \u2192\n    \u2200 (w : Fin n \u2192 V), Exists.{u_2 + 1} fun a => \u2200 (i : Fin n), Eq.{u_3 + 1} (HSMul.hSMul.{u_2, u_3, u_3} a (v i)) (w i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Corollary3_2_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Corollary3.2.1",
+  "packet_id": "align-0387",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0387"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:7933b9f8735b1ecae872",
+  "source_text": "For linearly independent v_i in a finite-dimensional irreducible A-representation V and arbitrary w_i, some a in A satisfies a v_i = w_i for every i."
+}

@@ -1,0 +1,89 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x) V]\n  [IsScalarTower.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x)\n      V]\n  [FiniteDimensional.{0, u_1} Complex V]\n  [IsSimpleModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x) V]\n  (N : Nat) [inst_6 : NeZero.{0} N] (hqorder : Eq.{1} (orderOf.{0} q) N),\n  Exists.{1} fun \u03b1 =>\n    Exists.{1} fun \u03b2 =>\n      Nonempty.{max (u_1 + 1) 1}\n        (LinearEquiv.{0, 0, 0, u_1}\n          (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x))\n          (Fin N \u2192 Complex) V)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009081",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "3929226724",
+      "temporary_id": "decl-009058"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) [inst : NeZero.{0} (orderOf.{0} q)] (V : Type u_1) [inst_1 : AddCommGroup.{u_1} V]\n  [inst_2 : Module.{0, u_1} Complex V]\n  [inst_3 : Module.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x) V]\n  [IsScalarTower.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x)\n      V]\n  [FiniteDimensional.{0, u_1} Complex V]\n  [IsSimpleModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x) V],\n  Exists.{1} fun \u03b1 =>\n    Exists.{1} fun \u03b2 =>\n      Nonempty.{max (u_1 + 1) 1}\n        (LinearEquiv.{0, 0, 0, u_1}\n          (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x))\n          (decl-009014 q \u03b1 \u03b2) V)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009014",
+        "decl-009091",
+        "decl-009105",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "349086885",
+      "temporary_id": "decl-009059"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) [inst : NeZero.{0} (orderOf.{0} q)] (V : Type u_1) [inst_1 : AddCommGroup.{u_1} V]\n  [inst_2 : Module.{0, u_1} Complex V]\n  [inst_3 : Module.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x) V]\n  [IsScalarTower.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x)\n      V]\n  [FiniteDimensional.{0, u_1} Complex V]\n  [IsSimpleModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x) V],\n  Exists.{1} fun \u03b1 =>\n    Exists.{1} fun \u03b2 =>\n      And\n        (Nonempty.{max (u_1 + 1) 1}\n          (LinearEquiv.{0, 0, 0, u_1}\n            (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x))\n            (decl-009014 q \u03b1 \u03b2) V))\n        (\u2200 (\u03b1' \u03b2' : Units.{0} Complex),\n          Iff\n            (Nonempty.{max (u_1 + 1) 1}\n              (LinearEquiv.{0, 0, 0, u_1}\n                (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x))\n                (decl-009014 q \u03b1' \u03b2') V))\n            (And (Eq.{1} \u03b1 \u03b1')\n              (Eq.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} \u03b2) (orderOf.{0} q))\n                (HPow.hPow.{0, 0, 0} (Units.val.{0} \u03b2') (orderOf.{0} q)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009014",
+        "decl-009091",
+        "decl-009105",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "977345835",
+      "temporary_id": "decl-009074"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) [NeZero.{0} (orderOf.{0} q)] (V : Type u_1) [inst : AddCommGroup.{u_1} V]\n  [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x) V]\n  [IsScalarTower.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x)\n      V]\n  [FiniteDimensional.{0, u_1} Complex V]\n  [IsSimpleModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x) V],\n  Eq.{1} (Module.finrank.{0, u_1} Complex V) (orderOf.{0} q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "839059179",
+      "temporary_id": "decl-009103"
+    },
+    {
+      "formal_type": "\u2200 (q : Units.{0} Complex) {W : Type u_1} {V : Type u_2} [inst : AddCommGroup.{u_1} W]\n  [inst_1 : Module.{0, u_1} Complex W]\n  [inst_2 : Module.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x) W]\n  [IsScalarTower.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x)\n      W]\n  [inst_4 : AddCommGroup.{u_2} V] [inst_5 : Module.{0, u_2} Complex V]\n  [inst_6 : Module.{0, u_2} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x) V]\n  [IsScalarTower.{0, 0, u_2} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x)\n      V]\n  (E : LinearEquiv.{0, 0, u_1, u_2} (RingHom.id.{0} Complex) W V),\n  (\u2200 (f : W),\n      Eq.{u_2 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} E\n          (HSMul.hSMul.{0, u_1, u_1} (decl-014830.{0} q (Prod.mk.{0, 0} 1 0)) f))\n        (HSMul.hSMul.{0, u_2, u_2} (decl-014830.{0} q (Prod.mk.{0, 0} 1 0))\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} E f))) \u2192\n    (\u2200 (f : W),\n        Eq.{u_2 + 1}\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} E\n            (HSMul.hSMul.{0, u_1, u_1} (decl-014830.{0} q (Prod.mk.{0, 0} 0 1)) f))\n          (HSMul.hSMul.{0, u_2, u_2} (decl-014830.{0} q (Prod.mk.{0, 0} 0 1))\n            (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} E f))) \u2192\n      Nonempty.{max (u_2 + 1) (u_1 + 1)}\n        (LinearEquiv.{0, 0, u_1, u_2}\n          (RingHom.id.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x)) W V)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014830",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "295483658",
+      "temporary_id": "decl-009145"
+    }
+  ],
+  "module_temporary_id": "module-0096",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

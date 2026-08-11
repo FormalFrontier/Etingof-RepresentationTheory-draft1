@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:31a6ba9695069d7352f6",
+      "declaration": "Etingof.Problem825.extCochainMap",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/539/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    {A : Type u} \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{u, u} k A] \u2192\n          (N : ModuleCat.{u, u} A) \u2192\n            {M : ModuleCat.{u, u} A} \u2192\n              (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n                Quiver.Hom.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q)\n                    (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) \u2192\n                  Quiver.Hom.{u, u + 1}\n                    (ChainComplex.linearYonedaObj.{u, u + 1, 0, u}\n                      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) k N)\n                    (ChainComplex.linearYonedaObj.{u, u + 1, 0, u}\n                      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q) k N)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_5"
+    },
+    {
+      "association_id": "association:069eef481ebf710541a2",
+      "declaration": "Etingof.Problem825.extComparison",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/539/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    {A : Type u} \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{u, u} k A] \u2192\n          (N : ModuleCat.{u, u} A) \u2192\n            {M : ModuleCat.{u, u} A} \u2192\n              (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n                (n : Nat) \u2192\n                  CategoryTheory.Iso.{u, u + 1} (Etingof.Problem825.ExtByResolution.{u} k N P n)\n                    (Etingof.Problem825.ExtByResolution.{u} k N Q n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_5"
+    },
+    {
+      "association_id": "association:aeeab295110908671c47",
+      "declaration": "Etingof.Problem825.extLiftMap",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/539/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    {A : Type u} \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{u, u} k A] \u2192\n          (N : ModuleCat.{u, u} A) \u2192\n            {M : ModuleCat.{u, u} A} \u2192\n              (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n                Quiver.Hom.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q)\n                    (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) \u2192\n                  (n : Nat) \u2192\n                    Quiver.Hom.{u, u + 1} (Etingof.Problem825.ExtByResolution.{u} k N P n)\n                      (Etingof.Problem825.ExtByResolution.{u} k N Q n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_5"
+    },
+    {
+      "association_id": "association:a9eb6dcefa2ca4f48a3d",
+      "declaration": "Etingof.Problem825.extLiftMap_eq_comparison",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/539/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  (N : ModuleCat.{u, u} A) {M : ModuleCat.{u, u} A} (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M)\n  (\u03c6 :\n    Quiver.Hom.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q)\n      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P)),\n  Eq.{u + 1} (CategoryTheory.CategoryStruct.comp.{u, u + 1} \u03c6 (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P))\n      (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} Q) \u2192\n    \u2200 (n : Nat),\n      Eq.{u + 1} (Etingof.Problem825.extLiftMap.{u} k N P Q \u03c6 n)\n        (CategoryTheory.Iso.hom.{u, u + 1} (Etingof.Problem825.extComparison.{u} k N P Q n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_5"
+    },
+    {
+      "association_id": "association:d3f9bc9a2b82027f67c6",
+      "declaration": "Etingof.Problem825.extLiftMap_independent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/539/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  (N : ModuleCat.{u, u} A) {M : ModuleCat.{u, u} A} (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M)\n  (\u03c6 \u03c8 :\n    Quiver.Hom.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q)\n      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P)),\n  Eq.{u + 1} (CategoryTheory.CategoryStruct.comp.{u, u + 1} \u03c6 (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P))\n      (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} Q) \u2192\n    Eq.{u + 1} (CategoryTheory.CategoryStruct.comp.{u, u + 1} \u03c8 (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P))\n        (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} Q) \u2192\n      \u2200 (n : Nat),\n        Eq.{u + 1} (Etingof.Problem825.extLiftMap.{u} k N P Q \u03c6 n) (Etingof.Problem825.extLiftMap.{u} k N P Q \u03c8 n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_5"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.5",
+  "packet_id": "align-0843",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0843"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.5:part_v",
+  "source_text": "Part (v): construct the analogous independent Ext comparison isomorphisms."
+}

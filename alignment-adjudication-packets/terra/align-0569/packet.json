@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:703fcb02ac1b1e47671e",
+      "declaration": "Etingof.not_exists_isSimpleModule_polynomial",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/43/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k],\n  Not\n    (Exists.{u_1 + 1} fun S =>\n      IsSimpleModule.{u_1, u_1} (Polynomial.{u_1} k) (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} S x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_15"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.3.15",
+  "packet_id": "align-0569",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0569"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.3.15:claim-02",
+  "source_text": "The assertion fails in infinite dimension."
+}

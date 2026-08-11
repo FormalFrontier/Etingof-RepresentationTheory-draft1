@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6fc3139ed3a63881175e",
+      "declaration": "Etingof.exists_isCoatom_quotient_equiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/151/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u) (V : Type v) [inst : Ring.{u} A] [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} A V]\n  [IsSimpleModule.{u, v} A V],\n  Exists.{u + 1} fun M =>\n    And (IsCoatom.{u} M)\n      (Nonempty.{max (u + 1) (v + 1)} (LinearEquiv.{u, u, v, u} (RingHom.id.{u} A) V (HasQuotient.Quotient.{u, u} A M)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_5_4_CompleteFamily"
+    },
+    {
+      "association_id": "association:6c8eb1a0b1b393622f9c",
+      "declaration": "Etingof.simple_finiteDimensional",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/151/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [FiniteDimensional.{u_1, u_2} k A] [inst_4 : AddCommGroup.{u_3} V]\n  [inst_5 : Module.{u_1, u_3} k V] [inst_6 : Module.{u_2, u_3} A V] [IsScalarTower.{u_1, u_2, u_3} k A V]\n  [IsSimpleModule.{u_2, u_3} A V], FiniteDimensional.{u_1, u_3} k V",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_5_4_Finiteness"
+    }
+  ],
+  "canonical_reference": "Chapter3/Theorem3.5.4",
+  "packet_id": "align-0042",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0042"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0b3b9853113911cb5674",
+  "source_text": "Every irreducible representation of a finite-dimensional algebra is cyclic and finite-dimensional."
+}

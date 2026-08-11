@@ -1,0 +1,68 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (f : G \u2192 k),\n  (\u2200 (g h : G), Eq.{u + 1} (f (HMul.hMul.{u, u, u} (HMul.hMul.{u, u, u} h g) (Inv.inv.{u} h))) (f g)) \u2192\n    Membership.mem.{u, u}\n      (Submodule.span.{u, u} k\n        (Set.image.{u + 1, u} FDRep.character.{u, u} (setOf.{u + 1} fun V => CategoryTheory.Simple.{u, u + 1} V)))\n      f",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2606163613",
+      "temporary_id": "decl-016494"
+    },
+    {
+      "formal_type": "{k G : Type u} \u2192 [inst : Field.{u} k] \u2192 [Group.{u} G] \u2192 [Fintype.{u} G] \u2192 (G \u2192 k) \u2192 MonoidAlgebra.{u, u} k G",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4079707307",
+      "temporary_id": "decl-016498"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))], LinearIndependent.{u, u, u} k Subtype.val.{u + 1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4053051559",
+      "temporary_id": "decl-016500"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))],\n  Eq.{u + 1}\n    (Submodule.span.{u, u} k\n      (Set.image.{u + 1, u} FDRep.character.{u, u} (setOf.{u + 1} fun V => CategoryTheory.Simple.{u, u + 1} V)))\n    (decl-017961.{u, u} k G)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017961"
+      ],
+      "structural_type_hash": "151988161",
+      "temporary_id": "decl-016503"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))] (f : G \u2192 k),\n  (\u2200 (g h : G), Eq.{u + 1} (f (HMul.hMul.{u, u, u} (HMul.hMul.{u, u, u} h g) (Inv.inv.{u} h))) (f g)) \u2192\n    (\u2200 (V : FDRep.{u, u} k G) [CategoryTheory.Simple.{u, u + 1} V],\n        Eq.{u + 1}\n          (Finset.sum.{u, u} Finset.univ.{u} fun g =>\n            HMul.hMul.{u, u, u} (f g) (FDRep.character.{u, u} V (Inv.inv.{u} g)))\n          0) \u2192\n      Eq.{u + 1} f 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1658745233",
+      "temporary_id": "decl-017965"
+    }
+  ],
+  "module_temporary_id": "module-0245",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

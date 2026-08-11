@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0237",
+  "associations": [
+    {
+      "association_id": "association:7f1a850c197f4b82d46e",
+      "role": "primary",
+      "rationale": "It directly states the equivalence between coverage by the conjugation-invariant subgroup family and rational spanning of every irreducible character by induced characters from that family."
+    }
+  ]
+}

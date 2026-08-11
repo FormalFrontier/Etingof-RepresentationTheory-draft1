@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:626c07517fd04196cc88",
+      "declaration": "Etingof.row_col_inter_trivial",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/307/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Membership.mem.{0, 0} (Etingof.RowSubgroup n la) \u03c3 \u2192\n    Membership.mem.{0, 0} (Etingof.ColumnSubgroup n la) \u03c3 \u2192 Eq.{1} \u03c3 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible"
+    }
+  ],
+  "canonical_reference": "Chapter5/Definition5.12.1",
+  "packet_id": "align-0316",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0316"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:5f7f972f9edcb344e895",
+  "source_text": "The row and column subgroups intersect trivially."
+}

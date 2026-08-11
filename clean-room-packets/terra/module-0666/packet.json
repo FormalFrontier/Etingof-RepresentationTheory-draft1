@@ -1,0 +1,246 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (M N : ModuleCat.{u, u} A),\n  Nonempty.{u + 1} (AddEquiv.{u, u} (decl-004111.{u + 1, u, u} M N 0) (Quiver.Hom.{u, u + 1} M N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "3808116861",
+      "temporary_id": "decl-014394"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (N : Type u) [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} A N]\n  (M : ModuleCat.{u, u} (MulOpposite.{u} A)),\n  Nonempty.{u + 1}\n    (CategoryTheory.Iso.{u, u + 1} (decl-016764.{u} A N M 0)\n      (AddCommGrpCat.of.{u} (decl-023968.{u} A N (ModuleCat.carrier.{u, u} M))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-017273",
+        "decl-023968"
+      ],
+      "structural_type_hash": "43043379",
+      "temporary_id": "decl-014395"
+    },
+    {
+      "formal_type": "\u2200 (k A : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] (V W : Type u)\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W],\n  Nonempty.{u + 1}\n    (AddEquiv.{u, u} (decl-004111.{u + 1, u, u} (ModuleCat.of.{u, u} A W) (ModuleCat.of.{u, u} A V) 1)\n      (decl-009545.{u, u, u, u} k A V W))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111",
+        "decl-009545",
+        "decl-009654",
+        "decl-009664",
+        "decl-009691",
+        "decl-009693"
+      ],
+      "structural_type_hash": "3786833988",
+      "temporary_id": "decl-014396"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (M : ModuleCat.{u, u} A)\n  {S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} A)}\n  (hS : CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S) (n\u2080 n\u2081 : Nat) (h : Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081),\n  CategoryTheory.ComposableArrows.Exact.{u, u + 1}\n    (CategoryTheory.Abelian.Ext.covariantSequence.{u, u, u + 1} M hS n\u2080 n\u2081 h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1049424282",
+      "temporary_id": "decl-014397"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (M : ModuleCat.{u, u} (MulOpposite.{u} A))\n  {S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} A)},\n  CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S \u2192\n    \u2200 (n\u2080 n\u2081 : Nat),\n      Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081 \u2192\n        Exists.{u + 1} fun \u03b4 =>\n          CategoryTheory.ComposableArrows.Exact.{u, u + 1}\n            (CategoryTheory.ComposableArrows.mk\u2085.{u, u + 1}\n              (decl-024231.{u} A (ModuleCat.Hom.hom.{u, u} (CategoryTheory.ShortComplex.f.{u, u + 1} S)) n\u2081 M)\n              (decl-024231.{u} A (ModuleCat.Hom.hom.{u, u} (CategoryTheory.ShortComplex.g.{u, u + 1} S)) n\u2081 M) \u03b4\n              (decl-024231.{u} A (ModuleCat.Hom.hom.{u, u} (CategoryTheory.ShortComplex.f.{u, u + 1} S)) n\u2080 M)\n              (decl-024231.{u} A (ModuleCat.Hom.hom.{u, u} (CategoryTheory.ShortComplex.g.{u, u + 1} S)) n\u2080 M))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-024231"
+      ],
+      "structural_type_hash": "1599599621",
+      "temporary_id": "decl-014411"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (N : Type u) [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} A N]\n  (M : ModuleCat.{u, u} (MulOpposite.{u} A)) (n : Nat),\n  Nonempty.{u + 1}\n    (CategoryTheory.Iso.{u, u + 1} (decl-016764.{u} A N M n)\n      (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n        (CategoryTheory.Functor.leftDerived.{u, u + 1, u, u + 1} (decl-023916.{u} A M) n)\n        (ModuleCat.of.{u, u} A N)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-020574",
+        "decl-023916"
+      ],
+      "structural_type_hash": "4068571441",
+      "temporary_id": "decl-014419"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (N : ModuleCat.{u, u} A)\n  {S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} A)}\n  (hS : CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S) (n\u2080 n\u2081 : Nat) (h : Eq.{1} (HAdd.hAdd.{0, 0, 0} 1 n\u2080) n\u2081),\n  CategoryTheory.ComposableArrows.Exact.{u, u + 1}\n    (CategoryTheory.Abelian.Ext.contravariantSequence.{u, u, u + 1} hS N n\u2080 n\u2081 h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1879481839",
+      "temporary_id": "decl-014420"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (N : Type u) [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} A N]\n  {S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} (MulOpposite.{u} A))},\n  CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S \u2192\n    \u2200 (n\u2080 n\u2081 : Nat),\n      Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081 \u2192\n        Exists.{u + 1} fun \u03b4 =>\n          CategoryTheory.ComposableArrows.Exact.{u, u + 1}\n            (CategoryTheory.ComposableArrows.mk\u2085.{u, u + 1}\n              (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-016765.{u} A N n\u2081)\n                (CategoryTheory.ShortComplex.f.{u, u + 1} S))\n              (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-016765.{u} A N n\u2081)\n                (CategoryTheory.ShortComplex.g.{u, u + 1} S))\n              \u03b4\n              (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-016765.{u} A N n\u2080)\n                (CategoryTheory.ShortComplex.f.{u, u + 1} S))\n              (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-016765.{u} A N n\u2080)\n                (CategoryTheory.ShortComplex.g.{u, u + 1} S)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016765"
+      ],
+      "structural_type_hash": "482220155",
+      "temporary_id": "decl-014430"
+    },
+    {
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    (N : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} N] \u2192\n        [inst_2 : Module.{u, u} A N] \u2192\n          (M : ModuleCat.{u, u} (MulOpposite.{u} A)) \u2192\n            CategoryTheory.Iso.{u, u + 1} (decl-016764.{u} A N M 0)\n              (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                (CategoryTheory.Functor.leftDerived.{u, u + 1, u, u + 1} (decl-023916.{u} A M) 0)\n                (ModuleCat.of.{u, u} A N))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-020574",
+        "decl-023916"
+      ],
+      "structural_type_hash": "3660635453",
+      "temporary_id": "decl-017276"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (N : Type u) [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} A N]\n  {M M' : ModuleCat.{u, u} (MulOpposite.{u} A)} (f : Quiver.Hom.{u, u + 1} M M'),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Functor.map.{u, u, u + 1, u + 1} (decl-016765.{u} A N 0) f)\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-017276.{u} A N M')))\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-017276.{u} A N M))\n      (CategoryTheory.NatTrans.app.{u, u, u + 1, u + 1}\n        (CategoryTheory.NatTrans.leftDerived.{u, u + 1, u, u + 1} (decl-023922.{u} A f) 0)\n        (ModuleCat.of.{u, u} A N)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-016765",
+        "decl-017276",
+        "decl-020574",
+        "decl-023916",
+        "decl-023922"
+      ],
+      "structural_type_hash": "2352889488",
+      "temporary_id": "decl-017286"
+    },
+    {
+      "formal_type": "(k A : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        (V W : Type u) \u2192\n          [inst_3 : AddCommGroup.{u} V] \u2192\n            [inst_4 : Module.{u, u} k V] \u2192\n              [inst_5 : Module.{u, u} A V] \u2192\n                [IsScalarTower.{u, u, u} k A V] \u2192\n                  [inst_7 : AddCommGroup.{u} W] \u2192\n                    [inst_8 : Module.{u, u} k W] \u2192\n                      [inst_9 : Module.{u, u} A W] \u2192\n                        [inst_10 : IsScalarTower.{u, u, u} k A W] \u2192\n                          (f :\n                              Quiver.Hom.{u, u + 1}\n                                (HomologicalComplex.X.{u, u + 1, 0}\n                                  (CategoryTheory.ProjectiveResolution.complex.{u, u + 1}\n                                    (decl-017309.{u} k A W))\n                                  1)\n                                (ModuleCat.of.{u, u} A V)) \u2192\n                            Eq.{u + 1}\n                                (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n                                  (HomologicalComplex.d.{u, u + 1, 0}\n                                    (CategoryTheory.ProjectiveResolution.complex.{u, u + 1}\n                                      (decl-017309.{u} k A W))\n                                    2 1)\n                                  f)\n                                0 \u2192\n                              CochainComplex.HomComplex.Cocycle.{u, u + 1} (decl-017287.{u} k A W)\n                                (decl-023219.{u} A V) 1",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017287",
+        "decl-017309",
+        "decl-023219"
+      ],
+      "structural_type_hash": "932131854",
+      "temporary_id": "decl-017301"
+    },
+    {
+      "formal_type": "(k A : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} A] \u2192\n      [inst_2 : Algebra.{u, u} k A] \u2192\n        (V W : Type u) \u2192\n          [inst_3 : AddCommGroup.{u} V] \u2192\n            [inst_4 : Module.{u, u} k V] \u2192\n              [inst_5 : Module.{u, u} A V] \u2192\n                [inst_6 : IsScalarTower.{u, u, u} k A V] \u2192\n                  [inst_7 : AddCommGroup.{u} W] \u2192\n                    [inst_8 : Module.{u, u} k W] \u2192\n                      [inst_9 : Module.{u, u} A W] \u2192\n                        [inst_10 : IsScalarTower.{u, u, u} k A W] \u2192\n                          AddEquiv.{u, u}\n                            (decl-004111.{u + 1, u, u} (ModuleCat.of.{u, u} A W) (ModuleCat.of.{u, u} A V) 1)\n                            (decl-009545.{u, u, u, u} k A V W)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111",
+        "decl-009545",
+        "decl-009654",
+        "decl-009664",
+        "decl-009691",
+        "decl-009693"
+      ],
+      "structural_type_hash": "3812486543",
+      "temporary_id": "decl-019029"
+    },
+    {
+      "formal_type": "\u2200 (k A : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] (V W : Type u)\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W]\n  (x : decl-004111.{u + 1, u, u} (ModuleCat.of.{u, u} A W) (ModuleCat.of.{u, u} A V) 1),\n  Eq.{u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-019029.{u} k A V W) x)\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-018039.{u} k A W V)\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (CategoryTheory.ProjectiveResolution.extAddEquivCohomologyClass.{u, u, u + 1} (decl-017309.{u} k A W))\n        x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111",
+        "decl-009545",
+        "decl-009654",
+        "decl-009664",
+        "decl-009691",
+        "decl-009693",
+        "decl-017287",
+        "decl-017309",
+        "decl-018039",
+        "decl-019029",
+        "decl-023219"
+      ],
+      "structural_type_hash": "2973973647",
+      "temporary_id": "decl-019036"
+    },
+    {
+      "formal_type": "\u2200 (k A : Type u) [inst : Field.{u} k] [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A] (V W : Type u)\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [inst_5 : Module.{u, u} A V]\n  [inst_6 : IsScalarTower.{u, u, u} k A V] [inst_7 : AddCommGroup.{u} W] [inst_8 : Module.{u, u} k W]\n  [inst_9 : Module.{u, u} A W] [inst_10 : IsScalarTower.{u, u, u} k A W]\n  (f :\n    Quiver.Hom.{u, u + 1}\n      (HomologicalComplex.X.{u, u + 1, 0}\n        (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (decl-017309.{u} k A W)) 1)\n      (ModuleCat.of.{u, u} A V))\n  (hf :\n    Eq.{u + 1}\n      (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n        (HomologicalComplex.d.{u, u + 1, 0}\n          (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (decl-017309.{u} k A W)) 2 1)\n        f)\n      0),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-019029.{u} k A V W)\n      (CategoryTheory.ProjectiveResolution.extMk.{u, u, u + 1} (decl-017309.{u} k A W) f 2 \u22ef hf))\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-018039.{u} k A W V)\n      (CochainComplex.HomComplex.CohomologyClass.mk.{u, u + 1} (decl-017301.{u} k A V W f hf)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111",
+        "decl-009545",
+        "decl-009654",
+        "decl-009664",
+        "decl-009691",
+        "decl-009693",
+        "decl-017287",
+        "decl-017301",
+        "decl-017309",
+        "decl-018039",
+        "decl-019029",
+        "decl-023219"
+      ],
+      "structural_type_hash": "3634304206",
+      "temporary_id": "decl-019037"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u\u2081} [inst : CategoryTheory.Category.{v\u2081, u\u2081} C] [inst_1 : CategoryTheory.Abelian.{v\u2081, u\u2081} C]\n  [inst_2 : CategoryTheory.EnoughProjectives.{v\u2081, u\u2081} C] {D : Type u_1} [inst_3 : CategoryTheory.Category.{u_2, u_1} D]\n  [inst_4 : CategoryTheory.Abelian.{u_2, u_1} D] {F G : CategoryTheory.Functor.{v\u2081, u_2, u\u2081, u_1} C D}\n  [inst_5 : CategoryTheory.Functor.Additive.{v\u2081, u\u2081, u_2, u_1} F]\n  [inst_6 : CategoryTheory.Functor.Additive.{v\u2081, u\u2081, u_2, u_1} G]\n  (\u03b1 : Quiver.Hom.{max u\u2081 u_2, max (max (max u_1 u\u2081) v\u2081) u_2} F G) (X : C),\n  Eq.{u_2 + 1}\n    (CategoryTheory.CategoryStruct.comp.{u_2, u_1}\n      (CategoryTheory.NatTrans.app.{v\u2081, u_2, u\u2081, u_1} (CategoryTheory.NatTrans.leftDerived.{v\u2081, u\u2081, u_2, u_1} \u03b1 0) X)\n      (CategoryTheory.NatTrans.app.{v\u2081, u_2, u\u2081, u_1} (CategoryTheory.Functor.fromLeftDerivedZero.{v\u2081, u\u2081, u_2, u_1} G)\n        X))\n    (CategoryTheory.CategoryStruct.comp.{u_2, u_1}\n      (CategoryTheory.NatTrans.app.{v\u2081, u_2, u\u2081, u_1} (CategoryTheory.Functor.fromLeftDerivedZero.{v\u2081, u\u2081, u_2, u_1} F)\n        X)\n      (CategoryTheory.NatTrans.app.{v\u2081, u_2, u\u2081, u_1} \u03b1 X))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2517523743",
+      "temporary_id": "decl-019718"
+    },
+    {
+      "formal_type": "{D : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} D] \u2192\n    [inst_1 : CategoryTheory.Abelian.{u_2, u_1} D] \u2192\n      {W : CategoryTheory.ComposableArrows.{u_2, u_1} D 5} \u2192\n        CategoryTheory.ComposableArrows.Exact.{u_2, u_1} W \u2192\n          CategoryTheory.Limits.IsZero.{u_2, u_1} (CategoryTheory.Functor.obj.{0, u_2, 0, u_1} W 1) \u2192\n            CategoryTheory.Limits.IsZero.{u_2, u_1} (CategoryTheory.Functor.obj.{0, u_2, 0, u_1} W 4) \u2192\n              CategoryTheory.Iso.{u_2, u_1} (CategoryTheory.Functor.obj.{0, u_2, 0, u_1} W 2)\n                (CategoryTheory.Functor.obj.{0, u_2, 0, u_1} W 3)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "725387780",
+      "temporary_id": "decl-020964"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] {S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} A)},\n  Eq.{u + 2}\n    (CategoryTheory.CategoryStruct.comp.{u + 1, u + 1}\n      (decl-024080.{u} A (ModuleCat.Hom.hom.{u, u} (CategoryTheory.ShortComplex.f.{u, u + 1} S)))\n      (decl-024080.{u} A (ModuleCat.Hom.hom.{u, u} (CategoryTheory.ShortComplex.g.{u, u + 1} S))))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024058",
+        "decl-024080"
+      ],
+      "structural_type_hash": "935958552",
+      "temporary_id": "decl-024084"
+    },
+    {
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A] (N : Type u) [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} A N]\n  {S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} (MulOpposite.{u} A))},\n  CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S \u2192\n    \u2200 (n\u2080 n\u2081 : Nat),\n      Eq.{1} (HAdd.hAdd.{0, 0, 0} n\u2080 1) n\u2081 \u2192\n        Exists.{u + 1} fun \u03b4 =>\n          CategoryTheory.ComposableArrows.Exact.{u, u + 1}\n            (CategoryTheory.ComposableArrows.mk\u2085.{u, u + 1}\n              (CategoryTheory.NatTrans.app.{u, u, u + 1, u + 1}\n                (CategoryTheory.NatTrans.leftDerived.{u, u + 1, u, u + 1}\n                  (decl-023922.{u} A (CategoryTheory.ShortComplex.f.{u, u + 1} S)) n\u2081)\n                (ModuleCat.of.{u, u} A N))\n              (CategoryTheory.NatTrans.app.{u, u, u + 1, u + 1}\n                (CategoryTheory.NatTrans.leftDerived.{u, u + 1, u, u + 1}\n                  (decl-023922.{u} A (CategoryTheory.ShortComplex.g.{u, u + 1} S)) n\u2081)\n                (ModuleCat.of.{u, u} A N))\n              \u03b4\n              (CategoryTheory.NatTrans.app.{u, u, u + 1, u + 1}\n                (CategoryTheory.NatTrans.leftDerived.{u, u + 1, u, u + 1}\n                  (decl-023922.{u} A (CategoryTheory.ShortComplex.f.{u, u + 1} S)) n\u2080)\n                (ModuleCat.of.{u, u} A N))\n              (CategoryTheory.NatTrans.app.{u, u, u + 1, u + 1}\n                (CategoryTheory.NatTrans.leftDerived.{u, u + 1, u, u + 1}\n                  (decl-023922.{u} A (CategoryTheory.ShortComplex.g.{u, u + 1} S)) n\u2080)\n                (ModuleCat.of.{u, u} A N)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020574",
+        "decl-023916",
+        "decl-023922"
+      ],
+      "structural_type_hash": "2791656660",
+      "temporary_id": "decl-024194"
+    }
+  ],
+  "module_temporary_id": "module-0666",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

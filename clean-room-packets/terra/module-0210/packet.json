@@ -1,0 +1,34 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k K : Type u) [inst : Field.{u} k] [inst_1 : Field.{u} K] [inst_2 : Algebra.{u, u} k K] {n : Nat}\n  (D : Fin n \u2192 Type u) [inst_3 : (i : Fin n) \u2192 DivisionRing.{u} (D i)] [inst_4 : (i : Fin n) \u2192 Algebra.{u, u} k (D i)]\n  (d : Fin n \u2192 Nat) {A : Type u} [inst_5 : Ring.{u} A] [inst_6 : Algebra.{u, u} k A]\n  (e : AlgEquiv.{u, u, u} k A ((i : Fin n) \u2192 Matrix.{0, 0, u} (Fin (d i)) (Fin (d i)) (D i))),\n  Nonempty.{u + 1}\n    (AlgEquiv.{u, u, u} K (TensorProduct.{u, u, u} k K A)\n      ((i : Fin n) \u2192 Matrix.{0, 0, u} (Fin (d i)) (Fin (d i)) (TensorProduct.{u, u, u} k K (D i))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4273760295",
+      "temporary_id": "decl-021724"
+    }
+  ],
+  "module_temporary_id": "module-0210",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

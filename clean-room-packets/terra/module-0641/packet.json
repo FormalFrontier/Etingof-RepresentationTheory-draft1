@@ -1,0 +1,61 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {A\u2081 A\u2082 : Type u} [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] {M\u2081 : ModuleCat.{u, u} A\u2081} {M\u2082 : ModuleCat.{u, u} A\u2082}\n  (P\u2081 : decl-014585.{u + 1, u} M\u2081) (P\u2082 : decl-014585.{u + 1, u} M\u2082) (n : Nat),\n  CategoryTheory.Projective.{u, u + 1} (HomologicalComplex.X.{u, u + 1, 0} (decl-019099.{u} P\u2081 P\u2082) n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585",
+        "decl-019099"
+      ],
+      "structural_type_hash": "1928316842",
+      "temporary_id": "decl-019107"
+    },
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {A\u2081 A\u2082 : Type u} \u2192\n      [inst_1 : Ring.{u} A\u2081] \u2192\n        [inst_2 : Ring.{u} A\u2082] \u2192\n          [inst_3 : Algebra.{u, u} k A\u2081] \u2192\n            [inst_4 : Algebra.{u, u} k A\u2082] \u2192\n              {M\u2081 : ModuleCat.{u, u} A\u2081} \u2192\n                {M\u2082 : ModuleCat.{u, u} A\u2082} \u2192\n                  decl-014585.{u + 1, u} M\u2081 \u2192\n                    decl-014585.{u + 1, u} M\u2082 \u2192\n                      decl-014585.{u + 1, u}\n                        (ModuleCat.of.{u, u} (TensorProduct.{u, u, u} k A\u2081 A\u2082)\n                          (TensorProduct.{u, u, u} k (ModuleCat.carrier.{u, u} M\u2081) (ModuleCat.carrier.{u, u} M\u2082)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585",
+        "decl-019026",
+        "decl-022689"
+      ],
+      "structural_type_hash": "2840554791",
+      "temporary_id": "decl-019184"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {A\u2081 A\u2082 : Type u} [inst_1 : Ring.{u} A\u2081] [inst_2 : Ring.{u} A\u2082]\n  [inst_3 : Algebra.{u, u} k A\u2081] [inst_4 : Algebra.{u, u} k A\u2082] {M\u2081 : ModuleCat.{u, u} A\u2081} {M\u2082 : ModuleCat.{u, u} A\u2082}\n  (P\u2081 : decl-014585.{u + 1, u} M\u2081) (P\u2082 : decl-014585.{u + 1, u} M\u2082) (n : Nat),\n  CategoryTheory.Limits.IsZero.{u, u + 1}\n    (HomologicalComplex.homology.{u, u + 1, 0}\n      (HomologicalComplex.tensorObj.{u, u + 1, 0} (decl-022710.{u} P\u2081) (decl-022717.{u} P\u2082))\n      (HAdd.hAdd.{0, 0, 0} n 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014585",
+        "decl-022710",
+        "decl-022717"
+      ],
+      "structural_type_hash": "3111174693",
+      "temporary_id": "decl-020282"
+    }
+  ],
+  "module_temporary_id": "module-0641",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

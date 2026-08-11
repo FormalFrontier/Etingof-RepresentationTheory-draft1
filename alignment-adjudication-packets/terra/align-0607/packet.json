@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:35a51e4f9e3552b45b82",
+      "declaration": "Etingof.Problem2_7_5.center_eq_bot_of_not_isOfFinOrder",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/60/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Not (IsOfFinOrder.{0} q) \u2192\n    Eq.{1}\n      (Subalgebra.center.{0, 0} Complex\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x))\n      Bot.bot.{0}",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5"
+    },
+    {
+      "association_id": "association:b7824d5d99bdf54cdd93",
+      "declaration": "Etingof.Problem2_7_5.isSimpleRing_of_not_isOfFinOrder",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/60/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex),\n  Not (IsOfFinOrder.{0} q) \u2192\n    IsSimpleRing.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.7.5",
+  "packet_id": "align-0607",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0607"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.7.5:claim-01",
+  "source_text": "If q is not a root of unity, the q-Weyl algebra has scalar center and no nontrivial two-sided ideals."
+}

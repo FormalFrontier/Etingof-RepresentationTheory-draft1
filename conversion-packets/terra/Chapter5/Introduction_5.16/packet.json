@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.16",
+    "kind": "introduction",
+    "title": "Section 5.16: Problems on Young diagrams and branching rules",
+    "node_id": "chapter-05/section-5-16",
+    "order": 339,
+    "slug": "introduction-5-16",
+    "span": {
+      "start": {
+        "page": "120",
+        "line": 17
+      },
+      "end": {
+        "page": "120",
+        "line": 20
+      }
+    },
+    "source_sha256": "02e7fa90443a80b2c9e09ed1f50224dbb86d0fe9e9666cf67e9eb048c9913f08",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction516",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

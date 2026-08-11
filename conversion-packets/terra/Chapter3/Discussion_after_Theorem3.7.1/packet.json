@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Discussion_after_Theorem3.7.1",
+    "kind": "discussion",
+    "title": "Length of a representation and Jordan-Holder series",
+    "node_id": "chapter-03/section-3-7",
+    "order": 162,
+    "slug": "discussion-after-theorem3-7-1",
+    "span": {
+      "start": {
+        "page": "54",
+        "line": 5
+      },
+      "end": {
+        "page": "54",
+        "line": 8
+      }
+    },
+    "source_sha256": "579a8be6a7afeed3353e1e9f6b0318221d53595a6cfacfa5332cb11817564cc0",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.DiscussionAfterTheorem371",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0074",
+  "associations": [
+    {
+      "association_id": "association:9bf17dbf9ef985a45d4c",
+      "role": "supporting",
+      "rationale": "This defines the character-group type used by the duality and product statements, but does not itself state product preservation."
+    },
+    {
+      "association_id": "association:38da907c4e97f11f106f",
+      "role": "primary",
+      "rationale": "Its multiplicative equivalence directly states preservation of a finite product by the character-group construction."
+    },
+    {
+      "association_id": "association:cc2d608ea9d1d7e55b36",
+      "role": "primary",
+      "rationale": "Its multiplicative equivalence directly states the binary product form of character-group duality."
+    }
+  ]
+}

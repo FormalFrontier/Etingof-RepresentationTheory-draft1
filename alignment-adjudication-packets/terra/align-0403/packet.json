@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2dea386341d822c54800",
+      "declaration": "Etingof.TensorTypes.TensorType",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/100/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} k V] \u2192 Nat \u2192 Nat \u2192 Type (max u_2 u_1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_pure_tensors"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_pure_tensors",
+  "packet_id": "align-0403",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0403"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:80c937a76980b534b419",
+  "source_text": "The space of tensors of type (m,n) on V is V^{\u2297 n} \u2297 (V*)^{\u2297 m}."
+}

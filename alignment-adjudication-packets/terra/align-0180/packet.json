@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:215798892e7cae68aa85",
+      "declaration": "matProdTransposeSelfDuality",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {r : Nat} \u2192 (d : Fin r \u2192 Nat) \u2192 RingEquiv.{u_1, u_1} (MatProd.{u_1} k d) (MulOpposite.{u_1} (MatProd.{u_1} k d))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    },
+    {
+      "association_id": "association:96397b037a5f794ca7cd",
+      "declaration": "piMulOppositeRingEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{\u03b9 : Type u_2} \u2192\n  (R : \u03b9 \u2192 Type u_3) \u2192\n    [inst : (i : \u03b9) \u2192 Semiring.{u_3} (R i)] \u2192\n      RingEquiv.{max u_2 u_3, max u_2 u_3} ((i : \u03b9) \u2192 MulOpposite.{u_3} (R i))\n        (MulOpposite.{max u_2 u_3} ((i : \u03b9) \u2192 R i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.3.1",
+  "packet_id": "align-0180",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0180"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:37115ff042dbc567f80b",
+  "source_text": "Applying transpose factorwise identifies A = \u2295_i Mat_{d_i}(k) with A^op."
+}

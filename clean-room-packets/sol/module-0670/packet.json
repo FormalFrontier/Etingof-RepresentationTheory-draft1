@@ -1,0 +1,597 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (f g : Polynomial.{u_1} k) \u2192\n      LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} (Polynomial.{u_1} k))\n        (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} g)))\n        (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n          (Ideal.span.{u_1} (Insert.insert.{u_1, u_1} f (Singleton.singleton.{u_1, u_1} g))))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3682442391",
+      "temporary_id": "decl-006580"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (f g x : Polynomial.{u_1} k),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-006580.{u_1} f g) (Submodule.Quotient.mk.{u_1, u_1} x))\n    (Submodule.Quotient.mk.{u_1, u_1} x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006580"
+      ],
+      "structural_type_hash": "326410814",
+      "temporary_id": "decl-006582"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (f g : Polynomial.{u_1} k),\n  Function.Surjective.{u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-006580.{u_1} f g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006580"
+      ],
+      "structural_type_hash": "3590050901",
+      "temporary_id": "decl-006583"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (f g : Polynomial.{u_1} k) \u2192\n      LinearEquiv.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} (Polynomial.{u_1} k))\n        (HasQuotient.Quotient.{u_1, u_1}\n          (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} g)))\n          (HSMul.hSMul.{u_1, u_1, u_1} (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} f)) Top.top.{u_1}))\n        (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n          (Ideal.span.{u_1} (Insert.insert.{u_1, u_1} f (Singleton.singleton.{u_1, u_1} g))))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3624192685",
+      "temporary_id": "decl-006584"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (f g : Polynomial.{u_1} k) \u2192\n      Ne.{u_1 + 1} g 0 \u2192\n        AddEquiv.{u_1, u_1}\n          (LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} (Polynomial.{u_1} k))\n            (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} f)))\n            (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n              (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} g))))\n          (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n            (Ideal.span.{u_1} (Insert.insert.{u_1, u_1} f (Singleton.singleton.{u_1, u_1} g))))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1357756739",
+      "temporary_id": "decl-006591"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (f g : Polynomial.{u_1} k) \u2192\n      AddEquiv.{u_1, u_1}\n        (LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} (Polynomial.{u_1} k))\n          (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} f)))\n          (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} g))))\n        (Subtype.{u_1 + 1} fun x =>\n          Membership.mem.{u_1, u_1} (LinearMap.ker.{u_1, u_1, u_1, u_1} (decl-006629.{u_1} f g)) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006629"
+      ],
+      "structural_type_hash": "2109631922",
+      "temporary_id": "decl-006592"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (f g : Polynomial.{u_1} k) \u2192\n      Ne.{u_1 + 1} g 0 \u2192\n        LinearEquiv.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} (Polynomial.{u_1} k))\n          (Subtype.{u_1 + 1} fun x =>\n            Membership.mem.{u_1, u_1} (LinearMap.ker.{u_1, u_1, u_1, u_1} (decl-006629.{u_1} f g)) x)\n          (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n            (Ideal.span.{u_1} (Insert.insert.{u_1, u_1} f (Singleton.singleton.{u_1, u_1} g))))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006629"
+      ],
+      "structural_type_hash": "3252658527",
+      "temporary_id": "decl-006601"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    Polynomial.{u_1} k \u2192\n      (g : Polynomial.{u_1} k) \u2192\n        LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} (Polynomial.{u_1} k))\n          (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} g)))\n          (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} g)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1889916830",
+      "temporary_id": "decl-006629"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    Polynomial.{u_1} k \u2192\n      (N : Type u_2) \u2192\n        [inst_1 : AddCommGroup.{u_2} N] \u2192\n          [inst_2 : Module.{u_1, u_2} (Polynomial.{u_1} k) N] \u2192\n            LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} (Polynomial.{u_1} k)) N N",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "981435315",
+      "temporary_id": "decl-006630"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (f : Polynomial.{u_1} k) {N : Type u_2} [inst_1 : AddCommGroup.{u_2} N]\n  [inst_2 : Module.{u_1, u_2} (Polynomial.{u_1} k) N] (x : N),\n  Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-006630.{u_1, u_2} f N) x)\n    (HSMul.hSMul.{u_1, u_2, u_2} f x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006630"
+      ],
+      "structural_type_hash": "2936302463",
+      "temporary_id": "decl-006632"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (f g : Polynomial.{u_1} k)\n  (x : HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} g))),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-006629.{u_1} f g) x)\n    (HSMul.hSMul.{u_1, u_1, u_1} f x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006629"
+      ],
+      "structural_type_hash": "2165538517",
+      "temporary_id": "decl-006633"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (f g : Polynomial.{u_1} k),\n  Eq.{u_1 + 1} (HSMul.hSMul.{u_1, u_1, u_1} (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} f)) Top.top.{u_1})\n    (LinearMap.ker.{u_1, u_1, u_1, u_1} (decl-006580.{u_1} f g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006580"
+      ],
+      "structural_type_hash": "3777109983",
+      "temporary_id": "decl-006634"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (f : Polynomial.{u_1} k),\n  Ne.{u_1 + 1} f 0 \u2192\n    Subsingleton.{u_1 + 1}\n      (Subtype.{u_1 + 1} fun x =>\n        Membership.mem.{u_1, u_1}\n          (LinearMap.ker.{u_1, u_1, u_1, u_1} (decl-006630.{u_1, u_1} f (Polynomial.{u_1} k))) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006630"
+      ],
+      "structural_type_hash": "3813782082",
+      "temporary_id": "decl-006635"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    (f g : Polynomial.{u_1} k) \u2192\n      LinearEquiv.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} (Polynomial.{u_1} k))\n        (TensorProduct.{u_1, u_1, u_1} (Polynomial.{u_1} k)\n          (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} f)))\n          (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} g))))\n        (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n          (Ideal.span.{u_1} (Insert.insert.{u_1, u_1} f (Singleton.singleton.{u_1, u_1} g))))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3429446491",
+      "temporary_id": "decl-006636"
+    },
+    {
+      "formal_type": "\u2200 (N : ModuleCat.{0, 0} Int) (n : Nat),\n  Subsingleton.{1} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int Int) N (HAdd.hAdd.{0, 0, 0} n 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "3191642534",
+      "temporary_id": "decl-014442"
+    },
+    {
+      "formal_type": "\u2200 (a b : Nat),\n  Ne.{1} a 0 \u2192\n    Ne.{1} b 0 \u2192\n      Nonempty.{1}\n        (AddEquiv.{0, 0} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int (ZMod a)) (ModuleCat.of.{0, 0} Int (ZMod b)) 1)\n          (ZMod (a.gcd b)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "752986246",
+      "temporary_id": "decl-014444"
+    },
+    {
+      "formal_type": "\u2200 (a b n : Nat),\n  Subsingleton.{1}\n    (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int (ZMod a)) (ModuleCat.of.{0, 0} Int (ZMod b))\n      (HAdd.hAdd.{0, 0, 0} n 2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "3081271830",
+      "temporary_id": "decl-014448"
+    },
+    {
+      "formal_type": "\u2200 (a b : Nat),\n  Ne.{1} a 0 \u2192\n    Ne.{1} b 0 \u2192\n      Nonempty.{1}\n        (AddEquiv.{0, 0} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int (ZMod a)) (ModuleCat.of.{0, 0} Int (ZMod b)) 0)\n          (ZMod (a.gcd b)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "2041632414",
+      "temporary_id": "decl-014450"
+    },
+    {
+      "formal_type": "\u2200 (a : Nat),\n  Ne.{1} a 0 \u2192\n    CategoryTheory.Limits.IsZero.{0, 1} (decl-016764.{0} Int Int (ModuleCat.of.{0, 0} (MulOpposite.{0} Int) (ZMod a)) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-021672"
+      ],
+      "structural_type_hash": "1644297488",
+      "temporary_id": "decl-014452"
+    },
+    {
+      "formal_type": "\u2200 (N : Type) [inst : AddCommGroup.{0} N] [inst_1 : Module.{0, 0} Int N] (n : Nat),\n  CategoryTheory.Limits.IsZero.{0, 1}\n    (decl-016764.{0} Int N (ModuleCat.of.{0, 0} (MulOpposite.{0} Int) Int) (HAdd.hAdd.{0, 0, 0} n 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764"
+      ],
+      "structural_type_hash": "1885998669",
+      "temporary_id": "decl-014455"
+    },
+    {
+      "formal_type": "\u2200 (a b : Nat),\n  Ne.{1} a 0 \u2192\n    Ne.{1} b 0 \u2192\n      Nonempty.{1}\n        (CategoryTheory.Iso.{0, 1} (decl-016764.{0} Int (ZMod b) (ModuleCat.of.{0, 0} (MulOpposite.{0} Int) (ZMod a)) 1)\n          (AddCommGrpCat.of.{0} (ZMod (a.gcd b))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-021672"
+      ],
+      "structural_type_hash": "1982871658",
+      "temporary_id": "decl-014456"
+    },
+    {
+      "formal_type": "\u2200 (a b n : Nat),\n  CategoryTheory.Limits.IsZero.{0, 1}\n    (decl-016764.{0} Int (ZMod b) (ModuleCat.of.{0, 0} (MulOpposite.{0} Int) (ZMod a)) (HAdd.hAdd.{0, 0, 0} n 2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-021672"
+      ],
+      "structural_type_hash": "4242267145",
+      "temporary_id": "decl-014458"
+    },
+    {
+      "formal_type": "\u2200 (a b : Nat),\n  Ne.{1} a 0 \u2192\n    Ne.{1} b 0 \u2192\n      Nonempty.{1}\n        (CategoryTheory.Iso.{0, 1} (decl-016764.{0} Int (ZMod b) (ModuleCat.of.{0, 0} (MulOpposite.{0} Int) (ZMod a)) 0)\n          (AddCommGrpCat.of.{0} (ZMod (a.gcd b))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-021672"
+      ],
+      "structural_type_hash": "454602973",
+      "temporary_id": "decl-014459"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (N : ModuleCat.{u, u} (Polynomial.{u} k)) (n : Nat),\n  Subsingleton.{u + 1}\n    (decl-004111.{u + 1, u, u} (ModuleCat.of.{u, u} (Polynomial.{u} k) (Polynomial.{u} k)) N (HAdd.hAdd.{0, 0, 0} n 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "2240301213",
+      "temporary_id": "decl-014466"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (f g : Polynomial.{u_1} k),\n  Ne.{u_1 + 1} f 0 \u2192\n    Nonempty.{u_1 + 1}\n      (AddEquiv.{u_1, u_1}\n        (decl-004111.{u_1 + 1, u_1, u_1}\n          (ModuleCat.of.{u_1, u_1} (Polynomial.{u_1} k)\n            (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n              (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} f))))\n          (ModuleCat.of.{u_1, u_1} (Polynomial.{u_1} k)\n            (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n              (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} g))))\n          1)\n        (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n          (Ideal.span.{u_1} (Insert.insert.{u_1, u_1} f (Singleton.singleton.{u_1, u_1} g)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "345362272",
+      "temporary_id": "decl-014468"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (f g : Polynomial.{u_1} k) (n : Nat),\n  Subsingleton.{u_1 + 1}\n    (decl-004111.{u_1 + 1, u_1, u_1}\n      (ModuleCat.of.{u_1, u_1} (Polynomial.{u_1} k)\n        (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} f))))\n      (ModuleCat.of.{u_1, u_1} (Polynomial.{u_1} k)\n        (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} g))))\n      (HAdd.hAdd.{0, 0, 0} n 2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "3640472345",
+      "temporary_id": "decl-014480"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (f g : Polynomial.{u_1} k),\n  Ne.{u_1 + 1} g 0 \u2192\n    Nonempty.{u_1 + 1}\n      (AddEquiv.{u_1, u_1}\n        (decl-004111.{u_1 + 1, u_1, u_1}\n          (ModuleCat.of.{u_1, u_1} (Polynomial.{u_1} k)\n            (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n              (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} f))))\n          (ModuleCat.of.{u_1, u_1} (Polynomial.{u_1} k)\n            (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n              (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} g))))\n          0)\n        (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n          (Ideal.span.{u_1} (Insert.insert.{u_1, u_1} f (Singleton.singleton.{u_1, u_1} g)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "1701432242",
+      "temporary_id": "decl-014482"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (f : Polynomial.{u} k),\n  Ne.{u + 1} f 0 \u2192\n    CategoryTheory.Limits.IsZero.{u, u + 1}\n      (decl-016764.{u} (Polynomial.{u} k) (Polynomial.{u} k)\n        (ModuleCat.of.{u, u} (MulOpposite.{u} (Polynomial.{u} k))\n          (HasQuotient.Quotient.{u, u} (Polynomial.{u} k) (Ideal.span.{u} (Singleton.singleton.{u, u} f))))\n        1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-021651"
+      ],
+      "structural_type_hash": "2173022432",
+      "temporary_id": "decl-014484"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (N : Type u) [inst_1 : AddCommGroup.{u} N]\n  [inst_2 : Module.{u, u} (Polynomial.{u} k) N] (n : Nat),\n  CategoryTheory.Limits.IsZero.{u, u + 1}\n    (decl-016764.{u} (Polynomial.{u} k) N (ModuleCat.of.{u, u} (MulOpposite.{u} (Polynomial.{u} k)) (Polynomial.{u} k))\n      (HAdd.hAdd.{0, 0, 0} n 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764"
+      ],
+      "structural_type_hash": "2801688667",
+      "temporary_id": "decl-014487"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (f g : Polynomial.{u} k),\n  Ne.{u + 1} f 0 \u2192\n    Ne.{u + 1} g 0 \u2192\n      Nonempty.{u + 1}\n        (CategoryTheory.Iso.{u, u + 1}\n          (decl-016764.{u} (Polynomial.{u} k)\n            (HasQuotient.Quotient.{u, u} (Polynomial.{u} k) (Ideal.span.{u} (Singleton.singleton.{u, u} g)))\n            (ModuleCat.of.{u, u} (MulOpposite.{u} (Polynomial.{u} k))\n              (HasQuotient.Quotient.{u, u} (Polynomial.{u} k) (Ideal.span.{u} (Singleton.singleton.{u, u} f))))\n            1)\n          (AddCommGrpCat.of.{u}\n            (HasQuotient.Quotient.{u, u} (Polynomial.{u} k)\n              (Ideal.span.{u} (Insert.insert.{u, u} f (Singleton.singleton.{u, u} g))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-021651"
+      ],
+      "structural_type_hash": "1484274555",
+      "temporary_id": "decl-014488"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (f g : Polynomial.{u} k) (n : Nat),\n  CategoryTheory.Limits.IsZero.{u, u + 1}\n    (decl-016764.{u} (Polynomial.{u} k)\n      (HasQuotient.Quotient.{u, u} (Polynomial.{u} k) (Ideal.span.{u} (Singleton.singleton.{u, u} g)))\n      (ModuleCat.of.{u, u} (MulOpposite.{u} (Polynomial.{u} k))\n        (HasQuotient.Quotient.{u, u} (Polynomial.{u} k) (Ideal.span.{u} (Singleton.singleton.{u, u} f))))\n      (HAdd.hAdd.{0, 0, 0} n 2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-021651"
+      ],
+      "structural_type_hash": "1751174325",
+      "temporary_id": "decl-014490"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (f g : Polynomial.{u_1} k),\n  Nonempty.{u_1 + 1}\n    (CategoryTheory.Iso.{u_1, u_1 + 1}\n      (decl-016764.{u_1} (Polynomial.{u_1} k)\n        (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} g)))\n        (ModuleCat.of.{u_1, u_1} (MulOpposite.{u_1} (Polynomial.{u_1} k))\n          (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} f))))\n        0)\n      (AddCommGrpCat.of.{u_1}\n        (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k)\n          (Ideal.span.{u_1} (Insert.insert.{u_1, u_1} f (Singleton.singleton.{u_1, u_1} g))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-021651"
+      ],
+      "structural_type_hash": "3346702327",
+      "temporary_id": "decl-014491"
+    },
+    {
+      "formal_type": "(a b : Nat) \u2192 LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Int) (ZMod b) (ZMod (a.gcd b))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "71719538",
+      "temporary_id": "decl-017068"
+    },
+    {
+      "formal_type": "\u2200 (a b : Nat) (x : ZMod b),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-017068 a b) x)\n    (DFunLike.coe.{1, 1, 1} (ZMod.castHom.{0} \u22ef (ZMod (a.gcd b))) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017068"
+      ],
+      "structural_type_hash": "2778060192",
+      "temporary_id": "decl-017070"
+    },
+    {
+      "formal_type": "(a b : Nat) \u2192\n  [NeZero.{0} a] \u2192\n    [NeZero.{0} b] \u2192 AddEquiv.{0, 0} (LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Int) (ZMod a) (ZMod b)) (ZMod (a.gcd b))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3548490695",
+      "temporary_id": "decl-017071"
+    },
+    {
+      "formal_type": "(a : Nat) \u2192\n  (Y : Type u_1) \u2192\n    [inst : AddCommGroup.{u_1} Y] \u2192\n      [NeZero.{0} a] \u2192\n        AddEquiv.{u_1, u_1} (LinearMap.{0, 0, 0, u_1} (RingHom.id.{0} Int) (ZMod a) Y)\n          (Subtype.{u_1 + 1} fun x =>\n            Membership.mem.{u_1, u_1} (LinearMap.ker.{0, 0, u_1, u_1} (decl-017086.{u_1} a Y)) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017086"
+      ],
+      "structural_type_hash": "1445433840",
+      "temporary_id": "decl-017072"
+    },
+    {
+      "formal_type": "(a b : Nat) \u2192 [NeZero.{0} b] \u2192 LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Int) (ZMod (a.gcd b)) (ZMod b)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "63983702",
+      "temporary_id": "decl-017081"
+    },
+    {
+      "formal_type": "\u2200 (a b : Nat) [inst : NeZero.{0} b] (y : ZMod (a.gcd b)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-017081 a b) y)\n    (HSMul.hSMul.{0, 0, 0} (Nat.cast.{0} y.val) (Nat.cast.{0} (HDiv.hDiv.{0, 0, 0} b (a.gcd b))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017081"
+      ],
+      "structural_type_hash": "1183362662",
+      "temporary_id": "decl-017084"
+    },
+    {
+      "formal_type": "\u2200 (a b : Nat) [inst : NeZero.{0} b] (m : Int),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-017081 a b) (Int.cast.{0} m))\n    (HSMul.hSMul.{0, 0, 0} m (Nat.cast.{0} (HDiv.hDiv.{0, 0, 0} b (a.gcd b))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017081"
+      ],
+      "structural_type_hash": "2377590400",
+      "temporary_id": "decl-017085"
+    },
+    {
+      "formal_type": "Nat \u2192 (Y : Type u_1) \u2192 [inst : AddCommGroup.{u_1} Y] \u2192 LinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Int) Y Y",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4245204669",
+      "temporary_id": "decl-017086"
+    },
+    {
+      "formal_type": "Nat \u2192 (b : Nat) \u2192 LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Int) (ZMod b) (ZMod b)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2174468066",
+      "temporary_id": "decl-017087"
+    },
+    {
+      "formal_type": "\u2200 (a b : Nat) (x : ZMod b),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-017087 a b) x) (HSMul.hSMul.{0, 0, 0} (Nat.cast.{0} a) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017087"
+      ],
+      "structural_type_hash": "521992942",
+      "temporary_id": "decl-017088"
+    },
+    {
+      "formal_type": "\u2200 (a : Nat) {Y : Type u_1} [inst : AddCommGroup.{u_1} Y] (x : Y),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-017086.{u_1} a Y) x)\n    (HSMul.hSMul.{0, u_1, u_1} (Nat.cast.{0} a) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017086"
+      ],
+      "structural_type_hash": "2587402226",
+      "temporary_id": "decl-017089"
+    },
+    {
+      "formal_type": "\u2200 (a : Nat) (Y : Type u_1) [inst : AddCommGroup.{u_1} Y],\n  Eq.{u_1 + 1} (LinearMap.range.{0, 0, u_1, u_1} (decl-017086.{u_1} a Y))\n    (HSMul.hSMul.{0, u_1, u_1} (Ideal.span.{0} (Singleton.singleton.{0, 0} (Nat.cast.{0} a))) Top.top.{u_1})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017086"
+      ],
+      "structural_type_hash": "1417453505",
+      "temporary_id": "decl-017090"
+    },
+    {
+      "formal_type": "\u2200 (a b : Nat) [NeZero.{0} b],\n  Eq.{1} (HSMul.hSMul.{0, 0, 0} (Ideal.span.{0} (Singleton.singleton.{0, 0} (Nat.cast.{0} a))) Top.top.{0})\n    (LinearMap.ker.{0, 0, 0, 0} (decl-017068 a b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017068"
+      ],
+      "structural_type_hash": "2215299534",
+      "temporary_id": "decl-017095"
+    },
+    {
+      "formal_type": "\u2200 (a : Nat) [NeZero.{0} a], Subsingleton.{1} (LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Int) (ZMod a) Int)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2757927592",
+      "temporary_id": "decl-017096"
+    },
+    {
+      "formal_type": "\u2200 (a : Nat) [NeZero.{0} a],\n  Subsingleton.{1}\n    (Subtype.{1} fun x => Membership.mem.{0, 0} (LinearMap.ker.{0, 0, 0, 0} (decl-017086.{0} a Int)) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017086"
+      ],
+      "structural_type_hash": "3243866171",
+      "temporary_id": "decl-017097"
+    },
+    {
+      "formal_type": "(a b : Nat) \u2192\n  [NeZero.{0} b] \u2192\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Int) (TensorProduct.{0, 0, 0} Int (ZMod a) (ZMod b)) (ZMod (a.gcd b))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2927255961",
+      "temporary_id": "decl-017098"
+    },
+    {
+      "formal_type": "(a b : Nat) \u2192\n  [NeZero.{0} b] \u2192\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Int)\n      (HasQuotient.Quotient.{0, 0} (ZMod b)\n        (HSMul.hSMul.{0, 0, 0} (Ideal.span.{0} (Singleton.singleton.{0, 0} (Nat.cast.{0} a))) Top.top.{0}))\n      (ZMod (a.gcd b))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3169731506",
+      "temporary_id": "decl-017100"
+    },
+    {
+      "formal_type": "(a b : Nat) \u2192\n  [NeZero.{0} b] \u2192\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Int)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (LinearMap.ker.{0, 0, 0, 0} (decl-017087 a b)) x)\n      (ZMod (a.gcd b))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017087"
+      ],
+      "structural_type_hash": "676228681",
+      "temporary_id": "decl-017106"
+    },
+    {
+      "formal_type": "\u2200 (a : Nat),\n  Ne.{1} a 0 \u2192\n    \u2200 (Y : Type) [inst : AddCommGroup.{0} Y],\n      Nonempty.{1}\n        (AddEquiv.{0, 0} (decl-004111.{1, 0, 0} (ModuleCat.of.{0, 0} Int (ZMod a)) (ModuleCat.of.{0, 0} Int Y) 1)\n          (HasQuotient.Quotient.{0, 0} Y\n            (HSMul.hSMul.{0, 0, 0} (Ideal.span.{0} (Singleton.singleton.{0, 0} (Nat.cast.{0} a))) Top.top.{0})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "4117837394",
+      "temporary_id": "decl-019239"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [Small.{u, u} R] {S : CategoryTheory.ShortComplex.{u, u + 1} (ModuleCat.{u, u} R)},\n  CategoryTheory.ShortComplex.ShortExact.{u, u + 1} S \u2192\n    CategoryTheory.Projective.{u, u + 1} (CategoryTheory.ShortComplex.X\u2081.{u, u + 1} S) \u2192\n      CategoryTheory.Projective.{u, u + 1} (CategoryTheory.ShortComplex.X\u2082.{u, u + 1} S) \u2192\n        CategoryTheory.HasProjectiveDimensionLT.{u, u + 1} (CategoryTheory.ShortComplex.X\u2083.{u, u + 1} S) 2",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1269657316",
+      "temporary_id": "decl-019919"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (f : Polynomial.{u_1} k) \u2192\n      Module.{u_1, u_1} (MulOpposite.{u_1} (Polynomial.{u_1} k))\n        (HasQuotient.Quotient.{u_1, u_1} (Polynomial.{u_1} k) (Ideal.span.{u_1} (Singleton.singleton.{u_1, u_1} f)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1380748887",
+      "temporary_id": "decl-021651"
+    },
+    {
+      "formal_type": "(a : Nat) \u2192 Module.{0, 0} (MulOpposite.{0} Int) (ZMod a)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2287976611",
+      "temporary_id": "decl-021672"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (f : Polynomial.{u} k),\n  Ne.{u + 1} f 0 \u2192\n    \u2200 (N : Type u) [inst_1 : AddCommGroup.{u} N] [inst_2 : Module.{u, u} (Polynomial.{u} k) N],\n      Nonempty.{u + 1}\n        (CategoryTheory.Iso.{u, u + 1}\n          (decl-016764.{u} (Polynomial.{u} k) N\n            (ModuleCat.of.{u, u} (MulOpposite.{u} (Polynomial.{u} k))\n              (HasQuotient.Quotient.{u, u} (Polynomial.{u} k) (Ideal.span.{u} (Singleton.singleton.{u, u} f))))\n            1)\n          (AddCommGrpCat.of.{u}\n            (Subtype.{u + 1} fun x =>\n              Membership.mem.{u, u} (LinearMap.ker.{u, u, u, u} (decl-006630.{u, u} f N)) x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006630",
+        "decl-016764",
+        "decl-021651"
+      ],
+      "structural_type_hash": "2928627646",
+      "temporary_id": "decl-024247"
+    },
+    {
+      "formal_type": "\u2200 (a : Nat),\n  Ne.{1} a 0 \u2192\n    \u2200 (N : Type) [inst : AddCommGroup.{0} N],\n      Nonempty.{1}\n        (CategoryTheory.Iso.{0, 1} (decl-016764.{0} Int N (ModuleCat.of.{0, 0} (MulOpposite.{0} Int) (ZMod a)) 1)\n          (AddCommGrpCat.of.{0}\n            (Subtype.{1} fun x =>\n              Membership.mem.{0, 0} (LinearMap.ker.{0, 0, 0, 0} (decl-017086.{0} a N)) x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-017086",
+        "decl-021672"
+      ],
+      "structural_type_hash": "669839422",
+      "temporary_id": "decl-024253"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (f : Polynomial.{u} k) (N : Type u) [inst_1 : AddCommGroup.{u} N]\n  [inst_2 : Module.{u, u} (Polynomial.{u} k) N] (n : Nat),\n  CategoryTheory.Limits.IsZero.{u, u + 1}\n    (decl-016764.{u} (Polynomial.{u} k) N\n      (ModuleCat.of.{u, u} (MulOpposite.{u} (Polynomial.{u} k))\n        (HasQuotient.Quotient.{u, u} (Polynomial.{u} k) (Ideal.span.{u} (Singleton.singleton.{u, u} f))))\n      (HAdd.hAdd.{0, 0, 0} n 2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-021651"
+      ],
+      "structural_type_hash": "3589538717",
+      "temporary_id": "decl-024261"
+    },
+    {
+      "formal_type": "\u2200 (a : Nat) (N : Type) [inst : AddCommGroup.{0} N] (n : Nat),\n  CategoryTheory.Limits.IsZero.{0, 1}\n    (decl-016764.{0} Int N (ModuleCat.of.{0, 0} (MulOpposite.{0} Int) (ZMod a)) (HAdd.hAdd.{0, 0, 0} n 2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-021672"
+      ],
+      "structural_type_hash": "2217277499",
+      "temporary_id": "decl-024262"
+    },
+    {
+      "formal_type": "\u2200 (a : Nat) (N : Type) [inst : AddCommGroup.{0} N],\n  Nonempty.{1}\n    (CategoryTheory.Iso.{0, 1} (decl-016764.{0} Int N (ModuleCat.of.{0, 0} (MulOpposite.{0} Int) (ZMod a)) 0)\n      (AddCommGrpCat.of.{0}\n        (HasQuotient.Quotient.{0, 0} N\n          (HSMul.hSMul.{0, 0, 0} (Ideal.span.{0} (Singleton.singleton.{0, 0} (Nat.cast.{0} a))) Top.top.{0}))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764",
+        "decl-021672"
+      ],
+      "structural_type_hash": "3671217632",
+      "temporary_id": "decl-024263"
+    }
+  ],
+  "module_temporary_id": "module-0670",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ca9d3cdb412859e12725",
+      "declaration": "Etingof.Exercise4_3_1.covariantSubspace_finrank",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/197/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1}\n  (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Exercise4_3_1.covariantSubspace x))\n  2",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Exercise4_3_1"
+    },
+    {
+      "association_id": "association:221b64c30635965f9468",
+      "declaration": "Etingof.Exercise4_3_1.covariantSubspace_invariant",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/197/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (g : QuaternionGroup 2) (f : QuaternionGroup 2 \u2192 Complex),\n  Membership.mem.{0, 0} Etingof.Exercise4_3_1.covariantSubspace f \u2192\n    Membership.mem.{0, 0} Etingof.Exercise4_3_1.covariantSubspace\n      (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Exercise4_3_1.rightRegular g) f)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Exercise4_3_1"
+    },
+    {
+      "association_id": "association:549df858886f8864195f",
+      "declaration": "Etingof.Exercise4_3_1.covariantSubspace_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/197/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (U : Submodule.{0, 0} Complex (QuaternionGroup 2 \u2192 Complex)),\n  LE.le.{0} U Etingof.Exercise4_3_1.covariantSubspace \u2192\n    (\u2200 (g : QuaternionGroup 2) (f : QuaternionGroup 2 \u2192 Complex),\n        Membership.mem.{0, 0} U f \u2192\n          Membership.mem.{0, 0} U\n            (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Exercise4_3_1.rightRegular g) f)) \u2192\n      Or (Eq.{1} U Bot.bot.{0}) (Eq.{1} U Etingof.Exercise4_3_1.covariantSubspace)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Exercise4_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter4/Exercise4.3.1",
+  "packet_id": "align-0697",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0697"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Exercise4.3.1:covariant_model",
+  "source_text": "The two-dimensional irreducible Q8-representation is the stated covariant subspace of the right regular representation."
+}

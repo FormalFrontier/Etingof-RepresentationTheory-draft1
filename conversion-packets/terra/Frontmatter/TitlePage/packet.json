@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Frontmatter/TitlePage",
+    "kind": "introduction",
+    "title": "Title page",
+    "node_id": "frontmatter",
+    "order": 1,
+    "slug": "titlepage",
+    "span": {
+      "start": {
+        "page": "frontmatter-1",
+        "line": 1
+      },
+      "end": {
+        "page": "frontmatter-1",
+        "line": 5
+      }
+    },
+    "source_sha256": "40bb088335ba4857939762bf5e53c659508f0d48a3d3183887cf903bf1cb32c3",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Frontmatter.TitlePage",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

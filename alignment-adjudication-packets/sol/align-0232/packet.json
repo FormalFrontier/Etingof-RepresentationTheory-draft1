@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3f641dad7acabedcd8cb",
+      "declaration": "Etingof.exists_simple_A_submodule_homA_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/346/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (E : Type v) [inst_1 : AddCommGroup.{v} E] [inst_2 : Module.{u, v} k E]\n  [Module.Finite.{u, v} k E] (A : Subalgebra.{u, v} k (Module.End.{u, v} k E))\n  [IsSemisimpleRing.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)] [IsAlgClosed.{u} k] (W : Type w)\n  [inst_6 : AddCommGroup.{w} W]\n  [inst_7 :\n    Module.{v, w}\n      (Subtype.{v + 1} fun x => Membership.mem.{v, v} (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} A)) x) W]\n  [IsSimpleModule.{v, w}\n      (Subtype.{v + 1} fun x => Membership.mem.{v, v} (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} A)) x) W],\n  Exists.{v + 1} fun V =>\n    And\n      (IsSimpleModule.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)\n        (Subtype.{v + 1} fun x => Membership.mem.{v, v} V x))\n      (Nonempty.{max (v + 1) (w + 1)}\n        (LinearEquiv.{v, v, w, v}\n          (RingHom.id.{v}\n            (Subtype.{v + 1} fun x => Membership.mem.{v, v} (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} A)) x))\n          W\n          (LinearMap.{v, v, v, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x))\n            (Subtype.{v + 1} fun x => Membership.mem.{v, v} V x) E)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_1_Bijection"
+    },
+    {
+      "association_id": "association:3f1aef2d930ec8125065",
+      "declaration": "Etingof.homACongrLeftCentralizer",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/346/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (E : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} E] \u2192\n        [inst_2 : Module.{u, v} k E] \u2192\n          (A : Subalgebra.{u, v} k (Module.End.{u, v} k E)) \u2192\n            {M : Type u_1} \u2192\n              {N : Type u_2} \u2192\n                [inst_3 : AddCommGroup.{u_1} M] \u2192\n                  [inst_4 : Module.{u, u_1} k M] \u2192\n                    [inst_5 : Module.{v, u_1} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) M] \u2192\n                      [inst_6 : IsScalarTower.{u, v, u_1} k (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) M] \u2192\n                        [inst_7 : AddCommGroup.{u_2} N] \u2192\n                          [inst_8 : Module.{u, u_2} k N] \u2192\n                            [inst_9 : Module.{v, u_2} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) N] \u2192\n                              [inst_10 :\n                                  IsScalarTower.{u, v, u_2} k (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) N] \u2192\n                                LinearEquiv.{v, v, u_1, u_2}\n                                    (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)) M N \u2192\n                                  LinearEquiv.{v, v, max v u_2, max v u_1}\n                                    (RingHom.id.{v}\n                                      (Subtype.{v + 1} fun x =>\n                                        Membership.mem.{v, v} (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} A))\n                                          x))\n                                    (LinearMap.{v, v, u_2, v}\n                                      (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)) N E)\n                                    (LinearMap.{v, v, u_1, v}\n                                      (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)) M E)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_1_Bijection"
+    },
+    {
+      "association_id": "association:3257dd11c805e267a8ee",
+      "declaration": "Etingof.homA_iso_of_homA_congr",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/346/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (E : Type v) [inst_1 : AddCommGroup.{v} E] [inst_2 : Module.{u, v} k E]\n  [Module.Finite.{u, v} k E] (A : Subalgebra.{u, v} k (Module.End.{u, v} k E))\n  [IsSemisimpleRing.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)]\n  [FaithfulSMul.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E] [IsAlgClosed.{u} k] (V W : Type w)\n  [inst_7 : AddCommGroup.{w} V] [inst_8 : Module.{u, w} k V]\n  [inst_9 : Module.{v, w} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) V]\n  [inst_10 : IsScalarTower.{u, v, w} k (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) V]\n  [IsSimpleModule.{v, w} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) V] [inst_12 : AddCommGroup.{w} W]\n  [inst_13 : Module.{u, w} k W] [inst_14 : Module.{v, w} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) W]\n  [inst_15 : IsScalarTower.{u, v, w} k (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) W]\n  [IsSimpleModule.{v, w} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) W],\n  Nonempty.{(max v w) + 1}\n      (LinearEquiv.{v, v, max v w, max v w}\n        (RingHom.id.{v}\n          (Subtype.{v + 1} fun x => Membership.mem.{v, v} (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} A)) x))\n        (LinearMap.{v, v, w, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)) V E)\n        (LinearMap.{v, v, w, v} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)) W E)) \u2192\n    Nonempty.{w + 1}\n      (LinearEquiv.{v, v, w, w} (RingHom.id.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)) V W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_1_Bijection"
+    },
+    {
+      "association_id": "association:6dfa7a7d8d5c863553c9",
+      "declaration": "Etingof.homRealizationComponentEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/346/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (E : Type v) \u2192\n      [inst_1 : AddCommGroup.{v} E] \u2192\n        [inst_2 : Module.{u, v} k E] \u2192\n          [Module.Finite.{u, v} k E] \u2192\n            (A : Subalgebra.{u, v} k (Module.End.{u, v} k E)) \u2192\n              [IsSemisimpleRing.{v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)] \u2192\n                [IsAlgClosed.{u} k] \u2192\n                  Equiv.{v + 1, v + 1}\n                    (Set.Elem.{v} (isotypicComponents.{v, v} (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x) E))\n                    (Set.Elem.{v}\n                      (isotypicComponents.{v, v}\n                        (Subtype.{v + 1} fun x =>\n                          Membership.mem.{v, v} (Subalgebra.centralizer.{u, v} k (SetLike.coe.{v, v} A)) x)\n                        E))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_1_Bijection"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.18.1",
+  "packet_id": "align-0232",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0232"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:461be7f705d1dfa52cb5",
+  "source_text": "Simple A-modules and simple centralizer(A)-modules correspond by V \u21a6 Hom_A(V,E), bijectively up to isomorphism."
+}

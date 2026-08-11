@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.Lie.Dual",
+  "declarations": [
+    {
+      "temporary_id": "decl-005578",
+      "new_name": "LieModuleDual",
+      "docstring": "The dual-module type for a module of a Lie algebra over a commutative ring."
+    },
+    {
+      "temporary_id": "decl-021478",
+      "new_name": "lie_bracket_dual_apply",
+      "docstring": "Evaluating the Lie action on a dual element at a vector gives the negated evaluation on the Lie action of that vector."
+    }
+  ]
+}

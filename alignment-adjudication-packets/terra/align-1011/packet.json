@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9321bbe48feeddf3183b",
+      "declaration": "Etingof.Theorem5_10_1_adjunction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/300/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k G : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      (H : Subgroup.{0} G) \u2192\n        CategoryTheory.Adjunction.{w, w, w + 1, w + 1} (Etingof.resSubgroupFunctor.{w} k G H)\n          (Etingof.indSubgroupFunctor.{w} k G H)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_10_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.10.1",
+  "packet_id": "align-1011",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1011"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c190b7cd91c3f514e36d",
+  "source_text": "The natural isomorphism is the adjunction Res_H^G \u22a3 Ind_H^G."
+}

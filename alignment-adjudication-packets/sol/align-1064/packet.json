@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a19a9edfb6737a547271",
+      "declaration": "Etingof.algebraicIntegers",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/255/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Subalgebra.{0, 0} Int Complex",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_4"
+    },
+    {
+      "association_id": "association:448118055ca47329cfbc",
+      "declaration": "Etingof.algebraicNumbers",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/255/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "IntermediateField.{0, 0} Rat Complex",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_4"
+    },
+    {
+      "association_id": "association:726d45939687dc72ea0d",
+      "declaration": "Etingof.mem_algebraicIntegers",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/255/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {x : Complex}, Iff (Membership.mem.{0, 0} Etingof.algebraicIntegers x) (IsIntegral.{0, 0} Int x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_4"
+    },
+    {
+      "association_id": "association:338ce0f0c32effe08f57",
+      "declaration": "Etingof.mem_algebraicNumbers",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/255/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {x : Complex}, Iff (Membership.mem.{0, 0} Etingof.algebraicNumbers x) (IsAlgebraic.{0, 0} Rat x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_4"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_after_Proposition5.2.3",
+  "packet_id": "align-1064",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1064"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d06dd1525eaa79417b28",
+  "source_text": "The algebraic integers and algebraic numbers are represented by the bundled objects Z-bar and Q-bar."
+}

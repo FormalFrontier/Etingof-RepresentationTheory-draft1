@@ -1,0 +1,364 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192 (A : Type u_2) \u2192 [inst : Field.{u_1} k] \u2192 [inst_1 : Ring.{u_2} A] \u2192 [Algebra.{u_1, u_2} k A] \u2192 Type u_2",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1494198970",
+      "temporary_id": "decl-009172"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (self : decl-009172.{u_1, u_2} k A),\n  DirectSum.IsInternal.{0, u_2, u_2} (decl-009188.{u_1, u_2} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-009172",
+      "project_type_dependencies": [
+        "decl-009172",
+        "decl-009188"
+      ],
+      "structural_type_hash": "2742807226",
+      "temporary_id": "decl-009177"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (self : decl-009172.{u_1, u_2} k A) (n : Nat),\n  Module.Finite.{u_1, u_2} k\n    (Subtype.{u_2 + 1} fun x =>\n      Membership.mem.{u_2, u_2} (decl-009188.{u_1, u_2} self n) x)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-009172",
+      "project_type_dependencies": [
+        "decl-009172",
+        "decl-009188"
+      ],
+      "structural_type_hash": "3801803910",
+      "temporary_id": "decl-009178"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (self : decl-009172.{u_1, u_2} k A) {n m : Nat} {x y : A},\n  Membership.mem.{u_2, u_2} (decl-009188.{u_1, u_2} self n) x \u2192\n    Membership.mem.{u_2, u_2} (decl-009188.{u_1, u_2} self m) y \u2192\n      Membership.mem.{u_2, u_2}\n        (decl-009188.{u_1, u_2} self (HAdd.hAdd.{0, 0, 0} n m))\n        (HMul.hMul.{u_2, u_2, u_2} x y)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-009172",
+      "project_type_dependencies": [
+        "decl-009172",
+        "decl-009188"
+      ],
+      "structural_type_hash": "2523584496",
+      "temporary_id": "decl-009185"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          decl-009172.{u_1, u_2} k A \u2192 Nat \u2192 Submodule.{u_1, u_2} k A",
+      "kind": "definition",
+      "owner_temporary_id": "decl-009172",
+      "project_type_dependencies": [
+        "decl-009172"
+      ],
+      "structural_type_hash": "1016974588",
+      "temporary_id": "decl-009188"
+    },
+    {
+      "formal_type": "(Q : Type u_1) \u2192\n  [inst : Quiver.{u_2, u_1} Q] \u2192 [(i j : Q) \u2192 Fintype.{u_2} (Quiver.Hom.{u_2, u_1} i j)] \u2192 Matrix.{u_1, u_1, 0} Q Q Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1584747142",
+      "temporary_id": "decl-009191"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [CommRing.{u_1} k] \u2192\n    (Q : Type u_2) \u2192\n      [inst : Quiver.{u_3, u_2} Q] \u2192\n        [(i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)] \u2192 Matrix.{u_2, u_2, u_1} Q Q (PowerSeries.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4039089274",
+      "temporary_id": "decl-009192"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q]\n  [inst_2 : (i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)] (i j : Q),\n  Eq.{u_1 + 1} (decl-009192.{u_1, u_2, u_3} k Q i j)\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} PowerSeries.C.{u_1}\n      (Nat.cast.{u_1} (decl-009191.{u_2, u_3} Q i j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009191",
+        "decl-009192"
+      ],
+      "structural_type_hash": "3773897018",
+      "temporary_id": "decl-009193"
+    },
+    {
+      "formal_type": "\u2200 (Q : Type u_1) [inst : Quiver.{u_2, u_1} Q] [inst_1 : Fintype.{u_1} Q] [inst_2 : DecidableEq.{u_1 + 1} Q]\n  [inst_3 : (i j : Q) \u2192 Fintype.{u_2} (Quiver.Hom.{u_2, u_1} i j)] (i j : Q) (n : Nat),\n  Eq.{1}\n    (Nat.card.{max u_1 u_2} (Subtype.{max (u_1 + 1) (u_2 + 1)} fun p => Eq.{1} (Quiver.Path.length.{u_1, u_2} p) n))\n    (HPow.hPow.{u_1, 0, u_1} (decl-009191.{u_1, u_2} Q) n i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009191"
+      ],
+      "structural_type_hash": "1579749629",
+      "temporary_id": "decl-009194"
+    },
+    {
+      "formal_type": "\u2200 (m n : Nat), Eq.{1} (Nat.card.{0} (Subtype.{1} fun l => Eq.{1} (List.length.{0} l) n)) (HPow.hPow.{0, 0, 0} m n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2501395425",
+      "temporary_id": "decl-009195"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : Fintype.{u_2} Q]\n  [inst_3 : DecidableEq.{u_2 + 1} Q] [inst_4 : (i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)] (i j : Q)\n  (d : Nat),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (PowerSeries.coeff.{u_1} d)\n      (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2} (decl-009192.{u_1, u_2, u_3} k Q)\n        (decl-009236.{u_1, u_2, u_3} k Q) i j))\n    (Nat.cast.{u_1}\n      (HPow.hPow.{u_2, 0, u_2} (decl-009191.{u_2, u_3} Q) (HAdd.hAdd.{0, 0, 0} d 1) i j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009191",
+        "decl-009192",
+        "decl-009236"
+      ],
+      "structural_type_hash": "2018846506",
+      "temporary_id": "decl-009196"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (G : decl-009172.{u_1, u_2} k A) (n : Nat),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (PowerSeries.coeff.{0} n) (decl-009210.{u_1, u_2} G))\n    (Nat.cast.{0}\n      (Module.finrank.{u_1, u_2} k\n        (Subtype.{u_2 + 1} fun x =>\n          Membership.mem.{u_2, u_2} (decl-009188.{u_1, u_2} G n) x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009172",
+        "decl-009188",
+        "decl-009210"
+      ],
+      "structural_type_hash": "2055443367",
+      "temporary_id": "decl-009197"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : Fintype.{u_2} Q]\n  [inst_3 : DecidableEq.{u_2 + 1} Q] [inst_4 : (i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)] (i j : Q)\n  (n : Nat),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (PowerSeries.coeff.{u_1} n)\n      (decl-009236.{u_1, u_2, u_3} k Q i j))\n    (Nat.cast.{u_1} (HPow.hPow.{u_2, 0, u_2} (decl-009191.{u_2, u_3} Q) n i j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009191",
+        "decl-009236"
+      ],
+      "structural_type_hash": "3184175688",
+      "temporary_id": "decl-009198"
+    },
+    {
+      "formal_type": "\u2200 (Q : Type u_1) [inst : Quiver.{u_2, u_1} Q] [inst_1 : Fintype.{u_1} Q] [inst_2 : DecidableEq.{u_1 + 1} Q]\n  [inst_3 : (i j : Q) \u2192 Fintype.{u_2} (Quiver.Hom.{u_2, u_1} i j)] (n : Nat),\n  Eq.{1}\n    (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun i =>\n      Finset.sum.{u_1, 0} Finset.univ.{u_1} fun j =>\n        Nat.card.{max u_1 u_2} (Subtype.{max (u_1 + 1) (u_2 + 1)} fun p => Eq.{1} (Quiver.Path.length.{u_1, u_2} p) n))\n    (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun i =>\n      Finset.sum.{u_1, 0} Finset.univ.{u_1} fun j =>\n        HPow.hPow.{u_1, 0, u_1} (decl-009191.{u_1, u_2} Q) n i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009191"
+      ],
+      "structural_type_hash": "3158802414",
+      "temporary_id": "decl-009199"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (m n : Nat),\n  Eq.{1}\n    (Module.finrank.{u_1, u_1} k\n      (Subtype.{u_1 + 1} fun x =>\n        Membership.mem.{u_1, u_1} (ExteriorAlgebra.exteriorPower.{u_1, u_1} k n (Fin m \u2192 k)) x))\n    (m.choose n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "282072544",
+      "temporary_id": "decl-009200"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (m n : Nat),\n  Eq.{1}\n    (Module.finrank.{u_1, u_1} k\n      (Subtype.{u_1 + 1} fun x =>\n        Membership.mem.{u_1, u_1} (decl-009206.{u_1} k m n) x))\n    (HPow.hPow.{0, 0, 0} m n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009206"
+      ],
+      "structural_type_hash": "3405426721",
+      "temporary_id": "decl-009201"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (m n : Nat),\n  Eq.{1}\n    (Module.finrank.{u_1, u_1} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (MvPolynomial.homogeneousSubmodule.{0, u_1} (Fin m) k n) x))\n    ((HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} n m) 1).choose n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1896640420",
+      "temporary_id": "decl-009202"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : Fintype.{u_2} Q]\n  [inst_3 : DecidableEq.{u_2 + 1} Q] [\u2200 (i j : Q), Finite.{u_3 + 1} (Quiver.Hom.{u_3, u_2} i j)] (n : Nat),\n  Eq.{1}\n    (Module.finrank.{u_1, max (max u_1 u_2) u_3} k\n      (Subtype.{(max (max u_1 u_2) u_3) + 1} fun x =>\n        Membership.mem.{max (max u_1 u_2) u_3, max (max u_1 u_2) u_3}\n          (decl-009224.{u_1, u_2, u_3} k Q n) x))\n    (Finset.sum.{u_2, 0} Finset.univ.{u_2} fun i =>\n      Finset.sum.{u_2, 0} Finset.univ.{u_2} fun j =>\n        Nat.card.{max u_2 u_3} (Subtype.{max (u_2 + 1) (u_3 + 1)} fun p => Eq.{1} (Quiver.Path.length.{u_2, u_3} p) n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005820",
+        "decl-006151",
+        "decl-006185",
+        "decl-009224"
+      ],
+      "structural_type_hash": "241917443",
+      "temporary_id": "decl-009205"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192 (m : Nat) \u2192 Nat \u2192 Submodule.{u_1, u_1} k (MonoidAlgebra.{u_1, 0} k (FreeMonoid.{0} (Fin m)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3121374559",
+      "temporary_id": "decl-009206"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (m : Nat) \u2192\n      AlgEquiv.{u_1, u_1, u_1} k (FreeAlgebra.{u_1, 0} k (Fin m)) (MonoidAlgebra.{u_1, 0} k (FreeMonoid.{0} (Fin m)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2818085327",
+      "temporary_id": "decl-009209"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {A : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          decl-009172.{u_1, u_2} k A \u2192 PowerSeries.{0} Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009172"
+      ],
+      "structural_type_hash": "3165674105",
+      "temporary_id": "decl-009210"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (m : Nat),\n  Eq.{u_1 + 1} (PowerSeries.mk.{u_1} fun n => Nat.cast.{u_1} (m.choose n))\n    (HPow.hPow.{u_1, 0, u_1} (HAdd.hAdd.{u_1, u_1, u_1} 1 PowerSeries.X.{u_1}) m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "462777067",
+      "temporary_id": "decl-009211"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (m : Nat),\n  Eq.{u_1 + 1}\n    (HMul.hMul.{u_1, u_1, u_1} (HSub.hSub.{u_1, u_1, u_1} 1 (HSMul.hSMul.{0, u_1, u_1} m PowerSeries.X.{u_1}))\n      (PowerSeries.mk.{u_1} fun n => Nat.cast.{u_1} (HPow.hPow.{0, 0, 0} m n)))\n    1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2909289350",
+      "temporary_id": "decl-009212"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (m : Nat),\n  Eq.{u_1 + 1}\n    (HMul.hMul.{u_1, u_1, u_1} (HPow.hPow.{u_1, 0, u_1} (HSub.hSub.{u_1, u_1, u_1} 1 PowerSeries.X.{u_1}) m)\n      (PowerSeries.mk.{u_1} fun n => Nat.cast.{u_1} ((HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} n m) 1).choose n)))\n    1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1142245938",
+      "temporary_id": "decl-009213"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : Fintype.{u_2} Q]\n  [inst_3 : DecidableEq.{u_2 + 1} Q] [inst_4 : (i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)],\n  Eq.{u_1 + 1}\n    (PowerSeries.mk.{u_1} fun n =>\n      Nat.cast.{u_1}\n        (Finset.sum.{u_2, 0} Finset.univ.{u_2} fun i =>\n          Finset.sum.{u_2, 0} Finset.univ.{u_2} fun j =>\n            Nat.card.{max u_2 u_3}\n              (Subtype.{max (u_2 + 1) (u_3 + 1)} fun p => Eq.{1} (Quiver.Path.length.{u_2, u_3} p) n)))\n    (dotProduct.{u_1, u_2}\n      (Matrix.vecMul.{u_1, u_2, u_2} (fun x => 1)\n        (Inv.inv.{max u_2 u_1}\n          (HSub.hSub.{max u_1 u_2, max u_1 u_2, max u_2 u_1} 1\n            (HSMul.hSMul.{u_1, max u_1 u_2, max u_1 u_2} PowerSeries.X.{u_1}\n              (decl-009192.{u_1, u_2, u_3} k Q)))))\n      fun x => 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009192"
+      ],
+      "structural_type_hash": "3931123852",
+      "temporary_id": "decl-009217"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : Fintype.{u_2} Q]\n  [inst_3 : DecidableEq.{u_2 + 1} Q] [inst_4 : (i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)],\n  Eq.{u_1 + 1}\n    (PowerSeries.mk.{u_1} fun n =>\n      Nat.cast.{u_1}\n        (Finset.sum.{u_2, 0} Finset.univ.{u_2} fun i =>\n          Finset.sum.{u_2, 0} Finset.univ.{u_2} fun j =>\n            HPow.hPow.{u_2, 0, u_2} (decl-009191.{u_2, u_3} Q) n i j))\n    (dotProduct.{u_1, u_2}\n      (Matrix.vecMul.{u_1, u_2, u_2} (fun x => 1)\n        (Inv.inv.{max u_2 u_1}\n          (HSub.hSub.{max u_1 u_2, max u_1 u_2, max u_2 u_1} 1\n            (HSMul.hSMul.{u_1, max u_1 u_2, max u_1 u_2} PowerSeries.X.{u_1}\n              (decl-009192.{u_1, u_2, u_3} k Q)))))\n      fun x => 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009191",
+        "decl-009192"
+      ],
+      "structural_type_hash": "1830463128",
+      "temporary_id": "decl-009218"
+    },
+    {
+      "formal_type": "\u2200 {Q : Type u_1} [inst : Quiver.{u_2, u_1} Q] [Finite.{u_1 + 1} Q]\n  [\u2200 (i j : Q), Finite.{u_2 + 1} (Quiver.Hom.{u_2, u_1} i j)] (i j : Q) (n : Nat),\n  Finite.{max 1 (u_1 + 1) (u_2 + 1)}\n    (Subtype.{max (u_1 + 1) (u_2 + 1)} fun p => Eq.{1} (Quiver.Path.length.{u_1, u_2} p) n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2386941243",
+      "temporary_id": "decl-009219"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : Fintype.{u_2} Q]\n  [inst_3 : DecidableEq.{u_2 + 1} Q] [inst_4 : (i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)],\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (Inv.inv.{max u_1 u_2}\n      (HSub.hSub.{max u_1 u_2, max u_1 u_2, max u_1 u_2} 1\n        (HSMul.hSMul.{u_1, max u_1 u_2, max u_1 u_2} PowerSeries.X.{u_1}\n          (decl-009192.{u_1, u_2, u_3} k Q))))\n    (decl-009236.{u_1, u_2, u_3} k Q)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009192",
+        "decl-009236"
+      ],
+      "structural_type_hash": "2763882226",
+      "temporary_id": "decl-009220"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : Fintype.{u_2} Q]\n  [inst_3 : DecidableEq.{u_2 + 1} Q] [inst_4 : (i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)],\n  IsUnit.{u_1}\n    (Matrix.det.{u_1, u_2}\n      (HSub.hSub.{max u_1 u_2, max u_1 u_2, max u_1 u_2} 1\n        (HSMul.hSMul.{u_1, max u_1 u_2, max u_1 u_2} PowerSeries.X.{u_1}\n          (decl-009192.{u_1, u_2, u_3} k Q))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009192"
+      ],
+      "structural_type_hash": "3986859877",
+      "temporary_id": "decl-009221"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : Fintype.{u_2} Q]\n  [inst_3 : DecidableEq.{u_2 + 1} Q] [inst_4 : (i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)],\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2}\n      (HSub.hSub.{max u_1 u_2, max u_1 u_2, max u_1 u_2} 1\n        (HSMul.hSMul.{u_1, max u_1 u_2, max u_1 u_2} PowerSeries.X.{u_1}\n          (decl-009192.{u_1, u_2, u_3} k Q)))\n      (decl-009236.{u_1, u_2, u_3} k Q))\n    1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009192",
+        "decl-009236"
+      ],
+      "structural_type_hash": "845739345",
+      "temporary_id": "decl-009222"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (Q : Type u_2) [inst_1 : Fintype.{u_2} Q]\n  (A : Matrix.{u_2, u_2, u_1} Q Q (PowerSeries.{u_1} k)),\n  Eq.{u_1 + 1} (dotProduct.{u_1, u_2} (Matrix.vecMul.{u_1, u_2, u_2} (fun x => 1) A) fun x => 1)\n    (Finset.sum.{u_2, u_1} Finset.univ.{u_2} fun i => Finset.sum.{u_2, u_1} Finset.univ.{u_2} fun j => A i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3117808719",
+      "temporary_id": "decl-009223"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (Q : Type u_2) \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        [inst_2 : DecidableEq.{u_2 + 1} Q] \u2192\n          Nat \u2192 Submodule.{u_1, max (max u_3 u_2) u_1} k (decl-005820.{u_1, u_2, u_3} k Q)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005820",
+        "decl-006151",
+        "decl-006185"
+      ],
+      "structural_type_hash": "1623863183",
+      "temporary_id": "decl-009224"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2530743119",
+      "temporary_id": "decl-009225"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [CommRing.{u_1} k] \u2192\n    (Q : Type u_2) \u2192\n      [inst : Quiver.{u_3, u_2} Q] \u2192\n        [Fintype.{u_2} Q] \u2192\n          [DecidableEq.{u_2 + 1} Q] \u2192\n            [(i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)] \u2192 Matrix.{u_2, u_2, u_1} Q Q (PowerSeries.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1395430667",
+      "temporary_id": "decl-009236"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (Q : Type u_2) [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : Fintype.{u_2} Q]\n  [inst_3 : DecidableEq.{u_2 + 1} Q] [inst_4 : (i j : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} i j)],\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2} (decl-009236.{u_1, u_2, u_3} k Q)\n      (HSub.hSub.{max u_1 u_2, max u_1 u_2, max u_1 u_2} 1\n        (HSMul.hSMul.{u_1, max u_1 u_2, max u_1 u_2} PowerSeries.X.{u_1}\n          (decl-009192.{u_1, u_2, u_3} k Q))))\n    1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009192",
+        "decl-009236"
+      ],
+      "structural_type_hash": "2272478197",
+      "temporary_id": "decl-009238"
+    }
+  ],
+  "module_temporary_id": "module-0100",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

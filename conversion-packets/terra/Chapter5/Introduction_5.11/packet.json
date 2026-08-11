@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.11",
+    "kind": "introduction",
+    "title": "Section 5.11: Examples of induced representations",
+    "node_id": "chapter-05/section-5-11",
+    "order": 304,
+    "slug": "introduction-5-11",
+    "span": {
+      "start": {
+        "page": "112",
+        "line": 2
+      },
+      "end": {
+        "page": "112",
+        "line": 6
+      }
+    },
+    "source_sha256": "1adc8175ca348d2f9cda8c14099602b44d00d27f8afb9665c20fe1a23a5b1388",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction511",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

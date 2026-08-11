@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:931fceea24f6a376aea0",
+      "declaration": "Etingof.irreducible_reps_of_matrix_algebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/137/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {r : Nat} {d : Fin r \u2192 Nat} [\u2200 (i : Fin r), NeZero.{0} (d i)],\n  And (\u2200 (j : Fin r), IsSimpleModule.{u_1, u_1} (MatProd.{u_1} k d) (Fin (d j) \u2192 k))\n    (And\n      (\u2200 (W : Type u_2) [inst_2 : AddCommGroup.{u_2} W] [inst_3 : Module.{u_1, u_2} (MatProd.{u_1} k d) W]\n        [inst_4 : Module.{u_1, u_2} k W] [IsScalarTower.{u_1, u_1, u_2} k (MatProd.{u_1} k d) W]\n        [FiniteDimensional.{u_1, u_2} k W] [IsSimpleModule.{u_1, u_2} (MatProd.{u_1} k d) W],\n        Exists.{1} fun j =>\n          Nonempty.{max (u_1 + 1) (u_2 + 1)}\n            (LinearEquiv.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} (MatProd.{u_1} k d)) W (Fin (d j) \u2192 k)))\n      (\u2200 (X : Type u_3) [inst_2 : AddCommGroup.{u_3} X] [inst_3 : Module.{u_1, u_3} (MatProd.{u_1} k d) X],\n        IsSemisimpleModule.{u_1, u_3} (MatProd.{u_1} k d) X))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    },
+    {
+      "association_id": "association:80257cd15af5a2d13913",
+      "declaration": "MatProd",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/137/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Type u_1 \u2192 {r : Nat} \u2192 (Fin r \u2192 Nat) \u2192 Type u_1",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Introduction_to_3.3",
+  "packet_id": "align-0409",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0409"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:82e4104b0107952b5e37",
+  "source_text": "The section studies representations of finite direct sums of matrix algebras over an arbitrary field k."
+}

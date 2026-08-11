@@ -1,0 +1,83 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (N : Nat)\n  (M : FDRep.{u_1, u_1} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)),\n  Exists.{u_1 + 1} fun t =>\n    Set.InjOn.{0, u_1} (decl-027087.{u_1} N t)\n      (setOf.{0} fun \u03bc =>\n        Ne.{u_1 + 1} (decl-019844.{u_1} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i) Bot.bot.{u_1})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019844",
+        "decl-027087"
+      ],
+      "structural_type_hash": "1481709232",
+      "temporary_id": "decl-001182"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (N : Nat)\n  (M : FDRep.{u_1, u_1} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)) (t : Fin N \u2192 Units.{u_1} k),\n  Set.InjOn.{0, u_1} (decl-027087.{u_1} N t)\n      (setOf.{0} fun \u03bc =>\n        Ne.{u_1 + 1} (decl-019844.{u_1} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i) Bot.bot.{u_1}) \u2192\n    Eq.{u_1 + 1} (iSup.{u_1, 1} fun \u03bc => decl-019844.{u_1} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i)\n        Top.top.{u_1} \u2192\n      \u2200 (lam : k),\n        (\u2200 (\u03bd : Finsupp.{0, 0} (Fin N) Nat),\n            Ne.{u_1 + 1} (decl-019844.{u_1} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bd i) Bot.bot.{u_1} \u2192\n              Ne.{u_1 + 1} (decl-027087.{u_1} N t \u03bd) lam) \u2192\n          Eq.{u_1 + 1}\n            (DFunLike.coe.{u_1 + 1, 1, u_1 + 1}\n              (Module.End.genEigenspace.{u_1, u_1}\n                (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} M) (decl-018364.{u_1} k N t)) lam)\n              Top.top.{0})\n            Bot.bot.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018364",
+        "decl-019844",
+        "decl-027087"
+      ],
+      "structural_type_hash": "2848729017",
+      "temporary_id": "decl-001189"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] (N : Nat)\n  (M : FDRep.{u_1, u_1} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)) (t : Fin N \u2192 Units.{u_1} k),\n  Set.InjOn.{0, u_1} (decl-027087.{u_1} N t)\n      (setOf.{0} fun \u03bc =>\n        Ne.{u_1 + 1} (decl-019844.{u_1} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i) Bot.bot.{u_1}) \u2192\n    Eq.{u_1 + 1} (iSup.{u_1, 1} fun \u03bc => decl-019844.{u_1} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i)\n        Top.top.{u_1} \u2192\n      \u2200 (\u03bd : Finsupp.{0, 0} (Fin N) Nat),\n        Ne.{u_1 + 1} (decl-019844.{u_1} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bd i) Bot.bot.{u_1} \u2192\n          Eq.{u_1 + 1}\n            (DFunLike.coe.{u_1 + 1, 1, u_1 + 1}\n              (Module.End.genEigenspace.{u_1, u_1}\n                (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} M) (decl-018364.{u_1} k N t))\n                (decl-027087.{u_1} N t \u03bd))\n              Top.top.{0})\n            (decl-019844.{u_1} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bd i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018364",
+        "decl-019844",
+        "decl-027087"
+      ],
+      "structural_type_hash": "856389416",
+      "temporary_id": "decl-001190"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] (N : Nat)\n  (M : FDRep.{u_1, u_1} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)) (t : Fin N \u2192 Units.{u_1} k)\n  (\u03bc : Finsupp.{0, 0} (Fin N) Nat),\n  LE.le.{u_1} (decl-019844.{u_1} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i)\n    (DFunLike.coe.{u_1 + 1, 1, u_1 + 1}\n      (Module.End.genEigenspace.{u_1, u_1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} M) (decl-018364.{u_1} k N t))\n        (decl-027087.{u_1} N t \u03bc))\n      Top.top.{0})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018364",
+        "decl-019844",
+        "decl-027087"
+      ],
+      "structural_type_hash": "2828230973",
+      "temporary_id": "decl-001195"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (N : Nat)\n  (M : FDRep.{u_1, u_1} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k))\n  (R : Submodule.{u_1, u_1} k (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} M))),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)\n      (v : FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} M)),\n      Membership.mem.{u_1, u_1} R v \u2192\n        Membership.mem.{u_1, u_1} R\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} M) g)\n            v)) \u2192\n    Eq.{u_1 + 1} (iSup.{u_1, 1} fun \u03bc => decl-019844.{u_1} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i)\n        Top.top.{u_1} \u2192\n      Eq.{u_1 + 1}\n        (iSup.{u_1, 1} fun \u03bc => Min.min.{u_1} (decl-019844.{u_1} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i) R)\n        R",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019844"
+      ],
+      "structural_type_hash": "4231106627",
+      "temporary_id": "decl-001216"
+    }
+  ],
+  "module_temporary_id": "module-0272",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

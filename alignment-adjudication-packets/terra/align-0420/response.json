@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0420",
+  "associations": [
+    {
+      "association_id": "association:c0abc454ee8e39b2703d",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the displayed evidence does not establish that this declaration directly states the triangular expansion claim."
+    },
+    {
+      "association_id": "association:a506bfe208873dfe5e50",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the displayed evidence cannot show that this alternating character formula is itself the claimed triangular expansion."
+    },
+    {
+      "association_id": "association:3a3b84f1dee3ef733e12",
+      "role": "supporting",
+      "rationale": "The theorem expands a permutation character in Specht characters with multiplicities, providing a prerequisite character relation rather than the stated Frobenius-coefficient triangularity."
+    }
+  ]
+}

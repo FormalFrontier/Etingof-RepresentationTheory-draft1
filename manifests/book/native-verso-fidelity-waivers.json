@@ -1,0 +1,14 @@
+{
+  "Chapter1/Acknowledgments": {
+    "bold": "The source's bold Acknowledgments label is represented by the generated item heading."
+  },
+  "Chapter2/Discussion_2.15_heading": {
+    "tex": "Verso cannot elaborate inline math in a heading; the heading preserves the TeX as code and the same formula remains native math in the paragraph."
+  },
+  "Chapter2/Theorem2.1.2": {
+    "tex": "The source's page-split Dynkin diagrams and inline footnote were deliberately rebuilt as renderable native Verso arrays and a separated footnote."
+  },
+  "Frontmatter/TableOfContents": {
+    "bold": "Page-continuation bold labels were normalized into a uniform section/subsection-shaped table of contents."
+  }
+}

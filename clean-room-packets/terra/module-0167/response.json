@@ -1,0 +1,15 @@
+{
+  "module_name": "RingTheory.JacobsonRadical.TwoSided",
+  "declarations": [
+    {
+      "temporary_id": "decl-022283",
+      "new_name": "jacobson_isTwoSided",
+      "docstring": "The Jacobson radical of a ring is a two-sided ideal."
+    },
+    {
+      "temporary_id": "decl-022284",
+      "new_name": "mul_mem_jacobson",
+      "docstring": "Left and right multiplication preserve membership in the Jacobson radical."
+    }
+  ]
+}

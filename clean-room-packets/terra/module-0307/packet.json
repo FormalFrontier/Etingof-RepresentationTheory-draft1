@@ -1,0 +1,181 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(p : Nat) \u2192 [inst : Fact (Nat.Prime p)] \u2192 (n : Nat) \u2192 [Fintype.{0} (GaloisField p n)] \u2192 Ne.{1} n 0 \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "955156750",
+      "temporary_id": "decl-004372"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192 [inst : Fact (Nat.Prime p)] \u2192 (n : Nat) \u2192 [Fintype.{0} (GaloisField p n)] \u2192 Ne.{1} n 0 \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "955156750",
+      "temporary_id": "decl-004374"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hn : Ne.{1} n 0),\n  Eq.{1} (Nat.card.{0} (decl-004374 p n hn))\n    (HAdd.hAdd.{0, 0, 0}\n      (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n        (HDiv.hDiv.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n            (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n          2))\n      (HDiv.hDiv.{0, 0, 0}\n        (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n          (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n        2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004374"
+      ],
+      "structural_type_hash": "1162925154",
+      "temporary_id": "decl-004412"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Exists.{2} fun Irrep =>\n        Exists.{1} fun x =>\n          Eq.{1} (Nat.card.{0} Irrep)\n            (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2902583814",
+      "temporary_id": "decl-004414"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Eq.{1}\n        (HAdd.hAdd.{0, 0, 0}\n          (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n            (HDiv.hDiv.{0, 0, 0}\n              (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n              2))\n          (HDiv.hDiv.{0, 0, 0}\n            (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n              (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n            2))\n        (Nat.card.{0} (ConjClasses.{0} (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1065826455",
+      "temporary_id": "decl-004486"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192\n  [inst : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      [inst_1 : Fintype.{0} (GaloisField p n)] \u2192\n        Ne.{1} p 2 \u2192\n          (hn : Ne.{1} n 0) \u2192\n            decl-004374 p n hn \u2192\n              FDRep.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004374"
+      ],
+      "structural_type_hash": "2371668661",
+      "temporary_id": "decl-004487"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hp2 : Ne.{1} p 2)\n  (hn : Ne.{1} n 0) (i j : decl-004374 p n hn),\n  Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (decl-004487 p n hp2 hn i)\n        (decl-004487 p n hp2 hn j)) \u2192\n    Eq.{1} i j",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004374",
+        "decl-004487"
+      ],
+      "structural_type_hash": "3703340645",
+      "temporary_id": "decl-004493"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hp2 : Ne.{1} p 2)\n  (hn : Ne.{1} n 0) (i : decl-004374 p n hn),\n  CategoryTheory.Simple.{0, 1} (decl-004487 p n hp2 hn i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004374",
+        "decl-004487"
+      ],
+      "structural_type_hash": "1169845653",
+      "temporary_id": "decl-004494"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      \u2200 {N : Nat} (W : Fin N \u2192 FDRep.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))),\n        (\u2200 (i : Fin N), CategoryTheory.Simple.{0, 1} (W i)) \u2192\n          (\u2200 (i j : Fin N), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j) \u2192\n            Eq.{1} N\n                (HAdd.hAdd.{0, 0, 0}\n                  (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n                    (HDiv.hDiv.{0, 0, 0}\n                      (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                        (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n                      2))\n                  (HDiv.hDiv.{0, 0, 0}\n                    (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                      (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n                    2)) \u2192\n              \u2200 (U : FDRep.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))),\n                CategoryTheory.Simple.{0, 1} U \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} U (W i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1854394412",
+      "temporary_id": "decl-004495"
+    },
+    {
+      "formal_type": "\u2200 (q : Nat),\n  LE.le.{0} 1 q \u2192\n    Eq.{1}\n      (HAdd.hAdd.{0, 0, 0}\n        (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} q 1)\n          (HDiv.hDiv.{0, 0, 0} (HMul.hMul.{0, 0, 0} q (HSub.hSub.{0, 0, 0} q 1)) 2))\n        (HDiv.hDiv.{0, 0, 0} (HMul.hMul.{0, 0, 0} q (HSub.hSub.{0, 0, 0} q 1)) 2))\n      (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} q 2) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3721676124",
+      "temporary_id": "decl-004496"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (numIrreps : Nat),\n  Eq.{1} numIrreps (Nat.card.{0} (ConjClasses.{0} (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n)))) \u2192\n    Ne.{1} p 2 \u2192\n      Ne.{1} n 0 \u2192\n        Eq.{1} numIrreps\n          (HAdd.hAdd.{0, 0, 0}\n            (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n              (HDiv.hDiv.{0, 0, 0}\n                (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                  (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n                2))\n            (HDiv.hDiv.{0, 0, 0}\n              (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n              2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "403432008",
+      "temporary_id": "decl-004498"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hp2 : Ne.{1} p 2)\n  (hn : Ne.{1} n 0) (U : FDRep.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))),\n  CategoryTheory.Simple.{0, 1} U \u2192\n    ExistsUnique.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} U (decl-004487 p n hp2 hn i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004374",
+        "decl-004487"
+      ],
+      "structural_type_hash": "2060550789",
+      "temporary_id": "decl-004499"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Exists.{2} fun Irrep =>\n        Exists.{1} fun x =>\n          And\n            (Exists.{1} fun d =>\n              And (\u2200 (j : Irrep), Ne.{1} (d j) 0)\n                (Nonempty.{1}\n                  (AlgEquiv.{0, 0, 0} Complex\n                    (MonoidAlgebra.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n)))\n                    ((j : Irrep) \u2192 Matrix.{0, 0, 0} (Fin (d j)) (Fin (d j)) Complex))))\n            (Eq.{1} (Nat.card.{0} Irrep)\n              (HAdd.hAdd.{0, 0, 0}\n                (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1)\n                  (HDiv.hDiv.{0, 0, 0}\n                    (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                      (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n                    2))\n                (HDiv.hDiv.{0, 0, 0}\n                  (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                    (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n                  2)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3282538180",
+      "temporary_id": "decl-004500"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)],\n  Ne.{1} p 2 \u2192\n    Ne.{1} n 0 \u2192\n      Exists.{1} fun m =>\n        Exists.{2} fun V =>\n          And (\u2200 (i : Fin m), CategoryTheory.Simple.{0, 1} (V i))\n            (And (\u2200 (i j : Fin m), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (V i) (V j)) \u2192 Eq.{1} i j)\n              (And\n                (\u2200 (U : FDRep.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin 2) (GaloisField p n))),\n                  CategoryTheory.Simple.{0, 1} U \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} U (V i)))\n                (Eq.{1} m (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 2) 1))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2455458950",
+      "temporary_id": "decl-004548"
+    },
+    {
+      "formal_type": "(F : Type u_1) \u2192 [Field.{u_1} F] \u2192 [Fintype.{u_1} F] \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "22814784",
+      "temporary_id": "decl-004568"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)],\n  Ne.{1} p 2 \u2192 Ne.{1} n 0 \u2192 decl-004568.{0} (GaloisField p n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004568"
+      ],
+      "structural_type_hash": "809787452",
+      "temporary_id": "decl-004569"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat) [inst_1 : Fintype.{0} (GaloisField p n)] (hp2 : Ne.{1} p 2)\n  (hn : Ne.{1} n 0) (i : decl-004376 p n) (j : decl-004372 p n hn),\n  Not\n    (Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (decl-004487 p n hp2 hn (Sum.inl.{0, 0} i))\n        (decl-004487 p n hp2 hn (Sum.inr.{0, 0} j))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004372",
+        "decl-004376",
+        "decl-004487"
+      ],
+      "structural_type_hash": "3993161486",
+      "temporary_id": "decl-004647"
+    }
+  ],
+  "module_temporary_id": "module-0307",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

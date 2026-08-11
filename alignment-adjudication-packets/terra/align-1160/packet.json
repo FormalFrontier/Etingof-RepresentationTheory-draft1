@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1695d0c0a059faf3f367",
+      "declaration": "Etingof.Example5_19_3_symmetricEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/356/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    [CharZero.{0} k] \u2192\n      {V : Type} \u2192\n        [inst_2 : AddCommGroup.{0} V] \u2192\n          [inst_3 : Module.{0, 0} k V] \u2192\n            [Module.Finite.{0, 0} k V] \u2192\n              (n : Nat) \u2192\n                LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k)\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.symInvariants.{0, 0} k V n) x)\n                  (SymmetricPower.{0, 0} k (Fin n) V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_19_3"
+    },
+    {
+      "association_id": "association:89f72b24934e1d334aea",
+      "declaration": "Etingof.Example5_19_3_symmetric_equivariant",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/356/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [inst_1 : CharZero.{0} k] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} k V] [inst_4 : Module.Finite.{0, 0} k V] (n : Nat)\n  (g : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) V V)\n  (x : Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.symInvariants.{0, 0} k V n) x),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (Etingof.Example5_19_3_symmetricEquiv n)\n      (DFunLike.coe.{1, 1, 1} (Etingof.symInvariantsMap g) x))\n    (DFunLike.coe.{1, 1, 1} (Etingof.symmetricPowerMap g)\n      (DFunLike.coe.{1, 1, 1} (Etingof.Example5_19_3_symmetricEquiv n) x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_19_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Example5.19.3",
+  "packet_id": "align-1160",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1160"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f05d323a4dce411a1d5e",
+  "source_text": "The one-row factor is explicitly and equivariantly identified with the symmetric power."
+}

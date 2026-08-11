@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Introduction_7.10",
+    "kind": "introduction",
+    "title": "Section 7.10: Historical interlude: Eilenberg, Mac Lane, and general abstract nonsense",
+    "node_id": "chapter-07/section-7-10",
+    "order": 521,
+    "slug": "introduction-7-10",
+    "span": {
+      "start": {
+        "page": "196",
+        "line": 1
+      },
+      "end": {
+        "page": "196",
+        "line": 2
+      }
+    },
+    "source_sha256": "6f54eab0bb541964db76b3b5a71dac96d7362655c19805f352164eb367c61335",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction710",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

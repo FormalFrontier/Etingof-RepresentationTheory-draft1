@@ -1,0 +1,62 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "And (Set.Finite.{0} (decl-022107 6 decl-001876.adj))\n  (Eq.{1} (Set.ncard.{0} (decl-022107 6 decl-001876.adj)) 36)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001876",
+        "decl-001887",
+        "decl-022107"
+      ],
+      "structural_type_hash": "2461465540",
+      "temporary_id": "decl-003735"
+    },
+    {
+      "formal_type": "And (Set.Finite.{0} (decl-022107 7 decl-001879.adj))\n  (Eq.{1} (Set.ncard.{0} (decl-022107 7 decl-001879.adj)) 63)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001879",
+        "decl-001887",
+        "decl-022107"
+      ],
+      "structural_type_hash": "2011315041",
+      "temporary_id": "decl-003736"
+    },
+    {
+      "formal_type": "And (Set.Finite.{0} (decl-022107 8 decl-001882.adj))\n  (Eq.{1} (Set.ncard.{0} (decl-022107 8 decl-001882.adj)) 120)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001882",
+        "decl-001887",
+        "decl-022107"
+      ],
+      "structural_type_hash": "2400751413",
+      "temporary_id": "decl-003737"
+    }
+  ],
+  "module_temporary_id": "module-0526",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,62 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    [Fintype.{u_1} G] \u2192\n      (K : Subgroup.{u_1} G) \u2192\n        MonoidHom.{u_1, 0} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} K x) (Units.{0} Complex) \u2192\n          Submodule.{u_1, u_1} (MonoidAlgebra.{0, u_1} Complex G) (MonoidAlgebra.{0, u_1} Complex G)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3125061243",
+      "temporary_id": "decl-017866"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    (K : Subgroup.{u_1} G) \u2192\n      MonoidHom.{u_1, 0} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} K x) (Units.{0} Complex) \u2192\n        Representation.{0, u_1, 0} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} K x) Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1856049271",
+      "temporary_id": "decl-017955"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    [Fintype.{u_1} G] \u2192\n      (K : Subgroup.{u_1} G) \u2192\n        MonoidHom.{u_1, 0} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} K x) (Units.{0} Complex) \u2192\n          MonoidAlgebra.{0, u_1} Complex G",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3814388478",
+      "temporary_id": "decl-020497"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (K : Subgroup.{u_1} G)\n  (\u03c7 : MonoidHom.{u_1, 0} (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} K x) (Units.{0} Complex)),\n  Exists.{u_1 + 1} fun e =>\n    \u2200 (g : G) (x : Representation.IndV.{0, u_1, u_1, 0} (Subgroup.subtype.{u_1} K) (decl-017955.{u_1} K \u03c7)),\n      Eq.{u_1 + 1}\n        (Subtype.val.{u_1 + 1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} e\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n              (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-001497.{u_1, 0} K (decl-017955.{u_1} K \u03c7))\n                g)\n              x)))\n        (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (MonoidAlgebra.of.{0, u_1} Complex G) g)\n          (Subtype.val.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} e x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001497",
+        "decl-017866",
+        "decl-017955"
+      ],
+      "structural_type_hash": "2888427851",
+      "temporary_id": "decl-020523"
+    }
+  ],
+  "module_temporary_id": "module-0323",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

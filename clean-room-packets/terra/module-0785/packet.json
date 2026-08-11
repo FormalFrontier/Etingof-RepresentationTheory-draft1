@@ -1,0 +1,227 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k B : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} B] \u2192\n      [inst_2 : Algebra.{u, u} k B] \u2192\n        (P : FGModuleCat.{u, u} B) \u2192\n          (hP : decl-005213.{u + 1, u} P) \u2192\n            let e := decl-005234.{u} P hP;\n            have he := \u22ef;\n            AlgEquiv.{u, u, u} k (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-001418.{u} e) x)\n              (MulOpposite.{u} (Module.End.{u, u} B (FGModuleCat.carrier.{u, u} P)))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-001418",
+        "decl-001420",
+        "decl-001426",
+        "decl-005213",
+        "decl-005234",
+        "decl-005237",
+        "decl-005238",
+        "decl-014543",
+        "decl-014556"
+      ],
+      "structural_type_hash": "3456899692",
+      "temporary_id": "decl-005220"
+    },
+    {
+      "formal_type": "{k B : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} B] \u2192\n      [inst_2 : Algebra.{u, u} k B] \u2192\n        (P : FGModuleCat.{u, u} B) \u2192\n          (hP : decl-005213.{u + 1, u} P) \u2192\n            let e := decl-005234.{u} P hP;\n            have he := \u22ef;\n            RingEquiv.{u, u} (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-001418.{u} e) x)\n              (MulOpposite.{u} (Module.End.{u, u} B (FGModuleCat.carrier.{u, u} P)))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-001418",
+        "decl-001426",
+        "decl-005213",
+        "decl-005234",
+        "decl-005237",
+        "decl-005238",
+        "decl-014543",
+        "decl-014556"
+      ],
+      "structural_type_hash": "3481766273",
+      "temporary_id": "decl-005222"
+    },
+    {
+      "formal_type": "{B : Type u} \u2192\n  [inst : Ring.{u} B] \u2192\n    (P : FGModuleCat.{u, u} B) \u2192\n      (hP : decl-005213.{u + 1, u} P) \u2192\n        MulOpposite.{u}\n          (Module.End.{u, u} B\n            (FGModuleCat.carrier.{u, u}\n              (decl-014543.{u} (decl-005238.{u} P hP))))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005213",
+        "decl-005238",
+        "decl-014543",
+        "decl-014556"
+      ],
+      "structural_type_hash": "2695434651",
+      "temporary_id": "decl-005234"
+    },
+    {
+      "formal_type": "\u2200 {B : Type u} [inst : Ring.{u} B] (P : FGModuleCat.{u, u} B) (hP : decl-005213.{u + 1, u} P),\n  decl-005192.{u} (decl-005234.{u} P hP)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005192",
+        "decl-005213",
+        "decl-005234",
+        "decl-005238",
+        "decl-014543",
+        "decl-014556"
+      ],
+      "structural_type_hash": "2452103309",
+      "temporary_id": "decl-005237"
+    },
+    {
+      "formal_type": "{B : Type u} \u2192\n  [inst : Ring.{u} B] \u2192\n    (P : FGModuleCat.{u, u} B) \u2192 decl-005213.{u + 1, u} P \u2192 decl-014538.{u} P",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005213",
+        "decl-014538"
+      ],
+      "structural_type_hash": "2561211529",
+      "temporary_id": "decl-005238"
+    },
+    {
+      "formal_type": "\u2200 {k B : Type u} [inst : Field.{u} k] [inst_1 : Ring.{u} B] [inst_2 : Algebra.{u, u} k B] [Module.Finite.{u, u} k B]\n  (P : FGModuleCat.{u, u} B),\n  decl-005213.{u + 1, u} P \u2192\n    decl-005305.{u, u} k B (MulOpposite.{u} (CategoryTheory.End.{u, u + 1} P))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005213",
+        "decl-005305"
+      ],
+      "structural_type_hash": "3476307594",
+      "temporary_id": "decl-005258"
+    },
+    {
+      "formal_type": "\u2200 {k B : Type u} [inst : Field.{u} k] [inst_1 : Ring.{u} B] [Algebra.{u, u} k B] (P : FGModuleCat.{u, u} B),\n  decl-005213.{u + 1, u} P \u2192\n    Nonempty.{u + 2}\n      (CategoryTheory.Equivalence.{u, u, u + 1, u + 1} (ModuleCat.{u, u} B)\n        (ModuleCat.{u, u} (MulOpposite.{u} (CategoryTheory.End.{u, u + 1} P))))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005213",
+      "project_type_dependencies": [
+        "decl-005213"
+      ],
+      "structural_type_hash": "1056846974",
+      "temporary_id": "decl-005262"
+    },
+    {
+      "formal_type": "{B : Type u} \u2192 [inst : Ring.{u} B] \u2192 FGModuleCat.{u, u} B \u2192 Type u",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1134218117",
+      "temporary_id": "decl-014538"
+    },
+    {
+      "formal_type": "{B : Type u} \u2192\n  [inst : Ring.{u} B] \u2192 {P : FGModuleCat.{u, u} B} \u2192 decl-014538.{u} P \u2192 FGModuleCat.{u, u} B",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014538",
+      "project_type_dependencies": [
+        "decl-014538"
+      ],
+      "structural_type_hash": "2581559145",
+      "temporary_id": "decl-014543"
+    },
+    {
+      "formal_type": "{B : Type u} \u2192\n  [inst : Ring.{u} B] \u2192\n    {P : FGModuleCat.{u, u} B} \u2192\n      (self : decl-014538.{u} P) \u2192\n        Quiver.Hom.{u, u + 1} P (FGModuleCat.of.{u, u} B (Fin (decl-014556.{u} self) \u2192 B))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014538",
+      "project_type_dependencies": [
+        "decl-014538",
+        "decl-014556"
+      ],
+      "structural_type_hash": "3168487912",
+      "temporary_id": "decl-014545"
+    },
+    {
+      "formal_type": "\u2200 {B : Type u} [inst : Ring.{u} B] {P : FGModuleCat.{u, u} B} (self : decl-014538.{u} P),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1} (decl-014545.{u} self)\n      (decl-014555.{u} self))\n    (CategoryTheory.CategoryStruct.id.{u, u + 1} P)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-014538",
+      "project_type_dependencies": [
+        "decl-014538",
+        "decl-014545",
+        "decl-014555",
+        "decl-014556"
+      ],
+      "structural_type_hash": "353475047",
+      "temporary_id": "decl-014546"
+    },
+    {
+      "formal_type": "{B : Type u} \u2192\n  [inst : Ring.{u} B] \u2192\n    {P : FGModuleCat.{u, u} B} \u2192\n      (self : decl-014538.{u} P) \u2192\n        Quiver.Hom.{u, u + 1} (FGModuleCat.of.{u, u} B (Fin (decl-014556.{u} self) \u2192 B)) P",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014538",
+      "project_type_dependencies": [
+        "decl-014538",
+        "decl-014556"
+      ],
+      "structural_type_hash": "2485752063",
+      "temporary_id": "decl-014555"
+    },
+    {
+      "formal_type": "{B : Type u} \u2192 [inst : Ring.{u} B] \u2192 {P : FGModuleCat.{u, u} B} \u2192 decl-014538.{u} P \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014538",
+      "project_type_dependencies": [
+        "decl-014538"
+      ],
+      "structural_type_hash": "4197091160",
+      "temporary_id": "decl-014556"
+    },
+    {
+      "formal_type": "\u2200 {B : Type u} [inst : Ring.{u} B] {P : FGModuleCat.{u, u} B} (self : decl-014538.{u} P),\n  LT.lt.{0} 0 (decl-014556.{u} self)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-014538",
+      "project_type_dependencies": [
+        "decl-014538",
+        "decl-014556"
+      ],
+      "structural_type_hash": "1661956252",
+      "temporary_id": "decl-014557"
+    },
+    {
+      "formal_type": "{k B : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} B] \u2192\n      [inst_2 : Algebra.{u, u} k B] \u2192\n        (P : FGModuleCat.{u, u} B) \u2192\n          AlgEquiv.{u, u, u} k (CategoryTheory.End.{u, u + 1} P) (Module.End.{u, u} B (FGModuleCat.carrier.{u, u} P))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2943089434",
+      "temporary_id": "decl-019331"
+    },
+    {
+      "formal_type": "{B : Type u} \u2192\n  [inst : Ring.{u} B] \u2192\n    (P : FGModuleCat.{u, u} B) \u2192\n      RingEquiv.{u, u} (CategoryTheory.End.{u, u + 1} P) (Module.End.{u, u} B (FGModuleCat.carrier.{u, u} P))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "862286858",
+      "temporary_id": "decl-019335"
+    },
+    {
+      "formal_type": "(k B : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Ring.{u} B] \u2192\n      [inst_2 : Algebra.{u, u} k B] \u2192\n        (N : Nat) \u2192\n          AlgEquiv.{u, u, u} k (MulOpposite.{u} (Module.End.{u, u} B (Fin N \u2192 B))) (Matrix.{0, 0, u} (Fin N) (Fin N) B)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3788554507",
+      "temporary_id": "decl-019575"
+    },
+    {
+      "formal_type": "(B : Type u) \u2192\n  [inst : Ring.{u} B] \u2192\n    (N : Nat) \u2192\n      RingEquiv.{u, u} (MulOpposite.{u} (Module.End.{u, u} B (Fin N \u2192 B))) (Matrix.{0, 0, u} (Fin N) (Fin N) B)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2780588979",
+      "temporary_id": "decl-019579"
+    }
+  ],
+  "module_temporary_id": "module-0785",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

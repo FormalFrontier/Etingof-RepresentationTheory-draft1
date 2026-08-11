@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:60c2aece0335949ace99",
+      "declaration": "Etingof.Theorem4_1_1_algebra_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/185/claim_coverage/claims/1/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k G : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))],\n  Exists.{1} fun n =>\n    Exists.{u + 2} fun V =>\n      And (\u2200 (i : Fin n), CategoryTheory.Simple.{u, u + 1} (V i))\n        (And (\u2200 (i j : Fin n), Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (V i) (V j)) \u2192 Eq.{1} i j)\n          (And\n            (\u2200 (W : FDRep.{u, u} k G),\n              CategoryTheory.Simple.{u, u + 1} W \u2192\n                Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} W (V i)))\n            (And\n              (Nonempty.{u + 1}\n                (AlgEquiv.{u, u, u} k (MonoidAlgebra.{u, u} k G)\n                  ((i : Fin n) \u2192 Module.End.{u, u} k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i))))))\n              (Eq.{1}\n                (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n                  HPow.hPow.{0, 0, 0}\n                    (Module.finrank.{u, u} k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (V i)))) 2)\n                (Fintype.card.{u} G)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Theorem4_1_1"
+    }
+  ],
+  "canonical_reference": "Chapter4/Proposition4.1.2",
+  "packet_id": "align-0065",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0065"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:150cfbcb638291cd60be",
+  "source_text": "A semisimple group algebra decomposes into endomorphism blocks for a complete family of irreducible representations, including the trivial representation."
+}

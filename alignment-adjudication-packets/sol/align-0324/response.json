@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0324",
+  "associations": [
+    {
+      "association_id": "association:90d4bbd7c6c20503b945",
+      "role": "supporting",
+      "rationale": "This constructs a Lie homomorphism from the Lie algebra to its endomorphisms, but its displayed type does not state the value of that map on two elements."
+    },
+    {
+      "association_id": "association:20f76c04908ad586f742",
+      "role": "supporting",
+      "rationale": "This constructs the adjoint representation, while the action formula asserted by the source is not present in its displayed type."
+    },
+    {
+      "association_id": "association:7c32a9031386242e293c",
+      "role": "primary",
+      "rationale": "The theorem directly states that applying the adjoint endomorphism determined by `a` to `b` gives the bracket of `a` and `b`."
+    },
+    {
+      "association_id": "association:d30a38da7864d847a006",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so packet-only evidence cannot verify this declaration as the direct application equation."
+    }
+  ]
+}

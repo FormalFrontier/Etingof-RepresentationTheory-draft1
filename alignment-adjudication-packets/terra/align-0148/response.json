@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0148",
+  "associations": [
+    {
+      "association_id": "association:63c700c698cc7d4261b0",
+      "role": "primary",
+      "rationale": "This quotient instance directly supplies the asserted A-module structure on the quotient."
+    }
+  ]
+}

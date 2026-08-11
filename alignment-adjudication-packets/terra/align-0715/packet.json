@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ef26fc32a38d37651ada",
+      "declaration": "Etingof.Problem4_12_4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/233/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {W : Type u_1} [inst : Fintype.{u_1} W] [inst_1 : DecidableEq.{u_1 + 1} W] (\u0393 : SimpleGraph.{u_1} W)\n  [inst_2 : DecidableRel.{u_1 + 1, u_1 + 1} (SimpleGraph.Adj.{u_1} \u0393)],\n  (Exists.{u_1 + 1} fun \u03c3 =>\n      Exists.{u_1 + 1} fun \u03c4 => Ne.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} \u03c3 \u03c4) (HMul.hMul.{u_1, u_1, u_1} \u03c4 \u03c3)) \u2192\n    Not (Squarefree.{0} (Matrix.charpoly.{0, u_1} (SimpleGraph.adjMatrix.{0, u_1} Real \u0393)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_4"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.4",
+  "packet_id": "align-0715",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0715"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.4:repeated_eigenvalue",
+  "source_text": "A finite graph with nonabelian automorphism group has an adjacency matrix with a repeated eigenvalue."
+}

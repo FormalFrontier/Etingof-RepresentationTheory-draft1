@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:025b69dd71b430a65a97",
+      "declaration": "LinearMap.ker",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/34/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Module.Submodule.Ker"
+    },
+    {
+      "association_id": "association:eb83ee33e844968a4963",
+      "declaration": "LinearMap.range",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/34/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Algebra.Module.Submodule.Range"
+    }
+  ],
+  "canonical_reference": "Chapter2/Proposition2.3.9",
+  "packet_id": "align-0405",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0405"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:8185bd3ee06e3fd1b823",
+  "source_text": "The kernel and image of a representation homomorphism are subrepresentations."
+}

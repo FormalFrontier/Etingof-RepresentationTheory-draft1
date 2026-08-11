@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:04817d62e5a77629eb3e",
+      "declaration": "Etingof.PresentedAlgebra.mk_rel",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/53/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {X : Type u_2} {R : Type u_3} (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X) (r : R),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (Etingof.PresentedAlgebra.mk.{u_1, u_2, u_3} rel) (rel r))\n    0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_6"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.6",
+  "packet_id": "align-0054",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0054"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0f09a7c658a7dd786a1d",
+  "source_text": "Every defining relation f\u1d62 = 0 holds in the presented algebra."
+}

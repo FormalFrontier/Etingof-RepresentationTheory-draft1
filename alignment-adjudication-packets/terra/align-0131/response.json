@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0131",
+  "associations": [
+    {
+      "association_id": "association:aea88b57e80aa66b9b0c",
+      "role": "primary",
+      "rationale": "This instance directly supplies the A-opposite module structure on the dual V*."
+    },
+    {
+      "association_id": "association:4418884d73e19353dd1d",
+      "role": "supporting",
+      "rationale": "This scalar action is the underlying construction used by the opposite-module instance."
+    }
+  ]
+}

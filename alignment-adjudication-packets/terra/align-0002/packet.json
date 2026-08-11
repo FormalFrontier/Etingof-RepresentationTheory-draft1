@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ef1e0fb783b3d6aa7da2",
+      "declaration": "Etingof.abelianOfClosedFullSubcategory",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/494/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{A : Type u} \u2192\n  [inst : Ring.{u} A] \u2192\n    (P : CategoryTheory.ObjectProperty.{v, max (v + 1) u} (ModuleCat.{v, u} A)) \u2192\n      [CategoryTheory.ObjectProperty.ContainsZero.{v, max u (v + 1)} P] \u2192\n        [CategoryTheory.ObjectProperty.IsClosedUnderKernels.{v, max u (v + 1)} P] \u2192\n          [CategoryTheory.ObjectProperty.IsClosedUnderCokernels.{v, max u (v + 1)} P] \u2192\n            [CategoryTheory.ObjectProperty.IsClosedUnderFiniteProducts.{v, max u (v + 1)} P] \u2192\n              Etingof.Abelian.{max u (v + 1), v} (CategoryTheory.ObjectProperty.FullSubcategory.{v, max u (v + 1)} P)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_7_1"
+    },
+    {
+      "association_id": "association:9e4493ae48eb5431b02d",
+      "declaration": "Etingof.exists_equiv_moduleCat_fullSubcategory",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/494/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (C : Type u) [inst : CategoryTheory.Category.{v, u} C] [CategoryTheory.Abelian.{v, u} C],\n  Exists.{max (u + 2) (v + 2)} fun A =>\n    Exists.{max (u + 1) (v + 1)} fun x =>\n      Exists.{max (u + 2) (v + 2)} fun P =>\n        And (CategoryTheory.ObjectProperty.ContainsZero.{max u v, max (u + 1) (v + 1)} P)\n          (And (CategoryTheory.ObjectProperty.IsClosedUnderIsomorphisms.{max u v, max (u + 1) (v + 1)} P)\n            (And (CategoryTheory.ObjectProperty.IsClosedUnderFiniteProducts.{max u v, max (u + 1) (v + 1)} P)\n              (And (CategoryTheory.ObjectProperty.IsClosedUnderFiniteCoproducts.{max u v, max (u + 1) (v + 1)} P)\n                (And (CategoryTheory.ObjectProperty.IsClosedUnderKernels.{max u v, max (u + 1) (v + 1)} P)\n                  (And (CategoryTheory.ObjectProperty.IsClosedUnderCokernels.{max u v, max (u + 1) (v + 1)} P)\n                    (And\n                      (\u2200 (X Y : ModuleCat.{max u v, max u v} A) (f : Quiver.Hom.{max u v, max (u + 1) (v + 1)} X Y),\n                        P X \u2192 P Y \u2192 P (CategoryTheory.Limits.image.{max u v, max (u + 1) (v + 1)} f))\n                      (Nonempty.{max (max (max ((max (u + 1) (v + 1)) + 1) (u + 1)) ((max u v) + 1)) (v + 1)}\n                        (CategoryTheory.Equivalence.{v, max u v, u, max (u + 1) (v + 1)} C\n                          (CategoryTheory.ObjectProperty.FullSubcategory.{max u v, max (u + 1) (v + 1)} P)))))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_7_1"
+    }
+  ],
+  "canonical_reference": "Chapter7/Definition7.7.1",
+  "packet_id": "align-0002",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0002"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0031fa8b9a94a5b0e809",
+  "source_text": "The intrinsic abelian axiom is equivalent to realization as a full module subcategory closed under finite sums, kernels, cokernels, and images."
+}

@@ -1,0 +1,25 @@
+{
+  "module_name": "Algebra.Module.FiniteDecompositions",
+  "declarations": [
+    {
+      "temporary_id": "decl-009366",
+      "new_name": "bijective_or_nilpotent",
+      "docstring": "Under the displayed module property, every endomorphism is either bijective or nilpotent."
+    },
+    {
+      "temporary_id": "decl-009367",
+      "new_name": "exists_internal_family",
+      "docstring": "A finite-dimensional module has a finite internal family of submodules satisfying the displayed module property."
+    },
+    {
+      "temporary_id": "decl-009368",
+      "new_name": "internal_family_unique_up_to_permutation",
+      "docstring": "Two finite internal spanning families of nonzero submodules satisfying the displayed property have equal lengths and matching equivalent members."
+    },
+    {
+      "temporary_id": "decl-009369",
+      "new_name": "sum_nilpotent",
+      "docstring": "Under the displayed module property, a finite sum of nilpotent endomorphisms is nilpotent."
+    }
+  ]
+}

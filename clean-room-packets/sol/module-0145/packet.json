@@ -1,0 +1,399 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{r : Nat} \u2192 (Fin r \u2192 Type u_2) \u2192 Fin r \u2192 Type u_3 \u2192 Type u_3",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "838027111",
+      "temporary_id": "decl-009276"
+    },
+    {
+      "formal_type": "{r : Nat} \u2192\n  {\ud835\udc9c : Fin r \u2192 Type u_1} \u2192\n    [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] \u2192\n      {i : Fin r} \u2192\n        {W\u2081 : Type u_3} \u2192\n          {W\u2082 : Type u_4} \u2192\n            [inst_1 : AddCommGroup.{u_3} W\u2081] \u2192\n              [inst_2 : Module.{u_1, u_3} (\ud835\udc9c i) W\u2081] \u2192\n                [inst_3 : AddCommGroup.{u_4} W\u2082] \u2192\n                  [inst_4 : Module.{u_1, u_4} (\ud835\udc9c i) W\u2082] \u2192\n                    LinearEquiv.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} (\ud835\udc9c i)) W\u2081 W\u2082 \u2192\n                      LinearEquiv.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} ((j : Fin r) \u2192 \ud835\udc9c j))\n                        (decl-009276.{u_1, u_3} \ud835\udc9c i W\u2081)\n                        (decl-009276.{u_1, u_4} \ud835\udc9c i W\u2082)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-009276",
+      "project_type_dependencies": [
+        "decl-009276",
+        "decl-009285",
+        "decl-009313"
+      ],
+      "structural_type_hash": "4051501720",
+      "temporary_id": "decl-009277"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} {\ud835\udc9c : Fin r \u2192 Type u_1} [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] {i\u2081 i\u2082 : Fin r} {W\u2081 : Type u_5}\n  {W\u2082 : Type u_6} [inst_1 : AddCommGroup.{u_5} W\u2081] [inst_2 : Module.{u_1, u_5} (\ud835\udc9c i\u2081) W\u2081] [Nontrivial.{u_5} W\u2081]\n  [inst_4 : AddCommGroup.{u_6} W\u2082] [inst_5 : Module.{u_1, u_6} (\ud835\udc9c i\u2082) W\u2082]\n  (e :\n    LinearEquiv.{u_1, u_1, u_5, u_6} (RingHom.id.{u_1} ((j : Fin r) \u2192 \ud835\udc9c j))\n      (decl-009276.{u_1, u_5} \ud835\udc9c i\u2081 W\u2081) (decl-009276.{u_1, u_6} \ud835\udc9c i\u2082 W\u2082)),\n  Eq.{1} i\u2081 i\u2082",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-009276",
+      "project_type_dependencies": [
+        "decl-009276",
+        "decl-009285",
+        "decl-009313"
+      ],
+      "structural_type_hash": "3048905108",
+      "temporary_id": "decl-009284"
+    },
+    {
+      "formal_type": "{r : Nat} \u2192\n  {\ud835\udc9c : Fin r \u2192 Type u_1} \u2192\n    {i : Fin r} \u2192\n      {W : Type u_2} \u2192 [AddCommGroup.{u_2} W] \u2192 AddCommGroup.{u_2} (decl-009276.{u_1, u_2} \ud835\udc9c i W)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-009276",
+      "project_type_dependencies": [
+        "decl-009276"
+      ],
+      "structural_type_hash": "3648625137",
+      "temporary_id": "decl-009285"
+    },
+    {
+      "formal_type": "{r : Nat} \u2192\n  {\ud835\udc9c : Fin r \u2192 Type u_1} \u2192\n    [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] \u2192\n      {i : Fin r} \u2192\n        {W : Type u_2} \u2192\n          [inst_1 : AddCommGroup.{u_2} W] \u2192\n            [Module.{u_1, u_2} (\ud835\udc9c i) W] \u2192 Module.{u_1, u_2} (\ud835\udc9c i) (decl-009276.{u_1, u_2} \ud835\udc9c i W)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-009276",
+      "project_type_dependencies": [
+        "decl-009276",
+        "decl-009285"
+      ],
+      "structural_type_hash": "1986462213",
+      "temporary_id": "decl-009303"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} {\ud835\udc9c : Fin r \u2192 Type u_1} {i : Fin r} {W : Type u_2} [AddCommGroup.{u_2} W] [Nontrivial.{u_2} W],\n  Nontrivial.{u_2} (decl-009276.{u_1, u_2} \ud835\udc9c i W)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-009276",
+      "project_type_dependencies": [
+        "decl-009276"
+      ],
+      "structural_type_hash": "1049819038",
+      "temporary_id": "decl-009311"
+    },
+    {
+      "formal_type": "{r : Nat} \u2192\n  {\ud835\udc9c : Fin r \u2192 Type u_1} \u2192\n    [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] \u2192\n      {i : Fin r} \u2192\n        {W : Type u_2} \u2192\n          [inst_1 : AddCommGroup.{u_2} W] \u2192\n            [Module.{u_1, u_2} (\ud835\udc9c i) W] \u2192\n              Module.{u_1, u_2} ((j : Fin r) \u2192 \ud835\udc9c j) (decl-009276.{u_1, u_2} \ud835\udc9c i W)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-009276",
+      "project_type_dependencies": [
+        "decl-009276",
+        "decl-009285"
+      ],
+      "structural_type_hash": "1128663781",
+      "temporary_id": "decl-009313"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} {\ud835\udc9c : Fin r \u2192 Type u_1} [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] {i : Fin r} {W : Type u_2}\n  [inst_1 : AddCommGroup.{u_2} W] [inst_2 : Module.{u_1, u_2} (\ud835\udc9c i) W],\n  Iff (IsSimpleModule.{u_1, u_2} ((j : Fin r) \u2192 \ud835\udc9c j) (decl-009276.{u_1, u_2} \ud835\udc9c i W))\n    (IsSimpleModule.{u_1, u_2} (\ud835\udc9c i) W)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-009276",
+      "project_type_dependencies": [
+        "decl-009276",
+        "decl-009285",
+        "decl-009313"
+      ],
+      "structural_type_hash": "4112055085",
+      "temporary_id": "decl-009314"
+    },
+    {
+      "formal_type": "{r : Nat} \u2192\n  {\ud835\udc9c : Fin r \u2192 Type u_1} \u2192\n    [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] \u2192\n      {i : Fin r} \u2192\n        {W\u2081 : Type u_3} \u2192\n          {W\u2082 : Type u_4} \u2192\n            [inst_1 : AddCommGroup.{u_3} W\u2081] \u2192\n              [inst_2 : Module.{u_1, u_3} (\ud835\udc9c i) W\u2081] \u2192\n                [inst_3 : AddCommGroup.{u_4} W\u2082] \u2192\n                  [inst_4 : Module.{u_1, u_4} (\ud835\udc9c i) W\u2082] \u2192\n                    LinearEquiv.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} ((j : Fin r) \u2192 \ud835\udc9c j))\n                        (decl-009276.{u_1, u_3} \ud835\udc9c i W\u2081)\n                        (decl-009276.{u_1, u_4} \ud835\udc9c i W\u2082) \u2192\n                      LinearEquiv.{u_1, u_1, u_3, u_4} (RingHom.id.{u_1} (\ud835\udc9c i)) W\u2081 W\u2082",
+      "kind": "definition",
+      "owner_temporary_id": "decl-009276",
+      "project_type_dependencies": [
+        "decl-009276",
+        "decl-009285",
+        "decl-009313"
+      ],
+      "structural_type_hash": "2220748119",
+      "temporary_id": "decl-009315"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} {\ud835\udc9c : Fin r \u2192 Type u_1} [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] {i : Fin r} {W : Type u_2}\n  [inst_1 : AddCommGroup.{u_2} W] [inst_2 : Module.{u_1, u_2} (\ud835\udc9c i) W] (c : (j : Fin r) \u2192 \ud835\udc9c j)\n  (w : decl-009276.{u_1, u_2} \ud835\udc9c i W),\n  Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} c w) (HSMul.hSMul.{u_1, u_2, u_2} (c i) w)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-009276",
+      "project_type_dependencies": [
+        "decl-009276",
+        "decl-009285",
+        "decl-009303",
+        "decl-009313"
+      ],
+      "structural_type_hash": "1347180802",
+      "temporary_id": "decl-009320"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} {\ud835\udc9c : Fin r \u2192 Type u_1} [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] {i : Fin r} {W : Type u_2}\n  [inst_1 : AddCommGroup.{u_2} W] [inst_2 : Module.{u_1, u_2} (\ud835\udc9c i) W] (a : \ud835\udc9c i)\n  (w : decl-009276.{u_1, u_2} \ud835\udc9c i W),\n  Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} (Pi.single.{0, u_1} i a) w) (HSMul.hSMul.{u_1, u_2, u_2} a w)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-009276",
+      "project_type_dependencies": [
+        "decl-009276",
+        "decl-009285",
+        "decl-009303",
+        "decl-009313"
+      ],
+      "structural_type_hash": "15790951",
+      "temporary_id": "decl-009321"
+    },
+    {
+      "formal_type": "{r : Nat} \u2192\n  {\ud835\udc9c : Fin r \u2192 Type u_1} \u2192\n    [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] \u2192\n      {i : Fin r} \u2192\n        {W : Type u_2} \u2192\n          [inst_1 : AddCommGroup.{u_2} W] \u2192\n            [inst_2 : Module.{u_1, u_2} (\ud835\udc9c i) W] \u2192\n              LinearMap.{u_1, u_1, u_2, u_2} (Pi.evalRingHom.{0, u_1} \ud835\udc9c i)\n                (decl-009276.{u_1, u_2} \ud835\udc9c i W) W",
+      "kind": "definition",
+      "owner_temporary_id": "decl-009276",
+      "project_type_dependencies": [
+        "decl-009276",
+        "decl-009285",
+        "decl-009313"
+      ],
+      "structural_type_hash": "254276486",
+      "temporary_id": "decl-009322"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} {\ud835\udc9c : Fin r \u2192 Type u_1} [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] {i : Fin r} {W : Type u_2}\n  [inst_1 : AddCommGroup.{u_2} W] [inst_2 : Module.{u_1, u_2} (\ud835\udc9c i) W],\n  Function.Bijective.{u_2 + 1, u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} decl-009322.{u_1, u_2})",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-009276",
+      "project_type_dependencies": [
+        "decl-009276",
+        "decl-009285",
+        "decl-009313",
+        "decl-009322"
+      ],
+      "structural_type_hash": "3296943786",
+      "temporary_id": "decl-009325"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V]\n  [IsSimpleModule.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V],\n  Exists.{1} fun i =>\n    And\n      (IsSimpleModule.{u_1, u_2} (\ud835\udc9c i)\n        (Subtype.{u_2 + 1} fun x =>\n          Membership.mem.{u_2, u_2}\n            (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x))\n      (Nonempty.{u_2 + 1}\n        (LinearEquiv.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} ((j : Fin r) \u2192 \ud835\udc9c j)) V\n          (decl-009276.{u_1, u_2} \ud835\udc9c i\n            (Subtype.{u_2 + 1} fun x =>\n              Membership.mem.{u_2, u_2}\n                (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009276",
+        "decl-009285",
+        "decl-009313",
+        "decl-009328",
+        "decl-009339"
+      ],
+      "structural_type_hash": "250360207",
+      "temporary_id": "decl-009326"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V]\n  [IsSimpleModule.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V],\n  Exists.{1} fun i =>\n    And\n      (IsSimpleModule.{u_1, u_2} (\ud835\udc9c i)\n        (Subtype.{u_2 + 1} fun x =>\n          Membership.mem.{u_2, u_2}\n            (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x))\n      (Nonempty.{u_2 + 1}\n        (LinearEquiv.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} ((i : Fin r) \u2192 \ud835\udc9c i)) V\n          (Subtype.{u_2 + 1} fun x =>\n            Membership.mem.{u_2, u_2}\n              (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009328",
+        "decl-009339"
+      ],
+      "structural_type_hash": "3115633659",
+      "temporary_id": "decl-009327"
+    },
+    {
+      "formal_type": "{r : Nat} \u2192\n  (\ud835\udc9c : Fin r \u2192 Type u_1) \u2192\n    [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] \u2192\n      (V : Type u_2) \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] \u2192\n            (i : Fin r) \u2192\n              Module.{u_1, u_2} (\ud835\udc9c i)\n                (Subtype.{u_2 + 1} fun x =>\n                  Membership.mem.{u_2, u_2}\n                    (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009339"
+      ],
+      "structural_type_hash": "3165755204",
+      "temporary_id": "decl-009328"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] (i : Fin r) (a : \ud835\udc9c i)\n  (x :\n    Subtype.{u_2 + 1} fun x =>\n      Membership.mem.{u_2, u_2} (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i))\n        x),\n  Eq.{u_2 + 1} (Subtype.val.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} a x))\n    (HSMul.hSMul.{u_1, u_2, u_2} (Pi.single.{0, u_1} i a) (Subtype.val.{u_2 + 1} x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009328",
+        "decl-009339"
+      ],
+      "structural_type_hash": "3479830319",
+      "temporary_id": "decl-009337"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (d : Nat) [NeZero.{0} d] (V : Type u_2) [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{u_1, u_2} k V] [inst_4 : Module.{u_1, u_2} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) V]\n  [IsScalarTower.{u_1, u_1, u_2} k (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) V] [FiniteDimensional.{u_1, u_2} k V],\n  Exists.{1} fun n =>\n    Nonempty.{max (u_1 + 1) (u_2 + 1)}\n      (LinearEquiv.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k)) V (Fin n \u2192 Fin d \u2192 k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2070176545",
+      "temporary_id": "decl-009338"
+    },
+    {
+      "formal_type": "{r : Nat} \u2192\n  (\ud835\udc9c : Fin r \u2192 Type u_1) \u2192\n    [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] \u2192\n      (V : Type u_2) \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] \u2192\n            Fin r \u2192 LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} ((i : Fin r) \u2192 \ud835\udc9c i)) V V",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1560855240",
+      "temporary_id": "decl-009339"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] (i : Fin r),\n  Iff\n    (IsSimpleModule.{u_1, u_2} ((j : Fin r) \u2192 \ud835\udc9c j)\n      (Subtype.{u_2 + 1} fun x =>\n        Membership.mem.{u_2, u_2}\n          (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x))\n    (IsSimpleModule.{u_1, u_2} (\ud835\udc9c i)\n      (Subtype.{u_2 + 1} fun x =>\n        Membership.mem.{u_2, u_2}\n          (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009328",
+        "decl-009339"
+      ],
+      "structural_type_hash": "2474949187",
+      "temporary_id": "decl-009342"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] (i : Fin r) (v : V),\n  Iff\n    (Membership.mem.{u_2, u_2} (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i))\n      v)\n    (Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} (Pi.single.{0, u_1} i 1) v) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009339"
+      ],
+      "structural_type_hash": "2025162549",
+      "temporary_id": "decl-009343"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] (i : Fin r) (c : (j : Fin r) \u2192 \ud835\udc9c j)\n  (x :\n    Subtype.{u_2 + 1} fun x =>\n      Membership.mem.{u_2, u_2} (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i))\n        x),\n  Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} c x) (HSMul.hSMul.{u_1, u_2, u_2} (c i) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009328",
+        "decl-009339"
+      ],
+      "structural_type_hash": "2824308825",
+      "temporary_id": "decl-009344"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] (i : Fin r),\n  Iff\n    (Eq.{u_2 + 1} (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) Bot.bot.{u_2})\n    (\u2200 (v : V), Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} (Pi.single.{0, u_1} i 1) v) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009339"
+      ],
+      "structural_type_hash": "748923291",
+      "temporary_id": "decl-009345"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] (i : Fin r),\n  Iff\n    (Eq.{u_2 + 1} (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) Top.top.{u_2})\n    (\u2200 (v : V), Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} (Pi.single.{0, u_1} i 1) v) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009339"
+      ],
+      "structural_type_hash": "2528069214",
+      "temporary_id": "decl-009346"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (d : Nat) [NeZero.{0} d] (V : Type u_2) [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{u_1, u_2} k V] [inst_4 : Module.{u_1, u_2} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) V]\n  [IsScalarTower.{u_1, u_1, u_2} k (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) V] [FiniteDimensional.{u_1, u_2} k V]\n  [IsSimpleModule.{u_1, u_2} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) V],\n  Nonempty.{max (u_1 + 1) (u_2 + 1)}\n    (LinearEquiv.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k)) V (Fin d \u2192 k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "157329966",
+      "temporary_id": "decl-009347"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V],\n  Iff (IsSimpleModule.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V)\n    (Exists.{1} fun i =>\n      And\n        (IsSimpleModule.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i)\n          (Subtype.{u_2 + 1} fun x =>\n            Membership.mem.{u_2, u_2}\n              (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x))\n        (\u2200 (j : Fin r),\n          Ne.{1} j i \u2192\n            Eq.{u_2 + 1} (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V j))\n              Bot.bot.{u_2}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009339"
+      ],
+      "structural_type_hash": "1435113062",
+      "temporary_id": "decl-009348"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V],\n  Iff (IsSimpleModule.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V)\n    (Exists.{1} fun i =>\n      And\n        (IsSimpleModule.{u_1, u_2} (\ud835\udc9c i)\n          (Subtype.{u_2 + 1} fun x =>\n            Membership.mem.{u_2, u_2}\n              (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x))\n        (\u2200 (j : Fin r),\n          Ne.{1} j i \u2192\n            Eq.{u_2 + 1} (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V j))\n              Bot.bot.{u_2}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009328",
+        "decl-009339"
+      ],
+      "structural_type_hash": "1478365018",
+      "temporary_id": "decl-009350"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (i : Fin r) (a b : \ud835\udc9c i),\n  Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (Pi.single.{0, u_1} i a) (Pi.single.{0, u_1} i b))\n    (Pi.single.{0, u_1} i (HMul.hMul.{u_1, u_1, u_1} a b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3811060015",
+      "temporary_id": "decl-009351"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (i j : Fin r),\n  Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (Pi.single.{0, u_1} i 1) (Pi.single.{0, u_1} j 1))\n    (ite.{max (u_1 + 1) 1} (Eq.{1} i j) (Pi.single.{0, u_1} i 1) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4117561764",
+      "temporary_id": "decl-009352"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (i : Fin r) (a : (i : Fin r) \u2192 \ud835\udc9c i),\n  Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} (Pi.single.{0, u_1} i 1) a)\n    (HMul.hMul.{u_1, u_1, u_1} a (Pi.single.{0, u_1} i 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1286634740",
+      "temporary_id": "decl-009353"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] (i j : Fin r) (v : V),\n  Eq.{u_2 + 1}\n    (HSMul.hSMul.{u_1, u_2, u_2} (Pi.single.{0, u_1} i 1) (HSMul.hSMul.{u_1, u_2, u_2} (Pi.single.{0, u_1} j 1) v))\n    (ite.{u_2 + 1} (Eq.{1} i j) (HSMul.hSMul.{u_1, u_2, u_2} (Pi.single.{0, u_1} i 1) v) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2605360045",
+      "temporary_id": "decl-009354"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (d : Nat) [NeZero.{0} d],\n  IsSimpleModule.{u_1, u_1} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) (Fin d \u2192 k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "880072707",
+      "temporary_id": "decl-009355"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)],\n  Eq.{u_1 + 1} (Finset.sum.{0, u_1} Finset.univ.{0} fun i => Pi.single.{0, u_1} i 1) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1681334877",
+      "temporary_id": "decl-009356"
+    },
+    {
+      "formal_type": "\u2200 {r : Nat} (\ud835\udc9c : Fin r \u2192 Type u_1) [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] (V : Type u_2)\n  [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] (v : V),\n  Eq.{u_2 + 1} (Finset.sum.{0, u_2} Finset.univ.{0} fun i => HSMul.hSMul.{u_1, u_2, u_2} (Pi.single.{0, u_1} i 1) v) v",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2740758062",
+      "temporary_id": "decl-009357"
+    },
+    {
+      "formal_type": "{r : Nat} \u2192\n  (\ud835\udc9c : Fin r \u2192 Type u_1) \u2192\n    [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] \u2192\n      (V : Type u_2) \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] \u2192\n            (i : Fin r) \u2192\n              LinearEquiv.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} ((j : Fin r) \u2192 \ud835\udc9c j))\n                (Subtype.{u_2 + 1} fun x =>\n                  Membership.mem.{u_2, u_2}\n                    (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x)\n                (decl-009276.{u_1, u_2} \ud835\udc9c i\n                  (Subtype.{u_2 + 1} fun x =>\n                    Membership.mem.{u_2, u_2}\n                      (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009276",
+        "decl-009285",
+        "decl-009313",
+        "decl-009328",
+        "decl-009339"
+      ],
+      "structural_type_hash": "3026701807",
+      "temporary_id": "decl-009358"
+    },
+    {
+      "formal_type": "{r : Nat} \u2192\n  (\ud835\udc9c : Fin r \u2192 Type u_1) \u2192\n    [inst : (i : Fin r) \u2192 Ring.{u_1} (\ud835\udc9c i)] \u2192\n      (V : Type u_2) \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} ((i : Fin r) \u2192 \ud835\udc9c i) V] \u2192\n            (i : Fin r) \u2192\n              LinearMap.{u_1, u_1, u_2, u_2} (Pi.evalRingHom.{0, u_1} \ud835\udc9c i)\n                (Subtype.{u_2 + 1} fun x =>\n                  Membership.mem.{u_2, u_2}\n                    (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x)\n                (Subtype.{u_2 + 1} fun x =>\n                  Membership.mem.{u_2, u_2}\n                    (LinearMap.range.{u_1, u_1, u_2, u_2} (decl-009339.{u_1, u_2} \ud835\udc9c V i)) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009328",
+        "decl-009339"
+      ],
+      "structural_type_hash": "2909934558",
+      "temporary_id": "decl-009363"
+    }
+  ],
+  "module_temporary_id": "module-0145",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

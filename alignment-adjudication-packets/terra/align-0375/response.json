@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0375",
+  "associations": [
+    {
+      "association_id": "association:0af51e42e100cb73f606",
+      "role": "primary",
+      "rationale": "The categorical isomorphism directly states that the identity functor on finite-dimensional modules is naturally isomorphic to the double-dual functor."
+    },
+    {
+      "association_id": "association:6e1298aed50089784745",
+      "role": "primary",
+      "rationale": "The biconditional directly states that a vector space is linearly equivalent to its double dual exactly when it is finite-dimensional."
+    }
+  ]
+}

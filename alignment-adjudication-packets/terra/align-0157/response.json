@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0157",
+  "associations": [
+    {
+      "association_id": "association:3f25d698885d620095ff",
+      "role": "supporting",
+      "rationale": "This distributes the dual over the finite power and is used to form the final self-duality equivalence."
+    },
+    {
+      "association_id": "association:e5281318b0de27226e4f",
+      "role": "primary",
+      "rationale": "This equivalence directly states that the dual of A to the n is A to the n."
+    },
+    {
+      "association_id": "association:7b7ca357d124afacbb8d",
+      "role": "supporting",
+      "rationale": "Self-duality of the matrix-product algebra is an ingredient in the finite-power self-duality."
+    }
+  ]
+}

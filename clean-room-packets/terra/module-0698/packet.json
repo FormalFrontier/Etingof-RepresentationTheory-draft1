@@ -1,0 +1,126 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type v} [inst : Field.{v} k] [IsAlgClosed.{v} k] (C : Type u) [inst_2 : CategoryTheory.Category.{v, u} C]\n  [inst_3 : decl-005147.{u, v} C] [inst_4 : CategoryTheory.Linear.{v, v, u} k C]\n  [decl-005167.{v, u, v} k C],\n  Exists.{u + 1} fun P =>\n    Exists.{0} fun x =>\n      Exists.{v + 2} fun B =>\n        Exists.{v + 1} fun x =>\n          Exists.{v + 1} fun x_1 =>\n            Exists.{0} fun x_2 =>\n              And (decl-005123.{v, v} k B)\n                (And\n                  (Nonempty.{max (max (v + 2) (u + 1)) (v + 1)}\n                    (CategoryTheory.Equivalence.{v, v, u, v + 1} C\n                      (FGModuleCat.{v, v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P)))))\n                  (decl-005663.{v, v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P)) B))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005663"
+      ],
+      "structural_type_hash": "3835370625",
+      "temporary_id": "decl-001473"
+    },
+    {
+      "formal_type": "\u2200 {k : Type v} [inst : Field.{v} k] [IsAlgClosed.{v} k] (C : Type u) [inst_2 : CategoryTheory.Category.{v, u} C]\n  [inst_3 : decl-005147.{u, v} C] [inst_4 : CategoryTheory.Linear.{v, v, u} k C]\n  [decl-005167.{v, u, v} k C],\n  Exists.{v + 2} fun B =>\n    Exists.{v + 1} fun x =>\n      Exists.{v + 1} fun x_1 =>\n        Exists.{0} fun x_2 =>\n          And (decl-005123.{v, v} k B)\n            (Nonempty.{max (max (v + 2) (u + 1)) (v + 1)}\n              (CategoryTheory.Equivalence.{v, v, u, v + 1} C (FGModuleCat.{v, v} B)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005147",
+        "decl-005164",
+        "decl-005167"
+      ],
+      "structural_type_hash": "3808134281",
+      "temporary_id": "decl-001474"
+    },
+    {
+      "formal_type": "\u2200 {k : Type v} [inst : Field.{v} k] [IsAlgClosed.{v} k] (C : Type u) [inst_2 : CategoryTheory.Category.{v, u} C]\n  [inst_3 : decl-005147.{u, v} C] [inst_4 : CategoryTheory.Linear.{v, v, u} k C]\n  [decl-005167.{v, u, v} k C] (P : C) [hp : decl-005213.{u, v} P],\n  Exists.{v + 2} fun B =>\n    Exists.{v + 1} fun x =>\n      Exists.{v + 1} fun x_1 =>\n        Exists.{0} fun x_2 =>\n          And (decl-005123.{v, v} k B)\n            (Nonempty.{max (max (v + 2) (u + 1)) (v + 1)}\n              (CategoryTheory.Equivalence.{v, v, u, v + 1} C (FGModuleCat.{v, v} B)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213"
+      ],
+      "structural_type_hash": "3892853660",
+      "temporary_id": "decl-001475"
+    },
+    {
+      "formal_type": "\u2200 {k : Type v} [inst : Field.{v} k] [IsAlgClosed.{v} k] (C : Type u) [inst_2 : CategoryTheory.Category.{v, u} C]\n  [inst_3 : decl-005147.{u, v} C] [inst_4 : CategoryTheory.Linear.{v, v, u} k C]\n  [decl-005167.{v, u, v} k C] (P : C) [hp : decl-005213.{u, v} P],\n  Exists.{v + 2} fun B =>\n    Exists.{v + 1} fun x =>\n      Exists.{v + 1} fun x_1 =>\n        Exists.{0} fun x_2 =>\n          And (decl-005123.{v, v} k B)\n            (And\n              (Nonempty.{max (max (v + 2) (u + 1)) (v + 1)}\n                (CategoryTheory.Equivalence.{v, v, u, v + 1} C\n                  (FGModuleCat.{v, v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P)))))\n              (decl-005663.{v, v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P)) B))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005663"
+      ],
+      "structural_type_hash": "3422498672",
+      "temporary_id": "decl-001476"
+    },
+    {
+      "formal_type": "\u2200 {k : Type v} [inst : Field.{v} k] [IsAlgClosed.{v} k] (C : Type u) [inst_2 : CategoryTheory.Category.{v, u} C]\n  [inst_3 : decl-005147.{u, v} C] [inst_4 : CategoryTheory.Linear.{v, v, u} k C]\n  [decl-005167.{v, u, v} k C],\n  Exists.{u + 1} fun P =>\n    Exists.{0} fun x =>\n      Exists.{v + 2} fun B =>\n        Exists.{v + 1} fun x =>\n          Exists.{v + 1} fun x_1 =>\n            Exists.{0} fun x_2 =>\n              And (decl-005126.{v, v, v} k B)\n                (And (decl-005123.{v, v} k B)\n                  (And\n                    (Nonempty.{max (max (v + 2) (u + 1)) (v + 1)}\n                      (CategoryTheory.Equivalence.{v, v, u, v + 1} C (FGModuleCat.{v, v} B)))\n                    (And (decl-005305.{v, v} k (MulOpposite.{v} (CategoryTheory.End.{v, u} P)) B)\n                      (And\n                        (LE.le.{0} (Module.finrank.{v, v} k B)\n                          (Module.finrank.{v, v} k (MulOpposite.{v} (CategoryTheory.End.{v, u} P))))\n                        (\u2200 (B' : Type v) (x_3 : Ring.{v} B') (x_4 : Algebra.{v, v} k B'),\n                          Module.Finite.{v, v} k B' \u2192\n                            decl-005123.{v, v} k B' \u2192\n                              decl-005305.{v, v} k (MulOpposite.{v} (CategoryTheory.End.{v, u} P))\n                                  B' \u2192\n                                Nonempty.{v + 1} (AlgEquiv.{v, v, v} k B' B))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005126",
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005305"
+      ],
+      "structural_type_hash": "2121059911",
+      "temporary_id": "decl-001477"
+    },
+    {
+      "formal_type": "\u2200 {k : Type v} [inst : Field.{v} k] [IsAlgClosed.{v} k] (C : Type u) [inst_2 : CategoryTheory.Category.{v, u} C]\n  [inst_3 : decl-005147.{u, v} C] [inst_4 : CategoryTheory.Linear.{v, v, u} k C]\n  [decl-005167.{v, u, v} k C] (P : C) [hp : decl-005213.{u, v} P],\n  Exists.{v + 2} fun B =>\n    Exists.{v + 1} fun x =>\n      Exists.{v + 1} fun x_1 =>\n        Exists.{0} fun x_2 =>\n          And (decl-005126.{v, v, v} k B)\n            (And (decl-005123.{v, v} k B)\n              (And\n                (Nonempty.{max (max (v + 2) (u + 1)) (v + 1)}\n                  (CategoryTheory.Equivalence.{v, v, u, v + 1} C (FGModuleCat.{v, v} B)))\n                (And (decl-005305.{v, v} k (MulOpposite.{v} (CategoryTheory.End.{v, u} P)) B)\n                  (And\n                    (LE.le.{0} (Module.finrank.{v, v} k B)\n                      (Module.finrank.{v, v} k (MulOpposite.{v} (CategoryTheory.End.{v, u} P))))\n                    (\u2200 (B' : Type v) (x_3 : Ring.{v} B') (x_4 : Algebra.{v, v} k B'),\n                      Module.Finite.{v, v} k B' \u2192\n                        decl-005123.{v, v} k B' \u2192\n                          decl-005305.{v, v} k (MulOpposite.{v} (CategoryTheory.End.{v, u} P)) B' \u2192\n                            Nonempty.{v + 1} (AlgEquiv.{v, v, v} k B' B))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005126",
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-005213",
+        "decl-005305"
+      ],
+      "structural_type_hash": "1843270161",
+      "temporary_id": "decl-001478"
+    },
+    {
+      "formal_type": "\u2200 {k : Type v} [inst : Field.{v} k] [IsAlgClosed.{v} k] (A : Type v) [inst_2 : Ring.{v} A] [inst_3 : Algebra.{v, v} k A]\n  [Module.Finite.{v, v} k A],\n  Exists.{v + 2} fun B =>\n    Exists.{v + 1} fun x =>\n      Exists.{v + 1} fun x_1 =>\n        Exists.{0} fun x_2 => And (decl-005123.{v, v} k B) (decl-005672.{v} A B)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005123",
+        "decl-005672"
+      ],
+      "structural_type_hash": "201335356",
+      "temporary_id": "decl-001479"
+    }
+  ],
+  "module_temporary_id": "module-0698",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

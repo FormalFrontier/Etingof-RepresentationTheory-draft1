@@ -1,0 +1,6 @@
+{
+  "module_name": "SimpleModule.ScalarEndomorphisms",
+  "declarations": [
+    {"temporary_id":"decl-014360","new_name":"linearMap_eq_smul_of_simple_of_rank_le_aleph0","docstring":"For the displayed simple complex module of at most countable rank, every A-linear endomorphism is scalar multiplication."}
+  ]
+}

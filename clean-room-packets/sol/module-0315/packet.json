@@ -1,0 +1,613 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2981561318",
+      "temporary_id": "decl-000472"
+    },
+    {
+      "formal_type": "\u2200 {V : Type} [inst : AddCommGroup.{0} V] [inst_1 : Module.{0, 0} Complex V] [inst_2 : Module.Finite.{0, 0} Complex V]\n  (\u03c1 :\n    Representation.{0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x) V),\n  IsSimpleModule.{0, 0}\n      (MonoidAlgebra.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x))\n      (Representation.asModule.{0, 0, 0} \u03c1) \u2192\n    decl-005278.{0, 0} \u03c1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "1228726760",
+      "temporary_id": "decl-003420"
+    },
+    {
+      "formal_type": "Exists.{1} fun \u03c1 =>\n  And (IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Complex (QuaternionGroup 2)) (Representation.asModule.{0, 0, 0} \u03c1))\n    (decl-005277.{0, 0} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005277"
+      ],
+      "structural_type_hash": "450362136",
+      "temporary_id": "decl-003421"
+    },
+    {
+      "formal_type": "\u2200 (\u03c1 : Representation.{0, 0, 0} Complex (QuaternionGroup 2) Complex), decl-005278.{0, 0} \u03c1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "1240330423",
+      "temporary_id": "decl-003422"
+    },
+    {
+      "formal_type": "\u2200 {V : Type} [inst : AddCommGroup.{0} V] [inst_1 : Module.{0, 0} Complex V] [inst_2 : Module.Finite.{0, 0} Complex V]\n  (\u03c3 : Representation.{0, 0, 0} Complex (QuaternionGroup 2) V),\n  IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Complex (QuaternionGroup 2)) (Representation.asModule.{0, 0, 0} \u03c3) \u2192\n    Eq.{1} (Module.finrank.{0, 0} Complex V) 2 \u2192\n      Nonempty.{1} (CategoryTheory.Iso.{0, 1} (FDRep.of.{0, 0} \u03c3) (FDRep.of.{0, 0} decl-014787))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014787"
+      ],
+      "structural_type_hash": "3788719087",
+      "temporary_id": "decl-003423"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.Finite.{0, u_1} Complex V] (\u03c1 : Representation.{0, 0, u_1} Complex (Equiv.Perm.{1} (Fin 3)) V),\n  IsSimpleModule.{0, u_1} (MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin 3)))\n      (Representation.asModule.{0, 0, u_1} \u03c1) \u2192\n    decl-005278.{0, u_1} \u03c1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "2401302732",
+      "temporary_id": "decl-003428"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.Finite.{0, u_1} Complex V] (\u03c1 : Representation.{0, 0, u_1} Complex (Equiv.Perm.{1} (Fin 4)) V),\n  IsSimpleModule.{0, u_1} (MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin 4)))\n      (Representation.asModule.{0, 0, u_1} \u03c1) \u2192\n    decl-005278.{0, u_1} \u03c1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "2286454167",
+      "temporary_id": "decl-003435"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "3669749081",
+      "temporary_id": "decl-003436"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} [NeZero.{0} n] (S : FDRep.{0, 0} Complex (Multiplicative.{0} (ZMod n))) [CategoryTheory.Simple.{0, 1} S],\n  Exists.{1} fun \u03be => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (decl-000475 \u03be))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000475"
+      ],
+      "structural_type_hash": "1403445963",
+      "temporary_id": "decl-003437"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} [inst : NeZero.{0} n] (\u03be : MonoidHom.{0, 0} (Multiplicative.{0} (ZMod n)) (Units.{0} Complex)),\n  Iff (decl-005130.{0, 0} (decl-000481 \u03be))\n    (And (Ne.{1} \u03be 1) (\u2200 (hn : Dvd.dvd.{0} 2 n), Ne.{1} \u03be (decl-017115 hn)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000481",
+        "decl-005130",
+        "decl-017115"
+      ],
+      "structural_type_hash": "3073832383",
+      "temporary_id": "decl-003438"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} [inst : NeZero.{0} n] (\u03be : MonoidHom.{0, 0} (Multiplicative.{0} (ZMod n)) (Units.{0} Complex)),\n  Iff (decl-005278.{0, 0} (decl-000481 \u03be))\n    (Or (Eq.{1} \u03be 1) (Exists.{0} fun hn => Eq.{1} \u03be (decl-017115 hn)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000481",
+        "decl-005278",
+        "decl-017115"
+      ],
+      "structural_type_hash": "1553342868",
+      "temporary_id": "decl-003439"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} [inst : NeZero.{0} n] (hn : Dvd.dvd.{0} 2 n),\n  decl-005278.{0, 0} (decl-000481 (decl-017115 hn))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000481",
+        "decl-005278",
+        "decl-017115"
+      ],
+      "structural_type_hash": "704519523",
+      "temporary_id": "decl-003440"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} [inst : NeZero.{0} n], decl-005278.{0, 0} (decl-000481 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000481",
+        "decl-005278"
+      ],
+      "structural_type_hash": "1638328082",
+      "temporary_id": "decl-003441"
+    },
+    {
+      "formal_type": "Matrix.{0, 0, 0} (Fin 2) (Fin 2) Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3520096807",
+      "temporary_id": "decl-014765"
+    },
+    {
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} decl-014765 decl-014781)\n  (HMul.hMul.{0, 0, 0} decl-014781 (HPow.hPow.{0, 0, 0} decl-014765 3))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014765",
+        "decl-014781"
+      ],
+      "structural_type_hash": "3499096322",
+      "temporary_id": "decl-014767"
+    },
+    {
+      "formal_type": "\u2200 {a b : Nat},\n  Eq.{1} (Nat.cast.{0} a) (Nat.cast.{0} b) \u2192\n    Eq.{1} (HPow.hPow.{0, 0, 0} decl-014765 a) (HPow.hPow.{0, 0, 0} decl-014765 b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014765"
+      ],
+      "structural_type_hash": "1484560009",
+      "temporary_id": "decl-014768"
+    },
+    {
+      "formal_type": "Eq.{1} (HPow.hPow.{0, 0, 0} decl-014765 4) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014765"
+      ],
+      "structural_type_hash": "3596703008",
+      "temporary_id": "decl-014769"
+    },
+    {
+      "formal_type": "\u2200 (m : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} decl-014765 m) decl-014781)\n    (HMul.hMul.{0, 0, 0} decl-014781 (HPow.hPow.{0, 0, 0} decl-014765 (HMul.hMul.{0, 0, 0} 3 m)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014765",
+        "decl-014781"
+      ],
+      "structural_type_hash": "4109527083",
+      "temporary_id": "decl-014770"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014765"
+      ],
+      "structural_type_hash": "2356393263",
+      "temporary_id": "decl-014773"
+    },
+    {
+      "formal_type": "QuaternionGroup 2 \u2192 Matrix.{0, 0, 0} (Fin 2) (Fin 2) Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1586014420",
+      "temporary_id": "decl-014774"
+    },
+    {
+      "formal_type": "MonoidHom.{0, 0} (QuaternionGroup 2) (Matrix.{0, 0, 0} (Fin 2) (Fin 2) Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "608082308",
+      "temporary_id": "decl-014778"
+    },
+    {
+      "formal_type": "Matrix.{0, 0, 0} (Fin 2) (Fin 2) Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3520096807",
+      "temporary_id": "decl-014781"
+    },
+    {
+      "formal_type": "\u2200 (m : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} decl-014781 (HPow.hPow.{0, 0, 0} decl-014765 m)) decl-014781)\n    (HPow.hPow.{0, 0, 0} decl-014765 (HAdd.hAdd.{0, 0, 0} 2 (HMul.hMul.{0, 0, 0} 3 m)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014765",
+        "decl-014781"
+      ],
+      "structural_type_hash": "547856998",
+      "temporary_id": "decl-014783"
+    },
+    {
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} decl-014781 decl-014781) (HPow.hPow.{0, 0, 0} decl-014765 2)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014765",
+        "decl-014781"
+      ],
+      "structural_type_hash": "174232205",
+      "temporary_id": "decl-014784"
+    },
+    {
+      "formal_type": "Eq.{1} (Matrix.det.{0, 0} decl-014765) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014765"
+      ],
+      "structural_type_hash": "1700312861",
+      "temporary_id": "decl-014785"
+    },
+    {
+      "formal_type": "Eq.{1} (Matrix.det.{0, 0} decl-014781) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014781"
+      ],
+      "structural_type_hash": "3818473822",
+      "temporary_id": "decl-014786"
+    },
+    {
+      "formal_type": "Representation.{0, 0, 0} Complex (QuaternionGroup 2) (Fin 2 \u2192 Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1168595967",
+      "temporary_id": "decl-014787"
+    },
+    {
+      "formal_type": "\u2200 (g : QuaternionGroup 2) (v : Fin 2 \u2192 Complex),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} decl-014787 g) v)\n    (Matrix.mulVec.{0, 0, 0} (DFunLike.coe.{1, 1, 1} decl-014778 g) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014778",
+        "decl-014787"
+      ],
+      "structural_type_hash": "842298781",
+      "temporary_id": "decl-014793"
+    },
+    {
+      "formal_type": "IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Complex (QuaternionGroup 2))\n  (Representation.asModule.{0, 0, 0} decl-014787)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014787"
+      ],
+      "structural_type_hash": "2338083447",
+      "temporary_id": "decl-014794"
+    },
+    {
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} decl-015552 decl-015556)\n  (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} decl-015556 decl-015552) decl-015552)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015552",
+        "decl-015556"
+      ],
+      "structural_type_hash": "203244581",
+      "temporary_id": "decl-015547"
+    },
+    {
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} decl-015552 (Inv.inv.{0} decl-015556)) decl-015556) decl-015552",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015552",
+        "decl-015556"
+      ],
+      "structural_type_hash": "743055135",
+      "temporary_id": "decl-015548"
+    },
+    {
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} decl-015552 decl-015552)\n  (HMul.hMul.{0, 0, 0} decl-015556 (HMul.hMul.{0, 0, 0} decl-015552 (Inv.inv.{0} decl-015556)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015552",
+        "decl-015556"
+      ],
+      "structural_type_hash": "1146983736",
+      "temporary_id": "decl-015549"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V] [Module.Finite.{0, u_1} Complex V]\n  (\u03c1 : Representation.{0, 0, u_1} Complex (Equiv.Perm.{1} (Fin 3)) V) (W : Submodule.{0, u_1} Complex V),\n  (\u2200 (x : V),\n      Membership.mem.{u_1, u_1} W x \u2192\n        Membership.mem.{u_1, u_1} W\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 decl-015552) x)) \u2192\n    (\u2200 (x : V),\n        Membership.mem.{u_1, u_1} W x \u2192\n          Membership.mem.{u_1, u_1} W\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 decl-015556) x)) \u2192\n      Membership.mem.{u_1, u_1} (Representation.invtSubmodule.{0, 0, u_1} \u03c1) W",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015552",
+        "decl-015556"
+      ],
+      "structural_type_hash": "769607027",
+      "temporary_id": "decl-015550"
+    },
+    {
+      "formal_type": "Eq.{1} (Subgroup.closure.{0} (Insert.insert.{0, 0} decl-015552 (Singleton.singleton.{0, 0} decl-015556))) Top.top.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015552",
+        "decl-015556"
+      ],
+      "structural_type_hash": "3098834417",
+      "temporary_id": "decl-015551"
+    },
+    {
+      "formal_type": "Equiv.Perm.{1} (Fin 3)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1566062814",
+      "temporary_id": "decl-015552"
+    },
+    {
+      "formal_type": "Eq.{1} (HPow.hPow.{0, 0, 0} decl-015552 3) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015552"
+      ],
+      "structural_type_hash": "487367695",
+      "temporary_id": "decl-015553"
+    },
+    {
+      "formal_type": "Ne.{1} decl-015552 (HMul.hMul.{0, 0, 0} decl-015552 decl-015552)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015552"
+      ],
+      "structural_type_hash": "4021994709",
+      "temporary_id": "decl-015554"
+    },
+    {
+      "formal_type": "Eq.{1}\n  (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} decl-015552 decl-015552) (HMul.hMul.{0, 0, 0} decl-015552 decl-015552))\n  decl-015552",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015552"
+      ],
+      "structural_type_hash": "2097155236",
+      "temporary_id": "decl-015555"
+    },
+    {
+      "formal_type": "Equiv.Perm.{1} (Fin 3)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1566062814",
+      "temporary_id": "decl-015556"
+    },
+    {
+      "formal_type": "Eq.{1} (HMul.hMul.{0, 0, 0} decl-015556 decl-015556) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015556"
+      ],
+      "structural_type_hash": "1150860070",
+      "temporary_id": "decl-015557"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 [NeZero.{0} n] \u2192 Dvd.dvd.{0} 2 n \u2192 MonoidHom.{0, 0} (Multiplicative.{0} (ZMod n)) (Units.{0} Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3671251232",
+      "temporary_id": "decl-017115"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} [inst : NeZero.{0} n] (hn : Dvd.dvd.{0} 2 n), LE.le.{0} 2 n \u2192 Ne.{1} (decl-017115 hn) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017115"
+      ],
+      "structural_type_hash": "3434261161",
+      "temporary_id": "decl-017118"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017115"
+      ],
+      "structural_type_hash": "2721650236",
+      "temporary_id": "decl-017120"
+    },
+    {
+      "formal_type": "\u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x), IsConj.{0} g (Inv.inv.{0} g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "317348446",
+      "temporary_id": "decl-017212"
+    },
+    {
+      "formal_type": "Eq.{1}\n  (Fintype.card.{0} (ConjClasses.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x))) 5",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1567964530",
+      "temporary_id": "decl-017725"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] [inst_2 : DecidableEq.{u_1 + 1} G] {V : Type u_2}\n  {W : Type u_3} [inst_3 : AddCommGroup.{u_2} V] [inst_4 : Module.{0, u_2} Complex V]\n  [inst_5 : Module.Finite.{0, u_2} Complex V] [inst_6 : AddCommGroup.{u_3} W] [inst_7 : Module.{0, u_3} Complex W]\n  [inst_8 : Module.Finite.{0, u_3} Complex W] (\u03c1 : Representation.{0, u_1, u_2} Complex G V)\n  (\u03c3 : Representation.{0, u_1, u_3} Complex G W),\n  (\u2200 (g : G), Eq.{1} (Representation.character.{u_1, 0, u_2} \u03c1 g) (Representation.character.{u_1, 0, u_3} \u03c3 g)) \u2192\n    Eq.{1} (decl-019674.{u_1, u_2} \u03c1) (decl-019674.{u_1, u_3} \u03c3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019674"
+      ],
+      "structural_type_hash": "520491228",
+      "temporary_id": "decl-019679"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3541115980",
+      "temporary_id": "decl-019690"
+    },
+    {
+      "formal_type": "\u2200 {V : Type} [inst : AddCommGroup.{0} V] [inst_1 : Module.{0, 0} Complex V] [inst_2 : Module.Finite.{0, 0} Complex V]\n  (\u03c1 :\n    Representation.{0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x) V),\n  IsSimpleModule.{0, 0}\n      (MonoidAlgebra.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x))\n      (Representation.asModule.{0, 0, 0} \u03c1) \u2192\n    (\u2200 (g : Subtype.{1} fun x => Membership.mem.{0, 0} (alternatingGroup.{0} (Fin 5)) x),\n        Eq.{1} (Representation.character.{0, 0, 0} \u03c1 (Inv.inv.{0} g)) (Representation.character.{0, 0, 0} \u03c1 g)) \u2192\n      Even.{0} (Module.finrank.{0, 0} Complex V) \u2192 decl-005278.{0, 0} \u03c1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "2770523689",
+      "temporary_id": "decl-020875"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005130"
+      ],
+      "structural_type_hash": "240765462",
+      "temporary_id": "decl-021805"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "1246856292",
+      "temporary_id": "decl-021806"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (\u03c1 : Representation.{0, u_1, 0} Complex G Complex),\n  IsSimpleModule.{u_1, 0} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, 0} \u03c1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "181849624",
+      "temporary_id": "decl-021807"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "4223224064",
+      "temporary_id": "decl-021808"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (x : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.coeff.{0, 0} (decl-017048 n la)) x).im 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017048"
+      ],
+      "structural_type_hash": "2569235050",
+      "temporary_id": "decl-024693"
+    },
+    {
+      "formal_type": "{G : Type u_1} \u2192\n  [Fintype.{u_1} G] \u2192\n    LinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Complex) (MonoidAlgebra.{0, u_1} Complex G)\n      (LinearMap.{0, 0, u_1, 0} (RingHom.id.{0} Complex) (MonoidAlgebra.{0, u_1} Complex G) Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3348736924",
+      "temporary_id": "decl-032748"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [Group.{u_1} G] [inst : Fintype.{u_1} G] (x y : MonoidAlgebra.{0, u_1} Complex G),\n  Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-032748.{u_1} x) y)\n    (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun g =>\n      HMul.hMul.{0, 0, 0} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (MonoidAlgebra.coeff.{0, u_1} x) g)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (MonoidAlgebra.coeff.{0, u_1} y) g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-032748"
+      ],
+      "structural_type_hash": "3947795807",
+      "temporary_id": "decl-032754"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (h : G) (x y : MonoidAlgebra.{0, u_1} Complex G),\n  Eq.{1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-032748.{u_1}\n        (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (MonoidAlgebra.of.{0, u_1} Complex G) h)\n          x))\n      (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (MonoidAlgebra.of.{0, u_1} Complex G) h) y))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-032748.{u_1} x) y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-032748"
+      ],
+      "structural_type_hash": "509634638",
+      "temporary_id": "decl-032755"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (c : MonoidAlgebra.{0, u_1} Complex G),\n  (\u2200 (x : G), Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (MonoidAlgebra.coeff.{0, u_1} c) x).im 0) \u2192\n    Ne.{u_1 + 1} c 0 \u2192\n      Ne.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-032748.{u_1} c) c) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-032748"
+      ],
+      "structural_type_hash": "36094906",
+      "temporary_id": "decl-032756"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [Group.{u_1} G] [inst : Fintype.{u_1} G] (x y : MonoidAlgebra.{0, u_1} Complex G),\n  Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-032748.{u_1} x) y)\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} decl-032748.{u_1} y) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-032748"
+      ],
+      "structural_type_hash": "1224145823",
+      "temporary_id": "decl-032757"
+    },
+    {
+      "formal_type": "{R : Type u_1} \u2192\n  {M : Type u_2} \u2192\n    [inst : Semiring.{u_1} R] \u2192\n      CoeFun.{max (u_2 + 1) (u_1 + 1), max (u_1 + 1) (u_2 + 1)} (MonoidAlgebra.{u_1, u_2} R M) fun x => M \u2192 R",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "959306518",
+      "temporary_id": "decl-032826"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [inst_4 : Module.Finite.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    \u2200 (\u03c8 : LinearMap.{0, 0, u_2, u_1} (RingHom.id.{0} Complex) V (MonoidAlgebra.{0, u_1} Complex G)),\n      (\u2200 (g : G) (v : V),\n          Eq.{u_1 + 1}\n            (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} \u03c8\n              (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 g)\n                v))\n            (HMul.hMul.{u_1, u_1, u_1}\n              (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (MonoidAlgebra.of.{0, u_1} Complex G) g)\n              (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} \u03c8 v))) \u2192\n        \u2200 (c : MonoidAlgebra.{0, u_1} Complex G),\n          (\u2200 (x : G), Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (MonoidAlgebra.coeff.{0, u_1} c) x).im 0) \u2192\n            \u2200 (v\u2080 : V),\n              Eq.{u_1 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} \u03c8 v\u2080) c \u2192\n                Ne.{u_1 + 1} c 0 \u2192 decl-005278.{u_1, u_2} \u03c1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005278"
+      ],
+      "structural_type_hash": "653262557",
+      "temporary_id": "decl-032916"
+    }
+  ],
+  "module_temporary_id": "module-0315",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

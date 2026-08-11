@@ -1,0 +1,50 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V],\n  LE.le.{u_2 + 1} 2 (Module.rank.{u_1, u_2} k V) \u2192\n    Exists.{u_2 + 1} fun f =>\n      Exists.{u_2 + 1} fun g => Ne.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} f g) (HMul.hMul.{u_2, u_2, u_2} g f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "777352218",
+      "temporary_id": "decl-001919"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] [Nontrivial.{u_1} k] (n : Nat),\n  LT.lt.{0} 1 n \u2192\n    Exists.{u_1 + 1} fun a =>\n      Exists.{u_1 + 1} fun b => Ne.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} a b) (HMul.hMul.{u_1, u_1, u_1} b a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3511606360",
+      "temporary_id": "decl-019544"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommSemiring.{u_1} k] [Nontrivial.{u_1} k] (G : Type u_2) [inst_2 : Monoid.{u_2} G],\n  Iff\n    (\u2200 (x y : MonoidAlgebra.{u_1, u_2} k G),\n      Eq.{max (u_1 + 1) (u_2 + 1)} (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2} x y)\n        (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2} y x))\n    (\u2200 (g h : G), Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} g h) (HMul.hMul.{u_2, u_2, u_2} h g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3373565300",
+      "temporary_id": "decl-021632"
+    }
+  ],
+  "module_temporary_id": "module-0035",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

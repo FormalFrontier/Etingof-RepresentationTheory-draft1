@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "overlays": [
+    {
+      "id": "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived01",
+      "parent_item_id": "Chapter2/Discussion_2.1_irreducible_indecomposable",
+      "source_span": "Obviously, irreducible implies indecomposable, but not vice versa.",
+      "claim": "Every irreducible (simple) representation is indecomposable: IsSimpleModule A V \u2192 Etingof.IsIndecomposable A V."
+    },
+    {
+      "id": "Chapter5/Discussion_1dim_reps/Derived01",
+      "parent_item_id": "Chapter5/Discussion_1dim_reps",
+      "source_span": "G/[G, G] \\cong \\mathbb{F}_q^\\times via g \\mapsto \\det(g). The 1-dimensional representations of G thus have the form \\rho(g) = \\xi(\\det(g)), where \\xi is a homomorphism \\xi : \\mathbb{F}_q^\\times \\to \\mathbb{C}^\\times; so there are q - 1 such representations, denoted \\mathbb{C}_\\xi.",
+      "claim": "Every 1-dimensional representation of GL\u2082(\ud835\udd3d_q) is of the form g \u21a6 \u03be(det g) for a unique character \u03be : \ud835\udd3d_q\u00d7 \u2192 \u2102\u00d7; there are exactly q\u22121 such representations."
+    },
+    {
+      "id": "Chapter5/Discussion_5.11_examples/Derived01",
+      "parent_item_id": "Chapter5/Discussion_5.11_examples",
+      "source_span": "Let G = S_4, H = S_3. Then \\operatorname{Ind}_H^G \\mathbb{C}_+ = \\mathbb{C}_+ \\oplus \\mathbb{C}^3_-, \\operatorname{Ind}_H^G \\mathbb{C}_- = \\mathbb{C}_- \\oplus \\mathbb{C}^3_+, \\operatorname{Ind}_H^G \\mathbb{C}^2 = \\mathbb{C}^2 \\oplus \\mathbb{C}^3_- \\oplus \\mathbb{C}^3_+.",
+      "claim": "The three induced representations of S\u2084 from S\u2083: Ind_{S\u2083}^{S\u2084} \u2102\u208a \u2245 \u2102\u208a \u2295 \u2102\u00b3\u208b, Ind_{S\u2083}^{S\u2084} \u2102\u208b \u2245 \u2102\u208b \u2295 \u2102\u00b3\u208a, Ind_{S\u2083}^{S\u2084} \u2102\u00b2 \u2245 \u2102\u00b2 \u2295 \u2102\u00b3\u208b \u2295 \u2102\u00b3\u208a"
+    },
+    {
+      "id": "Chapter5/Discussion_5.25.1/Derived01",
+      "parent_item_id": "Chapter5/Discussion_5.25.1",
+      "source_span": "Scalar: q-1 (one for every nonzero x); Parabolic: q-1 (one for every nonzero x); Hyperbolic: \\frac{1}{2}(q-1)(q-2); Elliptic: \\frac{1}{2}q(q-1) [entries in the 'Number of classes' column of the conjugacy class table]",
+      "claim": "The number of conjugacy classes of each type in GL\u2082(\ud835\udd3d_q): q-1 scalar classes, q-1 parabolic classes, (q-1)(q-2)/2 split-semisimple classes, q(q-1)/2 elliptic classes; totalling q\u00b2-1."
+    },
+    {
+      "id": "Chapter5/Discussion_after_Definition5.23.1/Derived01",
+      "parent_item_id": "Chapter5/Discussion_after_Definition5.23.1",
+      "source_span": "Also define L_{\\lambda - r \\cdot 1^N} := L_\\lambda \\otimes (\\wedge^N V^*)^{\\otimes r} (this definition makes sense by Proposition 5.22.2). Thus we have attached a unique irreducible algebraic representation L_\\lambda of GL(V) = GL_N to any sequence (\\lambda_1, \\ldots, \\lambda_N) of integers (not nec",
+      "claim": "For any weakly decreasing integer sequence \u03bb\u2081 \u2265 \u2026 \u2265 \u03bb_N, there is a unique irreducible algebraic representation L_\u03bb of GL_N with highest weight \u03bb; it is constructed as (Schur module L_{\u03bb+r\u00b71^N}) \u2297 (det^*)^r for r \u226b 0"
+    },
+    {
+      "id": "Chapter5/Discussion_complementary_series_summary/Derived01",
+      "parent_item_id": "Chapter5/Discussion_complementary_series_summary",
+      "source_span": "We have thus found q - 1 1-dimensional representations of G, \\frac{q(q-1)}{2} principal series representations, and \\frac{q(q-1)}{2} complementary series representations, for a total of q^2 - 1 representations, i.e., the number of conjugacy classes in G. This implies that we have in fact found all i",
+      "claim": "The total count (q-1) + q(q-1)/2 + q(q-1)/2 = q\u00b2-1 equals the number of conjugacy classes, so the listed representations are all irreducible representations of GL\u2082(\ud835\udd3d_q)"
+    },
+    {
+      "id": "Chapter5/Discussion_footnote_5.15/Derived01",
+      "parent_item_id": "Chapter5/Discussion_footnote_5.15",
+      "source_span": "$\\sigma(\\rho) \\leq \\rho$ lexicographically with equality if and only if $\\sigma = 1$, and subtracting both sides from the constant vector $\\lambda + \\rho$ shows that $\\lambda + \\rho - \\sigma(\\rho) \\geq \\lambda$ with equality if and only if $\\sigma = 1$.",
+      "claim": "For sigma in S_N acting on rho = (N-1, N-2, ..., 0): sigma(rho) <=_lex rho with equality iff sigma = 1; equivalently lambda + rho - sigma(rho) >=_lex lambda with equality iff sigma = 1."
+    },
+    {
+      "id": "Chapter7/Discussion_after_Definition7.9.1/Derived01",
+      "parent_item_id": "Chapter7/Discussion_after_Definition7.9.1",
+      "source_span": "It is easy to show that if F is an additive functor, then F(X \u2295 Y) is canonically isomorphic to F(X) \u2295 F(Y).",
+      "claim": "An additive functor F between preadditive categories with biproducts satisfies F(X \u229e Y) \u2245 F(X) \u229e F(Y) canonically."
+    },
+    {
+      "id": "Chapter7/Discussion_after_Example7.9.5/Derived01",
+      "parent_item_id": "Chapter7/Discussion_after_Example7.9.5",
+      "source_span": "Note that in a semisimple category, any additive functor is automatically exact on both sides.",
+      "claim": "For a semisimple abelian category C (every short exact sequence splits), any additive functor F : C \u2192 D is both left and right exact."
+    },
+    {
+      "id": "Chapter5/Problem5.2.7/Derived01",
+      "parent_item_id": "Chapter5/Problem5.2.7",
+      "source_span": "Show that if V is an irreducible complex representation of a finite group G of dimension > 1, then there exists g \\in G such that \\chi_V(g) = 0.",
+      "claim": "For an irreducible complex representation V of a finite group G with dim V > 1, there exists g with \u03c7_V(g) = 0 (Problem 5.2.7 part (b))."
+    }
+  ]
+}

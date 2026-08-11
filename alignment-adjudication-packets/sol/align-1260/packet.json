@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d2ad3777501c2b4879b2",
+      "declaration": "Etingof.Theorem5_27_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/396/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_27_1"
+    },
+    {
+      "association_id": "association:1c7854c9b56ec411d8cf",
+      "declaration": "Etingof.inducedRepV_basepoint_independent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/396/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G A : Type} [inst : Group.{0} G] [inst_1 : CommGroup.{0} A] [inst_2 : Fintype.{0} G]\n  (\u03c6 : MonoidHom.{0, 0} G (MulAut.{0} A)) {\u03c7\u2081 \u03c7\u2082 : MonoidHom.{0, 0} A (Units.{0} Complex)} {g : G}\n  (hg : Eq.{1} (dualSmulAux\u271d \u03c6 g \u03c7\u2081) \u03c7\u2082)\n  (U : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (stabAux\u271d \u03c6 \u03c7\u2081) x)),\n  Nonempty.{1} (CategoryTheory.Iso.{0, 1} (inducedRepV\u271d \u03c6 \u03c7\u2082 (transportRep\u271d \u03c6 hg U)) (inducedRepV\u271d \u03c6 \u03c7\u2081 U))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_27_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.27.1",
+  "packet_id": "align-1260",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1260"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Theorem5.27.1",
+  "source_text": "**Theorem 5.27.1.** *(i) The representations $V_{(O,U)}$ are irreducible.*\n\n*(ii) They are pairwise nonisomorphic.*\n\n*(iii) They form a complete set of irreducible representations of $G \\ltimes A$.*\n\n*(iv) The character of $V = V_{(O,U)}$ is given by the Frobenius-type formula*\n\n$$\n\\chi_V(a, g) = \\frac{1}{|G_x|} \\sum_{h \\in G: hgh^{-1} \\in G_x} x(h(a)) \\chi_U(hgh^{-1}).\n$$\n\n**Proof.** (i) Let us decompose $V = V_{(O,U)}$ as an $A$-module. Then we get\n\n$$\nV = \\bigoplus_{y \\in O} V_y,\n$$\n\nwhere $V_y = \\{v \\in V_{(O,U)} | av = y(a)v, a \\in A\\}$. (Equivalently, $V_y = \\{v \\in V_{(O,U)} | v(g) = 0 \\text{ unless } gy = x\\}$.) So if $W \\subset V$ is a subrepresentation, then $W = \\bigoplus_{y \\in O} W_y$, where $W_y \\subset V_y$. Now, $V_y$ is a representation of $G_y$, which goes to $U$ under any isomorphism $G_y \\to G_x$ determined by $g \\in G$ mapping $x$ to $y$. Hence, $V_y$ is irreducible over $G_y$, so $W_y = 0$ or $W_y = V_y$ for each $y$. Also, if $hy = z$, then $hW_y = W_z$, so either $W_y = 0$ for all $y$ or $W_y = V_y$ for all $y$, as desired.\n(ii) The orbit $O$ is determined by the $A$-module structure of $V$, and the representation $U$ is determined by the structure of $V_x$ as a $G_x$-module.\n\n(iii) We have\n\n$$\n\\sum_{U, O} \\dim V_{(U, O)}^2 = \\sum_{U, O} |O|^2 (\\dim U)^2 =\n$$\n\n$$\n\\sum_O |O|^2 |G_x| = \\sum_O |O| |G/G_x| |G_x| = |G| \\sum_O |O| = |G| |A^\\vee| = |G \\ltimes A|.\n$$\n\n(iv) The proof is essentially the same as that of the Frobenius formula. $\\square$\n\n"
+}

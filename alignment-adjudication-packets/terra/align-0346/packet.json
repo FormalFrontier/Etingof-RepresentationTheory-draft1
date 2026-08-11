@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f5d520181696f53250b2",
+      "declaration": "Etingof.Remark5_15_2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/330/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (Etingof.spechtModuleCharacter n la \u03c3)\n    (Etingof.MvLaurent.coeff (DFunLike.coe.{1, 1, 1} (Etingof.expEmbed n) (Etingof.Nat.Partition.toFinsupp la))\n      (HMul.hMul.{0, 0, 0} (Etingof.frobeniusLaurentFactor n)\n        (DFunLike.coe.{1, 1, 1} (Etingof.toLaurent n) (Etingof.cycleTypePsumProduct n \u03c3))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_15_2"
+    },
+    {
+      "association_id": "association:88a1477b1e59fd70b0a6",
+      "declaration": "Etingof.Remark5_15_2_equiv_Theorem5_15_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/330/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (e : Finsupp.{0, 0} (Fin n) Nat) (P : MvPolynomial.{0, 0} (Fin n) Complex),\n  Eq.{1}\n    (Etingof.MvLaurent.coeff (DFunLike.coe.{1, 1, 1} (Etingof.expEmbed n) e)\n      (HMul.hMul.{0, 0, 0} (Etingof.frobeniusLaurentFactor n) (DFunLike.coe.{1, 1, 1} (Etingof.toLaurent n) P)))\n    (HSMul.hSMul.{0, 0, 0} (Units.val.{0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} Fin.revPerm))\n      (MvPolynomial.coeff.{0, 0} (HAdd.hAdd.{0, 0, 0} e (Etingof.rhoShift n))\n        (HMul.hMul.{0, 0, 0} (Etingof.vandermondePoly n) P)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_15_2"
+    },
+    {
+      "association_id": "association:5c7b5a18cd464afe136a",
+      "declaration": "Etingof.rho_monomial_mul_frobeniusLaurentFactor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/330/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0}\n      (Etingof.MvLaurent.monomial (DFunLike.coe.{1, 1, 1} (Etingof.expEmbed n) (Etingof.rhoShift n)) 1)\n      (Etingof.frobeniusLaurentFactor n))\n    (DFunLike.coe.{1, 1, 1} (Etingof.toLaurent n) (Etingof.bookVandermondePoly n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_15_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Remark5.15.2",
+  "packet_id": "align-0346",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0346"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6b0176e3060480b938f4",
+  "source_text": "The Frobenius character is equivalently the x^lambda coefficient of the displayed Laurent product, without an extra sign."
+}

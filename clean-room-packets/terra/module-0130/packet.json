@@ -1,0 +1,60 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_4) \u2192\n  Type u_5 \u2192\n    (V : Type u_6) \u2192\n      [inst : CommRing.{u_4} k] \u2192 [inst_1 : AddCommGroup.{u_6} V] \u2192 [Module.{u_4, u_6} k V] \u2192 Type (max u_6 u_4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "489701885",
+      "temporary_id": "decl-001860"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : AddCommGroup.{u_3} V] [inst_3 : Module.{u_1, u_3} k V] [inst_4 : Module.{u_2, u_3} A V]\n  [inst_5 : SMulCommClass.{u_2, u_1, u_3} A k V] (a : MulOpposite.{u_2} A) (f : Module.Dual.{u_1, u_3} k V) (v : V),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_3 + 1, u_1 + 1} (HSMul.hSMul.{u_2, max u_1 u_3, max u_1 u_3} a f) v)\n    (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_3 + 1, u_1 + 1} f\n      (HSMul.hSMul.{u_2, u_3, u_3} (MulOpposite.unop.{u_2} a) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020663"
+      ],
+      "structural_type_hash": "2059583177",
+      "temporary_id": "decl-018457"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : AddCommGroup.{u_3} V] \u2192\n            [inst_3 : Module.{u_1, u_3} k V] \u2192\n              [inst_4 : Module.{u_2, u_3} A V] \u2192\n                [SMulCommClass.{u_2, u_1, u_3} A k V] \u2192\n                  Module.{u_2, max u_3 u_1} (MulOpposite.{u_2} A) (Module.Dual.{u_1, u_3} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "312626016",
+      "temporary_id": "decl-020635"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : AddCommGroup.{u_3} V] \u2192\n            [inst_3 : Module.{u_1, u_3} k V] \u2192\n              [inst_4 : Module.{u_2, u_3} A V] \u2192\n                [SMulCommClass.{u_2, u_1, u_3} A k V] \u2192\n                  SMul.{u_2, max u_3 u_1} (MulOpposite.{u_2} A) (Module.Dual.{u_1, u_3} k V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "357459021",
+      "temporary_id": "decl-020663"
+    }
+  ],
+  "module_temporary_id": "module-0130",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

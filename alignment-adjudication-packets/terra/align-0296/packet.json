@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b41debbdc58d89ae8225",
+      "declaration": "Etingof.Filtration.last_eq_top",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/145/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} {V : Type u_2} [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  (self : Etingof.Filtration.{u_1, u_2} A V),\n  Eq.{u_2 + 1} (RelSeries.last.{u_2} (Etingof.Filtration.chain.{u_1, u_2} self)) Top.top.{u_2}",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Definition3_4_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Definition3.4.1",
+  "packet_id": "align-0296",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0296"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:5873909fd4de8fe6c976",
+  "source_text": "The last term V\u2099 is the whole representation V."
+}

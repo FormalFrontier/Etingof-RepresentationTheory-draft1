@@ -1,0 +1,50 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : TopologicalSpace.{u_1} V] {\u03b9 : Type u_2},\n  IsIrreducible.{u_1} Set.univ.{u_1} \u2192\n    \u2200 {s : Set.{u_2} \u03b9},\n      Set.Finite.{u_2} s \u2192\n        \u2200 (A : \u03b9 \u2192 Set.{u_1} V),\n          LE.le.{u_1} Set.univ.{u_1}\n              (Set.iUnion.{u_1, u_2 + 1} fun i => Set.iUnion.{u_1, 0} fun h => closure.{u_1} (A i)) \u2192\n            Exists.{u_2 + 1} fun i => And (Membership.mem.{u_2, u_2} s i) (Dense.{u_1} (A i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1265056234",
+      "temporary_id": "decl-012843"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : TopologicalSpace.{u_1} V] {G : Type u_2} [inst_1 : Group.{u_2} G]\n  [inst_2 : MulAction.{u_2, u_1} G V],\n  IsIrreducible.{u_1} Set.univ.{u_1} \u2192\n    \u2200 [Finite.{u_1 + 1} (MulAction.orbitRel.Quotient.{u_2, u_1} G V)],\n      Exists.{u_1 + 1} fun x => Dense.{u_1} (MulAction.orbitRel.Quotient.orbit.{u_2, u_1} x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "631539687",
+      "temporary_id": "decl-012844"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_1} [inst : TopologicalSpace.{u_1} V] {G : Type u_2} [inst_1 : Group.{u_2} G]\n  [inst_2 : MulAction.{u_2, u_1} G V],\n  IsIrreducible.{u_1} Set.univ.{u_1} \u2192\n    \u2200 [Finite.{u_1 + 1} (MulAction.orbitRel.Quotient.{u_2, u_1} G V)],\n      Exists.{u_1 + 1} fun x => Dense.{u_1} (MulAction.orbit.{u_2, u_1} G x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2486385158",
+      "temporary_id": "decl-012845"
+    }
+  ],
+  "module_temporary_id": "module-0542",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

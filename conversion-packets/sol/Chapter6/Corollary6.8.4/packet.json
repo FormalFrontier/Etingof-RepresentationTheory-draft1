@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Corollary6.8.4",
+    "kind": "corollary",
+    "title": "Corollary 6.8.4: Existence of indecomposable for every positive root",
+    "node_id": "chapter-06/section-6-8",
+    "order": 458,
+    "slug": "corollary6-8-4",
+    "span": {
+      "start": {
+        "page": "176",
+        "line": 33
+      },
+      "end": {
+        "page": "177",
+        "line": 14
+      }
+    },
+    "source_sha256": "b11bbbda5327ff4d3504df43eaa2bda6efc14d6ea96c4a70b00c7d710b301a68",
+    "features": {
+      "line_count": 37,
+      "crosses_page": true,
+      "display_math_delimiters": 12,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Corollary684",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

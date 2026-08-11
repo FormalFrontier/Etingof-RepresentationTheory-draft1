@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9391915f3a56e90fc8e0",
+      "declaration": "Etingof.complex_isAlgClosed",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/14/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "IsAlgClosed.{0} Complex",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_2_intro"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.2_intro",
+  "packet_id": "align-1053",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1053"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:cd5a6ccc5ed18355f052",
+  "source_text": "The complex numbers are algebraically closed."
+}

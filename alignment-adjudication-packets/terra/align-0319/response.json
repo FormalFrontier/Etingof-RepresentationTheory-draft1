@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0319",
+  "associations": [
+    {
+      "association_id": "association:58d20281e796c4d01347",
+      "role": "primary",
+      "rationale": "Under nonzero cross-difference hypotheses, the theorem directly equates the denominator-cleared Cauchy determinant with the two Vandermonde products."
+    }
+  ]
+}

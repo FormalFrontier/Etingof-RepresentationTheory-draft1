@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Proposition9.2.3",
+    "kind": "proposition",
+    "title": "Hom from projective cover computes Jordan-Holder multiplicity",
+    "node_id": "chapter-09/section-9-2",
+    "order": 555,
+    "slug": "proposition9-2-3",
+    "span": {
+      "start": {
+        "page": "215",
+        "line": 13
+      },
+      "end": {
+        "page": "215",
+        "line": 27
+      }
+    },
+    "source_sha256": "62fbac315758955941eeb0d453a88073284de3f934b89d9652b7abd2b009e68c",
+    "features": {
+      "line_count": 15,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Proposition923",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

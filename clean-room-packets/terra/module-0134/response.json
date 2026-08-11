@@ -1,0 +1,10 @@
+{
+  "module_name": "Module.CompositionSeriesLength",
+  "declarations": [
+    {
+      "temporary_id": "decl-021012",
+      "new_name": "compositionSeries_length_isGreatest",
+      "docstring": "The length of a composition series running from the bottom submodule to the top submodule is greatest among the lengths of composition series."
+    }
+  ]
+}

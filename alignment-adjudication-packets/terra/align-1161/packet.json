@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c2350cffbc84d8fd0bcd",
+      "declaration": "Etingof.Lemma5_13_1_dual",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/314/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Exists.{1} fun \u2113 =>\n    \u2200 (x : MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Etingof.RowSymmetrizer n la) x) (Etingof.ColumnAntisymmetrizer n la))\n        (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} \u2113 x)\n          (HMul.hMul.{0, 0, 0} (Etingof.RowSymmetrizer n la) (Etingof.ColumnAntisymmetrizer n la)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_1"
+    },
+    {
+      "association_id": "association:83ffeb308b53dd1eac95",
+      "declaration": "Etingof.pigeonhole_rowCol_dichotomy",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/314/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition} (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Not\n      (Membership.mem.{0, 0}\n        (HMul.hMul.{0, 0, 0} (SetLike.coe.{0, 0} (Etingof.RowSubgroup n la))\n          (SetLike.coe.{0, 0} (Etingof.ColumnSubgroup n la)))\n        \u03c3) \u2192\n    Exists.{1} fun t =>\n      And (Equiv.Perm.IsSwap.{0} t)\n        (And (Membership.mem.{0, 0} (Etingof.RowSubgroup n la) t)\n          (Membership.mem.{0, 0} (Etingof.ColumnSubgroup n la)\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} \u03c3) t) \u03c3)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Lemma5.13.1",
+  "packet_id": "align-1161",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1161"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f06f0f5f732d132b1154",
+  "source_text": "The row/column transposition dichotomy supplies the vanishing outside P_lambda Q_lambda."
+}

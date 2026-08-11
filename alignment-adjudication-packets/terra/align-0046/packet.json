@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1b51b4c2cbd3dbb259cb",
+      "declaration": "Etingof.DynkinType",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/12/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "Type",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.DynkinTypes"
+    },
+    {
+      "association_id": "association:57c142b2d97dd2ce7099",
+      "declaration": "Etingof.IsDynkinDiagram",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/12/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 Matrix.{0, 0, 0} (Fin n) (Fin n) Int \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Definition6_1_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Theorem2.1.2",
+  "packet_id": "align-0046",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0046"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0c9c000860c0959a6949",
+  "source_text": "The listed graphs are called simply laced Dynkin diagrams."
+}

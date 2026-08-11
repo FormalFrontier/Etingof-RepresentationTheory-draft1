@@ -1,0 +1,205 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192 (X : Type u_2) \u2192 (R : Type u_3) \u2192 (R \u2192 FreeAlgebra.{u_1, u_2} k X) \u2192 Type (max u_1 u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "90735245",
+      "temporary_id": "decl-006810"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {X : Type u_2} {R : Type u_3} (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (Algebra.adjoin.{u_1, max u_1 u_2} k\n      (Set.range.{max u_1 u_2, u_2 + 1} (decl-006814.{u_1, u_2, u_3} rel)))\n    Top.top.{max u_1 u_2}",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810",
+        "decl-006814",
+        "decl-022160"
+      ],
+      "structural_type_hash": "2784135020",
+      "temporary_id": "decl-006811"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {X : Type u_2} {R : Type u_3} (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X)\n  {A : Type u_4} [inst_1 : Ring.{u_4} A] [inst_2 : Algebra.{u_1, u_4} k A] (a : X \u2192 A),\n  (\u2200 (r : R),\n      Eq.{u_4 + 1}\n        (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1}\n          (DFunLike.coe.{max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1), max (u_4 + 1) (u_2 + 1),\n              max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1)}\n            (FreeAlgebra.lift.{u_1, u_2, u_4} k) a)\n          (rel r))\n        0) \u2192\n    ExistsUnique.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1)} fun F =>\n      \u2200 (x : X),\n        Eq.{u_4 + 1}\n          (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1} F\n            (decl-006814.{u_1, u_2, u_3} rel x))\n          (a x)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810",
+        "decl-006814",
+        "decl-022160"
+      ],
+      "structural_type_hash": "637355766",
+      "temporary_id": "decl-006812"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_4) [inst : CommRing.{u_4} k] (n m : Nat) (f : Fin m \u2192 FreeAlgebra.{u_4, 0} k (Fin n)),\n  Eq.{u_4 + 2} (decl-006810.{u_4, 0, 0} k (Fin n) (Fin m) f)\n    (RingCon.Quotient.{u_4} (TwoSidedIdeal.ringCon.{u_4} (TwoSidedIdeal.span.{u_4} (Set.range.{u_4, 1} f))))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810"
+      ],
+      "structural_type_hash": "3368089092",
+      "temporary_id": "decl-006813"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    {X : Type u_2} \u2192\n      {R : Type u_3} \u2192 (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X) \u2192 X \u2192 decl-006810.{u_1, u_2, u_3} k X R rel",
+      "kind": "definition",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810"
+      ],
+      "structural_type_hash": "1503082277",
+      "temporary_id": "decl-006814"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {X : Type u_2} {R : Type u_3} (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X) (x : X),\n  Eq.{max (u_1 + 1) (u_2 + 1)} (decl-006814.{u_1, u_2, u_3} rel x)\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (decl-006822.{u_1, u_2, u_3} rel) (FreeAlgebra.\u03b9.{u_1, u_2} k x))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810",
+        "decl-006814",
+        "decl-006822",
+        "decl-022160"
+      ],
+      "structural_type_hash": "1488778842",
+      "temporary_id": "decl-006815"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {X : Type u_2} {R : Type u_3} (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X)\n  {A : Type u_4} [inst_1 : Ring.{u_4} A] [inst_2 : Algebra.{u_1, u_4} k A]\n  {F G : AlgHom.{u_1, max u_2 u_1, u_4} k (decl-006810.{u_1, u_2, u_3} k X R rel) A},\n  (\u2200 (x : X),\n      Eq.{u_4 + 1}\n        (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1} F\n          (decl-006814.{u_1, u_2, u_3} rel x))\n        (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1} G\n          (decl-006814.{u_1, u_2, u_3} rel x))) \u2192\n    Eq.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1)} F G",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810",
+        "decl-006814",
+        "decl-022160"
+      ],
+      "structural_type_hash": "3692601465",
+      "temporary_id": "decl-006816"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    {X : Type u_2} \u2192\n      {R : Type u_3} \u2192\n        (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X) \u2192\n          {A : Type u_4} \u2192\n            [inst_1 : Ring.{u_4} A] \u2192\n              [inst_2 : Algebra.{u_1, u_4} k A] \u2192\n                (a : X \u2192 A) \u2192\n                  (\u2200 (r : R),\n                      Eq.{u_4 + 1}\n                        (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1}\n                          (DFunLike.coe.{max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1), max (u_4 + 1) (u_2 + 1),\n                              max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1)}\n                            (FreeAlgebra.lift.{u_1, u_2, u_4} k) a)\n                          (rel r))\n                        0) \u2192\n                    AlgHom.{u_1, max u_2 u_1, u_4} k (decl-006810.{u_1, u_2, u_3} k X R rel) A",
+      "kind": "definition",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810",
+        "decl-022160"
+      ],
+      "structural_type_hash": "1529619293",
+      "temporary_id": "decl-006817"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {X : Type u_2} {R : Type u_3} (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X)\n  {A : Type u_4} [inst_1 : Ring.{u_4} A] [inst_2 : Algebra.{u_1, u_4} k A] (a : X \u2192 A)\n  (ha :\n    \u2200 (r : R),\n      Eq.{u_4 + 1}\n        (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1}\n          (DFunLike.coe.{max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1), max (u_4 + 1) (u_2 + 1),\n              max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1)}\n            (FreeAlgebra.lift.{u_1, u_2, u_4} k) a)\n          (rel r))\n        0)\n  (x : X),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1}\n      (decl-006817.{u_1, u_2, u_3, u_4} rel a ha)\n      (decl-006814.{u_1, u_2, u_3} rel x))\n    (a x)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810",
+        "decl-006814",
+        "decl-006817",
+        "decl-022160"
+      ],
+      "structural_type_hash": "2190629269",
+      "temporary_id": "decl-006819"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {X : Type u_2} {R : Type u_3} (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X)\n  {A : Type u_4} [inst_1 : Ring.{u_4} A] [inst_2 : Algebra.{u_1, u_4} k A] (a : X \u2192 A)\n  (ha :\n    \u2200 (r : R),\n      Eq.{u_4 + 1}\n        (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1}\n          (DFunLike.coe.{max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1), max (u_4 + 1) (u_2 + 1),\n              max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1)}\n            (FreeAlgebra.lift.{u_1, u_2, u_4} k) a)\n          (rel r))\n        0)\n  (p : FreeAlgebra.{u_1, u_2} k X),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1}\n      (decl-006817.{u_1, u_2, u_3, u_4} rel a ha)\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n        (decl-006822.{u_1, u_2, u_3} rel) p))\n    (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1}\n      (DFunLike.coe.{max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1), max (u_4 + 1) (u_2 + 1),\n          max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1)}\n        (FreeAlgebra.lift.{u_1, u_2, u_4} k) a)\n      p)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810",
+        "decl-006817",
+        "decl-006822",
+        "decl-022160"
+      ],
+      "structural_type_hash": "1336645235",
+      "temporary_id": "decl-006820"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {X : Type u_2} {R : Type u_3} (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X)\n  {A : Type u_4} [inst_1 : Ring.{u_4} A] [inst_2 : Algebra.{u_1, u_4} k A]\n  (F : AlgHom.{u_1, max u_2 u_1, u_4} k (decl-006810.{u_1, u_2, u_3} k X R rel) A) (r : R),\n  Eq.{u_4 + 1}\n    (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1}\n      (DFunLike.coe.{max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1), max (u_4 + 1) (u_2 + 1),\n          max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1)}\n        (FreeAlgebra.lift.{u_1, u_2, u_4} k) fun x =>\n        DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1} F\n          (decl-006814.{u_1, u_2, u_3} rel x))\n      (rel r))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810",
+        "decl-006814",
+        "decl-022160"
+      ],
+      "structural_type_hash": "4233873230",
+      "temporary_id": "decl-006821"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    {X : Type u_2} \u2192\n      {R : Type u_3} \u2192\n        (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X) \u2192\n          AlgHom.{u_1, max u_2 u_1, max u_2 u_1} k (FreeAlgebra.{u_1, u_2} k X)\n            (decl-006810.{u_1, u_2, u_3} k X R rel)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810",
+        "decl-022160"
+      ],
+      "structural_type_hash": "3291124239",
+      "temporary_id": "decl-006822"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {X : Type u_2} {R : Type u_3} (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X) (r : R),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (decl-006822.{u_1, u_2, u_3} rel) (rel r))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810",
+        "decl-006822",
+        "decl-022160"
+      ],
+      "structural_type_hash": "1765921917",
+      "temporary_id": "decl-006824"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {X : Type u_2} {R : Type u_3} (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X),\n  Function.Surjective.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (decl-006822.{u_1, u_2, u_3} rel))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-006810",
+        "decl-006822",
+        "decl-022160"
+      ],
+      "structural_type_hash": "2418175851",
+      "temporary_id": "decl-006825"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {X : Type u_2} {R : Type u_3} (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X)\n  {A : Type u_4} [inst_1 : Ring.{u_4} A] [inst_2 : Algebra.{u_1, u_4} k A] (a : X \u2192 A),\n  (\u2200 (r : R),\n      Eq.{u_4 + 1}\n        (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1}\n          (DFunLike.coe.{max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1), max (u_4 + 1) (u_2 + 1),\n              max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1)}\n            (FreeAlgebra.lift.{u_1, u_2, u_4} k) a)\n          (rel r))\n        0) \u2192\n    LE.le.{max u_1 u_2} (decl-022160.{u_1, u_2, u_3} k X R rel)\n      (RingCon.ker.{max u_1 u_2, u_4}\n        (AlgHom.toRingHom.{u_1, max u_1 u_2, u_4}\n          (DFunLike.coe.{max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1), max (u_4 + 1) (u_2 + 1),\n              max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1)}\n            (FreeAlgebra.lift.{u_1, u_2, u_4} k) a)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-006810",
+      "project_type_dependencies": [
+        "decl-022160"
+      ],
+      "structural_type_hash": "3059354149",
+      "temporary_id": "decl-006826"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (X : Type u_2) \u2192\n      (R : Type u_3) \u2192 (R \u2192 FreeAlgebra.{u_1, u_2} k X) \u2192 RingCon.{max u_2 u_1} (FreeAlgebra.{u_1, u_2} k X)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "624435315",
+      "temporary_id": "decl-022160"
+    }
+  ],
+  "module_temporary_id": "module-0033",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,30 @@
+{
+  "module_name": "CategoryTheory.QuiverSubdiagrams",
+  "declarations": [
+    {
+      "temporary_id": "decl-015080",
+      "new_name": "QuiverSubdiagram",
+      "docstring": "A family of submodules of a quiver linear diagram compatible with its arrow maps."
+    },
+    {
+      "temporary_id": "decl-015089",
+      "new_name": "carrier",
+      "docstring": "Returns the submodule selected at a vertex."
+    },
+    {
+      "temporary_id": "decl-015106",
+      "new_name": "map_mem",
+      "docstring": "An arrow map sends an element of the source submodule into the target submodule."
+    },
+    {
+      "temporary_id": "decl-015122",
+      "new_name": "toDiagram",
+      "docstring": "Converts a quiver subdiagram into a quiver linear diagram."
+    },
+    {
+      "temporary_id": "decl-015123",
+      "new_name": "obj_toDiagram",
+      "docstring": "The vertex type of the converted diagram is the subtype of the corresponding carrier submodule."
+    }
+  ]
+}

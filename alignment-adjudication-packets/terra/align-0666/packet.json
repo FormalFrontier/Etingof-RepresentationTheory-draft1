@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6dc3c36bd67f198e30bc",
+      "declaration": "Etingof.Problem3_9_2.Vrep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{n : Nat} \u2192 (Fin n \u2192 Complex) \u2192 Type",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2"
+    },
+    {
+      "association_id": "association:a1b594bd86bf73f38e82",
+      "declaration": "Etingof.Problem3_9_2.Vrep_smul_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} (a : Fin n \u2192 Complex) (q : Etingof.Problem3_9_2.polyAlg n) (v : Etingof.Problem3_9_2.Vrep a),\n  Eq.{1} (HSMul.hSMul.{0, 0, 0} q v)\n    (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (MvPolynomial.aeval.{0, 0, 0} a) q) v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2"
+    },
+    {
+      "association_id": "association:9b77c7fc0ca75e55795b",
+      "declaration": "Etingof.Problem3_9_2.polyAlg",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/172/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nat \u2192 Type",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.2",
+  "packet_id": "align-0666",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0666"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.2:claim-01",
+  "source_text": "For A=\u2102[x\u2081,\u2026,x\u2099], V\u2090 is the one-dimensional representation on which x\u1d62 acts by a\u1d62."
+}

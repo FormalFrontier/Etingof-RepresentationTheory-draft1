@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Introduction_to_3.3",
+    "kind": "introduction",
+    "title": "Section 3.3: Representations of direct sums of matrix algebras \u2014 heading and setup",
+    "node_id": "chapter-03/section-3-3",
+    "order": 138,
+    "slug": "introduction-to-3-3",
+    "span": {
+      "start": {
+        "page": "47",
+        "line": 1
+      },
+      "end": {
+        "page": "47",
+        "line": 4
+      }
+    },
+    "source_sha256": "30a7f4ec5e430dd421a5ed12a48ad0b728d18f0c19f097b60f2e123f13009e0b",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.IntroductionTo33",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,14 @@
+{
+  "module_name": "LinearMap.KernelDecomposition",
+  "declarations": [
+    {"temporary_id":"decl-007568","new_name":"generatorSpan_disjoint_ker","docstring":"The span of the displayed generator family is disjoint from the kernel of the linear map."},
+    {"temporary_id":"decl-007596","new_name":"eq_zero_of_mem_generatorSpan_and_ker","docstring":"An element lying in both the generator span and the kernel is zero."},
+    {"temporary_id":"decl-007696","new_name":"injective_iff_auxFamily_eq_zero","docstring":"The linear map is injective exactly when every element of the auxiliary family vanishes."},
+    {"temporary_id":"decl-007704","new_name":"map_auxFamily_eq_zero","docstring":"Every auxiliary-family element is mapped to zero."},
+    {"temporary_id":"decl-007852","new_name":"ker_eq_auxFamily_span","docstring":"Identifies the kernel with the span of the auxiliary family."},
+    {"temporary_id":"decl-007853","new_name":"ker_inf_component_eq_bot","docstring":"The kernel intersects the specified indexed component only in bottom under the displayed index condition."},
+    {"temporary_id":"decl-007945","new_name":"mem_ker_implies_bracket_eq_zero","docstring":"An element in the kernel has zero bracket with every element."},
+    {"temporary_id":"decl-008207","new_name":"generatorSpan_sup_auxFamilySpan_eq_top","docstring":"The two displayed family spans together generate the whole space."},
+    {"temporary_id":"decl-008214","new_name":"auxFamilySpan_le_ker","docstring":"The span of the auxiliary family is contained in the kernel."}
+  ]
+}

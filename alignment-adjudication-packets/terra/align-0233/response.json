@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0233",
+  "associations": [
+    {
+      "association_id": "association:9354e9118842b2b3558a",
+      "role": "primary",
+      "rationale": "It directly gives a ring equivalence from endomorphisms of the forgetful functor to A."
+    },
+    {
+      "association_id": "association:b8f61036cb4107d7249a",
+      "role": "primary",
+      "rationale": "It directly gives a ring equivalence from identity-functor endomorphisms to the center subring of A."
+    }
+  ]
+}

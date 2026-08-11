@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Corollary3.2.1",
+    "kind": "corollary",
+    "title": "Any linear map on linearly independent vectors is realized by an algebra element",
+    "node_id": "chapter-03/section-3-2",
+    "order": 136,
+    "slug": "corollary3-2-1",
+    "span": {
+      "start": {
+        "page": "46",
+        "line": 1
+      },
+      "end": {
+        "page": "46",
+        "line": 4
+      }
+    },
+    "source_sha256": "8ba8abcf88e10a972fce64b1fae8921dee7297737a11946e1e735818d39bfc53",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Corollary321",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

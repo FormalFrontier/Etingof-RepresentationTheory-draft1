@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0460",
+  "associations": [
+    {
+      "association_id": "association:ee2aaae91e732c947634",
+      "role": "supporting",
+      "rationale": "The declaration states the ensuing character-theoretic criterion, but a formal proposition cannot itself state the source's editorial claim that this criterion is the reusable result of the section."
+    }
+  ]
+}

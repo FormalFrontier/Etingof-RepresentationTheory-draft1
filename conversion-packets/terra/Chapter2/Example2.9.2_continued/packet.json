@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Example2.9.2_continued",
+    "kind": "example",
+    "title": "Examples of Lie algebras (continued): Lie subalgebras",
+    "node_id": "chapter-02/section-2-9",
+    "order": 80,
+    "slug": "example2-9-2-continued",
+    "span": {
+      "start": {
+        "page": "23",
+        "line": 1
+      },
+      "end": {
+        "page": "23",
+        "line": 1
+      }
+    },
+    "source_sha256": "137a17e736d4a255aabf3804cbc6e810f4feb09c2dc9c7782e2d5ce68033c9a2",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example292Continued",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

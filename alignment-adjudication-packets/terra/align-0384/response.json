@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0384",
+  "associations": [
+    {
+      "association_id": "association:25ae80a51bf75dc4dd8a",
+      "role": "primary",
+      "rationale": "The conjunction directly exhibits a module that is indecomposable but not simple, providing the asserted counterexample to the converse."
+    }
+  ]
+}

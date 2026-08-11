@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b828951eb80380415670",
+      "declaration": "Etingof.KostkaNumber",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/324/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 n.Partition \u2192 Nat",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_14_2"
+    },
+    {
+      "association_id": "association:18ec564e111b5f254758",
+      "declaration": "Etingof.youngRuleMultiplicity_eq_kostkaNumber",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/324/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (mu nu : n.Partition), Eq.{1} (Etingof.YoungRuleMultiplicity n mu nu) (Etingof.KostkaNumber n nu mu)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.YoungRuleSemistandardDiagonal"
+    }
+  ],
+  "canonical_reference": "Chapter5/Definition5.14.2",
+  "packet_id": "align-0334",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0334"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:672ecbf2061e2c7d6eee",
+  "source_text": "K_{mu,lambda} is the number of semistandard Young tableaux of shape mu and content lambda, and equals the Young-rule multiplicity."
+}

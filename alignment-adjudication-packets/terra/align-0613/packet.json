@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4495aca6dbfc19e31608",
+      "declaration": "Etingof.Problem2_7_5.finrank_eq_orderOf_of_fam_linearEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/60/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex) [NeZero.{0} (orderOf.{0} q)] (V : Type u_1) [inst : AddCommGroup.{u_1} V]\n  [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x) V]\n  [IsScalarTower.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x)\n      V]\n  [FiniteDimensional.{0, u_1} Complex V]\n  [IsSimpleModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x) V],\n  Eq.{1} (Module.finrank.{0, u_1} Complex V) (orderOf.{0} q)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive"
+    },
+    {
+      "association_id": "association:83cbfd23bbcdab397ebe",
+      "declaration": "Etingof.Problem2_7_5.finrank_irreducible_eq_orderOf",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/60/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (q : Units.{0} Complex) (V : Type u_1) [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x) V]\n  [IsScalarTower.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x)\n      V]\n  [FiniteDimensional.{0, u_1} Complex V]\n  [IsSimpleModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.qWeylAlgebra.{0} Complex q) x) V],\n  Eq.{1} (Module.finrank.{0, u_1} Complex V) (orderOf.{0} q)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.7.5",
+  "packet_id": "align-0613",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0613"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.7.5:claim-07",
+  "source_text": "Every finite-dimensional irreducible q-Weyl representation has dimension orderOf(q)."
+}

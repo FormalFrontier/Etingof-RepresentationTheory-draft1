@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Problem5.8.4",
+    "kind": "exercise",
+    "title": "Transitivity of induction: Ind_H^G Ind_K^H V \u2245 Ind_K^G V",
+    "node_id": "chapter-05/section-5-8",
+    "order": 294,
+    "slug": "problem5-8-4",
+    "span": {
+      "start": {
+        "page": "108",
+        "line": 27
+      },
+      "end": {
+        "page": "108",
+        "line": 28
+      }
+    },
+    "source_sha256": "1d39b0ea7302aff30728d5c862e6ca2f83ac6d7088d18f5ed22b573fcd233288",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem584",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

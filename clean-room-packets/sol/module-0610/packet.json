@@ -1,0 +1,341 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {S : CategoryTheory.ShortComplex.{0, 1} decl-013194}\n  (hS : CategoryTheory.ShortComplex.ShortExact.{0, 1} S) (i j : Int)\n  (hij : ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j),\n  And\n    (CategoryTheory.ShortComplex.Exact.{0, 1}\n      (CategoryTheory.ShortComplex.mk.{0, 1} (CategoryTheory.ShortComplex.ShortExact.\u03b4.{0, 1, 0} hS i j hij)\n        (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.f.{0, 1} S) j) \u22ef))\n    (And\n      (CategoryTheory.ShortComplex.Exact.{0, 1}\n        (CategoryTheory.ShortComplex.mk.{0, 1}\n          (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.f.{0, 1} S) i)\n          (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.g.{0, 1} S) i) \u22ef))\n      (CategoryTheory.ShortComplex.Exact.{0, 1}\n        (CategoryTheory.ShortComplex.mk.{0, 1}\n          (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.g.{0, 1} S) i)\n          (CategoryTheory.ShortComplex.ShortExact.\u03b4.{0, 1, 0} hS i j hij) \u22ef)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195"
+      ],
+      "structural_type_hash": "1113010306",
+      "temporary_id": "decl-013193"
+    },
+    {
+      "formal_type": "Type 1",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1772266319",
+      "temporary_id": "decl-013194"
+    },
+    {
+      "formal_type": "decl-013194 \u2192 Type",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013194"
+      ],
+      "structural_type_hash": "3335584211",
+      "temporary_id": "decl-013196"
+    },
+    {
+      "formal_type": "decl-013194 \u2192 decl-013194",
+      "kind": "definition",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194"
+      ],
+      "structural_type_hash": "1027276194",
+      "temporary_id": "decl-013199"
+    },
+    {
+      "formal_type": "{D : decl-013194} \u2192 decl-013196 D \u2192 decl-013194",
+      "kind": "definition",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013196"
+      ],
+      "structural_type_hash": "1665800165",
+      "temporary_id": "decl-013204"
+    },
+    {
+      "formal_type": "{D : decl-013194} \u2192\n  (C : decl-013196 D) \u2192\n    (i j : Int) \u2192\n      ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j \u2192\n        Quiver.Hom.{0, 1} (HomologicalComplex.homology.{0, 1, 0} C.quotient i)\n          (HomologicalComplex.homology.{0, 1, 0} C.complex j)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013204",
+        "decl-013242"
+      ],
+      "structural_type_hash": "2854713977",
+      "temporary_id": "decl-013211"
+    },
+    {
+      "formal_type": "\u2200 {D : decl-013194} (C : decl-013196 D) (i j : Int)\n  (hij : ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j),\n  Eq.{1} (C.concreteConnecting i j hij) (CategoryTheory.ShortComplex.ShortExact.\u03b4.{0, 1, 0} \u22ef i j hij)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013204",
+        "decl-013211",
+        "decl-013242",
+        "decl-013252",
+        "decl-013255"
+      ],
+      "structural_type_hash": "1635874313",
+      "temporary_id": "decl-013213"
+    },
+    {
+      "formal_type": "\u2200 {D : decl-013194} (C : decl-013196 D) (i j : Int)\n  (hij : ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j)\n  (x : ModuleCat.carrier.{0, 0} (HomologicalComplex.X.{0, 1, 0} D i))\n  (hx :\n    Eq.{1}\n      (DFunLike.coe.{1, 1, 1}\n        (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n        (DFunLike.coe.{1, 1, 1}\n          (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) x))\n      0)\n  (k : Int) (hk : Eq.{1} (ComplexShape.next.{0} (ComplexShape.up.{0} Int) j) k),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (C.concreteConnecting i j hij))\n      (C.quotientCocycleClass i j hij x hx))\n    (C.liftedDifferentialClass i j x hx k hk)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013199",
+        "decl-013204",
+        "decl-013211",
+        "decl-013226",
+        "decl-013239",
+        "decl-013242",
+        "decl-013246"
+      ],
+      "structural_type_hash": "2018016855",
+      "temporary_id": "decl-013214"
+    },
+    {
+      "formal_type": "\u2200 {D : decl-013194} (C : decl-013196 D) (i j : Int),\n  ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j \u2192\n    \u2200 (x y : ModuleCat.carrier.{0, 0} (HomologicalComplex.X.{0, 1, 0} D i))\n      (hx :\n        Eq.{1}\n          (DFunLike.coe.{1, 1, 1}\n            (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n            (DFunLike.coe.{1, 1, 1}\n              (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) x))\n          0)\n      (hy :\n        Eq.{1}\n          (DFunLike.coe.{1, 1, 1}\n            (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n            (DFunLike.coe.{1, 1, 1}\n              (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) y))\n          0),\n      Eq.{1}\n          (DFunLike.coe.{1, 1, 1}\n            (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) x)\n          (DFunLike.coe.{1, 1, 1}\n            (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) y) \u2192\n        \u2200 (k : Int) (hk : Eq.{1} (ComplexShape.next.{0} (ComplexShape.up.{0} Int) j) k),\n          Eq.{1} (C.liftedDifferentialClass i j x hx k hk) (C.liftedDifferentialClass i j y hy k hk)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013199",
+        "decl-013204",
+        "decl-013226",
+        "decl-013239",
+        "decl-013242"
+      ],
+      "structural_type_hash": "2055349070",
+      "temporary_id": "decl-013215"
+    },
+    {
+      "formal_type": "\u2200 {D : decl-013194} (C : decl-013196 D) (i j : Int)\n  (hij : ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j)\n  (x y : ModuleCat.carrier.{0, 0} (HomologicalComplex.X.{0, 1, 0} D i))\n  (hx :\n    Eq.{1}\n      (DFunLike.coe.{1, 1, 1}\n        (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n        (DFunLike.coe.{1, 1, 1}\n          (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) x))\n      0)\n  (hy :\n    Eq.{1}\n      (DFunLike.coe.{1, 1, 1}\n        (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n        (DFunLike.coe.{1, 1, 1}\n          (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) y))\n      0)\n  (k : Int) (hk : Eq.{1} (ComplexShape.next.{0} (ComplexShape.up.{0} Int) j) k),\n  Eq.{1} (C.quotientCocycleClass i j hij x hx) (C.quotientCocycleClass i j hij y hy) \u2192\n    Eq.{1} (C.liftedDifferentialClass i j x hx k hk) (C.liftedDifferentialClass i j y hy k hk)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013199",
+        "decl-013204",
+        "decl-013226",
+        "decl-013239",
+        "decl-013242",
+        "decl-013246"
+      ],
+      "structural_type_hash": "2014809470",
+      "temporary_id": "decl-013216"
+    },
+    {
+      "formal_type": "\u2200 {D : decl-013194} (self : decl-013196 D) {i j : Int}\n  {x : ModuleCat.carrier.{0, 0} (HomologicalComplex.X.{0, 1, 0} D i)},\n  Membership.mem.{0, 0} (self.obj i) x \u2192\n    Membership.mem.{0, 0} (self.obj j)\n      (DFunLike.coe.{1, 1, 1} (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} D i j))\n        x)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013238"
+      ],
+      "structural_type_hash": "2789284397",
+      "temporary_id": "decl-013218"
+    },
+    {
+      "formal_type": "\u2200 {D : decl-013194} (C : decl-013196 D) (i j : Int)\n  (x : ModuleCat.carrier.{0, 0} (HomologicalComplex.X.{0, 1, 0} D i)),\n  Eq.{1}\n      (DFunLike.coe.{1, 1, 1}\n        (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n        (DFunLike.coe.{1, 1, 1}\n          (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i)) x))\n      0 \u2192\n    Membership.mem.{0, 0} (C.obj j)\n      (DFunLike.coe.{1, 1, 1} (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} D i j))\n        x)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013199",
+        "decl-013238",
+        "decl-013239",
+        "decl-013242"
+      ],
+      "structural_type_hash": "2843264665",
+      "temporary_id": "decl-013219"
+    },
+    {
+      "formal_type": "{D : decl-013194} \u2192\n  (C : decl-013196 D) \u2192 Quiver.Hom.{0, 1} C.complex (decl-013199 D)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013199",
+        "decl-013204"
+      ],
+      "structural_type_hash": "749398479",
+      "temporary_id": "decl-013220"
+    },
+    {
+      "formal_type": "{D : decl-013194} \u2192\n  (C : decl-013196 D) \u2192\n    (i j : Int) \u2192\n      (x : ModuleCat.carrier.{0, 0} (HomologicalComplex.X.{0, 1, 0} D i)) \u2192\n        Eq.{1}\n            (DFunLike.coe.{1, 1, 1}\n              (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n              (DFunLike.coe.{1, 1, 1}\n                (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i))\n                x))\n            0 \u2192\n          Subtype.{1} fun x => Membership.mem.{0, 0} (C.obj j) x",
+      "kind": "definition",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013199",
+        "decl-013238",
+        "decl-013239",
+        "decl-013242"
+      ],
+      "structural_type_hash": "271009505",
+      "temporary_id": "decl-013224"
+    },
+    {
+      "formal_type": "{D : decl-013194} \u2192\n  (C : decl-013196 D) \u2192\n    (i j : Int) \u2192\n      (x : ModuleCat.carrier.{0, 0} (HomologicalComplex.X.{0, 1, 0} D i)) \u2192\n        Eq.{1}\n            (DFunLike.coe.{1, 1, 1}\n              (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n              (DFunLike.coe.{1, 1, 1}\n                (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i))\n                x))\n            0 \u2192\n          (k : Int) \u2192\n            Eq.{1} (ComplexShape.next.{0} (ComplexShape.up.{0} Int) j) k \u2192\n              ModuleCat.carrier.{0, 0} (HomologicalComplex.homology.{0, 1, 0} C.complex j)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013199",
+        "decl-013204",
+        "decl-013239",
+        "decl-013242"
+      ],
+      "structural_type_hash": "2233740937",
+      "temporary_id": "decl-013226"
+    },
+    {
+      "formal_type": "{D : decl-013194} \u2192\n  decl-013196 D \u2192\n    (i : Int) \u2192 Submodule.{0, 0} Int (ModuleCat.carrier.{0, 0} (HomologicalComplex.X.{0, 1, 0} D i))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196"
+      ],
+      "structural_type_hash": "1289265399",
+      "temporary_id": "decl-013238"
+    },
+    {
+      "formal_type": "{D : decl-013194} \u2192\n  (C : decl-013196 D) \u2192 Quiver.Hom.{0, 1} (decl-013199 D) C.quotient",
+      "kind": "definition",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013199",
+        "decl-013242"
+      ],
+      "structural_type_hash": "755971178",
+      "temporary_id": "decl-013239"
+    },
+    {
+      "formal_type": "{D : decl-013194} \u2192 decl-013196 D \u2192 decl-013194",
+      "kind": "definition",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013196"
+      ],
+      "structural_type_hash": "1665800165",
+      "temporary_id": "decl-013242"
+    },
+    {
+      "formal_type": "{D : decl-013194} \u2192\n  (C : decl-013196 D) \u2192\n    (i j : Int) \u2192\n      ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j \u2192\n        (x : ModuleCat.carrier.{0, 0} (HomologicalComplex.X.{0, 1, 0} D i)) \u2192\n          Eq.{1}\n              (DFunLike.coe.{1, 1, 1}\n                (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.d.{0, 1, 0} C.quotient i j))\n                (DFunLike.coe.{1, 1, 1}\n                  (CategoryTheory.ConcreteCategory.hom.{0, 0, 1, 0} (HomologicalComplex.Hom.f.{0, 1, 0} C.projection i))\n                  x))\n              0 \u2192\n            ModuleCat.carrier.{0, 0} (HomologicalComplex.homology.{0, 1, 0} C.quotient i)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013199",
+        "decl-013239",
+        "decl-013242"
+      ],
+      "structural_type_hash": "96691020",
+      "temporary_id": "decl-013246"
+    },
+    {
+      "formal_type": "{D : decl-013194} \u2192\n  decl-013196 D \u2192 CategoryTheory.ShortComplex.{0, 1} decl-013194",
+      "kind": "definition",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196"
+      ],
+      "structural_type_hash": "1983476836",
+      "temporary_id": "decl-013252"
+    },
+    {
+      "formal_type": "\u2200 {D : decl-013194} (C : decl-013196 D),\n  CategoryTheory.ShortComplex.ShortExact.{0, 1} C.shortComplex",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-013196",
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013252"
+      ],
+      "structural_type_hash": "2724286311",
+      "temporary_id": "decl-013255"
+    },
+    {
+      "formal_type": "{S : CategoryTheory.ShortComplex.{0, 1} decl-013194} \u2192\n  CategoryTheory.ShortComplex.ShortExact.{0, 1} S \u2192\n    (i j : Int) \u2192\n      ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j \u2192\n        Quiver.Hom.{0, 1} (HomologicalComplex.homology.{0, 1, 0} (CategoryTheory.ShortComplex.X\u2083.{0, 1} S) i)\n          (HomologicalComplex.homology.{0, 1, 0} (CategoryTheory.ShortComplex.X\u2081.{0, 1} S) j)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195"
+      ],
+      "structural_type_hash": "2368690774",
+      "temporary_id": "decl-013256"
+    },
+    {
+      "formal_type": "\u2200 {D : decl-013194} (C : decl-013196 D) (i j : Int)\n  (hij : ComplexShape.Rel.{0} (ComplexShape.up.{0} Int) i j),\n  And\n    (CategoryTheory.ShortComplex.Exact.{0, 1}\n      (CategoryTheory.ShortComplex.mk.{0, 1} (C.concreteConnecting i j hij)\n        (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.f.{0, 1} C.shortComplex) j) \u22ef))\n    (And\n      (CategoryTheory.ShortComplex.Exact.{0, 1}\n        (CategoryTheory.ShortComplex.mk.{0, 1}\n          (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.f.{0, 1} C.shortComplex) i)\n          (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.g.{0, 1} C.shortComplex) i) \u22ef))\n      (CategoryTheory.ShortComplex.Exact.{0, 1}\n        (CategoryTheory.ShortComplex.mk.{0, 1}\n          (HomologicalComplex.homologyMap.{0, 1, 0} (CategoryTheory.ShortComplex.g.{0, 1} C.shortComplex) i)\n          (C.concreteConnecting i j hij) \u22ef)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013194",
+        "decl-013195",
+        "decl-013196",
+        "decl-013204",
+        "decl-013211",
+        "decl-013242",
+        "decl-013252",
+        "decl-013255"
+      ],
+      "structural_type_hash": "39733693",
+      "temporary_id": "decl-013257"
+    }
+  ],
+  "module_temporary_id": "module-0610",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

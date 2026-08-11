@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Theorem3.7.1",
+    "kind": "theorem",
+    "title": "The Jordan-Holder theorem",
+    "node_id": "chapter-03/section-3-7",
+    "order": 161,
+    "slug": "theorem3-7-1",
+    "span": {
+      "start": {
+        "page": "53",
+        "line": 7
+      },
+      "end": {
+        "page": "54",
+        "line": 4
+      }
+    },
+    "source_sha256": "b12621e3c97f00daafdd0b1e59499be351049a9a299cf3253e98a73dc6537b46",
+    "features": {
+      "line_count": 13,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 1,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Theorem371",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

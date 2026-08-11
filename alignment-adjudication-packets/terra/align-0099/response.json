@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0099",
+  "associations": [
+    {
+      "association_id": "association:51881cca0fb6444a4950",
+      "role": "supporting",
+      "rationale": "Existence of a composition series supplies the irreducible constituent used in the induction step."
+    }
+  ]
+}

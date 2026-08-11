@@ -1,0 +1,351 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(p : Nat) \u2192 [Fact (Nat.Prime p)] \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4128935572",
+      "temporary_id": "decl-003842"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192\n  [inst : Fact (Nat.Prime p)] \u2192 ZMod p \u2192 ZMod p \u2192 AddChar.{0, 0} (Prod.{0, 0} (ZMod p) (ZMod p)) (Units.{0} Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2291652319",
+      "temporary_id": "decl-003891"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192\n  [inst : Fact (Nat.Prime p)] \u2192\n    ZMod p \u2192 ZMod p \u2192 MonoidHom.{0, 0} (Multiplicative.{0} (Prod.{0, 0} (ZMod p) (ZMod p))) (Units.{0} Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2810933890",
+      "temporary_id": "decl-003893"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (\u03b2 \u03b3 b c : ZMod p),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-003893 p \u03b2 \u03b3)\n      (DFunLike.coe.{1, 1, 1} Multiplicative.ofAdd.{0} (Prod.mk.{0, 0} b c)))\n    (HPow.hPow.{0, 0, 0} (decl-003919 p)\n      (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} \u03b2 b) (HMul.hMul.{0, 0, 0} \u03b3 c)).val)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003893",
+        "decl-003919"
+      ],
+      "structural_type_hash": "3761014865",
+      "temporary_id": "decl-003894"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (\u03b2 \u03b3 b c : ZMod p),\n  Eq.{1}\n    (Units.val.{0}\n      (DFunLike.coe.{1, 1, 1} (decl-003893 p \u03b2 \u03b3)\n        (DFunLike.coe.{1, 1, 1} Multiplicative.ofAdd.{0} (Prod.mk.{0, 0} b c))))\n    (DFunLike.coe.{1, 1, 1} (decl-003910 p)\n      (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} \u03b2 b) (HMul.hMul.{0, 0, 0} \u03b3 c)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003893",
+        "decl-003910"
+      ],
+      "structural_type_hash": "663135197",
+      "temporary_id": "decl-003895"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (g : Multiplicative.{0} (ZMod p)) (\u03b2 \u03b3 : ZMod p),\n  Eq.{1}\n    (MonoidHom.comp.{0, 0, 0} (decl-003893 p \u03b2 \u03b3)\n      (MulEquiv.toMonoidHom.{0, 0} (DFunLike.coe.{1, 1, 1} (decl-003939 p) (Inv.inv.{0} g))))\n    (decl-003893 p\n      (HSub.hSub.{0, 0, 0} \u03b2 (HMul.hMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} Multiplicative.toAdd.{0} g) \u03b3)) \u03b3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003893",
+        "decl-003939"
+      ],
+      "structural_type_hash": "1699033736",
+      "temporary_id": "decl-003896"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (\u03b2 \u03b3 : ZMod p),\n  Iff\n    (\u2200 (g : Multiplicative.{0} (ZMod p)),\n      Eq.{1}\n        (MonoidHom.comp.{0, 0, 0} (decl-003893 p \u03b2 \u03b3)\n          (MulEquiv.toMonoidHom.{0, 0} (DFunLike.coe.{1, 1, 1} (decl-003939 p) (Inv.inv.{0} g))))\n        (decl-003893 p \u03b2 \u03b3))\n    (Eq.{1} \u03b3 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003893",
+        "decl-003939"
+      ],
+      "structural_type_hash": "4006203175",
+      "temporary_id": "decl-003897"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] {\u03b2 \u03b3 \u03b2' \u03b3' : ZMod p},\n  Eq.{1} (decl-003893 p \u03b2 \u03b3) (decl-003893 p \u03b2' \u03b3') \u2192\n    And (Eq.{1} \u03b2 \u03b2') (Eq.{1} \u03b3 \u03b3')",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003893"
+      ],
+      "structural_type_hash": "2600701524",
+      "temporary_id": "decl-003899"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)],\n  Function.Injective.{1, 1} fun bg => decl-003893 p (Prod.fst.{0, 0} bg) (Prod.snd.{0, 0} bg)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003893"
+      ],
+      "structural_type_hash": "445631105",
+      "temporary_id": "decl-003900"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (\u03b2 \u03b3 : ZMod p),\n  Ne.{1} \u03b3 0 \u2192\n    \u2200 (g : Multiplicative.{0} (ZMod p)),\n      Eq.{1}\n          (MonoidHom.comp.{0, 0, 0} (decl-003893 p \u03b2 \u03b3)\n            (MulEquiv.toMonoidHom.{0, 0}\n              (DFunLike.coe.{1, 1, 1} (decl-003939 p) (Inv.inv.{0} g))))\n          (decl-003893 p \u03b2 \u03b3) \u2192\n        Eq.{1} g 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003893",
+        "decl-003939"
+      ],
+      "structural_type_hash": "2502846994",
+      "temporary_id": "decl-003901"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)]\n  (\u03c7 : MonoidHom.{0, 0} (Multiplicative.{0} (Prod.{0, 0} (ZMod p) (ZMod p))) (Units.{0} Complex)),\n  Exists.{1} fun \u03b2 => Exists.{1} fun \u03b3 => Eq.{1} (decl-003893 p \u03b2 \u03b3) \u03c7",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003893"
+      ],
+      "structural_type_hash": "1706947988",
+      "temporary_id": "decl-003902"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192\n  [inst : Fact (Nat.Prime p)] \u2192\n    MulEquiv.{0, 0} (decl-010860 p) (decl-003842 p)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003842",
+        "decl-003939",
+        "decl-010860",
+        "decl-010893"
+      ],
+      "structural_type_hash": "496472494",
+      "temporary_id": "decl-003903"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (x : decl-010860 p),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-003903 p) x)\n    (SemidirectProduct.mk.{0, 0} (DFunLike.coe.{1, 1, 1} Multiplicative.ofAdd.{0} (Prod.mk.{0, 0} x.b x.c))\n      (DFunLike.coe.{1, 1, 1} Multiplicative.ofAdd.{0} x.a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003842",
+        "decl-003903",
+        "decl-003939",
+        "decl-010860",
+        "decl-010863",
+        "decl-010864",
+        "decl-010865",
+        "decl-010893"
+      ],
+      "structural_type_hash": "937300656",
+      "temporary_id": "decl-003907"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192 [inst : Fact (Nat.Prime p)] \u2192 ZMod p \u2192 ZMod p \u2192 AddMonoidHom.{0, 0} (Prod.{0, 0} (ZMod p) (ZMod p)) (ZMod p)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3821790248",
+      "temporary_id": "decl-003908"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (\u03b2 \u03b3 : ZMod p) (bc : Prod.{0, 0} (ZMod p) (ZMod p)),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-003908 p \u03b2 \u03b3) bc)\n    (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} \u03b2 (Prod.fst.{0, 0} bc)) (HMul.hMul.{0, 0, 0} \u03b3 (Prod.snd.{0, 0} bc)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003908"
+      ],
+      "structural_type_hash": "2211064420",
+      "temporary_id": "decl-003909"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192 [inst : Fact (Nat.Prime p)] \u2192 AddChar.{0, 0} (ZMod p) Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "307827591",
+      "temporary_id": "decl-003910"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (x : ZMod p),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-003910 p) x)\n    (HPow.hPow.{0, 0, 0} (Units.val.{0} (decl-003919 p)) x.val)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003910",
+        "decl-003919"
+      ],
+      "structural_type_hash": "689113238",
+      "temporary_id": "decl-003911"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)], AddChar.IsPrimitive.{0, 0} (decl-003910 p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003910"
+      ],
+      "structural_type_hash": "2417406725",
+      "temporary_id": "decl-003912"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192 [inst : Fact (Nat.Prime p)] \u2192 ZMod p \u2192 MulAut.{0} (Multiplicative.{0} (Prod.{0, 0} (ZMod p) (ZMod p)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3939400232",
+      "temporary_id": "decl-003913"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (a a' : ZMod p),\n  Eq.{1} (decl-003913 p (HAdd.hAdd.{0, 0, 0} a a'))\n    (HMul.hMul.{0, 0, 0} (decl-003913 p a) (decl-003913 p a'))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003913"
+      ],
+      "structural_type_hash": "3237132778",
+      "temporary_id": "decl-003917"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)], Eq.{1} (decl-003913 p 0) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003913"
+      ],
+      "structural_type_hash": "3950243642",
+      "temporary_id": "decl-003918"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192 [Fact (Nat.Prime p)] \u2192 Units.{0} Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1951667109",
+      "temporary_id": "decl-003919"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)],\n  Eq.{1} (HPow.hPow.{0, 0, 0} (Units.val.{0} (decl-003919 p)) p) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003919"
+      ],
+      "structural_type_hash": "4073936298",
+      "temporary_id": "decl-003923"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)], IsPrimitiveRoot.{0} (Units.val.{0} (decl-003919 p)) p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003919"
+      ],
+      "structural_type_hash": "3033113486",
+      "temporary_id": "decl-003924"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)], IsPrimitiveRoot.{0} (decl-003919 p) p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003919"
+      ],
+      "structural_type_hash": "2956438947",
+      "temporary_id": "decl-003925"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)],\n  Exists.{1} fun n =>\n    Exists.{2} fun W =>\n      And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n        (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n          (And\n            (\u2200 (S : FDRep.{0, 0} Complex (decl-003842 p)),\n              CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n            (And\n              (\u2200 (i : Fin n),\n                Or (Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1)\n                  (Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) p))\n              (And (Eq.{1} n (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} p 2) (HSub.hSub.{0, 0, 0} p 1)))\n                (And\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            1)\n                        Finset.univ.{0}))\n                    (HPow.hPow.{0, 0, 0} p 2))\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            p)\n                        Finset.univ.{0}))\n                    (HSub.hSub.{0, 0, 0} p 1)))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003842",
+        "decl-003939"
+      ],
+      "structural_type_hash": "368343541",
+      "temporary_id": "decl-003926"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [Fact (Nat.Prime p)],\n  Exists.{1} fun n =>\n    Exists.{2} fun W =>\n      And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n        (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n          (And\n            (\u2200 (S : FDRep.{0, 0} Complex (decl-010860 p)),\n              CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n            (And\n              (\u2200 (i : Fin n),\n                Or (Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1)\n                  (Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) p))\n              (And (Eq.{1} n (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} p 2) (HSub.hSub.{0, 0, 0} p 1)))\n                (And\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            1)\n                        Finset.univ.{0}))\n                    (HPow.hPow.{0, 0, 0} p 2))\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            p)\n                        Finset.univ.{0}))\n                    (HSub.hSub.{0, 0, 0} p 1)))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010860",
+        "decl-010881"
+      ],
+      "structural_type_hash": "2247191248",
+      "temporary_id": "decl-003927"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)],\n  Exists.{1} fun n =>\n    Exists.{2} fun W =>\n      And (\u2200 (i : Fin n), CategoryTheory.Simple.{0, 1} (W i))\n        (And (\u2200 (i j : Fin n), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (W i) (W j)) \u2192 Eq.{1} i j)\n          (And\n            (\u2200 (S : FDRep.{0, 0} Complex (decl-010860 p)),\n              CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (W i)))\n            (And (Eq.{1} n (HAdd.hAdd.{0, 0, 0} (HPow.hPow.{0, 0, 0} p 2) (HSub.hSub.{0, 0, 0} p 1)))\n              (And\n                (Eq.{1}\n                  (Finset.card.{0}\n                    (Finset.filter.{0}\n                      (fun i =>\n                        Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                          1)\n                      Finset.univ.{0}))\n                  (HPow.hPow.{0, 0, 0} p 2))\n                (And\n                  (Eq.{1}\n                    (Finset.card.{0}\n                      (Finset.filter.{0}\n                        (fun i =>\n                          Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            p)\n                        Finset.univ.{0}))\n                    (HSub.hSub.{0, 0, 0} p 1))\n                  (And\n                    (\u2200 (i : Fin n),\n                      Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i)))) 1 \u2192\n                        Exists.{1} fun \u03c7 =>\n                          Nonempty.{1}\n                            (CategoryTheory.Iso.{0, 1} (W i) (FDRep.of.{0, 0} (decl-002498.{0} \u03c7))))\n                    (And\n                      (\u2200 (i : Fin n),\n                        Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W i))))\n                            p \u2192\n                          Exists.{1} fun z =>\n                            Exists.{0} fun hz =>\n                              And (Ne.{1} z 1)\n                                (Nonempty.{1}\n                                  (CategoryTheory.Iso.{0, 1} (W i)\n                                    (FDRep.of.{0, 0} (decl-010954 z hz)))))\n                      (And\n                        (\u2200 (\u03c7 : MonoidHom.{0, 0} (decl-010860 p) (Units.{0} Complex)),\n                          Exists.{1} fun i =>\n                            Nonempty.{1}\n                              (CategoryTheory.Iso.{0, 1} (FDRep.of.{0, 0} (decl-002498.{0} \u03c7)) (W i)))\n                        (\u2200 (z : Complex) (hz : Eq.{1} (HPow.hPow.{0, 0, 0} z p) 1),\n                          Ne.{1} z 1 \u2192\n                            Exists.{1} fun i =>\n                              Nonempty.{1}\n                                (CategoryTheory.Iso.{0, 1} (FDRep.of.{0, 0} (decl-010954 z hz))\n                                  (W i)))))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002498",
+        "decl-003943",
+        "decl-010860",
+        "decl-010881",
+        "decl-010954"
+      ],
+      "structural_type_hash": "437174054",
+      "temporary_id": "decl-003935"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (\u03b2 \u03b3 b c : ZMod p),\n  Eq.{1}\n    (Finset.sum.{0, 0} Finset.univ.{0} fun h =>\n      Units.val.{0}\n        (DFunLike.coe.{1, 1, 1} (decl-003893 p \u03b2 \u03b3)\n          (DFunLike.coe.{1, 1, 1} Multiplicative.ofAdd.{0}\n            (Prod.mk.{0, 0} b\n              (HAdd.hAdd.{0, 0, 0} c (HMul.hMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} Multiplicative.toAdd.{0} h) b))))))\n    (HMul.hMul.{0, 0, 0} (ite.{1} (Eq.{1} (HMul.hMul.{0, 0, 0} \u03b3 b) 0) (Nat.cast.{0} p) 0)\n      (Units.val.{0}\n        (DFunLike.coe.{1, 1, 1} (decl-003893 p \u03b2 \u03b3)\n          (DFunLike.coe.{1, 1, 1} Multiplicative.ofAdd.{0} (Prod.mk.{0, 0} b c)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003893",
+        "decl-003943"
+      ],
+      "structural_type_hash": "2718372996",
+      "temporary_id": "decl-003938"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192\n  [inst : Fact (Nat.Prime p)] \u2192\n    MonoidHom.{0, 0} (Multiplicative.{0} (ZMod p)) (MulAut.{0} (Multiplicative.{0} (Prod.{0, 0} (ZMod p) (ZMod p))))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "275739272",
+      "temporary_id": "decl-003939"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (a : Multiplicative.{0} (ZMod p)) (b c : ZMod p),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-003939 p) a)\n      (DFunLike.coe.{1, 1, 1} Multiplicative.ofAdd.{0} (Prod.mk.{0, 0} b c)))\n    (DFunLike.coe.{1, 1, 1} Multiplicative.ofAdd.{0}\n      (Prod.mk.{0, 0} b\n        (HAdd.hAdd.{0, 0, 0} c (HMul.hMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} Multiplicative.toAdd.{0} a) b))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003939"
+      ],
+      "structural_type_hash": "3267627964",
+      "temporary_id": "decl-003942"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [Fact (Nat.Prime p)], NeZero.{0} p",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "178106268",
+      "temporary_id": "decl-003943"
+    }
+  ],
+  "module_temporary_id": "module-0319",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

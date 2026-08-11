@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0118",
+  "associations": [
+    {
+      "association_id": "association:99bd0ad020d105008c63",
+      "role": "primary",
+      "rationale": "Its normalized sum of matrix coefficients is zero for nonisomorphic simple representations, exactly the claimed orthogonality."
+    }
+  ]
+}

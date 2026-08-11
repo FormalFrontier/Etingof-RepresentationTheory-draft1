@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.25",
+    "kind": "introduction",
+    "title": "Section 5.25: Representations of GL_2(F_q)",
+    "node_id": "chapter-05/section-5-25",
+    "order": 379,
+    "slug": "introduction-5-25",
+    "span": {
+      "start": {
+        "page": "135",
+        "line": 19
+      },
+      "end": {
+        "page": "135",
+        "line": 20
+      }
+    },
+    "source_sha256": "d67c3f4df4e0807bd5eb38b21f7a27d8189ff3cf6caa06e59f9f62f9e58f669a",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction525",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

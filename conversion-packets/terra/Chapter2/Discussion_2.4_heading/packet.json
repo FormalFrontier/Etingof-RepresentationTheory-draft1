@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_2.4_heading",
+    "kind": "discussion",
+    "title": "Section 2.4 Ideals \u2014 heading and definitions",
+    "node_id": "chapter-02/section-2-4",
+    "order": 48,
+    "slug": "discussion-2-4-heading",
+    "span": {
+      "start": {
+        "page": "15",
+        "line": 2
+      },
+      "end": {
+        "page": "15",
+        "line": 14
+      }
+    },
+    "source_sha256": "ddc06243c1d2b75cd69861ebcad9e04e89009dee70572a434fdfedc68094e900",
+    "features": {
+      "line_count": 13,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion24Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

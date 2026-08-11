@@ -1,0 +1,192 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] (N : Nat) {V W : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} k V] [inst_4 : Module.Finite.{0, 0} k V] [inst_5 : AddCommGroup.{0} W]\n  [inst_6 : Module.{0, 0} k W] [inst_7 : Module.Finite.{0, 0} k W]\n  (\u03c1 : Representation.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) V)\n  (\u03c3 : Representation.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) W)\n  (\u03a6 :\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)))\n      (Representation.asModule.{0, 0, 0} \u03c1) (Representation.asModule.{0, 0, 0} \u03c3)),\n  Eq.{1} (decl-019511.{0} k N (FDRep.of.{0, 0} \u03c1)) (decl-019511.{0} k N (FDRep.of.{0, 0} \u03c3))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019511"
+      ],
+      "structural_type_hash": "643801952",
+      "temporary_id": "decl-019528"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] (N : Nat)\n  (M P : FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n  (\u03c6 :\n    LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} M))\n      (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} P))),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (v : FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} M)),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c6 (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} M) g) v))\n        (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} P) g) (DFunLike.coe.{1, 1, 1} \u03c6 v))) \u2192\n    Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} \u03c6) \u2192\n      Eq.{1} (iSup.{0, 1} fun \u03bc => decl-019844.{0} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i) Top.top.{0} \u2192\n        Eq.{1} (iSup.{0, 1} fun \u03bc => decl-019844.{0} k N P fun i => DFunLike.coe.{1, 1, 1} \u03bc i) Top.top.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019844"
+      ],
+      "structural_type_hash": "3847891455",
+      "temporary_id": "decl-019865"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Eq.{1}\n    (iSup.{0, 1} fun \u03bc =>\n      decl-019844.{0} k N (decl-015559.{0} k N lam) fun i => DFunLike.coe.{1, 1, 1} \u03bc i)\n    Top.top.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015559",
+        "decl-019844"
+      ],
+      "structural_type_hash": "1992911281",
+      "temporary_id": "decl-019871"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    \u2200 (M : FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)),\n      decl-005106.{0, 0} N (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} M)) \u2192\n        Eq.{1} (iSup.{0, 1} fun \u03bc => decl-019844.{0} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i) Top.top.{0} \u2192\n          Eq.{1} (decl-019511.{0} k N M) (decl-023030 N lam) \u2192\n            Eq.{1} (Module.finrank.{0, 0} k (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} M)))\n                (Module.finrank.{0, 0} k\n                  (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (decl-015559.{0} k N lam)))) \u2192\n              Nonempty.{1} (CategoryTheory.Iso.{0, 1} M (decl-015559.{0} k N lam))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-015559",
+        "decl-015576",
+        "decl-016473",
+        "decl-019511",
+        "decl-019844",
+        "decl-023030"
+      ],
+      "structural_type_hash": "2159806075",
+      "temporary_id": "decl-020963"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-019829"
+      ],
+      "structural_type_hash": "2743611879",
+      "temporary_id": "decl-023057"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N n : Nat) {\u03b9 : Type}\n  [inst_3 : Fintype.{0} \u03b9] [DecidableEq.{1} \u03b9] {S : \u03b9 \u2192 Type} [inst_5 : (i : \u03b9) \u2192 AddCommGroup.{0} (S i)]\n  [inst_6 : (i : \u03b9) \u2192 Module.{0, 0} k (S i)] [\u2200 (i : \u03b9), Module.Finite.{0, 0} k (S i)]\n  (L : \u03b9 \u2192 FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n  (e :\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) (decl-016473.{0, 0} k (Fin N \u2192 k) n)\n      (DirectSum.{0, 0} \u03b9 fun i =>\n        TensorProduct.{0, 0, 0} k (S i) (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (L i))))),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (v : decl-016473.{0, 0} k (Fin N \u2192 k) n),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1} e (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-019829.{0} k N n) g) v))\n        (DFunLike.coe.{1, 1, 1}\n          (DFunLike.coe.{1, 1, 1}\n            (Representation.directSum.{0, 0, 0, 0} fun i =>\n              Representation.tprod.{0, 0, 0, 0}\n                (Representation.trivial.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (S i))\n                (FDRep.\u03c1.{0, 0} (L i)))\n            g)\n          (DFunLike.coe.{1, 1, 1} e v))) \u2192\n    Eq.{1}\n      (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n        HSMul.hSMul.{0, 0, 0} (Nat.cast.{0} (Module.finrank.{0, 0} k (S i))) (decl-019511.{0} k N (L i)))\n      (Finset.sum.{0, 0} Finset.univ.{0} fun lam =>\n        HSMul.hSMul.{0, 0, 0}\n          (Nat.cast.{0}\n            (Module.finrank.{0, 0} Complex\n              (Subtype.{1} fun x =>\n                Membership.mem.{0, 0} (decl-016116 n (Eq.rec.{1, 1} (decl-024494 N lam.parts) \u22ef))\n                  x)))\n          (decl-023030 N lam.parts))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-001058",
+        "decl-016116",
+        "decl-016224",
+        "decl-016473",
+        "decl-017504",
+        "decl-019511",
+        "decl-019829",
+        "decl-023030",
+        "decl-024494"
+      ],
+      "structural_type_hash": "3172559377",
+      "temporary_id": "decl-023063"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N n : Nat) {\u03b9 : Type} [Fintype.{0} \u03b9]\n  [DecidableEq.{1} \u03b9] {S : \u03b9 \u2192 Type} [inst_5 : (i : \u03b9) \u2192 AddCommGroup.{0} (S i)]\n  [inst_6 : (i : \u03b9) \u2192 Module.{0, 0} k (S i)] [\u2200 (i : \u03b9), Module.Finite.{0, 0} k (S i)]\n  (L : \u03b9 \u2192 FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n  (e :\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) (decl-016473.{0, 0} k (Fin N \u2192 k) n)\n      (DirectSum.{0, 0} \u03b9 fun i =>\n        TensorProduct.{0, 0, 0} k (S i) (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (L i))))),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (v : decl-016473.{0, 0} k (Fin N \u2192 k) n),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1} e (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-019829.{0} k N n) g) v))\n        (DFunLike.coe.{1, 1, 1}\n          (DFunLike.coe.{1, 1, 1}\n            (Representation.directSum.{0, 0, 0, 0} fun i =>\n              Representation.tprod.{0, 0, 0, 0}\n                (Representation.trivial.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (S i))\n                (FDRep.\u03c1.{0, 0} (L i)))\n            g)\n          (DFunLike.coe.{1, 1, 1} e v))) \u2192\n    (\u2200 (i : \u03b9), LT.lt.{0} 0 (Module.finrank.{0, 0} k (S i))) \u2192\n      \u2200 (i : \u03b9),\n        Eq.{1} (iSup.{0, 1} fun \u03bc => decl-019844.{0} k N (L i) fun j => DFunLike.coe.{1, 1, 1} \u03bc j)\n          Top.top.{0}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-019829",
+        "decl-019844"
+      ],
+      "structural_type_hash": "3837667838",
+      "temporary_id": "decl-023064"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] [CharZero.{0} k] (N n : Nat) {\u03b9 : Type} [Fintype.{0} \u03b9]\n  [DecidableEq.{1} \u03b9] {S : \u03b9 \u2192 Type} [inst_5 : (i : \u03b9) \u2192 AddCommGroup.{0} (S i)]\n  [inst_6 : (i : \u03b9) \u2192 Module.{0, 0} k (S i)] [\u2200 (i : \u03b9), Module.Finite.{0, 0} k (S i)]\n  (L : \u03b9 \u2192 FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n  (e :\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) (decl-016473.{0, 0} k (Fin N \u2192 k) n)\n      (DirectSum.{0, 0} \u03b9 fun i =>\n        TensorProduct.{0, 0, 0} k (S i) (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (L i))))),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (v : decl-016473.{0, 0} k (Fin N \u2192 k) n),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1} e (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-019829.{0} k N n) g) v))\n        (DFunLike.coe.{1, 1, 1}\n          (DFunLike.coe.{1, 1, 1}\n            (Representation.directSum.{0, 0, 0, 0} fun i =>\n              Representation.tprod.{0, 0, 0, 0}\n                (Representation.trivial.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (S i))\n                (FDRep.\u03c1.{0, 0} (L i)))\n            g)\n          (DFunLike.coe.{1, 1, 1} e v))) \u2192\n    (\u2200 (i : \u03b9), LT.lt.{0} 0 (Module.finrank.{0, 0} k (S i))) \u2192\n      \u2200 (i : \u03b9), decl-005106.{0, 0} N (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} (L i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-016473",
+        "decl-019829"
+      ],
+      "structural_type_hash": "4267581716",
+      "temporary_id": "decl-023065"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N n : Nat) {\u03b9 : Type} [Fintype.{0} \u03b9]\n  [DecidableEq.{1} \u03b9] {S : \u03b9 \u2192 Type} [inst_5 : (i : \u03b9) \u2192 AddCommGroup.{0} (S i)]\n  [inst_6 : (i : \u03b9) \u2192 Module.{0, 0} k (S i)] [\u2200 (i : \u03b9), Module.Finite.{0, 0} k (S i)]\n  (L : \u03b9 \u2192 FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n  (e :\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) (decl-016473.{0, 0} k (Fin N \u2192 k) n)\n      (DirectSum.{0, 0} \u03b9 fun i =>\n        TensorProduct.{0, 0, 0} k (S i) (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (L i))))),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (v : decl-016473.{0, 0} k (Fin N \u2192 k) n),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1} e (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-019829.{0} k N n) g) v))\n        (DFunLike.coe.{1, 1, 1}\n          (DFunLike.coe.{1, 1, 1}\n            (Representation.directSum.{0, 0, 0, 0} fun i =>\n              Representation.tprod.{0, 0, 0, 0}\n                (Representation.trivial.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (S i))\n                (FDRep.\u03c1.{0, 0} (L i)))\n            g)\n          (DFunLike.coe.{1, 1, 1} e v))) \u2192\n    (\u2200 (i : \u03b9),\n        IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n          (Representation.asModule.{0, 0, 0} (FDRep.\u03c1.{0, 0} (L i)))) \u2192\n      (Pairwise.{0} fun i j => Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (L i) (L j)))) \u2192\n        (\u2200 (i : \u03b9), LT.lt.{0} 0 (Module.finrank.{0, 0} k (S i))) \u2192\n          Exists.{1} fun lam =>\n            And (Function.Injective.{1, 1} lam)\n              (\u2200 (i : \u03b9),\n                Eq.{1} (decl-019511.{0} k N (L i)) (decl-023030 N (Subtype.val.{1} (lam i))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-019511",
+        "decl-019829",
+        "decl-023030"
+      ],
+      "structural_type_hash": "401231912",
+      "temporary_id": "decl-023066"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N n : Nat) {\u03b9 : Type} [Fintype.{0} \u03b9]\n  [DecidableEq.{1} \u03b9] {S : \u03b9 \u2192 Type} [inst_5 : (i : \u03b9) \u2192 AddCommGroup.{0} (S i)]\n  [inst_6 : (i : \u03b9) \u2192 Module.{0, 0} k (S i)] [\u2200 (i : \u03b9), Module.Finite.{0, 0} k (S i)]\n  (L : \u03b9 \u2192 FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n  (e :\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) (decl-016473.{0, 0} k (Fin N \u2192 k) n)\n      (DirectSum.{0, 0} \u03b9 fun i =>\n        TensorProduct.{0, 0, 0} k (S i) (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (L i))))),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (v : decl-016473.{0, 0} k (Fin N \u2192 k) n),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1} e (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-019829.{0} k N n) g) v))\n        (DFunLike.coe.{1, 1, 1}\n          (DFunLike.coe.{1, 1, 1}\n            (Representation.directSum.{0, 0, 0, 0} fun i =>\n              Representation.tprod.{0, 0, 0, 0}\n                (Representation.trivial.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (S i))\n                (FDRep.\u03c1.{0, 0} (L i)))\n            g)\n          (DFunLike.coe.{1, 1, 1} e v))) \u2192\n    (\u2200 (i : \u03b9),\n        Eq.{1} (iSup.{0, 1} fun \u03bc => decl-019844.{0} k N (L i) fun j => DFunLike.coe.{1, 1, 1} \u03bc j)\n          Top.top.{0}) \u2192\n      (\u2200 (i : \u03b9), decl-005106.{0, 0} N (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} (L i)))) \u2192\n        (\u2200 (i : \u03b9),\n            IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n              (Representation.asModule.{0, 0, 0} (FDRep.\u03c1.{0, 0} (L i)))) \u2192\n          (Pairwise.{0} fun i j => Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} (L i) (L j)))) \u2192\n            LinearIndependent.{0, 0, 0} Rat fun i => decl-019511.{0} k N (L i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-016473",
+        "decl-019511",
+        "decl-019829",
+        "decl-019844"
+      ],
+      "structural_type_hash": "1481049019",
+      "temporary_id": "decl-023067"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N n : Nat) {\u03b9 : Type} [Fintype.{0} \u03b9]\n  [DecidableEq.{1} \u03b9] {S : \u03b9 \u2192 Type} [inst_5 : (i : \u03b9) \u2192 AddCommGroup.{0} (S i)]\n  [inst_6 : (i : \u03b9) \u2192 Module.{0, 0} k (S i)] [\u2200 (i : \u03b9), Module.Finite.{0, 0} k (S i)]\n  (L : \u03b9 \u2192 FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n  (e :\n    LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) (decl-016473.{0, 0} k (Fin N \u2192 k) n)\n      (DirectSum.{0, 0} \u03b9 fun i =>\n        TensorProduct.{0, 0, 0} k (S i) (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (L i))))),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (v : decl-016473.{0, 0} k (Fin N \u2192 k) n),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1} e (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (decl-019829.{0} k N n) g) v))\n        (DFunLike.coe.{1, 1, 1}\n          (DFunLike.coe.{1, 1, 1}\n            (Representation.directSum.{0, 0, 0, 0} fun i =>\n              Representation.tprod.{0, 0, 0, 0}\n                (Representation.trivial.{0, 0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k) (S i))\n                (FDRep.\u03c1.{0, 0} (L i)))\n            g)\n          (DFunLike.coe.{1, 1, 1} e v))) \u2192\n    (\u2200 (i : \u03b9),\n        IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n          (Representation.asModule.{0, 0, 0} (FDRep.\u03c1.{0, 0} (L i)))) \u2192\n      Exists.{1} fun \u03c6 =>\n        And (Function.Injective.{1, 1} \u03c6)\n          (\u2200 (lam : decl-001040 N n),\n            Eq.{1} (decl-019511.{0} k N (L (\u03c6 lam))) (decl-023030 N lam.parts))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-016473",
+        "decl-019511",
+        "decl-019829",
+        "decl-023030"
+      ],
+      "structural_type_hash": "1370714374",
+      "temporary_id": "decl-023068"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {W : Type u_2} [inst_1 : AddCommGroup.{u_2} W] [inst_2 : Module.{u_1, u_2} R W]\n  {\u03ba : Type u_3} [Finite.{u_3 + 1} \u03ba] (Lsum : \u03ba \u2192 Type u_4) [inst_4 : (c : \u03ba) \u2192 AddCommGroup.{u_4} (Lsum c)]\n  [inst_5 : (c : \u03ba) \u2192 Module.{u_1, u_4} R (Lsum c)],\n  (\u2200 (c : \u03ba), IsSimpleModule.{u_1, u_4} R (Lsum c)) \u2192\n    \u2200 (eW : LinearEquiv.{u_1, u_1, u_2, max u_4 u_3} (RingHom.id.{u_1} R) W (DirectSum.{u_3, u_4} \u03ba Lsum))\n      {T : Type u_5} [inst_6 : AddCommGroup.{u_5} T] [inst_7 : Module.{u_1, u_5} R T] [IsSimpleModule.{u_1, u_5} R T]\n      (incl : LinearMap.{u_1, u_1, u_5, u_2} (RingHom.id.{u_1} R) T W),\n      Function.Injective.{u_5 + 1, u_2 + 1} (DFunLike.coe.{max (u_2 + 1) (u_5 + 1), u_5 + 1, u_2 + 1} incl) \u2192\n        Exists.{u_3 + 1} fun c =>\n          Nonempty.{max (u_4 + 1) (u_5 + 1)} (LinearEquiv.{u_1, u_1, u_5, u_4} (RingHom.id.{u_1} R) T (Lsum c))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3262025852",
+      "temporary_id": "decl-023162"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    \u2200 (L : FDRep.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k)),\n      IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n          (Representation.asModule.{0, 0, 0} (FDRep.\u03c1.{0, 0} L)) \u2192\n        Eq.{1} (iSup.{0, 1} fun \u03bc => decl-019844.{0} k N L fun i => DFunLike.coe.{1, 1, 1} \u03bc i) Top.top.{0} \u2192\n          decl-005106.{0, 0} N (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} L)) \u2192\n            Eq.{1} (decl-019511.{0} k N L) (decl-023030 N lam) \u2192\n              Nonempty.{1} (CategoryTheory.Iso.{0, 1} L (decl-015559.{0} k N lam))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-015559",
+        "decl-019511",
+        "decl-019844",
+        "decl-023030"
+      ],
+      "structural_type_hash": "3048725913",
+      "temporary_id": "decl-023194"
+    }
+  ],
+  "module_temporary_id": "module-0430",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

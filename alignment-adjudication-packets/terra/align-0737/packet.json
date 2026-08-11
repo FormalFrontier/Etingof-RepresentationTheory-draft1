@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:fd059e5c61a7bc6a67bd",
+      "declaration": "Etingof.Problem5_10_2_d",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/302/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k G : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Group.{u} G] \u2192\n      (H : Subgroup.{u} G) \u2192\n        [Finite.{u + 1} G] \u2192\n          (W : Rep.{max u u_1, u, u} k (Subtype.{u + 1} fun x => Membership.mem.{u, u} H x)) \u2192\n            CategoryTheory.Iso.{max u u_1, max (max ((max u u_1) + 1) (u + 1)) u}\n              (Rep.coind.{u, u, u, max u u_1} (Subgroup.subtype.{u} H) W)\n              (Rep.ind.{max u u_1, u, u, u} (Subgroup.subtype.{u} H) W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_10_2"
+    },
+    {
+      "association_id": "association:e3ef9b684e446fd24444",
+      "declaration": "Etingof.Problem5_10_2_d_formula",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/302/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k G : Type u) [inst : Field.{u} k] [inst_1 : Group.{u} G] (H : Subgroup.{u} G) [inst_2 : Finite.{u + 1} G]\n  (W : Rep.{max u u_1, u, u} k (Subtype.{u + 1} fun x => Membership.mem.{u, u} H x))\n  (f : Rep.V.{max u u_1, u, u} (Rep.coind.{u, u, u, max u u_1} (Subgroup.subtype.{u} H) W)),\n  Eq.{max (u + 1) (u_1 + 1)}\n    (DFunLike.coe.{max (u + 1) (u_1 + 1), max (u + 1) (u_1 + 1), max (u + 1) (u_1 + 1)}\n      (Rep.Hom.hom.{max u u_1, u, u}\n        (CategoryTheory.Iso.hom.{max u u_1, max (u + 1) (u_1 + 1)} (Etingof.Problem5_10_2_d.{u, u_1} k G H W)))\n      f)\n    (Finset.sum.{u, max u u_1} Finset.univ.{u} fun q => Etingof.Problem5_10_2_d_cosetTerm.{u, max u u_1} k G H W f q)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_10_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_Problem5.10.2_parts",
+  "packet_id": "align-0737",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0737"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Discussion_Problem5.10.2_parts:part_d",
+  "source_text": "Part (d): identify induction with balanced tensor product and prove the coset formula independent of representatives."
+}

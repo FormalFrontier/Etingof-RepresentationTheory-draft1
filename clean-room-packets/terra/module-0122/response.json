@@ -1,0 +1,16 @@
+{
+  "module_name": "Quiver.FiniteTypeCriterion",
+  "declarations": [
+    {"temporary_id": "decl-004266", "new_name": "FiniteQuiverRepresentation", "docstring": "The type of finite-dimensional representations of a quiver on a finite vertex type over a commutative semiring."},
+    {"temporary_id": "decl-004741", "new_name": "QuiverRepresentationFiniteness", "docstring": "A finiteness property for representations of a quiver over a field."},
+    {"temporary_id": "decl-004742", "new_name": "finite_dimensionVectors", "docstring": "Under the representation-finiteness property, the dimension vectors realized by finite indecomposable representations form a finite set."},
+    {"temporary_id": "decl-014947", "new_name": "toLinearMap", "docstring": "Converts a morphism of quiver representations into the corresponding bundled family of linear maps."},
+    {"temporary_id": "decl-015128", "new_name": "QuiverCombinatorialCondition", "docstring": "A proposition determined by a finite quiver with decidable existence of arrows."},
+    {"temporary_id": "decl-016730", "new_name": "representationFiniteness_iff_matrixCondition", "docstring": "For the specified finite quivers over an algebraically closed field, representation finiteness is equivalent to the associated matrix condition."},
+    {"temporary_id": "decl-019901", "new_name": "representationFiniteness_of_matrixCondition", "docstring": "For the specified finite quivers, the associated matrix condition implies representation finiteness over any field."},
+    {"temporary_id": "decl-022255", "new_name": "underlyingAdjacencyMatrix", "docstring": "The integer adjacency matrix associated with a finite quiver when existence of arrows is decidable."},
+    {"temporary_id": "decl-022258", "new_name": "underlyingAdjacencyMatrix_entry_eq_zero_or_one", "docstring": "Every entry of the underlying adjacency matrix is either zero or one."},
+    {"temporary_id": "decl-022259", "new_name": "underlyingAdjacencyMatrix_diagonal", "docstring": "Every diagonal entry of the underlying adjacency matrix is zero."},
+    {"temporary_id": "decl-022260", "new_name": "underlyingAdjacencyMatrix_isSymm", "docstring": "The underlying adjacency matrix is symmetric."}
+  ]
+}

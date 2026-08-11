@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Introduction_9.5",
+    "kind": "introduction",
+    "title": "Section 9.5: Blocks",
+    "node_id": "chapter-09/section-9-5",
+    "order": 566,
+    "slug": "introduction-9-5",
+    "span": {
+      "start": {
+        "page": "217",
+        "line": 15
+      },
+      "end": {
+        "page": "217",
+        "line": 18
+      }
+    },
+    "source_sha256": "cc610c23bf302c7cde2eddd199d526cc3be35bfc16a7729b9ba947eb472856be",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Introduction95",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

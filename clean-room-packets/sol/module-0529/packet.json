@@ -1,0 +1,502 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Quiver.{0, 0} (Fin 4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1429142199",
+      "temporary_id": "decl-003442"
+    },
+    {
+      "formal_type": "Quiver.{0, 0} (Fin 4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1429142199",
+      "temporary_id": "decl-003444"
+    },
+    {
+      "formal_type": "\u2200 (a b : Fin 4), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003444"
+      ],
+      "structural_type_hash": "1175759547",
+      "temporary_id": "decl-003445"
+    },
+    {
+      "formal_type": "Quiver.{0, 0} (Fin 4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1429142199",
+      "temporary_id": "decl-003446"
+    },
+    {
+      "formal_type": "\u2200 (a b : Fin 4), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003446"
+      ],
+      "structural_type_hash": "2738536232",
+      "temporary_id": "decl-003447"
+    },
+    {
+      "formal_type": "Quiver.{0, 0} (Fin 4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1429142199",
+      "temporary_id": "decl-003448"
+    },
+    {
+      "formal_type": "\u2200 (a b : Fin 4), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448"
+      ],
+      "structural_type_hash": "3099619745",
+      "temporary_id": "decl-003449"
+    },
+    {
+      "formal_type": "Quiver.{0, 0} (Fin 4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1429142199",
+      "temporary_id": "decl-003450"
+    },
+    {
+      "formal_type": "Eq.{2} decl-003450 decl-003442",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003442",
+        "decl-003450"
+      ],
+      "structural_type_hash": "929044012",
+      "temporary_id": "decl-003451"
+    },
+    {
+      "formal_type": "decl-014909.{0, 0, 0, 0} Complex (Fin 4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003442",
+        "decl-014909"
+      ],
+      "structural_type_hash": "2220818121",
+      "temporary_id": "decl-003474"
+    },
+    {
+      "formal_type": "decl-014909.{0, 0, 0, 0} Complex (Fin 4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003444",
+        "decl-014909"
+      ],
+      "structural_type_hash": "1010480461",
+      "temporary_id": "decl-003475"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4),\n  Eq.{1} (Nat.cast.{0} (decl-014976.{0, 0, 0, 0} Complex decl-003475 v))\n    (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 1 Matrix.vecEmpty.{0}))) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003444",
+        "decl-003475",
+        "decl-014976"
+      ],
+      "structural_type_hash": "3659826134",
+      "temporary_id": "decl-003476"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4), Module.Finite.{0, 0} Complex (decl-014996.{0, 0, 0, 0} decl-003475 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003444",
+        "decl-003475",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "3251288462",
+      "temporary_id": "decl-003477"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4), Module.Free.{0, 0} Complex (decl-014996.{0, 0, 0, 0} decl-003475 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003444",
+        "decl-003475",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "377925147",
+      "temporary_id": "decl-003478"
+    },
+    {
+      "formal_type": "decl-014923.{0, 0, 0, 0} decl-003475",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003444",
+        "decl-003475",
+        "decl-014923"
+      ],
+      "structural_type_hash": "2408566915",
+      "temporary_id": "decl-003479"
+    },
+    {
+      "formal_type": "decl-014909.{0, 0, 0, 0} Complex (Fin 4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003446",
+        "decl-014909"
+      ],
+      "structural_type_hash": "1083305797",
+      "temporary_id": "decl-003480"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4),\n  Eq.{1} (Nat.cast.{0} (decl-014976.{0, 0, 0, 0} Complex decl-003480 v))\n    (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 1 Matrix.vecEmpty.{0}))) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003446",
+        "decl-003480",
+        "decl-014976"
+      ],
+      "structural_type_hash": "179400018",
+      "temporary_id": "decl-003481"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4), Module.Finite.{0, 0} Complex (decl-014996.{0, 0, 0, 0} decl-003480 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003446",
+        "decl-003480",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "2442766360",
+      "temporary_id": "decl-003482"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4), Module.Free.{0, 0} Complex (decl-014996.{0, 0, 0, 0} decl-003480 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003446",
+        "decl-003480",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "519778072",
+      "temporary_id": "decl-003483"
+    },
+    {
+      "formal_type": "decl-014923.{0, 0, 0, 0} decl-003480",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003446",
+        "decl-003480",
+        "decl-014923"
+      ],
+      "structural_type_hash": "2669418209",
+      "temporary_id": "decl-003484"
+    },
+    {
+      "formal_type": "decl-014909.{0, 0, 0, 0} Complex (Fin 4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-014909"
+      ],
+      "structural_type_hash": "1822581611",
+      "temporary_id": "decl-003485"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4),\n  Eq.{1} (Nat.cast.{0} (decl-014976.{0, 0, 0, 0} Complex decl-003485 v))\n    (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 Matrix.vecEmpty.{0}))) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-003485",
+        "decl-014976"
+      ],
+      "structural_type_hash": "3230994719",
+      "temporary_id": "decl-003487"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4), Module.Finite.{0, 0} Complex (decl-014996.{0, 0, 0, 0} decl-003485 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-003485",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "3260819479",
+      "temporary_id": "decl-003488"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4), Module.Free.{0, 0} Complex (decl-014996.{0, 0, 0, 0} decl-003485 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-003485",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "3770533096",
+      "temporary_id": "decl-003489"
+    },
+    {
+      "formal_type": "decl-014923.{0, 0, 0, 0} decl-003485",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-003485",
+        "decl-014923"
+      ],
+      "structural_type_hash": "2077403555",
+      "temporary_id": "decl-003490"
+    },
+    {
+      "formal_type": "decl-014909.{0, 0, 0, 0} Complex (Fin 4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003450",
+        "decl-014909"
+      ],
+      "structural_type_hash": "3999521284",
+      "temporary_id": "decl-003496"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4),\n  Eq.{1} (Nat.cast.{0} (decl-014976.{0, 0, 0, 0} Complex decl-003496 v))\n    (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 2 Matrix.vecEmpty.{0}))) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003450",
+        "decl-003496",
+        "decl-014976"
+      ],
+      "structural_type_hash": "425662995",
+      "temporary_id": "decl-003497"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4), Module.Finite.{0, 0} Complex (decl-014996.{0, 0, 0, 0} decl-003496 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003450",
+        "decl-003496",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "26639428",
+      "temporary_id": "decl-003498"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4), Module.Free.{0, 0} Complex (decl-014996.{0, 0, 0, 0} decl-003496 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003450",
+        "decl-003496",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "1968890686",
+      "temporary_id": "decl-003499"
+    },
+    {
+      "formal_type": "decl-014923.{0, 0, 0, 0} decl-003496",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003450",
+        "decl-003496",
+        "decl-014923"
+      ],
+      "structural_type_hash": "3073318632",
+      "temporary_id": "decl-003500"
+    },
+    {
+      "formal_type": "Fintype.{0} (decl-000623.{0, 0} (Fin 4) 0)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-003442"
+      ],
+      "structural_type_hash": "4063238524",
+      "temporary_id": "decl-003502"
+    },
+    {
+      "formal_type": "Fintype.{0} (decl-000623.{0, 0} (Fin 4) 1)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-003444"
+      ],
+      "structural_type_hash": "4191350057",
+      "temporary_id": "decl-003504"
+    },
+    {
+      "formal_type": "Fintype.{0} (decl-000623.{0, 0} (Fin 4) 2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-003446"
+      ],
+      "structural_type_hash": "1911368417",
+      "temporary_id": "decl-003505"
+    },
+    {
+      "formal_type": "Fintype.{0} (decl-000623.{0, 0} (Fin 4) 3)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000623",
+        "decl-003448"
+      ],
+      "structural_type_hash": "4187210595",
+      "temporary_id": "decl-003506"
+    },
+    {
+      "formal_type": "decl-014909.{0, 0, 0, 0} Complex (Fin 4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003442",
+        "decl-014909"
+      ],
+      "structural_type_hash": "2220818121",
+      "temporary_id": "decl-003517"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4),\n  Eq.{1}\n    (Nat.cast.{0}\n      (Module.finrank.{0, 0} Complex\n        (decl-014996.{0, 0, 0, 0} decl-003517 v)))\n    (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 2 Matrix.vecEmpty.{0}))) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003442",
+        "decl-003517",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "1880843286",
+      "temporary_id": "decl-003518"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4),\n  Module.Finite.{0, 0} Complex\n    (decl-014996.{0, 0, 0, 0} decl-003517 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003442",
+        "decl-003517",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "2040733686",
+      "temporary_id": "decl-003519"
+    },
+    {
+      "formal_type": "\u2200 (v : Fin 4),\n  Module.Free.{0, 0} Complex (decl-014996.{0, 0, 0, 0} decl-003517 v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003442",
+        "decl-003517",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996"
+      ],
+      "structural_type_hash": "887957227",
+      "temporary_id": "decl-003520"
+    },
+    {
+      "formal_type": "decl-014923.{0, 0, 0, 0} decl-003517",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003442",
+        "decl-003517",
+        "decl-014923"
+      ],
+      "structural_type_hash": "70516229",
+      "temporary_id": "decl-003521"
+    },
+    {
+      "formal_type": "decl-005208.{0} decl-003448 decl-001908",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001908",
+        "decl-003448",
+        "decl-005208"
+      ],
+      "structural_type_hash": "729318657",
+      "temporary_id": "decl-003537"
+    },
+    {
+      "formal_type": "decl-005303.{0, 0} (Fin 4) 3",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003448",
+        "decl-005303"
+      ],
+      "structural_type_hash": "3342288230",
+      "temporary_id": "decl-003538"
+    }
+  ],
+  "module_temporary_id": "module-0529",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

@@ -1,0 +1,92 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    \u2200 {\u03b9 : Type} [Fintype.{0} \u03b9] [inst : DecidableEq.{1} \u03b9]\n      (S :\n        \u03b9 \u2192\n          Submodule.{0, 0}\n            (Subtype.{1} fun x =>\n              Membership.mem.{0, 0}\n                (decl-023627.{0, 0} Complex (Fin N \u2192 Complex)\n                  (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                x)\n            (decl-016473.{0, 0} Complex (Fin N \u2192 Complex) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))),\n      (\u2200 (i : \u03b9),\n          IsSimpleModule.{0, 0}\n            (Subtype.{1} fun x =>\n              Membership.mem.{0, 0}\n                (decl-023627.{0, 0} Complex (Fin N \u2192 Complex)\n                  (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                x)\n            (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)) \u2192\n        (\u2200 (i j : \u03b9),\n            Nonempty.{1}\n                (LinearEquiv.{0, 0, 0, 0}\n                  (RingHom.id.{0}\n                    (Subtype.{1} fun x =>\n                      Membership.mem.{0, 0}\n                        (decl-023627.{0, 0} Complex (Fin N \u2192 Complex)\n                          (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                        x))\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (S j) x)) \u2192\n              Eq.{1} i j) \u2192\n          (\u2200 (i : \u03b9), Module.Finite.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)) \u2192\n            \u2200\n              (e :\n                LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex)\n                  (decl-016473.{0, 0} Complex (Fin N \u2192 Complex)\n                    (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                  (DirectSum.{0, 0} \u03b9 fun i =>\n                    TensorProduct.{0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                      (LinearMap.{0, 0, 0, 0}\n                        (RingHom.id.{0}\n                          (Subtype.{1} fun x =>\n                            Membership.mem.{0, 0}\n                              (decl-023627.{0, 0} Complex (Fin N \u2192 Complex)\n                                (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                              x))\n                        (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                        (decl-016473.{0, 0} Complex (Fin N \u2192 Complex)\n                          (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))))),\n              (\u2200 (i : \u03b9) (v : Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                  (l :\n                    LinearMap.{0, 0, 0, 0}\n                      (RingHom.id.{0}\n                        (Subtype.{1} fun x =>\n                          Membership.mem.{0, 0}\n                            (decl-023627.{0, 0} Complex (Fin N \u2192 Complex)\n                              (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                            x))\n                      (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                      (decl-016473.{0, 0} Complex (Fin N \u2192 Complex)\n                        (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))),\n                  Eq.{1}\n                    (DFunLike.coe.{1, 1, 1} (LinearEquiv.symm.{0, 0, 0, 0} e)\n                      (DFunLike.coe.{1, 1, 1}\n                        (DirectSum.of.{0, 0}\n                          (fun i =>\n                            TensorProduct.{0, 0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                              (LinearMap.{0, 0, 0, 0}\n                                (RingHom.id.{0}\n                                  (Subtype.{1} fun x =>\n                                    Membership.mem.{0, 0}\n                                      (decl-023627.{0, 0} Complex (Fin N \u2192 Complex)\n                                        (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                                      x))\n                                (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                                (decl-016473.{0, 0} Complex (Fin N \u2192 Complex)\n                                  (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))))\n                          i)\n                        (TensorProduct.tmul.{0, 0, 0} Complex v l)))\n                    (DFunLike.coe.{1, 1, 1} l v)) \u2192\n                Exists.{1} fun iLam =>\n                  And\n                    (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))),\n                      Eq.{1}\n                        (DFunLike.coe.{1, 1, 1}\n                          (LinearMap.trace.{0, 0} Complex\n                            (Subtype.{1} fun x =>\n                              Membership.mem.{0, 0} (Submodule.restrictScalars.{0, 0, 0} Complex (S iLam)) x))\n                          (LinearMap.restrict.{0, 0, 0, 0}\n                            (LinearEquiv.toLinearMap.{0, 0, 0, 0}\n                              (decl-023613.{0, 0} Complex (Fin N \u2192 Complex)\n                                (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i) \u03c3))\n                            \u22ef))\n                        (decl-023310 (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)\n                          (decl-024494 N lam) \u03c3))\n                    (\u2200 (i : \u03b9),\n                      Ne.{1} i iLam \u2192\n                        Exists.{1} fun la' =>\n                          And (Ne.{1} la' (decl-024494 N lam))\n                            (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))),\n                              Eq.{1}\n                                (DFunLike.coe.{1, 1, 1}\n                                  (LinearMap.trace.{0, 0} Complex\n                                    (Subtype.{1} fun x =>\n                                      Membership.mem.{0, 0} (Submodule.restrictScalars.{0, 0, 0} Complex (S i)) x))\n                                  (LinearMap.restrict.{0, 0, 0, 0}\n                                    (LinearEquiv.toLinearMap.{0, 0, 0, 0}\n                                      (decl-023613.{0, 0} Complex (Fin N \u2192 Complex)\n                                        (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i) \u03c3))\n                                    \u22ef))\n                                (decl-023310 (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i) la'\n                                  \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023310",
+        "decl-023613",
+        "decl-023616",
+        "decl-023627",
+        "decl-024494"
+      ],
+      "structural_type_hash": "4107243423",
+      "temporary_id": "decl-018964"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    \u2200 {\u03b9 : Type} [Fintype.{0} \u03b9] [inst_4 : DecidableEq.{1} \u03b9]\n      (S :\n        \u03b9 \u2192\n          Submodule.{0, 0}\n            (Subtype.{1} fun x =>\n              Membership.mem.{0, 0}\n                (decl-023627.{0, 0} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)) x)\n            (decl-016473.{0, 0} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))),\n      (\u2200 (i : \u03b9),\n          IsSimpleModule.{0, 0}\n            (Subtype.{1} fun x =>\n              Membership.mem.{0, 0}\n                (decl-023627.{0, 0} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)) x)\n            (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)) \u2192\n        (\u2200 (i j : \u03b9),\n            Nonempty.{1}\n                (LinearEquiv.{0, 0, 0, 0}\n                  (RingHom.id.{0}\n                    (Subtype.{1} fun x =>\n                      Membership.mem.{0, 0}\n                        (decl-023627.{0, 0} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                        x))\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (S j) x)) \u2192\n              Eq.{1} i j) \u2192\n          (\u2200 (i : \u03b9), Module.Finite.{0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)) \u2192\n            \u2200\n              (e :\n                LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k)\n                  (decl-016473.{0, 0} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                  (DirectSum.{0, 0} \u03b9 fun i =>\n                    TensorProduct.{0, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                      (LinearMap.{0, 0, 0, 0}\n                        (RingHom.id.{0}\n                          (Subtype.{1} fun x =>\n                            Membership.mem.{0, 0}\n                              (decl-023627.{0, 0} k (Fin N \u2192 k)\n                                (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                              x))\n                        (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                        (decl-016473.{0, 0} k (Fin N \u2192 k)\n                          (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))))),\n              (\u2200 (i : \u03b9) (v : Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                  (l :\n                    LinearMap.{0, 0, 0, 0}\n                      (RingHom.id.{0}\n                        (Subtype.{1} fun x =>\n                          Membership.mem.{0, 0}\n                            (decl-023627.{0, 0} k (Fin N \u2192 k)\n                              (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                            x))\n                      (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                      (decl-016473.{0, 0} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))),\n                  Eq.{1}\n                    (DFunLike.coe.{1, 1, 1} (LinearEquiv.symm.{0, 0, 0, 0} e)\n                      (DFunLike.coe.{1, 1, 1}\n                        (DirectSum.of.{0, 0}\n                          (fun i =>\n                            TensorProduct.{0, 0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                              (LinearMap.{0, 0, 0, 0}\n                                (RingHom.id.{0}\n                                  (Subtype.{1} fun x =>\n                                    Membership.mem.{0, 0}\n                                      (decl-023627.{0, 0} k (Fin N \u2192 k)\n                                        (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                                      x))\n                                (Subtype.{1} fun x => Membership.mem.{0, 0} (S i) x)\n                                (decl-016473.{0, 0} k (Fin N \u2192 k)\n                                  (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))))\n                          i)\n                        (TensorProduct.tmul.{0, 0, 0} k v l)))\n                    (DFunLike.coe.{1, 1, 1} l v)) \u2192\n                Exists.{1} fun iLam =>\n                  And\n                    (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))),\n                      Eq.{1}\n                        (DFunLike.coe.{1, 1, 1}\n                          (LinearMap.trace.{0, 0} k\n                            (Subtype.{1} fun x =>\n                              Membership.mem.{0, 0} (Submodule.restrictScalars.{0, 0, 0} k (S iLam)) x))\n                          (LinearMap.restrict.{0, 0, 0, 0}\n                            (LinearEquiv.toLinearMap.{0, 0, 0, 0}\n                              (decl-023613.{0, 0} k (Fin N \u2192 k)\n                                (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i) \u03c3))\n                            \u22ef))\n                        (decl-023313.{0} k (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)\n                          (decl-024494 N lam) \u03c3))\n                    (\u2200 (i : \u03b9),\n                      Ne.{1} i iLam \u2192\n                        Exists.{1} fun la' =>\n                          And (Ne.{1} la' (decl-024494 N lam))\n                            (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))),\n                              Eq.{1}\n                                (DFunLike.coe.{1, 1, 1}\n                                  (LinearMap.trace.{0, 0} k\n                                    (Subtype.{1} fun x =>\n                                      Membership.mem.{0, 0} (Submodule.restrictScalars.{0, 0, 0} k (S i)) x))\n                                  (LinearMap.restrict.{0, 0, 0, 0}\n                                    (LinearEquiv.toLinearMap.{0, 0, 0, 0}\n                                      (decl-023613.{0, 0} k (Fin N \u2192 k)\n                                        (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i) \u03c3))\n                                    \u22ef))\n                                (decl-023313.{0} k (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)\n                                  la' \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023313",
+        "decl-023613",
+        "decl-023616",
+        "decl-023627",
+        "decl-024494"
+      ],
+      "structural_type_hash": "4144930885",
+      "temporary_id": "decl-018965"
+    },
+    {
+      "formal_type": "\u2200 {N n : Nat}\n  (S S' :\n    Submodule.{0, 0}\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023627.{0, 0} Complex (Fin N \u2192 Complex) n) x)\n      (decl-016473.{0, 0} Complex (Fin N \u2192 Complex) n))\n  [IsSimpleModule.{0, 0}\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023627.{0, 0} Complex (Fin N \u2192 Complex) n) x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} S x)]\n  [IsSimpleModule.{0, 0}\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023627.{0, 0} Complex (Fin N \u2192 Complex) n) x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} S' x)]\n  (la : n.Partition),\n  (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin n)),\n      Eq.{1}\n        (DFunLike.coe.{1, 1, 1}\n          (LinearMap.trace.{0, 0} Complex\n            (Subtype.{1} fun x => Membership.mem.{0, 0} (Submodule.restrictScalars.{0, 0, 0} Complex S) x))\n          (LinearMap.restrict.{0, 0, 0, 0}\n            (LinearEquiv.toLinearMap.{0, 0, 0, 0} (decl-023613.{0, 0} Complex (Fin N \u2192 Complex) n \u03c3)) \u22ef))\n        (decl-023310 n la \u03c3)) \u2192\n    (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin n)),\n        Eq.{1}\n          (DFunLike.coe.{1, 1, 1}\n            (LinearMap.trace.{0, 0} Complex\n              (Subtype.{1} fun x => Membership.mem.{0, 0} (Submodule.restrictScalars.{0, 0, 0} Complex S') x))\n            (LinearMap.restrict.{0, 0, 0, 0}\n              (LinearEquiv.toLinearMap.{0, 0, 0, 0} (decl-023613.{0, 0} Complex (Fin N \u2192 Complex) n \u03c3)) \u22ef))\n          (decl-023310 n la \u03c3)) \u2192\n      Nonempty.{1}\n        (LinearEquiv.{0, 0, 0, 0}\n          (RingHom.id.{0}\n            (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023627.{0, 0} Complex (Fin N \u2192 Complex) n) x))\n          (Subtype.{1} fun x => Membership.mem.{0, 0} S x) (Subtype.{1} fun x => Membership.mem.{0, 0} S' x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023310",
+        "decl-023613",
+        "decl-023616",
+        "decl-023627"
+      ],
+      "structural_type_hash": "2891723929",
+      "temporary_id": "decl-023208"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat), Antitone.{0, 0} lam \u2192 Ne.{1} (decl-024670.{0} Complex N lam) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-024670"
+      ],
+      "structural_type_hash": "4193203743",
+      "temporary_id": "decl-024674"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192 Ne.{1} (decl-024670.{0} k N lam) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-024670"
+      ],
+      "structural_type_hash": "1203377982",
+      "temporary_id": "decl-024675"
+    }
+  ],
+  "module_temporary_id": "module-0425",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

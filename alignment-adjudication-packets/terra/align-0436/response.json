@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0436",
+  "associations": [
+    {
+      "association_id": "association:66161dbb57097e1bcf91",
+      "role": "supporting",
+      "rationale": "The theorem concludes that the representation dimension divides the group order, a consequence of the asserted integral-sum identity rather than the identity itself."
+    },
+    {
+      "association_id": "association:a12f39fb0d166e5b2dec",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the packet does not show that this orthogonality result directly identifies the particular integral sum with the stated quotient."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Problem5.12.5",
+    "kind": "exercise",
+    "title": "Find the sum of dimensions of all irreducible representations of S_n",
+    "node_id": "chapter-05/section-5-12",
+    "order": 313,
+    "slug": "problem5-12-5",
+    "span": {
+      "start": {
+        "page": "114",
+        "line": 9
+      },
+      "end": {
+        "page": "114",
+        "line": 12
+      }
+    },
+    "source_sha256": "35a8cfd4007666fdf221a9a269a8595019d4c38dbe8b3b608c1989cfc77be968",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem5125",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

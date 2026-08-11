@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e5a131e864e4b9bd7b59",
+      "declaration": "Etingof.Problem3_3_3.std_isSimpleModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/142/claim_coverage/claims/8/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (d : Nat) [NeZero.{0} d],\n  IsSimpleModule.{u_1, u_1} (Matrix.{0, 0, u_1} (Fin d) (Fin d) k) (Fin d \u2192 k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_3_3"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.3.3",
+  "packet_id": "align-0633",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0633"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.3.3:claim-09",
+  "source_text": "The standard representation k^d is irreducible over Mat_d(k)."
+}

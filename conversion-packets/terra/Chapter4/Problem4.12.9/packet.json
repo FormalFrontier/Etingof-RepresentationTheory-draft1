@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Problem4.12.9",
+    "kind": "exercise",
+    "title": "Characters and tensor products for Heisenberg group",
+    "node_id": "chapter-04/section-4-12",
+    "order": 239,
+    "slug": "problem4-12-9",
+    "span": {
+      "start": {
+        "page": "87",
+        "line": 3
+      },
+      "end": {
+        "page": "87",
+        "line": 4
+      }
+    },
+    "source_sha256": "f6f9e0e0f50ef04b1875f8d56d65a87677236e678d5a81e7d6d49a5bfc294469",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Problem4129",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

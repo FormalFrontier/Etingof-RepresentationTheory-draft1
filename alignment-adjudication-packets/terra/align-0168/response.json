@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0168",
+  "associations": [
+    {
+      "association_id": "association:7a222f2e8b04ecc86ed6",
+      "role": "supporting",
+      "rationale": "The type family supplies reversed-arrow hom types but its displayed type does not state the precise incident-arrow reversal property."
+    }
+  ]
+}

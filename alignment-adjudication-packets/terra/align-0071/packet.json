@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:84b322190c92c17fab17",
+      "declaration": "Etingof.youngProjector",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/308/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+    },
+    {
+      "association_id": "association:66c0cf18923fb986a7ab",
+      "declaration": "Etingof.youngProjectorCol",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/308/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+    },
+    {
+      "association_id": "association:9f2560767b9c280315a0",
+      "declaration": "Etingof.youngProjectorRow",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/308/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_Young_projectors",
+  "packet_id": "align-0071",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0071"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:1671c3baab0cd2f87a07",
+  "source_text": "The normalized row, column, and Young projectors are a_\u03bb, b_\u03bb, and c_\u03bb = a_\u03bbb_\u03bb with the source's normalization and factor order."
+}

@@ -1,0 +1,305 @@
+{
+  "module_name": "Algebra.Module.FormalDeformations",
+  "declarations": [
+    {
+      "temporary_id": "decl-010062",
+      "new_name": "gaugeActionCoeff",
+      "docstring": "The coefficient obtained by multiplying a chosen endomorphism power series with the action series of a formal representation deformation."
+    },
+    {
+      "temporary_id": "decl-010064",
+      "new_name": "gaugeActionCoeff_eq_coeff_mul",
+      "docstring": "The gauge-action coefficient is the corresponding coefficient of the product of the endomorphism series and deformation action series."
+    },
+    {
+      "temporary_id": "decl-010065",
+      "new_name": "gaugeActionCoeff_eq_obstructionCoeff_add",
+      "docstring": "A gauge-action coefficient decomposes as its obstruction coefficient plus the chosen endomorphism coefficient composed with the original action."
+    },
+    {
+      "temporary_id": "decl-010066",
+      "new_name": "gaugeActionCoeff_mul",
+      "docstring": "The gauge-action coefficient of a product is the antidiagonal convolution of gauge-action and deformation coefficients."
+    },
+    {
+      "temporary_id": "decl-010067",
+      "new_name": "AuxiliaryModuleProperty",
+      "docstring": "An auxiliary proposition associated with a module over an algebra."
+    },
+    {
+      "temporary_id": "decl-010068",
+      "new_name": "FormalRepresentationDeformation",
+      "docstring": "A sequence of linear action coefficients whose zeroth term is the original action and whose product coefficients satisfy the convolution law."
+    },
+    {
+      "temporary_id": "decl-010071",
+      "new_name": "coeff_zero",
+      "docstring": "The zeroth coefficient of a formal representation deformation is the original module action."
+    },
+    {
+      "temporary_id": "decl-010073",
+      "new_name": "coeff",
+      "docstring": "The linear action coefficient of a formal representation deformation at a natural-number index."
+    },
+    {
+      "temporary_id": "decl-010075",
+      "new_name": "coeff_mul",
+      "docstring": "A deformation coefficient evaluated on a product is the antidiagonal convolution of the coefficients evaluated on its factors."
+    },
+    {
+      "temporary_id": "decl-010087",
+      "new_name": "AuxiliaryDeformationRel",
+      "docstring": "An auxiliary binary relation on formal representation deformations."
+    },
+    {
+      "temporary_id": "decl-010088",
+      "new_name": "AuxiliaryDeformationProperty",
+      "docstring": "An auxiliary predicate on a formal representation deformation."
+    },
+    {
+      "temporary_id": "decl-010089",
+      "new_name": "AuxiliaryDualNumberModuleProperty",
+      "docstring": "An auxiliary proposition associated with a module over the dual numbers."
+    },
+    {
+      "temporary_id": "decl-010094",
+      "new_name": "trivializingCoeff",
+      "docstring": "The selected endomorphism coefficient used to trivialize a formal representation deformation."
+    },
+    {
+      "temporary_id": "decl-010096",
+      "new_name": "trivializingCoeff_succ",
+      "docstring": "The next trivializing coefficient is obtained from the preceding finite family by the displayed recursive construction."
+    },
+    {
+      "temporary_id": "decl-010097",
+      "new_name": "trivializingCoeff_zero",
+      "docstring": "The zeroth trivializing coefficient is the identity endomorphism."
+    },
+    {
+      "temporary_id": "decl-010098",
+      "new_name": "trivializingPrefix",
+      "docstring": "The finite family of trivializing coefficients through a given natural-number index."
+    },
+    {
+      "temporary_id": "decl-010105",
+      "new_name": "trivializingPrefix_apply",
+      "docstring": "The finite prefix evaluates to the trivializing coefficient at the underlying index."
+    },
+    {
+      "temporary_id": "decl-010106",
+      "new_name": "actionLinearMap",
+      "docstring": "The original algebra action regarded as a linear map into endomorphisms over the base field."
+    },
+    {
+      "temporary_id": "decl-010112",
+      "new_name": "actionLinearMap_mul",
+      "docstring": "The linearized module action sends algebra products to products of endomorphisms."
+    },
+    {
+      "temporary_id": "decl-010113",
+      "new_name": "coboundary_add",
+      "docstring": "The coboundary construction is additive in its endomorphism argument."
+    },
+    {
+      "temporary_id": "decl-010115",
+      "new_name": "coboundary_apply",
+      "docstring": "Evaluating the coboundary of an endomorphism gives its commutator with the original algebra action."
+    },
+    {
+      "temporary_id": "decl-010116",
+      "new_name": "coboundary_trivializingCoeff_succ",
+      "docstring": "If the obstruction determined by the current prefix is a coboundary, then it is the coboundary of the next selected trivializing coefficient."
+    },
+    {
+      "temporary_id": "decl-010117",
+      "new_name": "coboundary_smul",
+      "docstring": "The coboundary construction commutes with scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-010118",
+      "new_name": "coboundary_zero",
+      "docstring": "The coboundary of the zero endomorphism is zero."
+    },
+    {
+      "temporary_id": "decl-010119",
+      "new_name": "coboundary_eq_zero_dualNumber",
+      "docstring": "Every endomorphism of the one-dimensional dual-number module has zero coboundary."
+    },
+    {
+      "temporary_id": "decl-010120",
+      "new_name": "coeff_eps_eq_zero_dualNumber",
+      "docstring": "Every coefficient of a deformation of the one-dimensional dual-number module vanishes on the dual-number infinitesimal element."
+    },
+    {
+      "temporary_id": "decl-010121",
+      "new_name": "coeff_succ_one_eq_zero_dualNumber",
+      "docstring": "Every positive-index coefficient of a deformation of the one-dimensional dual-number module vanishes on one."
+    },
+    {
+      "temporary_id": "decl-010122",
+      "new_name": "canonicalDeformation",
+      "docstring": "The canonical formal representation deformation associated with the original module action."
+    },
+    {
+      "temporary_id": "decl-010129",
+      "new_name": "actionPowerSeries",
+      "docstring": "The power series of endomorphisms obtained by evaluating all coefficients of a formal representation deformation on an algebra element."
+    },
+    {
+      "temporary_id": "decl-010131",
+      "new_name": "actionPowerSeries_coeff",
+      "docstring": "The coefficient of the deformation action series is the corresponding deformation coefficient evaluated on the algebra element."
+    },
+    {
+      "temporary_id": "decl-010132",
+      "new_name": "actionPowerSeries_mul",
+      "docstring": "The deformation action series sends an algebra product to the product of its action series."
+    },
+    {
+      "temporary_id": "decl-010134",
+      "new_name": "auxiliaryDualNumberAlgebra",
+      "docstring": "An auxiliary algebra structure of the dual numbers on the base field."
+    },
+    {
+      "temporary_id": "decl-010135",
+      "new_name": "auxiliaryDeformationProperty_dualNumber",
+      "docstring": "Every displayed deformation of the one-dimensional dual-number module satisfies the auxiliary deformation predicate."
+    },
+    {
+      "temporary_id": "decl-010136",
+      "new_name": "coeff_succ_eq_zero_dualNumber",
+      "docstring": "Every positive-index coefficient of a deformation of the one-dimensional dual-number module is zero."
+    },
+    {
+      "temporary_id": "decl-010137",
+      "new_name": "eq_canonicalDeformation_dualNumber",
+      "docstring": "Every formal deformation of the one-dimensional dual-number module equals its canonical deformation."
+    },
+    {
+      "temporary_id": "decl-010138",
+      "new_name": "auxiliaryType_not_subsingleton_dualNumber",
+      "docstring": "The displayed auxiliary type associated with the one-dimensional dual-number module is not a subsingleton."
+    },
+    {
+      "temporary_id": "decl-010139",
+      "new_name": "endomorphismScalarAlgHom",
+      "docstring": "The algebra homomorphism that identifies an endomorphism of the one-dimensional vector space with its scalar."
+    },
+    {
+      "temporary_id": "decl-010148",
+      "new_name": "endomorphismScalarAlgHom_injective",
+      "docstring": "The scalar algebra homomorphism on endomorphisms of the field is injective."
+    },
+    {
+      "temporary_id": "decl-010149",
+      "new_name": "dualNumberCocycle",
+      "docstring": "A linear map from the dual numbers to endomorphisms of the base field used as a nontrivial extension cocycle."
+    },
+    {
+      "temporary_id": "decl-010153",
+      "new_name": "isExtensionCocycle_dualNumberCocycle",
+      "docstring": "The distinguished linear map on the dual numbers satisfies the displayed extension-cocycle predicate."
+    },
+    {
+      "temporary_id": "decl-010154",
+      "new_name": "dualNumberCocycle_ne_zero",
+      "docstring": "The distinguished dual-number cocycle is nonzero."
+    },
+    {
+      "temporary_id": "decl-010155",
+      "new_name": "dualNumberCocycle_not_mem_coboundaries",
+      "docstring": "The distinguished dual-number cocycle does not belong to the displayed coboundary submodule."
+    },
+    {
+      "temporary_id": "decl-010156",
+      "new_name": "exists_coboundary_of_auxiliaryType_subsingleton",
+      "docstring": "If the displayed auxiliary type is a subsingleton, every extension cocycle is the coboundary of an endomorphism."
+    },
+    {
+      "temporary_id": "decl-010157",
+      "new_name": "exists_coboundary_of_mem",
+      "docstring": "Membership in the displayed coboundary submodule yields an endomorphism whose coboundary is the given map."
+    },
+    {
+      "temporary_id": "decl-010158",
+      "new_name": "obstructionCoeff",
+      "docstring": "The obstruction coefficient remaining after separating the chosen endomorphism coefficient composed with the original action."
+    },
+    {
+      "temporary_id": "decl-010160",
+      "new_name": "obstructionCoeff_mul",
+      "docstring": "When lower gauge coefficients have the displayed form, the next obstruction coefficient satisfies the derivation rule on products."
+    },
+    {
+      "temporary_id": "decl-010163",
+      "new_name": "dualNumberAlgebra",
+      "docstring": "The algebra structure of the dual numbers on the base field used by the displayed one-dimensional module."
+    },
+    {
+      "temporary_id": "decl-010164",
+      "new_name": "auxiliaryDeformationRel_refl",
+      "docstring": "The auxiliary relation on formal representation deformations is reflexive."
+    },
+    {
+      "temporary_id": "decl-010166",
+      "new_name": "auxiliaryDeformationProperty_of_auxiliaryType_subsingleton",
+      "docstring": "If the displayed auxiliary type is a subsingleton, every formal representation deformation satisfies the auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-010168",
+      "new_name": "nextTrivializingCoeff",
+      "docstring": "The next endomorphism coefficient selected from a finite family of preceding coefficients."
+    },
+    {
+      "temporary_id": "decl-010170",
+      "new_name": "not_auxiliaryDualNumberModuleProperty",
+      "docstring": "The base field as a module over the dual numbers does not satisfy the displayed auxiliary module property."
+    },
+    {
+      "temporary_id": "decl-010171",
+      "new_name": "obstructionCocycle",
+      "docstring": "The linear map obtained by convolving a finite family of endomorphisms with the coefficients of a formal representation deformation."
+    },
+    {
+      "temporary_id": "decl-010177",
+      "new_name": "obstructionCocycle_apply",
+      "docstring": "The obstruction cocycle evaluates as the sum of each preceding endomorphism composed with the complementary deformation coefficient."
+    },
+    {
+      "temporary_id": "decl-010179",
+      "new_name": "obstructionCocycle_trivializingPrefix",
+      "docstring": "The obstruction cocycle formed from a trivializing prefix evaluates to the next obstruction coefficient."
+    },
+    {
+      "temporary_id": "decl-010180",
+      "new_name": "scalarActionPowerSeries",
+      "docstring": "The scalar-valued power series obtained from a deformation of the one-dimensional dual-number module."
+    },
+    {
+      "temporary_id": "decl-010183",
+      "new_name": "scalarActionPowerSeries_coeff",
+      "docstring": "A coefficient of the scalar action series is obtained by applying the endomorphism-scalar homomorphism to the corresponding deformation coefficient."
+    },
+    {
+      "temporary_id": "decl-010184",
+      "new_name": "scalarActionPowerSeries_eps",
+      "docstring": "The scalar action series evaluated at the dual-number infinitesimal element is zero."
+    },
+    {
+      "temporary_id": "decl-010185",
+      "new_name": "scalarActionPowerSeries_one",
+      "docstring": "The scalar action series evaluated at one is one."
+    },
+    {
+      "temporary_id": "decl-010188",
+      "new_name": "scalarActionPowerSeries_one_coeff_zero",
+      "docstring": "The constant coefficient of the scalar action series evaluated at one is one."
+    },
+    {
+      "temporary_id": "decl-010189",
+      "new_name": "gaugeActionCoeff_eq_action_mul_of_auxiliaryType_subsingleton",
+      "docstring": "If the displayed auxiliary type is a subsingleton, every gauge-action coefficient equals the original action composed with the corresponding trivializing coefficient."
+    }
+  ]
+}

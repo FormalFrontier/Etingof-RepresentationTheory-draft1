@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cdb23e91d44632130fb9",
+      "declaration": "Etingof.classFunctionSubmodule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/188/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  (G : Type v) \u2192 [Group.{v} G] \u2192 [inst : Semiring.{u} k] \u2192 Submodule.{u, max v u} k (Etingof.FunctionSpace.{u, v} k G)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Introduction_4_2"
+    },
+    {
+      "association_id": "association:7e9fce9b0ae5d61f8d6f",
+      "declaration": "Etingof.mem_classFunctionSubmodule_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/188/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) (G : Type v) [inst : Group.{v} G] [inst_1 : Semiring.{u} k] (f : Etingof.FunctionSpace.{u, v} k G),\n  Iff (Membership.mem.{max u v, max u v} (Etingof.classFunctionSubmodule.{u, v} k G) f)\n    (\u2200 (g h : G), Eq.{u + 1} (f (HMul.hMul.{v, v, v} (HMul.hMul.{v, v, v} h g) (Inv.inv.{v} h))) (f g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Introduction_4_2"
+    }
+  ],
+  "canonical_reference": "Chapter4/Introduction_4.2",
+  "packet_id": "align-0138",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0138"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2b72a9853c944da1a592",
+  "source_text": "F_c(G,k) is the subspace of class functions."
+}

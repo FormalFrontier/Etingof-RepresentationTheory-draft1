@@ -1,0 +1,210 @@
+{
+  "module_name": "LinearAlgebra.AlternatingTensors",
+  "declarations": [
+    {
+      "temporary_id": "decl-006839",
+      "new_name": "mem_submodule",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-006840",
+      "new_name": "submodule",
+      "docstring": "The submodule specified by the displayed construction."
+    },
+    {
+      "temporary_id": "decl-006844",
+      "new_name": "linearMap",
+      "docstring": "A linear map between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-006846",
+      "new_name": "alternatingProjection_apply",
+      "docstring": "The alternating projection is the factorial-normalized signed sum over all permutations."
+    },
+    {
+      "temporary_id": "decl-006847",
+      "new_name": "map_apply",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-006848",
+      "new_name": "map_apply_aux1",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-006849",
+      "new_name": "mem_submodule_aux1",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-006850",
+      "new_name": "displayed_eq",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-006862",
+      "new_name": "linearEquiv",
+      "docstring": "A linear equivalence between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-006866",
+      "new_name": "linearEquiv_aux1",
+      "docstring": "A linear equivalence between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-006867",
+      "new_name": "linearEquiv_mkQ_apply",
+      "docstring": "Applying the displayed linear equivalence to a quotient class gives the alternating projection of its representative."
+    },
+    {
+      "temporary_id": "decl-006868",
+      "new_name": "linearEquiv_symm_apply",
+      "docstring": "The inverse linear equivalence sends an alternating tensor to the quotient class of its underlying tensor."
+    },
+    {
+      "temporary_id": "decl-006897",
+      "new_name": "natCast_ne_zero",
+      "docstring": "The displayed natural-number scalar is nonzero."
+    },
+    {
+      "temporary_id": "decl-006905",
+      "new_name": "displayed_eq_aux1",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-006906",
+      "new_name": "displayed_eq_aux2",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-006910",
+      "new_name": "mem_submodule_aux2",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-006911",
+      "new_name": "mem_submodule_aux3",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-006914",
+      "new_name": "alternatingProjection_perm",
+      "docstring": "Permuting an alternating projection scales it by the sign of the permutation."
+    },
+    {
+      "temporary_id": "decl-006915",
+      "new_name": "symmetricTensor_perm",
+      "docstring": "Every permutation fixes a tensor in the displayed symmetric submodule."
+    },
+    {
+      "temporary_id": "decl-006916",
+      "new_name": "alternatingTensor_perm",
+      "docstring": "A permutation acts on a tensor in the displayed alternating submodule by its sign."
+    },
+    {
+      "temporary_id": "decl-006919",
+      "new_name": "map_apply_aux2",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-006925",
+      "new_name": "displayed_eq_aux3",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-006926",
+      "new_name": "displayed_eq_aux4",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-006927",
+      "new_name": "permSign_eq_aux2",
+      "docstring": "The sign of the displayed permutation has the stated value."
+    },
+    {
+      "temporary_id": "decl-006928",
+      "new_name": "mem_submodule_aux4",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-006929",
+      "new_name": "mem_submodule_aux5",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-006930",
+      "new_name": "mem_submodule_aux6",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-006932",
+      "new_name": "mem_submodule_aux7",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-006933",
+      "new_name": "displayed_eq_aux5",
+      "docstring": "The two displayed expressions are equal."
+    },
+    {
+      "temporary_id": "decl-006942",
+      "new_name": "linearEquiv_aux2",
+      "docstring": "A linear equivalence between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-006948",
+      "new_name": "linearEquiv_aux3",
+      "docstring": "A linear equivalence between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-006949",
+      "new_name": "submodule_eq_aux2",
+      "docstring": "The displayed submodules are equal."
+    },
+    {
+      "temporary_id": "decl-006950",
+      "new_name": "submodule_eq_aux3",
+      "docstring": "The displayed submodules are equal."
+    },
+    {
+      "temporary_id": "decl-006981",
+      "new_name": "submodule_aux1",
+      "docstring": "The submodule specified by the displayed construction."
+    },
+    {
+      "temporary_id": "decl-006992",
+      "new_name": "linearMap_aux1",
+      "docstring": "A linear map between the displayed modules."
+    },
+    {
+      "temporary_id": "decl-006996",
+      "new_name": "map_apply_aux3",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-006997",
+      "new_name": "map_apply_aux4",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-006998",
+      "new_name": "mem_submodule_aux8",
+      "docstring": "The specified element belongs to the indicated submodule."
+    },
+    {
+      "temporary_id": "decl-006999",
+      "new_name": "map_apply_aux5",
+      "docstring": "The displayed map sends the specified input to the stated value."
+    },
+    {
+      "temporary_id": "decl-007034",
+      "new_name": "two_le_of_fin_ne",
+      "docstring": "The existence of two distinct elements of `Fin n` implies `2 ≤ n`."
+    },
+    {
+      "temporary_id": "decl-007036",
+      "new_name": "distinguished_ne_zero",
+      "docstring": "The specified element is nonzero."
+    }
+  ]
+}

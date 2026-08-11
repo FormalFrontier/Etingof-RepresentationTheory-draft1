@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.26.1",
+    "kind": "theorem",
+    "title": "Artin's theorem: equivalence of element coverage and character span",
+    "node_id": "chapter-05/section-5-26",
+    "order": 391,
+    "slug": "theorem5-26-1",
+    "span": {
+      "start": {
+        "page": "144",
+        "line": 25
+      },
+      "end": {
+        "page": "144",
+        "line": 29
+      }
+    },
+    "source_sha256": "6697c0fbf7e67d22dcf05c639a558960c40c3201d044a66ead2b5c653c67de8a",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5261",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

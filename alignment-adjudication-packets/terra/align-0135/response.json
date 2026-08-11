@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0135",
+  "associations": [
+    {
+      "association_id": "association:30526117d4d9f3152a87",
+      "role": "primary",
+      "rationale": "This declaration defines the Cartan matrix from the adjacency matrix as stated."
+    }
+  ]
+}

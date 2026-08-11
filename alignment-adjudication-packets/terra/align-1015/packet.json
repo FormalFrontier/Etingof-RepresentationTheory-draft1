@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6d735ddf1197aa2871a4",
+      "declaration": "isSimpleModule_vModuleProd",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/138/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {r : Nat} {d : Fin r \u2192 Nat} [\u2200 (i : Fin r), NeZero.{0} (d i)] (j : Fin r),\n  IsSimpleModule.{u_1, u_1} (MatProd.{u_1} k d) (Fin (d j) \u2192 k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Theorem3.3.1",
+  "packet_id": "align-1015",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1015"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c243db83db3bc05f670f",
+  "source_text": "Each standard representation V_i = k^{d_i} is irreducible over A = \u2295_i Mat_{d_i}(k)."
+}

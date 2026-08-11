@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:cff3c42db51bf1df8fdd",
+      "declaration": "Etingof.Theorem5_9_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/298/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_9_1"
+    },
+    {
+      "association_id": "association:292329865f4e0cfab398",
+      "declaration": "Etingof.Theorem5_9_1_coset",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/298/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_9_1_Coset"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_proof_of_Theorem5.9.1",
+  "packet_id": "align-0953",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0953"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b05c0665998957ba74f6",
+  "source_text": "The trace of the induced action is computed by decomposing contributions according to cosets; non-fixed cosets contribute zero and fixed cosets contribute the trace of the conjugated H-action."
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0352",
+  "associations": [
+    {
+      "association_id": "association:b8866b66a59930e9f522",
+      "role": "supporting",
+      "rationale": "The formal type exposes only a parameterized type and does not display the vertex-space assignments or the linear maps attached to arrows."
+    }
+  ]
+}

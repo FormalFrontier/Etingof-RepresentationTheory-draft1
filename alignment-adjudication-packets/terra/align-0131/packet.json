@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:aea88b57e80aa66b9b0c",
+      "declaration": "Etingof.instModuleMulOppositeDual",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/140/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : AddCommGroup.{u_3} V] \u2192\n            [inst_3 : Module.{u_1, u_3} k V] \u2192\n              [inst_4 : Module.{u_2, u_3} A V] \u2192\n                [SMulCommClass.{u_2, u_1, u_3} A k V] \u2192\n                  Module.{u_2, max u_3 u_1} (MulOpposite.{u_2} A) (Module.Dual.{u_1, u_3} k V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Definition3_3_2"
+    },
+    {
+      "association_id": "association:4418884d73e19353dd1d",
+      "declaration": "Etingof.instSMulMulOppositeDual",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/140/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : AddCommGroup.{u_3} V] \u2192\n            [inst_3 : Module.{u_1, u_3} k V] \u2192\n              [inst_4 : Module.{u_2, u_3} A V] \u2192\n                [SMulCommClass.{u_2, u_1, u_3} A k V] \u2192\n                  SMul.{u_2, max u_3 u_1} (MulOpposite.{u_2} A) (Module.Dual.{u_1, u_3} k V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Definition3_3_2"
+    }
+  ],
+  "canonical_reference": "Chapter3/Definition3.3.2",
+  "packet_id": "align-0131",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0131"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:282b3d460ba087f875e6",
+  "source_text": "V* is a representation of A^op, equivalently a right A-module."
+}

@@ -1,0 +1,78 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (N : Nat)\n  (U V W : FDRep.{u_1, u_1} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k))\n  (\u03b9 :\n    LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k)\n      (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} U))\n      (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} V)))\n  (\u03c0 :\n    LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k)\n      (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} V))\n      (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} W))),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)\n      (u : FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} U)),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03b9\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} U) g)\n            u))\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} V) g)\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03b9 u))) \u2192\n    (\u2200 (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)\n        (v : FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} V)),\n        Eq.{u_1 + 1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03c0\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n              (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} V) g) v))\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} W) g)\n            (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03c0 v))) \u2192\n      Function.Injective.{u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03b9) \u2192\n        Function.Surjective.{u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03c0) \u2192\n          Eq.{u_1 + 1} (LinearMap.range.{u_1, u_1, u_1, u_1} \u03b9) (LinearMap.ker.{u_1, u_1, u_1, u_1} \u03c0) \u2192\n            Eq.{u_1 + 1} (iSup.{u_1, 1} fun \u03bc => decl-019844.{u_1} k N U fun i => DFunLike.coe.{1, 1, 1} \u03bc i)\n                Top.top.{u_1} \u2192\n              Eq.{u_1 + 1}\n                  (iSup.{u_1, 1} fun \u03bc => decl-019844.{u_1} k N V fun i => DFunLike.coe.{1, 1, 1} \u03bc i)\n                  Top.top.{u_1} \u2192\n                Eq.{1} (decl-019511.{u_1} k N V)\n                  (HAdd.hAdd.{0, 0, 0} (decl-019511.{u_1} k N U) (decl-019511.{u_1} k N W))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019511",
+        "decl-019844"
+      ],
+      "structural_type_hash": "1288011033",
+      "temporary_id": "decl-001185"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] (N : Nat)\n  (M P : FDRep.{u_1, u_1} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k))\n  (\u03c6 :\n    LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k)\n      (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} M))\n      (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} P))),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)\n      (v : FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} M)),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03c6\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} M) g)\n            v))\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} P) g)\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03c6 v))) \u2192\n    Function.Surjective.{u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03c6) \u2192\n      Eq.{u_1 + 1} (iSup.{u_1, 1} fun \u03bc => decl-019844.{u_1} k N M fun i => DFunLike.coe.{1, 1, 1} \u03bc i)\n          Top.top.{u_1} \u2192\n        Eq.{u_1 + 1} (iSup.{u_1, 1} fun \u03bc => decl-019844.{u_1} k N P fun i => DFunLike.coe.{1, 1, 1} \u03bc i)\n          Top.top.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019844"
+      ],
+      "structural_type_hash": "318937266",
+      "temporary_id": "decl-001191"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] (N : Nat)\n  (U V : FDRep.{u_1, u_1} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k))\n  (\u03b9 :\n    LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k)\n      (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} U))\n      (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} V))),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)\n      (u : FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} U)),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03b9\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} U) g)\n            u))\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} V) g)\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03b9 u))) \u2192\n    Function.Injective.{u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} \u03b9) \u2192\n      \u2200 (\u03bc : Fin N \u2192 Nat),\n        Eq.{u_1 + 1} (Min.min.{u_1} (decl-019844.{u_1} k N V \u03bc) (LinearMap.range.{u_1, u_1, u_1, u_1} \u03b9))\n          (Submodule.map.{u_1, u_1, u_1, u_1} \u03b9 (decl-019844.{u_1} k N U \u03bc))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019844"
+      ],
+      "structural_type_hash": "2931822600",
+      "temporary_id": "decl-001192"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] (N : Nat)\n  (V W : FDRep.{u_1, u_1} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k))\n  (f :\n    LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k)\n      (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} V))\n      (FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} W))),\n  (\u2200 (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)\n      (v : FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} V)),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} f\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} V) g)\n            v))\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} W) g)\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} f v))) \u2192\n    \u2200 (\u03bc : Fin N \u2192 Nat),\n      LE.le.{u_1} (Submodule.map.{u_1, u_1, u_1, u_1} f (decl-019844.{u_1} k N V \u03bc))\n        (decl-019844.{u_1} k N W \u03bc)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019844"
+      ],
+      "structural_type_hash": "640114160",
+      "temporary_id": "decl-001196"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] (N : Nat)\n  (M : FDRep.{u_1, u_1} k (Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)) (\u03bc : Fin N \u2192 Nat)\n  (v : FGModuleCat.carrier.{u_1, u_1} (Action.V.{u_1, u_1 + 1, u_1} M)),\n  Iff (Membership.mem.{u_1, u_1} (decl-019844.{u_1} k N M \u03bc) v)\n    (\u2200 (i : Fin N) (t : Units.{u_1} k),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (FDRep.\u03c1.{u_1, u_1} M) (decl-018377.{u_1} k N i t)) v)\n        (HSMul.hSMul.{u_1, u_1, u_1} (HPow.hPow.{u_1, 0, u_1} (Units.val.{u_1} t) (\u03bc i)) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018377",
+        "decl-019844"
+      ],
+      "structural_type_hash": "4233959704",
+      "temporary_id": "decl-001199"
+    }
+  ],
+  "module_temporary_id": "module-0270",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

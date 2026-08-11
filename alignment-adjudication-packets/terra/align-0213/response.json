@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0213",
+  "associations": [
+    {
+      "association_id": "association:3d75365c4afdd302a1d1",
+      "role": "supporting",
+      "rationale": "Its type supplies a linear dual-valued character construction but does not state the trace formula for its values."
+    }
+  ]
+}

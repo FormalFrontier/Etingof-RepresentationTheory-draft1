@@ -1,0 +1,98 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] (V : Rep.{u_1, u, u} k G),\n  CategoryTheory.Functor.Additive.{u_1, max u (u_1 + 1), u_1, max u (u_1 + 1)}\n    (CategoryTheory.Functor.obj.{u_1, max u (u_1 + 1), max u (u_1 + 1), max u (u_1 + 1)}\n      (CategoryTheory.linearCoyoneda.{u, u_1, max u (u_1 + 1)} k (Rep.{u_1, u, u} k G))\n      (Opposite.op.{max (u + 1) (u_1 + 2)} V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "400422212",
+      "temporary_id": "decl-020083"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] (V : Rep.{u_1, u, u} k G),\n  CategoryTheory.Functor.Linear.{u, u_1, max u (u_1 + 1), u_1, max u (u_1 + 1)} k\n    (CategoryTheory.Functor.obj.{u_1, max u (u_1 + 1), max u (u_1 + 1), max u (u_1 + 1)}\n      (CategoryTheory.linearCoyoneda.{u, u_1, max u (u_1 + 1)} k (Rep.{u_1, u, u} k G))\n      (Opposite.op.{max (u + 1) (u_1 + 2)} V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "998100939",
+      "temporary_id": "decl-020084"
+    },
+    {
+      "formal_type": "\u2200 {k G H : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Group.{u} H] (\u03c6 : MonoidHom.{u, u} G H),\n  CategoryTheory.Functor.Additive.{u, u + 1, u, u + 1} (Rep.indFunctor.{u, u, u, u} k \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1897760111",
+      "temporary_id": "decl-020511"
+    },
+    {
+      "formal_type": "\u2200 {k G H : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Group.{u} H] (\u03c6 : MonoidHom.{u, u} G H),\n  CategoryTheory.Functor.Linear.{u, u, u + 1, u, u + 1} k (Rep.indFunctor.{u, u, u, u} k \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1858753163",
+      "temporary_id": "decl-020513"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_4, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_5, u_2} D] [inst_2 : CategoryTheory.Preadditive.{u_4, u_1} C]\n  [inst_3 : CategoryTheory.Preadditive.{u_5, u_2} D] (R : Type u_3) [inst_4 : Semiring.{u_3} R]\n  [inst_5 : CategoryTheory.Linear.{u_3, u_4, u_1} R C] [inst_6 : CategoryTheory.Linear.{u_3, u_5, u_2} R D]\n  {F : CategoryTheory.Functor.{u_4, u_5, u_1, u_2} C D} {G : CategoryTheory.Functor.{u_5, u_4, u_2, u_1} D C}\n  (adj : CategoryTheory.Adjunction.{u_4, u_5, u_1, u_2} F G) [CategoryTheory.Functor.Additive.{u_5, u_2, u_4, u_1} G]\n  [CategoryTheory.Functor.Linear.{u_3, u_5, u_2, u_4, u_1} R G],\n  CategoryTheory.Functor.Linear.{u_3, u_4, u_1, u_5, u_2} R F",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2461572055",
+      "temporary_id": "decl-021457"
+    },
+    {
+      "formal_type": "\u2200 {k G H : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Group.{u} H] (\u03c6 : MonoidHom.{u, u} G H),\n  CategoryTheory.Functor.Additive.{u_1, max u (u_1 + 1), u_1, max u (u_1 + 1)} (Rep.resFunctor.{u_1, u, u, u} \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4027962192",
+      "temporary_id": "decl-022643"
+    },
+    {
+      "formal_type": "\u2200 {k G H : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] [inst_2 : Group.{u} H] (\u03c6 : MonoidHom.{u, u} G H),\n  CategoryTheory.Functor.Linear.{u, u_1, max u (u_1 + 1), u_1, max u (u_1 + 1)} k (Rep.resFunctor.{u_1, u, u, u} \u03c6)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1080115517",
+      "temporary_id": "decl-022645"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u_1} {S : Type u_2} [inst : Ring.{u_1} R] [inst_1 : Ring.{u_2} S] (f : RingHom.{u_1, u_2} R S),\n  CategoryTheory.Functor.Additive.{u_3, max u_2 (u_3 + 1), u_3, max u_1 (u_3 + 1)}\n    (ModuleCat.restrictScalars.{u_3, u_1, u_2} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4165857954",
+      "temporary_id": "decl-022691"
+    },
+    {
+      "formal_type": "\u2200 {R\u2080 : Type u_1} {R : Type u_2} {S : Type u_3} [inst : CommSemiring.{u_1} R\u2080] [inst_1 : Ring.{u_2} R]\n  [inst_2 : Ring.{u_3} S] [inst_3 : Algebra.{u_1, u_2} R\u2080 R] [inst_4 : Algebra.{u_1, u_3} R\u2080 S]\n  (f : AlgHom.{u_1, u_2, u_3} R\u2080 R S),\n  CategoryTheory.Functor.Linear.{u_1, u_4, max u_3 (u_4 + 1), u_4, max u_2 (u_4 + 1)} R\u2080\n    (ModuleCat.restrictScalars.{u_4, u_2, u_3} (AlgHom.toRingHom.{u_1, u_2, u_3} f))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4177347940",
+      "temporary_id": "decl-022693"
+    }
+  ],
+  "module_temporary_id": "module-0595",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

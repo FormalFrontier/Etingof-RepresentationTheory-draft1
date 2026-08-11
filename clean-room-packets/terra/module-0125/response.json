@@ -1,0 +1,12 @@
+{
+  "module_name": "RingTheory.EndomorphismRelationAction",
+  "declarations": [
+    {"temporary_id": "decl-016897", "new_name": "induction_on", "docstring": "To prove a predicate for every algebra element, it suffices to check both generators and scalars and to preserve addition and multiplication."},
+    {"temporary_id": "decl-016898", "new_name": "isScalarTower", "docstring": "The module action induced by endomorphisms satisfying the displayed commutation relation extends the scalar tower from the coefficient ring."},
+    {"temporary_id": "decl-016901", "new_name": "moduleOfEndomorphismRelation", "docstring": "Endomorphisms satisfying the displayed commutation relation induce a module structure over the associated algebra."},
+    {"temporary_id": "decl-016927", "new_name": "smul_eq_action_apply", "docstring": "Scalar multiplication by an algebra element agrees with evaluation of its induced endomorphism action."},
+    {"temporary_id": "decl-016928", "new_name": "endomorphismAction", "docstring": "The algebra homomorphism into module endomorphisms induced by a pair satisfying the displayed commutation relation."},
+    {"temporary_id": "decl-016931", "new_name": "endomorphismAction_firstGenerator", "docstring": "The induced endomorphism action sends the first distinguished generator to the first given endomorphism."},
+    {"temporary_id": "decl-016932", "new_name": "endomorphismAction_secondGenerator", "docstring": "The induced endomorphism action sends the second distinguished generator to the second given endomorphism."}
+  ]
+}

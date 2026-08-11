@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_proof_of_Theorem5.15.1",
+    "kind": "discussion",
+    "title": "Start of proof of Theorem 5.15.1 (Frobenius character formula)",
+    "node_id": "chapter-05/section-5-15",
+    "order": 332,
+    "slug": "discussion-proof-of-theorem5-15-1",
+    "span": {
+      "start": {
+        "page": "118",
+        "line": 23
+      },
+      "end": {
+        "page": "118",
+        "line": 27
+      }
+    },
+    "source_sha256": "771b607a051d7aa63d9c003c139aba2aaa67a34cb535ac6353eea14698ad0eba",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem5151",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

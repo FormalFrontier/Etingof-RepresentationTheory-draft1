@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.13",
+    "kind": "introduction",
+    "title": "Section 5.13: Proof of the classification theorem for representations of S_n",
+    "node_id": "chapter-05/section-5-13",
+    "order": 314,
+    "slug": "introduction-5-13",
+    "span": {
+      "start": {
+        "page": "114",
+        "line": 13
+      },
+      "end": {
+        "page": "114",
+        "line": 14
+      }
+    },
+    "source_sha256": "8cecf3008249e9e09f6090e0780d98247bcc71c84ba5a8d7da279be6f45f1cb5",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction513",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

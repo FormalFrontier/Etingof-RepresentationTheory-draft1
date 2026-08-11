@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9e9562203cb23cfdc864",
+      "declaration": "Etingof.Example5_1_3_Q8",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/246/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Exists.{1} fun \u03c1 =>\n  And (IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Complex (QuaternionGroup 2)) (Representation.asModule.{0, 0, 0} \u03c1))\n    (Etingof.IsQuaternionicType.{0, 0} \u03c1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_1_3"
+    },
+    {
+      "association_id": "association:a85ff4a980c6c1037ac5",
+      "declaration": "Etingof.Example5_1_3_Q8_oneDim_isRealType",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/246/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (\u03c1 : Representation.{0, 0, 0} Complex (QuaternionGroup 2) Complex), Etingof.IsRealType.{0, 0} \u03c1",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_1_3"
+    },
+    {
+      "association_id": "association:d064d7cadb444e8d4d04",
+      "declaration": "Etingof.Example5_1_3_Q8_twoDim_unique",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/246/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type} [inst : AddCommGroup.{0} V] [inst_1 : Module.{0, 0} Complex V] [inst_2 : Module.Finite.{0, 0} Complex V]\n  (\u03c3 : Representation.{0, 0, 0} Complex (QuaternionGroup 2) V),\n  IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Complex (QuaternionGroup 2)) (Representation.asModule.{0, 0, 0} \u03c3) \u2192\n    Eq.{1} (Module.finrank.{0, 0} Complex V) 2 \u2192\n      Nonempty.{1} (CategoryTheory.Iso.{0, 1} (FDRep.of.{0, 0} \u03c3) (FDRep.of.{0, 0} Etingof.Q8.rho))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_1_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Example5.1.3",
+  "packet_id": "align-0388",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0388"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:79a54ed08d77b4374cea",
+  "source_text": "The one-dimensional Q\u2088 irreducibles are real type and its unique two-dimensional irreducible is quaternionic type."
+}

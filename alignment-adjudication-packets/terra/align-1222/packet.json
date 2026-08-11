@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:501b5c81745bb115423e",
+      "declaration": "Etingof.IsIndecomposable.of_isSimpleModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/583/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) (V : Type u_2) [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V],\n  IsSimpleModule.{u_1, u_2} A V \u2192 Etingof.IsIndecomposable.{u_1, u_2} A V",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_1_irreducible_indecomposable"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived01",
+  "packet_id": "align-1222",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1222"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "derived:f5a3df65e4a13c737137",
+  "source_text": "Every irreducible (simple) representation is indecomposable: IsSimpleModule A V \u2192 Etingof.IsIndecomposable A V."
+}

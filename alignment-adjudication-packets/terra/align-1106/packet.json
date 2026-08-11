@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:52d38d01d84e117259b2",
+      "declaration": "IsSimpleOrder.eq_bot_or_eq_top",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/160/claim_coverage/claims/13/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.Order.Atoms"
+    }
+  ],
+  "canonical_reference": "Chapter3/Theorem3.7.1",
+  "packet_id": "align-1106",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1106"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:dd7ff31536820adda233",
+  "source_text": "If the distinct submodules W_1 and W'_1 are irreducible, then W_1 intersect W'_1 = 0."
+}

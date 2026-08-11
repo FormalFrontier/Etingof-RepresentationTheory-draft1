@@ -1,0 +1,180 @@
+{
+  "module_name": "GradedAlgebra.HilbertSeries",
+  "declarations": [
+    {
+      "temporary_id": "decl-009172",
+      "new_name": "LocallyFiniteGrading",
+      "docstring": "A grading of an algebra by natural numbers whose homogeneous components are finite-dimensional over the base field."
+    },
+    {
+      "temporary_id": "decl-009177",
+      "new_name": "isInternal",
+      "docstring": "The homogeneous components of a locally finite grading form an internal direct sum."
+    },
+    {
+      "temporary_id": "decl-009178",
+      "new_name": "component_moduleFinite",
+      "docstring": "Every homogeneous component of a locally finite grading is finite as a module over the base field."
+    },
+    {
+      "temporary_id": "decl-009185",
+      "new_name": "mul_mem_component_add",
+      "docstring": "The product of elements in homogeneous components of degrees `n` and `m` lies in the component of degree `n + m`."
+    },
+    {
+      "temporary_id": "decl-009188",
+      "new_name": "component",
+      "docstring": "The homogeneous submodule of a locally finite grading in a specified natural degree."
+    },
+    {
+      "temporary_id": "decl-009191",
+      "new_name": "adjacencyMatrix",
+      "docstring": "The natural-number adjacency matrix of a quiver with finitely many arrows between each pair of vertices."
+    },
+    {
+      "temporary_id": "decl-009192",
+      "new_name": "adjacencyConstantMatrix",
+      "docstring": "The quiver adjacency matrix embedded entrywise as constant power series over a commutative ring."
+    },
+    {
+      "temporary_id": "decl-009193",
+      "new_name": "adjacencyConstantMatrix_apply",
+      "docstring": "An entry of the constant power-series adjacency matrix is the constant series of the corresponding arrow count."
+    },
+    {
+      "temporary_id": "decl-009194",
+      "new_name": "card_paths_length_eq_adjacencyMatrix_pow",
+      "docstring": "The number of quiver paths of a fixed length between two vertices is the corresponding entry of that power of the adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-009195",
+      "new_name": "card_lists_length_eq_pow",
+      "docstring": "The number of lists of length `n` over a type of cardinality `m` is `m ^ n`."
+    },
+    {
+      "temporary_id": "decl-009196",
+      "new_name": "coeff_adjacency_mul_pathGeneratingMatrix",
+      "docstring": "The degree-`d` coefficient of the adjacency matrix times the path-generating matrix is the cast of the degree-`d + 1` adjacency-matrix power."
+    },
+    {
+      "temporary_id": "decl-009197",
+      "new_name": "hilbertSeries_coeff",
+      "docstring": "The coefficient of the Hilbert series in degree `n` is the integer cast of the finrank of the corresponding homogeneous component."
+    },
+    {
+      "temporary_id": "decl-009198",
+      "new_name": "pathGeneratingMatrix_coeff",
+      "docstring": "The degree-`n` coefficient of the path-generating matrix is the cast of the corresponding adjacency-matrix power."
+    },
+    {
+      "temporary_id": "decl-009199",
+      "new_name": "sum_card_paths_length_eq_sum_adjacencyMatrix_pow",
+      "docstring": "Summing the numbers of length-`n` paths over all endpoint pairs equals the sum of the entries of the `n`-th adjacency-matrix power."
+    },
+    {
+      "temporary_id": "decl-009200",
+      "new_name": "finrank_exteriorPower_finFunction",
+      "docstring": "The `n`-th exterior power of an `m`-dimensional finite function space has finrank `m.choose n`."
+    },
+    {
+      "temporary_id": "decl-009201",
+      "new_name": "finrank_freeMonoidDegreeSubmodule",
+      "docstring": "The degree-`n` submodule of the free-monoid algebra on `m` generators has finrank `m ^ n`."
+    },
+    {
+      "temporary_id": "decl-009202",
+      "new_name": "finrank_mvPolynomialHomogeneousSubmodule",
+      "docstring": "The degree-`n` homogeneous submodule of polynomials in `m` variables has the stated binomial-coefficient finrank."
+    },
+    {
+      "temporary_id": "decl-009205",
+      "new_name": "finrank_quiverDegreeSubmodule",
+      "docstring": "The finrank of the degree-`n` quiver submodule is the total number of quiver paths of length `n` over all endpoint pairs."
+    },
+    {
+      "temporary_id": "decl-009206",
+      "new_name": "freeMonoidDegreeSubmodule",
+      "docstring": "A natural-number-indexed submodule of the monoid algebra on the free monoid over `Fin m`."
+    },
+    {
+      "temporary_id": "decl-009209",
+      "new_name": "freeAlgebraEquivMonoidAlgebraFreeMonoid",
+      "docstring": "The algebra equivalence between the free algebra and the monoid algebra of the free monoid on the same generators."
+    },
+    {
+      "temporary_id": "decl-009210",
+      "new_name": "hilbertSeries",
+      "docstring": "The integer-coefficient Hilbert series of a locally finite algebra grading."
+    },
+    {
+      "temporary_id": "decl-009211",
+      "new_name": "powerSeries_choose_eq_one_add_X_pow",
+      "docstring": "The power series with binomial coefficients `m.choose n` is `(1 + X) ^ m`."
+    },
+    {
+      "temporary_id": "decl-009212",
+      "new_name": "one_sub_nat_smul_X_mul_powerSeries_pow",
+      "docstring": "The power series with coefficients `m ^ n` is an inverse of `1 - m • X`."
+    },
+    {
+      "temporary_id": "decl-009213",
+      "new_name": "one_sub_X_pow_mul_powerSeries_multichoose",
+      "docstring": "The power series with the displayed multichoose coefficients is an inverse of `(1 - X) ^ m`."
+    },
+    {
+      "temporary_id": "decl-009217",
+      "new_name": "pathCountSeries_eq_ones_mul_matrixInverse_mul_ones",
+      "docstring": "The generating series for total quiver path counts is obtained by multiplying the inverse adjacency-series matrix by all-ones vectors."
+    },
+    {
+      "temporary_id": "decl-009218",
+      "new_name": "adjacencyPowerSumSeries_eq_ones_mul_matrixInverse_mul_ones",
+      "docstring": "The generating series for sums of entries of adjacency-matrix powers is obtained from the inverse adjacency-series matrix and all-ones vectors."
+    },
+    {
+      "temporary_id": "decl-009219",
+      "new_name": "finite_paths_of_length",
+      "docstring": "For a finite quiver with finite arrow types, the paths of any fixed length between two vertices form a finite type."
+    },
+    {
+      "temporary_id": "decl-009220",
+      "new_name": "one_sub_X_smul_adjacency_inv",
+      "docstring": "The inverse of one minus `X` times the constant adjacency matrix is the path-generating matrix."
+    },
+    {
+      "temporary_id": "decl-009221",
+      "new_name": "isUnit_det_one_sub_X_smul_adjacency",
+      "docstring": "The determinant of one minus `X` times the constant adjacency matrix is a unit."
+    },
+    {
+      "temporary_id": "decl-009222",
+      "new_name": "one_sub_X_smul_adjacency_mul_pathGeneratingMatrix",
+      "docstring": "One minus `X` times the constant adjacency matrix is a left inverse of the path-generating matrix."
+    },
+    {
+      "temporary_id": "decl-009223",
+      "new_name": "ones_dot_matrix_mul_ones",
+      "docstring": "Multiplying a finite matrix by all-ones vectors on both sides equals the sum of all its entries."
+    },
+    {
+      "temporary_id": "decl-009224",
+      "new_name": "quiverDegreeSubmodule",
+      "docstring": "A natural-number-indexed submodule associated with a quiver over a field."
+    },
+    {
+      "temporary_id": "decl-009225",
+      "new_name": "auxiliaryUnprintableDeclaration",
+      "docstring": "An auxiliary definition whose formal type is unavailable in this packet."
+    },
+    {
+      "temporary_id": "decl-009236",
+      "new_name": "pathGeneratingMatrix",
+      "docstring": "The matrix of power series whose coefficients count quiver paths by length and endpoint pair."
+    },
+    {
+      "temporary_id": "decl-009238",
+      "new_name": "pathGeneratingMatrix_mul_one_sub_X_smul_adjacency",
+      "docstring": "The path-generating matrix is a left inverse of one minus `X` times the constant adjacency matrix."
+    }
+  ]
+}

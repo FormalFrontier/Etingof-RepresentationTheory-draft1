@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:bec4e24743dbd0dfbb38",
+      "declaration": "Etingof.Proposition5_22_2_detRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/368/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (Etingof.SchurModule.{0} k N fun i => HAdd.hAdd.{0, 0, 0} (lam i) 1)\n        (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1} (Etingof.SchurModule.{0} k N lam) (Etingof.detRep k N)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_22_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Proposition5.22.2",
+  "packet_id": "align-0022",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0022"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0415c6328eafb93a57b6",
+  "source_text": "L_(lambda+1^N) is equivariantly isomorphic to L_lambda tensor the determinant representation."
+}

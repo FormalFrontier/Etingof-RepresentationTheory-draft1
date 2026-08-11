@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Problem3.9.4",
+    "kind": "exercise",
+    "title": "Formal deformations of representations",
+    "node_id": "chapter-03/section-3-9",
+    "order": 175,
+    "slug": "problem3-9-4",
+    "span": {
+      "start": {
+        "page": "58",
+        "line": 1
+      },
+      "end": {
+        "page": "58",
+        "line": 12
+      }
+    },
+    "source_sha256": "6fd09b12fc7a8e741e64d4e989a230d105d48ea0fce4320fcde9d2a844d3d0e1",
+    "features": {
+      "line_count": 12,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Problem394",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

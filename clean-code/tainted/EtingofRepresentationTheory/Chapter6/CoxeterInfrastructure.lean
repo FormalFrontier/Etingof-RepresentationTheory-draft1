@@ -1,0 +1,1940 @@
+import EtingofRepresentationTheory.Chapter6.Definition6_1_4
+import EtingofRepresentationTheory.Chapter6.Definition6_4_1
+import EtingofRepresentationTheory.Chapter6.Definition6_6_1
+import EtingofRepresentationTheory.Chapter6.Definition6_6_2
+import EtingofRepresentationTheory.Chapter6.Corollary6_8_2
+import EtingofRepresentationTheory.Chapter6.OrientationDefs
+import EtingofRepresentationTheory.Chapter6.Proposition6_6_7
+import EtingofRepresentationTheory.Chapter6.Proposition6_6_8
+
+/-!
+# Coxeter Element Infrastructure: Admissible Orderings
+
+This file provides the infrastructure for iterating reflection functors along
+an admissible ordering of quiver vertices, which is the key ingredient for:
+- Proving B(d(V), d(V)) = 2 for indecomposable V (Corollary 6.8.2)
+- The cons case of `reflectionFunctors_reduce_and_recover` (Corollary 6.8.3)
+
+## Main definitions
+- `Etingof.iteratedReversedAtVertices`: Iterated quiver reversal
+- `Etingof.IsAdmissibleOrdering`: An ordering of vertices where each is a sink after
+  reversing at all previous vertices
+- `Etingof.exists_sink_of_dynkin_orientation`: Every Dynkin quiver orientation has a sink
+- `Etingof.admissibleOrdering_exists`: Every Dynkin quiver orientation has an admissible
+  ordering
+
+## Key insight
+For a Dynkin diagram, the Cartan matrix is positive definite, which implies the quiver
+is acyclic (a cycle would give B(d,d) = 0). Acyclicity guarantees the existence of sinks,
+which enables inductive construction of admissible orderings.
+
+## References
+- Etingof, §6.7-6.8: Coxeter element and Gabriel's theorem
+-/
+
+open scoped Matrix
+
+namespace Etingof
+
+variable {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+
+/-! ## Sink existence for Dynkin quiver orientations -/
+
+/-- If there is an arrow a → b in Q, then adj a b = 1.
+Contrapositive of the non-edge condition in `IsOrientationOf`. -/
+private lemma adj_eq_one_of_arrow
+    (hDynkin : IsDynkinDiagram n adj)
+    {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj)
+    {a b : Fin n} (e : @Quiver.Hom (Fin n) Q a b) :
+    adj a b = 1 := by
+  rcases hDynkin.2.2.1 a b with h0 | h1
+  · exfalso; exact (hOrient.1 a b (by omega)).false e
+  · exact h1
+
+/-- Every orientation of a Dynkin diagram has at least one sink vertex.
+
+Proof by contradiction: if no sink exists, every vertex has an outgoing edge.
+Iterating gives a walk v₀ → v₁ → ... → vₙ of length n+1, which by pigeonhole
+must revisit a vertex. This gives a directed cycle, whose characteristic vector
+d satisfies B(d,d) ≤ 0, contradicting positive definiteness of the Cartan matrix.
+
+This is the key lemma enabling the construction of admissible orderings. -/
+theorem exists_sink_of_dynkin_orientation
+    (hDynkin : IsDynkinDiagram n adj) (hn : 0 < n)
+    {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj) :
+    ∃ i : Fin n, IsSink (Fin n) i := by
+  -- Suppose no sink exists
+  by_contra h
+  push Not at h
+  -- Then every vertex has an outgoing edge
+  have hout : ∀ v : Fin n, ∃ w : Fin n, Nonempty (v ⟶ w) := by
+    intro v
+    have hv := h v
+    unfold IsSink at hv
+    push Not at hv
+    obtain ⟨w, hw⟩ := hv
+    exact ⟨w, hw⟩
+  -- Pick a successor function
+  choose next hnext using hout
+  -- KEY ARGUMENT: injection from Fin n ⊕ Fin n into adj-1 pairs
+  -- For each v, we have v → next(v), so adj(v, next v) = 1 and adj(next v, v) = 1.
+  -- The pairs (v, next v) and (next v, v) give 2n pairs with adj = 1.
+  -- No overlap: if (v₁, next v₁) = (next v₂, v₂) then v₁ → v₂ and v₂ → v₁, contradicting orientation.
+  -- So Σ adj ≥ 2n, but positive definiteness gives Σ adj < 2n. Contradiction.
+  --
+  -- Step 1: adj(v, next v) = 1 for all v
+  have hadj_out : ∀ v, adj v (next v) = 1 := by
+    intro v; exact adj_eq_one_of_arrow hDynkin hOrient (hnext v).some
+  -- Step 2: adj(next v, v) = 1 for all v (by symmetry)
+  have hadj_in : ∀ v, adj (next v) v = 1 := by
+    intro v
+    have h1 := hadj_out v
+    have hsymm := hDynkin.1
+    have : adj (next v) v = adj v (next v) := by
+      have := congr_fun (congr_fun hsymm v) (next v)
+      simp [Matrix.transpose_apply] at this; exact this
+    rw [this]; exact h1
+  -- Step 3: No pair (v, next v) equals (next w, w), which would give both directions
+  have hno_overlap : ∀ v w : Fin n, (v, next v) ≠ (next w, w) := by
+    intro v w heq
+    have h1 : v = next w := congr_arg Prod.fst heq
+    have h2 : next v = w := congr_arg Prod.snd heq
+    -- v → next v = w and w → next w = v, so both v → w and w → v
+    have harr1 := hnext v  -- v → next v
+    have harr2 := hnext w  -- w → next w
+    -- After substitution: v → w and w → v
+    apply hOrient.2.2 v w
+    · -- v ⟶ w: harr1 gives v ⟶ next v, and h2 : next v = w
+      rw [show w = next v from h2.symm]; exact harr1
+    · -- w ⟶ v: harr2 gives w ⟶ next w, and h1 : v = next w
+      rw [show v = next w from h1]; exact harr2
+  -- Step 4: The double sum Σ_i Σ_j adj(i,j) satisfies incompatible bounds.
+  -- adj is nonneg
+  have hadj_nonneg : ∀ i j, (0 : ℤ) ≤ adj i j := by
+    intro i j; rcases hDynkin.2.2.1 i j with h | h <;> omega
+  -- Total sum of adj
+  set total := ∑ i : Fin n, ∑ j : Fin n, adj i j
+  -- Upper bound: positive definiteness with x = all-ones gives 2n - total > 0
+  have hone_ne : (fun (_ : Fin n) => (1 : ℤ)) ≠ 0 := by
+    intro heq; have := congr_fun heq ⟨0, hn⟩; simp at this
+  have hpos := hDynkin.2.2.2.2 (fun _ => (1 : ℤ)) hone_ne
+  -- Expand B(1,1) = 2n - total
+  have hexpand : dotProduct (fun _ => (1 : ℤ))
+      ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (fun _ => 1)) =
+      2 * (↑n : ℤ) - total := by
+    -- Row sum of (2I - adj) is 2 - row sum of adj
+    have h_row : ∀ i : Fin n,
+        ∑ j, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) i j = 2 - ∑ j, adj i j := by
+      intro i
+      have h2I : ∑ j : Fin n, (2 • (1 : Matrix (Fin n) (Fin n) ℤ)) i j = 2 := by
+        simp [Matrix.smul_apply, Matrix.one_apply, Finset.mem_univ]
+      simp only [Matrix.sub_apply]
+      rw [Finset.sum_sub_distrib]
+      linarith
+    -- dotProduct 1 (M.mulVec 1) = ∑ i, ∑ j, M i j
+    have h_dot : dotProduct (fun _ => (1 : ℤ))
+        ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (fun _ => 1)) =
+        ∑ i, ∑ j, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) i j := by
+      simp only [dotProduct, Matrix.mulVec, one_mul, mul_one]
+    rw [h_dot]
+    -- Now ∑ i, ∑ j, (2I - adj) i j = ∑ i, (2 - ∑ j, adj i j) = 2n - total
+    simp_rw [h_row]
+    simp only [Finset.sum_sub_distrib, Finset.sum_const, Finset.card_univ, Fintype.card_fin,
+      nsmul_eq_mul, total]
+    ring
+  have hub : total < 2 * (↑n : ℤ) := by linarith
+  -- Lower bound: 2n ≤ total via disjoint pair counting
+  -- Define forward and backward pair maps
+  have hfwd_inj : Function.Injective (fun v : Fin n => (v, next v)) :=
+    fun a b h => (Prod.mk.inj h).1
+  have hbwd_inj : Function.Injective (fun v : Fin n => (next v, v)) :=
+    fun a b h => (Prod.mk.inj h).2
+  -- The forward and backward images are disjoint (by hno_overlap)
+  have hdisjoint : Disjoint
+      (Finset.univ.image (fun v : Fin n => (v, next v)))
+      (Finset.univ.image (fun v : Fin n => (next v, v))) := by
+    rw [Finset.disjoint_left]
+    intro p hp1 hp2
+    rw [Finset.mem_image] at hp1 hp2
+    obtain ⟨v, _, hv⟩ := hp1
+    obtain ⟨w, _, hw⟩ := hp2
+    exact absurd (hv ▸ hw ▸ rfl : (v, next v) = (next w, w)) (hno_overlap v w)
+  -- Sum over forward pairs = n
+  have h_fwd_sum : ∑ p ∈ Finset.univ.image (fun v : Fin n => (v, next v)),
+      adj p.1 p.2 = ↑n := by
+    rw [Finset.sum_image (fun a _ b _ h => hfwd_inj h)]
+    simp [hadj_out, Finset.sum_const, Finset.card_univ, mul_one]
+  -- Sum over backward pairs = n
+  have h_bwd_sum : ∑ p ∈ Finset.univ.image (fun v : Fin n => (next v, v)),
+      adj p.1 p.2 = ↑n := by
+    rw [Finset.sum_image (fun a _ b _ h => hbwd_inj h)]
+    simp [hadj_in, Finset.sum_const, Finset.card_univ, mul_one]
+  -- Sum over the disjoint union = 2n
+  have h_union_sum : ∑ p ∈ (Finset.univ.image (fun v : Fin n => (v, next v)) ∪
+      Finset.univ.image (fun v : Fin n => (next v, v))),
+      adj p.1 p.2 = 2 * ↑n := by
+    rw [Finset.sum_union hdisjoint, h_fwd_sum, h_bwd_sum]; ring
+  -- The union is a subset of all pairs, and adj ≥ 0, so total ≥ 2n
+  have h_sub : Finset.univ.image (fun v : Fin n => (v, next v)) ∪
+      Finset.univ.image (fun v : Fin n => (next v, v)) ⊆
+      (Finset.univ : Finset (Fin n × Fin n)) :=
+    Finset.subset_univ _
+  have h_pair_sum : (∑ p : Fin n × Fin n, adj p.fst p.snd) = total := by
+    show (∑ p ∈ (Finset.univ : Finset (Fin n × Fin n)), adj p.fst p.snd) = total
+    rw [Finset.univ_product_univ.symm, Finset.sum_product']
+  have hlb : 2 * (↑n : ℤ) ≤ total := by
+    have := Finset.sum_le_sum_of_subset_of_nonneg h_sub
+      (fun p _ _ => hadj_nonneg p.1 p.2)
+    linarith [h_union_sum, h_pair_sum]
+  -- Contradiction: total < 2n and total ≥ 2n
+  linarith
+
+/-- Reversing at a sink makes that vertex a source in the reversed quiver. -/
+theorem reversedAtVertex_sink_becomes_source
+    {Q : Quiver (Fin n)} (p : Fin n) (hp : @IsSink (Fin n) Q p) :
+    @IsSource (Fin n) (@reversedAtVertex (Fin n) _ Q p) p := by
+  intro j
+  -- In the reversed quiver, an arrow j ⟶ p has type ReversedAtVertexHom(j, p)
+  constructor
+  intro (e : ReversedAtVertexHom (Fin n) p j p)
+  by_cases hj : j = p
+  · -- Self-loop: with j = p, the reversed arrow type equals (p ⟶ p)
+    have heq : ReversedAtVertexHom (Fin n) p j p = (@Quiver.Hom (Fin n) Q j p) :=
+      ReversedAtVertexHom_eq_eq hj rfl
+    have e' : @Quiver.Hom (Fin n) Q j p := cast heq e
+    exact (hp p).false (hj ▸ e')
+  · -- j ≠ p: ReversedAtVertexHom(j, p) = (p ⟶ j) in original Q
+    have heq : ReversedAtVertexHom (Fin n) p j p = (@Quiver.Hom (Fin n) Q p j) :=
+      ReversedAtVertexHom_ne_eq hj rfl
+    exact (hp j).false (cast heq e)
+
+/-! ## Admissible orderings -/
+
+/-- The quiver obtained by iteratively reversing at a sequence of vertices.
+`iteratedReversedAtVertices Q [v₁, v₂, ..., vₖ]` reverses first at v₁,
+then at v₂ in the new quiver, etc. -/
+noncomputable def iteratedReversedAtVertices
+    {V : Type*} [DecidableEq V] : (Q : Quiver V) → List V → Quiver V
+  | Q, [] => Q
+  | Q, v :: vs => iteratedReversedAtVertices (@reversedAtVertex V _ Q v) vs
+
+/-- Reversing at vertices preserves the orientation property, proven for
+arbitrary lists (not just permutations).
+Each reversal preserves `IsOrientationOf` by `reversedAtVertex_isOrientationOf`. -/
+theorem iteratedReversed_isOrientationOf
+    (hDynkin : IsDynkinDiagram n adj)
+    (Q : Quiver (Fin n)) (hOrient : IsOrientationOf Q adj)
+    (vs : List (Fin n)) :
+    @IsOrientationOf n (iteratedReversedAtVertices Q vs) adj := by
+  induction vs generalizing Q with
+  | nil => exact hOrient
+  | cons v vs ih =>
+    exact ih _ (reversedAtVertex_isOrientationOf hDynkin.1 hDynkin.2.1 hOrient v)
+
+/-- An admissible ordering of a quiver is a list of ALL vertices such that
+each vertex is a sink in the quiver obtained by reversing at all previous
+vertices. This guarantees that we can apply F⁺ at each vertex in sequence.
+
+For a quiver on Fin n, the ordering must be a permutation of all vertices. -/
+structure IsAdmissibleOrdering (Q : Quiver (Fin n))
+    (ordering : List (Fin n)) : Prop where
+  /-- The ordering contains every vertex exactly once -/
+  perm : ordering.Perm (List.finRange n)
+  /-- Each vertex is a sink after reversing at all previous vertices -/
+  isSink : ∀ k (hk : k < ordering.length),
+    @IsSink (Fin n)
+      (iteratedReversedAtVertices Q (ordering.take k))
+      (ordering.get ⟨k, hk⟩)
+
+/-- Iterated reversal distributes over list append. -/
+theorem iteratedReversedAtVertices_append
+    {V : Type*} [DecidableEq V] (Q : Quiver V) (xs ys : List V) :
+    iteratedReversedAtVertices Q (xs ++ ys) =
+    iteratedReversedAtVertices (iteratedReversedAtVertices Q xs) ys := by
+  induction xs generalizing Q with
+  | nil => rfl
+  | cons x xs ih => exact ih (@reversedAtVertex V _ Q x)
+
+private alias iteratedReversed_append := iteratedReversedAtVertices_append
+
+/-- Edges between vertices not in the reversal list are unchanged. -/
+private lemma iteratedReversed_hom_not_mem
+    (Q : Quiver (Fin n)) (vs : List (Fin n))
+    {a b : Fin n} (ha : a ∉ vs) (hb : b ∉ vs) :
+    @Quiver.Hom (Fin n) (iteratedReversedAtVertices Q vs) a b =
+    @Quiver.Hom (Fin n) Q a b := by
+  induction vs generalizing Q with
+  | nil => rfl
+  | cons v vs ih =>
+    have hav : a ≠ v := fun h => ha (List.mem_cons.mpr (Or.inl h))
+    have hbv : b ≠ v := fun h => hb (List.mem_cons.mpr (Or.inl h))
+    have ha' : a ∉ vs := fun h => ha (List.mem_cons.mpr (Or.inr h))
+    have hb' : b ∉ vs := fun h => hb (List.mem_cons.mpr (Or.inr h))
+    change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b =
+      @Quiver.Hom _ Q a b
+    rw [ih _ ha' hb']
+    exact ReversedAtVertexHom_ne_ne hav hbv
+
+/-- In any nonempty subset S of vertices of a Dynkin quiver, there exists a vertex
+in S with no outgoing Q-edges to S (a "local sink").
+
+This is the subset generalization of `exists_sink_of_dynkin_orientation`. The proof
+uses the same positive-definiteness contradiction: if every S-vertex has an S-outgoing
+edge, counting forward/backward pairs gives ∑_{S×S} adj ≥ 2|S|, but B(d,d) > 0 for
+the S-indicator d gives ∑_{S×S} adj < 2|S|. -/
+private theorem exists_local_sink_of_dynkin
+    (hDynkin : IsDynkinDiagram n adj)
+    {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj)
+    (S : Finset (Fin n)) (hS : S.Nonempty) :
+    ∃ v ∈ S, ∀ w ∈ S, @IsEmpty (@Quiver.Hom _ Q v w) := by
+  by_contra hall
+  push Not at hall
+  -- Every vertex in S has an outgoing edge within S
+  have hout : ∀ v ∈ S, ∃ w ∈ S, Nonempty (@Quiver.Hom _ Q v w) := by
+    intro v hv; obtain ⟨w, hw, hne⟩ := hall v hv
+    exact ⟨w, hw, hne⟩
+  -- Choose successor (dependently typed) and lift to total function
+  choose next hnext_mem hnext_arr using hout
+  set next' : Fin n → Fin n := fun v => if hv : v ∈ S then next v hv else v
+  have hnext'_eq : ∀ v (hv : v ∈ S), next' v = next v hv :=
+    fun v hv => dif_pos hv
+  have hadj_out : ∀ v ∈ S, adj v (next' v) = 1 := by
+    intro v hv; rw [hnext'_eq v hv]
+    exact adj_eq_one_of_arrow hDynkin hOrient (hnext_arr v hv).some
+  have hadj_in : ∀ v ∈ S, adj (next' v) v = 1 := by
+    intro v hv; rw [hnext'_eq v hv]
+    have hsymm := hDynkin.1
+    have : adj (next v hv) v = adj v (next v hv) := by
+      have := congr_fun (congr_fun hsymm v) (next v hv)
+      simp [Matrix.transpose_apply] at this; exact this
+    rw [this]; exact adj_eq_one_of_arrow hDynkin hOrient (hnext_arr v hv).some
+  have hnext'_mem : ∀ v ∈ S, next' v ∈ S := by
+    intro v hv; rw [hnext'_eq v hv]; exact hnext_mem v hv
+  -- Forward and backward pair sets within S are disjoint
+  have hno_overlap : ∀ v ∈ S, ∀ w ∈ S, (v, next' v) ≠ (next' w, w) := by
+    intro v hv w hw heq
+    rw [hnext'_eq v hv, hnext'_eq w hw] at heq
+    have h1 : v = next w hw := congr_arg Prod.fst heq
+    have h2 : next v hv = w := congr_arg Prod.snd heq
+    apply hOrient.2.2 v w
+    · rw [show w = next v hv from h2.symm]; exact hnext_arr v hv
+    · rw [show v = next w hw from h1]; exact hnext_arr w hw
+  -- adj is nonneg
+  have hadj_nonneg : ∀ i j, (0 : ℤ) ≤ adj i j := by
+    intro i j; rcases hDynkin.2.2.1 i j with h | h <;> omega
+  -- Lower bound: counting forward + backward pairs gives sum ≥ 2|S|
+  set total_S := ∑ i ∈ S, ∑ j ∈ S, adj i j with htotal_S_def
+  -- Forward pairs: {(v, next' v) | v ∈ S}, injective on first component
+  have h_fwd_sum : ∑ p ∈ S.image (fun v => (v, next' v)),
+      adj p.1 p.2 = ↑S.card := by
+    rw [Finset.sum_image (fun a _ b _ h => (Prod.mk.inj h).1)]
+    rw [show ∑ x ∈ S, adj x (next' x) = ∑ _ ∈ S, (1 : ℤ) from
+      Finset.sum_congr rfl (fun x hx => hadj_out x hx)]
+    simp
+  -- Backward pairs: {(next' v, v) | v ∈ S}, injective on second component
+  have h_bwd_sum : ∑ p ∈ S.image (fun v => (next' v, v)),
+      adj p.1 p.2 = ↑S.card := by
+    rw [Finset.sum_image (fun a _ b _ h => (Prod.mk.inj h).2)]
+    rw [show ∑ x ∈ S, adj (next' x) x = ∑ _ ∈ S, (1 : ℤ) from
+      Finset.sum_congr rfl (fun x hx => hadj_in x hx)]
+    simp
+  have hdisjoint : Disjoint
+      (S.image (fun v => (v, next' v)))
+      (S.image (fun v => (next' v, v))) := by
+    rw [Finset.disjoint_left]
+    intro p hp1 hp2
+    rw [Finset.mem_image] at hp1 hp2
+    obtain ⟨v, hv, hvp⟩ := hp1
+    obtain ⟨w, hw, hwp⟩ := hp2
+    exact absurd (hvp ▸ hwp ▸ rfl : (v, next' v) = (next' w, w)) (hno_overlap v hv w hw)
+  have h_union_sum : ∑ p ∈ (S.image (fun v => (v, next' v)) ∪
+      S.image (fun v => (next' v, v))),
+      adj p.1 p.2 = 2 * ↑S.card := by
+    rw [Finset.sum_union hdisjoint, h_fwd_sum, h_bwd_sum]; ring
+  -- Both image sets are subsets of S × S
+  have h_sub : S.image (fun v => (v, next' v)) ∪
+      S.image (fun v => (next' v, v)) ⊆ S ×ˢ S := by
+    apply Finset.union_subset <;> intro p hp <;> rw [Finset.mem_image] at hp <;>
+      obtain ⟨v, hv, rfl⟩ := hp <;> simp [hv, hnext'_mem v hv]
+  have hlb : 2 * (↑S.card : ℤ) ≤ total_S := by
+    have h_prod_sum : ∑ p ∈ S ×ˢ S, adj p.1 p.2 = total_S := by
+      rw [htotal_S_def, Finset.sum_product']
+    have := Finset.sum_le_sum_of_subset_of_nonneg h_sub
+      (fun p _ _ => hadj_nonneg p.1 p.2)
+    linarith [h_union_sum, h_prod_sum]
+  -- Upper bound: B(d, d) > 0 for S-indicator gives sum < 2|S|
+  set d : Fin n → ℤ := fun v => if v ∈ S then 1 else 0 with hd_def
+  have hd_ne : d ≠ 0 := by
+    intro heq; obtain ⟨v, hv⟩ := hS
+    have := congr_fun heq v; simp [hd_def, hv] at this
+  have hpos := hDynkin.2.2.2.2 d hd_ne
+  -- Expand B(d,d) = 2|S| - total_S
+  have hexpand : dotProduct d ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec d) =
+      2 * ↑S.card - total_S := by
+    -- Decompose: (2I - A)d = 2d - Ad, then d·(2d - Ad) = 2d·d - d·(Ad)
+    have h_sub : (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec d =
+        2 • d - adj.mulVec d := by
+      rw [Matrix.sub_mulVec, Matrix.smul_mulVec, Matrix.one_mulVec]
+    rw [h_sub, dotProduct_sub, dotProduct_smul, nsmul_eq_mul]; push_cast
+    -- Helper: Finset.univ.filter (· ∈ S) = S
+    have hfilter_S : (Finset.univ : Finset (Fin n)).filter (· ∈ S) = S := by ext; simp
+    -- d · d = |S| (since d is a 0/1 indicator)
+    have hdd : dotProduct d d = ↑S.card := by
+      simp only [dotProduct, hd_def]
+      rw [show ∑ i : Fin n, (if i ∈ S then (1 : ℤ) else 0) * (if i ∈ S then 1 else 0) =
+        ∑ i, if i ∈ S then 1 else 0 from
+        Finset.sum_congr rfl (fun i _ => by split_ifs <;> ring)]
+      simp only [← Finset.sum_filter, hfilter_S, Finset.sum_const, nsmul_eq_mul, mul_one]
+    -- d · (A d) = total_S (since d restricts both indices to S)
+    have hdad : dotProduct d (adj.mulVec d) = total_S := by
+      simp only [dotProduct, Matrix.mulVec, hd_def]
+      -- inner sum: ∑ j, adj i j * d(j) = ∑ j ∈ S, adj i j
+      have h_inner : ∀ i : Fin n,
+          ∑ j, adj i j * (if j ∈ S then (1 : ℤ) else 0) = ∑ j ∈ S, adj i j := by
+        intro i
+        rw [show ∑ j, adj i j * (if j ∈ S then (1 : ℤ) else 0) =
+          ∑ j, if j ∈ S then adj i j else 0 from
+          Finset.sum_congr rfl (fun j _ => by split_ifs <;> ring)]
+        simp only [← Finset.sum_filter, hfilter_S]
+      simp_rw [h_inner]
+      -- outer sum: ∑ i, d(i) * (∑ j ∈ S, adj i j) = ∑ i ∈ S, ∑ j ∈ S, adj i j
+      rw [show ∑ i : Fin n, (if i ∈ S then (1 : ℤ) else 0) * ∑ j ∈ S, adj i j =
+        ∑ i, if i ∈ S then ∑ j ∈ S, adj i j else 0 from
+        Finset.sum_congr rfl (fun i _ => by split_ifs <;> ring)]
+      simp only [← Finset.sum_filter, hfilter_S]; rfl
+    linarith
+  have hub : total_S < 2 * (↑S.card : ℤ) := by linarith
+  -- Contradiction: total_S ≥ 2|S| and total_S < 2|S|
+  linarith
+
+/-- Edge from a non-participant `a` to a participant `b` in the iterated reversed
+quiver equals the reverse-direction edge `b ⟶ a` in the original quiver Q.
+
+When `b = vs[j]`, the reversal at step j flips the edge direction, and all other
+reversals leave it unchanged (since `a ∉ vs` and `b` only appears once by nodup). -/
+private lemma iteratedReversed_hom_to_mem
+    (Q : Quiver (Fin n)) (vs : List (Fin n)) (hvs : vs.Nodup)
+    {a : Fin n} (ha : a ∉ vs) {b : Fin n} (hb : b ∈ vs) :
+    @Quiver.Hom (Fin n) (iteratedReversedAtVertices Q vs) a b =
+    @Quiver.Hom (Fin n) Q b a := by
+  induction vs generalizing Q with
+  | nil => simp at hb
+  | cons v vs ih =>
+    rw [List.nodup_cons] at hvs
+    rcases List.mem_cons.mp hb with rfl | hb_vs
+    · -- b = v (head): reversal at b flips the edge (rfl replaced v with b)
+      have ha' : a ∉ vs := fun h => ha (List.mem_cons.mpr (Or.inr h))
+      have hav : a ≠ b := fun h => ha (List.mem_cons.mpr (Or.inl h))
+      change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q b) vs) a b = _
+      rw [iteratedReversed_hom_not_mem _ vs ha' hvs.1]
+      exact ReversedAtVertexHom_ne_eq hav rfl
+    · -- b ∈ vs (tail): IH handles, reversal at v is transparent
+      have ha' : a ∉ vs := fun h => ha (List.mem_cons.mpr (Or.inr h))
+      have hav : a ≠ v := fun h => ha (List.mem_cons.mpr (Or.inl h))
+      have hbv : b ≠ v := by intro h; subst h; exact hvs.1 hb_vs
+      change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b = _
+      rw [ih (@reversedAtVertex _ _ Q v) hvs.2 ha' hb_vs]
+      exact ReversedAtVertexHom_ne_ne hbv hav
+
+/-- Edge from a participant `a` to a non-participant `b` in the iterated reversed
+quiver equals the reverse-direction edge `b ⟶ a` in the original quiver Q.
+Symmetric companion of `iteratedReversed_hom_to_mem`. -/
+private lemma iteratedReversed_hom_from_mem
+    (Q : Quiver (Fin n)) (vs : List (Fin n)) (hvs : vs.Nodup)
+    {a : Fin n} (ha : a ∈ vs) {b : Fin n} (hb : b ∉ vs) :
+    @Quiver.Hom (Fin n) (iteratedReversedAtVertices Q vs) a b =
+    @Quiver.Hom (Fin n) Q b a := by
+  induction vs generalizing Q with
+  | nil => simp at ha
+  | cons v vs ih =>
+    rw [List.nodup_cons] at hvs
+    rcases List.mem_cons.mp ha with rfl | ha_vs
+    · -- a = v (head)
+      have hb' : b ∉ vs := fun h => hb (List.mem_cons.mpr (Or.inr h))
+      have hbv : b ≠ a := fun h => hb (List.mem_cons.mpr (Or.inl h))
+      change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q a) vs) a b = _
+      rw [iteratedReversed_hom_not_mem _ vs hvs.1 hb']
+      exact ReversedAtVertexHom_eq_ne rfl hbv
+    · -- a ∈ vs (tail)
+      have hb' : b ∉ vs := fun h => hb (List.mem_cons.mpr (Or.inr h))
+      have hav : a ≠ v := by intro h; subst h; exact hvs.1 ha_vs
+      have hbv : b ≠ v := fun h => hb (List.mem_cons.mpr (Or.inl h))
+      change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b = _
+      rw [ih (@reversedAtVertex _ _ Q v) hvs.2 ha_vs hb']
+      exact ReversedAtVertexHom_ne_ne hbv hav
+
+/-- When both endpoints are in the reversal list, the double reversal returns
+to the original Hom type. Each edge gets flipped twice: once when `a` is
+processed and once when `b` is processed. -/
+private lemma iteratedReversed_hom_both_mem
+    (Q : Quiver (Fin n)) (vs : List (Fin n)) (hvs : vs.Nodup)
+    {a b : Fin n} (ha : a ∈ vs) (hb : b ∈ vs) (hab : a ≠ b) :
+    @Quiver.Hom (Fin n) (iteratedReversedAtVertices Q vs) a b =
+    @Quiver.Hom (Fin n) Q a b := by
+  induction vs generalizing Q with
+  | nil => simp at ha
+  | cons v vs ih =>
+    rw [List.nodup_cons] at hvs
+    rcases List.mem_cons.mp ha with rfl | ha_vs
+    · -- a = v: a ∉ vs (by nodup), b ∈ vs (since b ≠ a = v, b ∈ v :: vs implies b ∈ vs)
+      have ha_not : a ∉ vs := hvs.1
+      have hb_vs : b ∈ vs := by
+        rcases List.mem_cons.mp hb with rfl | h
+        · exact absurd rfl hab
+        · exact h
+      change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q a) vs) a b = _
+      rw [iteratedReversed_hom_to_mem _ vs hvs.2 ha_not hb_vs]
+      -- Now: @Hom (reversedAtVertex Q a) b a = @Hom Q a b
+      -- b ≠ a, so ReversedAtVertexHom a b a: x=b ≠ i=a, y=a = i → (i ⟶ x) = (a ⟶ b)
+      exact ReversedAtVertexHom_ne_eq (Ne.symm hab) rfl
+    · rcases List.mem_cons.mp hb with rfl | hb_vs
+      · -- b = v: b ∉ vs (by nodup), a ∈ vs
+        have hb_not : b ∉ vs := hvs.1
+        change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q b) vs) a b = _
+        rw [iteratedReversed_hom_from_mem _ vs hvs.2 ha_vs hb_not]
+        -- Now: @Hom (reversedAtVertex Q b) b a = @Hom Q a b
+        -- a ≠ b, so ReversedAtVertexHom b b a: x=b = i=b, y=a ≠ i → (y ⟶ i) = (a ⟶ b)
+        exact ReversedAtVertexHom_eq_ne rfl hab
+      · -- Both in vs (tail): use IH
+        have hav : a ≠ v := by intro h; subst h; exact hvs.1 ha_vs
+        have hbv : b ≠ v := by intro h; subst h; exact hvs.1 hb_vs
+        change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b = _
+        rw [ih (@reversedAtVertex _ _ Q v) hvs.2 ha_vs hb_vs]
+        exact ReversedAtVertexHom_ne_ne hav hbv
+
+/-- Self-loops are preserved by iterated reversal.
+At each reversal step, self-loops are unchanged regardless of the reversal vertex. -/
+private lemma iteratedReversed_self_hom
+    (Q : Quiver (Fin n)) (vs : List (Fin n)) (hvs : vs.Nodup)
+    (a : Fin n) :
+    @Quiver.Hom (Fin n) (iteratedReversedAtVertices Q vs) a a =
+    @Quiver.Hom (Fin n) Q a a := by
+  induction vs generalizing Q with
+  | nil => rfl
+  | cons v vs ih =>
+    rw [List.nodup_cons] at hvs
+    change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a a = _
+    rw [ih (@reversedAtVertex _ _ Q v) hvs.2]
+    by_cases hav : a = v
+    · exact ReversedAtVertexHom_eq_eq hav hav
+    · exact ReversedAtVertexHom_ne_ne hav hav
+
+/-- **Round-trip lemma**: Reversing at every vertex in a permutation returns the
+quiver to its original state. Each edge gets reversed twice (once for each endpoint),
+and self-loops are always preserved. -/
+theorem iteratedReversedAtVertices_perm_eq
+    (Q : Quiver (Fin n)) (σ : List (Fin n))
+    (hσ : σ.Perm (List.finRange n)) :
+    iteratedReversedAtVertices Q σ = Q := by
+  have hnodup : σ.Nodup := hσ.nodup_iff.mpr (List.nodup_finRange n)
+  have hmem : ∀ v : Fin n, v ∈ σ := fun v => hσ.mem_iff.mpr (List.mem_finRange v)
+  ext a b
+  by_cases hab : a = b
+  · subst hab; exact iteratedReversed_self_hom Q σ hnodup a
+  · exact iteratedReversed_hom_both_mem Q σ hnodup (hmem a) (hmem b) hab
+
+/-- A topological sort of a Dynkin quiver exists: a permutation of vertices
+where ordering[k] has no Q-outgoing edges to ordering[m] for m ≥ k.
+
+Besides driving `admissibleOrdering_exists` below, this is the ordering of the vertices that
+Problem 6.9.3(b) reads off from an orientation in order to build a Jordan-Hölder series. -/
+theorem exists_topoSort
+    (hDynkin : IsDynkinDiagram n adj)
+    {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj) :
+    ∃ (ordering : List (Fin n)),
+      ordering.Perm (List.finRange n) ∧ ordering.Nodup ∧
+      ∀ k m (hk : k < ordering.length) (hm : m < ordering.length), k ≤ m →
+        @IsEmpty (@Quiver.Hom _ Q (ordering.get ⟨k, hk⟩) (ordering.get ⟨m, hm⟩)) := by
+  -- Build by induction with two invariants:
+  -- (1) within-acc topological: acc[k] has no Q-edges to acc[m] for k ≤ m
+  -- (2) acc-to-remaining: acc[k] has no Q-edges to any vertex in remaining
+  suffices h : ∀ (remaining : Finset (Fin n)) (acc : List (Fin n)),
+      acc.Nodup → acc.toFinset = Finset.univ \ remaining →
+      (∀ k m (hk : k < acc.length) (hm : m < acc.length), k ≤ m →
+        @IsEmpty (@Quiver.Hom _ Q (acc.get ⟨k, hk⟩) (acc.get ⟨m, hm⟩))) →
+      (∀ k (hk : k < acc.length), ∀ w ∈ remaining,
+        @IsEmpty (@Quiver.Hom _ Q (acc.get ⟨k, hk⟩) w)) →
+      ∃ (ordering : List (Fin n)),
+        ordering.Perm (List.finRange n) ∧ ordering.Nodup ∧
+        ∀ k m (hk : k < ordering.length) (hm : m < ordering.length), k ≤ m →
+          @IsEmpty (@Quiver.Hom _ Q (ordering.get ⟨k, hk⟩) (ordering.get ⟨m, hm⟩)) by
+    exact h Finset.univ [] List.nodup_nil (by simp) (by simp) (by simp)
+  intro remaining
+  induction remaining using Finset.strongInduction with
+  | H remaining ih =>
+    intro acc hnodup hacc_set htopo hedge
+    by_cases hrem : remaining.Nonempty
+    · obtain ⟨v, hv_mem, hv_sink⟩ := exists_local_sink_of_dynkin hDynkin hOrient remaining hrem
+      have hv_not_acc : v ∉ acc := by
+        intro hv; rw [← List.mem_toFinset] at hv; rw [hacc_set] at hv
+        simp at hv; exact hv hv_mem
+      -- Local helpers relating List.get and getElem for append
+      have get_app_l {l₁ l₂ : List (Fin n)} {i : ℕ} (h₁ : i < l₁.length)
+          {h₂ : i < (l₁ ++ l₂).length} :
+          (l₁ ++ l₂).get ⟨i, h₂⟩ = l₁.get ⟨i, h₁⟩ := by
+        simp only [List.get_eq_getElem]
+        exact List.getElem_append_left h₁
+      have get_app_r {l₁ l₂ : List (Fin n)} {i : ℕ} (h₁ : l₁.length ≤ i)
+          {h₂ : i < (l₁ ++ l₂).length} :
+          (l₁ ++ l₂).get ⟨i, h₂⟩ = l₂.get ⟨i - l₁.length, by rw [List.length_append] at h₂; omega⟩ := by
+        simp only [List.get_eq_getElem]
+        exact List.getElem_append_right h₁
+      apply ih (remaining.erase v) (Finset.erase_ssubset hv_mem) (acc ++ [v])
+      · exact hnodup.append (List.nodup_singleton v)
+          (by simp only [List.disjoint_singleton]; exact hv_not_acc)
+      · -- (acc ++ [v]).toFinset = Finset.univ \ remaining.erase v
+        rw [List.toFinset_append, hacc_set]
+        ext w
+        simp only [Finset.mem_union, List.toFinset_cons, List.toFinset_nil,
+          Finset.mem_insert,
+          Finset.mem_sdiff, Finset.mem_univ, true_and, Finset.mem_erase, ne_eq]
+        tauto
+      · -- Topological invariant for acc ++ [v]
+        intro k m hk hm hkm
+        rw [List.length_append, List.length_singleton] at hk hm
+        by_cases hk_old : k < acc.length
+        · by_cases hm_old : m < acc.length
+          · -- Both in old acc
+            rw [get_app_l hk_old, get_app_l hm_old]
+            exact htopo k m hk_old hm_old hkm
+          · -- k in old acc, m indexes v
+            have hm_eq : m = acc.length := by omega
+            subst hm_eq
+            rw [get_app_l hk_old, get_app_r (by omega)]
+            simp; exact hedge k hk_old v hv_mem
+        · -- k indexes v
+          have hk_eq : k = acc.length := by omega
+          subst hk_eq
+          have hm_eq : m = acc.length := by omega
+          subst hm_eq
+          rw [get_app_r (by omega)]
+          simp; exact hv_sink v hv_mem
+      · -- Edge-to-remaining invariant for acc ++ [v] with remaining.erase v
+        intro k hk w hw
+        rw [List.length_append, List.length_singleton] at hk
+        have hw_rem : w ∈ remaining := Finset.mem_of_mem_erase hw
+        by_cases hk_old : k < acc.length
+        · rw [get_app_l hk_old]; exact hedge k hk_old w hw_rem
+        · have hk_eq : k = acc.length := by omega
+          subst hk_eq
+          rw [get_app_r (by omega)]; simp
+          exact hv_sink w hw_rem
+    · -- remaining empty: acc is the full ordering
+      rw [Finset.not_nonempty_iff_eq_empty] at hrem
+      refine ⟨acc, ?_, hnodup, htopo⟩
+      rw [List.perm_iff_count]; intro v
+      have hv_acc : v ∈ acc := by rw [← List.mem_toFinset, hacc_set]; simp [hrem]
+      rw [List.count_eq_one_of_mem hnodup hv_acc,
+          List.count_eq_one_of_mem (List.nodup_finRange n) (List.mem_finRange v)]
+
+/-- Every Dynkin quiver orientation admits an admissible ordering.
+
+The proof constructs a topological sort of the quiver (sinks first), using
+`exists_local_sink_of_dynkin` to iteratively find vertices with no outgoing
+edges to the remaining set. This topological sort is then shown to be an
+admissible ordering: each vertex σₖ is a sink of the k-th iterated reversed
+quiver because its outgoing Q-edges to earlier vertices get flipped by the
+corresponding reversals, while edges to later vertices don't exist (by the
+topological property). -/
+theorem admissibleOrdering_exists
+    (hDynkin : IsDynkinDiagram n adj)
+    {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj) :
+    ∃ ordering : List (Fin n), IsAdmissibleOrdering Q ordering := by
+  obtain ⟨ordering, hperm, hnodup, htopo⟩ := exists_topoSort hDynkin hOrient
+  -- Relating List.get for take to List.get for the original list
+  have get_take_eq {j k : ℕ} (hj : j < (ordering.take k).length) :
+      (ordering.take k).get ⟨j, hj⟩ = ordering.get ⟨j, by rw [List.length_take] at hj; omega⟩ := by
+    simp only [List.get_eq_getElem]; exact List.getElem_take
+  -- Helper: ordering.get ⟨k, hk⟩ ∉ ordering.take k (by nodup)
+  have get_not_mem_take : ∀ k (hk : k < ordering.length),
+      ordering.get ⟨k, hk⟩ ∉ ordering.take k := by
+    intro k hk hmem
+    obtain ⟨⟨j, hj_lt⟩, hj_eq⟩ := List.mem_iff_get.mp hmem
+    have hj_lt_k : j < k := by
+      have : j < (ordering.take k).length := hj_lt
+      rw [List.length_take] at this; exact lt_of_lt_of_le this (min_le_left k ordering.length)
+    have hj_lt' : j < ordering.length := by omega
+    have : ordering.get ⟨j, hj_lt'⟩ = ordering.get ⟨k, hk⟩ := by
+      rw [← get_take_eq hj_lt, hj_eq]
+    have hinj := hnodup.injective_get this
+    simp only [Fin.mk.injEq] at hinj
+    omega
+  -- Helper: ordering.get ⟨m, hm⟩ ∈ ordering.take k when m < k
+  have get_mem_take : ∀ m k (hm : m < ordering.length) (hmk : m < k),
+      ordering.get ⟨m, hm⟩ ∈ ordering.take k := by
+    intro m k hm hmk
+    rw [List.mem_iff_get]
+    have hm_take : m < (ordering.take k).length := by rw [List.length_take]; omega
+    exact ⟨⟨m, hm_take⟩, get_take_eq hm_take⟩
+  refine ⟨ordering, hperm, fun k hk => ?_⟩
+  -- Show ordering[k] is a sink of iteratedReversedAtVertices Q (ordering.take k)
+  intro w
+  -- Find w's position in ordering (it's a permutation, so w is in it)
+  have hw_mem : w ∈ ordering := hperm.mem_iff.mpr (List.mem_finRange w)
+  obtain ⟨⟨m, hm⟩, hm_eq⟩ := List.mem_iff_get.mp hw_mem
+  -- hm_eq : ordering.get ⟨m, hm⟩ = w; replace w with ordering.get ⟨m, hm⟩
+  constructor; intro e; subst hm_eq
+  by_cases hkm : k ≤ m
+  · -- m ≥ k: both ordering[k] and ordering[m] are NOT in ordering.take k
+    have hk_not := get_not_mem_take k hk
+    have hm_not : ordering.get ⟨m, hm⟩ ∉ ordering.take k := by
+      intro hmem
+      obtain ⟨⟨j, hj_lt⟩, hj_eq⟩ := List.mem_iff_get.mp hmem
+      have hj_lt_k : j < k := by
+        have : j < (ordering.take k).length := hj_lt
+        rw [List.length_take] at this; exact lt_of_lt_of_le this (min_le_left k ordering.length)
+      have hj_lt' : j < ordering.length := by omega
+      have : ordering.get ⟨j, hj_lt'⟩ = ordering.get ⟨m, hm⟩ := by
+        rw [← get_take_eq hj_lt, hj_eq]
+      have hinj := hnodup.injective_get this
+      simp only [Fin.mk.injEq] at hinj
+      omega
+    have h_eq := iteratedReversed_hom_not_mem Q (ordering.take k) hk_not hm_not
+    exact (htopo k m hk hm hkm).false (h_eq ▸ e)
+  · -- m < k: ordering[m] IS in ordering.take k, edge gets flipped
+    push Not at hkm
+    have hm_in := get_mem_take m k hm hkm
+    have hk_not := get_not_mem_take k hk
+    have htake_nodup : (ordering.take k).Nodup := hnodup.take
+    have h_eq := iteratedReversed_hom_to_mem Q (ordering.take k) htake_nodup hk_not hm_in
+    -- Arrow from ordering[k] to ordering[m] in iterated quiver = ordering[m] ⟶ ordering[k] in Q
+    have : Nonempty (@Quiver.Hom _ Q (ordering.get ⟨m, hm⟩) (ordering.get ⟨k, hk⟩)) :=
+      ⟨h_eq ▸ e⟩
+    exact (htopo m k hm hk (by omega)).false this.some
+
+/-! ## Generalized Coxeter element for arbitrary permutations
+
+For any permutation σ of [0, ..., n-1], the product s_{σ₁} ∘ ... ∘ s_{σₙ}
+is a Coxeter element. We prove that iterating any Coxeter element on a
+nonneg nonzero vector eventually produces negative entries, generalizing
+Lemma 6.7.2 to arbitrary orderings. -/
+
+/-- If vertex j doesn't appear in the list, `iteratedSimpleReflection`
+leaves coordinate j unchanged. -/
+private lemma iteratedSimpleReflection_coord_not_mem
+    (A : Matrix (Fin n) (Fin n) ℤ) (vs : List (Fin n)) (v : Fin n → ℤ)
+    (j : Fin n) (hj : j ∉ vs) :
+    iteratedSimpleReflection n A vs v j = v j := by
+  induction vs generalizing v with
+  | nil => rfl
+  | cons k rest ih =>
+    rw [iteratedSimpleReflection_cons]
+    have hk : j ≠ k := fun h => hj (by simp [h])
+    have hrest : j ∉ rest := fun h => hj (List.mem_cons.mpr (Or.inr h))
+    rw [ih _ hrest]
+    exact simpleReflection_apply_ne v k j hk
+
+/-- `iteratedSimpleReflection` distributes over list append. -/
+lemma iteratedSimpleReflection_append
+    (A : Matrix (Fin n) (Fin n) ℤ) (xs ys : List (Fin n))
+    (v : Fin n → ℤ) :
+    iteratedSimpleReflection n A (xs ++ ys) v =
+    iteratedSimpleReflection n A ys (iteratedSimpleReflection n A xs v) := by
+  simp [iteratedSimpleReflection, List.foldl_append]
+
+/-- Iterating `c = iteratedSimpleReflection n A σ` M times equals
+`iteratedSimpleReflection` on M concatenated copies of σ. -/
+lemma iteratedSimpleReflection_replicate_eq_iterate
+    (A : Matrix (Fin n) (Fin n) ℤ) (σ : List (Fin n)) (v : Fin n → ℤ) (M : ℕ) :
+    iteratedSimpleReflection n A ((List.replicate M σ).flatten) v =
+    (fun w => iteratedSimpleReflection n A σ w)^[M] v := by
+  set c := fun w => iteratedSimpleReflection n A σ w
+  induction M generalizing v with
+  | zero =>
+    simp only [List.replicate_zero, List.flatten_nil, iteratedSimpleReflection,
+      List.foldl_nil, Function.iterate_zero, id_eq]
+  | succ M ih =>
+    have hflat : (List.replicate (M + 1) σ).flatten = σ ++ (List.replicate M σ).flatten := by
+      rw [List.replicate_succ, List.flatten_cons]
+    simp only [hflat, iteratedSimpleReflection_append, ih,
+      Function.iterate_succ, Function.comp_apply, c]
+
+/-- `iteratedSimpleReflection` with a full permutation preserves B. -/
+private lemma iteratedSimpleReflection_preserves_B
+    (hDynkin : IsDynkinDiagram n adj) (vs : List (Fin n))
+    (v : Fin n → ℤ) :
+    dotProduct (iteratedSimpleReflection n (cartanMatrix n adj) vs v)
+      ((cartanMatrix n adj).mulVec
+        (iteratedSimpleReflection n (cartanMatrix n adj) vs v)) =
+    dotProduct v ((cartanMatrix n adj).mulVec v) := by
+  induction vs generalizing v with
+  | nil => rfl
+  | cons k rest ih =>
+    rw [iteratedSimpleReflection_cons]
+    rw [ih]
+    exact simpleReflection_preserves_B hDynkin v k
+
+/-- **Key lemma**: A fixed point of any full-permutation Coxeter element
+is zero.
+
+If σ is a permutation of all n vertices and s_{σₙ}(...s_{σ₁}(v)...) = v,
+then v = 0. The proof uses a forward telescoping argument: since σ is a
+permutation, each coordinate σₖ is touched exactly once. The fixed-point
+condition forces (A·v)_{σₖ} = 0 for each k, hence A·v = 0, hence v = 0
+by positive definiteness. -/
+private lemma iteratedSimpleReflection_perm_fixed_zero
+    (hDynkin : IsDynkinDiagram n adj)
+    (σ : List (Fin n)) (hσ : σ.Perm (List.finRange n))
+    (v : Fin n → ℤ)
+    (hfixed : iteratedSimpleReflection n (cartanMatrix n adj) σ v = v) :
+    v = 0 := by
+  set A := cartanMatrix n adj with hA_def
+  have hnodup : σ.Nodup := hσ.nodup_iff.mpr (List.nodup_finRange n)
+  have hlen : σ.length = n := by
+    have := hσ.length_eq; rwa [List.length_finRange] at this
+  -- Forward induction: iteratedSimpleReflection (σ.take k) v = v for all k
+  suffices hall : ∀ k, k ≤ n →
+      iteratedSimpleReflection n A (σ.take k) v = v by
+    -- Extract A·v = 0 from the invariant
+    suffices hAv : A.mulVec v = 0 by
+      by_contra hv
+      have hpos := hDynkin.2.2.2.2 v hv
+      rw [show A = (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) from rfl]
+        at hAv
+      rw [hAv, dotProduct_zero] at hpos
+      exact lt_irrefl 0 hpos
+    ext p
+    -- Find p's position in σ
+    have hp_mem : p ∈ σ := hσ.mem_iff.mpr (List.mem_finRange p)
+    obtain ⟨⟨k, hk_lt⟩, hk_eq⟩ := List.mem_iff_get.mp hp_mem
+    -- From hall(k) and hall(k+1):
+    -- iteratedSimpleReflection (σ.take (k+1)) v = v
+    -- σ.take (k+1) = σ.take k ++ [σ[k]]
+    have hk_lt_n : k < n := by rw [← hlen]; exact hk_lt
+    have h_take_k := hall k (by omega)
+    have h_take_k1 := hall (k + 1) (by omega)
+    have htake_split : σ.take (k + 1) = σ.take k ++ [σ[k]] :=
+      (List.take_append_getElem hk_lt).symm
+    rw [htake_split, iteratedSimpleReflection_append, h_take_k] at h_take_k1
+    -- Now: iteratedSimpleReflection [σ[k]] v = v
+    -- i.e., simpleReflection σ[k] v = v
+    simp only [iteratedSimpleReflection, List.foldl] at h_take_k1
+    -- At coordinate σ[k] = p:
+    have hp_eq : σ[k] = p := by
+      change σ.get ⟨k, hk_lt⟩ = p; exact hk_eq
+    have := congr_fun h_take_k1 p
+    rw [← hp_eq] at this
+    rw [simpleReflection_apply_self
+      (cartanMatrix_isSymm hDynkin.1) v σ[k]] at this
+    -- this : v σ[k] - (A *ᵥ v) σ[k] = v σ[k], and σ[k] = p
+    rw [hp_eq] at this
+    simp only [Pi.zero_apply]
+    linarith
+  intro k hk
+  induction k with
+  | zero => simp [iteratedSimpleReflection]
+  | succ m ih =>
+    have hm_le : m ≤ n := by omega
+    have him := ih hm_le
+    have hm_lt : m < σ.length := by rw [hlen]; omega
+    have htake_split : σ.take (m + 1) =
+        σ.take m ++ [σ[m]] :=
+      (List.take_append_getElem hm_lt).symm
+    rw [htake_split, iteratedSimpleReflection_append, him]
+    set p : Fin n := σ[m]
+    have hp_not_drop : p ∉ σ.drop (m + 1) := by
+      intro hmem
+      have hp_take : p ∈ σ.take (m + 1) := by
+        rw [htake_split]; simp
+      have hnd : (σ.take (m + 1) ++ σ.drop (m + 1)).Nodup := by
+        rwa [List.take_append_drop]
+      exact (List.nodup_append.mp hnd).2.2 p hp_take p hmem rfl
+    -- From the full fixed-point and the fact that drop doesn't touch p:
+    have hsplit : σ = σ.take (m + 1) ++ σ.drop (m + 1) :=
+      (List.take_append_drop (m + 1) σ).symm
+    have hfull : iteratedSimpleReflection n A σ v = v := hfixed
+    rw [hsplit, iteratedSimpleReflection_append, htake_split,
+      iteratedSimpleReflection_append, him] at hfull
+    -- hfull: iteratedSimpleReflection (drop(m+1)) (iteratedSimpleReflection [p] v) = v
+    -- iteratedSimpleReflection [p] v = simpleReflection n A p v
+    have hsingleton : iteratedSimpleReflection n A [p] v = simpleReflection n A p v := by
+      simp [iteratedSimpleReflection]
+    rw [hsingleton] at hfull
+    -- At coordinate p (not in drop):
+    have hcoord := congr_fun hfull p
+    rw [iteratedSimpleReflection_coord_not_mem A (σ.drop (m + 1))
+      (simpleReflection n A p v) p hp_not_drop] at hcoord
+    -- hcoord: s_p(v)(p) = v(p)
+    rw [simpleReflection_apply_self
+      (cartanMatrix_isSymm hDynkin.1) v p] at hcoord
+    -- hcoord: v(p) - (A·v)(p) = v(p), so (A·v)(p) = 0
+    have hAv_zero : (A.mulVec v) p = 0 := by linarith
+    -- s_p(v) = v since (A·v)(p) = 0
+    change iteratedSimpleReflection n A [p] v = v
+    simp only [iteratedSimpleReflection, List.foldl]
+    change v - dotProduct v (A.mulVec (Pi.single p 1)) • Pi.single p 1 = v
+    have hcoeff : dotProduct v (A.mulVec (Pi.single p 1)) =
+        (A.mulVec v) p := by
+      have hAsymm := cartanMatrix_isSymm hDynkin.1
+      simp only [dotProduct, Matrix.mulVec, Pi.single_apply,
+        mul_ite, mul_one, mul_zero,
+        Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+      exact Finset.sum_congr rfl fun j _ => by
+        rw [show A j p = A p j from
+          congr_fun (congr_fun hAsymm p) j]; ring
+    rw [hcoeff, hAv_zero, zero_smul, sub_zero]
+
+/-! ## Linearity and additivity of simple reflections -/
+
+/-- Simple reflection is additive: s_i(u + v) = s_i(u) + s_i(v). -/
+private lemma simpleReflection_add
+    (A : Matrix (Fin n) (Fin n) ℤ) (i : Fin n) (u v : Fin n → ℤ) :
+    simpleReflection n A i (u + v) =
+    simpleReflection n A i u + simpleReflection n A i v := by
+  unfold simpleReflection rootReflection
+  ext j
+  simp only [Pi.sub_apply, Pi.smul_apply, Pi.add_apply, Pi.single_apply, smul_eq_mul,
+    add_dotProduct]
+  ring
+
+/-- Simple reflection maps 0 to 0. -/
+private lemma simpleReflection_zero
+    (A : Matrix (Fin n) (Fin n) ℤ) (i : Fin n) :
+    simpleReflection n A i 0 = 0 := by
+  ext j
+  simp only [simpleReflection, rootReflection, Pi.sub_apply, Pi.smul_apply,
+    Pi.single_apply, Pi.zero_apply, dotProduct, Matrix.mulVec]
+  simp
+
+/-- `iteratedSimpleReflection` is additive. -/
+private lemma iteratedSimpleReflection_add
+    (A : Matrix (Fin n) (Fin n) ℤ) (vs : List (Fin n)) (u v : Fin n → ℤ) :
+    iteratedSimpleReflection n A vs (u + v) =
+    iteratedSimpleReflection n A vs u + iteratedSimpleReflection n A vs v := by
+  induction vs generalizing u v with
+  | nil => rfl
+  | cons k rest ih =>
+    rw [iteratedSimpleReflection_cons, iteratedSimpleReflection_cons,
+      iteratedSimpleReflection_cons, simpleReflection_add, ih]
+
+/-- `iteratedSimpleReflection` maps 0 to 0. -/
+private lemma iteratedSimpleReflection_zero
+    (A : Matrix (Fin n) (Fin n) ℤ) (vs : List (Fin n)) :
+    iteratedSimpleReflection n A vs 0 = 0 := by
+  induction vs with
+  | nil => rfl
+  | cons k rest ih => rw [iteratedSimpleReflection_cons, simpleReflection_zero, ih]
+
+/-- `iteratedSimpleReflection` distributes over finite sums. -/
+private lemma iteratedSimpleReflection_sum
+    (A : Matrix (Fin n) (Fin n) ℤ) (vs : List (Fin n))
+    {ι : Type*} (s : Finset ι) (f : ι → (Fin n → ℤ)) :
+    iteratedSimpleReflection n A vs (∑ i ∈ s, f i) =
+    ∑ i ∈ s, iteratedSimpleReflection n A vs (f i) := by
+  induction s using Finset.cons_induction with
+  | empty => simp [iteratedSimpleReflection_zero]
+  | cons a s has ih =>
+    rw [Finset.sum_cons, iteratedSimpleReflection_add, ih, Finset.sum_cons]
+
+/-! ## Finiteness of B-level sets
+
+The set of integer vectors with a given bilinear form value is finite
+when the Cartan matrix is positive definite (Dynkin case). -/
+
+/-- The set of integer vectors with a given B-value is finite for Dynkin diagrams. -/
+private theorem finite_B_level_set
+    (hDynkin : IsDynkinDiagram n adj) (K : ℤ) :
+    Set.Finite {v : Fin n → ℤ |
+      dotProduct v ((cartanMatrix n adj).mulVec v) = K} := by
+  set A := cartanMatrix n adj with hA_def
+  -- A.mulVec is injective (from positive definiteness)
+  have hA_inj : Function.Injective A.mulVec := by
+    intro x y hxy
+    by_contra hne
+    have hpos := hDynkin.2.2.2.2 (x - y) (sub_ne_zero.mpr hne)
+    have hzero : A.mulVec (x - y) = 0 := by
+      rw [Matrix.mulVec_sub]; exact sub_eq_zero.mpr hxy
+    have : dotProduct (x - y) (A.mulVec (x - y)) = 0 := by
+      rw [hzero]; simp [dotProduct]
+    rw [show (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) = A from rfl] at hpos
+    linarith
+  -- Positive semi-definiteness
+  have hB_nonneg : ∀ w : Fin n → ℤ, 0 ≤ dotProduct w (A.mulVec w) := by
+    intro w; by_cases hw : w = 0
+    · subst hw; simp [dotProduct, Matrix.mulVec]
+    · have := hDynkin.2.2.2.2 w hw
+      rw [show (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) = A from rfl] at this
+      linarith
+  have hA_symm := cartanMatrix_isSymm hDynkin.1
+  -- B(eᵢ, eᵢ) = 2
+  have hBei : ∀ i : Fin n,
+      dotProduct (Pi.single i 1) (A.mulVec (Pi.single i 1)) = 2 := by
+    intro i
+    simp only [dotProduct, Matrix.mulVec, Pi.single_apply, mul_ite, mul_one, mul_zero,
+      ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+    simp only [hA_def, cartanMatrix, Matrix.sub_apply, Matrix.smul_apply,
+      Matrix.one_apply]
+    have := hDynkin.2.1 i; simp_all
+  -- Symmetry helpers
+  have hB_coord : ∀ (v : Fin n → ℤ) (i : Fin n),
+      dotProduct v (A.mulVec (Pi.single i 1)) = A.mulVec v i := by
+    intro v i
+    simp only [dotProduct, Matrix.mulVec, Pi.single_apply,
+      mul_ite, mul_one, mul_zero,
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+    exact Finset.sum_congr rfl fun j _ => by
+      rw [show A j i = A i j from congr_fun (congr_fun hA_symm i) j]; ring
+  have hB_coord' : ∀ (v : Fin n → ℤ) (i : Fin n),
+      dotProduct (Pi.single i 1) (A.mulVec v) = A.mulVec v i := by
+    intro v i
+    simp only [dotProduct, Matrix.mulVec, Pi.single_apply]
+    simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+  -- Key bound: B(v,v) = K implies |(Av)ᵢ| ≤ K + 2
+  have hAv_bound : ∀ v : Fin n → ℤ, dotProduct v (A.mulVec v) = K →
+      ∀ i, -(K + 2) ≤ A.mulVec v i ∧ A.mulVec v i ≤ K + 2 := by
+    intro v hv i
+    have hplus := hB_nonneg (v + Pi.single i 1)
+    have hminus := hB_nonneg (v - Pi.single i 1)
+    rw [Matrix.mulVec_add, add_dotProduct, dotProduct_add, dotProduct_add] at hplus
+    rw [Matrix.mulVec_sub, sub_dotProduct, dotProduct_sub, dotProduct_sub] at hminus
+    rw [hv, hBei, hB_coord v i, hB_coord' v i] at hplus hminus
+    constructor <;> omega
+  -- Inject into finite Icc via A.mulVec
+  apply Set.Finite.subset
+    ((Set.finite_Icc (fun _ : Fin n => -(K + 2)) (fun _ => K + 2)).preimage
+      (Set.InjOn.mono (Set.subset_univ _) (Set.injOn_of_injective hA_inj)))
+  intro v hv
+  simp only [Set.mem_setOf_eq] at hv
+  simp only [Set.mem_preimage, Set.mem_Icc, Pi.le_def]
+  exact ⟨fun i => (hAv_bound v hv i).1, fun i => (hAv_bound v hv i).2⟩
+
+/-! ## Generalized Lemma 6.7.2 for arbitrary permutation Coxeter elements
+
+For any permutation σ of [0..n-1], the Coxeter element c_σ = s_{σ_n}∘...∘s_{σ_1}
+satisfies: for nonneg nonzero β, some iterate c_σ^N(β) has a negative entry.
+
+The proof uses: B-preservation → finite orbit → periodic → sum of period is
+fixed by c_σ → zero by `iteratedSimpleReflection_perm_fixed_zero` → contradiction
+with nonneg nonzero. -/
+
+/-- Iterated application of the σ-Coxeter element preserves B. -/
+private lemma iteratedSimpleReflection_iter_preserves_B
+    (hDynkin : IsDynkinDiagram n adj) (σ : List (Fin n))
+    (v : Fin n → ℤ) (N : ℕ) :
+    dotProduct ((fun w => iteratedSimpleReflection n (cartanMatrix n adj) σ w)^[N] v)
+      ((cartanMatrix n adj).mulVec
+        ((fun w => iteratedSimpleReflection n (cartanMatrix n adj) σ w)^[N] v)) =
+    dotProduct v ((cartanMatrix n adj).mulVec v) := by
+  induction N with
+  | zero => rfl
+  | succ N ih =>
+    simp only [Function.iterate_succ', Function.comp_apply]
+    rw [iteratedSimpleReflection_preserves_B hDynkin, ih]
+
+/-- The orbit of any vector under a σ-Coxeter element is finite. -/
+private theorem iteratedSimpleReflection_orbit_finite
+    (hDynkin : IsDynkinDiagram n adj) (σ : List (Fin n))
+    (v : Fin n → ℤ) :
+    Set.Finite (Set.range (fun N =>
+      (fun w => iteratedSimpleReflection n (cartanMatrix n adj) σ w)^[N] v)) := by
+  apply Set.Finite.subset (finite_B_level_set hDynkin
+    (dotProduct v ((cartanMatrix n adj).mulVec v)))
+  intro w ⟨N, hN⟩
+  simp only [Set.mem_setOf_eq]
+  rw [← hN, iteratedSimpleReflection_iter_preserves_B hDynkin]
+
+/-- `iteratedSimpleReflection` negates: c(-v) = -c(v). -/
+private lemma iteratedSimpleReflection_neg
+    (A : Matrix (Fin n) (Fin n) ℤ) (vs : List (Fin n)) (v : Fin n → ℤ) :
+    iteratedSimpleReflection n A vs (-v) =
+    -iteratedSimpleReflection n A vs v := by
+  have h : iteratedSimpleReflection n A vs v +
+      iteratedSimpleReflection n A vs (-v) = 0 := by
+    rw [← iteratedSimpleReflection_add, add_neg_cancel, iteratedSimpleReflection_zero]
+  exact eq_neg_of_add_eq_zero_right h
+
+/-- `iteratedSimpleReflection` distributes over subtraction. -/
+private lemma iteratedSimpleReflection_sub
+    (A : Matrix (Fin n) (Fin n) ℤ) (vs : List (Fin n)) (u v : Fin n → ℤ) :
+    iteratedSimpleReflection n A vs (u - v) =
+    iteratedSimpleReflection n A vs u - iteratedSimpleReflection n A vs v := by
+  rw [sub_eq_add_neg, iteratedSimpleReflection_add, iteratedSimpleReflection_neg, ← sub_eq_add_neg]
+
+/-- `iteratedSimpleReflection` with a permutation is injective.
+Proof: if c(u) = c(v), then c(u-v) = 0, so B(u-v,u-v) = 0, hence u = v. -/
+private lemma iteratedSimpleReflection_injective
+    (hDynkin : IsDynkinDiagram n adj) (σ : List (Fin n))
+    (_hσ : σ.Perm (List.finRange n)) :
+    Function.Injective (fun v => iteratedSimpleReflection n (cartanMatrix n adj) σ v) := by
+  intro u v huv
+  have hlin : iteratedSimpleReflection n (cartanMatrix n adj) σ (u - v) = 0 := by
+    rw [iteratedSimpleReflection_sub]
+    exact sub_eq_zero.mpr huv
+  have hB := iteratedSimpleReflection_preserves_B hDynkin σ (u - v)
+  rw [hlin] at hB
+  simp only [dotProduct, Pi.zero_apply, zero_mul, Finset.sum_const_zero] at hB
+  -- hB : 0 = Σ (u-v)_i * (A(u-v))_i, i.e. B(u-v,u-v) = 0
+  by_contra hne
+  have hpos := hDynkin.2.2.2.2 (u - v) (sub_ne_zero.mpr hne)
+  rw [show (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) = cartanMatrix n adj from rfl] at hpos
+  -- hpos : 0 < dotProduct (u-v) (A *ᵥ (u-v))
+  simp only [dotProduct] at hpos
+  linarith
+
+/-- The orbit of any vector under a permutation Coxeter element is eventually periodic.
+Returns period M > 0 with c^M(v) = v. -/
+private theorem iteratedSimpleReflection_periodic
+    (hDynkin : IsDynkinDiagram n adj) (σ : List (Fin n))
+    (hσ : σ.Perm (List.finRange n)) (v : Fin n → ℤ) :
+    ∃ M : ℕ, 0 < M ∧
+      (fun w => iteratedSimpleReflection n (cartanMatrix n adj) σ w)^[M] v = v := by
+  set c := fun w => iteratedSimpleReflection n (cartanMatrix n adj) σ w
+  have hinj := iteratedSimpleReflection_injective hDynkin σ hσ
+  have hfin := iteratedSimpleReflection_orbit_finite hDynkin σ v
+  -- Orbit is a finite subset of (Fin n → ℤ), so by pigeonhole
+  -- there exist a ≠ b with c^a(v) = c^b(v)
+  have hnotinj : ∃ a b, c^[a] v = c^[b] v ∧ a ≠ b := by
+    by_contra hall
+    push Not at hall
+    -- hall : ∀ a b, c^a(v) = c^b(v) → a = b, i.e. the orbit map is injective
+    exact Set.infinite_range_of_injective (fun a b hab => hall a b hab) |>.not_finite hfin
+  obtain ⟨a, b, hab, hne⟩ := hnotinj
+  rcases lt_or_gt_of_ne hne with h | h
+  · refine ⟨b - a, Nat.sub_pos_of_lt h, ?_⟩
+    have hiter : c^[a] (c^[b - a] v) = c^[a] v := by
+      rw [← Function.iterate_add_apply, Nat.add_sub_cancel' (le_of_lt h)]
+      exact hab.symm
+    exact Function.Injective.iterate hinj a hiter
+  · refine ⟨a - b, Nat.sub_pos_of_lt h, ?_⟩
+    have hiter : c^[b] (c^[a - b] v) = c^[b] v := by
+      rw [← Function.iterate_add_apply, Nat.add_sub_cancel' (le_of_lt h)]
+      exact hab
+    exact Function.Injective.iterate hinj b hiter
+
+/-- **Generalized Lemma 6.7.2**: For any permutation σ of [0..n-1], a nonneg nonzero
+vector eventually gets a negative entry under iteration of the σ-Coxeter element.
+
+Proof: by contradiction. If all iterates are nonneg, the orbit is periodic (by
+finiteness). The sum of one period is a fixed point of c_σ, hence zero. But the
+sum is nonneg and ≥ β ≠ 0. Contradiction. -/
+theorem generalized_Lemma6_7_2
+    (hDynkin : IsDynkinDiagram n adj) (σ : List (Fin n))
+    (hσ : σ.Perm (List.finRange n))
+    (β : Fin n → ℤ) (hβ_nonneg : ∀ i, 0 ≤ β i) (hβ_nonzero : β ≠ 0) :
+    ∃ N : ℕ, ∃ i : Fin n,
+      ((fun v => iteratedSimpleReflection n (cartanMatrix n adj) σ v)^[N] β) i < 0 := by
+  set c := fun v => iteratedSimpleReflection n (cartanMatrix n adj) σ v
+  by_contra h
+  push Not at h
+  -- h : ∀ N i, 0 ≤ c^[N](β) i
+  -- Step 1: Get periodicity M > 0 with c^M(β) = β
+  obtain ⟨M, hM_pos, hM_period⟩ := iteratedSimpleReflection_periodic hDynkin σ hσ β
+  -- Step 2: Define S = β + c(β) + ... + c^{M-1}(β)
+  set S := ∑ k ∈ Finset.range M, c^[k] β with hS_def
+  -- Step 3: S is nonneg
+  have hS_nonneg : ∀ i, 0 ≤ S i := by
+    intro i; simp only [hS_def, Finset.sum_apply]
+    exact Finset.sum_nonneg (fun k _ => h k i)
+  -- Step 4: S ≠ 0 (β = c^0(β) is a summand, and all terms are nonneg)
+  have hS_nonzero : S ≠ 0 := by
+    intro hS_eq
+    have hβ_zero : β = 0 := by
+      funext i
+      have hSi : S i = 0 := congr_fun hS_eq i
+      rw [hS_def, Finset.sum_apply] at hSi
+      have h_each := (Finset.sum_eq_zero_iff_of_nonneg (fun k _ => h k i)).mp hSi
+      have h0 : c^[0] β i = 0 := h_each 0 (Finset.mem_range.mpr hM_pos)
+      simp only [Function.iterate_zero, id_eq] at h0
+      exact h0
+    exact hβ_nonzero hβ_zero
+  -- Step 5: c(S) = S (by linearity + periodicity)
+  -- c(S) = c(Σ c^k β) = Σ c^{k+1} β = Σ_{k=1}^{M} c^k β
+  --      = Σ_{k=0}^{M-1} c^k β  (since c^M β = β)
+  --      = S
+  have hcS : c S = S := by
+    -- c(S) = Σ c(c^k β) = Σ c^{k+1} β
+    change iteratedSimpleReflection n (cartanMatrix n adj) σ S = S
+    rw [hS_def, iteratedSimpleReflection_sum]
+    -- Each term: c(c^k(β)) = c^{k+1}(β)
+    have h_succ : ∀ k, iteratedSimpleReflection n (cartanMatrix n adj) σ (c^[k] β) =
+        c^[k + 1] β := by
+      intro k; change c (c^[k] β) = c^[k + 1] β
+      rw [show k + 1 = k.succ from rfl, Function.iterate_succ', Function.comp_apply]
+    simp_rw [h_succ]
+    -- Σ_{k∈range M} c^{k+1} β = Σ_{k∈range M} c^k β (using c^M β = β)
+    have hsr' := Finset.sum_range_succ' (fun k => c^[k] β) M
+    have hsr := Finset.sum_range_succ (fun k => c^[k] β) M
+    simp only [Function.iterate_zero, id_eq] at hsr'
+    rw [show c^[M] β = β from hM_period] at hsr
+    exact add_right_cancel (hsr'.symm.trans hsr)
+  -- Step 6: S is a fixed point of c_σ, hence S = 0
+  have hS_zero := iteratedSimpleReflection_perm_fixed_zero hDynkin σ hσ S hcS
+  -- Step 7: But S ≠ 0. Contradiction.
+  exact hS_nonzero hS_zero
+
+/-! ## Dimension vector tracking through admissible ordering
+
+The key connection: applying one full round of reflection functors along an
+admissible ordering transforms the dimension vector by the Coxeter element.
+
+Specifically, if σ = (σ₁, ..., σₙ) is an admissible ordering, then:
+  d(F⁺_{σ₁} ... F⁺_{σₙ} V) = s_{σ₁} ... s_{σₙ} d(V) = c · d(V)
+
+where c = s_{σ₁} ... s_{σₙ} is the Coxeter element.
+
+Combined with the generalized Lemma 6.7.2 (Coxeter action eventually produces
+negative entries) and Proposition 6.6.5 (non-surjective at sink → simple
+representation), this gives the representation-level reduction.
+
+This is the content of the book's proof of Theorem 6.8.1 + Corollary 6.8.2. -/
+
+/-! ### Infrastructure: Subsingleton preservation and Fintype derivation
+
+For Dynkin quiver orientations, each Hom type has at most one element (simple graph).
+This `Subsingleton` property is preserved by `reversedAtVertex`, enabling `Fintype`
+derivation for `ArrowsInto` which is needed by Proposition 6.6.8. -/
+
+/-- `Subsingleton` for Hom types is preserved by `reversedAtVertex`.
+Each case of `ReversedAtVertexHom` reduces to an original Hom type. -/
+lemma subsingleton_hom_reversedAtVertex
+    [inst : DecidableEq (Fin n)]
+    {Q : Quiver (Fin n)} [hSS : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (p : Fin n) (a b : Fin n) :
+    Subsingleton (@Quiver.Hom (Fin n) (@reversedAtVertex (Fin n) inst Q p) a b) := by
+  constructor
+  intro x y
+  revert x y
+  change ∀ (x y : ReversedAtVertexHom (Fin n) p a b), x = y
+  unfold ReversedAtVertexHom
+  cases inst a p <;> cases inst b p <;> exact fun x y => Subsingleton.elim x y
+
+/-- `Subsingleton` for Hom types is preserved by `iteratedReversedAtVertices`. -/
+private lemma subsingleton_hom_iteratedReversed
+    {Q : Quiver (Fin n)} [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (vs : List (Fin n)) (a b : Fin n) :
+    Subsingleton (@Quiver.Hom (Fin n) (iteratedReversedAtVertices Q vs) a b) := by
+  induction vs generalizing Q with
+  | nil => change Subsingleton (@Quiver.Hom (Fin n) Q a b); infer_instance
+  | cons v vs ih =>
+    change Subsingleton (@Quiver.Hom (Fin n)
+      (iteratedReversedAtVertices (@reversedAtVertex (Fin n) _ Q v) vs) a b)
+    haveI : ∀ (a b : Fin n), Subsingleton
+        (@Quiver.Hom (Fin n) (@reversedAtVertex (Fin n) _ Q v) a b) :=
+      fun a b => subsingleton_hom_reversedAtVertex v a b
+    exact @ih _ this
+
+/-- Derive `Fintype` for each Hom type from `Subsingleton`, classically. -/
+noncomputable def fintypeHomOfSubsingleton
+    {V : Type*} [Quiver V] [∀ (a b : V), Subsingleton (@Quiver.Hom V _ a b)]
+    (a b : V) : Fintype (@Quiver.Hom V _ a b) := by
+  classical
+  exact if h : Nonempty (a ⟶ b)
+    then Fintype.ofSubsingleton h.some
+    else @Fintype.ofIsEmpty _ (not_nonempty_iff.mp h)
+
+/-- Derive `Fintype (ArrowsInto Q i)` from `Subsingleton` Hom types on `Fin n`. -/
+noncomputable def fintypeArrowsIntoOfSubsingleton
+    {Q : Quiver (Fin n)} [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (i : Fin n) : Fintype (@ArrowsInto (Fin n) Q i) := by
+  haveI : ∀ (a : Fin n), Fintype (@Quiver.Hom (Fin n) Q a i) :=
+    fun a => fintypeHomOfSubsingleton a i
+  exact Sigma.instFintype
+
+/-- `Module.Free` for the reflected representation at v ≠ i.
+At v ≠ i, F⁺ᵢ(ρ).obj v = ρ.obj v, so Free transfers. -/
+lemma reflFunctorPlus_free_ne
+    {k₀ : Type*} [Field k₀] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : IsSink Q i)
+    (ρ : @QuiverRepresentation k₀ Q _ _)
+    [∀ v, Module.Free k₀ (ρ.obj v)]
+    (v : Q) (hv : v ≠ i) :
+    Module.Free k₀ (@QuiverRepresentation.obj k₀ Q _ (reversedAtVertex Q i)
+      (reflectionFunctorPlus Q i hi ρ) v) := by
+  exact Module.Free.of_equiv (reflFunctorPlus_equivAt_ne hi ρ v hv).symm
+
+set_option linter.unusedFintypeInType false in
+/-- `Module.Free` for the reflected representation at i (ker of linear map over field). -/
+lemma reflFunctorPlus_free_eq
+    {k₀ : Type*} [Field k₀] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : IsSink Q i)
+    (ρ : @QuiverRepresentation k₀ Q _ _)
+    [∀ v, Module.Free k₀ (ρ.obj v)] [∀ v, Module.Finite k₀ (ρ.obj v)]
+    [Fintype (@ArrowsInto Q _ i)] :
+    Module.Free k₀ (@QuiverRepresentation.obj k₀ Q _ (reversedAtVertex Q i)
+      (reflectionFunctorPlus Q i hi ρ) i) := by
+  -- Transport via the linear equivalence F⁺ᵢ(ρ).obj i ≃ₗ ker(sinkMap).
+  -- `sinkMap i` maps the direct sum `⊕ⱼ Vⱼ` to `Vᵢ`, so its kernel is a submodule of it.
+  -- Every vector space is free, so equipping the kernel with its ring-induced AddCommGroup
+  -- makes it free; the freeness then transports back along the equivalence. The kernel's
+  -- own module structure is captured first so the added group structure does not shadow it.
+  letI modK : Module k₀ ↥(ρ.sinkMap i).ker := inferInstance
+  letI acgK : AddCommGroup ↥(ρ.sinkMap i).ker :=
+    @addCommGroupOfRing k₀ _ ↥(ρ.sinkMap i).ker inferInstance modK
+  haveI : Module.Free k₀ ↥(ρ.sinkMap i).ker :=
+    @Module.Free.of_divisionRing k₀ ↥(ρ.sinkMap i).ker _ acgK modK
+  exact Module.Free.of_equiv (reflFunctorPlus_equivAt_eq hi ρ).symm
+
+/-- `Module.Finite` for the reflected representation at v ≠ i. -/
+lemma reflFunctorPlus_finite_ne
+    {k₀ : Type*} [Field k₀] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : IsSink Q i)
+    (ρ : @QuiverRepresentation k₀ Q _ _)
+    [∀ v, Module.Finite k₀ (ρ.obj v)]
+    (v : Q) (hv : v ≠ i) :
+    Module.Finite k₀ (@QuiverRepresentation.obj k₀ Q _ (reversedAtVertex Q i)
+      (reflectionFunctorPlus Q i hi ρ) v) := by
+  exact Module.Finite.equiv (reflFunctorPlus_equivAt_ne hi ρ v hv).symm
+
+set_option linter.unusedFintypeInType false in
+/-- `Module.Finite` for the reflected representation at i. -/
+lemma reflFunctorPlus_finite_eq
+    {k₀ : Type*} [Field k₀] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : IsSink Q i)
+    (ρ : @QuiverRepresentation k₀ Q _ _)
+    [∀ v, Module.Free k₀ (ρ.obj v)] [∀ v, Module.Finite k₀ (ρ.obj v)]
+    [Fintype (@ArrowsInto Q _ i)] :
+    Module.Finite k₀ (@QuiverRepresentation.obj k₀ Q _ (reversedAtVertex Q i)
+      (reflectionFunctorPlus Q i hi ρ) i) := by
+  -- `sinkMap i` maps the direct sum `⊕ⱼ Vⱼ` to `Vᵢ`, so its kernel is a submodule of that
+  -- direct sum. The direct sum is a finite module over the field (a finite sum of finite
+  -- modules), hence Noetherian, so every submodule -- in particular the kernel -- is finite,
+  -- and the finiteness transports back along the equivalence. The direct sum's module
+  -- structure is captured first so the added group structure does not shadow it.
+  letI modD : Module k₀ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) := inferInstance
+  haveI finD : Module.Finite k₀ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) :=
+    Module.Finite.equiv (DirectSum.linearEquivFunOnFintype k₀ (@ArrowsInto Q _ i)
+      (fun a => ρ.obj a.1)).symm
+  haveI : IsNoetherian k₀ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) :=
+    @isNoetherian_of_isNoetherianRing_of_finite k₀
+      (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) _
+      (@addCommGroupOfRing k₀ _ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1))
+        inferInstance modD) modD _ finD
+  exact Module.Finite.equiv (reflFunctorPlus_equivAt_eq hi ρ).symm
+
+/-! ### Relating simpleReflectionDimVector and simpleReflection
+
+For a sink p of an orientation of a Dynkin diagram with Subsingleton Hom types,
+the ArrowsInto-indexed sum `Σ_{a : ArrowsInto Q p} d(a.1)` equals the
+Cartan-matrix-indexed sum `Σ_j adj(p,j) * d(j)`, because:
+- adj(p,j) = 1 iff there exists an arrow j → p (since p is a sink, all adjacent arrows point in)
+- Subsingleton ensures at most one arrow per direction
+- So the ArrowsInto sum runs over exactly those j with adj(p,j) = 1 -/
+
+/-- At a sink of a Dynkin orientation with Subsingleton Hom types,
+`simpleReflectionDimVector` equals `simpleReflection` on the dimension vector. -/
+lemma simpleReflectionDimVector_eq_simpleReflection
+    (hDynkin : IsDynkinDiagram n adj)
+    {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj)
+    [hSS : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (p : Fin n) (hp : @IsSink (Fin n) Q p)
+    (d : Fin n → ℤ) :
+    haveI := fintypeArrowsIntoOfSubsingleton (Q := Q) p
+    simpleReflectionDimVector (fun (a : @ArrowsInto (Fin n) Q p) => a.1) p d =
+    simpleReflection n (cartanMatrix n adj) p d := by
+  -- Provide Fintype instances (needed for card computations)
+  haveI := fintypeArrowsIntoOfSubsingleton (Q := Q) p
+  haveI : ∀ (a b : Fin n), Fintype (@Quiver.Hom (Fin n) Q a b) :=
+    fun a b => fintypeHomOfSubsingleton a b
+  ext v
+  unfold simpleReflectionDimVector simpleReflection rootReflection
+  by_cases hv : v = p
+  · subst hv
+    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same, mul_one, if_true]
+    -- Goal: -d v + ∑ x, d x.fst = d v - d ⬝ᵥ cartanMatrix n adj *ᵥ Pi.single v 1
+    -- Step 1: compute dot product with Cartan matrix
+    have hdot : d ⬝ᵥ cartanMatrix n adj *ᵥ Pi.single v 1 =
+        2 * d v - ∑ j : Fin n, adj j v * d j := by
+      -- Collapse dotProduct/mulVec/Pi.single to ∑ j, d j * A j v
+      simp only [dotProduct, Matrix.mulVec, Pi.single_apply, mul_ite, mul_one, mul_zero,
+        Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+      -- Direct computation: expand dotProduct, mulVec, cartanMatrix
+      simp only [cartanMatrix]
+      -- Each entry: (2 • 1 - adj) j v = 2 * (if j=v then 1 else 0) - adj j v
+      simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply]
+      simp only [nsmul_eq_mul, Nat.cast_ofNat]
+      -- Now: ∑ j, d j * (2*(if j=v then 1 else 0) - adj j v) = 2*dv - ∑ j, adj j v * d j
+      simp only [mul_sub, Finset.sum_sub_distrib, mul_ite, mul_zero, mul_one,
+        Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+      simp_rw [mul_comm (d _) (adj _ _)]
+      ring
+    -- Step 2: card(j ⟶ v) = adj j v for each j
+    have hcard : ∀ j : Fin n, (Fintype.card (@Quiver.Hom (Fin n) Q j v) : ℤ) = adj j v := by
+      intro j
+      rcases hDynkin.2.2.1 j v with h0 | h1
+      · -- adj j v = 0: no arrows j → v
+        haveI : IsEmpty (@Quiver.Hom (Fin n) Q j v) := hOrient.1 j v (by omega)
+        rw [Fintype.card_eq_zero]; omega
+      · -- adj j v = 1: exactly one arrow j → v (v is sink, so v → j is empty)
+        rcases hOrient.2.1 j v h1 with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
+        · -- j → v exists, Subsingleton → card = 1
+          haveI : Unique (@Quiver.Hom (Fin n) Q j v) :=
+            { default := e, uniq := fun a => Subsingleton.elim a e }
+          simp [Fintype.card_unique, h1]
+        · -- v → j exists, but v is a sink → contradiction
+          exact ((hp j).false e).elim
+    -- Step 3: decompose ArrowsInto sum via Sigma
+    have hsum : (∑ a : @ArrowsInto (Fin n) Q v, d a.fst) = ∑ j : Fin n, adj j v * d j := by
+      -- Prove via an equivalence that carries sums between Fintype instances.
+      -- ArrowsInto = Σ j, (j ⟶ v), and fintypeArrowsIntoOfSubsingleton = Sigma.instFintype
+      -- Build the equiv explicitly to avoid instance mismatch.
+      -- Step 1: create a Sigma Fintype with the Hom Fintype from context
+      letI sigmaFT : Fintype (Σ j : Fin n, @Quiver.Hom (Fin n) Q j v) := Sigma.instFintype
+      -- Step 2: show ArrowsInto sum = Sigma sum (definitionally equal types)
+      have h_unfold : (∑ a : @ArrowsInto (Fin n) Q v, d a.fst) =
+          @Finset.sum _ _ _ (@Finset.univ _ sigmaFT) (fun a => d a.fst) := by
+        apply Finset.sum_congr
+        · ext x; exact iff_of_true (Finset.mem_univ x) (@Finset.mem_univ _ sigmaFT x)
+        · intros; rfl
+      rw [h_unfold]
+      -- Step 3: decompose Sigma sum
+      rw [Fintype.sum_sigma]
+      congr 1; ext j
+      -- ∑ y, d ⟨j, y⟩.fst = ∑ y, d j = card(j ⟶ v) * d j = adj j v * d j
+      change (∑ _ : @Quiver.Hom (Fin n) Q j v, d j) = adj j v * d j
+      rw [Finset.sum_const, nsmul_eq_mul]
+      have : (Finset.univ (α := @Quiver.Hom (Fin n) Q j v)).card = Fintype.card _ := rfl
+      rw [this, show (Fintype.card (@Quiver.Hom (Fin n) Q j v) : ℤ) = adj j v from hcard j]
+    -- Goal's ∑ and hsum's ∑ may use different Fintype instances; use omega after cast
+    have : ∀ (inst1 inst2 : Fintype (@ArrowsInto (Fin n) Q v)),
+        @Finset.sum _ _ _ (@Finset.univ _ inst1) (fun x => d x.fst) =
+        @Finset.sum _ _ _ (@Finset.univ _ inst2) (fun x => d x.fst) := by
+      intro i1 i2
+      apply Finset.sum_congr
+      · ext x; simp [Finset.mem_univ]
+      · intros; rfl
+    linarith [this (fintypeArrowsIntoOfSubsingleton v) inferInstance, hsum, hdot]
+  · simp only [hv, ite_false, Pi.sub_apply, Pi.smul_apply, smul_eq_mul,
+      Pi.single_apply, mul_zero, sub_zero]
+
+/-- Predicate packaging the "surviving representation" data after walking along a vertex list.
+Bundled to avoid typeclass instance conflicts between Q_cur and iteratedReversedAtVertices Q_cur tail
+in the return type of walk_admissible_ordering. -/
+private def SurvivingRepData
+    (k : Type*) [CommSemiring k] (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
+    (Q_end : @Quiver.{0, 0} (Fin n))
+    (d_cur : Fin n → ℤ) (tail : List (Fin n)) : Prop :=
+  ∃ (ρ_end : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q_end),
+    (∀ v, @Module.Free k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v)) ∧
+    (∀ v, @Module.Finite k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v)) ∧
+    @QuiverRepresentation.IsIndecomposable k _ _ Q_end ρ_end ∧
+    ∀ v, (@Module.finrank k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v) : ℤ) =
+      iteratedSimpleReflection n (cartanMatrix n adj) tail d_cur v
+
+/-- Predicate packaging the **terminal representation** `V⁽ᵐ⁾` reached when the
+walk along an admissible ordering hits a simple root. It bundles the oriented
+quiver `Q_end` on which `V⁽ᵐ⁾` lives (an orientation of `adj` obtained by the
+iterated reflection functors), together with the fact that `V⁽ᵐ⁾` is a
+finite-dimensional indecomposable representation whose dimension vector *equals*
+the simple root `αₚ`. This is the source-faithful categorical endpoint of
+Theorem 6.8.1: "some `V⁽ᵐ⁾` has dimension vector a simple root". -/
+private def TerminalRepData
+    (k : Type*) [Field k] (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
+    (Q_end : @Quiver.{0, 0} (Fin n)) (p : Fin n) : Prop :=
+  IsOrientationOf Q_end adj ∧
+  (∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_end a b)) ∧
+  ∃ (ρ_end : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q_end),
+    (∀ v, @Module.Free k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v)) ∧
+    (∀ v, @Module.Finite k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v)) ∧
+    @QuiverRepresentation.IsIndecomposable k _ _ Q_end ρ_end ∧
+    ∀ v, (@Module.finrank k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v) : ℤ) =
+      simpleRoot n p v
+
+/-- Helper: walk along a (partial) vertex list, threading an indecomposable
+representation through reflection functors. Returns either a simple root index
+(together with the terminal representation `V⁽ᵐ⁾` witnessing it, packaged as
+`TerminalRepData`) or the surviving representation on the final reversed quiver. -/
+private lemma walk_admissible_ordering
+    (hDynkin : IsDynkinDiagram n adj)
+    {k : Type*} [Field k]
+    (tail : List (Fin n))
+    {Q_cur : @Quiver.{0, 0} (Fin n)}
+    (hOrient_cur : @IsOrientationOf n Q_cur adj)
+    (hSS_cur : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b))
+    (hSinks : ∀ m (hm : m < tail.length),
+      @IsSink (Fin n)
+        (@iteratedReversedAtVertices _ _ Q_cur (tail.take m))
+        (tail.get ⟨m, hm⟩))
+    (ρ_cur : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q_cur)
+    (hFree_cur : ∀ v, Module.Free k (ρ_cur.obj v))
+    (hFinite_cur : ∀ v, Module.Finite k (ρ_cur.obj v))
+    (hIndec_cur : @QuiverRepresentation.IsIndecomposable k _ _ Q_cur ρ_cur)
+    (d_cur : Fin n → ℤ)
+    (hd_cur : d_cur = fun v => (Module.finrank k (ρ_cur.obj v) : ℤ)) :
+    (∃ (i : ℕ) (p : Fin n), i ≤ tail.length ∧
+      iteratedSimpleReflection n (cartanMatrix n adj) (tail.take i) d_cur = simpleRoot n p ∧
+      TerminalRepData k n adj (@iteratedReversedAtVertices _ _ Q_cur (tail.take i)) p)
+    ∨
+    SurvivingRepData k n adj (@iteratedReversedAtVertices _ _ Q_cur tail) d_cur tail := by
+  induction tail generalizing Q_cur d_cur with
+  | nil =>
+    -- Base case: return ρ_cur unchanged
+    right
+    exact ⟨ρ_cur, fun v => hFree_cur v, fun v => hFinite_cur v, hIndec_cur,
+      fun v => by simp [iteratedSimpleReflection]; rw [hd_cur]⟩
+  | cons i rest ih =>
+    -- i is a sink of Q_cur (from hSinks at position 0)
+    have hi_sink : @IsSink (Fin n) Q_cur i := by
+      have := hSinks 0 (by simp)
+      -- The `take 0` and `iteratedReversedAtVertices` reductions hold definitionally,
+      -- so `this` is already the goal.
+      exact this
+    -- Derive instances
+    haveI : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur
+    haveI : Fintype (@ArrowsInto (Fin n) Q_cur i) :=
+      fintypeArrowsIntoOfSubsingleton i
+    haveI : ∀ v, Module.Free k (ρ_cur.obj v) := hFree_cur
+    haveI : ∀ v, Module.Finite k (ρ_cur.obj v) := hFinite_cur
+    -- Apply Prop 6.6.5: simple or surjective at sink
+    rcases @Proposition6_6_5_sink k _ _ _ Q_cur ρ_cur i _ _ hi_sink hIndec_cur with
+      h_simple | h_surj
+    · -- ρ_cur is simple at i: d_cur = simpleRoot n i, and ρ_cur itself is the
+      -- terminal representation V⁽ᵐ⁾ realizing the simple root.
+      left
+      refine ⟨0, i, Nat.zero_le _, ?_, ?_⟩
+      · simp only [List.take_zero, iteratedSimpleReflection]
+        ext v
+        by_cases hv : v = i
+        · subst hv; simp [simpleRoot, hd_cur]; exact_mod_cast h_simple.1
+        · simp [simpleRoot, Ne.symm hv, hd_cur]
+          exact_mod_cast h_simple.2 v hv
+      · -- `iteratedReversedAtVertices Q_cur (tail.take 0) = Q_cur` definitionally.
+        refine ⟨hOrient_cur, hSS_cur, ρ_cur, hFree_cur, hFinite_cur, hIndec_cur, ?_⟩
+        intro v
+        by_cases hv : v = i
+        · subst hv; simp only [simpleRoot, Pi.single_eq_same]; exact_mod_cast h_simple.1
+        · simp only [simpleRoot, Pi.single_eq_of_ne hv]; exact_mod_cast h_simple.2 v hv
+    · -- ρ_cur has surjective sink map at i: apply F⁺
+      -- Precompute equalities that need Q_cur instances BEFORE introducing Q_rev
+      set d_new := simpleReflection n (cartanMatrix n adj) i d_cur with hd_new_def
+      have hd_eq : (fun v => (Module.finrank k (ρ_cur.obj v) : ℤ)) = d_cur := by
+        rw [hd_cur]
+      have hbridge :
+          haveI := fintypeArrowsIntoOfSubsingleton (Q := Q_cur) i
+          simpleReflectionDimVector (fun (a : @ArrowsInto (Fin n) Q_cur i) => a.1) i d_cur =
+          simpleReflection n (cartanMatrix n adj) i d_cur :=
+        @simpleReflectionDimVector_eq_simpleReflection _ _
+          hDynkin Q_cur hOrient_cur hSS_cur i hi_sink d_cur
+      -- Prove sink subsingleton helper (needed for zero-rep detection)
+      have h_sink_ss_of_src :
+          (∀ (a : @ArrowsInto (Fin n) Q_cur i), Subsingleton (ρ_cur.obj a.1)) →
+          Subsingleton (ρ_cur.obj i) := by
+        intro hsrc_ss
+        refine ⟨fun a b => ?_⟩
+        obtain ⟨x, rfl⟩ := h_surj a
+        obtain ⟨y, rfl⟩ := h_surj b
+        suffices x = y by rw [this]
+        have : ∀ z : DirectSum (@ArrowsInto (Fin n) Q_cur i)
+            (fun a => ρ_cur.obj a.1), z = 0 :=
+          fun z => DFinsupp.ext (fun j => @Subsingleton.elim _ (hsrc_ss j) _ _)
+        exact (this x).trans (this y).symm
+      let Q_rev := @reversedAtVertex (Fin n) _ Q_cur i
+      let ρ_plus := @reflectionFunctorPlus k _ (Fin n) _ Q_cur i hi_sink ρ_cur
+      -- Subsingleton/Fintype on reversed quiver
+      have hSS_rev : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_rev a b) :=
+        fun a b => subsingleton_hom_reversedAtVertex i a b
+      haveI : Fintype (@ArrowsInto (Fin n) Q_rev i) :=
+        @fintypeArrowsIntoOfSubsingleton _ Q_rev hSS_rev i
+      -- Free/Finite for F⁺ outputs
+      have hFree_plus : ∀ v, Module.Free k (ρ_plus.obj v) := fun v => by
+        by_cases hv : v = i
+        · rw [hv]; exact @reflFunctorPlus_free_eq k _ (Fin n) _ Q_cur i hi_sink ρ_cur _ _ _
+        · exact @reflFunctorPlus_free_ne k _ (Fin n) _ Q_cur i hi_sink ρ_cur _ v hv
+      have hFinite_plus : ∀ v, Module.Finite k (ρ_plus.obj v) := fun v => by
+        by_cases hv : v = i
+        · rw [hv]; exact @reflFunctorPlus_finite_eq k _ (Fin n) _ Q_cur i hi_sink ρ_cur _ _ _
+        · exact @reflFunctorPlus_finite_ne k _ (Fin n) _ Q_cur i hi_sink ρ_cur _ v hv
+      -- F⁺ output is indecomposable (Prop 6.6.7)
+      have hIndec_plus :
+          @QuiverRepresentation.IsIndecomposable k _ _ Q_rev ρ_plus := by
+        rcases @Proposition6_6_7_sink k _ _ _ Q_cur i hi_sink ρ_cur _ _ hIndec_cur
+          with h | h_zero
+        · exact h
+        · exfalso
+          obtain ⟨⟨v, hv⟩, _⟩ := hIndec_cur
+          suffices hs : ∀ j, Subsingleton
+              (@QuiverRepresentation.obj k (Fin n) _ Q_cur ρ_cur j) from
+            absurd (hs v) (not_subsingleton_iff_nontrivial.mpr hv)
+          intro j
+          by_cases hj : j = i
+          · rw [hj]; exact h_sink_ss_of_src (fun ⟨m, e⟩ =>
+              (@reflFunctorPlus_equivAt_ne k _ (Fin n) _ Q_cur i hi_sink ρ_cur m
+                (fun h => (hi_sink m).false (h ▸ e))).toEquiv.subsingleton_congr.mp (h_zero m))
+          · exact (@reflFunctorPlus_equivAt_ne k _ (Fin n) _
+              Q_cur i hi_sink ρ_cur j hj).toEquiv.subsingleton_congr.mp (h_zero j)
+      -- Orientation on reversed quiver
+      have hOrient_rev : @IsOrientationOf n Q_rev adj :=
+        reversedAtVertex_isOrientationOf hDynkin.1 hDynkin.2.1 hOrient_cur i
+      -- Dim vector of F⁺ output = simpleReflection of d_cur
+      have hDim_plus : ∀ v, (Module.finrank k (ρ_plus.obj v) : ℤ) = d_new v := by
+        intro v
+        haveI : ∀ v, Module.Free k (ρ_plus.obj v) := hFree_plus
+        haveI : ∀ v, Module.Finite k (ρ_plus.obj v) := hFinite_plus
+        have h668 := @Proposition6_6_8_sink k _
+          (Fin n) _ Q_cur i hi_sink ρ_cur _ _ _ h_surj v
+        change (ρ_plus.finrankAt' k v : ℤ) = d_new v
+        rw [h668, hd_eq]
+        convert congr_fun hbridge v
+      -- Sinks condition for rest on reversed quiver
+      have hSinks_rest : ∀ m (hm : m < rest.length),
+          @IsSink (Fin n)
+            (@iteratedReversedAtVertices _ _ Q_rev (rest.take m))
+            (rest.get ⟨m, hm⟩) := by
+        intro m hm
+        exact hSinks (m + 1) (by simp [List.length_cons]; omega)
+      -- Apply IH to F⁺ output on reversed quiver
+      rcases @ih Q_rev hOrient_rev hSS_rev hSinks_rest ρ_plus hFree_plus hFinite_plus
+        hIndec_plus d_new (funext fun v => (hDim_plus v).symm) with
+        ⟨j, p, hj, hp, hTerm⟩ | ⟨ρ_end, hFree_end, hFinite_end, hIndec_end, hDim_end⟩
+      · -- Simple root found at prefix j of rest; the terminal representation lives
+        -- on `iteratedReversedAtVertices Q_cur (i :: rest.take j)`, which is
+        -- `iteratedReversedAtVertices Q_rev (rest.take j)` definitionally.
+        left
+        refine ⟨j + 1, p, by simp [List.length_cons]; omega, ?_, ?_⟩
+        · simp only [List.take_succ_cons]
+          rw [iteratedSimpleReflection_cons]
+          exact hp
+        · show TerminalRepData k n adj
+            (@iteratedReversedAtVertices _ _ Q_cur ((i :: rest).take (j + 1))) p
+          rw [List.take_succ_cons]
+          exact hTerm
+      · -- Rep survives: pass through
+        right
+        show SurvivingRepData k n adj _ d_cur (i :: rest)
+        unfold SurvivingRepData
+        exact ⟨ρ_end, hFree_end, hFinite_end, hIndec_end, fun v => by
+          rw [show iteratedSimpleReflection n (cartanMatrix n adj) (i :: rest) d_cur =
+            iteratedSimpleReflection n (cartanMatrix n adj) rest d_new from
+            iteratedSimpleReflection_cons _ i rest d_cur]
+          exact hDim_end v⟩
+
+/-- **One round of reflection functors along an admissible ordering.**
+
+For an indecomposable representation V with admissible ordering σ, either:
+- Some prefix of σ reduces d(V) to a simple root αₚ, or
+- After the full round, the Coxeter-transformed dimension vector c_σ(d(V))
+  is nonneg and is the dimension vector of an indecomposable representation
+  on the same quiver Q (since reversal at all vertices returns Q).
+
+The proof applies Props 6.6.5, 6.6.7, 6.6.8 at each step of the admissible
+ordering, threading the type-changing quiver instances. -/
+lemma one_round_or_simpleRoot
+    (hDynkin : IsDynkinDiagram n adj)
+    {k : Type*} [Field k]
+    {Q : @Quiver.{0, 0} (Fin n)} (hOrient : IsOrientationOf Q adj)
+    [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (σ : List (Fin n)) (hσ : IsAdmissibleOrdering Q σ)
+    (ρ : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    (hρ : ρ.IsIndecomposable)
+    (d : Fin n → ℤ) (hd : d = fun v => (Module.finrank k (ρ.obj v) : ℤ)) :
+    (∃ (i : ℕ) (p : Fin n), i ≤ σ.length ∧
+      iteratedSimpleReflection n (cartanMatrix n adj) (σ.take i) d = simpleRoot n p ∧
+      TerminalRepData k n adj (@iteratedReversedAtVertices _ _ Q (σ.take i)) p)
+    ∨
+    ((∀ i, 0 ≤ iteratedSimpleReflection n (cartanMatrix n adj) σ d i) ∧
+     iteratedSimpleReflection n (cartanMatrix n adj) σ d ≠ 0 ∧
+     SurvivingRepData k n adj Q d σ) := by
+  -- Apply the helper lemma to walk through σ
+  rcases walk_admissible_ordering hDynkin σ hOrient
+    (fun a b => inferInstance) hσ.isSink ρ
+    (fun v => inferInstance) (fun v => inferInstance) hρ d hd with
+    ⟨i, p, hi, hp, hTerm⟩ | hSurv
+  · left; exact ⟨i, p, hi, hp, hTerm⟩
+  · -- Transport SurvivingRepData from iteratedReversedAtVertices Q σ to Q via perm_eq
+    right
+    have heq : @iteratedReversedAtVertices _ _ Q σ = Q :=
+      iteratedReversedAtVertices_perm_eq Q σ hσ.perm
+    -- Transport the SurvivingRepData bundle at once
+    have hSurv_Q : SurvivingRepData k n adj Q d σ := heq ▸ hSurv
+    obtain ⟨ρ', hFree', hFinite', hIndec', hDim'⟩ := hSurv_Q
+    refine ⟨?_, ?_, ρ', hFree', hFinite', hIndec', hDim'⟩
+    · -- Nonneg
+      intro v; rw [← hDim' v]; exact Int.natCast_nonneg _
+    · -- Nonzero
+      intro h0
+      obtain ⟨⟨v, hv⟩, _⟩ := hIndec'
+      have h0v : (@Module.finrank k _ _ (ρ'.instAddCommMonoid v) (ρ'.instModule v) : ℤ) = 0 := by
+        rw [hDim' v]; exact congr_fun h0 v
+      simp only [Int.natCast_eq_zero] at h0v
+      haveI := hFree' v; haveI := hFinite' v
+      rw [Module.finrank_eq_zero_iff_of_free (R := k)] at h0v
+      exact absurd h0v (not_subsingleton_iff_nontrivial.mpr hv)
+
+/-- **Representation-level Theorem 6.8.1**: For an indecomposable representation V
+of a Dynkin quiver, there exist simple reflections reducing d(V) to a simple root,
+*and* a terminal representation `V⁽ᵐ⁾` (packaged as `TerminalRepData`) realizing
+that simple root as its dimension vector.
+
+The proof follows the book's argument:
+1. Choose an admissible ordering σ = (σ₁, ..., σₙ)
+2. Apply `one_round_or_simpleRoot` to get either a simple root or a new indecomp rep
+3. By the generalized Lemma 6.7.2, this iteration cannot continue indefinitely
+4. Conclusion: some prefix of the iterated ordering reduces d(V) to a simple root,
+   and the representation obtained at that prefix (via the reflection functors) is
+   the source-faithful `V⁽ᵐ⁾` whose dimension vector equals `αₚ`. -/
+private lemma indecomposable_reduces_to_simpleRoot
+    (hDynkin : IsDynkinDiagram n adj)
+    {k : Type*} [Field k]
+    {Q : @Quiver.{0, 0} (Fin n)} (hOrient : IsOrientationOf Q adj)
+    [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (ρ : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    (hρ : ρ.IsIndecomposable) :
+    ∃ (vertices : List (Fin n)) (p : Fin n),
+      iteratedSimpleReflection n (cartanMatrix n adj) vertices
+        (fun v => (Module.finrank k (ρ.obj v) : ℤ)) = simpleRoot n p ∧
+      ∃ (Q_end : @Quiver.{0, 0} (Fin n)), TerminalRepData k n adj Q_end p := by
+  obtain ⟨σ, hσ⟩ := admissibleOrdering_exists hDynkin hOrient
+  set A := cartanMatrix n adj
+  set d := fun v => (Module.finrank k (ρ.obj v) : ℤ) with hd_def
+  set c := fun v => iteratedSimpleReflection n A σ v
+  -- d is nonneg
+  have hd_nonneg : ∀ i, 0 ≤ d i := fun i => Int.natCast_nonneg _
+  -- d is nonzero (indecomposable → nontrivial at some vertex → finrank > 0)
+  have hd_nonzero : d ≠ 0 := by
+    obtain ⟨v, hv⟩ := hρ.1
+    intro heq
+    have h0 : d v = 0 := congr_fun heq v
+    simp only [hd_def] at h0
+    -- finrank = 0 contradicts Nontrivial (which gives finrank ≥ 1)
+    have hfr : Module.finrank k (ρ.obj v) = 0 := by exact_mod_cast h0
+    -- finrank = 0 forces Subsingleton (module is free), contradicting Nontrivial.
+    -- Use the free-module version so no auxiliary AddCommGroup instance is needed.
+    rw [Module.finrank_eq_zero_iff_of_free (R := k)] at hfr
+    exact absurd hfr (not_subsingleton_iff_nontrivial.mpr hv)
+  -- By generalized Lemma 6.7.2: ∃ N i, c^N(d)_i < 0
+  have hσ_perm := hσ.perm
+  obtain ⟨N, i, hNeg⟩ := generalized_Lemma6_7_2 hDynkin σ hσ_perm d hd_nonneg hd_nonzero
+  -- Iterate one_round_or_simpleRoot N times, threading the representation.
+  -- Strengthen the induction: at each round M, either found a simple root,
+  -- or have an indecomposable representation ρ_M on Q with dim vec = c^M(d).
+  suffices ∀ (M : ℕ),
+    (∃ (vertices : List (Fin n)) (p : Fin n),
+      iteratedSimpleReflection n A vertices d = simpleRoot n p ∧
+      ∃ (Q_end : @Quiver.{0, 0} (Fin n)), TerminalRepData k n adj Q_end p) ∨
+    ((∀ j, 0 ≤ c^[M] d j) ∧
+     ∃ (ρ_M : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q),
+       (∀ v, Module.Free k (ρ_M.obj v)) ∧
+       (∀ v, Module.Finite k (ρ_M.obj v)) ∧
+       ρ_M.IsIndecomposable ∧
+       (∀ v, (Module.finrank k (ρ_M.obj v) : ℤ) = c^[M] d v)) by
+    rcases this N with ⟨vertices, p, hp, hQend⟩ | ⟨hNN, _⟩
+    · exact ⟨vertices, p, hp, hQend⟩
+    · exact absurd (hNN i) (not_le.mpr hNeg)
+  intro M
+  induction M with
+  | zero =>
+    right
+    exact ⟨fun j => by simp only [Function.iterate_zero, id_eq]; exact hd_nonneg j,
+           ρ, ‹_›, ‹_›, hρ,
+           fun v => by simp only [Function.iterate_zero, id_eq, hd_def]⟩
+  | succ M ih =>
+    rcases ih with ⟨vertices, p, hp, hQend⟩ |
+      ⟨hM_nonneg, ρ_M, hFree_M, hFinite_M, hIndecomp_M, hDimVec_M⟩
+    · left; exact ⟨vertices, p, hp, hQend⟩
+    · -- c^M(d) is nonneg and is the dim vector of indecomp ρ_M on Q.
+      -- Apply one_round_or_simpleRoot to ρ_M.
+      haveI : ∀ v, Module.Free k (ρ_M.obj v) := hFree_M
+      haveI : ∀ v, Module.Finite k (ρ_M.obj v) := hFinite_M
+      have hd_M : c^[M] d = fun v => (Module.finrank k (ρ_M.obj v) : ℤ) := by
+        ext v; exact (hDimVec_M v).symm
+      rcases one_round_or_simpleRoot hDynkin hOrient σ hσ ρ_M hIndecomp_M
+        (c^[M] d) hd_M with
+        ⟨j, p, hj, hp, hTerm⟩ | ⟨hnonneg, hnonzero, ρ', hFree', hFinite', hIndecomp', hDimVec'⟩
+      · -- Found simple root at prefix j of round M; the terminal representation
+        -- V⁽ᵐ⁾ lives on `iteratedReversedAtVertices Q (σ.take j)`.
+        left
+        -- The full vertex sequence is σ^M ++ σ.take j
+        refine ⟨(List.replicate M σ).flatten ++ σ.take j, p, ?_, _, hTerm⟩
+        rw [iteratedSimpleReflection_append]
+        rw [iteratedSimpleReflection_replicate_eq_iterate]
+        exact hp
+      · -- Full round completed: c^{M+1}(d) is nonneg with indecomp rep ρ'
+        right
+        exact ⟨fun j => by rw [Function.iterate_succ', Function.comp_apply]; exact hnonneg j,
+          ρ', hFree', hFinite', hIndecomp',
+          fun v => by rw [Function.iterate_succ', Function.comp_apply]; exact hDimVec' v⟩
+
+/-- **Theorem 6.8.1 (source-faithful, categorical form).**
+
+Let `Q` be an orientation of a Dynkin diagram `adj` and let `V` be an arbitrary
+finite-dimensional indecomposable quiver representation of `Q`. Then, applying the
+reflection functors along an admissible sink ordering, some iterate `V⁽ᵐ⁾` has
+dimension vector equal to a simple root `αₚ`.
+
+Concretely the theorem produces:
+- the numerical reflection sequence `vertices` carrying `d(V)` to `αₚ`
+  (`iteratedSimpleReflection … vertices d(V) = αₚ`, the endpoint of the
+  purely combinatorial `Etingof.Theorem6_8_1`), together with
+- the actual terminal representation `V⁽ᵐ⁾`: an oriented quiver `Q_end`
+  (an orientation of `adj`), and a finite-dimensional indecomposable
+  representation `W` on `Q_end` whose dimension vector *equals* `αₚ` at every
+  vertex.
+
+This is the categorical endpoint of the book's Theorem 6.8.1 ("there exists `m`
+with `d(V⁽ᵐ⁾) = αₚ`"): `W` is `V⁽ᵐ⁾`, obtained from `V` by the successive
+reflection functors, and its indecomposability is carried through Propositions
+6.6.5 and 6.6.7 at each step, with the first-failure/surjectivity alternative
+supplied by `Proposition6_6_5_sink`.
+(Etingof Theorem 6.8.1) -/
+theorem Theorem6_8_1_representation
+    (hDynkin : IsDynkinDiagram n adj)
+    {k : Type*} [Field k]
+    {Q : @Quiver.{0, 0} (Fin n)} (hOrient : IsOrientationOf Q adj)
+    [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (ρ : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    (hρ : ρ.IsIndecomposable) :
+    ∃ (vertices : List (Fin n)) (p : Fin n),
+      -- numerical endpoint: the reflection sequence carries d(V) to αₚ
+      iteratedSimpleReflection n (cartanMatrix n adj) vertices
+        (fun v => (Module.finrank k (ρ.obj v) : ℤ)) = simpleRoot n p ∧
+      -- categorical endpoint: the terminal representation V⁽ᵐ⁾ on Q_end
+      ∃ (Q_end : @Quiver.{0, 0} (Fin n)),
+        IsOrientationOf Q_end adj ∧
+        (∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_end a b)) ∧
+        ∃ (W : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q_end),
+          (∀ v, @Module.Free k (W.obj v) _ (W.instAddCommMonoid v) (W.instModule v)) ∧
+          (∀ v, @Module.Finite k (W.obj v) _ (W.instAddCommMonoid v) (W.instModule v)) ∧
+          @QuiverRepresentation.IsIndecomposable k _ _ Q_end W ∧
+          (∀ v, (@Module.finrank k (W.obj v) _ (W.instAddCommMonoid v) (W.instModule v) : ℤ) =
+            simpleRoot n p v) := by
+  obtain ⟨vertices, p, hrefl, Q_end, hTerm⟩ :=
+    indecomposable_reduces_to_simpleRoot hDynkin hOrient ρ hρ
+  exact ⟨vertices, p, hrefl, Q_end, hTerm⟩
+
+/-- **Corollary 6.8.2.** Let `Q` be a Dynkin quiver and let `V` be any indecomposable
+representation. Then the dimension vector `d(V)` is a positive root.
+
+This is the faithful statement of the book's corollary: it quantifies over an arbitrary
+indecomposable representation `ρ` of an orientation `Q` of the Dynkin diagram `adj`, and
+concludes `IsPositiveRoot n adj d(V)`. The reflection sequence reducing `d(V)` to a simple
+root is produced from the representation by the representation-level Theorem 6.8.1
+(`indecomposable_reduces_to_simpleRoot`); it is not assumed. The purely combinatorial core,
+that any nonnegative nonzero vector reducible to a simple root is a positive root, is
+`Etingof.isPositiveRoot_of_iteratedReflection_eq_simpleRoot`.
+(Etingof Corollary 6.8.2) -/
+theorem Corollary6_8_2
+    (hDynkin : IsDynkinDiagram n adj)
+    {k : Type*} [Field k]
+    {Q : @Quiver.{0, 0} (Fin n)} (hOrient : IsOrientationOf Q adj)
+    [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (ρ : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    (hρ : ρ.IsIndecomposable) :
+    IsPositiveRoot n adj (fun v => (Module.finrank k (ρ.obj v) : ℤ)) := by
+  set d := fun v => (Module.finrank k (ρ.obj v) : ℤ) with hd_def
+  -- d is nonneg (finranks are nonneg)
+  have hd_pos : ∀ v, 0 ≤ d v := fun v => Int.natCast_nonneg _
+  -- d is nonzero (V is indecomposable, hence nontrivial at some vertex)
+  have hd_nonzero : d ≠ 0 := by
+    obtain ⟨v, hv⟩ := hρ.1
+    intro heq
+    have hv_eq := congr_fun heq v
+    simp only [hd_def, Pi.zero_apply, Int.natCast_eq_zero] at hv_eq
+    -- finrank = 0 → Subsingleton (module is free), contradicting Nontrivial
+    rw [Module.finrank_eq_zero_iff_of_free (R := k)] at hv_eq
+    exact absurd hv_eq (not_subsingleton_iff_nontrivial.mpr hv)
+  -- By rep-level Theorem 6.8.1: reflections reduce d to a simple root
+  obtain ⟨vertices, p, hrefl, _⟩ := indecomposable_reduces_to_simpleRoot hDynkin hOrient ρ hρ
+  -- Combinatorial core: a nonneg nonzero vector reducible to a simple root is a positive root
+  exact isPositiveRoot_of_iteratedReflection_eq_simpleRoot hDynkin d hd_pos hd_nonzero
+    ⟨vertices, p, hrefl⟩
+
+/-- The dimension vector of an indecomposable representation of a Dynkin quiver
+satisfies B(d, d) = 2 (not just ≤ 2).
+
+A direct consequence of the faithful Corollary 6.8.2: `IsPositiveRoot` packages exactly
+`B(d, d) = 2` together with `d ≠ 0` and nonnegativity.
+
+This theorem resolves `indecomposable_titsForm_le_two` in `Corollary6_8_3.lean`. -/
+theorem indecomposable_bilinearForm_eq_two
+    (hDynkin : IsDynkinDiagram n adj)
+    {k : Type*} [Field k]
+    {Q : @Quiver.{0, 0} (Fin n)} (hOrient : IsOrientationOf Q adj)
+    [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (ρ : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    (hρ : ρ.IsIndecomposable) :
+    dotProduct (fun v => (Module.finrank k (ρ.obj v) : ℤ))
+      ((cartanMatrix n adj).mulVec (fun v => (Module.finrank k (ρ.obj v) : ℤ))) = 2 :=
+  (Corollary6_8_2 hDynkin hOrient ρ hρ).1.2
+
+/-! ## Admissible sinks for replicated orderings
+
+When σ is an admissible ordering and we repeat it M times (plus a prefix),
+each vertex in the resulting list is still a sink at the appropriate iterated
+reversal. This is because one full round of reversals returns Q to itself
+(`iteratedReversedAtVertices_perm_eq`), so each copy of σ sees the same quiver. -/
+
+/-- Reversing at every vertex M times (via `List.replicate M σ |>.flatten`)
+returns the quiver to its original state, since each full round is a no-op. -/
+theorem iteratedReversedAtVertices_replicate_flatten_eq
+    (Q : Quiver (Fin n)) (σ : List (Fin n))
+    (hσ : σ.Perm (List.finRange n)) (M : ℕ) :
+    iteratedReversedAtVertices Q ((List.replicate M σ).flatten) = Q := by
+  induction M with
+  | zero => simp [iteratedReversedAtVertices]
+  | succ M ih =>
+    simp only [List.replicate_succ, List.flatten_cons]
+    rw [iteratedReversedAtVertices_append]
+    rw [iteratedReversedAtVertices_perm_eq Q σ hσ]
+    exact ih
+
+/-- Each vertex in a prefix of σ is a sink at the appropriate iterated reversal,
+since those prefixes are also prefixes of the full admissible ordering. -/
+theorem admissible_sinks_prefix
+    (Q : Quiver (Fin n)) (σ : List (Fin n))
+    (hσ : IsAdmissibleOrdering Q σ) (j : ℕ) (hj : j ≤ σ.length) :
+    ∀ m (hm : m < (σ.take j).length),
+      @IsSink (Fin n)
+        (iteratedReversedAtVertices Q ((σ.take j).take m))
+        ((σ.take j).get ⟨m, hm⟩) := by
+  intro m hm
+  have hm_lt : m < j := by rwa [List.length_take_of_le hj] at hm
+  have hm_lt_len : m < σ.length := lt_of_lt_of_le hm_lt hj
+  rw [List.take_take, min_eq_left (le_of_lt hm_lt)]
+  have : (σ.take j).get ⟨m, hm⟩ = σ.get ⟨m, hm_lt_len⟩ := by
+    simp [List.getElem_take]
+  rw [this]
+  exact hσ.isSink m hm_lt_len
+
+/-- Each vertex in a replicated admissible ordering (with a prefix of the final round)
+is a sink at the appropriate iterated reversal. -/
+theorem admissible_sinks_replicated
+    (Q : Quiver (Fin n)) (σ : List (Fin n))
+    (hσ : IsAdmissibleOrdering Q σ) (M : ℕ) (j : ℕ) (hj : j ≤ σ.length) :
+    ∀ m (hm : m < ((List.replicate M σ).flatten ++ σ.take j).length),
+      @IsSink (Fin n)
+        (iteratedReversedAtVertices Q (((List.replicate M σ).flatten ++ σ.take j).take m))
+        (((List.replicate M σ).flatten ++ σ.take j).get ⟨m, hm⟩) := by
+  induction M with
+  | zero =>
+    simp only [List.replicate_zero, List.flatten_nil, List.nil_append]
+    exact admissible_sinks_prefix Q σ hσ j hj
+  | succ M ih =>
+    -- Use suffices to work with the reassociated list σ ++ tail,
+    -- avoiding dependent type issues in get/take with the original expression
+    suffices h : ∀ (L : List (Fin n)),
+        L = σ ++ ((List.replicate M σ).flatten ++ σ.take j) →
+        ∀ m (hm : m < L.length),
+          @IsSink (Fin n) (iteratedReversedAtVertices Q (L.take m)) (L.get ⟨m, hm⟩) by
+      intro m hm
+      exact h _ (by simp [List.replicate_succ, List.flatten_cons, List.append_assoc]) m hm
+    intro L hL
+    subst hL
+    set tail := (List.replicate M σ).flatten ++ σ.take j with htail_def
+    intro m hm
+    by_cases hm_lt : m < σ.length
+    · -- m is within the first copy of σ
+      have htake : (σ ++ tail).take m = σ.take m :=
+        List.take_append_of_le_length (le_of_lt hm_lt)
+      have hget : (σ ++ tail).get ⟨m, hm⟩ = σ.get ⟨m, hm_lt⟩ := by
+        simp [List.getElem_append_left hm_lt]
+      rw [htake, hget]
+      exact hσ.isSink m hm_lt
+    · -- m ≥ σ.length: we're past the first copy of σ
+      push Not at hm_lt
+      set m' := m - σ.length with hm'_def
+      have hm_eq : m = σ.length + m' := by omega
+      have hm'_lt : m' < tail.length := by
+        simp [List.length_append] at hm; omega
+      have htake : (σ ++ tail).take m = σ ++ tail.take m' := by
+        rw [hm_eq, List.take_append]; simp
+      have hget : (σ ++ tail).get ⟨m, hm⟩ = tail.get ⟨m', hm'_lt⟩ := by
+        simp [hm_eq, List.getElem_append_right (by omega : σ.length ≤ σ.length + m')]
+      rw [htake, iteratedReversedAtVertices_append,
+          iteratedReversedAtVertices_perm_eq Q σ hσ.perm, hget]
+      exact ih m' hm'_lt
+
+end Etingof

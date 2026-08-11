@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7a9dae8f7d95a44e5126",
+      "declaration": "Etingof.Problem_8_2_10_v_ext",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/545/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k V \u03ba : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : AddCommGroup.{u} V] \u2192\n      [inst_2 : Module.{u, u} k V] \u2192\n        [LinearOrder.{u} \u03ba] \u2192\n          [Fintype.{u} \u03ba] \u2192\n            Module.Basis.{u, u, u} \u03ba k V \u2192\n              (i : Nat) \u2192\n                CategoryTheory.Iso.{u, u + 1}\n                  (Etingof.Ext\u2096.{u} k (SymmetricAlgebra.{u, u} k V)\n                    (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k V) (Etingof.KoszulAugModule.{u, u} k V))\n                    (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k V) (Etingof.KoszulAugModule.{u, u} k V)) i)\n                  (ModuleCat.of.{u, u} k\n                    (Module.Dual.{u, u} k\n                      (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10"
+    },
+    {
+      "association_id": "association:a2922881d71fa0715a69",
+      "declaration": "Etingof.Problem_8_2_10_v_tor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/545/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k V \u03ba : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : AddCommGroup.{u} V] \u2192\n      [inst_2 : Module.{u, u} k V] \u2192\n        [LinearOrder.{u} \u03ba] \u2192\n          [Fintype.{u} \u03ba] \u2192\n            Module.Basis.{u, u, u} \u03ba k V \u2192\n              (i : Nat) \u2192\n                CategoryTheory.Iso.{u, u + 1}\n                  (Etingof.Tor\u2096.{u} k (SymmetricAlgebra.{u, u} k V) (Etingof.KoszulAugModule.{u, u} k V)\n                    (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                      (Etingof.mopFunctor.{u} (SymmetricAlgebra.{u, u} k V))\n                      (ModuleCat.of.{u, u} (SymmetricAlgebra.{u, u} k V) (Etingof.KoszulAugModule.{u, u} k V)))\n                    i)\n                  (ModuleCat.of.{u, u} k\n                    (Subtype.{u + 1} fun x => Membership.mem.{u, u} (ExteriorAlgebra.exteriorPower.{u, u} k i V) x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.10",
+  "packet_id": "align-0838",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0838"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.10:part_v",
+  "source_text": "Part (v): compute Tor and Ext of k with k as exterior powers and their duals."
+}

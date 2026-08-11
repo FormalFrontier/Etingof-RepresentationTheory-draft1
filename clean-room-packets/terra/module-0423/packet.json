@@ -1,0 +1,122 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {G : Type u} \u2192\n      [inst_1 : Monoid.{u} G] \u2192\n        {V\u2081 V\u2082 : Type u} \u2192\n          [inst_2 : AddCommGroup.{u} V\u2081] \u2192\n            [inst_3 : Module.{u, u} k V\u2081] \u2192\n              [inst_4 : AddCommGroup.{u} V\u2082] \u2192\n                [inst_5 : Module.{u, u} k V\u2082] \u2192\n                  Representation.{u, u, u} k G V\u2081 \u2192\n                    Representation.{u, u, u} k G V\u2082 \u2192 LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) V\u2081 V\u2082 \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1668891590",
+      "temporary_id": "decl-004917"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {G : Type u} [inst_1 : Monoid.{u} G] {V\u2081 V\u2082 : Type u} [inst_2 : AddCommGroup.{u} V\u2081]\n  [inst_3 : Module.{u, u} k V\u2081] [inst_4 : AddCommGroup.{u} V\u2082] [inst_5 : Module.{u, u} k V\u2082]\n  (c : MonoidHom.{u, u} G (Units.{u} k)) {\u03c1\u2081 : Representation.{u, u, u} k G V\u2081} {\u03c1\u2082 : Representation.{u, u, u} k G V\u2082}\n  {e : LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) V\u2081 V\u2082},\n  decl-004917.{u} \u03c1\u2081 \u03c1\u2082 e \u2192\n    decl-004917.{u} (decl-005327.{u, u, u} c \u03c1\u2081)\n      (decl-005327.{u, u, u} c \u03c1\u2082) e",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-004917",
+      "project_type_dependencies": [
+        "decl-004917",
+        "decl-005327"
+      ],
+      "structural_type_hash": "1428077941",
+      "temporary_id": "decl-004919"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {G : Type u} [inst_1 : Monoid.{u} G] {V\u2081 V\u2082 : Type u} [inst_2 : AddCommGroup.{u} V\u2081]\n  [inst_3 : Module.{u, u} k V\u2081] [inst_4 : AddCommGroup.{u} V\u2082] [inst_5 : Module.{u, u} k V\u2082]\n  {\u03c1\u2081 : Representation.{u, u, u} k G V\u2081} {\u03c1\u2082 : Representation.{u, u, u} k G V\u2082}\n  {e : LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) V\u2081 V\u2082},\n  decl-004917.{u} \u03c1\u2081 \u03c1\u2082 e \u2192 decl-004917.{u} \u03c1\u2082 \u03c1\u2081 (LinearEquiv.symm.{u, u, u, u} e)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-004917",
+      "project_type_dependencies": [
+        "decl-004917"
+      ],
+      "structural_type_hash": "2459506747",
+      "temporary_id": "decl-004920"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {G : Type u} [inst_1 : Monoid.{u} G] {V\u2081 V\u2082 V\u2083 : Type u}\n  [inst_2 : AddCommGroup.{u} V\u2081] [inst_3 : Module.{u, u} k V\u2081] [inst_4 : AddCommGroup.{u} V\u2082]\n  [inst_5 : Module.{u, u} k V\u2082] [inst_6 : AddCommGroup.{u} V\u2083] [inst_7 : Module.{u, u} k V\u2083]\n  {\u03c1\u2081 : Representation.{u, u, u} k G V\u2081} {\u03c1\u2082 : Representation.{u, u, u} k G V\u2082} {\u03c1\u2083 : Representation.{u, u, u} k G V\u2083}\n  {e : LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) V\u2081 V\u2082} {f : LinearEquiv.{u, u, u, u} (RingHom.id.{u} k) V\u2082 V\u2083},\n  decl-004917.{u} \u03c1\u2081 \u03c1\u2082 e \u2192\n    decl-004917.{u} \u03c1\u2082 \u03c1\u2083 f \u2192 decl-004917.{u} \u03c1\u2081 \u03c1\u2083 (LinearEquiv.trans.{u, u, u, u, u, u} e f)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-004917",
+      "project_type_dependencies": [
+        "decl-004917"
+      ],
+      "structural_type_hash": "1260270338",
+      "temporary_id": "decl-004921"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {G : Type u} [inst_1 : Monoid.{u} G] {V\u2081 : Type u} [inst_2 : AddCommGroup.{u} V\u2081]\n  [inst_3 : Module.{u, u} k V\u2081] (\u03c1 : Representation.{u, u, u} k G V\u2081),\n  Eq.{u + 1} (decl-005327.{u, u, u} 1 \u03c1) \u03c1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005327"
+      ],
+      "structural_type_hash": "3857351956",
+      "temporary_id": "decl-017868"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] [CharZero.{0} k] (n : Nat) (\u03bc : Fin n \u2192 Nat),\n  Antitone.{0, 0} \u03bc \u2192\n    \u2200 (t : Nat),\n      Nonempty.{1}\n        (Subtype.{1} fun e =>\n          decl-004917.{0}\n            (decl-005327.{0, 0, 0}\n              (HPow.hPow.{0, 0, 0} (decl-005333.{0} k n) t) (decl-022967.{0} k n \u03bc))\n            (decl-022967.{0} k n fun i => HAdd.hAdd.{0, 0, 0} (\u03bc i) t) e)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004917",
+        "decl-005327",
+        "decl-005333",
+        "decl-015576",
+        "decl-016473",
+        "decl-022967"
+      ],
+      "structural_type_hash": "505789808",
+      "temporary_id": "decl-017869"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {G : Type u} [inst_1 : Monoid.{u} G] {V\u2081 V\u2082 : Type u} [inst_2 : AddCommGroup.{u} V\u2081]\n  [inst_3 : Module.{u, u} k V\u2081] [inst_4 : AddCommGroup.{u} V\u2082] [inst_5 : Module.{u, u} k V\u2082]\n  [inst_6 : FiniteDimensional.{u, u} k V\u2081] [inst_7 : FiniteDimensional.{u, u} k V\u2082]\n  (\u03c1\u2081 : Representation.{u, u, u} k G V\u2081) (\u03c1\u2082 : Representation.{u, u, u} k G V\u2082)\n  (f : CategoryTheory.Iso.{u, u + 1} (FDRep.of.{u, u} \u03c1\u2081) (FDRep.of.{u, u} \u03c1\u2082)),\n  decl-004917.{u} \u03c1\u2081 \u03c1\u2082 (FDRep.isoToLinearEquiv.{u, u} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004917"
+      ],
+      "structural_type_hash": "3822789468",
+      "temporary_id": "decl-020698"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (lam : decl-001833 n) (k : Type) [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k]\n  [CharZero.{0} k] (t : Nat),\n  Nonempty.{1}\n    (Subtype.{1} fun e =>\n      \u2200 (g : Matrix.GeneralLinearGroup.{0, 0} (Fin n) k) (v : decl-000521.{0} n lam k),\n        Eq.{1}\n          (DFunLike.coe.{1, 1, 1} e\n            (DFunLike.coe.{1, 1, 1}\n              (DFunLike.coe.{1, 1, 1}\n                (decl-005327.{0, 0, 0}\n                  (HPow.hPow.{0, 0, 0} (decl-005333.{0} k n)\n                    (HAdd.hAdd.{0, 0, 0} t lam.w0Twist.shift))\n                  (decl-017169.{0} n lam k))\n                g)\n              v))\n          (DFunLike.coe.{1, 1, 1}\n            (DFunLike.coe.{1, 1, 1}\n              (decl-022967.{0} k n fun i => HAdd.hAdd.{0, 0, 0} (lam.w0Twist.toNatWeight i) t) g)\n            (DFunLike.coe.{1, 1, 1} e v)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000521",
+        "decl-000522",
+        "decl-000524",
+        "decl-001833",
+        "decl-001842",
+        "decl-001851",
+        "decl-001857",
+        "decl-005327",
+        "decl-005333",
+        "decl-015576",
+        "decl-016473",
+        "decl-017169",
+        "decl-022967"
+      ],
+      "structural_type_hash": "362303852",
+      "temporary_id": "decl-023000"
+    }
+  ],
+  "module_temporary_id": "module-0423",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

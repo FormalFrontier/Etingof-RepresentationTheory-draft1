@@ -1,0 +1,78 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(V : Type v) \u2192\n  [inst : CategoryTheory.Category.{w, v} V] \u2192\n    [CategoryTheory.MonoidalCategory.{w, v} V] \u2192 Type u \u2192 Type (max (max u v) w)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3512012003",
+      "temporary_id": "decl-001920"
+    },
+    {
+      "formal_type": "(V : Type v) \u2192\n  [inst : CategoryTheory.Category.{w, v} V] \u2192\n    [inst_1 : CategoryTheory.MonoidalCategory.{w, v} V] \u2192\n      {C : Type u} \u2192\n        [inst_2 : CategoryTheory.Category.{u_1, u} C] \u2192\n          [CategoryTheory.EnrichedOrdinaryCategory.{w, u_1, u, v} V C] \u2192\n            CategoryTheory.Functor.{u_1, w, u, v} C V \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3241348972",
+      "temporary_id": "decl-001921"
+    },
+    {
+      "formal_type": "\u2200 (V : Type v) [inst : CategoryTheory.Category.{w, v} V] [inst_1 : CategoryTheory.MonoidalCategory.{w, v} V]\n  {C : Type u} [inst_2 : CategoryTheory.Category.{u_1, u} C]\n  [inst_3 : CategoryTheory.EnrichedOrdinaryCategory.{w, u_1, u, v} V C] (X : C),\n  decl-001921.{w, v, u, u_1} V (CategoryTheory.eCoyoneda.{w, u_1, u, v} V X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001921"
+      ],
+      "structural_type_hash": "3839889090",
+      "temporary_id": "decl-018554"
+    },
+    {
+      "formal_type": "\u2200 (V : Type v) [inst : CategoryTheory.Category.{w, v} V] [inst_1 : CategoryTheory.MonoidalCategory.{w, v} V]\n  {C : Type u} [inst_2 : CategoryTheory.Category.{u_1, u} C]\n  [inst_3 : CategoryTheory.EnrichedOrdinaryCategory.{w, u_1, u, v} V C] (X : C),\n  Nonempty.{(max u w) + 1}\n    (CategoryTheory.Iso.{max u w, max (max (max v w) u) u_1} (CategoryTheory.eCoyoneda.{w, u_1, u, v} V X)\n      (CategoryTheory.eCoyoneda.{w, u_1, u, v} V X))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "955971257",
+      "temporary_id": "decl-018555"
+    },
+    {
+      "formal_type": "(V : Type v) \u2192\n  [inst : CategoryTheory.Category.{w, v} V] \u2192\n    [inst_1 : CategoryTheory.MonoidalCategory.{w, v} V] \u2192\n      {C : Type u} \u2192\n        [inst_2 : CategoryTheory.EnrichedCategory.{w, v, u} V C] \u2192\n          (X Y Z : C) \u2192\n            Quiver.Hom.{w, v}\n              (CategoryTheory.MonoidalCategoryStruct.tensorObj.{w, v}\n                (CategoryTheory.EnrichedCategory.Hom.{w, v, u} X Y) (CategoryTheory.EnrichedCategory.Hom.{w, v, u} Y Z))\n              (CategoryTheory.EnrichedCategory.Hom.{w, v, u} X Z)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1090342035",
+      "temporary_id": "decl-018604"
+    },
+    {
+      "formal_type": "\u2200 (V : Type v) [inst : CategoryTheory.Category.{w, v} V] [inst_1 : CategoryTheory.MonoidalCategory.{w, v} V]\n  {C : Type u} [inst_2 : CategoryTheory.Category.{u_1, u} C]\n  [inst_3 : CategoryTheory.EnrichedOrdinaryCategory.{w, u_1, u, v} V C] (F : CategoryTheory.Functor.{u_1, w, u, v} C V),\n  Iff (decl-001921.{w, v, u, u_1} V F)\n    (Exists.{u + 1} fun X =>\n      Nonempty.{(max u w) + 1}\n        (CategoryTheory.Iso.{max u w, max (max (max u v) w) u_1} F (CategoryTheory.eCoyoneda.{w, u_1, u, v} V X)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001921"
+      ],
+      "structural_type_hash": "3973521955",
+      "temporary_id": "decl-018605"
+    }
+  ],
+  "module_temporary_id": "module-0588",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

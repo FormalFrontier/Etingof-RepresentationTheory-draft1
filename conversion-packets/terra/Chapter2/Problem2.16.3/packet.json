@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.16.3",
+    "kind": "exercise",
+    "title": "Lie algebras defined by ad relations",
+    "node_id": "chapter-02/section-2-16",
+    "order": 122,
+    "slug": "problem2-16-3",
+    "span": {
+      "start": {
+        "page": "40",
+        "line": 7
+      },
+      "end": {
+        "page": "40",
+        "line": 12
+      }
+    },
+    "source_sha256": "8332cecb33599c3cf4150d91988dc8e33cbc3815cba269a6e015da7e0caf9672",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2163",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

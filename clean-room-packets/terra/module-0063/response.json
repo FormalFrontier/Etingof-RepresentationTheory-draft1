@@ -1,0 +1,24 @@
+{
+  "module_name": "LieModule.CentralAction",
+  "declarations": [
+    {"temporary_id":"decl-015613","new_name":"AuxiliaryModulePredicate","docstring":"A predicate on a complex Lie module."},
+    {"temporary_id":"decl-015697","new_name":"centralEndomorphism","docstring":"The distinguished complex-linear endomorphism of the module."},
+    {"temporary_id":"decl-015704","new_name":"centralGeneralizedEigenspace","docstring":"The Lie submodule attached to each complex generalized eigenvalue."},
+    {"temporary_id":"decl-015707","new_name":"centralGeneralizedEigenspace_iSupIndep","docstring":"The family of these generalized eigenspaces is independent under supremum."},
+    {"temporary_id":"decl-015708","new_name":"iSup_centralGeneralizedEigenspace_eq_top","docstring":"For a finite-dimensional module, these generalized eigenspaces span the whole module."},
+    {"temporary_id":"decl-015709","new_name":"centralGeneralizedEigenspace_isInternal","docstring":"For a finite-dimensional module, the generalized eigenspaces form an internal direct sum."},
+    {"temporary_id":"decl-015710","new_name":"centralGeneralizedEigenspace_toSubmodule_eq_maxGenEigenspace","docstring":"Identifies the underlying submodule with the maximal generalized eigenspace of the distinguished endomorphism."},
+    {"temporary_id":"decl-015711","new_name":"centralGeneralizedEigenspace_eq_top_unique","docstring":"Two complex parameters whose generalized eigenspaces are both top are equal on a nontrivial module."},
+    {"temporary_id":"decl-015712","new_name":"centralEndomorphism_apply","docstring":"Evaluates the distinguished endomorphism as the displayed combination of iterated actions."},
+    {"temporary_id":"decl-015713","new_name":"centralEndomorphism_commutes_action","docstring":"The distinguished endomorphism commutes with every Lie action."},
+    {"temporary_id":"decl-015718","new_name":"exists_centralGeneralizedEigenspace_eq_top_of_auxiliaryPredicate","docstring":"The predicate yields a complex parameter whose generalized eigenspace is the entire finite-dimensional module."},
+    {"temporary_id":"decl-015719","new_name":"centralEndomorphism_apply_eq_smul_of_firstEigenvector","docstring":"Computes the distinguished endomorphism on a vector satisfying the first pair of eigenvector conditions."},
+    {"temporary_id":"decl-015721","new_name":"centralEndomorphism_bracket_eq_zero","docstring":"The commutator of a represented Lie element with the distinguished endomorphism is zero."},
+    {"temporary_id":"decl-015722","new_name":"centralEndomorphism_apply_eq_smul_of_secondEigenvector","docstring":"Computes the distinguished endomorphism on a vector satisfying the second pair of eigenvector conditions."},
+    {"temporary_id":"decl-015808","new_name":"centralEndomorphism_commute_lieAction","docstring":"The distinguished endomorphism commutes with each represented Lie element."},
+    {"temporary_id":"decl-015809","new_name":"exists_lieSubmodule_isCompl","docstring":"Every Lie submodule of a finite-dimensional module has a complementary Lie submodule."},
+    {"temporary_id":"decl-015878","new_name":"exists_integral_centralGeneralizedEigenspace_eq_top_of_auxiliaryPredicate","docstring":"The predicate provides a natural-number parameter whose displayed generalized eigenspace is top."},
+    {"temporary_id":"decl-015880","new_name":"isIrreducible_of_auxiliaryPredicate","docstring":"A finite-dimensional module satisfying the predicate is irreducible."},
+    {"temporary_id":"decl-016096","new_name":"eq_linearCombination_generators","docstring":"Expresses an element of the displayed Lie subobject in terms of three designated generators."}
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.Lie.TensorProduct",
+  "declarations": [
+    {
+      "temporary_id": "decl-005579",
+      "new_name": "LieModuleTensorProduct",
+      "docstring": "The tensor-product type for two modules of a Lie algebra."
+    },
+    {
+      "temporary_id": "decl-005580",
+      "new_name": "lie_bracket_tmul",
+      "docstring": "The Lie action on a pure tensor is the sum of the actions on its two factors."
+    }
+  ]
+}

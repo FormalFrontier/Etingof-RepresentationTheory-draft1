@@ -1,0 +1,54 @@
+name: Update formalization dependency
+
+on:
+  repository_dispatch:
+    types: [formalization-updated]
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+      - name: Update the pinned public revision
+        env:
+          FORMALIZATION_SHA: ${{ github.event.client_payload.sha }}
+        run: |
+          python3 scripts/update_formalization_dependency.py "$FORMALIZATION_SHA"
+          lake update RepresentationTheoryFormalization
+          lake env lean --run AlignmentExport.lean > "$RUNNER_TEMP/formalization-alignment.json"
+          python3 scripts/sync_formalization_panels.py "$RUNNER_TEMP/formalization-alignment.json"
+      - name: Create or refresh dependency update pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORMALIZATION_SHA: ${{ github.event.client_payload.sha }}
+          SOURCE_REF: ${{ github.event.client_payload.ref }}
+        run: |
+          branch="automation/formalization-${FORMALIZATION_SHA:0:12}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add lakefile.toml lake-manifest.json IntroductionToRepresentationTheoryVerso/Content
+          if git diff --cached --quiet; then
+            echo "The requested formalization revision is already pinned."
+            exit 0
+          fi
+          git commit -m "Update formalization to ${FORMALIZATION_SHA:0:12}"
+          git push --force-with-lease origin "$branch"
+          pr_url=$(gh pr list --head "$branch" --state open --json url --jq '.[0].url')
+          if [ -z "$pr_url" ]; then
+            pr_url=$(gh pr create \
+              --base main \
+              --head "$branch" \
+              --title "Update formalization to ${FORMALIZATION_SHA:0:12}" \
+              --body "Pins FormalFrontier/EtingofRepresentationTheory at \`${FORMALIZATION_SHA}\` (source ref: \`${SOURCE_REF}\`). The private Verso CI must build and render successfully before merge.")
+          fi
+          # Events emitted with GITHUB_TOKEN do not recursively trigger the
+          # pull_request workflow, so explicitly dispatch CI on the PR head.
+          gh workflow run ci.yml --ref "$branch"
+          gh pr merge "$pr_url" --auto --squash

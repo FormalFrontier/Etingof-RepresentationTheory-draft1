@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_Young_projectors",
+    "kind": "discussion",
+    "title": "Young projectors a_lambda, b_lambda, c_lambda and the Young symmetrizer",
+    "node_id": "chapter-05/section-5-12",
+    "order": 309,
+    "slug": "discussion-young-projectors",
+    "span": {
+      "start": {
+        "page": "113",
+        "line": 10
+      },
+      "end": {
+        "page": "113",
+        "line": 18
+      }
+    },
+    "source_sha256": "2206148ddcb063684fa4e6e459a859e696ff405da00447843b6c9373415da6aa",
+    "features": {
+      "line_count": 9,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionYoungProjectors",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

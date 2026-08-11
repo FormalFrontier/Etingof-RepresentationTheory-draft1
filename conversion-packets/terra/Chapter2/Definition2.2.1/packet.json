@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.2.1",
+    "kind": "definition",
+    "title": "Associative algebra",
+    "node_id": "chapter-02/section-2-2",
+    "order": 16,
+    "slug": "definition2-2-1",
+    "span": {
+      "start": {
+        "page": "9",
+        "line": 1
+      },
+      "end": {
+        "page": "9",
+        "line": 1
+      }
+    },
+    "source_sha256": "25a596401cc74967a908923f7812005b8c8526de803717ce7f3bac486d17e54c",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition221",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0082",
+  "associations": [
+    {
+      "association_id": "association:7f395eff532edef57866",
+      "role": "primary",
+      "rationale": "Its conclusion states that indecomposable Dynkin-quiver representations with equal dimension vectors are isomorphic."
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a6533ab156215b459e7c",
+      "declaration": "Etingof.Problem2_16_3.LoopIdx",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/121/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Type",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3"
+    },
+    {
+      "association_id": "association:b4e7ca1491ea824a5e19",
+      "declaration": "Etingof.Problem2_16_3.card_loopIdx_deg_even",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/121/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (m : Nat),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun I => Eq.{1} I.deg (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 m) 2))) 3",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers"
+    },
+    {
+      "association_id": "association:073b2c497950a6857119",
+      "declaration": "Etingof.Problem2_16_3.card_loopIdx_deg_odd",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/121/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (m : Nat),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun I => Eq.{1} I.deg (HAdd.hAdd.{0, 0, 0} (HMul.hMul.{0, 0, 0} 2 m) 1))) 5",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers"
+    },
+    {
+      "association_id": "association:29707d78f0a173a1c6ea",
+      "declaration": "Etingof.Problem2_16_3.card_loopIdx_deg_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/121/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Nat.card.{0} (Subtype.{1} fun I => Eq.{1} I.deg 0)) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers"
+    },
+    {
+      "association_id": "association:72b88777f57d2f6733aa",
+      "declaration": "Etingof.Problem2_16_3.gFourBasis",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/121/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    [CharZero.{u_1} k] \u2192 Module.Basis.{0, u_1, u_1} Etingof.Problem2_16_3.LoopIdx k (Etingof.Problem2_16_3.g.{u_1} k 4)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleVanishing"
+    },
+    {
+      "association_id": "association:a077ed7d9e3bc565b43e",
+      "declaration": "Etingof.Problem2_16_3.loopFam\u2084",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/121/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(K : Type u_3) \u2192 [inst : CommRing.{u_3} K] \u2192 Etingof.Problem2_16_3.LoopIdx \u2192 Etingof.Problem2_16_3.g.{u_3} K 4",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.3",
+  "packet_id": "align-0556",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0556"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.3:claim-07",
+  "source_text": "In characteristic zero, g_4 has an explicit basis consisting of y, five vectors in every odd loop degree, and three vectors in every positive even loop degree."
+}

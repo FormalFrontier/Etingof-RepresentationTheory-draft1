@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:fb9ab7f66a8187966c00",
+      "rationale": "The formal type directly says that every A-linear endomorphism of a finite-dimensional simple A-module over an algebraically closed field is pointwise multiplication by a scalar, exactly matching the source corollary.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-1209"
+}

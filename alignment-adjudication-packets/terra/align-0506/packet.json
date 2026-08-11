@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:230ae16255b4ef452f3e",
+      "declaration": "Etingof.Problem2_11_3.SymPow",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/103/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (V : Type u_2) \u2192 [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} k V] \u2192 Nat \u2192 Type (max (max u_1 u_2) u_2 u_1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow"
+    },
+    {
+      "association_id": "association:80e62b4c8742b740a0c1",
+      "declaration": "Etingof.Problem2_11_3.symRelSubmodule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/103/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    (V : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192\n          (n : Nat) \u2192 Submodule.{u_1, max u_2 u_1} k (Etingof.Problem2_11_3.TensorPow.{u_1, u_2} k V n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.11.3",
+  "packet_id": "align-0506",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0506"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.11.3:claim-04",
+  "source_text": "(d) S\u207fV is the quotient of V^{\u2297n} by permutation relations."
+}

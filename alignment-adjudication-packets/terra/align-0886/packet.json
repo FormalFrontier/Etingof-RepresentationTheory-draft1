@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2e0bef2a5722b6eec71b",
+      "declaration": "Etingof.FinQuiverRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/11/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(k : Type) \u2192 [CommSemiring.{0} k] \u2192 (n : Nat) \u2192 [Quiver.{0, 0} (Fin n)] \u2192 Type 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_2"
+    },
+    {
+      "association_id": "association:85cb5a5de57a3e775939",
+      "declaration": "Etingof.QuiverDef",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/11/claim_coverage/claims/0/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "Type u_1 \u2192 Type (max u_1 (u_2 + 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_after_Theorem2.1.1",
+  "packet_id": "align-0886",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0886"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a11748082ec606e452f7",
+  "source_text": "A finite quiver is a finite oriented graph, with loops and multiple edges allowed."
+}

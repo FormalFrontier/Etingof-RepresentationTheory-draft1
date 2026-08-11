@@ -1,0 +1,8 @@
+{
+  "module_name": "ModuleEnd.OppositeRing",
+  "declarations": [
+    {"temporary_id":"decl-001915","new_name":"regularEndRingEquivOpposite","docstring":"The ring equivalence from endomorphisms of the regular module to the opposite ring."},
+    {"temporary_id":"decl-001917","new_name":"regularEndRingEquivOpposite_apply","docstring":"Evaluating the equivalence on an endomorphism gives the opposite of its value at one."},
+    {"temporary_id":"decl-001918","new_name":"regularEndRingEquivOpposite_symm_apply","docstring":"The inverse equivalence sends an opposite element to right multiplication by that element."}
+  ]
+}

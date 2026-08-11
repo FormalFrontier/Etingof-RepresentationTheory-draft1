@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b734dc03bcf15e7303b3",
+      "declaration": "Etingof.Problem7_8_7_iii",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/508/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C : CochainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Int),\n  Exists.{u + 2} fun E =>\n    Exists.{0} fun x =>\n      Exists.{u + 1} fun iso =>\n        \u2200 (i : Int),\n          CategoryTheory.IsIso.{u, u + 1}\n            (HomologicalComplex.homologyMap.{u, u + 1, 0}\n              (CategoryTheory.CategoryStruct.comp.{u, u + 1} CategoryTheory.Limits.biprod.inr.{u, u + 1}\n                (CategoryTheory.Iso.inv.{u, u + 1} iso))\n              i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Problem7_8_7"
+    }
+  ],
+  "canonical_reference": "Chapter7/Problem7.8.7",
+  "packet_id": "align-0821",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0821"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter7/Problem7.8.7:part_iii",
+  "source_text": "Part (iii): split a complex into an exact complex and its cohomology with zero differential, inducing identity on cohomology."
+}

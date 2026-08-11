@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a26ed3c2e62fa55139eb",
+      "declaration": "Etingof.Representation.ofAlgHom_toAlgHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/23/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V],\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (Etingof.Representation.ofAlgHom.{u_1, u_2, u_3} k A V (Etingof.Representation.toAlgHom.{u_1, u_2, u_3} k A V))\n    inferInstance.{max (u_2 + 1) (u_3 + 1)}",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_1"
+    },
+    {
+      "association_id": "association:e7a177cf61dc1986fba0",
+      "declaration": "Etingof.Representation.toAlgHom_ofAlgHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/23/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  (\u03c1 : AlgHom.{u_1, u_2, u_3} k A (Module.End.{u_1, u_3} k V)),\n  Eq.{max (u_2 + 1) (u_3 + 1)} (Etingof.Representation.toAlgHom.{u_1, u_2, u_3} k A V) \u03c1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.3.1",
+  "packet_id": "align-0156",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0156"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:307968e6b81d02667c1b",
+  "source_text": "The algebra-homomorphism and module presentations are mutually inverse."
+}

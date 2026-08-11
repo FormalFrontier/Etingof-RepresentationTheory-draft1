@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Problem5.11.1",
+    "kind": "exercise",
+    "title": "Decompose induced representations from subgroups of A_5",
+    "node_id": "chapter-05/section-5-11",
+    "order": 306,
+    "slug": "problem5-11-1",
+    "span": {
+      "start": {
+        "page": "112",
+        "line": 13
+      },
+      "end": {
+        "page": "112",
+        "line": 24
+      }
+    },
+    "source_sha256": "f929bcc24d3e88943b9184e303601838bdd424748c5551e384f53513f3d0aeaa",
+    "features": {
+      "line_count": 12,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem5111",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

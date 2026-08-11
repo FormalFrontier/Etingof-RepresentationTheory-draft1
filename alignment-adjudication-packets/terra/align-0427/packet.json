@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7d54f5f3370cbeebb274",
+      "declaration": "Etingof.Lemma5_13_3_exact",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/318/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (Etingof.youngProjector n la) (Etingof.youngProjector n la))\n    (HSMul.hSMul.{0, 0, 0}\n      (HDiv.hDiv.{0, 0, 0} (Nat.cast.{0} n.factorial)\n        (HMul.hMul.{0, 0, 0}\n          (HMul.hMul.{0, 0, 0}\n            (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.RowSubgroup n la) x)))\n            (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.ColumnSubgroup n la) x))))\n          (Nat.cast.{0}\n            (Module.finrank.{0, 0} Complex\n              (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n la) x)))))\n      (Etingof.youngProjector n la))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_3_Exact"
+    }
+  ],
+  "canonical_reference": "Chapter5/Lemma5.13.3",
+  "packet_id": "align-0427",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0427"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:89ccd6c2e5090d4fbdc3",
+  "source_text": "The normalized Young projector satisfies c_lambda^2 = n!/(|P_lambda||Q_lambda|dim V_lambda) c_lambda."
+}

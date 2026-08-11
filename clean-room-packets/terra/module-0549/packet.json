@@ -1,0 +1,77 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {n : Nat} (M : Matrix.{0, 0, 0} (Fin n) (Fin n) Int) (v : Fin n \u2192 Int),\n  Eq.{1} (dotProduct.{0, 0} v (Matrix.mulVec.{0, 0, 0} M v))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n      Finset.sum.{0, 0} Finset.univ.{0} fun j => HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (M i j) (v i)) (v j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2574568230",
+      "temporary_id": "decl-018431"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (i : Fin n), Eq.{1} (adj i i) 0) \u2192\n      (\u2200 (i j : Fin n), Or (Eq.{1} (adj i j) 0) (Eq.{1} (adj i j) 1)) \u2192\n        (\u2200 (i j : Fin n),\n            Exists.{1} fun path =>\n              And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n                (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n                  (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n                    Eq.{1} (adj (List.get.{0} path \u27e8k, \u22ef\u27e9) (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9)) 1))) \u2192\n          (\u2200 (m : Fin n \u2192 Int),\n              (\u2200 (i : Fin n), LE.le.{0} 0 (m i)) \u2192\n                Ne.{1} m 0 \u2192\n                  LT.lt.{0} 0\n                    (dotProduct.{0, 0} m\n                      (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj) m))) \u2192\n            decl-005140 n adj",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-020824"
+      ],
+      "structural_type_hash": "154417318",
+      "temporary_id": "decl-020823"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int) (x : Fin n \u2192 Int),\n  Eq.{1} (dotProduct.{0, 0} x (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj) x))\n    (HSub.hSub.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0} 2 (Finset.sum.{0, 0} Finset.univ.{0} fun i => HMul.hMul.{0, 0, 0} (x i) (x i)))\n      (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n        Finset.sum.{0, 0} Finset.univ.{0} fun j => HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (adj i j) (x i)) (x j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2249001775",
+      "temporary_id": "decl-024127"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  (\u2200 (i j : Fin n), LE.le.{0} 0 (adj i j)) \u2192\n    (\u2200 (m : Fin n \u2192 Int),\n        (\u2200 (i : Fin n), LE.le.{0} 0 (m i)) \u2192\n          Ne.{1} m 0 \u2192\n            LT.lt.{0} 0\n              (dotProduct.{0, 0} m (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj) m))) \u2192\n      \u2200 (x : Fin n \u2192 Int),\n        Ne.{1} x 0 \u2192\n          LT.lt.{0} 0\n            (dotProduct.{0, 0} x (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3684129825",
+      "temporary_id": "decl-024129"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  (\u2200 (y : Fin n \u2192 Int),\n      Ne.{1} y 0 \u2192\n        LT.lt.{0} 0\n          (dotProduct.{0, 0} y (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj) y))) \u2192\n    \u2200 (x : Fin n \u2192 Rat),\n      Ne.{1} x 0 \u2192\n        LT.lt.{0} 0\n          (dotProduct.{0, 0} x\n            (Matrix.mulVec.{0, 0, 0}\n              (Matrix.map.{0, 0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj)\n                (DFunLike.coe.{1, 1, 1} (Int.castRingHom.{0} Rat)))\n              x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2123947669",
+      "temporary_id": "decl-024131"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int),\n  Matrix.IsSymm.{0, 0} adj \u2192\n    (\u2200 (x : Fin n \u2192 Rat),\n        Ne.{1} x 0 \u2192\n          LT.lt.{0} 0\n            (dotProduct.{0, 0} x\n              (Matrix.mulVec.{0, 0, 0}\n                (Matrix.map.{0, 0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj)\n                  (DFunLike.coe.{1, 1, 1} (Int.castRingHom.{0} Rat)))\n                x))) \u2192\n      Matrix.PosDef.{0, 0}\n        (Matrix.map.{0, 0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) adj)\n          (DFunLike.coe.{1, 1, 1} (Int.castRingHom.{0} Real)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1605101134",
+      "temporary_id": "decl-024140"
+    }
+  ],
+  "module_temporary_id": "module-0549",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

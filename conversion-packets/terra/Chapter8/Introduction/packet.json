@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Introduction",
+    "kind": "introduction",
+    "title": "Chapter 8: Homological algebra",
+    "node_id": "chapter-08",
+    "order": 523,
+    "slug": "introduction",
+    "span": {
+      "start": {
+        "page": "205",
+        "line": 1
+      },
+      "end": {
+        "page": "205",
+        "line": 6
+      }
+    },
+    "source_sha256": "c9bc37e50c9c2403d7948299f6cdb8c246c57fa8692b42d873136b90171f5fea",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Introduction",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

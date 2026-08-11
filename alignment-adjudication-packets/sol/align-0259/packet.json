@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9f58795366a5c3abfd0f",
+      "declaration": "Etingof.Example2_9_12.presentationEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/9/claim_coverage/claims/8/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    AlgEquiv.{u_2, u_2, u_2} k (Etingof.Example2_9_12.Presentation.{u_2} k)\n      (UniversalEnvelopingAlgebra.{u_2, u_2} k (Etingof.Example2_9_12.sl2.{u_2} k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_12"
+    },
+    {
+      "association_id": "association:3224a1677fd7ad2958fd",
+      "declaration": "Etingof.PresentedAlgebra.hom_ext",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/9/claim_coverage/claims/8/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {X : Type u_2} {R : Type u_3} (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X)\n  {A : Type u_4} [inst_1 : Ring.{u_4} A] [inst_2 : Algebra.{u_1, u_4} k A]\n  {F G : AlgHom.{u_1, max u_2 u_1, u_4} k (Etingof.PresentedAlgebra.{u_1, u_2, u_3} k X R rel) A},\n  (\u2200 (x : X),\n      Eq.{u_4 + 1}\n        (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1} F\n          (Etingof.PresentedAlgebra.gen.{u_1, u_2, u_3} rel x))\n        (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1} G\n          (Etingof.PresentedAlgebra.gen.{u_1, u_2, u_3} rel x))) \u2192\n    Eq.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1)} F G",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_6"
+    },
+    {
+      "association_id": "association:0f682ade4ad46dbbc998",
+      "declaration": "Etingof.PresentedAlgebra.lift",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/9/claim_coverage/claims/8/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    {X : Type u_2} \u2192\n      {R : Type u_3} \u2192\n        (rel : R \u2192 FreeAlgebra.{u_1, u_2} k X) \u2192\n          {A : Type u_4} \u2192\n            [inst_1 : Ring.{u_4} A] \u2192\n              [inst_2 : Algebra.{u_1, u_4} k A] \u2192\n                (a : X \u2192 A) \u2192\n                  (\u2200 (r : R),\n                      Eq.{u_4 + 1}\n                        (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_4 + 1), max (u_1 + 1) (u_2 + 1), u_4 + 1}\n                          (DFunLike.coe.{max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1), max (u_4 + 1) (u_2 + 1),\n                              max (max (u_1 + 1) (u_4 + 1)) (u_2 + 1)}\n                            (FreeAlgebra.lift.{u_1, u_2, u_4} k) a)\n                          (rel r))\n                        0) \u2192\n                    AlgHom.{u_1, max u_2 u_1, u_4} k (Etingof.PresentedAlgebra.{u_1, u_2, u_3} k X R rel) A",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_6"
+    },
+    {
+      "association_id": "association:b7f869a9faaba7515860",
+      "declaration": "Etingof.Representation.toAlgHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/9/claim_coverage/claims/8/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [IsScalarTower.{u_1, u_2, u_3} k A V] \u2192 AlgHom.{u_1, u_2, u_3} k A (Module.End.{u_1, u_3} k V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_1"
+    },
+    {
+      "association_id": "association:31461cb60947d7747e26",
+      "declaration": "LinearMap.toMatrixAlgEquiv'",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/9/claim_coverage/claims/8/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.LinearAlgebra.Matrix.ToLin"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.1_irreducible_indecomposable",
+  "packet_id": "align-0259",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0259"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4cfa9863793d22c14959",
+  "source_text": "Finding N-dimensional representations of this presentation amounts to solving the displayed relations in N by N matrices."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Discussion_after_Example7.9.5",
+    "kind": "discussion",
+    "title": "Additive functors on semisimple categories are exact",
+    "node_id": "chapter-07/section-7-9",
+    "order": 517,
+    "slug": "discussion-after-example7-9-5",
+    "span": {
+      "start": {
+        "page": "195",
+        "line": 11
+      },
+      "end": {
+        "page": "195",
+        "line": 12
+      }
+    },
+    "source_sha256": "41201c8d2cc1c500175b401751cad3976a0bf0ae185e528bd035a0bb30120eed",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.DiscussionAfterExample795",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

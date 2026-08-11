@@ -1,0 +1,161 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 Equiv.Perm.{1} (Fin n) \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "632014876",
+      "temporary_id": "decl-005659"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 Finsupp.{0, 0} (Fin n) Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2550337323",
+      "temporary_id": "decl-005704"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (Nat.cast.{0} (decl-021968 n la \u03c3))\n    (MvPolynomial.coeff.{0, 0} (decl-005704 la) (decl-018269 n \u03c3))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005704",
+        "decl-018269",
+        "decl-021968"
+      ],
+      "structural_type_hash": "1646520334",
+      "temporary_id": "decl-016527"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (MvPolynomial.coeff.{0, 0} (decl-005704 la) (decl-018269 n \u03c3))\n    (Nat.cast.{0} (Nat.card.{0} (decl-005659 n la \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005659",
+        "decl-005704",
+        "decl-018269"
+      ],
+      "structural_type_hash": "3444389325",
+      "temporary_id": "decl-018028"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 Equiv.Perm.{1} (Fin n) \u2192 MvPolynomial.{0, 0} (Fin n) Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3548039954",
+      "temporary_id": "decl-018269"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (decl-018269 n \u03c3)\n    (Multiset.prod.{0} (Multiset.map.{0, 0} (MvPolynomial.psum.{0, 0} (Fin n) Complex) (decl-019728 n \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018269",
+        "decl-019728"
+      ],
+      "structural_type_hash": "4014313930",
+      "temporary_id": "decl-018273"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (decl-018269 n (Inv.inv.{0} \u03c3)) (decl-018269 n \u03c3)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018269"
+      ],
+      "structural_type_hash": "1804149572",
+      "temporary_id": "decl-018274"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Exists.{1} fun \u03c0 =>\n    And (\u2200 (k\u2081 k\u2082 : Fin n), Iff (Eq.{1} (\u03c0 k\u2081) (\u03c0 k\u2082)) (Equiv.Perm.SameCycle.{0} \u03c3 k\u2081 k\u2082))\n      (\u2200 (i : Fin (List.length.{0} (Multiset.toList.{0} (decl-019728 n \u03c3)))),\n        Eq.{1} (Finset.card.{0} (Finset.filter.{0} (fun k => Eq.{1} (\u03c0 k) i) Finset.univ.{0}))\n          (GetElem.getElem.{0, 0, 0} (Multiset.toList.{0} (decl-019728 n \u03c3)) i.val \u22ef))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005660",
+        "decl-019728"
+      ],
+      "structural_type_hash": "2383604732",
+      "temporary_id": "decl-018898"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1} (decl-021968 n la \u03c3) (Nat.card.{0} (decl-005659 n la \u03c3))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005659",
+        "decl-021968"
+      ],
+      "structural_type_hash": "3513695062",
+      "temporary_id": "decl-019488"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 Equiv.Perm.{1} (Fin n) \u2192 Multiset.{0} Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3004469005",
+      "temporary_id": "decl-019728"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (\u03c3 : Equiv.Perm.{1} (Fin n)) (x : Nat), Membership.mem.{0, 0} (decl-019728 n \u03c3) x \u2192 LT.lt.{0} 0 x",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019728"
+      ],
+      "structural_type_hash": "2833107781",
+      "temporary_id": "decl-019735"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (\u03c3 : Equiv.Perm.{1} (Fin n)), Eq.{1} (Multiset.sum.{0} (decl-019728 n \u03c3)) n",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019728"
+      ],
+      "structural_type_hash": "39227603",
+      "temporary_id": "decl-019738"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 Equiv.Perm.{1} (Fin n) \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1135034087",
+      "temporary_id": "decl-021968"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (m : Nat),\n  Eq.{1} (MvPolynomial.psum.{0, 0} (Fin n) Complex m)\n    (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n      DFunLike.coe.{1, 1, 1} (MvPolynomial.monomial.{0, 0} (Finsupp.single.{0, 0} i m)) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "296065203",
+      "temporary_id": "decl-022216"
+    }
+  ],
+  "module_temporary_id": "module-0455",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

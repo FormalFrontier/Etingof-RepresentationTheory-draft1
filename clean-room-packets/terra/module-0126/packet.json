@@ -1,0 +1,46 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (n : Type u_2) [inst_1 : Fintype.{u_2} n] [inst_2 : DecidableEq.{u_2 + 1} n],\n  Eq.{max (u_1 + 1) (u_2 + 1)} (decl-018113.{u_1, max u_1 u_2} k (Matrix.{u_2, u_2, u_1} n n k))\n    (LinearMap.ker.{u_1, u_1, max u_1 u_2, u_1} (Matrix.traceLinearMap.{u_2, u_1, u_1} n k k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018113"
+      ],
+      "structural_type_hash": "3618021235",
+      "temporary_id": "decl-018118"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (d : Nat),\n  Eq.{u_1 + 1} (decl-018113.{u_1, u_1} k (Matrix.{0, 0, u_1} (Fin d) (Fin d) k))\n    (LinearMap.ker.{u_1, u_1, u_1, u_1} (Matrix.traceLinearMap.{0, u_1, u_1} (Fin d) k k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-018113"
+      ],
+      "structural_type_hash": "1661663310",
+      "temporary_id": "decl-018121"
+    }
+  ],
+  "module_temporary_id": "module-0126",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

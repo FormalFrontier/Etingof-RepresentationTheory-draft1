@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:28a1933f26541893a48f",
+      "declaration": "Etingof.Proposition4_1_2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/184/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (G : Type u_2) [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [inst_2 : Fintype.{u_2} G]\n  [DecidableEq.{u_2 + 1} G],\n  IsSemisimpleRing.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G) \u2192 IsUnit.{u_1} (Nat.cast.{u_1} (Fintype.card.{u_2} G))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Proposition4_1_2"
+    }
+  ],
+  "canonical_reference": "Chapter4/Discussion_before_Proposition4.1.2",
+  "packet_id": "align-0106",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0106"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:21ce9fa28ea435ff867b",
+  "source_text": "The converse of Maschke's semisimplicity implication also holds."
+}

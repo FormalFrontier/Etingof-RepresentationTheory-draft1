@@ -1,0 +1,34 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (G : Type) [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (p : Nat),\n  Nat.Prime p \u2192\n    \u2200 (k : Nat),\n      LT.lt.{0} 0 k \u2192\n        \u2200 (g : G),\n          Eq.{1} (Fintype.card.{0} (Subtype.{1} fun h => IsConj.{0} g h)) (HPow.hPow.{0, 0, 0} p k) \u2192\n            Exists.{2} fun V =>\n              And (CategoryTheory.Simple.{0, 1} V)\n                (And\n                  (Not\n                    (Nonempty.{1}\n                      (CategoryTheory.Iso.{0, 1} V\n                        (FDRep.of.{0, 0} (Representation.trivial.{0, 0, 0} Complex G Complex)))))\n                  (And\n                    (Not\n                      (Dvd.dvd.{0} p\n                        (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V)))))\n                    (Ne.{1} (FDRep.character.{0, 0} V g) 0)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2205346738",
+      "temporary_id": "decl-005508"
+    }
+  ],
+  "module_temporary_id": "module-0357",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

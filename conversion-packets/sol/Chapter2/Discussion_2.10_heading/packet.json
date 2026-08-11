@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_2.10_heading",
+    "kind": "discussion",
+    "title": "Section 2.10: Historical interlude \u2014 Sophus Lie's trials and transformations",
+    "node_id": "chapter-02/section-2-10",
+    "order": 96,
+    "slug": "discussion-2-10-heading",
+    "span": {
+      "start": {
+        "page": "26",
+        "line": 7
+      },
+      "end": {
+        "page": "30",
+        "line": 7
+      }
+    },
+    "source_sha256": "11387f72c99454a3d3738c56f8e0f43e21af7eb4a66456c5b092c6915e889116",
+    "features": {
+      "line_count": 33,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion210Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

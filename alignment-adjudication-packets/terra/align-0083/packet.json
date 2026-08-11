@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3dcfa1a5205f0cd2f589",
+      "declaration": "Etingof.Example5_19_3_exteriorEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/356/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    [CharZero.{0} k] \u2192\n      {V : Type} \u2192\n        [inst_2 : AddCommGroup.{0} V] \u2192\n          [inst_3 : Module.{0, 0} k V] \u2192\n            [Module.Finite.{0, 0} k V] \u2192\n              (n : Nat) \u2192\n                LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k)\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.symAntisymmetric.{0, 0} k V n) x)\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (ExteriorAlgebra.exteriorPower.{0, 0} k n V) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_19_3"
+    },
+    {
+      "association_id": "association:fad81b141fc26bcd5a95",
+      "declaration": "Etingof.Example5_19_3_exterior_equivariant",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/356/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [inst_1 : CharZero.{0} k] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} k V] [inst_4 : Module.Finite.{0, 0} k V] (n : Nat)\n  (g : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) V V)\n  (x : Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.symAntisymmetric.{0, 0} k V n) x),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (Etingof.Example5_19_3_exteriorEquiv n)\n      (DFunLike.coe.{1, 1, 1} (Etingof.symAntisymmetricMap g) x))\n    (DFunLike.coe.{1, 1, 1} (exteriorPower.map.{0, 0, 0} n g)\n      (DFunLike.coe.{1, 1, 1} (Etingof.Example5_19_3_exteriorEquiv n) x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Example5_19_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Example5.19.3",
+  "packet_id": "align-0083",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0083"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:1abdff5af6f9f23f8e1d",
+  "source_text": "The one-column factor is explicitly and equivariantly identified with the exterior power."
+}

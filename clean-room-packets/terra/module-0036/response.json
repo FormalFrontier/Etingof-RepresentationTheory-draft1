@@ -1,0 +1,12 @@
+{
+  "module_name": "LieAlgebra.ThreeByThreeMatrixAuxiliary",
+  "declarations": [
+    {"temporary_id": "decl-001797", "new_name": "matrixLieSubalgebraAux", "docstring": "A selected Lie subalgebra of three-by-three matrices over a commutative ring."},
+    {"temporary_id": "decl-001802", "new_name": "matrixLieEquivAux", "docstring": "An auxiliary Lie equivalence from the displayed Lie algebra to the selected matrix Lie subalgebra."},
+    {"temporary_id": "decl-001812", "new_name": "matrixLieEquivAux_apply_eq_single_02", "docstring": "On the specified element, the auxiliary Lie equivalence has value equal to the matrix unit in row zero and column two."},
+    {"temporary_id": "decl-001813", "new_name": "matrixLieEquivAux_apply_eq_single_12", "docstring": "On the specified element, the auxiliary Lie equivalence has value equal to the matrix unit in row one and column two."},
+    {"temporary_id": "decl-001814", "new_name": "matrixLieEquivAux_apply_eq_single_01", "docstring": "On the specified element, the auxiliary Lie equivalence has value equal to the matrix unit in row zero and column one."},
+    {"temporary_id": "decl-001815", "new_name": "toMatrixAux", "docstring": "An auxiliary map from the displayed Lie algebra to three-by-three matrices."},
+    {"temporary_id": "decl-001817", "new_name": "toMatrixAux_mem_matrixLieSubalgebraAux", "docstring": "The matrix produced by the auxiliary map belongs to the selected matrix Lie subalgebra."}
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Example6.8.5",
+    "kind": "example",
+    "title": "Example 6.8.5: Reflection functors on D4",
+    "node_id": "chapter-06/section-6-8",
+    "order": 459,
+    "slug": "example6-8-5",
+    "span": {
+      "start": {
+        "page": "177",
+        "line": 15
+      },
+      "end": {
+        "page": "177",
+        "line": 28
+      }
+    },
+    "source_sha256": "d0b478cfd25cb0e3db6faab64e707a114ff849dce5b8655cdaf1bc6c2895ab25",
+    "features": {
+      "line_count": 14,
+      "crosses_page": false,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Example685",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

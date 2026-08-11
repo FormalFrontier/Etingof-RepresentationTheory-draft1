@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Definition3.5.1",
+    "kind": "definition",
+    "title": "Radical of a finite dimensional algebra",
+    "node_id": "chapter-03/section-3-5",
+    "order": 149,
+    "slug": "definition3-5-1",
+    "span": {
+      "start": {
+        "page": "49",
+        "line": 15
+      },
+      "end": {
+        "page": "49",
+        "line": 16
+      }
+    },
+    "source_sha256": "75061d97291ade212cb4c9a2bf5718b8f25d2fbc2b0d54f9e7a176088555406a",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Definition351",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

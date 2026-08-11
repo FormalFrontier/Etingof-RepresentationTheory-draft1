@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f7ebb1be766d44e28951",
+      "declaration": "Etingof.VirtualRepresentation.character",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/285/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192 [inst_1 : Fintype.{0} G] \u2192 AddMonoidHom.{1, 0} (Etingof.VirtualRepresentation G) (G \u2192 Complex)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_7_1"
+    },
+    {
+      "association_id": "association:d75ae96970bf751b19a9",
+      "declaration": "Etingof.VirtualRepresentation.character_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/285/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (V : Etingof.VirtualRepresentation G) (g : G),\n  Eq.{1} (DFunLike.coe.{2, 2, 1} Etingof.VirtualRepresentation.character V g)\n    (Finset.sum.{1, 0} (Finsupp.support.{1, 0} V) fun c =>\n      HMul.hMul.{0, 0, 0} (Int.cast.{0} (DFunLike.coe.{2, 2, 1} V c)) (Etingof.IrrepClasses.character.{0, 0} c g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_7_1"
+    },
+    {
+      "association_id": "association:9fd6d0466abbc5a557dd",
+      "declaration": "Etingof.VirtualRepresentation.character_single",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/285/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (c : Etingof.IrrepClasses.{0, 0} Complex G) (n : Int),\n  Eq.{1} (DFunLike.coe.{2, 2, 1} Etingof.VirtualRepresentation.character (Finsupp.single.{1, 0} c n))\n    (HSMul.hSMul.{0, 0, 0} n (Etingof.IrrepClasses.character.{0, 0} c))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_7_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Definition5.7.1",
+  "packet_id": "align-0115",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0115"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:23be44afbde033f001b3",
+  "source_text": "Its character is the corresponding integer linear combination of irreducible characters."
+}

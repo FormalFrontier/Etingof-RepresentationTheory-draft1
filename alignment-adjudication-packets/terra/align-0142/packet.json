@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:38a574f3bb899796b37a",
+      "declaration": "Etingof.Remark5_8_2",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/290/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    {G : Type u_2} \u2192\n      [inst_1 : Group.{u_2} G] \u2192\n        (H : Subgroup.{u_2} G) \u2192\n          [DecidableRel.{u_2 + 1, u_2 + 1} Setoid.r.{u_2 + 1}] \u2192\n            [Subgroup.FiniteIndex.{u_2} H] \u2192\n              (A : Rep.{max u_1 u_2, u_1, u_2} k (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} H x)) \u2192\n                CategoryTheory.Iso.{max u_1 u_2, max (max (u_2 + 1) (u_1 + 1)) ((max u_1 u_2) + 1)}\n                  (Rep.ind.{max u_1 u_2, u_1, u_2, u_2} (Subgroup.subtype.{u_2} H) A)\n                  (Rep.coind'.{u_1, u_2, u_2} (Subgroup.subtype.{u_2} H) A)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_8_2"
+    },
+    {
+      "association_id": "association:597860a0ea558ca070ee",
+      "declaration": "Etingof.Remark5_8_2NatIso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/290/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192\n    {G : Type u_2} \u2192\n      [inst_1 : Group.{u_2} G] \u2192\n        (H : Subgroup.{u_2} G) \u2192\n          [DecidableRel.{u_2 + 1, u_2 + 1} Setoid.r.{u_2 + 1}] \u2192\n            [Subgroup.FiniteIndex.{u_2} H] \u2192\n              CategoryTheory.Iso.{max (u_1 + 1) (u_2 + 1), max (max (max (u_1 + 1) (u_2 + 1)) u_2) ((max u_1 u_2) + 1)}\n                (Rep.indFunctor.{max u_1 u_2, u_1, u_2, u_2} k (Subgroup.subtype.{u_2} H))\n                (Rep.coindFunctor'.{u_1, u_2, u_2} k (Subgroup.subtype.{u_2} H))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_8_2"
+    },
+    {
+      "association_id": "association:1cb12d3729aa55788107",
+      "declaration": "Etingof.Remark5_8_2NatIso_app",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/290/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {G : Type u_2} [inst_1 : Group.{u_2} G] (H : Subgroup.{u_2} G)\n  [inst_2 : DecidableRel.{u_2 + 1, u_2 + 1} Setoid.r.{u_2 + 1}] [inst_3 : Subgroup.FiniteIndex.{u_2} H]\n  (A : Rep.{max u_1 u_2, u_1, u_2} k (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} H x)),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (CategoryTheory.Iso.app.{max u_2 u_1, max u_2 u_1, max (u_2 + 1) (u_1 + 1), max (u_2 + 1) (u_1 + 1)}\n      (Etingof.Remark5_8_2NatIso.{u_1, u_2} H) A)\n    (Etingof.Remark5_8_2.{u_1, u_2} H A)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Remark5_8_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Remark5.8.2",
+  "packet_id": "align-0142",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0142"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2c39cf7933e4466e143c",
+  "source_text": "Ind_H^G is naturally isomorphic to Hom_H(k[G],V)."
+}

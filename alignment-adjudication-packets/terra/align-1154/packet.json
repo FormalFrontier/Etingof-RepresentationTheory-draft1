@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5c891dfb8554feb2bd6a",
+      "declaration": "Etingof.Lemma5_4_5",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/273/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    \u2200 (\u03b5 : Fin n \u2192 Complex),\n      (\u2200 (i : Fin n), Exists.{1} fun m => And (LT.lt.{0} 0 m) (Eq.{1} (HPow.hPow.{0, 0, 0} (\u03b5 i) m) 1)) \u2192\n        IsIntegral.{0, 0} Int (HDiv.hDiv.{0, 0, 0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => \u03b5 i) (Nat.cast.{0} n)) \u2192\n          Or (\u2200 (i j : Fin n), Eq.{1} (\u03b5 i) (\u03b5 j)) (Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun i => \u03b5 i) 0)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_4_5"
+    },
+    {
+      "association_id": "association:70c5ac72b9c9be6de855",
+      "declaration": "Etingof.Theorem5_4_4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/273/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type) [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  [CategoryTheory.Simple.{0, 1} V] (g : G),\n  (Fintype.card.{0} (Subtype.{1} fun h => IsConj.{0} g h)).Coprime\n      (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))) \u2192\n    Or (Eq.{1} (FDRep.character.{0, 0} V g) 0)\n      (Exists.{1} fun c =>\n        Eq.{1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} V) g) (HSMul.hSMul.{0, 0, 0} c LinearMap.id.{0, 0}))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_4_4"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_before_Lemma5.4.5",
+  "packet_id": "align-1154",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1154"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:eec0454046b48575b739",
+  "source_text": "Lemma 5.4.5 supplies the roots-of-unity input for Theorem 5.4.4."
+}

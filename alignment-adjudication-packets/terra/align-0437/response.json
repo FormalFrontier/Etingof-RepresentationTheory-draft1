@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:d3b795e9c8b39b4bce0f",
+      "rationale": "Under the same algebraically closed, finite-dimensional, simple-module hypotheses, the formal type directly concludes that an arbitrary A-linear endomorphism φ equals scalar multiplication by some c. This is exactly the mathematical conclusion of the source proof step; the eigenvalue and φ - λ Id language describes its proof method.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0437"
+}

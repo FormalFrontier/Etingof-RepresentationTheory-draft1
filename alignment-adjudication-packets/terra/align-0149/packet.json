@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c4897ee6e7131cff87a6",
+      "declaration": "Etingof.subsingleton_not_isSimpleRing",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/155/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u_1) [inst : Ring.{u_1} A] [Subsingleton.{u_1 + 1} A], Not (IsSimpleRing.{u_1} A)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Proposition3_5_8"
+    }
+  ],
+  "canonical_reference": "Chapter3/Proposition3.5.8",
+  "packet_id": "align-0149",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0149"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:2eab90345a8a324fd606",
+  "source_text": "The zero algebra is not simple."
+}

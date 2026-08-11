@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Theorem4.5.1",
+    "kind": "theorem",
+    "title": "Orthogonality of characters: inner product equals dim Hom",
+    "node_id": "chapter-04/section-4-5",
+    "order": 202,
+    "slug": "theorem4-5-1",
+    "span": {
+      "start": {
+        "page": "68",
+        "line": 3
+      },
+      "end": {
+        "page": "68",
+        "line": 30
+      }
+    },
+    "source_sha256": "40f81abd056fe67bc8c2d55a03c8645daac715ce249766834114f3dab083e34f",
+    "features": {
+      "line_count": 28,
+      "crosses_page": false,
+      "display_math_delimiters": 14,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Theorem451",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

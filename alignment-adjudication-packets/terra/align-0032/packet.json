@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6fe4e99505918ec42098",
+      "declaration": "Etingof.Discussion_1dim_reps.card_oneDimRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/382/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [inst : Fact (Nat.Prime p)] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    LT.lt.{0} 2 (Nat.card.{0} (GaloisField p n)) \u2192\n      Eq.{1} (Nat.card.{0} (MonoidHom.{0, 0} (Etingof.Discussion_1dim_reps.G p n) (Units.{0} Complex)))\n        (HSub.hSub.{0, 0, 0} (Nat.card.{0} (GaloisField p n)) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_1dim_reps"
+    },
+    {
+      "association_id": "association:25025eafdea55c956cd3",
+      "declaration": "Etingof.Discussion_1dim_reps.characterCompDetEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/382/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(p : Nat) \u2192\n  [inst : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      LT.lt.{0} 0 n \u2192\n        LT.lt.{0} 2 (Nat.card.{0} (GaloisField p n)) \u2192\n          Equiv.{1, 1} (MonoidHom.{0, 0} (Units.{0} (GaloisField p n)) (Units.{0} Complex))\n            (MonoidHom.{0, 0} (Etingof.Discussion_1dim_reps.G p n) (Units.{0} Complex))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion_1dim_reps"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_1dim_reps",
+  "packet_id": "align-0032",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0032"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:08e8391a802e4bfee88a",
+  "source_text": "Every one-dimensional representation of GL\u2082(F_q) is uniquely a multiplicative character composed with determinant, and there are q\u22121 of them."
+}

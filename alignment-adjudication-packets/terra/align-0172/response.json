@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0172",
+  "associations": [
+    {
+      "association_id": "association:a15720f642d5b52df74b",
+      "role": "primary",
+      "rationale": "It directly declares the Jacobson radical to be a two-sided ideal."
+    },
+    {
+      "association_id": "association:ff7fdefd6fe3b1a56b8f",
+      "role": "primary",
+      "rationale": "It directly gives the elementwise formulation of the radical's closure under multiplication on both sides."
+    }
+  ]
+}

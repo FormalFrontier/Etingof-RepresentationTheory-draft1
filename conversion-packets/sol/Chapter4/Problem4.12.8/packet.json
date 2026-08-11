@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Problem4.12.8",
+    "kind": "exercise",
+    "title": "Classification of finite subgroups of SO(3) and SU(2)",
+    "node_id": "chapter-04/section-4-12",
+    "order": 238,
+    "slug": "problem4-12-8",
+    "span": {
+      "start": {
+        "page": "86",
+        "line": 5
+      },
+      "end": {
+        "page": "87",
+        "line": 2
+      }
+    },
+    "source_sha256": "0d7b72e342bc74f5beb79ecf69b9166687cb55ecfe1115b868186b04a9c69c64",
+    "features": {
+      "line_count": 25,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Problem4128",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

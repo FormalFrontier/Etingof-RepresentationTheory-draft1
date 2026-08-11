@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Discussion_before_Theorem6.5.2",
+    "kind": "discussion",
+    "title": "Preamble to Gabriel's theorem",
+    "node_id": "chapter-06/section-6-5",
+    "order": 436,
+    "slug": "discussion-before-theorem6-5-2",
+    "span": {
+      "start": {
+        "page": "167",
+        "line": 48
+      },
+      "end": {
+        "page": "167",
+        "line": 48
+      }
+    },
+    "source_sha256": "d8aee08bc82a2bd52d427e84a89f20600e7f3990c7a000df4831c2e6d18416dd",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.DiscussionBeforeTheorem652",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_concrete_Lie_examples_continued",
+    "kind": "discussion",
+    "title": "Concrete Lie algebra examples (continued): aff(1), so(n)",
+    "node_id": "chapter-02/section-2-9",
+    "order": 84,
+    "slug": "discussion-concrete-lie-examples-continued",
+    "span": {
+      "start": {
+        "page": "24",
+        "line": 1
+      },
+      "end": {
+        "page": "24",
+        "line": 5
+      }
+    },
+    "source_sha256": "99afa4c477929274feb36271db3a870cbfa62257d2257b8dc903436c9d7fb56b",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionConcreteLieExamplesContinued",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e1e10d37decae7d3e06a",
+      "declaration": "Etingof.Example_2_3_14.exists_equiv_jordanRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/41/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (M : Type u_2) [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} k M]\n  [inst_3 : Module.{u_1, u_2} (Polynomial.{u_1} k) M] [IsScalarTower.{u_1, u_1, u_2} k (Polynomial.{u_1} k) M]\n  [IsAlgClosed.{u_1} k] [FiniteDimensional.{u_1, u_2} k M],\n  Etingof.IsIndecomposable.{u_1, u_2} (Polynomial.{u_1} k) M \u2192\n    Exists.{u_1 + 1} fun lam =>\n      Exists.{1} fun n =>\n        And (LT.lt.{0} 0 n)\n          (Nonempty.{max (u_1 + 1) (u_2 + 1)}\n            (LinearEquiv.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} (Polynomial.{u_1} k)) M\n              (Etingof.Example_2_3_14.jordanRep.{u_1} lam n)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14"
+    },
+    {
+      "association_id": "association:49282bafece77c8add51",
+      "declaration": "Etingof.Example_2_3_14.jordanRep_indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/41/claim_coverage/claims/6/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] (lam : k) (n : Nat) [NeZero.{0} n],\n  Etingof.IsIndecomposable.{u_1, u_1} (Polynomial.{u_1} k) (Etingof.Example_2_3_14.jordanRep.{u_1} lam n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.3.14",
+  "packet_id": "align-0984",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0984"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:baaec8fd221a1febd29f",
+  "source_text": "The finite-dimensional indecomposable k[x]-representations are exactly the Jordan-block representations V_{\u03bb,n}."
+}

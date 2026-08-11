@@ -1,0 +1,61 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] [CharZero.{u} k] (n : Nat) (M : Type w)\n  [inst_3 : AddCommGroup.{w} M] [inst_4 : Module.{u, w} (decl-028818.{u} k n) M]\n  [IsSimpleModule.{u, w} (decl-028818.{u} k n) M],\n  Exists.{1} fun la =>\n    Nonempty.{max (u + 1) (w + 1)}\n      (LinearEquiv.{u, u, w, u} (RingHom.id.{u} (decl-028818.{u} k n)) M\n        (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-016118.{u} k n la) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016118",
+        "decl-028818",
+        "decl-028819"
+      ],
+      "structural_type_hash": "1896778786",
+      "temporary_id": "decl-016523"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] [CharZero.{u} k] (n : Nat) (M : Type w)\n  [inst_3 : AddCommGroup.{w} M] [inst_4 : Module.{u, w} (MonoidAlgebra.{u, 0} k (Equiv.Perm.{1} (Fin n))) M]\n  [IsSimpleModule.{u, w} (MonoidAlgebra.{u, 0} k (Equiv.Perm.{1} (Fin n))) M],\n  Exists.{1} fun la =>\n    Nonempty.{max (u + 1) (w + 1)}\n      (LinearEquiv.{u, u, w, u} (RingHom.id.{u} (MonoidAlgebra.{u, 0} k (Equiv.Perm.{1} (Fin n)))) M\n        (Subtype.{u + 1} fun x => Membership.mem.{u, u} (decl-016118.{u} k n la) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016118"
+      ],
+      "structural_type_hash": "887780211",
+      "temporary_id": "decl-017966"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [inst_1 : IsAlgClosed.{u} k] [inst_2 : CharZero.{u} k] (n : Nat)\n  (D : decl-025031.{u, 0} k (decl-028819 n)), LE.le.{0} (decl-025117.{u, 0} D) (Fintype.card.{0} n.Partition)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-021710",
+        "decl-025031",
+        "decl-025117",
+        "decl-028819"
+      ],
+      "structural_type_hash": "2934477324",
+      "temporary_id": "decl-020770"
+    }
+  ],
+  "module_temporary_id": "module-0450",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

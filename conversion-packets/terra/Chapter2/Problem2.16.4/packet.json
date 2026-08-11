@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.16.4",
+    "kind": "exercise",
+    "title": "Irreducible representations of sl(2) in characteristic p",
+    "node_id": "chapter-02/section-2-16",
+    "order": 123,
+    "slug": "problem2-16-4",
+    "span": {
+      "start": {
+        "page": "40",
+        "line": 13
+      },
+      "end": {
+        "page": "40",
+        "line": 13
+      }
+    },
+    "source_sha256": "8e853921919e80204aa45d53c5f6dbc21fb9463bd5537e868491558d911a355e",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2164",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

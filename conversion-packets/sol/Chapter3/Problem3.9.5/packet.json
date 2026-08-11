@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Problem3.9.5",
+    "kind": "exercise",
+    "title": "The Clifford algebra",
+    "node_id": "chapter-03/section-3-9",
+    "order": 176,
+    "slug": "problem3-9-5",
+    "span": {
+      "start": {
+        "page": "58",
+        "line": 13
+      },
+      "end": {
+        "page": "59",
+        "line": 4
+      }
+    },
+    "source_sha256": "495e1280189358561505c992229a43cae729234447b45869090644be4fe03072",
+    "features": {
+      "line_count": 13,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Problem395",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

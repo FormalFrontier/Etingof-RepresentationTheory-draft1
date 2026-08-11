@@ -1,0 +1,76 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (V : Type u_2) \u2192 [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} k V] \u2192 Nat \u2192 Type (max u_1 u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "732344367",
+      "temporary_id": "decl-016545"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (V : Type u_2) [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  [Module.Finite.{u_1, u_2} k V] (n : Nat) [CharZero.{u_1} k],\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (Subalgebra.centralizer.{u_1, max u_1 u_2} k\n      (SetLike.coe.{max u_1 u_2, max u_1 u_2} (decl-016559.{u_1, u_2} k V n)))\n    (AlgHom.range.{u_1, max u_1 u_2, max u_1 u_2} (decl-016561.{u_1, u_2} k V n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016545",
+        "decl-016559",
+        "decl-016561"
+      ],
+      "structural_type_hash": "1913556676",
+      "temporary_id": "decl-016546"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (V : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192\n          (n : Nat) \u2192\n            LieHom.{u_1, u_2, max u_2 u_1} k (Module.End.{u_1, u_2} k V)\n              (Module.End.{u_1, max u_2 u_1} k (decl-016545.{u_1, u_2} k V n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016545"
+      ],
+      "structural_type_hash": "2897076073",
+      "temporary_id": "decl-016547"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (V : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192\n          (n : Nat) \u2192\n            Subalgebra.{u_1, max u_2 u_1} k\n              (Module.End.{u_1, max u_2 u_1} k (decl-016545.{u_1, u_2} k V n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016545"
+      ],
+      "structural_type_hash": "96321968",
+      "temporary_id": "decl-016559"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (V : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192\n          (n : Nat) \u2192\n            AlgHom.{u_1, max u_2 u_1, max u_2 u_1} k\n              (UniversalEnvelopingAlgebra.{u_1, u_2} k (Module.End.{u_1, u_2} k V))\n              (Module.End.{u_1, max u_2 u_1} k (decl-016545.{u_1, u_2} k V n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016545"
+      ],
+      "structural_type_hash": "1594632249",
+      "temporary_id": "decl-016561"
+    }
+  ],
+  "module_temporary_id": "module-0463",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,40 @@
+{
+  "module_name": "RingTheory.AuxiliaryTypeInvariants",
+  "declarations": [
+    {
+      "temporary_id": "decl-021703",
+      "new_name": "auxiliaryCard_le_tensorProduct_auxiliaryCard",
+      "docstring": "Scalar extension by a field does not decrease the cardinality of the auxiliary type."
+    },
+    {
+      "temporary_id": "decl-021705",
+      "new_name": "auxiliaryCard_pi_eq_sum",
+      "docstring": "The auxiliary cardinality of a finite product equals the sum of the component cardinalities."
+    },
+    {
+      "temporary_id": "decl-021733",
+      "new_name": "nonempty_auxiliaryType",
+      "docstring": "A nontrivial finite-dimensional algebra has a nonempty auxiliary type."
+    },
+    {
+      "temporary_id": "decl-023151",
+      "new_name": "auxiliaryType_equiv_of_moduleCat_equivalence",
+      "docstring": "An equivalence of module categories induces an equivalence of auxiliary types."
+    },
+    {
+      "temporary_id": "decl-023154",
+      "new_name": "auxiliaryType_equiv_of_ringEquiv",
+      "docstring": "A ring equivalence induces an equivalence of auxiliary types."
+    },
+    {
+      "temporary_id": "decl-023155",
+      "new_name": "matrix_auxiliaryType_equiv",
+      "docstring": "A positive-size square matrix ring has an auxiliary type equivalent to that of its coefficient ring."
+    },
+    {
+      "temporary_id": "decl-023494",
+      "new_name": "subsingleton_auxiliaryType_of_divisionRing",
+      "docstring": "The auxiliary type of a division ring is subsingleton."
+    }
+  ]
+}

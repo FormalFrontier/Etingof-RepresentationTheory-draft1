@@ -1,0 +1,100 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{A : Type u_1} \u2192\n  [inst : NormedRing.{u_1} A] \u2192\n    [inst_1 : NormedAlgebra.{0, u_1} Real A] \u2192\n      [FiniteDimensional.{0, u_1} Real A] \u2192\n        (D : ContinuousLinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Real) A A) \u2192\n          (\u2200 (x y : A),\n              Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D (HMul.hMul.{u_1, u_1, u_1} x y))\n                (HAdd.hAdd.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D x) y)\n                  (HMul.hMul.{u_1, u_1, u_1} x (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D y)))) \u2192\n            Real \u2192 AlgEquiv.{0, u_1, u_1} Real A A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "20733831",
+      "temporary_id": "decl-015222"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : NormedRing.{u_1} A] [inst_1 : NormedAlgebra.{0, u_1} Real A]\n  [inst_2 : FiniteDimensional.{0, u_1} Real A] (D : ContinuousLinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Real) A A)\n  (hD :\n    \u2200 (x y : A),\n      Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D (HMul.hMul.{u_1, u_1, u_1} x y))\n        (HAdd.hAdd.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D x) y)\n          (HMul.hMul.{u_1, u_1, u_1} x (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D y))))\n  (t : Real) (a : A),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-015222.{u_1} D hD t) a)\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (NormedSpace.exp.{u_1} (HSMul.hSMul.{0, u_1, u_1} t D)) a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015222"
+      ],
+      "structural_type_hash": "4130092406",
+      "temporary_id": "decl-015231"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : NormedRing.{u_1} A] [inst_1 : NormedAlgebra.{0, u_1} Real A]\n  [FiniteDimensional.{0, u_1} Real A] (D : ContinuousLinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Real) A A) (s t : Real),\n  Eq.{u_1 + 1} (NormedSpace.exp.{u_1} (HSMul.hSMul.{0, u_1, u_1} (HAdd.hAdd.{0, 0, 0} s t) D))\n    (HMul.hMul.{u_1, u_1, u_1} (NormedSpace.exp.{u_1} (HSMul.hSMul.{0, u_1, u_1} s D))\n      (NormedSpace.exp.{u_1} (HSMul.hSMul.{0, u_1, u_1} t D)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3570721311",
+      "temporary_id": "decl-015232"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : NormedRing.{u_1} A] [inst_1 : NormedAlgebra.{0, u_1} Real A]\n  [FiniteDimensional.{0, u_1} Real A] (D : ContinuousLinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Real) A A) (s t : Real)\n  (a : A),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (NormedSpace.exp.{u_1} (HSMul.hSMul.{0, u_1, u_1} s D))\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (NormedSpace.exp.{u_1} (HSMul.hSMul.{0, u_1, u_1} t D)) a))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n      (NormedSpace.exp.{u_1} (HSMul.hSMul.{0, u_1, u_1} (HAdd.hAdd.{0, 0, 0} s t) D)) a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2833107927",
+      "temporary_id": "decl-015233"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : NormedRing.{u_1} A] [inst_1 : NormedAlgebra.{0, u_1} Real A]\n  [FiniteDimensional.{0, u_1} Real A] (D : ContinuousLinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Real) A A),\n  (\u2200 (x y : A),\n      Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D (HMul.hMul.{u_1, u_1, u_1} x y))\n        (HAdd.hAdd.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D x) y)\n          (HMul.hMul.{u_1, u_1, u_1} x (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D y)))) \u2192\n    \u2200 (t : Real) (a b : A),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (NormedSpace.exp.{u_1} (HSMul.hSMul.{0, u_1, u_1} t D))\n          (HMul.hMul.{u_1, u_1, u_1} a b))\n        (HMul.hMul.{u_1, u_1, u_1}\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (NormedSpace.exp.{u_1} (HSMul.hSMul.{0, u_1, u_1} t D)) a)\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (NormedSpace.exp.{u_1} (HSMul.hSMul.{0, u_1, u_1} t D)) b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3280277237",
+      "temporary_id": "decl-015234"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : NormedRing.{u_1} A] [inst_1 : NormedAlgebra.{0, u_1} Real A]\n  [FiniteDimensional.{0, u_1} Real A] (D : ContinuousLinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Real) A A),\n  (\u2200 (x y : A),\n      Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D (HMul.hMul.{u_1, u_1, u_1} x y))\n        (HAdd.hAdd.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D x) y)\n          (HMul.hMul.{u_1, u_1, u_1} x (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D y)))) \u2192\n    \u2200 (t : Real),\n      Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (NormedSpace.exp.{u_1} (HSMul.hSMul.{0, u_1, u_1} t D)) 1)\n        1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2822460283",
+      "temporary_id": "decl-015235"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : NormedRing.{u_1} A] [inst_1 : NormedAlgebra.{0, u_1} Real A]\n  (D : ContinuousLinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Real) A A),\n  Eq.{u_1 + 1} (NormedSpace.exp.{u_1} (HSMul.hSMul.{0, u_1, u_1} 0 D)) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2717466375",
+      "temporary_id": "decl-015236"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : NormedRing.{u_1} A] [inst_1 : NormedAlgebra.{0, u_1} Real A]\n  (g : Real \u2192 ContinuousLinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Real) A A)\n  (D : ContinuousLinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Real) A A),\n  (\u2200 (t : Real) (x y : A),\n      Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (g t) (HMul.hMul.{u_1, u_1, u_1} x y))\n        (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (g t) x)\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (g t) y))) \u2192\n    Eq.{u_1 + 1} (g 0) 1 \u2192\n      HasDerivAt.{0, u_1} g D 0 \u2192\n        \u2200 (x y : A),\n          Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D (HMul.hMul.{u_1, u_1, u_1} x y))\n            (HAdd.hAdd.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D x) y)\n              (HMul.hMul.{u_1, u_1, u_1} x (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D y)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2916652125",
+      "temporary_id": "decl-015237"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} [inst : NormedRing.{u_1} A] [inst_1 : NormedAlgebra.{0, u_1} Real A]\n  (D : ContinuousLinearMap.{0, 0, u_1, u_1} (RingHom.id.{0} Real) A A),\n  (\u2200 (x y : A),\n      Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D (HMul.hMul.{u_1, u_1, u_1} x y))\n        (HAdd.hAdd.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D x) y)\n          (HMul.hMul.{u_1, u_1, u_1} x (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D y)))) \u2192\n    Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} D 1) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "771559801",
+      "temporary_id": "decl-015238"
+    }
+  ],
+  "module_temporary_id": "module-0115",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

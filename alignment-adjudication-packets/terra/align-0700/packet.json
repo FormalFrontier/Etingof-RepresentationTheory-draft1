@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:fc7299b2581b590ba53b",
+      "declaration": "Etingof.Problem4_12_10_symmetric",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/239/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [Fintype.{u_1} G] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} Complex V] [FiniteDimensional.{0, 0} Complex V] (\u03c1 : Representation.{0, u_1, 0} Complex G V),\n  Function.Injective.{u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c1) \u2192\n    \u2200 {W : Type} [inst_5 : AddCommGroup.{0} W] [inst_6 : Module.{0, 0} Complex W] [FiniteDimensional.{0, 0} Complex W]\n      (\u03c3 : Representation.{0, u_1, 0} Complex G W),\n      IsSimpleModule.{u_1, 0} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, 0} \u03c3) \u2192\n        Exists.{1} fun n =>\n          Exists.{1} fun \u03c6 =>\n            And (Ne.{1} \u03c6 0)\n              (\u2200 (g : G),\n                Eq.{1} (LinearMap.comp.{0, 0, 0, 0, 0, 0} \u03c6 (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c3 g))\n                  (LinearMap.comp.{0, 0, 0, 0, 0, 0}\n                    (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (Etingof.symPowRep.{u_1} \u03c1 n) g) \u03c6))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_10_OrbitEval"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.10",
+  "packet_id": "align-0700",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0700"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.10:symmetric_power",
+  "source_text": "Every irreducible occurs in some symmetric power of a faithful representation."
+}

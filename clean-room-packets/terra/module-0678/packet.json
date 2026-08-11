@@ -1,0 +1,72 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    LinearMap.{u, u, u, u} (RingHom.id.{u} k)\n      (TensorProduct.{u, u, u} k (Module.Dual.{u, u} k (Finsupp.{0, u} Nat k))\n        (Module.Dual.{u, u} k (Finsupp.{0, u} Nat k)))\n      (LinearMap.{u, u, u, u} (RingHom.id.{u} k) (Finsupp.{0, u} Nat k) (Module.Dual.{u, u} k (Finsupp.{0, u} Nat k)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "244947659",
+      "temporary_id": "decl-014493"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k]\n  (t :\n    TensorProduct.{u, u, u} k (Module.Dual.{u, u} k (Finsupp.{0, u} Nat k))\n      (Module.Dual.{u, u} k (Finsupp.{0, u} Nat k)))\n  (x y : Finsupp.{0, u} Nat k),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-014493.{u} k) t)\n        x)\n      y)\n    (DFunLike.coe.{u + 1, u + 1, u + 1}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (TensorProduct.dualDistrib.{u, u, u} k (Finsupp.{0, u} Nat k) (Finsupp.{0, u} Nat k)) t)\n      (TensorProduct.tmul.{u, u, u} k x y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014493"
+      ],
+      "structural_type_hash": "632122067",
+      "temporary_id": "decl-014496"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (f g : Module.Dual.{u, u} k (Finsupp.{0, u} Nat k)),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-014493.{u} k) (TensorProduct.tmul.{u, u, u} k f g))\n    (LinearMap.smulRight.{u, u, u, u} f g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014493"
+      ],
+      "structural_type_hash": "3561569179",
+      "temporary_id": "decl-014497"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k]\n  (t :\n    TensorProduct.{u, u, u} k (Module.Dual.{u, u} k (Finsupp.{0, u} Nat k))\n      (Module.Dual.{u, u} k (Finsupp.{0, u} Nat k))),\n  LinearMap.HasNoetherianRange.{u, u, u} (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-014493.{u} k) t)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014493"
+      ],
+      "structural_type_hash": "3522551172",
+      "temporary_id": "decl-014498"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k],\n  Not\n    (Function.Surjective.{u + 1, u + 1}\n      (DFunLike.coe.{u + 1, u + 1, u + 1}\n        (TensorProduct.dualDistrib.{u, u, u} k (Finsupp.{0, u} Nat k) (Finsupp.{0, u} Nat k))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "660203346",
+      "temporary_id": "decl-025594"
+    }
+  ],
+  "module_temporary_id": "module-0678",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

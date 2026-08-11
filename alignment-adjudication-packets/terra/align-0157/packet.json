@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3f25d698885d620095ff",
+      "declaration": "dualPiEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/8/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {r : Nat} \u2192\n      {d : Fin r \u2192 Nat} \u2192\n        (n : Nat) \u2192\n          LinearEquiv.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} (MatProd.{u_1} k d))\n            (Module.Dual.{u_1, u_1} k (Fin n \u2192 MatProd.{u_1} k d))\n            (Fin n \u2192 Module.Dual.{u_1, u_1} k (MatProd.{u_1} k d))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    },
+    {
+      "association_id": "association:e5281318b0de27226e4f",
+      "declaration": "dualPowSelfDual",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/8/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {r : Nat} \u2192\n      {d : Fin r \u2192 Nat} \u2192\n        (n : Nat) \u2192\n          LinearEquiv.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} (MatProd.{u_1} k d))\n            (Module.Dual.{u_1, u_1} k (Fin n \u2192 MatProd.{u_1} k d)) (Fin n \u2192 MatProd.{u_1} k d)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    },
+    {
+      "association_id": "association:7b7ca357d124afacbb8d",
+      "declaration": "matProdSelfDual",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/141/claim_coverage/claims/8/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {r : Nat} \u2192\n      {d : Fin r \u2192 Nat} \u2192\n        LinearEquiv.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} (MatProd.{u_1} k d)) (MatProd.{u_1} k d)\n          (Module.Dual.{u_1, u_1} k (MatProd.{u_1} k d))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_proof_of_Theorem3.3.1",
+  "packet_id": "align-0157",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0157"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:30ca8fed55308e5154cc",
+  "source_text": "The dual of A^n is A-linearly isomorphic to A^n."
+}

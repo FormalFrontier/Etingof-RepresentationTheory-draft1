@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0053",
+  "associations": [
+    {
+      "association_id": "association:de2eca229a055de9a054",
+      "role": "primary",
+      "rationale": "This Prop-valued declaration directly defines when an A-module V is an irreducible representation, matching the source's definitional claim."
+    }
+  ]
+}

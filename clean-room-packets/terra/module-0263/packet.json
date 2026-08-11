@@ -1,0 +1,156 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Finite.{1} G] (V W : FDRep.{0, 0} Complex G),\n  Eq.{1} (FDRep.character.{0, 0} V) (FDRep.character.{0, 0} W) \u2192 Nonempty.{1} (CategoryTheory.Iso.{0, 1} V W)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3404038688",
+      "temporary_id": "decl-017865"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (A B : FDRep.{0, 0} Complex G),\n  Eq.{1}\n    (Module.finrank.{0, 0} Complex\n      (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (CategoryTheory.Limits.biprod.{0, 1} A B))))\n    (HAdd.hAdd.{0, 0, 0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} A)))\n      (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} B))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2619495237",
+      "temporary_id": "decl-019412"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (S A B : FDRep.{0, 0} Complex G),\n  Eq.{1} (Module.finrank.{0, 0} Complex (Quiver.Hom.{0, 1} S (CategoryTheory.Limits.biprod.{0, 1} A B)))\n    (HAdd.hAdd.{0, 0, 0} (Module.finrank.{0, 0} Complex (Quiver.Hom.{0, 1} S A))\n      (Module.finrank.{0, 0} Complex (Quiver.Hom.{0, 1} S B)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3787139906",
+      "temporary_id": "decl-019446"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (S : FDRep.{0, 0} Complex G) {A B : FDRep.{0, 0} Complex G}\n  (e : CategoryTheory.Iso.{0, 1} A B),\n  Eq.{1} (Module.finrank.{0, 0} Complex (Quiver.Hom.{0, 1} S A)) (Module.finrank.{0, 0} Complex (Quiver.Hom.{0, 1} S B))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3451057677",
+      "temporary_id": "decl-019447"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Finite.{1} G] (S V W : FDRep.{0, 0} Complex G),\n  Eq.{1} (FDRep.character.{0, 0} V) (FDRep.character.{0, 0} W) \u2192\n    Eq.{1} (Module.finrank.{0, 0} Complex (Quiver.Hom.{0, 1} S V))\n      (Module.finrank.{0, 0} Complex (Quiver.Hom.{0, 1} S W))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "125341855",
+      "temporary_id": "decl-019448"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {S V : FDRep.{0, 0} Complex G},\n  CategoryTheory.Limits.IsZero.{0, 1} V \u2192 Eq.{1} (Module.finrank.{0, 0} Complex (Quiver.Hom.{0, 1} S V)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3520883690",
+      "temporary_id": "decl-019451"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {V : FDRep.{0, 0} Complex G},\n  Not (CategoryTheory.Limits.IsZero.{0, 1} V) \u2192\n    LT.lt.{0} 0 (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "984594730",
+      "temporary_id": "decl-019453"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192 CategoryTheory.Functor.{0, 0, 1, 1} (FDRep.{0, 0} Complex G) (ModuleCat.{0, 0} Complex)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "250109229",
+      "temporary_id": "decl-019493"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    (S A B : FDRep.{0, 0} Complex G) \u2192\n      LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex) (Quiver.Hom.{0, 1} S (CategoryTheory.Limits.biprod.{0, 1} A B))\n        (Prod.{0, 0} (Quiver.Hom.{0, 1} S A) (Quiver.Hom.{0, 1} S B))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3289471119",
+      "temporary_id": "decl-019965"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    (S : FDRep.{0, 0} Complex G) \u2192\n      {A B : FDRep.{0, 0} Complex G} \u2192\n        CategoryTheory.Iso.{0, 1} A B \u2192\n          LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} Complex) (Quiver.Hom.{0, 1} S A) (Quiver.Hom.{0, 1} S B)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2824134983",
+      "temporary_id": "decl-019987"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {S V : FDRep.{0, 0} Complex G} (f : Quiver.Hom.{0, 1} S V)\n  [CategoryTheory.Mono.{0, 1} f] [CategoryTheory.Simple.{0, 1} S], Ne.{1} f 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1613421655",
+      "temporary_id": "decl-020177"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {A B : FDRep.{0, 0} Complex G} (g : Quiver.Hom.{0, 1} A B)\n  [CategoryTheory.Mono.{0, 1} g],\n  Function.Injective.{1, 1}\n    (DFunLike.coe.{1, 1, 1}\n      (ModuleCat.Hom.hom.{0, 0} (CategoryTheory.Functor.map.{0, 0, 1, 1} decl-019493 g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019493"
+      ],
+      "structural_type_hash": "925147952",
+      "temporary_id": "decl-020570"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] (V : FDRep.{0, 0} Complex G), CategoryTheory.IsArtinianObject.{0, 1} V",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1198964726",
+      "temporary_id": "decl-020618"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] {V : FDRep.{0, 0} Complex G},\n  Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))) 0 \u2192\n    CategoryTheory.Limits.IsZero.{0, 1} V",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2123151319",
+      "temporary_id": "decl-020939"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Finite.{1} G] (n : Nat) (V W : FDRep.{0, 0} Complex G),\n  Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} V))) n \u2192\n    (\u2200 (S : FDRep.{0, 0} Complex G),\n        CategoryTheory.Simple.{0, 1} S \u2192\n          Eq.{1} (Module.finrank.{0, 0} Complex (Quiver.Hom.{0, 1} S V))\n            (Module.finrank.{0, 0} Complex (Quiver.Hom.{0, 1} S W))) \u2192\n      Nonempty.{1} (CategoryTheory.Iso.{0, 1} V W)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1999265704",
+      "temporary_id": "decl-020958"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2574344724",
+      "temporary_id": "decl-023370"
+    }
+  ],
+  "module_temporary_id": "module-0263",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

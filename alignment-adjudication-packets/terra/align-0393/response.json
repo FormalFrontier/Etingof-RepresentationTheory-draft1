@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0393",
+  "associations": [
+    {
+      "association_id": "association:7589d7912c4439f7685b",
+      "role": "supporting",
+      "rationale": "This theorem supplies the simple-module density result used as the componentwise input, but does not itself state the described decomposition proof."
+    },
+    {
+      "association_id": "association:e64c77e43651d1e4fd94",
+      "role": "supporting",
+      "rationale": "This theorem states the resulting simultaneous density conclusion, while the claim here describes the proof by decomposition rather than only that conclusion."
+    },
+    {
+      "association_id": "association:32f9c6986e2ea808c1f3",
+      "role": "supporting",
+      "rationale": "The theorem gives a semisimple decomposition of a submodule of a finite product, which supports the described decomposition step without directly encoding that specific proof."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0369",
+  "associations": [
+    {
+      "association_id": "association:bfd1655350742e142653",
+      "role": "primary",
+      "rationale": "Under the displayed hypotheses, the normalized sum of the character times its complex conjugate is directly asserted to equal one."
+    }
+  ]
+}

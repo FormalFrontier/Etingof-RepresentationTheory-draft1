@@ -1,0 +1,58 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u) [instField : Field.{u} k] (A : Type u) [inst : Ring.{u} A] [instAlg : Algebra.{u, u} k A]\n  [instFin : Module.Finite.{u, u} k A],\n  Exists.{2} fun \u03b9 =>\n    Exists.{1} fun x =>\n      Exists.{u + 2} fun V =>\n        And (\u2200 (i : \u03b9), CategoryTheory.Simple.{u, u + 1} (V i))\n          (\u2200 (X : FGModuleCat.{u, u} A),\n            CategoryTheory.Simple.{u, u + 1} X \u2192\n              Exists.{1} fun i => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} X (V i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2382419757",
+      "temporary_id": "decl-018837"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [instField : Field.{u} k] (A : Type u) [inst : Ring.{u} A] [instAlg : Algebra.{u, u} k A]\n  [instFin : Module.Finite.{u, u} k A],\n  Exists.{1} fun n =>\n    Exists.{u + 1} fun S =>\n      And (\u2200 (i : Fin n), Module.Finite.{u, u} k (Subtype.{u + 1} fun x => Membership.mem.{u, u} (S i) x))\n        (And (\u2200 (i : Fin n), IsSimpleModule.{u, u} A (Subtype.{u + 1} fun x => Membership.mem.{u, u} (S i) x))\n          (\u2200 (M : Type u) [inst_1 : AddCommGroup.{u} M] [inst_2 : Module.{u, u} A M] [IsSimpleModule.{u, u} A M],\n            Exists.{1} fun i =>\n              Nonempty.{u + 1}\n                (LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) M\n                  (Subtype.{u + 1} fun x => Membership.mem.{u, u} (S i) x))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "529030565",
+      "temporary_id": "decl-018924"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] [IsNoetherianRing.{u} A] (X : FGModuleCat.{u, u} A)\n  [CategoryTheory.Simple.{u, u + 1} X], IsSimpleModule.{u, u} A (FGModuleCat.carrier.{u, u} X)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "821401239",
+      "temporary_id": "decl-020910"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] [IsNoetherianRing.{u} A] (N : Type u) [inst_2 : AddCommGroup.{u} N]\n  [inst_3 : Module.{u, u} A N] [inst_4 : Module.Finite.{u, u} A N] [IsSimpleModule.{u, u} A N],\n  CategoryTheory.Simple.{u, u + 1} (FGModuleCat.of.{u, u} A N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1287164063",
+      "temporary_id": "decl-023211"
+    }
+  ],
+  "module_temporary_id": "module-0790",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

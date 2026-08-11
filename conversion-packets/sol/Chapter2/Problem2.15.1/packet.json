@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.15.1",
+    "kind": "exercise",
+    "title": "Classification of finite dimensional representations of sl(2)",
+    "node_id": "chapter-02/section-2-15",
+    "order": 118,
+    "slug": "problem2-15-1",
+    "span": {
+      "start": {
+        "page": "37",
+        "line": 25
+      },
+      "end": {
+        "page": "39",
+        "line": 16
+      }
+    },
+    "source_sha256": "73d7a3efd3f331a45d86bb8640c8131826cdbc8db2abbd2cce06c41c7744d3c5",
+    "features": {
+      "line_count": 38,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2151",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

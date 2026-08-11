@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0448",
+  "associations": [
+    {
+      "association_id": "association:a2e7df1a7372dea46d00",
+      "role": "supporting",
+      "rationale": "The theorem states Maschke semisimplicity under invertibility of the group order, but does not itself express that the cited later theorems provide an alternative proof over the complex numbers."
+    }
+  ]
+}

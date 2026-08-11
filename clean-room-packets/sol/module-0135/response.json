@@ -1,0 +1,70 @@
+{
+  "module_name": "Module.SemisimpleHomDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-017367",
+      "new_name": "bijective_iff_forall_bijective_homMultiplicityMap",
+      "docstring": "For semisimple modules whose simple submodules come from a fixed pairwise nonisomorphic family, a linear map is bijective exactly when all induced maps on the corresponding Hom spaces are bijective."
+    },
+    {
+      "temporary_id": "decl-020125",
+      "new_name": "homEquivMultiplicityMaps",
+      "docstring": "The linear equivalence from maps between semisimple modules to families of postcomposition maps between their Hom spaces from representative simple modules."
+    },
+    {
+      "temporary_id": "decl-020129",
+      "new_name": "homEquivMultiplicityMaps_apply_apply",
+      "docstring": "The component of the Hom-space equivalence sends a map from a representative simple module to its composite with the original module map."
+    },
+    {
+      "temporary_id": "decl-020566",
+      "new_name": "injective_iff_forall_injective_homMultiplicityMap",
+      "docstring": "For semisimple modules with the displayed complete simple family, a linear map is injective exactly when all induced maps on the corresponding Hom spaces are injective."
+    },
+    {
+      "temporary_id": "decl-021588",
+      "new_name": "mem_ker_iff_forall_multiplicityComponent_eq_zero",
+      "docstring": "Under the semisimple direct-sum decomposition, a vector lies in the kernel exactly when every induced multiplicity-space map annihilates its corresponding component."
+    },
+    {
+      "temporary_id": "decl-022123",
+      "new_name": "homMultiplicityMap",
+      "docstring": "The linear map sending a module homomorphism to its family of postcomposition maps on Hom spaces from the displayed modules."
+    },
+    {
+      "temporary_id": "decl-022135",
+      "new_name": "homMultiplicityMap_apply_apply",
+      "docstring": "At an index and a map from the indexed module, the induced multiplicity map is composition with the original module homomorphism."
+    },
+    {
+      "temporary_id": "decl-022136",
+      "new_name": "homMultiplicityMap_comp",
+      "docstring": "The multiplicity map of a composite is the pointwise composite of the corresponding multiplicity maps."
+    },
+    {
+      "temporary_id": "decl-022137",
+      "new_name": "homMultiplicityMap_id",
+      "docstring": "The multiplicity map of the identity is the pointwise identity family."
+    },
+    {
+      "temporary_id": "decl-022138",
+      "new_name": "homMultiplicityMap_injective",
+      "docstring": "For semisimple modules with the displayed complete pairwise nonisomorphic simple family, the map to multiplicity-space maps is injective."
+    },
+    {
+      "temporary_id": "decl-022139",
+      "new_name": "homMultiplicityMap_surjective",
+      "docstring": "For semisimple modules with the displayed complete pairwise nonisomorphic simple family, every family of multiplicity-space maps comes from a module homomorphism."
+    },
+    {
+      "temporary_id": "decl-022692",
+      "new_name": "restrictScalars_eq_semisimpleDecomposition_comp",
+      "docstring": "The restriction of scalars of a module map is reconstructed by decomposing the source, applying the induced multiplicity maps componentwise, and recombining the target."
+    },
+    {
+      "temporary_id": "decl-023599",
+      "new_name": "surjective_iff_forall_surjective_homMultiplicityMap",
+      "docstring": "For semisimple modules with the displayed complete simple family, a linear map is surjective exactly when all induced maps on the corresponding Hom spaces are surjective."
+    }
+  ]
+}

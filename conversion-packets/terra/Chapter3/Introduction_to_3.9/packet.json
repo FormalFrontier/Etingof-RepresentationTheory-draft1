@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Introduction_to_3.9",
+    "kind": "introduction",
+    "title": "Section 3.9: Problems \u2014 heading",
+    "node_id": "chapter-03/section-3-9",
+    "order": 171,
+    "slug": "introduction-to-3-9",
+    "span": {
+      "start": {
+        "page": "56",
+        "line": 13
+      },
+      "end": {
+        "page": "56",
+        "line": 14
+      }
+    },
+    "source_sha256": "f6aba998126ba9e156c4d670abfd43de1a74b02a52cbfe0b8f4259c872214b3f",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.IntroductionTo39",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

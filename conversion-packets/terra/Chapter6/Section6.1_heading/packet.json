@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Section6.1_heading",
+    "kind": "discussion",
+    "title": "Section 6.1 heading: Problems",
+    "node_id": "chapter-06/section-6-1",
+    "order": 401,
+    "slug": "section6-1-heading",
+    "span": {
+      "start": {
+        "page": "149",
+        "line": 3
+      },
+      "end": {
+        "page": "149",
+        "line": 4
+      }
+    },
+    "source_sha256": "4d38547e0f2a577da7b37da3b9ac8dcc6756fb3e1ce4ebf3b2466dc1a3019263",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section61Heading",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

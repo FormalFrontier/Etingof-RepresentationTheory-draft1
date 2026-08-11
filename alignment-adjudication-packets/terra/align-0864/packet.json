@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2dfc901c4ae5774e9ade",
+      "declaration": "Etingof.FiniteProjectiveResolution.exists_finite_projectiveResolution",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/560/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [IsNoetherianRing.{u} R] (M : ModuleCat.{u, u} R)\n  [Module.Finite.{u, u} R (ModuleCat.carrier.{u, u} M)],\n  Exists.{u + 2} fun P =>\n    \u2200 (n : Nat),\n      Module.Finite.{u, u} R\n        (ModuleCat.carrier.{u, u}\n          (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.FiniteProjectiveResolution"
+    },
+    {
+      "association_id": "association:30bc83df14484989d4dc",
+      "declaration": "Etingof.Problem942.exists_finiteDimensional_truncated_projective_resolution",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/560/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] {k : Type u} [inst_1 : Field.{u} k] [inst_2 : Algebra.{u, u} k R]\n  [Module.Finite.{u, u} k R] (M : ModuleCat.{u, u} R) [inst_4 : Module.{u, u} k (ModuleCat.carrier.{u, u} M)]\n  [IsScalarTower.{u, u, u} k R (ModuleCat.carrier.{u, u} M)] [Module.Finite.{u, u} k (ModuleCat.carrier.{u, u} M)]\n  (d : Nat),\n  CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} M d \u2192\n    Exists.{u + 2} fun P =>\n      And\n        (\u2200 (n : Nat),\n          Module.Finite.{u, u} k\n            (ModuleCat.carrier.{u, u}\n              (HomologicalComplex.X.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) n)))\n        (And (CategoryTheory.Projective.{u, u + 1} (Etingof.ProjectiveResolution.syzygy.{u, u + 1} P d))\n          (And (Module.Finite.{u, u} k (ModuleCat.carrier.{u, u} (Etingof.ProjectiveResolution.syzygy.{u, u + 1} P d)))\n            (And (Eq.{u + 2} (Etingof.ProjectiveResolution.syzygy.{u, u + 1} P 0) M)\n              (\u2200 (n : Nat),\n                CategoryTheory.ShortComplex.ShortExact.{u, u + 1}\n                  (Etingof.ProjectiveResolution.syzygySES.{u, u + 1} P n)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_2"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.4.2",
+  "packet_id": "align-0864",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0864"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.4.2:part_iii_finite",
+  "source_text": "Part (iii): when A and M are finite-dimensional, choose every term finite-dimensional."
+}

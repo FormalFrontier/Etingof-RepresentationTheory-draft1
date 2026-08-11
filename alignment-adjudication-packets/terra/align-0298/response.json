@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0298",
+  "associations": [
+    {
+      "association_id": "association:96648697b9a965896335",
+      "role": "primary",
+      "rationale": "The declaration defines the derivations as a Lie subalgebra of the endomorphism Lie algebra, directly packaging closure under commutators and the resulting Lie-algebra structure."
+    },
+    {
+      "association_id": "association:1c46de57e0fdfe74a340",
+      "role": "supporting",
+      "rationale": "The application formula identifies the Lie bracket of two derivations with their commutator, supporting the closure encoded by the Lie-subalgebra definition."
+    },
+    {
+      "association_id": "association:34b5f3751b3c71a56784",
+      "role": "supporting",
+      "rationale": "The Lie equivalence identifies the Lie subalgebra with the existing derivation type, but it is an auxiliary comparison rather than the definition asserting closure."
+    }
+  ]
+}

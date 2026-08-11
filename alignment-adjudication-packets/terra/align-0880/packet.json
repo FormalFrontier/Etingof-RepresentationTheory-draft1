@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e734bba46dc40756dc70",
+      "declaration": "Etingof.Problem965.partII",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/575/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : Etingof.IsFiniteAbelianCategory.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : Etingof.IsFiniteAbelianCategoryOverField.{w, u, v} k C] {P : C} [hp : Etingof.IsProgenerator.{u, v} P]\n  (Y : C), CategoryTheory.Epi.{v, u} (CategoryTheory.NatTrans.app.{v, v, u, u} Etingof.Problem965.\u03be.{u, v, w} Y)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_6_5"
+    },
+    {
+      "association_id": "association:72e0585119025ee22a62",
+      "declaration": "Etingof.Problem965.\u03be",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/575/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : Etingof.IsFiniteAbelianCategory.{u, v} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : Etingof.IsFiniteAbelianCategoryOverField.{w, u, v} k C] \u2192\n              {P : C} \u2192\n                [hp : Etingof.IsProgenerator.{u, v} P] \u2192\n                  Quiver.Hom.{max u v, max u v}\n                    (CategoryTheory.Functor.comp.{v, v, v, u, v + 1, u}\n                      Etingof.IsProgenerator.preadditiveCoyonedaObjFG.{u, v}\n                      (Etingof.Problem965.balancedTensorFunctor.{u, v, w} P))\n                    (CategoryTheory.Functor.id.{v, u} C)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_6_5"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.6.5",
+  "packet_id": "align-0880",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0880"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.6.5:part_ii",
+  "source_text": "Part (ii): construct the evaluation transformation and prove every component epi."
+}

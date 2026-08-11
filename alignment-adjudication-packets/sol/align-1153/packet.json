@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:95e4c4f85ad9a6e67ed4",
+      "declaration": "Etingof.GL2.card_complementaryIndex",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/386/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : NeZero.{0} n],\n  Eq.{1} (Nat.card.{0} (Etingof.GL2.ComplementaryIndex p n))\n    (HDiv.hDiv.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n        (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n      2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    },
+    {
+      "association_id": "association:7de5de8371a9be9052d5",
+      "declaration": "Etingof.GL2.complementaryFamily_injective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/386/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : Fintype.{0} (GL2\u271d p n)]\n  [inst_2 : NeZero.{0} n] (hp2 : Ne.{1} p 2) (i j : Etingof.GL2.ComplementaryIndex p n),\n  Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (Etingof.GL2.complementaryFamily p n hp2 i)\n        (Etingof.GL2.complementaryFamily p n hp2 j)) \u2192\n    Eq.{1} i j",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    },
+    {
+      "association_id": "association:f15250c11e9f1be430e8",
+      "declaration": "Etingof.GL2.complementaryFamily_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/386/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : Fintype.{0} (GL2\u271d p n)]\n  [inst_2 : NeZero.{0} n] (hp2 : Ne.{1} p 2) (i : Etingof.GL2.ComplementaryIndex p n),\n  CategoryTheory.Simple.{0, 1} (Etingof.GL2.complementaryFamily p n hp2 i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    },
+    {
+      "association_id": "association:388b235f3f7e92d4b17c",
+      "declaration": "Etingof.GL2.complementarySeriesRep_iso_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/386/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : Fintype.{0} (GL2\u271d p n)]\n  (hp2 : Ne.{1} p 2) (hn : LT.lt.{0} 0 n) (nu mu : MonoidHom.{0, 0} (K\u271d p n) (Units.{0} Complex))\n  (hnu :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} nu k))\n  (hmu :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} mu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} mu k)),\n  Iff\n    (Nonempty.{1}\n      (CategoryTheory.Iso.{0, 1} (Etingof.GL2.complementarySeriesRep p n nu hp2 hn hnu)\n        (Etingof.GL2.complementarySeriesRep p n mu hp2 hn hmu)))\n    (Or (Eq.{1} mu nu) (Eq.{1} mu (Etingof.GL2.complementaryCharFrobenius p n nu)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    },
+    {
+      "association_id": "association:04994ad5fde03c4b97e4",
+      "declaration": "Etingof.GL2.exists_complementary_family",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/386/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [NeZero.{0} n],\n  Ne.{1} p 2 \u2192\n    Exists.{2} fun \u03b9 =>\n      Exists.{2} fun F =>\n        And (\u2200 (i : \u03b9), CategoryTheory.Simple.{0, 1} (F i))\n          (And (\u2200 (i j : \u03b9), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (F i) (F j)) \u2192 Eq.{1} i j)\n            (Eq.{1} (Nat.card.{0} \u03b9)\n              (HDiv.hDiv.{0, 0, 0}\n                (HMul.hMul.{0, 0, 0} (Fintype.card.{0} (GaloisField p n))\n                  (HSub.hSub.{0, 0, 0} (Fintype.card.{0} (GaloisField p n)) 1))\n                2)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_5.25.4",
+  "packet_id": "align-1153",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1153"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:eeb2596c7f25df61b578",
+  "source_text": "Complementary-series isomorphism classes are Frobenius orbits, with a canonical pairwise-nonisomorphic family of q(q\u22121)/2 representatives."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_5.25.3",
+    "kind": "discussion",
+    "title": "Section 5.25.3: Principal series representations \u2014 setup of B, V_{lambda_1,lambda_2}",
+    "node_id": "chapter-05/section-5-25/subsection-5-25-3",
+    "order": 384,
+    "slug": "discussion-5-25-3",
+    "span": {
+      "start": {
+        "page": "138",
+        "line": 41
+      },
+      "end": {
+        "page": "139",
+        "line": 14
+      }
+    },
+    "source_sha256": "c109fc9c32bbcb152ee1fe099efb5e641ade8672d63caaf8a3c6362dd9a943aa",
+    "features": {
+      "line_count": 38,
+      "crosses_page": true,
+      "display_math_delimiters": 16,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Discussion5253",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

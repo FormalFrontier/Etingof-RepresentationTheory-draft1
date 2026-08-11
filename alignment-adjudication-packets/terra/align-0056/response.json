@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0056",
+  "associations": [
+    {
+      "association_id": "association:0c0171a88a7733c08403",
+      "role": "primary",
+      "rationale": "Its type states that any two full composition series are equivalent, which directly expresses the asserted identification of their composition factors."
+    },
+    {
+      "association_id": "association:9420d0aac53bbf07bdde",
+      "role": "primary",
+      "rationale": "Its type explicitly supplies a permutation matching every factor of the two series by linear equivalence, directly stating the multiset identification."
+    }
+  ]
+}

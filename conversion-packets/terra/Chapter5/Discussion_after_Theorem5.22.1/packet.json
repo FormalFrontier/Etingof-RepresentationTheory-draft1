@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_after_Theorem5.22.1",
+    "kind": "discussion",
+    "title": "Irreducible representations of GL(V) labeled by Young diagrams",
+    "node_id": "chapter-05/section-5-22",
+    "order": 368,
+    "slug": "discussion-after-theorem5-22-1",
+    "span": {
+      "start": {
+        "page": "133",
+        "line": 1
+      },
+      "end": {
+        "page": "133",
+        "line": 2
+      }
+    },
+    "source_sha256": "13c0a7d593a7597e66a16448af88c6353fea0a1c39ac4ae069f25fce9538d030",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionAfterTheorem5221",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

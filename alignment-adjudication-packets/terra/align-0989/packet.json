@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d8e0f241bb130050d785",
+      "declaration": "Etingof.Theorem5_27_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/395/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_27_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_semidirect_products",
+  "packet_id": "align-0989",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0989"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:bcd7c934a5266cf741f2",
+  "source_text": "For A abelian, orbit data (\u03c7,U) define an induced representation V(\u03c7,U) of A\u22caG."
+}

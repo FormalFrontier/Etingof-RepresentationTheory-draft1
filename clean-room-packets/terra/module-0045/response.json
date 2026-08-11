@@ -1,0 +1,9 @@
+{
+  "module_name": "Combinatorics.Quiver.FourVertices",
+  "declarations": [
+    {"temporary_id":"decl-003699","new_name":"fourVertexQuiver","docstring":"A quiver structure on the four-element type."},
+    {"temporary_id":"decl-003701","new_name":"arrow01","docstring":"The specified arrow from vertex zero to vertex one."},
+    {"temporary_id":"decl-003703","new_name":"arrow21","docstring":"The specified arrow from vertex two to vertex one."},
+    {"temporary_id":"decl-003705","new_name":"arrow30","docstring":"The specified arrow from vertex three to vertex zero."}
+  ]
+}

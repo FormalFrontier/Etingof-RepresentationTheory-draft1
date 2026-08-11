@@ -1,0 +1,36 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {K : Type u_1} {A : Type u_2} {V : Type u_3} {W : Type u_4} {L : Type u_5} [inst : Field.{u_1} K]\n  [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} K A] [inst_3 : AddCommGroup.{u_3} V]\n  [inst_4 : Module.{u_1, u_3} K V] [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} K A V]\n  [inst_7 : AddCommGroup.{u_4} W] [inst_8 : Module.{u_1, u_4} K W] [inst_9 : Module.{u_2, u_4} A W]\n  [inst_10 : IsScalarTower.{u_1, u_2, u_4} K A W] [inst_11 : Field.{u_5} L] [inst_12 : Algebra.{u_1, u_5} K L]\n  [FiniteDimensional.{u_1, u_3} K V] [FiniteDimensional.{u_1, u_4} K W],\n  Nonempty.{max ((max u_4 u_5) + 1) ((max u_3 u_5) + 1)}\n      (LinearEquiv.{max u_2 u_5, max u_2 u_5, max u_3 u_5, max u_4 u_5}\n        (RingHom.id.{max u_2 u_5} (TensorProduct.{u_1, u_5, u_2} K L A)) (TensorProduct.{u_1, u_5, u_3} K L V)\n        (TensorProduct.{u_1, u_5, u_4} K L W)) \u2192\n    Nonempty.{max (u_4 + 1) (u_3 + 1)} (LinearEquiv.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} A) V W)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009372"
+      ],
+      "structural_type_hash": "3638886117",
+      "temporary_id": "decl-009455"
+    }
+  ],
+  "module_temporary_id": "module-0153",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

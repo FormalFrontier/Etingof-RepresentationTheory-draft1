@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1861bb67492b5eba09c4",
+      "declaration": "Etingof.signTwist",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/376/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 AlgHom.{0, 0, 0} Complex (Etingof.SymGroupAlgebra n) (Etingof.SymGroupAlgebra n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_24_1_b"
+    },
+    {
+      "association_id": "association:51b60a0c2ff3c34cb14c",
+      "declaration": "Etingof.signTwist_bijective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/376/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat), Function.Bijective.{1, 1} (DFunLike.coe.{1, 1, 1} (Etingof.signTwist n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_24_1_b"
+    },
+    {
+      "association_id": "association:9bb146541b27149955d8",
+      "declaration": "Etingof.signTwist_map_leftIdeal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/376/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (a : Etingof.SymGroupAlgebra n),\n  Eq.{1} (Ideal.map.{0, 0, 0} (Etingof.signTwist n) (Ideal.span.{0} (Singleton.singleton.{0, 0} a)))\n    (Ideal.span.{0} (Singleton.singleton.{0, 0} (DFunLike.coe.{1, 1, 1} (Etingof.signTwist n) a)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_24_1_b"
+    },
+    {
+      "association_id": "association:a30a4d1fde8e7976db02",
+      "declaration": "Etingof.signTwist_of",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/376/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (g : Equiv.Perm.{1} (Fin n)),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (Etingof.signTwist n)\n      (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) g))\n    (HSMul.hSMul.{0, 0, 0} (Int.cast.{0} (Units.val.{0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} g)))\n      (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_24_1_b"
+    },
+    {
+      "association_id": "association:0780a08dc9ecec1f5b86",
+      "declaration": "Etingof.signTwist_smul_of",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/376/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : Module.{0, u_1} (Etingof.SymGroupAlgebra n) V]\n  [IsScalarTower.{0, 0, u_1} Complex (Etingof.SymGroupAlgebra n) V] (g : Equiv.Perm.{1} (Fin n)) (v : V),\n  Eq.{u_1 + 1}\n    (HSMul.hSMul.{0, u_1, u_1}\n      (DFunLike.coe.{1, 1, 1} (Etingof.signTwist n)\n        (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) g))\n      v)\n    (HSMul.hSMul.{0, u_1, u_1} (Int.cast.{0} (Units.val.{0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} g)))\n      (HSMul.hSMul.{0, u_1, u_1} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (Equiv.Perm.{1} (Fin n))) g)\n        v))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_24_1_b"
+    }
+  ],
+  "canonical_reference": "Chapter5/Problem5.24.1",
+  "packet_id": "align-0770",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0770"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Problem5.24.1:part_b_twist",
+  "source_text": "Part (b): the sign automorphism sends a representation to its sign twist and sends generated left ideals as stated."
+}

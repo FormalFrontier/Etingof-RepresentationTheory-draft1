@@ -1,0 +1,226 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type} \u2192\n  [Field.{0} k] \u2192\n    {n : Nat} \u2192\n      [inst : Quiver.{0, 0} (Fin n)] \u2192\n        [(i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)] \u2192\n          (m : Fin n \u2192 Nat) \u2192 Set.{0} (decl-022624.{0} m) \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-022624"
+      ],
+      "structural_type_hash": "378597550",
+      "temporary_id": "decl-012817"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} (m : Fin n \u2192 Nat) (g : decl-022586.{0} k m) (i : Fin n),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1}\n      (AlgHom.mapMatrix.{0, 0, 0, 0} (MvPolynomial.aeval.{0, 0, 0} (decl-012870 m g)))\n      (decl-012852 m i))\n    (Units.val.{0} (g i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012816",
+        "decl-012852",
+        "decl-012870",
+        "decl-022586"
+      ],
+      "structural_type_hash": "810738555",
+      "temporary_id": "decl-012819"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {n : Nat} \u2192\n      (m : Fin n \u2192 Nat) \u2192\n        {B : Type} \u2192\n          [inst_1 : CommRing.{0} B] \u2192\n            [inst_2 : Algebra.{0, 0} (MvPolynomial.{0, 0} (decl-012816 m) k) B] \u2192\n              [IsLocalization.{0, 0} (Submonoid.powers.{0} (decl-012826 m)) B] \u2192\n                [inst_4 : Algebra.{0, 0} k B] \u2192\n                  [IsScalarTower.{0, 0, 0} k (MvPolynomial.{0, 0} (decl-012816 m) k) B] \u2192\n                    decl-022586.{0} k m \u2192 AlgHom.{0, 0, 0} k B k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012816",
+        "decl-012826",
+        "decl-022586"
+      ],
+      "structural_type_hash": "1878876187",
+      "temporary_id": "decl-012832"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} (m : Fin n \u2192 Nat) {B : Type} [inst_1 : CommRing.{0} B]\n  [inst_2 : Algebra.{0, 0} (MvPolynomial.{0, 0} (decl-012816 m) k) B]\n  [inst_3 : IsLocalization.{0, 0} (Submonoid.powers.{0} (decl-012826 m)) B]\n  [inst_4 : Algebra.{0, 0} k B]\n  [inst_5 : IsScalarTower.{0, 0, 0} k (MvPolynomial.{0, 0} (decl-012816 m) k) B]\n  (g : decl-022586.{0} k m) (p : MvPolynomial.{0, 0} (decl-012816 m) k),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-012832 m g)\n      (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} (MvPolynomial.{0, 0} (decl-012816 m) k) B) p))\n    (DFunLike.coe.{1, 1, 1} (MvPolynomial.aeval.{0, 0, 0} (decl-012870 m g)) p)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012816",
+        "decl-012826",
+        "decl-012832",
+        "decl-012870",
+        "decl-022586"
+      ],
+      "structural_type_hash": "534831034",
+      "temporary_id": "decl-012836"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)]\n  [inst_2 : (i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)] (m : Fin n \u2192 Nat) {B : Type} [inst_3 : CommRing.{0} B]\n  [inst_4 : Algebra.{0, 0} (MvPolynomial.{0, 0} (decl-012816 m) k) B]\n  [inst_5 : IsLocalization.{0, 0} (Submonoid.powers.{0} (decl-012826 m)) B]\n  [inst_6 : Algebra.{0, 0} k B]\n  [inst_7 : IsScalarTower.{0, 0, 0} k (MvPolynomial.{0, 0} (decl-012816 m) k) B]\n  (g : decl-022586.{0} k m) (v\u2080 : decl-022624.{0} m),\n  Eq.{1} (AlgHom.comp.{0, 0, 0, 0} (decl-012832 m g) (decl-012876 m v\u2080))\n    (MvPolynomial.aeval.{0, 0, 0} (decl-012879 m (HSMul.hSMul.{0, 0, 0} g v\u2080)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012816",
+        "decl-012818",
+        "decl-012826",
+        "decl-012832",
+        "decl-012876",
+        "decl-012879",
+        "decl-022586",
+        "decl-022624",
+        "decl-022628"
+      ],
+      "structural_type_hash": "540161558",
+      "temporary_id": "decl-012837"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} (m : Fin n \u2192 Nat) {B : Type} [inst_1 : CommRing.{0} B]\n  [inst_2 : Algebra.{0, 0} (MvPolynomial.{0, 0} (decl-012816 m) k) B]\n  [inst_3 : IsLocalization.{0, 0} (Submonoid.powers.{0} (decl-012826 m)) B]\n  [inst_4 : Algebra.{0, 0} k B]\n  [inst_5 : IsScalarTower.{0, 0, 0} k (MvPolynomial.{0, 0} (decl-012816 m) k) B]\n  (g : decl-022586.{0} k m) (i : Fin n),\n  Eq.{1}\n    (Matrix.map.{0, 0, 0, 0} (decl-012854 m i)\n      (DFunLike.coe.{1, 1, 1} (decl-012832 m g)))\n    (Units.val.{0} (g i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012816",
+        "decl-012826",
+        "decl-012832",
+        "decl-012854",
+        "decl-022586"
+      ],
+      "structural_type_hash": "380259102",
+      "temporary_id": "decl-012838"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} (m : Fin n \u2192 Nat) {B : Type} [inst_1 : CommRing.{0} B]\n  [inst_2 : Algebra.{0, 0} (MvPolynomial.{0, 0} (decl-012816 m) k) B]\n  [inst_3 : IsLocalization.{0, 0} (Submonoid.powers.{0} (decl-012826 m)) B]\n  [inst_4 : Algebra.{0, 0} k B]\n  [inst_5 : IsScalarTower.{0, 0, 0} k (MvPolynomial.{0, 0} (decl-012816 m) k) B]\n  (g : decl-022586.{0} k m) (i : Fin n),\n  Eq.{1}\n    (Matrix.map.{0, 0, 0, 0} (decl-012856 m i)\n      (DFunLike.coe.{1, 1, 1} (decl-012832 m g)))\n    (Units.val.{0} (Inv.inv.{0} (g i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012816",
+        "decl-012826",
+        "decl-012832",
+        "decl-012856",
+        "decl-022586"
+      ],
+      "structural_type_hash": "816554176",
+      "temporary_id": "decl-012839"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)]\n  [inst_2 : (i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)] (m : Fin n \u2192 Nat) {B : Type} [inst_3 : CommRing.{0} B]\n  [inst_4 : Algebra.{0, 0} (MvPolynomial.{0, 0} (decl-012816 m) k) B]\n  [IsLocalization.{0, 0} (Submonoid.powers.{0} (decl-012826 m)) B] [inst_6 : Algebra.{0, 0} k B]\n  [IsScalarTower.{0, 0, 0} k (MvPolynomial.{0, 0} (decl-012816 m) k) B] [Infinite.{1} k]\n  [Finite.{1} (MulAction.orbitRel.Quotient.{0, 0} (decl-022586.{0} k m) (decl-022624.{0} m))],\n  Exists.{1} fun v\u2080 => Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} (decl-012876 m v\u2080))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012816",
+        "decl-012818",
+        "decl-012826",
+        "decl-012876",
+        "decl-022586",
+        "decl-022624",
+        "decl-022625"
+      ],
+      "structural_type_hash": "1704444849",
+      "temporary_id": "decl-012849"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)]\n  [inst_2 : (i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)] [Infinite.{1} k] (m : Fin n \u2192 Nat)\n  [Finite.{1} (MulAction.orbitRel.Quotient.{0, 0} (decl-022586.{0} k m) (decl-022624.{0} m))],\n  Exists.{1} fun v\u2080 => decl-012817 m (MulAction.orbit.{0, 0} (decl-022586.{0} k m) v\u2080)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012817",
+        "decl-022586",
+        "decl-022624",
+        "decl-022625",
+        "decl-022628"
+      ],
+      "structural_type_hash": "188419772",
+      "temporary_id": "decl-012850"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192 {n : Nat} \u2192 (m : Fin n \u2192 Nat) \u2192 decl-022586.{0} k m \u2192 decl-012816 m \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012816",
+        "decl-022586"
+      ],
+      "structural_type_hash": "61736242",
+      "temporary_id": "decl-012870"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)]\n  [inst_2 : (i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)] (m : Fin n \u2192 Nat) {B : Type} [inst_3 : CommRing.{0} B]\n  [inst_4 : Algebra.{0, 0} (MvPolynomial.{0, 0} (decl-012816 m) k) B]\n  [IsLocalization.{0, 0} (Submonoid.powers.{0} (decl-012826 m)) B] [inst_6 : Algebra.{0, 0} k B]\n  [IsScalarTower.{0, 0, 0} k (MvPolynomial.{0, 0} (decl-012816 m) k) B] (v\u2080 : decl-022624.{0} m),\n  decl-012817 m (MulAction.orbit.{0, 0} (decl-022586.{0} k m) v\u2080) \u2192\n    Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} (decl-012876 m v\u2080))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012816",
+        "decl-012817",
+        "decl-012818",
+        "decl-012826",
+        "decl-012876",
+        "decl-022586",
+        "decl-022624",
+        "decl-022628"
+      ],
+      "structural_type_hash": "1324173915",
+      "temporary_id": "decl-012872"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {n : Nat} (m : Fin n \u2192 Nat) (g : decl-022586.{0} k m),\n  IsUnit.{0}\n    (DFunLike.coe.{1, 1, 1} (MvPolynomial.aeval.{0, 0, 0} (decl-012870 m g))\n      (decl-012826 m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012816",
+        "decl-012826",
+        "decl-012870",
+        "decl-022586"
+      ],
+      "structural_type_hash": "2622963189",
+      "temporary_id": "decl-012873"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  {n : Nat} \u2192\n    [inst : Quiver.{0, 0} (Fin n)] \u2192\n      [inst_1 : (i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)] \u2192\n        (m : Fin n \u2192 Nat) \u2192 decl-022624.{0} m \u2192 decl-012818 m \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012818",
+        "decl-022624"
+      ],
+      "structural_type_hash": "3357505879",
+      "temporary_id": "decl-012879"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} {n : Nat} [inst : Quiver.{0, 0} (Fin n)] [inst_1 : (i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)]\n  (m : Fin n \u2192 Nat) (c : decl-012818 m \u2192 k),\n  Eq.{1} (decl-012879 m (decl-012882 m c)) c",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012818",
+        "decl-012879",
+        "decl-012882"
+      ],
+      "structural_type_hash": "874438057",
+      "temporary_id": "decl-012881"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  {n : Nat} \u2192\n    [inst : Quiver.{0, 0} (Fin n)] \u2192\n      [inst_1 : (i j : Fin n) \u2192 Fintype.{0} (Quiver.Hom.{0, 0} i j)] \u2192\n        (m : Fin n \u2192 Nat) \u2192 (decl-012818 m \u2192 k) \u2192 decl-022624.{0} m",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-012818",
+        "decl-022624"
+      ],
+      "structural_type_hash": "1210199992",
+      "temporary_id": "decl-012882"
+    }
+  ],
+  "module_temporary_id": "module-0547",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

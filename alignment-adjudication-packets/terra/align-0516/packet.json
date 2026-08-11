@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ae63c14c2e7c9023cda3",
+      "declaration": "Etingof.Problem2_11_3.trace_extPowMap",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/103/claim_coverage/claims/13/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  {N : Nat} {A : LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} k) V V} {b : Module.Basis.{0, u_1, u_2} (Fin N) k V}\n  {lam : Fin N \u2192 k},\n  Etingof.Problem2_11_3.IsTriangularizedBy.{u_1, u_2} A b lam \u2192\n    \u2200 (n : Nat),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_1 + 1}\n          (LinearMap.trace.{u_1, max u_2 u_1} k (Etingof.Problem2_11_3.ExtPow.{u_1, u_2} k V n))\n          (Etingof.Problem2_11_3.extPowMap.{u_1, u_2, u_2} A n))\n        (Finset.sum.{0, u_1} (Finset.powersetCard.{0} n Finset.univ.{0}) fun s => Finset.prod.{0, u_1} s fun i => lam i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_Trace"
+    },
+    {
+      "association_id": "association:7221ce7b95555256f161",
+      "declaration": "Etingof.Problem2_11_3.trace_extPowMap_of_charpoly",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/103/claim_coverage/claims/13/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  [inst_3 : Module.Finite.{u_1, u_2} k V] {N : Nat} (A : LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} k) V V),\n  Eq.{1} (Module.finrank.{u_1, u_2} k V) N \u2192\n    \u2200 (lam : Fin N \u2192 k),\n      Eq.{u_1 + 1} (LinearMap.charpoly.{u_1, u_2} A)\n          (Finset.prod.{0, u_1} Finset.univ.{0} fun i =>\n            HSub.hSub.{u_1, u_1, u_1} Polynomial.X.{u_1}\n              (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} Polynomial.C.{u_1} (lam i))) \u2192\n        \u2200 (n : Nat),\n          Eq.{u_1 + 1}\n            (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_1 + 1}\n              (LinearMap.trace.{u_1, max u_2 u_1} k (Etingof.Problem2_11_3.ExtPow.{u_1, u_2} k V n))\n              (Etingof.Problem2_11_3.extPowMap.{u_1, u_2, u_2} A n))\n            (Finset.sum.{0, u_1} (Finset.powersetCard.{0} n Finset.univ.{0}) fun s =>\n              Finset.prod.{0, u_1} s fun i => lam i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_Trace"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.11.3",
+  "packet_id": "align-0516",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0516"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.11.3:claim-14",
+  "source_text": "(f) Tr(\u2227\u207fA) is the elementary symmetric polynomial e\u2099 in the eigenvalues of A."
+}

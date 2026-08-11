@@ -1,0 +1,98 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{R : Type u_1} \u2192\n  {M : Type u_2} \u2192\n    [inst : Semiring.{u_1} R] \u2192\n      CoeFun.{max (u_2 + 1) (u_1 + 1), max (u_1 + 1) (u_2 + 1)} (MonoidAlgebra.{u_1, u_2} R M) fun x => M \u2192 R",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "959306518",
+      "temporary_id": "decl-023055"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192\n    (n : Nat) \u2192\n      (la : n.Partition) \u2192\n        Equiv.Perm.{1} (Fin n) \u2192\n          LinearMap.{u_2, u_2, u_2, u_2} (RingHom.id.{u_2} k)\n            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-016118.{u_2} k n la) x)\n            (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (decl-016118.{u_2} k n la) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016118"
+      ],
+      "structural_type_hash": "1839791481",
+      "temporary_id": "decl-023269"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192 [Field.{u_2} k] \u2192 (n : Nat) \u2192 n.Partition \u2192 Equiv.Perm.{1} (Fin n) \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2052704533",
+      "temporary_id": "decl-023276"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [CharZero.{u_1} k] (N : Nat) (lam : Fin N \u2192 Nat)\n  (S :\n    Submodule.{u_1, u_1}\n      (Subtype.{u_1 + 1} fun x =>\n        Membership.mem.{u_1, u_1}\n          (decl-023627.{u_1, u_1} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)) x)\n      (decl-016473.{u_1, u_1} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)))\n  [Module.Finite.{u_1, u_1} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Submodule.restrictScalars.{u_1, u_1, u_1} k S) x)],\n  (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (LinearMap.trace.{u_1, u_1} k\n            (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Submodule.restrictScalars.{u_1, u_1, u_1} k S) x))\n          (LinearMap.restrict.{u_1, u_1, u_1, u_1}\n            (LinearEquiv.toLinearMap.{u_1, u_1, u_1, u_1}\n              (decl-023613.{u_1, u_1} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i) \u03c3))\n            \u22ef))\n        (decl-023276.{u_1} k (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)\n          (decl-024494 N lam) \u03c3)) \u2192\n    Exists.{u_1 + 1} fun \u03b1 =>\n      Exists.{u_1 + 1} fun \u03c0 =>\n        And (Ne.{u_1 + 1} \u03b1 0)\n          (And (Eq.{u_1 + 1} (HMul.hMul.{u_1, u_1, u_1} \u03c0 \u03c0) \u03c0)\n            (And\n              (Eq.{1}\n                (Module.finrank.{u_1, u_1} k\n                  (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (LinearMap.range.{u_1, u_1, u_1, u_1} \u03c0) x))\n                1)\n              (Eq.{u_1 + 1} (LinearMap.restrict.{u_1, u_1, u_1, u_1} (decl-024670.{u_1} k N lam) \u22ef)\n                (HSMul.hSMul.{u_1, u_1, u_1} \u03b1 \u03c0))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023276",
+        "decl-023613",
+        "decl-023616",
+        "decl-023627",
+        "decl-024494",
+        "decl-024667",
+        "decl-024670"
+      ],
+      "structural_type_hash": "1471470824",
+      "temporary_id": "decl-024682"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [CharZero.{u_1} k] (N : Nat) (lam : Fin N \u2192 Nat)\n  (S :\n    Submodule.{u_1, u_1}\n      (Subtype.{u_1 + 1} fun x =>\n        Membership.mem.{u_1, u_1}\n          (decl-023627.{u_1, u_1} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)) x)\n      (decl-016473.{u_1, u_1} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)))\n  [Module.Finite.{u_1, u_1} k\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Submodule.restrictScalars.{u_1, u_1, u_1} k S) x)]\n  (la' : (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i).Partition),\n  (\u2200 (\u03c3 : Equiv.Perm.{1} (Fin (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (LinearMap.trace.{u_1, u_1} k\n            (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Submodule.restrictScalars.{u_1, u_1, u_1} k S) x))\n          (LinearMap.restrict.{u_1, u_1, u_1, u_1}\n            (LinearEquiv.toLinearMap.{u_1, u_1, u_1, u_1}\n              (decl-023613.{u_1, u_1} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i) \u03c3))\n            \u22ef))\n        (decl-023276.{u_1} k (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i) la' \u03c3)) \u2192\n    Ne.{1} la' (decl-024494 N lam) \u2192\n      Eq.{u_1 + 1} (LinearMap.restrict.{u_1, u_1, u_1, u_1} (decl-024670.{u_1} k N lam) \u22ef) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023276",
+        "decl-023613",
+        "decl-023616",
+        "decl-023627",
+        "decl-024494",
+        "decl-024667",
+        "decl-024670"
+      ],
+      "structural_type_hash": "4230232241",
+      "temporary_id": "decl-024684"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] [CharZero.{u_1} k] (n : Nat) (la la' : n.Partition) (\u03b1 : k),\n  Eq.{u_1 + 1}\n      (HMul.hMul.{u_1, u_1, u_1} (decl-017050.{u_1} k n la) (decl-017050.{u_1} k n la))\n      (HSMul.hSMul.{u_1, u_1, u_1} \u03b1 (decl-017050.{u_1} k n la)) \u2192\n    Eq.{u_1 + 1}\n      (Finset.sum.{0, u_1} Finset.univ.{0} fun \u03c3 =>\n        HMul.hMul.{u_1, u_1, u_1}\n          (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} (MonoidAlgebra.coeff.{u_1, 0} (decl-017050.{u_1} k n la)) \u03c3)\n          (decl-023276.{u_1} k n la' \u03c3))\n      (ite.{u_1 + 1} (Eq.{1} la la') \u03b1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017050",
+        "decl-023276",
+        "decl-028673"
+      ],
+      "structural_type_hash": "984327456",
+      "temporary_id": "decl-024688"
+    }
+  ],
+  "module_temporary_id": "module-0436",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

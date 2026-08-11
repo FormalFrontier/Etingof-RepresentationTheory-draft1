@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Problem4.12.11",
+    "kind": "exercise",
+    "title": "Application of representation theory to elasticity (Hooke's law)",
+    "node_id": "chapter-04/section-4-12",
+    "order": 241,
+    "slug": "problem4-12-11",
+    "span": {
+      "start": {
+        "page": "87",
+        "line": 9
+      },
+      "end": {
+        "page": "88",
+        "line": 12
+      }
+    },
+    "source_sha256": "b3b7aa6aed2533d3b3865cd09d5beb1df9c799487be66dfe09c0879ac500b963",
+    "features": {
+      "line_count": 19,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Problem41211",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

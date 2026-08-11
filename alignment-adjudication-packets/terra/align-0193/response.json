@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0193",
+  "associations": [
+    {
+      "association_id": "association:2a8874d041b3a896e1b4",
+      "role": "primary",
+      "rationale": "The theorem directly states the equivalence of its rational and complex spanning conditions for the displayed decomposition matrix data."
+    }
+  ]
+}

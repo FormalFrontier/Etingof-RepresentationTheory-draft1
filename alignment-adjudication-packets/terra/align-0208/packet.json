@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:edf67b052e4f197da7ae",
+      "declaration": "Etingof.exists_isSimpleModule_of_finite",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/129/claim_coverage/claims/2/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {A : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_2, u_3} A V]\n  [inst_5 : Module.{u_1, u_3} k V] [IsScalarTower.{u_1, u_2, u_3} k A V] [Module.Finite.{u_1, u_3} k V]\n  [Nontrivial.{u_3} V],\n  Exists.{u_3 + 1} fun S => IsSimpleModule.{u_2, u_3} A (Subtype.{u_3 + 1} fun x => Membership.mem.{u_3, u_3} S x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_15"
+    }
+  ],
+  "canonical_reference": "Chapter3/Proposition3.1.4",
+  "packet_id": "align-0208",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0208"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3f77dd72862fe725851e",
+  "source_text": "The source proof may choose an irreducible subrepresentation P of a nonzero finite-dimensional W, as cited from Problem 2.3.15."
+}

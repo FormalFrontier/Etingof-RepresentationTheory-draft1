@@ -1,0 +1,130 @@
+{
+  "module_name": "Algebra.BasisQuotientPresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-004133",
+      "new_name": "ExteriorAlgebra.RelationModel",
+      "docstring": "The carrier of a relation-based exterior-algebra model associated with a module over a commutative ring."
+    },
+    {
+      "temporary_id": "decl-016225",
+      "new_name": "SymmetricAlgebra.RelationModel",
+      "docstring": "The carrier of a relation-based symmetric-algebra model associated with a module over a commutative ring."
+    },
+    {
+      "temporary_id": "decl-016799",
+      "new_name": "UniversalEnvelopingAlgebra.BasisQuotientModel",
+      "docstring": "A basis-indexed quotient model for the associative envelope of a Lie algebra over a field."
+    },
+    {
+      "temporary_id": "decl-016817",
+      "new_name": "UniversalEnvelopingAlgebra.QuotientModel",
+      "docstring": "A basis-independent quotient model for the associative envelope of a Lie algebra over a commutative ring."
+    },
+    {
+      "temporary_id": "decl-017312",
+      "new_name": "UniversalEnvelopingAlgebra.basisQuotientGeneratorLieHom",
+      "docstring": "The canonical Lie homomorphism from a Lie algebra into its basis-indexed quotient model."
+    },
+    {
+      "temporary_id": "decl-017322",
+      "new_name": "UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap",
+      "docstring": "The linear map underlying the canonical generator map into the basis-indexed quotient model."
+    },
+    {
+      "temporary_id": "decl-017326",
+      "new_name": "UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap_apply_basis",
+      "docstring": "The generator linear map sends a basis vector to the quotient element indexed by the same coordinate."
+    },
+    {
+      "temporary_id": "decl-018214",
+      "new_name": "UniversalEnvelopingAlgebra.quotientModelToBasisQuotient",
+      "docstring": "The canonical algebra homomorphism from the basis-independent enveloping model to the basis-indexed quotient model."
+    },
+    {
+      "temporary_id": "decl-018216",
+      "new_name": "UniversalEnvelopingAlgebra.quotientModelToBasisQuotient_unique",
+      "docstring": "An algebra homomorphism into the basis quotient is canonical if it agrees with the generator linear map on every Lie-algebra element."
+    },
+    {
+      "temporary_id": "decl-018217",
+      "new_name": "UniversalEnvelopingAlgebra.quotientModelToBasisQuotient_apply",
+      "docstring": "The canonical forward map carries each enveloping generator to its image under the basis-quotient generator map."
+    },
+    {
+      "temporary_id": "decl-019255",
+      "new_name": "ExteriorAlgebra.relationModelEquivFinsupp",
+      "docstring": "A chosen basis identifies the exterior relation model with the exterior algebra on finitely supported coordinates."
+    },
+    {
+      "temporary_id": "decl-019259",
+      "new_name": "ExteriorAlgebra.relationModelEquivFinsupp_apply",
+      "docstring": "Under the coordinate equivalence, an exterior generator maps to the generator determined by its basis representation."
+    },
+    {
+      "temporary_id": "decl-019260",
+      "new_name": "ExteriorAlgebra.relationModelGradedEquiv",
+      "docstring": "A linear equivalence between the exterior relation model and the direct sum of its degree-indexed components."
+    },
+    {
+      "temporary_id": "decl-019261",
+      "new_name": "ExteriorAlgebra.generator_sq_eq_zero",
+      "docstring": "Every canonical exterior-algebra generator has square zero."
+    },
+    {
+      "temporary_id": "decl-023670",
+      "new_name": "SymmetricAlgebra.relationModelGradedEquiv",
+      "docstring": "A basis-dependent linear equivalence between the symmetric relation model and its degree-indexed direct sum."
+    },
+    {
+      "temporary_id": "decl-023676",
+      "new_name": "SymmetricAlgebra.relationModelEquivMvPolynomial",
+      "docstring": "A chosen basis identifies the symmetric relation model with the multivariable polynomial algebra on the basis indices."
+    },
+    {
+      "temporary_id": "decl-023677",
+      "new_name": "SymmetricAlgebra.relationModelEquivMvPolynomial_apply_basis",
+      "docstring": "The polynomial equivalence sends the symmetric-algebra image of a basis vector to the corresponding indeterminate."
+    },
+    {
+      "temporary_id": "decl-023718",
+      "new_name": "SymmetricAlgebra.generator_mul_comm",
+      "docstring": "Canonical generators of a symmetric algebra commute with one another."
+    },
+    {
+      "temporary_id": "decl-023721",
+      "new_name": "Algebra.BasisQuotientPresentations.unrenderedAuxiliary",
+      "docstring": "An auxiliary construction whose formal type is unavailable in rendered form."
+    },
+    {
+      "temporary_id": "decl-024372",
+      "new_name": "UniversalEnvelopingAlgebra.basisQuotientEquivEnvelope",
+      "docstring": "A basis-dependent algebra equivalence from the indexed relation quotient to the corresponding enveloping algebra."
+    },
+    {
+      "temporary_id": "decl-024375",
+      "new_name": "UniversalEnvelopingAlgebra.basisRelations",
+      "docstring": "The free-algebra relation assigned to a pair of basis indices for a Lie algebra."
+    },
+    {
+      "temporary_id": "decl-024377",
+      "new_name": "UniversalEnvelopingAlgebra.basisQuotientToQuotientModel",
+      "docstring": "The canonical algebra homomorphism from the basis-indexed quotient model to the basis-independent enveloping model."
+    },
+    {
+      "temporary_id": "decl-024380",
+      "new_name": "UniversalEnvelopingAlgebra.basisQuotientToQuotientModel_apply",
+      "docstring": "The canonical reverse map sends an indexed quotient generator to the enveloping image of the associated basis vector."
+    },
+    {
+      "temporary_id": "decl-024381",
+      "new_name": "UniversalEnvelopingAlgebra.basisQuotientToEnvelope_unique",
+      "docstring": "A map from the basis quotient to the enveloping algebra is canonical when it has the prescribed value on every indexed generator."
+    },
+    {
+      "temporary_id": "decl-024447",
+      "new_name": "UniversalEnvelopingAlgebra.generator_commutator",
+      "docstring": "The commutator of two canonical enveloping generators equals the generator associated with their Lie bracket."
+    }
+  ]
+}

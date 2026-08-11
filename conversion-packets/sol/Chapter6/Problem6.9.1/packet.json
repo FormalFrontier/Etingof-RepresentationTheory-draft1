@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Problem6.9.1",
+    "kind": "exercise",
+    "title": "Problem 6.9.1: Cyclic quiver representations",
+    "node_id": "chapter-06/section-6-9",
+    "order": 461,
+    "slug": "problem6-9-1",
+    "span": {
+      "start": {
+        "page": "177",
+        "line": 31
+      },
+      "end": {
+        "page": "178",
+        "line": 14
+      }
+    },
+    "source_sha256": "796a93085117d998d0e5af234a909c43c2758669155080e10d4552cfcb498cf3",
+    "features": {
+      "line_count": 21,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem691",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_path_algebra_intro",
+    "kind": "discussion",
+    "title": "Representations of quivers as representations of path algebras",
+    "node_id": "chapter-02/section-2-8",
+    "order": 66,
+    "slug": "discussion-path-algebra-intro",
+    "span": {
+      "start": {
+        "page": "20",
+        "line": 1
+      },
+      "end": {
+        "page": "20",
+        "line": 1
+      }
+    },
+    "source_sha256": "13eeddb2fef2a947dbd094ad5374e46d6ff130701a90a10d9ef5b6d26dcceace",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionPathAlgebraIntro",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

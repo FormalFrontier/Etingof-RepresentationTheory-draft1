@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:21ce2984ac25b6e0dea4",
+      "declaration": "CategoryTheory.Functor.FullyFaithful.ofFullyFaithful",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/470/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.CategoryTheory.Functor.FullyFaithful"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.1.5",
+  "packet_id": "align-0382",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0382"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:782b9a827ba7907016d6",
+  "source_text": "Abelian groups form a full subcategory of groups."
+}

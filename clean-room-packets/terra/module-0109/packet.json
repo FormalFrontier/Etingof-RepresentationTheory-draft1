@@ -1,0 +1,42 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Not\n  (\u2200 {A : Type} [inst : Ring.{0} A] [inst_1 : Algebra.{0, 0} Real A] {V : Type} [inst_2 : AddCommGroup.{0} V]\n    [inst_3 : Module.{0, 0} Real V] [inst_4 : Module.{0, 0} A V] [IsScalarTower.{0, 0, 0} Real A V]\n    [IsSimpleModule.{0, 0} A V] [FiniteDimensional.{0, 0} Real V] (\u03c6 : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} A) V V),\n    Exists.{1} fun c => \u2200 (v : V), Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c6 v) (HSMul.hSMul.{0, 0, 0} c v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "33133303",
+      "temporary_id": "decl-015434"
+    },
+    {
+      "formal_type": "Not\n  (Exists.{1} fun c =>\n    \u2200 (v : Complex),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} (HSMul.hSMul.{0, 0, 0} Complex.I LinearMap.id.{0, 0}) v)\n        (HSMul.hSMul.{0, 0, 0} c v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "139249071",
+      "temporary_id": "decl-015435"
+    }
+  ],
+  "module_temporary_id": "module-0109",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

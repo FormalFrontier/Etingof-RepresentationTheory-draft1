@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0402",
+  "associations": [
+    {
+      "association_id": "association:a32bf06679bc2747026d",
+      "role": "primary",
+      "rationale": "The definition directly constructs an algebra homomorphism from A to the quotient algebra by the two-sided ideal I."
+    }
+  ]
+}

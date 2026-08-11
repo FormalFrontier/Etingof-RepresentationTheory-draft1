@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Example7.3.2",
+    "kind": "example",
+    "title": "Examples of natural transformations",
+    "node_id": "chapter-07/section-7-3",
+    "order": 480,
+    "slug": "example7-3-2",
+    "span": {
+      "start": {
+        "page": "185",
+        "line": 9
+      },
+      "end": {
+        "page": "185",
+        "line": 15
+      }
+    },
+    "source_sha256": "5ce00cf0f069ea420d30df5e9d4934b11bd66e81c008a798fa0d13244a94c86f",
+    "features": {
+      "line_count": 7,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example732",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Definition5.14.2",
+    "kind": "definition",
+    "title": "Kostka numbers K_{mu,lambda}",
+    "node_id": "chapter-05/section-5-14",
+    "order": 325,
+    "slug": "definition5-14-2",
+    "span": {
+      "start": {
+        "page": "116",
+        "line": 15
+      },
+      "end": {
+        "page": "116",
+        "line": 16
+      }
+    },
+    "source_sha256": "6e4fe2af267d0ebdfc8836f85a9575a0185cf1944d607a2b7eaa1876d28a474c",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Definition5142",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

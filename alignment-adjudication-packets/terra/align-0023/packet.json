@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f28a9e0cbb36a157af72",
+      "declaration": "Etingof.Discussion2_4.Ideal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/47/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192 [Ring.{u_1} A] \u2192 Type u_1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading"
+    },
+    {
+      "association_id": "association:2e61b1496365377a099d",
+      "declaration": "Etingof.Discussion2_4.LeftIdeal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/47/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192 [Ring.{u_1} A] \u2192 Type u_1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading"
+    },
+    {
+      "association_id": "association:2386667c9e3d11e1bce2",
+      "declaration": "Etingof.Discussion2_4.RightIdeal",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/47/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192 [Ring.{u_1} A] \u2192 Type u_1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.4_heading",
+  "packet_id": "align-0023",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0023"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:04946d02fe7bb250108b",
+  "source_text": "Left ideals, right ideals, and two-sided ideals have the stated closure conditions."
+}

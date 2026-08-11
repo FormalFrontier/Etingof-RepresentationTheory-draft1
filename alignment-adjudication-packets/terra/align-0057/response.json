@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0057",
+  "associations": [
+    {
+      "association_id": "association:81718bfe512b2f000113",
+      "role": "primary",
+      "rationale": "Its type directly exhibits a Jordan representation that is indecomposable but not simple, proving the converse false."
+    }
+  ]
+}

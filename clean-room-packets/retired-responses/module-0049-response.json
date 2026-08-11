@@ -1,0 +1,6 @@
+{
+  "module_name": "Algebra.Lie.Subalgebra",
+  "declarations": [
+    {"temporary_id":"decl-002362","new_name":"subalgebraLieAlgebra","docstring":"The induced Lie algebra structure on the carrier of a Lie subalgebra."}
+  ]
+}

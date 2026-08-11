@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e665a0c1f491c9ab4a92",
+      "declaration": "Etingof.Definition5_8_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/288/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    (H : Subgroup.{u_1} G) \u2192\n      [Subgroup.FiniteIndex.{u_1} H] \u2192\n        {V : Type u_2} \u2192\n          [inst_2 : AddCommGroup.{u_2} V] \u2192\n            [inst_3 : Module.{0, u_2} Complex V] \u2192\n              (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) \u2192\n                Representation.{0, u_1, max u_2 u_1} Complex G\n                  (Representation.IndV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
+    },
+    {
+      "association_id": "association:22f8a9b14940030e4e57",
+      "declaration": "Etingof.Definition5_8_1_functionSpace",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/288/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    (H : Subgroup.{u_1} G) \u2192\n      {V : Type u_2} \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{0, u_2} Complex V] \u2192\n            (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) \u2192\n              Representation.{0, u_1, max u_1 u_2} Complex G\n                (Subtype.{(max u_1 u_2) + 1} fun x =>\n                  Membership.mem.{max u_1 u_2, max u_1 u_2}\n                    (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Introduction_5.8",
+  "packet_id": "align-0175",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0175"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:35f170a491d326a8a214",
+  "source_text": "Induction constructs a G-representation from an H-representation."
+}

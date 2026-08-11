@@ -1,0 +1,106 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k G : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [inst_4 : DecidableEq.{u + 1} G] [Invertible.{u} (Nat.cast.{u} (Fintype.card.{u} G))],\n  Exists.{1} fun r =>\n    Exists.{u + 1} fun P =>\n      And (\u2200 (j : Fin r), Irreducible.{u} (P j))\n        (And (\u2200 (i j : Fin r), Ne.{1} i j \u2192 Not (Associated.{u} (P i) (P j)))\n          (And\n            (Eq.{u + 1} (decl-004338.{u, u} k G)\n              (Finset.prod.{0, u} Finset.univ.{0} fun j =>\n                HPow.hPow.{u, 0, u} (P j) (MvPolynomial.totalDegree.{u, u} (P j))))\n            (Eq.{1} r (Fintype.card.{u} (ConjClasses.{u} G)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004338"
+      ],
+      "structural_type_hash": "1682035981",
+      "temporary_id": "decl-016488"
+    },
+    {
+      "formal_type": "{k G : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : IsAlgClosed.{u} k] \u2192\n      [inst_2 : Group.{u} G] \u2192\n        [inst_3 : Fintype.{u} G] \u2192\n          [inst_4 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] \u2192\n            (D : decl-025031.{u, u} k G) \u2192 Fin (decl-025117.{u, u} D) \u2192 MvPolynomial.{u, u} G k",
+      "kind": "definition",
+      "owner_temporary_id": "decl-025031",
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025117"
+      ],
+      "structural_type_hash": "1272653800",
+      "temporary_id": "decl-025034"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [DecidableEq.{u + 1} G] [inst_5 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (D : decl-025031.{u, u} k G)\n  (i : Fin (decl-025117.{u, u} D)), Irreducible.{u} (decl-025034.{u} D i)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025031",
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025034",
+        "decl-025117"
+      ],
+      "structural_type_hash": "3081007436",
+      "temporary_id": "decl-025035"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [DecidableEq.{u + 1} G] [inst_5 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (D : decl-025031.{u, u} k G)\n  (i j : Fin (decl-025117.{u, u} D)),\n  Ne.{1} i j \u2192 Not (Associated.{u} (decl-025034.{u} D i) (decl-025034.{u} D j))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025031",
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025034",
+        "decl-025117"
+      ],
+      "structural_type_hash": "1142414152",
+      "temporary_id": "decl-025047"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [DecidableEq.{u + 1} G] [inst_5 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (D : decl-025031.{u, u} k G)\n  (i : Fin (decl-025117.{u, u} D)),\n  Eq.{1} (MvPolynomial.totalDegree.{u, u} (decl-025034.{u} D i)) (decl-025074.{u, u} D i)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025031",
+      "project_type_dependencies": [
+        "decl-025031",
+        "decl-025034",
+        "decl-025074",
+        "decl-025117"
+      ],
+      "structural_type_hash": "3598969082",
+      "temporary_id": "decl-025049"
+    },
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [inst_4 : DecidableEq.{u + 1} G] [inst_5 : NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] (D : decl-025031.{u, u} k G),\n  Eq.{u + 1} (decl-004338.{u, u} k G)\n    (HSMul.hSMul.{u, u, u}\n      (Int.cast.{u} (Units.val.{0} (DFunLike.coe.{u + 1, u + 1, 1} Equiv.Perm.sign.{u} (Equiv.inv.{u} G))))\n      (Finset.prod.{0, u} Finset.univ.{0} fun i =>\n        HPow.hPow.{u, 0, u} (decl-025034.{u} D i) (decl-025074.{u, u} D i)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-025031",
+      "project_type_dependencies": [
+        "decl-004338",
+        "decl-025031",
+        "decl-025034",
+        "decl-025074",
+        "decl-025117"
+      ],
+      "structural_type_hash": "3232470542",
+      "temporary_id": "decl-025100"
+    },
+    {
+      "formal_type": "{k G : Type u} \u2192 [inst : Field.{u} k] \u2192 CoeFun.{u + 1, u + 1} (MonoidAlgebra.{u, u} k G) fun x => G \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1770278303",
+      "temporary_id": "decl-032886"
+    }
+  ],
+  "module_temporary_id": "module-0243",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

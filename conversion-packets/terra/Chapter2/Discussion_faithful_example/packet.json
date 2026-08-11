@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_faithful_example",
+    "kind": "discussion",
+    "title": "Faithful representations of the Weyl algebra in different characteristics",
+    "node_id": "chapter-02/section-2-7",
+    "order": 59,
+    "slug": "discussion-faithful-example",
+    "span": {
+      "start": {
+        "page": "18",
+        "line": 22
+      },
+      "end": {
+        "page": "18",
+        "line": 24
+      }
+    },
+    "source_sha256": "398c344def4ef62afdf50fd4f89b39c0102325d182f83878a2e969676572d261",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionFaithfulExample",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

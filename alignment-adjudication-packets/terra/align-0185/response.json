@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0185",
+  "associations": [
+    {
+      "association_id": "association:e453004bf9e1740cf690",
+      "role": "supporting",
+      "rationale": "The packet supplies no formal type, so the quotient representation statement cannot be checked as directly stated."
+    }
+  ]
+}

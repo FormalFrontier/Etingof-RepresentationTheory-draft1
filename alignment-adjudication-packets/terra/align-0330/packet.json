@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0ba6f444db09f8aa6271",
+      "declaration": "Etingof.Theorem5_9_1_coset",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/295/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_9_1_Coset"
+    }
+  ],
+  "canonical_reference": "Chapter5/Introduction_5.9",
+  "packet_id": "align-0330",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0330"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6638ecf838516f4363d5",
+  "source_text": "For finite index H\u2264G, the section computes the induced character using chosen right-coset representatives."
+}

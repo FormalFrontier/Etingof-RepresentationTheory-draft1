@@ -1,0 +1,76 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Nat \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3972626760",
+      "temporary_id": "decl-001144"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (N : Nat),\n  Eq.{u_1 + 1} (Matrix.det.{u_1, 0} (decl-017766.{u_1} N k)) (decl-017775.{u_1} N k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001144",
+        "decl-017766",
+        "decl-017775"
+      ],
+      "structural_type_hash": "4142357453",
+      "temporary_id": "decl-001451"
+    },
+    {
+      "formal_type": "(N : Nat) \u2192\n  (k : Type u_1) \u2192\n    [Field.{u_1} k] \u2192 Matrix.{0, 0, u_1} (Fin N) (Fin N) (MvPowerSeries.{0, u_1} (decl-001144 N) k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001144"
+      ],
+      "structural_type_hash": "188790696",
+      "temporary_id": "decl-017766"
+    },
+    {
+      "formal_type": "(N : Nat) \u2192 (k : Type u_1) \u2192 [Field.{u_1} k] \u2192 Fin N \u2192 Fin N \u2192 MvPowerSeries.{0, u_1} (decl-001144 N) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001144"
+      ],
+      "structural_type_hash": "1691942962",
+      "temporary_id": "decl-017768"
+    },
+    {
+      "formal_type": "(N : Nat) \u2192 (k : Type u_1) \u2192 [Field.{u_1} k] \u2192 MvPowerSeries.{0, u_1} (decl-001144 N) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001144"
+      ],
+      "structural_type_hash": "3048078306",
+      "temporary_id": "decl-017775"
+    }
+  ],
+  "module_temporary_id": "module-0277",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

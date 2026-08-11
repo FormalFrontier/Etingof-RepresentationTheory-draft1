@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.24",
+    "kind": "introduction",
+    "title": "Section 5.24: Problems",
+    "node_id": "chapter-05/section-5-24",
+    "order": 376,
+    "slug": "introduction-5-24",
+    "span": {
+      "start": {
+        "page": "135",
+        "line": 1
+      },
+      "end": {
+        "page": "135",
+        "line": 2
+      }
+    },
+    "source_sha256": "a3deab2aa0afc0978f51a02f490a1c0197953121d57bf675c7f2bfca63f3a7d5",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction524",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

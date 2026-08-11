@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:32e67cfe6849144853b5",
+      "declaration": "Etingof.Proposition5_2_3_algebraic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/254/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (z : Complex),\n  Iff (Exists.{1} fun p => And (Ne.{1} p 0) (Eq.{1} (DFunLike.coe.{1, 1, 1} (Polynomial.aeval.{0, 0} z) p) 0))\n    (Exists.{1} fun n =>\n      Exists.{1} fun M =>\n        Polynomial.IsRoot.{0}\n          (Matrix.charpoly.{0, 0}\n            (Matrix.map.{0, 0, 0, 0} M (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Rat Complex))))\n          z)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Proposition5.2.3",
+  "packet_id": "align-0476",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0476"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:96da9d0e7f9dc6246900",
+  "source_text": "The monic-polynomial and rational-matrix definitions of algebraic number are equivalent."
+}

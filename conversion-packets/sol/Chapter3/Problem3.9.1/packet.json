@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Problem3.9.1",
+    "kind": "exercise",
+    "title": "Extensions of representations and Ext^1",
+    "node_id": "chapter-03/section-3-9",
+    "order": 172,
+    "slug": "problem3-9-1",
+    "span": {
+      "start": {
+        "page": "56",
+        "line": 15
+      },
+      "end": {
+        "page": "57",
+        "line": 12
+      }
+    },
+    "source_sha256": "ed224f6c73898396c32f340fbb725eae2a253e64c8704bfcc5152ac4c019d6b4",
+    "features": {
+      "line_count": 21,
+      "crosses_page": true,
+      "display_math_delimiters": 4,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Problem391",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

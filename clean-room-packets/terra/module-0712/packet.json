@@ -1,0 +1,156 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type w} \u2192\n  [inst : Field.{w} k] \u2192\n    {C : Type u} \u2192\n      [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n        [inst_2 : CategoryTheory.Preadditive.{v, u} C] \u2192\n          [inst_3 : CategoryTheory.Linear.{w, v, u} k C] \u2192\n            [inst_4 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C] \u2192\n              {J : Type u_1} \u2192\n                [inst_5 : Finite.{u_1 + 1} J] \u2192\n                  {K : Type u_2} \u2192\n                    [inst_6 : Finite.{u_2 + 1} K] \u2192\n                      (f : J \u2192 C) \u2192\n                        (g : K \u2192 C) \u2192\n                          LinearEquiv.{w, w, v, max (max u_1 u_2) v} (RingHom.id.{w} k)\n                            (Quiver.Hom.{v, u} (CategoryTheory.Limits.biproduct.{u_1, v, u} f)\n                              (CategoryTheory.Limits.biproduct.{u_2, v, u} g))\n                            ((j : J) \u2192 (l : K) \u2192 Quiver.Hom.{v, u} (f j) (g l))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2602693185",
+      "temporary_id": "decl-017468"
+    },
+    {
+      "formal_type": "{\u03b9 : Type v} \u2192\n  (k : Type w) \u2192\n    [inst : Field.{w} k] \u2192\n      {C : Type u} \u2192\n        [inst_1 : CategoryTheory.Category.{v, u} C] \u2192\n          [inst_2 : CategoryTheory.Preadditive.{v, u} C] \u2192 [CategoryTheory.Linear.{w, v, u} k C] \u2192 (\u03b9 \u2192 C) \u2192 \u03b9 \u2192 \u03b9 \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4167521326",
+      "temporary_id": "decl-017748"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {m : Type u_1} [inst_1 : Fintype.{u_1} m] {a b : m},\n  Ne.{u_1 + 1} a b \u2192\n    Exists.{max (u_1 + 1) (w + 1)} fun x =>\n      Exists.{max (u_1 + 1) (w + 1)} fun y =>\n        Ne.{max (u_1 + 1) (w + 1)} (HMul.hMul.{max u_1 w, max u_1 w, max u_1 w} x y)\n          (HMul.hMul.{max u_1 w, max u_1 w, max u_1 w} y x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "975652801",
+      "temporary_id": "decl-018884"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : CategoryTheory.Preadditive.{v, u} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [inst_4 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C] {J : Type u_1} [inst_5 : Finite.{u_1 + 1} J]\n  {K : Type u_2} [inst_6 : Finite.{u_2 + 1} K] (f : J \u2192 C) (g : K \u2192 C) [inst_7 : Fintype.{u_1} J]\n  [inst_8 : Fintype.{u_2} K],\n  (\u2200 (j : J) (l : K), FiniteDimensional.{w, v} k (Quiver.Hom.{v, u} (f j) (g l))) \u2192\n    Eq.{1}\n      (Module.finrank.{w, v} k\n        (Quiver.Hom.{v, u} (CategoryTheory.Limits.biproduct.{u_1, v, u} f)\n          (CategoryTheory.Limits.biproduct.{u_2, v, u} g)))\n      (Finset.sum.{u_1, 0} Finset.univ.{u_1} fun j =>\n        Finset.sum.{u_2, 0} Finset.univ.{u_2} fun l => Module.finrank.{w, v} k (Quiver.Hom.{v, u} (f j) (g l)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1461771041",
+      "temporary_id": "decl-019413"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] [inst_5 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C]\n  {\u03b9 : Type v} [inst_6 : Fintype.{v} \u03b9] (P : \u03b9 \u2192 C) (n : \u03b9 \u2192 Nat),\n  Eq.{1} (Module.finrank.{w, v} k (MulOpposite.{v} (CategoryTheory.End.{v, u} (decl-021689.{u, v} P n))))\n    (Finset.sum.{v, 0} Finset.univ.{v} fun i =>\n      Finset.sum.{v, 0} Finset.univ.{v} fun j =>\n        HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (decl-017748.{w, u, v} k P i j) (n i)) (n j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-017748",
+        "decl-021689"
+      ],
+      "structural_type_hash": "1774802431",
+      "temporary_id": "decl-019414"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] [inst_5 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C]\n  {\u03b9 : Type v} [inst_6 : Fintype.{v} \u03b9] (P : \u03b9 \u2192 C) (n : \u03b9 \u2192 Nat),\n  (\u2200 (i : \u03b9), LE.le.{0} 1 (n i)) \u2192\n    (\u2200 (i : \u03b9), LE.le.{0} 1 (decl-017748.{w, u, v} k P i i)) \u2192\n      Iff\n        (Eq.{1}\n          (Module.finrank.{w, v} k (MulOpposite.{v} (CategoryTheory.End.{v, u} (decl-021689.{u, v} P n))))\n          (Finset.sum.{v, 0} Finset.univ.{v} fun i =>\n            Finset.sum.{v, 0} Finset.univ.{v} fun j => decl-017748.{w, u, v} k P i j))\n        (\u2200 (i : \u03b9), Eq.{1} (n i) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-017748",
+        "decl-021689"
+      ],
+      "structural_type_hash": "2088511412",
+      "temporary_id": "decl-019415"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] [inst_5 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C]\n  {\u03b9 : Type v} [inst_6 : Fintype.{v} \u03b9] (P : \u03b9 \u2192 C),\n  Eq.{1}\n    (Module.finrank.{w, v} k (MulOpposite.{v} (CategoryTheory.End.{v, u} (decl-021689.{u, v} P fun x => 1))))\n    (Finset.sum.{v, 0} Finset.univ.{v} fun i =>\n      Finset.sum.{v, 0} Finset.univ.{v} fun j => decl-017748.{w, u, v} k P i j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-017748",
+        "decl-021689"
+      ],
+      "structural_type_hash": "1341113437",
+      "temporary_id": "decl-019419"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] [inst_5 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C]\n  {\u03b9 : Type v} [inst_6 : Fintype.{v} \u03b9] (P : \u03b9 \u2192 C) (n : \u03b9 \u2192 Nat),\n  Eq.{1} (Module.finrank.{w, v} k (CategoryTheory.End.{v, u} (decl-021689.{u, v} P n)))\n    (Finset.sum.{v, 0} Finset.univ.{v} fun p =>\n      Finset.sum.{v, 0} Finset.univ.{v} fun q =>\n        Module.finrank.{w, v} k (Quiver.Hom.{v, u} (P (Sigma.fst.{v, 0} p)) (P (Sigma.fst.{v, 0} q))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-021689"
+      ],
+      "structural_type_hash": "1040179085",
+      "temporary_id": "decl-019426"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {m : Type u_1} [inst_1 : Fintype.{u_1} m] [Subsingleton.{u_1 + 1} m]\n  (x y : Matrix.{u_1, u_1, w} m m k),\n  Eq.{max (u_1 + 1) (w + 1)} (HMul.hMul.{max u_1 w, max u_1 w, max u_1 w} x y)\n    (HMul.hMul.{max u_1 w, max u_1 w, max u_1 w} y x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1962988060",
+      "temporary_id": "decl-021567"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] {\u03b9 : Type v} (P : \u03b9 \u2192 C) (i : \u03b9)\n  [Nontrivial.{v} (Quiver.Hom.{v, u} (P i) (P i))], LE.le.{0} 1 (decl-017748.{w, u, v} k P i i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-017748"
+      ],
+      "structural_type_hash": "27600064",
+      "temporary_id": "decl-021812"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {\u03b9 : Type u_1} (n : \u03b9 \u2192 Nat),\n  (\u2200 (i : \u03b9), LE.le.{0} 1 (n i)) \u2192\n    Iff\n      (\u2200 (x y : (i : \u03b9) \u2192 Matrix.{0, 0, w} (Fin (n i)) (Fin (n i)) k),\n        Eq.{max (u_1 + 1) (w + 1)} (HMul.hMul.{max u_1 w, max u_1 w, max u_1 w} x y)\n          (HMul.hMul.{max u_1 w, max u_1 w, max u_1 w} y x))\n      (\u2200 (i : \u03b9), Eq.{1} (n i) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1638056631",
+      "temporary_id": "decl-023071"
+    },
+    {
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : decl-005147.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [decl-005167.{w, u, v} k C] [inst_5 : CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C]\n  {\u03b9 : Type v} [inst_6 : Fintype.{v} \u03b9] (P : \u03b9 \u2192 C) (n : \u03b9 \u2192 Nat),\n  (\u2200 (i : \u03b9), LE.le.{0} 1 (n i)) \u2192\n    LE.le.{0}\n      (Finset.sum.{v, 0} Finset.univ.{v} fun i =>\n        Finset.sum.{v, 0} Finset.univ.{v} fun j => decl-017748.{w, u, v} k P i j)\n      (Module.finrank.{w, v} k (MulOpposite.{v} (CategoryTheory.End.{v, u} (decl-021689.{u, v} P n))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005147",
+        "decl-005164",
+        "decl-005167",
+        "decl-017748",
+        "decl-021689"
+      ],
+      "structural_type_hash": "2919829898",
+      "temporary_id": "decl-023531"
+    }
+  ],
+  "module_temporary_id": "module-0712",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

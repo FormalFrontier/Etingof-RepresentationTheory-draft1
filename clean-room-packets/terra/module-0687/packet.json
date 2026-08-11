@@ -1,0 +1,70 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k U W : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    [inst_1 : AddCommGroup.{u} U] \u2192\n      [inst_2 : Module.{u, u} k U] \u2192\n        [inst_3 : AddCommGroup.{u} W] \u2192\n          [inst_4 : Module.{u, u} k W] \u2192\n            AlgEquiv.{u, u, u} k (SymmetricAlgebra.{u, u} k (Prod.{u, u} U W))\n              (TensorProduct.{u, u, u} k (SymmetricAlgebra.{u, u} k U) (SymmetricAlgebra.{u, u} k W))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4081114086",
+      "temporary_id": "decl-023681"
+    },
+    {
+      "formal_type": "\u2200 (k U W : Type u) [inst : CommRing.{u} k] [inst_1 : AddCommGroup.{u} U] [inst_2 : Module.{u, u} k U]\n  [inst_3 : AddCommGroup.{u} W] [inst_4 : Module.{u, u} k W] (u : U),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-023681.{u} k U W)\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (SymmetricAlgebra.\u03b9.{u, u} k (Prod.{u, u} U W)) (Prod.mk.{u, u} u 0)))\n    (DFunLike.coe.{u + 1, u + 1, u + 1} Algebra.TensorProduct.includeLeft.{u, u, u, u}\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (SymmetricAlgebra.\u03b9.{u, u} k U) u))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023681"
+      ],
+      "structural_type_hash": "1562592593",
+      "temporary_id": "decl-023686"
+    },
+    {
+      "formal_type": "\u2200 (k U W : Type u) [inst : CommRing.{u} k] [inst_1 : AddCommGroup.{u} U] [inst_2 : Module.{u, u} k U]\n  [inst_3 : AddCommGroup.{u} W] [inst_4 : Module.{u, u} k W] (w : W),\n  Eq.{u + 1}\n    (DFunLike.coe.{u + 1, u + 1, u + 1} (decl-023681.{u} k U W)\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (SymmetricAlgebra.\u03b9.{u, u} k (Prod.{u, u} U W)) (Prod.mk.{u, u} 0 w)))\n    (DFunLike.coe.{u + 1, u + 1, u + 1} Algebra.TensorProduct.includeRight.{u, u, u}\n      (DFunLike.coe.{u + 1, u + 1, u + 1} (SymmetricAlgebra.\u03b9.{u, u} k W) w))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023681"
+      ],
+      "structural_type_hash": "1891434076",
+      "temporary_id": "decl-023687"
+    },
+    {
+      "formal_type": "(k U W : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    [inst_1 : AddCommGroup.{u} U] \u2192\n      [inst_2 : Module.{u, u} k U] \u2192\n        [inst_3 : AddCommGroup.{u} W] \u2192\n          [inst_4 : Module.{u, u} k W] \u2192\n            AlgHom.{u, u, u} k (SymmetricAlgebra.{u, u} k (Prod.{u, u} U W))\n              (TensorProduct.{u, u, u} k (SymmetricAlgebra.{u, u} k U) (SymmetricAlgebra.{u, u} k W))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "115282336",
+      "temporary_id": "decl-023689"
+    },
+    {
+      "formal_type": "(k U W : Type u) \u2192\n  [inst : CommRing.{u} k] \u2192\n    [inst_1 : AddCommGroup.{u} U] \u2192\n      [inst_2 : Module.{u, u} k U] \u2192\n        [inst_3 : AddCommGroup.{u} W] \u2192\n          [inst_4 : Module.{u, u} k W] \u2192\n            AlgHom.{u, u, u} k (TensorProduct.{u, u, u} k (SymmetricAlgebra.{u, u} k U) (SymmetricAlgebra.{u, u} k W))\n              (SymmetricAlgebra.{u, u} k (Prod.{u, u} U W))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4171152435",
+      "temporary_id": "decl-023707"
+    }
+  ],
+  "module_temporary_id": "module-0687",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0180",
+  "associations": [
+    {
+      "association_id": "association:215798892e7cae68aa85",
+      "role": "primary",
+      "rationale": "It directly gives a ring equivalence from the matrix-product algebra to its opposite algebra."
+    },
+    {
+      "association_id": "association:96397b037a5f794ca7cd",
+      "role": "supporting",
+      "rationale": "It is the general product-opposite ring equivalence and does not itself state the matrix transpose identification."
+    }
+  ]
+}

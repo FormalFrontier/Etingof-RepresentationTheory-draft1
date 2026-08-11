@@ -1,0 +1,84 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (A : Type) [inst : CommRing.{0} A] [inst_1 : Algebra.{0, 0} Int A] [Algebra.FiniteType.{0, 0} Int A],\n  Nonempty.{2}\n    (CategoryTheory.Abelian.{0, 1}\n      (CategoryTheory.ObjectProperty.FullSubcategory.{0, 1} (decl-020842.{0} A)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-020842"
+      ],
+      "structural_type_hash": "1159796432",
+      "temporary_id": "decl-013188"
+    },
+    {
+      "formal_type": "\u2200 {A : Type} [inst : CommRing.{0} A],\n  CategoryTheory.ObjectProperty.ContainsZero.{0, 1} (decl-020842.{0} A)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-013188",
+      "project_type_dependencies": [
+        "decl-020842"
+      ],
+      "structural_type_hash": "3311087517",
+      "temporary_id": "decl-013189"
+    },
+    {
+      "formal_type": "\u2200 {A : Type} [inst : CommRing.{0} A],\n  CategoryTheory.ObjectProperty.IsClosedUnderFiniteProducts.{0, 1} (decl-020842.{0} A)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-013188",
+      "project_type_dependencies": [
+        "decl-020842"
+      ],
+      "structural_type_hash": "804552928",
+      "temporary_id": "decl-013190"
+    },
+    {
+      "formal_type": "\u2200 {A : Type} [inst : CommRing.{0} A],\n  CategoryTheory.ObjectProperty.IsClosedUnderQuotients.{0, 1} (decl-020842.{0} A)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-013188",
+      "project_type_dependencies": [
+        "decl-020842"
+      ],
+      "structural_type_hash": "3304057620",
+      "temporary_id": "decl-013191"
+    },
+    {
+      "formal_type": "\u2200 {A : Type} [inst : CommRing.{0} A] [IsNoetherianRing.{0} A],\n  CategoryTheory.ObjectProperty.IsClosedUnderSubobjects.{0, 1} (decl-020842.{0} A)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-013188",
+      "project_type_dependencies": [
+        "decl-020842"
+      ],
+      "structural_type_hash": "1180408256",
+      "temporary_id": "decl-013192"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 [inst : CommRing.{u_1} A] \u2192 CategoryTheory.ObjectProperty.{0, max 1 u_1} (ModuleCat.{0, u_1} A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2539266920",
+      "temporary_id": "decl-020842"
+    }
+  ],
+  "module_temporary_id": "module-0609",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

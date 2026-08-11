@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:51881cca0fb6444a4950",
+      "declaration": "exists_compositionSeries_of_isNoetherian_isArtinian",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/146/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RingTheory.FiniteLength"
+    }
+  ],
+  "canonical_reference": "Chapter3/Lemma3.4.2",
+  "packet_id": "align-0099",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0099"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:1f1d19f6cd8bf33017b2",
+  "source_text": "In the positive-dimensional induction step one can choose an irreducible subrepresentation V\u2081 of V."
+}

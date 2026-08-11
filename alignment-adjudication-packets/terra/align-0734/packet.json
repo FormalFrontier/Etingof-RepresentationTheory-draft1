@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:76cd24fb597a3855326c",
+      "declaration": "Etingof.Problem5_10_2_a",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/302/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k G : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    [inst_1 : Group.{u} G] \u2192\n      (H : Subgroup.{u} G) \u2192\n        (V : Rep.{max u_1 u, u, u} k G) \u2192\n          CategoryTheory.Iso.{max u u_1, max u ((max u_1 u) + 1)}\n            (CategoryTheory.Functor.obj.{max u_1 u, max u_1 u, max u ((max u_1 u) + 1), max u ((max u_1 u) + 1)}\n              (Rep.resFunctor.{max u_1 u, u, u, u} (Subgroup.subtype.{u} H))\n              (Rep.ind.{max u_1 u, u, u, u} (MonoidHom.id.{u} G) V))\n            (CategoryTheory.Functor.obj.{max u_1 u, max u_1 u, max u ((max u_1 u) + 1), max u ((max u_1 u) + 1)}\n              (Rep.resFunctor.{max u_1 u, u, u, u} (Subgroup.subtype.{u} H)) V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_10_2"
+    },
+    {
+      "association_id": "association:b87ee55f4bbec16020bd",
+      "declaration": "Etingof.Problem5_10_2_a_inv_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/302/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k G : Type u) [inst : Field.{u} k] [inst_1 : Group.{u} G] (H : Subgroup.{u} G) (V : Rep.{max u u_1, u, u} k G)\n  (v : Rep.V.{max u u_1, u, u} V),\n  Eq.{max (u + 1) (u_1 + 1)}\n    (DFunLike.coe.{max (u + 1) (u_1 + 1), max (u + 1) (u_1 + 1), max (u + 1) (u_1 + 1)}\n      (Rep.Hom.hom.{max u u_1, u, u}\n        (CategoryTheory.Iso.inv.{max u u_1, max (u + 1) (u_1 + 1)} (Etingof.Problem5_10_2_a.{u, u_1} k G H V)))\n      v)\n    (DFunLike.coe.{max (u + 1) (u_1 + 1), max (u + 1) (u_1 + 1), max (u + 1) (u_1 + 1)}\n      (Representation.IndV.mk.{u, u, u, max u u_1} (MonoidHom.id.{u} G) (Rep.\u03c1.{max u u_1, u, u} V) 1) v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_10_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_Problem5.10.2_parts",
+  "packet_id": "align-0734",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0734"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Discussion_Problem5.10.2_parts:part_a",
+  "source_text": "Part (a): identify the balanced tensor restriction model, including v \u21a6 1 tensor v."
+}

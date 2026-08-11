@@ -1,0 +1,7 @@
+{
+  "packet_id": "align-0041",
+  "associations": [
+    {"association_id": "association:9c9f5a459ae7052832b1", "role": "primary", "rationale": "basisSingleOne directly provides the basis of finitely supported single functions indexed by the group elements."},
+    {"association_id": "association:ffa61cdd275224bf4b64", "role": "primary", "rationale": "MonoidAlgebra.algebra directly defines the k-algebra structure on the group algebra construction."}
+  ]
+}

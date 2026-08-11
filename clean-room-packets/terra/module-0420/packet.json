@@ -1,0 +1,109 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (N d : Nat),\n  decl-005106.{u_2, u_2} N\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n      (Subrepresentation.toRepresentation.{u_2, u_2, u_2} (decl-015506.{u_2} k N d)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005106",
+        "decl-006673",
+        "decl-015506",
+        "decl-015508"
+      ],
+      "structural_type_hash": "1287554718",
+      "temporary_id": "decl-015499"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : Field.{u_2} k] \u2192\n    (N : Nat) \u2192 Nat \u2192 Subrepresentation.{u_2, u_2, u_2} (decl-006673.{u_2} k N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006673"
+      ],
+      "structural_type_hash": "1291269362",
+      "temporary_id": "decl-015506"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : Field.{u_2} k] (N d : Nat),\n  Module.Finite.{u_2, u_2} k\n    (Subtype.{u_2 + 1} fun x =>\n      Membership.mem.{u_2, u_2}\n        (Subrepresentation.toSubmodule.{u_2, u_2, u_2} (decl-015506.{u_2} k N d)) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006673",
+        "decl-015506"
+      ],
+      "structural_type_hash": "305407623",
+      "temporary_id": "decl-015508"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (d : Nat) (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)\n  (w :\n    Subtype.{u_1 + 1} fun x =>\n      Membership.mem.{u_1, u_1}\n        (Subrepresentation.toSubmodule.{u_1, u_1, u_1} (decl-015506.{u_1} k N d)) x),\n  Eq.{u_1 + 1}\n    (Subtype.val.{u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n          (Subrepresentation.toRepresentation.{u_1, u_1, u_1} (decl-015506.{u_1} k N d))\n          g)\n        w))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-006673.{u_1} k N) g)\n      (Subtype.val.{u_1 + 1} w))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006673",
+        "decl-015506"
+      ],
+      "structural_type_hash": "3406904390",
+      "temporary_id": "decl-015510"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (r : Nat),\n  Function.Injective.{u_1 + 1, u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-015514.{u_1} r))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-015514"
+      ],
+      "structural_type_hash": "1744468536",
+      "temporary_id": "decl-015522"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {N : Nat} (r : Nat) (g : Matrix.GeneralLinearGroup.{0, u_1} (Fin N) k)\n  (p : MvPolynomial.{0, u_1} (Prod.{0, 0} (Fin N) (Fin N)) k),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n        (decl-005327.{u_1, u_1, u_1}\n          (HPow.hPow.{u_1, 0, u_1} (decl-005333.{u_1} k N) r)\n          (decl-005625.{u_1} k N))\n        g)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-015514.{u_1} r) p))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-015514.{u_1} r)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-006673.{u_1} k N) g) p))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-005327",
+        "decl-005333",
+        "decl-005625",
+        "decl-006673",
+        "decl-015514"
+      ],
+      "structural_type_hash": "1862255399",
+      "temporary_id": "decl-015523"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] [CharZero.{0} k] {N : Nat}\n  (\u03c6 : Localization.Away.{0} (decl-001528.{0} k N)),\n  IsSemisimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k (Matrix.GeneralLinearGroup.{0, 0} (Fin N) k))\n    (Representation.asModule.{0, 0, 0}\n      (Subrepresentation.toRepresentation.{0, 0, 0} (decl-015527.{0} \u03c6)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001528",
+        "decl-005625",
+        "decl-015527"
+      ],
+      "structural_type_hash": "1969683763",
+      "temporary_id": "decl-015529"
+    }
+  ],
+  "module_temporary_id": "module-0420",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

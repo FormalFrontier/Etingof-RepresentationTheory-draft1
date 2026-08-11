@@ -1,0 +1,146 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  {q : Rat},\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Rat Complex) q)\n      (Finset.prod.{0, 0} (Finset.filter.{0} (fun x => Ne.{1} x 1) Finset.univ.{0}) fun g =>\n        HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} V g) (FDRep.character.{0, 0} V (Inv.inv.{0} g))) \u2192\n    LT.lt.{0} 0 q \u2192 LT.lt.{0} q 1 \u2192 False",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2399314384",
+      "temporary_id": "decl-015409"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (V : FDRep.{0, 0} Complex G) (g : G),\n  Exists.{1} fun s =>\n    And (\u2200 (\u03bc : Complex), Membership.mem.{0, 0} s \u03bc \u2192 Eq.{1} (HPow.hPow.{0, 0, 0} \u03bc (Nat.card.{0} G)) 1)\n      (Eq.{1} (FDRep.character.{0, 0} V g) (Multiset.sum.{0} s))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "141546186",
+      "temporary_id": "decl-015410"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G),\n  Exists.{1} fun q =>\n    Eq.{1} (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Rat Complex) q)\n      (Finset.prod.{0, 0} (Finset.filter.{0} (fun x => Ne.{1} x 1) Finset.univ.{0}) fun g =>\n        HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} V g) (FDRep.character.{0, 0} V (Inv.inv.{0} g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3748222530",
+      "temporary_id": "decl-015411"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (V : FDRep.{0, 0} Complex G) (g : G) {j : Nat}\n  (\u03c3 : RingHom.{0, 0} Complex Complex),\n  (\u2200 (\u03bc : Complex),\n      Eq.{1} (HPow.hPow.{0, 0, 0} \u03bc (Nat.card.{0} G)) 1 \u2192\n        Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c3 \u03bc) (HPow.hPow.{0, 0, 0} \u03bc j)) \u2192\n    Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c3 (FDRep.character.{0, 0} V g)) (FDRep.character.{0, 0} V (HPow.hPow.{0, 0, 0} g j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "771088042",
+      "temporary_id": "decl-015412"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_2} [inst : AddCommGroup.{u_2} V] [inst_1 : Module.{0, u_2} Complex V] (f : Module.End.{0, u_2} Complex V)\n  {N : Nat},\n  Eq.{u_2 + 1} (HPow.hPow.{u_2, 0, u_2} f N) 1 \u2192\n    \u2200 {\u03bc : Complex},\n      Ne.{u_2 + 1} (Module.End.eigenspace.{0, u_2} f \u03bc) Bot.bot.{u_2} \u2192 Eq.{1} (HPow.hPow.{0, 0, 0} \u03bc N) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1068943007",
+      "temporary_id": "decl-015413"
+    },
+    {
+      "formal_type": "\u2200 {z : Complex}, IsIntegral.{0, 0} Int z \u2192 IsIntegral.{0, 0} Int (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex) z)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "738136022",
+      "temporary_id": "decl-015414"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (V : FDRep.{0, 0} Complex G) (g : G),\n  IsIntegral.{0, 0} Int (Complex.ofReal (DFunLike.coe.{1, 1, 1} Complex.normSq (FDRep.character.{0, 0} V g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1086233409",
+      "temporary_id": "decl-015415"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [Fintype.{0} G] (V : FDRep.{0, 0} Complex G) (s : Finset.{0} G),\n  IsIntegral.{0, 0} Int\n    (Finset.prod.{0, 0} s fun g => Complex.ofReal (DFunLike.coe.{1, 1, 1} Complex.normSq (FDRep.character.{0, 0} V g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "659440026",
+      "temporary_id": "decl-015416"
+    },
+    {
+      "formal_type": "\u2200 {q : Rat},\n  IsIntegral.{0, 0} Int (DFunLike.coe.{1, 1, 1} (Algebra.algebraMap.{0, 0} Rat Complex) q) \u2192\n    LT.lt.{0} 0 q \u2192 LT.lt.{0} q 1 \u2192 False",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1959402928",
+      "temporary_id": "decl-015417"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_2} [inst : AddCommGroup.{u_2} V] [inst_1 : Module.{0, u_2} Complex V] (f : Module.End.{0, u_2} Complex V)\n  (\u03bc : Complex) {x : V},\n  Membership.mem.{u_2, u_2} (Module.End.eigenspace.{0, u_2} f \u03bc) x \u2192\n    \u2200 (m : Nat),\n      Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (HPow.hPow.{u_2, 0, u_2} f m) x)\n        (HSMul.hSMul.{0, u_2, u_2} (HPow.hPow.{0, 0, 0} \u03bc m) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3646066148",
+      "temporary_id": "decl-015419"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {j : Nat},\n  (Nat.card.{u_1} G).Coprime j \u2192 Function.Bijective.{u_1 + 1, u_1 + 1} fun g => HPow.hPow.{u_1, 0, u_1} g j",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1705118113",
+      "temporary_id": "decl-015420"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {j : Nat},\n  (Nat.card.{u_1} G).Coprime j \u2192 \u2200 {g : G}, Iff (Eq.{u_1 + 1} (HPow.hPow.{u_1, 0, u_1} g j) 1) (Eq.{u_1 + 1} g 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3899006914",
+      "temporary_id": "decl-015421"
+    },
+    {
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] {M : Type u_2} [inst_1 : CommMonoid.{u_2} M] [inst_2 : Fintype.{u_1} G]\n  [inst_3 : DecidableEq.{u_1 + 1} G] {j : Nat},\n  (Nat.card.{u_1} G).Coprime j \u2192\n    \u2200 (f : G \u2192 M),\n      Eq.{u_2 + 1}\n        (Finset.prod.{u_1, u_2} (Finset.filter.{u_1} (fun x => Ne.{u_1 + 1} x 1) Finset.univ.{u_1}) fun g =>\n          f (HPow.hPow.{u_1, 0, u_1} g j))\n        (Finset.prod.{u_1, u_2} (Finset.filter.{u_1} (fun x => Ne.{u_1 + 1} x 1) Finset.univ.{u_1}) fun g => f g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3078995865",
+      "temporary_id": "decl-015422"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] [inst_2 : DecidableEq.{1} G] (V : FDRep.{0, 0} Complex G)\n  {j : Nat},\n  (Nat.card.{0} G).Coprime j \u2192\n    \u2200 (\u03c3 : RingHom.{0, 0} Complex Complex),\n      (\u2200 (\u03bc : Complex),\n          Eq.{1} (HPow.hPow.{0, 0, 0} \u03bc (Nat.card.{0} G)) 1 \u2192\n            Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c3 \u03bc) (HPow.hPow.{0, 0, 0} \u03bc j)) \u2192\n        Eq.{1}\n          (DFunLike.coe.{1, 1, 1} \u03c3\n            (Finset.prod.{0, 0} (Finset.filter.{0} (fun x => Ne.{1} x 1) Finset.univ.{0}) fun g =>\n              HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} V g) (FDRep.character.{0, 0} V (Inv.inv.{0} g))))\n          (Finset.prod.{0, 0} (Finset.filter.{0} (fun x => Ne.{1} x 1) Finset.univ.{0}) fun g =>\n            HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} V g) (FDRep.character.{0, 0} V (Inv.inv.{0} g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "757360889",
+      "temporary_id": "decl-015425"
+    },
+    {
+      "formal_type": "\u2200 {V : Type u_2} [inst : AddCommGroup.{u_2} V] [inst_1 : Module.{0, u_2} Complex V]\n  [FiniteDimensional.{0, u_2} Complex V] (f : Module.End.{0, u_2} Complex V) {N : Nat},\n  LT.lt.{0} 0 N \u2192\n    Eq.{u_2 + 1} (HPow.hPow.{u_2, 0, u_2} f N) 1 \u2192\n      \u2200 (k : Nat)\n        (hfin : Set.Finite.{0} (setOf.{0} fun \u03bc => Ne.{u_2 + 1} (Module.End.eigenspace.{0, u_2} f \u03bc) Bot.bot.{u_2})),\n        Eq.{1} (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} (LinearMap.trace.{0, u_2} Complex V) (HPow.hPow.{u_2, 0, u_2} f k))\n          (Finset.sum.{0, 0} (Set.Finite.toFinset.{0} hfin) fun \u03bc =>\n            HMul.hMul.{0, 0, 0}\n              (Nat.cast.{0}\n                (Module.finrank.{0, u_2} Complex\n                  (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Module.End.eigenspace.{0, u_2} f \u03bc) x)))\n              (HPow.hPow.{0, 0, 0} \u03bc k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "152346533",
+      "temporary_id": "decl-015426"
+    }
+  ],
+  "module_temporary_id": "module-0414",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

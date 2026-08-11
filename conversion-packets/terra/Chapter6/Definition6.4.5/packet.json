@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Definition6.4.5",
+    "kind": "definition",
+    "title": "Definition 6.4.5: Simple roots",
+    "node_id": "chapter-06/section-6-4",
+    "order": 427,
+    "slug": "definition6-4-5",
+    "span": {
+      "start": {
+        "page": "165",
+        "line": 1
+      },
+      "end": {
+        "page": "165",
+        "line": 10
+      }
+    },
+    "source_sha256": "dbbc18079816112c96c2da3de849ff15b15d41176c1eaac3a22573ed38e69574",
+    "features": {
+      "line_count": 10,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition645",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

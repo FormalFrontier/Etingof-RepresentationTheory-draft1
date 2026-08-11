@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0349",
+  "associations": [
+    {
+      "association_id": "association:97fceba1069ff948c017",
+      "role": "primary",
+      "rationale": "Given an adjunction and an object X, the formal type directly states that F X corepresents the associated covariant Hom functor."
+    },
+    {
+      "association_id": "association:d1a387bfe220a6154976",
+      "role": "primary",
+      "rationale": "Given an adjunction and an object Y, the formal type directly states that G Y represents the associated contravariant Hom functor."
+    }
+  ]
+}

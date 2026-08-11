@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a716e2aa575d4bc69e0e",
+      "declaration": "Etingof.Problem_2_3_18",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/46/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] [inst_1 : Algebra.{0, u_1} Complex A] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} Complex V] [inst_4 : Module.{u_1, 0} A V] [IsScalarTower.{0, u_1, 0} Complex A V]\n  [IsSimpleModule.{u_1, 0} A V],\n  LE.le.{1} (Module.rank.{0, 0} Complex V) Cardinal.aleph0.{0} \u2192\n    \u2200 (\u03c6 : LinearMap.{u_1, u_1, 0, 0} (RingHom.id.{u_1} A) V V),\n      Exists.{1} fun c => \u2200 (v : V), Eq.{1} (DFunLike.coe.{1, 1, 1} \u03c6 v) (HSMul.hSMul.{0, 0, 0} c v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_18"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.3.18",
+  "packet_id": "align-0582",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0582"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.3.18:claim-03",
+  "source_text": "A non-scalar \u03c6 would be transcendental over \u2102."
+}

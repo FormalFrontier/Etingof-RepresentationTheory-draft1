@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:770dfbe713db66ced6e6",
+      "declaration": "Etingof.reflectionFunctorAdjunction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/519/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : DecidableEq.{u_2 + 1} Q] \u2192\n        [instQ : Quiver.{u_3, u_2} Q] \u2192\n          {i : Q} \u2192\n            (hi : Etingof.IsSource.{u_2, u_3} Q i) \u2192\n              [inst_2 : Fintype.{max u_3 u_2} (Etingof.ArrowsOutOf.{u_2, u_3} Q i)] \u2192\n                CategoryTheory.Adjunction.{max (max u_4 u_3) u_2, max (max u_4 u_3) u_2,\n                    max (max (max u_1 (u_4 + 1)) (u_3 + 1)) (u_2 + 1),\n                    max (max (max u_1 (u_4 + 1)) (u_3 + 1)) (u_2 + 1)}\n                  (Etingof.reflectionFunctorMinusAdjunctionLeft.{u_1, u_2, u_3, u_4} hi)\n                  (Etingof.reflectionFunctorPlusAdjunctionRight.{u_1, u_2, u_3, u_4} hi)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Exercise7_9_8_Adjunction"
+    }
+  ],
+  "canonical_reference": "Chapter7/Exercise7.9.8",
+  "packet_id": "align-0814",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0814"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter7/Exercise7.9.8:part_a",
+  "source_text": "Part (a): package the reflection functors into the stated natural adjunction."
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0113",
+  "associations": [
+    {
+      "association_id": "association:a9763dd8e118391039be",
+      "role": "primary",
+      "rationale": "Its conclusion directly gives isomorphisms of both factors from an equivariant tensor-product isomorphism."
+    }
+  ]
+}

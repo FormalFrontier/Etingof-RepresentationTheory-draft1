@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Proposition6.6.6",
+    "kind": "proposition",
+    "title": "Proposition 6.6.6: F_i^- F_i^+ V = V when surjective at i",
+    "node_id": "chapter-06/section-6-6",
+    "order": 446,
+    "slug": "proposition6-6-6",
+    "span": {
+      "start": {
+        "page": "170",
+        "line": 19
+      },
+      "end": {
+        "page": "171",
+        "line": 32
+      }
+    },
+    "source_sha256": "a5fd69a7aab9ba841c72bf4272bd1d98e6c16cd018f5b2d0150f3684ea414c64",
+    "features": {
+      "line_count": 69,
+      "crosses_page": true,
+      "display_math_delimiters": 22,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Proposition666",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

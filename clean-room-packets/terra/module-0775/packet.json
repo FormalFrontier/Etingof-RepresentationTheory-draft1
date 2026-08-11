@@ -1,0 +1,145 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192\n      [inst_1 : Group.{0} G] \u2192\n        (X Y : FDRep.{0, 0} k G) \u2192\n          LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k)\n            (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (CategoryTheory.Limits.biprod.{0, 1} X Y)))\n            (Prod.{0, 0} (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} X))\n              (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} Y)))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3072636822",
+      "temporary_id": "decl-004184"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Group.{0} G] [Fintype.{0} G] (X Y : FDRep.{0, 0} k G) (g : G),\n  Eq.{1} (FDRep.character.{0, 0} (CategoryTheory.Limits.biprod.{0, 1} X Y) g)\n    (HAdd.hAdd.{0, 0, 0} (FDRep.character.{0, 0} X g) (FDRep.character.{0, 0} Y g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "162631048",
+      "temporary_id": "decl-004191"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Group.{0} G] {V : FDRep.{0, 0} k G},\n  CategoryTheory.Limits.IsZero.{0, 1} V \u2192 \u2200 (g : G), Eq.{1} (FDRep.character.{0, 0} V g) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "475972219",
+      "temporary_id": "decl-004194"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Group.{0} G] [Fintype.{0} G] [IsAlgClosed.{0} k] [CharZero.{0} k]\n  {\u03b9 : Type} [inst_5 : Fintype.{0} \u03b9] [DecidableEq.{1} \u03b9] (T : \u03b9 \u2192 FDRep.{0, 0} k G),\n  (\u2200 (S : FDRep.{0, 0} k G),\n      CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (T i))) \u2192\n    \u2200 (V : FDRep.{0, 0} k G),\n      Exists.{1} fun n =>\n        \u2200 (g : G),\n          Eq.{1} (FDRep.character.{0, 0} V g)\n            (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n              HMul.hMul.{0, 0, 0} (Nat.cast.{0} (n i)) (FDRep.character.{0, 0} (T i) g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "782883301",
+      "temporary_id": "decl-004196"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Group.{0} G] [Fintype.{0} G] [IsAlgClosed.{0} k] [CharZero.{0} k]\n  {\u03b9 : Type} [inst_5 : Fintype.{0} \u03b9] [DecidableEq.{1} \u03b9] (T : \u03b9 \u2192 FDRep.{0, 0} k G),\n  (\u2200 (S : FDRep.{0, 0} k G),\n      CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (T i))) \u2192\n    \u2200 (V : FDRep.{0, 0} k G),\n      Exists.{1} fun n =>\n        \u2200 (S : FDRep.{0, 0} k G),\n          Eq.{1} (Module.finrank.{0, 0} k (Quiver.Hom.{0, 1} S V))\n            (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n              HMul.hMul.{0, 0, 0} (n i) (Module.finrank.{0, 0} k (Quiver.Hom.{0, 1} S (T i))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3291477821",
+      "temporary_id": "decl-004198"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Group.{0} G] (S : FDRep.{0, 0} k G) {J : Type}\n  [inst_2 : Fintype.{0} J] [DecidableEq.{1} J] (U : J \u2192 FDRep.{0, 0} k G),\n  Eq.{1} (Module.finrank.{0, 0} k (Quiver.Hom.{0, 1} S (CategoryTheory.Limits.biproduct.{0, 0, 1} U)))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun j => Module.finrank.{0, 0} k (Quiver.Hom.{0, 1} S (U j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2492702275",
+      "temporary_id": "decl-004199"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Group.{0} G] [Fintype.{0} G] [IsAlgClosed.{0} k] [CharZero.{0} k]\n  {\u03b9 : Type} [inst_5 : Fintype.{0} \u03b9] [DecidableEq.{1} \u03b9] (T : \u03b9 \u2192 FDRep.{0, 0} k G),\n  (\u2200 (i : \u03b9), CategoryTheory.Simple.{0, 1} (T i)) \u2192\n    (\u2200 (i j : \u03b9), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (T i) (T j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (S : FDRep.{0, 0} k G),\n          CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (T i))) \u2192\n        \u2200 (V S : FDRep.{0, 0} k G),\n          Eq.{1} (Module.finrank.{0, 0} k (Quiver.Hom.{0, 1} S V))\n            (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n              HMul.hMul.{0, 0, 0} (decl-004224 T V i)\n                (Module.finrank.{0, 0} k (Quiver.Hom.{0, 1} S (T i))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004224"
+      ],
+      "structural_type_hash": "299545996",
+      "temporary_id": "decl-004200"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Group.{0} G] [IsAlgClosed.{0} k] {\u03b9 : Type}\n  [inst_3 : DecidableEq.{1} \u03b9] (T : \u03b9 \u2192 FDRep.{0, 0} k G),\n  (\u2200 (i : \u03b9), CategoryTheory.Simple.{0, 1} (T i)) \u2192\n    (\u2200 (i j : \u03b9), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (T i) (T j)) \u2192 Eq.{1} i j) \u2192\n      \u2200 (i j : \u03b9), Eq.{1} (Module.finrank.{0, 0} k (Quiver.Hom.{0, 1} (T i) (T j))) (ite.{1} (Eq.{1} i j) 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1255290508",
+      "temporary_id": "decl-004201"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Group.{0} G] [Fintype.{0} G] [IsAlgClosed.{0} k] [CharZero.{0} k]\n  {\u03b9 : Type} [inst_5 : Fintype.{0} \u03b9] [DecidableEq.{1} \u03b9] (T : \u03b9 \u2192 FDRep.{0, 0} k G) (n : \u03b9 \u2192 Nat)\n  (S : FDRep.{0, 0} k G),\n  Eq.{1} (Module.finrank.{0, 0} k (Quiver.Hom.{0, 1} S (decl-004217 T n)))\n    (Finset.sum.{0, 0} Finset.univ.{0} fun i =>\n      HMul.hMul.{0, 0, 0} (n i) (Module.finrank.{0, 0} k (Quiver.Hom.{0, 1} S (T i))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004217"
+      ],
+      "structural_type_hash": "1738091413",
+      "temporary_id": "decl-004203"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192\n      [inst_1 : Group.{0} G] \u2192\n        (S : FDRep.{0, 0} k G) \u2192\n          {J : Type} \u2192\n            [inst_2 : Fintype.{0} J] \u2192\n              [DecidableEq.{1} J] \u2192\n                (U : J \u2192 FDRep.{0, 0} k G) \u2192\n                  LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k)\n                    (Quiver.Hom.{0, 1} S (CategoryTheory.Limits.biproduct.{0, 0, 1} U))\n                    ((j : J) \u2192 Quiver.Hom.{0, 1} S (U j))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4256545588",
+      "temporary_id": "decl-004209"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Group.{0} G] {A B : FDRep.{0, 0} k G} (f : Quiver.Hom.{0, 1} A B)\n  (g : G) (a : FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} A)),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1}\n      (ModuleCat.Hom.hom.{0, 0} (CategoryTheory.InducedCategory.Hom.hom.{0, 1, 1} (Action.Hom.hom.{0, 1, 0} f)))\n      (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} A) g) a))\n    (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} (FDRep.\u03c1.{0, 0} B) g)\n      (DFunLike.coe.{1, 1, 1}\n        (ModuleCat.Hom.hom.{0, 0} (CategoryTheory.InducedCategory.Hom.hom.{0, 1, 1} (Action.Hom.hom.{0, 1, 0} f))) a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1004207942",
+      "temporary_id": "decl-004215"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192\n      [inst_1 : Group.{0} G] \u2192 {\u03b9 : Type} \u2192 [Fintype.{0} \u03b9] \u2192 (\u03b9 \u2192 FDRep.{0, 0} k G) \u2192 (\u03b9 \u2192 Nat) \u2192 FDRep.{0, 0} k G",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1040164868",
+      "temporary_id": "decl-004217"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {G : Type} \u2192 [inst_1 : Group.{0} G] \u2192 {\u03b9 : Type} \u2192 (\u03b9 \u2192 FDRep.{0, 0} k G) \u2192 FDRep.{0, 0} k G \u2192 \u03b9 \u2192 Nat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1372051354",
+      "temporary_id": "decl-004224"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {G : Type} [inst_1 : Group.{0} G] [Fintype.{0} G] [IsAlgClosed.{0} k] [CharZero.{0} k]\n  {\u03b9 : Type} [inst_5 : Fintype.{0} \u03b9] [DecidableEq.{1} \u03b9] (T : \u03b9 \u2192 FDRep.{0, 0} k G),\n  (\u2200 (i : \u03b9), CategoryTheory.Simple.{0, 1} (T i)) \u2192\n    (\u2200 (i j : \u03b9), Nonempty.{1} (CategoryTheory.Iso.{0, 1} (T i) (T j)) \u2192 Eq.{1} i j) \u2192\n      (\u2200 (S : FDRep.{0, 0} k G),\n          CategoryTheory.Simple.{0, 1} S \u2192 Exists.{1} fun i => Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (T i))) \u2192\n        \u2200 (V : FDRep.{0, 0} k G),\n          Nonempty.{1} (CategoryTheory.Iso.{0, 1} V (decl-004217 T (decl-004224 T V)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004217",
+        "decl-004224"
+      ],
+      "structural_type_hash": "907048254",
+      "temporary_id": "decl-004226"
+    }
+  ],
+  "module_temporary_id": "module-0775",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

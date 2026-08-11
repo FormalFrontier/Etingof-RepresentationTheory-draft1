@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2b6297be308fb93949d3",
+      "declaration": "A\u2082Rep.rep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/416/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 [inst : Field.{u_1} k] \u2192 Fin 3 \u2192 A\u2082Rep.{u_1, u_1, u_1} k",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_2_3"
+    },
+    {
+      "association_id": "association:cf1a0e3e7fda9bc5eeb7",
+      "declaration": "A\u2082Rep.rep_indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/416/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (i : Fin 3), A\u2082Rep.Indecomposable.{u_1, u_1, u_1} (A\u2082Rep.rep.{u_1} k i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Example6_2_3"
+    }
+  ],
+  "canonical_reference": "Chapter6/Example6.2.3",
+  "packet_id": "align-1129",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1129"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e4a221e73c1489a21188",
+  "source_text": "The three A\u2082 dimension vectors (1,0), (0,1), and (1,1) have explicit indecomposable representatives."
+}

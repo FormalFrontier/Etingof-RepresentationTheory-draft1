@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0441",
+  "associations": [
+    {
+      "association_id": "association:010917094caa8cc7aa6b",
+      "role": "primary",
+      "rationale": "The theorem directly states that the character at the inverse group element is the complex conjugate of the original character value."
+    }
+  ]
+}

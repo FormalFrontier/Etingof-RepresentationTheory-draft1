@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5f476fe44626570f3d27",
+      "declaration": "Etingof.split_exact_sequence",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/504/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C]\n  [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{u_2, u_1} C] [CategoryTheory.Limits.HasZeroObject.{u_2, u_1} C]\n  (X Z : C), CategoryTheory.ShortComplex.ShortExact.{u_2, u_1} (Etingof.splitShortComplex.{u_1, u_2} X Z)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_8_3"
+    },
+    {
+      "association_id": "association:e04d7ebc545f7c4b53c7",
+      "declaration": "Etingof.split_exact_sequence_splitting",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/504/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  [inst : CategoryTheory.Category.{u_2, u_1} C] \u2192\n    [inst_1 : CategoryTheory.Preadditive.{u_2, u_1} C] \u2192\n      [inst_2 : CategoryTheory.Limits.HasBinaryBiproducts.{u_2, u_1} C] \u2192\n        (X Z : C) \u2192 CategoryTheory.ShortComplex.Splitting.{u_2, u_1} (Etingof.splitShortComplex.{u_1, u_2} X Z)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Example7_8_3"
+    }
+  ],
+  "canonical_reference": "Chapter7/Example7.8.3",
+  "packet_id": "align-0396",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0396"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:7f51764d2a83accc68ea",
+  "source_text": "The canonical sequence 0 to X to X plus Z to Z to 0 is split and short exact."
+}

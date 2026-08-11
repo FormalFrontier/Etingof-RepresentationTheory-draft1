@@ -1,0 +1,48 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (q \u03b1 \u03b2 : Units.{0} Complex) (N : Nat) [inst : NeZero.{0} N] (hqorder : Eq.{1} (orderOf.{0} q) N),\n  IsSimpleModule.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-022235.{0} Complex q) x)\n    (Fin N \u2192 Complex)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009081",
+        "decl-014872",
+        "decl-022235"
+      ],
+      "structural_type_hash": "2596023406",
+      "temporary_id": "decl-009084"
+    },
+    {
+      "formal_type": "\u2200 (q \u03b2 : Units.{0} Complex) (N : Nat),\n  Eq.{1} (orderOf.{0} q) N \u2192 Function.Injective.{1, 1} (decl-009167 q \u03b2 N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-009167"
+      ],
+      "structural_type_hash": "3874966703",
+      "temporary_id": "decl-009169"
+    }
+  ],
+  "module_temporary_id": "module-0098",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

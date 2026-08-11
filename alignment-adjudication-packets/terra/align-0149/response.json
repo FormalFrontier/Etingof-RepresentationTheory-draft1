@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0149",
+  "associations": [
+    {
+      "association_id": "association:c4897ee6e7131cff87a6",
+      "role": "primary",
+      "rationale": "The zero algebra is subsingleton, so this implication directly states that it is not simple."
+    }
+  ]
+}

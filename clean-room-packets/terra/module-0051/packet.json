@@ -1,0 +1,52 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (K : Type u_1) (L : Type u_2) (A : Type u_3) [inst : CommRing.{u_1} K] [inst_1 : CommRing.{u_2} L]\n  [inst_2 : Algebra.{u_1, u_2} K L] [inst_3 : Ring.{u_3} A] [inst_4 : Algebra.{u_1, u_3} K A] (l : L),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, max (u_2 + 1) (u_3 + 1)}\n      (Algebra.algebraMap.{u_2, max u_2 u_3} L (TensorProduct.{u_1, u_3, u_2} K A L)) l)\n    (TensorProduct.tmul.{u_1, u_3, u_2} K 1 l)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003779"
+      ],
+      "structural_type_hash": "2731667831",
+      "temporary_id": "decl-003777"
+    },
+    {
+      "formal_type": "\u2200 (K : Type u_1) (L : Type u_2) (A : Type u_3) (V : Type u_4) [inst : CommRing.{u_1} K] [inst_1 : CommRing.{u_2} L]\n  [inst_2 : Algebra.{u_1, u_2} K L] [inst_3 : Ring.{u_3} A] [inst_4 : Algebra.{u_1, u_3} K A]\n  [inst_5 : AddCommGroup.{u_4} V] [inst_6 : Module.{u_1, u_4} K V] [inst_7 : Module.{u_3, u_4} A V]\n  [IsScalarTower.{u_1, u_3, u_4} K A V],\n  Exists.{max (max (u_2 + 1) (u_3 + 1)) (u_4 + 1)} fun inst_9 =>\n    \u2200 (a : A) (l l' : L) (v : V),\n      Eq.{max (u_2 + 1) (u_4 + 1)}\n        (HSMul.hSMul.{max u_2 u_3, max u_2 u_4, max u_2 u_4} (TensorProduct.tmul.{u_1, u_3, u_2} K a l)\n          (TensorProduct.tmul.{u_1, u_4, u_2} K v l'))\n        (TensorProduct.tmul.{u_1, u_4, u_2} K (HSMul.hSMul.{u_3, u_4, u_4} a v) (HMul.hMul.{u_2, u_2, u_2} l l'))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3695306103",
+      "temporary_id": "decl-003778"
+    },
+    {
+      "formal_type": "(K : Type u_1) \u2192\n  (L : Type u_2) \u2192\n    (A : Type u_3) \u2192\n      [inst : CommRing.{u_1} K] \u2192\n        [inst_1 : CommRing.{u_2} L] \u2192\n          [inst_2 : Algebra.{u_1, u_2} K L] \u2192\n            [inst_3 : Ring.{u_3} A] \u2192\n              [inst_4 : Algebra.{u_1, u_3} K A] \u2192 Algebra.{u_2, max u_2 u_3} L (TensorProduct.{u_1, u_3, u_2} K A L)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1439108450",
+      "temporary_id": "decl-003779"
+    }
+  ],
+  "module_temporary_id": "module-0051",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

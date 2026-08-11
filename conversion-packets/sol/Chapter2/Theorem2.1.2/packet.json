@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Theorem2.1.2",
+    "kind": "theorem",
+    "title": "Gabriel's theorem: classification of quivers of finite type by Dynkin diagrams",
+    "node_id": "chapter-02/section-2-1",
+    "order": 13,
+    "slug": "theorem2-1-2",
+    "span": {
+      "start": {
+        "page": "7",
+        "line": 5
+      },
+      "end": {
+        "page": "8",
+        "line": 7
+      }
+    },
+    "source_sha256": "87b29f0995423d067c88b077a947bc2c7a142d753ae1f63c9a1888ac2f9a4afe",
+    "features": {
+      "line_count": 40,
+      "crosses_page": true,
+      "display_math_delimiters": 20,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 2,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Theorem212",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

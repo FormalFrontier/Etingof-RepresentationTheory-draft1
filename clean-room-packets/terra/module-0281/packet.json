@@ -1,0 +1,42 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Monoid.{u_2} G] {\u03b9 : Type u_3}\n  [inst_3 : Fintype.{u_3} \u03b9] {V : \u03b9 \u2192 Type u_4} [inst_4 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (V i)]\n  [inst_5 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (V i)] [\u2200 (i : \u03b9), Module.Finite.{u_1, u_4} k (V i)]\n  (\u03c1 : (i : \u03b9) \u2192 Representation.{u_1, u_2, u_4} k G (V i)),\n  (\u2200 (i : \u03b9),\n      IsSimpleModule.{max u_2 u_1, u_4} (MonoidAlgebra.{u_1, u_2} k G)\n        (Representation.asModule.{u_1, u_2, u_4} (\u03c1 i))) \u2192\n    (Pairwise.{u_3} fun i j =>\n        Not\n          (Nonempty.{u_4 + 1}\n            (LinearEquiv.{max u_1 u_2, max u_1 u_2, u_4, u_4} (RingHom.id.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G))\n              (Representation.asModule.{u_1, u_2, u_4} (\u03c1 i)) (Representation.asModule.{u_1, u_2, u_4} (\u03c1 j))))) \u2192\n      \u2200 (z : (i : \u03b9) \u2192 TensorProduct.{u_1, max u_4 u_1, u_4} k (Module.Dual.{u_1, u_4} k (V i)) (V i)),\n        (\u2200 (g : G),\n            Eq.{u_1 + 1}\n              (Finset.sum.{u_3, u_1} Finset.univ.{u_3} fun i =>\n                DFunLike.coe.{max (u_1 + 1) (u_4 + 1), max (u_1 + 1) (u_4 + 1), u_1 + 1}\n                  (contractLeft.{u_1, u_4} k (V i))\n                  (DFunLike.coe.{max (u_4 + 1) ((max u_1 u_4) + 1), max (u_4 + 1) ((max u_1 u_4) + 1),\n                      max (u_4 + 1) ((max u_1 u_4) + 1)}\n                    (TensorProduct.map.{u_1, u_1, max u_1 u_4, u_4, max u_1 u_4, u_4} LinearMap.id.{u_1, max u_1 u_4}\n                      (DFunLike.coe.{max (u_2 + 1) (u_4 + 1), u_2 + 1, u_4 + 1} (\u03c1 i) g))\n                    (z i)))\n              0) \u2192\n          \u2200 (j : \u03b9), Eq.{max (u_1 + 1) (u_4 + 1)} (z j) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1775971294",
+      "temporary_id": "decl-018250"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Monoid.{u_2} G] {\u039b : Type u_5}\n  (V : \u039b \u2192 Type u_6) [inst_3 : (lam : \u039b) \u2192 AddCommGroup.{u_6} (V lam)]\n  [inst_4 : (lam : \u039b) \u2192 Module.{u_1, u_6} k (V lam)] [\u2200 (lam : \u039b), Module.Finite.{u_1, u_6} k (V lam)]\n  (\u03c1 : (lam : \u039b) \u2192 Representation.{u_1, u_2, u_6} k G (V lam)) (s : Finset.{u_5} \u039b),\n  (\u2200 (lam : \u039b),\n      IsSimpleModule.{max u_2 u_1, u_6} (MonoidAlgebra.{u_1, u_2} k G)\n        (Representation.asModule.{u_1, u_2, u_6} (\u03c1 lam))) \u2192\n    (\u2200 (lam : \u039b),\n        Membership.mem.{u_5, u_5} s lam \u2192\n          \u2200 (mu : \u039b),\n            Membership.mem.{u_5, u_5} s mu \u2192\n              Ne.{u_5 + 1} lam mu \u2192\n                Not\n                  (Nonempty.{u_6 + 1}\n                    (LinearEquiv.{max u_1 u_2, max u_1 u_2, u_6, u_6}\n                      (RingHom.id.{max u_2 u_1} (MonoidAlgebra.{u_1, u_2} k G))\n                      (Representation.asModule.{u_1, u_2, u_6} (\u03c1 lam))\n                      (Representation.asModule.{u_1, u_2, u_6} (\u03c1 mu))))) \u2192\n      \u2200 (z : (lam : \u039b) \u2192 TensorProduct.{u_1, max u_6 u_1, u_6} k (Module.Dual.{u_1, u_6} k (V lam)) (V lam)),\n        (\u2200 (g : G),\n            Eq.{u_1 + 1}\n              (Finset.sum.{u_5, u_1} s fun lam =>\n                DFunLike.coe.{max (u_1 + 1) (u_6 + 1), max (u_1 + 1) (u_6 + 1), u_1 + 1}\n                  (contractLeft.{u_1, u_6} k (V lam))\n                  (DFunLike.coe.{max (u_6 + 1) ((max u_1 u_6) + 1), max (u_6 + 1) ((max u_1 u_6) + 1),\n                      max (u_6 + 1) ((max u_1 u_6) + 1)}\n                    (TensorProduct.map.{u_1, u_1, max u_1 u_6, u_6, max u_1 u_6, u_6} LinearMap.id.{u_1, max u_1 u_6}\n                      (DFunLike.coe.{max (u_2 + 1) (u_6 + 1), u_2 + 1, u_6 + 1} (\u03c1 lam) g))\n                    (z lam)))\n              0) \u2192\n          \u2200 (lam : \u039b), Membership.mem.{u_5, u_5} s lam \u2192 Eq.{max (u_1 + 1) (u_6 + 1)} (z lam) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3082211874",
+      "temporary_id": "decl-018251"
+    }
+  ],
+  "module_temporary_id": "module-0281",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

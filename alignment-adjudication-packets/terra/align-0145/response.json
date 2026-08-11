@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0145",
+  "associations": [
+    {
+      "association_id": "association:60e477d3a2d48685ac24",
+      "role": "primary",
+      "rationale": "Bijectivity directly supplies injectivity and surjectivity of the Peter-Weyl map."
+    },
+    {
+      "association_id": "association:facb55f8600ad4a84f8e",
+      "role": "primary",
+      "rationale": "Its equation directly states equivariance of the Peter-Weyl map."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1f1fc0d00da43dad2de3",
+      "declaration": "Etingof.isIsotypicOfType_fun",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/129/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {S : Type u_2} [inst_1 : AddCommGroup.{u_2} S] [inst_2 : Module.{u_1, u_2} A S]\n  [IsSimpleModule.{u_1, u_2} A S] (m : Nat), IsIsotypicOfType.{u_2, u_1, u_2} A (Fin m \u2192 S) S",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Proposition3_1_4"
+    },
+    {
+      "association_id": "association:340ce2bde25566156660",
+      "declaration": "IsSemisimpleModule.eq_bot_or_exists_simple_le",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/129/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RingTheory.SimpleModule.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter3/Proposition3.1.4",
+  "packet_id": "align-0173",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0173"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3548d8ee768b9dabe61c",
+  "source_text": "The footnote's stronger argument does not need finite-dimensionality: a nonzero submodule of a finite direct sum of simple modules contains a simple submodule, enabling the indicated induction on the number of summands."
+}

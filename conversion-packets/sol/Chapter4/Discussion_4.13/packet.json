@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Discussion_4.13",
+    "kind": "discussion",
+    "title": "Section 4.13: Historical interlude \u2014 William Rowan Hamilton's quaternion of geometry, algebra, metaphysics, and poetry",
+    "node_id": "chapter-04/section-4-13",
+    "order": 242,
+    "slug": "discussion-4-13",
+    "span": {
+      "start": {
+        "page": "88",
+        "line": 13
+      },
+      "end": {
+        "page": "92",
+        "line": 5
+      }
+    },
+    "source_sha256": "f081a5ef6511647ffd92c29fbe4928022a94e7a0641af110086ccb4013c7c750",
+    "features": {
+      "line_count": 32,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Discussion413",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

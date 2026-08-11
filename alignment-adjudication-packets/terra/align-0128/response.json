@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0128",
+  "associations": [
+    {
+      "association_id": "association:200453f235907ca694da",
+      "role": "primary",
+      "rationale": "Its surjectivity conclusion directly states that the representation map onto End_k(V) is surjective."
+    }
+  ]
+}

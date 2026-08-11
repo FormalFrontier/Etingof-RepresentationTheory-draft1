@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7cfe46c08c54e7e03710",
+      "declaration": "Etingof.Problem942.truncated_projective_resolution",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/560/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (M : ModuleCat.{u, u} R) (P : CategoryTheory.ProjectiveResolution.{u, u + 1} M)\n  (d : Nat),\n  CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} M d \u2192\n    And (CategoryTheory.Projective.{u, u + 1} (Etingof.ProjectiveResolution.syzygy.{u, u + 1} P d))\n      (And (Eq.{u + 2} (Etingof.ProjectiveResolution.syzygy.{u, u + 1} P 0) M)\n        (\u2200 (n : Nat),\n          CategoryTheory.ShortComplex.ShortExact.{u, u + 1} (Etingof.ProjectiveResolution.syzygySES.{u, u + 1} P n)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_2"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.4.2",
+  "packet_id": "align-0866",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0866"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.4.2:part_iii_truncation",
+  "source_text": "Part (iii): package the resulting length-d truncated resolution."
+}

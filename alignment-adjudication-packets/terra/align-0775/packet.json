@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b2a791f90fe9a4d89bb8",
+      "declaration": "Etingof.Problem6_1_2.exists_isAlgDense_orbit",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/402/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [Infinite.{1} k] {G : Type u_1} {V : Type u_2} [inst_2 : Group.{u_1} G]\n  [inst_3 : AddCommGroup.{u_2} V] [inst_4 : Module.{0, u_2} k V] [inst_5 : MulAction.{u_1, u_2} G V] {d : Nat}\n  (b : Module.Basis.{0, 0, u_2} (Fin d) k V) [Finite.{u_2 + 1} (MulAction.orbitRel.Quotient.{u_1, u_2} G V)],\n  Exists.{u_2 + 1} fun v\u2080 => Etingof.Problem6_1_2.IsAlgDense.{u_2} b (MulAction.orbit.{u_1, u_2} G v\u2080)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_2"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.2",
+  "packet_id": "align-0775",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0775"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.1.2:part_a",
+  "source_text": "Part (a): finitely many GLm-orbits imply a Zariski-dense orbit."
+}

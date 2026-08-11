@@ -1,0 +1,121 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 n.Partition \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "835458703",
+      "temporary_id": "decl-005702"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 n.Partition \u2192 n.Partition \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "835458703",
+      "temporary_id": "decl-005703"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3458402436",
+      "temporary_id": "decl-006575"
+    },
+    {
+      "formal_type": "(n : Nat) \u2192 (la : n.Partition) \u2192 Module.{0, 0} (decl-016224 n) (decl-006575 n la)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-006575",
+      "project_type_dependencies": [
+        "decl-006575",
+        "decl-015532",
+        "decl-016224"
+      ],
+      "structural_type_hash": "274585173",
+      "temporary_id": "decl-006576"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1}\n    (Module.finrank.{0, 0} Complex\n      (LinearMap.{0, 0, 0, 0} (RingHom.id.{0} (decl-016224 n)) (decl-006575 n la)\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n la) x)))\n    1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006575",
+        "decl-006576",
+        "decl-015532",
+        "decl-016116",
+        "decl-016224"
+      ],
+      "structural_type_hash": "2375985295",
+      "temporary_id": "decl-014636"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la mu : n.Partition),\n  decl-005703 la mu \u2192\n    \u2200\n      (f :\n        LinearMap.{0, 0, 0, 0} (RingHom.id.{0} (decl-016224 n)) (decl-006575 n la)\n          (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n mu) x)),\n      Eq.{1} f 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005703",
+        "decl-006575",
+        "decl-006576",
+        "decl-015532",
+        "decl-016116",
+        "decl-016224"
+      ],
+      "structural_type_hash": "2063371239",
+      "temporary_id": "decl-014637"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la mu : n.Partition),\n  Not (decl-005702 mu la) \u2192\n    \u2200\n      (f :\n        LinearMap.{0, 0, 0, 0} (RingHom.id.{0} (decl-016224 n)) (decl-006575 n la)\n          (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n mu) x)),\n      Eq.{1} f 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005702",
+        "decl-006575",
+        "decl-006576",
+        "decl-015532",
+        "decl-016116",
+        "decl-016224"
+      ],
+      "structural_type_hash": "3782176597",
+      "temporary_id": "decl-014638"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la mu : n.Partition),\n  mu.LexLt la \u2192\n    \u2200\n      (f :\n        LinearMap.{0, 0, 0, 0} (RingHom.id.{0} (decl-016224 n)) (decl-006575 n la)\n          (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n mu) x)),\n      Eq.{1} f 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-006575",
+        "decl-006576",
+        "decl-015532",
+        "decl-016116",
+        "decl-016224",
+        "decl-025194"
+      ],
+      "structural_type_hash": "4027935372",
+      "temporary_id": "decl-014639"
+    }
+  ],
+  "module_temporary_id": "module-0397",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

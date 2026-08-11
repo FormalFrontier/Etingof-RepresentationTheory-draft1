@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Theorem8.1.1",
+    "kind": "theorem",
+    "title": "Equivalent characterizations of projective modules",
+    "node_id": "chapter-08/section-8-1",
+    "order": 525,
+    "slug": "theorem8-1-1",
+    "span": {
+      "start": {
+        "page": "205",
+        "line": 11
+      },
+      "end": {
+        "page": "206",
+        "line": 6
+      }
+    },
+    "source_sha256": "d0aa38c4b247fbf9ef515ae23cf1bac6f312d3cc2727d0422ba14f21f4e4e90c",
+    "features": {
+      "line_count": 17,
+      "crosses_page": true,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Theorem811",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

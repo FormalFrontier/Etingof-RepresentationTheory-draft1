@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Corollary9.7.3",
+    "kind": "corollary",
+    "title": "Uniqueness of basic algebra for finite abelian categories",
+    "node_id": "chapter-09/section-9-7",
+    "order": 581,
+    "slug": "corollary9-7-3",
+    "span": {
+      "start": {
+        "page": "220",
+        "line": 17
+      },
+      "end": {
+        "page": "220",
+        "line": 19
+      }
+    },
+    "source_sha256": "6d37eaeff97f4d6db84b1ec456e5e2592140b85210471899d46552dfc61e76d4",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Corollary973",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

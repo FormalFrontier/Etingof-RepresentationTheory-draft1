@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:01b400dcfc40fda774a0",
+      "declaration": "Etingof.additiveFunctor_shortExact_of_isSemisimpleCategory",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/591/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u_1} {D : Type u_2} [inst : CategoryTheory.Category.{u_3, u_1} C]\n  [inst_1 : CategoryTheory.Category.{u_4, u_2} D] [inst_2 : CategoryTheory.Abelian.{u_3, u_1} C]\n  [inst_3 : CategoryTheory.Abelian.{u_4, u_2} D],\n  Etingof.IsSemisimpleCategory.{u_1, u_3} C \u2192\n    \u2200 (F : CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D)\n      [inst_4 : CategoryTheory.Functor.Additive.{u_3, u_1, u_4, u_2} F] (S : CategoryTheory.ShortComplex.{u_3, u_1} C),\n      CategoryTheory.ShortComplex.ShortExact.{u_3, u_1} S \u2192\n        CategoryTheory.ShortComplex.ShortExact.{u_4, u_2} (CategoryTheory.ShortComplex.map.{u_3, u_1, u_4, u_2} S F)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Discussion_after_Example7_9_5"
+    }
+  ],
+  "canonical_reference": "Chapter7/Discussion_after_Example7.9.5/Derived01",
+  "packet_id": "align-1219",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1219"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "derived:9c56ac0c2096cb0d26cd",
+  "source_text": "For a semisimple abelian category C (every short exact sequence splits), any additive functor F : C \u2192 D is both left and right exact."
+}

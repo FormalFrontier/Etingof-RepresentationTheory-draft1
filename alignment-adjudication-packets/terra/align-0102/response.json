@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0102",
+  "associations": [
+    {
+      "association_id": "association:d65cf732e3bf8fac315e",
+      "role": "supporting",
+      "rationale": "This theorem gives the non-simplicity consequence via a nontrivial normal subgroup, while the source claim describes its proof ingredients."
+    }
+  ]
+}

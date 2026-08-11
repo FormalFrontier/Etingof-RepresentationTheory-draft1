@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a245487902a78d351076",
+      "declaration": "Etingof.Problem2_5_2.IsCyclic",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/52/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{A : Type u_1} \u2192\n  [inst : Ring.{u_1} A] \u2192 (V : Type u_2) \u2192 [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} A V] \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_5_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.5.2",
+  "packet_id": "align-0591",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0591"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.5.2:claim-02",
+  "source_text": "A representation is cyclic exactly when it admits a cyclic vector."
+}

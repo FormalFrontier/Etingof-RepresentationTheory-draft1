@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:15b93a40fad289fbf931",
+      "declaration": "Etingof.Problem2_8_6.Book.sum_vertexIdem",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/68/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (Q : Type u_2) [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  [inst_3 : Fintype.{u_2} Q],\n  Eq.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1)}\n    (Finset.sum.{u_2, max (max u_1 u_2) u_3} Finset.univ.{u_2} fun i =>\n      Etingof.Problem2_8_6.Book.vertexIdem.{u_1, u_2, u_3} k Q i)\n    1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6"
+    },
+    {
+      "association_id": "association:2d68600ac161d0aea392",
+      "declaration": "Etingof.Problem2_8_6.Book.vertexIdem_mul_of_ne",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/68/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (Q : Type u_2) [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  [inst_3 : Fintype.{u_2} Q] (i j : Q),\n  Ne.{u_2 + 1} i j \u2192\n    Eq.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1)}\n      (HMul.hMul.{max (max u_1 u_2) u_3, max (max u_1 u_2) u_3, max (max u_1 u_2) u_3}\n        (Etingof.Problem2_8_6.Book.vertexIdem.{u_1, u_2, u_3} k Q i)\n        (Etingof.Problem2_8_6.Book.vertexIdem.{u_1, u_2, u_3} k Q j))\n      0",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6"
+    },
+    {
+      "association_id": "association:fe44be40eb4d43782b16",
+      "declaration": "Etingof.Problem2_8_6.Book.vertexIdem_sq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/68/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (Q : Type u_2) [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  [inst_3 : Fintype.{u_2} Q] (i : Q),\n  Eq.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1)}\n    (HMul.hMul.{max (max u_1 u_2) u_3, max (max u_1 u_2) u_3, max (max u_1 u_2) u_3}\n      (Etingof.Problem2_8_6.Book.vertexIdem.{u_1, u_2, u_3} k Q i)\n      (Etingof.Problem2_8_6.Book.vertexIdem.{u_1, u_2, u_3} k Q i))\n    (Etingof.Problem2_8_6.Book.vertexIdem.{u_1, u_2, u_3} k Q i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.8.6",
+  "packet_id": "align-0620",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0620"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.8.6:claim-02",
+  "source_text": "The vertex generators sum to 1 and are pairwise orthogonal idempotents."
+}

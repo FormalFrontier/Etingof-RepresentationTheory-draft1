@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0363",
+  "associations": [
+    {
+      "association_id": "association:67e9e3ea100adeec832a",
+      "role": "primary",
+      "rationale": "The biconditional directly identifies primitive idempotents with renormalized characters of simple representations."
+    }
+  ]
+}

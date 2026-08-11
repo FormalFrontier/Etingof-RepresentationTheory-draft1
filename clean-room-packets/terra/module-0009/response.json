@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.FieldCommRing",
+  "declarations": [
+    {
+      "temporary_id": "decl-001315",
+      "new_name": "FieldCommRingConstruction",
+      "docstring": "A type constructed from a field and a commutative ring."
+    }
+  ]
+}

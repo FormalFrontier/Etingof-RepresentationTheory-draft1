@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0179",
+  "associations": [
+    {
+      "association_id": "association:c2479effe58430f0738a",
+      "role": "primary",
+      "rationale": "The linear equivalence directly decomposes the free MatProd module of rank n into the displayed direct sum with multiplicities n times d_i."
+    }
+  ]
+}

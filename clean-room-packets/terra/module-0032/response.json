@@ -1,0 +1,60 @@
+{
+  "module_name": "RingTheory.Quotient.Constructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-015131",
+      "new_name": "TwoSidedIdeal.AuxiliaryType",
+      "docstring": "An auxiliary type depending on a ring and a two-sided ideal."
+    },
+    {
+      "temporary_id": "decl-015216",
+      "new_name": "Ring.AuxiliaryType",
+      "docstring": "An auxiliary type depending on a ring."
+    },
+    {
+      "temporary_id": "decl-022263",
+      "new_name": "TwoSidedIdeal.auxiliaryAlgHom",
+      "docstring": "An auxiliary algebra homomorphism from a ring to the ideal-dependent auxiliary type."
+    },
+    {
+      "temporary_id": "decl-022264",
+      "new_name": "TwoSidedIdeal.auxiliaryAlgHom_eq_iff",
+      "docstring": "Two images under the auxiliary algebra homomorphism are equal exactly when the difference of their representatives belongs to the ideal."
+    },
+    {
+      "temporary_id": "decl-022265",
+      "new_name": "TwoSidedIdeal.auxiliaryAlgHom_mul",
+      "docstring": "The auxiliary algebra homomorphism preserves multiplication."
+    },
+    {
+      "temporary_id": "decl-022266",
+      "new_name": "TwoSidedIdeal.auxiliaryAlgHom_mul_left_congr",
+      "docstring": "Replacing the left factor by an ideal-congruent element leaves its image product unchanged."
+    },
+    {
+      "temporary_id": "decl-022267",
+      "new_name": "TwoSidedIdeal.auxiliaryAlgHom_mul_right_congr",
+      "docstring": "Replacing the right factor by an ideal-congruent element leaves its image product unchanged."
+    },
+    {
+      "temporary_id": "decl-022268",
+      "new_name": "TwoSidedIdeal.auxiliaryAlgebra",
+      "docstring": "The algebra structure on the ideal-dependent auxiliary type."
+    },
+    {
+      "temporary_id": "decl-022272",
+      "new_name": "Submodule.quotient_smul_mk",
+      "docstring": "Scalar multiplication on a submodule quotient commutes with the quotient map."
+    },
+    {
+      "temporary_id": "decl-022276",
+      "new_name": "Submodule.quotientModule",
+      "docstring": "The module structure carried by the quotient of a module by a submodule."
+    },
+    {
+      "temporary_id": "decl-022553",
+      "new_name": "Ring.quotientModule",
+      "docstring": "The module structure on the quotient of a ring by the auxiliary quotient data."
+    }
+  ]
+}

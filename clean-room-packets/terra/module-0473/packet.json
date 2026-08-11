@@ -1,0 +1,47 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4262441553",
+      "temporary_id": "decl-016609"
+    },
+    {
+      "formal_type": "\u2200 {G A : Type} [inst : Group.{0} G] [inst_1 : CommGroup.{0} A] [inst_2 : Fintype.{0} G]\n  (\u03c6 : MonoidHom.{0, 0} G (MulAut.{0} A)) {\u03c7\u2081 \u03c7\u2082 : MonoidHom.{0, 0} A (Units.{0} Complex)} {g : G}\n  (hg : Eq.{1} (decl-029581 \u03c6 g \u03c7\u2081) \u03c7\u2082)\n  (U : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-029682 \u03c6 \u03c7\u2081) x)),\n  Nonempty.{1} (CategoryTheory.Iso.{0, 1} (decl-029607 \u03c6 \u03c7\u2082 (decl-029695 \u03c6 hg U)) (decl-029607 \u03c6 \u03c7\u2081 U))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-029581",
+        "decl-029607",
+        "decl-029682",
+        "decl-029695"
+      ],
+      "structural_type_hash": "2092467168",
+      "temporary_id": "decl-020559"
+    }
+  ],
+  "module_temporary_id": "module-0473",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

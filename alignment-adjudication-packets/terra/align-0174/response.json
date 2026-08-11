@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0174",
+  "associations": [
+    {
+      "association_id": "association:271bc3fb9c18b54d3ee1",
+      "role": "primary",
+      "rationale": "The theorem directly produces a nontrivial simple representation with dimension not divisible by p and nonzero character at g."
+    }
+  ]
+}

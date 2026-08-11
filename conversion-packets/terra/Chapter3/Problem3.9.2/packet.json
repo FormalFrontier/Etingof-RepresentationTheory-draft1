@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Problem3.9.2",
+    "kind": "exercise",
+    "title": "Ext^1 for polynomial algebras and algebras with zero multiplication",
+    "node_id": "chapter-03/section-3-9",
+    "order": 173,
+    "slug": "problem3-9-2",
+    "span": {
+      "start": {
+        "page": "57",
+        "line": 13
+      },
+      "end": {
+        "page": "57",
+        "line": 16
+      }
+    },
+    "source_sha256": "b6ae7c1c78a40bc49bb5865ca0c1572dacdba761dfba0a17beae6f831eda32e6",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.Problem392",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

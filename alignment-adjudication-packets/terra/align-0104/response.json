@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0104",
+  "associations": [
+    {
+      "association_id": "association:1b1af5c5cf805d0ded4a",
+      "role": "primary",
+      "rationale": "Its implication directly states irreducibility of the external tensor product from irreducibility of both factors."
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{A : Type} \u2192\n  [inst : CommRing.{0} A] \u2192\n    {M : Type} \u2192\n      [inst_1 : AddCommGroup.{0} M] \u2192\n        [inst_2 : Module.{0, 0} A M] \u2192\n          (D : decl-005749.{0} A M) \u2192\n            LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} A) M\n              ((j : decl-005770.{0} D) \u2192\n                ModuleCat.carrier.{0, 0} (decl-005789.{0} D j))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005770",
+        "decl-005789"
+      ],
+      "structural_type_hash": "1148658830",
+      "temporary_id": "decl-005761"
+    },
+    {
+      "formal_type": "{A : Type} \u2192\n  [inst : CommRing.{0} A] \u2192\n    {M : Type} \u2192\n      [inst_1 : AddCommGroup.{0} M] \u2192\n        [inst_2 : Module.{0, 0} A M] \u2192\n          (D : decl-005749.{0} A M) \u2192\n            (j : decl-005770.{0} D) \u2192\n              CategoryTheory.Iso.{0, 1} (decl-005781.{0} D j)\n                (decl-021648.{0} A\n                  (HasQuotient.Quotient.{0, 0} A\n                    (Ideal.span.{0} (Singleton.singleton.{0, 0} (decl-005767.{0} D j)))))",
+      "kind": "definition",
+      "owner_temporary_id": "decl-005749",
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005767",
+        "decl-005770",
+        "decl-005781",
+        "decl-021648"
+      ],
+      "structural_type_hash": "4235414655",
+      "temporary_id": "decl-005782"
+    },
+    {
+      "formal_type": "{J : Type} \u2192\n  [inst : Finite.{1} J] \u2192\n    (f : J \u2192 AddCommGrpCat.{u}) \u2192\n      AddEquiv.{u, u} (AddCommGrpCat.carrier.{u} (CategoryTheory.Limits.biproduct.{0, u, u + 1} f))\n        ((j : J) \u2192 AddCommGrpCat.carrier.{u} (f j))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3329836650",
+      "temporary_id": "decl-017475"
+    },
+    {
+      "formal_type": "\u2200 {A : Type} [inst : CommRing.{0} A] {M : Type} [inst_1 : AddCommGroup.{0} M] [inst_2 : Module.{0, 0} A M]\n  (D : decl-005749.{0} A M) (Y : Type) [inst_3 : AddCommGroup.{0} Y] [inst_4 : Module.{0, 0} A Y]\n  (n : Nat),\n  (\u2200 (j : decl-005770.{0} D),\n      Subsingleton.{1}\n        (AddCommGrpCat.carrier.{0} (decl-016764.{0} A Y (decl-005781.{0} D j) n))) \u2192\n    Subsingleton.{1} (AddCommGrpCat.carrier.{0} (decl-016764.{0} A Y (decl-021648.{0} A M) n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005770",
+        "decl-005781",
+        "decl-016764",
+        "decl-021648"
+      ],
+      "structural_type_hash": "1006775304",
+      "temporary_id": "decl-023495"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : Ring.{u} A] \u2192\n    (N : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} N] \u2192\n        [inst_2 : Module.{u, u} A N] \u2192\n          {M\u2081 M\u2082 : ModuleCat.{u, u} (MulOpposite.{u} A)} \u2192\n            CategoryTheory.Iso.{u, u + 1} M\u2081 M\u2082 \u2192\n              (n : Nat) \u2192 CategoryTheory.Iso.{u, u + 1} (decl-016764.{u} A N M\u2081 n) (decl-016764.{u} A N M\u2082 n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764"
+      ],
+      "structural_type_hash": "1642809085",
+      "temporary_id": "decl-024202"
+    },
+    {
+      "formal_type": "{A : Type} \u2192\n  [inst : CommRing.{0} A] \u2192\n    {M : Type} \u2192\n      [inst_1 : AddCommGroup.{0} M] \u2192\n        [inst_2 : Module.{0, 0} A M] \u2192\n          (D : decl-005749.{0} A M) \u2192\n            (Y : Type) \u2192\n              [inst_3 : AddCommGroup.{0} Y] \u2192\n                [inst_4 : Module.{0, 0} A Y] \u2192\n                  (n : Nat) \u2192\n                    AddEquiv.{0, 0} (AddCommGrpCat.carrier.{0} (decl-016764.{0} A Y (decl-021648.{0} A M) n))\n                      ((j : decl-005770.{0} D) \u2192\n                        AddCommGrpCat.carrier.{0} (decl-016764.{0} A Y (decl-005781.{0} D j) n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005770",
+        "decl-005781",
+        "decl-016764",
+        "decl-021648"
+      ],
+      "structural_type_hash": "2918390535",
+      "temporary_id": "decl-024203"
+    },
+    {
+      "formal_type": "{A : Type} \u2192\n  [inst : CommRing.{0} A] \u2192\n    {M N : Type} \u2192\n      [inst_1 : AddCommGroup.{0} M] \u2192\n        [inst_2 : Module.{0, 0} A M] \u2192\n          [inst_3 : AddCommGroup.{0} N] \u2192\n            [inst_4 : Module.{0, 0} A N] \u2192\n              (D : decl-005749.{0} A M) \u2192\n                (E : decl-005749.{0} A N) \u2192\n                  (n : Nat) \u2192\n                    AddEquiv.{0, 0} (AddCommGrpCat.carrier.{0} (decl-016764.{0} A N (decl-021648.{0} A M) n))\n                      ((j : decl-005770.{0} D) \u2192\n                        (l : decl-005770.{0} E) \u2192\n                          AddCommGrpCat.carrier.{0}\n                            (decl-016764.{0} A (ModuleCat.carrier.{0, 0} (decl-005789.{0} E l))\n                              (decl-005781.{0} D j) n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005770",
+        "decl-005781",
+        "decl-005789",
+        "decl-016764",
+        "decl-021648"
+      ],
+      "structural_type_hash": "108834575",
+      "temporary_id": "decl-024214"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : Ring.{u} A] \u2192\n    {N\u2081 N\u2082 : Type u} \u2192\n      [inst_1 : AddCommGroup.{u} N\u2081] \u2192\n        [inst_2 : Module.{u, u} A N\u2081] \u2192\n          [inst_3 : AddCommGroup.{u} N\u2082] \u2192\n            [inst_4 : Module.{u, u} A N\u2082] \u2192\n              LinearEquiv.{u, u, u, u} (RingHom.id.{u} A) N\u2081 N\u2082 \u2192\n                (M : ModuleCat.{u, u} (MulOpposite.{u} A)) \u2192\n                  (n : Nat) \u2192 CategoryTheory.Iso.{u, u + 1} (decl-016764.{u} A N\u2081 M n) (decl-016764.{u} A N\u2082 M n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016764"
+      ],
+      "structural_type_hash": "3874352596",
+      "temporary_id": "decl-024225"
+    },
+    {
+      "formal_type": "{A : Type} \u2192\n  [inst : CommRing.{0} A] \u2192\n    {N : Type} \u2192\n      [inst_1 : AddCommGroup.{0} N] \u2192\n        [inst_2 : Module.{0, 0} A N] \u2192\n          (E : decl-005749.{0} A N) \u2192\n            (X : ModuleCat.{0, 0} (MulOpposite.{0} A)) \u2192\n              (n : Nat) \u2192\n                AddEquiv.{0, 0} (AddCommGrpCat.carrier.{0} (decl-016764.{0} A N X n))\n                  ((l : decl-005770.{0} E) \u2192\n                    AddCommGrpCat.carrier.{0}\n                      (decl-016764.{0} A (ModuleCat.carrier.{0, 0} (decl-005789.{0} E l)) X n))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005749",
+        "decl-005770",
+        "decl-005789",
+        "decl-016764"
+      ],
+      "structural_type_hash": "3957892546",
+      "temporary_id": "decl-024229"
+    }
+  ],
+  "module_temporary_id": "module-0674",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

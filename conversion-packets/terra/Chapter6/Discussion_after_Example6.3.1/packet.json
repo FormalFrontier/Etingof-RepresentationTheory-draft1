@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Discussion_after_Example6.3.1",
+    "kind": "discussion",
+    "title": "Observation that number of indecomposables is orientation-independent",
+    "node_id": "chapter-06/section-6-3",
+    "order": 421,
+    "slug": "discussion-after-example6-3-1",
+    "span": {
+      "start": {
+        "page": "164",
+        "line": 1
+      },
+      "end": {
+        "page": "164",
+        "line": 2
+      }
+    },
+    "source_sha256": "890614d3bded1b8f755202d0870647aa787ad07e3af05060b17b097b1b3bc9c3",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.DiscussionAfterExample631",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

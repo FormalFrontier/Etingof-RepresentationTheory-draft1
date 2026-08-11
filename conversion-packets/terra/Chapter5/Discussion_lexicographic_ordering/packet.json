@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_lexicographic_ordering",
+    "kind": "discussion",
+    "title": "Definition of lexicographic ordering on partitions",
+    "node_id": "chapter-05/section-5-13",
+    "order": 317,
+    "slug": "discussion-lexicographic-ordering",
+    "span": {
+      "start": {
+        "page": "115",
+        "line": 3
+      },
+      "end": {
+        "page": "115",
+        "line": 4
+      }
+    },
+    "source_sha256": "2a7899be3f5f0e332ed63b5e39fafba09747ae882f4269ab6a9c742f0dbeac41",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionLexicographicOrdering",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

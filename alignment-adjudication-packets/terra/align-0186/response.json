@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0186",
+  "associations": [
+    {
+      "association_id": "association:93233830db8f2936f812",
+      "role": "primary",
+      "rationale": "It directly derives the stated lexicographic weak inequality from partition dominance."
+    },
+    {
+      "association_id": "association:a7202efef3d06f808b96",
+      "role": "primary",
+      "rationale": "It directly states that the strict reverse lexicographic inequality precludes the corresponding dominance relation."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0091",
+  "associations": [
+    {
+      "association_id": "association:b101386e729d7dfbb2c8",
+      "role": "supporting",
+      "rationale": "This matrix-unit multiplication lemma supplies the vanishing product required for the stated commutator."
+    },
+    {
+      "association_id": "association:6d46deb725c350b29b7f",
+      "role": "supporting",
+      "rationale": "This matrix-unit multiplication lemma supplies the nonzero product E_im in the stated commutator."
+    }
+  ]
+}

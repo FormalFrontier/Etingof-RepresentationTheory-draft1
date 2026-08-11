@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0192",
+  "associations": [
+    {
+      "association_id": "association:d407c4eb36fc3d82a61f",
+      "role": "primary",
+      "rationale": "It directly identifies cycle counts with multiplicities in permutation cycle type for lengths at least two."
+    },
+    {
+      "association_id": "association:f4652e335d0249306127",
+      "role": "primary",
+      "rationale": "It directly gives the separate length-one cycle count as the cardinality of the fixed-point set."
+    },
+    {
+      "association_id": "association:08ed88b1f041b4381a2c",
+      "role": "supporting",
+      "rationale": "It relates an individual nonfixed point's period to its cycle support rather than stating the cycle-count formulas."
+    }
+  ]
+}

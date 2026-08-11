@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:059b978eaaf224bc6a36",
+      "declaration": "Etingof.Problem2_16_1.finrank_eq_one_of_isSolvable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/119/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {L : Type u_1} [inst : LieRing.{u_1} L] [inst_1 : LieAlgebra.{0, u_1} Complex L] {V : Type u_2}\n  [inst_2 : AddCommGroup.{u_2} V] [inst_3 : Module.{0, u_2} Complex V] [inst_4 : LieRingModule.{u_1, u_2} L V]\n  [LieModule.{0, u_1, u_2} Complex L V] [LieAlgebra.IsSolvable.{u_1} L] [FiniteDimensional.{0, u_2} Complex V]\n  [Nontrivial.{u_2} V],\n  IsSimpleOrder.{u_2} (LieSubmodule.{0, u_1, u_2} Complex L V) \u2192 Eq.{1} (Module.finrank.{0, u_2} Complex V) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.1",
+  "packet_id": "align-0543",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0543"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.1:claim-03",
+  "source_text": "A finite-dimensional irreducible representation of a solvable complex Lie algebra is one-dimensional."
+}

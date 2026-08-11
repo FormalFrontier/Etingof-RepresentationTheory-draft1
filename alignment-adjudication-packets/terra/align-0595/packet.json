@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c606f91eb1a54e409c55",
+      "declaration": "Etingof.Problem2_5_2.PartC.algEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/52/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "AlgEquiv.{0, 0, 0} Complex Etingof.Problem2_5_2.PartC.A\n  (HasQuotient.Quotient.{0, 0} (MvPolynomial.{0, 0} (Fin 2) Complex) Etingof.Problem2_5_2.PartC.I\u2082)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_5_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.5.2",
+  "packet_id": "align-0595",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0595"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.5.2:claim-06",
+  "source_text": "The algebra in the hint is \u2102[x,y]/I_2."
+}

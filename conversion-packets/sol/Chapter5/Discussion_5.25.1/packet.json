@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_5.25.1",
+    "kind": "discussion",
+    "title": "Conjugacy classes in GL_2(F_q): scalar, parabolic, hyperbolic, elliptic",
+    "node_id": "chapter-05/section-5-25/subsection-5-25-1",
+    "order": 380,
+    "slug": "discussion-5-25-1",
+    "span": {
+      "start": {
+        "page": "135",
+        "line": 21
+      },
+      "end": {
+        "page": "137",
+        "line": 34
+      }
+    },
+    "source_sha256": "b07334d4c6f6c796dad49ebf422bb197a9fb27d82e4530447deea814099a8111",
+    "features": {
+      "line_count": 67,
+      "crosses_page": true,
+      "display_math_delimiters": 18,
+      "table_rows": 6,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Discussion5251",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

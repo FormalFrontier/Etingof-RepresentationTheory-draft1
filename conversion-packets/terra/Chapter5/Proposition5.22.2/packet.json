@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Proposition5.22.2",
+    "kind": "proposition",
+    "title": "L_{lambda+1^N} \u2245 L_lambda \u2297 \u039b^N V",
+    "node_id": "chapter-05/section-5-22",
+    "order": 369,
+    "slug": "proposition5-22-2",
+    "span": {
+      "start": {
+        "page": "133",
+        "line": 3
+      },
+      "end": {
+        "page": "133",
+        "line": 6
+      }
+    },
+    "source_sha256": "f6f4a73a9588e5674ff37c5c0431227c42540b99c4f37e32c3d5fba215c16fb5",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition5222",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

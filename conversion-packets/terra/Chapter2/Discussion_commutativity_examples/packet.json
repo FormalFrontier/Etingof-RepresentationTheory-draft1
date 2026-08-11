@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_commutativity_examples",
+    "kind": "discussion",
+    "title": "Commutativity of the examples in 2.2.4",
+    "node_id": "chapter-02/section-2-2",
+    "order": 22,
+    "slug": "discussion-commutativity-examples",
+    "span": {
+      "start": {
+        "page": "9",
+        "line": 24
+      },
+      "end": {
+        "page": "9",
+        "line": 26
+      }
+    },
+    "source_sha256": "cd3cacf71bede2f4fa9cc572217527449f96c8206cf56094110b18ca1edabbd8",
+    "features": {
+      "line_count": 3,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionCommutativityExamples",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

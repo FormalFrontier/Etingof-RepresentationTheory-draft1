@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7c6163a21f7ca60cd018",
+      "declaration": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.ratFunc_tensor_ratFunc_not_isField",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/180/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Not (IsField.{0} (TensorProduct.{0, 0, 0} Complex (RatFunc.{0} Complex) (RatFunc.{0} Complex)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Remark3_10_3"
+    },
+    {
+      "association_id": "association:44b8f4fdf40ce963cf6b",
+      "declaration": "isSimpleModule_self_iff_isUnit",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/180/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RingTheory.SimpleModule.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter3/Remark3.10.3",
+  "packet_id": "align-0204",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0204"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:3e6dd51765b025e86cd4",
+  "source_text": "For A = B = V = W = C(x), the factor modules V and W are irreducible self-representations, while their tensor product is not irreducible because A \u2297 B is not a field."
+}

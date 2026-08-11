@@ -1,0 +1,108 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (x y : Complex),\n  IsAlgebraic.{0, 0} Rat x \u2192\n    IsAlgebraic.{0, 0} Rat y \u2192\n      And (IsAlgebraic.{0, 0} Rat (HAdd.hAdd.{0, 0, 0} x y))\n        (And (IsAlgebraic.{0, 0} Rat (HMul.hMul.{0, 0, 0} x y)) (Ne.{1} x 0 \u2192 IsAlgebraic.{0, 0} Rat (Inv.inv.{0} x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3527229123",
+      "temporary_id": "decl-014697"
+    },
+    {
+      "formal_type": "IsAlgClosed.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-017201 x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017201"
+      ],
+      "structural_type_hash": "2476482410",
+      "temporary_id": "decl-014698"
+    },
+    {
+      "formal_type": "IsAlgClosure.{0, 0} Rat (Subtype.{1} fun x => Membership.mem.{0, 0} decl-017201 x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017201"
+      ],
+      "structural_type_hash": "603101440",
+      "temporary_id": "decl-014699"
+    },
+    {
+      "formal_type": "Algebra.IsAlgebraic.{0, 0} Rat (Subtype.{1} fun x => Membership.mem.{0, 0} decl-017201 x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017201"
+      ],
+      "structural_type_hash": "3273666748",
+      "temporary_id": "decl-014700"
+    },
+    {
+      "formal_type": "\u2200 (x y : Complex),\n  IsIntegral.{0, 0} Int x \u2192\n    IsIntegral.{0, 0} Int y \u2192\n      And (IsIntegral.{0, 0} Int (HAdd.hAdd.{0, 0, 0} x y)) (IsIntegral.{0, 0} Int (HMul.hMul.{0, 0, 0} x y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3085736436",
+      "temporary_id": "decl-014701"
+    },
+    {
+      "formal_type": "Subalgebra.{0, 0} Int Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "22882880",
+      "temporary_id": "decl-017200"
+    },
+    {
+      "formal_type": "IntermediateField.{0, 0} Rat Complex",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4240257979",
+      "temporary_id": "decl-017201"
+    },
+    {
+      "formal_type": "\u2200 {x : Complex}, Iff (Membership.mem.{0, 0} decl-017200 x) (IsIntegral.{0, 0} Int x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017200"
+      ],
+      "structural_type_hash": "1637728399",
+      "temporary_id": "decl-021576"
+    },
+    {
+      "formal_type": "\u2200 {x : Complex}, Iff (Membership.mem.{0, 0} decl-017201 x) (IsAlgebraic.{0, 0} Rat x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-017201"
+      ],
+      "structural_type_hash": "1272325051",
+      "temporary_id": "decl-021577"
+    }
+  ],
+  "module_temporary_id": "module-0404",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

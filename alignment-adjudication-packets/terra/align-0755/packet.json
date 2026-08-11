@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7629a7549552c995abe6",
+      "declaration": "Etingof.Problem5_11_1.indZ3_nontriv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/305/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (H : Subgroup.{0} Etingof.Problem5_11_1.A5),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 3 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      (Exists.{1} fun h => Ne.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (Etingof.Problem5_11_1.ind \u03c3)\n            (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_8_1.A5.repC3plus\n              (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_8_1.A5.repC3minus\n                (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_8_1.A5.repC4\n                  (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_8_1.A5.repC5 Etingof.Example4_8_1.A5.repC5)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_11_1"
+    },
+    {
+      "association_id": "association:4c6ad27657c73baf126a",
+      "declaration": "Etingof.Problem5_11_1.indZ3_triv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/305/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (H : Subgroup.{0} Etingof.Problem5_11_1.A5),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 3 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (Etingof.Problem5_11_1.ind \u03c3)\n            (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_8_1.A5.repTriv\n              (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_8_1.A5.repC3plus\n                (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_8_1.A5.repC3minus\n                  (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_8_1.A5.repC4\n                    (CategoryTheory.Limits.biprod.{0, 1} Etingof.Example4_8_1.A5.repC4\n                      Etingof.Example4_8_1.A5.repC5))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_11_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Problem5.11.1",
+  "packet_id": "align-0755",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0755"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Problem5.11.1:part_b",
+  "source_text": "Part (b): decompose those induced from Z3."
+}

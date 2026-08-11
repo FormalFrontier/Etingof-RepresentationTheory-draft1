@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:dc1fa7681613ba0439a2",
+      "declaration": "Etingof.Discussion_4_4_char_dual",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/199/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] (V : FDRep.{u, u} k G) (g : G),\n  Eq.{u + 1} (FDRep.character.{u, u} (FDRep.of.{u, u} (Representation.dual.{u, u, u} (FDRep.\u03c1.{u, u} V))) g)\n    (FDRep.character.{u, u} V (Inv.inv.{u} g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Discussion_4_4"
+    },
+    {
+      "association_id": "association:74f41eb7041d10067e4c",
+      "declaration": "Representation.dual",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/199/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RepresentationTheory.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter4/Discussion_4.4",
+  "packet_id": "align-0431",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0431"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:8b99bd1e8d52581bef15",
+  "source_text": "The dual action is \u03c1(g\u207b\u00b9)* and \u03c7_{V*}(g)=\u03c7_V(g\u207b\u00b9)."
+}

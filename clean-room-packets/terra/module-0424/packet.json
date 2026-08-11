@@ -1,0 +1,139 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [IsAlgClosed.{0} k] [CharZero.{0} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    IsSimpleModule.{0, 0}\n      (Subtype.{1} fun x =>\n        Membership.mem.{0, 0}\n          (Subalgebra.centralizer.{0, 0} k\n            (SetLike.coe.{0, 0}\n              (decl-023627.{0, 0} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))))\n          x)\n      (Subtype.{1} fun x =>\n        Membership.mem.{0, 0} (decl-020505.{0, 0} (decl-024667.{0} k N lam)) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-020505",
+        "decl-023627",
+        "decl-024667"
+      ],
+      "structural_type_hash": "689100491",
+      "temporary_id": "decl-022929"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] [inst_2 : CharZero.{u_1} k] (N : Nat)\n  (lam : Fin N \u2192 Nat),\n  IsScalarTower.{u_1, u_1, u_1} k\n    (Subtype.{u_1 + 1} fun x =>\n      Membership.mem.{u_1, u_1}\n        (decl-018384.{u_1, u_1} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)) x)\n    (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-015576.{u_1} k N lam) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015576",
+        "decl-016473",
+        "decl-018384",
+        "decl-022988"
+      ],
+      "structural_type_hash": "26825769",
+      "temporary_id": "decl-022980"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    [IsAlgClosed.{u_1} k] \u2192\n      [CharZero.{u_1} k] \u2192\n        (N : Nat) \u2192\n          (lam : Fin N \u2192 Nat) \u2192\n            Module.{u_1, u_1}\n              (Subtype.{u_1 + 1} fun x =>\n                Membership.mem.{u_1, u_1}\n                  (decl-018384.{u_1, u_1} k (Fin N \u2192 k)\n                    (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                  x)\n              (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-015576.{u_1} k N lam) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015576",
+        "decl-016473",
+        "decl-018384"
+      ],
+      "structural_type_hash": "1221826032",
+      "temporary_id": "decl-022981"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    [IsAlgClosed.{u_1} k] \u2192\n      [CharZero.{u_1} k] \u2192\n        (N : Nat) \u2192\n          (lam : Fin N \u2192 Nat) \u2192\n            SMul.{u_1, u_1}\n              (Subtype.{u_1 + 1} fun x =>\n                Membership.mem.{u_1, u_1}\n                  (decl-018384.{u_1, u_1} k (Fin N \u2192 k)\n                    (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n                  x)\n              (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-015576.{u_1} k N lam) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015576",
+        "decl-016473",
+        "decl-018384"
+      ],
+      "structural_type_hash": "2814917023",
+      "temporary_id": "decl-022988"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [inst_1 : IsAlgClosed.{u_1} k] [inst_2 : CharZero.{u_1} k] (N : Nat)\n  (lam : Fin N \u2192 Nat)\n  (b :\n    Subtype.{u_1 + 1} fun x =>\n      Membership.mem.{u_1, u_1}\n        (decl-018384.{u_1, u_1} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)) x)\n  (v : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-015576.{u_1} k N lam) x),\n  Eq.{u_1 + 1} (Subtype.val.{u_1 + 1} (HSMul.hSMul.{u_1, u_1, u_1} b v))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Subtype.val.{u_1 + 1} b) (Subtype.val.{u_1 + 1} v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015576",
+        "decl-016473",
+        "decl-018384",
+        "decl-022988"
+      ],
+      "structural_type_hash": "734500753",
+      "temporary_id": "decl-022992"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    LE.le.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i) N \u2192\n      IsSimpleModule.{0, 0}\n        (Subtype.{1} fun x =>\n          Membership.mem.{0, 0}\n            (decl-018384.{0, 0} Complex (Fin N \u2192 Complex)\n              (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i))\n            x)\n        (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-015576.{0} Complex N lam) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015576",
+        "decl-016473",
+        "decl-018384",
+        "decl-022981"
+      ],
+      "structural_type_hash": "1261222316",
+      "temporary_id": "decl-022994"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [inst_1 : IsAlgClosed.{0} k] [inst_2 : CharZero.{0} k] (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    IsSimpleModule.{0, 0}\n      (Subtype.{1} fun x =>\n        Membership.mem.{0, 0}\n          (decl-018384.{0, 0} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)) x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-015576.{0} k N lam) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015576",
+        "decl-016473",
+        "decl-018384",
+        "decl-022981"
+      ],
+      "structural_type_hash": "36781279",
+      "temporary_id": "decl-022995"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [CharZero.{u_1} k] (N : Nat) (lam : Fin N \u2192 Nat)\n  (b :\n    Subtype.{u_1 + 1} fun x =>\n      Membership.mem.{u_1, u_1}\n        (decl-018384.{u_1, u_1} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)) x)\n  {v : decl-016473.{u_1, u_1} k (Fin N \u2192 k) (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i)},\n  Membership.mem.{u_1, u_1} (decl-015576.{u_1} k N lam) v \u2192\n    Membership.mem.{u_1, u_1} (decl-015576.{u_1} k N lam)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Subtype.val.{u_1 + 1} b) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015576",
+        "decl-016473",
+        "decl-018384"
+      ],
+      "structural_type_hash": "2185394109",
+      "temporary_id": "decl-022999"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (lam : Fin N \u2192 Nat),\n  Antitone.{0, 0} lam \u2192\n    LE.le.{0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => lam i) N \u2192\n      IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} Complex (Matrix.GeneralLinearGroup.{0, 0} (Fin N) Complex))\n        (Representation.asModule.{0, 0, 0} (FDRep.\u03c1.{0, 0} (decl-015559.{0} Complex N lam)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015559",
+        "decl-015576",
+        "decl-016473"
+      ],
+      "structural_type_hash": "4092092428",
+      "temporary_id": "decl-023004"
+    }
+  ],
+  "module_temporary_id": "module-0424",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

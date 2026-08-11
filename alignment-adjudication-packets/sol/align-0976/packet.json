@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1aefe2c006034c0c6418",
+      "declaration": "Etingof.Tor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/537/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    (N : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} N] \u2192\n        [Module.{u, u} A N] \u2192 ModuleCat.{u, u} (MulOpposite.{u} A) \u2192 Nat \u2192 AddCommGrpCat.{u}",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_2_3"
+    },
+    {
+      "association_id": "association:2b4e3e8806aa2ccb8e74",
+      "declaration": "Etingof.TorFunctor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/537/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    (N : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} N] \u2192\n        [Module.{u, u} A N] \u2192\n          Nat \u2192 CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} (MulOpposite.{u} A)) AddCommGrpCat.{u}",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_2_3"
+    },
+    {
+      "association_id": "association:d357212a0d5611640d9d",
+      "declaration": "Etingof.tensorRightFunctor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/537/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    (N : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} N] \u2192\n        [Module.{u, u} A N] \u2192\n          CategoryTheory.Functor.{u, u, u + 1, u + 1} (ModuleCat.{u, u} (MulOpposite.{u} A)) AddCommGrpCat.{u}",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_2_3"
+    },
+    {
+      "association_id": "association:2899340bf972fe4bed84",
+      "declaration": "Etingof.torIsoHomologyTensorRight",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/537/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u) \u2192\n  [inst : Ring.{u} A] \u2192\n    (N : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} N] \u2192\n        [inst_2 : Module.{u, u} A N] \u2192\n          (M : ModuleCat.{u, u} (MulOpposite.{u} A)) \u2192\n            (P : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n              (n : Nat) \u2192\n                CategoryTheory.Iso.{u, u + 1} (Etingof.Tor.{u} A N M n)\n                  (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                    (HomologicalComplex.homologyFunctor.{u, u + 1, 0} AddCommGrpCat.{u} (ComplexShape.down.{0} Nat) n)\n                    (CategoryTheory.Functor.obj.{u, u, u + 1, u + 1}\n                      (CategoryTheory.Functor.mapHomologicalComplex.{0, u, u + 1, u, u + 1}\n                        (Etingof.tensorRightFunctor.{u} A N) (ComplexShape.down.{0} Nat))\n                      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Definition8_2_3"
+    }
+  ],
+  "canonical_reference": "Chapter8/Definition8.2.3",
+  "packet_id": "align-0976",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0976"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b7541581492d421c57cd",
+  "source_text": "Tor_i^A(M,N) is the homology of a projective resolution of M tensored over A with N."
+}

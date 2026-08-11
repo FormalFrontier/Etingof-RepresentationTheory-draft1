@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0224",
+  "associations": [
+    {
+      "association_id": "association:6219e4cd65269e8f482a",
+      "role": "primary",
+      "rationale": "It directly states linear independence of the characters of the displayed pairwise nonisomorphic simple modules."
+    }
+  ]
+}

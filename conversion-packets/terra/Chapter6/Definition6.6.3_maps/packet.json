@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Definition6.6.3_maps",
+    "kind": "discussion",
+    "title": "Description of maps in F_i^+",
+    "node_id": "chapter-06/section-6-6",
+    "order": 443,
+    "slug": "definition6-6-3-maps",
+    "span": {
+      "start": {
+        "page": "169",
+        "line": 1
+      },
+      "end": {
+        "page": "169",
+        "line": 2
+      }
+    },
+    "source_sha256": "c304a3850cae9dedbdb062978fc22302211beccddc493ae1613650fa6b5d3cf0",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition663Maps",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

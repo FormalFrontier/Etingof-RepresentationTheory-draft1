@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4547c1d731a346c56c53",
+      "declaration": "Etingof.Adjunction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/488/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{C : Type u_1} \u2192\n  {D : Type u_2} \u2192\n    [inst : CategoryTheory.Category.{u_3, u_1} C] \u2192\n      [inst_1 : CategoryTheory.Category.{u_4, u_2} D] \u2192\n        CategoryTheory.Functor.{u_3, u_4, u_1, u_2} C D \u2192\n          CategoryTheory.Functor.{u_4, u_3, u_2, u_1} D C \u2192 Type (max (max (max u_1 u_2) u_3) u_4)",
+      "provider_module": "EtingofRepresentationTheory.Chapter7.Definition7_6_1"
+    }
+  ],
+  "canonical_reference": "Chapter7/Definition7.6.1",
+  "packet_id": "align-1104",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1104"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:dbce40e4f979d76efffa",
+  "source_text": "F is left adjoint to G when Hom(FX,Y) and Hom(X,GY) are naturally equivalent in both variables."
+}

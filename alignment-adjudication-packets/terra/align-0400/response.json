@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0400",
+  "associations": [
+    {
+      "association_id": "association:db4e759209237fae5865",
+      "role": "primary",
+      "rationale": "The formal type directly asserts that the algebraic closure of ZMod p has characteristic p."
+    },
+    {
+      "association_id": "association:d7497e010417ffe97d7e",
+      "role": "primary",
+      "rationale": "The formal type directly asserts that the algebraic closure of ZMod p is algebraically closed."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Example2.9.13",
+    "kind": "example",
+    "title": "Universal enveloping algebra of the Heisenberg Lie algebra",
+    "node_id": "chapter-02/section-2-9",
+    "order": 93,
+    "slug": "example2-9-13",
+    "span": {
+      "start": {
+        "page": "25",
+        "line": 7
+      },
+      "end": {
+        "page": "25",
+        "line": 12
+      }
+    },
+    "source_sha256": "10a6c46d2d9ac2ebb888ae2c4b17b1d862e762a16a833da83235342cf874a9f1",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example2913",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

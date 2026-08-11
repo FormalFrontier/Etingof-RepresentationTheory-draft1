@@ -1,0 +1,114 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : CommRing.{u} R] [inst_1 : Small.{v, u} R] [IsLocalRing.{u} R] [IsArtinianRing.{u} R]\n  (X Y : ModuleCat.{v, u} R),\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} X) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} Y) \u2192 decl-000621.{v, u} R X Y",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621"
+      ],
+      "structural_type_hash": "705596667",
+      "temporary_id": "decl-021523"
+    },
+    {
+      "formal_type": "\u2200 (Z : Type) [inst : AddCommGroup.{0} Z] [inst_1 : Module.{0, 0} Complex Z]\n  [inst_2 : Module.{0, 0} decl-013303 Z] [IsScalarTower.{0, 0, 0} Complex decl-013303 Z]\n  [IsSimpleModule.{0, 0} decl-013303 Z],\n  decl-000621.{0, 0} decl-013303 (ModuleCat.of.{0, 0} decl-013303 Z)\n    (ModuleCat.of.{0, 0} decl-013303 decl-013453)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621",
+        "decl-013303",
+        "decl-013304",
+        "decl-013441",
+        "decl-013453",
+        "decl-013646",
+        "decl-013701"
+      ],
+      "structural_type_hash": "173488230",
+      "temporary_id": "decl-022164"
+    },
+    {
+      "formal_type": "decl-000621.{0, 0} decl-013303 (ModuleCat.of.{0, 0} decl-013303 decl-013453)\n  (ModuleCat.of.{0, 0} decl-013303 decl-013448)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621",
+        "decl-013303",
+        "decl-013304",
+        "decl-013441",
+        "decl-013448",
+        "decl-013453",
+        "decl-013628",
+        "decl-013646",
+        "decl-013698",
+        "decl-013701"
+      ],
+      "structural_type_hash": "2347179100",
+      "temporary_id": "decl-022168"
+    },
+    {
+      "formal_type": "\u2200 (X Y : Type) [inst : AddCommGroup.{0} X] [inst_1 : Module.{0, 0} Complex X]\n  [inst_2 : Module.{0, 0} decl-013303 X] [IsScalarTower.{0, 0, 0} Complex decl-013303 X]\n  [IsSimpleModule.{0, 0} decl-013303 X] [inst_5 : AddCommGroup.{0} Y] [inst_6 : Module.{0, 0} Complex Y]\n  [inst_7 : Module.{0, 0} decl-013303 Y] [IsScalarTower.{0, 0, 0} Complex decl-013303 Y]\n  [IsSimpleModule.{0, 0} decl-013303 Y],\n  decl-000621.{0, 0} decl-013303 (ModuleCat.of.{0, 0} decl-013303 X)\n    (ModuleCat.of.{0, 0} decl-013303 Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621",
+        "decl-013303",
+        "decl-013304",
+        "decl-013441"
+      ],
+      "structural_type_hash": "1803357196",
+      "temporary_id": "decl-022169"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] [IsSemisimpleRing.{u} R] (X Y : ModuleCat.{v, u} R),\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} X) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} Y) \u2192\n      Iff (decl-000621.{v, u} R X Y) (Nonempty.{v + 1} (CategoryTheory.Iso.{v, max u (v + 1)} X Y))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621"
+      ],
+      "structural_type_hash": "2039518444",
+      "temporary_id": "decl-023077"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] [IsSemisimpleRing.{u} R] (X Y : ModuleCat.{v, u} R),\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} X) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} Y) \u2192\n      decl-000621.{v, u} R X Y \u2192 Nonempty.{v + 1} (CategoryTheory.Iso.{v, max u (v + 1)} X Y)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621"
+      ],
+      "structural_type_hash": "4159955503",
+      "temporary_id": "decl-023078"
+    },
+    {
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] [IsSemisimpleRing.{u} R] (A B : ModuleCat.{v, u} R),\n  Not (decl-004112.{v, u} R A B)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004112"
+      ],
+      "structural_type_hash": "1609008950",
+      "temporary_id": "decl-023079"
+    }
+  ],
+  "module_temporary_id": "module-0715",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

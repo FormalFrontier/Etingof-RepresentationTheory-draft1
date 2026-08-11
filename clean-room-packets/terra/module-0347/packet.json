@@ -1,0 +1,176 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition} (q : decl-027692 n),\n  Membership.mem.{0, 0} (decl-001310 n la) q \u2192\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0} (decl-001304 n la)\n        (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (decl-027692 n)) q))\n      (HSMul.hSMul.{0, 0, 0} (Int.cast.{0} (Units.val.{0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} q)))\n        (decl-001304 n la))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001304",
+        "decl-001310",
+        "decl-027692"
+      ],
+      "structural_type_hash": "117740515",
+      "temporary_id": "decl-001308"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-001304 n la) (decl-001304 n la))\n    (HSMul.hSMul.{0, 0, 0}\n      (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-001310 n la) x)))\n      (decl-001304 n la))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001304",
+        "decl-001310"
+      ],
+      "structural_type_hash": "3629027718",
+      "temporary_id": "decl-001309"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Exists.{1} fun \u2113 =>\n    \u2200 (x : MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (decl-001304 n la) x) (decl-015539 n la))\n        (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} \u2113 x) (decl-017048 n la))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001304",
+        "decl-015539",
+        "decl-017048"
+      ],
+      "structural_type_hash": "1819050366",
+      "temporary_id": "decl-005444"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Exists.{1} fun \u2113 =>\n    \u2200 (x : MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (decl-015539 n la) x) (decl-001304 n la))\n        (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} \u2113 x)\n          (HMul.hMul.{0, 0, 0} (decl-015539 n la) (decl-001304 n la)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001304",
+        "decl-015539"
+      ],
+      "structural_type_hash": "4248463577",
+      "temporary_id": "decl-005445"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Exists.{1} fun \u2113 =>\n    \u2200 (x : MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (decl-024571 n la) x) (decl-024563 n la))\n        (HSMul.hSMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} \u2113 x) (decl-024561 n la))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024561",
+        "decl-024563",
+        "decl-024571"
+      ],
+      "structural_type_hash": "1875469126",
+      "temporary_id": "decl-005446"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition} (p : decl-027692 n),\n  Membership.mem.{0, 0} (decl-015532 n la) p \u2192\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0} (decl-015539 n la)\n        (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (decl-027692 n)) p))\n      (decl-015539 n la)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015532",
+        "decl-015539",
+        "decl-027692"
+      ],
+      "structural_type_hash": "3526932186",
+      "temporary_id": "decl-015544"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-015539 n la) (decl-015539 n la))\n    (HSMul.hSMul.{0, 0, 0}\n      (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-015532 n la) x)))\n      (decl-015539 n la))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015532",
+        "decl-015539"
+      ],
+      "structural_type_hash": "438312929",
+      "temporary_id": "decl-015545"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition} (q : decl-027692 n),\n  Membership.mem.{0, 0} (decl-001310 n la) q \u2192\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (decl-027692 n)) q)\n        (decl-001304 n la))\n      (HSMul.hSMul.{0, 0, 0} (Int.cast.{0} (Units.val.{0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} q)))\n        (decl-001304 n la))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001304",
+        "decl-001310",
+        "decl-027692"
+      ],
+      "structural_type_hash": "2513977734",
+      "temporary_id": "decl-021802"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition} (p : decl-027692 n),\n  Membership.mem.{0, 0} (decl-015532 n la) p \u2192\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0} (DFunLike.coe.{1, 1, 1} (MonoidAlgebra.of.{0, 0} Complex (decl-027692 n)) p)\n        (decl-015539 n la))\n      (decl-015539 n la)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015532",
+        "decl-015539",
+        "decl-027692"
+      ],
+      "structural_type_hash": "2587257951",
+      "temporary_id": "decl-021804"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {la : n.Partition} (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Not\n      (Membership.mem.{0, 0}\n        (HMul.hMul.{0, 0, 0} (SetLike.coe.{0, 0} (decl-015532 n la))\n          (SetLike.coe.{0, 0} (decl-001310 n la)))\n        \u03c3) \u2192\n    Exists.{1} fun t =>\n      And (Equiv.Perm.IsSwap.{0} t)\n        (And (Membership.mem.{0, 0} (decl-015532 n la) t)\n          (Membership.mem.{0, 0} (decl-001310 n la)\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Inv.inv.{0} \u03c3) t) \u03c3)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001310",
+        "decl-015532"
+      ],
+      "structural_type_hash": "2833219280",
+      "temporary_id": "decl-022035"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-024563 n la) (decl-024563 n la))\n    (decl-024563 n la)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024563"
+      ],
+      "structural_type_hash": "1194664531",
+      "temporary_id": "decl-024565"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-024563 n la) (decl-024571 n la))\n    (HSMul.hSMul.{0, 0, 0}\n      (Inv.inv.{0}\n        (HMul.hMul.{0, 0, 0}\n          (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-015532 n la) x)))\n          (Nat.cast.{0} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-001310 n la) x)))))\n      (decl-017048 n la))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001310",
+        "decl-015532",
+        "decl-017048",
+        "decl-024563",
+        "decl-024571"
+      ],
+      "structural_type_hash": "4049000263",
+      "temporary_id": "decl-024566"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} (la : n.Partition),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-024571 n la) (decl-024571 n la))\n    (decl-024571 n la)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024571"
+      ],
+      "structural_type_hash": "841687273",
+      "temporary_id": "decl-024573"
+    }
+  ],
+  "module_temporary_id": "module-0347",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

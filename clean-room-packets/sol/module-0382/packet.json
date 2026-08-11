@@ -1,0 +1,1415 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Subgroup.{0} decl-011912",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "1379860662",
+      "temporary_id": "decl-011906"
+    },
+    {
+      "formal_type": "\u2200 (a : decl-011912),\n  Membership.mem.{0, 0} decl-011906 a \u2192\n    \u2200 (b : decl-011912),\n      Membership.mem.{0, 0} decl-011906 b \u2192\n        Eq.{1}\n          (HPow.hPow.{0, 0, 0}\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} a b) (Inv.inv.{0} a)) (Inv.inv.{0} b)) 2)\n          1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011906",
+        "decl-011912"
+      ],
+      "structural_type_hash": "2483221842",
+      "temporary_id": "decl-011907"
+    },
+    {
+      "formal_type": "\u2200 (u : decl-011912),\n  Membership.mem.{0, 0} decl-011906 u \u2192\n    Eq.{1} (HPow.hPow.{0, 0, 0} u 2) 1 \u2192\n      Ne.{1} u 1 \u2192\n        \u2200 (v : decl-011912),\n          Membership.mem.{0, 0} decl-011906 v \u2192\n            Eq.{1} (HPow.hPow.{0, 0, 0} v 2) 1 \u2192\n              Ne.{1} v 1 \u2192\n                Exists.{1} fun t =>\n                  And (Membership.mem.{0, 0} decl-011906 t)\n                    (Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} t u) (Inv.inv.{0} t)) v)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011906",
+        "decl-011912"
+      ],
+      "structural_type_hash": "575251992",
+      "temporary_id": "decl-011908"
+    },
+    {
+      "formal_type": "Eq.{1}\n  (Finset.card.{0}\n    (Finset.filter.{0}\n      (fun g => And (Membership.mem.{0, 0} decl-011906 g) (Eq.{1} (HPow.hPow.{0, 0, 0} g 2) 1))\n      Finset.univ.{0}))\n  4",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011906",
+        "decl-011912",
+        "decl-012087"
+      ],
+      "structural_type_hash": "3651663231",
+      "temporary_id": "decl-011909"
+    },
+    {
+      "formal_type": "\u2200 (a : decl-011912),\n  Membership.mem.{0, 0} decl-011906 a \u2192\n    Eq.{1} (HPow.hPow.{0, 0, 0} a 2) 1 \u2192\n      \u2200 (b : decl-011912),\n        Membership.mem.{0, 0} decl-011906 b \u2192\n          Eq.{1} (HPow.hPow.{0, 0, 0} b 2) 1 \u2192 Eq.{1} (HPow.hPow.{0, 0, 0} (HMul.hMul.{0, 0, 0} a b) 2) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011906",
+        "decl-011912"
+      ],
+      "structural_type_hash": "3226181011",
+      "temporary_id": "decl-011910"
+    },
+    {
+      "formal_type": "\u2200 (w : decl-011912),\n  Membership.mem.{0, 0} decl-011906 w \u2192\n    Or (Eq.{1} (HPow.hPow.{0, 0, 0} w 2) 1) (Eq.{1} (HPow.hPow.{0, 0, 0} w 3) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011906",
+        "decl-011912"
+      ],
+      "structural_type_hash": "2934248999",
+      "temporary_id": "decl-011911"
+    },
+    {
+      "formal_type": "Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-011912"
+    },
+    {
+      "formal_type": "\u2200 (x : decl-011912), Eq.{1} (HPow.hPow.{0, 0, 0} x 4) 1 \u2192 Eq.{1} (HPow.hPow.{0, 0, 0} x 2) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "1175450560",
+      "temporary_id": "decl-011913"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 12 \u2192\n    Exists.{1} fun i =>\n      \u2200 (h : decl-011912),\n        Membership.mem.{0, 0} H h \u2192\n          Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} decl-012104 h) i) i",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912",
+        "decl-012104"
+      ],
+      "structural_type_hash": "3130179418",
+      "temporary_id": "decl-011914"
+    },
+    {
+      "formal_type": "\u2200 {H : Subgroup.{0} decl-011912}\n  (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x))\n  (K : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x))\n  [inst : Fintype.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} K x)]\n  [inst_1 : Invertible.{0} (Nat.cast.{0} (Fintype.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} K x)))],\n  Eq.{1}\n    (HSMul.hSMul.{0, 0, 0}\n      (Invertible.invOf.{0} (Nat.cast.{0} (Fintype.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} K x))))\n      (Finset.sum.{0, 0} Finset.univ.{0} fun g => FDRep.character.{0, 0} \u03c3 (Subtype.val.{1} g)))\n    (Nat.cast.{0}\n      (Module.finrank.{0, 0} Complex\n        (Subtype.{1} fun x =>\n          Membership.mem.{0, 0}\n            (Representation.invariants.{0, 0, 0}\n              (FDRep.\u03c1.{0, 0}\n                (CategoryTheory.Functor.obj.{0, 0, 1, 1}\n                  (Action.res.{0, 1, 0, 0} (FGModuleCat.{0, 0} Complex) (Subgroup.subtype.{0} K)) \u03c3)))\n            x)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "945231608",
+      "temporary_id": "decl-011919"
+    },
+    {
+      "formal_type": "Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-011906 x)) 12",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011906",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1882809726",
+      "temporary_id": "decl-011920"
+    },
+    {
+      "formal_type": "\u2200 (i : Fin 5),\n  Eq.{1}\n    (Nat.card.{0}\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-011162 decl-012104 i) x))\n    12",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-010983",
+        "decl-011162",
+        "decl-012104"
+      ],
+      "structural_type_hash": "2158312925",
+      "temporary_id": "decl-011921"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "1757678992",
+      "temporary_id": "decl-011923"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912"
+      ],
+      "structural_type_hash": "2054876941",
+      "temporary_id": "decl-011929"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5), Eq.{1} (decl-002785 (decl-002788 j)) j",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-002788"
+      ],
+      "structural_type_hash": "225151088",
+      "temporary_id": "decl-011930"
+    },
+    {
+      "formal_type": "\u2200 (x g : decl-011912),\n  Eq.{1} (decl-002785 (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)))\n    (decl-002785 g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912"
+      ],
+      "structural_type_hash": "419760533",
+      "temporary_id": "decl-011931"
+    },
+    {
+      "formal_type": "\u2200 (s : decl-011912),\n  Eq.{1} (HPow.hPow.{0, 0, 0} s 5) 1 \u2192\n    Ne.{1} s 1 \u2192\n      Or\n        (And (Eq.{1} (decl-002785 s) 3)\n          (And (Eq.{1} (decl-002785 (HPow.hPow.{0, 0, 0} s 2)) 4)\n            (And (Eq.{1} (decl-002785 (HPow.hPow.{0, 0, 0} s 3)) 4)\n              (Eq.{1} (decl-002785 (HPow.hPow.{0, 0, 0} s 4)) 3))))\n        (And (Eq.{1} (decl-002785 s) 4)\n          (And (Eq.{1} (decl-002785 (HPow.hPow.{0, 0, 0} s 2)) 3)\n            (And (Eq.{1} (decl-002785 (HPow.hPow.{0, 0, 0} s 3)) 3)\n              (Eq.{1} (decl-002785 (HPow.hPow.{0, 0, 0} s 4)) 4))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-011912"
+      ],
+      "structural_type_hash": "3260900669",
+      "temporary_id": "decl-011939"
+    },
+    {
+      "formal_type": "\u2200 (s : decl-011912),\n  Eq.{1} (HPow.hPow.{0, 0, 0} s 3) 1 \u2192 Ne.{1} s 1 \u2192 Eq.{1} (decl-002785 s) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1440947841",
+      "temporary_id": "decl-011940"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 5),\n  (Exists.{1} fun c =>\n      Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} c (decl-002788 i)) (Inv.inv.{0} c))\n        (decl-002788 j)) \u2192\n    Eq.{1} i j",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1720070045",
+      "temporary_id": "decl-011941"
+    },
+    {
+      "formal_type": "\u2200 (g y\u2081 y\u2082 : decl-011912),\n  (Exists.{1} fun c => Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} c y\u2081) (Inv.inv.{0} c)) y\u2082) \u2192\n    Eq.{1}\n      (Finset.card.{0}\n        (Finset.filter.{0} (fun x => Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)) y\u2082)\n          Finset.univ.{0}))\n      (Finset.card.{0}\n        (Finset.filter.{0} (fun x => Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)) y\u2081)\n          Finset.univ.{0}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "2800058622",
+      "temporary_id": "decl-011942"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [inst : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 2 \u2192\n    \u2200 (g : decl-011912),\n      Eq.{1}\n        (Finset.card.{0}\n          (Finset.filter.{0}\n            (fun x => Membership.mem.{0, 0} H (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)))\n            Finset.univ.{0}))\n        (Finset.card.{0}\n          (Finset.filter.{0}\n            (fun x =>\n              Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 2))\n                (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)))\n            Finset.univ.{0}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "935450984",
+      "temporary_id": "decl-011952"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [inst : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 12 \u2192\n    \u2200 (g : decl-011912),\n      Eq.{1}\n        (Finset.card.{0}\n          (Finset.filter.{0}\n            (fun x => Membership.mem.{0, 0} H (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)))\n            Finset.univ.{0}))\n        (Finset.card.{0}\n          (Finset.filter.{0}\n            (fun x =>\n              Membership.mem.{0, 0} decl-011906\n                (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)))\n            Finset.univ.{0}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011906",
+        "decl-011912",
+        "decl-012087"
+      ],
+      "structural_type_hash": "1280970215",
+      "temporary_id": "decl-011962"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [inst : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 3 \u2192\n    \u2200 (g : decl-011912),\n      Eq.{1}\n        (Finset.card.{0}\n          (Finset.filter.{0}\n            (fun x => Membership.mem.{0, 0} H (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)))\n            Finset.univ.{0}))\n        (Finset.card.{0}\n          (Finset.filter.{0}\n            (fun x =>\n              Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 1))\n                (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)))\n            Finset.univ.{0}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "3515348666",
+      "temporary_id": "decl-011972"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [inst : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 5 \u2192\n    \u2200 (g : decl-011912),\n      Eq.{1}\n        (Finset.card.{0}\n          (Finset.filter.{0}\n            (fun x => Membership.mem.{0, 0} H (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)))\n            Finset.univ.{0}))\n        (Finset.card.{0}\n          (Finset.filter.{0}\n            (fun x =>\n              Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 3))\n                (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)))\n            Finset.univ.{0}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "3510840114",
+      "temporary_id": "decl-011982"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun x =>\n          Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x (decl-002788 j)) (Inv.inv.{0} x))\n            (decl-002788 2))\n        Finset.univ.{0}))\n    (Matrix.vecCons.{0} 0\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 4 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "3326167967",
+      "temporary_id": "decl-011992"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun x =>\n          Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x (decl-002788 j)) (Inv.inv.{0} x))\n            (decl-002788 3))\n        Finset.univ.{0}))\n    (Matrix.vecCons.{0} 0\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 5 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1521983076",
+      "temporary_id": "decl-011993"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun x =>\n          Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x (decl-002788 j)) (Inv.inv.{0} x))\n            (decl-002788 4))\n        Finset.univ.{0}))\n    (Matrix.vecCons.{0} 0\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 5 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "2915610295",
+      "temporary_id": "decl-011994"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 2 \u2192\n    Exists.{1} fun d =>\n      \u2200 (y : decl-011912),\n        Iff (Membership.mem.{0, 0} H y)\n          (Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 2))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} d y) (Inv.inv.{0} d)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "765371976",
+      "temporary_id": "decl-011995"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 12 \u2192\n    Exists.{1} fun d =>\n      \u2200 (y : decl-011912),\n        Iff (Membership.mem.{0, 0} H y)\n          (Membership.mem.{0, 0} decl-011906\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} d y) (Inv.inv.{0} d)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011906",
+        "decl-011912"
+      ],
+      "structural_type_hash": "3540498576",
+      "temporary_id": "decl-011996"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 3 \u2192\n    Exists.{1} fun d =>\n      \u2200 (y : decl-011912),\n        Iff (Membership.mem.{0, 0} H y)\n          (Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 1))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} d y) (Inv.inv.{0} d)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1409105843",
+      "temporary_id": "decl-011997"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 5 \u2192\n    Exists.{1} fun d =>\n      \u2200 (y : decl-011912),\n        Iff (Membership.mem.{0, 0} H y)\n          (Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 3))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} d y) (Inv.inv.{0} d)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "2403708555",
+      "temporary_id": "decl-011998"
+    },
+    {
+      "formal_type": "{H : Subgroup.{0} decl-011912} \u2192\n  FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x) \u2192 FDRep.{0, 0} Complex decl-011912",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "3957457688",
+      "temporary_id": "decl-012006"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 12 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} \u03c3))) 1 \u2192\n        (Exists.{1} fun h => Ne.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n          Nonempty.{1} (CategoryTheory.Iso.{0, 1} (decl-012006 \u03c3) decl-002904)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002904",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "1616482171",
+      "temporary_id": "decl-012009"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "3688116839",
+      "temporary_id": "decl-012010"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002904",
+        "decl-011912"
+      ],
+      "structural_type_hash": "852354964",
+      "temporary_id": "decl-012011"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002904"
+      ],
+      "structural_type_hash": "2457619519",
+      "temporary_id": "decl-012012"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "1651606125",
+      "temporary_id": "decl-012013"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 12 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} \u03c3))) 3 \u2192\n        Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (decl-012006 \u03c3)\n            (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n                (CategoryTheory.Limits.biprod.{0, 1} decl-002898 decl-002904))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "124201679",
+      "temporary_id": "decl-012024"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "4236404081",
+      "temporary_id": "decl-012025"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1568072721",
+      "temporary_id": "decl-012026"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904"
+      ],
+      "structural_type_hash": "3337436763",
+      "temporary_id": "decl-012027"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "3683527006",
+      "temporary_id": "decl-012028"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 12 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} \u03c3))) 1 \u2192\n        (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n          Nonempty.{1}\n            (CategoryTheory.Iso.{0, 1} (decl-012006 \u03c3)\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002910 decl-002898))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002898",
+        "decl-002910",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "996974992",
+      "temporary_id": "decl-012029"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 12 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        \u2200 (g : decl-011912),\n          Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) g)\n            (Matrix.vecCons.{0} 5\n              (Matrix.vecCons.{0} 2\n                (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n              (decl-002785 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "1258211354",
+      "temporary_id": "decl-012030"
+    },
+    {
+      "formal_type": "\u2200 (g : decl-011912),\n  Eq.{1}\n    (FDRep.character.{0, 0}\n      (CategoryTheory.Limits.biprod.{0, 1} decl-002910 decl-002898) g)\n    (Matrix.vecCons.{0} 5\n      (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n      (decl-002785 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002898",
+        "decl-002910",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1972679099",
+      "temporary_id": "decl-012031"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (FDRep.character.{0, 0}\n      (CategoryTheory.Limits.biprod.{0, 1} decl-002910 decl-002898)\n      (decl-002788 j))\n    (Matrix.vecCons.{0} 5\n      (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002898",
+        "decl-002910"
+      ],
+      "structural_type_hash": "2551786709",
+      "temporary_id": "decl-012032"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 12 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        \u2200 (j : Fin 5),\n          Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) (decl-002788 j))\n            (Matrix.vecCons.{0} 5\n              (Matrix.vecCons.{0} 2\n                (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n              j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "3427747667",
+      "temporary_id": "decl-012033"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 4 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      (Exists.{1} fun h => Ne.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (decl-012006 \u03c3)\n            (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n                (CategoryTheory.Limits.biprod.{0, 1} decl-002898 decl-002904))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "1231849767",
+      "temporary_id": "decl-012034"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [inst : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 4 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      (Exists.{1} fun h => Ne.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun h => FDRep.character.{0, 0} \u03c3 h) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "2380974530",
+      "temporary_id": "decl-012035"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "2183688926",
+      "temporary_id": "decl-012036"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1568072721",
+      "temporary_id": "decl-012037"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904"
+      ],
+      "structural_type_hash": "3337436763",
+      "temporary_id": "decl-012038"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "1014239188",
+      "temporary_id": "decl-012039"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 4 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (decl-012006 \u03c3)\n            (CategoryTheory.Limits.biprod.{0, 1} decl-002910\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n                (CategoryTheory.Limits.biprod.{0, 1} decl-002904 decl-002904))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002898",
+        "decl-002904",
+        "decl-002910",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "3235816036",
+      "temporary_id": "decl-012040"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 4 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        \u2200 (g : decl-011912),\n          Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) g)\n            (Matrix.vecCons.{0} 15\n              (Matrix.vecCons.{0} 0\n                (Matrix.vecCons.{0} 3 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n              (decl-002785 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "4288717211",
+      "temporary_id": "decl-012041"
+    },
+    {
+      "formal_type": "\u2200 (g : decl-011912),\n  Eq.{1}\n    (FDRep.character.{0, 0}\n      (CategoryTheory.Limits.biprod.{0, 1} decl-002910\n        (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n          (CategoryTheory.Limits.biprod.{0, 1} decl-002904 decl-002904)))\n      g)\n    (Matrix.vecCons.{0} 15\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 3 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n      (decl-002785 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002898",
+        "decl-002904",
+        "decl-002910",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1410784786",
+      "temporary_id": "decl-012042"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (FDRep.character.{0, 0}\n      (CategoryTheory.Limits.biprod.{0, 1} decl-002910\n        (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n          (CategoryTheory.Limits.biprod.{0, 1} decl-002904 decl-002904)))\n      (decl-002788 j))\n    (Matrix.vecCons.{0} 15\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 3 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002898",
+        "decl-002904",
+        "decl-002910"
+      ],
+      "structural_type_hash": "3391344838",
+      "temporary_id": "decl-012043"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 4 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        \u2200 (j : Fin 5),\n          Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) (decl-002788 j))\n            (Matrix.vecCons.{0} 15\n              (Matrix.vecCons.{0} 0\n                (Matrix.vecCons.{0} 3 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n              j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "1320984920",
+      "temporary_id": "decl-012044"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [inst : DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 4 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) (j : Fin 5),\n      Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) (decl-002788 j))\n        (HMul.hMul.{0, 0, 0} (Inv.inv.{0} 4)\n          (HAdd.hAdd.{0, 0, 0}\n            (HMul.hMul.{0, 0, 0} (FDRep.character.{0, 0} \u03c3 1)\n              (Matrix.vecCons.{0} 60\n                (Matrix.vecCons.{0} 0\n                  (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n                j))\n            (HMul.hMul.{0, 0, 0}\n              (HSub.hSub.{0, 0, 0} (Finset.sum.{0, 0} Finset.univ.{0} fun h => FDRep.character.{0, 0} \u03c3 h)\n                (FDRep.character.{0, 0} \u03c3 1))\n              (Matrix.vecCons.{0} 0\n                (Matrix.vecCons.{0} 0\n                  (Matrix.vecCons.{0} 4 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n                j))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "2057861798",
+      "temporary_id": "decl-012045"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 2 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      (Exists.{1} fun h => Ne.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (decl-012006 \u03c3)\n            (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n                (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n                  (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n                    (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n                      (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n                        (CategoryTheory.Limits.biprod.{0, 1} decl-002904\n                          decl-002904))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "2396177917",
+      "temporary_id": "decl-012046"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "2156408541",
+      "temporary_id": "decl-012047"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1460686289",
+      "temporary_id": "decl-012048"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904"
+      ],
+      "structural_type_hash": "874220695",
+      "temporary_id": "decl-012049"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "452702338",
+      "temporary_id": "decl-012050"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 2 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (decl-012006 \u03c3)\n            (CategoryTheory.Limits.biprod.{0, 1} decl-002910\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n                (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n                  (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n                    (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n                      (CategoryTheory.Limits.biprod.{0, 1} decl-002904\n                        (CategoryTheory.Limits.biprod.{0, 1} decl-002904\n                          decl-002904))))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-002910",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "861557923",
+      "temporary_id": "decl-012051"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 2 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        \u2200 (g : decl-011912),\n          Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) g)\n            (Matrix.vecCons.{0} 30\n              (Matrix.vecCons.{0} 0\n                (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n              (decl-002785 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "2126533848",
+      "temporary_id": "decl-012052"
+    },
+    {
+      "formal_type": "\u2200 (g : decl-011912),\n  Eq.{1}\n    (FDRep.character.{0, 0}\n      (CategoryTheory.Limits.biprod.{0, 1} decl-002910\n        (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n          (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n            (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n                (CategoryTheory.Limits.biprod.{0, 1} decl-002904\n                  (CategoryTheory.Limits.biprod.{0, 1} decl-002904\n                    decl-002904)))))))\n      g)\n    (Matrix.vecCons.{0} 30\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n      (decl-002785 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-002910",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1277077410",
+      "temporary_id": "decl-012053"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (FDRep.character.{0, 0}\n      (CategoryTheory.Limits.biprod.{0, 1} decl-002910\n        (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n          (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n            (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n                (CategoryTheory.Limits.biprod.{0, 1} decl-002904\n                  (CategoryTheory.Limits.biprod.{0, 1} decl-002904\n                    decl-002904)))))))\n      (decl-002788 j))\n    (Matrix.vecCons.{0} 30\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-002910"
+      ],
+      "structural_type_hash": "1050918199",
+      "temporary_id": "decl-012054"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 2 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        \u2200 (j : Fin 5),\n          Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) (decl-002788 j))\n            (Matrix.vecCons.{0} 30\n              (Matrix.vecCons.{0} 0\n                (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n              j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "2234719075",
+      "temporary_id": "decl-012055"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 3 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      (Exists.{1} fun h => Ne.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (decl-012006 \u03c3)\n            (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n                (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n                  (CategoryTheory.Limits.biprod.{0, 1} decl-002904 decl-002904)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "4244114029",
+      "temporary_id": "decl-012056"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "1942284501",
+      "temporary_id": "decl-012057"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-011912"
+      ],
+      "structural_type_hash": "661843750",
+      "temporary_id": "decl-012058"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904"
+      ],
+      "structural_type_hash": "247186281",
+      "temporary_id": "decl-012059"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "2248609847",
+      "temporary_id": "decl-012060"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 3 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (decl-012006 \u03c3)\n            (CategoryTheory.Limits.biprod.{0, 1} decl-002910\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n                (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n                  (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n                    (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n                      decl-002904))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-002910",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "1799120452",
+      "temporary_id": "decl-012064"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 3 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        \u2200 (g : decl-011912),\n          Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) g)\n            (Matrix.vecCons.{0} 20\n              (Matrix.vecCons.{0} 2\n                (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n              (decl-002785 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "3677726415",
+      "temporary_id": "decl-012065"
+    },
+    {
+      "formal_type": "\u2200 (g : decl-011912),\n  Eq.{1}\n    (FDRep.character.{0, 0}\n      (CategoryTheory.Limits.biprod.{0, 1} decl-002910\n        (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n          (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n            (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002898 decl-002904)))))\n      g)\n    (Matrix.vecCons.{0} 20\n      (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n      (decl-002785 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-002910",
+        "decl-011912"
+      ],
+      "structural_type_hash": "2449924111",
+      "temporary_id": "decl-012066"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (FDRep.character.{0, 0}\n      (CategoryTheory.Limits.biprod.{0, 1} decl-002910\n        (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n          (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n            (CategoryTheory.Limits.biprod.{0, 1} decl-002898\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002898 decl-002904)))))\n      (decl-002788 j))\n    (Matrix.vecCons.{0} 20\n      (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-002910"
+      ],
+      "structural_type_hash": "2031294263",
+      "temporary_id": "decl-012067"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 3 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        \u2200 (j : Fin 5),\n          Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) (decl-002788 j))\n            (Matrix.vecCons.{0} 20\n              (Matrix.vecCons.{0} 2\n                (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n              j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "1691641875",
+      "temporary_id": "decl-012068"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 5 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      (Exists.{1} fun h => Ne.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        Or\n          (Nonempty.{1}\n            (CategoryTheory.Iso.{0, 1} (decl-012006 \u03c3)\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n                (CategoryTheory.Limits.biprod.{0, 1} decl-002898 decl-002904))))\n          (Nonempty.{1}\n            (CategoryTheory.Iso.{0, 1} (decl-012006 \u03c3)\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n                (CategoryTheory.Limits.biprod.{0, 1} decl-002898 decl-002904))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002861",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "2632257539",
+      "temporary_id": "decl-012069"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 5 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3]\n      {A B : Complex},\n      (\u2200 (j : Fin 5),\n          Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) (decl-002788 j))\n            (Matrix.vecCons.{0} 12\n              (Matrix.vecCons.{0} 0\n                (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} A (Matrix.vecCons.{0} B Matrix.vecEmpty.{0}))))\n              j)) \u2192\n        \u2200 (g : decl-011912),\n          Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) g)\n            (Matrix.vecCons.{0} 12\n              (Matrix.vecCons.{0} 0\n                (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} A (Matrix.vecCons.{0} B Matrix.vecEmpty.{0}))))\n              (decl-002785 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "4240748775",
+      "temporary_id": "decl-012070"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "3382728588",
+      "temporary_id": "decl-012071"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1962020446",
+      "temporary_id": "decl-012077"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002877",
+        "decl-002898",
+        "decl-002904"
+      ],
+      "structural_type_hash": "3610990164",
+      "temporary_id": "decl-012078"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002861",
+        "decl-002898",
+        "decl-002904",
+        "decl-011912"
+      ],
+      "structural_type_hash": "4010851525",
+      "temporary_id": "decl-012079"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002861",
+        "decl-002898",
+        "decl-002904"
+      ],
+      "structural_type_hash": "4195034966",
+      "temporary_id": "decl-012080"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 5 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) [CategoryTheory.Simple.{0, 1} \u03c3],\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        Nonempty.{1}\n          (CategoryTheory.Iso.{0, 1} (decl-012006 \u03c3)\n            (CategoryTheory.Limits.biprod.{0, 1} decl-002910\n              (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n                (CategoryTheory.Limits.biprod.{0, 1} decl-002861\n                  decl-002904))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002861",
+        "decl-002877",
+        "decl-002904",
+        "decl-002910",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "3408296291",
+      "temporary_id": "decl-012081"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 5 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        \u2200 (g : decl-011912),\n          Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) g)\n            (Matrix.vecCons.{0} 12\n              (Matrix.vecCons.{0} 0\n                (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 2 Matrix.vecEmpty.{0}))))\n              (decl-002785 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002785",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "2584988735",
+      "temporary_id": "decl-012082"
+    },
+    {
+      "formal_type": "\u2200 (g : decl-011912),\n  Eq.{1}\n    (FDRep.character.{0, 0}\n      (CategoryTheory.Limits.biprod.{0, 1} decl-002910\n        (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n          (CategoryTheory.Limits.biprod.{0, 1} decl-002861 decl-002904)))\n      g)\n    (Matrix.vecCons.{0} 12\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 2 Matrix.vecEmpty.{0}))))\n      (decl-002785 g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002785",
+        "decl-002861",
+        "decl-002877",
+        "decl-002904",
+        "decl-002910",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1655810981",
+      "temporary_id": "decl-012083"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (FDRep.character.{0, 0}\n      (CategoryTheory.Limits.biprod.{0, 1} decl-002910\n        (CategoryTheory.Limits.biprod.{0, 1} decl-002877\n          (CategoryTheory.Limits.biprod.{0, 1} decl-002861 decl-002904)))\n      (decl-002788 j))\n    (Matrix.vecCons.{0} 12\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 2 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-002861",
+        "decl-002877",
+        "decl-002904",
+        "decl-002910"
+      ],
+      "structural_type_hash": "1778445080",
+      "temporary_id": "decl-012084"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912) [DecidablePred.{1} fun x => Membership.mem.{0, 0} H x],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 5 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n      (\u2200 (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x), Eq.{1} (FDRep.character.{0, 0} \u03c3 h) 1) \u2192\n        \u2200 (j : Fin 5),\n          Eq.{1} (FDRep.character.{0, 0} (decl-012006 \u03c3) (decl-002788 j))\n            (Matrix.vecCons.{0} 12\n              (Matrix.vecCons.{0} 0\n                (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 2 (Matrix.vecCons.{0} 2 Matrix.vecEmpty.{0}))))\n              j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002788",
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "1172448175",
+      "temporary_id": "decl-012085"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912",
+        "decl-012006"
+      ],
+      "structural_type_hash": "1448929544",
+      "temporary_id": "decl-012086"
+    },
+    {
+      "formal_type": "DecidablePred.{1} fun x => Membership.mem.{0, 0} decl-011906 x",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011906",
+        "decl-011912"
+      ],
+      "structural_type_hash": "3925214971",
+      "temporary_id": "decl-012087"
+    },
+    {
+      "formal_type": "\u2200 (z : decl-011912),\n  Membership.mem.{0, 0} decl-011906 z \u2192\n    Eq.{1} (HPow.hPow.{0, 0, 0} z 2) 1 \u2192\n      Ne.{1} z 1 \u2192\n        Exists.{1} fun a =>\n          And (Membership.mem.{0, 0} decl-011906 a)\n            (Exists.{1} fun b =>\n              And (Membership.mem.{0, 0} decl-011906 b)\n                (Eq.{1}\n                  (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} a b) (Inv.inv.{0} a)) (Inv.inv.{0} b))\n                  z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011906",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1556032800",
+      "temporary_id": "decl-012089"
+    },
+    {
+      "formal_type": "(H : Subgroup.{0} decl-011912) \u2192\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 12 \u2192\n    Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "2123175017",
+      "temporary_id": "decl-012090"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912)\n  (hH : Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 12),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-012090 H hH) x)) 4",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912",
+        "decl-012090"
+      ],
+      "structural_type_hash": "3551224549",
+      "temporary_id": "decl-012101"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 12 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x))\n      (h : Subtype.{1} fun x => Membership.mem.{0, 0} H x),\n      Eq.{1} (HPow.hPow.{0, 0, 0} (Subtype.val.{1} h) 2) 1 \u2192\n        Ne.{1} h 1 \u2192\n          \u2200 (y : Subtype.{1} fun x => Membership.mem.{0, 0} H x),\n            Eq.{1} (HPow.hPow.{0, 0, 0} (Subtype.val.{1} y) 2) 1 \u2192\n              Ne.{1} y 1 \u2192 Eq.{1} (FDRep.character.{0, 0} \u03c3 y) (FDRep.character.{0, 0} \u03c3 h)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "1261822169",
+      "temporary_id": "decl-012102"
+    },
+    {
+      "formal_type": "\u2200 (a : decl-011912),\n  Iff (Membership.mem.{0, 0} decl-011906 a)\n    (Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} decl-012104 a) 0) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011906",
+        "decl-011912",
+        "decl-012104"
+      ],
+      "structural_type_hash": "2671645410",
+      "temporary_id": "decl-012103"
+    },
+    {
+      "formal_type": "MonoidHom.{0, 0} decl-011912 (Equiv.Perm.{1} (Fin 5))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "3998503644",
+      "temporary_id": "decl-012104"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 5),\n  Exists.{1} fun g => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} decl-012104 g) i) j",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912",
+        "decl-012104"
+      ],
+      "structural_type_hash": "3135708572",
+      "temporary_id": "decl-012105"
+    },
+    {
+      "formal_type": "\u2200 (H : Subgroup.{0} decl-011912),\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} H x)) 12 \u2192\n    \u2200 (\u03c3 : FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} H x)),\n      Eq.{1} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} \u03c3))) 1 \u2192\n        \u2200 (y : Subtype.{1} fun x => Membership.mem.{0, 0} H x),\n          Eq.{1} (HPow.hPow.{0, 0, 0} (Subtype.val.{1} y) 2) 1 \u2192 Eq.{1} (FDRep.character.{0, 0} \u03c3 y) 1",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "2271862390",
+      "temporary_id": "decl-012106"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun x =>\n          Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x (decl-002788 j)) (Inv.inv.{0} x)) 1)\n        Finset.univ.{0}))\n    (Matrix.vecCons.{0} 60\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1989026006",
+      "temporary_id": "decl-012114"
+    },
+    {
+      "formal_type": "\u2200 (O : Finset.{0} (Fin 5)),\n  LE.le.{0} 2 (Finset.card.{0} O) \u2192\n    LE.le.{0} (Finset.card.{0} O) 3 \u2192\n      LE.le.{0}\n        (Finset.card.{0}\n          (Finset.filter.{0}\n            (fun g =>\n              \u2200 (i : Fin 5),\n                Membership.mem.{0, 0} O i \u2192\n                  Membership.mem.{0, 0} O\n                    (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} decl-012104 g) i))\n            Finset.univ.{0}))\n        6",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912",
+        "decl-012104"
+      ],
+      "structural_type_hash": "2646250778",
+      "temporary_id": "decl-012115"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "3710658782",
+      "temporary_id": "decl-012116"
+    },
+    {
+      "formal_type": "\u2200 (i : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun a => Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} decl-012104 a) i) i)\n        Finset.univ.{0}))\n    12",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912",
+        "decl-012104"
+      ],
+      "structural_type_hash": "1100911364",
+      "temporary_id": "decl-012122"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun x =>\n          Membership.mem.{0, 0} decl-011906\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x (decl-002788 j)) (Inv.inv.{0} x)))\n        Finset.univ.{0}))\n    (Matrix.vecCons.{0} 60\n      (Matrix.vecCons.{0} 24 (Matrix.vecCons.{0} 12 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0}))))\n      j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011906",
+        "decl-011912",
+        "decl-012087"
+      ],
+      "structural_type_hash": "3192535605",
+      "temporary_id": "decl-012123"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun x =>\n          Eq.{1} (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x (decl-002788 j)) (Inv.inv.{0} x))\n            (decl-002788 1))\n        Finset.univ.{0}))\n    (Matrix.vecCons.{0} 0\n      (Matrix.vecCons.{0} 3 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "963586405",
+      "temporary_id": "decl-012125"
+    },
+    {
+      "formal_type": "\u2200 (a g : decl-011912) (m : Nat),\n  Eq.{1} (orderOf.{0} a) m \u2192\n    Eq.{1}\n      (Finset.filter.{0}\n        (fun x =>\n          Membership.mem.{0, 0} (Subgroup.zpowers.{0} a)\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)))\n        Finset.univ.{0})\n      (Finset.filter.{0}\n        (fun x =>\n          Membership.mem.{0, 0} (Finset.image.{0, 0} (fun x => HPow.hPow.{0, 0, 0} a x) (Finset.range m))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x g) (Inv.inv.{0} x)))\n        Finset.univ.{0})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-011912"
+      ],
+      "structural_type_hash": "2609166120",
+      "temporary_id": "decl-012126"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun x =>\n          Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 1))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x (decl-002788 j)) (Inv.inv.{0} x)))\n        Finset.univ.{0}))\n    (Matrix.vecCons.{0} 60\n      (Matrix.vecCons.{0} 6 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "1061531991",
+      "temporary_id": "decl-012129"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun x =>\n          Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 2))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x (decl-002788 j)) (Inv.inv.{0} x)))\n        Finset.univ.{0}))\n    (Matrix.vecCons.{0} 60\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 4 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 Matrix.vecEmpty.{0})))) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "2636269023",
+      "temporary_id": "decl-012130"
+    },
+    {
+      "formal_type": "\u2200 (j : Fin 5),\n  Eq.{1}\n    (Finset.card.{0}\n      (Finset.filter.{0}\n        (fun x =>\n          Membership.mem.{0, 0} (Subgroup.zpowers.{0} (decl-002788 3))\n            (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} x (decl-002788 j)) (Inv.inv.{0} x)))\n        Finset.univ.{0}))\n    (Matrix.vecCons.{0} 60\n      (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 0 (Matrix.vecCons.{0} 10 (Matrix.vecCons.{0} 10 Matrix.vecEmpty.{0}))))\n      j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002751",
+        "decl-002788",
+        "decl-011912"
+      ],
+      "structural_type_hash": "2967594586",
+      "temporary_id": "decl-012131"
+    }
+  ],
+  "module_temporary_id": "module-0382",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9c2856e5738d29bf34e2",
+      "declaration": "Etingof.Problem953.S3Char2.algebra_decomposition",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/568/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2],\n  Nonempty.{1}\n    (AlgEquiv.{0, 0, 0} k (MonoidAlgebra.{0, 0} k Etingof.Problem953.S3Char2.S3)\n      (Prod.{0, 0} (Matrix.{0, 0, 0} (Fin 2) (Fin 2) k) (Etingof.Problem953.S3Char2.kt2 k)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_S3Char2"
+    },
+    {
+      "association_id": "association:34c2d738c285b1198be5",
+      "declaration": "Etingof.Problem953.S3Char2.block_card_eq_two",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/568/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2],\n  Eq.{1} (Nat.card.{1} (Etingof.Block.{0, 0} (MonoidAlgebra.{0, 0} k Etingof.Problem953.S3Char2.S3))) 2",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_S3Char2"
+    },
+    {
+      "association_id": "association:2b1f8e15ee6fae44aa8d",
+      "declaration": "Etingof.Problem953.S3Char2.simple_iff_triv_or_std",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/568/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [CharP.{0} k 2]\n  (S : ModuleCat.{0, 0} (MonoidAlgebra.{0, 0} k Etingof.Problem953.S3Char2.S3)),\n  IsSimpleModule.{0, 0} (MonoidAlgebra.{0, 0} k Etingof.Problem953.S3Char2.S3) (ModuleCat.carrier.{0, 0} S) \u2192\n    Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (Etingof.Problem953.S3Char2.trivMod k)))\n      (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S (Etingof.Problem953.S3Char2.stdMod k)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_S3Char2"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.5.3",
+  "packet_id": "align-0877",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0877"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.5.3:part_iii",
+  "source_text": "Part (iii): determine the blocks of k[S3] in characteristic two."
+}

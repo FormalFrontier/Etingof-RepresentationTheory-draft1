@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:04660f1c54b4b2dea047",
+      "declaration": "Etingof.ColumnSubgroup",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/307/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 Subgroup.{0} (Equiv.Perm.{1} (Fin n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+    },
+    {
+      "association_id": "association:a26bdd291236775f7c6f",
+      "declaration": "Etingof.RowSubgroup",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/307/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(n : Nat) \u2192 n.Partition \u2192 Subgroup.{0} (Equiv.Perm.{1} (Fin n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Definition5.12.1",
+  "packet_id": "align-0390",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0390"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:7ab684a6f129fb4fb427",
+  "source_text": "The row and column subgroups preserve rows and columns of the canonical tableau."
+}

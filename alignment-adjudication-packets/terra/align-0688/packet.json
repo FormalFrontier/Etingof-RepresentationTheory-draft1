@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8cb5358bd82c16ae484e",
+      "declaration": "Etingof.Problem3_9_5.cliffordAlgebra_zero_eq_exterior",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V],\n  Nonempty.{u_1 + 1}\n    (AlgEquiv.{0, u_1, u_1} Complex (CliffordAlgebra.{0, u_1} (Etingof.Problem3_9_5.quadForm.{u_1} 0))\n      (ExteriorAlgebra.{0, u_1} Complex V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.5",
+  "packet_id": "align-0688",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0688"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.5:claim-03",
+  "source_text": "For the zero bilinear form, Cl(V) is the exterior algebra \u039bV."
+}

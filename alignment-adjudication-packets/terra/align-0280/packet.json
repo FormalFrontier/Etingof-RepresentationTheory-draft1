@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2798999f749da97801ac",
+      "declaration": "Etingof.sl2Intertwiner_iff_ueaIntertwiner",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/10/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} {W : Type u_2} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [inst_2 : AddCommGroup.{u_2} W] [inst_3 : Module.{0, u_2} Complex W]\n  (\u03c1V :\n    LieHom.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x)\n      (Module.End.{0, u_1} Complex V))\n  (\u03c1W :\n    LieHom.{0, 0, u_2} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x)\n      (Module.End.{0, u_2} Complex W))\n  (f : LinearMap.{0, 0, u_1, u_2} (RingHom.id.{0} Complex) V W),\n  Iff\n    (\u2200 (x : Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) (v : V),\n      Eq.{u_2 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} f\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1V x) v))\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} \u03c1W x)\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} f v)))\n    (\u2200 (u : UniversalEnvelopingAlgebra.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x))\n      (v : V),\n      Eq.{u_2 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} f\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n            (DFunLike.coe.{u_1 + 1, 1, u_1 + 1}\n              (DFunLike.coe.{max (u_1 + 1) 1, max (u_1 + 1) 1, max (u_1 + 1) 1}\n                (UniversalEnvelopingAlgebra.lift.{0, 0, u_1} Complex) \u03c1V)\n              u)\n            v))\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1}\n          (DFunLike.coe.{u_2 + 1, 1, u_2 + 1}\n            (DFunLike.coe.{max (u_2 + 1) 1, max (u_2 + 1) 1, max (u_2 + 1) 1}\n              (UniversalEnvelopingAlgebra.lift.{0, 0, u_2} Complex) \u03c1W)\n            u)\n          (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} f v)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_1"
+    },
+    {
+      "association_id": "association:e16e00c8d0d78916f802",
+      "declaration": "Etingof.sl2InvariantSubspace_iff_ueaInvariantSubspace",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/10/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  (\u03c1 :\n    LieHom.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x)\n      (Module.End.{0, u_1} Complex V))\n  (W : Submodule.{0, u_1} Complex V),\n  Iff\n    (\u2200 (x : Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x) (v : V),\n      Membership.mem.{u_1, u_1} W v \u2192\n        Membership.mem.{u_1, u_1} W\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (DFunLike.coe.{u_1 + 1, 1, u_1 + 1} \u03c1 x) v))\n    (\u2200 (u : UniversalEnvelopingAlgebra.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x))\n      (v : V),\n      Membership.mem.{u_1, u_1} W v \u2192\n        Membership.mem.{u_1, u_1} W\n          (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n            (DFunLike.coe.{u_1 + 1, 1, u_1 + 1}\n              (DFunLike.coe.{max (u_1 + 1) 1, max (u_1 + 1) 1, max (u_1 + 1) 1}\n                (UniversalEnvelopingAlgebra.lift.{0, 0, u_1} Complex) \u03c1)\n              u)\n            v))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_1"
+    },
+    {
+      "association_id": "association:0b9dd26c50e12576c230",
+      "declaration": "Etingof.sl2LieActionEquivUEAAction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/10/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(V : Type u_1) \u2192\n  [inst : AddCommGroup.{u_1} V] \u2192\n    [inst_1 : Module.{0, u_1} Complex V] \u2192\n      Equiv.{max (u_1 + 1) 1, max (u_1 + 1) 1}\n        (LieHom.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x)\n          (Module.End.{0, u_1} Complex V))\n        (AlgHom.{0, 0, u_1} Complex\n          (UniversalEnvelopingAlgebra.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.sl2 x))\n          (Module.End.{0, u_1} Complex V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Theorem2.1.1",
+  "packet_id": "align-0280",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0280"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:5489f010370f0451eaa8",
+  "source_text": "Representations of U(sl(2)) may be presented equivalently as Lie action maps of sl(2)."
+}

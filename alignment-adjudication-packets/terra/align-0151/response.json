@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0151",
+  "associations": [
+    {
+      "association_id": "association:304e2bf4a890ad95d02c",
+      "role": "primary",
+      "rationale": "This supplies the restricted one-edge linear map between the vertex spaces."
+    },
+    {
+      "association_id": "association:5187d514c4bc447e7047",
+      "role": "primary",
+      "rationale": "This constructs the quiver representation determined by the path-algebra module."
+    },
+    {
+      "association_id": "association:69d6d085d7cd59ef2a18",
+      "role": "primary",
+      "rationale": "This defines the vertex subspace p_iV used in the claimed representation."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Example6.4.9",
+    "kind": "example",
+    "title": "Example 6.4.9: Roots for A_{N-1} and other Dynkin types",
+    "node_id": "chapter-06/section-6-4",
+    "order": 431,
+    "slug": "example6-4-9",
+    "span": {
+      "start": {
+        "page": "166",
+        "line": 19
+      },
+      "end": {
+        "page": "167",
+        "line": 21
+      }
+    },
+    "source_sha256": "0753e3e341c098d9b5feb1f37a2e5348decb0eee2ea4ad5bd501ca95feb8d285",
+    "features": {
+      "line_count": 66,
+      "crosses_page": true,
+      "display_math_delimiters": 22,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Example649",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

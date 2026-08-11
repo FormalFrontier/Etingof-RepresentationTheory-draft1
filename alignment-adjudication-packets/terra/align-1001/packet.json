@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b5f3b649c124bc5ebf83",
+      "declaration": "Etingof.Theorem5_10_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/299/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k G : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      (H : Subgroup.{0} G) \u2192\n        CategoryTheory.Iso.{w + 1, w + 1} (Etingof.homIndBifunctor.{w} k G H) (Etingof.homResBifunctor.{w} k G H)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_10_1"
+    },
+    {
+      "association_id": "association:f61a31c7add931ef021d",
+      "declaration": "Etingof.Theorem5_10_1_adjunction",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/299/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k G : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    [inst_1 : Group.{0} G] \u2192\n      (H : Subgroup.{0} G) \u2192\n        CategoryTheory.Adjunction.{w, w, w + 1, w + 1} (Etingof.resSubgroupFunctor.{w} k G H)\n          (Etingof.indSubgroupFunctor.{w} k G H)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_10_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Introduction_5.10",
+  "packet_id": "align-1001",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1001"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:c056fbebf881419a3aa4",
+  "source_text": "Frobenius reciprocity connects induction and restriction."
+}

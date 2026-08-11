@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Theorem5.4.6",
+    "kind": "theorem",
+    "title": "Group with conjugacy class of size p^k is not simple",
+    "node_id": "chapter-05/section-5-4",
+    "order": 277,
+    "slug": "theorem5-4-6",
+    "span": {
+      "start": {
+        "page": "101",
+        "line": 9
+      },
+      "end": {
+        "page": "101",
+        "line": 22
+      }
+    },
+    "source_sha256": "b1c4ec577f0194f7f6f303b34126ed0220b741e98311e5fc0c69ea07b0b7ad55",
+    "features": {
+      "line_count": 14,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem546",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

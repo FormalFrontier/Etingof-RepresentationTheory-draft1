@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:1629008aacce9f807e4d",
+      "declaration": "Etingof.Example4_3_Q8.Q8_simple_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/196/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (S : FDRep.{0, 0} Complex (QuaternionGroup 2)) [CategoryTheory.Simple.{0, 1} S],\n  Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_Q8.repPP))\n    (Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_Q8.repPM))\n      (Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_Q8.repMP))\n        (Or (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_Q8.repMM))\n          (Nonempty.{1} (CategoryTheory.Iso.{0, 1} S Etingof.Example4_3_Q8.repFD)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
+    },
+    {
+      "association_id": "association:c54b4381c14cd3a61a96",
+      "declaration": "Etingof.Example4_3_Q8.irreps_dim_sum_of_squares",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/196/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1}\n  (HAdd.hAdd.{0, 0, 0}\n    (HAdd.hAdd.{0, 0, 0}\n      (HAdd.hAdd.{0, 0, 0}\n        (HAdd.hAdd.{0, 0, 0}\n          (HPow.hPow.{0, 0, 0}\n            (Module.finrank.{0, 0} Complex\n              (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} Etingof.Example4_3_Q8.repPP)))\n            2)\n          (HPow.hPow.{0, 0, 0}\n            (Module.finrank.{0, 0} Complex\n              (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} Etingof.Example4_3_Q8.repPM)))\n            2))\n        (HPow.hPow.{0, 0, 0}\n          (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} Etingof.Example4_3_Q8.repMP)))\n          2))\n      (HPow.hPow.{0, 0, 0}\n        (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} Etingof.Example4_3_Q8.repMM)))\n        2))\n    (HPow.hPow.{0, 0, 0}\n      (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} Etingof.Example4_3_Q8.repFD))) 2))\n  (Fintype.card.{0} (QuaternionGroup 2))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
+    },
+    {
+      "association_id": "association:e34497d9e0d219ce1b23",
+      "declaration": "Etingof.Example4_3_Q8.irreps_pairwise_noniso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/196/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And (Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} Etingof.Example4_3_Q8.repPP Etingof.Example4_3_Q8.repPM)))\n  (And (Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} Etingof.Example4_3_Q8.repPP Etingof.Example4_3_Q8.repMP)))\n    (And (Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} Etingof.Example4_3_Q8.repPP Etingof.Example4_3_Q8.repMM)))\n      (And (Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} Etingof.Example4_3_Q8.repPP Etingof.Example4_3_Q8.repFD)))\n        (And (Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} Etingof.Example4_3_Q8.repPM Etingof.Example4_3_Q8.repMP)))\n          (And (Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} Etingof.Example4_3_Q8.repPM Etingof.Example4_3_Q8.repMM)))\n            (And\n              (Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} Etingof.Example4_3_Q8.repPM Etingof.Example4_3_Q8.repFD)))\n              (And\n                (Not (Nonempty.{1} (CategoryTheory.Iso.{0, 1} Etingof.Example4_3_Q8.repMP Etingof.Example4_3_Q8.repMM)))\n                (And\n                  (Not\n                    (Nonempty.{1} (CategoryTheory.Iso.{0, 1} Etingof.Example4_3_Q8.repMP Etingof.Example4_3_Q8.repFD)))\n                  (Not\n                    (Nonempty.{1}\n                      (CategoryTheory.Iso.{0, 1} Etingof.Example4_3_Q8.repMM Etingof.Example4_3_Q8.repFD)))))))))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
+    },
+    {
+      "association_id": "association:01097c5fed00307086b2",
+      "declaration": "Etingof.Example4_3_Q8.mem_center_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/196/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (g : QuaternionGroup 2),\n  Iff (Membership.mem.{0, 0} (Subgroup.center.{0} (QuaternionGroup 2)) g)\n    (Or (Eq.{1} g (QuaternionGroup.a 0)) (Eq.{1} g (QuaternionGroup.a 2)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
+    },
+    {
+      "association_id": "association:318ebd04568d92224fbe",
+      "declaration": "Etingof.Example4_3_Q8_conj_classes",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/196/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Fintype.card.{0} (ConjClasses.{0} (QuaternionGroup 2))) 5",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
+    }
+  ],
+  "canonical_reference": "Chapter4/Example4.3_Q8",
+  "packet_id": "align-0273",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0273"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:509b1611a72230bf7a9e",
+  "source_text": "Q8 has the stated relations, five conjugacy classes, center {\u00b11}, and irreducible dimensions 1,1,1,1,2."
+}

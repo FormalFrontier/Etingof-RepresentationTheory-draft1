@@ -1,0 +1,13 @@
+{
+  "module_name": "LieAlgebra.TwoByTwoMatrixAuxiliary",
+  "declarations": [
+    {"temporary_id": "decl-007083", "new_name": "matrixLieSubalgebraAux", "docstring": "A selected Lie subalgebra of two-by-two matrices over a field."},
+    {"temporary_id": "decl-007084", "new_name": "subalgebraBasisAux", "docstring": "An auxiliary basis indexed by two elements for the displayed matrix Lie subalgebra."},
+    {"temporary_id": "decl-007087", "new_name": "subalgebraBasisAux_apply", "docstring": "Each basis index selects the corresponding entry of the displayed two-element vector."},
+    {"temporary_id": "decl-007098", "new_name": "matrix_eq_linearCombination_entries", "docstring": "An element of the matrix subalgebra equals the linear combination of two matrix units given by its first-row entries."},
+    {"temporary_id": "decl-007149", "new_name": "finrank_eq_two", "docstring": "The displayed matrix subalgebra has dimension two over its field."},
+    {"temporary_id": "decl-007151", "new_name": "matrixLieSubalgebrasAux_eq", "docstring": "The two displayed matrix Lie subalgebras are equal."},
+    {"temporary_id": "decl-007230", "new_name": "twoElementVector_linearIndependent", "docstring": "The displayed vector of two matrices is linearly independent."},
+    {"temporary_id": "decl-007279", "new_name": "twoElementVector_span_eq_top", "docstring": "The displayed two-element vector spans the ambient module."}
+  ]
+}

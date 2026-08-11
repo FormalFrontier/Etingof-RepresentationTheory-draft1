@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.Lie.AssociatedTypes",
+  "declarations": [
+    {
+      "temporary_id": "decl-016818",
+      "new_name": "LieAlgebra.AuxiliaryType",
+      "docstring": "An auxiliary type depending on a Lie algebra over a commutative ring."
+    }
+  ]
+}

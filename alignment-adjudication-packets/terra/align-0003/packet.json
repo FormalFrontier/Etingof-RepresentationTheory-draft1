@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:68b586b64e295523ce64",
+      "declaration": "Etingof.FrobeniusDeterminant",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/222/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (G : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [Group.{u_2} G] \u2192 [Fintype.{u_2} G] \u2192 [DecidableEq.{u_2 + 1} G] \u2192 MvPolynomial.{u_2, u_1} G k",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Definition4_10_1"
+    }
+  ],
+  "canonical_reference": "Chapter4/Definition4.10.1",
+  "packet_id": "align-0003",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0003"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:004d797bb38810468dd3",
+  "source_text": "The Frobenius determinant is det(XG), where XG has entries x_(g_i g_j)."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Exercise9.6.3",
+    "kind": "exercise",
+    "title": "Characterization of projective generators in finite abelian categories",
+    "node_id": "chapter-09/section-9-6",
+    "order": 573,
+    "slug": "exercise9-6-3",
+    "span": {
+      "start": {
+        "page": "219",
+        "line": 3
+      },
+      "end": {
+        "page": "219",
+        "line": 4
+      }
+    },
+    "source_sha256": "ee7269a8d9f7a57a76f667c9869cc5e231aef8e62d5486b6bbf67c7cf99f4953",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Exercise963",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

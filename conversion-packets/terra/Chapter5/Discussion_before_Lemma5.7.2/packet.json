@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Discussion_before_Lemma5.7.2",
+    "kind": "discussion",
+    "title": "The following lemma is often very useful",
+    "node_id": "chapter-05/section-5-7",
+    "order": 287,
+    "slug": "discussion-before-lemma5-7-2",
+    "span": {
+      "start": {
+        "page": "107",
+        "line": 11
+      },
+      "end": {
+        "page": "107",
+        "line": 12
+      }
+    },
+    "source_sha256": "2badfb7ce68b4a8117d115d8256b2cf3092deb4bac2b6754737369b6223ec83a",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionBeforeLemma572",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

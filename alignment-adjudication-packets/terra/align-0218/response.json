@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0218",
+  "associations": [
+    {
+      "association_id": "association:c2218e79bc096d3e88c6",
+      "role": "supporting",
+      "rationale": "The packet supplies no formal type for the projector and trace-dimension assertion."
+    }
+  ]
+}

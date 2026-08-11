@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.8.6",
+    "kind": "exercise",
+    "title": "Generators and relations for the path algebra",
+    "node_id": "chapter-02/section-2-8",
+    "order": 69,
+    "slug": "problem2-8-6",
+    "span": {
+      "start": {
+        "page": "20",
+        "line": 6
+      },
+      "end": {
+        "page": "20",
+        "line": 16
+      }
+    },
+    "source_sha256": "0b961548bfdb63f9ed721175819d03db284defd459a4762bdc2924a7720641b0",
+    "features": {
+      "line_count": 11,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem286",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

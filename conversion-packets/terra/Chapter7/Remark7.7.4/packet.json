@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Remark7.7.4",
+    "kind": "remark",
+    "title": "Drawbacks of Definition 7.7.1; Morita equivalence",
+    "node_id": "chapter-07/section-7-7",
+    "order": 499,
+    "slug": "remark7-7-4",
+    "span": {
+      "start": {
+        "page": "191",
+        "line": 9
+      },
+      "end": {
+        "page": "191",
+        "line": 10
+      }
+    },
+    "source_sha256": "2fe317d8f34e4eefe1eb578a73f650a8f7bc9a1171b7b418607721038bef00cb",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Remark774",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.Lie.ComplexTwoByTwoMatrices",
+  "declarations": [
+    {
+      "temporary_id": "decl-023226",
+      "new_name": "complexTwoByTwoMatrixLieSubalgebra",
+      "docstring": "A distinguished complex Lie subalgebra of two-by-two complex matrices."
+    }
+  ]
+}

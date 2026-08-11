@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Example8.1.7",
+    "kind": "example",
+    "title": "Duality between projective and injective modules",
+    "node_id": "chapter-08/section-8-1",
+    "order": 532,
+    "slug": "example8-1-7",
+    "span": {
+      "start": {
+        "page": "207",
+        "line": 19
+      },
+      "end": {
+        "page": "207",
+        "line": 20
+      }
+    },
+    "source_sha256": "89d16ff73de7313012b032057e4856dd7e89abc581d85ffea968bd976739202a",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Example817",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

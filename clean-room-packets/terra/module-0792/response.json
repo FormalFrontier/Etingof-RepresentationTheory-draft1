@@ -1,0 +1,65 @@
+{
+  "module_name": "Infrastructure.Triangularization",
+  "declarations": [
+    {
+      "temporary_id": "decl-017496",
+      "new_name": "toMatrix_blockTriangular_iff",
+      "docstring": "The matrix of an endomorphism in a basis is block triangular with respect to the identity order if and only if each basis vector is mapped into the span of the basis vectors indexed at most by it."
+    },
+    {
+      "temporary_id": "decl-017497",
+      "new_name": "toMatrix_blockTriangular_of_mem_span_Iic",
+      "docstring": "If every basis vector is mapped into the span of the basis vectors indexed at most by it, then the matrix of the endomorphism in that basis is block triangular with respect to the identity order."
+    },
+    {
+      "temporary_id": "decl-018761",
+      "new_name": "exists_basis_blockTriangular_of_charpoly_splits",
+      "docstring": "If an endomorphism has split characteristic polynomial and the specified finite rank, then some basis indexed by that rank gives it a block-triangular matrix."
+    },
+    {
+      "temporary_id": "decl-018762",
+      "new_name": "exists_basis_diagonal_charpoly_of_splits",
+      "docstring": "If an endomorphism has split characteristic polynomial and the specified finite rank, then it has a block-triangular matrix whose diagonal entries give a linear-factor decomposition of its characteristic polynomial."
+    },
+    {
+      "temporary_id": "decl-018763",
+      "new_name": "exists_basis_diagonal_comp_perm_of_charpoly_eq_prod",
+      "docstring": "A prescribed linear-factor decomposition of the characteristic polynomial can be realized, up to a permutation, as the diagonal of a block-triangular matrix for the endomorphism."
+    },
+    {
+      "temporary_id": "decl-018764",
+      "new_name": "exists_basis_blockTriangular_of_isAlgClosed",
+      "docstring": "Over an algebraically closed field, an endomorphism of the specified finite rank has a basis in which its matrix is block triangular."
+    },
+    {
+      "temporary_id": "decl-018765",
+      "new_name": "exists_basis_blockTriangular_of_minpoly_splits",
+      "docstring": "If the minimal polynomial of an endomorphism splits and the module has the specified finite rank, then some basis gives the endomorphism a block-triangular matrix."
+    },
+    {
+      "temporary_id": "decl-018904",
+      "new_name": "exists_perm_eq_comp_of_map_univ_eq",
+      "docstring": "If two functions on a finite index type have equal multisets of values, then one is obtained from the other by a permutation of the indices."
+    },
+    {
+      "temporary_id": "decl-018906",
+      "new_name": "exists_perm_eq_comp_of_prod_X_sub_C_eq",
+      "docstring": "If two indexed products of monic linear factors are equal, then their roots agree after a permutation of the indices."
+    },
+    {
+      "temporary_id": "decl-022862",
+      "new_name": "roots_prod_X_sub_C",
+      "docstring": "The roots of the product of the linear factors associated to a finite family are exactly the multiset of values of that family."
+    },
+    {
+      "temporary_id": "decl-023557",
+      "new_name": "sum_powersetCard_prod_comp_perm",
+      "docstring": "The sum of products over subsets of a fixed cardinality is invariant under permuting the indices of the factors."
+    },
+    {
+      "temporary_id": "decl-023571",
+      "new_name": "sum_sym_prod_map_comp_perm",
+      "docstring": "The sum over fixed-cardinality multisets of products of an indexed family is invariant under permuting its indices."
+    }
+  ]
+}

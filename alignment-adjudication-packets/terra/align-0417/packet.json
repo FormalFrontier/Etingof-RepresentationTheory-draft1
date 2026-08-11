@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:20f3b3c75fec79df85e7",
+      "declaration": "Etingof.endo_indecomposable_iso_or_nilpotent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/164/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (W : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} W] [inst_4 : Module.{u_1, u_3} k W]\n  [inst_5 : Module.{u_2, u_3} A W] [IsScalarTower.{u_1, u_2, u_3} k A W] [FiniteDimensional.{u_1, u_3} k W],\n  Etingof.IsIndecomposable.{u_2, u_3} A W \u2192\n    \u2200 (\u03b8 : LinearMap.{u_2, u_2, u_3, u_3} (RingHom.id.{u_2} A) W W),\n      Or (Function.Bijective.{u_3 + 1, u_3 + 1} (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} \u03b8)) (IsNilpotent.{u_3} \u03b8)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Lemma3_8_2"
+    }
+  ],
+  "canonical_reference": "Chapter3/Lemma3.8.2",
+  "packet_id": "align-0417",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0417"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:868596747228cb65efe2",
+  "source_text": "Every endomorphism of a finite-dimensional indecomposable representation is either invertible or nilpotent."
+}

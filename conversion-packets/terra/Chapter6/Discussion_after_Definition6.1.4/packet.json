@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Discussion_after_Definition6.1.4",
+    "kind": "discussion",
+    "title": "Introduction to Dynkin diagram classification",
+    "node_id": "chapter-06/section-6-1",
+    "order": 406,
+    "slug": "discussion-after-definition6-1-4",
+    "span": {
+      "start": {
+        "page": "150",
+        "line": 5
+      },
+      "end": {
+        "page": "150",
+        "line": 6
+      }
+    },
+    "source_sha256": "0dadf26a4a7c877af7af86d6dbc7a6931e15845d81b51de67547c2347d320001",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.DiscussionAfterDefinition614",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

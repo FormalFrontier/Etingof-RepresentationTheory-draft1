@@ -1,0 +1,86 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(Q : Type u_1) \u2192 [Quiver.{u_2, u_1} Q] \u2192 Type (max u_2 u_1)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1695366539",
+      "temporary_id": "decl-014873"
+    },
+    {
+      "formal_type": "{Q : Type u_1} \u2192\n  [inst : Quiver.{u_2, u_1} Q] \u2192\n    (h : decl-014873.{u_1, u_2} Q) \u2192\n      Quiver.Hom.{u_2, u_1} (decl-014875.{u_1, u_2} h) (decl-014877.{u_1, u_2} h)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014873",
+      "project_type_dependencies": [
+        "decl-014873",
+        "decl-014875",
+        "decl-014877"
+      ],
+      "structural_type_hash": "3560055689",
+      "temporary_id": "decl-014874"
+    },
+    {
+      "formal_type": "{Q : Type u_1} \u2192 [inst : Quiver.{u_2, u_1} Q] \u2192 decl-014873.{u_1, u_2} Q \u2192 Q",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014873",
+      "project_type_dependencies": [
+        "decl-014873"
+      ],
+      "structural_type_hash": "1442552028",
+      "temporary_id": "decl-014875"
+    },
+    {
+      "formal_type": "\u2200 {Q : Type u_1} [inst : Quiver.{u_2, u_1} Q] {i j : Q} (h : Quiver.Hom.{u_2, u_1} i j),\n  Eq.{u_1 + 1} (decl-014875.{u_1, u_2} (Sigma.mk.{u_1, max u_2 u_1} i (Sigma.mk.{u_1, u_2} j h))) i",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-014873",
+      "project_type_dependencies": [
+        "decl-014875"
+      ],
+      "structural_type_hash": "2955294648",
+      "temporary_id": "decl-014876"
+    },
+    {
+      "formal_type": "{Q : Type u_1} \u2192 [inst : Quiver.{u_2, u_1} Q] \u2192 decl-014873.{u_1, u_2} Q \u2192 Q",
+      "kind": "definition",
+      "owner_temporary_id": "decl-014873",
+      "project_type_dependencies": [
+        "decl-014873"
+      ],
+      "structural_type_hash": "1442552028",
+      "temporary_id": "decl-014877"
+    },
+    {
+      "formal_type": "\u2200 {Q : Type u_1} [inst : Quiver.{u_2, u_1} Q] {i j : Q} (h : Quiver.Hom.{u_2, u_1} i j),\n  Eq.{u_1 + 1} (decl-014877.{u_1, u_2} (Sigma.mk.{u_1, max u_2 u_1} i (Sigma.mk.{u_1, u_2} j h))) j",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-014873",
+      "project_type_dependencies": [
+        "decl-014877"
+      ],
+      "structural_type_hash": "2264254483",
+      "temporary_id": "decl-014878"
+    }
+  ],
+  "module_temporary_id": "module-0040",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

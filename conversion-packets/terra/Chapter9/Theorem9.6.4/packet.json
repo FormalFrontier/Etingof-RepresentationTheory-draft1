@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter9/Theorem9.6.4",
+    "kind": "theorem",
+    "title": "Finite abelian categories are module categories",
+    "node_id": "chapter-09/section-9-6",
+    "order": 575,
+    "slug": "theorem9-6-4",
+    "span": {
+      "start": {
+        "page": "219",
+        "line": 7
+      },
+      "end": {
+        "page": "219",
+        "line": 10
+      }
+    },
+    "source_sha256": "d5aea68e4428e4e10e48f84d31096c6dfbb58c3009118de4904ea4efde172c8b",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter9.Theorem964",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

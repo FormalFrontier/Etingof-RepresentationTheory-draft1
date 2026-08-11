@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c6f6547435b650ce3df9",
+      "declaration": "Etingof.Discussion5_11.indZ2_signMinus_decomp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/304/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (CategoryTheory.Iso.{0, 1}\n    (FDRep.of.{0, 0}\n      (Etingof.Definition5_8_1.{0, 0} Etingof.Discussion5_11.Z2\n        (Etingof.Discussion5_11.charRep.{0}\n          (MonoidHom.comp.{0, 0, 0} Etingof.Discussion5_11.signHom (Subgroup.subtype.{0} Etingof.Discussion5_11.Z2)))))\n    (CategoryTheory.Limits.biprod.{0, 1} Etingof.Discussion5_11.stdRep Etingof.Discussion5_11.signRep))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion5_11_examples"
+    },
+    {
+      "association_id": "association:4877d46a70c882d8de82",
+      "declaration": "Etingof.Discussion5_11.indZ2_trivPlus_decomp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/304/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Nonempty.{1}\n  (CategoryTheory.Iso.{0, 1}\n    (FDRep.of.{0, 0} (Etingof.Definition5_8_1.{0, 0} Etingof.Discussion5_11.Z2 (Etingof.Discussion5_11.charRep.{0} 1)))\n    (CategoryTheory.Limits.biprod.{0, 1} Etingof.Discussion5_11.stdRep Etingof.Discussion5_11.trivRep))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Discussion5_11_examples"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_5.11_examples",
+  "packet_id": "align-0231",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0231"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:451dde1b8abf6ce096e6",
+  "source_text": "For Z2\u2264S3, inducing the trivial and sign characters gives std\u2295triv and std\u2295sign."
+}

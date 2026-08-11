@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0341",
+  "associations": [
+    {
+      "association_id": "association:e5ddf435d7a5e0e28969",
+      "rationale": "The formal type directly identifies the Jacobson radical of the tensor product of the two image algebras with the sum of the two radical tensor terms.",
+      "role": "primary"
+    }
+  ]
+}

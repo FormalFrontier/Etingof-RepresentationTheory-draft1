@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0173",
+  "associations": [
+    {
+      "association_id": "association:1f1fc0d00da43dad2de3",
+      "role": "supporting",
+      "rationale": "It establishes that a finite function-space sum of a simple module is isotypic, a prerequisite for the stated argument."
+    },
+    {
+      "association_id": "association:340ce2bde25566156660",
+      "role": "supporting",
+      "rationale": "Its formal type is unavailable in the packet, so it cannot directly establish the footnote's stronger argument."
+    }
+  ]
+}

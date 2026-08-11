@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0301",
+  "associations": [
+    {
+      "association_id": "association:88bf6ad896a42748ab5b",
+      "role": "primary",
+      "rationale": "For a finite-dimensional module over an infinite field, the theorem directly equates the span of the diagonal tensor-power maps with the diagonal action image."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:43dce2749d1e947c60b8",
+      "declaration": "Etingof.tensorAlgebra_mul_homogeneous",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/108/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V] {n m : Nat}\n  (a : TensorPower.{u, v} k n V) (b : TensorPower.{u, v} k m V),\n  Eq.{max (u + 1) (v + 1)}\n    (HMul.hMul.{max u v, max u v, max u v}\n      (DFunLike.coe.{max (v + 1) (u + 1), max (v + 1) (u + 1), max (v + 1) (u + 1)} TensorPower.toTensorAlgebra.{u, v}\n        a)\n      (DFunLike.coe.{max (v + 1) (u + 1), max (v + 1) (u + 1), max (v + 1) (u + 1)} TensorPower.toTensorAlgebra.{u, v}\n        b))\n    (DFunLike.coe.{max (v + 1) (u + 1), max (v + 1) (u + 1), max (v + 1) (u + 1)} TensorPower.toTensorAlgebra.{u, v}\n      (GradedMonoid.GMul.mul.{0, max u v} a b))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_12_heading"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.12_heading",
+  "packet_id": "align-1166",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1166"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f118d9ff997f084bb32d",
+  "source_text": "Multiplication of homogeneous elements of tensor degrees n and m is tensor concatenation into degree n+m."
+}

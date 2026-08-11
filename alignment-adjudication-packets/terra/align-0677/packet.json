@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9cc6cb6c4896e5e70510",
+      "declaration": "Etingof.Problem3_9_3.ext1_simpleRep_vanishes_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  (i j : Q),\n  Iff\n    (Etingof.Problem6_9_3.Ext1Vanishes.{u_1, u_2, u_3, u_1, u_1} (Etingof.Problem6_9_3.simpleRep.{u_1, u_2, u_3} i)\n      (Etingof.Problem6_9_3.simpleRep.{u_1, u_2, u_3} j))\n    (IsEmpty.{u_3 + 1} (Quiver.Hom.{u_3, u_2} i j))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3"
+    },
+    {
+      "association_id": "association:fabdf01a1c40503b5030",
+      "declaration": "Etingof.Problem3_9_3.finrank_ext1_simpleRep",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/173/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  [Fintype.{u_2} Q] [inst_4 : (a b : Q) \u2192 Fintype.{u_3} (Quiver.Hom.{u_3, u_2} a b)] (i j : Q),\n  Eq.{1} (Module.finrank.{u_1, max (max u_3 u_2) u_1} k (Etingof.Problem3_9_3.Ext1Simple.{u_1, u_2, u_3} i j))\n    (Fintype.card.{u_3} (Quiver.Hom.{u_3, u_2} i j))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.3",
+  "packet_id": "align-0677",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0677"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.3:claim-03",
+  "source_text": "Ext\u00b9(S\u1d62,S\u2c7c) has dimension equal to the number of arrows i\u2192j, and in particular vanishes exactly when there is no such arrow."
+}

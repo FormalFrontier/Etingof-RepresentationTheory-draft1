@@ -1,0 +1,90 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Ne.{1} (HSub.hSub.{0, 0, 0} Polynomial.X.{0} 1) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4223006229",
+      "temporary_id": "decl-015665"
+    },
+    {
+      "formal_type": "Nat \u2192 Polynomial.{0} Int",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "265837397",
+      "temporary_id": "decl-015798"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat), Eq.{1} (Polynomial.eval.{0} 1 (decl-015798 n)) (HAdd.hAdd.{0, 0, 0} (Nat.cast.{0} n) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015798"
+      ],
+      "structural_type_hash": "2616098391",
+      "temporary_id": "decl-015800"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-015798 n) (HSub.hSub.{0, 0, 0} Polynomial.X.{0} 1))\n    (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} Polynomial.X.{0} (HAdd.hAdd.{0, 0, 0} n 1)) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015798"
+      ],
+      "structural_type_hash": "2728266554",
+      "temporary_id": "decl-015801"
+    },
+    {
+      "formal_type": "\u2200 (lam mu : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-015798 lam) (decl-015798 mu))\n    (Finset.sum.{0, 0} (Finset.range (HAdd.hAdd.{0, 0, 0} (Min.min.{0} lam mu) 1)) fun k =>\n      HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} Polynomial.X.{0} k)\n        (decl-015798 (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} lam mu) (HMul.hMul.{0, 0, 0} 2 k))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015798"
+      ],
+      "structural_type_hash": "1849424457",
+      "temporary_id": "decl-015802"
+    },
+    {
+      "formal_type": "\u2200 (lam mu : Nat),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (Nat.cast.{0} lam) 1) (HAdd.hAdd.{0, 0, 0} (Nat.cast.{0} mu) 1))\n    (Finset.sum.{0, 0} (Finset.range (HAdd.hAdd.{0, 0, 0} (Min.min.{0} lam mu) 1)) fun k =>\n      HAdd.hAdd.{0, 0, 0} (Nat.cast.{0} (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} lam mu) (HMul.hMul.{0, 0, 0} 2 k))) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4229201291",
+      "temporary_id": "decl-015805"
+    },
+    {
+      "formal_type": "\u2200 (lam mu : Nat),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0}\n      (Finset.sum.{0, 0} (Finset.range (HAdd.hAdd.{0, 0, 0} (Min.min.{0} lam mu) 1)) fun k =>\n        HMul.hMul.{0, 0, 0} (HPow.hPow.{0, 0, 0} Polynomial.X.{0} k)\n          (decl-015798 (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} lam mu) (HMul.hMul.{0, 0, 0} 2 k))))\n      (HSub.hSub.{0, 0, 0} Polynomial.X.{0} 1))\n    (HMul.hMul.{0, 0, 0} (decl-015798 (Min.min.{0} lam mu))\n      (HSub.hSub.{0, 0, 0}\n        (HPow.hPow.{0, 0, 0} Polynomial.X.{0}\n          (HSub.hSub.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} (HAdd.hAdd.{0, 0, 0} lam mu) 1) (Min.min.{0} lam mu)))\n        1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015798"
+      ],
+      "structural_type_hash": "858460006",
+      "temporary_id": "decl-016050"
+    }
+  ],
+  "module_temporary_id": "module-0066",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

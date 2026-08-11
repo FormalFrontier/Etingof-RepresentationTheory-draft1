@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.Module.FinitelyGeneratedSubalgebraDescent",
+  "declarations": [
+    {
+      "temporary_id": "decl-009370",
+      "new_name": "exists_fgSubalgebra_retract",
+      "docstring": "A tensor-product-module retraction descends to a retraction over a finitely generated subalgebra."
+    },
+    {
+      "temporary_id": "decl-009371",
+      "new_name": "exists_fgSubalgebra_equiv",
+      "docstring": "A tensor-product-module equivalence descends to an equivalence over a finitely generated subalgebra."
+    }
+  ]
+}

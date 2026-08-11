@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0337",
+  "associations": [
+    {
+      "association_id": "association:2b6e12b166f158d985a4",
+      "rationale": "The formal type proves irreducibility of a tensor product under simple-module hypotheses, providing the general algebraic result used by the claimed group-algebra specialization rather than stating that specialization itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:31dc59515aa987ce7379",
+      "rationale": "The formal type gives the general tensor-product classification for commuting algebra actions; it supports the specialized proof but does not directly assert that the group result is obtained by specialization.",
+      "role": "supporting"
+    }
+  ]
+}

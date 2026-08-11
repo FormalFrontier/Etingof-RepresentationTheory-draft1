@@ -1,0 +1,50 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (G : Type u_2) \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Group.{u_2} G] \u2192\n        [Fintype.{u_2} G] \u2192\n          LinearEquiv.{u_1, u_1, max u_1 u_2, max u_1 u_2} (RingHom.id.{u_1} k)\n            (Subtype.{(max u_1 u_2) + 1} fun x =>\n              Membership.mem.{max u_1 u_2, max u_1 u_2}\n                (Subalgebra.center.{u_1, max u_2 u_1} k (MonoidAlgebra.{u_1, u_2} k G)) x)\n            (ConjClasses.{u_2} G \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3245535255",
+      "temporary_id": "decl-004710"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (G : Type u_2) [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [Finite.{u_2 + 1} G],\n  Eq.{1}\n    (Module.finrank.{u_1, max u_1 u_2} k\n      (Subtype.{(max u_1 u_2) + 1} fun x =>\n        Membership.mem.{max u_1 u_2, max u_1 u_2}\n          (Subalgebra.center.{u_1, max u_2 u_1} k (MonoidAlgebra.{u_1, u_2} k G)) x))\n    (Nat.card.{u_2} (ConjClasses.{u_2} G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1063760425",
+      "temporary_id": "decl-004722"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : Group.{u_2} G] (x : MonoidAlgebra.{u_1, u_2} k G),\n  Iff\n    (Membership.mem.{max u_1 u_2, max u_1 u_2} (Subalgebra.center.{u_1, max u_2 u_1} k (MonoidAlgebra.{u_1, u_2} k G))\n      x)\n    (\u2200 (g h : G),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} (MonoidAlgebra.coeff.{u_1, u_2} x)\n          (HMul.hMul.{u_2, u_2, u_2} (HMul.hMul.{u_2, u_2, u_2} g h) (Inv.inv.{u_2} g)))\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} (MonoidAlgebra.coeff.{u_1, u_2} x) h))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2281963760",
+      "temporary_id": "decl-004723"
+    }
+  ],
+  "module_temporary_id": "module-0341",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

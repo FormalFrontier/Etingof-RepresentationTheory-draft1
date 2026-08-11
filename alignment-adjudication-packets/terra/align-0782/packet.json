@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:17955d410ff1fe9a1207",
+      "declaration": "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_degree_le_three",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/407/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Etingof.IsDynkinDiagram n adj \u2192 \u2200 (v : Fin n), LE.le.{0} (Etingof.Problem6_1_3_E7E8.vertexDegree adj v) 3",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_E7_E8"
+    },
+    {
+      "association_id": "association:c52d11644b481d97e381",
+      "declaration": "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_unique_degree_three",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/407/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Etingof.IsDynkinDiagram n adj \u2192\n    \u2200 (v w : Fin n),\n      Eq.{1} (Etingof.Problem6_1_3_E7E8.vertexDegree adj v) 3 \u2192\n        Eq.{1} (Etingof.Problem6_1_3_E7E8.vertexDegree adj w) 3 \u2192 Eq.{1} v w",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_E7_E8"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.3_continued_E7_E8",
+  "packet_id": "align-0782",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0782"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.1.3_continued_E7_E8:part_d",
+  "source_text": "Part (d): exclude degree at least four and multiple trivalent vertices."
+}

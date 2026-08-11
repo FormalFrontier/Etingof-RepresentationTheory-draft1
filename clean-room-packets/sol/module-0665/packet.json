@@ -1,0 +1,236 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    {A : Type u} \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [Algebra.{u, u} k A] \u2192\n          ModuleCat.{u, u} A \u2192\n            {M : ModuleCat.{u, u} A} \u2192 CategoryTheory.ProjectiveResolution.{u, u + 1} M \u2192 Nat \u2192 ModuleCat.{u, u} k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3240484415",
+      "temporary_id": "decl-013266"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : Ring.{u} A] \u2192\n    ModuleCat.{u, u} A \u2192\n      {M : ModuleCat.{u, u} (MulOpposite.{u} A)} \u2192\n        CategoryTheory.ProjectiveResolution.{u, u + 1} M \u2192 Nat \u2192 AddCommGrpCat.{u}",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4018436739",
+      "temporary_id": "decl-013268"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    {A : Type u} \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{u, u} k A] \u2192\n          (N : ModuleCat.{u, u} A) \u2192\n            {M : ModuleCat.{u, u} A} \u2192\n              (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n                Quiver.Hom.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q)\n                    (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) \u2192\n                  Quiver.Hom.{u, u + 1}\n                    (ChainComplex.linearYonedaObj.{u, u + 1, 0, u}\n                      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) k N)\n                    (ChainComplex.linearYonedaObj.{u, u + 1, 0, u}\n                      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q) k N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3218845225",
+      "temporary_id": "decl-013272"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    {A : Type u} \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{u, u} k A] \u2192\n          (N : ModuleCat.{u, u} A) \u2192\n            {M : ModuleCat.{u, u} A} \u2192\n              (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n                (n : Nat) \u2192\n                  CategoryTheory.Iso.{u, u + 1} (decl-013266.{u} k N P n)\n                    (decl-013266.{u} k N Q n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013266"
+      ],
+      "structural_type_hash": "2786359730",
+      "temporary_id": "decl-013275"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    {A : Type u} \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{u, u} k A] \u2192\n          (N : ModuleCat.{u, u} A) \u2192\n            {M : ModuleCat.{u, u} A} \u2192\n              (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n                Quiver.Hom.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q)\n                    (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) \u2192\n                  (n : Nat) \u2192\n                    Quiver.Hom.{u, u + 1} (decl-013266.{u} k N P n)\n                      (decl-013266.{u} k N Q n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013266"
+      ],
+      "structural_type_hash": "959533085",
+      "temporary_id": "decl-013276"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  (N : ModuleCat.{u, u} A) {M : ModuleCat.{u, u} A} (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M)\n  (\u03c6 :\n    Quiver.Hom.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q)\n      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P)),\n  Eq.{u + 1} (CategoryTheory.CategoryStruct.comp.{u, u + 1} \u03c6 (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P))\n      (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} Q) \u2192\n    \u2200 (n : Nat),\n      Eq.{u + 1} (decl-013276.{u} k N P Q \u03c6 n)\n        (CategoryTheory.Iso.hom.{u, u + 1} (decl-013275.{u} k N P Q n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013266",
+        "decl-013275",
+        "decl-013276"
+      ],
+      "structural_type_hash": "2873689357",
+      "temporary_id": "decl-013277"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] {A : Type u} [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  (N : ModuleCat.{u, u} A) {M : ModuleCat.{u, u} A} (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M)\n  (\u03c6 \u03c8 :\n    Quiver.Hom.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q)\n      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P)),\n  Eq.{u + 1} (CategoryTheory.CategoryStruct.comp.{u, u + 1} \u03c6 (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P))\n      (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} Q) \u2192\n    Eq.{u + 1} (CategoryTheory.CategoryStruct.comp.{u, u + 1} \u03c8 (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P))\n        (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} Q) \u2192\n      \u2200 (n : Nat),\n        Eq.{u + 1} (decl-013276.{u} k N P Q \u03c6 n) (decl-013276.{u} k N P Q \u03c8 n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013266",
+        "decl-013276"
+      ],
+      "structural_type_hash": "753017498",
+      "temporary_id": "decl-013278"
+    },
+    {
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    {A : Type u} \u2192\n      [inst_1 : Ring.{u} A] \u2192\n        [inst_2 : Algebra.{u, u} k A] \u2192\n          (N : ModuleCat.{u, u} A) \u2192\n            {M : ModuleCat.{u, u} A} \u2192\n              (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n                HomotopyEquiv.{u, u + 1, 0}\n                  (ChainComplex.linearYonedaObj.{u, u + 1, 0, u}\n                    (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P) k N)\n                  (ChainComplex.linearYonedaObj.{u, u + 1, 0, u}\n                    (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q) k N)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2999249930",
+      "temporary_id": "decl-013279"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [inst_2 : CategoryTheory.HasProjectiveResolutions.{v, u} C] {D : Type u_1}\n  [inst_3 : CategoryTheory.Category.{v_1, u_1} D] [inst_4 : CategoryTheory.Abelian.{v_1, u_1} D]\n  (F : CategoryTheory.Functor.{v, v_1, u, u_1} C D) [inst_5 : CategoryTheory.Functor.Additive.{v, u, v_1, u_1} F]\n  {X : C} (P Q : CategoryTheory.ProjectiveResolution.{v, u} X)\n  (\u03c6 :\n    Quiver.Hom.{v, max u v} (CategoryTheory.ProjectiveResolution.complex.{v, u} P)\n      (CategoryTheory.ProjectiveResolution.complex.{v, u} Q)),\n  Eq.{v + 1}\n      (CategoryTheory.CategoryStruct.comp.{v, u} (HomologicalComplex.Hom.f.{v, u, 0} \u03c6 0)\n        (HomologicalComplex.Hom.f.{v, u, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{v, u} Q) 0))\n      (HomologicalComplex.Hom.f.{v, u, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{v, u} P) 0) \u2192\n    \u2200 (n : Nat),\n      Eq.{v_1 + 1}\n        (HomologicalComplex.homologyMap.{v_1, u_1, 0}\n          (CategoryTheory.Functor.map.{v, v_1, max u v, max u_1 v_1}\n            (CategoryTheory.Functor.mapHomologicalComplex.{0, v, u, v_1, u_1} F (ComplexShape.down.{0} Nat)) \u03c6)\n          n)\n        (CategoryTheory.Iso.hom.{v_1, u_1} (decl-013283.{u, v, v_1, u_1} F P Q n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013283"
+      ],
+      "structural_type_hash": "4150767195",
+      "temporary_id": "decl-013281"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [CategoryTheory.HasProjectiveResolutions.{v, u} C] {D : Type u_1} [inst_3 : CategoryTheory.Category.{v_1, u_1} D]\n  [inst_4 : CategoryTheory.Abelian.{v_1, u_1} D] (F : CategoryTheory.Functor.{v, v_1, u, u_1} C D)\n  [inst_5 : CategoryTheory.Functor.Additive.{v, u, v_1, u_1} F] {X : C}\n  (P Q : CategoryTheory.ProjectiveResolution.{v, u} X)\n  (\u03c6 \u03c8 :\n    Quiver.Hom.{v, max u v} (CategoryTheory.ProjectiveResolution.complex.{v, u} P)\n      (CategoryTheory.ProjectiveResolution.complex.{v, u} Q)),\n  Eq.{v + 1}\n      (CategoryTheory.CategoryStruct.comp.{v, u} (HomologicalComplex.Hom.f.{v, u, 0} \u03c6 0)\n        (HomologicalComplex.Hom.f.{v, u, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{v, u} Q) 0))\n      (HomologicalComplex.Hom.f.{v, u, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{v, u} P) 0) \u2192\n    Eq.{v + 1}\n        (CategoryTheory.CategoryStruct.comp.{v, u} (HomologicalComplex.Hom.f.{v, u, 0} \u03c8 0)\n          (HomologicalComplex.Hom.f.{v, u, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{v, u} Q) 0))\n        (HomologicalComplex.Hom.f.{v, u, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{v, u} P) 0) \u2192\n      \u2200 (n : Nat),\n        Eq.{v_1 + 1}\n          (HomologicalComplex.homologyMap.{v_1, u_1, 0}\n            (CategoryTheory.Functor.map.{v, v_1, max u v, max u_1 v_1}\n              (CategoryTheory.Functor.mapHomologicalComplex.{0, v, u, v_1, u_1} F (ComplexShape.down.{0} Nat)) \u03c6)\n            n)\n          (HomologicalComplex.homologyMap.{v_1, u_1, 0}\n            (CategoryTheory.Functor.map.{v, v_1, max u v, max u_1 v_1}\n              (CategoryTheory.Functor.mapHomologicalComplex.{0, v, u, v_1, u_1} F (ComplexShape.down.{0} Nat)) \u03c8)\n            n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1105611009",
+      "temporary_id": "decl-013282"
+    },
+    {
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : CategoryTheory.Abelian.{v, u} C] \u2192\n      [CategoryTheory.HasProjectiveResolutions.{v, u} C] \u2192\n        {D : Type u_1} \u2192\n          [inst_3 : CategoryTheory.Category.{v_1, u_1} D] \u2192\n            [inst_4 : CategoryTheory.Abelian.{v_1, u_1} D] \u2192\n              (F : CategoryTheory.Functor.{v, v_1, u, u_1} C D) \u2192\n                [inst_5 : CategoryTheory.Functor.Additive.{v, u, v_1, u_1} F] \u2192\n                  {X : C} \u2192\n                    (P Q : CategoryTheory.ProjectiveResolution.{v, u} X) \u2192\n                      (n : Nat) \u2192\n                        CategoryTheory.Iso.{v_1, u_1}\n                          (HomologicalComplex.homology.{v_1, u_1, 0}\n                            (CategoryTheory.Functor.obj.{v, v_1, max u v, max u_1 v_1}\n                              (CategoryTheory.Functor.mapHomologicalComplex.{0, v, u, v_1, u_1} F\n                                (ComplexShape.down.{0} Nat))\n                              (CategoryTheory.ProjectiveResolution.complex.{v, u} P))\n                            n)\n                          (HomologicalComplex.homology.{v_1, u_1, 0}\n                            (CategoryTheory.Functor.obj.{v, v_1, max u v, max u_1 v_1}\n                              (CategoryTheory.Functor.mapHomologicalComplex.{0, v, u, v_1, u_1} F\n                                (ComplexShape.down.{0} Nat))\n                              (CategoryTheory.ProjectiveResolution.complex.{v, u} Q))\n                            n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3456991506",
+      "temporary_id": "decl-013283"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [inst_2 : CategoryTheory.HasProjectiveResolutions.{v, u} C] {D : Type u_1}\n  [inst_3 : CategoryTheory.Category.{v_1, u_1} D] [inst_4 : CategoryTheory.Abelian.{v_1, u_1} D]\n  (F : CategoryTheory.Functor.{v, v_1, u, u_1} C D) [inst_5 : CategoryTheory.Functor.Additive.{v, u, v_1, u_1} F]\n  {X : C} (P : CategoryTheory.ProjectiveResolution.{v, u} X) (n : Nat),\n  Eq.{v_1 + 1} (CategoryTheory.Iso.hom.{v_1, u_1} (decl-013283.{u, v, v_1, u_1} F P P n))\n    (CategoryTheory.CategoryStruct.id.{v_1, u_1}\n      (HomologicalComplex.homology.{v_1, u_1, 0}\n        (CategoryTheory.Functor.obj.{v, v_1, max u v, max u_1 v_1}\n          (CategoryTheory.Functor.mapHomologicalComplex.{0, v, u, v_1, u_1} F (ComplexShape.down.{0} Nat))\n          (CategoryTheory.ProjectiveResolution.complex.{v, u} P))\n        n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013283"
+      ],
+      "structural_type_hash": "3326147955",
+      "temporary_id": "decl-013289"
+    },
+    {
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Abelian.{v, u} C]\n  [inst_2 : CategoryTheory.HasProjectiveResolutions.{v, u} C] {D : Type u_1}\n  [inst_3 : CategoryTheory.Category.{v_1, u_1} D] [inst_4 : CategoryTheory.Abelian.{v_1, u_1} D]\n  (F : CategoryTheory.Functor.{v, v_1, u, u_1} C D) [inst_5 : CategoryTheory.Functor.Additive.{v, u, v_1, u_1} F]\n  {X : C} (P Q R : CategoryTheory.ProjectiveResolution.{v, u} X) (n : Nat),\n  Eq.{v_1 + 1}\n    (CategoryTheory.CategoryStruct.comp.{v_1, u_1}\n      (CategoryTheory.Iso.hom.{v_1, u_1} (decl-013283.{u, v, v_1, u_1} F P Q n))\n      (CategoryTheory.Iso.hom.{v_1, u_1} (decl-013283.{u, v, v_1, u_1} F Q R n)))\n    (CategoryTheory.Iso.hom.{v_1, u_1} (decl-013283.{u, v, v_1, u_1} F P R n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013283"
+      ],
+      "structural_type_hash": "2154469846",
+      "temporary_id": "decl-013290"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : Ring.{u} A] \u2192\n    (N : ModuleCat.{u, u} A) \u2192\n      {M : ModuleCat.{u, u} (MulOpposite.{u} A)} \u2192\n        (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n          (n : Nat) \u2192\n            CategoryTheory.Iso.{u, u + 1} (decl-013268.{u} N P n)\n              (decl-013268.{u} N Q n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013268"
+      ],
+      "structural_type_hash": "896498656",
+      "temporary_id": "decl-013291"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] (N : ModuleCat.{u, u} A) {M : ModuleCat.{u, u} (MulOpposite.{u} A)}\n  (P : CategoryTheory.ProjectiveResolution.{u, u + 1} M) (n : Nat),\n  Eq.{u + 1} (CategoryTheory.Iso.hom.{u, u + 1} (decl-013291.{u} N P P n))\n    (CategoryTheory.CategoryStruct.id.{u, u + 1} (decl-013268.{u} N P n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013268",
+        "decl-013291"
+      ],
+      "structural_type_hash": "121778121",
+      "temporary_id": "decl-013294"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] (N : ModuleCat.{u, u} A) {M : ModuleCat.{u, u} (MulOpposite.{u} A)}\n  (P Q R : CategoryTheory.ProjectiveResolution.{u, u + 1} M) (n : Nat),\n  Eq.{u + 1}\n    (CategoryTheory.CategoryStruct.comp.{u, u + 1}\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-013291.{u} N P Q n))\n      (CategoryTheory.Iso.hom.{u, u + 1} (decl-013291.{u} N Q R n)))\n    (CategoryTheory.Iso.hom.{u, u + 1} (decl-013291.{u} N P R n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013268",
+        "decl-013291"
+      ],
+      "structural_type_hash": "4075605067",
+      "temporary_id": "decl-013295"
+    },
+    {
+      "formal_type": "{A : Type u} \u2192\n  [inst : Ring.{u} A] \u2192\n    (N : ModuleCat.{u, u} A) \u2192\n      {M : ModuleCat.{u, u} (MulOpposite.{u} A)} \u2192\n        (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M) \u2192\n          Quiver.Hom.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P)\n              (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q) \u2192\n            (n : Nat) \u2192\n              Quiver.Hom.{u, u + 1} (decl-013268.{u} N P n)\n                (decl-013268.{u} N Q n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013268"
+      ],
+      "structural_type_hash": "3314172401",
+      "temporary_id": "decl-013296"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] (N : ModuleCat.{u, u} A) {M : ModuleCat.{u, u} (MulOpposite.{u} A)}\n  (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M)\n  (\u03c6 :\n    Quiver.Hom.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P)\n      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q)),\n  Eq.{u + 1}\n      (CategoryTheory.CategoryStruct.comp.{u, u + 1} (HomologicalComplex.Hom.f.{u, u + 1, 0} \u03c6 0)\n        (HomologicalComplex.Hom.f.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} Q) 0))\n      (HomologicalComplex.Hom.f.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P) 0) \u2192\n    \u2200 (n : Nat),\n      Eq.{u + 1} (decl-013296.{u} N P Q \u03c6 n)\n        (CategoryTheory.Iso.hom.{u, u + 1} (decl-013291.{u} N P Q n))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013268",
+        "decl-013291",
+        "decl-013296"
+      ],
+      "structural_type_hash": "2526876526",
+      "temporary_id": "decl-013297"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] (N : ModuleCat.{u, u} A) {M : ModuleCat.{u, u} (MulOpposite.{u} A)}\n  (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M)\n  (\u03c6 \u03c8 :\n    Quiver.Hom.{u, u + 1} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P)\n      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q)),\n  Eq.{u + 1}\n      (CategoryTheory.CategoryStruct.comp.{u, u + 1} (HomologicalComplex.Hom.f.{u, u + 1, 0} \u03c6 0)\n        (HomologicalComplex.Hom.f.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} Q) 0))\n      (HomologicalComplex.Hom.f.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P) 0) \u2192\n    Eq.{u + 1}\n        (CategoryTheory.CategoryStruct.comp.{u, u + 1} (HomologicalComplex.Hom.f.{u, u + 1, 0} \u03c8 0)\n          (HomologicalComplex.Hom.f.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} Q) 0))\n        (HomologicalComplex.Hom.f.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P) 0) \u2192\n      \u2200 (n : Nat),\n        Eq.{u + 1} (decl-013296.{u} N P Q \u03c6 n) (decl-013296.{u} N P Q \u03c8 n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-013268",
+        "decl-013296"
+      ],
+      "structural_type_hash": "1877857",
+      "temporary_id": "decl-013298"
+    },
+    {
+      "formal_type": "{\u03b9 : Type u_2} \u2192\n  {V : Type u_3} \u2192\n    [inst : CategoryTheory.Category.{v_2, u_3} V] \u2192\n      [inst_1 : CategoryTheory.Preadditive.{v_2, u_3} V] \u2192\n        {c : ComplexShape.{u_2} \u03b9} \u2192\n          {K L : HomologicalComplex.{v_2, u_3, u_2} (Opposite.{u_3 + 1} V) c} \u2192\n            HomotopyEquiv.{v_2, u_3, u_2} K L \u2192\n              HomotopyEquiv.{v_2, u_3, u_2}\n                (CategoryTheory.Functor.obj.{max u_2 v_2, max u_2 v_2, max (max u_2 u_3) v_2, max (max u_2 u_3) v_2}\n                  (HomologicalComplex.unopFunctor.{u_2, v_2, u_3} V c)\n                  (Opposite.op.{max (max (u_2 + 1) (u_3 + 1)) (v_2 + 1)} L))\n                (CategoryTheory.Functor.obj.{max u_2 v_2, max u_2 v_2, max (max u_2 u_3) v_2, max (max u_2 u_3) v_2}\n                  (HomologicalComplex.unopFunctor.{u_2, v_2, u_3} V c)\n                  (Opposite.op.{max (max (u_2 + 1) (u_3 + 1)) (v_2 + 1)} K))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1032589664",
+      "temporary_id": "decl-013299"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {M : ModuleCat.{u, u} A} (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M),\n  Nonempty.{max 1 (u + 1)}\n    (HomotopyEquiv.{u, u + 1, 0} (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} P)\n      (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} Q))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3962145064",
+      "temporary_id": "decl-014392"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {M : ModuleCat.{u, u} A} (P Q : CategoryTheory.ProjectiveResolution.{u, u + 1} M),\n  Exists.{u + 1} fun f =>\n    Eq.{u + 1} (CategoryTheory.CategoryStruct.comp.{u, u + 1} f (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} Q))\n      (CategoryTheory.ProjectiveResolution.\u03c0.{u, u + 1} P)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4013650715",
+      "temporary_id": "decl-014393"
+    }
+  ],
+  "module_temporary_id": "module-0665",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

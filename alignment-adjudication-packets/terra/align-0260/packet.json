@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:171074b52f11c6884051",
+      "declaration": "Etingof.QuiverRepresentation.BookIsIndecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/73/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u} \u2192\n  {Q : Type v} \u2192\n    [inst : CommSemiring.{u} k] \u2192 [inst_1 : Quiver.{w, v} Q] \u2192 Etingof.QuiverRepresentation.{u, v, q, w} k Q \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_irreducible_indecomposable"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_quiver_irreducible_indecomposable",
+  "packet_id": "align-0260",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0260"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4da33639f5b9b20dff4e",
+  "source_text": "A quiver representation is indecomposable exactly when it is nonzero and is not isomorphic to a direct sum of two nonzero representations."
+}

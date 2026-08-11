@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2ba9bdbe2d482954d21f",
+      "declaration": "Etingof.Remark2_9_10.basisPresentationEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/89/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type v) \u2192\n      [inst_1 : LieRing.{v} L] \u2192\n        [inst_2 : LieAlgebra.{u, v} k L] \u2192\n          {\u03b9 : Type w} \u2192\n            (b : Module.Basis.{w, u, v} \u03b9 k L) \u2192\n              AlgEquiv.{u, max w u, max v u} k (Etingof.UEABasisPresentation.{u, v, w} k L b)\n                (Etingof.UniversalEnvelopingAlgebraDef.{u, v} k L)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_9_10"
+    },
+    {
+      "association_id": "association:62e5e67e4bd122bfbcf1",
+      "declaration": "Etingof.ueaBasisAlgEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/89/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (L : Type v) \u2192\n      [inst_1 : LieRing.{v} L] \u2192\n        [inst_2 : LieAlgebra.{u, v} k L] \u2192\n          {\u03b9 : Type w} \u2192\n            (b : Module.Basis.{w, u, v} \u03b9 k L) \u2192\n              AlgEquiv.{u, max w u, max v u} k (Etingof.UEABasisPresentation.{u, v, w} k L b)\n                (Etingof.UniversalEnvelopingAlgebraDef.{u, v} k L)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_12_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Remark2.9.10",
+  "packet_id": "align-0047",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0047"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:0d20ba75f934849f3ae3",
+  "source_text": "The chosen-basis presentation is equivalent to the later basis-independent definition."
+}

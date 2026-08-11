@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0336",
+  "associations": [
+    {
+      "association_id": "association:cdef84cee6ceb86ca939",
+      "rationale": "The formal type directly states that a representation of quaternionic type has even complex finrank.",
+      "role": "primary"
+    }
+  ]
+}

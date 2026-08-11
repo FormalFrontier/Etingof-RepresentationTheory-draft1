@@ -1,0 +1,42 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (L : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      (W : Type u_4) \u2192\n        [inst : CommRing.{u_1} k] \u2192\n          [inst_1 : LieRing.{u_2} L] \u2192\n            [inst_2 : LieAlgebra.{u_1, u_2} k L] \u2192\n              [inst_3 : AddCommGroup.{u_3} V] \u2192\n                [inst_4 : Module.{u_1, u_3} k V] \u2192\n                  [inst_5 : LieRingModule.{u_2, u_3} L V] \u2192\n                    [LieModule.{u_1, u_2, u_3} k L V] \u2192\n                      [inst_7 : AddCommGroup.{u_4} W] \u2192\n                        [inst_8 : Module.{u_1, u_4} k W] \u2192\n                          [inst_9 : LieRingModule.{u_2, u_4} L W] \u2192\n                            [LieModule.{u_1, u_2, u_4} k L W] \u2192 Type (max u_3 u_4)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "441234837",
+      "temporary_id": "decl-005579"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {L : Type u_2} {V : Type u_3} {W : Type u_4} [inst : CommRing.{u_1} k] [inst_1 : LieRing.{u_2} L]\n  [inst_2 : LieAlgebra.{u_1, u_2} k L] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : LieRingModule.{u_2, u_3} L V] [inst_6 : LieModule.{u_1, u_2, u_3} k L V] [inst_7 : AddCommGroup.{u_4} W]\n  [inst_8 : Module.{u_1, u_4} k W] [inst_9 : LieRingModule.{u_2, u_4} L W] [inst_10 : LieModule.{u_1, u_2, u_4} k L W]\n  (x : L) (v : V) (w : W),\n  Eq.{max (u_3 + 1) (u_4 + 1)} (Bracket.bracket.{u_2, max u_3 u_4} x (TensorProduct.tmul.{u_1, u_3, u_4} k v w))\n    (HAdd.hAdd.{max u_3 u_4, max u_3 u_4, max u_3 u_4}\n      (TensorProduct.tmul.{u_1, u_3, u_4} k (Bracket.bracket.{u_2, u_3} x v) w)\n      (TensorProduct.tmul.{u_1, u_3, u_4} k v (Bracket.bracket.{u_2, u_4} x w)))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-005579",
+      "project_type_dependencies": [],
+      "structural_type_hash": "2764168845",
+      "temporary_id": "decl-005580"
+    }
+  ],
+  "module_temporary_id": "module-0005",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,6 @@
+{
+  "module_name": "ModuleTheory.ModuleCondition",
+  "declarations": [
+    {"temporary_id": "decl-005289", "new_name": "ModuleCondition", "docstring": "A proposition associated with a module over a ring."}
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d52770b0f276cc37abc4",
+      "declaration": "Etingof.realGEndAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/245/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    {V : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{0, u_2} Complex V] \u2192\n          [inst_3 : Module.{0, u_2} Real V] \u2192\n            [IsScalarTower.{0, 0, u_2} Real Complex V] \u2192\n              Representation.{0, u_1, u_2} Complex G V \u2192 Subalgebra.{0, u_2} Real (Module.End.{0, u_2} Real V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_1_2"
+    },
+    {
+      "association_id": "association:6814f8b5cf2840c33c74",
+      "declaration": "Etingof.realGEndAlgebra_equiv_complex_of_isComplexType",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/245/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] {V : Type u_2} [inst_2 : AddCommGroup.{u_2} V]\n  [inst_3 : Module.{0, u_2} Complex V] [inst_4 : Module.Finite.{0, u_2} Complex V] [inst_5 : Module.{0, u_2} Real V]\n  [inst_6 : IsScalarTower.{0, 0, u_2} Real Complex V] (\u03c1 : Representation.{0, u_1, u_2} Complex G V),\n  IsSimpleModule.{u_1, u_2} (MonoidAlgebra.{0, u_1} Complex G) (Representation.asModule.{0, u_1, u_2} \u03c1) \u2192\n    Etingof.IsComplexType.{u_1, u_2} \u03c1 \u2192\n      Nonempty.{max 1 (u_2 + 1)}\n        (AlgEquiv.{0, u_2, 0} Real\n          (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.realGEndAlgebra.{u_1, u_2} \u03c1) x) Complex)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Problem5_1_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Problem5.1.2",
+  "packet_id": "align-0750",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0750"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter5/Problem5.1.2:part_a_complex",
+  "source_text": "Part (a): compute the real equivariant endomorphism algebra in complex type as C."
+}

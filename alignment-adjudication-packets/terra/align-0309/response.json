@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0309",
+  "associations": [
+    {
+      "association_id": "association:ad074147490bd5dfa7b9",
+      "rationale": "The displayed formal type exposes only a type-valued construction and does not state that its underlying space is the linear dual, so the direct source assertion is opaque in packet-only evidence.",
+      "role": "supporting"
+    }
+  ]
+}

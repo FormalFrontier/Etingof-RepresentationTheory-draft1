@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Definition5.1.1",
+    "kind": "definition",
+    "title": "Complex, real, and quaternionic type of irreducible representations",
+    "node_id": "chapter-05/section-5-1",
+    "order": 244,
+    "slug": "definition5-1-1",
+    "span": {
+      "start": {
+        "page": "93",
+        "line": 7
+      },
+      "end": {
+        "page": "93",
+        "line": 11
+      }
+    },
+    "source_sha256": "2f7a8d4d5be4b5b77b7f5f5f932af1a83900bced34625d72d416aaa6ae4bd202",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Definition511",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6bede3703157e7d22892",
+      "declaration": "Etingof.Problem932.algebraCartanMatrix_Pfam",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/557/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Etingof.algebraCartanMatrix.{0, 0, 0, 0} Etingof.Problem932.Pfam)\n  (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0}\n    (Matrix.vecCons.{0} (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 Matrix.vecEmpty.{0}))\n      (Matrix.vecCons.{0} (Matrix.vecCons.{0} 1 (Matrix.vecCons.{0} 1 Matrix.vecEmpty.{0})) Matrix.vecEmpty.{0})))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Problem9_3_2"
+    }
+  ],
+  "canonical_reference": "Chapter9/Problem9.3.2",
+  "packet_id": "align-0859",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0859"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter9/Problem9.3.2:cartan",
+  "source_text": "Compute the Cartan matrix."
+}

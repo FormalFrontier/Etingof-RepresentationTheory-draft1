@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:d0376b1749229de86658",
+      "declaration": "Etingof.Definition5_2_1_algebraic_integer",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/251/claim_coverage/claims/0/lean_decl",
+          "verdict": "context_only"
+        }
+      ],
+      "formal_type": "\u2200 (z : Complex),\n  Iff (IsIntegral.{0, 0} Int z)\n    (Exists.{1} fun p => And (Polynomial.Monic.{0} p) (Eq.{1} (DFunLike.coe.{1, 1, 1} (Polynomial.aeval.{0, 0} z) p) 0))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_2_1"
+    },
+    {
+      "association_id": "association:e0ced07b4ded3b14ace6",
+      "declaration": "Etingof.Definition5_2_1_algebraic_number",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/251/claim_coverage/claims/0/lean_decl",
+          "verdict": "context_only"
+        }
+      ],
+      "formal_type": "\u2200 (z : Complex),\n  Iff (IsAlgebraic.{0, 0} Rat z)\n    (Exists.{1} fun p => And (Ne.{1} p 0) (Eq.{1} (DFunLike.coe.{1, 1, 1} (Polynomial.aeval.{0, 0} z) p) 0))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_2_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Introduction_5.2",
+  "packet_id": "align-0491",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0491"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:9dcf86ebafa6c83f6741",
+  "source_text": "The section introduces the algebraic-number prerequisites used in the subsequent finite-group results."
+}

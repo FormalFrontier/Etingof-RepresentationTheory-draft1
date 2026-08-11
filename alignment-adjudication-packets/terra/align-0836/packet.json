@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b50aaf63f79c6ba5dd0d",
+      "declaration": "Etingof.Problem_8_2_10_iv_resolution",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/545/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u) \u2192\n  [inst : Field.{u} k] \u2192\n    (V : Type u) \u2192\n      [inst_1 : AddCommGroup.{u} V] \u2192\n        [inst_2 : Module.{u, u} k V] \u2192\n          [FiniteDimensional.{u, u} k V] \u2192\n            (M : ModuleCat.{u, u} (Etingof.S.{u} k V)) \u2192 Etingof.ProjectiveResolution.{u + 1, u} M",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10_HilbertSyzygyResolution"
+    },
+    {
+      "association_id": "association:2d86c2b2a3ccee037e4f",
+      "declaration": "Etingof.Problem_8_2_10_iv_resolution_isZero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/545/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type u) [inst_1 : AddCommGroup.{u} V] [inst_2 : Module.{u, u} k V]\n  [inst_3 : FiniteDimensional.{u, u} k V] (M : ModuleCat.{u, u} (Etingof.S.{u} k V)) (i : Nat),\n  LT.lt.{0} (Module.finrank.{u, u} k V) i \u2192\n    CategoryTheory.Limits.IsZero.{u, u + 1}\n      (HomologicalComplex.X.{u, u + 1, 0}\n        (CategoryTheory.ProjectiveResolution.complex.{u, u + 1} (Etingof.Problem_8_2_10_iv_resolution.{u} k V M)) i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10_HilbertSyzygyResolution"
+    }
+  ],
+  "canonical_reference": "Chapter8/Problem8.2.10",
+  "packet_id": "align-0836",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0836"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter8/Problem8.2.10:part_iv_resolution",
+  "source_text": "Part (iv): tensor the bimodule resolution to obtain a free resolution of every module, vanishing above dim V."
+}

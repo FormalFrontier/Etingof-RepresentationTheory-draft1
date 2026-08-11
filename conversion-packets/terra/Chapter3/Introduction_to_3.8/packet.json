@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Introduction_to_3.8",
+    "kind": "introduction",
+    "title": "Section 3.8: The Krull-Schmidt theorem \u2014 heading",
+    "node_id": "chapter-03/section-3-8",
+    "order": 163,
+    "slug": "introduction-to-3-8",
+    "span": {
+      "start": {
+        "page": "54",
+        "line": 9
+      },
+      "end": {
+        "page": "54",
+        "line": 10
+      }
+    },
+    "source_sha256": "5f705ed3663eedc0af02dd2d1171fb6116af7d455236f31c97020b189ba08a9b",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.IntroductionTo38",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

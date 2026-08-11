@@ -1,0 +1,232 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [CharZero.{0} k] {V : Type} [inst_2 : AddCommGroup.{0} V] [inst_3 : Module.{0, 0} k V]\n  [Module.Finite.{0, 0} k V] (n : Nat),\n  Nonempty.{1}\n    (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023606.{0, 0} k V n) x)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (ExteriorAlgebra.exteriorPower.{0, 0} k n V) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023606"
+      ],
+      "structural_type_hash": "1602063111",
+      "temporary_id": "decl-003401"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    [CharZero.{0} k] \u2192\n      {V : Type} \u2192\n        [inst_2 : AddCommGroup.{0} V] \u2192\n          [inst_3 : Module.{0, 0} k V] \u2192\n            [Module.Finite.{0, 0} k V] \u2192\n              (n : Nat) \u2192\n                LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k)\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023606.{0, 0} k V n) x)\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (ExteriorAlgebra.exteriorPower.{0, 0} k n V) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023606"
+      ],
+      "structural_type_hash": "1717876806",
+      "temporary_id": "decl-003402"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [inst_1 : CharZero.{0} k] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} k V] [inst_4 : Module.Finite.{0, 0} k V] (n : Nat)\n  (x : Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023606.{0, 0} k V n) x),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-003402 n) x)\n    (DFunLike.coe.{1, 1, 1} decl-027195 (Subtype.val.{1} x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003402",
+        "decl-016473",
+        "decl-023606",
+        "decl-027195"
+      ],
+      "structural_type_hash": "1488162204",
+      "temporary_id": "decl-003406"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [inst_1 : CharZero.{0} k] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} k V] [inst_4 : Module.Finite.{0, 0} k V] (n : Nat)\n  (g : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) V V)\n  (x : Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023606.{0, 0} k V n) x),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-003402 n)\n      (DFunLike.coe.{1, 1, 1} (decl-023610 g) x))\n    (DFunLike.coe.{1, 1, 1} (exteriorPower.map.{0, 0, 0} n g)\n      (DFunLike.coe.{1, 1, 1} (decl-003402 n) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003402",
+        "decl-016473",
+        "decl-023606",
+        "decl-023610"
+      ],
+      "structural_type_hash": "1785275632",
+      "temporary_id": "decl-003407"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [CharZero.{0} k] {V : Type} [inst_2 : AddCommGroup.{0} V] [inst_3 : Module.{0, 0} k V]\n  [Module.Finite.{0, 0} k V] (n : Nat)\n  (W : Submodule.{0, 0} k (Subtype.{1} fun x => Membership.mem.{0, 0} (ExteriorAlgebra.exteriorPower.{0, 0} k n V) x)),\n  (\u2200 (g : LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) V V)\n      (w : Subtype.{1} fun x => Membership.mem.{0, 0} (ExteriorAlgebra.exteriorPower.{0, 0} k n V) x),\n      Membership.mem.{0, 0} W w \u2192\n        Membership.mem.{0, 0} W\n          (DFunLike.coe.{1, 1, 1} (exteriorPower.map.{0, 0, 0} n (LinearEquiv.toLinearMap.{0, 0, 0, 0} g)) w)) \u2192\n    Or (Eq.{1} W Bot.bot.{0}) (Eq.{1} W Top.top.{0})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2334973655",
+      "temporary_id": "decl-003408"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {V : Type} [inst_1 : AddCommGroup.{0} V] [inst_2 : Module.{0, 0} k V]\n  [Module.Finite.{0, 0} k V] {n : Nat},\n  LT.lt.{0} (Module.finrank.{0, 0} k V) n \u2192\n    Subsingleton.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} (ExteriorAlgebra.exteriorPower.{0, 0} k n V) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "414230536",
+      "temporary_id": "decl-003409"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [CharZero.{0} k] {V : Type} [inst_2 : AddCommGroup.{0} V] [inst_3 : Module.{0, 0} k V]\n  [Module.Finite.{0, 0} k V] (n : Nat),\n  Nonempty.{1}\n    (LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k)\n      (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023646.{0, 0} k V n) x)\n      (SymmetricPower.{0, 0} k (Fin n) V))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023646"
+      ],
+      "structural_type_hash": "1536789355",
+      "temporary_id": "decl-003410"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    [CharZero.{0} k] \u2192\n      {V : Type} \u2192\n        [inst_2 : AddCommGroup.{0} V] \u2192\n          [inst_3 : Module.{0, 0} k V] \u2192\n            [Module.Finite.{0, 0} k V] \u2192\n              (n : Nat) \u2192\n                LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k)\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023646.{0, 0} k V n) x)\n                  (SymmetricPower.{0, 0} k (Fin n) V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023646"
+      ],
+      "structural_type_hash": "2968258268",
+      "temporary_id": "decl-003411"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [inst_1 : CharZero.{0} k] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} k V] [inst_4 : Module.Finite.{0, 0} k V] (n : Nat)\n  (x : Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023646.{0, 0} k V n) x),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-003411 n) x)\n    (DFunLike.coe.{1, 1, 1} (SymmetricPower.mk.{0, 0} k (Fin n) V) (Subtype.val.{1} x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003411",
+        "decl-016473",
+        "decl-023646"
+      ],
+      "structural_type_hash": "3553201197",
+      "temporary_id": "decl-003417"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] [inst_1 : CharZero.{0} k] {V : Type} [inst_2 : AddCommGroup.{0} V]\n  [inst_3 : Module.{0, 0} k V] [inst_4 : Module.Finite.{0, 0} k V] (n : Nat)\n  (g : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) V V)\n  (x : Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023646.{0, 0} k V n) x),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-003411 n)\n      (DFunLike.coe.{1, 1, 1} (decl-023649 g) x))\n    (DFunLike.coe.{1, 1, 1} (decl-023722 g)\n      (DFunLike.coe.{1, 1, 1} (decl-003411 n) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-003411",
+        "decl-016473",
+        "decl-023646",
+        "decl-023649",
+        "decl-023722"
+      ],
+      "structural_type_hash": "1264366445",
+      "temporary_id": "decl-003418"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (V : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192\n          (n : Nat) \u2192 Submodule.{u_1, max u_2 u_1} k (decl-016473.{u_1, u_2} k V n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473"
+      ],
+      "structural_type_hash": "2889583479",
+      "temporary_id": "decl-023606"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {V : Type} \u2192\n      [inst_1 : AddCommGroup.{0} V] \u2192\n        [inst_2 : Module.{0, 0} k V] \u2192\n          [Module.Finite.{0, 0} k V] \u2192\n            {n : Nat} \u2192\n              LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) V V \u2192\n                LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k)\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023606.{0, 0} k V n) x)\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023606.{0, 0} k V n) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023606"
+      ],
+      "structural_type_hash": "331136347",
+      "temporary_id": "decl-023610"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {V : Type} [inst_1 : AddCommGroup.{0} V] [inst_2 : Module.{0, 0} k V]\n  [Module.Finite.{0, 0} k V] {n : Nat} (g : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) V V)\n  {x : decl-016473.{0, 0} k V n},\n  Membership.mem.{0, 0} (decl-023606.{0, 0} k V n) x \u2192\n    Membership.mem.{0, 0} (decl-023606.{0, 0} k V n)\n      (DFunLike.coe.{1, 1, 1} (PiTensorProduct.map.{0, 0, 0, 0} fun x => g) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023606"
+      ],
+      "structural_type_hash": "678513496",
+      "temporary_id": "decl-023612"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (V : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192\n          (n : Nat) \u2192 Submodule.{u_1, max u_2 u_1} k (decl-016473.{u_1, u_2} k V n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473"
+      ],
+      "structural_type_hash": "2889583479",
+      "temporary_id": "decl-023646"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {V : Type} \u2192\n      [inst_1 : AddCommGroup.{0} V] \u2192\n        [inst_2 : Module.{0, 0} k V] \u2192\n          [Module.Finite.{0, 0} k V] \u2192\n            {n : Nat} \u2192\n              LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) V V \u2192\n                LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k)\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023646.{0, 0} k V n) x)\n                  (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-023646.{0, 0} k V n) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023646"
+      ],
+      "structural_type_hash": "2973431390",
+      "temporary_id": "decl-023649"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {V : Type} [inst_1 : AddCommGroup.{0} V] [inst_2 : Module.{0, 0} k V]\n  [Module.Finite.{0, 0} k V] {n : Nat} (g : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) V V)\n  {x : decl-016473.{0, 0} k V n},\n  Membership.mem.{0, 0} (decl-023646.{0, 0} k V n) x \u2192\n    Membership.mem.{0, 0} (decl-023646.{0, 0} k V n)\n      (DFunLike.coe.{1, 1, 1} (PiTensorProduct.map.{0, 0, 0, 0} fun x => g) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023646"
+      ],
+      "structural_type_hash": "3816220278",
+      "temporary_id": "decl-023651"
+    },
+    {
+      "formal_type": "{k : Type} \u2192\n  [inst : Field.{0} k] \u2192\n    {V : Type} \u2192\n      [inst_1 : AddCommGroup.{0} V] \u2192\n        [inst_2 : Module.{0, 0} k V] \u2192\n          {n : Nat} \u2192\n            LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) V V \u2192\n              LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) (SymmetricPower.{0, 0} k (Fin n) V)\n                (SymmetricPower.{0, 0} k (Fin n) V)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3848464575",
+      "temporary_id": "decl-023722"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {V : Type} [inst_1 : AddCommGroup.{0} V] [inst_2 : Module.{0, 0} k V] {n : Nat}\n  (g : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) V V) (x : decl-016473.{0, 0} k V n),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-023722 g)\n      (DFunLike.coe.{1, 1, 1} (SymmetricPower.mk.{0, 0} k (Fin n) V) x))\n    (DFunLike.coe.{1, 1, 1} (SymmetricPower.mk.{0, 0} k (Fin n) V)\n      (DFunLike.coe.{1, 1, 1} (PiTensorProduct.map.{0, 0, 0, 0} fun x => g) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-023722"
+      ],
+      "structural_type_hash": "684886795",
+      "temporary_id": "decl-023728"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {V : Type} [inst_1 : AddCommGroup.{0} V] [inst_2 : Module.{0, 0} k V] {n : Nat}\n  (g : LinearMap.{0, 0, 0, 0} (RingHom.id.{0} k) V V) (x : decl-016473.{0, 0} k V n),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} decl-027195 (DFunLike.coe.{1, 1, 1} (PiTensorProduct.map.{0, 0, 0, 0} fun x => g) x))\n    (DFunLike.coe.{1, 1, 1} (exteriorPower.map.{0, 0, 0} n g) (DFunLike.coe.{1, 1, 1} decl-027195 x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016473",
+        "decl-027195"
+      ],
+      "structural_type_hash": "2359008315",
+      "temporary_id": "decl-024750"
+    }
+  ],
+  "module_temporary_id": "module-0314",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

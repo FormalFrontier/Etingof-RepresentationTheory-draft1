@@ -1,0 +1,10 @@
+{
+  "module_name": "OpaqueFormalStatement",
+  "declarations": [
+    {
+      "temporary_id": "decl-007037",
+      "new_name": "opaqueFormalStatement",
+      "docstring": "States the proposition represented by this declaration."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8b9d7fb72d43410bf8ad",
+      "declaration": "Etingof.Example4_9_1.S4_tensor_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/220/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (i j : Fin 5),\n  Nonempty.{1}\n    (CategoryTheory.Iso.{0, 1}\n      (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1} (Etingof.Example4_8_1.S4.irrepS4 i)\n        (Etingof.Example4_8_1.S4.irrepS4 j))\n      (Etingof.Example4_9_1.multSum Etingof.Example4_8_1.S4.irrepS4 (Etingof.Example4_9_1.nS4 i j)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_9_1"
+    },
+    {
+      "association_id": "association:7e2f51637a3cefcb5013",
+      "declaration": "Etingof.Example4_9_1.S4_tensor_iso_biproduct",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/220/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (i j : Fin 5),\n  Nonempty.{1}\n    (CategoryTheory.Iso.{0, 1}\n      (CategoryTheory.MonoidalCategoryStruct.tensorObj.{0, 1} (Etingof.Example4_8_1.S4.irrepS4 i)\n        (Etingof.Example4_8_1.S4.irrepS4 j))\n      (CategoryTheory.Limits.biproduct.{0, 0, 1} fun p => Etingof.Example4_8_1.S4.irrepS4 (Sigma.fst.{0, 0} p)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Example4_9_1"
+    }
+  ],
+  "canonical_reference": "Chapter4/Example4.9.1",
+  "packet_id": "align-0412",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0412"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:843d0c4a32891005c402",
+  "source_text": "Every entry of the displayed S\u2084 tensor-product table is an actual representation decomposition."
+}

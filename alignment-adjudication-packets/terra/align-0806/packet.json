@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5dac1fc065c9c328fcb4",
+      "declaration": "Etingof.Problem6_9_3.ext1_sink",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/462/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_3, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  (i : Q),\n  Etingof.Problem6_9_3.IsSink.{u_2, u_3} i \u2192\n    \u2200 (V : Etingof.QuiverRepresentation.{u_1, u_2, u_4, u_3} k Q),\n      Etingof.Problem6_9_3.Ext1Vanishes.{u_1, u_2, u_3, u_1, u_4} (Etingof.Problem6_9_3.simpleRep.{u_1, u_2, u_3} i) V",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_3"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.9.3",
+  "packet_id": "align-0806",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0806"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.9.3:part_a_sink",
+  "source_text": "Part (a): prove Ext1(S_i,V)=0 at a sink."
+}

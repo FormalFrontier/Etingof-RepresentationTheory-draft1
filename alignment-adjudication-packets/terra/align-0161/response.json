@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0161",
+  "associations": [
+    {
+      "association_id": "association:518712beb484ea8af563",
+      "role": "primary",
+      "rationale": "This predicate defines the injective-object notion named in the claim."
+    },
+    {
+      "association_id": "association:a30c517e886e7d48ab00",
+      "role": "primary",
+      "rationale": "This iff directly characterizes injectivity by exactness of the contravariant Hom functor."
+    }
+  ]
+}

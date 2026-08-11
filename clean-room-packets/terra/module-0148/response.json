@@ -1,0 +1,25 @@
+{
+  "module_name": "Algebra.Module.EquivalenceTransfers",
+  "declarations": [
+    {
+      "temporary_id": "decl-005198",
+      "new_name": "map",
+      "docstring": "The displayed module property is preserved by a linear equivalence."
+    },
+    {
+      "temporary_id": "decl-009452",
+      "new_name": "exists_split_of_exists_split",
+      "docstring": "The displayed split-map existence statement follows from the same existence statement under the given hypotheses."
+    },
+    {
+      "temporary_id": "decl-009454",
+      "new_name": "map_internalFamily",
+      "docstring": "A linear equivalence transports a finite internal spanning family with the displayed submodule property."
+    },
+    {
+      "temporary_id": "decl-009457",
+      "new_name": "exists_equiv_of_fin_fun_equiv",
+      "docstring": "An equivalence between positive finite function modules yields an equivalence between their value modules."
+    }
+  ]
+}

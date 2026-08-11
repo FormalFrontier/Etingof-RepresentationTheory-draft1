@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5c9bdffdc05b78991196",
+      "declaration": "Etingof.reflectionFunctorPlusFunctor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/442/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_3) \u2192\n  [inst : CommSemiring.{u_3} k] \u2192\n    (Q : Type u_4) \u2192\n      [inst_1 : DecidableEq.{u_4 + 1} Q] \u2192\n        [inst_2 : Quiver.{u_5, u_4} Q] \u2192\n          (i : Q) \u2192\n            Etingof.IsSink.{u_4, u_5} Q i \u2192\n              CategoryTheory.Functor.{max u_4 (max u_4 u_5) u_6, max u_4 (max u_4 u_5) u_6,\n                  max (max (max u_5 ((max (max u_4 u_5) u_6) + 1)) u_4) u_3,\n                  max (max (max u_5 ((max (max u_4 u_5) u_6) + 1)) u_4) u_3}\n                (Etingof.QuiverRepresentation.{u_3, u_4, max (max u_4 u_5) u_6, u_5} k Q)\n                (Etingof.QuiverRepresentation.{u_3, u_4, max (max u_4 u_5) u_6, u_5} k Q)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Definition6_6_3_Functor"
+    },
+    {
+      "association_id": "association:4f7616d17bda9a44a573",
+      "declaration": "Etingof.reflectionFunctorPlusMap",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/442/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_3} \u2192\n  [inst : CommSemiring.{u_3} k] \u2192\n    {Q : Type u_4} \u2192\n      [inst_1 : DecidableEq.{u_4 + 1} Q] \u2192\n        [inst_2 : Quiver.{u_5, u_4} Q] \u2192\n          {i : Q} \u2192\n            (hi : Etingof.IsSink.{u_4, u_5} Q i) \u2192\n              {\u03c1\u2081 : Etingof.QuiverRepresentation.{u_3, u_4, max (max u_4 u_5) u_6, u_5} k Q} \u2192\n                {\u03c1\u2082 : Etingof.QuiverRepresentation.{u_3, u_4, max (max u_4 u_5) u_7, u_5} k Q} \u2192\n                  Etingof.QuiverRepresentationHom.{u_3, u_4, u_5, max (max u_4 u_5) u_6, max (max u_4 u_5) u_7} k Q \u03c1\u2081\n                      \u03c1\u2082 \u2192\n                    Etingof.QuiverRepresentationHom.{u_3, u_4, u_5, max (max u_4 u_5) u_6, max (max u_4 u_5) u_7} k Q\n                      (Etingof.reflectionFunctorPlus.{u_3, u_4, u_5, u_6} Q i hi \u03c1\u2081)\n                      (Etingof.reflectionFunctorPlus.{u_3, u_4, u_5, u_7} Q i hi \u03c1\u2082)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Definition6_6_3_Functor"
+    }
+  ],
+  "canonical_reference": "Chapter6/Definition6.6.3_maps",
+  "packet_id": "align-1212",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1212"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ff75cdd81e499517d050",
+  "source_text": "The internal arrow maps and morphism action of F_i^+ satisfy the functor laws."
+}

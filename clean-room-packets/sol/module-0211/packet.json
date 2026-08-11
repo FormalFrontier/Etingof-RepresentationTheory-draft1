@@ -1,0 +1,304 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192 (G : Type u_2) \u2192 [Field.{u_1} k] \u2192 [Group.{u_2} G] \u2192 Type (max (max u_1 u_2) u_2 u_1)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2203091039",
+      "temporary_id": "decl-001217"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (G : Type u_2) \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Group.{u_2} G] \u2192\n        [Fintype.{u_2} G] \u2192\n          [DecidableEq.{u_2 + 1} G] \u2192\n            LinearMap.{u_1, u_1, max u_2 u_1, max u_1 u_2} (RingHom.id.{u_1} k) (MonoidAlgebra.{u_1, u_2} k G)\n              (ConjClasses.{u_2} G \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3286321758",
+      "temporary_id": "decl-001223"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (G : Type u_2) \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Group.{u_2} G] \u2192\n        [Fintype.{u_2} G] \u2192\n          [DecidableEq.{u_2 + 1} G] \u2192\n            LinearMap.{u_1, u_1, max u_2 u_1, max u_1 u_2} (RingHom.id.{u_1} k)\n              (decl-001217.{u_1, u_2} k G) (ConjClasses.{u_2} G \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001217",
+        "decl-001242"
+      ],
+      "structural_type_hash": "1361383282",
+      "temporary_id": "decl-001227"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [inst_2 : Fintype.{u_2} G]\n  [inst_3 : DecidableEq.{u_2 + 1} G],\n  Function.Surjective.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (decl-001227.{u_1, u_2} k G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001217",
+        "decl-001227",
+        "decl-001242"
+      ],
+      "structural_type_hash": "4256102695",
+      "temporary_id": "decl-001229"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [inst_2 : Fintype.{u_2} G]\n  [inst_3 : DecidableEq.{u_2 + 1} G] (x y : MonoidAlgebra.{u_1, u_2} k G),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (decl-001223.{u_1, u_2} k G) (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2} x y))\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (decl-001223.{u_1, u_2} k G) (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2} y x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001223"
+      ],
+      "structural_type_hash": "2709286754",
+      "temporary_id": "decl-001230"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [inst_2 : Fintype.{u_2} G]\n  [inst_3 : DecidableEq.{u_2 + 1} G] (g : G) (c : k),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (decl-001223.{u_1, u_2} k G) (MonoidAlgebra.single.{u_1, u_2} g c))\n    fun C' => ite.{u_1 + 1} (Eq.{u_2 + 1} (ConjClasses.mk.{u_2} g) C') c 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001223"
+      ],
+      "structural_type_hash": "2334385920",
+      "temporary_id": "decl-001238"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [inst_2 : Fintype.{u_2} G]\n  [inst_3 : DecidableEq.{u_2 + 1} G],\n  Function.Surjective.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (decl-001223.{u_1, u_2} k G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001223"
+      ],
+      "structural_type_hash": "2848180873",
+      "temporary_id": "decl-001239"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (G : Type u_2) \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Group.{u_2} G] \u2192 ConjClasses.{u_2} G \u2192 decl-001217.{u_1, u_2} k G",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001217"
+      ],
+      "structural_type_hash": "941875147",
+      "temporary_id": "decl-001240"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (G : Type u_2) \u2192\n    [inst : Field.{u_1} k] \u2192 [Group.{u_2} G] \u2192 Submodule.{u_1, max u_2 u_1} k (MonoidAlgebra.{u_1, u_2} k G)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3187283965",
+      "temporary_id": "decl-001242"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [inst_2 : Fintype.{u_2} G]\n  [inst_3 : DecidableEq.{u_2 + 1} G],\n  LE.le.{max u_1 u_2} (decl-001242.{u_1, u_2} k G)\n    (LinearMap.ker.{u_1, u_1, max u_1 u_2, max u_1 u_2} (decl-001223.{u_1, u_2} k G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001223",
+        "decl-001242"
+      ],
+      "structural_type_hash": "3440606788",
+      "temporary_id": "decl-001244"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] (M : Type u_3)\n  [inst_2 : AddCommGroup.{u_3} M] [inst_3 : Module.{u_1, u_3} k M]\n  [inst_4 : Module.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) M]\n  [inst_5 : IsScalarTower.{u_1, max u_2 u_1, u_3} k (MonoidAlgebra.{u_1, u_2} k G) M],\n  LE.le.{max u_1 u_2} (decl-001242.{u_1, u_2} k G)\n    (LinearMap.ker.{u_1, u_1, max u_1 u_2, u_1} (decl-001271.{u_1, u_2, u_3} k M))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001242",
+        "decl-001271"
+      ],
+      "structural_type_hash": "3130798940",
+      "temporary_id": "decl-001247"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [Fintype.{u_2} G]\n  [DecidableEq.{u_2 + 1} G],\n  Eq.{1} (Module.finrank.{u_1, max u_2 u_1} k (decl-001217.{u_1, u_2} k G))\n    (Nat.card.{u_2} (ConjClasses.{u_2} G))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001217",
+        "decl-001242"
+      ],
+      "structural_type_hash": "487942301",
+      "temporary_id": "decl-001250"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] [Fintype.{u_2} G],\n  Module.Finite.{u_1, max u_2 u_1} k (decl-001217.{u_1, u_2} k G)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001217",
+        "decl-001242"
+      ],
+      "structural_type_hash": "3860079927",
+      "temporary_id": "decl-001252"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [Fintype.{u_2} G],\n  Module.Finite.{u_1, max u_2 u_1} k (MonoidAlgebra.{u_1, u_2} k G)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "930636923",
+      "temporary_id": "decl-001253"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] (g : G),\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n      (Submodule.mkQ.{u_1, max u_1 u_2} (decl-001242.{u_1, u_2} k G))\n      (MonoidAlgebra.single.{u_1, u_2} g 1))\n    (decl-001240.{u_1, u_2} k G (ConjClasses.mk.{u_2} g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001240",
+        "decl-001242"
+      ],
+      "structural_type_hash": "42719423",
+      "temporary_id": "decl-001254"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  {G : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Group.{u_2} G] \u2192\n        (M : Type u_3) \u2192\n          [inst_2 : AddCommGroup.{u_3} M] \u2192\n            [inst_3 : Module.{u_1, u_3} k M] \u2192\n              [inst_4 : Module.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) M] \u2192\n                [IsScalarTower.{u_1, max u_2 u_1, u_3} k (MonoidAlgebra.{u_1, u_2} k G) M] \u2192\n                  AlgHom.{u_1, max u_2 u_1, u_3} k (MonoidAlgebra.{u_1, u_2} k G) (Module.End.{u_1, u_3} k M)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4006743972",
+      "temporary_id": "decl-001255"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] (M : Type u_3)\n  [inst_2 : AddCommGroup.{u_3} M] [inst_3 : Module.{u_1, u_3} k M]\n  [inst_4 : Module.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) M]\n  [inst_5 : IsScalarTower.{u_1, max u_2 u_1, u_3} k (MonoidAlgebra.{u_1, u_2} k G) M] (x : MonoidAlgebra.{u_1, u_2} k G)\n  (m : M),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n      (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_3 + 1}\n        (decl-001255.{u_1, u_2, u_3} k M) x)\n      m)\n    (HSMul.hSMul.{max u_1 u_2, u_3, u_3} x m)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001255"
+      ],
+      "structural_type_hash": "2707708248",
+      "temporary_id": "decl-001259"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] {a b : G},\n  IsConj.{u_2} a b \u2192\n    Membership.mem.{max u_1 u_2, max u_1 u_2} (decl-001242.{u_1, u_2} k G)\n      (HSub.hSub.{max u_1 u_2, max u_2 u_1, max u_1 u_2} (MonoidAlgebra.single.{u_1, u_2} a 1)\n        (MonoidAlgebra.single.{u_1, u_2} b 1))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001242"
+      ],
+      "structural_type_hash": "2698148947",
+      "temporary_id": "decl-001261"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G],\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (Submodule.span.{u_1, max u_1 u_2} k\n      (Set.range.{max u_1 u_2, u_2 + 1} (decl-001240.{u_1, u_2} k G)))\n    Top.top.{max u_1 u_2}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001217",
+        "decl-001240",
+        "decl-001242"
+      ],
+      "structural_type_hash": "1572584338",
+      "temporary_id": "decl-001269"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [Group.{u_2} G],\n  Eq.{max (u_1 + 1) (u_2 + 1)}\n    (Submodule.span.{u_1, max u_1 u_2} k\n      (Set.range.{max u_1 u_2, u_2 + 1} fun g => MonoidAlgebra.single.{u_1, u_2} g 1))\n    Top.top.{max u_1 u_2}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1026025661",
+      "temporary_id": "decl-001270"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  {G : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Group.{u_2} G] \u2192\n        (M : Type u_3) \u2192\n          [inst_2 : AddCommGroup.{u_3} M] \u2192\n            [inst_3 : Module.{u_1, u_3} k M] \u2192\n              [inst_4 : Module.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) M] \u2192\n                [IsScalarTower.{u_1, max u_2 u_1, u_3} k (MonoidAlgebra.{u_1, u_2} k G) M] \u2192\n                  LinearMap.{u_1, u_1, max u_2 u_1, u_1} (RingHom.id.{u_1} k) (MonoidAlgebra.{u_1, u_2} k G) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2083090904",
+      "temporary_id": "decl-001271"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  {G : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : Group.{u_2} G] \u2192\n        (M : Type u_3) \u2192\n          [inst_2 : AddCommGroup.{u_3} M] \u2192\n            [inst_3 : Module.{u_1, u_3} k M] \u2192\n              [inst_4 : Module.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) M] \u2192\n                [IsScalarTower.{u_1, max u_2 u_1, u_3} k (MonoidAlgebra.{u_1, u_2} k G) M] \u2192\n                  LinearMap.{u_1, u_1, max u_2 u_1, u_1} (RingHom.id.{u_1} k)\n                    (decl-001217.{u_1, u_2} k G) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001217",
+        "decl-001242"
+      ],
+      "structural_type_hash": "1111877017",
+      "temporary_id": "decl-001276"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] (M : Type u_3)\n  [inst_2 : AddCommGroup.{u_3} M] [inst_3 : Module.{u_1, u_3} k M]\n  [inst_4 : Module.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) M]\n  [inst_5 : IsScalarTower.{u_1, max u_2 u_1, u_3} k (MonoidAlgebra.{u_1, u_2} k G) M] (g : G),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_1 + 1}\n      (decl-001276.{u_1, u_2, u_3} k M)\n      (decl-001240.{u_1, u_2} k G (ConjClasses.mk.{u_2} g)))\n    (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_3 + 1, u_1 + 1} (LinearMap.trace.{u_1, u_3} k M)\n      (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_3 + 1}\n        (decl-001255.{u_1, u_2, u_3} k M) (MonoidAlgebra.single.{u_1, u_2} g 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001217",
+        "decl-001240",
+        "decl-001242",
+        "decl-001255",
+        "decl-001276"
+      ],
+      "structural_type_hash": "712707576",
+      "temporary_id": "decl-001278"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] (M : Type u_3)\n  [inst_2 : AddCommGroup.{u_3} M] [inst_3 : Module.{u_1, u_3} k M]\n  [inst_4 : Module.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) M]\n  [inst_5 : IsScalarTower.{u_1, max u_2 u_1, u_3} k (MonoidAlgebra.{u_1, u_2} k G) M]\n  (x : MonoidAlgebra.{u_1, u_2} k G),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_1 + 1}\n      (decl-001276.{u_1, u_2, u_3} k M)\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n        (Submodule.mkQ.{u_1, max u_1 u_2} (decl-001242.{u_1, u_2} k G)) x))\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_1 + 1}\n      (decl-001271.{u_1, u_2, u_3} k M) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001217",
+        "decl-001242",
+        "decl-001271",
+        "decl-001276"
+      ],
+      "structural_type_hash": "3701106702",
+      "temporary_id": "decl-001279"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] (M : Type u_3)\n  [inst_2 : AddCommGroup.{u_3} M] [inst_3 : Module.{u_1, u_3} k M]\n  [inst_4 : Module.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) M]\n  [inst_5 : IsScalarTower.{u_1, max u_2 u_1, u_3} k (MonoidAlgebra.{u_1, u_2} k G) M] (g : G),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_1 + 1}\n      (decl-001276.{u_1, u_2, u_3} k M)\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n        (Submodule.mkQ.{u_1, max u_1 u_2} (decl-001242.{u_1, u_2} k G))\n        (MonoidAlgebra.single.{u_1, u_2} g 1)))\n    (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_3 + 1, u_1 + 1} (LinearMap.trace.{u_1, u_3} k M)\n      (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_3 + 1}\n        (decl-001255.{u_1, u_2, u_3} k M) (MonoidAlgebra.single.{u_1, u_2} g 1)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001217",
+        "decl-001242",
+        "decl-001255",
+        "decl-001276"
+      ],
+      "structural_type_hash": "2987750150",
+      "temporary_id": "decl-001280"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] (M : Type u_3)\n  [inst_2 : AddCommGroup.{u_3} M] [inst_3 : Module.{u_1, u_3} k M]\n  [inst_4 : Module.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) M]\n  [inst_5 : IsScalarTower.{u_1, max u_2 u_1, u_3} k (MonoidAlgebra.{u_1, u_2} k G) M]\n  (x : MonoidAlgebra.{u_1, u_2} k G),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_1 + 1}\n      (decl-001271.{u_1, u_2, u_3} k M) x)\n    (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), u_3 + 1, u_1 + 1} (LinearMap.trace.{u_1, u_3} k M)\n      (DFunLike.coe.{max (max (u_1 + 1) (u_3 + 1)) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_3 + 1}\n        (decl-001255.{u_1, u_2, u_3} k M) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001255",
+        "decl-001271"
+      ],
+      "structural_type_hash": "3646343966",
+      "temporary_id": "decl-001281"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} [inst : Field.{u_1} k] [inst_1 : Group.{u_2} G] (M : Type u_3)\n  [inst_2 : AddCommGroup.{u_3} M] [inst_3 : Module.{u_1, u_3} k M]\n  [inst_4 : Module.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) M]\n  [inst_5 : IsScalarTower.{u_1, max u_2 u_1, u_3} k (MonoidAlgebra.{u_1, u_2} k G) M]\n  (x y : MonoidAlgebra.{u_1, u_2} k G),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_1 + 1}\n      (decl-001271.{u_1, u_2, u_3} k M)\n      (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2} x y))\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_1 + 1}\n      (decl-001271.{u_1, u_2, u_3} k M)\n      (HMul.hMul.{max u_1 u_2, max u_1 u_2, max u_1 u_2} y x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001271"
+      ],
+      "structural_type_hash": "1575190118",
+      "temporary_id": "decl-001283"
+    }
+  ],
+  "module_temporary_id": "module-0211",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

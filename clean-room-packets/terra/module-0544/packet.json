@@ -1,0 +1,66 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {N M : Nat} {B : Type} [inst_1 : CommRing.{0} B] [IsDomain.{0} B]\n  [inst_3 : Algebra.{0, 0} k B] {K : Type} [inst_4 : Field.{0} K] [inst_5 : Algebra.{0, 0} k K]\n  [inst_6 : Algebra.{0, 0} B K] [IsScalarTower.{0, 0, 0} k B K] [IsFractionRing.{0, 0} B K]\n  (e : AlgEquiv.{0, 0, 0} k K (FractionRing.{0} (MvPolynomial.{0, 0} (Fin M) k)))\n  (\u03c6 : AlgHom.{0, 0, 0} k (MvPolynomial.{0, 0} (Fin N) k) B),\n  Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} \u03c6) \u2192 LE.le.{0} N M",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1455945061",
+      "temporary_id": "decl-012829"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {N M : Nat} {B : Type} [inst_1 : CommRing.{0} B] [IsDomain.{0} B]\n  [inst_3 : Algebra.{0, 0} k B] {S : Submonoid.{0} (MvPolynomial.{0, 0} (Fin M) k)}\n  [inst_4 : Algebra.{0, 0} (MvPolynomial.{0, 0} (Fin M) k) B] [IsLocalization.{0, 0} S B]\n  [IsScalarTower.{0, 0, 0} k (MvPolynomial.{0, 0} (Fin M) k) B]\n  (\u03c6 : AlgHom.{0, 0, 0} k (MvPolynomial.{0, 0} (Fin N) k) B),\n  Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} \u03c6) \u2192 LE.le.{0} N M",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "693258365",
+      "temporary_id": "decl-012830"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {N M : Nat} {B : Type} [inst_1 : CommRing.{0} B] [IsDomain.{0} B]\n  [inst_3 : Algebra.{0, 0} k B] {K : Type} [inst_4 : Field.{0} K] [inst_5 : Algebra.{0, 0} k K]\n  [inst_6 : Algebra.{0, 0} B K] [IsScalarTower.{0, 0, 0} k B K] [IsFractionRing.{0, 0} B K]\n  (e : AlgEquiv.{0, 0, 0} k K (FractionRing.{0} (MvPolynomial.{0, 0} (Fin M) k)))\n  (\u03c6 : AlgHom.{0, 0, 0} k (MvPolynomial.{0, 0} (Fin N) k) B),\n  Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} \u03c6) \u2192\n    Exists.{1} fun f => Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3908702469",
+      "temporary_id": "decl-012846"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {N M : Nat} {B : Type} [inst_1 : CommRing.{0} B] [IsDomain.{0} B]\n  [inst_3 : Algebra.{0, 0} k B] {S : Submonoid.{0} (MvPolynomial.{0, 0} (Fin M) k)}\n  [inst_4 : Algebra.{0, 0} (MvPolynomial.{0, 0} (Fin M) k) B] [IsLocalization.{0, 0} S B]\n  [IsScalarTower.{0, 0, 0} k (MvPolynomial.{0, 0} (Fin M) k) B]\n  (\u03c6 : AlgHom.{0, 0, 0} k (MvPolynomial.{0, 0} (Fin N) k) B),\n  Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} \u03c6) \u2192\n    Exists.{1} fun f => Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "112406891",
+      "temporary_id": "decl-012847"
+    },
+    {
+      "formal_type": "\u2200 {k : Type} [inst : Field.{0} k] {N M : Nat}\n  (\u03c6 : AlgHom.{0, 0, 0} k (MvPolynomial.{0, 0} (Fin N) k) (MvPolynomial.{0, 0} (Fin M) k)),\n  Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} \u03c6) \u2192\n    Exists.{1} fun f => Function.Injective.{1, 1} (DFunLike.coe.{1, 1, 1} f)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3101967394",
+      "temporary_id": "decl-012848"
+    }
+  ],
+  "module_temporary_id": "module-0544",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

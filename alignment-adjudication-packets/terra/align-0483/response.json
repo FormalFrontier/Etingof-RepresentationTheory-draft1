@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0483",
+  "associations": [
+    {
+      "association_id": "association:a60e1483c7ad3255de8c",
+      "role": "primary",
+      "rationale": "The theorem directly produces an exhaustive pairwise nonisomorphic family of simple representations, sets each multiplicity to its dimension, defines the componentwise action, and identifies the regular representation with that decomposition."
+    },
+    {
+      "association_id": "association:5b05f83f53ae428f6aea",
+      "role": "supporting",
+      "rationale": "This isomorphism identifies the regular representation with a packaged column-multiplicity representation, but the displayed type does not itself expose that each multiplicity equals the corresponding irreducible dimension."
+    }
+  ]
+}

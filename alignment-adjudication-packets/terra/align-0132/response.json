@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0132",
+  "associations": [
+    {
+      "association_id": "association:baaca43f16702c29afb9",
+      "role": "primary",
+      "rationale": "This character inner-product formula directly supplies a row orthogonality relation for a character table."
+    },
+    {
+      "association_id": "association:36ee1d6083cd172f6eca",
+      "role": "primary",
+      "rationale": "This sum formula directly supplies the conjugacy-class column orthogonality relation."
+    }
+  ]
+}

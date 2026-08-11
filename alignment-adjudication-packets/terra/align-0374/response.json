@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0374",
+  "associations": [
+    {
+      "association_id": "association:084681dbbf53f0062257",
+      "role": "primary",
+      "rationale": "The formal type directly gives an equivalence between Lie homomorphisms into endomorphisms and algebra homomorphisms from the universal enveloping algebra into endomorphisms."
+    }
+  ]
+}

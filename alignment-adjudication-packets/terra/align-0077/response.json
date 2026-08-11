@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0077",
+  "associations": [
+    {
+      "association_id": "association:bb65472af03c89190284",
+      "role": "supporting",
+      "rationale": "This disjointness lemma is a lattice-theoretic helper for constructing complementary submodules."
+    },
+    {
+      "association_id": "association:9df53bcb546b9f2d5583",
+      "role": "primary",
+      "rationale": "Its conclusion directly produces a selected subfamily whose sum is complementary to the kernel of f."
+    }
+  ]
+}

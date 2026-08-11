@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:567721b76ea1e04e7dc0",
+      "declaration": "Etingof.Representation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/8/claim_coverage/claims/4/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192 (V : Type u_2) \u2192 [Ring.{u_1} A] \u2192 [AddCommGroup.{u_2} V] \u2192 Type (max u_1 u_2)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_1"
+    },
+    {
+      "association_id": "association:bf40ffb8c591d59b15c9",
+      "declaration": "Etingof.Representation.ofAlgHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/8/claim_coverage/claims/4/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                AlgHom.{u_1, u_2, u_3} k A (Module.End.{u_1, u_3} k V) \u2192 Module.{u_2, u_3} A V",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_1"
+    },
+    {
+      "association_id": "association:acd4600320d64dfae368",
+      "declaration": "Etingof.Representation.ofAlgHom_toAlgHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/8/claim_coverage/claims/4/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V],\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (Etingof.Representation.ofAlgHom.{u_1, u_2, u_3} k A V (Etingof.Representation.toAlgHom.{u_1, u_2, u_3} k A V))\n    inferInstance.{max (u_2 + 1) (u_3 + 1)}",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_1"
+    },
+    {
+      "association_id": "association:1002748409bbe9ae9846",
+      "declaration": "Etingof.Representation.toAlgHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/8/claim_coverage/claims/4/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [IsScalarTower.{u_1, u_2, u_3} k A V] \u2192 AlgHom.{u_1, u_2, u_3} k A (Module.End.{u_1, u_3} k V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_1"
+    },
+    {
+      "association_id": "association:78dc707969246b965887",
+      "declaration": "Etingof.Representation.toAlgHom_ofAlgHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/8/claim_coverage/claims/4/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  (\u03c1 : AlgHom.{u_1, u_2, u_3} k A (Module.End.{u_1, u_3} k V)),\n  Eq.{max (u_2 + 1) (u_3 + 1)} (Etingof.Representation.toAlgHom.{u_1, u_2, u_3} k A V) \u03c1",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.1_overview",
+  "packet_id": "align-0287",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0287"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:573f4049d861e26dcee1",
+  "source_text": "A representation of A is a vector space V with a unital algebra homomorphism A \u2192 End(V), equivalently a left A-module."
+}

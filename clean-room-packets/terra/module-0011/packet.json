@@ -1,0 +1,145 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(A : Type u_1) \u2192 (V : Type u_2) \u2192 [Ring.{u_1} A] \u2192 [AddCommGroup.{u_2} V] \u2192 Type (max u_1 u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3144566157",
+      "temporary_id": "decl-015440"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} {V : Type u_2} [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} A V]\n  (a b : A) (v : V),\n  Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} (HMul.hMul.{u_1, u_1, u_1} a b) v)\n    (HSMul.hSMul.{u_1, u_2, u_2} a (HSMul.hSMul.{u_1, u_2, u_2} b v))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [],
+      "structural_type_hash": "613621570",
+      "temporary_id": "decl-015444"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                AlgHom.{u_1, u_2, u_3} k A (Module.End.{u_1, u_3} k V) \u2192 Module.{u_2, u_3} A V",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [],
+      "structural_type_hash": "2400067996",
+      "temporary_id": "decl-015445"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  (\u03c1 : AlgHom.{u_1, u_2, u_3} k A (Module.End.{u_1, u_3} k V)), IsScalarTower.{u_1, u_2, u_3} k A V",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [
+        "decl-015445"
+      ],
+      "structural_type_hash": "2928791376",
+      "temporary_id": "decl-015447"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  (\u03c1 : AlgHom.{u_1, u_2, u_3} k A (Module.End.{u_1, u_3} k V)) (a : A) (v : V),\n  Eq.{u_3 + 1} (HSMul.hSMul.{u_2, u_3, u_3} a v)\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1} (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 a) v)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [
+        "decl-015445"
+      ],
+      "structural_type_hash": "1813800565",
+      "temporary_id": "decl-015448"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V],\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (decl-015445.{u_1, u_2, u_3} k A V (decl-015463.{u_1, u_2, u_3} k A V))\n    inferInstance.{max (u_2 + 1) (u_3 + 1)}",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [
+        "decl-015445",
+        "decl-015463"
+      ],
+      "structural_type_hash": "2154050154",
+      "temporary_id": "decl-015449"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} (MulOpposite.{u_2} A) V] \u2192\n                  [IsScalarTower.{u_1, u_2, u_3} k (MulOpposite.{u_2} A) V] \u2192\n                    AlgHom.{u_1, u_2, u_3} k (MulOpposite.{u_2} A) (Module.End.{u_1, u_3} k V)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [],
+      "structural_type_hash": "2208162396",
+      "temporary_id": "decl-015454"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} (MulOpposite.{u_2} A) V]\n  [inst_6 : IsScalarTower.{u_1, u_2, u_3} k (MulOpposite.{u_2} A) V] (a : A) (v : V),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1}\n        (decl-015454.{u_1, u_2, u_3} k A V) (MulOpposite.op.{u_2} a))\n      v)\n    (HSMul.hSMul.{u_2, u_3, u_3} (MulOpposite.op.{u_2} a) v)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [
+        "decl-015454"
+      ],
+      "structural_type_hash": "1469400505",
+      "temporary_id": "decl-015455"
+    },
+    {
+      "formal_type": "\u2200 {A : Type u_1} {V : Type u_2} [inst : Ring.{u_1} A] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} (MulOpposite.{u_1} A) V] (a b : A) (v : V),\n  Eq.{u_2 + 1} (HSMul.hSMul.{u_1, u_2, u_2} (MulOpposite.op.{u_1} (HMul.hMul.{u_1, u_1, u_1} a b)) v)\n    (HSMul.hSMul.{u_1, u_2, u_2} (MulOpposite.op.{u_1} b) (HSMul.hSMul.{u_1, u_2, u_2} (MulOpposite.op.{u_1} a) v))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [],
+      "structural_type_hash": "4010037149",
+      "temporary_id": "decl-015456"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : Ring.{u_2} A] \u2192\n          [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : Module.{u_2, u_3} A V] \u2192\n                  [IsScalarTower.{u_1, u_2, u_3} k A V] \u2192 AlgHom.{u_1, u_2, u_3} k A (Module.End.{u_1, u_3} k V)",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [],
+      "structural_type_hash": "2695626050",
+      "temporary_id": "decl-015463"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] (a : A) (v : V),\n  Eq.{u_3 + 1}\n    (DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}\n      (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} (decl-015463.{u_1, u_2, u_3} k A V)\n        a)\n      v)\n    (HSMul.hSMul.{u_2, u_3, u_3} a v)",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [
+        "decl-015463"
+      ],
+      "structural_type_hash": "283214480",
+      "temporary_id": "decl-015466"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : CommRing.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  (\u03c1 : AlgHom.{u_1, u_2, u_3} k A (Module.End.{u_1, u_3} k V)),\n  Eq.{max (u_2 + 1) (u_3 + 1)} (decl-015463.{u_1, u_2, u_3} k A V) \u03c1",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [
+        "decl-015445",
+        "decl-015447",
+        "decl-015463"
+      ],
+      "structural_type_hash": "33603004",
+      "temporary_id": "decl-015467"
+    },
+    {
+      "formal_type": "(A : Type u_1) \u2192 (V : Type u_2) \u2192 [Ring.{u_1} A] \u2192 [AddCommGroup.{u_2} V] \u2192 Type (max u_1 u_2)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3144566157",
+      "temporary_id": "decl-015498"
+    }
+  ],
+  "module_temporary_id": "module-0011",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

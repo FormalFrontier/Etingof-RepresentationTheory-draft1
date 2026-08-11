@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0d604cf3f395e83ea40b",
+      "declaration": "Etingof.Problem6_1_6.mckay_connected",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/412/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)}\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] {m : Nat}\n  (W : Fin m \u2192 FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} G x)),\n  Etingof.Problem6_1_6.IsCompleteIrreps W \u2192\n    \u2200 (i j : Fin m),\n      Exists.{1} fun path =>\n        And (Eq.{1} (List.head?.{0} path) (Option.some.{0} i))\n          (And (Eq.{1} (List.getLast?.{0} path) (Option.some.{0} j))\n            (\u2200 (k : Nat) (h : LT.lt.{0} (HAdd.hAdd.{0, 0, 0} k 1) (List.length.{0} path)),\n              LE.le.{0} 1\n                (Etingof.Problem6_1_6.mult W (List.get.{0} path \u27e8k, \u22ef\u27e9)\n                  (List.get.{0} path \u27e8HAdd.hAdd.{0, 0, 0} k 1, h\u27e9))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_6"
+    },
+    {
+      "association_id": "association:1de8b5e2ed1d91fb5997",
+      "declaration": "Etingof.Problem6_1_6.mckay_dims_are_marks",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/412/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)}\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] {m : Nat}\n  (W : Fin m \u2192 FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} G x)),\n  Etingof.Problem6_1_6.IsCompleteIrreps W \u2192\n    \u2200 (i : Fin m),\n      Eq.{1}\n        (Finset.sum.{0, 0} Finset.univ.{0} fun j =>\n          HMul.hMul.{0, 0, 0} (Etingof.Problem6_1_6.mckayCartan W i j)\n            (Nat.cast.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (W j))))))\n        0",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_6"
+    },
+    {
+      "association_id": "association:e5d3da9824c86770f925",
+      "declaration": "Etingof.Problem6_1_6.mckay_isAffineDynkin",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/412/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)}\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] {m : Nat}\n  (W : Fin m \u2192 FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} G x)),\n  Etingof.Problem6_1_6.IsCompleteIrreps W \u2192\n    LE.le.{0} 3 m \u2192\n      Nontrivial.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} G x) \u2192\n        Etingof.Problem6_1_3_tildeE.IsAffineDynkinDiagram m (Etingof.Problem6_1_6.mckayAdj W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_6"
+    },
+    {
+      "association_id": "association:1fc7f4b750d8ba30f8fd",
+      "declaration": "Etingof.Problem6_1_6.mult_symm",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/412/lean_decl",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {G : Subgroup.{0} (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)}\n  [Finite.{1} (Subtype.{1} fun x => Membership.mem.{0, 0} G x)] {m : Nat}\n  (W : Fin m \u2192 FDRep.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} G x)),\n  Etingof.Problem6_1_6.IsCompleteIrreps W \u2192\n    \u2200 (i j : Fin m), Eq.{1} (Etingof.Problem6_1_6.mult W i j) (Etingof.Problem6_1_6.mult W j i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_6"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.6",
+  "packet_id": "align-1265",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1265"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter6/Problem6.1.6",
+  "source_text": "**Problem 6.1.6.** Let $G \\neq \\{1\\}$ be a finite subgroup of $SU(2)$ and let $V$ be the 2-dimensional representation of $G$ coming from its embedding into $SU(2)$. Let $V_i$, $i \\in I$, be all the irreducible representations of $G$. Let $r_{ij}$ be the multiplicity of $V_i$ in $V \\otimes V_j$.\n\n(a) Show that $r_{ij} = r_{ji}$.\n\n(b) The **McKay graph** of $G$, $M(G)$, is the graph whose vertices are labeled by $i \\in I$, and $i$ is connected to $j$ by $r_{ij}$ edges. Show that $M(G)$ is connected. (Use Problem 4.12.10.)\n\n(c) Show that $M(G)$ is an affine Dynkin diagram (one of the \"forbidden\" graphs in Problem 6.1.3). For this, show that the matrix $a_{ij} = 2\\delta_{ij} - r_{ij}$ is positive semidefinite but not definite, and use Problem 6.1.3.\n\nHint: Let $f = \\sum x_i \\chi_{V_i}$, where $\\chi_{V_i}$ are the characters of $V_i$. Show directly that $((2 - \\chi_V)f, f) \\geq 0$. When is it equal to 0? Next, show\nthat $M(G)$ has no self-loops by using the fact that if $G$ is not cyclic, then $G$ contains the central element $-\\text{Id} \\in SU(2)$.\n\n(d) Which groups from Problem 4.12.8 correspond to which diagrams?\n\n(e) Using the McKay graph, find the dimensions of irreducible representations of all finite $G \\subset SU(2)$ (namely, show that they are the numbers labeling the vertices of the affine Dynkin diagrams on our pictures). Compare with the results on subgroups of $SO(3)$ we obtained in Problem 4.12.8.\n\n"
+}

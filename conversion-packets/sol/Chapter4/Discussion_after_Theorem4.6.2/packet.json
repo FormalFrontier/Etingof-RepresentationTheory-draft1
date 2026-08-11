@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Discussion_after_Theorem4.6.2",
+    "kind": "discussion",
+    "title": "Complex conjugate representation isomorphic to dual via unitary structure",
+    "node_id": "chapter-04/section-4-6",
+    "order": 212,
+    "slug": "discussion-after-theorem4-6-2",
+    "span": {
+      "start": {
+        "page": "71",
+        "line": 15
+      },
+      "end": {
+        "page": "72",
+        "line": 2
+      }
+    },
+    "source_sha256": "52efa0c13c30463ca47b92ff129c7ccf62cf64b604fed084f233e94e35232c0f",
+    "features": {
+      "line_count": 7,
+      "crosses_page": true,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.DiscussionAfterTheorem462",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

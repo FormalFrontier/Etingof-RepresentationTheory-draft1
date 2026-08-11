@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0219",
+  "associations": [
+    {
+      "association_id": "association:75b854fbb89198bc01e4",
+      "role": "primary",
+      "rationale": "The iff directly characterizes membership in the kernel by vanishing of every displayed component map."
+    }
+  ]
+}

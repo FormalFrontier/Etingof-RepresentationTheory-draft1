@@ -1,0 +1,6 @@
+{
+  "packet_id": "align-0035",
+  "associations": [
+    {"association_id": "association:30d6a0bc8bfc9d2f6ffc", "role": "primary", "rationale": "The theorem directly produces reflection vertices ending at an indecomposable representation with a simple-root dimension vector."}
+  ]
+}

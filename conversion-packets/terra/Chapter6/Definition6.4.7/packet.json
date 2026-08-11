@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Definition6.4.7",
+    "kind": "definition",
+    "title": "Definition 6.4.7: Positive and negative roots",
+    "node_id": "chapter-06/section-6-4",
+    "order": 429,
+    "slug": "definition6-4-7",
+    "span": {
+      "start": {
+        "page": "166",
+        "line": 15
+      },
+      "end": {
+        "page": "166",
+        "line": 16
+      }
+    },
+    "source_sha256": "52030e5ba7de48f9cee8f867479f8d8faa5a3efaca88cf983996d7aae578cc34",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition647",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

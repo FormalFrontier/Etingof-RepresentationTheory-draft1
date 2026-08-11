@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Introduction_7.9",
+    "kind": "introduction",
+    "title": "Section 7.9: Exact functors",
+    "node_id": "chapter-07/section-7-9",
+    "order": 510,
+    "slug": "introduction-7-9",
+    "span": {
+      "start": {
+        "page": "194",
+        "line": 19
+      },
+      "end": {
+        "page": "194",
+        "line": 20
+      }
+    },
+    "source_sha256": "f599e04eed07567b9b94a4c02e356e72a1b45329dc13bedcd2c7877fc0f99645",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction79",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

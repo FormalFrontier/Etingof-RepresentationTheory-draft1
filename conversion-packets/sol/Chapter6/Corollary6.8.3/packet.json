@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Corollary6.8.3",
+    "kind": "corollary",
+    "title": "Corollary 6.8.3: Uniqueness of indecomposable with given dimension vector",
+    "node_id": "chapter-06/section-6-8",
+    "order": 456,
+    "slug": "corollary6-8-3",
+    "span": {
+      "start": {
+        "page": "175",
+        "line": 47
+      },
+      "end": {
+        "page": "176",
+        "line": 30
+      }
+    },
+    "source_sha256": "61b72f0a638da03c34070b3d73e8cd0c4b7ad07ecb70e42457159cd653450525",
+    "features": {
+      "line_count": 31,
+      "crosses_page": true,
+      "display_math_delimiters": 10,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Corollary683",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

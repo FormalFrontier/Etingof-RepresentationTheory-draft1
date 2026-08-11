@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0464",
+  "associations": [
+    {
+      "association_id": "association:9f2481e27344c022a401",
+      "role": "primary",
+      "rationale": "The equality directly states that S4 has five conjugacy classes."
+    },
+    {
+      "association_id": "association:cdf995f0ae156db2da25",
+      "role": "supporting",
+      "rationale": "The equality verifies that the squares of 1, 1, 2, 3, and 3 sum to the cardinality of S4, but it does not state that these numbers are the irreducible dimensions."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f56717ee5785e7448d54",
+      "declaration": "Etingof.Problem6_9_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/459/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (\u03c1 : Q\u2082Rep.{0, u_1, u_2} Complex), Q\u2082Rep.Indecomposable.{0, u_1, u_2} \u03c1 \u2192 Etingof.Q\u2082Rep.IsClassified.{u_1, u_2} \u03c1",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_1_Classification"
+    },
+    {
+      "association_id": "association:d60fd7ed42c096de6c53",
+      "declaration": "Etingof.Problem6_9_2.rootsOf_E8_type_E8",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/459/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "And\n  (Etingof.Problem6_9_2.IsSimplyLacedCrystallographicRootSystem\n    (Etingof.Problem6_9_2.rootsOf Etingof.Problem6_9_2.E8Lattice))\n  (And\n    (\u2200 (i : Fin 8),\n      Membership.mem.{0, 0} (Etingof.Problem6_9_2.rootsOf Etingof.Problem6_9_2.E8Lattice) (Etingof.Problem6_9_2.\u03b1 i))\n    (And (Etingof.IsDynkinDiagram 8 Etingof.Problem6_9_2.gramAdj)\n      (Exists.{1} fun \u03c3 =>\n        \u2200 (i j : Fin 8),\n          Eq.{1} (Etingof.Problem6_9_2.gramAdj (DFunLike.coe.{1, 1, 1} \u03c3 i) (DFunLike.coe.{1, 1, 1} \u03c3 j))\n            (Etingof.DynkinType.E8.adj i j))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_2_RootSystem"
+    },
+    {
+      "association_id": "association:d2681188d9f164230e95",
+      "declaration": "Etingof.Problem6_9_3.exists_jordanHolderSeries",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/459/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} {Q : Type u_2} [inst : Field.{u_1} k] [inst_1 : Quiver.{u_4, u_2} Q] [inst_2 : DecidableEq.{u_2 + 1} Q]\n  (V\u03b1 : Etingof.QuiverRepresentation.{u_1, u_2, u_3, u_4} k Q) (n : Nat) (order : Equiv.{u_2 + 1, 1} Q (Fin n)),\n  (\u2200 {v w : Q} (a : Quiver.Hom.{u_4, u_2} v w),\n      LT.lt.{0} (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} order w).val (DFunLike.coe.{u_2 + 1, u_2 + 1, 1} order v).val) \u2192\n    \u2200 (\u03b1 : Q \u2192 Nat)\n      (basis :\n        (v : Q) \u2192\n          Module.Basis.{0, u_1, u_3} (Fin (\u03b1 v)) k (Etingof.QuiverRepresentation.obj.{u_1, u_2, u_3, u_4} V\u03b1 v)),\n      Exists.{max (u_2 + 1) (u_3 + 1)} fun s =>\n        And\n          (Eq.{1} (Etingof.QuiverRepCompositionSeries.length.{u_1, u_2, u_4, u_3} s)\n            (Finset.sum.{0, 0} Finset.univ.{0} fun l =>\n              \u03b1 (DFunLike.coe.{u_2 + 1, 1, u_2 + 1} (Equiv.symm.{u_2 + 1, 1} order) l)))\n          (\u2200 (i : Q),\n            Eq.{1} (Etingof.QuiverRepCompositionSeries.mult.{u_1, u_2, u_4, u_3} s i)\n              (Etingof.Problem6_9_3.dimVec.{u_1, u_2, u_4, u_3} V\u03b1 i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_3"
+    }
+  ],
+  "canonical_reference": "Chapter6/Section6.9_heading",
+  "packet_id": "align-0991",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0991"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:bd5ca3000270fea3c951",
+  "source_text": "The section's three problems have complete final exercise audits and fresh source checks."
+}

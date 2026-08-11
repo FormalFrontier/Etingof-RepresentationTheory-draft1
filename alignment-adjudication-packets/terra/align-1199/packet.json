@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c49bb05decc0500c2ab4",
+      "declaration": "Etingof.isAlgClosed_iff_nonconstant_polynomial_has_root",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/14/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k],\n  Iff (IsAlgClosed.{u_1} k)\n    (\u2200 (p : Polynomial.{u_1} k),\n      Ne.{1} (Polynomial.degree.{u_1} p) 0 \u2192 Exists.{u_1 + 1} fun x => Polynomial.IsRoot.{u_1} p x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_2_intro"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_2.2_intro",
+  "packet_id": "align-1199",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1199"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:fb76ac499a6968af8143",
+  "source_text": "A field is algebraically closed exactly when every nonconstant polynomial over it has a root."
+}

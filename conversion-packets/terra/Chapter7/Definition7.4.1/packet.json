@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Definition7.4.1",
+    "kind": "definition",
+    "title": "Equivalence of categories",
+    "node_id": "chapter-07/section-7-4",
+    "order": 482,
+    "slug": "definition7-4-1",
+    "span": {
+      "start": {
+        "page": "187",
+        "line": 1
+      },
+      "end": {
+        "page": "187",
+        "line": 4
+      }
+    },
+    "source_sha256": "f8a99b5d8f2fdba97c1d7e41f69bd5c66993b61956cc634b8cc8a4e5867a96e0",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition741",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

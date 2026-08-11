@@ -1,0 +1,50 @@
+{
+  "module_name": "LieModule.ActionFibers",
+  "declarations": [
+    {
+      "temporary_id": "decl-015631",
+      "new_name": "ActionFiber",
+      "docstring": "The type associated to a complex Lie algebra action on a complex vector space."
+    },
+    {
+      "temporary_id": "decl-015634",
+      "new_name": "addCommGroup",
+      "docstring": "The additive commutative group structure on an action fiber."
+    },
+    {
+      "temporary_id": "decl-015652",
+      "new_name": "finiteDimensional",
+      "docstring": "An action fiber is finite-dimensional when its ambient vector space is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-015654",
+      "new_name": "lieModule",
+      "docstring": "The action fiber carries the indicated complex Lie module structure."
+    },
+    {
+      "temporary_id": "decl-015655",
+      "new_name": "lieRingModule",
+      "docstring": "The action fiber has the corresponding Lie ring module structure."
+    },
+    {
+      "temporary_id": "decl-015656",
+      "new_name": "moduleInstance",
+      "docstring": "The action fiber is a module over the complex numbers."
+    },
+    {
+      "temporary_id": "decl-015664",
+      "new_name": "distinguishedElementAction_eq",
+      "docstring": "Evaluating the action-fiber construction at the distinguished element recovers the original action."
+    },
+    {
+      "temporary_id": "decl-015912",
+      "new_name": "exists_actionFiber_of_isNilpotent",
+      "docstring": "A nilpotent endomorphism occurs as the action of the distinguished element, uniquely up to Lie module equivalence."
+    },
+    {
+      "temporary_id": "decl-016089",
+      "new_name": "actionFiberEquiv_of_distinguishedElementAction_eq",
+      "docstring": "Actions agreeing at the distinguished element have equivalent action fibers."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:63df971144edbffa3c67",
+      "declaration": "Etingof.endomorphism_semisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/126/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) (V : Type u_3) [inst : Field.{u_1} k] [inst_1 : Ring.{u_2} A]\n  [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V]\n  [inst_5 : Module.{u_2, u_3} A V] [inst_6 : IsScalarTower.{u_1, u_2, u_3} k A V] [FiniteDimensional.{u_1, u_3} k V]\n  [IsSimpleModule.{u_2, u_3} A V], IsSemisimpleModule.{u_2, u_3} A (Module.End.{u_1, u_3} k V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_1_2"
+    }
+  ],
+  "canonical_reference": "Chapter3/Example3.1.2",
+  "packet_id": "align-0474",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0474"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:96c0493e5297871c9c72",
+  "source_text": "If V is irreducible and finite-dimensional, End_k(V), with A acting by left multiplication, is a semisimple A-representation."
+}

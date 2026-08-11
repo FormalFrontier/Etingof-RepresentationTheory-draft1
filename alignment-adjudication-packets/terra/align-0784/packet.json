@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a7d37236c020ab743a0a",
+      "declaration": "Etingof.Problem6_1_3_tildeE.cartan_det_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/408/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (t : Etingof.Problem6_1_3_tildeE.AffineType),\n  Eq.{1} (Matrix.det.{0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) t.adj)) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE"
+    },
+    {
+      "association_id": "association:1b7e0e76a11c5dfeffc3",
+      "declaration": "Etingof.Problem6_1_3_tildeE.cartan_mulVec_marks_eq_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/408/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (t : Etingof.Problem6_1_3_tildeE.AffineType),\n  Eq.{1} (Matrix.mulVec.{0, 0, 0} (HSub.hSub.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} 2 1) t.adj) t.marks) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE"
+    },
+    {
+      "association_id": "association:3de731b06ee0dc5d2843",
+      "declaration": "Etingof.Problem6_1_3_tildeE.isAffineDynkinDiagram_of_type",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/408/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (t : Etingof.Problem6_1_3_tildeE.AffineType), Etingof.Problem6_1_3_tildeE.IsAffineDynkinDiagram t.rank t.adj",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE"
+    }
+  ],
+  "canonical_reference": "Chapter6/Problem6.1.3_continued_tildeE",
+  "packet_id": "align-0784",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0784"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter6/Problem6.1.3_continued_tildeE:forbidden_affine_diagrams",
+  "source_text": "Verify the displayed affine E diagrams and marks among the determinant-zero obstructions."
+}

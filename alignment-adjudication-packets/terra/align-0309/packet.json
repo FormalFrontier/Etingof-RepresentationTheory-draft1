@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:ad074147490bd5dfa7b9",
+      "declaration": "Etingof.DualRepresentation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/140/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_4) \u2192\n  Type u_5 \u2192\n    (V : Type u_6) \u2192\n      [inst : CommRing.{u_4} k] \u2192 [inst_1 : AddCommGroup.{u_6} V] \u2192 [Module.{u_4, u_6} k V] \u2192 Type (max u_6 u_4)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Definition3_3_2"
+    }
+  ],
+  "canonical_reference": "Chapter3/Definition3.3.2",
+  "packet_id": "align-0309",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0309"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:5c667f1c903ba03945db",
+  "source_text": "The underlying space of the dual representation V* is the k-linear dual Hom_k(V,k)."
+}

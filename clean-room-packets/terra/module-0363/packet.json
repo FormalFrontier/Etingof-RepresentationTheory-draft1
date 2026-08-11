@@ -1,0 +1,74 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Monoid.{u_2} G]\n  [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V] [FiniteDimensional.{u_1, u_3} k V]\n  (\u03c1 : Representation.{u_1, u_2, u_3} k G V)\n  [IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_3} \u03c1)],\n  Function.Surjective.{max (u_1 + 1) (u_2 + 1), u_3 + 1}\n    (DFunLike.coe.{max (max (u_1 + 1) (u_2 + 1)) (u_3 + 1), max (u_1 + 1) (u_2 + 1), u_3 + 1}\n      (Representation.asAlgebraHom.{u_1, u_2, u_3} \u03c1))",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [],
+      "structural_type_hash": "2763267739",
+      "temporary_id": "decl-015441"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Monoid.{u_2} G]\n  [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V] [FiniteDimensional.{u_1, u_3} k V]\n  (\u03c1 : Representation.{u_1, u_2, u_3} k G V)\n  [IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_3} \u03c1)],\n  Eq.{u_3 + 1}\n    (Submodule.span.{u_1, u_3} k\n      (Set.range.{u_3, u_2 + 1} fun g => DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g))\n    Top.top.{u_3}",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-015440",
+      "project_type_dependencies": [],
+      "structural_type_hash": "2778548447",
+      "temporary_id": "decl-015457"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {V : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (\u03c6 : Module.Dual.{u_1, u_2} k V) (w : V)\n  (S : LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} k) V V),\n  Eq.{u_2 + 1}\n    (LinearMap.comp.{u_1, u_1, u_1, u_2, u_2, u_2}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_2 + 1} (dualTensorHom.{u_1, u_2, u_2} k V V)\n        (TensorProduct.tmul.{u_1, max u_1 u_2, u_2} k \u03c6 w))\n      S)\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_2 + 1} (dualTensorHom.{u_1, u_2, u_2} k V V)\n      (TensorProduct.tmul.{u_1, max u_1 u_2, u_2} k (LinearMap.comp.{u_1, u_1, u_1, u_2, u_2, u_1} \u03c6 S) w))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1527653678",
+      "temporary_id": "decl-018458"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {V : Type u_2} [inst : CommRing.{u_1} k] [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{u_1, u_2} k V] (T : LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} k) V V)\n  (z : TensorProduct.{u_1, max u_2 u_1, u_2} k (Module.Dual.{u_1, u_2} k V) V),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_2 + 1} (dualTensorHom.{u_1, u_2, u_2} k V V)\n      (DFunLike.coe.{max (u_2 + 1) ((max u_1 u_2) + 1), max (u_2 + 1) ((max u_1 u_2) + 1),\n          max (u_2 + 1) ((max u_1 u_2) + 1)}\n        (TensorProduct.map.{u_1, u_1, max u_1 u_2, u_2, max u_1 u_2, u_2} LinearMap.id.{u_1, max u_1 u_2} T) z))\n    (LinearMap.comp.{u_1, u_1, u_1, u_2, u_2, u_2} T\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), u_2 + 1} (dualTensorHom.{u_1, u_2, u_2} k V V)\n        z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1949884338",
+      "temporary_id": "decl-018461"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {V : Type u_2} [inst : Field.{u_1} k] [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  [FiniteDimensional.{u_1, u_2} k V] (S : LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} k) V V),\n  (\u2200 (T : LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} k) V V),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_2 + 1, u_1 + 1} (LinearMap.trace.{u_1, u_2} k V)\n          (LinearMap.comp.{u_1, u_1, u_1, u_2, u_2, u_2} T S))\n        0) \u2192\n    Eq.{u_2 + 1} S 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3366827634",
+      "temporary_id": "decl-018615"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {G : Type u_2} {V : Type u_3} [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Monoid.{u_2} G]\n  [inst_3 : AddCommGroup.{u_3} V] [inst_4 : Module.{u_1, u_3} k V] [FiniteDimensional.{u_1, u_3} k V]\n  (\u03c1 : Representation.{u_1, u_2, u_3} k G V)\n  [IsSimpleModule.{max u_2 u_1, u_3} (MonoidAlgebra.{u_1, u_2} k G) (Representation.asModule.{u_1, u_2, u_3} \u03c1)]\n  (z : TensorProduct.{u_1, max u_3 u_1, u_3} k (Module.Dual.{u_1, u_3} k V) V),\n  (\u2200 (g : G),\n      Eq.{u_1 + 1}\n        (DFunLike.coe.{max (u_1 + 1) (u_3 + 1), max (u_1 + 1) (u_3 + 1), u_1 + 1} (contractLeft.{u_1, u_3} k V)\n          (DFunLike.coe.{max (u_3 + 1) ((max u_1 u_3) + 1), max (u_3 + 1) ((max u_1 u_3) + 1),\n              max (u_3 + 1) ((max u_1 u_3) + 1)}\n            (TensorProduct.map.{u_1, u_1, max u_1 u_3, u_3, max u_1 u_3, u_3} LinearMap.id.{u_1, max u_1 u_3}\n              (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_2 + 1, u_3 + 1} \u03c1 g))\n            z))\n        0) \u2192\n    Eq.{max (u_1 + 1) (u_3 + 1)} z 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3548424721",
+      "temporary_id": "decl-021552"
+    }
+  ],
+  "module_temporary_id": "module-0363",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

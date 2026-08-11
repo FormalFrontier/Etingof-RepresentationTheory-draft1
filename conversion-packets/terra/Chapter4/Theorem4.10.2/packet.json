@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Theorem4.10.2",
+    "kind": "theorem",
+    "title": "Factorization of the Frobenius determinant",
+    "node_id": "chapter-04/section-4-10",
+    "order": 225,
+    "slug": "theorem4-10-2",
+    "span": {
+      "start": {
+        "page": "78",
+        "line": 11
+      },
+      "end": {
+        "page": "78",
+        "line": 16
+      }
+    },
+    "source_sha256": "94f9688eea5cdd2b64376bb53db0b1043f2e9dab9a88891b4f597e2e1ee5d69f",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Theorem4102",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

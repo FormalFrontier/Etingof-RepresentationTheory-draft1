@@ -1,0 +1,47 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  {A : Type u_2} \u2192\n    [inst : Field.{u_1} k] \u2192\n      [inst_1 : AddCommGroup.{u_2} A] \u2192\n        [inst_2 : Module.{u_1, u_2} k A] \u2192 [inst : decl-000624.{u_1, u_2} k A] \u2192 A \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": "decl-000624",
+      "project_type_dependencies": [
+        "decl-000624"
+      ],
+      "structural_type_hash": "3188028324",
+      "temporary_id": "decl-000625"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) {A : Type u_2} [inst : Field.{u_1} k] [inst_1 : AddCommGroup.{u_2} A] [inst_2 : Module.{u_1, u_2} k A]\n  [inst_3 : decl-000624.{u_1, u_2} k A] {e e' : A},\n  decl-000625.{u_1, u_2} k e \u2192\n    decl-000625.{u_1, u_2} k e' \u2192 Eq.{u_2 + 1} e e'",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-000624",
+      "project_type_dependencies": [
+        "decl-000624",
+        "decl-000625"
+      ],
+      "structural_type_hash": "3431446864",
+      "temporary_id": "decl-000635"
+    }
+  ],
+  "module_temporary_id": "module-0008",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Proposition5.3.2",
+    "kind": "proposition",
+    "title": "The numbers lambda_i are algebraic integers",
+    "node_id": "chapter-05/section-5-3",
+    "order": 265,
+    "slug": "proposition5-3-2",
+    "span": {
+      "start": {
+        "page": "99",
+        "line": 5
+      },
+      "end": {
+        "page": "99",
+        "line": 8
+      }
+    },
+    "source_sha256": "148f1646e43c329eb4a73efb4a09b4e56e63123b2eb5aa0151cdc269691519aa",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition532",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

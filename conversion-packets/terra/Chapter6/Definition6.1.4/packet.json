@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Definition6.1.4",
+    "kind": "definition",
+    "title": "Definition 6.1.4: Dynkin diagram",
+    "node_id": "chapter-06/section-6-1",
+    "order": 405,
+    "slug": "definition6-1-4",
+    "span": {
+      "start": {
+        "page": "150",
+        "line": 3
+      },
+      "end": {
+        "page": "150",
+        "line": 4
+      }
+    },
+    "source_sha256": "279453cd0235a0f78d28c66cd18397f3308fe6c41bf6b3f4664400e0173a66b3",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition614",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

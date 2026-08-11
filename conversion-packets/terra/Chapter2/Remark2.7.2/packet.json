@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Remark2.7.2",
+    "kind": "remark",
+    "title": "Weyl algebra as algebra of polynomial differential operators",
+    "node_id": "chapter-02/section-2-7",
+    "order": 57,
+    "slug": "remark2-7-2",
+    "span": {
+      "start": {
+        "page": "18",
+        "line": 17
+      },
+      "end": {
+        "page": "18",
+        "line": 20
+      }
+    },
+    "source_sha256": "7311bd6246b956624ddea379c9c5eda1325df61da91be5082acb194d3f9b1127",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark272",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Definition2.3.8",
+    "kind": "definition",
+    "title": "Indecomposable representation",
+    "node_id": "chapter-02/section-2-3",
+    "order": 32,
+    "slug": "definition2-3-8",
+    "span": {
+      "start": {
+        "page": "11",
+        "line": 10
+      },
+      "end": {
+        "page": "11",
+        "line": 11
+      }
+    },
+    "source_sha256": "532de7f2d663f190ec06241d58654215f8c78af7e825da335ca40427ae21ddd8",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition238",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

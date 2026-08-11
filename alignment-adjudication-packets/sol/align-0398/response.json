@@ -1,0 +1,35 @@
+{
+  "packet_id": "align-0398",
+  "associations": [
+    {
+      "association_id": "association:f724b639013f761625e7",
+      "role": "primary",
+      "rationale": "The formal type directly asserts additivity of the representation Hom functor."
+    },
+    {
+      "association_id": "association:c0ce4d6d8d0dac4b24af",
+      "role": "primary",
+      "rationale": "The formal type directly asserts k-linearity of the representation Hom functor."
+    },
+    {
+      "association_id": "association:565190bbadab63109b3c",
+      "role": "primary",
+      "rationale": "The formal type directly asserts additivity of the induction functor."
+    },
+    {
+      "association_id": "association:ab4515f01672a5a194dd",
+      "role": "primary",
+      "rationale": "The formal type directly asserts k-linearity of the induction functor."
+    },
+    {
+      "association_id": "association:7e2a0fd684335ee88b9d",
+      "role": "primary",
+      "rationale": "The formal type directly asserts additivity of the restriction functor."
+    },
+    {
+      "association_id": "association:7dad74ec0c85c1b0efef",
+      "role": "primary",
+      "rationale": "The formal type directly asserts k-linearity of the restriction functor."
+    }
+  ]
+}

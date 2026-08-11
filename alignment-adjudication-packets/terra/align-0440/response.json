@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0440",
+  "associations": [
+    {
+      "association_id": "association:8590d30d1c19cbe8e1bd",
+      "role": "primary",
+      "rationale": "Under the displayed coprimality and simplicity hypotheses, the theorem directly concludes that the character value vanishes or the group element acts by a scalar multiple of the identity."
+    }
+  ]
+}

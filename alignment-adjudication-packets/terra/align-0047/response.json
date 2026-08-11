@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0047",
+  "associations": [
+    {
+      "association_id": "association:2ba9bdbe2d482954d21f",
+      "role": "primary",
+      "rationale": "Its type directly gives an algebra equivalence from the chosen-basis presentation to the basis-independent universal enveloping algebra definition."
+    },
+    {
+      "association_id": "association:62e5e67e4bd122bfbcf1",
+      "role": "primary",
+      "rationale": "Its type states the same direct algebra equivalence between the basis presentation and the basis-independent definition."
+    }
+  ]
+}

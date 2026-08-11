@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter7/Exercise7.9.7",
+    "kind": "exercise",
+    "title": "Adjoint functors: F right exact, G left exact",
+    "node_id": "chapter-07/section-7-9",
+    "order": 519,
+    "slug": "exercise7-9-7",
+    "span": {
+      "start": {
+        "page": "195",
+        "line": 25
+      },
+      "end": {
+        "page": "195",
+        "line": 26
+      }
+    },
+    "source_sha256": "8e4ffbb7746906ea2337213905b194eff7a6998a3b3bbd823f491c17394f5524",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter7.Exercise797",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

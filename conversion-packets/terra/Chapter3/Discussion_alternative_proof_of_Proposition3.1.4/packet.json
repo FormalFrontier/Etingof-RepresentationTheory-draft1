@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
+    "kind": "discussion",
+    "title": "Alternative proof of Proposition 3.1.4 using Hom decomposition",
+    "node_id": "chapter-03/section-3-1",
+    "order": 132,
+    "slug": "discussion-alternative-proof-of-proposition3-1-4",
+    "span": {
+      "start": {
+        "page": "45",
+        "line": 3
+      },
+      "end": {
+        "page": "45",
+        "line": 12
+      }
+    },
+    "source_sha256": "4fd40a68efe570de93a07b6413e1c363c1680b05a8386854032c36741e7becb7",
+    "features": {
+      "line_count": 10,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter3.DiscussionAlternativeProofOfProposition314",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

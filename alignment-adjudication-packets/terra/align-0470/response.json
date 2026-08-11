@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0470",
+  "associations": [
+    {
+      "association_id": "association:710c39fee61417554532",
+      "role": "primary",
+      "rationale": "For a finite-dimensional simple module W over the product of matrix algebras, the theorem directly produces an index j and a module-linear equivalence with the corresponding standard column module."
+    }
+  ]
+}

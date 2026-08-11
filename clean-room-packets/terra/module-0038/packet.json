@@ -1,0 +1,117 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "Type",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3931117990",
+      "temporary_id": "decl-014750"
+    },
+    {
+      "formal_type": "Fin 2 \u2192\n  Fin 2 \u2192\n    LinearMap.{0, 0, 0, 0} (RingHom.id.{0} Rat)\n      (TensorProduct.{0, 0, 0} Rat decl-014750 decl-014750) Rat",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014750"
+      ],
+      "structural_type_hash": "2547756021",
+      "temporary_id": "decl-014751"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 2),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-014751 i j) decl-014761) (ite.{1} (Eq.{1} i j) 1 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014750",
+        "decl-014751",
+        "decl-014761"
+      ],
+      "structural_type_hash": "2349362004",
+      "temporary_id": "decl-014757"
+    },
+    {
+      "formal_type": "\u2200 (i j : Fin 2) (v w : decl-014750),\n  Eq.{1} (DFunLike.coe.{1, 1, 1} (decl-014751 i j) (TensorProduct.tmul.{0, 0, 0} Rat v w))\n    (HMul.hMul.{0, 0, 0} (v i) (w j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014750",
+        "decl-014751"
+      ],
+      "structural_type_hash": "342188528",
+      "temporary_id": "decl-014758"
+    },
+    {
+      "formal_type": "Fin 2 \u2192 decl-014750",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014750"
+      ],
+      "structural_type_hash": "377080032",
+      "temporary_id": "decl-014759"
+    },
+    {
+      "formal_type": "TensorProduct.{0, 0, 0} Rat decl-014750 decl-014750",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014750"
+      ],
+      "structural_type_hash": "576873105",
+      "temporary_id": "decl-014761"
+    },
+    {
+      "formal_type": "\u2200 (v w : decl-014750), Ne.{1} decl-014761 (TensorProduct.tmul.{0, 0, 0} Rat v w)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014750",
+        "decl-014761"
+      ],
+      "structural_type_hash": "2043316589",
+      "temporary_id": "decl-014764"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  (V : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192 [Module.{u_1, u_2} k V] \u2192 Nat \u2192 Nat \u2192 Type (max u_2 u_1)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "60129001",
+      "temporary_id": "decl-016482"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {V : Type u_2} \u2192\n    {\u03b9 : Type u_3} \u2192\n      [inst : Field.{u_1} k] \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{u_1, u_2} k V] \u2192\n            [Finite.{u_3 + 1} \u03b9] \u2192\n              Module.Basis.{u_3, u_1, u_2} \u03b9 k V \u2192\n                (m n : Nat) \u2192\n                  Module.Basis.{u_3, u_1, max u_2 u_1} (Prod.{u_3, u_3} (Fin n \u2192 \u03b9) (Fin m \u2192 \u03b9)) k\n                    (decl-016482.{u_1, u_2} k V m n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016482",
+        "decl-016483"
+      ],
+      "structural_type_hash": "3128321079",
+      "temporary_id": "decl-016484"
+    }
+  ],
+  "module_temporary_id": "module-0038",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

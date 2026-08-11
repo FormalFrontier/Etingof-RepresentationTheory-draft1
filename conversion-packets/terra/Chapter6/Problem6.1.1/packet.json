@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter6/Problem6.1.1",
+    "kind": "exercise",
+    "title": "Problem 6.1.1: Field embeddings",
+    "node_id": "chapter-06/section-6-1",
+    "order": 402,
+    "slug": "problem6-1-1",
+    "span": {
+      "start": {
+        "page": "149",
+        "line": 5
+      },
+      "end": {
+        "page": "149",
+        "line": 6
+      }
+    },
+    "source_sha256": "cf006a6bc1403845a1ec307af56680e0006d39693b210044b44d1c7a48ff2d52",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem611",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

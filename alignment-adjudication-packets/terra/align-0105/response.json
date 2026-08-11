@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0105",
+  "associations": [
+    {
+      "association_id": "association:78e76becdc63a0bd7055",
+      "role": "primary",
+      "rationale": "Its invariant-submodule conclusion directly states irreducibility of the nonzero exterior factor."
+    },
+    {
+      "association_id": "association:c9786377d08e476a6685",
+      "role": "primary",
+      "rationale": "Its subsingleton conclusion directly gives the asserted vanishing when n exceeds the dimension."
+    }
+  ]
+}

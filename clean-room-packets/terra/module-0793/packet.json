@@ -1,0 +1,72 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (A B : FDRep.{0, 0} Complex G),\n  Eq.{1}\n      (HSMul.hSMul.{0, 0, 0} (Inv.inv.{0} (Nat.cast.{0} (Fintype.card.{0} G)))\n        (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n          HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} A g) (FDRep.character.{0, 0} B g))\n            (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex)\n              (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} A g) (FDRep.character.{0, 0} B g)))))\n      1 \u2192\n    LT.lt.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} B)))\n        (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} A))) \u2192\n      Exists.{2} fun W =>\n        And (CategoryTheory.Simple.{0, 1} W)\n          (\u2200 (g : G),\n            Eq.{1} (FDRep.character.{0, 0} W g)\n              (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} A g) (FDRep.character.{0, 0} B g)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2378866247",
+      "temporary_id": "decl-018927"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (A B : FDRep.{0, 0} Complex G)\n  (hnorm :\n    Eq.{1}\n      (HSMul.hSMul.{0, 0, 0} (Inv.inv.{0} (Nat.cast.{0} (Fintype.card.{0} G)))\n        (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n          HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} A g) (FDRep.character.{0, 0} B g))\n            (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex)\n              (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} A g) (FDRep.character.{0, 0} B g)))))\n      1)\n  (hpos :\n    LT.lt.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} B)))\n      (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} A)))),\n  Eq.{1}\n    (Module.finrank.{0, 0} Complex\n      (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (decl-023163 A B hnorm hpos))))\n    (HSub.hSub.{0, 0, 0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} A)))\n      (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} B))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023163"
+      ],
+      "structural_type_hash": "2663335520",
+      "temporary_id": "decl-019455"
+    },
+    {
+      "formal_type": "{G : Type} \u2192\n  [inst : Group.{0} G] \u2192\n    [inst_1 : Fintype.{0} G] \u2192\n      (A B : FDRep.{0, 0} Complex G) \u2192\n        Eq.{1}\n            (HSMul.hSMul.{0, 0, 0} (Inv.inv.{0} (Nat.cast.{0} (Fintype.card.{0} G)))\n              (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n                HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} A g) (FDRep.character.{0, 0} B g))\n                  (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex)\n                    (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} A g) (FDRep.character.{0, 0} B g)))))\n            1 \u2192\n          LT.lt.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} B)))\n              (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} A))) \u2192\n            FDRep.{0, 0} Complex G",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3814099673",
+      "temporary_id": "decl-023163"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (A B : FDRep.{0, 0} Complex G)\n  (hnorm :\n    Eq.{1}\n      (HSMul.hSMul.{0, 0, 0} (Inv.inv.{0} (Nat.cast.{0} (Fintype.card.{0} G)))\n        (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n          HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} A g) (FDRep.character.{0, 0} B g))\n            (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex)\n              (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} A g) (FDRep.character.{0, 0} B g)))))\n      1)\n  (hpos :\n    LT.lt.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} B)))\n      (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} A))))\n  (g : G),\n  Eq.{1} (FDRep.character.{0, 0} (decl-023163 A B hnorm hpos) g)\n    (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} A g) (FDRep.character.{0, 0} B g))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023163"
+      ],
+      "structural_type_hash": "993577614",
+      "temporary_id": "decl-023165"
+    },
+    {
+      "formal_type": "\u2200 {G : Type} [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (A B : FDRep.{0, 0} Complex G)\n  (hnorm :\n    Eq.{1}\n      (HSMul.hSMul.{0, 0, 0} (Inv.inv.{0} (Nat.cast.{0} (Fintype.card.{0} G)))\n        (Finset.sum.{0, 0} Finset.univ.{0} fun g =>\n          HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} A g) (FDRep.character.{0, 0} B g))\n            (DFunLike.coe.{1, 1, 1} (starRingEnd.{0} Complex)\n              (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} A g) (FDRep.character.{0, 0} B g)))))\n      1)\n  (hpos :\n    LT.lt.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} B)))\n      (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} A)))),\n  CategoryTheory.Simple.{0, 1} (decl-023163 A B hnorm hpos)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023163"
+      ],
+      "structural_type_hash": "3546433381",
+      "temporary_id": "decl-023166"
+    }
+  ],
+  "module_temporary_id": "module-0793",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

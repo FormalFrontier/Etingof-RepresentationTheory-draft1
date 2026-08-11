@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Problem4.12.4",
+    "kind": "exercise",
+    "title": "Adjacency matrix of graph with nonabelian automorphism group has repeated eigenvalues",
+    "node_id": "chapter-04/section-4-12",
+    "order": 234,
+    "slug": "problem4-12-4",
+    "span": {
+      "start": {
+        "page": "84",
+        "line": 17
+      },
+      "end": {
+        "page": "84",
+        "line": 18
+      }
+    },
+    "source_sha256": "b6dd6a5def8006d8a967bc1931a05b6c280f7c7a2d4cd3ea519a794c991d3b84",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Problem4124",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

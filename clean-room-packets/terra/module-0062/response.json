@@ -1,0 +1,100 @@
+{
+  "module_name": "LieModule.WeightLadder",
+  "declarations": [
+    {
+      "temporary_id": "decl-015817",
+      "new_name": "iteratedOperator",
+      "docstring": "The endomorphism obtained by iterating the displayed representation operator."
+    },
+    {
+      "temporary_id": "decl-015819",
+      "new_name": "polynomialAction_after_iteratedOperator",
+      "docstring": "On a vector annihilated by the first displayed action, relates two iterated operators to polynomial evaluation."
+    },
+    {
+      "temporary_id": "decl-015820",
+      "new_name": "iteratedOperator_succ",
+      "docstring": "Expresses the successor iterate as one fewer iterate following the first displayed action."
+    },
+    {
+      "temporary_id": "decl-015821",
+      "new_name": "iteratedOperator_zero",
+      "docstring": "The zeroth iterate is the identity on the module."
+    },
+    {
+      "temporary_id": "decl-015827",
+      "new_name": "exists_auxiliaryIterate_eq_zero_of_mem_maxGenEigenspace",
+      "docstring": "A vector in the stated generalized eigenspace is killed by a positive iterate."
+    },
+    {
+      "temporary_id": "decl-015839",
+      "new_name": "auxiliaryIterate_mem_maxGenEigenspace",
+      "docstring": "Tracks the generalized eigenspace containing each iterate, with eigenvalue shifted by twice the index."
+    },
+    {
+      "temporary_id": "decl-015860",
+      "new_name": "factorialRootPolynomial",
+      "docstring": "A sequence of complex polynomials indexed by natural numbers."
+    },
+    {
+      "temporary_id": "decl-015867",
+      "new_name": "factorialRootPolynomial_eq_factorial_mul_prod",
+      "docstring": "Identifies each polynomial with a factorial scalar times its product of linear factors."
+    },
+    {
+      "temporary_id": "decl-015868",
+      "new_name": "natDegree_factorialRootPolynomial",
+      "docstring": "The polynomial indexed by k has natural degree k."
+    },
+    {
+      "temporary_id": "decl-015870",
+      "new_name": "factorialRootPolynomial_ne_zero",
+      "docstring": "No polynomial in the indexed sequence is zero."
+    },
+    {
+      "temporary_id": "decl-015871",
+      "new_name": "squarefree_factorialRootPolynomial",
+      "docstring": "Every polynomial in the sequence is squarefree."
+    },
+    {
+      "temporary_id": "decl-015872",
+      "new_name": "factorialRootPolynomial_succ",
+      "docstring": "Expands the successor polynomial by its new scalar and linear factor."
+    },
+    {
+      "temporary_id": "decl-015873",
+      "new_name": "factorialRootPolynomial_zero",
+      "docstring": "The initial polynomial of the sequence is one."
+    },
+    {
+      "temporary_id": "decl-015874",
+      "new_name": "eigenvalue_eq_pred_of_minimal_iterate",
+      "docstring": "Determines an eigenvalue from the first vanishing iterate under the displayed eigenvector hypotheses."
+    },
+    {
+      "temporary_id": "decl-015877",
+      "new_name": "eigenvalue_eq_pred_of_mem_maxGenEigenspace",
+      "docstring": "Determines an eigenvalue from generalized-eigenspace membership and a minimal vanishing iterate."
+    },
+    {
+      "temporary_id": "decl-015961",
+      "new_name": "firstAction_eq_zero_of_no_shifted_eigenvalue",
+      "docstring": "Vectors in the given generalized eigenspace are annihilated by the first action when the shifted eigenvalue is absent."
+    },
+    {
+      "temporary_id": "decl-015978",
+      "new_name": "firstAction_auxiliaryIterate_succ",
+      "docstring": "Expands the first action on a successor iterate into an iterate and a correction term."
+    },
+    {
+      "temporary_id": "decl-015994",
+      "new_name": "secondAction_auxiliaryIterate",
+      "docstring": "Describes the second action on an iterate, including its scalar correction term."
+    },
+    {
+      "temporary_id": "decl-015998",
+      "new_name": "maxGenEigenspace_eq_eigenspace_of_no_shifted_eigenvalue",
+      "docstring": "Under absence of the shifted eigenvalue, the generalized eigenspace equals the ordinary eigenspace."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Lemma4.10.3",
+    "kind": "lemma",
+    "title": "Determinant of a generic matrix is irreducible",
+    "node_id": "chapter-04/section-4-10",
+    "order": 227,
+    "slug": "lemma4-10-3",
+    "span": {
+      "start": {
+        "page": "78",
+        "line": 19
+      },
+      "end": {
+        "page": "78",
+        "line": 22
+      }
+    },
+    "source_sha256": "640e08cf501f6f4abe3fd0c4dae294bea4dd9246780fb824e07bc8e57e6209a9",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Lemma4103",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

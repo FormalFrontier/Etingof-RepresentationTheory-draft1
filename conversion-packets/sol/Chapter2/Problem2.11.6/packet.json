@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.11.6",
+    "kind": "exercise",
+    "title": "Bimodules and tensor products: associativity and Hom-tensor adjunction",
+    "node_id": "chapter-02/section-2-11",
+    "order": 107,
+    "slug": "problem2-11-6",
+    "span": {
+      "start": {
+        "page": "34",
+        "line": 15
+      },
+      "end": {
+        "page": "35",
+        "line": 26
+      }
+    },
+    "source_sha256": "127a4759dfa25b7ba30e939789f2afa68046f5cbd379805803c079ca6a03472b",
+    "features": {
+      "line_count": 35,
+      "crosses_page": true,
+      "display_math_delimiters": 6,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2116",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

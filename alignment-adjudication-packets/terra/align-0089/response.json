@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0089",
+  "associations": [
+    {
+      "association_id": "association:dd39855e5eecca4f26ae",
+      "role": "supporting",
+      "rationale": "This closure theorem supplies the addition and multiplication closure used to build the ring structure."
+    },
+    {
+      "association_id": "association:22c20e8ef795d44faaab",
+      "role": "primary",
+      "rationale": "This Subalgebra declaration directly packages the algebraic integers as a ring-like substructure of the complex numbers."
+    }
+  ]
+}

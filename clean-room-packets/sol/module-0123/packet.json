@@ -1,0 +1,405 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommSemiring.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        {\u03c1\u2081 : decl-014909.{u_1, u_2, u_4, u_3} k Q} \u2192\n          {\u03c1\u2082 : decl-014909.{u_1, u_2, u_5, u_3} k Q} \u2192\n            decl-015026.{u_1, u_2, u_3, u_4, u_5} k Q \u03c1\u2081 \u03c1\u2082 \u2192\n              decl-015026.{u_1, u_2, u_3, u_5, u_4} k Q \u03c1\u2082 \u03c1\u2081",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015026",
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-015026"
+      ],
+      "structural_type_hash": "2545751125",
+      "temporary_id": "decl-015047"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  {Q : Type u_2} \u2192\n    [inst : CommSemiring.{u_1} k] \u2192\n      [inst_1 : Quiver.{u_3, u_2} Q] \u2192\n        {\u03c1\u2081 : decl-014909.{u_1, u_2, u_4, u_3} k Q} \u2192\n          {\u03c1\u2082 : decl-014909.{u_1, u_2, u_5, u_3} k Q} \u2192\n            {\u03c1\u2083 : decl-014909.{u_1, u_2, u_6, u_3} k Q} \u2192\n              decl-015026.{u_1, u_2, u_3, u_4, u_5} k Q \u03c1\u2081 \u03c1\u2082 \u2192\n                decl-015026.{u_1, u_2, u_3, u_5, u_6} k Q \u03c1\u2082 \u03c1\u2083 \u2192\n                  decl-015026.{u_1, u_2, u_3, u_4, u_6} k Q \u03c1\u2081 \u03c1\u2083",
+      "kind": "definition",
+      "owner_temporary_id": "decl-015026",
+      "project_type_dependencies": [
+        "decl-014909",
+        "decl-015026"
+      ],
+      "structural_type_hash": "963504122",
+      "temporary_id": "decl-015050"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] (n : Nat) [inst_2 : Quiver.{0, 0} (Fin n)]\n  [inst_3 : (a b : Fin n) \u2192 Decidable (Nonempty.{1} (Quiver.Hom.{0, 0} a b))],\n  decl-015128 n \u2192\n    Iff (decl-004741 k n)\n      (And (\u2200 (v : Fin n), IsEmpty.{1} (Quiver.Hom.{0, 0} v v))\n        (And (\u2200 (v w : Fin n), Nonempty.{1} (Quiver.Hom.{0, 0} v w) \u2192 Nonempty.{1} (Quiver.Hom.{0, 0} w v) \u2192 False)\n          (And (\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b))\n            (decl-005140 n (decl-022255 n)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004741",
+        "decl-005140",
+        "decl-015128",
+        "decl-022255"
+      ],
+      "structural_type_hash": "2269465337",
+      "temporary_id": "decl-016731"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] (n : Nat) [inst_2 : Quiver.{0, 0} (Fin n)]\n  [inst_3 : (a b : Fin n) \u2192 Decidable (Nonempty.{1} (Quiver.Hom.{0, 0} a b))],\n  decl-015128 n \u2192\n    Iff (decl-004741 k n)\n      (And (decl-005208.{0} inst_2 (decl-022255 n))\n        (And (\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b))\n          (decl-005140 n (decl-022255 n))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004741",
+        "decl-005140",
+        "decl-005208",
+        "decl-015128",
+        "decl-022255"
+      ],
+      "structural_type_hash": "7518835",
+      "temporary_id": "decl-016732"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommSemiring.{u_1} k] \u2192\n    {p : Nat} \u2192 Eq.{1} p 1 \u2192 LinearEquiv.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k) (Fin p \u2192 k) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2901672070",
+      "temporary_id": "decl-019378"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommSemiring.{u_1} k] {p : Nat} (hp : Eq.{1} p 1) (x : Fin p \u2192 k),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-019378.{u_1} k hp) x) (x \u27e80, \u22ef\u27e9)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019378",
+        "decl-019379"
+      ],
+      "structural_type_hash": "2988382217",
+      "temporary_id": "decl-019386"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommSemiring.{u_1} k] {p : Nat} (hp : Eq.{1} p 1) (t : k) (i : Fin p),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1}\n      (LinearEquiv.symm.{u_1, u_1, u_1, u_1} (decl-019378.{u_1} k hp)) t i)\n    t",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019378"
+      ],
+      "structural_type_hash": "1100393238",
+      "temporary_id": "decl-019387"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommSemiring.{u_1} k] {p q : Nat} (hp : Eq.{1} p 1) (hq : Eq.{1} q 1) (x : Fin p \u2192 k),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-019378.{u_1} k hq)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-024351.{u_1} k p q) x))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-019378.{u_1} k hp) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-019378",
+        "decl-024351"
+      ],
+      "structural_type_hash": "1676904351",
+      "temporary_id": "decl-019388"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 (v : Fin n) \u2192 DecidablePred.{1} (decl-026193 v)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-026193"
+      ],
+      "structural_type_hash": "2853396232",
+      "temporary_id": "decl-020596"
+    },
+    {
+      "formal_type": "{n : Nat} \u2192 (v w : Fin n) \u2192 DecidablePred.{1} (decl-026194 v w)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-026194"
+      ],
+      "structural_type_hash": "1073919317",
+      "temporary_id": "decl-020598"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} {M : Type u_2} [inst : Field.{u_1} k] [inst_1 : AddCommMonoid.{u_2} M] [inst_2 : Module.{u_1, u_2} k M]\n  (E : LinearEquiv.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} k) M k) {W\u2081 W\u2082 : Submodule.{u_1, u_2} k M},\n  IsCompl.{u_2} W\u2081 W\u2082 \u2192 Or (Eq.{u_2 + 1} W\u2081 Bot.bot.{u_2}) (Eq.{u_2 + 1} W\u2082 Bot.bot.{u_2})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2197957122",
+      "temporary_id": "decl-020817"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) [inst : Quiver.{0, 0} (Fin n)] [inst_1 : (a b : Fin n) \u2192 Decidable (Nonempty.{1} (Quiver.Hom.{0, 0} a b))],\n  Iff (decl-005208.{0} inst (decl-022255 n))\n    (And (\u2200 (v : Fin n), IsEmpty.{1} (Quiver.Hom.{0, 0} v v))\n      (\u2200 (v w : Fin n), Nonempty.{1} (Quiver.Hom.{0, 0} v w) \u2192 Nonempty.{1} (Quiver.Hom.{0, 0} w v) \u2192 False))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005208",
+        "decl-022255"
+      ],
+      "structural_type_hash": "3773151314",
+      "temporary_id": "decl-020866"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommSemiring.{u_1} k] {M : Type u_2} [inst_1 : AddCommMonoid.{u_2} M]\n  [inst_2 : Module.{u_1, u_2} k M] [Nontrivial.{u_1} k] (E : LinearEquiv.{u_1, u_1, u_2, u_1} (RingHom.id.{u_1} k) M k),\n  Nontrivial.{u_2} M",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2957758217",
+      "temporary_id": "decl-021737"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] {n : Nat} [inst_2 : Quiver.{0, 0} (Fin n)]\n  (R : k \u2192 decl-004266 k n),\n  (\u2200 (lam : k) (v : Fin n), Module.Finite.{0, 0} k (decl-014996.{0, 0, 0, 0} (R lam) v)) \u2192\n    (\u2200 (lam : k), decl-014923.{0, 0, 0, 0} (R lam)) \u2192\n      (\u2200 (lam mu : k),\n          Nonempty.{1} (decl-015026.{0, 0, 0, 0, 0} k (Fin n) (R lam) (R mu)) \u2192 Eq.{1} lam mu) \u2192\n        Not (decl-004741 k n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004266",
+        "decl-004741",
+        "decl-014923",
+        "decl-014980",
+        "decl-014985",
+        "decl-014996",
+        "decl-015026"
+      ],
+      "structural_type_hash": "3005280836",
+      "temporary_id": "decl-021766"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] {n : Nat} [inst_2 : Quiver.{0, 0} (Fin n)] {v : Fin n}\n  (e\u2080 : Quiver.Hom.{0, 0} v v), Not (decl-004741 k n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004741"
+      ],
+      "structural_type_hash": "1555490551",
+      "temporary_id": "decl-021767"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] {n : Nat} [inst_2 : Quiver.{0, 0} (Fin n)] {v w : Fin n},\n  Ne.{1} v w \u2192\n    \u2200 (e\u2081 : Quiver.Hom.{0, 0} v w) (e\u2082 : Quiver.Hom.{0, 0} w v), Not (decl-004741 k n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004741"
+      ],
+      "structural_type_hash": "2815745247",
+      "temporary_id": "decl-021768"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] [IsAlgClosed.{0} k] {n : Nat} [inst_2 : Quiver.{0, 0} (Fin n)] {v w : Fin n}\n  (e\u2081 e\u2082 : Quiver.Hom.{0, 0} v w), Ne.{1} e\u2081 e\u2082 \u2192 Not (decl-004741 k n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004741"
+      ],
+      "structural_type_hash": "733760959",
+      "temporary_id": "decl-021769"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004741"
+      ],
+      "structural_type_hash": "4113487379",
+      "temporary_id": "decl-021770"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommSemiring.{u_1} k] {M : Type u_2} [inst_1 : AddCommMonoid.{u_2} M]\n  [inst_2 : Module.{u_1, u_2} k M] [Subsingleton.{u_2 + 1} M] (W : Submodule.{u_1, u_2} k M),\n  Eq.{u_2 + 1} W Bot.bot.{u_2}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4196368958",
+      "temporary_id": "decl-023466"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    {n : Nat} \u2192\n      (S : Fin n \u2192 Prop) \u2192\n        [inst_1 : DecidablePred.{1} S] \u2192\n          {j : Fin n} \u2192 S j \u2192 LinearEquiv.{0, 0, 0, 0} (RingHom.id.{0} k) (Fin (ite.{1} (S j) 1 0) \u2192 k) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2215542026",
+      "temporary_id": "decl-023580"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    {n : Nat} \u2192\n      [inst_1 : Quiver.{0, 0} (Fin n)] \u2192\n        (S : Fin n \u2192 Prop) \u2192\n          [DecidablePred.{1} S] \u2192 ((a b : Fin n) \u2192 Quiver.Hom.{0, 0} a b \u2192 k) \u2192 decl-004266 k n",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004266"
+      ],
+      "structural_type_hash": "1201093727",
+      "temporary_id": "decl-023583"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] (S : Fin n \u2192 Prop)\n  [inst_2 : DecidablePred.{1} S] (c : (a b : Fin n) \u2192 Quiver.Hom.{0, 0} a b \u2192 k) (j : Fin n),\n  Module.Finite.{0, 0} k (decl-014996.{0, 0, 0, 0} (decl-023583 k S c) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014996",
+        "decl-023583"
+      ],
+      "structural_type_hash": "1939096655",
+      "temporary_id": "decl-023585"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] {S : Fin n \u2192 Prop}\n  [inst_2 : DecidablePred.{1} S] (c : (a b : Fin n) \u2192 Quiver.Hom.{0, 0} a b \u2192 k) {v w : Fin n},\n  (\u2200 (j : Fin n), Iff (S j) (Or (Eq.{1} j v) (Eq.{1} j w))) \u2192\n    \u2200 (e\u2081 : Quiver.Hom.{0, 0} v w),\n      Ne.{1} (c v w e\u2081) 0 \u2192 decl-014923.{0, 0, 0, 0} (decl-023583 k S c)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014923",
+        "decl-023583"
+      ],
+      "structural_type_hash": "3834618459",
+      "temporary_id": "decl-023586"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] {S : Fin n \u2192 Prop}\n  [inst_2 : DecidablePred.{1} S] (c : (a b : Fin n) \u2192 Quiver.Hom.{0, 0} a b \u2192 k) {v : Fin n},\n  (\u2200 (j : Fin n), Iff (S j) (Eq.{1} j v)) \u2192\n    decl-014923.{0, 0, 0, 0} (decl-023583 k S c)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014923",
+        "decl-023583"
+      ],
+      "structural_type_hash": "2162073930",
+      "temporary_id": "decl-023587"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] {S : Fin n \u2192 Prop}\n  [inst_2 : DecidablePred.{1} S] (c : (a b : Fin n) \u2192 Quiver.Hom.{0, 0} a b \u2192 k) {a b : Fin n} (ha : S a) (hb : S b)\n  (e : Quiver.Hom.{0, 0} a b) (x : Fin (ite.{1} (S a) 1 0) \u2192 k),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-023580 k S hb)\n      (DFunLike.coe.{1, 1, 1} (decl-014986.{0, 0, 0, 0} (decl-023583 k S c) e) x))\n    (HMul.hMul.{0, 0, 0} (c a b e) (DFunLike.coe.{1, 1, 1} (decl-023580 k S ha) x))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014980",
+        "decl-014985",
+        "decl-014986",
+        "decl-014996",
+        "decl-023580",
+        "decl-023583"
+      ],
+      "structural_type_hash": "1439236466",
+      "temporary_id": "decl-023588"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] {S : Fin n \u2192 Prop}\n  [inst_2 : DecidablePred.{1} S] (c : (a b : Fin n) \u2192 Quiver.Hom.{0, 0} a b \u2192 k) {a b : Fin n},\n  S a \u2192\n    S b \u2192\n      \u2200 (e : Quiver.Hom.{0, 0} a b),\n        Ne.{1} (c a b e) 0 \u2192\n          Function.Surjective.{1, 1}\n            (DFunLike.coe.{1, 1, 1} (decl-014986.{0, 0, 0, 0} (decl-023583 k S c) e))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014980",
+        "decl-014985",
+        "decl-014986",
+        "decl-014996",
+        "decl-023583"
+      ],
+      "structural_type_hash": "719562821",
+      "temporary_id": "decl-023589"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] (S : Fin n \u2192 Prop)\n  [inst_2 : DecidablePred.{1} S] (c : (a b : Fin n) \u2192 Quiver.Hom.{0, 0} a b \u2192 k) {j : Fin n},\n  Not (S j) \u2192 Subsingleton.{1} (decl-014996.{0, 0, 0, 0} (decl-023583 k S c) j)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014996",
+        "decl-023583"
+      ],
+      "structural_type_hash": "1698341683",
+      "temporary_id": "decl-023590"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    {n : Nat} \u2192\n      [inst_1 : Quiver.{0, 0} (Fin n)] \u2192\n        {S : Fin n \u2192 Prop} \u2192\n          [inst_2 : DecidablePred.{1} S] \u2192\n            {c c' : (a b : Fin n) \u2192 Quiver.Hom.{0, 0} a b \u2192 k} \u2192\n              decl-015026.{0, 0, 0, 0, 0} k (Fin n) (decl-023583 k S c)\n                  (decl-023583 k S c') \u2192\n                {j : Fin n} \u2192 S j \u2192 k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015026",
+        "decl-023583"
+      ],
+      "structural_type_hash": "1661033108",
+      "temporary_id": "decl-023592"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] {S : Fin n \u2192 Prop}\n  [inst_2 : DecidablePred.{1} S] {c c' : (a b : Fin n) \u2192 Quiver.Hom.{0, 0} a b \u2192 k}\n  (\u03c6 : decl-015026.{0, 0, 0, 0, 0} k (Fin n) (decl-023583 k S c) (decl-023583 k S c'))\n  {j : Fin n} (hj : S j) (t : k),\n  Eq.{1}\n    (DFunLike.coe.{1, 1, 1} (decl-023580 k S hj)\n      (DFunLike.coe.{1, 1, 1} (decl-015033.{0, 0, 0, 0, 0} \u03c6 j)\n        (DFunLike.coe.{1, 1, 1} (LinearEquiv.symm.{0, 0, 0, 0} (decl-023580 k S hj)) t)))\n    (HMul.hMul.{0, 0, 0} (decl-023592 k \u03c6 hj) t)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-014980",
+        "decl-014985",
+        "decl-014996",
+        "decl-015026",
+        "decl-015033",
+        "decl-023580",
+        "decl-023583",
+        "decl-023592"
+      ],
+      "structural_type_hash": "3687137209",
+      "temporary_id": "decl-023596"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] {S : Fin n \u2192 Prop}\n  [inst_2 : DecidablePred.{1} S] {c c' : (a b : Fin n) \u2192 Quiver.Hom.{0, 0} a b \u2192 k}\n  (\u03c6 : decl-015026.{0, 0, 0, 0, 0} k (Fin n) (decl-023583 k S c) (decl-023583 k S c'))\n  {j : Fin n} (hj : S j), Ne.{1} (decl-023592 k \u03c6 hj) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015026",
+        "decl-023583",
+        "decl-023592"
+      ],
+      "structural_type_hash": "2942072813",
+      "temporary_id": "decl-023597"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] {n : Nat} [inst_1 : Quiver.{0, 0} (Fin n)] {S : Fin n \u2192 Prop}\n  [inst_2 : DecidablePred.{1} S] {c c' : (a b : Fin n) \u2192 Quiver.Hom.{0, 0} a b \u2192 k}\n  (\u03c6 : decl-015026.{0, 0, 0, 0, 0} k (Fin n) (decl-023583 k S c) (decl-023583 k S c'))\n  {a b : Fin n} (ha : S a) (hb : S b) (e : Quiver.Hom.{0, 0} a b),\n  Eq.{1} (HMul.hMul.{0, 0, 0} (decl-023592 k \u03c6 hb) (c a b e))\n    (HMul.hMul.{0, 0, 0} (c' a b e) (decl-023592 k \u03c6 ha))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015026",
+        "decl-023583",
+        "decl-023592"
+      ],
+      "structural_type_hash": "2398380750",
+      "temporary_id": "decl-023598"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : CommSemiring.{u_1} k] \u2192\n    (p q : Nat) \u2192 LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k) (Fin p \u2192 k) (Fin q \u2192 k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2330069999",
+      "temporary_id": "decl-024351"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4058810896",
+      "temporary_id": "decl-024368"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024368"
+      ],
+      "structural_type_hash": "1816715832",
+      "temporary_id": "decl-024370"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024368"
+      ],
+      "structural_type_hash": "3265881548",
+      "temporary_id": "decl-024371"
+    }
+  ],
+  "module_temporary_id": "module-0123",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

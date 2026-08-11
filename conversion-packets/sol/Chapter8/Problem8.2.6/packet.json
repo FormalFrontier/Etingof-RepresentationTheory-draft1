@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Problem8.2.6",
+    "kind": "exercise",
+    "title": "Properties of Tor and Ext",
+    "node_id": "chapter-08/section-8-2",
+    "order": 541,
+    "slug": "problem8-2-6",
+    "span": {
+      "start": {
+        "page": "209",
+        "line": 9
+      },
+      "end": {
+        "page": "210",
+        "line": 22
+      }
+    },
+    "source_sha256": "012587a05f10b42f43c5e4332673410036c911bdc4fc54ace513c1d10cfe1f4c",
+    "features": {
+      "line_count": 49,
+      "crosses_page": true,
+      "display_math_delimiters": 18,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Problem826",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

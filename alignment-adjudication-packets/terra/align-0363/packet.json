@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:67e9e3ea100adeec832a",
+      "declaration": "Etingof.Remark4_5_3.isPrimitiveIdempotent_iff_exists_simple_renormChar",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/204/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G\u2080 : Type} [inst : Group.{0} G\u2080] [inst_1 : Fintype.{0} G\u2080]\n  (e : Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.Remark4_5_3.classFunctions.{0} G\u2080) x),\n  Iff (Etingof.Remark4_5_3.IsPrimitiveIdempotent.{0} e)\n    (Exists.{2} fun V => And (CategoryTheory.Simple.{0, 1} V) (Eq.{1} e (Etingof.Remark4_5_3.renormChar.{0} V)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Remark4_5_3"
+    }
+  ],
+  "canonical_reference": "Chapter4/Remark4.5.3",
+  "packet_id": "align-0363",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0363"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:71b2e9ed90ca6c79a3be",
+  "source_text": "Renormalized irreducible characters are exactly the primitive idempotents."
+}

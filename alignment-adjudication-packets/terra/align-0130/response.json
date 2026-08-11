@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0130",
+  "associations": [
+    {
+      "association_id": "association:09d59b0027f8e9c75383",
+      "role": "primary",
+      "rationale": "This natural isomorphism of bifunctors directly formalizes Frobenius reciprocity."
+    },
+    {
+      "association_id": "association:5324587de03d810b9421",
+      "role": "primary",
+      "rationale": "This linear equivalence is exactly the displayed isomorphism between the G- and H-Hom spaces."
+    }
+  ]
+}

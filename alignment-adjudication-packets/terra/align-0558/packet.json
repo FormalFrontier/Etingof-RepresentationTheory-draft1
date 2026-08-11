@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:e3eb44782c8c77ea7f78",
+      "declaration": "Etingof.Problem2_16_4.exists_irreducible_dim_char",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/122/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (p : Nat) [Fact (Nat.Prime p)] [CharP.{u} k p],\n  LT.lt.{0} 2 p \u2192\n    Not\n      (\u2200 (M : Type u) [inst_4 : AddCommGroup.{u} M] [inst_5 : Module.{u, u} k M]\n        [inst_6 :\n          LieRingModule.{u, u} (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Etingof.Problem2_16_4.sl2.{u} k) x) M]\n        [LieModule.{u, u, u} k (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Etingof.Problem2_16_4.sl2.{u} k) x) M]\n        [FiniteDimensional.{u, u} k M]\n        [LieModule.IsIrreducible.{u, u, u} k\n            (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Etingof.Problem2_16_4.sl2.{u} k) x) M],\n        LT.lt.{0} (Module.finrank.{u, u} k M) p)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_4"
+    },
+    {
+      "association_id": "association:9538f13bdf42e1e8063e",
+      "declaration": "Etingof.Problem2_16_4.finrank_irreducible_le_char",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/122/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (p : Nat) [Fact (Nat.Prime p)] [CharP.{u} k p],\n  LT.lt.{0} 2 p \u2192\n    \u2200 (M : Type u_1) [inst_4 : AddCommGroup.{u_1} M] [inst_5 : Module.{u, u_1} k M]\n      [inst_6 :\n        LieRingModule.{u, u_1} (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Etingof.Problem2_16_4.sl2.{u} k) x) M]\n      [LieModule.{u, u, u_1} k (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Etingof.Problem2_16_4.sl2.{u} k) x) M]\n      [FiniteDimensional.{u, u_1} k M]\n      [LieModule.IsIrreducible.{u, u, u_1} k\n          (Subtype.{u + 1} fun x => Membership.mem.{u, u} (Etingof.Problem2_16_4.sl2.{u} k) x) M],\n      LE.le.{0} (Module.finrank.{u, u_1} k M) p",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.16.4",
+  "packet_id": "align-0558",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0558"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.16.4:claim-02",
+  "source_text": "Every finite-dimensional irreducible sl(2,k)-module has dimension at most p, and the bound p is achieved."
+}

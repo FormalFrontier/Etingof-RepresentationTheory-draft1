@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0469",
+  "associations": [
+    {
+      "association_id": "association:83707119d15261040956",
+      "role": "primary",
+      "rationale": "The linear equivalence directly identifies X with the quotient of the finite free module of functions from the basis index set to A by the kernel of the free-cover map."
+    }
+  ]
+}

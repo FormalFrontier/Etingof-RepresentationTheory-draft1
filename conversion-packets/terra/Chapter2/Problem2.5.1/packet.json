@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Problem2.5.1",
+    "kind": "exercise",
+    "title": "Indecomposable quotient representation of polynomial algebra",
+    "node_id": "chapter-02/section-2-5",
+    "order": 52,
+    "slug": "problem2-5-1",
+    "span": {
+      "start": {
+        "page": "16",
+        "line": 19
+      },
+      "end": {
+        "page": "16",
+        "line": 19
+      }
+    },
+    "source_sha256": "32b4438157d100f6e981e7914b49178c432e3318fb1b379d5d89f1a590b74640",
+    "features": {
+      "line_count": 1,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem251",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

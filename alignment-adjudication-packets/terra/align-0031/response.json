@@ -1,0 +1,6 @@
+{
+  "packet_id": "align-0031",
+  "associations": [
+    {"association_id": "association:2ceddfce148b0fde6088", "role": "primary", "rationale": "It directly gives a finite direct-sum decomposition of every finite-dimensional k[x]-module into jordanRep blocks."}
+  ]
+}

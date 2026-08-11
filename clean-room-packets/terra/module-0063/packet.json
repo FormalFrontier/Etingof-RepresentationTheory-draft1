@@ -1,0 +1,243 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(M : Type u_2) \u2192\n  [inst : AddCommGroup.{u_2} M] \u2192\n    [Module.{0, u_2} Complex M] \u2192\n      [LieRingModule.{0, u_2} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M] \u2192 Prop",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023226"
+      ],
+      "structural_type_hash": "3035440599",
+      "temporary_id": "decl-015613"
+    },
+    {
+      "formal_type": "(M : Type u_2) \u2192\n  [inst : AddCommGroup.{u_2} M] \u2192\n    [inst_1 : Module.{0, u_2} Complex M] \u2192\n      [inst_2 : LieRingModule.{0, u_2} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M] \u2192\n        [LieModule.{0, 0, u_2} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M] \u2192\n          Module.End.{0, u_2} Complex M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023226"
+      ],
+      "structural_type_hash": "651861529",
+      "temporary_id": "decl-015697"
+    },
+    {
+      "formal_type": "{M : Type u_1} \u2192\n  [inst : AddCommGroup.{u_1} M] \u2192\n    [inst_1 : Module.{0, u_1} Complex M] \u2192\n      [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M] \u2192\n        [LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M] \u2192\n          Complex \u2192 LieSubmodule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023226"
+      ],
+      "structural_type_hash": "3730139362",
+      "temporary_id": "decl-015704"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M],\n  iSupIndep.{1, u_1} decl-015704.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015704",
+        "decl-023226"
+      ],
+      "structural_type_hash": "1828779564",
+      "temporary_id": "decl-015707"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [FiniteDimensional.{0, u_1} Complex M],\n  Eq.{u_1 + 1} (iSup.{u_1, 1} fun a => decl-015704.{u_1} a) Top.top.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015704",
+        "decl-023226"
+      ],
+      "structural_type_hash": "174160076",
+      "temporary_id": "decl-015708"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [FiniteDimensional.{0, u_1} Complex M],\n  DirectSum.IsInternal.{0, u_1, u_1} fun a =>\n    LieSubmodule.toSubmodule.{0, 0, u_1} (decl-015704.{u_1} a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015704",
+        "decl-023226"
+      ],
+      "structural_type_hash": "1750501727",
+      "temporary_id": "decl-015709"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M] (a : Complex),\n  Eq.{u_1 + 1} (LieSubmodule.toSubmodule.{0, 0, u_1} (decl-015704.{u_1} a))\n    (Module.End.maxGenEigenspace.{0, u_1} (decl-015697.{u_1} M) a)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015697",
+        "decl-015704",
+        "decl-023226"
+      ],
+      "structural_type_hash": "409717825",
+      "temporary_id": "decl-015710"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [Nontrivial.{u_1} M] {a b : Complex},\n  Eq.{u_1 + 1} (decl-015704.{u_1} a) Top.top.{u_1} \u2192\n    Eq.{u_1 + 1} (decl-015704.{u_1} b) Top.top.{u_1} \u2192 Eq.{1} a b",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015704",
+        "decl-023226"
+      ],
+      "structural_type_hash": "3669621771",
+      "temporary_id": "decl-015711"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M] (x : M),\n  Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-015697.{u_1} M) x)\n    (HAdd.hAdd.{u_1, u_1, u_1}\n      (HAdd.hAdd.{u_1, u_1, u_1}\n        (Bracket.bracket.{0, u_1} decl-016097 (Bracket.bracket.{0, u_1} decl-016103 x))\n        (Bracket.bracket.{0, u_1} decl-016103 (Bracket.bracket.{0, u_1} decl-016097 x)))\n      (HSMul.hSMul.{0, u_1, u_1} (Inv.inv.{0} 2)\n        (Bracket.bracket.{0, u_1} decl-016106 (Bracket.bracket.{0, u_1} decl-016106 x))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015697",
+        "decl-016097",
+        "decl-016103",
+        "decl-016106",
+        "decl-023226"
+      ],
+      "structural_type_hash": "233348149",
+      "temporary_id": "decl-015712"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  (x : Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) (m : M),\n  Eq.{u_1 + 1}\n    (Bracket.bracket.{0, u_1} x (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-015697.{u_1} M) m))\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-015697.{u_1} M) (Bracket.bracket.{0, u_1} x m))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015697",
+        "decl-023226"
+      ],
+      "structural_type_hash": "2899837192",
+      "temporary_id": "decl-015713"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [FiniteDimensional.{0, u_1} Complex M],\n  decl-015613.{u_1} M \u2192\n    Exists.{1} fun a => Eq.{u_1 + 1} (decl-015704.{u_1} a) Top.top.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015613",
+        "decl-015704",
+        "decl-023226"
+      ],
+      "structural_type_hash": "1744101638",
+      "temporary_id": "decl-015718"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M] (\u03bc : Complex)\n  (x : M),\n  Eq.{u_1 + 1} (Bracket.bracket.{0, u_1} decl-016097 x) 0 \u2192\n    Eq.{u_1 + 1} (Bracket.bracket.{0, u_1} decl-016106 x) (HSMul.hSMul.{0, u_1, u_1} \u03bc x) \u2192\n      Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-015697.{u_1} M) x)\n        (HSMul.hSMul.{0, u_1, u_1} (HDiv.hDiv.{0, 0, 0} (HMul.hMul.{0, 0, 0} \u03bc (HAdd.hAdd.{0, 0, 0} \u03bc 2)) 2) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015697",
+        "decl-016097",
+        "decl-016106",
+        "decl-023226"
+      ],
+      "structural_type_hash": "3891330996",
+      "temporary_id": "decl-015719"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  (x : Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x),\n  Eq.{u_1 + 1}\n    (Bracket.bracket.{u_1, u_1}\n      (DFunLike.coe.{u_1 + 1, 1, u_1 + 1}\n        (LieModule.toEnd.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M) x)\n      (decl-015697.{u_1} M))\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015697",
+        "decl-023226"
+      ],
+      "structural_type_hash": "2863443059",
+      "temporary_id": "decl-015721"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M] (\u03bc : Complex)\n  (x : M),\n  Eq.{u_1 + 1} (Bracket.bracket.{0, u_1} decl-016103 x) 0 \u2192\n    Eq.{u_1 + 1} (Bracket.bracket.{0, u_1} decl-016106 x) (HSMul.hSMul.{0, u_1, u_1} \u03bc x) \u2192\n      Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-015697.{u_1} M) x)\n        (HSMul.hSMul.{0, u_1, u_1} (HDiv.hDiv.{0, 0, 0} (HMul.hMul.{0, 0, 0} \u03bc (HSub.hSub.{0, 0, 0} \u03bc 2)) 2) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015697",
+        "decl-016103",
+        "decl-016106",
+        "decl-023226"
+      ],
+      "structural_type_hash": "283477740",
+      "temporary_id": "decl-015722"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [inst_2 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_3 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  (x : Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x),\n  Commute.{u_1} (decl-015697.{u_1} M)\n    (DFunLike.coe.{u_1 + 1, 1, u_1 + 1}\n      (LieModule.toEnd.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M) x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015697",
+        "decl-023226"
+      ],
+      "structural_type_hash": "2441922258",
+      "temporary_id": "decl-015808"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [FiniteDimensional.{0, u_1} Complex M]\n  [inst_3 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  (N : LieSubmodule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M),\n  Exists.{u_1 + 1} fun N' => IsCompl.{u_1} N N'",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-023226"
+      ],
+      "structural_type_hash": "3495381685",
+      "temporary_id": "decl-015809"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [FiniteDimensional.{0, u_1} Complex M]\n  [inst_3 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [inst_4 : LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M],\n  decl-015613.{u_1} M \u2192\n    Exists.{1} fun lam =>\n      Eq.{u_1 + 1}\n        (decl-015704.{u_1}\n          (HDiv.hDiv.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Nat.cast.{0} lam) (HAdd.hAdd.{0, 0, 0} (Nat.cast.{0} lam) 2)) 2))\n        Top.top.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015613",
+        "decl-015704",
+        "decl-023226"
+      ],
+      "structural_type_hash": "2127109465",
+      "temporary_id": "decl-015878"
+    },
+    {
+      "formal_type": "\u2200 {M : Type u_1} [inst : AddCommGroup.{u_1} M] [inst_1 : Module.{0, u_1} Complex M]\n  [FiniteDimensional.{0, u_1} Complex M]\n  [inst_3 : LieRingModule.{0, u_1} (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M]\n  [LieModule.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M],\n  decl-015613.{u_1} M \u2192\n    LieModule.IsIrreducible.{0, 0, u_1} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x) M",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-015613",
+        "decl-023226"
+      ],
+      "structural_type_hash": "3820137901",
+      "temporary_id": "decl-015880"
+    },
+    {
+      "formal_type": "\u2200 (x : Subtype.{1} fun x => Membership.mem.{0, 0} decl-023226 x),\n  Eq.{1} x\n    (HAdd.hAdd.{0, 0, 0}\n      (HAdd.hAdd.{0, 0, 0} (HSMul.hSMul.{0, 0, 0} (Subtype.val.{1} x 0 1) decl-016097)\n        (HSMul.hSMul.{0, 0, 0} (Subtype.val.{1} x 1 0) decl-016103))\n      (HSMul.hSMul.{0, 0, 0} (Subtype.val.{1} x 0 0) decl-016106))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016097",
+        "decl-016103",
+        "decl-016106",
+        "decl-023226"
+      ],
+      "structural_type_hash": "531554504",
+      "temporary_id": "decl-016096"
+    }
+  ],
+  "module_temporary_id": "module-0063",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

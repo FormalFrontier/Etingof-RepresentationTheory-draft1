@@ -1,0 +1,968 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_2) \u2192 [inst : CommRing.{u_2} k] \u2192 FreeAlgebra.{u_2, 0} k (Fin 3) \u2192 FreeAlgebra.{u_2, 0} k (Fin 3) \u2192 Prop",
+      "kind": "inductive",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2041496213",
+      "temporary_id": "decl-001928"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192 [CommRing.{u_2} k] \u2192 Type u_2",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4195702166",
+      "temporary_id": "decl-001935"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (a b : decl-002064.{u_1} k),\n  Eq.{u_1 + 1} (Prod.fst.{u_1, u_1} (HAdd.hAdd.{u_1, u_1, u_1} a b))\n    (HAdd.hAdd.{u_1, u_1, u_1} (Prod.fst.{u_1, u_1} a) (Prod.fst.{u_1, u_1} b))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-002064"
+      ],
+      "structural_type_hash": "2297830789",
+      "temporary_id": "decl-001936"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (a b : decl-002064.{u_1} k),\n  Eq.{u_1 + 1} (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} (HAdd.hAdd.{u_1, u_1, u_1} a b)))\n    (HAdd.hAdd.{u_1, u_1, u_1} (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} a))\n      (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} b)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-002064"
+      ],
+      "structural_type_hash": "1364701264",
+      "temporary_id": "decl-001937"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (a b : decl-002064.{u_1} k),\n  Eq.{u_1 + 1} (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} (HAdd.hAdd.{u_1, u_1, u_1} a b)))\n    (HAdd.hAdd.{u_1, u_1, u_1} (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} a))\n      (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} b)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-002064"
+      ],
+      "structural_type_hash": "2060343651",
+      "temporary_id": "decl-001938"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k] (L : Type u_3) [inst_1 : LieRing.{u_3} L]\n  [inst_2 : LieAlgebra.{u_2, u_3} k L],\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (Algebra.adjoin.{u_2, max u_2 u_3} k\n      (Set.range.{max u_2 u_3, u_3 + 1}\n        (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_3 + 1, max (u_2 + 1) (u_3 + 1)}\n          (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_3} k))))\n    Top.top.{max u_2 u_3}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "186973303",
+      "temporary_id": "decl-001939"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (Algebra.adjoin.{u_2, u_2} k\n      (Insert.insert.{u_2, u_2}\n        (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k)\n          decl-001945.{u_2})\n        (Insert.insert.{u_2, u_2}\n          (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k)\n            decl-001948.{u_2})\n          (Singleton.singleton.{u_2, u_2}\n            (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k)\n              decl-001950.{u_2})))))\n    Top.top.{u_2}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001945",
+        "decl-001948",
+        "decl-001950",
+        "decl-001977",
+        "decl-001979",
+        "decl-002064"
+      ],
+      "structural_type_hash": "1695440422",
+      "temporary_id": "decl-001940"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (u v : decl-002064.{u_1} k),\n  Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} u v)\n    (Prod.mk.{u_1, u_1}\n      (HMul.hMul.{u_1, u_1, u_1} 2\n        (HSub.hSub.{u_1, u_1, u_1}\n          (HMul.hMul.{u_1, u_1, u_1} (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} u)) (Prod.fst.{u_1, u_1} v))\n          (HMul.hMul.{u_1, u_1, u_1} (Prod.fst.{u_1, u_1} u) (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} v)))))\n      (Prod.mk.{u_1, u_1}\n        (Neg.neg.{u_1}\n          (HMul.hMul.{u_1, u_1, u_1} 2\n            (HSub.hSub.{u_1, u_1, u_1}\n              (HMul.hMul.{u_1, u_1, u_1} (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} u))\n                (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} v)))\n              (HMul.hMul.{u_1, u_1, u_1} (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} u))\n                (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} v))))))\n        (HSub.hSub.{u_1, u_1, u_1}\n          (HMul.hMul.{u_1, u_1, u_1} (Prod.fst.{u_1, u_1} u) (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} v)))\n          (HMul.hMul.{u_1, u_1, u_1} (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} u)) (Prod.fst.{u_1, u_1} v)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001975",
+        "decl-002064"
+      ],
+      "structural_type_hash": "1035593324",
+      "temporary_id": "decl-001941"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} decl-001945.{u_1} decl-001948.{u_1})\n    decl-001950.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001945",
+        "decl-001948",
+        "decl-001950",
+        "decl-001975",
+        "decl-002064"
+      ],
+      "structural_type_hash": "518557295",
+      "temporary_id": "decl-001942"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k],\n  Eq.{u_1 + 1} (Bracket.bracket.{u_1, u_1} decl-001950.{u_1} decl-001945.{u_1})\n    (HSMul.hSMul.{u_1, u_1, u_1} 2 decl-001945.{u_1})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001945",
+        "decl-001950",
+        "decl-001952",
+        "decl-001975",
+        "decl-001984",
+        "decl-002064"
+      ],
+      "structural_type_hash": "3366676223",
+      "temporary_id": "decl-001943"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001948",
+        "decl-001950",
+        "decl-001952",
+        "decl-001975",
+        "decl-001984",
+        "decl-002064"
+      ],
+      "structural_type_hash": "4233768631",
+      "temporary_id": "decl-001944"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 decl-002064.{u_1} k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002064"
+      ],
+      "structural_type_hash": "1967628112",
+      "temporary_id": "decl-001945"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (x : decl-002064.{u_1} k),\n  Eq.{u_1 + 1} x\n    (HAdd.hAdd.{u_1, u_1, u_1}\n      (HAdd.hAdd.{u_1, u_1, u_1} (HSMul.hSMul.{u_1, u_1, u_1} (Prod.fst.{u_1, u_1} x) decl-001945.{u_1})\n        (HSMul.hSMul.{u_1, u_1, u_1} (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} x)) decl-001948.{u_1}))\n      (HSMul.hSMul.{u_1, u_1, u_1} (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} x)) decl-001950.{u_1}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001945",
+        "decl-001948",
+        "decl-001950",
+        "decl-001952",
+        "decl-001984",
+        "decl-002064"
+      ],
+      "structural_type_hash": "3628239869",
+      "temporary_id": "decl-001947"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 decl-002064.{u_1} k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002064"
+      ],
+      "structural_type_hash": "1967628112",
+      "temporary_id": "decl-001948"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 decl-002064.{u_1} k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002064"
+      ],
+      "structural_type_hash": "1967628112",
+      "temporary_id": "decl-001950"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 AddCommGroup.{u_1} (decl-002064.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002064"
+      ],
+      "structural_type_hash": "3315973135",
+      "temporary_id": "decl-001952"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 Algebra.{u_1, u_1} k (decl-001935.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001992"
+      ],
+      "structural_type_hash": "1978882514",
+      "temporary_id": "decl-001970"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : CommRing.{u_1} k] \u2192 Bracket.{u_1, u_1} (decl-002064.{u_1} k) (decl-002064.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002064"
+      ],
+      "structural_type_hash": "1352830287",
+      "temporary_id": "decl-001975"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 LieAlgebra.{u_1, u_1} k (decl-002064.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001979",
+        "decl-002064"
+      ],
+      "structural_type_hash": "2377830117",
+      "temporary_id": "decl-001977"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 LieRing.{u_1} (decl-002064.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002064"
+      ],
+      "structural_type_hash": "52464176",
+      "temporary_id": "decl-001979"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 Module.{u_1, u_1} k (decl-002064.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-002064"
+      ],
+      "structural_type_hash": "2881318768",
+      "temporary_id": "decl-001984"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 Ring.{u_1} (decl-001935.{u_1} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935"
+      ],
+      "structural_type_hash": "1961001107",
+      "temporary_id": "decl-001992"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k] [Nontrivial.{u_2} k],\n  IsSl2Triple.{u_2}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002068.{u_2} k) decl-001950.{u_2})\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002068.{u_2} k) decl-001945.{u_2})\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002068.{u_2} k) decl-001948.{u_2})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001945",
+        "decl-001948",
+        "decl-001950",
+        "decl-001977",
+        "decl-001979",
+        "decl-002064",
+        "decl-002068"
+      ],
+      "structural_type_hash": "1124640077",
+      "temporary_id": "decl-002028"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001977",
+        "decl-001979",
+        "decl-002064"
+      ],
+      "structural_type_hash": "3966929549",
+      "temporary_id": "decl-002029"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001977",
+        "decl-001979",
+        "decl-002029",
+        "decl-002064"
+      ],
+      "structural_type_hash": "1523754633",
+      "temporary_id": "decl-002035"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001945",
+        "decl-001977",
+        "decl-001979",
+        "decl-002029",
+        "decl-002064"
+      ],
+      "structural_type_hash": "1741431036",
+      "temporary_id": "decl-002036"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001948",
+        "decl-001977",
+        "decl-001979",
+        "decl-002029",
+        "decl-002064"
+      ],
+      "structural_type_hash": "3799417802",
+      "temporary_id": "decl-002037"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001950",
+        "decl-001977",
+        "decl-001979",
+        "decl-002029",
+        "decl-002064"
+      ],
+      "structural_type_hash": "4012842403",
+      "temporary_id": "decl-002038"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (a : decl-002064.{u_1} k),\n  Eq.{u_1 + 1} (Prod.fst.{u_1, u_1} (Neg.neg.{u_1} a)) (Neg.neg.{u_1} (Prod.fst.{u_1, u_1} a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-002064"
+      ],
+      "structural_type_hash": "201394448",
+      "temporary_id": "decl-002039"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (a : decl-002064.{u_1} k),\n  Eq.{u_1 + 1} (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} (Neg.neg.{u_1} a)))\n    (Neg.neg.{u_1} (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} a)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-002064"
+      ],
+      "structural_type_hash": "2327790459",
+      "temporary_id": "decl-002040"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (a : decl-002064.{u_1} k),\n  Eq.{u_1 + 1} (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} (Neg.neg.{u_1} a)))\n    (Neg.neg.{u_1} (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} a)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-002064"
+      ],
+      "structural_type_hash": "170479373",
+      "temporary_id": "decl-002041"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k] [Nontrivial.{u_2} k],\n  Nontrivial.{u_2} (decl-001935.{u_2} k)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935"
+      ],
+      "structural_type_hash": "2930753106",
+      "temporary_id": "decl-002042"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k] [Nontrivial.{u_2} k],\n  Nontrivial.{u_2} (UniversalEnvelopingAlgebra.{u_2, u_2} k (decl-002064.{u_2} k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001977",
+        "decl-001979",
+        "decl-002064"
+      ],
+      "structural_type_hash": "183744262",
+      "temporary_id": "decl-002043"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192 [inst : CommRing.{u_2} k] \u2192 Fin 3 \u2192 decl-001935.{u_2} k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935"
+      ],
+      "structural_type_hash": "3870489040",
+      "temporary_id": "decl-002044"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    AlgHom.{u_2, u_2, u_2} k (FreeAlgebra.{u_2, 0} k (Fin 3)) (decl-001935.{u_2} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001970",
+        "decl-001992"
+      ],
+      "structural_type_hash": "2075875086",
+      "temporary_id": "decl-002045"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (HSub.hSub.{u_2, u_2, u_2}\n      (HMul.hMul.{u_2, u_2, u_2} (decl-002044.{u_2} k 0) (decl-002044.{u_2} k 1))\n      (HMul.hMul.{u_2, u_2, u_2} (decl-002044.{u_2} k 1) (decl-002044.{u_2} k 0)))\n    (decl-002044.{u_2} k 2)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001992",
+        "decl-002044"
+      ],
+      "structural_type_hash": "3838939860",
+      "temporary_id": "decl-002046"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (HSub.hSub.{u_2, u_2, u_2}\n      (HMul.hMul.{u_2, u_2, u_2} (decl-002044.{u_2} k 2) (decl-002044.{u_2} k 0))\n      (HMul.hMul.{u_2, u_2, u_2} (decl-002044.{u_2} k 0) (decl-002044.{u_2} k 2)))\n    (HSMul.hSMul.{u_2, u_2, u_2} 2 (decl-002044.{u_2} k 0))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001970",
+        "decl-001992",
+        "decl-002044"
+      ],
+      "structural_type_hash": "2596768238",
+      "temporary_id": "decl-002047"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001970",
+        "decl-001992",
+        "decl-002044"
+      ],
+      "structural_type_hash": "3421867717",
+      "temporary_id": "decl-002048"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192 [inst : CommRing.{u_2} k] \u2192 RingCon.{u_2} (FreeAlgebra.{u_2, 0} k (Fin 3))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1198209814",
+      "temporary_id": "decl-002049"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    AlgHom.{u_2, u_2, u_2} k (decl-001935.{u_2} k)\n      (UniversalEnvelopingAlgebra.{u_2, u_2} k (decl-002064.{u_2} k))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001970",
+        "decl-001977",
+        "decl-001979",
+        "decl-001992",
+        "decl-002064"
+      ],
+      "structural_type_hash": "2095813809",
+      "temporary_id": "decl-002051"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    AlgHom.{u_2, u_2, u_2} k (FreeAlgebra.{u_2, 0} k (Fin 3))\n      (UniversalEnvelopingAlgebra.{u_2, u_2} k (decl-002064.{u_2} k))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001977",
+        "decl-001979",
+        "decl-002064"
+      ],
+      "structural_type_hash": "4271038431",
+      "temporary_id": "decl-002053"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k] \u2983a b : FreeAlgebra.{u_2, 0} k (Fin 3)\u2984,\n  decl-001928.{u_2} k a b \u2192\n    Eq.{u_2 + 1} (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002053.{u_2} k) a)\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002053.{u_2} k) b)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001928",
+        "decl-001977",
+        "decl-001979",
+        "decl-002053",
+        "decl-002064"
+      ],
+      "structural_type_hash": "3058930322",
+      "temporary_id": "decl-002055"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k] (i : Fin 3),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002053.{u_2} k) (FreeAlgebra.\u03b9.{u_2, 0} k i))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k)\n      (Matrix.vecCons.{u_2} decl-001945.{u_2}\n        (Matrix.vecCons.{u_2} decl-001948.{u_2}\n          (Matrix.vecCons.{u_2} decl-001950.{u_2} Matrix.vecEmpty.{u_2}))\n        i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001945",
+        "decl-001948",
+        "decl-001950",
+        "decl-001977",
+        "decl-001979",
+        "decl-002053",
+        "decl-002064"
+      ],
+      "structural_type_hash": "2204554574",
+      "temporary_id": "decl-002056"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (AlgHom.comp.{u_2, u_2, u_2, u_2} (decl-002051.{u_2} k) (decl-002102.{u_2} k))\n    (AlgHom.id.{u_2, u_2} k (UniversalEnvelopingAlgebra.{u_2, u_2} k (decl-002064.{u_2} k)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001970",
+        "decl-001977",
+        "decl-001979",
+        "decl-001992",
+        "decl-002051",
+        "decl-002064",
+        "decl-002102"
+      ],
+      "structural_type_hash": "1348828675",
+      "temporary_id": "decl-002057"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k] (i : Fin 3),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002051.{u_2} k)\n      (decl-002044.{u_2} k i))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k)\n      (Matrix.vecCons.{u_2} decl-001945.{u_2}\n        (Matrix.vecCons.{u_2} decl-001948.{u_2}\n          (Matrix.vecCons.{u_2} decl-001950.{u_2} Matrix.vecEmpty.{u_2}))\n        i))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001945",
+        "decl-001948",
+        "decl-001950",
+        "decl-001970",
+        "decl-001977",
+        "decl-001979",
+        "decl-001992",
+        "decl-002044",
+        "decl-002051",
+        "decl-002064"
+      ],
+      "structural_type_hash": "623722041",
+      "temporary_id": "decl-002058"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    AlgEquiv.{u_2, u_2, u_2} k (decl-001935.{u_2} k)\n      (UniversalEnvelopingAlgebra.{u_2, u_2} k (decl-002064.{u_2} k))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001970",
+        "decl-001977",
+        "decl-001979",
+        "decl-001992",
+        "decl-002064"
+      ],
+      "structural_type_hash": "1976154752",
+      "temporary_id": "decl-002059"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002059.{u_2} k)\n      (decl-002044.{u_2} k 1))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k) decl-001948.{u_2})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001948",
+        "decl-001970",
+        "decl-001977",
+        "decl-001979",
+        "decl-001992",
+        "decl-002044",
+        "decl-002059",
+        "decl-002064"
+      ],
+      "structural_type_hash": "835469071",
+      "temporary_id": "decl-002061"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002059.{u_2} k)\n      (decl-002044.{u_2} k 2))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k) decl-001950.{u_2})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001950",
+        "decl-001970",
+        "decl-001977",
+        "decl-001979",
+        "decl-001992",
+        "decl-002044",
+        "decl-002059",
+        "decl-002064"
+      ],
+      "structural_type_hash": "2417150010",
+      "temporary_id": "decl-002062"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002059.{u_2} k)\n      (decl-002044.{u_2} k 0))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k) decl-001945.{u_2})",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001945",
+        "decl-001970",
+        "decl-001977",
+        "decl-001979",
+        "decl-001992",
+        "decl-002044",
+        "decl-002059",
+        "decl-002064"
+      ],
+      "structural_type_hash": "1104813067",
+      "temporary_id": "decl-002063"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192 [CommRing.{u_2} k] \u2192 Type u_2",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4195702166",
+      "temporary_id": "decl-002064"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] {a b : decl-002064.{u_1} k},\n  Eq.{u_1 + 1} (Prod.fst.{u_1, u_1} a) (Prod.fst.{u_1, u_1} b) \u2192\n    Eq.{u_1 + 1} (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} a)) (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} b)) \u2192\n      Eq.{u_1 + 1} (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} a)) (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} b)) \u2192\n        Eq.{u_1 + 1} a b",
+      "kind": "theorem",
+      "owner_temporary_id": "decl-002064",
+      "project_type_dependencies": [
+        "decl-002064"
+      ],
+      "structural_type_hash": "728985561",
+      "temporary_id": "decl-002065"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001945",
+        "decl-001948",
+        "decl-001950",
+        "decl-001977",
+        "decl-001979",
+        "decl-002064"
+      ],
+      "structural_type_hash": "163685852",
+      "temporary_id": "decl-002067"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    LieEquiv.{u_2, u_2, u_2} k (decl-002064.{u_2} k)\n      (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (LieAlgebra.SpecialLinear.sl.{u_2, 0} (Fin 2) k) x)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001977",
+        "decl-001979",
+        "decl-002064"
+      ],
+      "structural_type_hash": "4006442879",
+      "temporary_id": "decl-002068"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (u : decl-002064.{u_1} k),\n  Eq.{u_1 + 1}\n    (Subtype.val.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-002068.{u_1} k) u))\n    (decl-002095.{u_1} u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001977",
+        "decl-001979",
+        "decl-002064",
+        "decl-002068",
+        "decl-002095"
+      ],
+      "structural_type_hash": "28712428",
+      "temporary_id": "decl-002079"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (Subtype.val.{u_2 + 1}\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002068.{u_2} k) decl-001945.{u_2}))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} Matrix.of.{u_2, 0, 0}\n      (Matrix.vecCons.{u_2} (Matrix.vecCons.{u_2} 0 (Matrix.vecCons.{u_2} 1 Matrix.vecEmpty.{u_2}))\n        (Matrix.vecCons.{u_2} (Matrix.vecCons.{u_2} 0 (Matrix.vecCons.{u_2} 0 Matrix.vecEmpty.{u_2}))\n          Matrix.vecEmpty.{u_2})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001945",
+        "decl-001977",
+        "decl-001979",
+        "decl-002064",
+        "decl-002068"
+      ],
+      "structural_type_hash": "674889601",
+      "temporary_id": "decl-002080"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (Subtype.val.{u_2 + 1}\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002068.{u_2} k) decl-001948.{u_2}))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} Matrix.of.{u_2, 0, 0}\n      (Matrix.vecCons.{u_2} (Matrix.vecCons.{u_2} 0 (Matrix.vecCons.{u_2} 0 Matrix.vecEmpty.{u_2}))\n        (Matrix.vecCons.{u_2} (Matrix.vecCons.{u_2} 1 (Matrix.vecCons.{u_2} 0 Matrix.vecEmpty.{u_2}))\n          Matrix.vecEmpty.{u_2})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001948",
+        "decl-001977",
+        "decl-001979",
+        "decl-002064",
+        "decl-002068"
+      ],
+      "structural_type_hash": "3472615096",
+      "temporary_id": "decl-002081"
+    },
+    {
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001950",
+        "decl-001977",
+        "decl-001979",
+        "decl-002064",
+        "decl-002068"
+      ],
+      "structural_type_hash": "3411841814",
+      "temporary_id": "decl-002082"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k] [Nontrivial.{u_2} k],\n  Ne.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002068.{u_2} k) decl-001950.{u_2}) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001950",
+        "decl-001977",
+        "decl-001979",
+        "decl-002064",
+        "decl-002068"
+      ],
+      "structural_type_hash": "3309722264",
+      "temporary_id": "decl-002083"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (u v : decl-002064.{u_1} k),\n  Eq.{u_1 + 1}\n    (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-002068.{u_1} k) (Bracket.bracket.{u_1, u_1} u v))\n    (Bracket.bracket.{u_1, u_1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-002068.{u_1} k) u)\n      (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (decl-002068.{u_1} k) v))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001975",
+        "decl-001977",
+        "decl-001979",
+        "decl-002064",
+        "decl-002068"
+      ],
+      "structural_type_hash": "2037881792",
+      "temporary_id": "decl-002084"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (t : k) (a : decl-002064.{u_1} k),\n  Eq.{u_1 + 1} (Prod.fst.{u_1, u_1} (HSMul.hSMul.{u_1, u_1, u_1} t a))\n    (HSMul.hSMul.{u_1, u_1, u_1} t (Prod.fst.{u_1, u_1} a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-001984",
+        "decl-002064"
+      ],
+      "structural_type_hash": "4102246849",
+      "temporary_id": "decl-002085"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (t : k) (a : decl-002064.{u_1} k),\n  Eq.{u_1 + 1} (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} (HSMul.hSMul.{u_1, u_1, u_1} t a)))\n    (HSMul.hSMul.{u_1, u_1, u_1} t (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} a)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-001984",
+        "decl-002064"
+      ],
+      "structural_type_hash": "201204195",
+      "temporary_id": "decl-002086"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (t : k) (a : decl-002064.{u_1} k),\n  Eq.{u_1 + 1} (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} (HSMul.hSMul.{u_1, u_1, u_1} t a)))\n    (HSMul.hSMul.{u_1, u_1, u_1} t (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} a)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-001984",
+        "decl-002064"
+      ],
+      "structural_type_hash": "2713533545",
+      "temporary_id": "decl-002087"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    LieHom.{u_2, u_2, u_2} k (decl-002064.{u_2} k) (Matrix.{0, 0, u_2} (Fin 2) (Fin 2) k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001977",
+        "decl-001979",
+        "decl-002064"
+      ],
+      "structural_type_hash": "3498686128",
+      "temporary_id": "decl-002088"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    AlgHom.{u_2, u_2, u_2} k (UniversalEnvelopingAlgebra.{u_2, u_2} k (decl-002064.{u_2} k))\n      (Matrix.{0, 0, u_2} (Fin 2) (Fin 2) k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001977",
+        "decl-001979",
+        "decl-002064"
+      ],
+      "structural_type_hash": "1009258090",
+      "temporary_id": "decl-002093"
+    },
+    {
+      "formal_type": "{k : Type u_1} \u2192 [inst : CommRing.{u_1} k] \u2192 decl-002064.{u_1} k \u2192 Matrix.{0, 0, u_1} (Fin 2) (Fin 2) k",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002064"
+      ],
+      "structural_type_hash": "3376984567",
+      "temporary_id": "decl-002095"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k] (u : decl-002064.{u_1} k),\n  Membership.mem.{u_1, u_1} (LieAlgebra.SpecialLinear.sl.{u_1, 0} (Fin 2) k) (decl-002095.{u_1} u)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-002064",
+        "decl-002095"
+      ],
+      "structural_type_hash": "107431039",
+      "temporary_id": "decl-002097"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    LieHom.{u_2, u_2, u_2} k (decl-002064.{u_2} k) (decl-001935.{u_2} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001970",
+        "decl-001977",
+        "decl-001979",
+        "decl-001992",
+        "decl-002064"
+      ],
+      "structural_type_hash": "751462242",
+      "temporary_id": "decl-002098"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k]\n  (M : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (LieAlgebra.SpecialLinear.sl.{u_1, 0} (Fin 2) k) x),\n  Eq.{u_1 + 1} (HAdd.hAdd.{u_1, u_1, u_1} (Subtype.val.{u_1 + 1} M 0 0) (Subtype.val.{u_1 + 1} M 1 1)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "915648012",
+      "temporary_id": "decl-002101"
+    },
+    {
+      "formal_type": "(k : Type u_2) \u2192\n  [inst : CommRing.{u_2} k] \u2192\n    AlgHom.{u_2, u_2, u_2} k (UniversalEnvelopingAlgebra.{u_2, u_2} k (decl-002064.{u_2} k))\n      (decl-001935.{u_2} k)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001970",
+        "decl-001977",
+        "decl-001979",
+        "decl-001992",
+        "decl-002064"
+      ],
+      "structural_type_hash": "169813086",
+      "temporary_id": "decl-002102"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k],\n  Eq.{u_2 + 1}\n    (AlgHom.comp.{u_2, u_2, u_2, u_2} (decl-002102.{u_2} k) (decl-002051.{u_2} k))\n    (AlgHom.id.{u_2, u_2} k (decl-001935.{u_2} k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001970",
+        "decl-001977",
+        "decl-001979",
+        "decl-001992",
+        "decl-002051",
+        "decl-002064",
+        "decl-002102"
+      ],
+      "structural_type_hash": "3298227727",
+      "temporary_id": "decl-002104"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k] (x : decl-002064.{u_2} k),\n  Eq.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (decl-002102.{u_2} k)\n      (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k) x))\n    (HAdd.hAdd.{u_2, u_2, u_2}\n      (HAdd.hAdd.{u_2, u_2, u_2}\n        (HSMul.hSMul.{u_2, u_2, u_2} (Prod.fst.{u_2, u_2} x) (decl-002044.{u_2} k 0))\n        (HSMul.hSMul.{u_2, u_2, u_2} (Prod.fst.{u_2, u_2} (Prod.snd.{u_2, u_2} x))\n          (decl-002044.{u_2} k 1)))\n      (HSMul.hSMul.{u_2, u_2, u_2} (Prod.snd.{u_2, u_2} (Prod.snd.{u_2, u_2} x))\n        (decl-002044.{u_2} k 2)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001935",
+        "decl-001970",
+        "decl-001977",
+        "decl-001979",
+        "decl-001992",
+        "decl-002044",
+        "decl-002064",
+        "decl-002102"
+      ],
+      "structural_type_hash": "3158785433",
+      "temporary_id": "decl-002105"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k], Eq.{u_1 + 1} (Prod.fst.{u_1, u_1} 0) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-002064"
+      ],
+      "structural_type_hash": "4040613822",
+      "temporary_id": "decl-002106"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k], Eq.{u_1 + 1} (Prod.fst.{u_1, u_1} (Prod.snd.{u_1, u_1} 0)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-002064"
+      ],
+      "structural_type_hash": "2561650187",
+      "temporary_id": "decl-002107"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u_1} [inst : CommRing.{u_1} k], Eq.{u_1 + 1} (Prod.snd.{u_1, u_1} (Prod.snd.{u_1, u_1} 0)) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001952",
+        "decl-002064"
+      ],
+      "structural_type_hash": "3307643430",
+      "temporary_id": "decl-002108"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_2) [inst : CommRing.{u_2} k] [Nontrivial.{u_2} k],\n  Ne.{u_2 + 1}\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (UniversalEnvelopingAlgebra.\u03b9.{u_2, u_2} k) decl-001945.{u_2})\n    0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001945",
+        "decl-001977",
+        "decl-001979",
+        "decl-002064"
+      ],
+      "structural_type_hash": "573931198",
+      "temporary_id": "decl-002109"
+    }
+  ],
+  "module_temporary_id": "module-0046",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

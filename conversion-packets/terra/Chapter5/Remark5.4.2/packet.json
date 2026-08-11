@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Remark5.4.2",
+    "kind": "remark",
+    "title": "Origin of the name 'solvable' from Galois groups",
+    "node_id": "chapter-05/section-5-4",
+    "order": 270,
+    "slug": "remark5-4-2",
+    "span": {
+      "start": {
+        "page": "100",
+        "line": 13
+      },
+      "end": {
+        "page": "100",
+        "line": 14
+      }
+    },
+    "source_sha256": "b2b16de5e9e5b7c0ac0123eb0638a4549e465ba2a4948a889d9e2fb3a82bf92a",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Remark542",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

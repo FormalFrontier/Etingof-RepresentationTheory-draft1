@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0320",
+  "associations": [
+    {
+      "association_id": "association:4be0559e3721f1bcc750",
+      "role": "primary",
+      "rationale": "In characteristic zero, the theorem directly identifies the span of the diagonal-action maps with the centralizer of the symmetric-group image."
+    }
+  ]
+}

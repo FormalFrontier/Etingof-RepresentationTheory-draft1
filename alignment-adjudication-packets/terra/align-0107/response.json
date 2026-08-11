@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0107",
+  "associations": [
+    {
+      "association_id": "association:8e457d30a1f5d472f8be",
+      "role": "primary",
+      "rationale": "This algebra equivalence directly realizes a finite-dimensional semisimple algebra as a finite product of full matrix algebras."
+    }
+  ]
+}

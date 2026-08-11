@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7f1a850c197f4b82d46e",
+      "declaration": "Etingof.Theorem5_26_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/390/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type) [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (X : Set.{0} (Subgroup.{0} G)),\n  (\u2200 (H : Subgroup.{0} G),\n      Membership.mem.{0, 0} X H \u2192\n        \u2200 (g : G),\n          Membership.mem.{0, 0} X\n            (Subgroup.map.{0, 0} (MulEquiv.toMonoidHom.{0, 0} (DFunLike.coe.{1, 1, 1} MulAut.conj.{0} g)) H)) \u2192\n    Iff (\u2200 (g : G), Exists.{1} fun H => And (Membership.mem.{0, 0} X H) (Membership.mem.{0, 0} H g))\n      (\u2200 (V : FDRep.{0, 0} Complex G),\n        CategoryTheory.Simple.{0, 1} V \u2192\n          Membership.mem.{0, 0}\n            (Submodule.span.{0, 0} Rat\n              (setOf.{0} fun f =>\n                Exists.{1} fun H =>\n                  And (Membership.mem.{0, 0} X H)\n                    (Exists.{2} fun W => Eq.{1} f (Etingof.inducedCharacter H (FDRep.character.{0, 0} W)))))\n            (FDRep.character.{0, 0} V))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_26_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.26.1",
+  "packet_id": "align-0237",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0237"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:46fb95913e7641a5f5f9",
+  "source_text": "A conjugation-invariant family of subgroups covers G iff its induced characters rationally span every irreducible character."
+}

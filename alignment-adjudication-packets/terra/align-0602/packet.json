@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:dfbd1a7798be8a647b47",
+      "declaration": "Etingof.Problem2_7_4.x_pow_char_mem_center",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/59/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (p : Nat) [CharP.{u_1} k p],\n  Membership.mem.{u_1, u_1} (Subalgebra.center.{u_1, u_1} k (Etingof.WeylAlgebra.{u_1} k))\n    (HPow.hPow.{u_1, 0, u_1} (Etingof.WeylAlgebra.x.{u_1} k) p)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_4"
+    },
+    {
+      "association_id": "association:654d692d7d744422ea9c",
+      "declaration": "Etingof.Problem2_7_4.y_pow_char_mem_center",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/59/claim_coverage/claims/2/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (p : Nat) [CharP.{u_1} k p],\n  Membership.mem.{u_1, u_1} (Subalgebra.center.{u_1, u_1} k (Etingof.WeylAlgebra.{u_1} k))\n    (HPow.hPow.{u_1, 0, u_1} (Etingof.WeylAlgebra.y.{u_1} k) p)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_4"
+    }
+  ],
+  "canonical_reference": "Chapter2/Problem2.7.4",
+  "packet_id": "align-0602",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0602"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter2/Problem2.7.4:claim-03",
+  "source_text": "In characteristic p the elements x^p and y^p are central."
+}

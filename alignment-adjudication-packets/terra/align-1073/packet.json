@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7d438ed6c5be47a8d70a",
+      "declaration": "Etingof.RepresentationHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/29/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(A : Type u_1) \u2192\n  (V\u2081 : Type u_2) \u2192\n    (V\u2082 : Type u_3) \u2192\n      [inst : Ring.{u_1} A] \u2192\n        [inst_1 : AddCommGroup.{u_2} V\u2081] \u2192\n          [inst_2 : AddCommGroup.{u_3} V\u2082] \u2192 [Module.{u_1, u_2} A V\u2081] \u2192 [Module.{u_1, u_3} A V\u2082] \u2192 Type (max u_2 u_3)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_6"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.3.6",
+  "packet_id": "align-1073",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1073"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d36fbf261f2fa9ada4d6",
+  "source_text": "Hom_A(V\u2081,V\u2082) is the space of all representation homomorphisms."
+}

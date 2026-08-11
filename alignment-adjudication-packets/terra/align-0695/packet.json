@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b1f63eba3c6e7f41ee1f",
+      "declaration": "Etingof.Problem3_9_5.radicalQuotient_isClifford_of_degenerate",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/175/claim_coverage/claims/9/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {V : Type u_1} [inst : AddCommGroup.{u_1} V] [inst_1 : Module.{0, u_1} Complex V]\n  [FiniteDimensional.{0, u_1} Complex V] (B : LinearMap.BilinForm.{0, u_1} Complex V),\n  (\u2200 (x y : V),\n      Eq.{1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B x) y)\n        (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} B y) x)) \u2192\n    Not (LinearMap.BilinForm.Nondegenerate.{0, u_1} B) \u2192\n      Exists.{2} fun W =>\n        Exists.{1} fun x =>\n          Exists.{1} fun x_1 =>\n            Exists.{1} fun B' =>\n              And\n                (\u2200 (x_2 y : W),\n                  Eq.{1} (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} B' x_2) y)\n                    (DFunLike.coe.{1, 1, 1} (DFunLike.coe.{1, 1, 1} B' y) x_2))\n                (And (LinearMap.BilinForm.Nondegenerate.{0, 0} B')\n                  (Exists.{u_1 + 1} fun \u03c6 =>\n                    And (Function.Surjective.{u_1 + 1, 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, 1} \u03c6))\n                      (Eq.{u_1 + 1} (RingHom.ker.{u_1, 0, u_1} (AlgHom.toRingHom.{0, u_1, 0} \u03c6))\n                        (Ring.jacobson.{u_1} (Etingof.Problem3_9_5.CliffAlg.{u_1} B)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5"
+    }
+  ],
+  "canonical_reference": "Chapter3/Problem3.9.5",
+  "packet_id": "align-0695",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0695"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter3/Problem3.9.5:claim-10",
+  "source_text": "For degenerate B, Cl(V)/Rad(Cl(V)) is the Clifford algebra of the induced nondegenerate form on V/rad(B)."
+}

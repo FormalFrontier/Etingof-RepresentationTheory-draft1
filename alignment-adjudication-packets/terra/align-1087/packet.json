@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:895a65005e70c0e3ad9e",
+      "declaration": "Etingof.Lemma5_4_5",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/274/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    \u2200 (\u03b5 : Fin n \u2192 Complex),\n      (\u2200 (i : Fin n), Exists.{1} fun m => And (LT.lt.{0} 0 m) (Eq.{1} (HPow.hPow.{0, 0, 0} (\u03b5 i) m) 1)) \u2192\n        IsIntegral.{0, 0} Int (HDiv.hDiv.{0, 0, 0} (Finset.sum.{0, 0} Finset.univ.{0} fun i => \u03b5 i) (Nat.cast.{0} n)) \u2192\n          Or (\u2200 (i j : Fin n), Eq.{1} (\u03b5 i) (\u03b5 j)) (Eq.{1} (Finset.sum.{0, 0} Finset.univ.{0} fun i => \u03b5 i) 0)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_4_5"
+    }
+  ],
+  "canonical_reference": "Chapter5/Lemma5.4.5",
+  "packet_id": "align-1087",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1087"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d7629707871e467a21c8",
+  "source_text": "If roots of unity have algebraic-integer average, then they are all equal or their sum is zero."
+}

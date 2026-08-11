@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3260e100b43410c37adc",
+      "declaration": "Etingof.Corollary5_26_3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/393/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (G : Type) [inst : Group.{0} G] [inst_1 : Fintype.{0} G] (V : FDRep.{0, 0} Complex G)\n  [CategoryTheory.Simple.{0, 1} V],\n  Membership.mem.{0, 0}\n    (Submodule.span.{0, 0} Rat\n      (setOf.{0} fun f =>\n        Exists.{1} fun g =>\n          Exists.{2} fun W => Eq.{1} f (Etingof.inducedCharacter (Subgroup.zpowers.{0} g) (FDRep.character.{0, 0} W))))\n    (FDRep.character.{0, 0} V)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Corollary5_26_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Corollary5.26.3",
+  "packet_id": "align-1084",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1084"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:d6d1c5290b41165d47f0",
+  "source_text": "Every irreducible character is a rational linear combination of characters induced from cyclic subgroups."
+}

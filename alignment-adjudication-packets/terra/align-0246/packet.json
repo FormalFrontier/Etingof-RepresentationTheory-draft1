@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:fd008f029ffa3fae6b48",
+      "declaration": "Etingof.Theorem5_18_4_centralizers",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/352/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat) [CharZero.{u} k],\n  And\n    (Eq.{max (u + 1) (v + 1)} (Etingof.symGroupImage.{u, v} k V n)\n      (Subalgebra.centralizer.{u, max u v} k\n        (SetLike.coe.{max u v, max u v} (Etingof.diagonalActionImage.{u, v} k V n))))\n    (Eq.{max (u + 1) (v + 1)} (Etingof.diagonalActionImage.{u, v} k V n)\n      (Subalgebra.centralizer.{u, max u v} k (SetLike.coe.{max u v, max u v} (Etingof.symGroupImage.{u, v} k V n))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_4"
+    },
+    {
+      "association_id": "association:511a35758b847eb6f32a",
+      "declaration": "Etingof.Theorem5_18_4_semisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/352/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (V : Type v) [inst_1 : AddCommGroup.{v} V] [inst_2 : Module.{u, v} k V]\n  [Module.Finite.{u, v} k V] (n : Nat) [CharZero.{u} k],\n  And\n    (IsSemisimpleRing.{max u v}\n      (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (Etingof.symGroupImage.{u, v} k V n) x))\n    (IsSemisimpleRing.{max u v}\n      (Subtype.{(max u v) + 1} fun x => Membership.mem.{max u v, max u v} (Etingof.diagonalActionImage.{u, v} k V n) x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_18_4"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.18.4",
+  "packet_id": "align-0246",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0246"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:49c34879e8cadf49d12f",
+  "source_text": "The symmetric-group and diagonal action images are mutual centralizers, and the tensor power is semisimple for both."
+}

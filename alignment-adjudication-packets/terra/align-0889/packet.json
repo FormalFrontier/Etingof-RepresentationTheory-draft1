@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:b83cdbfe11279a84c1b8",
+      "declaration": "Etingof.LieDualRepresentation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/114/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (L : Type u_2) \u2192\n    (V : Type u_3) \u2192\n      [inst : CommRing.{u_1} k] \u2192\n        [inst_1 : LieRing.{u_2} L] \u2192\n          [inst_2 : LieAlgebra.{u_1, u_2} k L] \u2192\n            [inst_3 : AddCommGroup.{u_3} V] \u2192\n              [inst_4 : Module.{u_1, u_3} k V] \u2192\n                [inst_5 : LieRingModule.{u_2, u_3} L V] \u2192 [LieModule.{u_1, u_2, u_3} k L V] \u2192 Type (max u_3 u_1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Definition2_14_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Definition2.14.2",
+  "packet_id": "align-0889",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0889"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:a199ac5b4d632f40db6e",
+  "source_text": "The dual representation V* has the underlying dual space of V."
+}

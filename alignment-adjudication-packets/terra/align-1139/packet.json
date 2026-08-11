@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:46618082150f8d4a232e",
+      "declaration": "Etingof.Discussion_4_4_char_tensor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/199/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [inst_1 : Group.{u} G] (V W : FDRep.{u, u} k G) (g : G),\n  Eq.{u + 1} (FDRep.character.{u, u} (CategoryTheory.MonoidalCategoryStruct.tensorObj.{u, u + 1} V W) g)\n    (HMul.hMul.{u, u, u} (FDRep.character.{u, u} V g) (FDRep.character.{u, u} W g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Discussion_4_4"
+    },
+    {
+      "association_id": "association:64a552e8f1f5123c0f64",
+      "declaration": "Representation.tprod",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/199/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RepresentationTheory.Basic"
+    }
+  ],
+  "canonical_reference": "Chapter4/Discussion_4.4",
+  "packet_id": "align-1139",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1139"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:e8f26ced6fe215abdf36",
+  "source_text": "Tensor products carry the tensor action and have multiplicative character."
+}

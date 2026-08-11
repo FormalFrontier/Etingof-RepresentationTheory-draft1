@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0428",
+  "associations": [
+    {
+      "association_id": "association:319e9625faa9a9854bfb",
+      "role": "primary",
+      "rationale": "The declaration directly states that the displayed Weyl counterexample module is simple."
+    },
+    {
+      "association_id": "association:ad88dea0f15342f1fc90",
+      "role": "primary",
+      "rationale": "The theorem directly rules out a tensor-product realization of the counterexample module when the first Weyl-algebra factor is simple and the second is nontrivial."
+    }
+  ]
+}

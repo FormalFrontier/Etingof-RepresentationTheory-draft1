@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:dfb36392669ea1417069",
+      "declaration": "finrank_dvd_card_of_irreducible",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/13/claim_coverage/claims/3/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] [inst_1 : Fintype.{u_1} G] (V : FDRep.{0, u_1} Complex G)\n  [CategoryTheory.Simple.{0, max 1 u_1} V],\n  Dvd.dvd.{0} (Module.finrank.{0, 0} Complex (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, u_1} V)))\n    (Fintype.card.{u_1} G)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.DimDvdCard"
+    }
+  ],
+  "canonical_reference": "Chapter2/Discussion_after_Theorem2.1.2",
+  "packet_id": "align-1181",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1181"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f68d5a224f33af33c5ad",
+  "source_text": "The dimension of every irreducible complex representation of a finite group divides the order of the group."
+}

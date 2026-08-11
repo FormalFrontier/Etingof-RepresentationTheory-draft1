@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0387",
+  "associations": [
+    {
+      "association_id": "association:2c4ac73d2535d850726d",
+      "role": "primary",
+      "rationale": "The theorem directly states that arbitrary target vectors can be simultaneously obtained from a linearly independent family by the action of one algebra element."
+    }
+  ]
+}

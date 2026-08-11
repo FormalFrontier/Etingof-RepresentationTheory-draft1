@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Discussion_after_Theorem4.5.1",
+    "kind": "discussion",
+    "title": "Irreducibility criterion via character inner product",
+    "node_id": "chapter-04/section-4-5",
+    "order": 203,
+    "slug": "discussion-after-theorem4-5-1",
+    "span": {
+      "start": {
+        "page": "68",
+        "line": 31
+      },
+      "end": {
+        "page": "68",
+        "line": 32
+      }
+    },
+    "source_sha256": "74fd01ce1cf44a863353e9b39a5ce75b6a9e1e579353c922c19122bf4f773661",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.DiscussionAfterTheorem451",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

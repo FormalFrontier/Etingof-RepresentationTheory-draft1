@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:12ebe4253c1fbd37d7fc",
+      "declaration": "Etingof.Problem4_12_7.commutant",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Subalgebra.{0, 0} Real (Module.End.{0, 0} Real (Fin 2 \u2192 Complex))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:c8ed448fd1e082c36528",
+      "declaration": "Etingof.Problem4_12_7.commutant_isUnit_of_ne_zero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (x : Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem4_12_7.commutant x), Ne.{1} x 0 \u2192 IsUnit.{0} x",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:5e608109351f8bbe6fb1",
+      "declaration": "Etingof.Problem4_12_7.finrank_commutant",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Eq.{1} (Module.finrank.{0, 0} Real (Subtype.{1} fun x => Membership.mem.{0, 0} Etingof.Problem4_12_7.commutant x)) 4",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:f5318ee65ab9e841150e",
+      "declaration": "Etingof.Problem4_12_7.mem_commutant_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/1/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {f : Module.End.{0, 0} Real (Fin 2 \u2192 Complex)},\n  Iff (Membership.mem.{0, 0} Etingof.Problem4_12_7.commutant f)\n    (\u2200 (A : Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialUnitaryGroup.{0, 0} (Fin 2) Complex) x)\n      (v : Fin 2 \u2192 Complex),\n      Eq.{1} (DFunLike.coe.{1, 1, 1} f (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} A) v))\n        (Matrix.mulVec.{0, 0, 0} (Subtype.val.{1} A) (DFunLike.coe.{1, 1, 1} f v)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.7",
+  "packet_id": "align-0723",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0723"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.7:part_b",
+  "source_text": "Part (b): its real equivariant endomorphisms form a four-dimensional division algebra."
+}

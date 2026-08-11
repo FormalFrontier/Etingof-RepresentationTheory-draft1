@@ -1,0 +1,40 @@
+{
+  "module_name": "Polynomial.Recurrences",
+  "declarations": [
+    {
+      "temporary_id": "decl-015665",
+      "new_name": "X_sub_one_ne_zero",
+      "docstring": "The polynomial `X - 1` is nonzero."
+    },
+    {
+      "temporary_id": "decl-015798",
+      "new_name": "geometricSeriesPolynomial",
+      "docstring": "The integer polynomial indexed by a natural number used in the displayed recurrence."
+    },
+    {
+      "temporary_id": "decl-015800",
+      "new_name": "eval_geometricSeriesPolynomial_one",
+      "docstring": "Evaluating the indexed polynomial at one gives the successor of its index."
+    },
+    {
+      "temporary_id": "decl-015801",
+      "new_name": "geometricSeriesPolynomial_mul_X_sub_one",
+      "docstring": "Multiplication by `X - 1` converts the indexed polynomial into `X^(n + 1) - 1`."
+    },
+    {
+      "temporary_id": "decl-015802",
+      "new_name": "mul_geometricSeriesPolynomial",
+      "docstring": "Expands a product of two indexed polynomials as the displayed finite polynomial sum."
+    },
+    {
+      "temporary_id": "decl-015805",
+      "new_name": "succ_mul_succ_eq_indexSum",
+      "docstring": "Expresses a product of two successors as the stated finite sum of successors."
+    },
+    {
+      "temporary_id": "decl-016050",
+      "new_name": "indexPolynomialSum_mul_X_sub_one",
+      "docstring": "Multiplying the displayed polynomial sum by `X - 1` gives the stated product."
+    }
+  ]
+}

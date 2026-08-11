@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:6874570eaf3b77c51d48",
+      "declaration": "Etingof.radical_upper_triangular",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/3/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (n : Nat),\n  Eq.{u_1 + 1}\n    (Ring.jacobson.{u_1}\n      (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (Etingof.upperTriangularSubalgebra.{u_1} k n) x))\n    (Etingof.strictlyUpperTriangularIdeal.{u_1} k n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    }
+  ],
+  "canonical_reference": "Chapter3/Example3.5.6",
+  "packet_id": "align-0124",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0124"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:267b6ab335bbec6fb534",
+  "source_text": "The radical of the upper-triangular matrix algebra is the ideal of strictly upper-triangular matrices."
+}

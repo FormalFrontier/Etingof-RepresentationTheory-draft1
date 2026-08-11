@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:792d6add727458a01037",
+      "declaration": "Etingof.Theorem_6_5_2_Gabriels_theorem",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/436/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Etingof.IsDynkinDiagram n adj \u2192\n    \u2200 (k : Type u) [inst : Field.{u} k] {Q : Quiver.{0, 0} (Fin n)},\n      Etingof.IsOrientationOf.{0} Q adj \u2192\n        \u2200 [\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)],\n          And (Set.Finite.{0} (setOf.{0} fun d => Etingof.IsPositiveRoot n adj d))\n            (And\n              (\u2200 (\u03c1 : Etingof.QuiverRepresentation.{u, 0, 0, 0} k (Fin n))\n                [\u2200 (v : Fin n), Module.Free.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1 v)]\n                [\u2200 (v : Fin n), Module.Finite.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1 v)],\n                Etingof.QuiverRepresentation.IsIndecomposable.{u, 0, 0, 0} \u03c1 \u2192\n                  Etingof.IsPositiveRoot n adj fun v =>\n                    Nat.cast.{0} (Module.finrank.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1 v)))\n              (\u2200 (\u03b1 : Fin n \u2192 Int),\n                Etingof.IsPositiveRoot n adj \u03b1 \u2192\n                  And\n                    (Exists.{u + 2} fun \u03c1 =>\n                      Exists.{0} fun x =>\n                        Exists.{0} fun x =>\n                          And (Etingof.QuiverRepresentation.IsIndecomposable.{u, 0, 0, u} \u03c1)\n                            (\u2200 (v : Fin n),\n                              Eq.{1} (\u03b1 v)\n                                (Nat.cast.{0}\n                                  (Module.finrank.{u, u} k (Etingof.QuiverRepresentation.obj.{u, 0, u, 0} \u03c1 v)))))\n                    (\u2200 (\u03c1\u2081 \u03c1\u2082 : Etingof.QuiverRepresentation.{u, 0, 0, 0} k (Fin n))\n                      [\u2200 (v : Fin n), Module.Free.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1\u2081 v)]\n                      [\u2200 (v : Fin n), Module.Finite.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1\u2081 v)]\n                      [\u2200 (v : Fin n), Module.Free.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1\u2082 v)]\n                      [\u2200 (v : Fin n), Module.Finite.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1\u2082 v)],\n                      Etingof.QuiverRepresentation.IsIndecomposable.{u, 0, 0, 0} \u03c1\u2081 \u2192\n                        Etingof.QuiverRepresentation.IsIndecomposable.{u, 0, 0, 0} \u03c1\u2082 \u2192\n                          (\u2200 (v : Fin n),\n                              Eq.{1} (\u03b1 v)\n                                (Nat.cast.{0}\n                                  (Module.finrank.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1\u2081 v)))) \u2192\n                            (\u2200 (v : Fin n),\n                                Eq.{1} (\u03b1 v)\n                                  (Nat.cast.{0}\n                                    (Module.finrank.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1\u2082 v)))) \u2192\n                              Nonempty.{1} (Etingof.QuiverRepresentation.Iso.{u, 0, 0, 0, 0} \u03c1\u2081 \u03c1\u2082))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Theorem6_5_2"
+    },
+    {
+      "association_id": "association:d5eaac6c8afa8e3e3496",
+      "declaration": "Etingof.Theorem_6_5_2a_finiteness",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/436/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Etingof.IsDynkinDiagram n adj \u2192 Set.Finite.{0} (setOf.{0} fun d => Etingof.IsPositiveRoot n adj d)",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Theorem6_5_2"
+    },
+    {
+      "association_id": "association:8f4e50075f25913f97e6",
+      "declaration": "Etingof.Theorem_6_5_2b_dimvec_is_positive_root",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/436/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Etingof.IsDynkinDiagram n adj \u2192\n    \u2200 (d : Fin n \u2192 Int),\n      (\u2200 (i : Fin n), LE.le.{0} 0 (d i)) \u2192\n        Ne.{1} d 0 \u2192\n          Eq.{1} (dotProduct.{0, 0} d (Matrix.mulVec.{0, 0, 0} (Etingof.cartanMatrix n adj) d)) 2 \u2192\n            Etingof.IsPositiveRoot n adj d",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Theorem6_5_2"
+    },
+    {
+      "association_id": "association:5d5b34aa53ec2e0201cb",
+      "declaration": "Etingof.Theorem_6_5_2c_bijection",
+      "evidence": [
+        {
+          "authority": "explicit_lean_ref",
+          "pointer": "/items/436/lean_ref",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  Etingof.IsDynkinDiagram n adj \u2192\n    \u2200 (k : Type u) [inst : Field.{u} k] {Q : Quiver.{0, 0} (Fin n)},\n      Etingof.IsOrientationOf.{0} Q adj \u2192\n        \u2200 [\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)] (\u03b1 : Fin n \u2192 Int),\n          Etingof.IsPositiveRoot n adj \u03b1 \u2192\n            And\n              (Exists.{u + 2} fun \u03c1 =>\n                Exists.{0} fun x =>\n                  Exists.{0} fun x =>\n                    And (Etingof.QuiverRepresentation.IsIndecomposable.{u, 0, 0, u} \u03c1)\n                      (\u2200 (v : Fin n),\n                        Eq.{1} (\u03b1 v)\n                          (Nat.cast.{0} (Module.finrank.{u, u} k (Etingof.QuiverRepresentation.obj.{u, 0, u, 0} \u03c1 v)))))\n              (\u2200 (\u03c1\u2081 \u03c1\u2082 : Etingof.QuiverRepresentation.{u, 0, 0, 0} k (Fin n))\n                [\u2200 (v : Fin n), Module.Free.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1\u2081 v)]\n                [\u2200 (v : Fin n), Module.Finite.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1\u2081 v)]\n                [\u2200 (v : Fin n), Module.Free.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1\u2082 v)]\n                [\u2200 (v : Fin n), Module.Finite.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1\u2082 v)],\n                Etingof.QuiverRepresentation.IsIndecomposable.{u, 0, 0, 0} \u03c1\u2081 \u2192\n                  Etingof.QuiverRepresentation.IsIndecomposable.{u, 0, 0, 0} \u03c1\u2082 \u2192\n                    (\u2200 (v : Fin n),\n                        Eq.{1} (\u03b1 v)\n                          (Nat.cast.{0}\n                            (Module.finrank.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1\u2081 v)))) \u2192\n                      (\u2200 (v : Fin n),\n                          Eq.{1} (\u03b1 v)\n                            (Nat.cast.{0}\n                              (Module.finrank.{u, 0} k (Etingof.QuiverRepresentation.obj.{u, 0, 0, 0} \u03c1\u2082 v)))) \u2192\n                        Nonempty.{1} (Etingof.QuiverRepresentation.Iso.{u, 0, 0, 0, 0} \u03c1\u2081 \u03c1\u2082))",
+      "provider_module": "EtingofRepresentationTheory.Chapter6.Theorem6_5_2"
+    }
+  ],
+  "canonical_reference": "Chapter6/Theorem6.5.2",
+  "packet_id": "align-1266",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1266"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter6/Theorem6.5.2",
+  "source_text": "**Theorem 6.5.2** (Gabriel's theorem). *Let $Q$ be a quiver of type $A_n$, $D_n$, $E_6$, $E_7$, $E_8$. Then $Q$ has finitely many indecomposable representations. Namely, the dimension vector of any indecomposable representation is a positive root (with respect to $B_\\Gamma$) and for any positive root $\\alpha$ there is exactly one indecomposable representation with dimension vector $\\alpha$.*\n\n"
+}

@@ -1,0 +1,276 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {m : Nat} (\u03bc : m.Partition) (i : Nat), Eq.{1} (\u03bc.toYoungDiagram.rowLen i) (List.getD.{0} \u03bc.sortedParts i 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-025220",
+        "decl-025225"
+      ],
+      "structural_type_hash": "1647723072",
+      "temporary_id": "decl-005711"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : decl-001040 N n),\n  Eq.{1} (decl-017870 N lam (decl-024347 n))\n    (Nat.cast.{0}\n      (Nat.card.{0} (decl-016206 n (Eq.rec.{1, 1} (decl-024494 N lam.parts) \u22ef))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-001058",
+        "decl-016206",
+        "decl-017870",
+        "decl-024347",
+        "decl-024494"
+      ],
+      "structural_type_hash": "3667350794",
+      "temporary_id": "decl-017880"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : decl-001040 N n),\n  Eq.{1} (decl-017870 N lam (decl-024347 n))\n    (HMul.hMul.{0, 0, 0}\n      (HDiv.hDiv.{0, 0, 0} (Nat.cast.{0} n.factorial)\n        (Finset.prod.{0, 0} Finset.univ.{0} fun j => Nat.cast.{0} (decl-023121 N lam.parts j).factorial))\n      (Int.cast.{0}\n        (Matrix.det.{0, 0}\n          (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0} fun i j =>\n            Polynomial.eval.{0} (Nat.cast.{0} (decl-023121 N lam.parts i))\n              (descPochhammer.{0} Int (decl-024471 N j))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-017870",
+        "decl-023121",
+        "decl-024347",
+        "decl-024471"
+      ],
+      "structural_type_hash": "1561047109",
+      "temporary_id": "decl-017881"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : decl-001040 N n),\n  Eq.{1} (decl-017870 N lam (decl-024347 n))\n    (HDiv.hDiv.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0} (Nat.cast.{0} n.factorial)\n        (Nat.cast.{0}\n          (Finset.prod.{0, 0} Finset.univ.{0} fun i =>\n            Finset.prod.{0, 0} (Finset.Ioi.{0} i) fun j =>\n              HSub.hSub.{0, 0, 0} (decl-023121 N lam.parts i) (decl-023121 N lam.parts j))))\n      (Nat.cast.{0} (Finset.prod.{0, 0} Finset.univ.{0} fun j => (decl-023121 N lam.parts j).factorial)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-017870",
+        "decl-023121",
+        "decl-024347"
+      ],
+      "structural_type_hash": "2656587304",
+      "temporary_id": "decl-017883"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : decl-001040 N n),\n  Eq.{1} (decl-017870 N lam (decl-024347 n))\n    (Nat.cast.{0}\n      (HDiv.hDiv.{0, 0, 0} n.factorial\n        (Eq.rec.{1, 1} (decl-024494 N lam.parts) \u22ef).toYoungDiagram.hookLengthProduct))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-001058",
+        "decl-017870",
+        "decl-024347",
+        "decl-024494",
+        "decl-025225",
+        "decl-025608"
+      ],
+      "structural_type_hash": "997019381",
+      "temporary_id": "decl-017884"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (\u03b2 : Fin N \u2192 Nat),\n  Eq.{1}\n    (Matrix.det.{0, 0}\n      (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0} fun i j =>\n        Polynomial.eval.{0} (Nat.cast.{0} (\u03b2 i)) (descPochhammer.{0} Int (decl-024471 N j))))\n    (Matrix.det.{0, 0}\n      (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0} fun i j =>\n        HPow.hPow.{0, 0, 0} (Nat.cast.{0} (\u03b2 i)) (decl-024471 N j)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024471"
+      ],
+      "structural_type_hash": "3508185684",
+      "temporary_id": "decl-018320"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition), Exists.{1} fun bp => Eq.{1} (Eq.rec.{1, 1} (decl-024494 n bp.parts) \u22ef) la",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-001058",
+        "decl-024494"
+      ],
+      "structural_type_hash": "515638322",
+      "temporary_id": "decl-018768"
+    },
+    {
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-016116 n la) x))\n    (Nat.card.{0} (decl-016206 n la))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-016116",
+        "decl-016206",
+        "decl-016224"
+      ],
+      "structural_type_hash": "918632284",
+      "temporary_id": "decl-019458"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : decl-001040 N n),\n  Eq.{1}\n    (Nat.cast.{0}\n      (Module.finrank.{0, 0} Complex\n        (Subtype.{1} fun x =>\n          Membership.mem.{0, 0} (decl-016116 n (Eq.rec.{1, 1} (decl-024494 N lam.parts) \u22ef)) x)))\n    (Nat.cast.{0}\n      (Nat.card.{0} (decl-016206 n (Eq.rec.{1, 1} (decl-024494 N lam.parts) \u22ef))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-001058",
+        "decl-016116",
+        "decl-016206",
+        "decl-016224",
+        "decl-024494"
+      ],
+      "structural_type_hash": "1293381533",
+      "temporary_id": "decl-019459"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : decl-001040 N n),\n  Eq.{1}\n    (Nat.cast.{0}\n      (Module.finrank.{0, 0} Complex\n        (Subtype.{1} fun x =>\n          Membership.mem.{0, 0} (decl-016116 n (Eq.rec.{1, 1} (decl-024494 N lam.parts) \u22ef)) x)))\n    (HDiv.hDiv.{0, 0, 0}\n      (HMul.hMul.{0, 0, 0} (Nat.cast.{0} n.factorial)\n        (Nat.cast.{0}\n          (Finset.prod.{0, 0} Finset.univ.{0} fun i =>\n            Finset.prod.{0, 0} (Finset.Ioi.{0} i) fun j =>\n              HSub.hSub.{0, 0, 0} (decl-023121 N lam.parts i) (decl-023121 N lam.parts j))))\n      (Nat.cast.{0} (Finset.prod.{0, 0} Finset.univ.{0} fun j => (decl-023121 N lam.parts j).factorial)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-001058",
+        "decl-016116",
+        "decl-016224",
+        "decl-023121",
+        "decl-024494"
+      ],
+      "structural_type_hash": "1362381283",
+      "temporary_id": "decl-019460"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : decl-001040 N n),\n  Eq.{1}\n    (Nat.cast.{0}\n      (Module.finrank.{0, 0} Complex\n        (Subtype.{1} fun x =>\n          Membership.mem.{0, 0} (decl-016116 n (Eq.rec.{1, 1} (decl-024494 N lam.parts) \u22ef)) x)))\n    (HMul.hMul.{0, 0, 0}\n      (HDiv.hDiv.{0, 0, 0} (Nat.cast.{0} n.factorial)\n        (Finset.prod.{0, 0} Finset.univ.{0} fun j => Nat.cast.{0} (decl-023121 N lam.parts j).factorial))\n      (Int.cast.{0}\n        (Matrix.det.{0, 0}\n          (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0} fun i j =>\n            HPow.hPow.{0, 0, 0} (Nat.cast.{0} (decl-023121 N lam.parts i)) (decl-024471 N j)))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-001058",
+        "decl-016116",
+        "decl-016224",
+        "decl-023121",
+        "decl-024471",
+        "decl-024494"
+      ],
+      "structural_type_hash": "1644322856",
+      "temporary_id": "decl-019461"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : decl-001040 N n),\n  Eq.{1} (decl-024494 N lam.parts).toYoungDiagram.hookLengthProduct\n    (Finset.prod.{0, 0} Finset.univ.{0} fun i =>\n      Finset.prod.{0, 0} (Finset.range (lam.parts i)) fun c =>\n        (decl-024494 N lam.parts).toYoungDiagram.hookLength i.val c)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-024494",
+        "decl-025225",
+        "decl-025606",
+        "decl-025608"
+      ],
+      "structural_type_hash": "2582979996",
+      "temporary_id": "decl-020291"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : decl-001040 N n),\n  Eq.{1}\n    (HMul.hMul.{0, 0, 0}\n      (Finset.prod.{0, 0} Finset.univ.{0} fun i =>\n        Finset.prod.{0, 0} (Finset.Ioi.{0} i) fun j =>\n          HSub.hSub.{0, 0, 0} (decl-023121 N lam.parts i) (decl-023121 N lam.parts j))\n      (Eq.rec.{1, 1} (decl-024494 N lam.parts) \u22ef).toYoungDiagram.hookLengthProduct)\n    (Finset.prod.{0, 0} Finset.univ.{0} fun j => (decl-023121 N lam.parts j).factorial)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-001058",
+        "decl-023121",
+        "decl-024494",
+        "decl-025225",
+        "decl-025608"
+      ],
+      "structural_type_hash": "316606313",
+      "temporary_id": "decl-020292"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : decl-001040 N n) (i : Fin N) {c : Nat},\n  LT.lt.{0} c (lam.parts i) \u2192\n    Eq.{1} ((decl-024494 N lam.parts).toYoungDiagram.hookLength i.val c)\n      (HAdd.hAdd.{0, 0, 0} (HSub.hSub.{0, 0, 0} (lam.parts i) c)\n        (Finset.card.{0}\n          (Finset.filter.{0} (fun r => And (LT.lt.{0} i r) (LT.lt.{0} c (lam.parts r))) Finset.univ.{0})))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-024494",
+        "decl-025225",
+        "decl-025606"
+      ],
+      "structural_type_hash": "1550943625",
+      "temporary_id": "decl-020293"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : decl-001040 N n) (c : Nat),\n  Eq.{1} ((decl-024494 N lam.parts).toYoungDiagram.colLen c)\n    (Finset.card.{0} (Finset.filter.{0} (fun i => LT.lt.{0} c (lam.parts i)) Finset.univ.{0}))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-024494",
+        "decl-025225"
+      ],
+      "structural_type_hash": "1526256829",
+      "temporary_id": "decl-024498"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) {n : Nat} (lam : decl-001040 N n) (i : Fin N),\n  Eq.{1} ((decl-024494 N lam.parts).toYoungDiagram.rowLen i.val) (lam.parts i)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-001040",
+        "decl-001055",
+        "decl-024494",
+        "decl-025225"
+      ],
+      "structural_type_hash": "3732200444",
+      "temporary_id": "decl-024506"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (f : Fin N \u2192 Nat) {x : Nat},\n  LE.le.{0} N x \u2192 Eq.{1} ((decl-024494 N f).toYoungDiagram.rowLen x) 0",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024494",
+        "decl-025225"
+      ],
+      "structural_type_hash": "3082267930",
+      "temporary_id": "decl-024507"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) (f : Fin N \u2192 Nat), LE.le.{0} (List.length.{0} (decl-024494 N f).sortedParts) N",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-024494",
+        "decl-025220"
+      ],
+      "structural_type_hash": "1659423261",
+      "temporary_id": "decl-024508"
+    }
+  ],
+  "module_temporary_id": "module-0264",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "sol"
+}

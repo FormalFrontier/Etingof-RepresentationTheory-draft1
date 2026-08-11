@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0054",
+  "associations": [
+    {
+      "association_id": "association:04817d62e5a77629eb3e",
+      "role": "primary",
+      "rationale": "Its type directly states that the quotient map mk sends each specified relation rel r to zero in the presented algebra."
+    }
+  ]
+}

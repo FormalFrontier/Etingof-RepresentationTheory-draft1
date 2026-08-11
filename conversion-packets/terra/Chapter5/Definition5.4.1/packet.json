@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Definition5.4.1",
+    "kind": "definition",
+    "title": "Solvable group",
+    "node_id": "chapter-05/section-5-4",
+    "order": 269,
+    "slug": "definition5-4-1",
+    "span": {
+      "start": {
+        "page": "100",
+        "line": 7
+      },
+      "end": {
+        "page": "100",
+        "line": 12
+      }
+    },
+    "source_sha256": "898011c5ffae765a8082132cecbe0908128ba2f12ff154540d36db13320426a1",
+    "features": {
+      "line_count": 6,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Definition541",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

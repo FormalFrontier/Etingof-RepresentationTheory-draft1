@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:97d0123a4e059a001d5d",
+      "declaration": "Etingof.Problem4_12_7.exists_surjective_hom_to_SO3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:bee101a11860535f5a19",
+      "declaration": "Etingof.Problem4_12_7.rotHom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (unitary.{0} (Quaternion.{0} Real)) x)\n  (Subtype.{1} fun x => Membership.mem.{0, 0} (Matrix.specialOrthogonalGroup.{0, 0} (Fin 3) Real) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:bdad73e58064bdfeda2f",
+      "declaration": "Etingof.Problem4_12_7.rotHom_surjective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "Function.Surjective.{1, 1} (DFunLike.coe.{1, 1, 1} Etingof.Problem4_12_7.rotHom)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    },
+    {
+      "association_id": "association:60fd61579ea2e5368a68",
+      "declaration": "Etingof.Problem4_12_7.rotMat_eq_one_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/236/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
+    }
+  ],
+  "canonical_reference": "Chapter4/Problem4.12.7",
+  "packet_id": "align-0727",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0727"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:Chapter4/Problem4.12.7:part_f",
+  "source_text": "Part (f): construct the surjection SU(2) to SO(3) with kernel {1,-1}."
+}

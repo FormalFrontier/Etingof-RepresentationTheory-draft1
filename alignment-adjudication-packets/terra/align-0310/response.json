@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0310",
+  "associations": [
+    {
+      "association_id": "association:46f7abe25cfee5bc9358",
+      "rationale": "The formal type directly states that every algebraic simple special-linear representation is equivalent to one arising from a dominant-weight parameter, which is the exhaustion clause of the source assertion.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:2b88403480c522f3fb86",
+      "rationale": "The formal type is an equivalence between special-linear weight parameters and representation isomorphism classes modulo the stated setoid, directly expressing the parametrization and uniqueness clause.",
+      "role": "primary"
+    }
+  ]
+}

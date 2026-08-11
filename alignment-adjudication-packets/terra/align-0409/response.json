@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:931fceea24f6a376aea0",
+      "rationale": "The theorem gives substantive classification and semisimplicity results for modules over MatProd, so it supports the stated subject of study but is a consequence rather than the introductory identification itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:80257cd15af5a2d13913",
+      "rationale": "The displayed type only presents MatProd as a type depending on a field and matrix sizes; it does not expose that its definition is a finite direct sum or product of matrix algebras.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0409"
+}

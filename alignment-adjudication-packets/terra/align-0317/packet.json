@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:0d43685c411052411a37",
+      "declaration": "Etingof.Theorem5_15_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/329/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  Eq.{1}\n    (HSMul.hSMul.{0, 0, 0} (Units.val.{0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} Fin.revPerm))\n      (Etingof.spechtModuleCharacter n la \u03c3))\n    (MvPolynomial.coeff.{0, 0} (HAdd.hAdd.{0, 0, 0} (Etingof.Nat.Partition.toFinsupp la) (Etingof.rhoShift n))\n      (HMul.hMul.{0, 0, 0} (Etingof.vandermondePoly n) (Etingof.cycleTypePsumProduct n \u03c3)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
+    },
+    {
+      "association_id": "association:672f319e101a527e8b20",
+      "declaration": "Etingof.Theorem5_15_1_general",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/329/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n N : Nat} (la : n.Partition) (\u03c3 : Equiv.Perm.{1} (Fin n)),\n  LE.le.{0} (List.length.{0} la.sortedParts) N \u2192\n    Eq.{1}\n      (HSMul.hSMul.{0, 0, 0} (Units.val.{0} (DFunLike.coe.{1, 1, 1} Equiv.Perm.sign.{0} Fin.revPerm))\n        (Etingof.spechtModuleCharacter n la \u03c3))\n      (MvPolynomial.coeff.{0, 0} (HAdd.hAdd.{0, 0, 0} (Etingof.Nat.Partition.toFinsuppN N la) (Etingof.rhoShift N))\n        (HMul.hMul.{0, 0, 0} (Etingof.vandermondePoly N) (Etingof.cycleTypePsumProductN N n \u03c3)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_15_1_General"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.15.1",
+  "packet_id": "align-0317",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0317"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:60149495e63bdd628dfc",
+  "source_text": "For every N at least the number of rows of lambda, the Specht character is the x^(lambda+rho_N) coefficient of the N-variable Vandermonde times the cycle-type power-sum product."
+}

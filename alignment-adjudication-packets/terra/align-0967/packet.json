@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:aed275551b773eac06ee",
+      "declaration": "Etingof.characters_basis_semisimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/158/claim_coverage/claims/10/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type v) [inst : Field.{u_1} k] [IsAlgClosed.{u_1} k] [inst_2 : Ring.{v} A]\n  [inst_3 : Algebra.{u_1, v} k A] [FiniteDimensional.{u_1, v} k A] [IsSemisimpleRing.{v} A] {\u03b9 : Type u_2}\n  [Finite.{u_2 + 1} \u03b9] (V : \u03b9 \u2192 Type u_3) [inst_7 : (i : \u03b9) \u2192 AddCommGroup.{u_3} (V i)]\n  [inst_8 : (i : \u03b9) \u2192 Module.{u_1, u_3} k (V i)] [inst_9 : (i : \u03b9) \u2192 Module.{v, u_3} A (V i)]\n  [inst_10 : \u2200 (i : \u03b9), IsScalarTower.{u_1, v, u_3} k A (V i)]\n  [inst_11 : \u2200 (i : \u03b9), FiniteDimensional.{u_1, u_3} k (V i)] [\u2200 (i : \u03b9), IsSimpleModule.{v, u_3} A (V i)],\n  (\u2200 (i j : \u03b9), Ne.{u_2 + 1} i j \u2192 IsEmpty.{u_3 + 1} (LinearEquiv.{v, v, u_3, u_3} (RingHom.id.{v} A) (V i) (V j))) \u2192\n    (\u2200 (W : Type v) [inst_13 : AddCommGroup.{v} W] [inst_14 : Module.{u_1, v} k W] [inst_15 : Module.{v, v} A W]\n        [IsScalarTower.{u_1, v, v} k A W] [FiniteDimensional.{u_1, v} k W] [IsSimpleModule.{v, v} A W],\n        Exists.{u_2 + 1} fun i =>\n          Nonempty.{max (u_3 + 1) (v + 1)} (LinearEquiv.{v, v, v, u_3} (RingHom.id.{v} A) W (V i))) \u2192\n      \u2200 (f : Module.Dual.{u_1, v} k A),\n        (\u2200 (a b : A),\n            Eq.{u_1 + 1} (DFunLike.coe.{max (u_1 + 1) (v + 1), v + 1, u_1 + 1} f (HMul.hMul.{v, v, v} a b))\n              (DFunLike.coe.{max (u_1 + 1) (v + 1), v + 1, u_1 + 1} f (HMul.hMul.{v, v, v} b a))) \u2192\n          Membership.mem.{max u_1 v, max u_1 v}\n            (Submodule.span.{u_1, max u_1 v} k\n              (Set.range.{max u_1 v, u_2 + 1} fun i => Etingof.character.{u_1, v, u_3} k A (V i)))\n            f",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Theorem3_6_2"
+    },
+    {
+      "association_id": "association:8b1097a4c8bbab566721",
+      "declaration": "Etingof.commutatorSubmodule_matrix_fin_eq_ker_trace",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/158/claim_coverage/claims/10/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : CommRing.{u_1} k] (d : Nat),\n  Eq.{u_1 + 1} (Etingof.commutatorSubmodule.{u_1, u_1} k (Matrix.{0, 0, u_1} (Fin d) (Fin d) k))\n    (LinearMap.ker.{u_1, u_1, u_1, u_1} (Matrix.traceLinearMap.{0, u_1, u_1} (Fin d) k k))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.CommutatorMatrixTraceless"
+    },
+    {
+      "association_id": "association:3dae7d38c781fa7f405d",
+      "declaration": "IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/158/claim_coverage/claims/10/lean_decl",
+          "verdict": "covered_elsewhere"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RingTheory.SimpleModule.IsAlgClosed"
+    }
+  ],
+  "canonical_reference": "Chapter3/Theorem3.6.2",
+  "packet_id": "align-0967",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0967"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:b48fc0d7a97c34c5268a",
+  "source_text": "Under that matrix-product decomposition, [A,A] is the product of the traceless factors and A/[A,A] is isomorphic to k^r."
+}

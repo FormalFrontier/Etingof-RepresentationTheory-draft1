@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0452",
+  "associations": [
+    {
+      "association_id": "association:82bfe126320c4280d147",
+      "role": "supporting",
+      "rationale": "The formal type gives an equivalence from the induced trivial representation to an opaque target representation, but does not expose that target as the stated left ideal."
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (f : Polynomial.{u} k),\n  Ne.{u + 1} f 0 \u2192\n    Subsingleton.{u + 1}\n      (decl-004111.{u + 1, u, u}\n        (ModuleCat.of.{u, u} (Polynomial.{u} k)\n          (HasQuotient.Quotient.{u, u} (Polynomial.{u} k) (Ideal.span.{u} (Singleton.singleton.{u, u} f))))\n        (ModuleCat.of.{u, u} (Polynomial.{u} k) (Polynomial.{u} k)) 0)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "3050441925",
+      "temporary_id": "decl-014462"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {M N : Type u} [inst_1 : AddCommGroup.{u} M]\n  [inst_2 : Module.{u, u} (Polynomial.{u} k) M] [inst_3 : AddCommGroup.{u} N]\n  [inst_4 : Module.{u, u} (Polynomial.{u} k) N] [Module.Finite.{u, u} (Polynomial.{u} k) M]\n  [Module.Finite.{u, u} (Polynomial.{u} k) N],\n  Exists.{u + 2} fun D =>\n    Exists.{u + 2} fun E =>\n      And\n        (Nonempty.{u + 1}\n          (AddEquiv.{u, u}\n            (decl-004111.{u + 1, u, u} (ModuleCat.of.{u, u} (Polynomial.{u} k) M)\n              (ModuleCat.of.{u, u} (Polynomial.{u} k) N) 0)\n            (Prod.{u, u} (Fin (decl-005765.{u} D) \u2192 N)\n              ((i : decl-005800.{u} D) \u2192\n                (l : decl-005800.{u} E) \u2192\n                  HasQuotient.Quotient.{u, u} (Polynomial.{u} k)\n                    (Ideal.span.{u}\n                      (Insert.insert.{u, u} (decl-005766.{u} D i)\n                        (Singleton.singleton.{u, u} (decl-005766.{u} E l))))))))\n        (And\n          (Nonempty.{u + 1}\n            (AddEquiv.{u, u}\n              (decl-004111.{u + 1, u, u} (ModuleCat.of.{u, u} (Polynomial.{u} k) M)\n                (ModuleCat.of.{u, u} (Polynomial.{u} k) N) 1)\n              ((i : decl-005800.{u} D) \u2192\n                (l : decl-005770.{u} E) \u2192\n                  HasQuotient.Quotient.{u, u} (Polynomial.{u} k)\n                    (Ideal.span.{u}\n                      (Insert.insert.{u, u} (decl-005766.{u} D i)\n                        (Singleton.singleton.{u, u} (decl-005767.{u} E l)))))))\n          (\u2200 (n : Nat),\n            Subsingleton.{u + 1}\n              (decl-004111.{u + 1, u, u} (ModuleCat.of.{u, u} (Polynomial.{u} k) M)\n                (ModuleCat.of.{u, u} (Polynomial.{u} k) N) (HAdd.hAdd.{0, 0, 0} n 2))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111",
+        "decl-005749",
+        "decl-005765",
+        "decl-005766",
+        "decl-005767",
+        "decl-005770",
+        "decl-005800"
+      ],
+      "structural_type_hash": "2040008568",
+      "temporary_id": "decl-014463"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {M : Type u} [inst_1 : AddCommGroup.{u} M]\n  [inst_2 : Module.{u, u} (Polynomial.{u} k) M] [Module.Finite.{u, u} (Polynomial.{u} k) M]\n  (Z : ModuleCat.{u, u} (Polynomial.{u} k)) (n : Nat),\n  Subsingleton.{u + 1}\n    (decl-004111.{u + 1, u, u} (ModuleCat.of.{u, u} (Polynomial.{u} k) M) Z (HAdd.hAdd.{0, 0, 0} n 2))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "1748685816",
+      "temporary_id": "decl-014464"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (Z : ModuleCat.{u, u} (Polynomial.{u} k)),\n  Nonempty.{u + 1}\n    (AddEquiv.{u, u} (decl-004111.{u + 1, u, u} (ModuleCat.of.{u, u} (Polynomial.{u} k) (Polynomial.{u} k)) Z 0)\n      (ModuleCat.carrier.{u, u} Z))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111"
+      ],
+      "structural_type_hash": "2538471485",
+      "temporary_id": "decl-014467"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {M N : Type u} [inst_1 : AddCommGroup.{u} M]\n  [inst_2 : Module.{u, u} (Polynomial.{u} k) M] [inst_3 : AddCommGroup.{u} N]\n  [inst_4 : Module.{u, u} (Polynomial.{u} k) N] (D : decl-005749.{u} (Polynomial.{u} k) M)\n  (E : decl-005749.{u} (Polynomial.{u} k) N),\n  (\u2200 (i : decl-005800.{u} D), Ne.{u + 1} (decl-005766.{u} D i) 0) \u2192\n    Nonempty.{u + 1}\n      (AddEquiv.{u, u}\n        (decl-004111.{u + 1, u, u} (ModuleCat.of.{u, u} (Polynomial.{u} k) M) (ModuleCat.of.{u, u} (Polynomial.{u} k) N)\n          1)\n        ((i : decl-005800.{u} D) \u2192\n          (l : decl-005770.{u} E) \u2192\n            HasQuotient.Quotient.{u, u} (Polynomial.{u} k)\n              (Ideal.span.{u}\n                (Insert.insert.{u, u} (decl-005766.{u} D i)\n                  (Singleton.singleton.{u, u} (decl-005767.{u} E l))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111",
+        "decl-005749",
+        "decl-005766",
+        "decl-005767",
+        "decl-005770",
+        "decl-005800"
+      ],
+      "structural_type_hash": "1640223203",
+      "temporary_id": "decl-014479"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] {M N : Type u} [inst_1 : AddCommGroup.{u} M]\n  [inst_2 : Module.{u, u} (Polynomial.{u} k) M] [inst_3 : AddCommGroup.{u} N]\n  [inst_4 : Module.{u, u} (Polynomial.{u} k) N] (D : decl-005749.{u} (Polynomial.{u} k) M)\n  (E : decl-005749.{u} (Polynomial.{u} k) N),\n  (\u2200 (i : decl-005800.{u} D), Ne.{u + 1} (decl-005766.{u} D i) 0) \u2192\n    (\u2200 (l : decl-005800.{u} E), Ne.{u + 1} (decl-005766.{u} E l) 0) \u2192\n      Nonempty.{u + 1}\n        (AddEquiv.{u, u}\n          (decl-004111.{u + 1, u, u} (ModuleCat.of.{u, u} (Polynomial.{u} k) M)\n            (ModuleCat.of.{u, u} (Polynomial.{u} k) N) 0)\n          (Prod.{u, u} (Fin (decl-005765.{u} D) \u2192 N)\n            ((i : decl-005800.{u} D) \u2192\n              (l : decl-005800.{u} E) \u2192\n                HasQuotient.Quotient.{u, u} (Polynomial.{u} k)\n                  (Ideal.span.{u}\n                    (Insert.insert.{u, u} (decl-005766.{u} D i)\n                      (Singleton.singleton.{u, u} (decl-005766.{u} E l)))))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004111",
+        "decl-005749",
+        "decl-005765",
+        "decl-005766",
+        "decl-005800"
+      ],
+      "structural_type_hash": "2648328570",
+      "temporary_id": "decl-014483"
+    },
+    {
+      "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (f : Polynomial.{u} k),\n  Ne.{u + 1} f 0 \u2192\n    Subsingleton.{u + 1}\n      (LinearMap.{u, u, u, u} (RingHom.id.{u} (Polynomial.{u} k))\n        (HasQuotient.Quotient.{u, u} (Polynomial.{u} k) (Ideal.span.{u} (Singleton.singleton.{u, u} f)))\n        (Polynomial.{u} k))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2640847707",
+      "temporary_id": "decl-023483"
+    }
+  ],
+  "module_temporary_id": "module-0673",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

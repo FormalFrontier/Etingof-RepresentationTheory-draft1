@@ -1,0 +1,85 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:9c9c2ca38df0612d5e4f",
+      "declaration": "Etingof.TruncPolySimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 [Field.{u_1} k] \u2192 Nat \u2192 Type u_1",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    },
+    {
+      "association_id": "association:48cec8289849b08f9118",
+      "declaration": "Etingof.finrank_truncPolySimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (n : Nat),\n  LT.lt.{0} 0 n \u2192 Eq.{1} (Module.finrank.{u_1, u_1} k (Etingof.TruncPolySimple.{u_1} k n)) 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    },
+    {
+      "association_id": "association:40509db925e12d1f9b75",
+      "declaration": "Etingof.isSimpleModule_truncPolySimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    IsSimpleModule.{u_1, u_1} (AdjoinRoot.{u_1} (HPow.hPow.{u_1, 0, u_1} Polynomial.X.{u_1} n))\n      (Etingof.TruncPolySimple.{u_1} k n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    },
+    {
+      "association_id": "association:4ff8da202d2590477bb9",
+      "declaration": "Etingof.nonempty_linearEquiv_truncPolySimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (n : Nat),\n  LT.lt.{0} 0 n \u2192\n    \u2200 (M : Type u_2) [inst_1 : AddCommGroup.{u_2} M]\n      [inst_2 : Module.{u_1, u_2} (AdjoinRoot.{u_1} (HPow.hPow.{u_1, 0, u_1} Polynomial.X.{u_1} n)) M]\n      [IsSimpleModule.{u_1, u_2} (AdjoinRoot.{u_1} (HPow.hPow.{u_1, 0, u_1} Polynomial.X.{u_1} n)) M],\n      Nonempty.{max (u_1 + 1) (u_2 + 1)}\n        (LinearEquiv.{u_1, u_1, u_2, u_1}\n          (RingHom.id.{u_1} (AdjoinRoot.{u_1} (HPow.hPow.{u_1, 0, u_1} Polynomial.X.{u_1} n))) M\n          (Etingof.TruncPolySimple.{u_1} k n))",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    },
+    {
+      "association_id": "association:8445bf3839090ee6db96",
+      "declaration": "Etingof.root_smul_truncPolySimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/153/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (n : Nat) (m : Etingof.TruncPolySimple.{u_1} k n),\n  Eq.{u_1 + 1} (HSMul.hSMul.{u_1, u_1, u_1} (AdjoinRoot.root.{u_1} (HPow.hPow.{u_1, 0, u_1} Polynomial.X.{u_1} n)) m) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6"
+    }
+  ],
+  "canonical_reference": "Chapter3/Example3.5.6",
+  "packet_id": "align-1049",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1049"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:cbe44489386e962938ae",
+  "source_text": "For A = k[x]/(x\u207f), the unique irreducible representation is one-dimensional and x acts by zero."
+}

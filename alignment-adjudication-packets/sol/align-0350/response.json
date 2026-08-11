@@ -1,0 +1,35 @@
+{
+  "packet_id": "align-0350",
+  "associations": [
+    {
+      "association_id": "association:709e51ffc033b8cbeed7",
+      "role": "supporting",
+      "rationale": "This type family constructs the candidate modules V_i, but its displayed formal type alone does not state their action, simplicity, dimension, classification, or pairwise nonisomorphism."
+    },
+    {
+      "association_id": "association:4ab781e350c37c955378",
+      "role": "primary",
+      "rationale": "The equality directly states that an upper-triangular matrix acts on V_i by its i-th diagonal entry."
+    },
+    {
+      "association_id": "association:1a8b882d103670433cd0",
+      "role": "primary",
+      "rationale": "The existential equivalence directly states that every simple module is isomorphic to one of the indexed modules V_i."
+    },
+    {
+      "association_id": "association:62bb3d4befe442a6576e",
+      "role": "primary",
+      "rationale": "The finrank equality directly states that each indexed module V_i is one-dimensional."
+    },
+    {
+      "association_id": "association:2c48deceb9cbdf0ac568",
+      "role": "primary",
+      "rationale": "The instance-valued statement directly establishes that every indexed diagonal-character module V_i is simple."
+    },
+    {
+      "association_id": "association:73075e94f1a498c249d2",
+      "role": "primary",
+      "rationale": "For distinct indices, the negated nonempty linear equivalence directly states that V_i and V_j are nonisomorphic."
+    }
+  ]
+}

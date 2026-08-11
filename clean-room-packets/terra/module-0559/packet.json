@@ -1,0 +1,54 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 (\u03b1 : Fin n \u2192 Int),\n      decl-005212 n adj \u03b1 \u2192\n        \u2200 (k : Type u) [inst : Field.{u} k] [Q : Quiver.{0, 0} (Fin n)],\n          decl-005208.{0} Q adj \u2192\n            \u2200 [\u2200 (a b : Fin n), Subsingleton.{1} (Quiver.Hom.{0, 0} a b)],\n              Exists.{u + 2} fun V\u03b1 =>\n                And (decl-014923.{u, 0, 0, u} V\u03b1)\n                  (And (\u2200 (v : Fin n), Eq.{1} (Nat.cast.{0} (decl-013173.{u, 0, 0, u} V\u03b1 v)) (\u03b1 v))\n                    (Exists.{u + 1} fun s =>\n                      \u2200 (i : Fin n),\n                        Eq.{1} (Nat.cast.{0} (decl-014899.{u, 0, 0, u} s i)) (\u03b1 i)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-005208",
+        "decl-005212",
+        "decl-013173",
+        "decl-014886",
+        "decl-014899",
+        "decl-014909",
+        "decl-014923"
+      ],
+      "structural_type_hash": "3312930277",
+      "temporary_id": "decl-013176"
+    },
+    {
+      "formal_type": "\u2200 {n : Nat} {adj : Matrix.{0, 0, 0} (Fin n) (Fin n) Int},\n  decl-005140 n adj \u2192\n    \u2200 [Q : Quiver.{0, 0} (Fin n)],\n      decl-005208.{0} Q adj \u2192\n        Exists.{1} fun order =>\n          \u2200 {v w : Fin n} (a : Quiver.Hom.{0, 0} v w),\n            LT.lt.{0} (DFunLike.coe.{1, 1, 1} order w).val (DFunLike.coe.{1, 1, 1} order v).val",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005140",
+        "decl-005208"
+      ],
+      "structural_type_hash": "515708252",
+      "temporary_id": "decl-013180"
+    }
+  ],
+  "module_temporary_id": "module-0559",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

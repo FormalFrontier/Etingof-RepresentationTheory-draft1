@@ -1,0 +1,82 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {M : ModuleCat.{v, u} R},\n  CategoryTheory.Indecomposable.{v, max u (v + 1)} M \u2192\n    IsFiniteLength.{u, v} R (ModuleCat.carrier.{v, u} M) \u2192\n      \u2200 {S T : ModuleCat.{v, u} R},\n        decl-005131.{v, u} R M S \u2192\n          decl-005131.{v, u} R M T \u2192 decl-000621.{v, u} R S T",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621",
+        "decl-005131"
+      ],
+      "structural_type_hash": "152256664",
+      "temporary_id": "decl-018147"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {X : Type v} [inst_2 : AddCommGroup.{v} X]\n  [inst_3 : Module.{u, v} R X] (Q : Submodule.{u, v} R X),\n  Subsingleton.{v + 1}\n      (CategoryTheory.Abelian.Ext.{v, v, max u (v + 1)} (ModuleCat.of.{v, u} R (HasQuotient.Quotient.{v, v} X Q))\n        (ModuleCat.of.{v, u} R (Subtype.{v + 1} fun x => Membership.mem.{v, v} Q x)) 1) \u2192\n    Exists.{v + 1} fun P =>\n      And (IsCompl.{v} P Q)\n        (Nonempty.{v + 1}\n          (LinearEquiv.{u, u, v, v} (RingHom.id.{u} R) (Subtype.{v + 1} fun x => Membership.mem.{v, v} P x)\n            (HasQuotient.Quotient.{v, v} X Q)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3094933866",
+      "temporary_id": "decl-018875"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {S : ModuleCat.{v, u} R} {X : Type v}\n  [inst_2 : AddCommGroup.{v} X] [inst_3 : Module.{u, v} R X],\n  IsFiniteLength.{u, v} R X \u2192\n    Exists.{v + 1} fun P =>\n      Exists.{v + 1} fun Q =>\n        And (IsCompl.{v} P Q)\n          (And\n            (\u2200 (U : ModuleCat.{v, u} R),\n              decl-005131.{v, u} R\n                  (ModuleCat.of.{v, u} R (Subtype.{v + 1} fun x => Membership.mem.{v, v} P x)) U \u2192\n                decl-000621.{v, u} R S U)\n            (\u2200 (V : ModuleCat.{v, u} R),\n              decl-005131.{v, u} R\n                  (ModuleCat.of.{v, u} R (Subtype.{v + 1} fun x => Membership.mem.{v, v} Q x)) V \u2192\n                Not (decl-000621.{v, u} R S V)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-000621",
+        "decl-005131"
+      ],
+      "structural_type_hash": "2773440871",
+      "temporary_id": "decl-018876"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {X : Type v} [inst_1 : AddCommGroup.{v} X] [inst_2 : Module.{u, v} R X]\n  (N : Submodule.{u, v} R X) {A B : Submodule.{u, v} R (Subtype.{v + 1} fun x => Membership.mem.{v, v} N x)},\n  IsCompl.{v} A B \u2192\n    \u2200 {U : ModuleCat.{v, u} R},\n      decl-005131.{v, u} R\n          (ModuleCat.of.{v, u} R\n            (HasQuotient.Quotient.{v, v} X (Submodule.map.{u, u, v, v} (Submodule.subtype.{u, v} N) B)))\n          U \u2192\n        Or\n          (decl-005131.{v, u} R\n            (ModuleCat.of.{v, u} R (Subtype.{v + 1} fun x => Membership.mem.{v, v} A x)) U)\n          (decl-005131.{v, u} R (ModuleCat.of.{v, u} R (HasQuotient.Quotient.{v, v} X N)) U)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005131"
+      ],
+      "structural_type_hash": "355457849",
+      "temporary_id": "decl-019318"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {X : Type v} [inst_1 : AddCommGroup.{v} X] [inst_2 : Module.{u, v} R X],\n  IsFiniteLength.{u, v} R X \u2192 \u2200 (P : Submodule.{u, v} R X), IsFiniteLength.{u, v} R (HasQuotient.Quotient.{v, v} X P)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "35460503",
+      "temporary_id": "decl-020840"
+    },
+    {
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] {X : Type v} [inst_1 : AddCommGroup.{v} X] [inst_2 : Module.{u, v} R X],\n  IsFiniteLength.{u, v} R X \u2192\n    \u2200 (P : Submodule.{u, v} R X), IsFiniteLength.{u, v} R (Subtype.{v + 1} fun x => Membership.mem.{v, v} P x)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "801131461",
+      "temporary_id": "decl-020841"
+    }
+  ],
+  "module_temporary_id": "module-0752",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

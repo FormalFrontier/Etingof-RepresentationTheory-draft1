@@ -1,0 +1,25 @@
+{
+  "module_name": "Module.CompositionData",
+  "declarations": [
+    {
+      "temporary_id": "decl-004248",
+      "new_name": "ModuleCompositionData",
+      "docstring": "Inductive data associated with a module from which an increasing relational series of submodules is obtained."
+    },
+    {
+      "temporary_id": "decl-004252",
+      "new_name": "toRelSeries",
+      "docstring": "The relational series of submodules determined by module composition data."
+    },
+    {
+      "temporary_id": "decl-004254",
+      "new_name": "toRelSeries_head",
+      "docstring": "The first submodule in the relational series determined by module composition data is the bottom submodule."
+    },
+    {
+      "temporary_id": "decl-004255",
+      "new_name": "toRelSeries_last",
+      "docstring": "The last submodule in the relational series determined by module composition data is the top submodule."
+    }
+  ]
+}

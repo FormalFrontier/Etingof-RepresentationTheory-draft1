@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:4cc17ac760bc6eb7259e",
+      "declaration": "Etingof.Definition5_8_1_functionSpace",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/289/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{G : Type u_1} \u2192\n  [inst : Group.{u_1} G] \u2192\n    (H : Subgroup.{u_1} G) \u2192\n      {V : Type u_2} \u2192\n        [inst_1 : AddCommGroup.{u_2} V] \u2192\n          [inst_2 : Module.{0, u_2} Complex V] \u2192\n            (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) \u2192\n              Representation.{0, u_1, max u_1 u_2} Complex G\n                (Subtype.{(max u_1 u_2) + 1} fun x =>\n                  Membership.mem.{max u_1 u_2, max u_1 u_2}\n                    (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
+    },
+    {
+      "association_id": "association:4224bee07a8bedf8e759",
+      "declaration": "Etingof.Definition5_8_1_functionSpace_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/289/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V) (g : G)\n  (f :\n    Subtype.{(max u_1 u_2) + 1} fun x =>\n      Membership.mem.{max u_1 u_2, max u_1 u_2} (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n        x)\n  (x : G),\n  Eq.{u_2 + 1}\n    (Subtype.val.{max (u_1 + 1) (u_2 + 1)}\n      (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1), max (u_1 + 1) (u_2 + 1)}\n        (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, max (u_1 + 1) (u_2 + 1)}\n          (Etingof.Definition5_8_1_functionSpace.{u_1, u_2} H \u03c1) g)\n        f)\n      x)\n    (Subtype.val.{max (u_1 + 1) (u_2 + 1)} f (HMul.hMul.{u_1, u_1, u_1} x g))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
+    },
+    {
+      "association_id": "association:e4af9fccea842cade83c",
+      "declaration": "Etingof.Definition5_8_1_functionSpace_condition",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/289/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {G : Type u_1} [inst : Group.{u_1} G] (H : Subgroup.{u_1} G) {V : Type u_2} [inst_1 : AddCommGroup.{u_2} V]\n  [inst_2 : Module.{0, u_2} Complex V]\n  (\u03c1 : Representation.{0, u_1, u_2} Complex (Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) V)\n  (f :\n    Subtype.{(max u_1 u_2) + 1} fun x =>\n      Membership.mem.{max u_1 u_2, max u_1 u_2} (Representation.coindV.{0, u_1, u_1, u_2} (Subgroup.subtype.{u_1} H) \u03c1)\n        x)\n  (h : Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} H x) (x : G),\n  Eq.{u_2 + 1} (Subtype.val.{max (u_1 + 1) (u_2 + 1)} f (HMul.hMul.{u_1, u_1, u_1} (Subtype.val.{u_1 + 1} h) x))\n    (DFunLike.coe.{u_2 + 1, u_2 + 1, u_2 + 1} (DFunLike.coe.{max (u_1 + 1) (u_2 + 1), u_1 + 1, u_2 + 1} \u03c1 h)\n      (Subtype.val.{max (u_1 + 1) (u_2 + 1)} f x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
+    },
+    {
+      "association_id": "association:fe709a91cd471b212563",
+      "declaration": "Representation.coindV",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/289/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RepresentationTheory.Coinduced"
+    }
+  ],
+  "canonical_reference": "Chapter5/Definition5.8.1",
+  "packet_id": "align-1144",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1144"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:ea434a00b90b592a37be",
+  "source_text": "Ind_H^G V is the equivariant-function representation f(hx)=h\u00b7f(x), with G acting by right translation."
+}

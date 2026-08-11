@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0210",
+  "associations": [
+    {
+      "association_id": "association:b3a71888e58e0072e2e1",
+      "role": "primary",
+      "rationale": "The conclusion is exactly an iff between surjectivity of the A-linear map and every displayed multiplicity-space component."
+    }
+  ]
+}

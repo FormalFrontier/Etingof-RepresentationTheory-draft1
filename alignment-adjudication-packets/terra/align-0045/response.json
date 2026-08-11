@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0045",
+  "associations": [
+    {
+      "association_id": "association:0ccc6abed2689dc81fb0",
+      "role": "primary",
+      "rationale": "Its type directly states the source's conclusion that the polynomial representation of the Weyl algebra in characteristic p is not injective, hence is not faithful."
+    },
+    {
+      "association_id": "association:deac0e2b7e9940c30c99",
+      "role": "supporting",
+      "rationale": "Its type says that y^p acts as zero in the polynomial representation; this is the intermediate kernel witness derived from vanishing of the p-th derivative, not the source's general derivative statement or final nonfaithfulness conclusion."
+    },
+    {
+      "association_id": "association:0571d24464f8cddea2ea",
+      "role": "primary",
+      "rationale": "Its type directly states that the p-fold iterate of polynomial differentiation sends every polynomial Q to zero in characteristic p."
+    }
+  ]
+}

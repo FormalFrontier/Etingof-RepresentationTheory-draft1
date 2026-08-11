@@ -1,0 +1,34 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 {k G : Type u} [inst : Field.{u} k] [IsAlgClosed.{u} k] [inst_2 : Group.{u} G] [inst_3 : Fintype.{u} G]\n  [NeZero.{u} (Nat.cast.{u} (Nat.card.{u} G))] {\u03b9 : Type v} [inst_5 : Fintype.{v} \u03b9] (W : \u03b9 \u2192 FDRep.{u, u} k G),\n  (\u2200 (j : \u03b9), CategoryTheory.Simple.{u, u + 1} (W j)) \u2192\n    (\u2200 (j j' : \u03b9), Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} (W j) (W j')) \u2192 Eq.{v + 1} j j') \u2192\n      Eq.{1}\n          (Finset.sum.{v, 0} Finset.univ.{v} fun j =>\n            HPow.hPow.{0, 0, 0} (Module.finrank.{u, u} k (FGModuleCat.carrier.{u, u} (Action.V.{u, u + 1, u} (W j)))) 2)\n          (Fintype.card.{u} G) \u2192\n        \u2200 (X : FDRep.{u, u} k G),\n          CategoryTheory.Simple.{u, u + 1} X \u2192\n            Exists.{v + 1} fun j => Nonempty.{u + 1} (CategoryTheory.Iso.{u, u + 1} X (W j))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2017057654",
+      "temporary_id": "decl-024814"
+    }
+  ],
+  "module_temporary_id": "module-0771",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

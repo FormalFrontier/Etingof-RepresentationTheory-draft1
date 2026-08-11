@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:234ad76c0d17055eaba3",
+      "declaration": "Etingof.postcompHom_comp",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/131/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) {\u03b9 : Type u_3} (X : \u03b9 \u2192 Type u_4) (V : Type u_5) (U : Type u_6) [inst : Field.{u_1} k]\n  [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)]\n  [inst_4 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)] [inst_5 : AddCommGroup.{u_5} V] [inst_6 : Module.{u_1, u_5} k V]\n  [inst_7 : Module.{u_2, u_5} A V] [inst_8 : IsScalarTower.{u_1, u_2, u_5} k A V] [inst_9 : AddCommGroup.{u_6} U]\n  [inst_10 : Module.{u_1, u_6} k U] [inst_11 : Module.{u_2, u_6} A U] [inst_12 : IsScalarTower.{u_1, u_2, u_6} k A U]\n  (W : Type u_7) [inst_13 : AddCommGroup.{u_7} W] [inst_14 : Module.{u_1, u_7} k W] [inst_15 : Module.{u_2, u_7} A W]\n  [inst_16 : IsScalarTower.{u_1, u_2, u_7} k A W] (f : LinearMap.{u_2, u_2, u_5, u_6} (RingHom.id.{u_2} A) V U)\n  (f' : LinearMap.{u_2, u_2, u_6, u_7} (RingHom.id.{u_2} A) U W),\n  Eq.{max (max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)) (u_7 + 1)}\n    (DFunLike.coe.{max (max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)) (u_7 + 1), max (u_5 + 1) (u_7 + 1),\n        max (max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)) (u_7 + 1)}\n      (Etingof.postcompHom.{u_1, u_2, u_3, u_4, u_5, u_7} k A X V W)\n      (LinearMap.comp.{u_2, u_2, u_2, u_5, u_6, u_7} f' f))\n    fun i =>\n    LinearMap.comp.{u_1, u_1, u_1, max u_4 u_5, max u_4 u_6, max u_4 u_7}\n      (DFunLike.coe.{max (max (max (u_3 + 1) (u_4 + 1)) (u_6 + 1)) (u_7 + 1), max (u_6 + 1) (u_7 + 1),\n          max (max (max (u_3 + 1) (u_4 + 1)) (u_6 + 1)) (u_7 + 1)}\n        (Etingof.postcompHom.{u_1, u_2, u_3, u_4, u_6, u_7} k A X U W) f' i)\n      (DFunLike.coe.{max (max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)) (u_6 + 1), max (u_5 + 1) (u_6 + 1),\n          max (max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)) (u_6 + 1)}\n        (Etingof.postcompHom.{u_1, u_2, u_3, u_4, u_5, u_6} k A X V U) f i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Discussion_alternative_proof_of_Proposition3_1_4"
+    },
+    {
+      "association_id": "association:7913e8ce6d5e9e826147",
+      "declaration": "Etingof.postcompHom_id",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/131/claim_coverage/claims/5/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) (A : Type u_2) {\u03b9 : Type u_3} (X : \u03b9 \u2192 Type u_4) (V : Type u_5) [inst : Field.{u_1} k]\n  [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A] [inst_3 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (X i)]\n  [inst_4 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (X i)] [inst_5 : AddCommGroup.{u_5} V] [inst_6 : Module.{u_1, u_5} k V]\n  [inst_7 : Module.{u_2, u_5} A V] [inst_8 : IsScalarTower.{u_1, u_2, u_5} k A V],\n  Eq.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)}\n    (DFunLike.coe.{max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1), u_5 + 1, max (max (u_3 + 1) (u_4 + 1)) (u_5 + 1)}\n      (Etingof.postcompHom.{u_1, u_2, u_3, u_4, u_5, u_5} k A X V V) LinearMap.id.{u_2, u_5})\n    fun x => LinearMap.id.{u_1, max u_4 u_5}",
+      "provider_module": "EtingofRepresentationTheory.Chapter3.Discussion_alternative_proof_of_Proposition3_1_4"
+    }
+  ],
+  "canonical_reference": "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
+  "packet_id": "align-0228",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0228"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4431f0b69f2095e3f1af",
+  "source_text": "The Hom-space identification is natural: identity and composition become identity and componentwise composition."
+}

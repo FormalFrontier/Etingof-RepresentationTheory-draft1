@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Problem5.16.1",
+    "kind": "exercise",
+    "title": "Branching rules: restriction and induction for S_n representations",
+    "node_id": "chapter-05/section-5-16",
+    "order": 340,
+    "slug": "problem5-16-1",
+    "span": {
+      "start": {
+        "page": "120",
+        "line": 21
+      },
+      "end": {
+        "page": "120",
+        "line": 25
+      }
+    },
+    "source_sha256": "2f590a43f321c40fea759c8c5087bf3d4774e73c603f952355d63a565f4b2065",
+    "features": {
+      "line_count": 5,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem5161",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

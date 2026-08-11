@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0069",
+  "associations": [
+    {
+      "association_id": "association:558037ebb1eeae08377f",
+      "role": "supporting",
+      "rationale": "Its type constructs the simple nontrivial representation with nonzero character and the required coprimality information, supplying the input to the cited theorem."
+    },
+    {
+      "association_id": "association:7b822509a21a41d89008",
+      "role": "primary",
+      "rationale": "Its type directly yields scalar action when the character is nonzero under the coprimality hypothesis, which is the central inference described in the proof sentence."
+    },
+    {
+      "association_id": "association:0209bc9ec01d6f6b2fb8",
+      "role": "supporting",
+      "rationale": "Its type states the final existence of a nontrivial proper normal subgroup, a downstream consequence rather than the scalar-action proof step itself."
+    }
+  ]
+}

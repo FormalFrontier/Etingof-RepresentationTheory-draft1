@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0123",
+  "associations": [
+    {
+      "association_id": "association:86eec849c9b25aaadcac",
+      "role": "primary",
+      "rationale": "This negates the scalar-endomorphism conclusion over the real base field, directly stating its failure."
+    },
+    {
+      "association_id": "association:7c7cf488453460f18c4c",
+      "role": "primary",
+      "rationale": "This gives the concrete complex-module counterexample in which multiplication by i is not real scalar multiplication."
+    }
+  ]
+}

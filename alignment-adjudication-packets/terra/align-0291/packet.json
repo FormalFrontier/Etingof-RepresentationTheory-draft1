@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a53dd8808e03a84c098d",
+      "declaration": "Etingof.Lemma5_15_3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/335/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (N : Nat) (z y : Fin N \u2192 Complex),\n  (\u2200 (i j : Fin N), Ne.{1} (z i) (y j)) \u2192\n    Eq.{1}\n      (HMul.hMul.{0, 0, 0}\n        (Finset.prod.{0, 0} Finset.univ.{0} fun i =>\n          Finset.prod.{0, 0} Finset.univ.{0} fun j => HSub.hSub.{0, 0, 0} (z i) (y j))\n        (Matrix.det.{0, 0}\n          (DFunLike.coe.{1, 1, 1} Matrix.of.{0, 0, 0} fun i j => Inv.inv.{0} (HSub.hSub.{0, 0, 0} (z i) (y j)))))\n      (HMul.hMul.{0, 0, 0}\n        (Finset.prod.{0, 0} Finset.univ.{0} fun i =>\n          Finset.prod.{0, 0} (Finset.Ioi.{0} i) fun j => HSub.hSub.{0, 0, 0} (z j) (z i))\n        (Finset.prod.{0, 0} Finset.univ.{0} fun i =>\n          Finset.prod.{0, 0} (Finset.Ioi.{0} i) fun j => HSub.hSub.{0, 0, 0} (y i) (y j)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_15_3"
+    }
+  ],
+  "canonical_reference": "Chapter5/Discussion_proof_of_Lemma5.15.3",
+  "packet_id": "align-0291",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0291"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:57c5ffa19fddf1c3d88c",
+  "source_text": "After clearing denominators, alternation, degree, and the inductive specialization determine the Cauchy determinant with proportionality constant one."
+}

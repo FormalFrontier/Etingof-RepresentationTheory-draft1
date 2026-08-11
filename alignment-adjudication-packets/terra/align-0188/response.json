@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0188",
+  "associations": [
+    {
+      "association_id": "association:7c8f058a5e89fbac0a56",
+      "role": "primary",
+      "rationale": "It directly provides a filtration whose successive displayed quotient modules are simple for every finite-dimensional module."
+    }
+  ]
+}

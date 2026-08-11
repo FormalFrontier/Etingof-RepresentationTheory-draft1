@@ -1,0 +1,1150 @@
+{
+  "direct_blockers": {
+    "EtingofRepresentationTheory.Chapter2.Theorem2_1_2_General": [
+      "EtingofRepresentationTheory.Chapter2.Theorem2_1_2"
+    ],
+    "EtingofRepresentationTheory.Chapter3.Discussion_alternative_proof_of_Proposition3_1_4": [
+      "EtingofRepresentationTheory.Chapter3.Remark3_1_3"
+    ],
+    "EtingofRepresentationTheory.Chapter3.Problem3_9_3": [
+      "EtingofRepresentationTheory.Chapter2.Theorem2_1_2",
+      "EtingofRepresentationTheory.Chapter6.Problem6_9_3"
+    ],
+    "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor": [
+      "EtingofRepresentationTheory.Chapter3.Problem3_9_5"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Discussion_after_Theorem4_6_2": [
+      "EtingofRepresentationTheory.Chapter4.Theorem4_6_2"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Example4_8_1": [
+      "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Golden",
+      "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4Quotient"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Classes": [
+      "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Complete": [
+      "EtingofRepresentationTheory.Chapter4.Corollary4_2_2",
+      "EtingofRepresentationTheory.Chapter4.Example4_9_1"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5OuterTwist": [
+      "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Golden",
+      "EtingofRepresentationTheory.Chapter5.CharEqIso"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Assembly": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_StrictBound"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_CountingBound": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Cocenter"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_FieldGeneral": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3",
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_SplitSimples",
+      "EtingofRepresentationTheory.Chapter4.SimpleModuleClassesBaseChange"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_SemisimpleBaseChange": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3"
+    ]
+  },
+  "export_ready": [
+    {
+      "new_module": "RepresentationTheory.Algebra.SimpleModule.Endomorphisms",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Corollary2_3_10",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.SimpleModule.Dimension",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Corollary2_3_12",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.TensorProduct",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_11_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.BasisQuotientPresentations",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_12_1",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_9_9": "RepresentationTheory.Algebra.Lie.AssociatedTypes",
+        "EtingofRepresentationTheory.Chapter2.Discussion_2_6": "RepresentationTheory.FreeAlgebra.RelationQuotient",
+        "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymPowBasis": "RepresentationTheory.LinearAlgebra.SymmetricTensors"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.TensorProduct",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_14_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.Dual",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_14_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.NonUnitalStructure",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_2_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.DesignatedElements",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_2_2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_2_1": "RepresentationTheory.Algebra.NonUnitalStructure"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.FieldCommRing",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_2_5",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.ModulePair",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_2_6",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.ModuleActions",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.ModuleConditions",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_5",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.ModulePairData",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_6",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.ProductModules",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_7",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.ModuleDecompositions",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_8",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.ModulePredicates",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_7_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Foundations.TypeFamilies",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.CategoryTheory.QuiverLinearMaps",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_10",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_3": "RepresentationTheory.CategoryTheory.QuiverLinearDiagrams"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.CategoryTheory.QuiverLinearDiagrams",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Quiver.PathAlgebra",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.CategoryTheory.QuiverSubdiagrams",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_8",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_3": "RepresentationTheory.CategoryTheory.QuiverLinearDiagrams"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Quiver.Representation.Constructions",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_9",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_3": "RepresentationTheory.CategoryTheory.QuiverLinearDiagrams"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.Basic",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_9_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.PairedAuxiliaryTypes",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_9_6",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.Module.Predicates",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_9_7",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.AssociatedTypes",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_9_9",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.TensorAlgebra.AuxiliaryTypes",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_12_heading",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.AuxiliaryPredicates",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_1_irreducible_indecomposable",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_3_8": "RepresentationTheory.LinearAlgebra.ModuleDecompositions"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.FieldTheory.IsAlgClosed.Basic",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_2_intro",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.RingTheory.TwoSidedIdeal.Basic",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_3_4": "RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.RingTheory.Quotient.Constructions",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_5_well_defined",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.FreeAlgebra.RelationQuotient",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_6",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.BracketIdentities",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_2_9_heading",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Noncommutativity",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_commutativity_examples",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.ThreeByThreeMatrixAuxiliary",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_concrete_Lie_examples",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Example2_9_12": "RepresentationTheory.LieAlgebra.SpecialLinearPresentation",
+        "EtingofRepresentationTheory.Chapter2.Example2_9_13": "RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations",
+        "EtingofRepresentationTheory.Chapter2.Exercise2_9_5": "RepresentationTheory.Algebra.Lie.ThreeDimensional"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_concrete_Lie_examples_continued",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_2": "RepresentationTheory.LieAlgebra.ModularRepresentations"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.TensorProductAuxiliary",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_pure_tensors",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Quiver.DependentPropertiesAuxiliary",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_irreducible_indecomposable",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_10": "RepresentationTheory.CategoryTheory.QuiverLinearMaps",
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_8": "RepresentationTheory.CategoryTheory.QuiverSubdiagrams",
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_9": "RepresentationTheory.Algebra.Quiver.Representation.Constructions"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Quiver.Arrows",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_notation",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Quiver.PathModuleCorrespondence",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_10": "RepresentationTheory.CategoryTheory.QuiverLinearMaps",
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.PathAlgebra"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.RingTheory.Polynomial.JordanBlockModule",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_3_8": "RepresentationTheory.LinearAlgebra.ModuleDecompositions"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Representation.Equivalences",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14_continued",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Ring.ModuleStructures",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Example2_3_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Combinatorics.Quiver.FourVertices",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Example2_8_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.SpecialLinearPresentation",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Example2_9_12",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Example2_9_13",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Proposition2_7_1": "RepresentationTheory.FreeAlgebra.PolynomialOperators"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.Constructions",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.Module.Examples",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Example2_9_8",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_9_7": "RepresentationTheory.Algebra.Lie.Module.Predicates"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.TensorProduct.Quotient",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Exercise2_11_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.TensorProduct.ScalarExtension",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Exercise2_11_5",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.UniversalEnveloping",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Exercise2_9_11",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.ThreeDimensional",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Exercise2_9_5",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators",
+      "old_module": "EtingofRepresentationTheory.Chapter2.FaithfulWeylModule",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Proposition2_7_1": "RepresentationTheory.FreeAlgebra.PolynomialOperators"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.TensorProduct",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.TensorOperations",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.AlternatingTensors",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtSubspace",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow": "RepresentationTheory.LinearAlgebra.TensorOperations"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.SymmetricTensors",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymPowBasis",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow": "RepresentationTheory.LinearAlgebra.TensorOperations"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.Triangularization",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_Trace",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymPowBasis": "RepresentationTheory.LinearAlgebra.SymmetricTensors",
+        "EtingofRepresentationTheory.Infrastructure.Triangularization": "RepresentationTheory.Infrastructure.Triangularization"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.OpaqueFormalStatement",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_13_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LieModule.HomTensorAdjunction",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_14_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LieModule.WeightLadder",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_a_e",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module": "RepresentationTheory.LieAlgebra.TensorProductDecomposition"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieModule.CentralAction",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_complete_reducibility",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Theorem2_1_1": "RepresentationTheory.LieAlgebra.FiniteDimensionalModules"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.NilpotentOperators",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_l",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Sl2Irrep": "RepresentationTheory.LieAlgebra.Sl2Representations"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieModule.ActionFibers",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_l_uniqueness",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Sl2JordanTypeIso": "RepresentationTheory.Algebra.Lie.ComplexMatrixModuleClassification"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Polynomial.Recurrences",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Sl2Irrep": "RepresentationTheory.LieAlgebra.Sl2Representations"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.TensorProductDecomposition",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_15_1_complete_reducibility": "RepresentationTheory.LieModule.CentralAction",
+        "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m": "RepresentationTheory.Polynomial.Recurrences"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieModule.TensorProductDecomposition",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_n",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_15_1_l": "RepresentationTheory.LinearAlgebra.NilpotentOperators",
+        "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module": "RepresentationTheory.LieAlgebra.TensorProductDecomposition"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.SolvableSimpleModules",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.ModularRepresentations",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.ExplicitConstructions",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.BigradedComponents",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Bidegree",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Grading": "RepresentationTheory.LieAlgebra.FreeBigrading",
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Tower": "RepresentationTheory.LieAlgebra.GradedMatrixRealization"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.PolynomialMatrixRealization",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Center",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers": "RepresentationTheory.LieAlgebra.AuxiliaryBracketCalculus"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.BigradedCocycleLifts",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Cocycle",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Kernel": "RepresentationTheory.LinearMap.KernelDecomposition"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.BigradedPairing",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleCombinatorics",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Cocycle": "RepresentationTheory.LieAlgebra.BigradedCocycleLifts"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.BracketCoefficients",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleRecurrence",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleCombinatorics": "RepresentationTheory.LieAlgebra.BigradedPairing"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.FiniteDimensionalModels",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleVanishing",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleRecurrence": "RepresentationTheory.LieAlgebra.BracketCoefficients"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.GradedLieAlgebra.BracketRelations",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Commutation",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Bidegree": "RepresentationTheory.LieAlgebra.BigradedComponents"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.FreeBigrading",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Grading",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_3": "RepresentationTheory.LieAlgebra.ExplicitConstructions"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LinearMap.KernelDecomposition",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Kernel",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Bidegree": "RepresentationTheory.LieAlgebra.BigradedComponents"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.AuxiliaryBracketCalculus",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_3": "RepresentationTheory.LieAlgebra.ExplicitConstructions"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.GradedMatrixRealization",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Tower",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Center": "RepresentationTheory.LieAlgebra.PolynomialMatrixRealization"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.QuantumGroup.SL2Representations",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Module.SimpleSubmodule",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_15",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.CenterAction",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_16",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_3_8": "RepresentationTheory.LinearAlgebra.ModuleDecompositions",
+        "EtingofRepresentationTheory.Chapter2.Problem2_3_15": "RepresentationTheory.Module.SimpleSubmodule"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.ModuleEnd.OppositeRing",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_17",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.SimpleModule.ScalarEndomorphisms",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_3_18",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Ring.CoatomExistence",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_4_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.MvPolynomial.QuotientProperty",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_5_1",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_3_8": "RepresentationTheory.LinearAlgebra.ModuleDecompositions"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.DualModules",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_5_2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_3_8": "RepresentationTheory.LinearAlgebra.ModuleDecompositions"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_4",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.FaithfulWeylModule": "RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.WeylAlgebra.ModularSimpleModules",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_4_Family",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_7_4": "RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.ParameterizedAlgebra.FiniteSimpleModules",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.QWeylAlgebraUniversal": "RepresentationTheory.QuantumTorus.Representations"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.ParameterizedAlgebra.SimpleModuleExistence",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Converse",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive": "RepresentationTheory.ParameterizedAlgebra.SimpleModuleClassification"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.ParameterizedAlgebra.SimpleModuleClassification",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_7_5_FamilySimple": "RepresentationTheory.ParameterizedAlgebra.ModelModules",
+        "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Iso": "RepresentationTheory.QuantumTorus.FiniteOrderModuleEquivalences"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.QuantumTorus.FiniteOrderModules",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_7_5": "RepresentationTheory.ParameterizedAlgebra.FiniteSimpleModules"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.ParameterizedAlgebra.ModelModules",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_FamilySimple",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family": "RepresentationTheory.QuantumTorus.FiniteOrderModules"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.QuantumTorus.FiniteOrderModuleEquivalences",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Iso",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family": "RepresentationTheory.QuantumTorus.FiniteOrderModules"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.GradedAlgebra.HilbertSeries",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.PathAlgebra"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Quiver.PathAlgebra.UniversalProperties",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.PathAlgebra"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Module.DistinguishedElement",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Proposition2_2_3",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_2_2": "RepresentationTheory.Algebra.DesignatedElements"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Module.SimpleLinearMaps",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Proposition2_3_9",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.FreeAlgebra.PolynomialOperators",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Proposition2_7_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.TwistedLatticeShifts",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.QuantumTorus.Representations",
+      "old_module": "EtingofRepresentationTheory.Chapter2.QWeylAlgebraUniversal",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii": "RepresentationTheory.Algebra.Module.TwistedLatticeShifts"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Quiver.LinearRepresentationCategory",
+      "old_module": "EtingofRepresentationTheory.Chapter2.QuiverRepresentationCategory",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_10": "RepresentationTheory.CategoryTheory.QuiverLinearMaps"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.BalancedTensorProduct",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Remark2_11_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.RealAlgebra.EndomorphismCounterexample",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Remark2_3_11",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Corollary2_3_10": "RepresentationTheory.Algebra.SimpleModule.Endomorphisms"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Module.FinrankOneSimple",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Remark2_3_13",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.CommutativeOppositeScalars",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Remark2_3_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Polynomial.OperatorSubalgebra",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Remark2_7_2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Proposition2_7_1": "RepresentationTheory.FreeAlgebra.PolynomialOperators"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.UniversalEnveloping.BasisPresentation",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Remark2_9_10",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_12_1": "RepresentationTheory.Algebra.BasisQuotientPresentations"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.FaithfulFiniteDimensionalRepresentation",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Remark2_9_3",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_9_1": "RepresentationTheory.Algebra.Lie.Basic"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Analysis.Algebra.DerivationExponential",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Remark2_9_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Sl2Defs",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.Sl2Representations",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Sl2Defs": "RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Lie.ComplexMatrixModuleClassification",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Sl2JordanTypeIso",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Sl2NullitySequence": "RepresentationTheory.LinearAlgebra.KernelDimensionProfiles",
+        "EtingofRepresentationTheory.Chapter2.Sl2SemisimpleDecomposition": "RepresentationTheory.LieAlgebra.ModuleProducts"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.KernelDimensionProfiles",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Sl2NullitySequence",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_15_1_l": "RepresentationTheory.LinearAlgebra.NilpotentOperators"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.ModuleProducts",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Sl2SemisimpleDecomposition",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Problem2_15_1_complete_reducibility": "RepresentationTheory.LieModule.CentralAction"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LieAlgebra.FiniteDimensionalModules",
+      "old_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_1",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Sl2Irrep": "RepresentationTheory.LieAlgebra.Sl2Representations"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.RingTheory.OrderedMonomialBasis",
+      "old_module": "EtingofRepresentationTheory.Chapter2.WeylAlgebraDomain",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.FaithfulWeylModule": "RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.RingTheory.EndomorphismRelationAction",
+      "old_module": "EtingofRepresentationTheory.Chapter2.WeylAlgebraUniversal",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Proposition2_7_1": "RepresentationTheory.FreeAlgebra.PolynomialOperators"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.MatrixTraceKernels",
+      "old_module": "EtingofRepresentationTheory.Chapter3.CommutatorMatrixTraceless",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Introduction3_6": "RepresentationTheory.Algebra.Trace.CommutatorQuotient"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.RingTheory.SimpleModuleDensity",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Corollary3_2_1",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Theorem3_2_2": "RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.RingTheory.SimpleModuleDimensionBound",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Corollary3_5_5",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Theorem3_2_2": "RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.ModuleTheory.ModuleCondition",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Definition3_1_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Module.DualOppositeAction",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Definition3_3_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Module.CompositionData",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Definition3_4_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.RingTheory.SimpleModuleAnnihilator",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Definition3_5_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Definition3_5_7",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Definition3_5_1": "RepresentationTheory.RingTheory.SimpleModuleAnnihilator"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Module.CompositionSeriesLength",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Discussion_after_Theorem3_7_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.Trace.FunctionSpace",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Discussion_footnote_3_7_1",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Theorem3_6_2": "RepresentationTheory.Algebra.Module.Dual.SimpleFamilies"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Module.EndomorphismEvaluation",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Example3_1_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Example3_5_6",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.Matrix.TensorProduct",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Exercise3_10_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Module.RepresentationTraceAdditivity",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Exercise3_6_1",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Theorem3_6_2": "RepresentationTheory.Algebra.Module.Dual.SimpleFamilies"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Trace.CommutatorQuotient",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Introduction3_6",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Theorem3_6_2": "RepresentationTheory.Algebra.Module.Dual.SimpleFamilies"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.ComplementConstructions",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Lemma3_1_6",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.Filtrations",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Lemma3_4_2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Definition3_4_1": "RepresentationTheory.Module.CompositionData"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.EndomorphismDichotomy",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Lemma3_8_2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_3_8": "RepresentationTheory.LinearAlgebra.ModuleDecompositions"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.Pi.SimpleModules",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_3_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.FiniteDecompositions",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_3",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Theorem3_8_1": "RepresentationTheory.Algebra.Module.IndependentSpanningFamilies"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.TensorScalarExtension",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.EquivalenceTransfers",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Cancellation",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Problem3_8_3": "RepresentationTheory.Algebra.Module.FiniteDecompositions"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.FinitelyGeneratedSubalgebraDescent",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Descent",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Functoriality": "RepresentationTheory.LinearAlgebra.TensorProduct.ModuleBaseChange"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.TensorRestriction",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Finite",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Cancellation": "RepresentationTheory.Algebra.Module.EquivalenceTransfers",
+        "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Power": "RepresentationTheory.Algebra.Module.TensorProductCoordinates"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.TensorProduct.ModuleBaseChange",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Functoriality",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.TensorSplitDescent",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_General",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Descent": "RepresentationTheory.Algebra.Module.FinitelyGeneratedSubalgebraDescent",
+        "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Finite": "RepresentationTheory.Algebra.Module.TensorRestriction"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.TensorEquivDescent",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Main",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Descent": "RepresentationTheory.Algebra.Module.FinitelyGeneratedSubalgebraDescent",
+        "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Finite": "RepresentationTheory.Algebra.Module.TensorRestriction"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.TensorProductCoordinates",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Power",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Problem3_8_4": "RepresentationTheory.Algebra.Module.TensorScalarExtension"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Analysis.ContinuousMap.StableModuleEquivalence",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_5",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_3_8": "RepresentationTheory.LinearAlgebra.ModuleDecompositions"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.IsotypicDecomposition",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Proposition3_1_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.RingTheory.JacobsonRadical.TwoSided",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Proposition3_5_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Proposition3_5_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Proposition3_5_8",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_3_8": "RepresentationTheory.LinearAlgebra.ModuleDecompositions",
+        "EtingofRepresentationTheory.Chapter3.Definition3_5_7": "RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity",
+        "EtingofRepresentationTheory.Chapter3.Theorem3_5_4": "RepresentationTheory.Algebra.Semisimplicity.EndomorphismProduct"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Remark3_1_5",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Proposition3_1_4": "RepresentationTheory.Algebra.Module.IsotypicDecomposition"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.BasisExpansion",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Remark3_3_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.KrullSchmidt",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Remark3_8_6",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_3_8": "RepresentationTheory.LinearAlgebra.ModuleDecompositions"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.TensorProductSimplicity",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Theorem3_10_2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Theorem3_2_2": "RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Theorem3_2_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Semisimplicity.EndomorphismProduct",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Theorem3_5_4",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Definition3_5_1": "RepresentationTheory.RingTheory.SimpleModuleAnnihilator",
+        "EtingofRepresentationTheory.Chapter3.Theorem3_2_2": "RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Theorem3_5_4_CompleteFamily",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Theorem3_5_4": "RepresentationTheory.Algebra.Semisimplicity.EndomorphismProduct",
+        "EtingofRepresentationTheory.Chapter3.Theorem3_5_4_Finiteness": "RepresentationTheory.Algebra.Module.Simple.FiniteDimensional"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.Simple.FiniteDimensional",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Theorem3_5_4_Finiteness",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Theorem3_2_2": "RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.Dual.SimpleFamilies",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Theorem3_6_2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Theorem3_2_2": "RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Theorem3_7_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.IndependentSpanningFamilies",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Theorem3_8_1",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Lemma3_8_2": "RepresentationTheory.Algebra.Module.EndomorphismDichotomy"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Group.CharacterAuxiliary",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Corollary4_2_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Group.IndexedPolynomial",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Definition4_10_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Group.UnitaryRepresentations",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Definition4_6_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Group.CharacterOperations",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Discussion_4_4",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Corollary4_2_4": "RepresentationTheory.Group.CharacterAuxiliary"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Group.SimpleCharacterCriterion",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Discussion_after_Theorem4_5_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Group.CyclicPrimeRepresentation",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_1_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Group.CharacterDuality",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_3_FiniteAbelianGroups",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.TensorProduct.MatrixProductEquivalence",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_BaseChangePiMatrix",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Infrastructure.Triangularization",
+      "old_module": "EtingofRepresentationTheory.Infrastructure.Triangularization",
+      "renamed_imports": {}
+    }
+  ],
+  "partially_resolved": {
+    "EtingofRepresentationTheory.Chapter2.Theorem2_1_2": [
+      "decl-014947"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Corollary4_2_2": [
+      "decl-025118"
+    ]
+  },
+  "schema_version": "clean-migration-plan/v1",
+  "summary": {
+    "directly_blocked_modules": 13,
+    "eligible_source_modules": 796,
+    "export_ready_modules": 176,
+    "fully_named_modules": 189,
+    "partially_named_modules": 2,
+    "transitively_blocked_modules": 0
+  },
+  "transitive_blockers": {}
+}

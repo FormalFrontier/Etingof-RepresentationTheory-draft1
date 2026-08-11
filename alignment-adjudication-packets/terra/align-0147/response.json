@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0147",
+  "associations": [
+    {
+      "association_id": "association:d45ea892555b755c0732",
+      "role": "primary",
+      "rationale": "This construction defines the group algebra with its basis indexed by group elements."
+    },
+    {
+      "association_id": "association:bd7c33785c2f5e3c9b45",
+      "role": "primary",
+      "rationale": "This multiplication formula directly states multiplication of basis elements by group multiplication."
+    }
+  ]
+}

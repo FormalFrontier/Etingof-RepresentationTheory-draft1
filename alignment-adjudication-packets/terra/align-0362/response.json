@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0362",
+  "associations": [
+    {
+      "association_id": "association:d544ff8fa8e1b4f9a00a",
+      "role": "supporting",
+      "rationale": "The formal type exposes only a proposition on a general-linear-group representation and does not display the claimed regularity condition on matrix coefficients."
+    },
+    {
+      "association_id": "association:803dfcd90c2e4d96a3ae",
+      "role": "supporting",
+      "rationale": "The equivalence reduces algebraicity to an opaque coefficient-family predicate, but the packet does not expose that predicate as regularity in the matrix entries and inverse determinant."
+    }
+  ]
+}

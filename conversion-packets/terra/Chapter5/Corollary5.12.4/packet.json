@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Corollary5.12.4",
+    "kind": "corollary",
+    "title": "All irreducible representations of S_n can be given by matrices with rational entries",
+    "node_id": "chapter-05/section-5-12",
+    "order": 312,
+    "slug": "corollary5-12-4",
+    "span": {
+      "start": {
+        "page": "114",
+        "line": 7
+      },
+      "end": {
+        "page": "114",
+        "line": 8
+      }
+    },
+    "source_sha256": "daa29bffb024d44643c5b5fa3b86493682ec852a80e4caf2b432b473f880df19",
+    "features": {
+      "line_count": 2,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Corollary5124",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

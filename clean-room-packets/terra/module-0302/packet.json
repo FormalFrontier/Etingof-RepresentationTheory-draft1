@@ -1,0 +1,106 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "\u2200 (N : Nat) [NeZero.{0} N], Eq.{1} (Nat.card.{0} (MonoidHom.{0, 0} (Multiplicative.{0} (ZMod N)) (Units.{0} Complex))) N",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4168467837",
+      "temporary_id": "decl-001624"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) [NeZero.{0} N],\n  Eq.{1} (HDiv.hDiv.{0, 0, 0} (Nat.card.{0} (Subtype.{1} fun \u03c7 => Ne.{1} \u03c7 (Inv.inv.{0} \u03c7))) 2)\n    (HDiv.hDiv.{0, 0, 0} (HSub.hSub.{0, 0, 0} N (Nat.gcd 2 N)) 2)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "501287155",
+      "temporary_id": "decl-001625"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) [NeZero.{0} N],\n  Eq.{1} (Nat.card.{0} (Subtype.{1} fun \u03c7 => Ne.{1} \u03c7 (Inv.inv.{0} \u03c7))) (HSub.hSub.{0, 0, 0} N (Nat.gcd 2 N))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1501026430",
+      "temporary_id": "decl-001626"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) [NeZero.{0} N], Eq.{1} (Nat.card.{0} (Subtype.{1} fun \u03c7 => Eq.{1} \u03c7 (Inv.inv.{0} \u03c7))) (Nat.gcd 2 N)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "593743871",
+      "temporary_id": "decl-001627"
+    },
+    {
+      "formal_type": "(N : Nat) \u2192\n  [NeZero.{0} N] \u2192\n    MulEquiv.{0, 0} (MonoidHom.{0, 0} (Multiplicative.{0} (ZMod N)) (Units.{0} Complex)) (Multiplicative.{0} (ZMod N))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3353967299",
+      "temporary_id": "decl-001628"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) [NeZero.{0} N], Finite.{1} (MonoidHom.{0, 0} (Multiplicative.{0} (ZMod N)) (Units.{0} Complex))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "673284032",
+      "temporary_id": "decl-001630"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) [NeZero.{0} N], IsCyclic.{0} (MonoidHom.{0, 0} (Multiplicative.{0} (ZMod N)) (Units.{0} Complex))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "726486850",
+      "temporary_id": "decl-001631"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) [NeZero.{0} N], NeZero.{0} (Nat.cast.{0} (Monoid.exponent.{0} (Multiplicative.{0} (ZMod N))))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2154650394",
+      "temporary_id": "decl-001632"
+    },
+    {
+      "formal_type": "\u2200 {\u03b1 : Type u_1} [inst : Fintype.{u_1} \u03b1] [inst_1 : DecidableEq.{u_1 + 1} \u03b1] {f : \u03b1 \u2192 \u03b1},\n  Function.Involutive.{u_1 + 1} f \u2192 Dvd.dvd.{0} 2 (Fintype.card.{u_1} (Subtype.{u_1 + 1} fun a => Ne.{u_1 + 1} (f a) a))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1320713129",
+      "temporary_id": "decl-001633"
+    },
+    {
+      "formal_type": "\u2200 (N : Nat) [NeZero.{0} N], Dvd.dvd.{0} 2 (Nat.card.{0} (Subtype.{1} fun \u03c7 => Ne.{1} \u03c7 (Inv.inv.{0} \u03c7)))",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1618345784",
+      "temporary_id": "decl-001635"
+    }
+  ],
+  "module_temporary_id": "module-0302",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

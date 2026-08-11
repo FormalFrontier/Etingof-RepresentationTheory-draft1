@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0403",
+  "associations": [
+    {
+      "association_id": "association:2dea386341d822c54800",
+      "role": "supporting",
+      "rationale": "The displayed signature only provides a type indexed by two natural numbers; it does not expose an equality with the stated tensor powers."
+    }
+  ]
+}

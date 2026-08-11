@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:48784d6514b5ef6bc727",
+      "declaration": "FDRep.character",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/188/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": null,
+      "provider_module": "Mathlib.RepresentationTheory.Character"
+    }
+  ],
+  "canonical_reference": "Chapter4/Introduction_4.2",
+  "packet_id": "align-1165",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1165"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:f1138c44fddb76f18c02",
+  "source_text": "The character is the trace function g \u21a6 Tr(\u03c1(g))."
+}

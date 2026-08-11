@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter5/Introduction_5.2",
+    "kind": "introduction",
+    "title": "Section 5.2: Algebraic numbers and algebraic integers",
+    "node_id": "chapter-05/section-5-2",
+    "order": 252,
+    "slug": "introduction-5-2",
+    "span": {
+      "start": {
+        "page": "95",
+        "line": 25
+      },
+      "end": {
+        "page": "95",
+        "line": 28
+      }
+    },
+    "source_sha256": "ab95b710df9b443a8b9986d6a5000a259d08f6b4700a1fd4f3a176c20e847944",
+    "features": {
+      "line_count": 4,
+      "crosses_page": false,
+      "display_math_delimiters": 0,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction52",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

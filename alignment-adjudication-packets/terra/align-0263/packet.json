@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f60675dfc0f68e7c64c3",
+      "declaration": "Etingof.Lemma5_13_2_general",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/317/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la mu : n.Partition),\n  Not (mu.Dominates la) \u2192\n    \u2200 (x : MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Etingof.RowSymmetrizer n la) x) (Etingof.ColumnAntisymmetrizer n mu))\n        0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    },
+    {
+      "association_id": "association:7bf9b3d96809e2875da3",
+      "declaration": "Etingof.Lemma5_13_2_lex",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/317/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la mu : n.Partition),\n  mu.LexLt la \u2192\n    \u2200 (x : MonoidAlgebra.{0, 0} Complex (Equiv.Perm.{1} (Fin n))),\n      Eq.{1}\n        (HMul.hMul.{0, 0, 0} (HMul.hMul.{0, 0, 0} (Etingof.RowSymmetrizer n la) x) (Etingof.ColumnAntisymmetrizer n mu))\n        0",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    },
+    {
+      "association_id": "association:6d824ea9686e82ebc8af",
+      "declaration": "Nat.Partition.LexLt.not_dominates",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/317/claim_coverage/claims/0/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {la mu : n.Partition}, mu.LexLt la \u2192 Not (mu.Dominates la)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+    }
+  ],
+  "canonical_reference": "Chapter5/Lemma5.13.2",
+  "packet_id": "align-0263",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0263"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:4e41ef64cc35b08e3c98",
+  "source_text": "If lambda is lexicographically larger than mu, then a_lambda C[S_n] b_mu=0."
+}

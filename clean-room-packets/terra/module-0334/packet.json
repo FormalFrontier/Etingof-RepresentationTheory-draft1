@@ -1,0 +1,117 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(p : Nat) \u2192\n  [hp : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      [Fintype.{0} (GaloisField p n)] \u2192\n        [Fintype.{0} (decl-027539 p n)] \u2192\n          MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004544 p n) x)\n              (Units.{0} Complex) \u2192\n            FDRep.{0, 0} Complex (decl-027539 p n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004544",
+        "decl-027539",
+        "decl-027544"
+      ],
+      "structural_type_hash": "1947550091",
+      "temporary_id": "decl-004463"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192\n  [hp : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004544 p n) x)\n          (Units.{0} Complex) \u2192\n        FDRep.{0, 0} Complex (decl-027539 p n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004544",
+        "decl-027539",
+        "decl-027544"
+      ],
+      "structural_type_hash": "156068578",
+      "temporary_id": "decl-004466"
+    },
+    {
+      "formal_type": "(p : Nat) \u2192\n  [hp : Fact (Nat.Prime p)] \u2192\n    (n : Nat) \u2192\n      [inst : Fintype.{0} (GaloisField p n)] \u2192\n        [Fintype.{0} (decl-027539 p n)] \u2192\n          (nu :\n              MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004544 p n) x)\n                (Units.{0} Complex)) \u2192\n            Ne.{1} p 2 \u2192\n              LT.lt.{0} 0 n \u2192\n                (Exists.{1} fun k =>\n                    Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n                      (DFunLike.coe.{1, 1, 1} nu k)) \u2192\n                  FDRep.{0, 0} Complex (decl-027539 p n)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004544",
+        "decl-027539",
+        "decl-027544"
+      ],
+      "structural_type_hash": "2300439346",
+      "temporary_id": "decl-004468"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (decl-027539 p n)]\n  (nu :\n    MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004544 p n) x)\n      (Units.{0} Complex))\n  (hp2 : Ne.{1} p 2) (hn : LT.lt.{0} 0 n)\n  (hnu_ne :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} nu k))\n  (g : decl-027539 p n),\n  Eq.{1} (FDRep.character.{0, 0} (decl-004468 p n nu hp2 hn hnu_ne) g)\n    (decl-004458 p n nu g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004458",
+        "decl-004468",
+        "decl-004544",
+        "decl-027539",
+        "decl-027544"
+      ],
+      "structural_type_hash": "3010772960",
+      "temporary_id": "decl-004472"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : Fintype.{0} (decl-027539 p n)]\n  (nu :\n    MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004544 p n) x)\n      (Units.{0} Complex))\n  (hp2 : Ne.{1} p 2) (hn : LT.lt.{0} 0 n)\n  (hnu_ne :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} nu k)),\n  CategoryTheory.Simple.{0, 1} (decl-004468 p n nu hp2 hn hnu_ne)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004468",
+        "decl-004544",
+        "decl-027539",
+        "decl-027544"
+      ],
+      "structural_type_hash": "2555339020",
+      "temporary_id": "decl-004475"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)]\n  [inst_1 : DecidableEq.{1} (GaloisField p n)] [inst_2 : Fintype.{0} (decl-027539 p n)]\n  (nu :\n    MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004544 p n) x)\n      (Units.{0} Complex))\n  (g : decl-027539 p n),\n  Eq.{1}\n    (HSub.hSub.{0, 0, 0} (FDRep.character.{0, 0} (decl-004466 p n nu) g)\n      (FDRep.character.{0, 0} (decl-004463 p n nu) g))\n    (decl-004458 p n nu g)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004458",
+        "decl-004463",
+        "decl-004466",
+        "decl-004544",
+        "decl-027539",
+        "decl-027544"
+      ],
+      "structural_type_hash": "3666760862",
+      "temporary_id": "decl-004476"
+    },
+    {
+      "formal_type": "\u2200 (p : Nat) [hp : Fact (Nat.Prime p)] (n : Nat) [inst : Fintype.{0} (GaloisField p n)] [inst_1 : Fintype.{0} (decl-027539 p n)]\n  (nu :\n    MonoidHom.{0, 0} (Subtype.{1} fun x => Membership.mem.{0, 0} (decl-004544 p n) x)\n      (Units.{0} Complex))\n  (hp2 : Ne.{1} p 2) (hn : LT.lt.{0} 0 n)\n  (hnu_ne :\n    Exists.{1} fun k =>\n      Ne.{1} (HPow.hPow.{0, 0, 0} (DFunLike.coe.{1, 1, 1} nu k) (Fintype.card.{0} (GaloisField p n)))\n        (DFunLike.coe.{1, 1, 1} nu k)),\n  Eq.{1}\n    (Module.finrank.{0, 0} Complex\n      (FGModuleCat.carrier.{0, 0} (Action.V.{0, 1, 0} (decl-004468 p n nu hp2 hn hnu_ne))))\n    (HSub.hSub.{0, 0, 0} (HPow.hPow.{0, 0, 0} p n) 1)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-004468",
+        "decl-004544",
+        "decl-027539",
+        "decl-027544"
+      ],
+      "structural_type_hash": "2243099993",
+      "temporary_id": "decl-004564"
+    }
+  ],
+  "module_temporary_id": "module-0334",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

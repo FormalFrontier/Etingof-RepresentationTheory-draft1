@@ -1,0 +1,114 @@
+{
+  "constraints": [
+    "Use only this packet; do not inspect the source or private mapping.",
+    "Do not mention any book, author, chapter, section, theorem, problem, or item number.",
+    "Do not infer or reproduce an old name.",
+    "Names must describe mathematical content and follow Mathlib conventions.",
+    "When owner_temporary_id is present, new_name is relative to that renamed owner.",
+    "Docstrings must be independently worded from the formal type only.",
+    "Do not add the bibliographic alignment line; the migration tool appends it later."
+  ],
+  "declarations": [
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (V : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192\n          (n : Nat) \u2192\n            Subalgebra.{u_1, max u_2 u_1} k\n              (Module.End.{u_1, max u_2 u_1} k (PiTensorProduct.{0, u_1, u_2} k fun x => V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1825212200",
+      "temporary_id": "decl-005485"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (V : Type u_2) [inst_1 : AddCommGroup.{u_2} V] [inst_2 : Module.{u_1, u_2} k V]\n  (n : Nat) [CharZero.{u_1} k],\n  Eq.{max (u_1 + 1) (u_2 + 1)} (decl-005485.{u_1, u_2} k V n)\n    (decl-005490.{u_1, u_2} k V n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005485",
+        "decl-005490"
+      ],
+      "structural_type_hash": "2409724303",
+      "temporary_id": "decl-005488"
+    },
+    {
+      "formal_type": "(k : Type) \u2192\n  [inst : Field.{0} k] \u2192\n    (U : Type u_1) \u2192\n      [inst_1 : AddCommGroup.{u_1} U] \u2192\n        [inst_2 : Module.{0, u_1} k U] \u2192 (n : Nat) \u2192 Set.{u_1} (SymmetricPower.{0, u_1} k (Fin n) U)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "4014619250",
+      "temporary_id": "decl-005489"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (V : Type u_2) \u2192\n      [inst_1 : AddCommGroup.{u_2} V] \u2192\n        [inst_2 : Module.{u_1, u_2} k V] \u2192\n          (n : Nat) \u2192\n            Subalgebra.{u_1, max u_2 u_1} k\n              (Module.End.{u_1, max u_2 u_1} k (PiTensorProduct.{0, u_1, u_2} k fun x => V))",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "1825212200",
+      "temporary_id": "decl-005490"
+    },
+    {
+      "formal_type": "\u2200 (k : Type) [inst : Field.{0} k] (U : Type u_1) [inst_1 : AddCommGroup.{u_1} U] [inst_2 : Module.{0, u_1} k U]\n  (n : Nat) [CharZero.{0} k],\n  Eq.{u_1 + 1} (Submodule.span.{0, u_1} k (decl-005489.{u_1} k U n)) Top.top.{u_1}",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005489"
+      ],
+      "structural_type_hash": "1463410033",
+      "temporary_id": "decl-005491"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (A : Type u_2) \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192 (n : Nat) \u2192 A \u2192 PiTensorProduct.{0, u_1, u_2} k fun x => A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2185534054",
+      "temporary_id": "decl-005492"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (A : Type u_2) \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          (n : Nat) \u2192 Subalgebra.{u_1, max u_2 u_1} k (PiTensorProduct.{0, u_1, u_2} k fun x => A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3506156677",
+      "temporary_id": "decl-005494"
+    },
+    {
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (A : Type u_2) [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  (n : Nat) [CharZero.{u_1} k],\n  Eq.{max (u_1 + 1) (u_2 + 1)} (decl-005494.{u_1, u_2} k A n)\n    (decl-005497.{u_1, u_2} k A n)",
+      "kind": "theorem",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [
+        "decl-005494",
+        "decl-005497"
+      ],
+      "structural_type_hash": "3734255928",
+      "temporary_id": "decl-005495"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (A : Type u_2) \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192 (n : Nat) \u2192 A \u2192 PiTensorProduct.{0, u_1, u_2} k fun x => A",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "2185534054",
+      "temporary_id": "decl-005496"
+    },
+    {
+      "formal_type": "(k : Type u_1) \u2192\n  [inst : Field.{u_1} k] \u2192\n    (A : Type u_2) \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          (n : Nat) \u2192 Subalgebra.{u_1, max u_2 u_1} k (PiTensorProduct.{0, u_1, u_2} k fun x => A)",
+      "kind": "definition",
+      "owner_temporary_id": null,
+      "project_type_dependencies": [],
+      "structural_type_hash": "3506156677",
+      "temporary_id": "decl-005497"
+    }
+  ],
+  "module_temporary_id": "module-0353",
+  "required_response": {
+    "declarations": [
+      {
+        "docstring": "new description derived only from the displayed formal type",
+        "new_name": "neutral semantic Lean identifier",
+        "temporary_id": "decl-NNNNNN"
+      }
+    ],
+    "module_name": "neutral semantic Lean module name"
+  },
+  "schema_version": "etingof-cleanroom-packet/v1",
+  "suggested_model": "terra"
+}

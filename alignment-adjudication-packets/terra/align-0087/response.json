@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0087",
+  "associations": [
+    {
+      "association_id": "association:076e7f0c1f4f91488403",
+      "role": "primary",
+      "rationale": "This declaration installs the algebra structure on the quotient by a two-sided ideal asserted by the claim."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0356",
+  "associations": [
+    {
+      "association_id": "association:3ac0afb79d29e5e8af3b",
+      "role": "supporting",
+      "rationale": "The formal type exposes only a type family indexed by two objects and does not display that its elements are short exact sequences with those endpoints."
+    },
+    {
+      "association_id": "association:c6821834a3baccf4375d",
+      "role": "supporting",
+      "rationale": "This converts an extension into a short exact sequence, which supports the relationship but is the reverse of the direction asserted by the source."
+    },
+    {
+      "association_id": "association:1ddddf6cd3b589bdea00",
+      "role": "primary",
+      "rationale": "The formal type directly sends every short exact sequence to an extension whose endpoints are its third and first objects."
+    }
+  ]
+}

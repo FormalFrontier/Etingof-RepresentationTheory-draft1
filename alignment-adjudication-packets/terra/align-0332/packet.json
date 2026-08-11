@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:8e2b6b2dd02e26cce957",
+      "declaration": "Etingof.Example_2_3_14.jordanBlock",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/41/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192 k \u2192 (n : Nat) \u2192 LinearMap.{u_1, u_1, u_1, u_1} (RingHom.id.{u_1} k) (Fin n \u2192 k) (Fin n \u2192 k)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14"
+    },
+    {
+      "association_id": "association:343793621ecb8956bf5f",
+      "declaration": "Etingof.Example_2_3_14.jordanBlock_apply",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/items/41/claim_coverage/claims/4/lean_decl",
+          "verdict": "formalized"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_3_14"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.3.14",
+  "packet_id": "align-0332",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-0332"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "claim:6690c9d31def8afb319b",
+  "source_text": "The Jordan block J_{\u03bb,n} has the displayed standard-basis action."
+}

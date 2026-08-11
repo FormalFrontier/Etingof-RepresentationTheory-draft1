@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0141",
+  "associations": [
+    {
+      "association_id": "association:fb691489e86178e28ce9",
+      "role": "primary",
+      "rationale": "This family defines the representations parameterized by the scalar action of x."
+    },
+    {
+      "association_id": "association:75a138dcd628849ff397",
+      "role": "primary",
+      "rationale": "Its dimension formula directly gives the asserted one-dimensionality of irreducible polynomial quotients."
+    }
+  ]
+}

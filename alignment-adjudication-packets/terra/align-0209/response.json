@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0209",
+  "associations": [
+    {
+      "association_id": "association:f7306aaf0198f87d8074",
+      "role": "supporting",
+      "rationale": "It decomposes the regular representation into all simple types with their dimensions as multiplicities, but does not single out the trivial summand required by the source claim."
+    }
+  ]
+}

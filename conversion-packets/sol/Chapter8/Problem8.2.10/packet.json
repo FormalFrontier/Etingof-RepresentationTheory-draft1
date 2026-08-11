@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter8/Problem8.2.10",
+    "kind": "exercise",
+    "title": "Koszul resolution and Hilbert syzygies theorem",
+    "node_id": "chapter-08/section-8-2",
+    "order": 546,
+    "slug": "problem8-2-10",
+    "span": {
+      "start": {
+        "page": "211",
+        "line": 5
+      },
+      "end": {
+        "page": "212",
+        "line": 1
+      }
+    },
+    "source_sha256": "f83b7e315d57ea677bb31bd5e2a81f084934ccabf7f55c2800dbcfb89897b53f",
+    "features": {
+      "line_count": 30,
+      "crosses_page": true,
+      "display_math_delimiters": 6,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter8.Problem8210",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

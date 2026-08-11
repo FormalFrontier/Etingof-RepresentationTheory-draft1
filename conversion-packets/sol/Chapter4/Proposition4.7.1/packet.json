@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter4/Proposition4.7.1",
+    "kind": "proposition",
+    "title": "Orthogonality of matrix elements of irreducible representations",
+    "node_id": "chapter-04/section-4-7",
+    "order": 217,
+    "slug": "proposition4-7-1",
+    "span": {
+      "start": {
+        "page": "72",
+        "line": 15
+      },
+      "end": {
+        "page": "73",
+        "line": 24
+      }
+    },
+    "source_sha256": "d7e63128382412bb2dd2b2b408dc75ab57a9d885a98da40098bf242742fe7cff",
+    "features": {
+      "line_count": 31,
+      "crosses_page": true,
+      "display_math_delimiters": 14,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": true
+    },
+    "conversion_route": "sol",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter4.Proposition471",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}

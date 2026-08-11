@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "item": {
+    "id": "Chapter2/Discussion_2.1_irreducible_indecomposable",
+    "kind": "discussion",
+    "title": "Irreducible and indecomposable representations; typical problems of representation theory",
+    "node_id": "chapter-02/section-2-1",
+    "order": 10,
+    "slug": "discussion-2-1-irreducible-indecomposable",
+    "span": {
+      "start": {
+        "page": "6",
+        "line": 1
+      },
+      "end": {
+        "page": "6",
+        "line": 17
+      }
+    },
+    "source_sha256": "0aee00504efc6c64094fb8fb0a2a998ac42f4859416e56da5030ff1345d22bf8",
+    "features": {
+      "line_count": 17,
+      "crosses_page": false,
+      "display_math_delimiters": 2,
+      "table_rows": 0,
+      "footnote_definitions": 0,
+      "code_fences": 0,
+      "complex": false
+    },
+    "conversion_route": "terra",
+    "verso_module": "IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion21IrreducibleIndecomposable",
+    "verso_declaration": "content"
+  },
+  "source_file": "source.md",
+  "allowed_output": "Content.lean",
+  "status": "unconverted"
+}
