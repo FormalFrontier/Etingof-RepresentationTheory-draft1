@@ -98,6 +98,7 @@ theorem Ring.mem_auxiliarySetMap_iff {S : Set A} {x : A} :
   TwoSidedIdeal.mem_span_iff_mem_addSubgroup_closure
 
 /-- An element belongs to the two-sided kernel of a ring homomorphism exactly when its image is zero. -/
+@[source_ref "Chapter2/Discussion_2.4_heading" (role := supporting)]
 theorem TwoSidedIdeal.mem_ker_iff {B : Type*} [NonAssocSemiring B] (f : A →+* B) (x : A) :
     x ∈ TwoSidedIdeal.ker f ↔ f x = 0 := TwoSidedIdeal.mem_ker f
 

@@ -19,6 +19,7 @@ attribute [local instance 100] LieRing.ofAssociativeRing
 variable (k : Type) [Field k]
 
 /-- A selected Lie subalgebra of two-by-two matrices over a field. -/
+@[source_ref "Chapter2/Discussion_concrete_Lie_examples_continued" (role := supporting)]
 noncomputable abbrev matrixLieSubalgebraAux :
     LieSubalgebra k (Matrix (Fin 2) (Fin 2) k) :=
   matrixLieSubalgebra k
@@ -85,6 +86,7 @@ theorem finrank_eq_two : Module.finrank k (matrixLieSubalgebra k) = 2 := by
   rw [Module.finrank_eq_card_basis (subalgebraBasisAux k), Fintype.card_fin]
 
 /-- The two displayed matrix Lie subalgebras are equal. -/
+@[source_ref "Chapter2/Discussion_concrete_Lie_examples_continued" (role := supporting)]
 theorem matrixLieSubalgebrasAux_eq :
     matrixLieSubalgebra k = matrixLieSubalgebra_aux1 k := by
   refine le_antisymm ?_ ?_
