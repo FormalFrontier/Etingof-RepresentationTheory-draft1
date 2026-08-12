@@ -65,6 +65,7 @@ theorem UniversalEnvelopingAlgebra.generator_commutator (x y : L) :
   rw [← LieRing.of_associative_ring_bracket, ← LieHom.map_lie]
 
 /-- A chosen basis identifies the symmetric relation model with the multivariable polynomial algebra on the basis indices. -/
+@[source_ref "Chapter2/Definition2.12.1" (role := primary)]
 noncomputable def SymmetricAlgebra.relationModelEquivMvPolynomial
     (V : Type v) [AddCommGroup V] [Module k V]
     {ι : Type w} (b : Module.Basis ι k V) :

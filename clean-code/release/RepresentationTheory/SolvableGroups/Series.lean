@@ -5,16 +5,19 @@ Authors: Kim Morrison
 -/
 
 import Mathlib
+import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.SolvableGroups.Series
 
 /-- An auxiliary property of groups. -/
+@[source_ref "Chapter5/Definition5.4.1" (role := supporting)]
 def Auxiliary (G : Type*) [Group G] : Prop :=
   ∃ n : ℕ, ∃ H : ℕ → Subgroup G,
     H 0 = ⊤ ∧ H n = ⊥ ∧
       ∀ i : ℕ, i < n → H (i + 1) ≤ H i ∧ ⁅H i, H i⁆ ≤ H (i + 1)
 
 /-- The pullback of the next subgroup to the current subgroup is normal when the current subgroup brackets into the next one. -/
+@[source_ref "Chapter5/Definition5.4.1" (role := supporting)]
 theorem normal_comap_of_bracket_le {G : Type*} [Group G] (H : ℕ → Subgroup G) (i : ℕ)
     (hcomm : ⁅H i, H i⁆ ≤ H (i + 1)) :
     ((H (i + 1)).comap (H i).subtype).Normal := by
@@ -23,6 +26,7 @@ theorem normal_comap_of_bracket_le {G : Type*} [Group G] (H : ℕ → Subgroup G
   rwa [(H i).map_subtype_commutator]
 
 /-- The quotient of one subgroup by the pullback of the next is commutative exactly when the subgroup brackets into the next one. -/
+@[source_ref "Chapter5/Definition5.4.1" (role := supporting)]
 theorem quotient_isMulCommutative_iff_bracket_le {G : Type*} [Group G]
     (H : ℕ → Subgroup G) (i : ℕ)
     [((H (i + 1)).comap (H i).subtype).Normal]
@@ -39,6 +43,7 @@ theorem quotient_isMulCommutative_iff_bracket_le {G : Type*} [Group G]
     rwa [(H i).map_subtype_commutator]
 
 /-- The auxiliary group property is equivalent to solvability. -/
+@[source_ref "Chapter5/Definition5.4.1" (role := supporting)]
 theorem auxiliary_iff_isSolvable {G : Type*} [Group G] :
     Auxiliary G ↔ IsSolvable G := by
   constructor

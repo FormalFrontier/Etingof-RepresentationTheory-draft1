@@ -12,6 +12,7 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence
 
 /-- The module associated to an indexed factor of a composition series. -/
+@[source_ref "Chapter3/Theorem3.7.1" (role := supporting)]
 noncomputable abbrev factorModule {A V : Type*}
     [Ring A] [AddCommGroup V] [Module A V]
     (s : CompositionSeries (Submodule A V)) (i : Fin s.length) : Type _ :=

@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 
 import Mathlib.RingTheory.Length
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Lengths of composition series -/
 
@@ -16,6 +17,7 @@ variable (A : Type*) (V : Type*) [Ring A] [AddCommGroup V] [Module A V]
 
 /-- The length of a composition series running from the bottom submodule to the top submodule is
 greatest among the lengths of composition series. -/
+@[source_ref "Chapter3/Discussion_after_Theorem3.7.1" (role := supporting)]
 theorem compositionSeries_length_isGreatest
     (s : CompositionSeries (Submodule A V)) (hbot : s.head = ⊥) (htop : s.last = ⊤) :
     IsGreatest (Set.range fun l : LTSeries (Submodule A V) => (l.length : ℕ∞))
