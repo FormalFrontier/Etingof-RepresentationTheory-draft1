@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0977",
+  "associations": [
+    {
+      "association_id": "association:ba73eb5fe90aaab9e214",
+      "role": "supporting",
+      "rationale": "Displays only the predicate's argument signature, not the integral norm-two condition."
+    }
+  ]
+}

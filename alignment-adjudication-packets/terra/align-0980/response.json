@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0980",
+  "associations": [
+    {
+      "association_id": "association:b9bc0d92635929b619ea",
+      "role": "supporting",
+      "rationale": "Gives the type of a basis presentation, without displaying its defining relations."
+    },
+    {
+      "association_id": "association:1f692e0fb62c4339dffa",
+      "role": "supporting",
+      "rationale": "Defines the universal enveloping algebra as a type, but not the stated basis-and-relations presentation."
+    },
+    {
+      "association_id": "association:28444621d51b2a38d34b",
+      "role": "supporting",
+      "rationale": "Gives an equivalence with a basis presentation, but the exact generating relations are not displayed."
+    }
+  ]
+}
