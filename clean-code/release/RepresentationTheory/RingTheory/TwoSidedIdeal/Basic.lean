@@ -62,6 +62,7 @@ theorem Ring.auxiliaryType'_eq :
     _root_.RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType' A = _root_.RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData.ModuleAuxiliaryData A A := rfl
 
 /-- The third auxiliary type agrees with the displayed dependent type over the opposite ring. -/
+@[source_ref "Chapter2/Discussion_2.4_heading" (role := primary)]
 theorem Ring.auxiliaryType''_eq :
     _root_.RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType'' A = _root_.RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData.ModuleAuxiliaryData Aᵐᵒᵖ Aᵐᵒᵖ := rfl
 

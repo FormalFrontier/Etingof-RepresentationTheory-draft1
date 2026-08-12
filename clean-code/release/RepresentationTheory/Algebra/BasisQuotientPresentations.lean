@@ -24,6 +24,7 @@ variable {ι : Type w} (b : Module.Basis ι k L)
 attribute [local instance 100] LieRing.ofAssociativeRing
 
 /-- The carrier of a relation-based symmetric-algebra model associated with a module over a commutative ring. -/
+@[source_ref "Chapter2/Definition2.12.1" (role := primary)]
 abbrev SymmetricAlgebra.RelationModel (k : Type*) (V : Type*) [CommRing k]
     [AddCommGroup V] [Module k V] :=
   SymmetricAlgebra k V
@@ -41,6 +42,7 @@ abbrev UniversalEnvelopingAlgebra.QuotientModel (k : Type*) (L : Type*) [CommRin
   UniversalEnvelopingAlgebra k L
 
 /-- Canonical generators of a symmetric algebra commute with one another. -/
+@[source_ref "Chapter2/Definition2.12.1" (role := supporting)]
 theorem SymmetricAlgebra.generator_mul_comm (V : Type v) [AddCommGroup V] [Module k V]
     (x y : V) :
     SymmetricAlgebra.ι k V x * SymmetricAlgebra.ι k V y =

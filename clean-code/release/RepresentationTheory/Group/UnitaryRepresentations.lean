@@ -5,12 +5,14 @@ Authors: Kim Morrison
 -/
 
 import Mathlib
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Unitary representations -/
 
 namespace RepresentationTheory.Group.UnitaryRepresentations
 
 /-- A finite-dimensional complex inner-product representation of a group. -/
+@[source_ref "Chapter4/Definition4.6.1" (role := primary)]
 structure UnitaryRepresentation
     (G : Type*) [Group G]
     (V : Type*) [NormedAddCommGroup V] [InnerProductSpace ℂ V] [FiniteDimensional ℂ V] where

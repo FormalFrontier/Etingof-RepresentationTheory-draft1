@@ -184,6 +184,7 @@ end helpers
 
 open _root_.Module in
 /-- A linear functional invariant under exchanging the factors of a product belongs to the span of the dual elements associated with a complete family of pairwise nonisomorphic simple modules. -/
+@[source_ref "Chapter3/Theorem3.6.2/Derived11" (role := supporting)]
 theorem mem_span_moduleDualElement_of_commutes_mul.{v} (k : Type*) (A : Type v)
     [Field k] [IsAlgClosed k] [Ring A] [Algebra k A] [FiniteDimensional k A]
     [IsSemisimpleRing A]
