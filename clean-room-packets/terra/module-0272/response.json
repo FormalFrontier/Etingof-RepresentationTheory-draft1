@@ -14,7 +14,7 @@
     {
       "temporary_id": "decl-001190",
       "new_name": "GeneralLinearRepresentation.generalizedEigenspace_eq_weightSpace",
-      "docstring": "Under injectivity of weight evaluation and spanning of the weight spaces, the generalized eigenspace at a nonzero weight value equals that weight space."
+      "docstring": "For a weight with nontrivial weight space, injective evaluation and spanning identify the generalized eigenspace at its associated value with that weight space."
     },
     {
       "temporary_id": "decl-001195",

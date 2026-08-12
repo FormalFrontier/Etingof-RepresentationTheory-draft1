@@ -23,8 +23,8 @@
     },
     {
       "temporary_id": "decl-001199",
-      "new_name": "GeneralLinearRepresentation.mem_weightSpace_iff_diagonal_action",
-      "docstring": "A vector belongs to a weight space exactly when each indicated diagonal group element scales it by the corresponding power of the unit."
+      "new_name": "GeneralLinearRepresentation.mem_weightSpace_iff_action_eq_smul",
+      "docstring": "A vector belongs to a weight space exactly when the action of each displayed group element scales it by the corresponding power of the unit."
     }
   ]
 }

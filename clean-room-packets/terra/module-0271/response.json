@@ -53,8 +53,8 @@
     },
     {
       "temporary_id": "decl-005115",
-      "new_name": "quotient",
-      "docstring": "The auxiliary condition is preserved when an invariant submodule is quotiented out."
+      "new_name": "auxiliaryQuotient",
+      "docstring": "An auxiliary result about the quotient action associated with an invariant submodule."
     }
   ]
 }
