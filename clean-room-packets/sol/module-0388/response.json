@@ -31,8 +31,8 @@
       "temporary_id": "decl-018867"
     },
     {
-      "docstring": "Auxiliary result for a finite-dimensional complex representation; its formal type is unavailable in the displayed evidence.",
-      "new_name": "Representation.auxiliaryRealStructureTheorem",
+      "docstring": "Auxiliary theorem involving the displayed dependencies; its formal type is unavailable in the packet.",
+      "new_name": "Representation.auxiliaryCentralizerTheorem",
       "temporary_id": "decl-018896"
     },
     {
@@ -77,12 +77,12 @@
     },
     {
       "docstring": "Auxiliary construction whose formal type is unavailable in the displayed evidence.",
-      "new_name": "Representation.auxiliaryRealLinearConstruction",
+      "new_name": "Representation.auxiliaryConstruction",
       "temporary_id": "decl-021558"
     },
     {
-      "docstring": "Auxiliary property of the associated real-linear construction; its formal type is unavailable in the displayed evidence.",
-      "new_name": "Representation.auxiliaryRealLinearConstruction_spec",
+      "docstring": "Auxiliary theorem associated with an unavailable construction type.",
+      "new_name": "Representation.auxiliaryConstruction_spec",
       "temporary_id": "decl-021564"
     },
     {
