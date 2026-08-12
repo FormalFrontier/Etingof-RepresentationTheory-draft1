@@ -6,6 +6,7 @@ Authors: Kim Morrison
 
 import RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 import Mathlib.Algebra.Module.Equiv.Defs
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Quiver linear maps -/
 
@@ -14,6 +15,7 @@ namespace RepresentationTheory.CategoryTheory.QuiverLinearMaps
 open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 
 /-- A vertexwise linear map between two quiver-indexed module systems. -/
+@[source_ref "Chapter2/Definition2.8.10" (role := supporting)]
 structure QuiverLinearHom (k : Type*) (Q : Type*) [CommSemiring k]
     [Quiver Q] (ρ₁ ρ₂ : QuiverLinearDiagram k Q) where
   /-- Returns the linear map at a specified vertex. -/

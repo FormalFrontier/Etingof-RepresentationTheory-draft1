@@ -83,6 +83,7 @@ variable {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V]
 
 /-- If a module over a field has rank at least two, there exist two elements whose products differ
 when their order is reversed. -/
+@[source_ref "Chapter2/Discussion_commutativity_examples" (role := primary)]
 theorem exists_noncommuting_pair_of_two_le_rank
     (h : (2 : Cardinal) ≤ Module.rank k V) :
     ∃ f g : Module.End k V, f * g ≠ g * f := by

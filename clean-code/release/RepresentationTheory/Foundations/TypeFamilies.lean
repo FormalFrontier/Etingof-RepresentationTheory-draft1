@@ -16,5 +16,6 @@ abbrev TypeIndexedFamily (V : Type*) := Quiver V
 
 attribute [source_ref "Chapter2/Discussion_after_Theorem2.1.1" (role := supporting)]
   TypeIndexedFamily
+attribute [source_ref "Chapter2/Definition2.8.1" (role := supporting)] TypeIndexedFamily
 
 end RepresentationTheory.Foundations.TypeFamilies

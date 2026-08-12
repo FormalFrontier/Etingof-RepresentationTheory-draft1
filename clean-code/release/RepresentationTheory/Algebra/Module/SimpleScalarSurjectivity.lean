@@ -46,7 +46,8 @@ family of algebra actions is surjective. -/
 @[source_ref "Chapter3/Introduction_to_3.2" (role := supporting),
   source_ref "Chapter3/Theorem3.2.2" (role := primary),
   source_ref "Chapter3/Theorem3.2.2/Derived4" (role := supporting),
-  source_ref "Chapter3/Theorem3.5.4/Derived3" (role := primary)]
+  source_ref "Chapter3/Theorem3.5.4/Derived3" (role := primary),
+  source_ref "Chapter3/Theorem3.6.2/Derived2" (role := primary)]
 theorem family_algebra_smul_surjective (k : Type*) (A : Type*) (ι : Type*)
     [Field k] [IsAlgClosed k] [Ring A] [Algebra k A] [Finite ι]
     (V : ι → Type*) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
