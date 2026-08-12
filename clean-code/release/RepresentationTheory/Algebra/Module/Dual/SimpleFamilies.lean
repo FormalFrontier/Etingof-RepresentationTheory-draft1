@@ -77,7 +77,7 @@ theorem linearIndependent_moduleDualElement (k : Type*) (A : Type*)
 
 attribute [source_ref "Chapter3/Theorem3.6.2" (role := primary)]
   linearIndependent_moduleDualElement
-attribute [source_ref "Chapter3/Theorem3.7.1" (role := primary)]
+attribute [source_ref "Chapter3/Theorem3.7.1/Derived7" (role := primary)]
   linearIndependent_moduleDualElement
 
 section helpers
@@ -255,7 +255,7 @@ theorem mem_span_moduleDualElement_of_commutes_mul.{v} (k : Type*) (A : Type v)
   rw [hc i]
   rfl
 
-attribute [source_ref "Chapter4/Theorem4.2.1" (role := supporting)]
+attribute [source_ref "Chapter4/Theorem4.2.1/Derived2" (role := supporting)]
   mem_span_moduleDualElement_of_commutes_mul
 
 end RepresentationTheory.Algebra.Module.Dual.SimpleFamilies

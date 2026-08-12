@@ -23,6 +23,6 @@ structure ModuleCompositionData (A : Type*) (V : Type*)
   toRelSeries_last : toRelSeries.last = ⊤
 
 attribute [source_ref "Chapter3/Definition3.4.1" (role := primary)]
-  ModuleCompositionData.toRelSeries_last
+  ModuleCompositionData.toRelSeries_head ModuleCompositionData.toRelSeries_last
 
 end RepresentationTheory.Module.CompositionData
