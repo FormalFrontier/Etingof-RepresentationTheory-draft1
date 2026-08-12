@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0677",
+  "associations": [
+    {
+      "association_id": "association:9cc6cb6c4896e5e70510",
+      "rationale": "The formal type directly states that Ext1Vanishes for simpleRep i and simpleRep j is equivalent to the arrow type Hom i j being empty, matching the vanishing clause.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:fabdf01a1c40503b5030",
+      "rationale": "The formal type directly equates the finrank of Ext1Simple i j with the cardinality of Hom i j, matching the dimension-equals-number-of-arrows clause.",
+      "role": "primary"
+    }
+  ]
+}

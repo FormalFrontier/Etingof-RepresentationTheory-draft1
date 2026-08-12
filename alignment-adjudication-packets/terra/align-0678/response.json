@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0678",
+  "associations": [
+    {
+      "association_id": "association:57d28fb028538591ffa5",
+      "rationale": "The formal type failed to pretty print, so the packet does not expose a direct statement that can be compared with the claimed two-dimensional normal form.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9e0131c175554204ab2f",
+      "rationale": "The formal type failed to pretty print; the packet therefore presents this as an opaque normal-form construction rather than evidence of a direct classification statement.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:aca92eca79de7a6f13b5",
+      "rationale": "For a representation whose dimension-vector sum is 2, the formal type directly gives an equivalence either to twoRep i j 0 or to twoRep i j c with distinct vertices and a nonzero selected arrow coefficient; the unrestricted first case includes equal vertices.",
+      "role": "primary"
+    }
+  ]
+}

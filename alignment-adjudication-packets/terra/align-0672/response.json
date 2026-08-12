@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0672",
+  "associations": [
+    {
+      "association_id": "association:38803b0b80275700a9ec",
+      "rationale": "The formal type directly states that when b and a are distinct, the split product Vrep b × Vrep a is not linearly equivalent to any Jrep a' c'.",
+      "role": "primary"
+    }
+  ]
+}

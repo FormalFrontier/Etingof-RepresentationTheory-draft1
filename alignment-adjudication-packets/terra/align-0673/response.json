@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0673",
+  "associations": [
+    {
+      "association_id": "association:a7b48dc52d2aaf1d5ee9",
+      "rationale": "The displayed formal type is only Nat → Type; it does not state the claimed generators or the relations x_i x_j = 0, so this is a supporting algebra construction rather than a direct formal statement of the claim.",
+      "role": "supporting"
+    }
+  ]
+}

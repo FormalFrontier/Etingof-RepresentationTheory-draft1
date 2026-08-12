@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0674",
+  "associations": [
+    {
+      "association_id": "association:a54ef103f1b6b4ac79ca",
+      "rationale": "For 1 < n, the formal type directly supplies a Nat-indexed family of indecomposable zeroMulAlg n modules and says an equivalence between members forces equality of their indices, which gives infinitely many pairwise nonisomorphic representations.",
+      "role": "primary"
+    }
+  ]
+}

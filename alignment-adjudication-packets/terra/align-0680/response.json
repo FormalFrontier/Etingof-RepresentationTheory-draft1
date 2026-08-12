@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0680",
+  "associations": [
+    {
+      "association_id": "association:45d9614a5f35e4be917d",
+      "rationale": "The formal type failed to pretty print, so the packet does not expose a direct implication from fixed-support equivalence to a nonzero scalar relation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e44fdafb33c89a70be2a",
+      "rationale": "The formal type failed to pretty print, so the packet does not expose a direct statement that nonzero scalar rescaling preserves the isomorphism class.",
+      "role": "supporting"
+    }
+  ]
+}

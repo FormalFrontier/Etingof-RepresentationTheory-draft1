@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0671",
+  "associations": [
+    {
+      "association_id": "association:e83f54774c55288462ea",
+      "rationale": "The formal type directly characterizes an isomorphism between the two split products by equality of the ordered weights or equality after swapping them, exactly expressing equality as an unordered pair.",
+      "role": "primary"
+    }
+  ]
+}
