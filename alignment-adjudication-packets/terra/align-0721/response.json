@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0721",
+  "associations": [
+    {
+      "association_id": "association:1850e3e706c28cbfc024",
+      "role": "primary",
+      "rationale": "The type directly gives a representation equivalence decomposing the tensor square of Vsub as rhsRep."
+    },
+    {
+      "association_id": "association:000bb88933b5a130c63b",
+      "role": "primary",
+      "rationale": "The type directly gives the character-representation tensor Vsub decomposition as Vsub."
+    }
+  ]
+}

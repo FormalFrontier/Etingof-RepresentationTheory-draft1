@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0727",
+  "associations": [
+    {
+      "association_id": "association:97d0123a4e059a001d5d",
+      "role": "supporting",
+      "rationale": "The displayed formal type is opaque, so it does not directly expose the asserted surjection or its kernel."
+    },
+    {
+      "association_id": "association:bee101a11860535f5a19",
+      "role": "supporting",
+      "rationale": "The type constructs a homomorphism from unit quaternions to SO(3), but alone states neither surjectivity nor the kernel and uses the quaternion model of SU(2)."
+    },
+    {
+      "association_id": "association:bdad73e58064bdfeda2f",
+      "role": "primary",
+      "rationale": "The type directly states the surjectivity portion of the claimed SU(2)-to-SO(3) construction for rotHom."
+    },
+    {
+      "association_id": "association:60fd61579ea2e5368a68",
+      "role": "supporting",
+      "rationale": "The displayed formal type is opaque, so it does not directly expose the kernel characterization {1,-1}."
+    }
+  ]
+}

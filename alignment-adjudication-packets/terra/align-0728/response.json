@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0728",
+  "associations": [
+    {
+      "association_id": "association:2e6771edb2156d0c4abe",
+      "role": "primary",
+      "rationale": "The type directly classifies every finite subgroup of SO(3) into the cyclic, dihedral, tetrahedral, octahedral, or icosahedral cases."
+    }
+  ]
+}

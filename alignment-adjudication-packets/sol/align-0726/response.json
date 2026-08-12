@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0726",
+  "associations": [
+    {
+      "association_id": "association:8dcfe04e3ba9cbdb924a",
+      "role": "supporting",
+      "rationale": "The monoid homomorphism from unit quaternions to SU(2) constructs the comparison map but does not itself state that it is an identification."
+    },
+    {
+      "association_id": "association:5b3383b27cd8227d9d67",
+      "role": "supporting",
+      "rationale": "Injectivity is one prerequisite for turning the comparison homomorphism into the claimed identification."
+    },
+    {
+      "association_id": "association:2bdf49033a1cfaf7f164",
+      "role": "supporting",
+      "rationale": "Surjectivity is one prerequisite for turning the comparison homomorphism into the claimed identification."
+    },
+    {
+      "association_id": "association:431cf3daeb9cfd49e7b2",
+      "role": "primary",
+      "rationale": "The type directly asserts a multiplicative equivalence between the unit quaternions and SU(2)."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0729",
+  "associations": [
+    {
+      "association_id": "association:ca2f100764b744fbeede",
+      "role": "supporting",
+      "rationale": "The displayed formal type is opaque, so it does not directly expose an exhaustive cyclic and binary-polyhedral classification."
+    }
+  ]
+}

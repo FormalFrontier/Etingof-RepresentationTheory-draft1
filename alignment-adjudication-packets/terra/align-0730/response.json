@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0730",
+  "associations": [
+    {
+      "association_id": "association:d6cd5e4d284134b13ebe",
+      "role": "primary",
+      "rationale": "The type directly gives the character trace formula for each Heisenberg representation satisfying IsRz, including its central and noncentral values."
+    }
+  ]
+}

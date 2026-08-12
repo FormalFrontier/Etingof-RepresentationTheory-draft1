@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0725",
+  "associations": [
+    {
+      "association_id": "association:067d3a3de5b7160a3dd4",
+      "role": "primary",
+      "rationale": "The type directly states that quaternion norm-squared sends a product to the product of the norms."
+    },
+    {
+      "association_id": "association:ab907faae51a2d53476b",
+      "role": "primary",
+      "rationale": "The type directly states that quaternion conjugation reverses the order of a product."
+    }
+  ]
+}
