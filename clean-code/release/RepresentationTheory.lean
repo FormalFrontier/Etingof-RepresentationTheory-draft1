@@ -118,6 +118,7 @@ import RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary
 import RepresentationTheory.OpaqueFormalStatement
 import RepresentationTheory.LieModule.HomTensorAdjunction
 import RepresentationTheory.Infrastructure.Triangularization
+import RepresentationTheory.InvariantComplements
 
 /-!
 # Representation theory formalization
