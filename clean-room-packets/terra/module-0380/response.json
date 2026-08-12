@@ -1,40 +1,40 @@
 {
-  "module_name": "LinearAlgebra.CentralizerSubmodule",
+  "module_name": "LinearAlgebra.SubalgebraCentralizerRange",
   "declarations": [
     {
       "temporary_id": "decl-017498",
-      "new_name": "apply_directSumTensor_of_tmul",
-      "docstring": "Extends the specified formula on pure tensors in a direct-sum summand to every tensor in that summand."
+      "new_name": "eq_on_directSum_summand_of_eq_on_tmul",
+      "docstring": "An equality verified on elementary tensors extends to all tensors embedded in the corresponding direct-sum summand."
     },
     {
       "temporary_id": "decl-017686",
-      "new_name": "centralizerLinearMap",
-      "docstring": "Views an element of the subalgebra as a linear endomorphism over its centralizer."
+      "new_name": "subalgebraCentralizerLinearMap",
+      "docstring": "Views an element of a subalgebra of endomorphisms as a linear endomorphism over the centralizer of that subalgebra."
     },
     {
       "temporary_id": "decl-017692",
-      "new_name": "centralizerLinearMap_apply",
-      "docstring": "The centralizer-linear map associated to an element acts by that element."
+      "new_name": "subalgebraCentralizerLinearMap_apply",
+      "docstring": "The endomorphism over the subalgebra centralizer acts identically to the underlying subalgebra element."
     },
     {
       "temporary_id": "decl-018252",
-      "new_name": "commutes_with_centralizer",
-      "docstring": "An element of the subalgebra commutes with every element of its centralizer."
+      "new_name": "subalgebraElement_commutes_with_subalgebraCentralizerElement",
+      "docstring": "A subalgebra element commutes with an element of the centralizer of that subalgebra."
     },
     {
       "temporary_id": "decl-020505",
-      "new_name": "centralizerSubmodule",
-      "docstring": "The submodule over the centralizer associated to an element of the subalgebra."
+      "new_name": "subalgebraCentralizerRangeSubmodule",
+      "docstring": "The range of a subalgebra element, regarded as a submodule over the centralizer of the subalgebra."
     },
     {
       "temporary_id": "decl-020509",
-      "new_name": "isSimpleModule_centralizerSubmodule_of_component_data",
-      "docstring": "Under the stated decomposition and component hypotheses, the associated centralizer submodule is simple."
+      "new_name": "isSimpleModule_subalgebraCentralizerRangeSubmodule_of_mul_self_eq_smul_of_directSumTensorDecomposition_of_supportedSimpleSummand_of_idempotent_of_finrank_range_eq_one_of_selectedComponent_eq_smul",
+      "docstring": "Given a direct-sum tensor decomposition, a selected simple summand supporting the compatible family, a nonzero scalar α with c² = α • c, and an idempotent π with one-dimensional range and f iLam = α • π, the centralizer range submodule of c is simple."
     },
     {
       "temporary_id": "decl-021583",
-      "new_name": "mem_centralizerSubmodule_iff",
-      "docstring": "Characterizes membership in the associated centralizer submodule by membership in the range of the element."
+      "new_name": "mem_subalgebraCentralizerRangeSubmodule_iff_mem_range",
+      "docstring": "Membership in the subalgebra-centralizer range submodule is equivalent to membership in the range of the underlying endomorphism."
     },
     {
       "temporary_id": "decl-022298",
@@ -43,8 +43,8 @@
     },
     {
       "temporary_id": "decl-024118",
-      "new_name": "exists_tmul_eq_map_of_range_eq_span",
-      "docstring": "If a linear map has range spanned by a vector, its action on every tensor is a pure tensor with that first factor."
+      "new_name": "exists_map_eq_tmul_of_range_eq_span",
+      "docstring": "If a linear map has range spanned by a vector, its tensor-product map sends every tensor to a pure tensor with that vector as first factor."
     }
   ]
 }
