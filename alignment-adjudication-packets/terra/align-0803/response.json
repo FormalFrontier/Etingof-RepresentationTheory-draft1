@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0803",
+  "associations": [
+    {
+      "association_id": "association:eec2a2165c6a052d3e00",
+      "rationale": "The formal type establishes that the roots of the E8 lattice form a simply laced crystallographic root system, but it does not identify the Dynkin type as E8.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:daa3ad9973cc9158afb0",
+      "rationale": "The formal type directly combines the root-system assertion with membership of the simple roots and an isomorphism of their Dynkin diagram to type E8.",
+      "role": "primary"
+    }
+  ]
+}

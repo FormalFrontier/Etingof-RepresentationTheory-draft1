@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0804",
+  "associations": [
+    {
+      "association_id": "association:dbec438edcbd63a3bf30",
+      "rationale": "The displayed type only presents E6Lattice as a set of rational coordinate vectors; its defining coordinate equalities are opaque.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0b674e5b757985f08e7d",
+      "rationale": "The formal type identifies a simple-root adjacency matrix with the E6 Dynkin adjacency, not the requested coordinate-equality realization of the E6 sublattice.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f36a25327efc3e305306",
+      "rationale": "The displayed type only presents E7Lattice as a set of rational coordinate vectors; its defining coordinate equalities are opaque.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9d663aee3dc5dbfadfdc",
+      "rationale": "The formal type identifies a simple-root adjacency matrix with the E7 Dynkin adjacency, not the requested coordinate-equality realization of the E7 sublattice.",
+      "role": "supporting"
+    }
+  ]
+}

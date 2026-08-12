@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0810",
+  "associations": [
+    {
+      "association_id": "association:ec9d9081be5c07a8852b",
+      "rationale": "For an acyclic cochain complex of vector spaces over a field, the formal type directly gives an isomorphism to a sigma object of complexes supported in two adjacent degrees with isomorphic differential, matching the stated disk decomposition.",
+      "role": "primary"
+    }
+  ]
+}

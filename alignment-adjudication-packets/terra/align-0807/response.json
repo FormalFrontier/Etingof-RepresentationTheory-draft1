@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0807",
+  "associations": [
+    {
+      "association_id": "association:4f0cf5d3a63596e45292",
+      "rationale": "The formal type directly states that for a source i and every representation V, Ext1Vanishes holds from V to the simple representation S_i.",
+      "role": "primary"
+    }
+  ]
+}
