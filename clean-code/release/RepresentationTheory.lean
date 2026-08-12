@@ -26,6 +26,7 @@ import RepresentationTheory.Algebra.Module.TensorProduct
 import RepresentationTheory.Algebra.Module.EndomorphismDichotomy
 import RepresentationTheory.Algebra.Module.EquivalenceTransfers
 import RepresentationTheory.Algebra.Module.FiniteDecompositions
+import RepresentationTheory.Algebra.Module.Filtrations
 import RepresentationTheory.Algebra.Module.IndependentSpanningFamilies
 import RepresentationTheory.Algebra.Module.FinitelyGeneratedSubalgebraDescent
 import RepresentationTheory.Algebra.Module.AuxiliaryPredicates
