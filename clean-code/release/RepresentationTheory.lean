@@ -66,6 +66,7 @@ import RepresentationTheory.LinearAlgebra.TensorOperations
 import RepresentationTheory.LinearAlgebra.AlternatingTensors
 import RepresentationTheory.LinearAlgebra.SymmetricTensors
 import RepresentationTheory.LinearAlgebra.Triangularization
+import RepresentationTheory.Module.CompositionData
 import RepresentationTheory.Module.CompositionSeriesLength
 import RepresentationTheory.Module.DistinguishedElement
 import RepresentationTheory.Module.FinrankOneSimple
