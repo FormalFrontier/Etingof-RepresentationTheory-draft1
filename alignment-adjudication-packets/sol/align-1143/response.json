@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:b0f66c0bfd518d4cc4d5",
-      "role": "primary",
-      "rationale": "The formal type directly provides a Basis indexed by Fin 2 for the indicated subspace, matching the claim that X and Y form a basis of aff(1)."
+      "role": "supporting",
+      "rationale": "The formal type provides an unspecified Fin 2-indexed basis of the indicated subspace, but does not identify its basis vectors with X and Y."
     },
     {
       "association_id": "association:690bb88090766a18f497",
