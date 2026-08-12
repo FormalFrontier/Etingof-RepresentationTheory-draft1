@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:186a5fdeba1104bdded0",
+      "rationale": "The formal type is exactly an iff between projective dimension at most d and vanishing Ext in every degree above d.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0862"
+}

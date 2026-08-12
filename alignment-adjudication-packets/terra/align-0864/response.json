@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:2dfc901c4ae5774e9ade",
+      "rationale": "The type supplies finite terms for a Noetherian-ring projective resolution, a general prerequisite rather than the displayed finite-dimensional claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:30bc83df14484989d4dc",
+      "rationale": "Under finite-dimensional hypotheses, the type directly produces a projective resolution whose every term is finite-dimensional.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0864"
+}

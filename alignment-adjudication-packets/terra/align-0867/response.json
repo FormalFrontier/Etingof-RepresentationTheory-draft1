@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:5c877e5ba1e7d7bdbaa8",
+      "rationale": "The displayed formal type failed to print, so the packet provides no inspectable statement establishing the Cartan-determinant claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0867"
+}

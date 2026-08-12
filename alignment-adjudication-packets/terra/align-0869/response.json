@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:3dee170052732fb184c5",
+      "rationale": "For n > 1, the type sets the homological dimension of k[t]/(t^n) to Top, directly stating the claim.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0869"
+}

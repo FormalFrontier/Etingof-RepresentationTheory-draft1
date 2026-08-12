@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:e0e22554cc5e0f5a4fd5",
+      "rationale": "The formal type directly says that the d-th syzygy of every supplied projective resolution is projective when the dimension is at most d.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0865"
+}

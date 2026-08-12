@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:0a3d06b9c1ccf0391f1c",
+      "rationale": "The formal type directly computes the projective dimension in a nonsplit short exact sequence with projective middle term.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0863"
+}

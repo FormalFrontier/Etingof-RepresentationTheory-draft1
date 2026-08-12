@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:9ba4d2cb4046b7095ad4",
+      "rationale": "The formal equality sets the Problem 9.3.2 algebra's homological dimension to Top, directly stating infinite dimension.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0868"
+}

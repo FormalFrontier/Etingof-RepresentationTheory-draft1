@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:7cfe46c08c54e7e03710",
+      "rationale": "The type directly packages the projective d-th syzygy together with the initial object and short exact syzygy sequences.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0866"
+}
