@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -20,3 +21,43 @@ $$`KeK^{-1} = q^2 e, \quad KfK^{-1} = q^{-2} f, \quad [e, f] = \frac{K - K^{-1}}
 
 (if you formally set $`K = q^h`, you'll see that this algebra, in an appropriate sense, "degenerates" to $`\mathcal{U}(\mathfrak{sl}(2))` as $`q \to 1`). Classify irreducible
 representations of $`\mathcal{U}_q(\mathfrak{sl}(2))`. Consider separately the cases of $`q` being a root of unity and $`q` not being a root of unity.
+
+## Formalization
+%%%
+tag := "Chapter2/Problem2.16.5/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.exists_highestWeightVector_eigenvalue_eq_sign_mul_pow}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.exists_ne_zero_raising_annihilated_weightEigenvector}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.QuantumSL2}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.Relations}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.complexCharacter_surjective}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.finrank_le_orderOf}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.inverseWeightElement_mul_weightElement}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.loweringElement_order_pow_smul_eq_scalar}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.parameterDifference_smul_commutator}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.raisingElement_order_pow_smul_eq_scalar}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.weightActionEnd_structure_of_finiteOrder}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.weightElement_mul_inverseWeightElement}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.weightElement_mul_loweringElement}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.weightElement_mul_raisingElement}
+
+{Manual.docstring RepresentationTheory.QuantumGroup.SL2Representations.weightElement_order_pow_smul_eq_scalar}

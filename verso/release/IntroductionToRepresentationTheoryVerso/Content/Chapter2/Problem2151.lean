@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -51,3 +52,35 @@ eigenspace decomposition of $`C` must be a decomposition of representations).
 Hint: For a finite dimensional representation $`V` of $`\mathfrak{sl}(2)` it is useful to introduce the character $`\chi_V(x) = Tr(e^{xH})`, $`x \in \mathbb{C}`. Show that $`\chi_{V \oplus W}(x) = \chi_V(x) + \chi_W(x)` and $`\chi_{V \otimes W}(x) = \chi_V(x)\chi_W(x)`. Then compute the character of $`V_\lambda` and of $`V_\lambda \otimes V_\mu` and derive the decomposition. This decomposition is of fundamental importance in quantum mechanics.
 
 (n) Let $`V = \mathbb{C}^M \otimes \mathbb{C}^N` and $`A = J_{0,M} \otimes \operatorname{Id}_N + \operatorname{Id}_M \otimes J_{0,N}`, where $`J_{0,n}` is the Jordan block of size $`n` with eigenvalue zero (i.e., $`J_{0,n} e_i = e_{i-1}`, $`i = 2, \ldots, n`, and $`J_{0,n} e_1 = 0`). Find the Jordan normal form of $`A` using (l) and (m).
+
+## Formalization
+%%%
+tag := "Chapter2/Problem2.15.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.bracket_lowering_coordinateVector}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.bracket_lowering_coordinateVector_eq_zero}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.bracket_raising_coordinateVector}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.bracket_weight_coordinateVector}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.eq_linearCombination_weight_raising_lowering}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.finrank_finFunction}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.isIrreducible_finFunction}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple_apply_lowering}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple_apply_raising}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple_apply_weight}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.quadraticGeneratorCombination_succ_eq_smul_id}

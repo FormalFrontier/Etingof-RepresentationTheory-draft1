@@ -43,6 +43,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.SymmetricTensors.finrank_eq}
 
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.det_comp}
+
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.finrank_eq}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap}
@@ -54,6 +56,10 @@ number := false
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_comp_eq}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_comp_eq_aux2}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.topExteriorPower_map}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.Triangularization.trace_exteriorPower_eq_subsetSum_of_charpoly}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.Triangularization.trace_symmetricPower_eq_multisetSum_of_charpoly}
 
@@ -82,5 +88,7 @@ number := false
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorProduct.exists_tensorProductBasis}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorProduct.exists_tensorProductLift}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.Triangularization.trace_exteriorPower_eq_subsetSum}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.Triangularization.trace_symmetricPower_eq_multisetSum}

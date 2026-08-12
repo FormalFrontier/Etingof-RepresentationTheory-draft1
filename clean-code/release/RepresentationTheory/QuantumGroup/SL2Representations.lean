@@ -38,10 +38,16 @@ noncomputable abbrev auxiliaryFreeAlgebraElementTwo : FreeAlgebra ℂ Generator 
 
 /-- The parameter-dependent relations on pairs of elements of the free algebra. -/
 inductive Relations (q : ℂˣ) : FreeAlgebra ℂ Generator → FreeAlgebra ℂ Generator → Prop
+  /-- The product of the first auxiliary element and the second is related to one. -/
   | weight_inverse : Relations q (auxiliaryFreeAlgebraElementOne * auxiliaryFreeAlgebraElementTwo) 1
+  /-- The product of the second auxiliary element and the first is related to one. -/
   | inverse_weight : Relations q (auxiliaryFreeAlgebraElementTwo * auxiliaryFreeAlgebraElementOne) 1
+  /-- Moving the first auxiliary element past the third introduces the squared parameter. -/
   | weight_raising : Relations q (auxiliaryFreeAlgebraElementOne * auxiliaryFreeAlgebraElementThree) (((q : ℂ) ^ 2) • (auxiliaryFreeAlgebraElementThree * auxiliaryFreeAlgebraElementOne))
+  /-- Moving the first auxiliary element past the fourth introduces the inverse squared parameter. -/
   | weight_lowering : Relations q (auxiliaryFreeAlgebraElementOne * auxiliaryFreeAlgebraElementFour) (((q : ℂ) ^ 2)⁻¹ • (auxiliaryFreeAlgebraElementFour * auxiliaryFreeAlgebraElementOne))
+  /-- The scaled commutator of the third and fourth auxiliary elements is related to the
+  difference of the first two. -/
   | raising_lowering : Relations q (((q : ℂ) - (q : ℂ)⁻¹) • (auxiliaryFreeAlgebraElementThree * auxiliaryFreeAlgebraElementFour - auxiliaryFreeAlgebraElementFour * auxiliaryFreeAlgebraElementThree)) (auxiliaryFreeAlgebraElementOne - auxiliaryFreeAlgebraElementTwo)
 
 /-- The complex algebra determined by the displayed parameter-dependent rank-one relations. -/

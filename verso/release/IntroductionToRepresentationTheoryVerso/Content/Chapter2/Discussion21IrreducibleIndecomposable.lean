@@ -57,3 +57,13 @@ number := false
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate.not_exists_complementarySubmodules}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate.of_isSimpleModule}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.algEquiv}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux1}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux2}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux3}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -28,3 +29,13 @@ where $`a` runs over edges of $`A` and $`l(a), \beta(a)` are the length of $`a` 
 Hint: Assume that $`\alpha = 2m/n`, for integers $`m, n`. Deduce that roots of the equation $`x + x^{-1} = 2/3` are roots of unity of degree $`n`. Then show that $`x^k + x^{-k}` has denominator $`3^k` and get a contradiction.
 
 (c) Using (a) and (b), show that the answer to Hilbert's question is negative. (Compute the Dehn invariant of the regular tetrahedron and the cube.)
+
+## Formalization
+%%%
+tag := "Chapter2/Problem2.13.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.OpaqueFormalStatement.opaqueFormalStatement}

@@ -495,3 +495,15 @@ attribute [source_ref "Chapter2/Example2.9.12" (role := primary)]
 
 attribute [source_ref "Chapter2/Example2.9.12" (role := supporting)]
   RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux6
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.PresentedAlgebra
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.algEquiv
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux1
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux2
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux3
+
+attribute [source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived8"
+    (role := supporting)]
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.algEquiv
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux1
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux2
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux3

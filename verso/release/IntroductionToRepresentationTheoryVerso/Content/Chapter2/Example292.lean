@@ -41,6 +41,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.endomorphismLieAlgebra}
 
+{Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.mem_derivationLieSubalgebra_iff}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.AbelianLieAlgebra}
@@ -49,6 +51,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.AbelianLieAlgebra.instLieRing}
 
+{Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.IsDerivation}
+
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.derivationLieEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.derivationLieSubalgebra.bracket_apply}
+
+{Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.derivationLieSubalgebra.leibniz}
