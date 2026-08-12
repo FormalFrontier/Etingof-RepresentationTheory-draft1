@@ -86,6 +86,7 @@ theorem FreeAlgebra.AuxiliaryType.relationRingCon_le_ker_freeLift (a : X → A) 
   exact (TwoSidedIdeal.mem_ker _).1 (hsub ((TwoSidedIdeal.rel_iff _ _ _).1 hpq))
 
 /-- Constructs an algebra homomorphism from the auxiliary algebra when the proposed generator values annihilate the specified elements. -/
+@[source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived9" (role := supporting)]
 noncomputable def FreeAlgebra.AuxiliaryType.lift (a : X → A) (ha : ∀ r, FreeAlgebra.lift k a (rel r) = 0) :
     _root_.RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType k X R rel →ₐ[k] A :=
   (_root_.RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.relationRingCon k X R rel).liftₐ (FreeAlgebra.lift k a) (relationRingCon_le_ker_freeLift rel a ha)
@@ -100,6 +101,7 @@ noncomputable def FreeAlgebra.AuxiliaryType.lift (a : X → A) (ha : ∀ r, Free
   rw [of_eq_auxiliaryAlgHom_generator, lift_auxiliaryAlgHom, FreeAlgebra.lift_ι_apply]
 
 /-- Algebra homomorphisms out of the auxiliary algebra are equal when they agree on generators. -/
+@[source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived9" (role := supporting)]
 theorem FreeAlgebra.AuxiliaryType.algHom_ext {F G : _root_.RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType k X R rel →ₐ[k] A}
     (h : ∀ x, F (of rel x) = G (of rel x)) : F = G := by
   have hcomp : F.comp (auxiliaryAlgHom rel) = G.comp (auxiliaryAlgHom rel) := FreeAlgebra.hom_ext (funext h)

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -18,3 +19,13 @@ number := false
 
 Hint: By the usual Schur's lemma, the algebra $`D := \operatorname{End}_A(V)` is an algebra with division. Show that $`D` is at most countably dimensional. Suppose $`\phi` is not a scalar, and consider the subfield $`\mathbb{C}(\phi) \subset D`.
 Show that $`\mathbb{C}(\phi)` is a transcendental extension of $`\mathbb{C}`. Derive from this that $`\mathbb{C}(\phi)` is uncountably dimensional and obtain a contradiction.
+
+## Formalization
+%%%
+tag := "Chapter2/Problem2.3.18/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.SimpleModule.ScalarEndomorphisms.linearMap_eq_smul_of_simple_of_rank_le_aleph0}

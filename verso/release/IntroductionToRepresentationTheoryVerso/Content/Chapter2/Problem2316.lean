@@ -43,4 +43,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.CenterAction.centerCharacter_value_unique}
 
+{Manual.docstring RepresentationTheory.Algebra.CenterAction.dualNumberEpsilon_not_scalarAction}
+
 {Manual.docstring RepresentationTheory.Algebra.CenterAction.exists_simpleSubmodule_centerCharacter}

@@ -16,7 +16,8 @@ Constructions relating module structures to algebra homomorphisms into linear en
 namespace RepresentationTheory.Algebra.ModuleActions
 
 /-- A type of action structures for a ring on an additive commutative group. -/
-@[source_ref "Chapter2/Example2.3.3/Derived4" (role := supporting)]
+@[source_ref "Chapter2/Example2.3.3/Derived4" (role := supporting),
+  source_ref "Chapter2/Discussion_2.1_overview/Derived5" (role := supporting)]
 abbrev RingActionStructure (A : Type*) (V : Type*) [Ring A] [AddCommGroup V] :=
   Module A V
 
@@ -51,7 +52,9 @@ variable (k A V : Type*) [CommRing k] [Ring A] [Algebra k A]
   [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
 
 /-- The scalar action of an algebra defines a homomorphism to linear endomorphisms. -/
-@[source_ref "Chapter2/Definition2.3.1" (role := primary)]
+@[source_ref "Chapter2/Definition2.3.1" (role := primary),
+  source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived9" (role := supporting),
+  source_ref "Chapter2/Discussion_2.1_overview/Derived5" (role := primary)]
 def actionAlgHom : A →ₐ[k] Module.End k V :=
   Algebra.lsmul k k V
 
@@ -67,6 +70,7 @@ variable (k A V : Type*) [CommRing k] [Ring A] [Algebra k A]
   [AddCommGroup V] [Module k V]
 
 /-- Constructs a module structure from an algebra homomorphism into linear endomorphisms. -/
+@[source_ref "Chapter2/Discussion_2.1_overview/Derived5" (role := primary)]
 abbrev moduleOfAlgHom (ρ : A →ₐ[k] Module.End k V) : Module A V :=
   Module.compHom V ρ.toRingHom
 
@@ -87,7 +91,8 @@ theorem moduleOfAlgHom_isScalarTower (ρ : A →ₐ[k] Module.End k V) :
 
 /-- The action homomorphism determined by a module structure equals any homomorphism that induces
 that structure. -/
-@[source_ref "Chapter2/Definition2.3.1" (role := primary)]
+@[source_ref "Chapter2/Definition2.3.1" (role := primary),
+  source_ref "Chapter2/Discussion_2.1_overview/Derived5" (role := primary)]
 theorem actionAlgHom_eq (ρ : A →ₐ[k] Module.End k V) :
     letI := moduleOfAlgHom k A V ρ
     letI := moduleOfAlgHom_isScalarTower k A V ρ
@@ -106,7 +111,8 @@ variable (k A V : Type*) [CommRing k] [Ring A] [Algebra k A]
 
 /-- Reconstructing a module structure from its associated action homomorphism returns the existing
 structure. -/
-@[source_ref "Chapter2/Definition2.3.1" (role := primary)]
+@[source_ref "Chapter2/Definition2.3.1" (role := primary),
+  source_ref "Chapter2/Discussion_2.1_overview/Derived5" (role := primary)]
 theorem moduleOfAlgHom_actionAlgHom :
     moduleOfAlgHom k A V (actionAlgHom k A V) = (inferInstance : Module A V) := rfl
 

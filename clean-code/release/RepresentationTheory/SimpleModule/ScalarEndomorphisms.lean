@@ -8,6 +8,7 @@ import Mathlib.RepresentationTheory.AlgebraRepresentation.Basic
 import Mathlib.RingTheory.Algebraic.LinearIndependent
 import Mathlib.Analysis.Complex.Polynomial.Basic
 import Mathlib.Algebra.Algebra.Subalgebra.Centralizer
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Scalar endomorphisms of simple modules -/
 
@@ -16,6 +17,7 @@ open Cardinal Polynomial
 namespace RepresentationTheory.SimpleModule.ScalarEndomorphisms
 
 /-- For the displayed simple complex module of at most countable rank, every A-linear endomorphism is scalar multiplication. -/
+@[source_ref "Chapter2/Problem2.3.18" (role := primary)]
 theorem linearMap_eq_smul_of_simple_of_rank_le_aleph0
     {A : Type*} [Ring A] [Algebra ℂ A]
     {V : Type} [AddCommGroup V] [Module ℂ V] [Module A V] [IsScalarTower ℂ A V]

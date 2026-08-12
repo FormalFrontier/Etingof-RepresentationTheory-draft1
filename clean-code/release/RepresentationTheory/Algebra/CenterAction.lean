@@ -254,4 +254,5 @@ attribute [source_ref "Chapter2/Problem2.3.16" (role := primary)]
 attribute [source_ref "Chapter2/Problem2.3.16" (role := supporting)]
   RepresentationTheory.Algebra.CenterAction.centerAction_sub_scalar_isNilpotent
   RepresentationTheory.Algebra.CenterAction.centerCharacter_value_unique
+  RepresentationTheory.Algebra.CenterAction.dualNumberEpsilon_not_scalarAction
   RepresentationTheory.Algebra.CenterAction.exists_simpleSubmodule_centerCharacter

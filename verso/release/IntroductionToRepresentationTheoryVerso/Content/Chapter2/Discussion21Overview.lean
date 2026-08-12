@@ -40,6 +40,18 @@ tag := "Chapter2/Discussion_2.1_overview/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.actionAlgHom}
+
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.actionAlgHom_eq}
+
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.moduleOfAlgHom}
+
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.moduleOfAlgHom_actionAlgHom}
+
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData.ModuleAuxiliaryData}

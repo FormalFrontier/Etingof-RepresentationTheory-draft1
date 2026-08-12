@@ -60,6 +60,12 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.actionAlgHom}
+
+{Manual.docstring RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType.algHom_ext}
+
+{Manual.docstring RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType.lift}
+
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.algEquiv}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux1}

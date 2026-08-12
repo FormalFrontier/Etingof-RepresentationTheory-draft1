@@ -349,6 +349,7 @@ theorem algHom_comp_eq_aux1 (k : Type*) [CommRing k] :
     simp [algHom_aux4, lieHom_aux1, basis0, basis1, basis2]
 
 /-- An algebra equivalence between the displayed algebras. -/
+@[source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived9" (role := supporting)]
 def algEquiv (k : Type*) [CommRing k] :
     PresentedAlgebra k ≃ₐ[k] UniversalEnvelopingAlgebra k (CoordinateTriple k) :=
   AlgEquiv.ofAlgHom (algHom_aux1 k) (algHom_aux4 k) (algHom_comp_eq k) (algHom_comp_eq_aux1 k)
