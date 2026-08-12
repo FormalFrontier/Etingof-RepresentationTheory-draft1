@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1090",
+  "associations": [
+    {
+      "association_id": "association:734e6e7c03d922b9ec42",
+      "rationale": "The formal type directly expresses each character value as a sum of roots of unity, providing the displayed cyclotomic-value statement.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:ceae36dcf1ba9e1a4a0f",
+      "rationale": "The formal type directly states that a ring homomorphism acting by j-th powers on roots sends chi(g) to chi(g^j).",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:60e1335dcc6256b2621d",
+      "rationale": "The formal type directly states that the relevant product of character values at g and g inverse is fixed by the ring homomorphism, matching the beta-fixing part.",
+      "role": "primary"
+    }
+  ]
+}

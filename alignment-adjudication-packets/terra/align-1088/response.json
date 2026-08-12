@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1088",
+  "associations": [
+    {
+      "association_id": "association:d69c9105d9649c7019ba",
+      "rationale": "The formal type is an orthogonality identity for matrix entries of two nonisomorphic simple representations, not the definition of matrix elements as coefficient functions.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2b0ec8dffa3e33edad84",
+      "rationale": "The formal type is an orthogonality identity for matrix entries of one simple representation, a consequence rather than the claimed coefficient-function identification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9a90d593fbde63cbfb05",
+      "rationale": "No formal type is displayed, so this matrix-conversion candidate cannot itself be verified as stating the source claim.",
+      "role": "supporting"
+    }
+  ]
+}

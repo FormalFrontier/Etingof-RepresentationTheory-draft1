@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1082",
+  "associations": [
+    {
+      "association_id": "association:1532efa7f153a3cf2586",
+      "rationale": "The displayed type only constructs a type from a quiver; it does not display the vertex-space and arrow-map assignments asserted by the source claim.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1087",
+  "associations": [
+    {
+      "association_id": "association:895a65005e70c0e3ad9e",
+      "rationale": "The formal type directly says that roots of unity with integral average are either all equal or have sum zero.",
+      "role": "primary"
+    }
+  ]
+}

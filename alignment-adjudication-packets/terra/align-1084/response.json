@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1084",
+  "associations": [
+    {
+      "association_id": "association:3260e100b43410c37adc",
+      "rationale": "The formal type directly places every simple representation's character in the rational span of characters induced from cyclic subgroups.",
+      "role": "primary"
+    }
+  ]
+}

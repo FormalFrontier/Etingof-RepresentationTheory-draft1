@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1091",
+  "associations": [
+    {
+      "association_id": "association:1cf7b63d05371105bde7",
+      "rationale": "The formal type directly defines the full subrepresentation for every module, stating the whole-space half of the claim.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:7f95e675b70212b30905",
+      "rationale": "The formal type directly defines the zero subrepresentation for every module, stating the zero-space half of the claim.",
+      "role": "primary"
+    }
+  ]
+}
