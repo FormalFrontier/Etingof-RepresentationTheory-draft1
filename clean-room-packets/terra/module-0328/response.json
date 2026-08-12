@@ -1,0 +1,55 @@
+{
+  "module_name": "UnitTupleActions",
+  "declarations": [
+    {
+      "temporary_id": "decl-017153",
+      "new_name": "auxiliaryPolynomial_eval_eq_trace_unitTupleAction",
+      "docstring": "Evaluating the auxiliary polynomial on unit values gives the trace of the corresponding unit-tuple action."
+    },
+    {
+      "temporary_id": "decl-018364",
+      "new_name": "unitTupleElement",
+      "docstring": "Associates a general linear group element to a tuple of units."
+    },
+    {
+      "temporary_id": "decl-018367",
+      "new_name": "supportedUnitTupleElement",
+      "docstring": "Associates an auxiliary general linear element to a finite support and a tuple of units."
+    },
+    {
+      "temporary_id": "decl-018370",
+      "new_name": "supportedUnitTupleElement_empty",
+      "docstring": "The supported unit-tuple element with empty support is the identity."
+    },
+    {
+      "temporary_id": "decl-018371",
+      "new_name": "supportedUnitTupleElement_insert",
+      "docstring": "Adding a fresh index factors the supported unit-tuple element by the associated auxiliary coordinate element."
+    },
+    {
+      "temporary_id": "decl-018373",
+      "new_name": "supportedUnitTupleElement_univ",
+      "docstring": "Full support recovers the unit-tuple element."
+    },
+    {
+      "temporary_id": "decl-019849",
+      "new_name": "supportedUnitTupleElement_smul_of_mem_auxiliaryWeightSpace",
+      "docstring": "On a vector in an auxiliary weight space, a supported unit-tuple element acts by the indicated finite product of powers."
+    },
+    {
+      "temporary_id": "decl-019850",
+      "new_name": "unitTupleElement_smul_of_mem_auxiliaryWeightSpace",
+      "docstring": "On an auxiliary weight vector, the unit-tuple element acts through the full product of the indexed powers."
+    },
+    {
+      "temporary_id": "decl-019851",
+      "new_name": "auxiliaryCoordinateElement_smul_of_mem_auxiliaryWeightSpace",
+      "docstring": "The auxiliary coordinate element acts on an auxiliary weight vector by the corresponding coordinate power."
+    },
+    {
+      "temporary_id": "decl-024288",
+      "new_name": "sum_trace_unitTupleAction_eq_zero_of_auxiliaryPolynomialRelation",
+      "docstring": "A rational relation among the displayed auxiliary polynomials yields a vanishing weighted sum of unit-tuple action traces."
+    }
+  ]
+}
