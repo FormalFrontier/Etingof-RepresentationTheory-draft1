@@ -28,23 +28,23 @@
     },
     {
       "temporary_id": "decl-022058",
-      "new_name": "stabilizer_aux_of_strictDominates",
-      "docstring": "An auxiliary stabilizer theorem under a strict-dominance hypothesis; its formal type is unavailable in this packet."
+      "new_name": "strictDominates_aux",
+      "docstring": "An auxiliary theorem involving the strict dominance relation; its formal statement could not be displayed in this packet."
     },
     {
       "temporary_id": "decl-022059",
-      "new_name": "stabilizer_aux_of_not_dominates",
-      "docstring": "An auxiliary stabilizer theorem under a failure-of-dominance hypothesis; its formal type is unavailable in this packet."
+      "new_name": "dominates_aux",
+      "docstring": "An auxiliary theorem involving the dominance relation; its formal statement could not be displayed in this packet."
     },
     {
       "temporary_id": "decl-023604",
-      "new_name": "swap_mem_columnStabilizer_of_column_eq",
-      "docstring": "Swapping two positions with the same column coordinate belongs to the stabilizer associated with the partition."
+      "new_name": "swap_mem_of_column_eq",
+      "docstring": "The swap of two positions with equal column coordinates is a member of the associated set."
     },
     {
       "temporary_id": "decl-023605",
-      "new_name": "swap_mem_rowStabilizer_of_row_eq",
-      "docstring": "Swapping two positions with the same row coordinate belongs to the stabilizer associated with the partition."
+      "new_name": "swap_mem_of_row_eq",
+      "docstring": "The swap of two positions with equal row coordinates is a member of the associated set."
     },
     {
       "temporary_id": "decl-025184",
@@ -89,7 +89,7 @@
     {
       "temporary_id": "decl-032695",
       "new_name": "List.sum_take_add_lt_sum",
-      "docstring": "A column index below the entry in row `r`, added to the sum of the preceding entries, is below the total sum."
+      "docstring": "If `c` is less than the entry at index `r`, then the sum of the entries before `r` plus `c` is less than the total sum."
     },
     {
       "temporary_id": "decl-032700",
