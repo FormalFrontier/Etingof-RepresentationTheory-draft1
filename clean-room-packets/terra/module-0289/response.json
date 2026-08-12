@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-004724",
-      "new_name": "HasSolvableSeries",
-      "docstring": "A group property characterized by solvability."
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary property of groups."
     },
     {
       "temporary_id": "decl-017123",
@@ -18,8 +18,8 @@
     },
     {
       "temporary_id": "decl-019896",
-      "new_name": "hasSolvableSeries_iff_isSolvable",
-      "docstring": "Having a solvable series is equivalent to being a solvable group."
+      "new_name": "auxiliary_iff_isSolvable",
+      "docstring": "The auxiliary group property is equivalent to solvability."
     }
   ]
 }

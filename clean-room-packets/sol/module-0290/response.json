@@ -138,8 +138,8 @@
     },
     {
       "temporary_id": "decl-016886",
-      "new_name": "auxiliary_simpleMultiple",
-      "docstring": "An auxiliary fact about integer multiples of a simple representation; its formal statement is unavailable."
+      "new_name": "auxiliary",
+      "docstring": "An auxiliary theorem whose formal statement is unavailable."
     },
     {
       "temporary_id": "decl-016887",
