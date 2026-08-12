@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0259",
+  "associations": [
+    {
+      "association_id": "association:9f58795366a5c3abfd0f",
+      "role": "supporting",
+      "rationale": "presentationEquiv is a particular algebra equivalence, not a statement that N-dimensional representations solve the displayed matrix relations."
+    },
+    {
+      "association_id": "association:3224a1677fd7ad2958fd",
+      "role": "supporting",
+      "rationale": "hom_ext is a generic uniqueness lemma for homomorphisms from a presented algebra."
+    },
+    {
+      "association_id": "association:0f682ade4ad46dbbc998",
+      "role": "supporting",
+      "rationale": "lift constructs a homomorphism when presentation relations vanish, a prerequisite for the matrix-relation interpretation."
+    },
+    {
+      "association_id": "association:b7f869a9faaba7515860",
+      "role": "supporting",
+      "rationale": "toAlgHom turns a module structure into an endomorphism-valued homomorphism, but does not state the N-by-N relation-solving characterization."
+    },
+    {
+      "association_id": "association:31461cb60947d7747e26",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so this matrix equivalence cannot directly establish the displayed claim."
+    }
+  ]
+}

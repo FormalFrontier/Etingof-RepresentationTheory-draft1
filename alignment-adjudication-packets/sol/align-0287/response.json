@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0287",
+  "associations": [
+    {
+      "association_id": "association:567721b76ea1e04e7dc0",
+      "role": "primary",
+      "rationale": "Representation directly defines the representation type from an algebra and an additive group, with the module formulation supplied by the project definition."
+    },
+    {
+      "association_id": "association:bf40ffb8c591d59b15c9",
+      "role": "primary",
+      "rationale": "ofAlgHom directly turns a unital algebra homomorphism into End(V) into a left A-module structure."
+    },
+    {
+      "association_id": "association:acd4600320d64dfae368",
+      "role": "primary",
+      "rationale": "The round-trip equality directly establishes the equivalence from a module to its endomorphism homomorphism and back."
+    },
+    {
+      "association_id": "association:1002748409bbe9ae9846",
+      "role": "primary",
+      "rationale": "toAlgHom directly sends a left A-module structure to a unital algebra homomorphism A → End(V)."
+    },
+    {
+      "association_id": "association:78dc707969246b965887",
+      "role": "primary",
+      "rationale": "The round-trip equality directly establishes the converse from an endomorphism-valued homomorphism to a module and back."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0577",
+  "associations": [
+    {
+      "association_id": "association:8a5d2ca8c8e3b1ffb1ee",
+      "role": "supporting",
+      "rationale": "The candidate has no displayed formal type, so it cannot directly state the algebra of A-linear endomorphisms."
+    }
+  ]
+}

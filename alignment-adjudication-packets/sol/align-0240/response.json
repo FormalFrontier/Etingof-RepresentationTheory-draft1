@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0240",
+  "associations": [
+    {
+      "association_id": "association:44885cdadc05661c030a",
+      "role": "primary",
+      "rationale": "The theorem directly states equality in the shifted-partition comparison exactly when the permutation is the identity."
+    },
+    {
+      "association_id": "association:0c245a970b54a3deff10",
+      "role": "primary",
+      "rationale": "The theorem directly gives the lexicographic inequality for the shifted partition under a permutation."
+    },
+    {
+      "association_id": "association:d2851bae43addbacd4ae",
+      "role": "primary",
+      "rationale": "The theorem directly states that the permuted rho vector equals rho iff the permutation is the identity."
+    },
+    {
+      "association_id": "association:961d5ffa20c949350b8d",
+      "role": "primary",
+      "rationale": "The theorem directly states the lexicographic comparison of the permuted rho vector with rho."
+    }
+  ]
+}

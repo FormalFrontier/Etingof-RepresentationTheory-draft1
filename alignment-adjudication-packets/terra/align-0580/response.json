@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0580",
+  "associations": [
+    {
+      "association_id": "association:776eb4abb572331a10e1",
+      "role": "primary",
+      "rationale": "Problem_2_3_18 directly states that every A-linear endomorphism of a countable-dimensional simple complex module is scalar."
+    }
+  ]
+}
