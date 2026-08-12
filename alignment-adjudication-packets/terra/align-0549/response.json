@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0549",
+  "associations": [
+    {
+      "association_id": "association:8a04afa948fbeda14e73",
+      "rationale": "For algebraically closed fields of prime characteristic, the type directly denies that every finite-dimensional irreducible module is one-dimensional, exactly giving the stated failure of Lie's theorem.",
+      "role": "primary"
+    }
+  ]
+}

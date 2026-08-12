@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0550",
+  "associations": [
+    {
+      "association_id": "association:f190749a7577a273f448",
+      "rationale": "This is only the type signature of the opaque family g and does not expose its free-Lie quotient presentation or relations.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0f522710070a021e6745",
+      "rationale": "The type provides an opaque Lie homomorphism from a free Lie algebra, but does not state the adjoint definition or either quotient relation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:fe89efdc43eb29b2b578",
+      "rationale": "The type only identifies relIdeal as a Lie ideal and does not display the generators corresponding to the two stated relations.",
+      "role": "supporting"
+    }
+  ]
+}

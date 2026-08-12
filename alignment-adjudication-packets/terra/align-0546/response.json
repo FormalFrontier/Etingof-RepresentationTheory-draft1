@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0546",
+  "associations": [
+    {
+      "association_id": "association:92af699dd23d28c515c4",
+      "rationale": "This is only the opaque type signature of Fam, so it does not display the stated underlying space or X and Y actions.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e2cbf85a1ef62d375cd8",
+      "rationale": "The type establishes finrank p for the opaque Fam construction, but does not itself state the module's displayed cyclic-shift and diagonal action description or the full combined claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8d1fd94783922c31ac89",
+      "rationale": "The type directly gives irreducibility of the opaque Fam construction in characteristic p, but it does not itself state the construction, its generator actions, or the full combined claim.",
+      "role": "supporting"
+    }
+  ]
+}

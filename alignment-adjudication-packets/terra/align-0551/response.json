@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0551",
+  "associations": [
+    {
+      "association_id": "association:92da9501d71cf141f137",
+      "rationale": "The equality of the Lie span of xb and yb with top directly states that the images of x and y generate g_n as a Lie algebra.",
+      "role": "primary"
+    }
+  ]
+}
