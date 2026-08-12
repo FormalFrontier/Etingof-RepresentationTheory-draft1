@@ -1,0 +1,15 @@
+{
+  "module_name": "Nat.PartitionAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-005452",
+      "new_name": "Auxiliary.square_eq_smul",
+      "docstring": "Expresses the square of the displayed element as a scalar multiple of itself."
+    },
+    {
+      "temporary_id": "decl-021458",
+      "new_name": "MonoidAlgebra.coeFun",
+      "docstring": "Views an element of a monoid algebra as its coefficient function."
+    }
+  ]
+}
