@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 
 import RepresentationTheory.Algebra.Module.TensorScalarExtension
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Tensor-product coordinates -/
 
@@ -100,6 +101,7 @@ noncomputable def linearEquivFinFun (b : Module.Basis (Fin n) K L) :
 end Pow
 
 /-- The scalar-extended module is linearly equivalent to functions indexed by the dimension of the extending field. -/
+@[source_ref "Chapter3/Problem3.8.4" (role := supporting)]
 theorem nonempty_linearEquiv_fin_fun [FiniteDimensional K L] :
     Nonempty ((L ⊗[K] V) ≃ₗ[A] (Fin (Module.finrank K L) → V)) :=
   ⟨linearEquivFinFun (Module.finBasis K L)⟩

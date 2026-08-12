@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 
 import RepresentationTheory.Algebra.Module.IndependentSpanningFamilies
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Finite module decompositions -/
 
@@ -48,6 +49,7 @@ namespace RepresentationTheory.Algebra.Module.FiniteDecompositions
 
 
 /-- Under the displayed module property, every endomorphism is either bijective or nilpotent. -/
+@[source_ref "Chapter3/Problem3.8.3" (role := primary)]
 theorem bijective_or_nilpotent (k : Type*) (A : Type*) (W : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
@@ -60,6 +62,7 @@ theorem bijective_or_nilpotent (k : Type*) (A : Type*) (W : Type*)
 
 
 /-- Under the displayed module property, a finite sum of nilpotent endomorphisms is nilpotent. -/
+@[source_ref "Chapter3/Problem3.8.3" (role := supporting)]
 theorem sum_nilpotent (k : Type*) (A : Type*) (W : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
@@ -73,6 +76,7 @@ theorem sum_nilpotent (k : Type*) (A : Type*) (W : Type*)
 
 
 /-- A finite-dimensional module has a finite internal family of submodules satisfying the displayed module property. -/
+@[source_ref "Chapter3/Problem3.8.3" (role := primary)]
 theorem exists_internal_family (k : Type*) (A : Type*) (V : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
@@ -88,6 +92,7 @@ theorem exists_internal_family (k : Type*) (A : Type*) (V : Type*)
 
 
 /-- Two finite internal spanning families of nonzero submodules satisfying the displayed property have equal lengths and matching equivalent members. -/
+@[source_ref "Chapter3/Problem3.8.3" (role := primary)]
 theorem internal_family_unique_up_to_permutation (k : Type*) (A : Type*) (V : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]

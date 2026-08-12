@@ -6,6 +6,7 @@ Authors: Kim Morrison
 
 import RepresentationTheory.Algebra.Module.TensorProductCoordinates
 import RepresentationTheory.Algebra.Module.EquivalenceTransfers
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Tensor restriction -/
 
@@ -43,6 +44,7 @@ theorem restrictScalarsLinearEquiv_apply
     restrictScalarsLinearEquiv e x = e x := rfl
 
 /-- An equivalence after tensor extension yields an equivalence before tensor extension under finite-dimensionality hypotheses. -/
+@[source_ref "Chapter3/Problem3.8.4" (role := supporting)]
 theorem exists_equiv_of_tensorEquiv [FiniteDimensional K V] [FiniteDimensional K W]
     [FiniteDimensional K L]
     (h : Nonempty ((L ⊗[K] V) ≃ₗ[L ⊗[K] A] (L ⊗[K] W))) :
@@ -82,6 +84,7 @@ theorem restrictScalarsLinearMap_apply
     restrictScalarsLinearMap f x = f x := rfl
 
 /-- A retraction after tensor extension yields a retraction before tensor extension under finite-dimensionality hypotheses. -/
+@[source_ref "Chapter3/Problem3.8.4/Derived6" (role := supporting)]
 theorem exists_retract_of_tensorRetract
     [FiniteDimensional K V] [FiniteDimensional K W] [FiniteDimensional K L]
     (h : ∃ (i : (L ⊗[K] V) →ₗ[L ⊗[K] A] (L ⊗[K] W))

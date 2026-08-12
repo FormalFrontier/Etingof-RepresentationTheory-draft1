@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 
 import RepresentationTheory.Algebra.Module.FiniteDecompositions
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Equivalence transfers -/
 
@@ -355,6 +356,7 @@ private theorem map_internalFamily_aux {A V V' : Type*} [Ring A]
 
 
 /-- An equivalence between positive finite function modules yields an equivalence between their value modules. -/
+@[source_ref "Chapter3/Problem3.8.4" (role := supporting)]
 theorem exists_equiv_of_fin_fun_equiv (k A V W : Type*) [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
     [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
@@ -560,6 +562,7 @@ private theorem exists_split_of_indexEmbedding {A V W : Type*} [Ring A]
 
 
 /-- The displayed split-map existence statement follows from the same existence statement under the given hypotheses. -/
+@[source_ref "Chapter3/Problem3.8.4/Derived6" (role := supporting)]
 theorem exists_split_of_exists_split (k A V W : Type*) [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
     [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]

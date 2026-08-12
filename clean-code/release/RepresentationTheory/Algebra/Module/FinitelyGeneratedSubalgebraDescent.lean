@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 
 import RepresentationTheory.LinearAlgebra.TensorProduct.ModuleBaseChange
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Descent to finitely generated subalgebras -/
 
@@ -101,6 +102,7 @@ set_option maxHeartbeats 800000 in
 
 /-- A tensor-product-module equivalence descends to an equivalence over a finitely generated
 subalgebra. -/
+@[source_ref "Chapter3/Problem3.8.4" (role := supporting)]
 theorem exists_fgSubalgebra_equiv
     [FiniteDimensional K V] [FiniteDimensional K W]
     (e : (L ⊗[K] V) ≃ₗ[L ⊗[K] A] (L ⊗[K] W)) :
@@ -303,6 +305,7 @@ set_option maxHeartbeats 1600000 in
 
 /-- A tensor-product-module retraction descends to a retraction over a finitely generated
 subalgebra. -/
+@[source_ref "Chapter3/Problem3.8.4/Derived6" (role := supporting)]
 theorem exists_fgSubalgebra_retract
     [FiniteDimensional K V] [FiniteDimensional K W]
     (i : (L ⊗[K] V) →ₗ[L ⊗[K] A] (L ⊗[K] W)) (p : (L ⊗[K] W) →ₗ[L ⊗[K] A] (L ⊗[K] V))
