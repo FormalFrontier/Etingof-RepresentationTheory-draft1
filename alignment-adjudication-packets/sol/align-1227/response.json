@@ -28,7 +28,7 @@
     },
     {
       "association_id": "association:a8050fb641eeeaa637ca",
-      "rationale": "The type asserts existence of an irreducible module whose dimension is not below p, a dimensional consequence rather than a classification.",
+      "rationale": "The type negates the claim that every finite irreducible module has dimension below p, a dimensional obstruction rather than a classification.",
       "role": "supporting"
     },
     {
