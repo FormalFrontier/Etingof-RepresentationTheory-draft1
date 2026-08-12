@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1050",
+  "associations": [
+    {
+      "association_id": "association:ed7150c430abb115f31b",
+      "role": "primary",
+      "rationale": "For each positive root and Dynkin orientation, the declaration directly produces an indecomposable representation with that dimension vector."
+    }
+  ]
+}

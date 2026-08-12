@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1051",
+  "associations": [
+    {
+      "association_id": "association:1eb74a630f7c0bcb256f",
+      "role": "supporting",
+      "rationale": "The displayed type gives an isomorphism from the tensor square to an opaque representation pi irrep, without directly stating the three summands."
+    }
+  ]
+}

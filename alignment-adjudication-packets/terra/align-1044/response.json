@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1044",
+  "associations": [
+    {
+      "association_id": "association:f772a9654fc8fd034714",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so it cannot directly establish the stated isomorphism criterion."
+    }
+  ]
+}
