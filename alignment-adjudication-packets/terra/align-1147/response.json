@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1147",
+  "associations": [
+    {
+      "association_id": "association:e211c49deddcb5f92316",
+      "role": "primary",
+      "rationale": "The type is an iff between z being algebraic over Rat and z being a root of the characteristic polynomial of some finite Rat matrix, directly expressing the eigenvalue characterization."
+    }
+  ]
+}

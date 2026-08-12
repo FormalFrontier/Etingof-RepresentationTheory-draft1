@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1142",
+  "associations": [
+    {
+      "association_id": "association:84cff35677d5cb95a264",
+      "role": "primary",
+      "rationale": "The formal type says every submodule stable under the displayed tensor-product A and B action is either bottom or top, directly stating irreducibility of V ⊗ W for that action."
+    }
+  ]
+}

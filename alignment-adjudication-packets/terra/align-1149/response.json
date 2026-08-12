@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1149",
+  "associations": [
+    {
+      "association_id": "association:cfea55d7f8cd88cce81d",
+      "role": "supporting",
+      "rationale": "The displayed formal type is only an opaque predicate on a root vector and does not display the coordinate-sign definition of negative roots."
+    },
+    {
+      "association_id": "association:16f4e194afb990179e4b",
+      "role": "supporting",
+      "rationale": "The displayed formal type is only an opaque predicate on a root vector and does not display the coordinate-sign definition of positive roots."
+    }
+  ]
+}

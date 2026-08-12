@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1145",
+  "associations": [
+    {
+      "association_id": "association:a1acc92cc9d09f712e92",
+      "role": "supporting",
+      "rationale": "The displayed type only returns a Type under field and vector-space assumptions; it does not display associative bilinear multiplication or a two-sided identity."
+    },
+    {
+      "association_id": "association:66ce487cfa000d97b6a1",
+      "role": "supporting",
+      "rationale": "The displayed type is only a predicate A → Prop named IsUnit and does not directly state the full unital associative-algebra definition."
+    }
+  ]
+}

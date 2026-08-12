@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1150",
+  "associations": [
+    {
+      "association_id": "association:aff3bed68076ce28fe3b",
+      "role": "supporting",
+      "rationale": "The type only displays existence of a RelSeries from bottom to top for a finite-dimensional module; it does not directly state a filtration of U with simple successive quotients Z_i."
+    }
+  ]
+}
