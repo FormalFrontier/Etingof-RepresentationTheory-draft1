@@ -1,0 +1,35 @@
+{
+  "module_name": "Representation.AlgebraDensity",
+  "declarations": [
+    {
+      "temporary_id": "decl-015441",
+      "new_name": "asAlgebraHom_surjective",
+      "docstring": "An irreducible finite-dimensional representation over an algebraically closed field realizes every linear endomorphism through its induced algebra map."
+    },
+    {
+      "temporary_id": "decl-015457",
+      "new_name": "span_range_eq_top",
+      "docstring": "The images of the acting monoid in an irreducible representation linearly generate the full endomorphism space."
+    },
+    {
+      "temporary_id": "decl-018458",
+      "new_name": "dualTensorHom_tmul_comp",
+      "docstring": "Precomposing a rank-one endomorphism by a linear map precomposes its covector factor."
+    },
+    {
+      "temporary_id": "decl-018461",
+      "new_name": "dualTensorHom_map_right",
+      "docstring": "Applying a linear map to the vector factor of a dual tensor postcomposes its associated endomorphism."
+    },
+    {
+      "temporary_id": "decl-018615",
+      "new_name": "eq_zero_of_trace_comp_eq_zero",
+      "docstring": "The trace pairing detects every nonzero endomorphism of a finite-dimensional vector space."
+    },
+    {
+      "temporary_id": "decl-021552",
+      "new_name": "eq_zero_of_contractLeft_representation_map_eq_zero",
+      "docstring": "A dual tensor is zero when each displayed contraction after the representation action is zero."
+    }
+  ]
+}
