@@ -1,20 +1,20 @@
 {
   "module_name": "QuotientPermutationRepresentation",
   "declarations": [
-    {"temporary_id":"decl-002573","new_name":"quotientMap_ker","docstring":"The kernel of the selected monoid homomorphism is the designated subgroup."},
-    {"temporary_id":"decl-002574","new_name":"quotientMap_surjective","docstring":"The selected monoid homomorphism is onto."},
-    {"temporary_id":"decl-002630","new_name":"pointRepresentatives","docstring":"A three-entry family of elements in the source group."},
-    {"temporary_id":"decl-002631","new_name":"actionKernel","docstring":"A distinguished subgroup of the source group."},
-    {"temporary_id":"decl-002635","new_name":"actionKernel_normal","docstring":"The distinguished subgroup is normal."},
+    {"temporary_id":"decl-002573","new_name":"selectedMonoidHom_ker","docstring":"The kernel of the selected monoid homomorphism is the displayed subgroup."},
+    {"temporary_id":"decl-002574","new_name":"selectedMonoidHom_surjective","docstring":"The selected monoid homomorphism is onto."},
+    {"temporary_id":"decl-002630","new_name":"sourceGroupElementFamily","docstring":"A three-entry family of elements in the source group."},
+    {"temporary_id":"decl-002631","new_name":"distinguishedSubgroup","docstring":"A distinguished subgroup of the source group."},
+    {"temporary_id":"decl-002635","new_name":"distinguishedSubgroup_normal","docstring":"The distinguished subgroup is normal."},
     {"temporary_id":"decl-002660","new_name":"quotientEquivPermFinThree","docstring":"The quotient by the distinguished subgroup is multiplicatively equivalent to permutations of three points."},
-    {"temporary_id":"decl-002671","new_name":"pulledBackRepresentation","docstring":"A finite-dimensional complex representation of the source group."},
-    {"temporary_id":"decl-002672","new_name":"pulledBackRepresentation_character","docstring":"Its character is obtained by evaluating the target representation's character after the quotient map."},
-    {"temporary_id":"decl-002673","new_name":"pulledBackRepresentation_character_eq","docstring":"The pulled-back representation and the comparison representation have identical characters."},
-    {"temporary_id":"decl-002674","new_name":"pulledBackRepresentation_iso","docstring":"The pulled-back representation is isomorphic to the comparison representation."},
-    {"temporary_id":"decl-002675","new_name":"fixedPointCount_comp_quotientMap","docstring":"The target fixed-point statistic after the quotient map equals the source fixed-point statistic."},
-    {"temporary_id":"decl-003108","new_name":"actOnFinThree_eq_existingAction","docstring":"The two displayed actions on three points agree pointwise."},
-    {"temporary_id":"decl-003118","new_name":"fixedPointCount_eq_existingCount","docstring":"The two displayed fixed-point counts agree for every group element."},
-    {"temporary_id":"decl-003149","new_name":"selectedRepresentation_character_eq_pulledBack","docstring":"The selected representation has the same character as the pulled-back representation."},
-    {"temporary_id":"decl-003150","new_name":"selectedRepresentation_iso_pulledBack","docstring":"The selected representation is isomorphic to the pulled-back representation."}
+    {"temporary_id":"decl-002671","new_name":"sourceRepresentation","docstring":"A finite-dimensional complex representation of the source group."},
+    {"temporary_id":"decl-002672","new_name":"sourceRepresentation_character","docstring":"Its character equals the target representation's character after the selected monoid homomorphism."},
+    {"temporary_id":"decl-002673","new_name":"sourceRepresentation_character_eq_comparison","docstring":"The source representation and a comparison representation have identical characters."},
+    {"temporary_id":"decl-002674","new_name":"sourceRepresentation_iso_comparison","docstring":"The source representation is isomorphic to a comparison representation."},
+    {"temporary_id":"decl-002675","new_name":"auxiliaryFunction_comp_selectedMonoidHom","docstring":"Composing the first displayed function with the selected monoid homomorphism gives the second displayed function."},
+    {"temporary_id":"decl-003108","new_name":"finThreeFunctions_eq","docstring":"The two displayed functions into Fin 3 agree pointwise."},
+    {"temporary_id":"decl-003118","new_name":"auxiliaryFunctions_eq","docstring":"The two displayed functions agree pointwise."},
+    {"temporary_id":"decl-003149","new_name":"comparisonRepresentation_character_eq_source","docstring":"A comparison representation has the same character as the source representation."},
+    {"temporary_id":"decl-003150","new_name":"comparisonRepresentation_iso_source","docstring":"A comparison representation is isomorphic to the source representation."}
   ]
 }
