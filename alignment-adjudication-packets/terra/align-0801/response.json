@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:f34752a02977780e740d",
-      "rationale": "The formal type directly says that every indecomposable Q2 representation is classified, matching the requested exhaustiveness of the classification.",
-      "role": "primary"
+      "rationale": "The formal type says every indecomposable Q2 representation satisfies the opaque predicate IsClassified, but it does not display the requested four-family, isomorphism-level classification.",
+      "role": "supporting"
     }
   ]
 }
