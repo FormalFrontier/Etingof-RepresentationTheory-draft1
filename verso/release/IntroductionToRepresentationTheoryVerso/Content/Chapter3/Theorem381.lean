@@ -28,8 +28,6 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.IndependentSpanningFamilies.exists_iSupIndep_eq_top}
-
-### Supporting declarations
-
 {Manual.docstring RepresentationTheory.Algebra.Module.IndependentSpanningFamilies.eq_card_and_exists_equiv_of_iSupIndep}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.IndependentSpanningFamilies.exists_iSupIndep_eq_top}

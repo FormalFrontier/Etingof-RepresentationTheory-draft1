@@ -26,3 +26,13 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.Module.EndomorphismEvaluation.endomorphismModule_isSemisimple}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Module.EndomorphismEvaluation.endApplyBasisLinearEquiv}
+
+{Manual.docstring RepresentationTheory.Module.EndomorphismEvaluation.endApplyBasisLinearEquiv_apply}
+
+{Manual.docstring RepresentationTheory.Module.EndomorphismEvaluation.endApplyFinBasisLinearEquiv}
+
+{Manual.docstring RepresentationTheory.Module.EndomorphismEvaluation.endApplyFinBasisLinearEquiv_apply}

@@ -28,6 +28,8 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.bracket_eq}
+
 {Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary.finrank_eq_two}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary.matrixLieSubalgebraAux}
