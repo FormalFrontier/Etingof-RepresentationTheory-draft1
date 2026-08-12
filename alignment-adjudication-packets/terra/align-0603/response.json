@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:da7123028625f4374258",
+      "rationale": "The formal type identifies the center with the algebra adjoined by x^p and y^p in prime characteristic p, directly matching the source claim.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0603"
+}

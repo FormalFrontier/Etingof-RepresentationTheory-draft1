@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:3d484611c4c3dcff17ad",
+      "rationale": "When q has finite order, the formal type directly identifies the center with the algebra adjoined by the four displayed monomials having exponents plus or minus orderOf q in the x and y directions.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0608"
+}

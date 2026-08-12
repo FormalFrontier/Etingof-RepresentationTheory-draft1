@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:a9d48b57b7887271d968",
+      "rationale": "The formal type asserts IsSimpleRing for the Weyl algebra over a characteristic-zero field, directly expressing the absence of nontrivial two-sided ideals.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0601"
+}

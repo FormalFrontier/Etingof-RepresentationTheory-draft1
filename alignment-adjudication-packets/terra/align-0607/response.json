@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:35a51e4f9e3552b45b82",
+      "rationale": "For q not of finite order, the formal type directly identifies the center subalgebra with bottom, expressing that the center is scalar.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:b7824d5d99bdf54cdd93",
+      "rationale": "For q not of finite order, the formal type directly asserts IsSimpleRing for the q-Weyl algebra, expressing the absence of nontrivial two-sided ideals.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0607"
+}
