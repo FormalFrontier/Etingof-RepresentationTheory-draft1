@@ -66,6 +66,7 @@ import RepresentationTheory.LinearAlgebra.Matrix.TensorProduct
 import RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData
 import RepresentationTheory.LinearAlgebra.ModuleConditions
 import RepresentationTheory.LinearAlgebra.ModulePairData
+import RepresentationTheory.FiniteGroupRepresentations.Auxiliary
 import RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar
 import RepresentationTheory.Foundations.TypeFamilies
 import RepresentationTheory.Group.CyclicPrimeRepresentation
