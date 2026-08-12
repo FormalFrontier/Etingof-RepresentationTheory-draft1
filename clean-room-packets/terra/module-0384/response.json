@@ -74,7 +74,7 @@
     {
       "temporary_id": "decl-022649",
       "new_name": "Auxiliary.coeff_eq_sum_partition_finset_pred",
-      "docstring": "The displayed coefficient of the determinant and power-sum product equals the sum of auxiliary values over the predecessor partition finset."
+      "docstring": "The displayed coefficient of the nested product determinant * ((sum of all variables) * partial power-sum expression) equals the sum of auxiliary values over the predecessor partition finset."
     },
     {
       "temporary_id": "decl-022678",
