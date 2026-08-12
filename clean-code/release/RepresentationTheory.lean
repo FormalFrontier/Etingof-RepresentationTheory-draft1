@@ -134,6 +134,7 @@ import RepresentationTheory.DualContraction
 import RepresentationTheory.LinearAlgebra.AuxiliaryPowerSeriesMatrix
 import RepresentationTheory.AlgebraicNumbers.MatrixCriteria
 import RepresentationTheory.SolvableGroups.Series
+import RepresentationTheory.ModularPGroup
 
 /-!
 # Representation theory formalization
