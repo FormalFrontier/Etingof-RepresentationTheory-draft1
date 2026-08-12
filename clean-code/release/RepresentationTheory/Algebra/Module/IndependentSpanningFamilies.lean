@@ -203,6 +203,7 @@ private lemma exists_iSupIndep_eq_top_aux (k : Type*) (A : Type*) (V : Type*)
 
 /-- A finite-dimensional module admits a finite independent family of submodules whose supremum is
 top and whose members satisfy the displayed predicate. -/
+@[source_ref "Chapter3/Theorem3.8.1" (role := primary)]
 theorem exists_iSupIndep_eq_top (k : Type*) (A : Type*) (V : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]

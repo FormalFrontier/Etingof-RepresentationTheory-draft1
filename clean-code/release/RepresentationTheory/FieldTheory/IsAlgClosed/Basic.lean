@@ -25,6 +25,7 @@ theorem isAlgClosed_iff_nonconstant_root (k : Type*) [Field k] :
       h p (degree_pos_of_irreducible hp).ne'
 
 /-- The complex numbers form an algebraically closed field. -/
+@[source_ref "Chapter2/Discussion_2.2_intro" (role := primary)]
 theorem Complex.isAlgClosed : IsAlgClosed ℂ := inferInstance
 
 /-- A primality witness equips integers modulo that number with a field structure. -/
