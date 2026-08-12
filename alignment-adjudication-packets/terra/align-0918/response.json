@@ -13,8 +13,8 @@
     },
     {
       "association_id": "association:2581c08451b77418333f",
-      "role": "supporting",
-      "rationale": "This Mathlib iff theorem characterizes semisimple modules via a dfinsupp equivalence, supporting the claimed criterion rather than stating the source-specific definition."
+      "role": "primary",
+      "rationale": "The iff theorem directly characterizes a semisimple module by the existence of a dfinsupp (direct-sum) linear equivalence, matching the source's exact equivalence between semisimplicity and decomposition into irreducible representations."
     }
   ]
 }
