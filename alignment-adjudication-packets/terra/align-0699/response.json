@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0699",
+  "associations": [
+    {
+      "association_id": "association:71b605f071c1bea491b8",
+      "rationale": "For a faithful finite representation, the type directly asserts an equivariant surjective linear map from the direct sum of all symmetric powers to functions on G with the regular action.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:6322916fea489531fad3",
+      "rationale": "The type defines the orbit-evaluation linear map from the symmetric-power direct sum to functions on G after choosing a dual vector, but does not assert surjectivity or equivariance.",
+      "role": "supporting"
+    }
+  ]
+}

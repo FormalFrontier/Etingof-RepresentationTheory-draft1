@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0698",
+  "associations": [
+    {
+      "association_id": "association:c996804bf586db22c013",
+      "rationale": "Under order p^n and characteristic p, the type directly states that every group element acts as the identity in any simple representation, i.e. every irreducible representation is trivial.",
+      "role": "primary"
+    }
+  ]
+}
