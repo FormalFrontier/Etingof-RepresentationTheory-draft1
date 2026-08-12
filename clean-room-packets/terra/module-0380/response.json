@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-017498",
       "new_name": "eq_on_directSum_summand_of_eq_on_tmul",
-      "docstring": "An equality verified on elementary tensors extends to all tensors embedded in the corresponding direct-sum summand."
+      "docstring": "If conjugating the action of c through e agrees on pure tensors in the i-th direct-sum summand with applying f i to the first tensor factor, then the same equality holds for every tensor in that summand."
     },
     {
       "temporary_id": "decl-017686",
       "new_name": "subalgebraCentralizerLinearMap",
-      "docstring": "Views an element of a subalgebra of endomorphisms as a linear endomorphism over the centralizer of that subalgebra."
+      "docstring": "Associates to an element of a subalgebra of endomorphisms a linear endomorphism over the centralizer of that subalgebra."
     },
     {
       "temporary_id": "decl-017692",
@@ -23,18 +23,18 @@
     },
     {
       "temporary_id": "decl-020505",
-      "new_name": "subalgebraCentralizerRangeSubmodule",
-      "docstring": "The range of a subalgebra element, regarded as a submodule over the centralizer of the subalgebra."
+      "new_name": "subalgebraCentralizerSubmodule",
+      "docstring": "The submodule over the centralizer of a subalgebra associated to an element of that subalgebra."
     },
     {
       "temporary_id": "decl-020509",
-      "new_name": "isSimpleModule_subalgebraCentralizerRangeSubmodule",
-      "docstring": "Let the ambient module be finite over the field and semisimple over the subalgebra. Suppose the direct-sum tensor decomposition is compatible with evaluation and with the action of c through f, and that f vanishes away from a selected simple summand iLam. If c² = α • c for nonzero α and f iLam = α • π for an idempotent π whose range has finrank one, then the centralizer range submodule of c is simple."
+      "new_name": "isSimpleModule_subalgebraCentralizerSubmodule",
+      "docstring": "Let the ambient module be finite over the field and semisimple over the subalgebra. Suppose the direct-sum tensor decomposition is compatible with evaluation and with the action of c through f, and that f vanishes away from a selected simple summand iLam. If c² = α • c for nonzero α and f iLam = α • π for an idempotent π whose range has finrank one, then the centralizer submodule associated to c is simple."
     },
     {
       "temporary_id": "decl-021583",
-      "new_name": "mem_subalgebraCentralizerRangeSubmodule_iff_mem_range",
-      "docstring": "Membership in the subalgebra-centralizer range submodule is equivalent to membership in the range of the underlying endomorphism."
+      "new_name": "mem_subalgebraCentralizerSubmodule_iff_mem_range",
+      "docstring": "Membership in the subalgebra-centralizer submodule associated to an element is equivalent to membership in the range of its underlying endomorphism."
     },
     {
       "temporary_id": "decl-022298",
