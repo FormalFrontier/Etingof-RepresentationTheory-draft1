@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0169",
+  "associations": [
+    {"association_id": "association:3869e1ba907eff224a06", "role": "primary", "rationale": "Its type directly gives the group-algebra functor as a left adjoint."},
+    {"association_id": "association:21629c832b2e3d5cafa3", "role": "primary", "rationale": "Its type directly gives the symmetric-algebra functor as a left adjoint."},
+    {"association_id": "association:7b7ed97cf763b1886d31", "role": "primary", "rationale": "Its type directly gives the tensor-algebra functor as a left adjoint."},
+    {"association_id": "association:780870ac7c2ccef0c6f8", "role": "primary", "rationale": "Its type directly gives the universal-enveloping functor as a left adjoint."}
+  ]
+}

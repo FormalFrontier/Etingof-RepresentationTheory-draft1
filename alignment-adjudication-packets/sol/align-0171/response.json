@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0171",
+  "associations": [
+    {"association_id": "association:489f6b11b165aec364c4", "role": "supporting", "rationale": "The algebra equivalence uses the opaque Presentation construction and does not display the stated generators or relations."},
+    {"association_id": "association:9f1cbf46a42a7c815cc7", "role": "supporting", "rationale": "This is a generator-image helper, not the displayed presentation claim."},
+    {"association_id": "association:4d57656cb9165b0d7215", "role": "supporting", "rationale": "This is a generator-image helper, not the displayed presentation claim."},
+    {"association_id": "association:2de7f4f214bf21424417", "role": "supporting", "rationale": "This is a generator-image helper, not the displayed presentation claim."}
+  ]
+}

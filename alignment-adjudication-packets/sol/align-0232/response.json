@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0232",
+  "associations": [
+    {"association_id": "association:3f641dad7acabedcd8cb", "role": "supporting", "rationale": "This gives an existence realization of a simple centralizer module as Hom_A(V,E), only one direction of the stated bijection."},
+    {"association_id": "association:3f1aef2d930ec8125065", "role": "supporting", "rationale": "This is a congruence helper transporting A-module equivalences to centralizer-module hom spaces."},
+    {"association_id": "association:3257dd11c805e267a8ee", "role": "supporting", "rationale": "This is the converse isomorphism helper needed for injectivity, not the full correspondence statement."},
+    {"association_id": "association:6dfa7a7d8d5c863553c9", "role": "supporting", "rationale": "This gives an equivalence of opaque isotypic-component sets without directly stating the Hom_A mapping on simple modules."}
+  ]
+}

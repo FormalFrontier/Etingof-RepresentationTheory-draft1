@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0212",
+  "associations": [
+    {"association_id": "association:1c4ad7df85fac8cf784d", "role": "supporting", "rationale": "This only defines the indicator and does not state the type classification."},
+    {"association_id": "association:047893ac0e06f7658ada", "role": "primary", "rationale": "It directly gives complex type exactly when the indicator is zero."},
+    {"association_id": "association:e6f43764382bc1f25b84", "role": "supporting", "rationale": "The displayed formal type is unavailable, so it is opaque evidence for the quaternionic clause."},
+    {"association_id": "association:7a76541c620adea66a70", "role": "primary", "rationale": "It directly gives real type exactly when the indicator is one."}
+  ]
+}

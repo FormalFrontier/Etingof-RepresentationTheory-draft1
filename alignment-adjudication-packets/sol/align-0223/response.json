@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0223",
+  "associations": [
+    {"association_id": "association:c74829750e27dc3a28c4", "role": "supporting", "rationale": "This is only the opaque Presentation type and does not display the three relations or completeness."},
+    {"association_id": "association:4982be4ca6705f3744bc", "role": "supporting", "rationale": "The equivalence refers to an opaque Presentation construction rather than displaying the complete relation presentation."},
+    {"association_id": "association:8e4444f3ffb991c0f05c", "role": "supporting", "rationale": "This is a generator-image helper, not the complete-presentation statement."},
+    {"association_id": "association:088e8c445a291bcf9a51", "role": "supporting", "rationale": "This is a generator-image helper, not the complete-presentation statement."},
+    {"association_id": "association:31a98576ad7e1c1ab6e5", "role": "supporting", "rationale": "This is a generator-image helper, not the complete-presentation statement."}
+  ]
+}
