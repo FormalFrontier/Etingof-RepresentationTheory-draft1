@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1264",
+  "associations": [
+    {
+      "association_id": "association:6ede10a2a8598a077a66",
+      "rationale": "Under an explicit path-based connectedness hypothesis, the theorem states exactly that the quiver is of finite type if and only if its unoriented adjacency graph is a Dynkin diagram.",
+      "role": "primary"
+    }
+  ]
+}
