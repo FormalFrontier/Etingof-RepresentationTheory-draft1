@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0926",
+  "associations": [
+    {
+      "association_id": "association:44563384746843af3d46",
+      "role": "primary",
+      "rationale": "QuotientAlgebra directly defines the quotient algebra associated to a two-sided ideal I of A."
+    }
+  ]
+}

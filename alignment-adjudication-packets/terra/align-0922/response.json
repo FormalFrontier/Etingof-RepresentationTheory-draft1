@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0922",
+  "associations": [
+    {
+      "association_id": "association:244a13acdc3c252b3ce2",
+      "role": "supporting",
+      "rationale": "The dichotomy supplies a row/column swap step under the no-factorization condition, but does not itself state the resulting factorization."
+    }
+  ]
+}

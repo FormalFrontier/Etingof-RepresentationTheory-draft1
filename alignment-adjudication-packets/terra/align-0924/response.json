@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0924",
+  "associations": [
+    {
+      "association_id": "association:fddac00ad281b9800830",
+      "role": "primary",
+      "rationale": "The theorem equates the averaged character pairing of V and W with the dimension of Hom_G(W,V)."
+    }
+  ]
+}

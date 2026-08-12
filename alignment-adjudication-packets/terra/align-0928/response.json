@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0928",
+  "associations": [
+    {
+      "association_id": "association:d3716b5e02ef69344060",
+      "role": "primary",
+      "rationale": "The theorem directly produces irreducible factor representations whose external tensor product is equivariantly isomorphic to the given irreducible representation."
+    }
+  ]
+}

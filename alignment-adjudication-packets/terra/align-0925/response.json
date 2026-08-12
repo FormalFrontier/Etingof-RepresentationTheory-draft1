@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0925",
+  "associations": [
+    {
+      "association_id": "association:61680cb8429b459164a8",
+      "role": "primary",
+      "rationale": "The multiplicative equivalence directly identifies the centralizer with the product of wreath blocks indexed by cycle length."
+    },
+    {
+      "association_id": "association:f913e4cd3adcf2f370f8",
+      "role": "primary",
+      "rationale": "This finite-indexed multiplicative equivalence directly gives the centralizer as the product of the cycle-count wreath factors."
+    },
+    {
+      "association_id": "association:36decc8b7407f891de69",
+      "role": "primary",
+      "rationale": "The cardinality theorem directly states the product over cycle lengths of m raised to the cycle count times its factorial."
+    }
+  ]
+}

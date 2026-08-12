@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0930",
+  "associations": [
+    {
+      "association_id": "association:d6d1d292894d5969a30d",
+      "role": "primary",
+      "rationale": "The declaration directly states finite-limit and finite-colimit preservation, expressing exactness of finite-index induction."
+    },
+    {
+      "association_id": "association:faa9d86b866a5fafc79e",
+      "role": "primary",
+      "rationale": "The declaration directly states finite-limit and finite-colimit preservation, expressing exactness of restriction."
+    }
+  ]
+}
