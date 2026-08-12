@@ -8,7 +8,7 @@
     },
     {
       "temporary_id": "decl-016123",
-      "new_name": "module",
+      "new_name": "indexedType",
       "docstring": "The module type indexed by an entry of the auxiliary data."
     },
     {
