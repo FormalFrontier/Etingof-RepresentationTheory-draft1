@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0777",
+  "associations": [
+    {
+      "association_id": "association:46eac0afa402babbb1cb",
+      "role": "primary",
+      "rationale": "It directly gives the product-general-linear-group finite-orbit bound finrank V ≤ the sum of the squared factor sizes."
+    }
+  ]
+}

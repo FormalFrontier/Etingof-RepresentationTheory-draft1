@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0780",
+  "associations": [
+    {
+      "association_id": "association:779ba78be641622ec117",
+      "rationale": "The formal type directly computes the E6 Cartan determinant as 3, which is part of the source claim.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:952962e4044c1960fde7",
+      "rationale": "The formal type directly computes the E7 Cartan determinant as 2, which is part of the source claim.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:74a23e62c391ccf343c1",
+      "rationale": "The formal type directly computes the E8 Cartan determinant as 1, which is part of the source claim.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:65be61baf6fec468ddbd",
+      "rationale": "The formal type establishes the Dynkin-diagram properties of E6, E7, and E8 but does not state their determinant computations or positivity.",
+      "role": "supporting"
+    }
+  ]
+}

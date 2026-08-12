@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0773",
+  "associations": [
+    {
+      "association_id": "association:d00088d1cbc7918fa7ff",
+      "role": "primary",
+      "rationale": "It directly states that a k-algebra homomorphism between the indicated rational-function fields entails n ≤ m."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0772",
+  "associations": [
+    {
+      "association_id": "association:e977be6680a83019d25a",
+      "role": "supporting",
+      "rationale": "This is an isomorphism for a definition of induction and a function-space model, not the induction-in-stages assertion."
+    },
+    {
+      "association_id": "association:1665a96b7272bd53a9de",
+      "role": "primary",
+      "rationale": "This directly gives an intertwining equivalence between staged induction and induction from the smaller subgroup."
+    }
+  ]
+}

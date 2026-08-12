@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0776",
+  "associations": [
+    {
+      "association_id": "association:daae507409c252d626f5",
+      "role": "primary",
+      "rationale": "It directly constructs an injective comorphism associated to a GL orbit under the finite-orbit hypothesis."
+    },
+    {
+      "association_id": "association:3b8d88efecdac3542f7b",
+      "role": "primary",
+      "rationale": "It directly states the finite-orbit dimension bound finrank V ≤ n² for a GL representation."
+    }
+  ]
+}
