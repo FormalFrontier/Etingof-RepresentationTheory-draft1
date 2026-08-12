@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:432bcc6083896ab9a544",
-      "rationale": "The theorem directly computes the character of the distinguished non-one-dimensional irreducible as the number of affine fixed points minus one.",
-      "role": "primary"
+      "rationale": "The formula computes the character of the opaque subrepresentation Vsub as the number of affine fixed points minus one, but the displayed type neither identifies Vsub as an irreducible nor covers all the irreducibles.",
+      "role": "supporting"
     }
   ]
 }
