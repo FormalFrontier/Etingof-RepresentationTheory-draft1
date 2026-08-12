@@ -36,6 +36,7 @@ import RepresentationTheory.Algebra.Module.Filtrations
 import RepresentationTheory.Algebra.Module.IndependentSpanningFamilies
 import RepresentationTheory.Algebra.Module.FinitelyGeneratedSubalgebraDescent
 import RepresentationTheory.Algebra.Module.AuxiliaryPredicates
+import RepresentationTheory.Algebra.Module.Simple.FiniteDimensional
 import RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity
 import RepresentationTheory.Algebra.Module.TensorScalarExtension
 import RepresentationTheory.Algebra.Module.TensorProductCoordinates
