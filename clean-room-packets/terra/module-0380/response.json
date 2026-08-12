@@ -18,7 +18,7 @@
     },
     {
       "temporary_id": "decl-018252",
-      "new_name": "subalgebraElement_commutes_with_subalgebraCentralizerElement",
+      "new_name": "commute_of_mem_subalgebra_of_mem_centralizer",
       "docstring": "A subalgebra element commutes with an element of the centralizer of that subalgebra."
     },
     {
@@ -28,8 +28,8 @@
     },
     {
       "temporary_id": "decl-020509",
-      "new_name": "isSimpleModule_subalgebraCentralizerRangeSubmodule_of_mul_self_eq_smul_of_directSumTensorDecomposition_of_supportedSimpleSummand_of_idempotent_of_finrank_range_eq_one_of_selectedComponent_eq_smul",
-      "docstring": "Given a direct-sum tensor decomposition, a selected simple summand supporting the compatible family, a nonzero scalar α with c² = α • c, and an idempotent π with one-dimensional range and f iLam = α • π, the centralizer range submodule of c is simple."
+      "new_name": "isSimpleModule_subalgebraCentralizerRangeSubmodule",
+      "docstring": "Let the ambient module be finite over the field and semisimple over the subalgebra. Suppose the direct-sum tensor decomposition is compatible with evaluation and with the action of c through f, and that f vanishes away from a selected simple summand iLam. If c² = α • c for nonzero α and f iLam = α • π for an idempotent π whose range has finrank one, then the centralizer range submodule of c is simple."
     },
     {
       "temporary_id": "decl-021583",
