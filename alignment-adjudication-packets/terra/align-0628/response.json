@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0628",
+  "associations": [
+    {
+      "association_id": "association:23d72ebb93b31c480b89",
+      "rationale": "The formal type states that the sum over all coordinate elements Pi.single i 1 equals the unit, directly matching the claimed unit decomposition.",
+      "role": "primary"
+    }
+  ]
+}

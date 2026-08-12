@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0622",
+  "associations": [
+    {
+      "association_id": "association:a185280d65dfc9422155",
+      "rationale": "The formal type states that the target vertex idempotent multiplied on the left of an arrow generator equals that arrow generator, directly matching the first printed relation.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:532ddd3cf2082d3f22df",
+      "rationale": "The formal type states that left multiplication by a vertex idempotent distinct from the arrow target is zero, directly matching the second printed relation.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0627",
+  "associations": [
+    {
+      "association_id": "association:608097faf88f899b6ff2",
+      "rationale": "The formal equality says the product of coordinate units is the i-th coordinate unit when i equals j and zero otherwise, which is exactly the delta relation in the source claim.",
+      "role": "primary"
+    }
+  ]
+}

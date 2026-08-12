@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0621",
+  "associations": [
+    {
+      "association_id": "association:3a4b617a3dc1887035c7",
+      "rationale": "The formal type states that an arrow generator multiplied on the right by the vertex idempotent at its source equals that arrow generator, directly matching the first printed relation.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:c7a6591a8571b8d1935b",
+      "rationale": "The formal type states that right multiplication by a vertex idempotent at any distinct vertex is zero, directly matching the second printed relation.",
+      "role": "primary"
+    }
+  ]
+}

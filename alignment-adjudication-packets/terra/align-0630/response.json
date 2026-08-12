@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0630",
+  "associations": [
+    {
+      "association_id": "association:3f945e141ff48b145005",
+      "rationale": "The candidate has no displayed formal type, so the displayed evidence does not show that it directly states the canonical componentwise representation claim.",
+      "role": "supporting"
+    }
+  ]
+}

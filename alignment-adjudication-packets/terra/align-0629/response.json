@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0629",
+  "associations": [
+    {
+      "association_id": "association:446e3d21e408347f12c2",
+      "rationale": "The formal type supplies an A_i-module structure on the subtype given by the range of the i-th idempotent projection, directly defining the factor representation asserted for the summand 1_i V.",
+      "role": "primary"
+    }
+  ]
+}
