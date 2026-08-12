@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-005109",
       "new_name": "detInvPow_smul",
-      "docstring": "If a general linear group action has the auxiliary property, then scaling it by any natural power of the inverse determinant preserves that property."
+      "docstring": "If a family of linear endomorphisms indexed by the general linear group satisfies the auxiliary property, then pointwise scaling it by any natural power of the inverse determinant preserves that property."
     },
     {
       "temporary_id": "decl-017173",
@@ -48,8 +48,8 @@
     },
     {
       "temporary_id": "decl-022015",
-      "new_name": "tensorToLocalization_equivariant",
-      "docstring": "The tensor-to-localization map intertwines the separate general linear group actions on the tensor factors with the product action on the localization."
+      "new_name": "tensorToLocalization_tmul_transform",
+      "docstring": "Applying the tensor-to-localization map to a pure tensor after the displayed group-indexed endomorphisms are applied to its factors equals applying the displayed product-indexed map to the tensor-to-localization image of the original pure tensor."
     }
   ]
 }
