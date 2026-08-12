@@ -120,6 +120,7 @@ import RepresentationTheory.LieModule.HomTensorAdjunction
 import RepresentationTheory.Infrastructure.Triangularization
 import RepresentationTheory.InvariantComplements
 import RepresentationTheory.SemisimpleGroupAlgebraCardinality
+import RepresentationTheory.YoungDiagram.PartitionConstructions
 
 /-!
 # Representation theory formalization
