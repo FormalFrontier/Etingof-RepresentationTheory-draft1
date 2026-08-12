@@ -43,18 +43,18 @@
     },
     {
       "temporary_id": "decl-018085",
-      "new_name": "exists_factorization_of_preservesPartitionOrder",
-      "docstring": "A partition-order-preserving permutation factors through a specified subset element and an associated permutation."
+      "new_name": "exists_factorization_of_permutationCondition",
+      "docstring": "A permutation satisfying the auxiliary condition factors through a specified subset element and an associated permutation."
     },
     {
       "temporary_id": "decl-018775",
-      "new_name": "exists_orderInversion_of_not_preservesPartitionOrder",
-      "docstring": "Failure to preserve partition order yields two coordinate-compatible indices whose inverse images occur in reversed order."
+      "new_name": "exists_indices_of_not_permutationCondition",
+      "docstring": "Failure of the auxiliary condition yields two indices with equal first derived values, increasing second derived values, and reversed inverse images."
     },
     {
       "temporary_id": "decl-020815",
-      "new_name": "PreservesPartitionOrder",
-      "docstring": "The predicate that a permutation preserves the order determined by a partition."
+      "new_name": "PermutationCondition",
+      "docstring": "An auxiliary partition-dependent condition on a permutation."
     },
     {
       "temporary_id": "decl-022081",
