@@ -1,5 +1,5 @@
 {
-  "module_name": "Representation.Character.Inversion",
+  "module_name": "Representation.Character.InversionAndInvariantForms",
   "declarations": [
     {
       "temporary_id": "decl-017948",
@@ -23,18 +23,18 @@
     },
     {
       "temporary_id": "decl-018893",
-      "new_name": "exists_symmetric_ne_zero_invariant_bilinear_form_of_auxiliary",
-      "docstring": "An irreducible complex representation satisfying an auxiliary scalar condition admits a symmetric nonzero invariant bilinear form."
+      "new_name": "exists_symmetric_ne_zero_invariant_bilinear_form_of_auxiliary_eq_one",
+      "docstring": "An irreducible complex representation for which an auxiliary value equals one admits a symmetric nonzero invariant bilinear form."
     },
     {
       "temporary_id": "decl-019680",
-      "new_name": "auxiliary_scalar_eq_one_of_auxiliary_property",
-      "docstring": "For an irreducible complex representation, an auxiliary property forces an auxiliary scalar to equal one."
+      "new_name": "auxiliary_eq_one_of_auxiliary_property",
+      "docstring": "For an irreducible complex representation, an auxiliary property forces an auxiliary value to equal one."
     },
     {
       "temporary_id": "decl-020877",
-      "new_name": "auxiliary_property_of_auxiliary_scalar_eq_one",
-      "docstring": "For an irreducible complex representation, an auxiliary scalar equal to one gives an auxiliary property."
+      "new_name": "auxiliary_property_of_auxiliary_eq_one",
+      "docstring": "For an irreducible complex representation, an auxiliary value equal to one gives an auxiliary property."
     },
     {
       "temporary_id": "decl-020879",
