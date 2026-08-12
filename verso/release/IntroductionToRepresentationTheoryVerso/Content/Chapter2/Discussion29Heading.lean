@@ -35,6 +35,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieAlgebra.BracketIdentities.bracket_add_right}
 
+{Manual.docstring RepresentationTheory.LieAlgebra.BracketIdentities.bracket_eq_neg_bracket_swap}
+
 {Manual.docstring RepresentationTheory.LieAlgebra.BracketIdentities.bracket_self}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.BracketIdentities.bracket_smul_left}
