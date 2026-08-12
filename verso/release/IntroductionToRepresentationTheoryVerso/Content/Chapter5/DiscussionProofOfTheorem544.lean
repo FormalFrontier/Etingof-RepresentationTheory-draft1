@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,13 @@ number := false
 $$`\frac{a|C|\chi_V(g)}{n} + b\chi_V(g) = \frac{\chi_V(g)}{n} = \frac{1}{n}(\varepsilon_1 + \cdots + \varepsilon_n)`
 
 is an algebraic integer. Thus, by Lemma 5.4.5, we get that either $`\varepsilon_1 = \cdots = \varepsilon_n` or $`\varepsilon_1 + \cdots + \varepsilon_n = \chi_V(g) = 0`. In the first case, since $`\rho_V(g)` is diagonalizable, it must be scalar. In the second case, $`\chi_V(g) = 0`. The theorem is proved. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_proof_of_Theorem5.4.4/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Complex.RootsOfUnity.AverageIntegral.rootsOfUnity_all_eq_or_sum_eq_zero_of_average_integral}

@@ -43,6 +43,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement}
 
+{Manual.docstring RepresentationTheory.Algebra.Trace.CommutatorQuotient.commutatorSubmodule}
+
 {Manual.docstring RepresentationTheory.Algebra.Trace.CommutatorQuotient.representationTrace_mul_comm}
 
 {Manual.docstring RepresentationTheory.Algebra.Trace.CommutatorQuotient.traceOnCommutatorQuotient_mk}

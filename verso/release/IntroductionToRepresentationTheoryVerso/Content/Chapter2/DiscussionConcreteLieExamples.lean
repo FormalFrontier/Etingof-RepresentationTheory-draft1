@@ -55,6 +55,12 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeByThreeMatrixAuxiliary.matrixLieEquivAux}
 
+{Manual.docstring RepresentationTheory.LieAlgebra.ThreeByThreeMatrixAuxiliary.matrixLieEquivAux_apply_eq_single_01}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ThreeByThreeMatrixAuxiliary.matrixLieEquivAux_apply_eq_single_02}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ThreeByThreeMatrixAuxiliary.matrixLieEquivAux_apply_eq_single_12}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux6}
