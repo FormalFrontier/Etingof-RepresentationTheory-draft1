@@ -145,6 +145,7 @@ import RepresentationTheory.AuxiliaryMatrixDeterminantIrreducibility
 import RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions
 import RepresentationTheory.LinearAlgebra.ExteriorPower.InvariantSubmodules
 import RepresentationTheory.LinearAlgebra.MatrixTraceKernels
+import RepresentationTheory.Module.RepresentationTraceAdditivity
 
 /-!
 # Representation theory formalization
