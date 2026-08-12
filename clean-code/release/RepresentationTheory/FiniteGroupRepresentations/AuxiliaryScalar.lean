@@ -7,8 +7,6 @@ Authors: Kim Morrison
 import Mathlib
 import RepresentationTheory.Alignment.Attribute
 
-/-! # An auxiliary scalar for finite-group representations -/
-
 namespace RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar
 
 /-- An auxiliary complex scalar attached to a finite-dimensional complex representation of a
