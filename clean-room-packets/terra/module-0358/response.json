@@ -1,0 +1,10 @@
+{
+  "module_name": "FiniteGroup.Character.Irreducibility",
+  "declarations": [
+    {
+      "temporary_id": "decl-005513",
+      "new_name": "exists_singleton_of_character_selfInner_eq_one",
+      "docstring": "An integral linear combination of pairwise nonisomorphic simple characters with self-inner product one and positive degree has exactly one coefficient equal to one."
+    }
+  ]
+}
