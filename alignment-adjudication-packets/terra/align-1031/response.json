@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:cd902fa38d234bbdd0aa",
-      "role": "supporting",
-      "rationale": "The displayed type rules out simple modules for any subsingleton ring, making the zero-algebra claim an instance."
+      "role": "primary",
+      "rationale": "The displayed type directly rules out simple modules over any subsingleton ring, which is the zero-algebra claim."
     }
   ]
 }
