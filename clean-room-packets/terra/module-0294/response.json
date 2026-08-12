@@ -23,8 +23,8 @@
     },
     {
       "temporary_id": "decl-001510",
-      "new_name": "exists_basis_of_diagonal_eigenvectors",
-      "docstring": "Under the spanning hypothesis, the representation admits a finite basis on which every one-coordinate diagonal matrix acts through integral powers of its unit entry."
+      "new_name": "exists_auxiliary_weight_vector_data",
+      "docstring": "Under the displayed supremum hypothesis, there are finitely indexed vectors and auxiliary weights such that each displayed general linear element scales each vector by the corresponding power of the chosen unit."
     }
   ]
 }

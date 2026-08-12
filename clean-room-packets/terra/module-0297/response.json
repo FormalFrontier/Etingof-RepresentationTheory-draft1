@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-001558",
-      "new_name": "negative_character_power_apply",
-      "docstring": "The value of the indicated negative power of the general linear character is the corresponding power of the inverse determinant."
+      "new_name": "auxiliary_negative_power_apply",
+      "docstring": "Evaluating the indicated negative power at a general linear matrix yields the corresponding power of the inverse determinant."
     },
     {
       "temporary_id": "decl-001559",

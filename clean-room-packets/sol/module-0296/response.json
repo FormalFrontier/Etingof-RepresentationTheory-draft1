@@ -79,7 +79,7 @@
     {
       "temporary_id": "decl-001536",
       "new_name": "auxiliary_localization_ringHom_action_apply",
-      "docstring": "The displayed action on an auxiliary polynomial agrees with evaluating its localized image at the given general linear matrix."
+      "docstring": "The displayed transformation of a polynomial agrees with evaluating its image under the auxiliary localization homomorphism at the given general linear matrix."
     },
     {
       "temporary_id": "decl-001537",

@@ -44,7 +44,7 @@
     {
       "temporary_id": "decl-001616",
       "new_name": "mul_auxiliary_polynomial_linearMap_equivariant",
-      "docstring": "Multiplication by the auxiliary polynomial intertwines the displayed twisted and untwisted general linear group actions."
+      "docstring": "Multiplication by the auxiliary polynomial intertwines the two displayed general linear group actions."
     },
     {
       "temporary_id": "decl-001617",
