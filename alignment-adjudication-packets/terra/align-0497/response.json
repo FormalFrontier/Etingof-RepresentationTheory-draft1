@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:132ead06234b99db42be",
-      "rationale": "The formal type supplies the quotient with a k-module structure, but it does not itself identify the quotient with the tensor product or state the generator formula.",
-      "role": "supporting"
+      "rationale": "The formal type directly equips the quotient construction with a k-module structure, stating the vector-space-structure component of the claim.",
+      "role": "primary"
     },
     {
       "association_id": "association:3f81b70e05d8287adbdb",
