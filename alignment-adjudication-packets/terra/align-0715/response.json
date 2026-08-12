@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0715",
+  "associations": [
+    {
+      "association_id": "association:ef26fc32a38d37651ada",
+      "rationale": "From the existence of noncommuting graph automorphisms, the theorem directly concludes that the real adjacency characteristic polynomial is not squarefree, i.e. has a repeated eigenvalue.",
+      "role": "primary"
+    }
+  ]
+}

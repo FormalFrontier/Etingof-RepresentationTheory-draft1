@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0718",
+  "associations": [
+    {
+      "association_id": "association:a34e4de9728b7b300bbf",
+      "rationale": "This identifies the modeled twenty-point action up to equivariant bijection, serving as context rather than a decomposition theorem.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:860a0aa05702f65cbfe2",
+      "rationale": "The theorem directly gives an internal irreducible decomposition of the face permutation representation with dimensions 1, 3, 3, 4, 4, and 5.",
+      "role": "primary"
+    }
+  ]
+}

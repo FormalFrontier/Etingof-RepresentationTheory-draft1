@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0714",
+  "associations": [
+    {
+      "association_id": "association:ba3b200484bc8214d422",
+      "rationale": "The theorem directly states that every GL(V)-invariant submodule of the symmetric power is bottom or top, expressing its irreducibility.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:3eaa11f8e24149329a02",
+      "rationale": "This directly gives the same invariant-submodule characterization of irreducibility for every symmetric power.",
+      "role": "primary"
+    }
+  ]
+}

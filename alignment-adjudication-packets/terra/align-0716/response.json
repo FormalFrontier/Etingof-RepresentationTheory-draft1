@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0716",
+  "associations": [
+    {
+      "association_id": "association:dee681f23f31a85342b2",
+      "rationale": "This identifies the modeled twelve-point action up to equivariant bijection from transitivity and stabilizer size, providing context for the representation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e5e026574e93189869d0",
+      "rationale": "The theorem directly decomposes the vertex permutation representation as an internal sum of irreducibles of dimensions 1, 3, 3, and 5, distinguishing the two 3-dimensional terms.",
+      "role": "primary"
+    }
+  ]
+}
