@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:3c75ce3a64493b383d4c",
-      "rationale": "The displayed conjunction states both linear independence of qMono and equality of the q-Weyl algebra's underlying submodule with the span of its range, which together are exactly the basis claim for the ordered q-monomials.",
-      "role": "primary"
+      "rationale": "The displayed conjunction gives linear independence of qMono and spanning of the q-Weyl algebra by its range, but qMono is unexpanded and is not displayed as the ordered family x^i y^j indexed by integers.",
+      "role": "supporting"
     }
   ]
 }

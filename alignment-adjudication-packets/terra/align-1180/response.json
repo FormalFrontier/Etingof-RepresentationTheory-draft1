@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:2ccd4dc69104b0ac8e42",
-      "rationale": "The displayed equality directly identifies permTracePoly with powerSumCycleProduct for every permutation, exactly stating the trace-polynomial product formula prescribed by cycle type.",
-      "role": "primary"
+      "rationale": "The displayed type equates permTracePoly with powerSumCycleProduct, but both constants are unexpanded, so it does not display either tensor-permutation trace semantics or a product of power sums determined by cycle type.",
+      "role": "supporting"
     }
   ]
 }

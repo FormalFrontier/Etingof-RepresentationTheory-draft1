@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:dfcbbe32bb30e348ae1f",
-      "rationale": "The displayed existential gives an algebraic coefficient family with rho(1) not equal to the identity, directly showing that coefficient regularity alone does not enforce even the identity representation law.",
-      "role": "primary"
+      "rationale": "The displayed existential combines the opaque IsAlgebraicCoefficientFamily predicate with rho(1) not equal to the identity, but it displays neither the predicate's regularity content nor a representation predicate or its laws, so the full contrast is contextual.",
+      "role": "supporting"
     }
   ]
 }
