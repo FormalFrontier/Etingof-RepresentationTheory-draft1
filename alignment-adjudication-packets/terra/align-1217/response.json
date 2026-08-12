@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1217",
+  "associations": [
+    {
+      "association_id": "association:79e0829b508afd5f8607",
+      "rationale": "The type directly supplies an isomorphism F(X biproduct Y) ≅ F(X) biproduct F(Y) for an additive functor between preadditive categories with the stated biproduct hypotheses.",
+      "role": "primary"
+    }
+  ]
+}

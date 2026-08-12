@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1216",
+  "associations": [
+    {
+      "association_id": "association:e678090ca43ee82ee233",
+      "rationale": "Under the same simplicity, finite-group, dimension, and nonvanishing-character assumptions, the type derives bounds on a product; this is a proof intermediate rather than the existential zero claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c2cd06b959975f4b9e8c",
+      "rationale": "The type directly states that a simple complex representation of a finite group with dimension greater than one has some group element where its character is zero.",
+      "role": "primary"
+    }
+  ]
+}

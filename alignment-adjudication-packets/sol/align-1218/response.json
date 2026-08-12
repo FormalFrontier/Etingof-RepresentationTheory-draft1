@@ -1,0 +1,40 @@
+{
+  "packet_id": "align-1218",
+  "associations": [
+    {
+      "association_id": "association:07e0c21d08536abf16e7",
+      "rationale": "The type computes the cardinality of the constructed index by the displayed three-term sum, but does not state irreducibility, completeness, or equality with the conjugacy-class count.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9f880f926b6a603a8f3f",
+      "rationale": "The type defines a family of GL₂ representations indexed by ConstructedIndex; it does not assert their simplicity, exhaustiveness, or the counting equality.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6e2e2084b673cfdab47c",
+      "rationale": "The type shows that isomorphic members of the constructed family have equal indices, supporting nonredundancy but not the entire counting-and-completeness claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:95b948dbc1e71b7afd53",
+      "rationale": "The type proves each constructed family member is simple, covering irreducibility only and not the total count or completeness.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:042ddd333624457116c3",
+      "rationale": "The type proves the arithmetic identity equating the three-term sum with q²−1, but does not connect it to conjugacy classes or classify all irreducible representations.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9b33fa95a18ef4346b2a",
+      "rationale": "The type says every simple GL₂ representation is uniquely isomorphic to a member of the constructed family, giving completeness and uniqueness but not itself the family's simplicity or the count comparison.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:88a4809a32c76bbe9f91",
+      "rationale": "The type computes the number of GL₂ conjugacy classes as q²−1 under the displayed hypotheses, but does not state the representation-family count, simplicity, or completeness.",
+      "role": "supporting"
+    }
+  ]
+}

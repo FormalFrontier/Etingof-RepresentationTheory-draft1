@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1220",
+  "associations": [
+    {
+      "association_id": "association:b5615f5ec26ce577b16b",
+      "rationale": "The type directly counts the characters of GL₂ as q−1, but does not itself state their unique factorization through determinant.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:cf476a9787af80807c63",
+      "rationale": "The type gives an equivalence between characters of the field's unit group and characters of GL₂, supporting existence and uniqueness, but its displayed type does not identify the equivalence as composition with determinant or include the q−1 count.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8fa1d9cdf180ace51127",
+      "rationale": "The type identifies the forward equivalence on a character xi with xi composed with determinant, but does not alone state surjectivity, uniqueness, and the exact number of representations.",
+      "role": "supporting"
+    }
+  ]
+}

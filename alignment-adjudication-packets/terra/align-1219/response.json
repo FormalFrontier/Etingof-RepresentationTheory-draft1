@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1219",
+  "associations": [
+    {
+      "association_id": "association:01b400dcfc40fda774a0",
+      "rationale": "The type directly states that an additive functor out of a semisimple abelian category maps every short exact complex to a short exact complex, expressing its left-and-right exactness.",
+      "role": "primary"
+    }
+  ]
+}

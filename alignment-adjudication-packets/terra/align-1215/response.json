@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1215",
+  "associations": [
+    {
+      "association_id": "association:80730502545f24e03d2d",
+      "rationale": "The type gives the equality criterion lambda = lambda + rho - rho composed with sigma iff sigma is the identity, but not the accompanying lexicographic inequality or the full equivalent statement.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8d6d2d700fc66fa49b09",
+      "rationale": "The type gives equality of permuted rho with rho iff sigma is the identity, but does not itself state the lexicographic inequality or the shifted-lambda formulation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:65b507c8bdf662096461",
+      "rationale": "The type directly states that rho composed with sigma is lexicographically at most rho, but omits both equality characterizations and the shifted-lambda equivalent.",
+      "role": "supporting"
+    }
+  ]
+}

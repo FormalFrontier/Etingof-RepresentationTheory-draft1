@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1223",
+  "associations": [
+    {
+      "association_id": "association:9343187829dc0195e484",
+      "rationale": "The formal type is unavailable because pretty printing failed, so the displayed evidence does not directly state the full multipart Dehn-invariant problem or even expose the claimed irrationality proposition.",
+      "role": "supporting"
+    }
+  ]
+}

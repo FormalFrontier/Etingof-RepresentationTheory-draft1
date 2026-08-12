@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-1214",
+  "associations": [
+    {
+      "association_id": "association:aabac13124a5cb3ccc6d",
+      "rationale": "The type constructs a representation on AlgIrrepGL, but does not state its irreducibility, highest-weight characterization, uniqueness, or the displayed Schur-module determinant-twist construction.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3ff3de4d845000ebca33",
+      "rationale": "The type proves simplicity of the AlgIrrepGL representation, covering irreducibility but not the highest-weight existence, uniqueness, and explicit construction in the source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:75cc0ab19a3039ca9d57",
+      "rationale": "The type says two members of the AlgIrrepGL family are isomorphic exactly when their dominant weights agree, which supports uniqueness but does not state the full existence and construction claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ee6343ca82f4b38aabd3",
+      "rationale": "The type proves simplicity of a Schur module for an antitone natural-valued weight; it is a prerequisite for the construction, not the entire integer-weight classification and determinant twist.",
+      "role": "supporting"
+    }
+  ]
+}
