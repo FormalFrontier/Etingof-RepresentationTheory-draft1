@@ -14,6 +14,7 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence
 
 /-- A nilpotent ideal is contained in the Jacobson radical. -/
+@[source_ref "Chapter3/Proposition3.5.3" (role := primary)]
 theorem nilpotent_le_jacobson (A : Type*) [Ring A]
     (I : Ideal A) (hI : IsNilpotent I) :
     I ≤ Ideal.jacobson ⊥ := by

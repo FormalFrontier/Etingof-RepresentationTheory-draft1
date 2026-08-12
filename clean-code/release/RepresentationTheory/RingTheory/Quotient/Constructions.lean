@@ -16,6 +16,7 @@ section AuxiliaryQuotient
 variable (k A : Type*) [CommRing k] [Ring A] [Algebra k A]
 
 /-- An auxiliary type depending on a ring and a two-sided ideal. -/
+@[source_ref "Chapter2/Discussion_2.5_heading" (role := supporting)]
 abbrev TwoSidedIdeal.AuxiliaryType (I : TwoSidedIdeal A) : Type _ := I.ringCon.Quotient
 
 /-- The algebra structure on the ideal-dependent auxiliary type. -/

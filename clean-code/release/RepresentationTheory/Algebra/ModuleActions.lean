@@ -70,7 +70,8 @@ variable (k A V : Type*) [CommRing k] [Ring A] [Algebra k A]
   [AddCommGroup V] [Module k V]
 
 /-- Constructs a module structure from an algebra homomorphism into linear endomorphisms. -/
-@[source_ref "Chapter2/Discussion_2.1_overview/Derived5" (role := primary)]
+@[source_ref "Chapter2/Definition2.3.1" (role := primary),
+  source_ref "Chapter2/Discussion_2.1_overview/Derived5" (role := primary)]
 abbrev moduleOfAlgHom (ρ : A →ₐ[k] Module.End k V) : Module A V :=
   Module.compHom V ρ.toRingHom
 
