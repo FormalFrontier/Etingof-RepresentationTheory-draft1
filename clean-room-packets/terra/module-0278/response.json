@@ -1,0 +1,10 @@
+{
+  "module_name": "AuxiliarySimpleModuleData",
+  "declarations": [
+    {
+      "temporary_id": "decl-001452",
+      "new_name": "exists_auxiliary_simple_module_data",
+      "docstring": "There exist auxiliary data satisfying the displayed subsingleton-fiber, simple-module, uniqueness, equivariance, and compatibility conditions."
+    }
+  ]
+}
