@@ -8,28 +8,28 @@
     },
     {
       "temporary_id": "decl-025034",
-      "new_name": "factorPolynomial",
-      "docstring": "Selects a multivariate polynomial from the finite family associated to the given auxiliary datum."
+      "new_name": "auxiliaryPolynomial",
+      "docstring": "Associates a group-indexed multivariate polynomial to an auxiliary datum and a finite index."
     },
     {
       "temporary_id": "decl-025035",
-      "new_name": "factorPolynomial_irreducible",
-      "docstring": "Each polynomial in the finite family associated to the auxiliary datum is irreducible."
+      "new_name": "auxiliaryPolynomial_irreducible",
+      "docstring": "Each auxiliary polynomial in the finite indexed family is irreducible."
     },
     {
       "temporary_id": "decl-025047",
-      "new_name": "factorPolynomial_not_associated",
-      "docstring": "Polynomials at distinct indices in the finite family are not associated."
+      "new_name": "auxiliaryPolynomial_not_associated",
+      "docstring": "Auxiliary polynomials at distinct indices are not associated."
     },
     {
       "temporary_id": "decl-025049",
-      "new_name": "totalDegree_factorPolynomial",
-      "docstring": "The total degree of a selected factor polynomial equals the corresponding auxiliary natural number."
+      "new_name": "totalDegree_auxiliaryPolynomial",
+      "docstring": "The total degree of an auxiliary polynomial equals the corresponding auxiliary natural number."
     },
     {
       "temporary_id": "decl-025100",
-      "new_name": "auxiliaryGroupPolynomial_eq_sign_smul_prod_factorPolynomial_pow",
-      "docstring": "The auxiliary group-indexed polynomial equals the product of the selected factor polynomials to their prescribed powers, scaled by the sign of inversion."
+      "new_name": "auxiliaryGroupPolynomial_eq_sign_smul_prod_auxiliaryPolynomial_pow",
+      "docstring": "The auxiliary group-indexed polynomial equals the product of the indexed auxiliary polynomials to their prescribed powers, scaled by the sign of inversion."
     },
     {
       "temporary_id": "decl-032886",

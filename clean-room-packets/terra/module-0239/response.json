@@ -68,18 +68,18 @@
     },
     {
       "temporary_id": "decl-015310",
-      "new_name": "representationCoefficientElement",
+      "new_name": "representationAuxiliaryElement",
       "docstring": "Associates an auxiliary group-function element to a finite-dimensional complex representation."
     },
     {
       "temporary_id": "decl-015311",
-      "new_name": "coeff_representationCoefficientElement",
-      "docstring": "Computes the coefficient element of a representation as its character multiplied by the character value at the identity divided by the group cardinality."
+      "new_name": "coeff_representationAuxiliaryElement",
+      "docstring": "Computes a coefficient of the auxiliary element associated to a representation as the character value at the identity divided by the group cardinality, multiplied by the character value at the given group element."
     },
     {
       "temporary_id": "decl-015312",
-      "new_name": "representationCoefficientElement_mem_auxiliarySubalgebra",
-      "docstring": "The coefficient element associated to a representation belongs to the auxiliary complex group subalgebra."
+      "new_name": "representationAuxiliaryElement_mem_auxiliarySubalgebra",
+      "docstring": "The auxiliary element associated to a representation belongs to the auxiliary complex group subalgebra."
     },
     {
       "temporary_id": "decl-015313",
