@@ -1,0 +1,50 @@
+{
+  "declarations": [
+    {
+      "docstring": "An auxiliary family of finite-dimensional complex representations indexed by partitions of `n`.",
+      "new_name": "auxiliaryFDRepOfPartition",
+      "temporary_id": "decl-017129"
+    },
+    {
+      "docstring": "A second auxiliary family of finite-dimensional complex representations indexed by partitions of `n`.",
+      "new_name": "auxiliaryFDRepOfPartitionPrime",
+      "temporary_id": "decl-020562"
+    },
+    {
+      "docstring": "The two auxiliary representation families indexed by a partition are nonemptily isomorphic.",
+      "new_name": "auxiliaryFDRepOfPartitionIso",
+      "temporary_id": "decl-020564"
+    },
+    {
+      "docstring": "An auxiliary family of finite-dimensional complex representations indexed by partitions of `n + 1`.",
+      "new_name": "auxiliaryFDRepOfSuccessorPartition",
+      "temporary_id": "decl-022569"
+    },
+    {
+      "docstring": "An auxiliary map from representations on `Fin (n + 1)` to representations on `Fin n`.",
+      "new_name": "auxiliaryFDRepMapToPredecessor",
+      "temporary_id": "decl-022679"
+    },
+    {
+      "docstring": "A second auxiliary family of finite-dimensional complex representations indexed by partitions of `n + 1`.",
+      "new_name": "auxiliaryFDRepOfSuccessorPartitionPrime",
+      "temporary_id": "decl-022702"
+    },
+    {
+      "docstring": "The two auxiliary representation families indexed by a partition of `n + 1` are nonemptily isomorphic.",
+      "new_name": "auxiliaryFDRepOfSuccessorPartitionIso",
+      "temporary_id": "decl-022704"
+    },
+    {
+      "docstring": "Every simple finite-dimensional complex representation on `Fin n` is nonemptily isomorphic to an auxiliary indexed representation.",
+      "new_name": "exists_auxiliaryFDRepOfSimple",
+      "temporary_id": "decl-023214"
+    },
+    {
+      "docstring": "An auxiliary linear equivalence from an underlying representation module to a membership-defined subtype.",
+      "new_name": "auxiliaryRepresentationModuleLinearEquivSubtype",
+      "temporary_id": "decl-023305"
+    }
+  ],
+  "module_name": "Auxiliary.FDRepPartitions"
+}
