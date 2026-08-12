@@ -37,7 +37,11 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.Ring.quotientModule}
+
 {Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.Submodule.quotientModule}
+
+{Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.Submodule.quotient_smul_mk}
 
 {Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom_mul_left_congr}
 

@@ -33,6 +33,8 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.Algebra.Ring.ModuleStructures.punitModule}
+
 {Manual.docstring RepresentationTheory.Algebra.Ring.ModuleStructures.selfModule}
 
 ### Supporting declarations

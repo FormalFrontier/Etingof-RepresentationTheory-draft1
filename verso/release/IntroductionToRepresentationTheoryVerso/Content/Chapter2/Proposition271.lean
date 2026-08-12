@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -41,3 +42,13 @@ Lt^a = \sum_{j=0}^{r} Q_j(t) a(a-1) \ldots (a-j+1) t^{a-j}.
 This must be zero, so we have $`\sum_{j=0}^{r} Q_j(t) a(a-1) \ldots (a-j+1) t^{-j} = 0` in $`k[a][t, t^{-1}]`. Taking the leading term in $`a`, we get $`Q_r(t) = 0`, a contradiction.
 
 (ii) Any word in $`x, y, x^{-1}, y^{-1}` can be ordered at the cost of multiplying it by a power of $`q`. This easily implies both the spanning property and the linear independence. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter2/Proposition2.7.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.span_monomialOperator}

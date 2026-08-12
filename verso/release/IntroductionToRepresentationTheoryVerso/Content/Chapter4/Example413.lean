@@ -24,8 +24,10 @@ tag := "Chapter4/Example4.1.3/formalization"
 number := false
 %%%
 
-### Supporting declarations
+### Primary declarations
 
 {Manual.docstring RepresentationTheory.Group.CyclicPrimeRepresentation.apply_eq_id_of_isSimpleModule}
+
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.SemisimpleGroupAlgebraCardinality.isUnit_card_of_isSemisimpleRing}
