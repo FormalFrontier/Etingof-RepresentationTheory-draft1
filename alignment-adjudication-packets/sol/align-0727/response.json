@@ -13,8 +13,8 @@
     },
     {
       "association_id": "association:bdad73e58064bdfeda2f",
-      "role": "primary",
-      "rationale": "The type directly states the surjectivity portion of the claimed SU(2)-to-SO(3) construction for rotHom."
+      "role": "supporting",
+      "rationale": "The type proves surjectivity of rotHom, but this is only one component of the full claim and its displayed domain is unit quaternions rather than SU(2); it does not state the kernel characterization."
     },
     {
       "association_id": "association:60fd61579ea2e5368a68",
