@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1036",
+  "associations": [
+    {
+      "association_id": "association:21af04821bb92d6d6a4f",
+      "rationale": "The formal type directly gives the equivalence between A-linear maps from the span of an idempotent and elements fixed by that idempotent.",
+      "role": "primary"
+    }
+  ]
+}

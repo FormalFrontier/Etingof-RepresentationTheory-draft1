@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1038",
+  "associations": [
+    {
+      "association_id": "association:cda4274e87b71a88834a",
+      "rationale": "This accessor extracts a RelSeries from an already-given filtration; its type does not itself state that a filtration is a finite sequence indexed from 0 through n.",
+      "role": "supporting"
+    }
+  ]
+}

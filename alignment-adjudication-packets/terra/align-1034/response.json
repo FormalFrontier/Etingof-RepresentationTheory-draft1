@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1034",
+  "associations": [
+    {
+      "association_id": "association:f3ad2e111ac159b6a8e7",
+      "rationale": "The theorem directly states that every nilpotent ideal is contained in the Jacobson radical, the maximality component of the claim.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:b4abc8b8b11af4a2d8fb",
+      "rationale": "The theorem directly states that the Jacobson radical is two-sided, one explicit component of the characterization.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:77349d1499ce7eafa0d7",
+      "rationale": "Under the displayed finite-dimensional hypotheses, the theorem directly states that the Jacobson radical is nilpotent.",
+      "role": "primary"
+    }
+  ]
+}
