@@ -3,7 +3,7 @@
   "declarations": [
     {
       "temporary_id": "decl-004192",
-      "new_name": "character_eq_auxiliaryMap_apply_of",
+      "new_name": "character_eq_auxiliaryMap_apply",
       "docstring": "A finite-dimensional representation character equals the referenced auxiliary map evaluated on the monoid-algebra image of a group element."
     },
     {

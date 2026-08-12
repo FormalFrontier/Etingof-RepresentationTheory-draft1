@@ -34,7 +34,7 @@
     {
       "temporary_id": "decl-003819",
       "new_name": "values_of_mem_auxiliaryFunctionSubmodule",
-      "docstring": "Membership in the auxiliary submodule forces the displayed values on each quaternion-group coset to differ by powers and signs of the imaginary unit."
+      "docstring": "Membership in the auxiliary submodule forces the displayed values at quaternion-group elements to differ by powers and signs of the imaginary unit."
     },
     {
       "temporary_id": "decl-003820",
