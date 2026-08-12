@@ -43,6 +43,7 @@ theorem TwoSidedIdeal.auxiliaryAlgHom_mul (I : TwoSidedIdeal A) (a b : A) :
   exact (_root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom k A I).map_mul a b
 
 /-- Replacing the left factor by an ideal-congruent element leaves its image product unchanged. -/
+@[source_ref "Chapter2/Discussion_2.5_well_defined" (role := primary)]
 theorem TwoSidedIdeal.auxiliaryAlgHom_mul_left_congr (I : TwoSidedIdeal A) (a a' b : A)
     (h : a' - a ∈ I) :
     _root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom k A I (a' * b) = _root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom k A I (a * b) := by
