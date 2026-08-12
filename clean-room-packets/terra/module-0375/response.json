@@ -3,13 +3,13 @@
   "declarations": [
     {
       "temporary_id": "decl-005209",
-      "new_name": "IsAuxiliaryAction",
-      "docstring": "An auxiliary property of a linear action of a finite general linear group."
+      "new_name": "IsAuxiliaryEndomorphismFamily",
+      "docstring": "An auxiliary property of a family of linear endomorphisms indexed by a general linear group."
     },
     {
       "temporary_id": "decl-005211",
       "new_name": "toAuxiliaryCondition",
-      "docstring": "This auxiliary action property implies the specified dependent condition."
+      "docstring": "This auxiliary endomorphism-family property implies the specified dependent condition."
     },
     {
       "temporary_id": "decl-005698",
@@ -48,8 +48,8 @@
     },
     {
       "temporary_id": "decl-022077",
-      "new_name": "iSup_indexedFamily_eq_top_of_isAuxiliaryAction",
-      "docstring": "For a finite-dimensional representation satisfying the auxiliary action property, the supremum of the specified naturally indexed family is top."
+      "new_name": "iSup_indexedFamily_eq_top_of_isAuxiliaryEndomorphismFamily",
+      "docstring": "If the general-linear-group-indexed endomorphism family of a finite-dimensional representation satisfies the auxiliary property, the supremum of the specified naturally indexed family is top."
     },
     {
       "temporary_id": "decl-025183",
