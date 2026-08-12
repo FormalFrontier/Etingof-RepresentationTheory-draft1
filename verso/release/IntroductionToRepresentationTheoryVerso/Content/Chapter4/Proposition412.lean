@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -31,3 +32,13 @@ for nonzero homomorphisms of representations $`\epsilon : k[G] \to k` and $`\Lam
 $$`\epsilon \circ \Lambda(1) = \epsilon\left(\sum_{g \in G} g\right) = \sum_{g \in G} 1 = |G|.`
 
 If $`|G| = 0`, then $`\Lambda` has no left inverse, as $`(a\epsilon) \circ \Lambda(1) = 0` for any $`a \in k`. This is a contradiction. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter4/Proposition4.1.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.SemisimpleGroupAlgebraCardinality.isUnit_card_of_isSemisimpleRing}

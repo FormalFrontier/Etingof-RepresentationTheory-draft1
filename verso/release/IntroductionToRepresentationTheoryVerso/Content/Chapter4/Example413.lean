@@ -27,3 +27,5 @@ number := false
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Group.CyclicPrimeRepresentation.apply_eq_id_of_isSimpleModule}
+
+{Manual.docstring RepresentationTheory.SemisimpleGroupAlgebraCardinality.isUnit_card_of_isSemisimpleRing}
