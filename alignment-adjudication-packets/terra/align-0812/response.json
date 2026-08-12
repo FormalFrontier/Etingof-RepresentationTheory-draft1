@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0812",
+  "associations": [
+    {
+      "association_id": "association:9bc11ed610e3b0d939a0",
+      "role": "primary",
+      "rationale": "For an additive adjunction, the formal type directly includes that the left functor F is right exact, which is the source assertion."
+    }
+  ]
+}

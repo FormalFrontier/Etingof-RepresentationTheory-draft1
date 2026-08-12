@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0815",
+  "associations": [
+    {
+      "association_id": "association:e1290df8628ec51a1162",
+      "role": "primary",
+      "rationale": "The formal type directly states both requested conclusions: right exactness of the minus-left functor and left exactness of the plus-right functor."
+    },
+    {
+      "association_id": "association:55cbf93bdbc8352f813b",
+      "role": "primary",
+      "rationale": "The formal type directly states the right-exactness half of the source's left/right exactness conclusion for the displayed reflection functor."
+    },
+    {
+      "association_id": "association:78667f3b9147d4b77e76",
+      "role": "primary",
+      "rationale": "The formal type directly states the left-exactness half of the source's left/right exactness conclusion for the displayed reflection functor."
+    }
+  ]
+}

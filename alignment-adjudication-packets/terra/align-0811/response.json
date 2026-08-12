@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0811",
+  "associations": [
+    {
+      "association_id": "association:a12cdb191a66787379d4",
+      "role": "primary",
+      "rationale": "The formal type says every short exact sequence of modules over a field has a splitting, directly matching the stated splitting claim for vector spaces."
+    }
+  ]
+}

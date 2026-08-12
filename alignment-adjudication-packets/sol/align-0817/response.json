@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0817",
+  "associations": [
+    {
+      "association_id": "association:ff997c7e9b436fe19389",
+      "role": "primary",
+      "rationale": "The formal type directly defines a connecting morphism from quotient homology to subcomplex homology, matching the requested construction of the connecting map."
+    },
+    {
+      "association_id": "association:6708e0b278526d08463c",
+      "role": "supporting",
+      "rationale": "The formal type identifies the concrete connecting map with a categorical connecting morphism; this comparison supports the construction but is not the requested representative-independence statement."
+    },
+    {
+      "association_id": "association:4571c41c00e5808b092c",
+      "role": "primary",
+      "rationale": "The formal type proves that the lifted differential class is unchanged when the displayed lift data agree, directly giving one required choice-independence result."
+    },
+    {
+      "association_id": "association:57cd261f64826afbe39e",
+      "role": "primary",
+      "rationale": "The formal type proves equality of lifted differential classes from equality of quotient cocycle classes, directly giving the other displayed well-definedness or choice-independence result."
+    }
+  ]
+}

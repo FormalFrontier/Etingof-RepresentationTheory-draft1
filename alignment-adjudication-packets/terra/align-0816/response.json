@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0816",
+  "associations": [
+    {
+      "association_id": "association:228ebd46c5ae94ef6ac1",
+      "role": "primary",
+      "rationale": "The formal type supplies an abelian-category structure on the full subcategory of finitely generated A-modules under the displayed finite-generation hypotheses."
+    }
+  ]
+}

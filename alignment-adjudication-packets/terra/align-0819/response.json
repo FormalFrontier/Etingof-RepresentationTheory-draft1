@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0819",
+  "associations": [
+    {
+      "association_id": "association:119d2996fbf5467bbcd0",
+      "role": "primary",
+      "rationale": "For the displayed tensor complex, the formal type directly states that two successive differentials compose to zero, matching the required d-squared-zero assertion."
+    }
+  ]
+}
