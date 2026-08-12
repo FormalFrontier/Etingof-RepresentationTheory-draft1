@@ -146,6 +146,7 @@ import RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions
 import RepresentationTheory.LinearAlgebra.ExteriorPower.InvariantSubmodules
 import RepresentationTheory.LinearAlgebra.MatrixTraceKernels
 import RepresentationTheory.Module.RepresentationTraceAdditivity
+import RepresentationTheory.Algebra.Lie.FaithfulFiniteDimensionalRepresentation
 
 /-!
 # Representation theory formalization
