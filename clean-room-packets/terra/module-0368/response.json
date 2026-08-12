@@ -1,0 +1,60 @@
+{
+  "module_name": "MatrixPolynomialHomogeneityAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-006639",
+      "new_name": "auxiliaryGeneralLinearAction_preserves_isHomogeneous",
+      "docstring": "The auxiliary action associated with an invertible matrix leaves the degree of a homogeneous matrix polynomial unchanged."
+    },
+    {
+      "temporary_id": "decl-006640",
+      "new_name": "auxiliaryPolynomial_isHomogeneous",
+      "docstring": "The distinguished auxiliary polynomial in the matrix entries is homogeneous of degree equal to the matrix size."
+    },
+    {
+      "temporary_id": "decl-006641",
+      "new_name": "auxiliary_inf_homogeneousSubmodule_eq_map",
+      "docstring": "Above the matrix-size bound, intersecting the auxiliary submodule with a homogeneous piece is the image of the correspondingly shifted homogeneous piece."
+    },
+    {
+      "temporary_id": "decl-006643",
+      "new_name": "homogeneousComponent_auxiliaryPolynomial_mul",
+      "docstring": "The component in degree equal to the matrix size plus an offset of an auxiliary-polynomial product is obtained from the component at that offset."
+    },
+    {
+      "temporary_id": "decl-006648",
+      "new_name": "auxiliaryMap_homogeneousSubmodule_le",
+      "docstring": "The auxiliary polynomial map sends the degree-d homogeneous subspace into the homogeneous subspace whose degree is shifted by the matrix size."
+    },
+    {
+      "temporary_id": "decl-006649",
+      "new_name": "auxiliaryMap_preserves_isHomogeneous_with_shift",
+      "docstring": "Applying the auxiliary polynomial map to a degree-d homogeneous polynomial produces a homogeneous polynomial with the matrix size added to its degree."
+    },
+    {
+      "temporary_id": "decl-006650",
+      "new_name": "degreeSubrepresentationAuxiliary",
+      "docstring": "An auxiliary natural-number-indexed family of subrepresentations of the matrix-polynomial representation."
+    },
+    {
+      "temporary_id": "decl-006652",
+      "new_name": "degreeSubrepresentationAuxiliary_toSubmodule",
+      "docstring": "The underlying submodule of the auxiliary degree subrepresentation is the homogeneous submodule at that degree."
+    },
+    {
+      "temporary_id": "decl-006653",
+      "new_name": "generalLinearAction_preserves_isHomogeneous",
+      "docstring": "Acting by an invertible matrix on the matrix-polynomial representation preserves homogeneity and its degree."
+    },
+    {
+      "temporary_id": "decl-006654",
+      "new_name": "inducedDegreeSubrepresentationAuxiliary",
+      "docstring": "An auxiliary degree-indexed family of subrepresentations for the induced representation."
+    },
+    {
+      "temporary_id": "decl-006656",
+      "new_name": "matrixAuxiliaryMap_preserves_isHomogeneous",
+      "docstring": "The auxiliary polynomial map attached to a square matrix preserves homogeneous degree."
+    }
+  ]
+}
