@@ -68,6 +68,7 @@ variable (A V : Type*) [Ring A] [AddCommGroup V] [Module A V]
 abbrev Submodule.quotientModule (W : Submodule A V) : Module A (V ⧸ W) := inferInstance
 
 /-- Scalar multiplication on a submodule quotient commutes with the quotient map. -/
+@[source_ref "Chapter2/Discussion_2.5_well_defined" (role := primary)]
 theorem Submodule.quotient_smul_mk (W : Submodule A V) (a : A) (v : V) :
     a • (Submodule.Quotient.mk v : V ⧸ W) = Submodule.Quotient.mk (a • v) := by
   exact (Submodule.Quotient.mk_smul W a v).symm

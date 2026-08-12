@@ -14,7 +14,8 @@ namespace RepresentationTheory.Group.CyclicPrimeRepresentation
 open scoped MonoidAlgebra in
 /-- Every group element acts as the identity in a finite simple representation of the cyclic group
 of prime order over a field of that characteristic. -/
-@[source_ref "Chapter4/Example4.1.3/Derived2" (role := supporting)]
+@[source_ref "Chapter4/Example4.1.3/Derived2" (role := supporting),
+  source_ref "Chapter4/Example4.1.3" (role := primary)]
 theorem apply_eq_id_of_isSimpleModule
     (k : Type*) (p : ℕ) [Field k] [hp : Fact (Nat.Prime p)] [CharP k p]
     (V : Type*) [AddCommGroup V] [Module k V] [Module.Finite k V]

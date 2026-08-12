@@ -170,6 +170,7 @@ private lemma mul_mem_monomialSpan {a b : OperatorAlgebra k} (ha : a ∈ monomia
   · exact hb
 
 /-- The indexed operator family spans the whole operator algebra. -/
+@[source_ref "Chapter2/Proposition2.7.1" (role := primary)]
 theorem OperatorAlgebra.span_monomialOperator :
     ⊤ ≤ Submodule.span k (Set.range (fun p : ℕ × ℕ => OperatorAlgebra.monomialOperator k p.1 p.2)) := by
   intro w _
