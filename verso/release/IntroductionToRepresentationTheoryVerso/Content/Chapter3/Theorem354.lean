@@ -41,6 +41,8 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.Algebra.Module.Simple.FiniteDimensional.finiteDimensional_of_isSimpleModule}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.family_algebra_smul_surjective}
 
 {Manual.docstring RepresentationTheory.Algebra.Semisimplicity.EndomorphismProduct.nonempty_algEquiv_quotient_endProduct}
