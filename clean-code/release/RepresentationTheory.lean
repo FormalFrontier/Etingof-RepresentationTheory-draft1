@@ -58,6 +58,7 @@ import RepresentationTheory.Algebra.Ring.ModuleStructures
 import RepresentationTheory.Algebra.SimpleModule.Dimension
 import RepresentationTheory.Algebra.SimpleModule.Endomorphisms
 import RepresentationTheory.Algebra.Semisimplicity.EndomorphismProduct
+import RepresentationTheory.LinearAlgebra.InvariantSubmodule.Eigenbasis
 import RepresentationTheory.LinearAlgebra.Matrix.TensorProduct
 import RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData
 import RepresentationTheory.LinearAlgebra.ModuleConditions
