@@ -9,22 +9,22 @@
     {
       "temporary_id": "decl-017880",
       "new_name": "auxiliary_partition_value_eq_card",
-      "docstring": "An auxiliary value at the distinguished partition is the cardinality of the associated finite type."
+      "docstring": "An auxiliary value at the displayed partition is the cardinality of the displayed associated type."
     },
     {
       "temporary_id": "decl-017881",
       "new_name": "auxiliary_partition_value_eq_descPochhammer_determinant_formula",
-      "docstring": "An auxiliary value at the distinguished partition is expressed using factorials and a determinant of descending-Pochhammer evaluations."
+      "docstring": "An auxiliary value at the displayed partition is expressed using factorials and a determinant of descending-Pochhammer evaluations."
     },
     {
       "temporary_id": "decl-017883",
       "new_name": "auxiliary_partition_value_eq_pairwise_difference_formula",
-      "docstring": "An auxiliary value at the distinguished partition is a factorial times the product of pairwise part differences divided by the product of part factorials."
+      "docstring": "An auxiliary value at the displayed partition is a factorial times pairwise differences of displayed values, divided by their factorial product."
     },
     {
       "temporary_id": "decl-017884",
       "new_name": "auxiliary_partition_value_eq_factorial_div_hookLengthProduct",
-      "docstring": "An auxiliary value at the distinguished partition is the factorial divided by the Young-diagram hook-length product."
+      "docstring": "An auxiliary value at the displayed partition is the factorial divided by the Young-diagram hook-length product."
     },
     {
       "temporary_id": "decl-018320",
@@ -54,7 +54,7 @@
     {
       "temporary_id": "decl-019461",
       "new_name": "auxiliary_finrank_eq_power_determinant_formula",
-      "docstring": "The transported auxiliary subtype's complex finrank is expressed by factorials and a determinant of powers of shifted parts."
+      "docstring": "The transported auxiliary subtype's complex finrank is expressed by displayed factorials and a determinant of powers of displayed values."
     },
     {
       "temporary_id": "decl-020291",
@@ -64,7 +64,7 @@
     {
       "temporary_id": "decl-020292",
       "new_name": "auxiliary_pairwiseDifference_mul_hookLengthProduct_eq_factorialProduct",
-      "docstring": "The pairwise shifted-part difference product times the hook-length product equals the product of shifted-part factorials."
+      "docstring": "An auxiliary pairwise-difference product times the displayed hook-length product equals the product of the displayed factorials."
     },
     {
       "temporary_id": "decl-020293",
