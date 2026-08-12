@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0533",
+  "associations": [
+    {
+      "association_id": "association:20fbde644eb058fc34b1",
+      "rationale": "Internality of a family of opaque Casimir generalized eigenspaces is supporting decomposition evidence, not a direct statement about the chosen indecomposable counterexample's sole eigenvalue.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:da50a6d46df7213d6dd2",
+      "rationale": "This uses the opaque casimirGenEigenspace construction to give a conditional top-space equality for arbitrary indecomposables, rather than directly stating the source's chosen-counterexample eigenvalue claim.",
+      "role": "supporting"
+    }
+  ]
+}
