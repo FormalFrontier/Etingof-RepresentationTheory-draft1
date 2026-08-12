@@ -1,0 +1,85 @@
+{
+  "module_name": "InductionCoinduction",
+  "declarations": [
+    {
+      "temporary_id": "decl-011870",
+      "new_name": "restrictIndIdIso",
+      "docstring": "After restriction to a subgroup, induction along the identity homomorphism is isomorphic to the original representation."
+    },
+    {
+      "temporary_id": "decl-011871",
+      "new_name": "restrictIndIdIso_inv_apply",
+      "docstring": "The inverse of the restricted identity-induction isomorphism sends a vector to the induced vector constructed at the group identity."
+    },
+    {
+      "temporary_id": "decl-011872",
+      "new_name": "restrictCoindIdIso",
+      "docstring": "After restriction to a subgroup, coinduction along the identity homomorphism is isomorphic to the original representation."
+    },
+    {
+      "temporary_id": "decl-011873",
+      "new_name": "restrictCoindIdIso_hom_apply",
+      "docstring": "The forward map of the restricted identity-coinduction isomorphism evaluates a coinduced vector at the group identity."
+    },
+    {
+      "temporary_id": "decl-011874",
+      "new_name": "coindIdIso",
+      "docstring": "Coinduction of a representation along the identity homomorphism is isomorphic to that representation."
+    },
+    {
+      "temporary_id": "decl-011878",
+      "new_name": "coindIdIso_hom_apply",
+      "docstring": "The forward map from identity coinduction evaluates a coinduced vector at the group identity."
+    },
+    {
+      "temporary_id": "decl-011879",
+      "new_name": "coindIsoIndOfFinite",
+      "docstring": "For a finite ambient group, coinduction from a subgroup is isomorphic to induction from that subgroup."
+    },
+    {
+      "temporary_id": "decl-011881",
+      "new_name": "coindToIndCosetAuxiliary",
+      "docstring": "An auxiliary construction assigning an induced vector to a coinduced vector and a right coset."
+    },
+    {
+      "temporary_id": "decl-011885",
+      "new_name": "coindIsoIndOfFinite_hom_apply",
+      "docstring": "The forward finite-group comparison map is the sum of its auxiliary induced vectors over all right cosets."
+    },
+    {
+      "temporary_id": "decl-011886",
+      "new_name": "indResAdjunction",
+      "docstring": "Induction from a subgroup is left adjoint to restriction to that subgroup."
+    },
+    {
+      "temporary_id": "decl-011887",
+      "new_name": "indResHomLinearEquiv",
+      "docstring": "Morphisms from an induced representation to an ambient representation are linearly equivalent to morphisms into its restriction."
+    },
+    {
+      "temporary_id": "decl-011888",
+      "new_name": "finiteGroupFDRepAuxiliaryDualIso",
+      "docstring": "The finite-group auxiliary construction applied to a dual representation is isomorphic to the dual of its value."
+    },
+    {
+      "temporary_id": "decl-011894",
+      "new_name": "character_finiteGroupFDRepAuxiliary_dual",
+      "docstring": "The character obtained by applying the finite-group auxiliary construction to a dual equals the character of the dual of its value."
+    },
+    {
+      "temporary_id": "decl-011895",
+      "new_name": "finiteGroupFDRepAuxiliary",
+      "docstring": "An auxiliary operation sending a finite-dimensional complex representation of a subgroup to one of the finite ambient group."
+    },
+    {
+      "temporary_id": "decl-011897",
+      "new_name": "indIdIso",
+      "docstring": "Induction of a representation along the identity homomorphism is isomorphic to that representation."
+    },
+    {
+      "temporary_id": "decl-011905",
+      "new_name": "indIdIso_inv_apply",
+      "docstring": "The inverse of the identity-induction isomorphism sends a vector to the induced vector constructed at the group identity."
+    }
+  ]
+}
