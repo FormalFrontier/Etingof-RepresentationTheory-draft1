@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -15,3 +16,13 @@ tag := "Chapter3/Exercise3.6.1"
 number := false
 %%%
 **Exercise 3.6.1.** Show that if $`W \subset V` are finite dimensional representations of $`A`, then $`\chi_V = \chi_W + \chi_{V/W}`.
+
+## Formalization
+%%%
+tag := "Chapter3/Exercise3.6.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Module.RepresentationTraceAdditivity.representationTrace_eq_submodule_add_quotient}

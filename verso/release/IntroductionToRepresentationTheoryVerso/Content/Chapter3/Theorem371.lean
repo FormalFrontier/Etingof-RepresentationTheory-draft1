@@ -45,8 +45,14 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.linearIndependent_moduleDualElement}
 
+{Manual.docstring RepresentationTheory.LinearAlgebra.Trace.FunctionSpace.representationTrace_finFun_eq_zero_of_char}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.factorModule}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Filtrations.exists_relSeries_bot_top}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.Trace.FunctionSpace.representationTrace_finFun}
+
+{Manual.docstring RepresentationTheory.Module.RepresentationTraceAdditivity.representationTrace_eq_submodule_add_quotient}
