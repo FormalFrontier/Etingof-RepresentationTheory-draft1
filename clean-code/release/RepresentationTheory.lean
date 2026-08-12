@@ -39,6 +39,7 @@ import RepresentationTheory.Algebra.Module.AuxiliaryPredicates
 import RepresentationTheory.Algebra.Module.Simple.FiniteDimensional
 import RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity
 import RepresentationTheory.Algebra.Module.Dual.SimpleFamilies
+import RepresentationTheory.Algebra.Trace.CommutatorQuotient
 import RepresentationTheory.Algebra.Module.TensorScalarExtension
 import RepresentationTheory.Algebra.Module.TensorProductCoordinates
 import RepresentationTheory.Algebra.Module.TensorRestriction
