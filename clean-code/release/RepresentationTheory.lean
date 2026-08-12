@@ -122,6 +122,7 @@ import RepresentationTheory.Infrastructure.Triangularization
 import RepresentationTheory.InvariantComplements
 import RepresentationTheory.SemisimpleGroupAlgebraCardinality
 import RepresentationTheory.YoungDiagram.PartitionConstructions
+import RepresentationTheory.AlgebraicNumbers.PolynomialCriteria
 
 /-!
 # Representation theory formalization
