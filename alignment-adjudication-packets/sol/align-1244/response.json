@@ -58,7 +58,7 @@
     },
     {
       "association_id": "association:c77746e91422d9219559",
-      "rationale": "The formal equality directly gives dimension q-1 for each complementary-series representation, exactly as stated in the source.",
+      "rationale": "The finrank equality q - 1 is obtained by specializing the source's scalar character formula at the identity, so it is a supporting consequence rather than the claim exactly stated in the passage.",
       "role": "supporting"
     }
   ]

@@ -8,12 +8,12 @@
     },
     {
       "association_id": "association:143ab419252832096682",
-      "rationale": "The type only exposes youngProjector as an algebra-valued function; its defining formula c_lambda = a_lambda b_lambda is not visible in the displayed type.",
+      "rationale": "The named Young-projector definition directly formalizes the source's equation c_lambda = a_lambda b_lambda, so it is primary.",
       "role": "primary"
     },
     {
       "association_id": "association:56b210b22eebd35f2531",
-      "rationale": "The displayed type merely declares an algebra-valued column projector and does not show the signed averaging formula for b_lambda.",
+      "rationale": "The named youngProjectorCol declaration directly formalizes the source's column-projector construction b_lambda, so it is primary.",
       "role": "primary"
     },
     {
@@ -23,7 +23,7 @@
     },
     {
       "association_id": "association:0d2cea82ab644b82df7e",
-      "rationale": "The displayed type merely declares an algebra-valued row projector and does not show the averaging formula for a_lambda.",
+      "rationale": "The named youngProjectorRow declaration directly formalizes the source's row-projector construction a_lambda, so it is primary.",
       "role": "primary"
     },
     {

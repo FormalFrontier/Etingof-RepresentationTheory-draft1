@@ -13,7 +13,7 @@
     },
     {
       "association_id": "association:ac8b79caaaf56f1ae15a",
-      "rationale": "The type only exposes LexLt as an opaque binary proposition; the first-nonvanishing-difference condition is absent from the displayed formal type.",
+      "rationale": "Nat.Partition.LexLt is the named strict lexicographic relation introduced by the source, so this declaration directly formalizes that definition and is primary.",
       "role": "primary"
     },
     {
