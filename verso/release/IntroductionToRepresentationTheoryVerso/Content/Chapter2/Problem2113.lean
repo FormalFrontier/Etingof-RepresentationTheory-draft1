@@ -35,10 +35,52 @@ tag := "Chapter2/Problem2.11.3/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.AlternatingTensors.linearEquiv}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.AlternatingTensors.linearEquiv_aux2}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.SymmetricTensors.finrank_eq}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.finrank_eq}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux2}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux3}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_comp_eq}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_comp_eq_aux2}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.Triangularization.trace_symmetricPower_eq_multisetSum_of_charpoly}
+
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.AlternatingTensors.linearEquiv_aux1}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.AlternatingTensors.linearEquiv_aux3}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.SymmetricTensors.distinguishedElement_aux1}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.SymmetricTensors.finrank_eq_aux1}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.distinguishedElement}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.submodule}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.submodule_aux1}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorProduct.exists_dualTensorAction}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorProduct.exists_tensorProductBasis}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorProduct.exists_tensorProductLift}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.Triangularization.trace_symmetricPower_eq_multisetSum}

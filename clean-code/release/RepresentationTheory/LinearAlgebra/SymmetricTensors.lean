@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 import RepresentationTheory.LinearAlgebra.TensorOperations
 import Mathlib.Data.Sym.Card
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Symmetric tensors -/
 
@@ -243,6 +244,7 @@ noncomputable def linearEquiv : RepresentationTheory.LinearAlgebra.TensorOperati
       exact congrArg (fun F => F (PiTensorProduct.tprod k f)) key)
 
 /-- A distinguished value of the displayed type. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 noncomputable def distinguishedElement_aux1 : Module.Basis (Sym I n) k (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n) :=
   Module.Basis.ofRepr (linearEquiv b n)
 
@@ -261,6 +263,7 @@ section Finrank
 variable (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
 
 /-- The finite rank of the displayed module has the stated value. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 theorem finrank_eq [FiniteDimensional k V] (n : ℕ) :
     Module.finrank k (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n) = (Module.finrank k V + n - 1).choose n := by
   classical
@@ -268,6 +271,7 @@ theorem finrank_eq [FiniteDimensional k V] (n : ℕ) :
     Sym.card_sym_eq_choose, Fintype.card_fin]
 
 /-- The finite rank of the displayed module has the stated value. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 theorem finrank_eq_aux1 [FiniteDimensional k V] (n : ℕ) :
     Module.finrank k (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n) = Nat.multichoose (Module.finrank k V) n := by
   rw [finrank_eq, Nat.multichoose_eq]

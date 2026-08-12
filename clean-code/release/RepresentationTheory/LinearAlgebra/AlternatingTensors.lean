@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: Kim Morrison
 -/
 import RepresentationTheory.LinearAlgebra.TensorOperations
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Alternating tensors -/
 
@@ -329,6 +330,7 @@ section Identification
 variable {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V]
 
 /-- A linear equivalence between the displayed modules. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 noncomputable def linearEquiv_aux2 {n : ℕ} (hfac : (n.factorial : k) ≠ 0) :
     RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n ≃ₗ[k] submodule_aux1 k V n :=
   LinearEquiv.ofLinear
@@ -348,6 +350,7 @@ noncomputable def linearEquiv_aux2 {n : ℕ} (hfac : (n.factorial : k) ≠ 0) :
       simpa using neg_mem h)
 
 /-- A linear equivalence between the displayed modules. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 noncomputable def linearEquiv {n : ℕ} (hfac : (n.factorial : k) ≠ 0) :
     RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType k V n ≃ₗ[k] submodule k V n :=
   LinearEquiv.ofLinear
@@ -391,11 +394,13 @@ theorem linearEquiv_symm_apply {n : ℕ} (hfac : (n.factorial : k) ≠ 0)
       = (RepresentationTheory.LinearAlgebra.TensorOperations.submodule k V n).mkQ (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) := rfl
 
 /-- A linear equivalence between the displayed modules. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 noncomputable def linearEquiv_aux3 [CharZero k] (n : ℕ) :
     RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n ≃ₗ[k] submodule_aux1 k V n :=
   linearEquiv_aux2 (natCast_ne_zero k n)
 
 /-- A linear equivalence between the displayed modules. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 noncomputable def linearEquiv_aux1 [CharZero k] (n : ℕ) :
     RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType k V n ≃ₗ[k] submodule k V n :=
   linearEquiv (natCast_ne_zero k n)

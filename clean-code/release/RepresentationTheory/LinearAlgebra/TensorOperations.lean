@@ -9,6 +9,7 @@ import Mathlib.LinearAlgebra.ExteriorAlgebra.Basis
 import Mathlib.LinearAlgebra.ExteriorPower.Basis
 import Mathlib.LinearAlgebra.PiTensorProduct.Basis
 import Mathlib.LinearAlgebra.SymmetricAlgebra.Basis
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Tensor operations -/
 
@@ -39,19 +40,23 @@ lemma tensor_eq_aux1 {n : ℕ} (σ : Equiv.Perm (Fin n)) (f : Fin n → V) :
 variable (k V)
 
 /-- The submodule specified by the displayed construction. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 def submodule_aux1 (n : ℕ) : Submodule k (AuxiliaryType_aux2 k V n) :=
   Submodule.span k {D : AuxiliaryType_aux2 k V n | ∃ (T : AuxiliaryType_aux2 k V n) (i j : Fin n), i ≠ j ∧
     D = T - linearEquiv_aux1 (Equiv.swap i j) T}
 
 /-- The submodule specified by the displayed construction. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 def submodule (n : ℕ) : Submodule k (AuxiliaryType_aux2 k V n) :=
   Submodule.span k {T : AuxiliaryType_aux2 k V n | ∃ i j : Fin n, i ≠ j ∧
     linearEquiv_aux1 (Equiv.swap i j) T = T}
 
 /-- A type-valued construction determined by the displayed parameters. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 abbrev AuxiliaryType_aux1 (n : ℕ) : Type _ := AuxiliaryType_aux2 k V n ⧸ submodule_aux1 k V n
 
 /-- A type-valued construction determined by the displayed parameters. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 abbrev AuxiliaryType (n : ℕ) : Type _ := AuxiliaryType_aux2 k V n ⧸ submodule k V n
 
 /-- A multilinear map on the displayed family of modules. -/
@@ -135,6 +140,7 @@ variable {k : Type*} [CommRing k] {V W U : Type*}
   [AddCommGroup V] [Module k V] [AddCommGroup W] [Module k W] [AddCommGroup U] [Module k U]
 
 /-- A linear map between the displayed modules. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 def linearMap_aux3 (A : V →ₗ[k] W) (n : ℕ) : AuxiliaryType_aux2 k V n →ₗ[k] AuxiliaryType_aux2 k W n :=
   PiTensorProduct.map fun _ : Fin n => A
 
@@ -169,10 +175,12 @@ lemma submodule_le (A : V →ₗ[k] W) (n : ℕ) :
   rw [← map_apply_aux8, hT]
 
 /-- A linear map between the displayed modules. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 def linearMap_aux2 (A : V →ₗ[k] W) (n : ℕ) : AuxiliaryType_aux1 k V n →ₗ[k] AuxiliaryType_aux1 k W n :=
   Submodule.mapQ _ _ (linearMap_aux3 A n) (submodule_le_aux2 A n)
 
 /-- A linear map between the displayed modules. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 def linearMap (A : V →ₗ[k] W) (n : ℕ) : AuxiliaryType k V n →ₗ[k] AuxiliaryType k W n :=
   Submodule.mapQ _ _ (linearMap_aux3 A n) (submodule_le A n)
 
@@ -205,6 +213,7 @@ lemma displayed_eq (n : ℕ) : linearMap (LinearMap.id : V →ₗ[k] V) n = Line
   | add a b ha hb => simp only [map_add, ha, hb]
 
 /-- The composite of the displayed linear maps is the stated map. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 lemma linearMap_comp_eq_aux2 (A : W →ₗ[k] U) (B : V →ₗ[k] W) (n : ℕ) :
     linearMap_aux2 (A ∘ₗ B) n = linearMap_aux2 A n ∘ₗ linearMap_aux2 B n := by
   refine LinearMap.ext fun x => ?_
@@ -221,6 +230,7 @@ lemma linearMap_comp_eq_aux2 (A : W →ₗ[k] U) (B : V →ₗ[k] W) (n : ℕ) :
   | add a b ha hb => simp only [map_add, ha, hb, LinearMap.comp_apply]
 
 /-- The composite of the displayed linear maps is the stated map. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 lemma linearMap_comp_eq (A : W →ₗ[k] U) (B : V →ₗ[k] W) (n : ℕ) :
     linearMap (A ∘ₗ B) n = linearMap A n ∘ₗ linearMap B n := by
   refine LinearMap.ext fun x => ?_
@@ -390,12 +400,14 @@ lemma map_apply_aux2 {n : ℕ} (f : Fin n → V) :
   map_apply_aux1 f
 
 /-- A distinguished value of the displayed type. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 noncomputable def distinguishedElement {I : Type*} [LinearOrder I]
     (b : Module.Basis I k V) (n : ℕ) :
     Module.Basis (Set.powersetCard I n) k (AuxiliaryType k V n) :=
   (b.exteriorPower n).map (linearEquiv n)
 
 /-- The finite rank of the displayed module has the stated value. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 theorem finrank_eq [Module.Finite k V] (n : ℕ) :
     Module.finrank k (AuxiliaryType k V n) = (Module.finrank k V).choose n := by
   rw [← (linearEquiv (V := V) n).finrank_eq, exteriorPower.finrank_eq]

@@ -6,6 +6,7 @@ Authors: Kim Morrison
 
 import RepresentationTheory.Infrastructure.Triangularization
 import RepresentationTheory.LinearAlgebra.SymmetricTensors
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Triangular bases and induced traces -/
 
@@ -188,6 +189,7 @@ lemma repr_auxiliaryBasisVector_eq_single {I : Type*} (b : Module.Basis I k V) (
   RepresentationTheory.LinearAlgebra.SymmetricTensors.map_apply_aux4 b n g
 
 /-- Computes the trace of the indicated symmetric-power endomorphism by a sum over multisets. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 theorem trace_symmetricPower_eq_multisetSum (h : HasTriangularBasis A b lam) (n : ℕ) :
     LinearMap.trace k
         (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n)
@@ -278,6 +280,7 @@ theorem trace_exteriorPower_eq_subsetSum_of_charpoly {N : ℕ} (A : V →ₗ[k] 
 
 /-- Derives the symmetric-power trace formula from the displayed characteristic-polynomial
 factorization. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 theorem trace_symmetricPower_eq_multisetSum_of_charpoly {N : ℕ} (A : V →ₗ[k] V)
     (hN : Module.finrank k V = N) (lam : Fin N → k)
     (hlam : LinearMap.charpoly A = ∏ i, (X - C (lam i))) (n : ℕ) :
