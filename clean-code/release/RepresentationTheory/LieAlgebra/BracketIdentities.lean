@@ -40,6 +40,7 @@ theorem bracket_smul_right (a : k) (x y : L) : ⁅x, a • y⁆ = a • ⁅x, y�
 theorem bracket_self (x : L) : ⁅x, x⁆ = 0 := lie_self x
 
 /-- Interchanging the arguments of a bracket negates its value. -/
+@[source_ref "Chapter2/Discussion_2.9_heading" (role := primary)]
 theorem bracket_eq_neg_bracket_swap (x y : L) : ⁅x, y⁆ = -⁅y, x⁆ := (lie_skew x y).symm
 
 end RepresentationTheory.LieAlgebra.BracketIdentities
