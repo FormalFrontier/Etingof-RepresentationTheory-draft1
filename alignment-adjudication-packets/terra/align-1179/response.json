@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1179",
+  "associations": [
+    {
+      "association_id": "association:7a6d58612703bd59c23b",
+      "rationale": "The displayed type only declares VirtualRepresentation G as a Type and does not expose finite integer combinations or irreducible isomorphism classes.",
+      "role": "supporting"
+    }
+  ]
+}

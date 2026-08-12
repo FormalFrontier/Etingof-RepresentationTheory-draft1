@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1172",
+  "associations": [
+    {
+      "association_id": "association:7aa557d428790426c925",
+      "rationale": "The displayed type only introduces DynkinType as a Type; it does not expose the A/D/E classification asserted by the source.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1db01b07984f671ab1fd",
+      "rationale": "The theorem gives an IsDynkinDiagram equivalence with existence of an opaque DynkinType and matching adjacency data, but the displayed type does not itself enumerate A_n, D_n, E6, E7, and E8.",
+      "role": "supporting"
+    }
+  ]
+}

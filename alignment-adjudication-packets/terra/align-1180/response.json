@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1180",
+  "associations": [
+    {
+      "association_id": "association:2ccd4dc69104b0ac8e42",
+      "rationale": "The displayed equality directly identifies permTracePoly with powerSumCycleProduct for every permutation, exactly stating the trace-polynomial product formula prescribed by cycle type.",
+      "role": "primary"
+    }
+  ]
+}
