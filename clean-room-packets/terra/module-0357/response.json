@@ -1,0 +1,10 @@
+{
+  "declarations": [
+    {
+      "docstring": "A finite group element with conjugacy class of positive prime-power size admits a nontrivial simple complex representation whose dimension is not divisible by that prime and whose character does not vanish at the element.",
+      "new_name": "exists_simple_representation_of_conj_class_card_prime_pow",
+      "temporary_id": "decl-005508"
+    }
+  ],
+  "module_name": "FiniteGroup.PrimePowerConjugacyClass"
+}
