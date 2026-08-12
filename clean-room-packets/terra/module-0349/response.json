@@ -1,0 +1,10 @@
+{
+  "module_name": "Partitions.SquareScalar",
+  "declarations": [
+    {
+      "temporary_id": "decl-005451",
+      "new_name": "exists_smul_eq_mul_self",
+      "docstring": "For every natural-number partition, the product of the associated object with itself is a scalar multiple of that object."
+    }
+  ]
+}
