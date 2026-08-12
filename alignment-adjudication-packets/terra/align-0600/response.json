@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:77042c8b636ae5e10700",
+      "rationale": "The displayed type directly states that every finite-dimensional Weyl-algebra module in characteristic zero has dimension zero, excluding nonzero such representations.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0600"
+}

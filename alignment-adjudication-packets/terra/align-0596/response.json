@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:6aa1fa14f0a636e2447e",
+      "rationale": "The displayed type supplies a basis indexed by Fin 3, but it does not display that the three basis vectors are specifically 1, x, and y.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0596"
+}

@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:c606f91eb1a54e409c55",
+      "rationale": "The displayed type directly gives a complex-algebra equivalence between A and the quotient of the two-variable polynomial algebra by I₂.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0595"
+}

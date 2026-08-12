@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:4cb9085471fe70412779",
+      "rationale": "The displayed type directly equates cyclicity of nontrivial V with existence of a left ideal I and a linear equivalence V ≃ A/I.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0593"
+}

@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:738ef967167eaf1a749d",
+      "rationale": "The displayed equality directly identifies I₂ with the ideal spanned by homogeneous polynomials having degree at least two.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0594"
+}
