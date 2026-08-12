@@ -126,6 +126,7 @@ import RepresentationTheory.AlgebraicNumbers.PolynomialCriteria
 import RepresentationTheory.MvPolynomial.Vanishing
 import RepresentationTheory.DualContraction
 import RepresentationTheory.LinearAlgebra.AuxiliaryPowerSeriesMatrix
+import RepresentationTheory.AlgebraicNumbers.MatrixCriteria
 
 /-!
 # Representation theory formalization
