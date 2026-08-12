@@ -33,8 +33,8 @@
     },
     {
       "temporary_id": "decl-005593",
-      "new_name": "matrixEvalToLocalization_isUnit_of_mem_powers",
-      "docstring": "Matrix evaluation at an invertible matrix sends every element of the indicated powers submonoid to a unit."
+      "new_name": "matrixPolynomialMapToLocalization_isUnit_of_mem_powers",
+      "docstring": "For an invertible matrix, the associated algebra homomorphism sends every element of the indicated powers submonoid to a unit."
     },
     {
       "temporary_id": "decl-005595",
@@ -43,13 +43,13 @@
     },
     {
       "temporary_id": "decl-005596",
-      "new_name": "matrixEvalToLocalization",
+      "new_name": "matrixPolynomialMapToLocalization",
       "docstring": "An algebra homomorphism from a multivariable polynomial algebra to a localization, parametrized by a matrix."
     },
     {
       "temporary_id": "decl-005600",
-      "new_name": "matrixEvalToLocalization_apply",
-      "docstring": "This homomorphism factors matrix polynomial evaluation through the canonical localization map."
+      "new_name": "matrixPolynomialMapToLocalization_apply",
+      "docstring": "The homomorphism sends a polynomial to the canonical localization image of its image under the matrix-parameterized polynomial map."
     },
     {
       "temporary_id": "decl-005601",
@@ -69,7 +69,7 @@
     {
       "temporary_id": "decl-005608",
       "new_name": "matrixLocalizationFirstAction_algebraMap_apply",
-      "docstring": "On polynomial images in the localization, the first action is given by evaluation at the transformed invertible matrix."
+      "docstring": "On canonical polynomial images in the localization, the first action applies the matrix-parameterized polynomial transform associated with the transformed invertible matrix."
     },
     {
       "temporary_id": "decl-005609",
@@ -94,7 +94,7 @@
     {
       "temporary_id": "decl-005615",
       "new_name": "matrixLocalizationFirstRepresentation_algebraMap_apply",
-      "docstring": "On polynomial images in the localization, the representation is determined by a transformed matrix evaluation."
+      "docstring": "On polynomial images in the localization, the representation agrees with the canonical image of the indicated polynomial transform."
     },
     {
       "temporary_id": "decl-005616",
