@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0840",
+  "associations": [
+    {
+      "association_id": "association:784ac5b2778107d24eec",
+      "role": "primary",
+      "rationale": "It asserts an augmentation-compatible map between the full projective resolutions, directly stating the resulting morphism of resolutions."
+    }
+  ]
+}

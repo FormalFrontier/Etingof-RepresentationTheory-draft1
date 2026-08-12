@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0837",
+  "associations": [
+    {
+      "association_id": "association:ef0d7556a9636bc79c40",
+      "role": "supporting",
+      "rationale": "This supplies the Ext half of the combined Tor-and-Ext vanishing claim, but does not itself state the full two-part conclusion."
+    },
+    {
+      "association_id": "association:1f064e62e147895e361f",
+      "role": "primary",
+      "rationale": "Its conjunction explicitly gives higher Ext subsingleton and higher Tor IsZero conclusions above n, in addition to a projective-dimension bound."
+    },
+    {
+      "association_id": "association:fe8bad12e4f01cdb6e34",
+      "role": "supporting",
+      "rationale": "This supplies the Tor half of the combined Tor-and-Ext vanishing claim, but does not itself state the full two-part conclusion."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0832",
+  "associations": [
+    {
+      "association_id": "association:d8ebff403244b7679dae",
+      "role": "primary",
+      "rationale": "The formal type explicitly asserts that C[x,x^-1] is not projective over C[x], alongside an additional flatness conjunct."
+    }
+  ]
+}

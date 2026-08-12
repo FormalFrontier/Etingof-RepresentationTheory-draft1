@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0839",
+  "associations": [
+    {
+      "association_id": "association:f60be9a68c7a25ea9a67",
+      "role": "primary",
+      "rationale": "It asserts a map whose composite with Q's augmentation equals P's augmentation, exactly the requested augmentation lift."
+    }
+  ]
+}
