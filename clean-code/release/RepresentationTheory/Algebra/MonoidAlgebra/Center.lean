@@ -9,22 +9,9 @@ import Mathlib
 /-!
 # The center of a finite group algebra and conjugacy classes
 
-The classical bridge underlying "over `ℚ` the number of irreducible representations of a
-finite group equals its number of conjugacy classes" has, as its group-algebra half, the
-statement that the center of the group algebra `k[G]` is spanned by the *class sums* and
-therefore has dimension equal to the number of conjugacy classes of `G`.
-
-This file proves that half:
-
-* `mem_center_iff_coeff_conj_invariant` — an element of `k[G]` is central iff its coefficient
-  function is constant on conjugacy classes (a *class function*).
-* `centerLinearEquivFunctionsOnConjClasses` — the resulting linear equivalence between the
-  center of `k[G]` and the space of functions on conjugacy classes.
-* `finrank_center_eq_card_conjClasses` — for a field `k` and a finite group `G`,
-  `dim_k Z(k[G]) = #(ConjClasses G)`.
-
-This is the Mathlib-missing input recorded in the Discussion after the `GL₂(𝔽_q)` completeness
-summary; it is a general result about group algebras, independent of the field being `ℚ`.
+For a finite group, central elements of its group monoid algebra have coefficients invariant
+under conjugation. This identifies the center with functions on conjugacy classes and, over a
+field, yields the center finrank formula in terms of the number of conjugacy classes.
 -/
 
 namespace RepresentationTheory.Algebra.MonoidAlgebra.Center
