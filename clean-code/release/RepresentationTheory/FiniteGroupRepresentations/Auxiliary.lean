@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 
 import Mathlib
+import RepresentationTheory.Alignment.Attribute
 
 /-! Auxiliary structures for finite-group representations. -/
 
@@ -17,6 +18,8 @@ inductive AuxiliaryLabel where
   | quaternionic
 
 /-- A second auxiliary condition on finite-dimensional complex representations of finite groups. -/
+@[source_ref "Chapter5/Definition5.1.1" (role := supporting),
+  source_ref "Chapter5/Introduction" (role := supporting)]
 def auxiliaryRepresentationConditionTwo
     {G : Type*} [Group G] [Fintype G]
     {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
@@ -27,6 +30,8 @@ def auxiliaryRepresentationConditionTwo
     (∀ g v w, B (ρ g v) (ρ g w) = B v w)
 
 /-- A first auxiliary condition on finite-dimensional complex representations of finite groups. -/
+@[source_ref "Chapter5/Definition5.1.1" (role := supporting),
+  source_ref "Chapter5/Introduction" (role := supporting)]
 def auxiliaryRepresentationConditionOne
     {G : Type*} [Group G] [Fintype G]
     {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
@@ -37,6 +42,8 @@ def auxiliaryRepresentationConditionOne
     (∀ g v w, B (ρ g v) (ρ g w) = B v w)
 
 /-- An auxiliary predicate on finite-dimensional complex representations of finite groups. -/
+@[source_ref "Chapter5/Definition5.1.1" (role := supporting),
+  source_ref "Chapter5/Introduction" (role := supporting)]
 def auxiliaryRepresentationProperty
     {G : Type*} [Group G] [Fintype G]
     {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
@@ -69,20 +76,20 @@ theorem exists_intertwiner_to_dual_of_nondegenerate_invariant_form
   have := hinv g v (ρ g⁻¹ w)
   rwa [hgg] at this
 
-/-- The first auxiliary representation condition excludes the auxiliary representation property. -/
-theorem not_auxiliaryRepresentationProperty_of_conditionOne
-    {G : Type*} [Group G] [Fintype G]
-    {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
-    {ρ : Representation ℂ G V} (h : auxiliaryRepresentationConditionOne ρ) :
-    ¬ auxiliaryRepresentationProperty ρ := by
-  obtain ⟨B, _, hnd, hinv⟩ := h
-  exact fun hc => hc (exists_intertwiner_to_dual_of_nondegenerate_invariant_form ρ B hnd hinv)
-
 /-- The second auxiliary representation condition excludes the auxiliary representation property. -/
 theorem not_auxiliaryRepresentationProperty_of_conditionTwo
     {G : Type*} [Group G] [Fintype G]
     {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     {ρ : Representation ℂ G V} (h : auxiliaryRepresentationConditionTwo ρ) :
+    ¬ auxiliaryRepresentationProperty ρ := by
+  obtain ⟨B, _, hnd, hinv⟩ := h
+  exact fun hc => hc (exists_intertwiner_to_dual_of_nondegenerate_invariant_form ρ B hnd hinv)
+
+/-- The first auxiliary representation condition excludes the auxiliary representation property. -/
+theorem not_auxiliaryRepresentationProperty_of_conditionOne
+    {G : Type*} [Group G] [Fintype G]
+    {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
+    {ρ : Representation ℂ G V} (h : auxiliaryRepresentationConditionOne ρ) :
     ¬ auxiliaryRepresentationProperty ρ := by
   obtain ⟨B, _, hnd, hinv⟩ := h
   exact fun hc => hc (exists_intertwiner_to_dual_of_nondegenerate_invariant_form ρ B hnd hinv)
