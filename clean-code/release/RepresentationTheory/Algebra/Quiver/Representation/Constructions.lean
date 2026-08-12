@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 
 import RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
+import RepresentationTheory.Alignment.Attribute
 import Mathlib.LinearAlgebra.Prod
 
 /-! # Quiver linear diagram constructions -/
@@ -12,6 +13,7 @@ import Mathlib.LinearAlgebra.Prod
 namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
 
 /-- Combines two quiver-indexed objects over a commutative semiring into one object. -/
+@[source_ref "Chapter2/Definition2.8.9" (role := supporting)]
 noncomputable def binaryConstruction (k : Type*) (Q : Type*)
     [CommSemiring k] [Quiver Q]
     (ρ₁ ρ₂ : QuiverLinearDiagram k Q) : QuiverLinearDiagram k Q where

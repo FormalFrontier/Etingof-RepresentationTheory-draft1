@@ -58,14 +58,17 @@ universe u v w q
 variable {k : Type u} {Q : Type v} [CommSemiring k] [Quiver.{w} Q]
 
 /-- The fourth auxiliary predicate on the displayed quiver-dependent object. -/
+@[source_ref "Chapter2/Discussion_quiver_irreducible_indecomposable" (role := supporting)]
 def predicateAux''' (ρ : QuiverLinearDiagram.{u, v, q, w} k Q) : Prop :=
   ∀ (i : Q) (x : ρ.obj i), x = 0
 
 /-- The third auxiliary predicate on the displayed quiver-dependent object. -/
+@[source_ref "Chapter2/Discussion_quiver_irreducible_indecomposable" (role := supporting)]
 def predicateAux'' (ρ : QuiverLinearDiagram.{u, v, q, w} k Q) : Prop :=
   ¬predicateAux''' ρ
 
 /-- The second auxiliary predicate on the displayed quiver-dependent object. -/
+@[source_ref "Chapter2/Discussion_quiver_irreducible_indecomposable" (role := supporting)]
 def predicateAux' (ρ : QuiverLinearDiagram.{u, v, q, w} k Q) : Prop :=
   predicateAux'' ρ ∧ ∀ S : QuiverSubdiagram k Q ρ,
     S.predicateAux' ∨ S.predicateAux
