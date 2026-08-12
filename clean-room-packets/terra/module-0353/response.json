@@ -1,0 +1,55 @@
+{
+  "module_name": "PiTensorProduct.Constructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-005485",
+      "new_name": "piTensorEndSubalgebra",
+      "docstring": "The specified subalgebra of endomorphisms of a finite pi tensor product."
+    },
+    {
+      "temporary_id": "decl-005488",
+      "new_name": "piTensorEndSubalgebra_eq_alternate",
+      "docstring": "The two displayed subalgebras of pi tensor product endomorphisms agree in characteristic zero."
+    },
+    {
+      "temporary_id": "decl-005489",
+      "new_name": "symmetricPowerSubset",
+      "docstring": "A designated subset of the symmetric power indexed by a finite type."
+    },
+    {
+      "temporary_id": "decl-005490",
+      "new_name": "piTensorEndSubalgebraAlternate",
+      "docstring": "An alternative specified subalgebra of pi tensor product endomorphisms."
+    },
+    {
+      "temporary_id": "decl-005491",
+      "new_name": "span_symmetricPowerSubset_eq_top",
+      "docstring": "In characteristic zero, the span of the designated symmetric-power subset is the whole space."
+    },
+    {
+      "temporary_id": "decl-005492",
+      "new_name": "toPiTensorProduct",
+      "docstring": "A map from an algebra to its finite pi tensor product."
+    },
+    {
+      "temporary_id": "decl-005494",
+      "new_name": "piTensorSubalgebra",
+      "docstring": "The specified subalgebra of a finite pi tensor product of an algebra."
+    },
+    {
+      "temporary_id": "decl-005495",
+      "new_name": "piTensorSubalgebra_eq_alternate",
+      "docstring": "The two displayed subalgebras of a pi tensor product agree in characteristic zero."
+    },
+    {
+      "temporary_id": "decl-005496",
+      "new_name": "toPiTensorProductAlternate",
+      "docstring": "An alternative map from an algebra to its finite pi tensor product."
+    },
+    {
+      "temporary_id": "decl-005497",
+      "new_name": "piTensorSubalgebraAlternate",
+      "docstring": "An alternative specified subalgebra of a finite pi tensor product of an algebra."
+    }
+  ]
+}
