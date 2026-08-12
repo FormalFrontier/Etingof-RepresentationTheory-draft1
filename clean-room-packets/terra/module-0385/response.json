@@ -1,47 +1,47 @@
 {
   "declarations": [
     {
-      "docstring": "An auxiliary family of finite-dimensional complex representations indexed by partitions of `n`.",
+      "docstring": "An auxiliary family assigning each partition of `n` a finite-dimensional complex representation of `Perm (Fin (n + 1))`.",
       "new_name": "auxiliaryFDRepOfPartition",
       "temporary_id": "decl-017129"
     },
     {
-      "docstring": "A second auxiliary family of finite-dimensional complex representations indexed by partitions of `n`.",
+      "docstring": "An auxiliary family assigning each partition of `n` a finite-dimensional complex representation of `Perm (Fin (n + 1))`.",
       "new_name": "auxiliaryFDRepOfPartitionPrime",
       "temporary_id": "decl-020562"
     },
     {
-      "docstring": "The two auxiliary representation families indexed by a partition are nonemptily isomorphic.",
+      "docstring": "For each partition of `n`, the two auxiliary finite-dimensional complex representations of `Perm (Fin (n + 1))` have a nonempty type of isomorphisms.",
       "new_name": "auxiliaryFDRepOfPartitionIso",
       "temporary_id": "decl-020564"
     },
     {
-      "docstring": "An auxiliary family of finite-dimensional complex representations indexed by partitions of `n + 1`.",
+      "docstring": "An auxiliary family assigning each partition of `n + 1` a finite-dimensional complex representation of `Perm (Fin n)`.",
       "new_name": "auxiliaryFDRepOfSuccessorPartition",
       "temporary_id": "decl-022569"
     },
     {
-      "docstring": "An auxiliary map from representations on `Fin (n + 1)` to representations on `Fin n`.",
+      "docstring": "An auxiliary operation sending a finite-dimensional complex representation of `Perm (Fin (n + 1))` to one of `Perm (Fin n)`.",
       "new_name": "auxiliaryFDRepMapToPredecessor",
       "temporary_id": "decl-022679"
     },
     {
-      "docstring": "A second auxiliary family of finite-dimensional complex representations indexed by partitions of `n + 1`.",
+      "docstring": "An auxiliary family assigning each partition of `n + 1` a finite-dimensional complex representation of `Perm (Fin n)`.",
       "new_name": "auxiliaryFDRepOfSuccessorPartitionPrime",
       "temporary_id": "decl-022702"
     },
     {
-      "docstring": "The two auxiliary representation families indexed by a partition of `n + 1` are nonemptily isomorphic.",
+      "docstring": "For each partition of `n + 1`, the two auxiliary finite-dimensional complex representations of `Perm (Fin n)` have a nonempty type of isomorphisms.",
       "new_name": "auxiliaryFDRepOfSuccessorPartitionIso",
       "temporary_id": "decl-022704"
     },
     {
-      "docstring": "Every simple finite-dimensional complex representation on `Fin n` is nonemptily isomorphic to an auxiliary indexed representation.",
+      "docstring": "Every simple finite-dimensional complex representation of `Perm (Fin n)` has a nonempty type of isomorphisms to an auxiliary representation at some formally elided index.",
       "new_name": "exists_auxiliaryFDRepOfSimple",
       "temporary_id": "decl-023214"
     },
     {
-      "docstring": "An auxiliary linear equivalence from an underlying representation module to a membership-defined subtype.",
+      "docstring": "For each natural number `n` and partition `la` of `n`, an auxiliary linear equivalence over the identity homomorphism of an auxiliary scalar ring, from an auxiliary representation’s underlying module to the subtype defined by the displayed auxiliary membership predicate.",
       "new_name": "auxiliaryRepresentationModuleLinearEquivSubtype",
       "temporary_id": "decl-023305"
     }
