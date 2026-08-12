@@ -9,12 +9,12 @@
     {
       "association_id": "association:143ab419252832096682",
       "rationale": "The type only exposes youngProjector as an algebra-valued function; its defining formula c_lambda = a_lambda b_lambda is not visible in the displayed type.",
-      "role": "supporting"
+      "role": "primary"
     },
     {
       "association_id": "association:56b210b22eebd35f2531",
       "rationale": "The displayed type merely declares an algebra-valued column projector and does not show the signed averaging formula for b_lambda.",
-      "role": "supporting"
+      "role": "primary"
     },
     {
       "association_id": "association:e63503a31c8bf04c38f9",
@@ -24,7 +24,7 @@
     {
       "association_id": "association:0d2cea82ab644b82df7e",
       "rationale": "The displayed type merely declares an algebra-valued row projector and does not show the averaging formula for a_lambda.",
-      "role": "supporting"
+      "role": "primary"
     },
     {
       "association_id": "association:b19938ebad6d68a29f4e",

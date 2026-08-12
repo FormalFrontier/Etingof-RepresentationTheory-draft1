@@ -59,7 +59,7 @@
     {
       "association_id": "association:c77746e91422d9219559",
       "rationale": "The formal equality directly gives dimension q-1 for each complementary-series representation, exactly as stated in the source.",
-      "role": "primary"
+      "role": "supporting"
     }
   ]
 }
