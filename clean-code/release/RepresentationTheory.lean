@@ -142,6 +142,7 @@ import RepresentationTheory.AlgebraicNumbers.MatrixCriteria
 import RepresentationTheory.SolvableGroups.Series
 import RepresentationTheory.ModularPGroup
 import RepresentationTheory.AuxiliaryMatrixDeterminantIrreducibility
+import RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions
 
 /-!
 # Representation theory formalization
