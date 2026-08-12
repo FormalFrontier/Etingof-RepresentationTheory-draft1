@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:2a48f70240405990838e",
-      "rationale": "The declaration constructs a basis of CliffAlg B indexed by finite subsets from an orthogonal basis of V, supporting the subset-indexed Clifford basis claim, but the displayed type does not identify its basis vectors as the ordered monomials.",
-      "role": "supporting"
+      "rationale": "The declaration directly constructs a basis of CliffAlg B indexed by finite subsets from an orthogonal basis of V, matching the subset-indexed Clifford-basis part of the source claim.",
+      "role": "primary"
     },
     {
       "association_id": "association:4e3ecf18e0f62d6d8e72",
