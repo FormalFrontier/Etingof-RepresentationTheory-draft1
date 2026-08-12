@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0652",
+  "associations": [
+    {
+      "association_id": "association:4ae5d2bc74724a4e229b",
+      "rationale": "The formal type makes the type of A-linear equivalences between the periodic subalgebra and antiperiodic submodule empty, directly stating that A and M are not isomorphic as A-modules.",
+      "role": "primary"
+    }
+  ]
+}

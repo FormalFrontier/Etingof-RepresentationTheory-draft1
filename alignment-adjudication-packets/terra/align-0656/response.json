@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0656",
+  "associations": [
+    {
+      "association_id": "association:614cb295cb9ed405e1ac",
+      "rationale": "The formal type directly states that blockOp sends every product ab to the composite of the operators for a and b if and only if f satisfies IsCocycle, matching the multiplicativity-versus-cocycle claim.",
+      "role": "primary"
+    }
+  ]
+}
