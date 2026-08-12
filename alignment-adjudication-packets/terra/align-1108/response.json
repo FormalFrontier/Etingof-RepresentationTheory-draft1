@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1108",
+  "associations": [
+    {
+      "association_id": "association:0ccddea57126ebd9f795",
+      "role": "primary",
+      "rationale": "IsSimple defines a proposition on rings in the exact discussion containing this claim, directly representing the simple-ring condition stated in the source."
+    },
+    {
+      "association_id": "association:886d570b98325baf9b19",
+      "role": "primary",
+      "rationale": "unitIdeal has formal type Ideal A, directly defining the whole-ring two-sided ideal named in the claim."
+    },
+    {
+      "association_id": "association:b84a0d565b20c32ae82f",
+      "role": "primary",
+      "rationale": "zeroIdeal has formal type Ideal A, directly defining the zero two-sided ideal named in the claim."
+    }
+  ]
+}

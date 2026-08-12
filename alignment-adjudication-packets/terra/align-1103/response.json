@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1103",
+  "associations": [
+    {
+      "association_id": "association:e5c5d98397db279db114",
+      "role": "primary",
+      "rationale": "FullSubcategory takes an ambient category and object property and defines the resulting category type, directly realizing the full-subcategory construction in which ambient morphisms are inherited."
+    }
+  ]
+}

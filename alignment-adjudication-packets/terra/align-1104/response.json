@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1104",
+  "associations": [
+    {
+      "association_id": "association:4547c1d731a346c56c53",
+      "role": "primary",
+      "rationale": "Adjunction takes functors C to D and D to C and returns the type of adjunction data, directly defining the claimed relationship between F and G."
+    }
+  ]
+}

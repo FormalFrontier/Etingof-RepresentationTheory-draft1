@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1109",
+  "associations": [
+    {
+      "association_id": "association:0b5eb6b5733f28590eed",
+      "role": "primary",
+      "rationale": "The formal theorem supplies partition labels with subsingleton fibers and a specht map satisfying the displayed equivariance equation, directly stating injective labels and the Specht-module intertwining."
+    }
+  ]
+}

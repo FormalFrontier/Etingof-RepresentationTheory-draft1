@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1107",
+  "associations": [
+    {
+      "association_id": "association:1462b301ef6355e3ffd1",
+      "role": "primary",
+      "rationale": "The formal type is an algebra equivalence from TensorAlgebraDef k V to the Nat-indexed direct sum of TensorPower k n V, directly stating the claimed graded direct-sum description."
+    }
+  ]
+}
