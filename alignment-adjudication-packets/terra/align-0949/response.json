@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0949",
+  "associations": [
+    {
+      "association_id": "association:2a51dd57a7388d32a73b",
+      "role": "primary",
+      "rationale": "The iff explicitly characterizes lattice roots as differences of two distinct coordinate basis vectors, stating the root model."
+    },
+    {
+      "association_id": "association:46e8abbdb5fae4b9027e",
+      "role": "primary",
+      "rationale": "It directly states that the positive-root set has cardinality n(n+1)/2."
+    }
+  ]
+}

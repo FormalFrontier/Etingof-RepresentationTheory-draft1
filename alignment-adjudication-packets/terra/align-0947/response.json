@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0947",
+  "associations": [
+    {
+      "association_id": "association:ad70eddffc65b650bc66",
+      "role": "primary",
+      "rationale": "It defines Etingof.Functor between categories, the declaration for the object and morphism maps with functor laws."
+    }
+  ]
+}

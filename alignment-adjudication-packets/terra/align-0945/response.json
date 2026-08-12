@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0945",
+  "associations": [
+    {
+      "association_id": "association:b0191633097849aac83e",
+      "role": "primary",
+      "rationale": "The uniqueness theorem concludes that invariant forms for an irreducible representation are related by a positive real scalar."
+    }
+  ]
+}

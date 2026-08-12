@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0946",
+  "associations": [
+    {
+      "association_id": "association:8231a42f3a952fe99406",
+      "role": "primary",
+      "rationale": "It defines BookPathAlgebra for a field and quiver, directly providing the declared path algebra construction."
+    }
+  ]
+}

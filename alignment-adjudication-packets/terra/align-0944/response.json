@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0944",
+  "associations": [
+    {
+      "association_id": "association:9af2df1bc0af2eef9157",
+      "role": "primary",
+      "rationale": "It defines a Module A A named leftRegularRepresentationModule, directly furnishing A's regular action on itself."
+    }
+  ]
+}
