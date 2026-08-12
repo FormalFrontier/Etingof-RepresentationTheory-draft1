@@ -1,0 +1,140 @@
+{
+  "module_name": "ConjugacyClassTrace",
+  "declarations": [
+    {
+      "temporary_id": "decl-001217",
+      "new_name": "AuxiliaryClassQuotient",
+      "docstring": "An auxiliary type associated with a field and a group."
+    },
+    {
+      "temporary_id": "decl-001223",
+      "new_name": "monoidAlgebraToClassFunctions",
+      "docstring": "A linear map from the group monoid algebra to scalar-valued functions on conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-001227",
+      "new_name": "auxiliaryToClassFunctions",
+      "docstring": "A linear map from the auxiliary class quotient to scalar-valued functions on conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-001229",
+      "new_name": "auxiliaryToClassFunctions_surjective",
+      "docstring": "The auxiliary linear map to functions on conjugacy classes is surjective."
+    },
+    {
+      "temporary_id": "decl-001230",
+      "new_name": "monoidAlgebraToClassFunctions_mul_comm",
+      "docstring": "The class-function image of a product is unchanged when its two factors are reversed."
+    },
+    {
+      "temporary_id": "decl-001238",
+      "new_name": "monoidAlgebraToClassFunctions_single",
+      "docstring": "A singleton monoid-algebra term maps to the function supported on its conjugacy class with the given coefficient."
+    },
+    {
+      "temporary_id": "decl-001239",
+      "new_name": "monoidAlgebraToClassFunctions_surjective",
+      "docstring": "The linear map from the monoid algebra to functions on conjugacy classes is surjective."
+    },
+    {
+      "temporary_id": "decl-001240",
+      "new_name": "conjugacyClassToAuxiliary",
+      "docstring": "An auxiliary map from conjugacy classes into the auxiliary class quotient."
+    },
+    {
+      "temporary_id": "decl-001242",
+      "new_name": "auxiliaryRelationSubmodule",
+      "docstring": "An auxiliary scalar submodule of the group monoid algebra."
+    },
+    {
+      "temporary_id": "decl-001244",
+      "new_name": "auxiliaryRelationSubmodule_le_ker_monoidAlgebraToClassFunctions",
+      "docstring": "The auxiliary relation submodule lies in the kernel of the map to conjugacy-class functions."
+    },
+    {
+      "temporary_id": "decl-001247",
+      "new_name": "auxiliaryRelationSubmodule_le_ker_moduleTrace",
+      "docstring": "The auxiliary relation submodule lies in the kernel of the module trace map."
+    },
+    {
+      "temporary_id": "decl-001250",
+      "new_name": "finrank_auxiliaryClassQuotient",
+      "docstring": "The auxiliary class quotient has dimension equal to the number of conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-001252",
+      "new_name": "finite_auxiliaryClassQuotient",
+      "docstring": "The auxiliary class quotient is finite-dimensional over the field for a finite group."
+    },
+    {
+      "temporary_id": "decl-001253",
+      "new_name": "finite_monoidAlgebra",
+      "docstring": "The monoid algebra of a finite type is finite-dimensional over the field."
+    },
+    {
+      "temporary_id": "decl-001254",
+      "new_name": "mkQ_single_one_eq_conjugacyClassToAuxiliary",
+      "docstring": "The quotient image of a unit singleton equals the auxiliary element indexed by its conjugacy class."
+    },
+    {
+      "temporary_id": "decl-001255",
+      "new_name": "monoidAlgebraActionHom",
+      "docstring": "An algebra homomorphism from the group monoid algebra to the endomorphisms of a compatible module."
+    },
+    {
+      "temporary_id": "decl-001259",
+      "new_name": "monoidAlgebraActionHom_apply",
+      "docstring": "Evaluating the monoid-algebra action homomorphism agrees with scalar multiplication on the module."
+    },
+    {
+      "temporary_id": "decl-001261",
+      "new_name": "single_sub_single_mem_auxiliaryRelationSubmodule_of_isConj",
+      "docstring": "The difference of unit singleton terms at conjugate group elements belongs to the auxiliary relation submodule."
+    },
+    {
+      "temporary_id": "decl-001269",
+      "new_name": "span_range_conjugacyClassToAuxiliary",
+      "docstring": "The range of the auxiliary conjugacy-class map spans the whole auxiliary quotient."
+    },
+    {
+      "temporary_id": "decl-001270",
+      "new_name": "span_range_single_one",
+      "docstring": "The unit singleton terms indexed by the group span the entire monoid algebra."
+    },
+    {
+      "temporary_id": "decl-001271",
+      "new_name": "moduleTrace",
+      "docstring": "A linear functional from the group monoid algebra to the base field for a compatible module."
+    },
+    {
+      "temporary_id": "decl-001276",
+      "new_name": "auxiliaryModuleTrace",
+      "docstring": "A linear functional from the auxiliary class quotient to the base field for a compatible module."
+    },
+    {
+      "temporary_id": "decl-001278",
+      "new_name": "auxiliaryModuleTrace_conjugacyClass",
+      "docstring": "The auxiliary module trace at a conjugacy class is the trace of the corresponding unit singleton action."
+    },
+    {
+      "temporary_id": "decl-001279",
+      "new_name": "auxiliaryModuleTrace_mkQ",
+      "docstring": "The auxiliary module trace of a quotient image agrees with the module trace of its representative."
+    },
+    {
+      "temporary_id": "decl-001280",
+      "new_name": "auxiliaryModuleTrace_mkQ_single_one",
+      "docstring": "The auxiliary module trace of a quotient unit singleton equals the trace of its action."
+    },
+    {
+      "temporary_id": "decl-001281",
+      "new_name": "moduleTrace_eq_trace_action",
+      "docstring": "The module trace functional evaluates an algebra element as the trace of its action endomorphism."
+    },
+    {
+      "temporary_id": "decl-001283",
+      "new_name": "moduleTrace_mul_comm",
+      "docstring": "The module trace of a product is unchanged when the factors are reversed."
+    }
+  ]
+}
