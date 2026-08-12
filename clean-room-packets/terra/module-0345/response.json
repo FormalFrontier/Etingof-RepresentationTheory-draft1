@@ -1,5 +1,5 @@
 {
-  "module_name": "GeneralLinearGroup.CoordinateRepresentation",
+  "module_name": "GeneralLinearGroup.PolynomialQuotientRepresentation",
   "declarations": [
     {
       "temporary_id": "decl-005327",
