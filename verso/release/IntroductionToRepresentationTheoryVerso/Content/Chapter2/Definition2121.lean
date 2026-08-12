@@ -41,6 +41,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.ExteriorAlgebra.generator_sq_eq_zero}
 
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.ExteriorAlgebra.relationModelEquivFinsupp}
+
 {Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.ExteriorAlgebra.relationModelGradedEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.SymmetricAlgebra.relationModelGradedEquiv}

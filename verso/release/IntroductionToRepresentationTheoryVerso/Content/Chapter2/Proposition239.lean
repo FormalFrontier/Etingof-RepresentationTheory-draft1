@@ -35,6 +35,8 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.Module.SimpleLinearMaps.linearMap_bijective_of_ne_zero_between_simple}
+
 {Manual.docstring RepresentationTheory.Module.SimpleLinearMaps.linearMap_injective_of_ne_zero_from_simple}
 
 {Manual.docstring RepresentationTheory.Module.SimpleLinearMaps.linearMap_surjective_of_ne_zero_to_simple}

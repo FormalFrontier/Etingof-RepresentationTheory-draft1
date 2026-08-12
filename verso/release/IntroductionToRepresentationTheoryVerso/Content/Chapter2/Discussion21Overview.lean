@@ -50,6 +50,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.moduleOfAlgHom_actionAlgHom}
 
+{Manual.docstring RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.ProductModules.BinaryTypeConstructor}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure}
