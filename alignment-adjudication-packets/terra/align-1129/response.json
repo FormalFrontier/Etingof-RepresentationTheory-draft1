@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:cf1a0e3e7fda9bc5eeb7",
-      "role": "primary",
-      "rationale": "The formal type directly states that each of the three Fin 3-indexed representatives is indecomposable."
+      "role": "supporting",
+      "rationale": "The formal type states that each of the three Fin 3-indexed representatives is indecomposable, but it does not identify them with the listed dimension vectors (1,0), (0,1), and (1,1)."
     }
   ]
 }
