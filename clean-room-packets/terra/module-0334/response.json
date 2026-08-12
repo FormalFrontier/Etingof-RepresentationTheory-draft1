@@ -1,0 +1,40 @@
+{
+  "module_name": "Representation.SubtypeCharacter",
+  "declarations": [
+    {
+      "temporary_id": "decl-004463",
+      "new_name": "fintypeSubtypeCharacterRepresentation",
+      "docstring": "Constructs a finite-dimensional complex representation from a unit-valued multiplicative map on the displayed subtype, using the supplied finite instances."
+    },
+    {
+      "temporary_id": "decl-004466",
+      "new_name": "subtypeCharacterRepresentation",
+      "docstring": "Constructs a finite-dimensional complex representation from a unit-valued multiplicative map on the displayed subtype."
+    },
+    {
+      "temporary_id": "decl-004468",
+      "new_name": "subtypeCharacterRepresentationOfPowerNonfixed",
+      "docstring": "Under the stated odd-prime, positive-degree, and power-nonfixed hypotheses, constructs a finite-dimensional complex representation."
+    },
+    {
+      "temporary_id": "decl-004472",
+      "new_name": "subtypeCharacterRepresentationOfPowerNonfixed_character_eq_auxiliary",
+      "docstring": "The character of the power-nonfixed representation equals the displayed auxiliary function."
+    },
+    {
+      "temporary_id": "decl-004475",
+      "new_name": "subtypeCharacterRepresentationOfPowerNonfixed_isSimple",
+      "docstring": "The representation constructed under the power-nonfixed hypotheses is simple."
+    },
+    {
+      "temporary_id": "decl-004476",
+      "new_name": "subtypeCharacterRepresentations_character_sub_eq_auxiliary",
+      "docstring": "At each group element, the difference of the characters of two displayed subtype-character representations is an auxiliary function."
+    },
+    {
+      "temporary_id": "decl-004564",
+      "new_name": "subtypeCharacterRepresentationOfPowerNonfixed_finrank_eq_pow_sub_one",
+      "docstring": "The underlying complex module of the power-nonfixed representation has dimension p raised to n minus one."
+    }
+  ]
+}
