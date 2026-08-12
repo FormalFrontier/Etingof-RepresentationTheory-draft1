@@ -35,3 +35,5 @@ number := false
 {Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence.jacobson_isNilpotent_of_finiteDimensional}
 
 {Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence.nilpotent_le_jacobson}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TwoSided.jacobson_isTwoSided}

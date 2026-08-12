@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -17,3 +18,13 @@ number := false
 %%%
 
 *Proof.* Note that $`1 - e` is also an idempotent in $`A`. Thus the statement immediately follows from the fact that $`\operatorname{Hom}_A(A, M) \cong M` and the decomposition $`A = Ae \oplus A(1 - e)`. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_proof_of_Lemma5.13.4/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.ModuleTheory.Idempotent.linearMapSpanSingletonEquivFixedByIdempotent}

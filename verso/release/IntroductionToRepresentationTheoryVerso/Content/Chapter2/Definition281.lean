@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,13 @@ tag := "Chapter2/Definition2.8.1/heading-1"
 %%%
 
 **Definition 2.8.1.** A **quiver** $`Q` is a directed graph, possibly with self-loops and/or multiple edges between two vertices.
+
+## Formalization
+%%%
+tag := "Chapter2/Definition2.8.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Foundations.TypeFamilies.TypeIndexedFamily}
