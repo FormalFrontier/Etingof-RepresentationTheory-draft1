@@ -1,0 +1,10 @@
+{
+  "module_name": "InvariantComplements",
+  "declarations": [
+    {
+      "temporary_id": "decl-016513",
+      "new_name": "exists_invariant_isCompl_of_preserves_inner",
+      "docstring": "A finite-dimensional complex representation preserving the inner product admits an invariant complementary submodule to every invariant submodule."
+    }
+  ]
+}
