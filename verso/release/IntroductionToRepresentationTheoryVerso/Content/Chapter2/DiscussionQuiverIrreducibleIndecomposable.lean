@@ -26,3 +26,9 @@ number := false
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.predicateAux}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.predicateAux'}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.predicateAux''}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.predicateAux'''}

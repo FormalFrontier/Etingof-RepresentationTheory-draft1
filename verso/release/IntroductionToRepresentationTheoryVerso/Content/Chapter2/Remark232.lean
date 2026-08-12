@@ -27,4 +27,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.CommutativeOppositeScalars.moduleOfMulOpposite}
 
+{Manual.docstring RepresentationTheory.Algebra.Module.CommutativeOppositeScalars.moduleOverMulOpposite}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.CommutativeOppositeScalars.op_smul_eq_smul}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.CommutativeOppositeScalars.smul_eq_op_smul}

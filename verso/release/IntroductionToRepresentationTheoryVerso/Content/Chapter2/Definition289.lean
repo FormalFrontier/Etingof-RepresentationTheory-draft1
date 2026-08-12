@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -15,3 +16,13 @@ tag := "Chapter2/Definition2.8.9"
 number := false
 %%%
 **Definition 2.8.9.** The **direct sum** of two representations $`(V_i, x_h)` and $`(W_i, y_h)` is the representation $`(V_i \oplus W_i, x_h \oplus y_h)`.
+
+## Formalization
+%%%
+tag := "Chapter2/Definition2.8.9/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.binaryConstruction}

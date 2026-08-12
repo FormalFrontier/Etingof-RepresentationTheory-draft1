@@ -59,6 +59,12 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryPredicate}
+
+{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.auxiliaryElement}
+
+{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.auxiliaryElement'}
+
 {Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.auxiliarySetMap''_le_iff}
 
 {Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.auxiliarySetMap'_le_iff}

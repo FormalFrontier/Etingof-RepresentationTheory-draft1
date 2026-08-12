@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -15,3 +16,13 @@ tag := "Chapter2/Definition2.9.6"
 number := false
 %%%
 **Definition 2.9.6.** Let $`\mathfrak{g}_1, \mathfrak{g}_2` be Lie algebras. A **homomorphism of Lie algebras** $`\varphi : \mathfrak{g}_1 \longrightarrow \mathfrak{g}_2` is a linear map such that $`\varphi([a, b]) = [\varphi(a), \varphi(b)]` for all $`a, b \in \mathfrak{g}_1`.
+
+## Formalization
+%%%
+tag := "Chapter2/Definition2.9.6/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Lie.PairedAuxiliaryTypes.LieAlgebra.AuxiliaryType}

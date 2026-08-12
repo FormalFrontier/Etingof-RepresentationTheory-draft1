@@ -61,6 +61,12 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeByThreeMatrixAuxiliary.matrixLieEquivAux_apply_eq_single_12}
 
+{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.bracket_eq_aux1}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.bracket_eq_aux2}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.bracket_eq_aux3}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux6}

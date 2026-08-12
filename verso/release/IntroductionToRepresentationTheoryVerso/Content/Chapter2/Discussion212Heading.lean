@@ -34,3 +34,7 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorAlgebra.AuxiliaryTypes.TensorAlgebra.basisAuxiliaryTypeEquivFreeAlgebra}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorAlgebra.AuxiliaryTypes.TensorAlgebra.auxiliaryTypeEquivDirectSum}
