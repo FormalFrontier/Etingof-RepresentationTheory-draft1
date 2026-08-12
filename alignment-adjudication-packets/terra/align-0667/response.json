@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0667",
+  "associations": [
+    {
+      "association_id": "association:d672c0508d50d5ce1feb",
+      "rationale": "The formal type directly gives a complex-linear equivalence between Ext1(Vrep a,Vrep a) and Fin n → Complex, the coordinate model of complex n-space.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0663",
+  "associations": [
+    {
+      "association_id": "association:46d60df9226aacf77e23",
+      "rationale": "Given an A-linear equivalence of the two ExtMod extensions with the displayed unitriangular action, the formal type directly concludes that f-f' belongs to the coboundaries.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:0cd0b1ecce06e1bcf45e",
+      "rationale": "This formulation uses a k-linear self-equivalence of V × W together with the opaque IntertwinesExt condition, so it is a helper form rather than a direct ExtMod isomorphism statement.",
+      "role": "supporting"
+    }
+  ]
+}

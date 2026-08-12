@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0664",
+  "associations": [
+    {
+      "association_id": "association:d7ca47096cbc9d9e45db",
+      "rationale": "Under the algebraic-closure, finite-dimensionality, and simplicity hypotheses, the formal type directly equates an A-linear equivalence of ExtMod extensions with f-cf' being a coboundary for some nonzero scalar c.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:8daec157608dae407cec",
+      "rationale": "The proportionality conclusion is present, but the isomorphism side is expressed through an existential witness of the opaque IntertwinesExt predicate rather than a direct module equivalence.",
+      "role": "supporting"
+    }
+  ]
+}

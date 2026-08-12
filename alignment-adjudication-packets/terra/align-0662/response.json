@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0662",
+  "associations": [
+    {
+      "association_id": "association:37c7735d6ca7c3529c08",
+      "rationale": "From f-f' belonging to coboundaries, the formal type directly concludes a nonempty A-linear equivalence between the two ExtMod extensions.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:9601e3e23d50e147022f",
+      "rationale": "The formal type produces an existential witness satisfying the opaque IntertwinesExt predicate, rather than directly asserting an A-linear equivalence between the two ExtMod extensions.",
+      "role": "supporting"
+    }
+  ]
+}

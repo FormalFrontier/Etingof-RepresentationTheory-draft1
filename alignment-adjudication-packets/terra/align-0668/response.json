@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0668",
+  "associations": [
+    {
+      "association_id": "association:56cb9834f99628c90da5",
+      "rationale": "For a ≠ b, the formal type directly makes Ext1(Vrep b,Vrep a) subsingleton, expressing that this Ext1 space is trivial.",
+      "role": "primary"
+    }
+  ]
+}

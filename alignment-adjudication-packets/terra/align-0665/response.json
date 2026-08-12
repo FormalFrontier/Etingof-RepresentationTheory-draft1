@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0665",
+  "associations": [
+    {
+      "association_id": "association:6f6ec21245165565aba6",
+      "rationale": "The formal type characterizes when two ExtMod extensions are equivalent via nonzero-scalar proportionality modulo coboundaries, supporting projectivization but not stating the parametrization or the universal splitting criterion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3431b22b8d5f3fb4ae88",
+      "rationale": "The formal type states that one ExtMod extension is equivalent to V × W exactly when its cocycle is a coboundary; this is a splitting criterion for a representative, not the claim that all extensions split iff Ext1 is zero.",
+      "role": "supporting"
+    }
+  ]
+}
