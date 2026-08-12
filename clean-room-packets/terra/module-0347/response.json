@@ -1,0 +1,70 @@
+{
+  "module_name": "SymmetricGroup.PartitionGroupAlgebra",
+  "declarations": [
+    {
+      "temporary_id": "decl-001308",
+      "new_name": "signedSum_mul_perm",
+      "docstring": "Right multiplication of the signed sum by a permutation in its supporting set scales it by that permutation's sign."
+    },
+    {
+      "temporary_id": "decl-001309",
+      "new_name": "signedSum_sq",
+      "docstring": "The square of the signed sum is its support cardinality times the signed sum."
+    },
+    {
+      "temporary_id": "decl-005444",
+      "new_name": "exists_scalarMap_for_signedSum_mul_averagingSum",
+      "docstring": "There is a scalar-valued map for which sandwiching any group-algebra element between the signed and averaging sums is a scalar multiple of a fixed element."
+    },
+    {
+      "temporary_id": "decl-005445",
+      "new_name": "exists_scalarMap_for_averagingSum_mul_signedSum",
+      "docstring": "There is a scalar-valued map for which the averaging-sum and signed-sum sandwich of every group-algebra element is a scalar multiple of their product."
+    },
+    {
+      "temporary_id": "decl-005446",
+      "new_name": "exists_scalarMap_for_idempotentSandwich",
+      "docstring": "There is a scalar-valued map making the displayed sandwich of every group-algebra element a scalar multiple of a fixed element."
+    },
+    {
+      "temporary_id": "decl-015544",
+      "new_name": "averagingSum_mul_perm",
+      "docstring": "Right multiplication of the averaging sum by a permutation in its supporting set leaves it unchanged."
+    },
+    {
+      "temporary_id": "decl-015545",
+      "new_name": "averagingSum_sq",
+      "docstring": "The square of the averaging sum is its support cardinality times the averaging sum."
+    },
+    {
+      "temporary_id": "decl-021802",
+      "new_name": "perm_mul_signedSum",
+      "docstring": "Left multiplication of the signed sum by a permutation in its supporting set scales it by that permutation's sign."
+    },
+    {
+      "temporary_id": "decl-021804",
+      "new_name": "perm_mul_averagingSum",
+      "docstring": "Left multiplication of the averaging sum by a permutation in its supporting set leaves it unchanged."
+    },
+    {
+      "temporary_id": "decl-022035",
+      "new_name": "exists_swap_mem_leftFactor_of_not_mem_product",
+      "docstring": "If a permutation is outside the product of the two displayed sets, then a swap in the left factor has the stated conjugation membership property."
+    },
+    {
+      "temporary_id": "decl-024565",
+      "new_name": "rightIdempotent_sq",
+      "docstring": "The square of the right idempotent is itself."
+    },
+    {
+      "temporary_id": "decl-024566",
+      "new_name": "rightIdempotent_mul_leftIdempotent",
+      "docstring": "The product of the two idempotents is the stated inverse-cardinality scalar multiple of a fixed element."
+    },
+    {
+      "temporary_id": "decl-024573",
+      "new_name": "leftIdempotent_sq",
+      "docstring": "The square of the left idempotent is itself."
+    }
+  ]
+}
