@@ -1,0 +1,15 @@
+{
+  "module_name": "InvolutionRankSum",
+  "declarations": [
+    {
+      "temporary_id": "decl-001453",
+      "new_name": "cast_card_sq_eq_one_eq_sum_finrank_of_auxiliary_values_eq_one",
+      "docstring": "If the displayed auxiliary value is one for every indexed simple representation and the representations are pairwise nonisomorphic, the cast count of group elements squaring to one equals the sum of their finranks."
+    },
+    {
+      "temporary_id": "decl-001454",
+      "new_name": "complex_cast_card_sq_eq_one_eq_sum_finrank_of_auxiliary_condition",
+      "docstring": "For pairwise nonisomorphic indexed simple complex representations satisfying the displayed auxiliary condition, the cast count of group elements squaring to one equals the sum of their finranks."
+    }
+  ]
+}
