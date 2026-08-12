@@ -1,5 +1,5 @@
 {
-  "module_name": "InvariantBilinearPairings",
+  "module_name": "AuxiliaryInvariantBilinearPairings",
   "declarations": [
     {
       "temporary_id": "decl-017155",
@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-017159",
-      "new_name": "auxiliaryTensorPairing_apply_actions",
-      "docstring": "The auxiliary tensor pairing is unchanged after applying the displayed general linear group actions to both arguments."
+      "new_name": "auxiliaryTensorPairing_apply_groupMaps",
+      "docstring": "The auxiliary tensor pairing is unchanged after applying the two displayed maps associated with a general linear group element."
     },
     {
       "temporary_id": "decl-017160",
@@ -33,8 +33,8 @@
     },
     {
       "temporary_id": "decl-017167",
-      "new_name": "auxiliaryLinearEquivToDual_apply_action",
-      "docstring": "The auxiliary equivalence to the dual intertwines the displayed action with the dual of the other displayed action."
+      "new_name": "auxiliaryLinearEquivToDual_apply_groupMap",
+      "docstring": "The auxiliary equivalence sends the result of the first displayed group map to the result of the corresponding dual representation map."
     },
     {
       "temporary_id": "decl-021020",
