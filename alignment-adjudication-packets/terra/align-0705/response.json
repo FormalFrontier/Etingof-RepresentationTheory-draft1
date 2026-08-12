@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:09471a8ab27286c43840",
-      "rationale": "This gives the additive formula only for an already chosen scalar-plus-traceless pair; it is a useful specialization toward the full arbitrary-strain formula and does not itself state output symmetry.",
-      "role": "supporting"
+      "rationale": "For every scalar part x and traceless-symmetric part y in symSub, the type directly gives f(x + y) = Kx + μy, which is the asserted two-parameter Hooke-law formula on decomposed strains.",
+      "role": "primary"
     },
     {
       "association_id": "association:ae76dfabf04c66142efb",
