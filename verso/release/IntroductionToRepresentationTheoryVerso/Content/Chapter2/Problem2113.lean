@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -27,3 +28,17 @@ number := false
 (f) Let $`A : V \to W` be a linear operator. Then we have an operator $`A^{\otimes n} : V^{\otimes n} \to W^{\otimes n}` and its symmetric and exterior powers $`S^n A : S^n V \to S^n W`, $`\wedge^n A : \wedge^n V \to \wedge^n W` which are defined in an obvious way. Suppose that $`V = W` and that $`\dim V = N`, and that the eigenvalues of $`A` are $`\lambda_1, \ldots, \lambda_N`. Find $`\operatorname{Tr}(S^n A)` and $`\operatorname{Tr}(\wedge^n A)`.
 
 (g) Show that $`\wedge^N A = \det(A) \operatorname{Id}`, and use this equality to give a one-line proof of the fact that $`\det(AB) = \det(A) \det(B)`.
+
+## Formalization
+%%%
+tag := "Chapter2/Problem2.11.3/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorProduct.exists_dualTensorAction}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorProduct.exists_tensorProductBasis}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorProduct.exists_tensorProductLift}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,25 @@ $$`v \otimes (w_1 + w_2) - v \otimes w_1 - v \otimes w_2,`
 $$`av \otimes w - v \otimes aw,`
 
 where $`v \in V, w \in W, a \in k`.
+
+## Formalization
+%%%
+tag := "Chapter2/Exercise2.11.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.TensorProduct.Quotient.quotientModule}
+
+{Manual.docstring RepresentationTheory.Algebra.TensorProduct.Quotient.quotientToTensorProductLinearEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.TensorProduct.Quotient.quotientToTensorProductLinearEquiv_mk_pair}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.TensorProduct.Quotient.tensorProductQuotient}
+
+{Manual.docstring RepresentationTheory.Algebra.TensorProduct.Quotient.tensorProductRelationSubgroup}
+
+{Manual.docstring RepresentationTheory.Algebra.TensorProduct.Quotient.tensorProductRelations}

@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 import Mathlib.GroupTheory.FreeAbelianGroup
 import Mathlib.LinearAlgebra.TensorProduct.Basic
+import RepresentationTheory.Alignment.Attribute
 
 /-! # A quotient construction for tensor products -/
 
@@ -16,6 +17,7 @@ variable (k V W : Type*) [CommRing k] [AddCommGroup V] [Module k V]
   [AddCommGroup W] [Module k W]
 
 /-- A set of elements of the free abelian group on pairs of module elements. -/
+@[source_ref "Chapter2/Exercise2.11.2" (role := supporting)]
 def tensorProductRelations : Set (FreeAbelianGroup (V × W)) :=
   {x | (∃ v₁ v₂ w, x = FreeAbelianGroup.of (v₁ + v₂, w) - FreeAbelianGroup.of (v₁, w)
           - FreeAbelianGroup.of (v₂, w)) ∨
@@ -25,10 +27,12 @@ def tensorProductRelations : Set (FreeAbelianGroup (V × W)) :=
           - FreeAbelianGroup.of (v, a • w))}
 
 /-- An additive subgroup of the free abelian group on pairs of module elements. -/
+@[source_ref "Chapter2/Exercise2.11.2" (role := supporting)]
 def tensorProductRelationSubgroup : AddSubgroup (FreeAbelianGroup (V × W)) :=
   AddSubgroup.closure (tensorProductRelations k V W)
 
 /-- A type associated with a pair of modules. -/
+@[source_ref "Chapter2/Exercise2.11.2" (role := supporting)]
 abbrev tensorProductQuotient :=
   FreeAbelianGroup (V × W) ⧸ tensorProductRelationSubgroup k V W
 
@@ -149,18 +153,21 @@ theorem quotientToTensorProduct_smul (a : k) (q : tensorProductQuotient k V W) :
   (quotientToTensorProductAddEquiv k V W).apply_symm_apply _
 
 /-- Module structure on the quotient used to construct the tensor product. -/
+@[source_ref "Chapter2/Exercise2.11.2" (role := primary)]
 noncomputable instance quotientModule : Module k (tensorProductQuotient k V W) :=
   Function.Injective.module k (quotientToTensorProductAddEquiv k V W).toAddMonoidHom
     (quotientToTensorProductAddEquiv k V W).injective
     (quotientToTensorProduct_smul k V W)
 
 /-- Linear equivalence from the defining quotient to the tensor product. -/
+@[source_ref "Chapter2/Exercise2.11.2" (role := primary)]
 noncomputable def quotientToTensorProductLinearEquiv :
     (tensorProductQuotient k V W) ≃ₗ[k] (_root_.TensorProduct k V W) where
   toAddEquiv := quotientToTensorProductAddEquiv k V W
   map_smul' := quotientToTensorProduct_smul k V W
 
 /-- The quotient-to-tensor-product linear equivalence sends a generating pair to its pure tensor. -/
+@[source_ref "Chapter2/Exercise2.11.2" (role := primary)]
 theorem quotientToTensorProductLinearEquiv_mk_pair (v : V) (w : W) :
     quotientToTensorProductLinearEquiv k V W
         (QuotientAddGroup.mk' (tensorProductRelationSubgroup k V W)

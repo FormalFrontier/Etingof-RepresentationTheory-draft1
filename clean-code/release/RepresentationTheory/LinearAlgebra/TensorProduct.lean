@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 import Mathlib.LinearAlgebra.Contraction
 import Mathlib.LinearAlgebra.Determinant
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Linear algebra constructions for tensor products -/
 
@@ -16,6 +17,7 @@ variable {V W U : Type*}
   [AddCommGroup U] [Module k U]
 
 /-- Provides a linear map out of a tensor product with the stated values on pure tensors. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 theorem exists_tensorProductLift :
     ∃ e : (V →ₗ[k] W →ₗ[k] U) ≃ (TensorProduct k V W →ₗ[k] U),
       ∀ (f : V →ₗ[k] W →ₗ[k] U) (v : V) (w : W),
@@ -25,6 +27,7 @@ theorem exists_tensorProductLift :
   simp only [LinearEquiv.coe_toEquiv, TensorProduct.lift.equiv_apply]
 
 /-- Produces a basis whose vectors at pairs of indices are pure tensors of the given basis vectors. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 theorem exists_tensorProductBasis {ι κ : Type*} (b : Module.Basis ι k V)
     (c : Module.Basis κ k W) :
     ∃ B : Module.Basis (ι × κ) k (TensorProduct k V W),
@@ -34,6 +37,7 @@ theorem exists_tensorProductBasis {ι κ : Type*} (b : Module.Basis ι k V)
   simp [Module.Basis.tensorProduct_apply]
 
 /-- Provides the linear action on a tensor of a dual vector and a vector, evaluated by scalar multiplication. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 theorem exists_dualTensorAction [FiniteDimensional k V] :
     ∃ e : TensorProduct k (Module.Dual k V) W ≃ₗ[k] (V →ₗ[k] W),
       ∀ (f : Module.Dual k V) (w : W) (v : V),

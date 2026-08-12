@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: Kim Morrison
 -/
 import Mathlib.RingTheory.TensorProduct.Basic
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Scalar extension for tensor products -/
 
@@ -14,16 +15,19 @@ open scoped TensorProduct
 variable (K L A V : Type*) [CommRing K] [CommRing L] [Algebra K L] [Ring A] [Algebra K A]
 
 /-- Algebra structure over the right scalar algebra on a tensor product. -/
+@[source_ref "Chapter2/Exercise2.11.5" (role := primary)]
 noncomputable instance rightTensorProductAlgebra :
     Algebra L (_root_.TensorProduct K A L) :=
   Algebra.TensorProduct.rightAlgebra
 
 /-- The algebra map into a tensor product sends a scalar to the pure tensor with left factor one. -/
+@[source_ref "Chapter2/Exercise2.11.5" (role := supporting)]
 theorem algebraMap_apply (l : L) :
     (algebraMap L (_root_.TensorProduct K A L)) l = 1 ⊗ₜ[K] l :=
   rfl
 
 /-- Existence of a module structure on a tensor product with the stated pure-tensor scalar action. -/
+@[source_ref "Chapter2/Exercise2.11.5" (role := supporting)]
 theorem exists_tensorProductModule [AddCommGroup V] [Module K V] [Module A V]
     [IsScalarTower K A V] :
     ∃ inst : Module (_root_.TensorProduct K A L) (_root_.TensorProduct K V L),
