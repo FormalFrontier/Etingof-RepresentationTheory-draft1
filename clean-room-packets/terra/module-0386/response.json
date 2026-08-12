@@ -1,0 +1,40 @@
+{
+  "module_name": "Auxiliary.PartitionIndexedAlgebra",
+  "declarations": [
+    {
+      "temporary_id": "decl-018186",
+      "new_name": "partitionAuxiliaryInt",
+      "docstring": "Associates an auxiliary integer to each partition."
+    },
+    {
+      "temporary_id": "decl-022163",
+      "new_name": "monoidAlgebraToFun",
+      "docstring": "Views an element of a monoid algebra as its coefficient function."
+    },
+    {
+      "temporary_id": "decl-023496",
+      "new_name": "auxiliaryElement",
+      "docstring": "Returns an auxiliary element indexed by a natural number."
+    },
+    {
+      "temporary_id": "decl-023525",
+      "new_name": "auxiliaryElement_commutes",
+      "docstring": "The auxiliary element commutes with every element of the indexed family."
+    },
+    {
+      "temporary_id": "decl-023527",
+      "new_name": "auxiliaryElement_mul_eq_smul_of_mem",
+      "docstring": "On members of the partition-indexed collection, multiplication by the auxiliary element equals scalar multiplication by the associated integer."
+    },
+    {
+      "temporary_id": "decl-023528",
+      "new_name": "auxiliaryElement_mul_eq_smul_at_partition",
+      "docstring": "Multiplication by the auxiliary element on the partition-indexed element equals scalar multiplication by the associated integer."
+    },
+    {
+      "temporary_id": "decl-024705",
+      "new_name": "coeff_partitionIndexedElement_swap_eq_indicator_sub",
+      "docstring": "For distinct indices, the coefficient at their swap is the difference of the two equality indicators determined by the partition data."
+    }
+  ]
+}
