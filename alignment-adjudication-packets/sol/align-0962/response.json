@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0962",
+  "associations": [
+    {
+      "association_id": "association:8c352d3b40da9ef7ceed",
+      "rationale": "States the strict-dominance vanishing case explicitly identified by the source as a special case.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:55b757ff6d20e11a9537",
+      "rationale": "Directly states the generalized vanishing under the source condition that mu does not dominate lambda.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:ed0cd53a8bb7fe3a3335",
+      "rationale": "Proves the generalized vanishing only for basis elements, serving as a helper toward the all-x claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f4903edc1320553095f5",
+      "rationale": "Its name and unavailable formal type indicate an auxiliary pigeonhole-transposition result, not the vanishing claim itself.",
+      "role": "supporting"
+    }
+  ]
+}
