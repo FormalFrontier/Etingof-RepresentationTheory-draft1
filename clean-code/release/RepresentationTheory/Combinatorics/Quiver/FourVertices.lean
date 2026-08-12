@@ -5,12 +5,14 @@ Authors: Kim Morrison
 -/
 
 import Mathlib.Combinatorics.Quiver.Basic
+import RepresentationTheory.Alignment.Attribute
 
 /-! # A quiver on four vertices -/
 
 namespace RepresentationTheory.Combinatorics.Quiver.FourVertices
 
 /-- A quiver structure on the four-element type. -/
+@[source_ref "Chapter2/Example2.8.2" (role := primary)]
 instance fourVertexQuiver : Quiver (Fin 4) where
   Hom a b :=
     if a = 0 ∧ b = 1 then Unit
@@ -21,6 +23,7 @@ instance fourVertexQuiver : Quiver (Fin 4) where
 namespace fourVertexQuiver
 
 /-- The specified arrow from vertex zero to vertex one. -/
+@[source_ref "Chapter2/Example2.8.2" (role := supporting)]
 def arrow01 : (0 : Fin 4) ⟶ (1 : Fin 4) := by
   change (if (0 : Fin 4) = 0 ∧ (1 : Fin 4) = 1 then Unit else
     if (0 : Fin 4) = 2 ∧ (1 : Fin 4) = 1 then Unit else
@@ -28,6 +31,7 @@ def arrow01 : (0 : Fin 4) ⟶ (1 : Fin 4) := by
   simpa using Unit.unit
 
 /-- The specified arrow from vertex two to vertex one. -/
+@[source_ref "Chapter2/Example2.8.2" (role := supporting)]
 def arrow21 : (2 : Fin 4) ⟶ (1 : Fin 4) := by
   change (if (2 : Fin 4) = 0 ∧ (1 : Fin 4) = 1 then Unit else
     if (2 : Fin 4) = 2 ∧ (1 : Fin 4) = 1 then Unit else
@@ -35,6 +39,7 @@ def arrow21 : (2 : Fin 4) ⟶ (1 : Fin 4) := by
   simpa using Unit.unit
 
 /-- The specified arrow from vertex three to vertex zero. -/
+@[source_ref "Chapter2/Example2.8.2" (role := supporting)]
 def arrow30 : (3 : Fin 4) ⟶ (0 : Fin 4) := by
   change (if (3 : Fin 4) = 0 ∧ (0 : Fin 4) = 1 then Unit else
     if (3 : Fin 4) = 2 ∧ (0 : Fin 4) = 1 then Unit else

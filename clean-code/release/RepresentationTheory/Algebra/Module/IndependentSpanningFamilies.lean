@@ -836,7 +836,8 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
 
 /-- Two nonzero finite independent spanning families satisfying the displayed predicate have the
 same cardinality and, after a permutation, linearly equivalent corresponding members. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.8.1" (role := primary)]
+@[source_ref "Chapter3/Discussion_proof_of_Theorem3.8.1" (role := primary),
+  source_ref "Chapter3/Lemma3.8.2/Derived5" (role := supporting)]
 theorem eq_card_and_exists_equiv_of_iSupIndep (k : Type*) (A : Type*) (V : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
@@ -853,4 +854,3 @@ theorem eq_card_and_exists_equiv_of_iSupIndep (k : Type*) (A : Type*) (V : Type*
     W W' hW_indec hW'_indec hW_ne hW'_ne hW_sup hW'_sup hW_ind hW'_ind
 
 end RepresentationTheory.Algebra.Module.IndependentSpanningFamilies
-
