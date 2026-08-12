@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1256",
+  "associations": [
+    {
+      "association_id": "association:7abaf1030f53435575a1",
+      "rationale": "For K contained in H, the formal statement supplies an equivariant equivalence between induction in two stages and direct induction from K to G, which is precisely the asserted induction isomorphism.",
+      "role": "primary"
+    }
+  ]
+}

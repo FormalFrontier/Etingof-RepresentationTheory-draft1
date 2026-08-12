@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1260",
+  "associations": [
+    {
+      "association_id": "association:d2ad3777501c2b4879b2",
+      "rationale": "The displayed formal type failed to pretty-print, so none of the theorem's irreducibility, uniqueness, completeness, or character assertions can be verified directly from it.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1c7854c9b56ec411d8cf",
+      "rationale": "This proves independence of the chosen orbit basepoint for the induced construction, a well-definedness helper rather than any of the four stated conclusions.",
+      "role": "supporting"
+    }
+  ]
+}

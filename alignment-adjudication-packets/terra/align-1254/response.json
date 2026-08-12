@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1254",
+  "associations": [
+    {
+      "association_id": "association:6131202a4fa8887728c2",
+      "rationale": "The formal equality gives the requested sum of dimensions of a complete pairwise-nonisomorphic family of irreducible S_n-representations as the number of permutations whose square is one, directly answering the problem.",
+      "role": "primary"
+    }
+  ]
+}
