@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1007",
+  "associations": [
+    {
+      "association_id": "association:8284817a558713649fe3",
+      "rationale": "Its left side uses the normalized finite character sum, but the declaration proves an equality with a Hom-space dimension rather than defining the displayed Hermitian pairing itself.",
+      "role": "supporting"
+    }
+  ]
+}
