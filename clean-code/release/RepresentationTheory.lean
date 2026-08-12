@@ -22,6 +22,7 @@ import RepresentationTheory.Algebra.Quiver.Representation.Constructions
 import RepresentationTheory.Algebra.CenterAction
 import RepresentationTheory.Algebra.FieldCommRing
 import RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity
+import RepresentationTheory.Algebra.Module.CommutativeOppositeScalars
 import RepresentationTheory.Algebra.Module.TensorProduct
 import RepresentationTheory.Algebra.Module.EndomorphismDichotomy
 import RepresentationTheory.Algebra.Module.EquivalenceTransfers
