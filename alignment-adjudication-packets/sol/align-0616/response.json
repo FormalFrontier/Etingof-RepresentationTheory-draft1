@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0616",
+  "associations": [
+    {
+      "association_id": "association:b2e247ff09468a288c4b",
+      "rationale": "The type directly states that the degree-n piece of the free algebra on m generators has finrank m^n.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:2336f5b7e2010001b1ea",
+      "rationale": "The displayed type only constructs a degree piece as a submodule and does not state its dimension or Hilbert series.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b23cda5720376deb4f20",
+      "rationale": "The algebra equivalence with a free-monoid monoid algebra is a construction supporting the calculation, not the dimension or Hilbert-series claim itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:15bc318fc1de34cefef8",
+      "rationale": "The type directly states that (1-mX) times the power series with coefficients m^n is 1, equivalently the claimed free-algebra Hilbert series.",
+      "role": "primary"
+    }
+  ]
+}

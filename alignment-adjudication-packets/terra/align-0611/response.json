@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0611",
+  "associations": [
+    {
+      "association_id": "association:cbdd16a22134310d0d8e",
+      "rationale": "The type directly states that every finite-dimensional simple q-Weyl module V is linearly equivalent to some family member Fam q alpha beta.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0619",
+  "associations": [
+    {
+      "association_id": "association:ffe4213cab2123b6669b",
+      "rationale": "The type directly says that adjoining all vertex idempotents and arrow generators yields the top subalgebra, i.e. these elements generate the path algebra.",
+      "role": "primary"
+    }
+  ]
+}

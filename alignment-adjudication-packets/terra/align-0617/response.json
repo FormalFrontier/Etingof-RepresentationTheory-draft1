@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0617",
+  "associations": [
+    {
+      "association_id": "association:c3fe6ca58bfe6ae1f316",
+      "rationale": "The type directly states that the nth exterior-power piece on m generators has finrank C(m,n).",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:1ececb19f8d6214e266e",
+      "rationale": "The type directly equates the power series with coefficients C(m,n) to (1+X)^m, exactly the stated Hilbert series.",
+      "role": "primary"
+    }
+  ]
+}

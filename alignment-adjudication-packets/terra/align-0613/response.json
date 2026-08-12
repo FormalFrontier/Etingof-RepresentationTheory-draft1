@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0613",
+  "associations": [
+    {
+      "association_id": "association:4495aca6dbfc19e31608",
+      "rationale": "Despite its declaration name, the displayed type directly concludes that the complex finrank of every finite-dimensional simple q-Weyl module equals orderOf(q).",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:83cbfd23bbcdab397ebe",
+      "rationale": "The type directly states that every finite-dimensional simple q-Weyl module has complex finrank equal to orderOf(q).",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0620",
+  "associations": [
+    {
+      "association_id": "association:15b93a40fad289fbf931",
+      "rationale": "The type directly states that the sum of all vertex idempotents is 1.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:2d68600ac161d0aea392",
+      "rationale": "The type directly states that distinct vertex idempotents multiply to zero, which is pairwise orthogonality.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:fe44be40eb4d43782b16",
+      "rationale": "The type directly states that each vertex generator squares to itself, which is idempotence.",
+      "role": "primary"
+    }
+  ]
+}
