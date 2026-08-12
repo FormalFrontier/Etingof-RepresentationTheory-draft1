@@ -33,18 +33,18 @@
     },
     {
       "association_id": "association:e7195224a232e3ff86c8",
-      "rationale": "The type directly gives the parabolic centralizer size q(q-1), matching the source's description of its commuting matrices.",
-      "role": "primary"
+      "rationale": "The q(q-1) parabolic-centralizer count is derived from the commuting-matrix form, rather than directly stating that form or a table entry.",
+      "role": "supporting"
     },
     {
       "association_id": "association:c093de4f3b0dc1e8e8fc",
-      "rationale": "The type directly expresses that a scalar element has all of GL2 as its centralizer, matching the source's statement that it is central.",
-      "role": "primary"
+      "rationale": "The centralizer cardinality |GL2| is a consequence of the source's centrality statement, not the centrality statement itself.",
+      "role": "supporting"
     },
     {
       "association_id": "association:5b2dd025c899264f10d1",
-      "rationale": "The type directly gives the split semisimple centralizer size (q-1)^2, matching the diagonal commuting matrices described in the table.",
-      "role": "primary"
+      "rationale": "The (q-1)^2 centralizer count is derived from the diagonal-centralizer description and supports the conjugacy-class size calculation.",
+      "role": "supporting"
     },
     {
       "association_id": "association:457c3759c7562519f44f",

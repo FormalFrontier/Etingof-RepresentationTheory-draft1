@@ -18,7 +18,7 @@
     },
     {
       "association_id": "association:53cc522a1341952f1965",
-      "rationale": "The type directly gives the isomorphism criterion for the nonsplit two-dimensional normal forms, part of the requested classification.",
+      "rationale": "The type directly gives the Jrep-family isomorphism criterion: the base parameter agrees and the extension parameter differs by a nonzero scalar.",
       "role": "primary"
     },
     {
@@ -28,7 +28,7 @@
     },
     {
       "association_id": "association:f4edcac6ae17a252f3af",
-      "rationale": "The type directly separates split representations with distinct characters from the nonsplit Jrep family, contributing the requested isomorphism classification.",
+      "rationale": "For distinct characters, the type rules out an isomorphism between the displayed split representation and any Jrep, giving cross-family separation.",
       "role": "primary"
     },
     {
