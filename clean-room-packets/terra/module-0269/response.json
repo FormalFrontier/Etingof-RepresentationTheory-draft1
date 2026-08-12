@@ -1,0 +1,45 @@
+{
+  "module_name": "GeneralLinearRepresentation.WeightPolynomialDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-017967",
+      "new_name": "GeneralLinearRepresentation.exists_positive_polynomial_term_of_simple_subrepresentation",
+      "docstring": "An injectively embedded simple representation has polynomial invariant equal to a term occurring with positive coefficient in any specified finite expansion."
+    },
+    {
+      "temporary_id": "decl-018036",
+      "new_name": "GeneralLinearRepresentation.linearIndependent_weightPolynomials_of_pairwise_nonisomorphic",
+      "docstring": "The polynomial invariants of a finite pairwise nonisomorphic family of simple representations are linearly independent over the rationals."
+    },
+    {
+      "temporary_id": "decl-019527",
+      "new_name": "GeneralLinearRepresentation.weightPolynomial_eq_of_iso",
+      "docstring": "Isomorphic finite-dimensional representations have equal polynomial invariants."
+    },
+    {
+      "temporary_id": "decl-019530",
+      "new_name": "GeneralLinearRepresentation.exists_simple_weightPolynomial_decomposition",
+      "docstring": "A representation satisfying the stated auxiliary and weight-space spanning conditions has a finite decomposition of its polynomial invariant into those of simple representations with the same conditions."
+    },
+    {
+      "temporary_id": "decl-021712",
+      "new_name": "GeneralLinearRepresentation.sum_coefficients_eq_zero_on_weightPolynomial_fiber",
+      "docstring": "In a vanishing rational combination of polynomial invariants, the coefficients indexed by any fixed invariant sum to zero."
+    },
+    {
+      "temporary_id": "decl-023001",
+      "new_name": "GeneralLinearRepresentation.iSup_weightSpaces_canonical_eq_top",
+      "docstring": "The supremum of all weight spaces of the representation indexed by a natural-valued weight is the whole space."
+    },
+    {
+      "temporary_id": "decl-023441",
+      "new_name": "GeneralLinearRepresentation.iSup_weightSpaces_subrepresentation_eq_top",
+      "docstring": "The representation carried by a subrepresentation has weight spaces spanning the whole space whenever the ambient representation does."
+    },
+    {
+      "temporary_id": "decl-023442",
+      "new_name": "GeneralLinearRepresentation.auxiliaryCondition_subrepresentation",
+      "docstring": "The stated auxiliary condition on a general linear group action passes to the representation carried by a subrepresentation."
+    }
+  ]
+}
