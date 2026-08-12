@@ -7,8 +7,8 @@
     },
     {
       "association_id": "association:cec75fdc114793a239e6",
-      "rationale": "The equality g = rowZero directly identifies the formal Lie algebra with the bottom-row-zero matrices.",
-      "role": "primary"
+      "rationale": "The declaration directly proves g = rowZero, but the source claim concerns aff(1), and the packet supplies no equality or definitional link between aff and g.",
+      "role": "supporting"
     }
   ],
   "packet_id": "align-0895"
