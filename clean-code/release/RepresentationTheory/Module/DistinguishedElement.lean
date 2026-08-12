@@ -5,12 +5,14 @@ Authors: Kim Morrison
 -/
 
 import RepresentationTheory.Algebra.DesignatedElements
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Distinguished elements -/
 
 namespace RepresentationTheory.Module.DistinguishedElement
 
 /-- Any two elements satisfying the displayed distinguished-element predicate are equal. -/
+@[source_ref "Chapter2/Proposition2.2.3" (role := primary)]
 theorem distinguishedElement_unique (k : Type*) {A : Type*} [Field k] [AddCommGroup A]
     [Module k A]
     [RepresentationTheory.Algebra.NonUnitalStructure.NonUnitalAlgebraStructure k A]
