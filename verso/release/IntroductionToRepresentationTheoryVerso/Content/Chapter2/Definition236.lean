@@ -32,3 +32,5 @@ number := false
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModulePairData.ModulePairDatum}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModulePairData.ModulePairRelation}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModulePairData.ModulePairWitness}

@@ -26,6 +26,10 @@ tag := "Chapter2/Discussion_pure_tensors/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorProductAuxiliary.diagonalTensorAux_ne_tmul}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2}
