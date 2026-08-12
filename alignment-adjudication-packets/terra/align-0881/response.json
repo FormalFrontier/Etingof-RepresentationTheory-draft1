@@ -12,8 +12,8 @@
     },
     {
       "association_id": "association:dc00ad72581b44c10904",
-      "rationale": "Directly states that the displayed comparison morphism is an isomorphism, matching evaluation being an isomorphism.",
-      "role": "primary"
+      "rationale": "States that the opaque morphism ξ is an isomorphism, but the displayed formal type does not identify ξ with the evaluation map from the source claim.",
+      "role": "supporting"
     }
   ],
   "packet_id": "align-0881"
