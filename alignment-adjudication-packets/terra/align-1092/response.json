@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:d64843351db2fd6f1537",
-      "rationale": "The displayed type is an AlgEquiv from WeylAlgebra k to the subtype defined by polyDiffOp k, directly stating the claimed algebra identification.",
-      "role": "primary"
+      "rationale": "The algebra equivalence supports the claim, but the displayed type alone does not expose the polynomial-differential-operator interpretation.",
+      "role": "supporting"
     },
     {
       "association_id": "association:cd97236d3cc57d86ac4a",
