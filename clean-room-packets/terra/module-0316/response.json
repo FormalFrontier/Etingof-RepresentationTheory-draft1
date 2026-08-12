@@ -1,0 +1,10 @@
+{
+  "module_name": "OddOrderAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-018869",
+      "new_name": "oddCardinality_exists_auxiliarySimpleRepresentation",
+      "docstring": "Establishes the existence of a simple complex representation of a nontrivial finite odd-order group with nontrivial action and an auxiliary condition."
+    }
+  ]
+}
