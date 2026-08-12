@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1185",
+  "associations": [
+    {
+      "association_id": "association:62ef789c06fa520b516d",
+      "rationale": "No formal type is displayed, so the generic comap construction does not itself visibly state that the later Vᵢ are the specified preimages under the quotient projection.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1190",
+  "associations": [
+    {
+      "association_id": "association:946654f13ae8f2f51567",
+      "rationale": "The formal type failed to print, so no displayed proposition verifies that the summand is independent of the chosen right-coset representative.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e8c8a3942b4c47701aeb",
+      "rationale": "The formal type failed to print, so the displayed information does not establish the source claim's representative-independence equality.",
+      "role": "supporting"
+    }
+  ]
+}

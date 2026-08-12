@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1182",
+  "associations": [
+    {
+      "association_id": "association:811b7c7a84c08f99204d",
+      "rationale": "The displayed type assumes two finite independent decompositions into nonzero indecomposable submodules and concludes both equality of the numbers of summands and a permutation matching corresponding summands by linear equivalences, exactly stating the source claim.",
+      "role": "primary"
+    }
+  ]
+}

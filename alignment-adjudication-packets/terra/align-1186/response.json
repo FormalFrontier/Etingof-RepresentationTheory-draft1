@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1186",
+  "associations": [
+    {
+      "association_id": "association:ef1373b5dbedb6d317fa",
+      "rationale": "The displayed conjunction asserts that a specific polynomial-module representation is indecomposable and is not simple, directly providing the counterexample stated by the source claim.",
+      "role": "primary"
+    }
+  ]
+}

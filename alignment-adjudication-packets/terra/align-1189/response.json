@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1189",
+  "associations": [
+    {
+      "association_id": "association:33102d884e8d26a5fc40",
+      "rationale": "The displayed equality is exactly the bracket relation [X,Y] = Y for the named basis elements, so it states the entire source claim.",
+      "role": "primary"
+    }
+  ]
+}

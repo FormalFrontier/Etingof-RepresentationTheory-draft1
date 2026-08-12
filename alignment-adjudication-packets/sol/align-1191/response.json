@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-1191",
+  "associations": [
+    {
+      "association_id": "association:1d88fe560b846a2940d8",
+      "rationale": "The displayed type gives an A-linear equivalence from End_k(V) to finrank-indexed copies of V, but its evaluation behavior is hidden and it does not itself state the full finite-basis evaluation claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8f1b43b7dcb3b7e41435",
+      "rationale": "The displayed type gives an A-linear equivalence from End_k(V) to basis-indexed vectors, but it does not display that the map sends x to (x v_i)_i or state the finite-dimensional nV consequence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:00c4ed484ec7158ce073",
+      "rationale": "The displayed equality identifies each component of the basis-indexed equivalence with evaluation on that basis vector, but it does not itself assert that evaluation is an isomorphism or the nV consequence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4f3e131f0a3447b2054c",
+      "rationale": "The displayed equality identifies the canonical finite-basis components with evaluation, but it is only the application formula and does not itself state the linear isomorphism and its n-copy consequence.",
+      "role": "supporting"
+    }
+  ]
+}

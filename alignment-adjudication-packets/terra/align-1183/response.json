@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1183",
+  "associations": [
+    {
+      "association_id": "association:a0896282b9a37f7af103",
+      "rationale": "The displayed equality U†U = 1 states the orthonormal-columns part, but not the source claim's row orthonormality, implication from rows to columns, and resulting formula together.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ce6e0025d4c8de4eda84",
+      "rationale": "The displayed equality UU† = 1 states the orthonormal-rows part, but not the source claim's passage to columns and the resulting column-orthogonality formula.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3b8b50021a257d300d59",
+      "rationale": "The displayed character-sum equality gives the column-orthogonality formula, but it does not itself state the normalized matrix's row orthonormality or the implication from rows to columns.",
+      "role": "supporting"
+    }
+  ]
+}
