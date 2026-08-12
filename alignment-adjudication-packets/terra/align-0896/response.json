@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:da698adfa92fd7783605",
+      "rationale": "It characterizes membership in the already-defined two-sided kernel ideal by mapping to zero, rather than stating that the kernel is two-sided.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0896"
+}

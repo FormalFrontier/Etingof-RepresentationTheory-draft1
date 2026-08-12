@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:b480352286fceb6ccd71",
+      "rationale": "Under 1 < n, the declaration exhibits two elements of the free algebra whose products do not commute.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0894"
+}

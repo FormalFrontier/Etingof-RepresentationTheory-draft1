@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:548fb32d5787cc15e408",
+      "rationale": "The linear equivalence identifies coinduced functions with functions on right cosets, directly expressing determination by right-coset data.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0892"
+}

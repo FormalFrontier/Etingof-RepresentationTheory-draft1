@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:0a11d0e78c63ebae4840",
+      "rationale": "This states a density/interpolation surjectivity conclusion, not the source's described proof using Proposition 3.1.4 and a row-column argument.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f964ef64ed1c4b55965d",
+      "rationale": "This is a structural subrepresentation result related to Proposition 3.1.4, but it does not state the described application or derived linear relation.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0897"
+}

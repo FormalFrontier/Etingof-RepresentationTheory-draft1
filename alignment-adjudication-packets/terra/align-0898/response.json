@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:e962e259224925ffb4b0",
+      "rationale": "This specializes to classification of indecomposable D4 representations and does not itself state orientation independence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:71b0b38ae531549821fb",
+      "rationale": "Gabriel's theorem ties indecomposable dimension vectors and their unique isomorphism classes to positive roots of the underlying Dynkin diagram across orientations.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0898"
+}

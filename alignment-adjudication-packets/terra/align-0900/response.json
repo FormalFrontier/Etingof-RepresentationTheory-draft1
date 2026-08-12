@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:56744bc7e5b65e99f7dd",
+      "rationale": "The displayed type only gives a permutation-to-polynomial construction; it does not state the cycle-type power-sum encoding.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:5c5875949d6d1e77e492",
+      "rationale": "The displayed type gives a partition-and-permutation character function but no equation relating it to cycle types and power sums.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0900"
+}

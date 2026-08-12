@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:5f612e02d8a588b7feed",
+      "rationale": "It defines a group-indexed multivariable polynomial, but does not itself state the introduction of one variable for each element.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:228083bbf7448f5da892",
+      "rationale": "The variable constructor has no displayed formal type, so it cannot directly establish the group-indexed-variable claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0901"
+}

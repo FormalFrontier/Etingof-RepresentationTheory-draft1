@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:4e035ac13808f2585b37",
+      "rationale": "The theorem uses finite-group and nonzero-cardinality hypotheses as inputs to a stronger algebra decomposition result, rather than stating the hypotheses alone.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:dfe7457fe920856ed2f1",
+      "rationale": "The finiteness and invertibility-of-|G| assumptions are hypotheses for a semisimplicity conclusion, not a declaration of the source's standalone hypothesis statement.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0899"
+}
