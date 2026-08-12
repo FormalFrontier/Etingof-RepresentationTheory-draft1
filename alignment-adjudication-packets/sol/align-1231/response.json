@@ -1,0 +1,60 @@
+{
+  "packet_id": "align-1231",
+  "associations": [
+    {
+      "association_id": "association:cdaf5c3830c7f8b9403b",
+      "rationale": "The type proves the semisimplicity of a tensor product of finite-dimensional semisimple algebras, a prerequisite used in the proof.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:109edd5c48082c648a14",
+      "rationale": "The type proves only one radical inclusion, conditional on semisimplicity of the tensor product of radical quotients.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:47de7c63c4105afe0826",
+      "rationale": "The type equates the tensor-product Jacobson radical with the opaque helper radTensorSum, rather than displaying the claimed sum or the full theorem under discussion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:01966d2f9f572e43835d",
+      "rationale": "The type specializes the radical equality to the image algebras acting on M, a reduction step in the proof.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6e304e2dbd23b60163d0",
+      "rationale": "The type states the displayed quotient algebra equivalence, but this is an intermediate consequence within the larger irreducible tensor-product argument.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4f0cfaecee190eaced87",
+      "rationale": "The type identifies the quotient by the opaque radTensorSum with the tensor product of radical quotients, a construction supporting the radical calculation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:fc3948c2453e9cbb2166",
+      "rationale": "The type identifies radTensorSum with the kernel of a quotient map, a helper lemma for the radical proof.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4ea12a00d874064783a2",
+      "rationale": "The type proves the reverse radical inclusion, one component of the displayed equality.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b0b6d1223cec9199d6bf",
+      "rationale": "The type constructs a module action of the tensor product of two commuting image algebras on M.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:00c918830da67c1b1b38",
+      "rationale": "The type constructs the associated tensor-product representation into End(M), a proof mechanism rather than the theorem's conclusion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:770be256168b5f568df4",
+      "rationale": "The type computes the constructed representation on pure tensors, a helper formula.",
+      "role": "supporting"
+    }
+  ]
+}

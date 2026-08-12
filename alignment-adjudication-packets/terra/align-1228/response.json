@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1228",
+  "associations": [
+    {
+      "association_id": "association:9eb7847a2579c5da17fa",
+      "rationale": "The type establishes semisimplicity and eigenvalue constraints for K in the root-of-unity case, only ingredients for classification.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ef387afc327f9a4f2d45",
+      "rationale": "The type gives a dimension bound for irreducibles when q has finite order, not a classification of those modules.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e6f20f104bc3340b0f64",
+      "rationale": "The type produces a highest-weight vector and its K-eigenvalue when q has infinite order, a partial classification ingredient.",
+      "role": "supporting"
+    }
+  ]
+}

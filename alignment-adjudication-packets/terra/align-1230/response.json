@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1230",
+  "associations": [
+    {
+      "association_id": "association:14ca630aa54838300e1a",
+      "rationale": "The type directly states simultaneous interpolation of arbitrary target vectors from a finite linearly independent family in a finite-dimensional simple module.",
+      "role": "primary"
+    }
+  ]
+}

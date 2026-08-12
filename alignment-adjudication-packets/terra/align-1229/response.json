@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1229",
+  "associations": [
+    {
+      "association_id": "association:2c3d526aa275dbb39fd3",
+      "rationale": "The type directly states that every A-linear endomorphism of a simple complex module of rank at most aleph_0 is scalar.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1225",
+  "associations": [
+    {
+      "association_id": "association:5c7a148341cd0214769d",
+      "rationale": "The type directly states that a finite-dimensional nonzero irreducible complex representation of a solvable Lie algebra has finrank one.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1233",
+  "associations": [
+    {
+      "association_id": "association:c2d7081db5d5a9accbf3",
+      "rationale": "The type directly states that the character of V is the sum of the characters of an A-submodule W and the quotient V/W.",
+      "role": "primary"
+    }
+  ]
+}
