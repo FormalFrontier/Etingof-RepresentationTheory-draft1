@@ -18,8 +18,8 @@
     },
     {
       "temporary_id": "decl-004580",
-      "new_name": "conjugate_by_auxiliaryElement_eq_card_power",
-      "docstring": "Conjugation by the auxiliary element agrees with the displayed cardinality power."
+      "new_name": "conjugate_auxiliaryFunctionValue_eq_auxiliaryFunctionValue_cardPowerUnit",
+      "docstring": "Conjugating the displayed function value at α by the auxiliary element gives the function value at the unit constructed using the cardinality power."
     },
     {
       "temporary_id": "decl-004584",
@@ -63,8 +63,8 @@
     },
     {
       "temporary_id": "decl-004623",
-      "new_name": "auxiliaryPredicate_mul_auxiliaryElement_of_mem",
-      "docstring": "Multiplying an auxiliary-set member by the auxiliary element satisfies the auxiliary predicate."
+      "new_name": "auxiliaryPredicate_auxiliaryElement_mul_of_mem",
+      "docstring": "Left multiplication of an auxiliary-set member by the auxiliary element satisfies the auxiliary predicate."
     },
     {
       "temporary_id": "decl-004631",
