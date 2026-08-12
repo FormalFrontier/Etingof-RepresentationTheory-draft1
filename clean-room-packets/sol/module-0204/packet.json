@@ -871,26 +871,6 @@
       "temporary_id": "decl-003197"
     },
     {
-      "formal_type": "Repr.{0} decl-002959",
-      "kind": "definition",
-      "owner_temporary_id": null,
-      "project_type_dependencies": [
-        "decl-002959"
-      ],
-      "structural_type_hash": "1907176020",
-      "temporary_id": "decl-003205"
-    },
-    {
-      "formal_type": "decl-002959 \u2192 Nat \u2192 Std.Format",
-      "kind": "definition",
-      "owner_temporary_id": "decl-003205",
-      "project_type_dependencies": [
-        "decl-002959"
-      ],
-      "structural_type_hash": "352746613",
-      "temporary_id": "decl-003206"
-    },
-    {
       "formal_type": "Fin 5 \u2192 Rat",
       "kind": "definition",
       "owner_temporary_id": null,

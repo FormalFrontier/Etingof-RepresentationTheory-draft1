@@ -127,19 +127,6 @@
       "temporary_id": "decl-010873"
     },
     {
-      "formal_type": "\u2200 {p : Nat} {x y : decl-010860 p}, Eq.{1} x.a y.a \u2192 Eq.{1} x.b y.b \u2192 Eq.{1} x.c y.c \u2192 Eq.{1} x y",
-      "kind": "theorem",
-      "owner_temporary_id": "decl-010860",
-      "project_type_dependencies": [
-        "decl-010860",
-        "decl-010863",
-        "decl-010864",
-        "decl-010865"
-      ],
-      "structural_type_hash": "67625462",
-      "temporary_id": "decl-010876"
-    },
-    {
       "formal_type": "{p : Nat} \u2192 [NeZero.{0} p] \u2192 Fintype.{0} (decl-010860 p)",
       "kind": "definition",
       "owner_temporary_id": "decl-010860",

@@ -11,7 +11,6 @@
     {"temporary_id":"decl-010870","new_name":"closure_generators_eq_top","docstring":"The displayed two elements generate the whole group."},
     {"temporary_id":"decl-010872","new_name":"normalForm","docstring":"Expresses every group element in terms of the displayed powers."},
     {"temporary_id":"decl-010873","new_name":"equivCoordinates","docstring":"Equates the carrier with a product of three residue rings."},
-    {"temporary_id":"decl-010876","new_name":"ext","docstring":"Elements with equal three coordinates are equal."},
     {"temporary_id":"decl-010880","new_name":"instFintype","docstring":"Provides a finite enumeration when the index is nonzero."},
     {"temporary_id":"decl-010881","new_name":"instGroup","docstring":"Provides the group structure on the carrier."},
     {"temporary_id":"decl-010892","new_name":"instInv","docstring":"Provides inversion on the carrier."},

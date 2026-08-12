@@ -62,11 +62,6 @@
       "docstring": "Returns the column coordinate of a natural index relative to a list of row lengths."
     },
     {
-      "temporary_id": "decl-018066",
-      "new_name": "columnAuxiliary",
-      "docstring": "An auxiliary natural-valued operation attached to the flat-index column function."
-    },
-    {
       "temporary_id": "decl-018070",
       "new_name": "flatIndexColumn_lt_rowLength",
       "docstring": "For an index below the sum of the row lengths, its column coordinate is below the length of its row."
@@ -85,11 +80,6 @@
       "temporary_id": "decl-022870",
       "new_name": "flatIndexRow",
       "docstring": "Returns the row coordinate of a natural index relative to a list of row lengths."
-    },
-    {
-      "temporary_id": "decl-022873",
-      "new_name": "rowAuxiliary",
-      "docstring": "An auxiliary natural-valued operation attached to the flat-index row function."
     },
     {
       "temporary_id": "decl-022879",

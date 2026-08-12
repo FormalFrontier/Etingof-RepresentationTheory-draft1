@@ -2143,7 +2143,6 @@
 {"module_temporary_id": "module-0101", "old_fqn": "Etingof.Problem2_8_6.evalMap", "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6", "owner_temporary_id": null, "temporary_id": "decl-009259"}
 {"module_temporary_id": "module-0101", "old_fqn": "Etingof.Problem2_8_6.evalMap_single", "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6", "owner_temporary_id": null, "temporary_id": "decl-009260"}
 {"module_temporary_id": "module-0101", "old_fqn": "Etingof.Problem2_8_6.evalPath", "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6", "owner_temporary_id": null, "temporary_id": "decl-009261"}
-{"module_temporary_id": "module-0101", "old_fqn": "Etingof.Problem2_8_6.evalPath._unsafe_rec", "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6", "owner_temporary_id": "decl-009261", "temporary_id": "decl-009264"}
 {"module_temporary_id": "module-0101", "old_fqn": "Etingof.Problem2_8_6.evalPath_cons", "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6", "owner_temporary_id": null, "temporary_id": "decl-009266"}
 {"module_temporary_id": "module-0101", "old_fqn": "Etingof.Problem2_8_6.evalPath_nil", "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6", "owner_temporary_id": null, "temporary_id": "decl-009267"}
 {"module_temporary_id": "module-0101", "old_fqn": "Etingof.Problem2_8_6.ofPath_cons", "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6", "owner_temporary_id": null, "temporary_id": "decl-009268"}
@@ -3746,8 +3745,6 @@
 {"module_temporary_id": "module-0204", "old_fqn": "Etingof.Example4_8_1.Q8.sum_univ_Q8", "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.Q8", "owner_temporary_id": null, "temporary_id": "decl-003086"}
 {"module_temporary_id": "module-0204", "old_fqn": "Etingof.Example4_8_1.Q8.twoDim_norm", "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.Q8", "owner_temporary_id": null, "temporary_id": "decl-003087"}
 {"module_temporary_id": "module-0204", "old_fqn": "Etingof.Example4_8_1.chiQ8", "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.Q8", "owner_temporary_id": null, "temporary_id": "decl-003197"}
-{"module_temporary_id": "module-0204", "old_fqn": "Etingof.Example4_8_1.instReprQ5", "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.Q8", "owner_temporary_id": null, "temporary_id": "decl-003205"}
-{"module_temporary_id": "module-0204", "old_fqn": "Etingof.Example4_8_1.instReprQ5.repr", "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.Q8", "owner_temporary_id": "decl-003205", "temporary_id": "decl-003206"}
 {"module_temporary_id": "module-0204", "old_fqn": "Etingof.Example4_8_1.sizesQ8", "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.Q8", "owner_temporary_id": null, "temporary_id": "decl-003209"}
 {"module_temporary_id": "module-0205", "old_fqn": "Etingof.Example4_8_1.S4.S4", "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4", "owner_temporary_id": null, "temporary_id": "decl-003088"}
 {"module_temporary_id": "module-0205", "old_fqn": "Etingof.Example4_8_1.S4.charRep", "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4", "owner_temporary_id": null, "temporary_id": "decl-003089"}
@@ -4312,7 +4309,6 @@
 {"module_temporary_id": "module-0227", "old_fqn": "Etingof.Problem4_12_2.Heisenberg.closure_gens_eq_top", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2", "owner_temporary_id": "decl-010860", "temporary_id": "decl-010870"}
 {"module_temporary_id": "module-0227", "old_fqn": "Etingof.Problem4_12_2.Heisenberg.eq_gen_prod", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2", "owner_temporary_id": "decl-010860", "temporary_id": "decl-010872"}
 {"module_temporary_id": "module-0227", "old_fqn": "Etingof.Problem4_12_2.Heisenberg.equivProd", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2", "owner_temporary_id": "decl-010860", "temporary_id": "decl-010873"}
-{"module_temporary_id": "module-0227", "old_fqn": "Etingof.Problem4_12_2.Heisenberg.ext", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2", "owner_temporary_id": "decl-010860", "temporary_id": "decl-010876"}
 {"module_temporary_id": "module-0227", "old_fqn": "Etingof.Problem4_12_2.Heisenberg.instFintypeOfNeZeroNat", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2", "owner_temporary_id": "decl-010860", "temporary_id": "decl-010880"}
 {"module_temporary_id": "module-0227", "old_fqn": "Etingof.Problem4_12_2.Heisenberg.instGroup", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2", "owner_temporary_id": "decl-010860", "temporary_id": "decl-010881"}
 {"module_temporary_id": "module-0227", "old_fqn": "Etingof.Problem4_12_2.Heisenberg.instInv", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_2", "owner_temporary_id": "decl-010860", "temporary_id": "decl-010892"}
@@ -4487,7 +4483,6 @@
 {"module_temporary_id": "module-0231", "old_fqn": "Etingof.Problem4_12_6.Affine.b", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6", "owner_temporary_id": "decl-011199", "temporary_id": "decl-011211"}
 {"module_temporary_id": "module-0231", "old_fqn": "Etingof.Problem4_12_6.Affine.card_eq", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6", "owner_temporary_id": "decl-011199", "temporary_id": "decl-011212"}
 {"module_temporary_id": "module-0231", "old_fqn": "Etingof.Problem4_12_6.Affine.equivProd", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6", "owner_temporary_id": "decl-011199", "temporary_id": "decl-011215"}
-{"module_temporary_id": "module-0231", "old_fqn": "Etingof.Problem4_12_6.Affine.ext", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6", "owner_temporary_id": "decl-011199", "temporary_id": "decl-011218"}
 {"module_temporary_id": "module-0231", "old_fqn": "Etingof.Problem4_12_6.Affine.instFintypeOfDecidableEq", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6", "owner_temporary_id": "decl-011199", "temporary_id": "decl-011222"}
 {"module_temporary_id": "module-0231", "old_fqn": "Etingof.Problem4_12_6.Affine.instGroup", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6", "owner_temporary_id": "decl-011199", "temporary_id": "decl-011223"}
 {"module_temporary_id": "module-0231", "old_fqn": "Etingof.Problem4_12_6.Affine.instInv", "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_6", "owner_temporary_id": "decl-011199", "temporary_id": "decl-011234"}
@@ -5153,12 +5148,10 @@
 {"module_temporary_id": "module-0282", "old_fqn": "Etingof.canonicalStandardYoungTableau_toYoungTableau", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1", "owner_temporary_id": null, "temporary_id": "decl-017723"}
 {"module_temporary_id": "module-0282", "old_fqn": "Etingof.canonicalYoungTableau", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1", "owner_temporary_id": null, "temporary_id": "decl-017724"}
 {"module_temporary_id": "module-0282", "old_fqn": "Etingof.colOfPos", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1", "owner_temporary_id": null, "temporary_id": "decl-018063"}
-{"module_temporary_id": "module-0282", "old_fqn": "Etingof.colOfPos._unsafe_rec", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1", "owner_temporary_id": "decl-018063", "temporary_id": "decl-018066"}
 {"module_temporary_id": "module-0282", "old_fqn": "Etingof.colOfPos_lt_getD", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1", "owner_temporary_id": null, "temporary_id": "decl-018070"}
 {"module_temporary_id": "module-0282", "old_fqn": "Etingof.exists_pos_of_cell", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1", "owner_temporary_id": null, "temporary_id": "decl-018914"}
 {"module_temporary_id": "module-0282", "old_fqn": "Etingof.posOfCell", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1", "owner_temporary_id": null, "temporary_id": "decl-022103"}
 {"module_temporary_id": "module-0282", "old_fqn": "Etingof.rowOfPos", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1", "owner_temporary_id": null, "temporary_id": "decl-022870"}
-{"module_temporary_id": "module-0282", "old_fqn": "Etingof.rowOfPos._unsafe_rec", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1", "owner_temporary_id": "decl-022870", "temporary_id": "decl-022873"}
 {"module_temporary_id": "module-0282", "old_fqn": "Etingof.rowOfPos_colOfPos_injective", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1", "owner_temporary_id": null, "temporary_id": "decl-022879"}
 {"module_temporary_id": "module-0282", "old_fqn": "Etingof.youngProjector", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1", "owner_temporary_id": null, "temporary_id": "decl-024561"}
 {"module_temporary_id": "module-0282", "old_fqn": "Etingof.youngProjectorCol", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1", "owner_temporary_id": null, "temporary_id": "decl-024563"}
@@ -5170,7 +5163,6 @@
 {"module_temporary_id": "module-0284", "old_fqn": "Etingof.IsQuaternionicType", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_1_1", "owner_temporary_id": null, "temporary_id": "decl-005277"}
 {"module_temporary_id": "module-0284", "old_fqn": "Etingof.IsRealType", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_1_1", "owner_temporary_id": null, "temporary_id": "decl-005278"}
 {"module_temporary_id": "module-0284", "old_fqn": "Etingof.RepresentationType", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_1_1", "owner_temporary_id": null, "temporary_id": "decl-015471"}
-{"module_temporary_id": "module-0284", "old_fqn": "Etingof.RepresentationType.toCtorIdx", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_1_1", "owner_temporary_id": "decl-015471", "temporary_id": "decl-015491"}
 {"module_temporary_id": "module-0284", "old_fqn": "Etingof.exists_equivariant_dual_equiv_of_invariant_nondegenerate", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_1_1", "owner_temporary_id": null, "temporary_id": "decl-018829"}
 {"module_temporary_id": "module-0284", "old_fqn": "Etingof.not_isComplexType_of_isQuaternionicType", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_1_1", "owner_temporary_id": null, "temporary_id": "decl-021775"}
 {"module_temporary_id": "module-0284", "old_fqn": "Etingof.not_isComplexType_of_isRealType", "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_1_1", "owner_temporary_id": null, "temporary_id": "decl-021776"}
@@ -11971,7 +11963,6 @@
 {"module_temporary_id": "module-0747", "old_fqn": "Etingof.Problem946.not_hasHomologicalDimensionLE_zero_freeAlgebra", "old_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6", "owner_temporary_id": null, "temporary_id": "decl-013964"}
 {"module_temporary_id": "module-0747", "old_fqn": "Etingof.Problem946.pathCountMatrix", "old_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6", "owner_temporary_id": null, "temporary_id": "decl-013966"}
 {"module_temporary_id": "module-0747", "old_fqn": "Etingof.Problem946.pathSupport", "old_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6", "owner_temporary_id": null, "temporary_id": "decl-013968"}
-{"module_temporary_id": "module-0747", "old_fqn": "Etingof.Problem946.pathSupport._unsafe_rec", "old_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6", "owner_temporary_id": "decl-013968", "temporary_id": "decl-013971"}
 {"module_temporary_id": "module-0747", "old_fqn": "Etingof.Problem946.pathSupport_length", "old_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6", "owner_temporary_id": null, "temporary_id": "decl-013976"}
 {"module_temporary_id": "module-0747", "old_fqn": "Etingof.Problem946.pathSupport_nodup", "old_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6", "owner_temporary_id": null, "temporary_id": "decl-013979"}
 {"module_temporary_id": "module-0747", "old_fqn": "Etingof.Problem946.pathToFree", "old_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6", "owner_temporary_id": null, "temporary_id": "decl-013982"}

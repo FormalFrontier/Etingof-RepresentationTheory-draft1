@@ -102,11 +102,6 @@
       "docstring": "The value in a ring assigned to a quiver path from chosen vertex and arrow values."
     },
     {
-      "temporary_id": "decl-009264",
-      "new_name": "auxiliaryPathEvaluation",
-      "docstring": "An auxiliary path-evaluation function with the same vertex and arrow parameters."
-    },
-    {
       "temporary_id": "decl-009266",
       "new_name": "pathEvaluation_cons",
       "docstring": "The evaluation of a path extended by an arrow is the evaluation of the original path multiplied by the chosen arrow value."

@@ -22,11 +22,6 @@
       "docstring": "An auxiliary type of labels."
     },
     {
-      "temporary_id": "decl-015491",
-      "new_name": "toNat",
-      "docstring": "Returns the natural number associated with an auxiliary label."
-    },
-    {
       "temporary_id": "decl-018829",
       "new_name": "exists_intertwiner_to_dual_of_nondegenerate_invariant_form",
       "docstring": "A nondegenerate invariant complex bilinear form yields a map intertwining a representation with its dual."

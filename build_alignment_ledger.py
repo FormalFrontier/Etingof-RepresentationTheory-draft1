@@ -120,8 +120,95 @@ def parse_raw_declarations(raw_path: Path) -> list[dict[str, str]]:
     return declarations
 
 
-def is_generated(name: str, kind: str) -> bool:
+def strip_lean_comments_and_strings(source: str) -> str:
+    """Blank comments and strings while preserving line structure.
+
+    Apostrophes are intentionally left alone: in Lean they commonly occur in
+    identifiers, and treating them as character delimiters corrupts the rest
+    of a source line.
+    """
+    result: list[str] = []
+    index = 0
+    block_depth = 0
+    in_string = False
+    while index < len(source):
+        pair = source[index : index + 2]
+        char = source[index]
+        if block_depth:
+            if pair == "/-":
+                result.extend("  ")
+                block_depth += 1
+                index += 2
+            elif pair == "-/":
+                result.extend("  ")
+                block_depth -= 1
+                index += 2
+            else:
+                result.append("\n" if char == "\n" else " ")
+                index += 1
+        elif in_string:
+            if char == "\\" and index + 1 < len(source):
+                result.extend("  ")
+                index += 2
+            elif char == '"':
+                result.append(" ")
+                in_string = False
+                index += 1
+            else:
+                result.append("\n" if char == "\n" else " ")
+                index += 1
+        elif pair == "/-":
+            result.extend("  ")
+            block_depth = 1
+            index += 2
+        elif pair == "--":
+            while index < len(source) and source[index] != "\n":
+                result.append(" ")
+                index += 1
+        elif char == '"':
+            result.append(" ")
+            in_string = True
+            index += 1
+        else:
+            result.append(char)
+            index += 1
+    return "".join(result)
+
+
+def explicit_declaration_tokens(path: Path | None) -> set[str]:
+    """Return source-spelled names introduced by declaration commands."""
+    if path is None:
+        return set()
+    source = strip_lean_comments_and_strings(path.read_text(encoding="utf-8"))
+    return {
+        match.group(1)
+        for match in re.finditer(
+            r"(?m)^\s*(?:@\[[^\n]*\]\s*)*"
+            r"(?:(?:private|protected|noncomputable|unsafe|partial)\s+)*"
+            r"(?:theorem|lemma|def|abbrev|opaque|instance)\s+"
+            r"([^\s:({\[]+)",
+            source,
+        )
+    }
+
+
+def source_explicitly_declares(name: str, tokens: set[str]) -> bool:
+    """Whether a source declaration token can resolve to ``name``."""
+    parts = name.split(".")
+    suffixes = {".".join(parts[index:]) for index in range(len(parts))}
+    return bool(tokens & suffixes)
+
+
+def is_generated(name: str, kind: str, *, explicitly_declared: bool = False) -> bool:
     if kind in {"constructor", "recursor"}:
+        return True
+    # These names are emitted by elaborators rather than introduced by a
+    # declaration command.  The explicit-source guard matters for conventional
+    # names such as `ext` and `instReprFoo`: both are also valid user names.
+    source_sensitive_generated = bool(
+        re.search(r"(?:\._unsafe_rec|\.toCtorIdx|(?:^|\.)instRepr[^.]+(?:\.repr)?|\.ext)$", name)
+    )
+    if source_sensitive_generated and not explicitly_declared:
         return True
     return bool(
         re.search(
@@ -226,6 +313,7 @@ def main() -> None:
     edges = alignment_edges(items, validator)
     cited_names = {edge["old_fqn"] for edge in edges}
 
+    explicit_tokens_by_path: dict[Path | None, set[str]] = {}
     declaration_records = []
     for ordinal, declaration in enumerate(sorted(declarations, key=lambda row: row["old_fqn"]), start=1):
         name = declaration["old_fqn"]
@@ -233,7 +321,15 @@ def main() -> None:
         path = module_path(root, module)
         disposition = dispositions.get(module)
         visibility = "private" if name.startswith("_private.") else "public"
-        generated = is_generated(name, declaration["kind"])
+        if path not in explicit_tokens_by_path:
+            explicit_tokens_by_path[path] = explicit_declaration_tokens(path)
+        generated = is_generated(
+            name,
+            declaration["kind"],
+            explicitly_declared=source_explicitly_declares(
+                name, explicit_tokens_by_path[path]
+            ),
+        )
         declaration_records.append(
             {
                 "declaration_id": f"decl-{ordinal:06d}",

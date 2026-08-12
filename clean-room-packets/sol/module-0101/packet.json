@@ -269,14 +269,6 @@
       "temporary_id": "decl-009261"
     },
     {
-      "formal_type": "{Q : Type u_2} \u2192\n  [inst : Quiver.{u_4, u_2} Q] \u2192\n    {B : Type u_3} \u2192\n      [Ring.{u_3} B] \u2192\n        (Q \u2192 B) \u2192 ((i j : Q) \u2192 Quiver.Hom.{u_4, u_2} i j \u2192 B) \u2192 {a b : Q} \u2192 Quiver.Path.{u_4, u_2} a b \u2192 B",
-      "kind": "definition",
-      "owner_temporary_id": "decl-009261",
-      "project_type_dependencies": [],
-      "structural_type_hash": "3206581025",
-      "temporary_id": "decl-009264"
-    },
-    {
       "formal_type": "\u2200 {Q : Type u_2} [inst : Quiver.{u_4, u_2} Q] {B : Type u_3} [inst_1 : Ring.{u_3} B] (P : Q \u2192 B)\n  (A : (i j : Q) \u2192 Quiver.Hom.{u_4, u_2} i j \u2192 B) {a b c : Q} (q : Quiver.Path.{u_4, u_2} a b)\n  (e : Quiver.Hom.{u_4, u_2} b c),\n  Eq.{u_3 + 1} (decl-009261.{u_2, u_3, u_4} P A (Quiver.Path.cons.{u_4, u_2} q e))\n    (HMul.hMul.{u_3, u_3, u_3} (decl-009261.{u_2, u_3, u_4} P A q) (A b c e))",
       "kind": "theorem",
       "owner_temporary_id": null,

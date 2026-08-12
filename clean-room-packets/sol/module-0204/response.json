@@ -85,8 +85,6 @@
     {"temporary_id":"decl-003086","new_name":"sum_quaternionGroup_eq_explicit","docstring":"Expands a finite sum over the quaternion group into its eight element values."},
     {"temporary_id":"decl-003087","new_name":"matrixRepresentation_character_norm_sum","docstring":"The character norm sum of the matrix representation equals the group cardinality."},
     {"temporary_id":"decl-003197","new_name":"auxiliaryCharacterTable","docstring":"A five-by-five table with values in the auxiliary coordinate type."},
-    {"temporary_id":"decl-003205","new_name":"auxiliaryTypeRepr","docstring":"A textual representation instance for the auxiliary coordinate type."},
-    {"temporary_id":"decl-003206","new_name":"reprPrec","docstring":"Formats an auxiliary coordinate value at a requested precedence."},
     {"temporary_id":"decl-003209","new_name":"auxiliaryRatVector","docstring":"A five-entry vector of rational values."}
   ]
 }

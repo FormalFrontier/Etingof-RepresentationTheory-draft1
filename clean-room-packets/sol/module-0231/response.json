@@ -62,11 +62,6 @@
       "docstring": "The equivalence specified by the displayed formal signature."
     },
     {
-      "temporary_id": "decl-011218",
-      "new_name": "ext",
-      "docstring": "The equality displayed in the formal statement."
-    },
-    {
       "temporary_id": "decl-011222",
       "new_name": "instFintype",
       "docstring": "The construction specified by the displayed formal type."

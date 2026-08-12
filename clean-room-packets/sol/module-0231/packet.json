@@ -139,18 +139,6 @@
       "temporary_id": "decl-011215"
     },
     {
-      "formal_type": "\u2200 {K : Type u_2} {inst : Field.{u_2} K} {x y : decl-011199.{u_2} K},\n  Eq.{u_2 + 1} (decl-011202.{u_2} x) (decl-011202.{u_2} y) \u2192\n    Eq.{u_2 + 1} (decl-011211.{u_2} x) (decl-011211.{u_2} y) \u2192 Eq.{u_2 + 1} x y",
-      "kind": "theorem",
-      "owner_temporary_id": "decl-011199",
-      "project_type_dependencies": [
-        "decl-011199",
-        "decl-011202",
-        "decl-011211"
-      ],
-      "structural_type_hash": "4265222928",
-      "temporary_id": "decl-011218"
-    },
-    {
       "formal_type": "{K : Type u_1} \u2192\n  [inst : Field.{u_1} K] \u2192\n    [Fintype.{u_1} K] \u2192 [DecidableEq.{u_1 + 1} K] \u2192 Fintype.{u_1} (decl-011199.{u_1} K)",
       "kind": "definition",
       "owner_temporary_id": "decl-011199",

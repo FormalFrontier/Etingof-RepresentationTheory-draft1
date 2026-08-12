@@ -313,14 +313,6 @@
       "temporary_id": "decl-013968"
     },
     {
-      "formal_type": "{V : Type u_1} \u2192 [inst : Quiver.{u_2, u_1} V] \u2192 {a b : V} \u2192 Quiver.Path.{u_2, u_1} a b \u2192 List.{u_1} V",
-      "kind": "definition",
-      "owner_temporary_id": "decl-013968",
-      "project_type_dependencies": [],
-      "structural_type_hash": "3449776266",
-      "temporary_id": "decl-013971"
-    },
-    {
       "formal_type": "\u2200 {V : Type u_1} [inst : Quiver.{u_2, u_1} V] {a b : V} (p : Quiver.Path.{u_2, u_1} a b),\n  Eq.{1} (List.length.{u_1} (decl-013968.{u_1, u_2} p))\n    (HAdd.hAdd.{0, 0, 0} (Quiver.Path.length.{u_1, u_2} p) 1)",
       "kind": "theorem",
       "owner_temporary_id": null,

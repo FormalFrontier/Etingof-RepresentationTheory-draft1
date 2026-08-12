@@ -118,14 +118,6 @@
       "temporary_id": "decl-018063"
     },
     {
-      "formal_type": "List.{0} Nat \u2192 Nat \u2192 Nat",
-      "kind": "definition",
-      "owner_temporary_id": "decl-018063",
-      "project_type_dependencies": [],
-      "structural_type_hash": "2605746365",
-      "temporary_id": "decl-018066"
-    },
-    {
       "formal_type": "\u2200 (parts : List.{0} Nat) (k : Nat),\n  LT.lt.{0} k (List.sum.{0} parts) \u2192\n    LT.lt.{0} (decl-018063 parts k) (List.getD.{0} parts (decl-022870 parts k) 0)",
       "kind": "theorem",
       "owner_temporary_id": null,
@@ -162,14 +154,6 @@
       "project_type_dependencies": [],
       "structural_type_hash": "2605746365",
       "temporary_id": "decl-022870"
-    },
-    {
-      "formal_type": "List.{0} Nat \u2192 Nat \u2192 Nat",
-      "kind": "definition",
-      "owner_temporary_id": "decl-022870",
-      "project_type_dependencies": [],
-      "structural_type_hash": "2605746365",
-      "temporary_id": "decl-022873"
     },
     {
       "formal_type": "\u2200 (parts : List.{0} Nat) (k\u2081 k\u2082 : Nat),\n  LT.lt.{0} k\u2081 (List.sum.{0} parts) \u2192\n    LT.lt.{0} k\u2082 (List.sum.{0} parts) \u2192\n      Eq.{1} (decl-022870 parts k\u2081) (decl-022870 parts k\u2082) \u2192\n        Eq.{1} (decl-018063 parts k\u2081) (decl-018063 parts k\u2082) \u2192 Eq.{1} k\u2081 k\u2082",
