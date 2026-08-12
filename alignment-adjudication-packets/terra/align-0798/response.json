@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0798",
+  "associations": [
+    {
+      "association_id": "association:d04e4034fc4f2dee850b",
+      "role": "primary",
+      "rationale": "The formal type says two family parameters whose representations are each isomorphic to the same ρ are equal, directly proving uniqueness of parameters."
+    },
+    {
+      "association_id": "association:3aa7106a5d03f27d0383",
+      "role": "primary",
+      "rationale": "The formal type states that an isomorphism between c.rep and d.rep forces c = d, directly giving the pairwise-nonisomorphic parameter assertion."
+    },
+    {
+      "association_id": "association:5a99be3ba1ad6350046d",
+      "role": "primary",
+      "rationale": "The formal type directly asserts that every displayed Q₂Family representation c.rep is indecomposable."
+    }
+  ]
+}

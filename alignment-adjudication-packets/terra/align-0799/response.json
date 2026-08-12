@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0799",
+  "associations": [
+    {
+      "association_id": "association:c72db86215e3cf193f0f",
+      "role": "primary",
+      "rationale": "From the nonnilpotent hypothesis, the formal type produces n and nonzero λ together with a split embedding of a representation isomorphic to Q₂Rep_E n hn λ, directly splitting off an E(n,λ) summand."
+    }
+  ]
+}

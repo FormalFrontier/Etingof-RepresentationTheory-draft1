@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0793",
+  "associations": [
+    {
+      "association_id": "association:2de925152b9c0e4aebd7",
+      "role": "supporting",
+      "rationale": "For m ≥ 3, the formal type concludes that the McKay adjacency matrix is an IsAffineDynkinDiagram; this is related affine-Dynkin structure, rather than directly displaying the source's positive-semidefinite/nondefinite affine-Cartan assertion."
+    }
+  ]
+}
