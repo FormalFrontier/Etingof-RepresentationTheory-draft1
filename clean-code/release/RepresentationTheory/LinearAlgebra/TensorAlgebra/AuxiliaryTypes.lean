@@ -45,6 +45,7 @@ namespace TensorPower
 
 /-- Embedding tensor powers into the tensor algebra preserves multiplication of homogeneous
 elements. -/
+@[source_ref "Chapter2/Discussion_2.12_heading" (role := supporting)]
 theorem toTensorAlgebra_mul_compatible {n m : ℕ} (a : ⨂[k]^n V) (b : ⨂[k]^m V) :
     _root_.TensorPower.toTensorAlgebra a * _root_.TensorPower.toTensorAlgebra b =
       _root_.TensorPower.toTensorAlgebra

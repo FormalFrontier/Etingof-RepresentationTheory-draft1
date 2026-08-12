@@ -51,6 +51,7 @@ theorem TwoSidedIdeal.auxiliaryAlgHom_mul_left_congr (I : TwoSidedIdeal A) (a a'
   simpa [sub_mul] using I.mul_mem_right (a' - a) b h
 
 /-- Replacing the right factor by an ideal-congruent element leaves its image product unchanged. -/
+@[source_ref "Chapter2/Discussion_2.5_well_defined" (role := primary)]
 theorem TwoSidedIdeal.auxiliaryAlgHom_mul_right_congr (I : TwoSidedIdeal A) (a b b' : A)
     (h : b' - b ∈ I) :
     _root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom k A I (a * b') = _root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom k A I (a * b) := by

@@ -100,6 +100,7 @@ private lemma roots_of_unity_avg_norm_bound
 open Finset in
 /-- If the average of a nonempty finite family of complex roots of unity is integral over the integers, then the family is constant or its sum vanishes. -/
 @[source_ref "Chapter5/Discussion_proof_of_Theorem5.4.4" (role := supporting),
+  source_ref "Chapter5/Discussion_before_Lemma5.4.5" (role := supporting),
   source_ref "Chapter5/Lemma5.4.5" (role := primary)]
 theorem rootsOfUnity_all_eq_or_sum_eq_zero_of_average_integral
     (n : ℕ) (hn : 0 < n)

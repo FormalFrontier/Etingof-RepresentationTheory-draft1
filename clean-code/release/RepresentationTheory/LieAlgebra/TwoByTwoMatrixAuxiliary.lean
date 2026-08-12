@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 
 import RepresentationTheory.LieAlgebra.ModularRepresentations
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Auxiliary two-by-two matrix Lie algebra constructions -/
 
@@ -35,6 +36,7 @@ theorem matrix_eq_linearCombination_entries (z : matrixLieSubalgebra k) :
   fin_cases i <;> fin_cases j <;> simp [Matrix.add_apply, h10, h11]
 
 /-- The displayed vector of two matrices is linearly independent. -/
+@[source_ref "Chapter2/Discussion_concrete_Lie_examples_continued" (role := supporting)]
 theorem twoElementVector_linearIndependent :
     LinearIndependent k ![distinguishedElement k, distinguishedElement_aux1 k] := by
   rw [Fintype.linearIndependent_iff]
@@ -56,6 +58,7 @@ theorem twoElementVector_linearIndependent :
     simpa [Matrix.single_apply, Matrix.add_apply, Matrix.smul_apply] using h01
 
 /-- The displayed two-element vector spans the ambient module. -/
+@[source_ref "Chapter2/Discussion_concrete_Lie_examples_continued" (role := supporting)]
 theorem twoElementVector_span_eq_top :
     Submodule.span k (Set.range ![distinguishedElement k, distinguishedElement_aux1 k]) = ⊤ := by
   rw [eq_top_iff]
@@ -72,6 +75,7 @@ theorem twoElementVector_span_eq_top :
   · exact Submodule.subset_span ⟨1, rfl⟩
 
 /-- An auxiliary basis indexed by two elements for the displayed matrix Lie subalgebra. -/
+@[source_ref "Chapter2/Discussion_concrete_Lie_examples_continued" (role := supporting)]
 noncomputable def subalgebraBasisAux : Basis (Fin 2) k (matrixLieSubalgebra k) :=
   Basis.mk (twoElementVector_linearIndependent k)
     (le_of_eq (twoElementVector_span_eq_top k).symm)
@@ -82,6 +86,7 @@ noncomputable def subalgebraBasisAux : Basis (Fin 2) k (matrixLieSubalgebra k) :
   Basis.mk_apply _ _ i
 
 /-- The displayed matrix subalgebra has dimension two over its field. -/
+@[source_ref "Chapter2/Discussion_concrete_Lie_examples_continued" (role := supporting)]
 theorem finrank_eq_two : Module.finrank k (matrixLieSubalgebra k) = 2 := by
   rw [Module.finrank_eq_card_basis (subalgebraBasisAux k), Fintype.card_fin]
 

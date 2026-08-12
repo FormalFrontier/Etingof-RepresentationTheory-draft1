@@ -20,7 +20,8 @@ variable (k : Type*) {A : Type*} [Field k] [AddCommGroup A] [Module k A]
 
 /-- A predicate on elements of a vector space equipped with an associative bilinear multiplication
 structure. -/
-@[source_ref "Chapter2/Definition2.2.2" (role := primary)]
+@[source_ref "Chapter2/Definition2.2.2" (role := primary),
+  source_ref "Chapter2/Discussion_2.1_overview/Derived2" (role := supporting)]
 def DesignatedElement (e : A) : Prop :=
   ∀ a : A, inst.mul e a = a ∧ inst.mul a e = a
 

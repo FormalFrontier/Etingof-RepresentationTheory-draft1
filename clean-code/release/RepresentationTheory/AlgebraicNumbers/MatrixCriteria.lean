@@ -11,6 +11,7 @@ namespace RepresentationTheory.AlgebraicNumbers.MatrixCriteria
 
 open IntermediateField in
 /-- Characterizes rational-algebraic complex numbers through zeros of characteristic polynomials arising from rational matrices. -/
+@[source_ref "Chapter5/Definition5.2.2" (role := primary)]
 theorem isAlgebraic_iff_exists_rat_matrix_charpoly_isRoot
     (z : ℂ) :
     IsAlgebraic ℚ z ↔

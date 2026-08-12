@@ -17,7 +17,8 @@ set_option linter.style.whitespace false
 namespace RepresentationTheory.Algebra.NonUnitalStructure
 
 /-- Associative bilinear multiplication data on a vector space over a field. -/
-@[source_ref "Chapter2/Definition2.2.1" (role := supporting)]
+@[source_ref "Chapter2/Definition2.2.1" (role := supporting),
+  source_ref "Chapter2/Discussion_2.1_overview/Derived2" (role := supporting)]
 class NonUnitalAlgebraStructure (k A : Type*) [Field k] [AddCommGroup A] [Module k A] where
   /-- The multiplication supplied by an associative bilinear multiplication structure. -/
   mul : A → A → A

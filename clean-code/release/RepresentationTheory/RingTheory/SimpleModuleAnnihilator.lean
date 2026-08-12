@@ -6,6 +6,7 @@ Authors: Kim Morrison
 
 import Mathlib.RingTheory.Jacobson.Ideal
 import Mathlib.RingTheory.Jacobson.Semiprimary
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Annihilator of simple modules -/
 
@@ -14,6 +15,7 @@ universe u v
 namespace RepresentationTheory.RingTheory.SimpleModuleAnnihilator
 
 /-- The ideal of ring elements that act as zero on every simple module. -/
+@[source_ref "Chapter3/Definition3.5.1" (role := supporting)]
 abbrev simpleModuleAnnihilator (A : Type*) [Ring A] : Ideal A :=
   Ideal.jacobson ⊥
 
@@ -27,6 +29,7 @@ theorem simpleModuleAnnihilator_smul_eq_zero {A : Type u} [Ring A] {a : A}
     (IsSemisimpleModule.jacobson_le_annihilator (R := A) (M := V) ha') v
 
 /-- An element belongs to the simple-module annihilator exactly when it annihilates every vector in every simple module of the same universe. -/
+@[source_ref "Chapter3/Definition3.5.1" (role := primary)]
 theorem mem_simpleModuleAnnihilator_iff (A : Type u) [Ring A] (a : A) :
     a ∈ simpleModuleAnnihilator A ↔
       ∀ (V : Type u) [AddCommGroup V] [Module A V] [IsSimpleModule A V] (v : V),

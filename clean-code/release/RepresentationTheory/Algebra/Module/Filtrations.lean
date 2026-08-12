@@ -14,7 +14,8 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.Algebra.Module.Filtrations
 
 /-- A finite-dimensional module admits a relation series with bottom head and top last term. -/
-@[source_ref "Chapter3/Lemma3.4.2/Derived2" (role := supporting)]
+@[source_ref "Chapter3/Lemma3.4.2/Derived2" (role := supporting),
+  source_ref "Chapter3/Theorem3.7.1/Derived17" (role := supporting)]
 theorem exists_relSeries_bot_top (k : Type*) (A : Type*) (V : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
