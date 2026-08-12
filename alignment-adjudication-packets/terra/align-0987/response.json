@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0987",
+  "associations": [
+    {
+      "association_id": "association:9eef54ae0c8660cbc097",
+      "role": "primary",
+      "rationale": "It directly states existence and uniqueness of a constructed-family representative for every simple representation."
+    }
+  ]
+}

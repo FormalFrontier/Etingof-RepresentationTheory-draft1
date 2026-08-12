@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0985",
+  "associations": [
+    {
+      "association_id": "association:dd115ce5acc6544b05ed",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so it cannot directly establish the displayed averaging claim."
+    },
+    {
+      "association_id": "association:358cc45e35e00d57aa86",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so it cannot directly establish the displayed averaging claim."
+    },
+    {
+      "association_id": "association:bbd34f30c81819b08f33",
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so it cannot directly establish the displayed averaging claim."
+    }
+  ]
+}

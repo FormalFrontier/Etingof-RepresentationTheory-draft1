@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0982",
+  "associations": [
+    {
+      "association_id": "association:cbabc1d85ea872d6db1b",
+      "role": "supporting",
+      "rationale": "It states an integrality result, not the displayed proof steps involving a class sum, Schur's lemma, and traces."
+    }
+  ]
+}

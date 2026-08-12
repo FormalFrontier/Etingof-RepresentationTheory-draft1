@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0984",
+  "associations": [
+    {
+      "association_id": "association:e1e10d37decae7d3e06a",
+      "role": "primary",
+      "rationale": "It directly gives a Jordan-block representative for every finite-dimensional indecomposable module over an algebraically closed field."
+    },
+    {
+      "association_id": "association:49282bafece77c8add51",
+      "role": "primary",
+      "rationale": "It directly states that each nonzero Jordan-block representation is indecomposable."
+    }
+  ]
+}

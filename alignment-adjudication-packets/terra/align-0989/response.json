@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0989",
+  "associations": [
+    {
+      "association_id": "association:d8e0f241bb130050d785",
+      "role": "supporting",
+      "rationale": "The formal type failed to print, so the declaration cannot be verified as directly stating the orbit-data construction."
+    }
+  ]
+}

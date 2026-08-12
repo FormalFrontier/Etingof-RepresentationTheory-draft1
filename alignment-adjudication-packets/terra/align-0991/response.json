@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0991",
+  "associations": [
+    {
+      "association_id": "association:f56717ee5785e7448d54",
+      "role": "supporting",
+      "rationale": "It is a classification theorem for one problem, not the displayed section-level audit claim."
+    },
+    {
+      "association_id": "association:d60fd7ed42c096de6c53",
+      "role": "supporting",
+      "rationale": "It is a root-system theorem for one problem, not the displayed section-level audit claim."
+    },
+    {
+      "association_id": "association:d2681188d9f164230e95",
+      "role": "supporting",
+      "rationale": "It is a Jordan–Hölder-series result for one problem, not the displayed section-level audit claim."
+    }
+  ]
+}
