@@ -1,0 +1,10 @@
+{
+  "module_name": "FiniteDimensionalRepresentations.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-018348",
+      "new_name": "auxiliary_representation_property",
+      "docstring": "The representation obtained from the auxiliary construction satisfies the displayed auxiliary predicate."
+    }
+  ]
+}
