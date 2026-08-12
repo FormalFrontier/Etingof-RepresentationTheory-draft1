@@ -37,3 +37,7 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Module.EndomorphismDichotomy.bijective_or_nilpotent_of_auxiliaryProperty}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.EndomorphismDichotomy.sum_nilpotent_of_auxiliaryProperty}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.IndependentSpanningFamilies.eq_card_and_exists_equiv_of_iSupIndep}

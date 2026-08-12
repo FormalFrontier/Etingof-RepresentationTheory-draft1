@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -29,3 +30,13 @@ Thus, we see that
 $$`(A \otimes B)/\operatorname{Rad}(A \otimes B) = A/\operatorname{Rad}(A) \otimes B/\operatorname{Rad}(B).`
 
 Now, $`M` is an irreducible representation of $`(A \otimes B)/\operatorname{Rad}(A \otimes B)`, so it is clearly of the form $`M = V \otimes W`, where $`V` is an irreducible representation of $`A/\operatorname{Rad}(A)` and $`W` is an irreducible representation of $`B/\operatorname{Rad}(B)`. Also, $`V, W` are uniquely determined by $`M` (as all of the algebras involved are direct sums of matrix algebras). $`\square`
+
+## Formalization
+%%%
+tag := "Chapter3/Discussion_proof_of_Theorem3.10.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.algebra_smul_surjective}

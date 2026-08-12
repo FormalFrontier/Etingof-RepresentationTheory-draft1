@@ -31,6 +31,10 @@ tag := "Chapter2/Example2.3.3/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Ring.ModuleStructures.selfModule}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure}

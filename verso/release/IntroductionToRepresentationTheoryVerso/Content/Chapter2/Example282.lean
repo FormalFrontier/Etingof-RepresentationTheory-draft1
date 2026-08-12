@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -19,3 +20,21 @@ number := false
 $$`\bullet \longrightarrow \bullet \longleftarrow \bullet`
 $$`\uparrow`
 $$`\bullet`
+
+## Formalization
+%%%
+tag := "Chapter2/Example2.8.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Combinatorics.Quiver.FourVertices.fourVertexQuiver}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Combinatorics.Quiver.FourVertices.fourVertexQuiver.arrow01}
+
+{Manual.docstring RepresentationTheory.Combinatorics.Quiver.FourVertices.fourVertexQuiver.arrow21}
+
+{Manual.docstring RepresentationTheory.Combinatorics.Quiver.FourVertices.fourVertexQuiver.arrow30}
