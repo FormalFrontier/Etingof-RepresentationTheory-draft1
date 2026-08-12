@@ -3,18 +3,18 @@
   "declarations": [
     {
       "temporary_id": "decl-019678",
-      "new_name": "auxiliaryTheorem019678",
-      "docstring": "Auxiliary theorem whose displayed type is unavailable."
+      "new_name": "auxiliaryStatement",
+      "docstring": "Auxiliary declaration whose formal type could not be displayed."
     },
     {
       "temporary_id": "decl-019686",
-      "new_name": "auxiliaryTheorem019686",
-      "docstring": "Auxiliary theorem whose displayed type is unavailable."
+      "new_name": "auxiliaryStatement'",
+      "docstring": "Auxiliary declaration whose formal type could not be displayed."
     },
     {
       "temporary_id": "decl-019687",
-      "new_name": "auxiliaryTheorem019687",
-      "docstring": "Auxiliary theorem whose displayed type is unavailable."
+      "new_name": "auxiliaryStatement''",
+      "docstring": "Auxiliary declaration whose formal type could not be displayed."
     },
     {
       "temporary_id": "decl-020818",
@@ -28,13 +28,13 @@
     },
     {
       "temporary_id": "decl-020871",
-      "new_name": "auxiliaryTheorem020871",
-      "docstring": "Auxiliary theorem whose displayed type is unavailable."
+      "new_name": "auxiliaryStatement'''",
+      "docstring": "Auxiliary declaration whose formal type could not be displayed."
     },
     {
       "temporary_id": "decl-020872",
-      "new_name": "auxiliaryTheorem020872",
-      "docstring": "Auxiliary theorem whose displayed type is unavailable."
+      "new_name": "auxiliaryStatement''''",
+      "docstring": "Auxiliary declaration whose formal type could not be displayed."
     },
     {
       "temporary_id": "decl-020874",
@@ -43,17 +43,17 @@
     },
     {
       "temporary_id": "decl-021771",
-      "new_name": "not_auxiliaryPredicatePair01",
+      "new_name": "not_firstAndSecondAuxiliaryPredicates",
       "docstring": "The first and second auxiliary predicates displayed here are incompatible."
     },
     {
       "temporary_id": "decl-021773",
-      "new_name": "not_auxiliaryPredicatePair02",
+      "new_name": "not_firstAndThirdAuxiliaryPredicates",
       "docstring": "The first and third auxiliary predicates displayed here are incompatible."
     },
     {
       "temporary_id": "decl-021779",
-      "new_name": "simpleRepresentation_not_auxiliaryPredicatePair12",
+      "new_name": "simpleRepresentation_not_secondAndThirdAuxiliaryPredicates",
       "docstring": "For a simple representation, the second and third auxiliary predicates displayed here are incompatible."
     },
     {

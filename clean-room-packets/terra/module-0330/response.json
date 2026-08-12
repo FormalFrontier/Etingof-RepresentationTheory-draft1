@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-019684",
-      "new_name": "auxiliaryTheorem019684",
-      "docstring": "Auxiliary theorem whose displayed type is unavailable."
+      "new_name": "auxiliaryStatement",
+      "docstring": "Auxiliary declaration whose formal type could not be displayed."
     },
     {
       "temporary_id": "decl-019685",
