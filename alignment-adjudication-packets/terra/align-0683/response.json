@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0683",
+  "associations": [
+    {
+      "association_id": "association:573be65c58b132b45e08",
+      "rationale": "The declaration constructs a FormalDeformation from the ambient representation data, matching the constant-deformation construction, but its formal type does not itself state the constancy equations.",
+      "role": "supporting"
+    }
+  ]
+}

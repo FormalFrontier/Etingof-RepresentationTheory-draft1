@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0689",
+  "associations": [
+    {
+      "association_id": "association:2a48f70240405990838e",
+      "rationale": "The declaration constructs a basis of CliffAlg B indexed by finite subsets from an orthogonal basis of V, supporting the subset-indexed Clifford basis claim, but the displayed type does not identify its basis vectors as the ordered monomials.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4e3ecf18e0f62d6d8e72",
+      "rationale": "The theorem directly states that for a basis of V indexed by Fin N, the complex finrank of CliffAlg B is 2^N.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:c94f020f4ffebd6f1ef8",
+      "rationale": "The theorem directly states that, for an orthogonal basis, the span of the range of the subset-indexed family e is the whole Clifford algebra, matching the spanning part of the source claim.",
+      "role": "primary"
+    }
+  ]
+}

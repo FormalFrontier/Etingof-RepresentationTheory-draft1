@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0688",
+  "associations": [
+    {
+      "association_id": "association:8cb5358bd82c16ae484e",
+      "rationale": "The theorem directly provides a nonempty algebra equivalence between the Clifford algebra of quadForm 0 and the exterior algebra of V.",
+      "role": "primary"
+    }
+  ]
+}

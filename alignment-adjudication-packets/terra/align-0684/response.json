@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0684",
+  "associations": [
+    {
+      "association_id": "association:88de7d3e131d7ff48d1b",
+      "rationale": "The formal type only exposes a proposition on two FormalDeformations; the intertwining series and coefficient condition are elided.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:eed9442a9f2b195701d5",
+      "rationale": "The formal type only exposes a proposition on one FormalDeformation; it does not show that triviality means isomorphism to the constant deformation.",
+      "role": "supporting"
+    }
+  ]
+}

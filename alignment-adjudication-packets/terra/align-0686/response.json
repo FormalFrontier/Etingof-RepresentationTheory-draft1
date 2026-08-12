@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0686",
+  "associations": [
+    {
+      "association_id": "association:7f986d83debab49f2850",
+      "rationale": "The formal type is null, so the packet does not expose the Clifford-algebra quotient relation directly.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:52b40f397150e7e70c89",
+      "rationale": "The formal type maps a bilinear form B to a type CliffAlg B, but its defining quotient or equivalence with the Clifford algebra of the associated quadratic form is elided.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1a2f93310c69980d83db",
+      "rationale": "The declaration constructs a quadratic form from a bilinear form, supplying the Q used by a Clifford algebra, but the displayed type does not state Q(v)=B(v,v) or the quotient characterization.",
+      "role": "supporting"
+    }
+  ]
+}

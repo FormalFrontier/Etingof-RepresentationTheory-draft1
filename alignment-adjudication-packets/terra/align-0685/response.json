@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0685",
+  "associations": [
+    {
+      "association_id": "association:0494884423c27c07b829",
+      "rationale": "The theorem directly states that if Ext1(k,A,V,V) is subsingleton, then every FormalDeformation D is IsTrivial, which is the formal version of vanishing self-Ext¹ implying triviality of all deformations.",
+      "role": "primary"
+    }
+  ]
+}
