@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0971",
+  "associations": [
+    {
+      "association_id": "association:a4d996890f065aae6227",
+      "role": "primary",
+      "rationale": "Its iff directly says an A-linear map is injective exactly when every indexed multiplicity-space component is injective."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0967",
+  "associations": [
+    {
+      "association_id": "association:aed275551b773eac06ee",
+      "role": "supporting",
+      "rationale": "It concerns characters spanning trace-like functionals for a semisimple algebra, not the stated commutator quotient description."
+    },
+    {
+      "association_id": "association:8b1097a4c8bbab566721",
+      "role": "supporting",
+      "rationale": "It identifies commutators with traceless matrices for one matrix factor, a component of rather than the full product-and-quotient claim."
+    },
+    {
+      "association_id": "association:3dae7d38c781fa7f405d",
+      "role": "supporting",
+      "rationale": "The semisimple algebra matrix-product decomposition is a prerequisite, but it does not state the commutator or quotient conclusion."
+    }
+  ]
+}

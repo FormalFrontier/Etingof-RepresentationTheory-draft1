@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0963",
+  "associations": [
+    {
+      "association_id": "association:590a8479f53887cc5e10",
+      "role": "primary",
+      "rationale": "The algebra declaration directly supplies the k-algebra structure for the additive-monoid algebra modeling the polynomial ring."
+    }
+  ]
+}

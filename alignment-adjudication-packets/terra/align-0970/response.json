@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0970",
+  "associations": [
+    {
+      "association_id": "association:f1b8c1fd081f3c259dc1",
+      "role": "primary",
+      "rationale": "Its equality directly identifies right ideals with subrepresentations of the opposite algebra's regular representation."
+    }
+  ]
+}

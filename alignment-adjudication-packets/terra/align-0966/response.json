@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0966",
+  "associations": [
+    {
+      "association_id": "association:160f13df20cfa59d01af",
+      "role": "primary",
+      "rationale": "It directly equates the number of involutions with the dimension-weighted Frobenius-Schur-indicator sum."
+    },
+    {
+      "association_id": "association:319579a58c1bf9fc3df9",
+      "role": "primary",
+      "rationale": "It directly states the same involution-count equality for complex representations."
+    }
+  ]
+}
