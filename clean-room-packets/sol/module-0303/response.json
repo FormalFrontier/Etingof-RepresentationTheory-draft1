@@ -1,5 +1,5 @@
 {
-  "module_name": "FiniteGroupRepresentations.Auxiliary",
+  "module_name": "FiniteGroupRepresentations.SubgroupInductionAuxiliary",
   "declarations": [
     {
       "temporary_id": "decl-002556",
