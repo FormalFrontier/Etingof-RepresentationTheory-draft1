@@ -18,13 +18,13 @@
     },
     {
       "temporary_id": "decl-005641",
-      "new_name": "functionSpaceBasis_apply_eq_matrixCoefficient",
-      "docstring": "The function-space basis evaluated at an auxiliary index equals the corresponding matrix-coefficient function."
+      "new_name": "functionSpaceBasis_apply_eq_auxiliaryFunction",
+      "docstring": "The function-space basis evaluated at an auxiliary index equals the corresponding auxiliary function."
     },
     {
       "temporary_id": "decl-005642",
-      "new_name": "matrixCoefficient",
-      "docstring": "The family of group-valued functions obtained from a finite family of representations and chosen bases, indexed by the associated auxiliary type."
+      "new_name": "auxiliaryFunction",
+      "docstring": "An auxiliary family of field-valued functions on a group, indexed by the associated auxiliary type."
     },
     {
       "temporary_id": "decl-005646",
@@ -33,8 +33,8 @@
     },
     {
       "temporary_id": "decl-005647",
-      "new_name": "linearIndependent_matrixCoefficient",
-      "docstring": "The matrix-coefficient family of pairwise nonisomorphic simple representations is linearly independent when the specified dimensions are nonzero."
+      "new_name": "linearIndependent_auxiliaryFunction",
+      "docstring": "The auxiliary function family associated to pairwise nonisomorphic simple representations is linearly independent when the specified dimensions are nonzero."
     },
     {
       "temporary_id": "decl-005648",
@@ -53,13 +53,13 @@
     },
     {
       "temporary_id": "decl-005655",
-      "new_name": "auxiliaryPairing_matrixCoefficient_eq_zero_of_ne",
-      "docstring": "The auxiliary pairing of matrix coefficients belonging to distinct members of a pairwise nonisomorphic family of simple representations is zero."
+      "new_name": "auxiliaryPairing_auxiliaryFunction_eq_zero_of_ne",
+      "docstring": "The auxiliary pairing of auxiliary functions associated to distinct members of a pairwise nonisomorphic family of simple representations is zero."
     },
     {
       "temporary_id": "decl-005656",
-      "new_name": "auxiliaryPairing_matrixCoefficient_eq_ite",
-      "docstring": "Within one simple representation, the auxiliary pairing of two matrix coefficients is the inverse dimension when their row and column indices match in the displayed order, and zero otherwise."
+      "new_name": "auxiliaryPairing_auxiliaryFunction_eq_ite",
+      "docstring": "Within one simple representation, the auxiliary pairing of two auxiliary functions is the inverse dimension when their displayed index pairs match, and zero otherwise."
     },
     {
       "temporary_id": "decl-005657",
@@ -68,8 +68,8 @@
     },
     {
       "temporary_id": "decl-014630",
-      "new_name": "auxiliary_pairing_identity",
-      "docstring": "An auxiliary identity concerning the scalar-valued pairing on functions from a finite group."
+      "new_name": "auxiliaryPairing_auxiliaryTheorem",
+      "docstring": "An auxiliary theorem involving the scalar-valued pairing on functions from a finite group."
     },
     {
       "temporary_id": "decl-014631",
@@ -83,8 +83,8 @@
     },
     {
       "temporary_id": "decl-014635",
-      "new_name": "auxiliary_pairing_identity_two",
-      "docstring": "A second auxiliary identity concerning the scalar-valued pairing on functions from a finite group."
+      "new_name": "auxiliaryPairing_auxiliaryTheorem'",
+      "docstring": "An additional auxiliary theorem involving the scalar-valued pairing on functions from a finite group."
     },
     {
       "temporary_id": "decl-032680",
