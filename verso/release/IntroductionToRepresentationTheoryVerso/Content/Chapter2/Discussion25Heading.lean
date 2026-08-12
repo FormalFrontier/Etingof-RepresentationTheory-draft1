@@ -36,3 +36,7 @@ number := false
 {Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom_eq_iff}
 
 {Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom_mul}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.AuxiliaryType}

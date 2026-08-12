@@ -39,6 +39,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.actionAlgHom_eq}
 
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.moduleOfAlgHom}
+
 {Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.moduleOfAlgHom_actionAlgHom}
 
 {Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.mul_smul}

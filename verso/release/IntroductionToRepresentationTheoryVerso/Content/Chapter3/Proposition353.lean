@@ -33,3 +33,5 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence.jacobson_isNilpotent_of_finiteDimensional}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence.nilpotent_le_jacobson}
