@@ -23,8 +23,8 @@
     },
     {
       "association_id": "association:8ebbbd069c859032f26c",
-      "rationale": "Every indecomposable D4 representation is asserted to be isomorphic to a unique canonical representative, directly expressing the complete classification carried out in the example.",
-      "role": "primary"
+      "rationale": "This gives each indecomposable a unique index in the canonical family, but the cardinality of `ClassIndex` and indecomposability of every canonical representation are separate facts; by itself it does not state that there are exactly twelve indecomposable classes.",
+      "role": "supporting"
     },
     {
       "association_id": "association:e5d8d5882c07595894be",

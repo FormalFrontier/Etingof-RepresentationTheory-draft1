@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:f73d930d42bc007ac833",
-      "rationale": "The existence and uniqueness of an index among three canonical representatives for every indecomposable directly states that A2 has exactly the three indecomposable isomorphism classes listed in the source.",
-      "role": "primary"
+      "rationale": "This gives every indecomposable a unique index in an opaque `Fin 3` family, but it neither displays that family as the three listed representations nor asserts here that every family member is indecomposable, so it does not alone state the exact three-class claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:60aa7c20c111c945d6d4",
