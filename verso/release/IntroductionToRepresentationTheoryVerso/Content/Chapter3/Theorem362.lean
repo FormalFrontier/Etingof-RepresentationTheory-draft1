@@ -39,3 +39,7 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.linearIndependent_moduleDualElement}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.mem_span_moduleDualElement_of_commutes_mul}

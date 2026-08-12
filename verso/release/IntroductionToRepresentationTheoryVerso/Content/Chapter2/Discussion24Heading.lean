@@ -51,6 +51,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.auxiliarySetMap_le_iff}
 
+{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.auxiliaryType''_eq}
+
 {Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.auxiliaryType'_eq}
 
 {Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.mem_auxiliarySetMap_iff}

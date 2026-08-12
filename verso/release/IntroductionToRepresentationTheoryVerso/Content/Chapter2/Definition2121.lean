@@ -45,6 +45,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.ExteriorAlgebra.relationModelGradedEquiv}
 
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.SymmetricAlgebra.RelationModel}
+
 {Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.SymmetricAlgebra.relationModelGradedEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.basisQuotientEquivEnvelope}
@@ -54,5 +56,7 @@ number := false
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.ExteriorAlgebra.RelationModel}
+
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.SymmetricAlgebra.generator_mul_comm}
 
 {Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.QuotientModel}
