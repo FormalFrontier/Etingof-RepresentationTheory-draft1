@@ -1,0 +1,50 @@
+{
+  "module_name": "FinsuppPermutationEnumeration",
+  "declarations": [
+    {
+      "temporary_id": "decl-001488",
+      "new_name": "finsuppPermAuxiliary",
+      "docstring": "An auxiliary type indexed by a natural number, a finitely supported function on `Fin N`, and a permutation of `Fin n`."
+    },
+    {
+      "temporary_id": "decl-005700",
+      "new_name": "functionPairAuxiliary",
+      "docstring": "An auxiliary type indexed by a natural number and two functions from `Fin N` to natural numbers."
+    },
+    {
+      "temporary_id": "decl-018026",
+      "new_name": "coeff_eq_card_finsuppPermAuxiliary",
+      "docstring": "The specified multivariate-polynomial coefficient equals the cardinality of the auxiliary type indexed by the finitely supported function and permutation."
+    },
+    {
+      "temporary_id": "decl-018445",
+      "new_name": "sum_card_finsuppPermAuxiliary_mul_eq_factorial_mul_card_functionPairAuxiliary",
+      "docstring": "For finitely supported functions of total weight `n`, the sum of products of auxiliary cardinalities equals `n!` times the cardinality of the function-pair auxiliary type."
+    },
+    {
+      "temporary_id": "decl-019725",
+      "new_name": "auxiliaryPowerSeriesCoeff_eq_card_functionPairAuxiliary",
+      "docstring": "Under the displayed coordinate bounds, the specified multivariate-power-series coefficient equals the cardinality of the function-pair auxiliary type."
+    },
+    {
+      "temporary_id": "decl-020613",
+      "new_name": "fintypeFinsuppPermAuxiliary",
+      "docstring": "A finite-type structure for the auxiliary type indexed by a finitely supported function and a permutation."
+    },
+    {
+      "temporary_id": "decl-020615",
+      "new_name": "fintypeFunctionPairAuxiliary",
+      "docstring": "A finite-type structure for the auxiliary type indexed by two functions from `Fin N` to natural numbers."
+    },
+    {
+      "temporary_id": "decl-021543",
+      "new_name": "map_auxiliaryPowerSeries",
+      "docstring": "Mapping the auxiliary multivariate power series along a ring homomorphism gives the corresponding auxiliary power series."
+    },
+    {
+      "temporary_id": "decl-022156",
+      "new_name": "sum_coeff_mul_eq_factorial_mul_auxiliaryPowerSeriesCoeff",
+      "docstring": "For finitely supported functions of total weight `n`, the sum of products of the displayed polynomial coefficients equals `n!` times the displayed multivariate-power-series coefficient."
+    }
+  ]
+}
