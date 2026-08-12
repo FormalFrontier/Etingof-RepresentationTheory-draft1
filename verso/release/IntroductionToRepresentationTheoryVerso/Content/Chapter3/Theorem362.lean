@@ -42,6 +42,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.family_algebra_smul_surjective}
 
+{Manual.docstring RepresentationTheory.LinearAlgebra.MatrixTraceKernels.finMatrixSubmodule_eq_traceKernel}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.MatrixTraceKernels.matrixSubmodule_eq_traceKernel}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.mem_span_moduleDualElement_of_commutes_mul}
