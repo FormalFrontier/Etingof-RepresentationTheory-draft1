@@ -1,0 +1,15 @@
+{
+  "module_name": "FiniteGroup.CharacterPairing",
+  "declarations": [
+    {
+      "temporary_id": "decl-016504",
+      "new_name": "FiniteGroup.normalized_characterPairing_eq_finrank_hom",
+      "docstring": "The group-order-normalized sum of the character of V times the inverse-argument character of W equals the dimension of the morphism space from W to V."
+    },
+    {
+      "temporary_id": "decl-016505",
+      "new_name": "FiniteGroup.normalized_characterPairing_of_simple",
+      "docstring": "For simple finite-dimensional representations, the normalized character pairing is one when the representations are isomorphic and zero otherwise."
+    }
+  ]
+}

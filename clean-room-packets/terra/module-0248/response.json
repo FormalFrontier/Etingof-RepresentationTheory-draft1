@@ -1,0 +1,35 @@
+{
+  "module_name": "Complex.InvariantInnerProduct",
+  "declarations": [
+    {
+      "temporary_id": "decl-016507",
+      "new_name": "InnerProductSpace.Core.conjLinearEquivDual",
+      "docstring": "A finite-dimensional complex inner product core induces a conjugate-linear equivalence from the space to its linear dual."
+    },
+    {
+      "temporary_id": "decl-016510",
+      "new_name": "InnerProductSpace.Core.conjLinearEquivDual_apply",
+      "docstring": "The functional associated with v by the conjugate-linear equivalence evaluates at w to the inner product of v and w."
+    },
+    {
+      "temporary_id": "decl-016511",
+      "new_name": "Representation.exists_invariantInnerProductCore",
+      "docstring": "Every finite-dimensional complex representation of a finite group admits an inner product core invariant under the group action."
+    },
+    {
+      "temporary_id": "decl-016512",
+      "new_name": "Representation.auxiliaryInvariantInnerProductResult",
+      "docstring": "An auxiliary positive-scalar conclusion for two invariant inner product cores on a nontrivial irreducible finite-dimensional complex representation."
+    },
+    {
+      "temporary_id": "decl-017261",
+      "new_name": "Representation.auxiliaryInnerProductCore",
+      "docstring": "An auxiliary inner product core associated with a finite-group representation and an initial inner product core."
+    },
+    {
+      "temporary_id": "decl-018226",
+      "new_name": "LinearEquiv.inducedInnerProductCore",
+      "docstring": "A complex-linear equivalence to an inner product space induces an inner product core on its source."
+    }
+  ]
+}
