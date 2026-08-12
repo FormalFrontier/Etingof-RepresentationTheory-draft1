@@ -63,8 +63,8 @@
     },
     {
       "temporary_id": "decl-011022",
-      "new_name": "subgroupRelation_011022",
-      "docstring": "A relation involving the displayed subgroup, quotient, or coset construction."
+      "new_name": "cosetPermutationAction_transitive",
+      "docstring": "The permutation action induced from the displayed coset space is transitive."
     },
     {
       "temporary_id": "decl-011023",
@@ -88,8 +88,8 @@
     },
     {
       "temporary_id": "decl-011030",
-      "new_name": "valueFormula_011030",
-      "docstring": "The equality displayed in the formal statement."
+      "new_name": "indexThirtyAction_transitive",
+      "docstring": "The displayed action on thirty points is transitive."
     },
     {
       "temporary_id": "decl-011031",
@@ -128,8 +128,8 @@
     },
     {
       "temporary_id": "decl-011069",
-      "new_name": "valueFormula_011069",
-      "docstring": "The equality displayed in the formal statement."
+      "new_name": "indexTwentyAction_transitive",
+      "docstring": "The displayed action on twenty points is transitive."
     },
     {
       "temporary_id": "decl-011070",
@@ -144,12 +144,12 @@
     {
       "temporary_id": "decl-011121",
       "new_name": "permCongr",
-      "docstring": "The monoid homomorphism specified by the displayed formal signature."
+      "docstring": "The homomorphism transporting permutations along the displayed equivalence."
     },
     {
       "temporary_id": "decl-011138",
       "new_name": "orbitCosetEquiv",
-      "docstring": "The monoid homomorphism specified by the displayed formal signature."
+      "docstring": "An equivalence from the displayed stabilizer quotient to the finite action space."
     },
     {
       "temporary_id": "decl-011140",
@@ -169,7 +169,7 @@
     {
       "temporary_id": "decl-011143",
       "new_name": "cosetToOrbit",
-      "docstring": "The monoid homomorphism specified by the displayed formal signature."
+      "docstring": "The map from the displayed stabilizer quotient to the action space."
     },
     {
       "temporary_id": "decl-011145",
@@ -223,8 +223,8 @@
     },
     {
       "temporary_id": "decl-011189",
-      "new_name": "valueFormula_011189",
-      "docstring": "The equality displayed in the formal statement."
+      "new_name": "indexTwelveAction_transitive",
+      "docstring": "The displayed action on twelve points is transitive."
     },
     {
       "temporary_id": "decl-011190",
