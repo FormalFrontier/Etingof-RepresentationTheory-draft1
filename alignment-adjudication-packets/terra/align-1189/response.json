@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:33102d884e8d26a5fc40",
-      "rationale": "The displayed equality is exactly the bracket relation [X,Y] = Y for the named basis elements, so it states the entire source claim.",
-      "role": "primary"
+      "rationale": "The displayed type proves [X,Y] = Y for the unexpanded terms X and Y, but it does not display that those terms form the aff(1) basis named by the source claim.",
+      "role": "supporting"
     }
   ]
 }
