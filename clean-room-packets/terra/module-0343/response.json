@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-017728",
       "new_name": "exists_type_indexed_matrix_block_decomposition_card_eq_conjClasses",
-      "docstring": "Every finite group has a complex monoid algebra algebra-equivalent to a product of nonzero square complex matrix algebras, indexed by a type whose cardinality equals its number of conjugacy classes."
+      "docstring": "For every finite group, there are a nonempty index type whose cardinality equals that of its conjugacy classes, nonzero block sizes on that type, and a complex-algebra equivalence from its monoid algebra to the corresponding product of square complex matrix algebras."
     },
     {
       "temporary_id": "decl-021631",
