@@ -22,6 +22,7 @@ abbrev RingActionStructure (A : Type*) (V : Type*) [Ring A] [AddCommGroup V] :=
   Module A V
 
 /-- An auxiliary type of action structures for a ring on an additive commutative group. -/
+@[source_ref "Chapter2/Definition2.3.1" (role := supporting)]
 abbrev RingActionStructureAux (A : Type*) (V : Type*) [Ring A] [AddCommGroup V] :=
   Module Aᵐᵒᵖ V
 
@@ -125,6 +126,7 @@ variable (k A V : Type*) [CommRing k] [Ring A] [Algebra k A]
   [AddCommGroup V] [Module k V] [Module Aᵐᵒᵖ V] [IsScalarTower k Aᵐᵒᵖ V]
 
 /-- The action of the opposite algebra yields an algebra homomorphism into linear endomorphisms. -/
+@[source_ref "Chapter2/Definition2.3.1" (role := supporting)]
 def oppositeActionAlgHom : Aᵐᵒᵖ →ₐ[k] Module.End k V :=
   actionAlgHom k Aᵐᵒᵖ V
 

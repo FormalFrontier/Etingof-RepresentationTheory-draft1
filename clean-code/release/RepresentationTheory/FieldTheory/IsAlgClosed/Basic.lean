@@ -15,6 +15,7 @@ namespace RepresentationTheory.FieldTheory.IsAlgClosed.Basic
 open Polynomial
 
 /-- A field is algebraically closed exactly when every polynomial of nonzero degree has a root. -/
+@[source_ref "Chapter2/Discussion_2.2_intro" (role := primary)]
 theorem isAlgClosed_iff_nonconstant_root (k : Type*) [Field k] :
     IsAlgClosed k ↔ ∀ p : k[X], p.degree ≠ 0 → ∃ x : k, p.IsRoot x := by
   constructor

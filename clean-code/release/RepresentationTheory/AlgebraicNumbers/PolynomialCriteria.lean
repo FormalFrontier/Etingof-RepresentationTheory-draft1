@@ -17,7 +17,8 @@ theorem isAlgebraic_iff_exists_ne_zero_aeval_eq_zero (z : ℂ) :
   Iff.rfl
 
 /-- A complex number is integral over the integers exactly when it is a zero of a monic integer polynomial. -/
-@[source_ref "Chapter5/Introduction_5.2" (role := supporting)]
+@[source_ref "Chapter5/Introduction_5.2" (role := supporting),
+  source_ref "Chapter5/Definition5.2.1" (role := primary)]
 theorem isIntegral_iff_exists_monic_aeval_eq_zero (z : ℂ) :
     IsIntegral ℤ z ↔ ∃ p : Polynomial ℤ, p.Monic ∧ (Polynomial.aeval (R := ℤ) z) p = 0 := by
   simp [IsIntegral, RingHom.IsIntegralElem, Polynomial.aeval_def]

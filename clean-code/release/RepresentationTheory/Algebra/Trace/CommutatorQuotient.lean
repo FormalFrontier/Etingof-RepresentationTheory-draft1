@@ -41,7 +41,8 @@ theorem commutatorSubmodule_le_trace_ker :
   rw [representationTrace_mul_comm, sub_self]
 
 /-- The trace-valued function of a finite free module action descends to a linear map from the quotient by the commutator submodule. -/
-@[source_ref "Chapter3/Introduction_to_3.6" (role := primary)]
+@[source_ref "Chapter3/Introduction_to_3.6" (role := primary),
+  source_ref "Chapter3/Theorem3.6.2" (role := supporting)]
 noncomputable def traceOnCommutatorQuotient : (A ⧸ commutatorSubmodule k A) →ₗ[k] k :=
   Submodule.liftQ _
     (RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A V)

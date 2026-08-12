@@ -15,7 +15,8 @@ namespace RepresentationTheory.Algebra.Semisimplicity.EndomorphismProduct
 universe u in
 set_option linter.unusedFintypeInType false in
 /-- Under the displayed finite-dimensional simple-module hypotheses, the indicated quotient algebra is equivalent to a product of endomorphism algebras. -/
-@[source_ref "Chapter3/Theorem3.5.4" (role := primary)]
+@[source_ref "Chapter3/Theorem3.5.4" (role := primary),
+  source_ref "Chapter3/Corollary3.5.5/Derived2" (role := supporting)]
 theorem nonempty_algEquiv_quotient_endProduct (k : Type*) (A : Type u)
     [Field k] [IsAlgClosed k] [Ring A] [Algebra k A] [FiniteDimensional k A]
     (ι : Type*) [Fintype ι]

@@ -60,7 +60,8 @@ end AbelianLieAlgebra
 attribute [local instance 100] LieRing.ofAssociativeRing
 
 /-- A Lie ring structure on an algebra. -/
-@[reducible] def commutatorLieRing (k : Type*) [CommRing k]
+@[reducible, source_ref "Chapter2/Example2.9.2" (role := supporting)]
+def commutatorLieRing (k : Type*) [CommRing k]
     (A : Type*) [Ring A] [Algebra k A] :
     LieRing A := inferInstance
 
