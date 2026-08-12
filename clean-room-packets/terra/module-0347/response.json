@@ -3,68 +3,68 @@
   "declarations": [
     {
       "temporary_id": "decl-001308",
-      "new_name": "signedSum_mul_perm",
-      "docstring": "Right multiplication of the signed sum by a permutation in its supporting set scales it by that permutation's sign."
+      "new_name": "mul_perm_eq_sign_smul_of_mem",
+      "docstring": "If a permutation lies in the displayed set, multiplying the displayed group-algebra element on the right by its image in the group algebra scales that element by the permutation's sign."
     },
     {
       "temporary_id": "decl-001309",
-      "new_name": "signedSum_sq",
-      "docstring": "The square of the signed sum is its support cardinality times the signed sum."
+      "new_name": "sign_action_sq_eq_card_smul",
+      "docstring": "The square of the displayed group-algebra element is the cardinality of the displayed set times that element."
     },
     {
       "temporary_id": "decl-005444",
-      "new_name": "exists_scalarMap_for_signedSum_mul_averagingSum",
-      "docstring": "There is a scalar-valued map for which sandwiching any group-algebra element between the signed and averaging sums is a scalar multiple of a fixed element."
+      "new_name": "exists_sign_fixed_sandwich_eq_smul",
+      "docstring": "For each partition, there is a function-like scalar-valued object such that placing any group-algebra element between the two displayed elements gives its scalar value times a third displayed element."
     },
     {
       "temporary_id": "decl-005445",
-      "new_name": "exists_scalarMap_for_averagingSum_mul_signedSum",
-      "docstring": "There is a scalar-valued map for which the averaging-sum and signed-sum sandwich of every group-algebra element is a scalar multiple of their product."
+      "new_name": "exists_fixed_sign_sandwich_eq_smul_mul",
+      "docstring": "For each partition, there is a function-like scalar-valued object such that placing any group-algebra element between the two displayed elements gives its scalar value times their product."
     },
     {
       "temporary_id": "decl-005446",
-      "new_name": "exists_scalarMap_for_idempotentSandwich",
-      "docstring": "There is a scalar-valued map making the displayed sandwich of every group-algebra element a scalar multiple of a fixed element."
+      "new_name": "exists_idempotent_sandwich_eq_smul",
+      "docstring": "For each partition, there is a function-like scalar-valued object such that placing any group-algebra element between the two displayed idempotent elements gives its scalar value times a third displayed element."
     },
     {
       "temporary_id": "decl-015544",
-      "new_name": "averagingSum_mul_perm",
-      "docstring": "Right multiplication of the averaging sum by a permutation in its supporting set leaves it unchanged."
+      "new_name": "mul_perm_eq_self_of_mem",
+      "docstring": "If a permutation lies in the displayed set, multiplying the displayed group-algebra element on the right by its image in the group algebra leaves that element unchanged."
     },
     {
       "temporary_id": "decl-015545",
-      "new_name": "averagingSum_sq",
-      "docstring": "The square of the averaging sum is its support cardinality times the averaging sum."
+      "new_name": "fixed_action_sq_eq_card_smul",
+      "docstring": "The square of the displayed group-algebra element is the cardinality of the displayed set times that element."
     },
     {
       "temporary_id": "decl-021802",
-      "new_name": "perm_mul_signedSum",
-      "docstring": "Left multiplication of the signed sum by a permutation in its supporting set scales it by that permutation's sign."
+      "new_name": "perm_mul_eq_sign_smul_of_mem",
+      "docstring": "If a permutation lies in the displayed set, multiplying the displayed group-algebra element on the left by its image in the group algebra scales that element by the permutation's sign."
     },
     {
       "temporary_id": "decl-021804",
-      "new_name": "perm_mul_averagingSum",
-      "docstring": "Left multiplication of the averaging sum by a permutation in its supporting set leaves it unchanged."
+      "new_name": "perm_mul_eq_self_of_mem",
+      "docstring": "If a permutation lies in the displayed set, multiplying the displayed group-algebra element on the left by its image in the group algebra leaves that element unchanged."
     },
     {
       "temporary_id": "decl-022035",
-      "new_name": "exists_swap_mem_leftFactor_of_not_mem_product",
-      "docstring": "If a permutation is outside the product of the two displayed sets, then a swap in the left factor has the stated conjugation membership property."
+      "new_name": "exists_swap_mem_left_of_not_mem_mul",
+      "docstring": "If a permutation does not lie in the product of the two displayed sets, there is a swap in the first set whose conjugate by that permutation lies in the second set."
     },
     {
       "temporary_id": "decl-024565",
-      "new_name": "rightIdempotent_sq",
-      "docstring": "The square of the right idempotent is itself."
+      "new_name": "right_idempotent_sq",
+      "docstring": "The square of the displayed right-hand sandwich element is itself."
     },
     {
       "temporary_id": "decl-024566",
-      "new_name": "rightIdempotent_mul_leftIdempotent",
-      "docstring": "The product of the two idempotents is the stated inverse-cardinality scalar multiple of a fixed element."
+      "new_name": "right_idempotent_mul_left_idempotent",
+      "docstring": "The product of the two displayed idempotent elements is the inverse of the product of the two displayed set cardinalities, acting as a scalar on the displayed target element."
     },
     {
       "temporary_id": "decl-024573",
-      "new_name": "leftIdempotent_sq",
-      "docstring": "The square of the left idempotent is itself."
+      "new_name": "left_idempotent_sq",
+      "docstring": "The square of the displayed left-hand sandwich element is itself."
     }
   ]
 }
