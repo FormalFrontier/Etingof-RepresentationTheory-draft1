@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1094",
+  "associations": [
+    {
+      "association_id": "association:7b9b1df43efebc2c4980",
+      "rationale": "The displayed type gives existence of a partition and a linear equivalence to its Specht module, but does not state uniqueness of that partition.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:723271f4dce39116c5f6",
+      "rationale": "The displayed type rules out a linear equivalence between Specht modules for distinct partitions, but does not classify every simple module.",
+      "role": "supporting"
+    }
+  ]
+}

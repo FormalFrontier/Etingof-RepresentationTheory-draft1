@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1100",
+  "associations": [
+    {
+      "association_id": "association:0bc8bb35d3513b95716b",
+      "rationale": "The displayed type states det(cauchyMatrix) = cauchyRHS through opaque named terms and contains no visible coefficient-one assertion, so it does not state the full source claim.",
+      "role": "supporting"
+    }
+  ]
+}

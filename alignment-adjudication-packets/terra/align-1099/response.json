@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1099",
+  "associations": [
+    {
+      "association_id": "association:9b27844fe6081825a958",
+      "rationale": "The displayed type gives an equivalence with existence of an unspecified t whose adjacency matrix matches adj, but it does not visibly enumerate A, D, E6, E7, and E8 or state the source hypotheses.",
+      "role": "supporting"
+    }
+  ]
+}

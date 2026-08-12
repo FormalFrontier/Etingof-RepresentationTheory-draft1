@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1093",
+  "associations": [
+    {
+      "association_id": "association:5bda4922d8c2aec42b2b",
+      "rationale": "The displayed equality evaluates the opposite-algebra action on f at v as f applied to the action of unop a on v, exactly stating the contragredient formula.",
+      "role": "primary"
+    }
+  ]
+}

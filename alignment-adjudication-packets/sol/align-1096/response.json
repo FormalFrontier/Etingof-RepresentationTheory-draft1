@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-1096",
+  "associations": [
+    {
+      "association_id": "association:24682afbdc0bfacb781e",
+      "rationale": "The displayed type only introduces WeylE k as a type and does not expose its elements, actions, faithfulness, or linear-independence conclusion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e915d20a7a1ef8bae18c",
+      "rationale": "The displayed type constructs an algebra homomorphism into End(WeylE k), but does not itself state the action formulas, injectivity, or linear independence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e38d607fd5176d4f6ed7",
+      "rationale": "The displayed type states injectivity of repE for a nontrivial commutative ring, covering faithfulness only, not the full module-and-actions claim or linear independence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:06ebadad09ed35eeb940",
+      "rationale": "The displayed type states only that repE sends x to mulX, not the y action, faithfulness, module description, or linear independence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:173380ebda405c84d894",
+      "rationale": "The displayed type states only that repE sends y to weylD, not the x action, faithfulness, module description, or linear independence.",
+      "role": "supporting"
+    }
+  ]
+}

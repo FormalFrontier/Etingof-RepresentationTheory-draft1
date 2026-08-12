@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1101",
+  "associations": [
+    {
+      "association_id": "association:6ec974ee1922e0319061",
+      "rationale": "No formal type is displayed, so the candidate does not visibly state the invariant-complement sufficiency claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8df5b2a50f743ff23498",
+      "rationale": "No formal type is displayed, so the candidate does not visibly state the invariant-complement sufficiency claim.",
+      "role": "supporting"
+    }
+  ]
+}

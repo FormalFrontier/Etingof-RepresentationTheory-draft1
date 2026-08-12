@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1098",
+  "associations": [
+    {
+      "association_id": "association:9f9ff5fa91c93c4be4bf",
+      "rationale": "The displayed type assumes the stated finite-sum formula for f and concludes f = freeCover A b, directly stating that the formula uniquely determines the map.",
+      "role": "primary"
+    }
+  ]
+}
