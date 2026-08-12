@@ -1,0 +1,1 @@
+{"module_name":"Algebra.Algebraic.ConjRoot.FiniteSum","declarations":[{"temporary_id":"decl-005506","new_name":"exists_conjRoots_sum_eq_of_isConjRoot_sum","docstring":"A conjugate over the rationals of a finite sum of algebraic complex numbers can be expressed as a sum of conjugates of the individual summands."}]}
