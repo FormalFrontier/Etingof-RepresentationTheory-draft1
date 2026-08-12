@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0941",
+  "associations": [
+    {
+      "association_id": "association:7f1679669d715be03b30",
+      "role": "primary",
+      "rationale": "Its formal type proves quotient products agree when the left representatives differ by the ideal."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0932",
+  "associations": [
+    {
+      "association_id": "association:14e3f7649fa9479516ba",
+      "role": "primary",
+      "rationale": "The declared sl2 universal-relations result directly states the listed generator relations in U(sl2)."
+    }
+  ]
+}

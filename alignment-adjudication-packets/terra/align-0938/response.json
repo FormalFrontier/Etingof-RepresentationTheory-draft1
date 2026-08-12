@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0938",
+  "associations": [
+    {
+      "association_id": "association:d3c6181b3bc52fc301fb",
+      "role": "primary",
+      "rationale": "TensorProduct.map defines the induced linear map A tensor B in the source claim."
+    },
+    {
+      "association_id": "association:a55dde8d3a4433a0f237",
+      "role": "primary",
+      "rationale": "TensorProduct.map_tmul states the induced map's required value on pure tensors."
+    }
+  ]
+}

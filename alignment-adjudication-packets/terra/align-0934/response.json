@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0934",
+  "associations": [
+    {
+      "association_id": "association:5320e6f9e30c1a614484",
+      "role": "primary",
+      "rationale": "Its formal type states that every simple A5 representation is of real type."
+    },
+    {
+      "association_id": "association:154d7a385cb1ae834b29",
+      "role": "primary",
+      "rationale": "Its formal type states that every simple S3 representation is of real type."
+    },
+    {
+      "association_id": "association:61ce23dd12f4ea5ce762",
+      "role": "primary",
+      "rationale": "Its formal type states that every simple S4 representation is of real type."
+    }
+  ]
+}

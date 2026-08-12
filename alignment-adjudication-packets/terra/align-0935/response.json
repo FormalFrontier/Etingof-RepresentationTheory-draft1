@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0935",
+  "associations": [
+    {
+      "association_id": "association:a05e8787f2699b105e77",
+      "role": "primary",
+      "rationale": "The formal type places every character in the class-function submodule, stating conjugacy-class constancy."
+    },
+    {
+      "association_id": "association:2737a38bb11c2649d7d5",
+      "role": "primary",
+      "rationale": "The declared character-conjugacy result directly states the character invariance asserted by the claim."
+    }
+  ]
+}
