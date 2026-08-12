@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:567721b76ea1e04e7dc0",
-      "role": "primary",
-      "rationale": "Representation directly defines the representation type from an algebra and an additive group, with the module formulation supplied by the project definition."
+      "role": "supporting",
+      "rationale": "The displayed type only declares a representation type from a ring and an additive group; it does not itself state the algebra-homomorphism or left-module characterization."
     },
     {
       "association_id": "association:bf40ffb8c591d59b15c9",
