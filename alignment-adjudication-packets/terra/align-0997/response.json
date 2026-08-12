@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0997",
+  "associations": [
+    {
+      "association_id": "association:ea4d079230be55b56b3b",
+      "role": "primary",
+      "rationale": "The formal type states that the Weyl monomials span the whole Weyl algebra, directly giving the source claim's stated conclusion."
+    }
+  ]
+}

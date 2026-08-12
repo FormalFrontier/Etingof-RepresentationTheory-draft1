@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1001",
+  "associations": [
+    {
+      "association_id": "association:b5f3b649c124bc5ebf83",
+      "role": "primary",
+      "rationale": "It gives an isomorphism between the Hom bifunctors for induction and restriction, directly formalizing Frobenius reciprocity."
+    },
+    {
+      "association_id": "association:f61a31c7add931ef021d",
+      "role": "primary",
+      "rationale": "It states the adjunction of restriction with induction, directly expressing the induction-restriction connection described by Frobenius reciprocity."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0993",
+  "associations": [
+    {
+      "association_id": "association:c80f75a4962abef96853",
+      "role": "primary",
+      "rationale": "For a field of characteristic p, the declaration says every group element acts as the identity in any simple representation of Z/pZ, directly stating that every irreducible representation is trivial."
+    }
+  ]
+}

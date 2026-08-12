@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0996",
+  "associations": [
+    {
+      "association_id": "association:15f68e1bf9d1c8788905",
+      "role": "primary",
+      "rationale": "AdditiveFunctor is the formal predicate defining an additive functor between preadditive categories, directly matching the additive-on-Hom-groups part of the source definition."
+    },
+    {
+      "association_id": "association:ba8c01f39edd4b085282",
+      "role": "primary",
+      "rationale": "LinearFunctor is the formal predicate defining a k-linear functor between k-linear categories, directly matching the linear-on-Hom-spaces part of the source definition."
+    }
+  ]
+}
