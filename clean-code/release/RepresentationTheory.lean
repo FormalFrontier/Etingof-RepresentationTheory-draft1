@@ -119,6 +119,7 @@ import RepresentationTheory.OpaqueFormalStatement
 import RepresentationTheory.LieModule.HomTensorAdjunction
 import RepresentationTheory.Infrastructure.Triangularization
 import RepresentationTheory.InvariantComplements
+import RepresentationTheory.SemisimpleGroupAlgebraCardinality
 
 /-!
 # Representation theory formalization
