@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:94e7351319894993ffa9",
+      "rationale": "For a simple complex representation of dimension greater than one, the formal type directly asserts the existence of a group element where its character is zero.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0767"
+}

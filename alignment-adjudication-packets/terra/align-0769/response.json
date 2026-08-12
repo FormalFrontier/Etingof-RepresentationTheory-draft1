@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:c0b07a21f1c564108bba",
+      "rationale": "This only defines conjugation of partitions and states no representation isomorphism.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:529b3abe7c925c51be8c",
+      "rationale": "The displayed type gives a sign-equivariant existential map out of the original Specht module, but its codomain and the conjugate-partition Specht module are absent, making the requested isomorphism opaque in the evidence.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0769"
+}

@@ -1,0 +1,30 @@
+{
+  "associations": [
+    {
+      "association_id": "association:19e2d67b7c4259718ae5",
+      "rationale": "This only defines the integer-valued content function and does not state how transpositions act on a Specht module.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:cedfabeceb685eefeae6",
+      "rationale": "This only constructs the sum-of-transpositions algebra element, a prerequisite for the action claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:527b5b3a2d79428c09bd",
+      "rationale": "Centrality of the sum of transpositions supports a scalar-action argument but does not identify the scalar as diagram content on each Specht module.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:beab0919d8480f8bd8f0",
+      "rationale": "The formal type directly says that multiplying any element of a Specht module by the sum of transpositions equals scalar multiplication by the partition content.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:bc90b8cb43b9dd468ff8",
+      "rationale": "This gives the content-scalar identity only on the Young symmetrizer, so it is a generator-level helper rather than the full Specht-module action claim.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0762"
+}
