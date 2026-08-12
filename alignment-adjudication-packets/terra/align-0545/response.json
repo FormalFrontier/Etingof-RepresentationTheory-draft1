@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0545",
+  "associations": [
+    {
+      "association_id": "association:ee9bf396126b0e2424b8",
+      "rationale": "The type gives a unique parameter and equivalence to the opaque oneDimModule construction, but does not display its dimension or the asserted actions of X and Y.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9b6ce8612ed2d075a976",
+      "rationale": "This is only the type signature of the named module family and does not state its dimension, generator actions, or the irreducible-classification result.",
+      "role": "supporting"
+    }
+  ]
+}

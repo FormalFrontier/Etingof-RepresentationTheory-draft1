@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0542",
+  "associations": [
+    {
+      "association_id": "association:964190a36645cb781ff6",
+      "rationale": "With no displayed formal type, this solvability declaration cannot directly state the equivalence with vanishing of a commutant iterate.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bd141e79d55fffb5f458",
+      "rationale": "Despite the equivalence-oriented name, the null formal type supplies no displayed statement matching the source claim.",
+      "role": "supporting"
+    }
+  ]
+}

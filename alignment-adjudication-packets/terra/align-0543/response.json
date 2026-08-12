@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0543",
+  "associations": [
+    {
+      "association_id": "association:059b978eaaf224bc6a36",
+      "rationale": "The type derives finrank one for a solvable action from the contextual IsSimpleOrder condition on the Lie-submodule lattice, rather than directly stating the source's irreducible-representation formulation.",
+      "role": "supporting"
+    }
+  ]
+}

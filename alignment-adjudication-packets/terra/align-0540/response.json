@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0540",
+  "associations": [
+    {
+      "association_id": "association:220594b0315d3203ee0e",
+      "rationale": "The displayed intertwining equation uses the opaque named operators jordanTensorOp and cgJordan, so it does not directly expose the claimed Jordan-block sizes.",
+      "role": "supporting"
+    }
+  ]
+}

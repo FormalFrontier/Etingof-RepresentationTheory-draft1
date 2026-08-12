@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0539",
+  "associations": [
+    {
+      "association_id": "association:172efb12edb23d148d96",
+      "rationale": "The character-polynomial equality supports the decomposition but does not itself state a Lie-module direct-sum equivalence.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:abb8fb2ab6ba238efdeb",
+      "rationale": "The type directly gives the asserted Lie-module equivalence between V_lambda tensor V_mu and the indexed direct sum of the standard modules of weights lambda + mu - 2k.",
+      "role": "primary"
+    }
+  ]
+}
