@@ -19,7 +19,7 @@
     {
       "temporary_id": "decl-017507",
       "new_name": "Auxiliary.construct_from_index_condition",
-      "docstring": "Constructs an auxiliary object from an antitone sequence of successor length and a distinguished index satisfying the auxiliary condition."
+      "docstring": "Constructs an auxiliary object from an antitone sequence indexed by `Fin (n + 1)` whose entries sum to `n + 1`, and a distinguished index satisfying the auxiliary condition."
     },
     {
       "temporary_id": "decl-017515",
@@ -59,7 +59,7 @@
     {
       "temporary_id": "decl-022214",
       "new_name": "Auxiliary.psum_part_permutation_hom_succ",
-      "docstring": "The partial power-sum expression after the successor permutation homomorphism equals its original expression multiplied by the sum of all variables."
+      "docstring": "The partial power-sum expression after the successor permutation homomorphism equals the sum of all variables multiplied by the original partial power-sum expression."
     },
     {
       "temporary_id": "decl-022567",
