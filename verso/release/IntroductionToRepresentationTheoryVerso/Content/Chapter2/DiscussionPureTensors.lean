@@ -28,4 +28,6 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2}
+
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorProductAuxiliary.PairedPowerSpaceAux}

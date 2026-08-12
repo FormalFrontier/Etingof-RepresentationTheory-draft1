@@ -26,3 +26,11 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.basisRelations}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.BasisQuotientModel}
+
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.basisQuotientEquivEnvelope}
+
+{Manual.docstring RepresentationTheory.Algebra.Lie.AssociatedTypes.LieAlgebra.AuxiliaryType}
