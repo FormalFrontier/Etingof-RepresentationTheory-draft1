@@ -61,7 +61,8 @@ private theorem bracket_linearCombination (a b c d : k) :
   module
 
 /-- The bracket of the displayed elements has the stated value. -/
-@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
+@[source_ref "Chapter2/Discussion_concrete_Lie_examples_continued/Derived3" (role := supporting),
+  source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 theorem bracket_eq : ⁅distinguishedElement k, distinguishedElement_aux1 k⁆ = distinguishedElement_aux1 k := by
   apply Subtype.ext
   rw [LieSubalgebra.coe_bracket]

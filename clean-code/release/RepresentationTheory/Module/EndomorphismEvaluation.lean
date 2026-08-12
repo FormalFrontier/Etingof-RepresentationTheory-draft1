@@ -61,25 +61,29 @@ theorem endApplyBasisLinearMap_bijective [Fintype ι] (b : Module.Basis ι k V) 
 
 /-- Evaluation on a finite basis gives a linear equivalence from module endomorphisms to
 basis-indexed families of vectors. -/
+@[source_ref "Chapter3/Example3.1.2" (role := supporting)]
 noncomputable def endApplyBasisLinearEquiv [Fintype ι] (b : Module.Basis ι k V) :
     Module.End k V ≃ₗ[A] (ι → V) :=
   LinearEquiv.ofBijective (endApplyBasisLinearMap b) (endApplyBasisLinearMap_bijective b)
 
 /-- The basis-evaluation linear equivalence sends an endomorphism to its values on the basis
 vectors. -/
-@[simp] theorem endApplyBasisLinearEquiv_apply [Fintype ι] (b : Module.Basis ι k V)
+@[source_ref "Chapter3/Example3.1.2" (role := supporting), simp]
+theorem endApplyBasisLinearEquiv_apply [Fintype ι] (b : Module.Basis ι k V)
     (f : Module.End k V) (i : ι) :
     endApplyBasisLinearEquiv (A := A) b f i = f (b i) := rfl
 
 /-- Evaluation on the canonical finite basis gives a linear equivalence from module endomorphisms
 to finite families of vectors. -/
+@[source_ref "Chapter3/Example3.1.2" (role := supporting)]
 noncomputable def endApplyFinBasisLinearEquiv [FiniteDimensional k V] :
     Module.End k V ≃ₗ[A] (Fin (Module.finrank k V) → V) :=
   endApplyBasisLinearEquiv (Module.finBasis k V)
 
 /-- The canonical finite-basis equivalence sends an endomorphism to its values on the canonical
 basis vectors. -/
-@[simp] theorem endApplyFinBasisLinearEquiv_apply [FiniteDimensional k V] (f : Module.End k V)
+@[source_ref "Chapter3/Example3.1.2" (role := supporting), simp]
+theorem endApplyFinBasisLinearEquiv_apply [FiniteDimensional k V] (f : Module.End k V)
     (i : Fin (Module.finrank k V)) :
     endApplyFinBasisLinearEquiv (A := A) f i = f (Module.finBasis k V i) := rfl
 
