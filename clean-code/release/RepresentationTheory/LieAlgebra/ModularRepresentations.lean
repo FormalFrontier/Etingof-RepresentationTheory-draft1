@@ -14,6 +14,7 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.PicardGroup
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Modular representations of a two-dimensional matrix Lie algebra -/
 
@@ -27,6 +28,7 @@ attribute [local instance 100] LieRing.ofAssociativeRing
 variable (k : Type*) [Field k]
 
 /-- A Lie subalgebra of two-by-two matrices over the displayed field. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 noncomputable def matrixLieSubalgebra : LieSubalgebra k (Matrix (Fin 2) (Fin 2) k) :=
   LieSubalgebra.lieSpan k _ {Matrix.single 0 0 1, Matrix.single 0 1 1}
 
@@ -59,6 +61,7 @@ private theorem bracket_linearCombination (a b c d : k) :
   module
 
 /-- The bracket of the displayed elements has the stated value. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 theorem bracket_eq : ⁅distinguishedElement k, distinguishedElement_aux1 k⁆ = distinguishedElement_aux1 k := by
   apply Subtype.ext
   rw [LieSubalgebra.coe_bracket]
@@ -175,6 +178,7 @@ private theorem derivedSeries_one_le_span_secondGenerator (x : matrixLieSubalgeb
   exact bracket_mem_span_secondGenerator k a b
 
 /-- The displayed matrix Lie algebra is solvable. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 instance matrixLieSubalgebra_isSolvable : LieAlgebra.IsSolvable (matrixLieSubalgebra k) := by
   refine LieAlgebra.IsSolvable.mk (?_ : LieAlgebra.derivedSeries k (matrixLieSubalgebra k) 2 = ⊥)
   have key : ⁅LieAlgebra.derivedSeries k (matrixLieSubalgebra k) 1, LieAlgebra.derivedSeries k (matrixLieSubalgebra k) 1⁆ = ⊥ := by
@@ -238,6 +242,7 @@ private theorem bracket_coe_apply_zero_zero (A B : matrixLieSubalgebra k) :
   simp [matrixUnit01, Matrix.smul_apply]
 
 /-- A type-valued construction determined by the displayed parameters. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 def AuxiliaryType_aux1 (_μ : k) : Type _ := k
 
 /-- Provides the indicated AddCommGroup structure on the specified type. -/
@@ -393,6 +398,7 @@ theorem nonempty_lieModuleEquiv_oneDimensional (M : Type*) [AddCommGroup M] [Mod
   rw [hlie, map_smul, bracket_eq_aux7]
 
 /-- In characteristic zero, there is a unique scalar parameter for an equivalence with the displayed one-dimensional module. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 theorem existsUnique_equiv_oneDimensional [IsAlgClosed k] [CharZero k]
     (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M]
     [FiniteDimensional k M] [LieModule.IsIrreducible k (matrixLieSubalgebra k) M] :
@@ -598,6 +604,7 @@ variable {k p}
 variable (k p)
 
 /-- A type-valued construction determined by the displayed parameters. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 def AuxiliaryType (_γ : kˣ) (_a : k) : Type _ := ZMod p → k
 
 /-- Provides the indicated AddCommGroup structure on the specified type. -/
@@ -655,6 +662,7 @@ theorem bracket_eq_aux4 (γ : kˣ) (a : k) (v : AuxiliaryType k p γ a) :
 omit [CharP k p] in
 
 /-- The finite rank of the displayed module has the stated value. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 theorem finrank_eq_aux1 (γ : kˣ) (a : k) : Module.finrank k (AuxiliaryType k p γ a) = p := by
   have h : Module.finrank k (AuxiliaryType k p γ a) = Module.finrank k (ZMod p → k) := rfl
   rw [h, Module.finrank_fintype_fun_eq_card, ZMod.card p]
@@ -777,6 +785,7 @@ theorem invariantSubmodule_eq_bot_or_top (γ : kˣ) (a : k) (N : Submodule k (ZM
       exact IH _ hlt w' hw'N hw'0 rfl
 
 /-- Each module in the displayed modular family is irreducible. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 theorem modularFamily_isIrreducible (γ : kˣ) (a : k) : LieModule.IsIrreducible k (matrixLieSubalgebra k) (AuxiliaryType k p γ a) := by
   refine LieModule.IsIrreducible.mk fun N hN => ?_
   have hdiag : ∀ v ∈ (N : Submodule k (AuxiliaryType k p γ a)), distinguishedElement_aux2 k p a v ∈ N := by
@@ -909,6 +918,7 @@ noncomputable def lieModuleEquiv (γ : kˣ) (a : k) (n : ZMod p) :
     exact map_apply_aux13 γ n m
 
 /-- Two modules in the modular family are equivalent exactly when their parameters satisfy the displayed conditions. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 theorem nonempty_lieModuleEquiv_iff (γ γ' : kˣ) (a a' : k) :
     Nonempty (AuxiliaryType k p γ a ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType k p γ' a')
       ↔ γ = γ' ∧ ∃ n : ZMod p, a' = a + distinguishedElement_aux5 k p n := by
@@ -949,6 +959,7 @@ theorem not_nonempty_lieModuleEquiv_of_parameters {γ γ' : kˣ} {a a' : k} (h :
   fun hh => h ((nonempty_lieModuleEquiv_iff γ γ' a a').mp hh)
 
 /-- A displayed one-dimensional module is not equivalent to a module in the modular family. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := primary)]
 theorem not_nonempty_lieModuleEquiv_modular (μ : k) (γ : kˣ) (a : k) :
     ¬ Nonempty (AuxiliaryType_aux1 k μ ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType k p γ a) := by
   rintro ⟨φ⟩
@@ -1201,6 +1212,7 @@ theorem exists_equiv_modularFamily_of_nontrivial_action [IsAlgClosed k] (M : Typ
   exact ⟨Units.mk0 c hc0, a, ⟨key.symm⟩⟩
 
 /-- Every finite-dimensional irreducible module is equivalent to either a one-parameter module or a module in the displayed modular family. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 theorem irreducibleModule_equiv_classification [IsAlgClosed k] (M : Type*) [AddCommGroup M] [Module k M]
     [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M] [FiniteDimensional k M]
     [LieModule.IsIrreducible k (matrixLieSubalgebra k) M] :
@@ -1211,6 +1223,7 @@ theorem irreducibleModule_equiv_classification [IsAlgClosed k] (M : Type*) [AddC
   · exact Or.inr (exists_equiv_modularFamily_of_nontrivial_action k p M (not_forall.mp h))
 
 /-- The displayed classification of finite-dimensional irreducible modules has the stated uniqueness of parameters. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 theorem irreducibleModule_equiv_classification_unique [IsAlgClosed k] (M : Type*) [AddCommGroup M] [Module k M]
     [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M] [FiniteDimensional k M]
     [LieModule.IsIrreducible k (matrixLieSubalgebra k) M] :
@@ -1233,6 +1246,7 @@ theorem irreducibleModule_equiv_classification_unique [IsAlgClosed k] (M : Type*
     ring
 
 /-- In the displayed positive-characteristic setting, not every finite-dimensional irreducible module has finite rank one. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := primary)]
 theorem not_forall_irreducible_finrank_eq_one (k : Type) [Field k] [IsAlgClosed k]
     (p : ℕ) [Fact p.Prime] [CharP k p] :
     ¬ ∀ (M : Type) [AddCommGroup M] [Module k M] [LieRingModule (matrixLieSubalgebra k) M]
@@ -1279,4 +1293,3 @@ attribute [nolint defsWithUnderscore]
 attribute [nolint defsWithUnderscore unusedArguments]
   RepresentationTheory.LieAlgebra.ModularRepresentations.AuxiliaryType_aux1
   RepresentationTheory.LieAlgebra.ModularRepresentations.AuxiliaryType
-

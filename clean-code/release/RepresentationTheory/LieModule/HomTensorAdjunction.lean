@@ -10,6 +10,7 @@ import Mathlib.LinearAlgebra.Contraction
 import Mathlib.LinearAlgebra.FreeModule.PID
 import Mathlib.RingTheory.Flat.TorsionFree
 import Mathlib.RingTheory.SimpleRing.Principal
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Hom--tensor equivalences for Lie modules -/
 
@@ -61,7 +62,7 @@ def lieModuleHomCongr {B C : Type*}
   right_inv g := by ext v; simp [LieModuleHom.comp_apply]
 
 /-- The equivariant Hom--tensor-dual equivalence for a finite-dimensional middle Lie module. -/
-@[nolint defsWithUnderscore]
+@[nolint defsWithUnderscore, source_ref "Chapter2/Problem2.14.3" (role := primary)]
 noncomputable def lieModuleHomTensorDualEquiv :
     (TensorProduct k V W →ₗ⁅k,L⁆ U) ≃ₗ[k]
       (V →ₗ⁅k,L⁆ TensorProduct k U (Module.Dual k W)) :=

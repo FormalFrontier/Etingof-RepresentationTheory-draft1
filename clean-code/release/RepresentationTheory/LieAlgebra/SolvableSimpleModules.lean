@@ -6,6 +6,7 @@ Authors: Kim Morrison
 
 import Mathlib.Algebra.Lie.LieTheorem
 import Mathlib.Analysis.Complex.Polynomial.Basic
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Simple modules over solvable Lie algebras -/
 
@@ -18,6 +19,7 @@ variable {V : Type*} [AddCommGroup V] [Module ℂ V] [LieRingModule L V] [LieMod
 
 /-- A nontrivial finite-dimensional module over a solvable complex Lie algebra has dimension one
 when its Lie submodules form a simple order. -/
+@[source_ref "Chapter2/Problem2.16.1" (role := primary)]
 theorem finrank_eq_one_of_isSimpleOrder [LieAlgebra.IsSolvable L]
     [FiniteDimensional ℂ V] [Nontrivial V] (hirr : IsSimpleOrder (LieSubmodule ℂ L V)) :
     finrank ℂ V = 1 := by

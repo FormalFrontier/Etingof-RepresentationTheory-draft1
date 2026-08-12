@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 
 import Mathlib.Combinatorics.Quiver.Basic
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Bundled quiver arrows -/
 
@@ -36,3 +37,11 @@ def hom (h : Arrow Q) : source h ⟶ target h := h.2.2
 end Arrow
 
 end RepresentationTheory.Quiver.Arrows
+
+attribute [source_ref "Chapter2/Discussion_quiver_notation" (role := supporting)]
+  RepresentationTheory.Quiver.Arrows.Arrow
+  RepresentationTheory.Quiver.Arrows.Arrow.hom
+
+attribute [source_ref "Chapter2/Discussion_quiver_notation" (role := primary)]
+  RepresentationTheory.Quiver.Arrows.Arrow.source
+  RepresentationTheory.Quiver.Arrows.Arrow.target

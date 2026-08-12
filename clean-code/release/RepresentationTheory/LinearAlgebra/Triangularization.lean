@@ -124,6 +124,7 @@ lemma exteriorPowerMatrix_diag_eq_minorDet (A : V →ₗ[k] V)
 
 /-- Computes the trace of the indicated exterior-power endomorphism as a sum of products of
 indexed scalars. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 theorem trace_exteriorPower_eq_subsetSum (h : HasTriangularBasis A b lam) (n : ℕ) :
     LinearMap.trace k
         (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType k V n)
@@ -262,6 +263,7 @@ theorem exists_hasTriangularBasis {N : ℕ} (A : V →ₗ[k] V) (hN : Module.fin
 
 /-- Derives the exterior-power trace formula from a factorization of the characteristic
 polynomial. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 theorem trace_exteriorPower_eq_subsetSum_of_charpoly {N : ℕ} (A : V →ₗ[k] V)
     (hN : Module.finrank k V = N) (lam : Fin N → k)
     (hlam : LinearMap.charpoly A = ∏ i, (X - C (lam i))) (n : ℕ) :

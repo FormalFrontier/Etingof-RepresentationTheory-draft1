@@ -450,6 +450,7 @@ theorem exteriorPower_map_top [FiniteDimensional k V] {N : ℕ} (hN : Module.fin
   simpa [Function.comp_def] using exteriorPower_iota_map hN A f
 
 /-- The induced map in top degree is determinant scaling of the identity. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 theorem topExteriorPower_map [FiniteDimensional k V] {N : ℕ} (hN : Module.finrank k V = N)
     (A : V →ₗ[k] V) :
     linearMap A N = LinearMap.det A • (LinearMap.id : AuxiliaryType k V N →ₗ[k] AuxiliaryType k V N) := by
@@ -461,6 +462,7 @@ theorem topExteriorPower_map [FiniteDimensional k V] {N : ℕ} (hN : Module.finr
   simp
 
 /-- The determinant of a composite endomorphism is the product of the two determinants. -/
+@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 theorem det_comp [FiniteDimensional k V] {N : ℕ}
     (hN : Module.finrank k V = N) (A B : V →ₗ[k] V) :
     LinearMap.det (A ∘ₗ B) = LinearMap.det A * LinearMap.det B := by

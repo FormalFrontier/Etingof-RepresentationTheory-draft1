@@ -6,6 +6,7 @@ Authors: Kim Morrison
 
 import Mathlib.Algebra.DualNumber
 import Mathlib.RepresentationTheory.AlgebraRepresentation.Basic
+import RepresentationTheory.Alignment.Attribute
 import RepresentationTheory.LinearAlgebra.ModuleDecompositions
 import RepresentationTheory.Module.SimpleSubmodule
 
@@ -244,3 +245,13 @@ theorem dualNumberEpsilon_not_scalarAction :
 end DualNumberCounterexample
 
 end RepresentationTheory.Algebra.CenterAction
+
+attribute [source_ref "Chapter2/Problem2.3.16" (role := primary)]
+  RepresentationTheory.Algebra.CenterAction.centerAction_eq_character_smul
+  RepresentationTheory.Algebra.CenterAction.centerCharacter
+  RepresentationTheory.Algebra.CenterAction.centerElement_smul_eq_scalar_smul
+
+attribute [source_ref "Chapter2/Problem2.3.16" (role := supporting)]
+  RepresentationTheory.Algebra.CenterAction.centerAction_sub_scalar_isNilpotent
+  RepresentationTheory.Algebra.CenterAction.centerCharacter_value_unique
+  RepresentationTheory.Algebra.CenterAction.exists_simpleSubmodule_centerCharacter

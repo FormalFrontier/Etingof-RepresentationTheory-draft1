@@ -7,6 +7,7 @@ Authors: Kim Morrison
 import Mathlib.Algebra.Lie.Classical
 import Mathlib.Algebra.Lie.Semisimple.Basic
 import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Representations of a two-by-two matrix Lie subalgebra -/
 
@@ -1069,6 +1070,12 @@ theorem not_forall_finrank_lt_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.P
 
 end RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations
 
+attribute [source_ref "Chapter2/Problem2.16.4" (role := supporting)]
+  RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.finrank_finFunction
+  RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.finrank_le_characteristic
+  RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.isIrreducible_finFunction_of_le_characteristic
+  RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.not_forall_finrank_lt_characteristic
+
 
 attribute [nolint defsWithUnderscore]
   RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra
@@ -1081,4 +1088,3 @@ attribute [nolint defsWithUnderscore]
   RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.finFunctionRepresentation
   RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.lieRingModule_finFunction
   RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.coordinateVector
-

@@ -6,6 +6,7 @@ Authors: Kim Morrison
 
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Inverse
 import Mathlib.NumberTheory.Real.Irrational
+import RepresentationTheory.Alignment.Attribute
 
 /-! # An auxiliary formal statement -/
 
@@ -65,6 +66,7 @@ private lemma three_not_dvd_scaledCosine (n : ℕ) : ¬ (3 ∣ scaledCosine n) :
   omega
 
 /-- States the proposition represented by this declaration. -/
+@[source_ref "Chapter2/Problem2.13.1" (role := supporting)]
 theorem opaqueFormalStatement : Irrational (arccos (1 / 3) / π) := by
   intro h
   obtain ⟨r, hr⟩ := h

@@ -80,6 +80,7 @@ section Derivation
 variable (k A : Type*) [CommRing k] [Ring A] [Algebra k A]
 
 /-- A predicate on linear endomorphisms of an algebra. -/
+@[source_ref "Chapter2/Example2.9.2" (role := supporting)]
 def IsDerivation (D : Module.End k A) : Prop :=
   ∀ a b : A, D (a * b) = D a * b + a * D b
 
@@ -101,11 +102,13 @@ def derivationLieSubalgebra : LieSubalgebra k (Module.End k A) where
 variable {k A}
 
 /-- Characterization of membership in the derivation subalgebra by the product rule. -/
-@[simp] theorem mem_derivationLieSubalgebra_iff {D : Module.End k A} :
+@[simp, source_ref "Chapter2/Example2.9.2" (role := primary)]
+theorem mem_derivationLieSubalgebra_iff {D : Module.End k A} :
     D ∈ derivationLieSubalgebra k A ↔ ∀ a b : A, D (a * b) = D a * b + a * D b :=
   Iff.rfl
 
 /-- Every element of the derivation subalgebra satisfies the product rule. -/
+@[source_ref "Chapter2/Example2.9.2" (role := supporting)]
 theorem derivationLieSubalgebra.leibniz (D : derivationLieSubalgebra k A) (a b : A) :
     (D : Module.End k A) (a * b) =
       (D : Module.End k A) a * b + a * (D : Module.End k A) b :=

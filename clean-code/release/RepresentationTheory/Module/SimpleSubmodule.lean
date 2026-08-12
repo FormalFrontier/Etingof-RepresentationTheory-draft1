@@ -60,3 +60,9 @@ theorem not_exists_isSimpleModule_polynomial_subtype (k : Type*) [Field k] :
   exact not_isUnit_X (IsUnit.of_mul_eq_one a (by rw [mul_comm]; exact hax))
 
 end RepresentationTheory.Module.SimpleSubmodule
+
+attribute [source_ref "Chapter2/Problem2.3.15" (role := primary)]
+  RepresentationTheory.Module.SimpleSubmodule.exists_isSimpleModule_subtype
+
+attribute [source_ref "Chapter2/Problem2.3.15" (role := supporting)]
+  RepresentationTheory.Module.SimpleSubmodule.not_exists_isSimpleModule_polynomial_subtype

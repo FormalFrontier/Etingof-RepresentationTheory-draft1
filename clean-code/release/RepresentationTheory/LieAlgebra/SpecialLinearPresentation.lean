@@ -487,3 +487,11 @@ instance nontrivial (k : Type*) [CommRing k] [Nontrivial k] :
 end MatrixRealization
 
 end RepresentationTheory.LieAlgebra.SpecialLinearPresentation
+
+attribute [source_ref "Chapter2/Example2.9.12" (role := primary)]
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.lieEquiv
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.matrix_eq_aux1
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.matrix_eq_aux2
+
+attribute [source_ref "Chapter2/Example2.9.12" (role := supporting)]
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux6
