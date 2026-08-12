@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:3260e100b43410c37adc",
-      "rationale": "The formal type directly places every simple representation's character in the rational span of characters induced from cyclic subgroups.",
-      "role": "primary"
+      "rationale": "The displayed Simple/zpowers result supports the source claim, but the type does not itself visibly identify Simple representations with irreducible representations or zpowers subgroups with cyclic subgroups.",
+      "role": "supporting"
     }
   ]
 }
