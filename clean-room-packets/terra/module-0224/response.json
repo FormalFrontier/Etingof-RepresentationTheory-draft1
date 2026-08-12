@@ -1,0 +1,23 @@
+{
+  "module_name": "RepresentationPolynomialFunctions",
+  "declarations": [
+    {"temporary_id":"decl-010670","new_name":"exists_nonzero_symmetric_power_intertwiner","docstring":"Produces a nonzero equivariant map into a symmetric-power representation under the stated hypotheses."},
+    {"temporary_id":"decl-018646","new_name":"symmetricPowerEvaluation","docstring":"Maps a dual vector to a linear functional on a symmetric power."},
+    {"temporary_id":"decl-018668","new_name":"symmetricPowerEvaluation_mk","docstring":"Relates evaluation on a symmetric-power quotient to evaluation on a tensor power."},
+    {"temporary_id":"decl-018669","new_name":"symmetricPowerEvaluation_tprod","docstring":"Evaluates a pure symmetric tensor as the product of its dual-vector values."},
+    {"temporary_id":"decl-018670","new_name":"symmetricPowerEvaluation_map","docstring":"Describes evaluation after applying the induced map on a symmetric power."},
+    {"temporary_id":"decl-018686","new_name":"gradedSymmetricPowerEvaluation","docstring":"Constructs a linear functional on the direct sum of symmetric powers."},
+    {"temporary_id":"decl-018689","new_name":"gradedSymmetricPowerEvaluation_comp","docstring":"Relates the graded evaluation functional to the group action."},
+    {"temporary_id":"decl-018690","new_name":"gradedSymmetricPowerEvaluation_lof","docstring":"Computes the graded evaluation functional on a homogeneous summand."},
+    {"temporary_id":"decl-018723","new_name":"tensorPowerEvaluation","docstring":"Maps a dual vector to a linear functional on a tensor power."},
+    {"temporary_id":"decl-018727","new_name":"tensorPowerEvaluation_tprod","docstring":"Evaluates a pure tensor as the product of its dual-vector values."},
+    {"temporary_id":"decl-018903","new_name":"exists_surjective_equivariant_graded_map","docstring":"Produces a surjective equivariant map from graded symmetric powers under faithful action."},
+    {"temporary_id":"decl-021820","new_name":"dualOrbitEvaluation","docstring":"Evaluates a dual vector along a group element to obtain another dual vector."},
+    {"temporary_id":"decl-021822","new_name":"dualOrbitEvaluation_comp","docstring":"Describes composition of an orbit evaluation with a representation action."},
+    {"temporary_id":"decl-021823","new_name":"dualOrbitEvaluation_injective","docstring":"Establishes injectivity of the orbit evaluation map from the stated stabilizer condition."},
+    {"temporary_id":"decl-021824","new_name":"gradedMatrixCoefficient","docstring":"Constructs a linear map from graded symmetric powers to functions on the group."},
+    {"temporary_id":"decl-021826","new_name":"gradedMatrixCoefficient_apply","docstring":"Computes the graded matrix coefficient at a group element."},
+    {"temporary_id":"decl-021827","new_name":"gradedMatrixCoefficient_surjective","docstring":"Establishes surjectivity of the graded matrix coefficient map from the stated hypotheses."},
+    {"temporary_id":"decl-023453","new_name":"subalgebra_eq_top_of_separatesPoints","docstring":"Shows that a function subalgebra is top when it separates every pair of distinct points."}
+  ]
+}

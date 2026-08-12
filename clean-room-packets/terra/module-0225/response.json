@@ -1,0 +1,21 @@
+{
+  "module_name": "SymmetricPowerRepresentations",
+  "declarations": [
+    {"temporary_id":"decl-018473","new_name":"eq_one_of_dual_action_eq_one","docstring":"A faithful representation has no nonidentity element acting trivially on its dual."},
+    {"temporary_id":"decl-018960","new_name":"exists_dual_vector_trivial_stabilizer","docstring":"Provides a dual vector whose stabilizer is trivial for a faithful finite group action."},
+    {"temporary_id":"decl-023652","new_name":"symmetricPowerLift","docstring":"Constructs a linear map from a symmetric power to the corresponding tensor power."},
+    {"temporary_id":"decl-023656","new_name":"symmetricPowerLift_intertwines","docstring":"The symmetric-power lift intertwines the displayed representation actions."},
+    {"temporary_id":"decl-023657","new_name":"symmetricPowerLift_injective","docstring":"The symmetric-power lift is injective."},
+    {"temporary_id":"decl-023658","new_name":"symmetricPowerRepresentation","docstring":"Defines the representation induced on a symmetric power."},
+    {"temporary_id":"decl-023661","new_name":"symmetricPowerRepresentation_apply","docstring":"Computes the action of the induced representation at a monoid element."},
+    {"temporary_id":"decl-023726","new_name":"symmetricPowerMap_comp","docstring":"The induced symmetric-power map preserves composition."},
+    {"temporary_id":"decl-023727","new_name":"symmetricPowerMap_id","docstring":"The induced symmetric-power map preserves the identity map."},
+    {"temporary_id":"decl-025547","new_name":"directSumRepresentation_component","docstring":"Computes a component after the action on a direct-sum representation."},
+    {"temporary_id":"decl-025549","new_name":"asModuleHomToLinearMap","docstring":"Converts a homomorphism between representation modules into a linear map."},
+    {"temporary_id":"decl-025553","new_name":"asModuleHomToLinearMap_apply","docstring":"Computes the linear map obtained from a representation-module homomorphism."},
+    {"temporary_id":"decl-025554","new_name":"asModuleHomToLinearMap_commutes","docstring":"The converted linear map commutes with the two representation actions."},
+    {"temporary_id":"decl-025555","new_name":"asModuleHomToLinearMap_injective","docstring":"Injectivity is preserved by converting a representation-module homomorphism to a linear map."},
+    {"temporary_id":"decl-032827","new_name":"exists_nonzero_component_intertwiner","docstring":"Extracts a nonzero equivariant map to one direct-sum component."},
+    {"temporary_id":"decl-032830","new_name":"exists_injective_regular_intertwiner","docstring":"Produces an injective equivariant map into the regular action from a simple representation."}
+  ]
+}
