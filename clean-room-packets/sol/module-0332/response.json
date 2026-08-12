@@ -13,8 +13,8 @@
     },
     {
       "temporary_id": "decl-004387",
-      "new_name": "auxCharacterExtension_conj_representative",
-      "docstring": "Evaluates the auxiliary character extension after conjugation by the representative of an optional field parameter."
+      "new_name": "auxCharacterExtension_conj_parameterElement",
+      "docstring": "Evaluates the auxiliary character extension after conjugation by the group element associated with an optional field parameter."
     },
     {
       "temporary_id": "decl-004390",
@@ -44,7 +44,7 @@
     {
       "temporary_id": "decl-004423",
       "new_name": "character_auxFamily_one",
-      "docstring": "Identifies the character of the auxiliary representation at the trivial unit character with its explicit class function."
+      "docstring": "Identifies the character of the auxiliary representation at the trivial unit character with a specified complex-valued function."
     },
     {
       "temporary_id": "decl-004424",
@@ -64,7 +64,7 @@
     {
       "temporary_id": "decl-004520",
       "new_name": "fixedParameter_none_iff",
-      "docstring": "The optional parameter at infinity is fixed exactly when the lower-left matrix entry vanishes."
+      "docstring": "The `none` optional parameter is fixed exactly when the entry at indices (1, 0) vanishes."
     },
     {
       "temporary_id": "decl-004521",
@@ -73,8 +73,8 @@
     },
     {
       "temporary_id": "decl-004527",
-      "new_name": "representative_mul_lowerRow",
-      "docstring": "Computes the two lower-row entries after multiplying by the representative of a field parameter."
+      "new_name": "parameterElement_mul_entries",
+      "docstring": "Computes the entries at indices (1, 0) and (1, 1) after left multiplication by the element associated with a field parameter."
     },
     {
       "temporary_id": "decl-004563",
@@ -93,8 +93,8 @@
     },
     {
       "temporary_id": "decl-004681",
-      "new_name": "parameterInvolutionEquiv",
-      "docstring": "The self-equivalence of optional field parameters induced by the auxiliary self-map."
+      "new_name": "optionFieldEquiv",
+      "docstring": "An equivalence of the type of optional field parameters."
     },
     {
       "temporary_id": "decl-004682",
@@ -109,7 +109,7 @@
     {
       "temporary_id": "decl-004684",
       "new_name": "functionModelLinearEquiv_symm_apply",
-      "docstring": "The inverse function-model equivalence agrees with the explicit auxiliary construction."
+      "docstring": "The value underlying the inverse function-model equivalence equals the specified function."
     },
     {
       "temporary_id": "decl-004685",
@@ -123,13 +123,13 @@
     },
     {
       "temporary_id": "decl-004690",
-      "new_name": "parameterKernel",
-      "docstring": "A complex-valued auxiliary kernel with three field arguments and one optional field argument."
+      "new_name": "parameterFunction",
+      "docstring": "A complex-valued function of three field arguments and one optional field argument."
     },
     {
       "temporary_id": "decl-004694",
-      "new_name": "parameterKernel_involution",
-      "docstring": "Applying the parameter involution while exchanging the outer field arguments preserves the auxiliary kernel."
+      "new_name": "parameterFunction_involution",
+      "docstring": "Applying the parameter involution while exchanging the first and third field arguments preserves the parameter function."
     },
     {
       "temporary_id": "decl-004699",
@@ -138,8 +138,8 @@
     },
     {
       "temporary_id": "decl-004707",
-      "new_name": "sum_parameterKernel_swap",
-      "docstring": "The total auxiliary-kernel sum is unchanged when the outer field arguments are exchanged."
+      "new_name": "sum_parameterFunction_swap",
+      "docstring": "The sum of the parameter function is unchanged when the first and third field arguments are exchanged."
     },
     {
       "temporary_id": "decl-032888",
