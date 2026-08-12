@@ -87,6 +87,7 @@ import RepresentationTheory.Quiver.DependentPropertiesAuxiliary
 import RepresentationTheory.Combinatorics.Quiver.FourVertices
 import RepresentationTheory.QuantumGroup.SL2Representations
 import RepresentationTheory.RealAlgebra.EndomorphismCounterexample
+import RepresentationTheory.Ring.CoatomExistence
 import RepresentationTheory.FieldTheory.IsAlgClosed.Basic
 import RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence
 import RepresentationTheory.RingTheory.JacobsonRadical.TwoSided
