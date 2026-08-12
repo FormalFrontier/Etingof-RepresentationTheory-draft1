@@ -12,6 +12,7 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.Algebra.Ring.ModuleStructures
 
 /-- The canonical module structure on the singleton additive type. -/
+@[source_ref "Chapter2/Example2.3.3" (role := primary)]
 abbrev punitModule (A : Type*) [Ring A] : Module A PUnit :=
   inferInstance
 

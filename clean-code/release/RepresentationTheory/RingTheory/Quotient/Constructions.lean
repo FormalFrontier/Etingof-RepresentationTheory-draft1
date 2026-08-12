@@ -84,6 +84,7 @@ variable (A : Type*) [Ring A]
 abbrev Ring.AuxiliaryType := Submodule A A
 
 /-- The module structure on the quotient of a ring by the auxiliary quotient data. -/
+@[source_ref "Chapter2/Discussion_2.5_well_defined" (role := primary)]
 abbrev Ring.quotientModule (I : _root_.RepresentationTheory.RingTheory.Quotient.Constructions.Ring.AuxiliaryType A) : Module A (A ⧸ I) := inferInstance
 
 end RegularQuotientModule

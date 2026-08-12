@@ -5,12 +5,14 @@ Authors: Kim Morrison
 -/
 
 import Mathlib.RingTheory.SimpleModule.Rank
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Simple modules of finrank one -/
 
 namespace RepresentationTheory.Module.FinrankOneSimple
 
 /-- A module of dimension one over the base field is simple for the given algebra action. -/
+@[source_ref "Chapter2/Remark2.3.13" (role := primary)]
 theorem isSimpleModule_of_finrank_eq_one
     {k : Type*} [Field k]
     {A : Type*} [Ring A] [Algebra k A]
