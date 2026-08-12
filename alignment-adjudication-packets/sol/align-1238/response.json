@@ -58,13 +58,13 @@
     },
     {
       "association_id": "association:7db0a52cfdfb7789a1b9",
-      "rationale": "The type directly classifies every total-dimension-two representation as decomposable or as having the stated two-vertex invertible-arrow form.",
-      "role": "primary"
+      "rationale": "The type gives only the necessary alternative that the representation is decomposable or some arrow map is bijective; it does not identify an isomorphism normal form.",
+      "role": "supporting"
     },
     {
       "association_id": "association:c5b68373e3f1c626213d",
-      "rationale": "The type directly gives the same decomposable-versus-two-vertex alternative for every two-dimensional representation under the acyclicity hypothesis.",
-      "role": "primary"
+      "rationale": "The type gives only the necessary alternative that the representation is decomposable or some arrow map is bijective, not an isomorphism classification.",
+      "role": "supporting"
     },
     {
       "association_id": "association:0e09da8d38a50709f064",

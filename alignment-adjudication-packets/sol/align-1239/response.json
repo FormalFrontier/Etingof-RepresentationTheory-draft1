@@ -73,13 +73,13 @@
     },
     {
       "association_id": "association:5b8e7cf9a09a9fc93510",
-      "rationale": "The type directly states that the minus spinor is irreducible in odd dimension.",
-      "role": "primary"
+      "rationale": "The printed type asserts IsSimpleModule for Spinor n, but the minus module action is hidden, so it does not directly state irreducibility of S-.",
+      "role": "supporting"
     },
     {
       "association_id": "association:ed0f28eea9890e2af7c0",
-      "rationale": "The type directly states that the plus spinor is irreducible in odd dimension.",
-      "role": "primary"
+      "rationale": "The printed type asserts IsSimpleModule for Spinor n, but the plus module action is hidden, so it does not directly state irreducibility of S+.",
+      "role": "supporting"
     },
     {
       "association_id": "association:c94d5ff73de6da38823f",
@@ -98,8 +98,8 @@
     },
     {
       "association_id": "association:003c6eba7450ea9796c5",
-      "rationale": "For a degenerate form, the type directly realizes the quotient by the Jacobson radical as the Clifford algebra of a nondegenerate form.",
-      "role": "primary"
+      "rationale": "The type shows a nondegenerate B', surjective φ, and kernel equal to the Jacobson radical, but φ's codomain is elided, so the quotient identification is not directly displayed.",
+      "role": "supporting"
     }
   ]
 }
