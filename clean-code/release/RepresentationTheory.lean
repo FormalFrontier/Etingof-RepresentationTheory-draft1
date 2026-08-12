@@ -54,6 +54,7 @@ import RepresentationTheory.Foundations.TypeFamilies
 import RepresentationTheory.Group.CyclicPrimeRepresentation
 import RepresentationTheory.Group.IndexedPolynomial
 import RepresentationTheory.Group.SimpleCharacterCriterion
+import RepresentationTheory.Group.UnitaryRepresentations
 import RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 import RepresentationTheory.CategoryTheory.QuiverLinearMaps
 import RepresentationTheory.CategoryTheory.QuiverSubdiagrams
