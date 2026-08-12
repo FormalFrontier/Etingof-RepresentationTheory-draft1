@@ -47,7 +47,11 @@ def main() -> None:
         book_ngrams |= ngrams(path.read_text(encoding="utf-8"), 8)
 
     errors: list[str] = []
-    lean_files = sorted(release.rglob("*.lean"))
+    lean_files = sorted(
+        path
+        for path in release.rglob("*.lean")
+        if ".lake" not in path.relative_to(release).parts
+    )
     source_ref_count = 0
     for path in lean_files:
         relative = str(path.relative_to(release))
