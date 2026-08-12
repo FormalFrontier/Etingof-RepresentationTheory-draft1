@@ -6,6 +6,7 @@ Authors: Kim Morrison
 
 import Mathlib.RingTheory.MatrixAlgebra
 import Mathlib.LinearAlgebra.Matrix.Reindex
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Tensor products of matrix algebras -/
 
@@ -15,6 +16,7 @@ namespace RepresentationTheory.LinearAlgebra.Matrix.TensorProduct
 
 /-- The tensor product of square matrix algebras of sizes m and n is nonemptily
 algebra-equivalent to the square matrix algebra of size m times n. -/
+@[source_ref "Chapter3/Exercise3.10.1" (role := primary)]
 theorem matrixTensorProduct_algEquiv (k : Type*) [CommRing k] (m n : ℕ) :
     Nonempty
       ((Matrix (Fin m) (Fin m) k ⊗[k] Matrix (Fin n) (Fin n) k) ≃ₐ[k]
