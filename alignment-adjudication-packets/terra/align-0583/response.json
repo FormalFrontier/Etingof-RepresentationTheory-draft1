@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0583",
+  "associations": [
+    {
+      "association_id": "association:600f88bb36cb4f76256b",
+      "rationale": "The theorem concludes scalarity of endomorphisms and does not state the uncountable linear-independence or dimension contradiction used in the source argument.",
+      "role": "supporting"
+    }
+  ]
+}

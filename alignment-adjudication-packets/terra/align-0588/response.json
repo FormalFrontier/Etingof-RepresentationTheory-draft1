@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0588",
+  "associations": [
+    {
+      "association_id": "association:15a8150220eb181f8a68",
+      "rationale": "The polynomial-ring, proper-ideal, and high-degree homogeneous containment conditions occur as hypotheses of the indecomposability theorem rather than as its asserted conclusion.",
+      "role": "supporting"
+    }
+  ]
+}

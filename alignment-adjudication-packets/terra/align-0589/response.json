@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0589",
+  "associations": [
+    {
+      "association_id": "association:63c777490d20aac50f25",
+      "rationale": "Under the stated ideal hypotheses, the declaration directly concludes that the quotient module A/I is indecomposable.",
+      "role": "primary"
+    }
+  ]
+}

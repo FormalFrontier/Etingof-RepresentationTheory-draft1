@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0584",
+  "associations": [
+    {
+      "association_id": "association:e52ec284572684005408",
+      "rationale": "IsCoatom is the order-theoretic notion expressing a proper element whose only strictly larger element is the top element, exactly the stated maximal-ideal condition.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:10754a6046821f1eac60",
+      "rationale": "IsCoatom.lt_iff is a characterization lemma for strict inequalities above a coatom, supporting rather than defining the maximal-ideal notion.",
+      "role": "supporting"
+    }
+  ]
+}

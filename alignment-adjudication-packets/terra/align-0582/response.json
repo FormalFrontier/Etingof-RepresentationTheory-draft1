@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0582",
+  "associations": [
+    {
+      "association_id": "association:a716e2aa575d4bc69e0e",
+      "rationale": "The theorem rules out non-scalar endomorphisms by concluding that every endomorphism is scalar, but it does not state the intermediate transcendence claim.",
+      "role": "supporting"
+    }
+  ]
+}
