@@ -1,5 +1,5 @@
 {
-  "module_name": "FinsuppPermutationEnumeration",
+  "module_name": "FinsuppPermutationAuxiliary",
   "declarations": [
     {
       "temporary_id": "decl-001488",
@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-005700",
-      "new_name": "functionPairAuxiliary",
-      "docstring": "An auxiliary type indexed by a natural number and two functions from `Fin N` to natural numbers."
+      "new_name": "finNatFunctionPairAuxiliary",
+      "docstring": "An auxiliary type indexed by a natural number `N`, an implicit natural number `n`, and two functions from `Fin N` to natural numbers."
     },
     {
       "temporary_id": "decl-018026",
@@ -18,23 +18,23 @@
     },
     {
       "temporary_id": "decl-018445",
-      "new_name": "sum_card_finsuppPermAuxiliary_mul_eq_factorial_mul_card_functionPairAuxiliary",
-      "docstring": "For finitely supported functions of total weight `n`, the sum of products of auxiliary cardinalities equals `n!` times the cardinality of the function-pair auxiliary type."
+      "new_name": "sum_finsuppPermAuxiliary_card_mul_card_eq_factorial_mul_finNatFunctionPairAuxiliary_card",
+      "docstring": "If the coordinate sums of `α` and `β` both equal `n`, the sum over permutations of the products of the two `finsuppPermAuxiliary` cardinalities equals `n!` times the cardinality of `finNatFunctionPairAuxiliary`."
     },
     {
       "temporary_id": "decl-019725",
-      "new_name": "auxiliaryPowerSeriesCoeff_eq_card_functionPairAuxiliary",
-      "docstring": "Under the displayed coordinate bounds, the specified multivariate-power-series coefficient equals the cardinality of the function-pair auxiliary type."
+      "new_name": "auxiliaryPowerSeriesCoeff_eq_card_finNatFunctionPairAuxiliary",
+      "docstring": "If every coordinate of `α` is at most `n`, the specified multivariate-power-series coefficient equals the cardinality of `finNatFunctionPairAuxiliary` indexed by `α` and `β`."
     },
     {
       "temporary_id": "decl-020613",
-      "new_name": "fintypeFinsuppPermAuxiliary",
-      "docstring": "A finite-type structure for the auxiliary type indexed by a finitely supported function and a permutation."
+      "new_name": "finsuppPermAuxiliaryFintype",
+      "docstring": "A `Fintype` structure on `finsuppPermAuxiliary` indexed by `α` and `σ`."
     },
     {
       "temporary_id": "decl-020615",
-      "new_name": "fintypeFunctionPairAuxiliary",
-      "docstring": "A finite-type structure for the auxiliary type indexed by two functions from `Fin N` to natural numbers."
+      "new_name": "finNatFunctionPairAuxiliaryFintype",
+      "docstring": "A `Fintype` structure on `finNatFunctionPairAuxiliary` indexed by `N`, implicit `n`, `α`, and `β`."
     },
     {
       "temporary_id": "decl-021543",
@@ -43,8 +43,8 @@
     },
     {
       "temporary_id": "decl-022156",
-      "new_name": "sum_coeff_mul_eq_factorial_mul_auxiliaryPowerSeriesCoeff",
-      "docstring": "For finitely supported functions of total weight `n`, the sum of products of the displayed polynomial coefficients equals `n!` times the displayed multivariate-power-series coefficient."
+      "new_name": "sum_coeff_mul_coeff_eq_factorial_mul_auxiliaryPowerSeriesCoeff",
+      "docstring": "If the coordinate sums of `α` and `β` both equal `n`, the sum over permutations of the products of their displayed polynomial coefficients equals `n!` times the displayed multivariate-power-series coefficient."
     }
   ]
 }
