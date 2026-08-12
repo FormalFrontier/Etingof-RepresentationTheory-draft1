@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-022163",
-      "new_name": "monoidAlgebraToFun",
-      "docstring": "Views an element of a monoid algebra as its coefficient function."
+      "new_name": "monoidAlgebraCoeFun",
+      "docstring": "Provides a coercion from a monoid algebra over a semiring to functions from its indexing type to the semiring."
     },
     {
       "temporary_id": "decl-023496",
@@ -24,17 +24,17 @@
     {
       "temporary_id": "decl-023527",
       "new_name": "auxiliaryElement_mul_eq_smul_of_mem",
-      "docstring": "On members of the partition-indexed collection, multiplication by the auxiliary element equals scalar multiplication by the associated integer."
+      "docstring": "If an element belongs to an auxiliary collection indexed by a partition, left multiplication by the auxiliary element equals scalar multiplication by the cast of the partition’s auxiliary integer."
     },
     {
       "temporary_id": "decl-023528",
       "new_name": "auxiliaryElement_mul_eq_smul_at_partition",
-      "docstring": "Multiplication by the auxiliary element on the partition-indexed element equals scalar multiplication by the associated integer."
+      "docstring": "On the auxiliary element indexed by the partition, left multiplication by the natural-number-indexed auxiliary element equals scalar multiplication by the cast of the partition’s auxiliary integer."
     },
     {
       "temporary_id": "decl-024705",
-      "new_name": "coeff_partitionIndexedElement_swap_eq_indicator_sub",
-      "docstring": "For distinct indices, the coefficient at their swap is the difference of the two equality indicators determined by the partition data."
+      "new_name": "coeff_auxiliaryPartitionElement_swap_eq_indicator_sub",
+      "docstring": "For distinct finite indices, the coefficient of an auxiliary partition-indexed element at their swap equals the first equality indicator minus the second, where the indicators compare the values of two auxiliary maps on the corresponding sorted parts."
     }
   ]
 }
