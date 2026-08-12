@@ -1,0 +1,15 @@
+{
+  "module_name": "SymmetricGroup.PartitionSubmodules",
+  "declarations": [
+    {
+      "temporary_id": "decl-022863",
+      "new_name": "partitionSubmodule",
+      "docstring": "Associates a submodule of the ambient algebra to each partition of a natural number."
+    },
+    {
+      "temporary_id": "decl-022865",
+      "new_name": "exists_auxiliaryMap_commutes_perm_smul",
+      "docstring": "An auxiliary map on every partition submodule can be chosen to intertwine multiplication by permutations."
+    }
+  ]
+}
