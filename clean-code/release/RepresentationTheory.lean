@@ -123,6 +123,7 @@ import RepresentationTheory.InvariantComplements
 import RepresentationTheory.SemisimpleGroupAlgebraCardinality
 import RepresentationTheory.YoungDiagram.PartitionConstructions
 import RepresentationTheory.AlgebraicNumbers.PolynomialCriteria
+import RepresentationTheory.MvPolynomial.Vanishing
 
 /-!
 # Representation theory formalization
