@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 
 import Mathlib.Algebra.Lie.Basic
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Predicates for Lie modules -/
 
@@ -12,6 +13,7 @@ namespace RepresentationTheory.Algebra.Lie.Module.Predicates
 
 /-- An auxiliary predicate for an additive group equipped with scalar and Lie-ring module
 structures. -/
+@[source_ref "Chapter2/Definition2.9.7" (role := supporting)]
 abbrev LieModule.AuxiliaryPredicate (k : Type*) (L : Type*) (V : Type*)
     [CommRing k] [LieRing L] [LieAlgebra k L] [AddCommGroup V] [Module k V]
     [LieRingModule L V] :=

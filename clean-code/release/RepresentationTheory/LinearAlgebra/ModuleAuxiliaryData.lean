@@ -22,11 +22,13 @@ abbrev ModuleAuxiliaryData (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
   Submodule A V
 
 /-- An auxiliary type parameterized by a ring module. -/
+@[source_ref "Chapter2/Definition2.3.4" (role := supporting)]
 abbrev ModuleAuxiliaryTypeA (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] : ModuleAuxiliaryData A V :=
   ⊤
 
 /-- A second auxiliary type parameterized by a ring module. -/
+@[source_ref "Chapter2/Definition2.3.4" (role := supporting)]
 abbrev ModuleAuxiliaryTypeB (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] : ModuleAuxiliaryData A V :=
   ⊥

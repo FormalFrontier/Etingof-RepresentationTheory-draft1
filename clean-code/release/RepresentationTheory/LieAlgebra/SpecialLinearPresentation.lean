@@ -494,6 +494,7 @@ attribute [source_ref "Chapter2/Example2.9.12" (role := primary)]
   RepresentationTheory.LieAlgebra.SpecialLinearPresentation.lieEquiv
   RepresentationTheory.LieAlgebra.SpecialLinearPresentation.matrix_eq_aux1
   RepresentationTheory.LieAlgebra.SpecialLinearPresentation.matrix_eq_aux2
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.nontrivial
 
 attribute [source_ref "Chapter2/Example2.9.12" (role := supporting)]
   RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux6
@@ -502,6 +503,8 @@ attribute [source_ref "Chapter2/Example2.9.12" (role := supporting)]
   RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux1
   RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux2
   RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux3
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.distinguished_ne_zero_aux1
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.nontrivial_aux1
 
 attribute [source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived8"
     (role := supporting)]

@@ -13,7 +13,8 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 
 /-- A quiver-indexed system of modules and linear maps. -/
-@[source_ref "Chapter2/Definition2.8.3" (role := supporting)]
+@[source_ref "Chapter2/Definition2.8.3" (role := supporting),
+  source_ref "Chapter2/Discussion_after_Theorem2.1.1/Derived2" (role := supporting)]
 structure QuiverLinearDiagram (k : Type*) (Q : Type*) [CommSemiring k]
     [Quiver Q] where
   /-- Returns the type assigned by a diagram to a vertex. -/
