@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-006759",
-      "new_name": "auxiliary",
-      "docstring": "An auxiliary type indexed by a field and a natural number."
+      "new_name": "AuxiliaryFactor",
+      "docstring": "An auxiliary factor type indexed by a field and a natural number."
     },
     {
       "temporary_id": "decl-006760",
@@ -38,23 +38,23 @@
     },
     {
       "temporary_id": "decl-006769",
-      "new_name": "matrixAlgHom",
-      "docstring": "The multivariate-polynomial algebra homomorphism determined by a square matrix."
+      "new_name": "secondCoordinateMatrixAlgHom",
+      "docstring": "The multivariate-polynomial algebra homomorphism induced by right multiplication on the second coordinate by a square matrix."
     },
     {
       "temporary_id": "decl-006771",
-      "new_name": "matrixAlgHom_X",
-      "docstring": "Computes the image of a polynomial variable under the matrix-induced algebra homomorphism."
+      "new_name": "secondCoordinateMatrixAlgHom_X",
+      "docstring": "Computes the image of a polynomial variable under the second-coordinate matrix algebra homomorphism."
     },
     {
       "temporary_id": "decl-006772",
-      "new_name": "matrixAlgHom_isHomogeneous",
-      "docstring": "The matrix-induced algebra homomorphism preserves homogeneous degree."
+      "new_name": "secondCoordinateMatrixAlgHom_isHomogeneous",
+      "docstring": "The second-coordinate matrix algebra homomorphism preserves homogeneous degree."
     },
     {
       "temporary_id": "decl-006773",
-      "new_name": "matrixAlgHom_prod_X",
-      "docstring": "Expands the image of a finite product of polynomial variables under the matrix-induced algebra homomorphism."
+      "new_name": "secondCoordinateMatrixAlgHom_prod_X",
+      "docstring": "Expands the image of a finite product of polynomial variables under the second-coordinate matrix algebra homomorphism."
     },
     {
       "temporary_id": "decl-006774",
@@ -84,17 +84,17 @@
     {
       "temporary_id": "decl-006783",
       "new_name": "ofFinPair_eq_basis",
-      "docstring": "Expresses the auxiliary element from a pair family using a displayed module basis."
+      "docstring": "Expresses the auxiliary element from a pair family in the module basis indexed by the two coordinate functions in reversed order."
     },
     {
       "temporary_id": "decl-006784",
-      "new_name": "auxiliaryBasis",
-      "docstring": "A module basis for the auxiliary type indexed by a finite type."
+      "new_name": "auxiliaryFactorBasis",
+      "docstring": "A module basis for the auxiliary factor type indexed by a finite type."
     },
     {
       "temporary_id": "decl-006787",
-      "new_name": "auxiliaryDualBasis",
-      "docstring": "A module basis for the dual of the auxiliary type indexed by a finite type."
+      "new_name": "auxiliaryFactorDualBasis",
+      "docstring": "A module basis for the dual of the auxiliary factor type indexed by a finite type."
     },
     {
       "temporary_id": "decl-006788",
@@ -119,7 +119,7 @@
     {
       "temporary_id": "decl-006794",
       "new_name": "Auxiliary.basis_apply",
-      "docstring": "Computes a displayed auxiliary basis vector as a tensor product of products of basis vectors."
+      "docstring": "Computes an auxiliary basis vector as the tensor product of a Pi tensor product of auxiliary-factor basis vectors and a Pi tensor product of auxiliary-factor dual-basis vectors."
     },
     {
       "temporary_id": "decl-006795",
@@ -148,23 +148,23 @@
     },
     {
       "temporary_id": "decl-006801",
-      "new_name": "matrixAction",
-      "docstring": "The linear endomorphism of the auxiliary type determined by a square matrix."
+      "new_name": "secondFactorMatrixAction",
+      "docstring": "The linear endomorphism of the auxiliary type induced by the column action of a square matrix on its second factor."
     },
     {
       "temporary_id": "decl-006805",
-      "new_name": "matrixAction_ofFinPair",
-      "docstring": "Expands the matrix-induced endomorphism on an auxiliary element constructed from a pair family."
+      "new_name": "secondFactorMatrixAction_ofFinPair",
+      "docstring": "Expands the second-factor matrix action on an auxiliary element constructed from a pair family."
     },
     {
       "temporary_id": "decl-006806",
-      "new_name": "matrixAction_symmetricOfFinPair",
-      "docstring": "Expands the matrix-induced endomorphism on the permutation-invariant pair-family construction."
+      "new_name": "secondFactorMatrixAction_symmetricOfFinPair",
+      "docstring": "Expands the second-factor matrix action on the permutation-invariant pair-family construction."
     },
     {
       "temporary_id": "decl-006808",
-      "new_name": "Matrix.toLin'_apply_auxiliaryBasis",
-      "docstring": "Computes the linear map associated to a matrix on a displayed auxiliary basis vector."
+      "new_name": "Matrix.toLin'_apply_auxiliaryFactorBasis",
+      "docstring": "Computes Matrix.toLin' on an auxiliary-factor basis vector as the sum of basis vectors with coefficients from the corresponding matrix column."
     }
   ]
 }
