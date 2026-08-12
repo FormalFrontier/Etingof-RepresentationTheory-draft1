@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1117",
+  "associations": [
+    {
+      "association_id": "association:8e72af422f264f4de74d",
+      "role": "supporting",
+      "rationale": "The formal type states existence of an independent spanning family of indecomposable submodules, but it does not state the claimed induction-and-splitting proof method."
+    }
+  ]
+}

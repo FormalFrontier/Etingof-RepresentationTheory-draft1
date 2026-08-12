@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1118",
+  "associations": [
+    {
+      "association_id": "association:013b2b2b66ae3ca4fbf5",
+      "role": "primary",
+      "rationale": "The formal type explicitly says the induced composition map for a map Int to ZMod 2 is not surjective, directly supplying the stated failure of right exactness."
+    }
+  ]
+}

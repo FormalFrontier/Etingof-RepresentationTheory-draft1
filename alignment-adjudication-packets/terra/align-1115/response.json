@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1115",
+  "associations": [
+    {
+      "association_id": "association:d2d91384d730ab14f29e",
+      "role": "supporting",
+      "rationale": "The displayed type only produces an endomorphism of Fin n indexed integer vectors and does not state that it is an ordered product of simple reflections."
+    }
+  ]
+}

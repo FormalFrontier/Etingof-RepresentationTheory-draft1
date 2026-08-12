@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1120",
+  "associations": [
+    {
+      "association_id": "association:ce1c0cd5fd3324136600",
+      "role": "primary",
+      "rationale": "Given an equivalence from A to its opposite and an A-module X, the formal type directly equips the k-dual of X with an A-module structure."
+    },
+    {
+      "association_id": "association:f292b0c4c3c230952688",
+      "role": "supporting",
+      "rationale": "The formal type establishes scalar-tower compatibility for the dual action under an additional compatibility hypothesis, supporting the representation construction rather than stating it alone."
+    }
+  ]
+}

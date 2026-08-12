@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1119",
+  "associations": [
+    {
+      "association_id": "association:7680d2708047be20c2f6",
+      "role": "primary",
+      "rationale": "The formal type directly states [x,c] = 0, one of the displayed Heisenberg relations."
+    },
+    {
+      "association_id": "association:7c10c85144a10ec4894b",
+      "role": "primary",
+      "rationale": "The formal type directly states [y,c] = 0, one of the displayed Heisenberg relations."
+    },
+    {
+      "association_id": "association:f44d49aceb6d7b1418c4",
+      "role": "primary",
+      "rationale": "The formal type directly states [y,x] = c, the nonzero displayed Heisenberg relation."
+    }
+  ]
+}

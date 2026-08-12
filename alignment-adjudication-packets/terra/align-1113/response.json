@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1113",
+  "associations": [
+    {
+      "association_id": "association:5b7a411a590a921a40cf",
+      "role": "primary",
+      "rationale": "The formal type preserves exactness after balanced tensoring when the second map is surjective, directly stating the right-exactness component."
+    },
+    {
+      "association_id": "association:9624714a1df41b9b102b",
+      "role": "primary",
+      "rationale": "The formal type explicitly negates injectivity after balanced tensoring multiplication by 2 over Int with ZMod 2, directly giving the stated failure of left exactness."
+    }
+  ]
+}
