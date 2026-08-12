@@ -1,0 +1,135 @@
+{
+  "module_name": "RepresentationTheory.GeneralLinear.WeightSubmodules",
+  "declarations": [
+    {
+      "temporary_id": "decl-001067",
+      "new_name": "antitoneSequenceOfAuxiliaryIndex",
+      "docstring": "Associates an antitone sequence to each element of the auxiliary indexing type."
+    },
+    {
+      "temporary_id": "decl-001068",
+      "new_name": "antitoneSequenceOfAuxiliaryIndex_injective",
+      "docstring": "The map from auxiliary indices to antitone sequences is injective."
+    },
+    {
+      "temporary_id": "decl-001069",
+      "new_name": "auxiliaryUnitsMap_apply_diagonal",
+      "docstring": "The auxiliary units-valued map recovers the selected unit on a diagonal element."
+    },
+    {
+      "temporary_id": "decl-001070",
+      "new_name": "auxiliarySubmodule_inf_homogeneousSubmodule_eq_bot",
+      "docstring": "Below the matrix size, the auxiliary submodule has trivial intersection with the homogeneous component."
+    },
+    {
+      "temporary_id": "decl-001073",
+      "new_name": "auxiliaryPolynomial_eq_add_of_exact",
+      "docstring": "For an equivariant exact pair whose indicated weight submodules span, the associated polynomial of the middle representation is the sum of those at the ends."
+    },
+    {
+      "temporary_id": "decl-001076",
+      "new_name": "auxiliaryPolynomial_secondFamily_eq_variables_mul_firstFamily",
+      "docstring": "The polynomial attached to the second auxiliary family is the product of all variables times the polynomial attached to the first family."
+    },
+    {
+      "temporary_id": "decl-001078",
+      "new_name": "weightSubmodule_inf_range_eq_map",
+      "docstring": "An injective equivariant linear map identifies each source weight submodule with the intersection of the target weight submodule and its range."
+    },
+    {
+      "temporary_id": "decl-001081",
+      "new_name": "map_weightSubmodule_le",
+      "docstring": "An equivariant linear map sends every weight submodule into the corresponding target weight submodule."
+    },
+    {
+      "temporary_id": "decl-001084",
+      "new_name": "weightSubmodule_secondFamily_eq_firstFamily_shift",
+      "docstring": "When every weight coordinate is positive, the second auxiliary family at that weight agrees with the first family at the coordinatewise predecessor."
+    },
+    {
+      "temporary_id": "decl-001085",
+      "new_name": "weightSubmodule_secondFamily_eq_bot_of_coord_eq_zero",
+      "docstring": "A zero coordinate forces the indicated weight submodule of the second auxiliary family to vanish."
+    },
+    {
+      "temporary_id": "decl-001090",
+      "new_name": "mem_weightSubmodule_iff_diagonal_smul",
+      "docstring": "Membership in a weight submodule is characterized by the prescribed scalar action of every coordinate diagonal element."
+    },
+    {
+      "temporary_id": "decl-001094",
+      "new_name": "sum_eq_degree_of_baseWeightSubmodule_ne_bot",
+      "docstring": "A nonzero weight submodule of the base degree representation has total weight equal to the degree."
+    },
+    {
+      "temporary_id": "decl-001095",
+      "new_name": "iSup_baseWeightSubmodule_eq_top",
+      "docstring": "The weight submodules of the base degree representation span the whole representation."
+    },
+    {
+      "temporary_id": "decl-001101",
+      "new_name": "auxiliaryRepresentationFamilyOne",
+      "docstring": "An auxiliary natural-number-indexed family of finite-dimensional general linear group representations."
+    },
+    {
+      "temporary_id": "decl-001104",
+      "new_name": "auxiliaryPolynomial_firstFamily_eq_filtered_sum",
+      "docstring": "In degrees at least the matrix size, the polynomial of the first auxiliary family is a filtered finite sum of the displayed auxiliary polynomials."
+    },
+    {
+      "temporary_id": "decl-001108",
+      "new_name": "auxiliaryLinearMapToFirstFamily",
+      "docstring": "An auxiliary linear map from the base degree representation to the first auxiliary representation family."
+    },
+    {
+      "temporary_id": "decl-001110",
+      "new_name": "auxiliaryLinearMapToFirstFamily_equivariant",
+      "docstring": "The auxiliary linear map to the first family commutes with the general linear group action."
+    },
+    {
+      "temporary_id": "decl-001111",
+      "new_name": "auxiliaryLinearMapToFirstFamily_surjective",
+      "docstring": "The auxiliary linear map onto the first representation family is surjective."
+    },
+    {
+      "temporary_id": "decl-001112",
+      "new_name": "auxiliarySubrepresentationFamily",
+      "docstring": "An auxiliary natural-number-indexed family of subrepresentations of the displayed quotient representation."
+    },
+    {
+      "temporary_id": "decl-001117",
+      "new_name": "exists_auxiliaryPolynomial_firstFamily_expansion",
+      "docstring": "The polynomial of the first auxiliary family admits a finite expansion by auxiliary polynomials indexed by antitone sequences that attain zero."
+    },
+    {
+      "temporary_id": "decl-001119",
+      "new_name": "auxiliaryPolynomial_firstFamily_eq_base_of_degree_lt",
+      "docstring": "Below the matrix size, the first auxiliary family and the base degree representation have the same associated polynomial."
+    },
+    {
+      "temporary_id": "decl-001122",
+      "new_name": "sum_eq_degree_of_firstFamilyWeightSubmodule_ne_bot",
+      "docstring": "A nonzero weight submodule of the first auxiliary family has coordinate sum equal to its degree."
+    },
+    {
+      "temporary_id": "decl-001123",
+      "new_name": "iSup_firstFamilyWeightSubmodule_eq_top",
+      "docstring": "The weight submodules of the first auxiliary representation family span the whole representation."
+    },
+    {
+      "temporary_id": "decl-001131",
+      "new_name": "auxiliaryPolynomial_eval_one_eq_natCast",
+      "docstring": "Evaluating the auxiliary polynomial of an antitone sequence at one produces a natural-number value in the field."
+    },
+    {
+      "temporary_id": "decl-001132",
+      "new_name": "auxiliaryRepresentationFamilyTwo",
+      "docstring": "A second auxiliary natural-number-indexed family of finite-dimensional general linear group representations."
+    },
+    {
+      "temporary_id": "decl-001133",
+      "new_name": "auxiliaryRepresentationFamilyTwo_action_eq_scalar_smul",
+      "docstring": "The action on the second auxiliary family is the action on the base family multiplied by the value of the indicated units-valued map."
+    }
+  ]
+}

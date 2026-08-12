@@ -1,0 +1,60 @@
+{
+  "module_name": "RepresentationTheory.GeneralLinear.GradedQuotient",
+  "declarations": [
+    {
+      "temporary_id": "decl-001072",
+      "new_name": "exists_equivariantEmbedding_auxiliaryRepresentationFamily",
+      "docstring": "A simple representation embedded equivariantly in the polynomial quotient embeds equivariantly in some member of the auxiliary representation family."
+    },
+    {
+      "temporary_id": "decl-001087",
+      "new_name": "homogeneousComponent_mem_auxiliarySubmodule",
+      "docstring": "Every homogeneous component of an element of the auxiliary polynomial submodule remains in that submodule."
+    },
+    {
+      "temporary_id": "decl-001088",
+      "new_name": "homogeneousComponent_groupAction",
+      "docstring": "Taking a homogeneous component commutes with the displayed general linear group action on multivariate polynomials."
+    },
+    {
+      "temporary_id": "decl-001115",
+      "new_name": "iSupIndep_auxiliarySubrepresentationFamily",
+      "docstring": "The underlying submodules of the auxiliary subrepresentation family are independent."
+    },
+    {
+      "temporary_id": "decl-001116",
+      "new_name": "iSup_auxiliarySubrepresentationFamily_eq_top",
+      "docstring": "The underlying submodules of the auxiliary subrepresentation family span the entire quotient representation."
+    },
+    {
+      "temporary_id": "decl-001124",
+      "new_name": "auxiliaryGradedProjection",
+      "docstring": "An auxiliary degree-indexed linear endomorphism of the displayed polynomial quotient."
+    },
+    {
+      "temporary_id": "decl-001126",
+      "new_name": "auxiliaryGradedProjection_groupAction",
+      "docstring": "The auxiliary graded projection commutes with the general linear group action on the quotient."
+    },
+    {
+      "temporary_id": "decl-001127",
+      "new_name": "auxiliaryGradedProjection_eq_self_of_mem",
+      "docstring": "The degree projection fixes every element of the matching auxiliary subrepresentation."
+    },
+    {
+      "temporary_id": "decl-001128",
+      "new_name": "auxiliaryGradedProjection_mem",
+      "docstring": "The image of the degree projection belongs to the corresponding auxiliary subrepresentation."
+    },
+    {
+      "temporary_id": "decl-001129",
+      "new_name": "auxiliaryGradedProjection_mk",
+      "docstring": "On a quotient class, the degree projection is represented by the matching homogeneous component."
+    },
+    {
+      "temporary_id": "decl-001130",
+      "new_name": "auxiliaryGradedProjection_eq_zero_of_mem_ne",
+      "docstring": "The degree projection vanishes on an auxiliary subrepresentation of a different degree."
+    }
+  ]
+}
