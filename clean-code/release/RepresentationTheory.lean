@@ -144,6 +144,7 @@ import RepresentationTheory.ModularPGroup
 import RepresentationTheory.AuxiliaryMatrixDeterminantIrreducibility
 import RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions
 import RepresentationTheory.LinearAlgebra.ExteriorPower.InvariantSubmodules
+import RepresentationTheory.LinearAlgebra.MatrixTraceKernels
 
 /-!
 # Representation theory formalization
