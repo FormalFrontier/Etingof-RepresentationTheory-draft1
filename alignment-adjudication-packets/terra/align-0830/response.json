@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0830",
+  "associations": [
+    {
+      "association_id": "association:d424619b11f395266412",
+      "role": "primary",
+      "rationale": "For every submonoid S of a commutative ring A, the type directly asserts that its localization is a flat A-module."
+    }
+  ]
+}

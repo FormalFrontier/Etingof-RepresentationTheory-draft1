@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0822",
+  "associations": [
+    {
+      "association_id": "association:cece21020a8c82136b3e",
+      "role": "primary",
+      "rationale": "For complexes C and D in each degree, the type explicitly gives the Künneth isomorphism from tensor-complex homology to the sum of tensor products of homologies."
+    },
+    {
+      "association_id": "association:ec8d51d6fb5665322d07",
+      "role": "supporting",
+      "rationale": "It is an isomorphism between opaque kunnethSource and kunnethTarget wrappers, so the displayed type does not itself show the Künneth formula or its naturality."
+    }
+  ]
+}

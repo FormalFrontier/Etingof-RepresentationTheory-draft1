@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0824",
+  "associations": [
+    {
+      "association_id": "association:57417773cd3d2b101d25",
+      "role": "primary",
+      "rationale": "It explicitly asserts a resolution P of every module whose complex terms are free modules."
+    },
+    {
+      "association_id": "association:c86c60c49148bb7825e3",
+      "role": "supporting",
+      "rationale": "It returns a ProjectiveResolution through an opaque structure and does not visibly state that its terms are free."
+    }
+  ]
+}

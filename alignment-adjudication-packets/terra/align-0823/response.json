@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0823",
+  "associations": [
+    {
+      "association_id": "association:b2de63d922f202ea54a9",
+      "role": "primary",
+      "rationale": "Given the extension data and projective summands, the type explicitly constructs a map from their direct sum with the two prescribed component equations."
+    }
+  ]
+}

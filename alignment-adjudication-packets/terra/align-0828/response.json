@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0828",
+  "associations": [
+    {
+      "association_id": "association:3fe466bc53d468837c3d",
+      "role": "supporting",
+      "rationale": "The type visibly gives only an existential surjection whose map's source and target are elided; it does not directly display the projective source required by enough projectives."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0821",
+  "associations": [
+    {
+      "association_id": "association:b734dc03bcf15e7303b3",
+      "role": "supporting",
+      "rationale": "The displayed type supplies an induced homology-isomorphism condition, but the witness types and the exact/cohomology-zero decomposition required by the source are not displayed."
+    }
+  ]
+}

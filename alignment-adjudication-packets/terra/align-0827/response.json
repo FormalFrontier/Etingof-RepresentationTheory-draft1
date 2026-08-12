@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0827",
+  "associations": [
+    {
+      "association_id": "association:5208bb8810a750814e2d",
+      "role": "primary",
+      "rationale": "It directly states that a finite-dimensional k[x]-module with the displayed projective lifting property is subsingleton."
+    }
+  ]
+}
