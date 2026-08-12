@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 
 import Mathlib.Algebra.FreeAlgebra
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Module structures associated to rings -/
 
@@ -15,6 +16,7 @@ abbrev punitModule (A : Type*) [Ring A] : Module A PUnit :=
   inferInstance
 
 /-- The canonical module structure of a ring over itself. -/
+@[source_ref "Chapter2/Example2.3.3" (role := primary)]
 abbrev selfModule (A : Type*) [Ring A] : Module A A :=
   inferInstance
 

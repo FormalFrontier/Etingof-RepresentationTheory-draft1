@@ -17,6 +17,7 @@ variable (k : Type*) (A : Type*) (V : Type*)
 namespace RepresentationTheory.Algebra.Trace.CommutatorQuotient
 
 /-- The trace-valued function of a finite free module action takes the same value on x times y and y times x. -/
+@[source_ref "Chapter3/Introduction_to_3.6" (role := supporting)]
 theorem representationTrace_mul_comm (x y : A) :
     RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A V (x * y) =
       RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A V (y * x) := by
@@ -29,6 +30,7 @@ def commutatorSubmodule : Submodule k A :=
   Submodule.span k {z : A | ∃ x y : A, z = x * y - y * x}
 
 /-- The commutator submodule is contained in the kernel of the trace-valued function of every finite free module action. -/
+@[source_ref "Chapter3/Introduction_to_3.6" (role := primary)]
 theorem commutatorSubmodule_le_trace_ker :
     commutatorSubmodule k A ≤ LinearMap.ker
       (RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A V) := by
