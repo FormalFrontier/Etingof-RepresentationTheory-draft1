@@ -63,7 +63,7 @@
     },
     {
       "temporary_id": "decl-019721",
-      "new_name": "auxiliaryFinsupp_coeff_auxiliaryPowerSeries_eq_card_functionPairIndexedAuxiliary_of_le",
+      "new_name": "auxiliaryPowerSeries_coeff_auxiliaryFinsupp_eq_card_functionPairIndexedAuxiliary_of_le",
       "docstring": "When every value of the first Nat-valued function is at most `n`, the coefficient indexed by the auxiliary finitely supported function in the auxiliary power series equals the cardinality of the function-pair-indexed auxiliary type."
     },
     {
@@ -78,7 +78,7 @@
     },
     {
       "temporary_id": "decl-022152",
-      "new_name": "sum_auxiliaryPolynomial_coeff_mul_eq_factorial_mul_auxiliaryFinsupp_coeff",
+      "new_name": "sum_auxiliaryPolynomial_coeff_mul_eq_factorial_mul_auxiliaryPowerSeries_coeff_auxiliaryFinsupp",
       "docstring": "If each of two finitely supported Nat-valued functions has total sum equal to `n`, the sum of products of the indicated auxiliary-polynomial coefficients equals `n!` times the auxiliary-Finsupp-indexed coefficient in the auxiliary power series."
     },
     {
