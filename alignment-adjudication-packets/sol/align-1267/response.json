@@ -18,8 +18,8 @@
     },
     {
       "association_id": "association:0d733981f10281960fe9",
-      "rationale": "The theorem directly says that the kernel of the evaluation component is zero, matching the decisive K = 0 step in part (iii).",
-      "role": "primary"
+      "rationale": "The displayed type proves that the kernel of the opaque `evaluationApp` morphism is zero, but does not expose that morphism as `ξ.app Y`; it therefore provides contextual evidence for the K = 0 step rather than directly stating part (iii).",
+      "role": "supporting"
     },
     {
       "association_id": "association:862667bf28f23ffb5dde",
