@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1168",
+  "associations": [
+    {
+      "association_id": "association:f40511997b6445268b71",
+      "role": "primary",
+      "rationale": "Under multiplicativity, identity at zero, and differentiability, the proposition directly concludes the Leibniz rule for the derivative."
+    }
+  ]
+}

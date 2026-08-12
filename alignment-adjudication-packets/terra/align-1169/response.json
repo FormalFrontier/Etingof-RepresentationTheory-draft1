@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1169",
+  "associations": [
+    {
+      "association_id": "association:3cf922692258ceaeea6b",
+      "role": "supporting",
+      "rationale": "Its displayed type only gives Radical as an ideal-valued construction and does not state the claimed action-by-zero characterization."
+    },
+    {
+      "association_id": "association:7f39d0a1c4b6d1687e17",
+      "role": "primary",
+      "rationale": "The membership equivalence directly characterizes Radical elements as acting by zero on every simple module."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1163",
+  "associations": [
+    {
+      "association_id": "association:60721529a2e44ceedd32",
+      "role": "primary",
+      "rationale": "The declaration asserts an equivalence on isomorphism classes induced by the assignments, with both stated inverse behaviors."
+    }
+  ]
+}

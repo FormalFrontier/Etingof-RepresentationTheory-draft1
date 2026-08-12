@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1171",
+  "associations": [
+    {
+      "association_id": "association:29dd90b3513d53d807f4",
+      "role": "primary",
+      "rationale": "For a symmetric 0/1 connected graph, the theorem directly gives the equivalence between finite type and being a Dynkin diagram."
+    }
+  ]
+}

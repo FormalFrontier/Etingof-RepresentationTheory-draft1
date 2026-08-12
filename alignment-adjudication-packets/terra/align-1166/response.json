@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1166",
+  "associations": [
+    {
+      "association_id": "association:43dce2749d1e947c60b8",
+      "role": "primary",
+      "rationale": "The equality directly identifies multiplication of degree-n and degree-m tensors with graded tensor concatenation."
+    }
+  ]
+}
