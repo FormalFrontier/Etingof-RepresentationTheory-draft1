@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:44563384746843af3d46",
-      "role": "primary",
-      "rationale": "QuotientAlgebra directly defines the quotient algebra associated to a two-sided ideal I of A."
+      "role": "supporting",
+      "rationale": "QuotientAlgebra supplies a type associated to a ring A and a two-sided ideal I, but the displayed formal type does not state that its equality is additive-coset equality."
     }
   ]
 }

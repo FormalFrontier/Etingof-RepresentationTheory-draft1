@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:244a13acdc3c252b3ce2",
-      "role": "supporting",
-      "rationale": "The dichotomy supplies a row/column swap step under the no-factorization condition, but does not itself state the resulting factorization."
+      "role": "primary",
+      "rationale": "The formal type states the contrapositive of the source claim: failure of the P_lambda Q_lambda factorization produces a row/column collision, equivalently no such collision implies the factorization."
     }
   ]
 }
