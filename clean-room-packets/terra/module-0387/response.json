@@ -6,12 +6,12 @@
       "temporary_id": "decl-005280"
     },
     {
-      "docstring": "Under the auxiliary restriction of a complex permutation representation, the degree-m comparison element acts as the degree-(m+1) auxiliary element.",
-      "new_name": "auxiliaryRepresentationRestriction_apply_auxiliaryElement",
+      "docstring": "For a complex representation of permutations of `Fin (m + 1)`, the action of the displayed degree-`(m + 1)` element equals the action of the displayed degree-`m` element after the auxiliary representation-to-lower-`Fin` construction.",
+      "new_name": "auxiliaryRepresentationToLowerFin_action_eq",
       "temporary_id": "decl-017254"
     },
     {
-      "docstring": "The auxiliary partition predicate holds exactly when the integer-valued statistic is constant on all associated degree-m partitions.",
+      "docstring": "The auxiliary partition predicate holds exactly when the displayed integer-valued function is constant on every member of the specified collection of `m`-partitions.",
       "new_name": "exists_constant_partitionStatistic_iff_auxiliaryPartitionPredicate",
       "temporary_id": "decl-018188"
     },
@@ -56,13 +56,13 @@
       "temporary_id": "decl-021963"
     },
     {
-      "docstring": "The auxiliary restricted partition coefficient is one on associated partitions and zero otherwise.",
-      "new_name": "auxiliaryRestrictedPartitionCoefficient_eq_indicator",
+      "docstring": "For an `(m + 1)`-partition and an `m`-partition, the displayed auxiliary value is one when the latter belongs to the specified collection and zero otherwise.",
+      "new_name": "auxiliaryPartitionValue_eq_indicator",
       "temporary_id": "decl-022592"
     },
     {
-      "docstring": "Auxiliary construction restricting a complex representation of permutations of `Fin (m + 1)` to permutations of `Fin m`.",
-      "new_name": "auxiliaryRepresentationRestriction",
+      "docstring": "An auxiliary construction sending a complex representation of permutations of `Fin (m + 1)` to a representation of permutations of `Fin m`.",
+      "new_name": "auxiliaryRepresentationToLowerFin",
       "temporary_id": "decl-022690"
     },
     {
@@ -71,8 +71,8 @@
       "temporary_id": "decl-023319"
     },
     {
-      "docstring": "Evaluating a partition at a zero-fixing lift equals the sum of the lower-degree evaluations over its associated partitions.",
-      "new_name": "partitionEvaluation_fixZero_eq_sum_associated",
+      "docstring": "The displayed value at the zero-fixing permutation extension equals the sum, over the specified collection of `m`-partitions, of the corresponding displayed values.",
+      "new_name": "partitionValue_fixZero_eq_sum_over_specifiedPartitions",
       "temporary_id": "decl-023322"
     },
     {
@@ -81,48 +81,48 @@
       "temporary_id": "decl-023334"
     },
     {
-      "docstring": "An auxiliary element of the degree-n algebra, available when n is nonzero.",
+      "docstring": "An auxiliary degree-indexed element, defined for nonzero `n`.",
       "new_name": "auxiliaryDegreeElement",
       "temporary_id": "decl-023498"
     },
     {
-      "docstring": "The auxiliary degree-(m+1) element acts by one scalar on the partition-supported subspace exactly when the partition statistic is constant on all associated degree-m partitions.",
-      "new_name": "auxiliaryDegreeElement_scalarAction_iff_constant_partitionStatistic",
+      "docstring": "For an `(m + 1)`-partition, scalar action by the auxiliary degree element on every member of the specified subtype is equivalent to constancy of the displayed integer-valued function on the specified collection of `m`-partitions.",
+      "new_name": "auxiliaryDegreeElement_scalarAction_iff_constant_integerPartitionValue",
       "temporary_id": "decl-023500"
     },
     {
-      "docstring": "For a fixed complex scalar, scalar action by the auxiliary degree-(m+1) element on the partition-supported subspace is equivalent to equality of every associated partition statistic with that scalar.",
-      "new_name": "auxiliaryDegreeElement_scalarAction_iff_partitionStatistic_eq",
+      "docstring": "For a fixed complex scalar, the stated scalar-action equality on every member of the specified subtype is equivalent to equality of the displayed integer-valued function with that scalar on every member of the specified collection.",
+      "new_name": "auxiliaryDegreeElement_scalarAction_iff_integerPartitionValue_eq",
       "temporary_id": "decl-023501"
     },
     {
-      "docstring": "A second auxiliary element of the degree-n algebra, available when n is nonzero.",
-      "new_name": "secondaryAuxiliaryDegreeElement",
+      "docstring": "An auxiliary degree-indexed element, defined for nonzero `n`.",
+      "new_name": "auxiliaryDegreeElementForPartitionPredicate",
       "temporary_id": "decl-023502"
     },
     {
-      "docstring": "The secondary auxiliary degree element has a scalar action on the partition-supported subspace exactly when the auxiliary partition predicate holds.",
-      "new_name": "secondaryAuxiliaryDegreeElement_scalarAction_iff_auxiliaryPartitionPredicate",
+      "docstring": "For nonzero `n`, scalar action by the auxiliary degree element for the partition predicate on every member of the specified subtype is equivalent to the auxiliary partition predicate.",
+      "new_name": "auxiliaryDegreeElementForPartitionPredicate_scalarAction_iff_auxiliaryPartitionPredicate",
       "temporary_id": "decl-023504"
     },
     {
-      "docstring": "In a finite-dimensional complex permutation representation, the secondary auxiliary degree element has an eigenbasis, and each eigenvalue is an integer between `1 - n` and `n - 1`.",
-      "new_name": "secondaryAuxiliaryDegreeElement_eigenbasis_and_eigenvalue_bounds",
+      "docstring": "For nonzero `n` and a finite complex representation of permutations of `Fin n`, there is a displayed `Fin (finrank)`-indexed collection on whose members the element acts by some scalar; moreover, every eigenvalue of its action is an integer between `1 - n` and `n - 1`.",
+      "new_name": "auxiliaryDegreeElementForPartitionPredicate_exists_indexed_scalar_actions_and_eigenvalue_bounds",
       "temporary_id": "decl-023506"
     },
     {
-      "docstring": "The secondary auxiliary degree element is the difference of the comparison element and the auxiliary degree element.",
-      "new_name": "secondaryAuxiliaryDegreeElement_eq_comparison_sub_auxiliary",
+      "docstring": "For nonzero `n`, the auxiliary degree element for the partition predicate equals the difference of the two other displayed degree-indexed elements.",
+      "new_name": "auxiliaryDegreeElementForPartitionPredicate_eq_difference_of_displayedElements",
       "temporary_id": "decl-023511"
     },
     {
-      "docstring": "Every eigenvalue of the secondary auxiliary element in a finite-dimensional complex degree-(m+1) permutation representation is an integer.",
-      "new_name": "secondaryAuxiliaryDegreeElement_eigenvalue_is_integer",
+      "docstring": "Every eigenvalue of the auxiliary degree element for the partition predicate in a finite complex representation of permutations of `Fin (m + 1)` is an integer.",
+      "new_name": "auxiliaryDegreeElementForPartitionPredicate_eigenvalue_is_integer",
       "temporary_id": "decl-023515"
     },
     {
-      "docstring": "For a partition with r copies of c, the secondary auxiliary degree element acts on every supported vector by the scalar `c - r`.",
-      "new_name": "secondaryAuxiliaryDegreeElement_apply_replicatedParts",
+      "docstring": "If `n` is nonzero and the parts of an `n`-partition are `r` copies of `c`, then the auxiliary degree element for the partition predicate acts on every member of the specified subtype by the scalar `c - r`.",
+      "new_name": "auxiliaryDegreeElementForPartitionPredicate_scalarAction_of_parts_eq_replicate",
       "temporary_id": "decl-023517"
     }
   ],
