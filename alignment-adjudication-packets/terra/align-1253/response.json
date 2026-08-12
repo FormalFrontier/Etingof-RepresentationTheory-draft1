@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1253",
+  "associations": [
+    {
+      "association_id": "association:49811de1de786ea02536",
+      "rationale": "The existential map e is stated to intertwine the induced G-action with left multiplication in the character left ideal, directly expressing the natural G-representation isomorphism requested by the source.",
+      "role": "primary"
+    }
+  ]
+}

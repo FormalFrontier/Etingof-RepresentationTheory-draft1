@@ -1,0 +1,40 @@
+{
+  "packet_id": "align-1251",
+  "associations": [
+    {
+      "association_id": "association:389fb7467de6a2a92bb2",
+      "rationale": "The type gives a complete list of simple affine-group representations and their dimensions and counts for finite fields of cardinality greater than two, directly furnishing the corresponding referenced classification case.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:72a1416eefdcca31a589",
+      "rationale": "The type gives the same complete affine classification directly for the displayed Problem4_12_6.Affine group when the field has cardinality greater than two, matching one of the problems the source directs the reader to redo.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:0c5b283ae9e9a34d4f68",
+      "rationale": "This only handles the specialized cardinality-two affine case, so it supports the referenced affine classification rather than stating the full case named by the source on its own.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8a6a1596de4b7b39e2fd",
+      "rationale": "This is the cardinality-two specialization for the displayed Problem4_12_6.Affine group and therefore supports, but does not alone state, the whole referenced classification task.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4f25e1ffbe02b1655a64",
+      "rationale": "The formal type directly supplies an exhaustive pairwise nonisomorphic list of simple dihedral-group representations with the odd and even dimension counts, furnishing the referenced dihedral classification.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:d90fe223622c5dd66a84",
+      "rationale": "The type directly gives the exhaustive simple-representation classification and dimension counts for the finite Heisenberg group, furnishing the referenced Heisenberg problem.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:29ad80080b5f9eb6528e",
+      "rationale": "The formal type states the same exhaustive classification directly for the displayed Problem4_12_2.Heisenberg group, matching one of the problems explicitly named by the source.",
+      "role": "primary"
+    }
+  ]
+}

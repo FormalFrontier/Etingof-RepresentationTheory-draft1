@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1250",
+  "associations": [
+    {
+      "association_id": "association:039288e03129e3c50936",
+      "rationale": "Under nontriviality and odd group order, the formal type directly produces a simple complex representation that is not of real type, exactly the exercise's existence claim.",
+      "role": "primary"
+    }
+  ]
+}
