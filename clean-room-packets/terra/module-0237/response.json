@@ -1,0 +1,10 @@
+{
+  "module_name": "SemisimpleGroupAlgebraCardinality",
+  "declarations": [
+    {
+      "temporary_id": "decl-014629",
+      "new_name": "isUnit_card_of_isSemisimpleRing",
+      "docstring": "If the group algebra of a finite group over a field is semisimple, then the field-valued cardinality of the group is a unit."
+    }
+  ]
+}

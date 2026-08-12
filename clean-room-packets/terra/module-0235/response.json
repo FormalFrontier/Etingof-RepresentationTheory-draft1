@@ -1,0 +1,15 @@
+{
+  "module_name": "ModularPGroup",
+  "declarations": [
+    {
+      "temporary_id": "decl-011867",
+      "new_name": "eq_id_of_isSimpleModule_of_card_eq_primePow",
+      "docstring": "A simple representation in characteristic `p` of a finite group whose cardinality is a power of `p` sends every group element to the identity."
+    },
+    {
+      "temporary_id": "decl-011868",
+      "new_name": "exists_ne_zero_fixedVector",
+      "docstring": "A nontrivial representation in characteristic `p` of a finite `p`-group has a nonzero vector fixed by every group element."
+    }
+  ]
+}

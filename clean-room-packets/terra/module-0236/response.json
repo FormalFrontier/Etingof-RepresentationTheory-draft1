@@ -1,0 +1,30 @@
+{
+  "module_name": "ComplexRepresentationAuxiliaryElements",
+  "declarations": [
+    {
+      "temporary_id": "decl-022206",
+      "new_name": "auxiliaryElement",
+      "docstring": "An auxiliary element of the complex group algebra associated to a finite-dimensional complex representation."
+    },
+    {
+      "temporary_id": "decl-022208",
+      "new_name": "map_auxiliaryElement_eq_zero_of_not_iso",
+      "docstring": "The algebra action of one simple representation sends the auxiliary element of a nonisomorphic simple representation to zero."
+    },
+    {
+      "temporary_id": "decl-022209",
+      "new_name": "map_auxiliaryElement_eq_id",
+      "docstring": "A simple representation sends its associated auxiliary group-algebra element to the identity linear map."
+    },
+    {
+      "temporary_id": "decl-022210",
+      "new_name": "auxiliaryElement_mul_self",
+      "docstring": "The auxiliary group-algebra element associated to a simple representation is idempotent."
+    },
+    {
+      "temporary_id": "decl-022211",
+      "new_name": "auxiliaryElement_mul_eq_zero_of_not_iso",
+      "docstring": "The product of the auxiliary group-algebra elements of two nonisomorphic simple representations is zero."
+    }
+  ]
+}
