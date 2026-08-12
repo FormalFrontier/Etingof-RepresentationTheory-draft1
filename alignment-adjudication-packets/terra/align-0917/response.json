@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0917",
+  "associations": [
+    {
+      "association_id": "association:a87480f760362b9e083e",
+      "role": "supporting",
+      "rationale": "The named Jordan-Holder result can support filtration reasoning, but the packet supplies no formal statement of the specific quotient filtration and factors."
+    },
+    {
+      "association_id": "association:a99b6164142f3c8082ff",
+      "role": "supporting",
+      "rationale": "Submodule.comap is a general submodule construction useful for quotient-filtration arguments, not the stated filtration with these factors."
+    },
+    {
+      "association_id": "association:39aeaf4df505c19f4236",
+      "role": "supporting",
+      "rationale": "Submodule.map is a general submodule construction useful for transporting filtration data, not the stated quotient-filtration claim."
+    }
+  ]
+}

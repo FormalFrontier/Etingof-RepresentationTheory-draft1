@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0914",
+  "associations": [
+    {
+      "association_id": "association:8deefdbfb1c522fc3be5",
+      "role": "primary",
+      "rationale": "bracket_skew states for all x and y that [x,y] equals -[y,x], exactly the source skew-symmetry claim."
+    }
+  ]
+}

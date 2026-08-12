@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0921",
+  "associations": [
+    {
+      "association_id": "association:d873510c7d9a0978c4be",
+      "role": "primary",
+      "rationale": "jacobson_tensorProduct_eq states that the Jacobson radical of A tensor B equals radTensorSum under the source field and finite-dimensional hypotheses."
+    }
+  ]
+}

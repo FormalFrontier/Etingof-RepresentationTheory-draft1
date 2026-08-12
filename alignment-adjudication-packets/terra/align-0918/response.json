@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0918",
+  "associations": [
+    {
+      "association_id": "association:73e66503c7e9e6f9680f",
+      "role": "primary",
+      "rationale": "IsSemisimpleRepresentation is the source-specific semisimplicity predicate, directly defining the property discussed in the source claim."
+    },
+    {
+      "association_id": "association:139d3089b6087ea0e28e",
+      "role": "supporting",
+      "rationale": "This Mathlib existence result supplies a direct-sum-style linear equivalence characterization, supporting rather than defining the source-specific representation predicate."
+    },
+    {
+      "association_id": "association:2581c08451b77418333f",
+      "role": "supporting",
+      "rationale": "This Mathlib iff theorem characterizes semisimple modules via a dfinsupp equivalence, supporting the claimed criterion rather than stating the source-specific definition."
+    }
+  ]
+}

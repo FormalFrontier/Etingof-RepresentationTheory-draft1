@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0912",
+  "associations": [
+    {
+      "association_id": "association:c0c32290206bf5b72775",
+      "role": "primary",
+      "rationale": "simpleRoot is the declaration defining a coordinate-vector-valued simple-root construction, directly matching the stated simple roots."
+    }
+  ]
+}

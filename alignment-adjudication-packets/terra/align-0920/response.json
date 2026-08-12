@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0920",
+  "associations": [
+    {
+      "association_id": "association:560852d2dd7afff2ae6d",
+      "role": "primary",
+      "rationale": "conjugacyClass_partition gives one of the four listed GL2 types and negates each of the other three, exactly stating exhaustive mutually exclusive classification."
+    }
+  ]
+}
