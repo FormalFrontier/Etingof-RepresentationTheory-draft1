@@ -28,13 +28,13 @@
     },
     {
       "temporary_id": "decl-017777",
-      "new_name": "auxiliaryFinsupp_coeff_auxiliaryIndex_eq_one_of_injective_eq",
-      "docstring": "For injective Nat-valued functions that are pointwise equal, the coefficient indexed by the auxiliary finitely supported function in the displayed auxiliary object is one."
+      "new_name": "auxiliarySeries_coeff_auxiliaryFinsupp_eq_one_of_injective_eq",
+      "docstring": "For injective Nat-valued functions that are pointwise equal, the coefficient of the auxiliary series at the auxiliary finitely supported function is one."
     },
     {
       "temporary_id": "decl-017780",
-      "new_name": "auxiliaryFinsupp_coeff_auxiliaryIndex_eq_signed_permutation_sum",
-      "docstring": "The indicated coefficient indexed by the auxiliary finitely supported function equals the signed sum over permutations satisfying the displayed pointwise equality."
+      "new_name": "auxiliarySeries_coeff_auxiliaryFinsupp_eq_signed_permutation_sum",
+      "docstring": "The coefficient of the auxiliary series at the auxiliary finitely supported function equals the signed sum over permutations satisfying the displayed pointwise equality."
     },
     {
       "temporary_id": "decl-018020",
@@ -48,8 +48,8 @@
     },
     {
       "temporary_id": "decl-018353",
-      "new_name": "auxiliaryDefinition_eq_auxiliaryFinsupp_self",
-      "docstring": "The displayed auxiliary definition equals the auxiliary finitely supported function formed from the same Nat-valued function in both arguments."
+      "new_name": "auxiliary_eq_auxiliaryFinsupp_self",
+      "docstring": "The displayed auxiliary term equals the auxiliary finitely supported function formed from the same Nat-valued function in both arguments."
     },
     {
       "temporary_id": "decl-018443",
