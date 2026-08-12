@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0569",
+  "associations": [
+    {
+      "association_id": "association:703fcb02ac1b1e47671e",
+      "rationale": "The type supplies the polynomial regular module as a representation with no simple subrepresentation, but it does not itself display that this module is infinite-dimensional.",
+      "role": "supporting"
+    }
+  ]
+}

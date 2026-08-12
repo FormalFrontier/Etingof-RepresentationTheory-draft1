@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0572",
+  "associations": [
+    {
+      "association_id": "association:4985077a26c2a072cd8c",
+      "rationale": "The type directly states that every central element acts on every vector by multiplication by its central-character scalar in a finite-dimensional simple representation.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:769964d6a327cd61a167",
+      "rationale": "For each central element on a finite-dimensional simple representation, the type directly provides a scalar whose action agrees with that element on every vector.",
+      "role": "primary"
+    }
+  ]
+}

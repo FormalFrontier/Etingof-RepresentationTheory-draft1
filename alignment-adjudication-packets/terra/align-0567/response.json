@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0567",
+  "associations": [
+    {
+      "association_id": "association:4763793c04b8e8e67c2b",
+      "rationale": "The type states that e^ord(q) acts as a scalar when q squared is not one, but it does not state the corresponding fact for f or the dimension bound in the root-of-unity setting.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:224d2c64b80211f72063",
+      "rationale": "The type directly gives the dimension bound finrank V at most ord(q) at a root of unity, but it does not state either scalar-action assertion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ecf72bc8d034a7bb6315",
+      "rationale": "The type states that f^ord(q) acts as a scalar when q squared is not one, but it does not state the corresponding fact for e or the dimension bound in the root-of-unity setting.",
+      "role": "supporting"
+    }
+  ]
+}

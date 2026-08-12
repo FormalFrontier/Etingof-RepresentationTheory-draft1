@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0566",
+  "associations": [
+    {
+      "association_id": "association:a84705a4fd02315713ac",
+      "rationale": "The type directly states semisimplicity of K and confines its eigenvalues to the finite root set defined by mu^ord(q) = alpha, but it does not state that K^ord(q) acts as a scalar.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3fb87cfd854bf8dfb101",
+      "rationale": "The type directly states that K^ord(q) acts by a nonzero scalar on a finite-dimensional simple module, but it does not state semisimplicity or the eigenvalue-set assertion.",
+      "role": "supporting"
+    }
+  ]
+}

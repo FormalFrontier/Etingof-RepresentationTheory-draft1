@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0568",
+  "associations": [
+    {
+      "association_id": "association:7617cec44f900e61daa2",
+      "rationale": "For every nontrivial representation that is finite over the field, the type directly provides a subrepresentation whose induced A-module is simple.",
+      "role": "primary"
+    }
+  ]
+}

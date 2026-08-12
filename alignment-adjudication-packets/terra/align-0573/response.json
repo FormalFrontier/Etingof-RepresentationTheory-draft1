@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0573",
+  "associations": [
+    {
+      "association_id": "association:a442982ba5119b3ffef6",
+      "rationale": "The declaration directly defines the central character as a k-algebra homomorphism from the center of A to k under the displayed irreducibility and finite-dimensionality hypotheses.",
+      "role": "primary"
+    }
+  ]
+}
