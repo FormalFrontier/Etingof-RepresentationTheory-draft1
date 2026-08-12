@@ -1,0 +1,90 @@
+{
+  "module_name": "ConjugacyClassCharacterMatrix",
+  "declarations": [
+    {
+      "temporary_id": "decl-015322",
+      "new_name": "scaledCharacterMatrix",
+      "docstring": "Forms a complex matrix indexed by conjugacy classes from a conjugacy-class-indexed family of representations."
+    },
+    {
+      "temporary_id": "decl-015324",
+      "new_name": "scaledCharacterMatrix_entry_mul_star_entry",
+      "docstring": "Rewrites the product of an entry of the scaled character matrix with the conjugate of another entry using character values and the associated natural-number scale."
+    },
+    {
+      "temporary_id": "decl-015325",
+      "new_name": "conjugacyCentralizerCard",
+      "docstring": "Assigns a natural number to each element of a group for use as its conjugacy centralizer cardinality."
+    },
+    {
+      "temporary_id": "decl-015327",
+      "new_name": "conjugacyCentralizerCard_pos",
+      "docstring": "The conjugacy centralizer cardinality of an element of a finite group is positive."
+    },
+    {
+      "temporary_id": "decl-015328",
+      "new_name": "star_character_eq_character_inv",
+      "docstring": "Complex conjugation of a finite-group character value equals the character value at the inverse element."
+    },
+    {
+      "temporary_id": "decl-015329",
+      "new_name": "conjTranspose_scaledCharacterMatrix_mul_eq_one",
+      "docstring": "The conjugate transpose of the scaled character matrix is a left inverse when the indexed simple representations are pairwise nonisomorphic."
+    },
+    {
+      "temporary_id": "decl-015330",
+      "new_name": "scaledCharacterMatrix_mul_conjTranspose_eq_one",
+      "docstring": "The conjugate transpose of the scaled character matrix is a right inverse when the indexed simple representations are pairwise nonisomorphic."
+    },
+    {
+      "temporary_id": "decl-015338",
+      "new_name": "sum_character_inv_mul_character",
+      "docstring": "Sums products of character values over the indexed simple representations, giving the centralizer cardinality on equal conjugacy classes and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-015339",
+      "new_name": "conjugacyClassCard_mul_centralizerCard",
+      "docstring": "The number of elements in a conjugacy class multiplied by the associated centralizer cardinality equals the group cardinality."
+    },
+    {
+      "temporary_id": "decl-015341",
+      "new_name": "mk_out_conjugacyClass",
+      "docstring": "The conjugacy class of a chosen representative of a quotient class is that class."
+    },
+    {
+      "temporary_id": "decl-015342",
+      "new_name": "centralizerCardRoot",
+      "docstring": "Associates a complex scaling factor to a conjugacy class."
+    },
+    {
+      "temporary_id": "decl-015344",
+      "new_name": "centralizerCardRoot_sq",
+      "docstring": "The square of the conjugacy-class scaling factor is the centralizer cardinality cast to the complex numbers."
+    },
+    {
+      "temporary_id": "decl-015345",
+      "new_name": "centralizerCardRoot_ne_zero",
+      "docstring": "The conjugacy-class scaling factor is nonzero for a finite group."
+    },
+    {
+      "temporary_id": "decl-015346",
+      "new_name": "natCast_centralizerCard_sqrt_pos",
+      "docstring": "The real square root of the cast centralizer cardinality is positive."
+    },
+    {
+      "temporary_id": "decl-015347",
+      "new_name": "star_scaledCharacterMatrix_entry_mul_entry",
+      "docstring": "Expresses a conjugated scaled-character entry times another entry as a quotient of character values by the two class scaling factors."
+    },
+    {
+      "temporary_id": "decl-015348",
+      "new_name": "star_centralizerCardRoot",
+      "docstring": "The conjugacy-class scaling factor is fixed by complex conjugation."
+    },
+    {
+      "temporary_id": "decl-015349",
+      "new_name": "sum_conjClasses_div_centralizerCard",
+      "docstring": "For a conjugation-invariant complex function, the sum over conjugacy classes weighted by reciprocal centralizer cardinalities equals the normalized sum over the group."
+    }
+  ]
+}

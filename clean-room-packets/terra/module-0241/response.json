@@ -1,0 +1,100 @@
+{
+  "module_name": "MultiplicativeIntAuxiliaryExample",
+  "declarations": [
+    {
+      "temporary_id": "decl-015352",
+      "new_name": "multiplicativeInt_infinite_and_exists_auxiliary_nonirreducible_representation",
+      "docstring": "The multiplicative copy of the integers is infinite and admits a representation satisfying the auxiliary property that is not irreducible."
+    },
+    {
+      "temporary_id": "decl-015353",
+      "new_name": "auxiliaryRepresentationProperty",
+      "docstring": "An auxiliary predicate on a representation of a monoid over a field."
+    },
+    {
+      "temporary_id": "decl-015354",
+      "new_name": "nonzeroSubrepresentation_contains_auxiliaryVector",
+      "docstring": "Every nonzero subrepresentation of the specified representation contains the distinguished auxiliary vector."
+    },
+    {
+      "temporary_id": "decl-015355",
+      "new_name": "auxiliarySubrepresentation",
+      "docstring": "An auxiliary subrepresentation of the specified representation."
+    },
+    {
+      "temporary_id": "decl-015358",
+      "new_name": "auxiliarySubrepresentation_ne_bot",
+      "docstring": "The auxiliary subrepresentation is not the bottom subrepresentation."
+    },
+    {
+      "temporary_id": "decl-015359",
+      "new_name": "auxiliarySubrepresentation_ne_top",
+      "docstring": "The auxiliary subrepresentation is not the top subrepresentation."
+    },
+    {
+      "temporary_id": "decl-015360",
+      "new_name": "auxiliarySubrepresentation_toSubmodule",
+      "docstring": "The underlying submodule of the auxiliary subrepresentation is the span of the distinguished auxiliary vector."
+    },
+    {
+      "temporary_id": "decl-015361",
+      "new_name": "auxiliaryAutomorphism",
+      "docstring": "An auxiliary invertible complex-linear endomorphism of the two-coordinate function space."
+    },
+    {
+      "temporary_id": "decl-015366",
+      "new_name": "auxiliaryAutomorphism_apply_auxiliaryVector",
+      "docstring": "The auxiliary automorphism fixes the distinguished auxiliary vector."
+    },
+    {
+      "temporary_id": "decl-015367",
+      "new_name": "auxiliaryAutomorphism_val_eq_auxiliaryEndomorphism",
+      "docstring": "The linear endomorphism underlying the auxiliary automorphism equals the specified auxiliary endomorphism."
+    },
+    {
+      "temporary_id": "decl-015368",
+      "new_name": "auxiliaryAutomorphism_inv_apply_auxiliaryVector",
+      "docstring": "The inverse auxiliary automorphism fixes the distinguished auxiliary vector."
+    },
+    {
+      "temporary_id": "decl-015369",
+      "new_name": "multiplicativeIntRepresentation",
+      "docstring": "A complex representation of the multiplicative copy of the integers on two-coordinate functions."
+    },
+    {
+      "temporary_id": "decl-015370",
+      "new_name": "multiplicativeIntRepresentation_apply",
+      "docstring": "Evaluating the integer representation at an element gives the corresponding integer power of the auxiliary automorphism."
+    },
+    {
+      "temporary_id": "decl-015371",
+      "new_name": "multiplicativeIntRepresentation_apply_auxiliaryVector",
+      "docstring": "Every operator in the integer representation fixes the distinguished auxiliary vector."
+    },
+    {
+      "temporary_id": "decl-015372",
+      "new_name": "auxiliaryRepresentationProperty_multiplicativeIntRepresentation",
+      "docstring": "The integer representation satisfies the auxiliary representation property."
+    },
+    {
+      "temporary_id": "decl-015373",
+      "new_name": "multiplicativeIntRepresentation_not_isIrreducible",
+      "docstring": "The integer representation is not irreducible."
+    },
+    {
+      "temporary_id": "decl-015374",
+      "new_name": "multiplicativeIntRepresentation_ofAdd_one",
+      "docstring": "The representation operator at the multiplicative image of one is the specified auxiliary endomorphism."
+    },
+    {
+      "temporary_id": "decl-015375",
+      "new_name": "auxiliaryEndomorphism_apply_auxiliaryVector_eq_zero",
+      "docstring": "The specified auxiliary endomorphism sends the distinguished auxiliary vector to zero."
+    },
+    {
+      "temporary_id": "decl-015376",
+      "new_name": "auxiliaryEndomorphism_sq_eq_zero",
+      "docstring": "The square of the specified auxiliary endomorphism is zero."
+    }
+  ]
+}
