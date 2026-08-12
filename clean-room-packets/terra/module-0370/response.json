@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-006688",
-      "new_name": "Auxiliary.GeneralLinearGroupRepresentationDecomposition.existsLinearEquivDirectSumTensorProduct",
-      "docstring": "Under the displayed hypotheses on a finite-dimensional representation, produces a nonempty linear equivalence from its underlying module to a finite direct sum of tensor products of trivial and displayed representations."
+      "new_name": "Auxiliary.GeneralLinearGroupRepresentationDecomposition.existsLinearEquivFiniteDirectSum",
+      "docstring": "Under the displayed hypotheses on a finite-dimensional representation, asserts the existence of auxiliary data including a nonempty linear equivalence from its underlying module to a finite direct sum of underlying modules of an existentially supplied family of representations."
     },
     {
       "temporary_id": "decl-006689",
