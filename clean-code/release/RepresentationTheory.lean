@@ -6,6 +6,7 @@ Authors: Kim Morrison
 import RepresentationTheory.Alignment.Attribute
 import RepresentationTheory.Algebra.Algebraic.ConjRoot.FiniteSum
 import RepresentationTheory.CauchyDeterminant
+import RepresentationTheory.Complex.RootsOfUnity.AverageIntegral
 import RepresentationTheory.Algebra.BasisQuotientPresentations
 import RepresentationTheory.Algebra.Lie.Dual
 import RepresentationTheory.Algebra.Lie.TensorProduct
