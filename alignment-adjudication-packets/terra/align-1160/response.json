@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1160",
+  "associations": [
+    {
+      "association_id": "association:1695d0c0a059faf3f367",
+      "role": "primary",
+      "rationale": "The displayed LinearEquiv directly identifies symInvariants with the corresponding SymmetricPower."
+    },
+    {
+      "association_id": "association:89f72b24934e1d334aea",
+      "role": "primary",
+      "rationale": "The displayed equality directly states that this identification intertwines the invariant-side and symmetric-power maps, giving the claimed equivariance."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1152",
+  "associations": [
+    {
+      "association_id": "association:6d950cd93b7292670a30",
+      "role": "supporting",
+      "rationale": "The displayed type only constructs a Type from two Types; it does not state that the resulting representation is the direct sum of V₁ and V₂."
+    }
+  ]
+}

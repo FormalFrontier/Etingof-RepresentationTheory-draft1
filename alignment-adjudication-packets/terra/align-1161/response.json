@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1161",
+  "associations": [
+    {
+      "association_id": "association:c2350cffbc84d8fd0bcd",
+      "role": "supporting",
+      "rationale": "The type gives a scalar-multiple identity for row and column symmetrizers, but it does not itself state vanishing outside P_λQ_λ."
+    },
+    {
+      "association_id": "association:83ffeb308b53dd1eac95",
+      "role": "supporting",
+      "rationale": "The formal type is the row/column swap dichotomy used in the argument, not the source's resulting vanishing statement."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-1153",
+  "associations": [
+    {
+      "association_id": "association:95e4c4f85ad9a6e67ed4",
+      "role": "supporting",
+      "rationale": "The type gives only the cardinality of the opaque ComplementaryIndex type, not a family of representatives or the Frobenius-orbit isomorphism classification."
+    },
+    {
+      "association_id": "association:7de5de8371a9be9052d5",
+      "role": "supporting",
+      "rationale": "This is the pairwise-nonisomorphism condition for an already defined complementary family, so it supplies one component rather than the full stated classification."
+    },
+    {
+      "association_id": "association:f15250c11e9f1be430e8",
+      "role": "supporting",
+      "rationale": "The formal type establishes simplicity of each member of a predefined family, a constituent property rather than the source's orbit-and-representative assertion."
+    },
+    {
+      "association_id": "association:388b235f3f7e92d4b17c",
+      "role": "primary",
+      "rationale": "The iff directly characterizes isomorphism of complementary-series representations by equality up to complementaryCharFrobenius, i.e. the stated Frobenius-orbit classification."
+    },
+    {
+      "association_id": "association:04994ad5fde03c4b97e4",
+      "role": "primary",
+      "rationale": "The existential type directly provides a simple, pairwise-nonisomorphic family with cardinality q(q−1)/2, matching the representative-family portion of the source claim."
+    }
+  ]
+}

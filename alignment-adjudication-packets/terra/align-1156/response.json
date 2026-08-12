@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1156",
+  "associations": [
+    {
+      "association_id": "association:1e63e0c6be7ced613a04",
+      "role": "supporting",
+      "rationale": "The type concerns total degrees of block polynomials and does not state the regular-representation matrix comparison or inversion-column permutation."
+    },
+    {
+      "association_id": "association:b2f46fd0ab36c068083b",
+      "role": "supporting",
+      "rationale": "This is a determinant factorization with a permutation sign; it does not itself state the source's matrix-level agreement with XG via inversion columns."
+    }
+  ]
+}
