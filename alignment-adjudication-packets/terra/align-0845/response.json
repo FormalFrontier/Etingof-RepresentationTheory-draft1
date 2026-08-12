@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0845",
+  "associations": [
+    {
+      "association_id": "association:c107768a9d4696064af2",
+      "role": "primary",
+      "rationale": "Problem_8_2_6_ii asserts existence of an additive equivalence from resolution Ext degree one to Problem3_9_1.Ext1, directly the stated identification."
+    },
+    {
+      "association_id": "association:74d515f89fa6d449bda7",
+      "role": "primary",
+      "rationale": "extOneAddEquivProblem3Ext1 directly supplies the additive equivalence between resolution Ext degree one and extension-class Ext1."
+    }
+  ]
+}

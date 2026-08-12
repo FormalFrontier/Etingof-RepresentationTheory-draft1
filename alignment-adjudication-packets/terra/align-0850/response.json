@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0850",
+  "associations": [
+    {
+      "association_id": "association:086fdec0819d2f14e6be",
+      "role": "primary",
+      "rationale": "Problem_8_2_7_i_ext_fg gives the degree-zero and degree-one Ext formulas for finitely generated abelian groups and makes every degree at least two subsingleton."
+    }
+  ]
+}

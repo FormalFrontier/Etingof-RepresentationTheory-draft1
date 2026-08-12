@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0847",
+  "associations": [
+    {
+      "association_id": "association:4d7fc38d5a5756129753",
+      "role": "primary",
+      "rationale": "Problem_8_2_6_iv gives an isomorphism from Tor to the nth left-derived tensor functor applied to the second argument, directly the resolution computation."
+    }
+  ]
+}

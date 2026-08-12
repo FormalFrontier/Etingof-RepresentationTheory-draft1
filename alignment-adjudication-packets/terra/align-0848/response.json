@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0848",
+  "associations": [
+    {
+      "association_id": "association:79e9b4ce56229307bea2",
+      "role": "primary",
+      "rationale": "horseshoeResolution takes a short exact sequence and projective resolutions of its endpoints and returns a projective resolution of the middle object, the horseshoe construction."
+    },
+    {
+      "association_id": "association:954bca591593809c30ea",
+      "role": "supporting",
+      "rationale": "horseshoeShortComplex_shortExact proves short exactness of an auxiliary horseshoe complex; it supports the construction but does not itself return the requested projective resolution."
+    }
+  ]
+}

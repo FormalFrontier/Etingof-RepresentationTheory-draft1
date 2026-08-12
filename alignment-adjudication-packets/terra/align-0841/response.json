@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0841",
+  "associations": [
+    {
+      "association_id": "association:6a0bf219af6bdceb925e",
+      "role": "supporting",
+      "rationale": "torLiftMap constructs a Tor morphism from one chosen chain lift; it does not assert equality for two compatible lifts."
+    },
+    {
+      "association_id": "association:b28187fa5aa4c04f4d98",
+      "role": "primary",
+      "rationale": "torLiftMap_independent states that any two compatible lifts induce equal Tor maps in every degree, exactly Part (iii)."
+    }
+  ]
+}
