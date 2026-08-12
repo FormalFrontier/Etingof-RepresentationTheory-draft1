@@ -124,6 +124,7 @@ import RepresentationTheory.SemisimpleGroupAlgebraCardinality
 import RepresentationTheory.YoungDiagram.PartitionConstructions
 import RepresentationTheory.AlgebraicNumbers.PolynomialCriteria
 import RepresentationTheory.MvPolynomial.Vanishing
+import RepresentationTheory.DualContraction
 
 /-!
 # Representation theory formalization
