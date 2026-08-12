@@ -1,0 +1,10 @@
+{
+  "module_name": "AuxiliaryMatrixDeterminantIrreducibility",
+  "declarations": [
+    {
+      "temporary_id": "decl-005441",
+      "new_name": "det_auxiliaryMatrix_irreducible_of_pos",
+      "docstring": "For every positive natural index, the determinant of the associated auxiliary matrix is irreducible."
+    }
+  ]
+}
