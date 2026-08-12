@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0518",
+  "associations": [
+    {
+      "association_id": "association:c0b9f92f0a8ef88b44ec",
+      "rationale": "The displayed equality directly states det(A comp B) = det(A) * det(B).",
+      "role": "primary"
+    }
+  ]
+}

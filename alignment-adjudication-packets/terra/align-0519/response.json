@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0519",
+  "associations": [
+    {
+      "association_id": "association:a934fdd1031a6b94d300",
+      "rationale": "No formal type is displayed, so the module structure cannot directly state the bimodule definition.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6aca6f7becff5b51cd5e",
+      "rationale": "No formal type is displayed, so this candidate cannot directly state commuting left and right module structures.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1d7b224e5af2d9e168fd",
+      "rationale": "No formal type is displayed, so the commuting-action class cannot directly state the source definition.",
+      "role": "supporting"
+    }
+  ]
+}

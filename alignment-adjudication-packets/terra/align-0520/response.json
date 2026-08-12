@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0520",
+  "associations": [
+    {
+      "association_id": "association:13686b2499c7327f0352",
+      "rationale": "The displayed type introduces TensorProductOverRing from a right A-module and a left A-module, but it does not expose the balanced tensor-product relations.",
+      "role": "supporting"
+    }
+  ]
+}

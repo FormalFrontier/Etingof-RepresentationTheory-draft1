@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0516",
+  "associations": [
+    {
+      "association_id": "association:ae63c14c2e7c9023cda3",
+      "rationale": "The trace formula relies on the opaque IsTriangularizedBy predicate, so the displayed type does not directly identify the listed values as eigenvalues.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7221ce7b95555256f161",
+      "rationale": "Given the displayed characteristic-polynomial factorization, the equality directly expresses the exterior-power trace as the sum of products over n-element subsets of the listed eigenvalues.",
+      "role": "primary"
+    }
+  ]
+}
