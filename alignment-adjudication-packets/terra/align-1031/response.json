@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1031",
+  "associations": [
+    {
+      "association_id": "association:cd902fa38d234bbdd0aa",
+      "role": "supporting",
+      "rationale": "The displayed type rules out simple modules for any subsingleton ring, making the zero-algebra claim an instance."
+    }
+  ]
+}

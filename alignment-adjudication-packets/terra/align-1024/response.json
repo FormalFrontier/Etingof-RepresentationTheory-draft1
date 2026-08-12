@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1024",
+  "associations": [
+    {
+      "association_id": "association:f1167b08c10e638af588",
+      "role": "primary",
+      "rationale": "The displayed type expresses a conjugate of the sum as a sum of chosen summand conjugates."
+    }
+  ]
+}

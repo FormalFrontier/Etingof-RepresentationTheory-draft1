@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1028",
+  "associations": [
+    {
+      "association_id": "association:0fbb2ab89eed8ed4a4dd",
+      "role": "supporting",
+      "rationale": "The displayed type only presents a hom-space constructor and does not show the required edge equations."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1029",
+  "associations": [
+    {
+      "association_id": "association:dd19541659ea6aa2d544",
+      "role": "primary",
+      "rationale": "The displayed equality gives the averaged coefficient pairing as the two-delta term divided by dimension."
+    }
+  ]
+}

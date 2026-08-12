@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1030",
+  "associations": [
+    {
+      "association_id": "association:e3c331ccb3ea17bd4922",
+      "role": "supporting",
+      "rationale": "The displayed type only exposes a type constructor, not directed edges, loops, or multiplicities."
+    }
+  ]
+}
