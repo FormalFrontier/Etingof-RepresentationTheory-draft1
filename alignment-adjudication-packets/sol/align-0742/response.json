@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0742",
+  "associations": [
+    {
+      "association_id": "association:66257fa7b48e9df96939",
+      "role": "supporting",
+      "rationale": "This only defines the semidirect-product presentation used in the derivation and does not state the dihedral representation classification."
+    },
+    {
+      "association_id": "association:b790725c56ecfea037fc",
+      "role": "supporting",
+      "rationale": "The group equivalence enables transport from the semidirect presentation to the dihedral group but does not itself classify representations."
+    },
+    {
+      "association_id": "association:ad393b103ddb4293d8ce",
+      "role": "primary",
+      "rationale": "The type directly states the exhaustive dihedral classification, with irreducibility, pairwise nonisomorphism, dimensions, and parity-dependent counts."
+    },
+    {
+      "association_id": "association:e7abcaad8e4e15c9f5ce",
+      "role": "supporting",
+      "rationale": "This classifies the auxiliary semidirect-product presentation and is the intermediate result used to derive the classification for the dihedral group."
+    }
+  ]
+}

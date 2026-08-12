@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0749",
+  "associations": [
+    {
+      "association_id": "association:9621504b127d8729f9d7",
+      "role": "supporting",
+      "rationale": "This constructs the one-dimensional representation associated to the character, a prerequisite for the displayed idempotent rather than the idempotent itself."
+    },
+    {
+      "association_id": "association:ad0c8b67d9415ba8b01d",
+      "role": "primary",
+      "rationale": "This declaration defines the group-algebra element attached to the subgroup character, namely the normalized character idempotent described by the source."
+    }
+  ]
+}

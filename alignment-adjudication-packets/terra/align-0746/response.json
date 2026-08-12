@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0746",
+  "associations": [
+    {
+      "association_id": "association:b89b40bd4ad0a962b189",
+      "role": "supporting",
+      "rationale": "The displayed formal type is an opaque pretty-print failure, so it does not directly expose the claimed exhaustiveness deduction."
+    }
+  ]
+}

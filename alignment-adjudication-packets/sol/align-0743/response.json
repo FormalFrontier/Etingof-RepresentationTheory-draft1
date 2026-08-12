@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-0743",
+  "associations": [
+    {
+      "association_id": "association:32227b07769d57b222ab",
+      "role": "supporting",
+      "rationale": "This defines the auxiliary Heisenberg-group presentation used by the semidirect-product argument but gives no representation classification."
+    },
+    {
+      "association_id": "association:455e7d92a3a96a2057a1",
+      "role": "supporting",
+      "rationale": "The equivalence supplies the transport from the auxiliary presentation to the usual Heisenberg group rather than stating the classification."
+    },
+    {
+      "association_id": "association:314224e1da814dcf078a",
+      "role": "supporting",
+      "rationale": "This classifies representations of the auxiliary HeisenbergGroup presentation and is the semidirect-product intermediate for the requested result."
+    },
+    {
+      "association_id": "association:cccb4d573123f4a3148b",
+      "role": "primary",
+      "rationale": "The type directly gives the exhaustive classification for the usual finite Heisenberg group, including the possible dimensions and their counts."
+    },
+    {
+      "association_id": "association:6519189cd48f86c93a64",
+      "role": "primary",
+      "rationale": "This directly states a strengthened classification for the usual Heisenberg group, adding explicit named models to the counts and dimensions."
+    }
+  ]
+}
