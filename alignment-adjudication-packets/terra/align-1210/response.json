@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1210",
+  "associations": [
+    {
+      "association_id": "association:e4fa2ff3d0cdde9e1894",
+      "rationale": "The type states the final solvability theorem for finite groups of order p^a q^b, but it does not display the proper normal subgroup, the smaller quotient, or the induction argument asserted in the source claim.",
+      "role": "supporting"
+    }
+  ]
+}

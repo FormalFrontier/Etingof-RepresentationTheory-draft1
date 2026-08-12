@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1203",
+  "associations": [
+    {
+      "association_id": "association:c44c45199b0897a96a2d",
+      "rationale": "The formal type directly gives a basis-dependent algebra equivalence from the symmetric algebra of V to the multivariable polynomial algebra indexed by that basis, exactly stating the claim.",
+      "role": "primary"
+    }
+  ]
+}

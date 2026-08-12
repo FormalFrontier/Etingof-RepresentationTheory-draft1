@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-1204",
+  "associations": [
+    {
+      "association_id": "association:79ec5b98bc7f56dc8a18",
+      "rationale": "The type supplies the character value of each of five indexed representations on each of five indexed class representatives, but it does not by itself state simplicity, pairwise nonisomorphism, or completeness.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:383157e84e501c275608",
+      "rationale": "The type states that S4 has five conjugacy classes, supporting the five-column table and completeness count without stating the full representation claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:72cf0cc796b581f7fc1b",
+      "rationale": "The type constructs a family of five S4 representations, but does not itself assert their simplicity, distinctness, character values, or completeness.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b544ddb19f01dee77bec",
+      "rationale": "The type directly states pairwise nonisomorphism of the five indexed representations, which is only one component of the displayed claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f9cd6ae832a2ae07bc2b",
+      "rationale": "The type directly states that each of the five indexed representations is simple, which is only one component of the displayed claim.",
+      "role": "supporting"
+    }
+  ]
+}

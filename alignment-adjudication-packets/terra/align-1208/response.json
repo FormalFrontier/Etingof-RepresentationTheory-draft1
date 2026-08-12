@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1208",
+  "associations": [
+    {
+      "association_id": "association:b76c88f08a9293b8ae61",
+      "rationale": "The formal type directly states that two Jordan-block representations are linearly equivalent if and only if both their eigenvalue parameters and block sizes agree, exactly giving the claimed classification up to isomorphism.",
+      "role": "primary"
+    }
+  ]
+}

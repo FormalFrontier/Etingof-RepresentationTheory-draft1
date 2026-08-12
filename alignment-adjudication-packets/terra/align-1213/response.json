@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1213",
+  "associations": [
+    {
+      "association_id": "association:09c708b8e088dd25b60e",
+      "rationale": "For a composition series running from bottom to top, the type directly states that its length is greatest among the range of lengths of such series, matching maximal composition length among strict filtrations.",
+      "role": "primary"
+    }
+  ]
+}
