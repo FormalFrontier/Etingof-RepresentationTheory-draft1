@@ -6,7 +6,7 @@
     {"temporary_id":"decl-010864","new_name":"secondCoordinate","docstring":"Returns the second coordinate as an element of the residue ring."},
     {"temporary_id":"decl-010865","new_name":"thirdCoordinate","docstring":"Returns the third coordinate as an element of the residue ring."},
     {"temporary_id":"decl-010866","new_name":"card_eq_cube","docstring":"The carrier has cardinality equal to the cube of the index."},
-    {"temporary_id":"decl-010868","new_name":"one_pow","docstring":"Computes powers of the displayed identity element."},
+    {"temporary_id":"decl-010868","new_name":"centralGenerator_pow","docstring":"Computes powers of the element whose first two coordinates are zero and whose third coordinate is one."},
     {"temporary_id":"decl-010869","new_name":"generator_relation","docstring":"States a product relation among the displayed group elements."},
     {"temporary_id":"decl-010870","new_name":"closure_generators_eq_top","docstring":"The displayed two elements generate the whole group."},
     {"temporary_id":"decl-010872","new_name":"normalForm","docstring":"Expresses every group element in terms of the displayed powers."},
