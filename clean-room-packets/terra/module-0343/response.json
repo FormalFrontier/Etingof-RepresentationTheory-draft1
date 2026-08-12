@@ -1,0 +1,15 @@
+{
+  "module_name": "FiniteGroup.ComplexGroupAlgebraDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-017728",
+      "new_name": "exists_type_indexed_matrix_block_decomposition_card_eq_conjClasses",
+      "docstring": "Every finite group has a complex monoid algebra algebra-equivalent to a product of nonzero square complex matrix algebras, indexed by a type whose cardinality equals its number of conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-021631",
+      "new_name": "exists_fin_conjClasses_card_indexed_matrix_block_decomposition",
+      "docstring": "The complex monoid algebra of a finite group is algebra-equivalent to a product of nonzero square complex matrix algebras indexed by the finite cardinality of its conjugacy classes."
+    }
+  ]
+}
