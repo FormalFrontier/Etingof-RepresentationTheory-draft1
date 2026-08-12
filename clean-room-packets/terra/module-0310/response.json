@@ -1,0 +1,10 @@
+{
+  "module_name": "Representation.TwistDual",
+  "declarations": [
+    {
+      "temporary_id": "decl-018471",
+      "new_name": "dual_twist_eq_twist_inv_dual",
+      "docstring": "Dualizing a representation twisted by a unit-valued character equals twisting its dual by the inverse character."
+    }
+  ]
+}

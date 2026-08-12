@@ -1,0 +1,45 @@
+{
+  "module_name": "Matrix.CharpolyDiscriminant",
+  "declarations": [
+    {
+      "temporary_id": "decl-025142",
+      "new_name": "charpoly_rootFinset_card_eq_of_discr_ne_zero",
+      "docstring": "A nonzero characteristic-polynomial discriminant gives exactly one distinct root for each matrix dimension."
+    },
+    {
+      "temporary_id": "decl-025143",
+      "new_name": "charpoly_roots_nodup_of_discr_ne_zero",
+      "docstring": "The roots of a characteristic polynomial have no repetitions when its discriminant is nonzero."
+    },
+    {
+      "temporary_id": "decl-025144",
+      "new_name": "charpoly_separable_of_discr_ne_zero",
+      "docstring": "A characteristic polynomial with nonvanishing discriminant is separable."
+    },
+    {
+      "temporary_id": "decl-025145",
+      "new_name": "genericMatrixDiscriminant",
+      "docstring": "The discriminant polynomial of a square matrix of independent variables."
+    },
+    {
+      "temporary_id": "decl-025147",
+      "new_name": "genericMatrixDiscriminant_ne_zero",
+      "docstring": "The generic matrix discriminant polynomial is nonzero in positive size over characteristic zero."
+    },
+    {
+      "temporary_id": "decl-025148",
+      "new_name": "eval_genericMatrixDiscriminant",
+      "docstring": "Evaluating the generic matrix discriminant gives the discriminant of the resulting matrix."
+    },
+    {
+      "temporary_id": "decl-025240",
+      "new_name": "Polynomial.discr_map_of_monic",
+      "docstring": "A ring homomorphism carries the discriminant of a monic polynomial to the discriminant of its image."
+    },
+    {
+      "temporary_id": "decl-025241",
+      "new_name": "Polynomial.discr_ne_zero_iff_separable_of_natDegree_derivative_eq",
+      "docstring": "Under the stated derivative-degree condition, a polynomial is separable exactly when its discriminant is nonzero."
+    }
+  ]
+}

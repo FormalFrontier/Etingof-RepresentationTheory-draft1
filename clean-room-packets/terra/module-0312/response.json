@@ -1,0 +1,10 @@
+{
+  "module_name": "MvPolynomial.Vanishing",
+  "declarations": [
+    {
+      "temporary_id": "decl-025182",
+      "new_name": "eq_zero_of_eval_eq_zero_off_zero_locus",
+      "docstring": "Over an infinite domain, a multivariate polynomial vanishing wherever a nonzero polynomial does not vanish is zero."
+    }
+  ]
+}
