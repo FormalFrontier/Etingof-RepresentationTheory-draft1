@@ -1,0 +1,155 @@
+{
+  "module_name": "FiniteField.AuxiliaryRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-004364",
+      "new_name": "AuxiliaryPair",
+      "docstring": "An auxiliary pair type indexed by a prime natural number and a natural number."
+    },
+    {
+      "temporary_id": "decl-004365",
+      "new_name": "ext_of_insert_eq",
+      "docstring": "Two auxiliary pairs are equal when the two-element sets formed by their components are equal."
+    },
+    {
+      "temporary_id": "decl-004366",
+      "new_name": "auxiliaryMapOne",
+      "docstring": "The first auxiliary map from auxiliary pairs to auxiliary characters."
+    },
+    {
+      "temporary_id": "decl-004367",
+      "new_name": "fst_ne_snd",
+      "docstring": "The two components of an auxiliary pair are distinct."
+    },
+    {
+      "temporary_id": "decl-004368",
+      "new_name": "sym2_mk_eq_val",
+      "docstring": "The symmetric pair of the two components equals the underlying subtype value."
+    },
+    {
+      "temporary_id": "decl-004369",
+      "new_name": "auxiliaryMapTwo",
+      "docstring": "The second auxiliary map from auxiliary pairs to auxiliary characters."
+    },
+    {
+      "temporary_id": "decl-004370",
+      "new_name": "AuxiliaryCharacter",
+      "docstring": "An auxiliary character type indexed by a prime natural number and a natural number."
+    },
+    {
+      "temporary_id": "decl-004375",
+      "new_name": "AuxiliaryGroup",
+      "docstring": "An auxiliary group type indexed by a prime natural number and a natural number."
+    },
+    {
+      "temporary_id": "decl-004376",
+      "new_name": "AuxiliaryRepresentationIndex",
+      "docstring": "An auxiliary representation index type indexed by a prime natural number and a natural number."
+    },
+    {
+      "temporary_id": "decl-004409",
+      "new_name": "card_auxiliaryPair",
+      "docstring": "The cardinality of the auxiliary pair type is the binomial coefficient choosing two auxiliary characters."
+    },
+    {
+      "temporary_id": "decl-004410",
+      "new_name": "card_auxiliaryCharacter",
+      "docstring": "For nonzero degree, the auxiliary character type has cardinality one less than the corresponding prime power."
+    },
+    {
+      "temporary_id": "decl-004415",
+      "new_name": "card_auxiliaryRepresentationIndex",
+      "docstring": "For nonzero degree, the auxiliary representation index type has cardinality q minus one plus q times q minus one divided by two, where q is the corresponding prime power."
+    },
+    {
+      "temporary_id": "decl-004432",
+      "new_name": "unary_representation_not_iso_binary_representation",
+      "docstring": "For nonzero degree, the auxiliary representation indexed by one character is not isomorphic to the representation indexed by two characters."
+    },
+    {
+      "temporary_id": "decl-004533",
+      "new_name": "character_determinantRepresentation",
+      "docstring": "The character of the determinant representation at a group element is the indexing character evaluated at its determinant."
+    },
+    {
+      "temporary_id": "decl-004534",
+      "new_name": "finrank_determinantRepresentation",
+      "docstring": "The determinant representation has complex finrank one."
+    },
+    {
+      "temporary_id": "decl-004535",
+      "new_name": "determinantRepresentation_iso_iff",
+      "docstring": "Two determinant representations are isomorphic if and only if their indexing characters are equal."
+    },
+    {
+      "temporary_id": "decl-004536",
+      "new_name": "determinantRepresentation_not_iso_unaryRepresentation",
+      "docstring": "For nonzero degree, a determinant representation is not isomorphic to the other representation indexed by one character."
+    },
+    {
+      "temporary_id": "decl-004538",
+      "new_name": "determinantRepresentation_not_iso_binaryRepresentation",
+      "docstring": "For nonzero degree, a determinant representation is not isomorphic to a representation indexed by two characters."
+    },
+    {
+      "temporary_id": "decl-004549",
+      "new_name": "exists_simple_family_card_primePower",
+      "docstring": "For nonzero degree, there is a pairwise nonisomorphic family of simple objects whose index type has cardinality q minus one plus q times q minus one divided by two."
+    },
+    {
+      "temporary_id": "decl-004550",
+      "new_name": "exists_simple_family_card_galoisField",
+      "docstring": "For nonzero degree, there is a pairwise nonisomorphic family of simple objects with the stated cardinality in terms of the finite field cardinality."
+    },
+    {
+      "temporary_id": "decl-004567",
+      "new_name": "finrank_eq_of_iso",
+      "docstring": "Isomorphic finite-dimensional complex representations have equal finrank."
+    },
+    {
+      "temporary_id": "decl-004601",
+      "new_name": "finite_auxiliaryCharacter",
+      "docstring": "The auxiliary character type is finite."
+    },
+    {
+      "temporary_id": "decl-004602",
+      "new_name": "neZero_natCast_exponent_units_galoisField",
+      "docstring": "The natural-number cast of the exponent of the unit group of a finite field is nonzero."
+    },
+    {
+      "temporary_id": "decl-004639",
+      "new_name": "AuxiliaryRepresentation",
+      "docstring": "The complex representation of the auxiliary group associated to an auxiliary representation index."
+    },
+    {
+      "temporary_id": "decl-004641",
+      "new_name": "finrank_auxiliaryRepresentation",
+      "docstring": "For nonzero degree, the finrank of an auxiliary representation is one, the corresponding prime power, or one more than that prime power according to its sum index."
+    },
+    {
+      "temporary_id": "decl-004643",
+      "new_name": "eq_of_auxiliaryRepresentation_iso",
+      "docstring": "For nonzero degree, isomorphic auxiliary representations have equal indices."
+    },
+    {
+      "temporary_id": "decl-004644",
+      "new_name": "auxiliaryRepresentation_inl",
+      "docstring": "On a left sum index, the auxiliary representation equals the determinant representation."
+    },
+    {
+      "temporary_id": "decl-004645",
+      "new_name": "auxiliaryRepresentation_inr_inl",
+      "docstring": "On a right-left sum index, the auxiliary representation equals the corresponding representation indexed by one character."
+    },
+    {
+      "temporary_id": "decl-004646",
+      "new_name": "auxiliaryRepresentation_inr_inr",
+      "docstring": "On a right-right sum index, the auxiliary representation equals the representation indexed by the two components of the auxiliary pair."
+    },
+    {
+      "temporary_id": "decl-004651",
+      "new_name": "simple_auxiliaryRepresentation",
+      "docstring": "For nonzero degree, every auxiliary representation is simple."
+    }
+  ]
+}
