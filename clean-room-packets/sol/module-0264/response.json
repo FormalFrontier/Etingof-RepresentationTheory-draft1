@@ -1,0 +1,95 @@
+{
+  "module_name": "YoungDiagram.PartitionFormulas",
+  "declarations": [
+    {
+      "temporary_id": "decl-005711",
+      "new_name": "Partition.toYoungDiagram_rowLen_eq_getD",
+      "docstring": "The length of a row in a partition's Young diagram is the corresponding sorted part, with default value zero."
+    },
+    {
+      "temporary_id": "decl-017880",
+      "new_name": "auxiliary_partition_value_eq_card",
+      "docstring": "An auxiliary value at the distinguished partition is the cardinality of the associated finite type."
+    },
+    {
+      "temporary_id": "decl-017881",
+      "new_name": "auxiliary_partition_value_eq_descPochhammer_determinant_formula",
+      "docstring": "An auxiliary value at the distinguished partition is expressed using factorials and a determinant of descending-Pochhammer evaluations."
+    },
+    {
+      "temporary_id": "decl-017883",
+      "new_name": "auxiliary_partition_value_eq_pairwise_difference_formula",
+      "docstring": "An auxiliary value at the distinguished partition is a factorial times the product of pairwise part differences divided by the product of part factorials."
+    },
+    {
+      "temporary_id": "decl-017884",
+      "new_name": "auxiliary_partition_value_eq_factorial_div_hookLengthProduct",
+      "docstring": "An auxiliary value at the distinguished partition is the factorial divided by the Young-diagram hook-length product."
+    },
+    {
+      "temporary_id": "decl-018320",
+      "new_name": "det_descPochhammer_eval_eq_det_pow",
+      "docstring": "The determinant of descending-Pochhammer evaluations agrees with the determinant of the corresponding powers."
+    },
+    {
+      "temporary_id": "decl-018768",
+      "new_name": "auxiliary_exists_preimage_for_partition",
+      "docstring": "Every partition has an auxiliary preimage whose parts reconstruct it after the displayed dependent transport."
+    },
+    {
+      "temporary_id": "decl-019458",
+      "new_name": "finrank_auxiliary_subtype_eq_card",
+      "docstring": "The complex finrank of the auxiliary subtype associated with a partition equals the cardinality of the corresponding auxiliary type."
+    },
+    {
+      "temporary_id": "decl-019459",
+      "new_name": "auxiliary_finrank_eq_card",
+      "docstring": "After transporting the partition obtained from a finite family, the auxiliary subtype's complex finrank equals an associated cardinality."
+    },
+    {
+      "temporary_id": "decl-019460",
+      "new_name": "auxiliary_finrank_eq_pairwise_difference_formula",
+      "docstring": "The transported auxiliary subtype's complex finrank is given by a factorial and pairwise-difference product formula."
+    },
+    {
+      "temporary_id": "decl-019461",
+      "new_name": "auxiliary_finrank_eq_power_determinant_formula",
+      "docstring": "The transported auxiliary subtype's complex finrank is expressed by factorials and a determinant of powers of shifted parts."
+    },
+    {
+      "temporary_id": "decl-020291",
+      "new_name": "toYoungDiagram_hookLengthProduct_eq_prod",
+      "docstring": "The hook-length product of the Young diagram is the iterated product of its hook lengths over the displayed rows and columns."
+    },
+    {
+      "temporary_id": "decl-020292",
+      "new_name": "auxiliary_pairwiseDifference_mul_hookLengthProduct_eq_factorialProduct",
+      "docstring": "The pairwise shifted-part difference product times the hook-length product equals the product of shifted-part factorials."
+    },
+    {
+      "temporary_id": "decl-020293",
+      "new_name": "toYoungDiagram_hookLength_eq_row_remainder_add_card",
+      "docstring": "A hook length is the remaining length in its row plus the number of later rows extending beyond its column."
+    },
+    {
+      "temporary_id": "decl-024498",
+      "new_name": "toYoungDiagram_colLen_eq_card_filter",
+      "docstring": "A column length in the Young diagram is the number of indexed parts strictly exceeding the column index."
+    },
+    {
+      "temporary_id": "decl-024506",
+      "new_name": "toYoungDiagram_rowLen_eq_parts",
+      "docstring": "At an index in the finite family, the corresponding Young-diagram row has length equal to that part."
+    },
+    {
+      "temporary_id": "decl-024507",
+      "new_name": "toYoungDiagram_rowLen_eq_zero_of_bound",
+      "docstring": "A row whose index is at least the size of the finite family has length zero."
+    },
+    {
+      "temporary_id": "decl-024508",
+      "new_name": "toYoungDiagram_sortedParts_length_le",
+      "docstring": "The sorted-parts list constructed from a family indexed by `Fin N` has length at most `N`."
+    }
+  ]
+}

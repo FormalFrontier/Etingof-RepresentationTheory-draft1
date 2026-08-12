@@ -1,0 +1,30 @@
+{
+  "module_name": "Representation.ModuleEquivAndTraceSeparation",
+  "declarations": [
+    {
+      "temporary_id": "decl-019513",
+      "new_name": "auxiliary_fdRep_value_of_representation_eq",
+      "docstring": "The auxiliary value of a finite-dimensional representation is unchanged after rebuilding it from its underlying representation."
+    },
+    {
+      "temporary_id": "decl-019541",
+      "new_name": "trace_coefficients_eq_zero_of_diagonal_sum_eq_zero",
+      "docstring": "A rational linear combination of traces of pairwise nonisomorphic simple finite-dimensional representations has zero coefficients if it vanishes on all displayed diagonal elements."
+    },
+    {
+      "temporary_id": "decl-023005",
+      "new_name": "isSimpleModule_fdRep_of_antitone",
+      "docstring": "The module underlying the finite-dimensional representation associated with an antitone natural-valued family is simple."
+    },
+    {
+      "temporary_id": "decl-025556",
+      "new_name": "representationLinearEquiv",
+      "docstring": "A linear equivalence of modules induced by two representations, regarded as a linear equivalence over the coefficient semiring."
+    },
+    {
+      "temporary_id": "decl-025562",
+      "new_name": "representationLinearEquiv_intertwines",
+      "docstring": "The underlying linear equivalence of representation modules intertwines the actions of every monoid element."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "module_name": "MvPolynomial.AlternatingDeterminantCoefficients",
+  "declarations": [
+    {
+      "temporary_id": "decl-017873",
+      "new_name": "auxiliary_value_eq_alternating_coeff_sum",
+      "docstring": "An auxiliary value is an alternating sum of coefficients indexed by permutations satisfying componentwise bounds."
+    },
+    {
+      "temporary_id": "decl-017876",
+      "new_name": "sum_auxiliary_values_mul_eq_factorial_mul_double_alternating_sum",
+      "docstring": "A sum of products of auxiliary values equals a factorial times a double alternating coefficient sum over bounded permutations."
+    },
+    {
+      "temporary_id": "decl-017878",
+      "new_name": "sum_auxiliary_values_mul_eq_factorial_ite",
+      "docstring": "The sum of products of two auxiliary value families is the factorial when their indices agree and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-018019",
+      "new_name": "coeff_det_mul_eq_alternating_sum",
+      "docstring": "A coefficient of a polynomial multiplied by the displayed determinant is an alternating sum of shifted coefficients over permutations."
+    }
+  ]
+}
