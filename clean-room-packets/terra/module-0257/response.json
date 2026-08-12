@@ -1,0 +1,15 @@
+{
+  "module_name": "GeneralLinear.HomogeneousPolynomialInvariants",
+  "declarations": [
+    {
+      "temporary_id": "decl-001063",
+      "new_name": "sum_evalOne_mul_coeff_eq_prod_choose",
+      "docstring": "For an exponent vector of total degree `d`, the weighted sum of its polynomial coefficients equals the product of the indicated binomial coefficients."
+    },
+    {
+      "temporary_id": "decl-001066",
+      "new_name": "auxiliaryIndexedGeneralLinearFDRep_invariant_eq_weightedSum",
+      "docstring": "The polynomial assigned to the indexed auxiliary representation is the sum of the indexed polynomials weighted by their evaluations at one."
+    }
+  ]
+}
