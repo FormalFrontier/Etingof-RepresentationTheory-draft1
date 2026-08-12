@@ -143,6 +143,7 @@ import RepresentationTheory.SolvableGroups.Series
 import RepresentationTheory.ModularPGroup
 import RepresentationTheory.AuxiliaryMatrixDeterminantIrreducibility
 import RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions
+import RepresentationTheory.LinearAlgebra.ExteriorPower.InvariantSubmodules
 
 /-!
 # Representation theory formalization
