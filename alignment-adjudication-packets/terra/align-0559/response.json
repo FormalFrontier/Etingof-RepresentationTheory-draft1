@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0559",
+  "associations": [
+    {
+      "association_id": "association:2d5bcb7fc0bd6265e0e9",
+      "rationale": "This only declares an opaque Parameter type and does not display the explicit parameters, their modules, or completeness of the family.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8307aa46c4e89a00e896",
+      "rationale": "The type constructs a Lie action from each opaque parameter, but does not expose the family explicitly or state that every irreducible occurs in it.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0564",
+  "associations": [
+    {
+      "association_id": "association:85073493c30214d9ad6d",
+      "rationale": "When q is not of finite order, the type directly provides a nonzero vector in every nontrivial finite-dimensional representation that is killed by e and is a K-eigenvector.",
+      "role": "primary"
+    }
+  ]
+}

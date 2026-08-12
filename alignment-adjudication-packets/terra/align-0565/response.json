@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0565",
+  "associations": [
+    {
+      "association_id": "association:1ab2b125916dc8d94eef",
+      "rationale": "For a finite-dimensional simple module when q is not of finite order, the type directly gives a highest-weight vector whose K-eigenvalue is epsilon times q^(finrank V - 1), with epsilon squared equal to one.",
+      "role": "primary"
+    }
+  ]
+}

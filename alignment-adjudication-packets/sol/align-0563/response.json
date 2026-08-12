@@ -1,0 +1,40 @@
+{
+  "packet_id": "align-0563",
+  "associations": [
+    {
+      "association_id": "association:6d5ad4e4b8c4838cc842",
+      "rationale": "The type directly states one inverse relation K L = 1, but not the complete presentation or its nontriviality.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a8e9ed0e212d65afb01e",
+      "rationale": "The type directly states the K-e commutation relation, but not the complete presentation or its nontriviality.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3eabd1df00c43b00bb4c",
+      "rationale": "The type directly states the K-f commutation relation, but not the complete presentation or its nontriviality.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2f02266330414fd80c3d",
+      "rationale": "The type directly states the inverse relation L K = 1, but not the complete presentation or its nontriviality.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8827952ac1d74e8ebd33",
+      "rationale": "This only gives the type signature of an opaque relation predicate and does not display any presentation relation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7908fc1cc1a3c4f3c6ec",
+      "rationale": "Surjectivity of the named augmentation is contextual evidence that the quotient is nontrivial, but its displayed type does not directly state the presentation claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:67306baca1c5ed9d9ea8",
+      "rationale": "The type directly states the e-f commutator relation in cleared-denominator form, but not the complete presentation or its nontriviality.",
+      "role": "supporting"
+    }
+  ]
+}
