@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0910",
+  "associations": [
+    {
+      "association_id": "association:fe1938f1f8b9bda5375a",
+      "rationale": "The lemma directly states the irreducibility conclusion for the determinant that the source says the argument establishes.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0905",
+  "associations": [
+    {
+      "association_id": "association:3b118f4b631ad9255c3c",
+      "rationale": "The algebra equivalence induced by a basis directly identifies the exterior algebra of V with one on coordinate generators.",
+      "role": "primary"
+    }
+  ]
+}

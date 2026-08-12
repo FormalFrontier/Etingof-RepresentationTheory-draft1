@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0902",
+  "associations": [
+    {
+      "association_id": "association:d1ddc84aa07fe442d941",
+      "rationale": "The theorem directly states that a finite group of order p^a q^b for prime p and q is solvable.",
+      "role": "primary"
+    }
+  ]
+}

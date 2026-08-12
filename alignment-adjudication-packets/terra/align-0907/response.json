@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0907",
+  "associations": [
+    {
+      "association_id": "association:1b9f161b44d3d3ddd2d7",
+      "rationale": "It directly makes every nonzero linear map between simple modules bijective, which is the stated isomorphism assertion.",
+      "role": "primary"
+    }
+  ]
+}

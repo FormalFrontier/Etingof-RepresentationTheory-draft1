@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0904",
+  "associations": [
+    {
+      "association_id": "association:f08dc86667f53d840b97",
+      "rationale": "This theorem directly states that the centralizer of the semisimple faithful subalgebra is semisimple.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:23d020731570353269f4",
+      "rationale": "This theorem directly states that taking the centralizer twice returns A under the stated hypotheses.",
+      "role": "primary"
+    }
+  ]
+}

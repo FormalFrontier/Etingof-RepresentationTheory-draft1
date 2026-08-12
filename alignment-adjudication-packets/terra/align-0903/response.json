@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0903",
+  "associations": [
+    {
+      "association_id": "association:63993ea69818f32dd50b",
+      "rationale": "PresentedAlgebra directly supplies the generators-and-relations associative-algebra construction named in the source.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:fb89cde0d044e2b20e02",
+      "rationale": "MonoidAlgebra is a broader monoid-algebra construction; it can support the group-algebra case but does not itself directly state that case.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:12eaea9e030e612e3afe",
+      "rationale": "UniversalEnvelopingAlgebra directly names the universal-enveloping associative-algebra construction in the source.",
+      "role": "primary"
+    }
+  ]
+}
