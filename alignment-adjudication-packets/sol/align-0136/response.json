@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0136",
+  "associations": [
+    {"association_id": "association:e363fd39ea54c7bd409d", "role": "primary", "rationale": "Under the finite-dimensional algebra hypotheses, the declaration directly supplies an abelian structure on finite-dimensional A-modules."},
+    {"association_id": "association:0a101bcd7c222789c6ca", "role": "primary", "rationale": "Under the finite-dimensional algebra hypotheses, the declaration directly supplies a k-linear structure on finite-dimensional A-modules."},
+    {"association_id": "association:a1b4d027dd7e1d7aa4fd", "role": "primary", "rationale": "The declaration directly supplies an abelian structure on the category of all A-modules."},
+    {"association_id": "association:e0119951fd389c357280", "role": "primary", "rationale": "The declaration directly supplies a k-linear structure on the category of all A-modules."}
+  ]
+}

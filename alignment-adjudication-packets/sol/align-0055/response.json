@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0055",
+  "associations": [
+    {"association_id": "association:f0f776ca18563d306d68", "role": "primary", "rationale": "The declaration directly gives a Lie equivalence between the coordinate sl2 and the canonical traceless 2 by 2 matrix Lie algebra."},
+    {"association_id": "association:088d743ccd7820e534a4", "role": "primary", "rationale": "The equality directly identifies the image of the displayed basis element e as its 2 by 2 matrix."},
+    {"association_id": "association:8248ac8d5529f918fbb5", "role": "primary", "rationale": "The equality directly identifies the image of the displayed basis element f as its 2 by 2 matrix."},
+    {"association_id": "association:9b5f6d8dac93bafe9f20", "role": "supporting", "rationale": "The displayed formal type is opaque, so it cannot directly establish the claimed basis identification."}
+  ]
+}

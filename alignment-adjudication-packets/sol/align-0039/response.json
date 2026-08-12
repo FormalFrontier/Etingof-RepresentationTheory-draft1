@@ -1,0 +1,9 @@
+{
+  "packet_id": "align-0039",
+  "associations": [
+    {"association_id": "association:1544c3422b6111b5167b", "role": "primary", "rationale": "Given the product as a rational q, the formal theorem directly concludes that q cannot satisfy 0 < q < 1, the stated contradiction."},
+    {"association_id": "association:26346a5a0d5f14235e1a", "role": "supporting", "rationale": "This supplies a rational witness for the character product, a prerequisite for the contradiction rather than the contradiction itself."},
+    {"association_id": "association:f248a721f25c84d46f5b", "role": "supporting", "rationale": "This establishes integrality of a related product and serves as supporting arithmetic evidence."},
+    {"association_id": "association:5dd4d6bfa15435ce3e9a", "role": "supporting", "rationale": "This general arithmetic lemma helps derive the incompatibility of integrality with a rational value in the interval."}
+  ]
+}

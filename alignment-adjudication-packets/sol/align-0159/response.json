@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0159",
+  "associations": [
+    {"association_id": "association:71743bafdd5b6c979126", "role": "primary", "rationale": "The equality directly states the table's displayed character values on its class representatives."},
+    {"association_id": "association:24709801dfe932a1d253", "role": "primary", "rationale": "For distinct indices, the theorem directly states that the listed representations are nonisomorphic."},
+    {"association_id": "association:c250e27a88590f5001e9", "role": "primary", "rationale": "The theorem directly states that every listed representation is simple."},
+    {"association_id": "association:bd83c1f9020dfffe235e", "role": "supporting", "rationale": "The number of conjugacy classes is evidence used to establish completeness, but does not itself state completeness of the representation list."},
+    {"association_id": "association:95d2b9ea7a669a0c0443", "role": "supporting", "rationale": "This only defines an indexed family of five representations; simplicity, values, and completeness are stated by other declarations."}
+  ]
+}

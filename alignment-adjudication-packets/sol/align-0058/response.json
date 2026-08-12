@@ -1,0 +1,21 @@
+{
+  "packet_id": "align-0058",
+  "associations": [
+    {"association_id": "association:56d4f4b65a2da2421985", "role": "primary", "rationale": "The theorem directly states the elliptic centralizer order."},
+    {"association_id": "association:96bfd33a43cc6cc71f1e", "role": "primary", "rationale": "The theorem directly states the parabolic centralizer order."},
+    {"association_id": "association:0fc5b130c8208ce2150f", "role": "primary", "rationale": "The theorem directly states the scalar centralizer order."},
+    {"association_id": "association:fb291710ad1b602876d1", "role": "primary", "rationale": "The theorem directly states the split-semisimple centralizer order."},
+    {"association_id": "association:661c532a8ace03f21652", "role": "primary", "rationale": "The theorem directly states the elliptic conjugacy-class size."},
+    {"association_id": "association:10d9ae400f26458d663d", "role": "primary", "rationale": "The theorem directly states the parabolic conjugacy-class size."},
+    {"association_id": "association:bd6ccee3d3682448ca82", "role": "primary", "rationale": "The theorem directly states the scalar conjugacy-class size."},
+    {"association_id": "association:f73876d3c15f864d5188", "role": "primary", "rationale": "The theorem directly states the split-semisimple conjugacy-class size."},
+    {"association_id": "association:16aa36a179805c01b1bf", "role": "primary", "rationale": "The existential conjugacy statement directly gives an elliptic normal form."},
+    {"association_id": "association:608313948c49a7887ad8", "role": "primary", "rationale": "The existential conjugacy statement directly gives a parabolic normal form."},
+    {"association_id": "association:98ba7c982ce8bbcdb037", "role": "primary", "rationale": "The existential conjugacy statement directly gives a scalar normal form."},
+    {"association_id": "association:315f387011dcd22ed681", "role": "primary", "rationale": "The existential conjugacy statement directly gives a split-semisimple normal form."},
+    {"association_id": "association:6935a89e36ea924d78e3", "role": "primary", "rationale": "The equality directly states the elliptic type count."},
+    {"association_id": "association:f5fe1fb578a29b07bff8", "role": "primary", "rationale": "The equality directly states the parabolic type count."},
+    {"association_id": "association:8b7b6b7e351b0f2b74d2", "role": "primary", "rationale": "The equality directly states the scalar type count."},
+    {"association_id": "association:763f4c381a5ac6b30971", "role": "primary", "rationale": "The equality directly states the split-semisimple type count."}
+  ]
+}
