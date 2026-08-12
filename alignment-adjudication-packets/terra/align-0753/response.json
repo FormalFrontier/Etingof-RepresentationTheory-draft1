@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0753",
+  "associations": [
+    {
+      "association_id": "association:c17165513cbea8ad2074",
+      "role": "supporting",
+      "rationale": "This proves only the direction from real type to existence of an invariant spanning real form with the required dimension."
+    },
+    {
+      "association_id": "association:69ef18ae0991d9bd9c31",
+      "role": "primary",
+      "rationale": "This directly states the claimed equivalence between real type and existence of an invariant real form with the spanning and dimension conditions."
+    },
+    {
+      "association_id": "association:0f8567a57d6beca95238",
+      "role": "supporting",
+      "rationale": "This proves only the converse direction, deriving real type from the existence of the specified real form."
+    }
+  ]
+}

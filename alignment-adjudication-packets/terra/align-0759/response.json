@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0759",
+  "associations": [
+    {
+      "association_id": "association:682d691d00d6f9cf1a2a",
+      "role": "primary",
+      "rationale": "This directly equates the sum of the dimensions of a complete family of irreducible symmetric-group representations with the number of permutations whose square is one."
+    }
+  ]
+}
