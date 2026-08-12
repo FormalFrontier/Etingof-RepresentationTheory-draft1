@@ -43,6 +43,7 @@ structure ModuleBinaryDecomposition
   linearEquivProd : V ≃ₗ[A] leftType × rightType
 
 /-- A second auxiliary predicate on a module over a ring. -/
+@[source_ref "Chapter2/Definition2.3.8" (role := supporting)]
 def AuxiliaryDecompositionPredicate'
     (A : Type u) (V : Type v) [Ring A] [AddCommGroup V] [Module A V] : Prop :=
   Nontrivial V ∧ IsEmpty (ModuleBinaryDecomposition A V)
