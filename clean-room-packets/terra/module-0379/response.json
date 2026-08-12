@@ -1,5 +1,5 @@
 {
-  "module_name": "MvPowerSeries.PairedExponentCoefficients",
+  "module_name": "MvPowerSeries.AuxiliaryExponentCoefficients",
   "declarations": [
     {
       "temporary_id": "decl-017774",
@@ -8,23 +8,23 @@
     },
     {
       "temporary_id": "decl-017778",
-      "new_name": "auxiliarySeries_coeff_pairedExponent_eq_one_of_injective",
-      "docstring": "An injective natural-valued index function gives coefficient one in the auxiliary series at its paired exponent index."
+      "new_name": "auxiliarySeries_coeff_auxiliaryExponentIndex_eq_one_of_injective",
+      "docstring": "If a natural-valued indexing function is injective, the coefficient of the auxiliary power series at its associated auxiliary exponent index is one."
     },
     {
       "temporary_id": "decl-018350",
-      "new_name": "pairedExponentIndex",
-      "docstring": "Builds an auxiliary finitely supported exponent index from a natural-valued function on finite indices."
+      "new_name": "auxiliaryExponentIndex",
+      "docstring": "Associates an auxiliary finitely supported exponent index to a natural-valued function on finite indices."
     },
     {
       "temporary_id": "decl-018354",
-      "new_name": "pairedExponentIndex_apply_left",
-      "docstring": "Evaluating the paired exponent index at a left injection recovers the given exponent."
+      "new_name": "auxiliaryExponentIndex_apply_inl",
+      "docstring": "The auxiliary exponent index has value `α i` at `Sum.inl i`."
     },
     {
       "temporary_id": "decl-018355",
-      "new_name": "pairedExponentIndex_apply_right",
-      "docstring": "Evaluating the paired exponent index at a right injection recovers the given exponent."
+      "new_name": "auxiliaryExponentIndex_apply_inr",
+      "docstring": "The auxiliary exponent index has value `α j` at `Sum.inr j`."
     }
   ]
 }
