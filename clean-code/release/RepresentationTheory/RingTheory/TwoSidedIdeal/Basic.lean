@@ -30,12 +30,15 @@ abbrev Ring.AuxiliaryType'' := Submodule Aᵐᵒᵖ Aᵐᵒᵖ
 abbrev Ring.AuxiliaryType := TwoSidedIdeal A
 
 /-- An auxiliary predicate on rings. -/
+@[source_ref "Chapter2/Discussion_2.4_heading" (role := supporting)]
 abbrev Ring.AuxiliaryPredicate : Prop := IsSimpleRing A
 
 /-- A second auxiliary element of the first ring-dependent type. -/
+@[source_ref "Chapter2/Discussion_2.4_heading" (role := supporting)]
 abbrev Ring.auxiliaryElement' : _root_.RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType A := ⊥
 
 /-- An auxiliary element of the first ring-dependent type. -/
+@[source_ref "Chapter2/Discussion_2.4_heading" (role := supporting)]
 abbrev Ring.auxiliaryElement : _root_.RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType A := ⊤
 
 /-- An auxiliary map from an element of the enclosing type to a second ring-dependent type. -/

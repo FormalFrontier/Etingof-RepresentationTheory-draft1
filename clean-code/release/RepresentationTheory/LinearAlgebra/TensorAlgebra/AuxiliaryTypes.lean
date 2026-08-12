@@ -27,6 +27,7 @@ namespace TensorAlgebra
 abbrev AuxiliaryType := _root_.TensorAlgebra k V
 
 /-- An algebra equivalence from the auxiliary type to the direct sum of tensor powers. -/
+@[source_ref "Chapter2/Discussion_2.12_heading" (role := supporting)]
 noncomputable def auxiliaryTypeEquivDirectSum :
     AuxiliaryType k V ≃ₐ[k] ⨁ n : ℕ, ⨂[k]^n V :=
   _root_.TensorAlgebra.equivDirectSum
