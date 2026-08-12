@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1126",
+  "associations": [
+    {
+      "association_id": "association:5042d8174d67bebf30a8",
+      "role": "supporting",
+      "rationale": "The formal type only shows that the declaration is a proposition on a finite-dimensional complex representation; it does not display existence, nondegeneracy, invariance, skewness, or a bilinear form."
+    }
+  ]
+}

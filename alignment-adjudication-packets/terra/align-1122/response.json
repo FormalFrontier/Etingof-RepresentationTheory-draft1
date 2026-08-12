@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-1122",
+  "associations": [
+    {
+      "association_id": "association:e67c8e9fac20ef322ddf",
+      "role": "primary",
+      "rationale": "The formal type takes a derivation D and returns a map Real → AlgEquiv Real A A, directly expressing that the exponential family consists of algebra automorphisms."
+    },
+    {
+      "association_id": "association:55d83fe9be1bfdc7fb5c",
+      "role": "primary",
+      "rationale": "The displayed equality exp((s+t)D) = exp(sD) * exp(tD) directly states the one-parameter composition law."
+    },
+    {
+      "association_id": "association:20e8df699a9c53858c09",
+      "role": "supporting",
+      "rationale": "The formal type states exp(0D) = 1, supplying the identity special case that supports the one-parameter-group claim."
+    }
+  ]
+}

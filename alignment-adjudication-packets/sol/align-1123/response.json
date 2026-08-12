@@ -1,0 +1,30 @@
+{
+  "packet_id": "align-1123",
+  "associations": [
+    {
+      "association_id": "association:5cbea02fd943b6b293ae",
+      "role": "primary",
+      "rationale": "For monic p, the formal type directly identifies the characteristic polynomial of the companion matrix with p."
+    },
+    {
+      "association_id": "association:bf45d0b43c0f05907cfd",
+      "role": "primary",
+      "rationale": "The formal type sends a root z of p to a root of the characteristic polynomial of the mapped companion matrix, directly stating the spectral part of the claim in characteristic-polynomial form."
+    },
+    {
+      "association_id": "association:33ad38f39345f51ce0d5",
+      "role": "supporting",
+      "rationale": "The type only constructs a square matrix indexed by natDegree p; it does not display its entries or either claimed property."
+    },
+    {
+      "association_id": "association:72b076370c40fa2b8363",
+      "role": "supporting",
+      "rationale": "This specializes the root-to-characteristic-root result to monic rational polynomials evaluated in Complex, so it is a consequence of the general companion claim."
+    },
+    {
+      "association_id": "association:2eca9583e1d82283e5a8",
+      "role": "supporting",
+      "rationale": "This specializes the root-to-characteristic-root result to monic integer polynomials evaluated in Complex, so it is a consequence of the general companion claim."
+    }
+  ]
+}

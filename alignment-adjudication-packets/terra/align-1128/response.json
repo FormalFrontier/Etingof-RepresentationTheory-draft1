@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1128",
+  "associations": [
+    {
+      "association_id": "association:e1bbd3656b564c1813e5",
+      "role": "primary",
+      "rationale": "For a finite-dimensional module V, the formal type directly gives an iff between the displayed nontrivial indecomposability condition and finrank V = 1."
+    }
+  ]
+}

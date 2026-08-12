@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1131",
+  "associations": [
+    {
+      "association_id": "association:b86d27cde3cfb38ddf4b",
+      "role": "supporting",
+      "rationale": "No formal type is displayed, so the packet does not directly show that this declaration names the common number described in the source text."
+    }
+  ]
+}
