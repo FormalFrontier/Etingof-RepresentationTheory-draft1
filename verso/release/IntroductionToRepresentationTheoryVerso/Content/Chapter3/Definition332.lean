@@ -29,6 +29,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Module.DualOppositeAction.dualMulOppositeModule}
 
+{Manual.docstring RepresentationTheory.Module.DualOppositeAction.dualMulOpposite_smul_apply}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Module.DualOppositeAction.ParameterizedModuleType}

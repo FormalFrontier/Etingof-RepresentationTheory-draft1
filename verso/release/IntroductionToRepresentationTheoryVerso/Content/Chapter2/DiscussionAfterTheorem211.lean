@@ -29,4 +29,6 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram}
+
 {Manual.docstring RepresentationTheory.Foundations.TypeFamilies.TypeIndexedFamily}

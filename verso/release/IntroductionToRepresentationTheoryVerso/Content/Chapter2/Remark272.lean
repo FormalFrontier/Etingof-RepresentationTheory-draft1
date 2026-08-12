@@ -27,4 +27,10 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.Algebra.Polynomial.OperatorSubalgebra.polynomialOperatorSubalgebra}
+
+{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.equivOperatorRange}
+
+{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.operatorMap_range}
+
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModulePredicates.AuxiliaryModulePredicate}

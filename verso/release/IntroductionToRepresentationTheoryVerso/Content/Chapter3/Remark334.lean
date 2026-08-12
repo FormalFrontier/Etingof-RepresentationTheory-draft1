@@ -32,4 +32,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.BasisExpansion.basisExpansion_surjective}
 
+{Manual.docstring RepresentationTheory.Algebra.Module.BasisExpansion.eq_basisExpansion_of_apply}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.BasisExpansion.quotientKerBasisExpansionEquiv}

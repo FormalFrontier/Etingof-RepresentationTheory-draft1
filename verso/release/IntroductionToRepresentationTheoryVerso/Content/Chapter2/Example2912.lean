@@ -35,6 +35,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.matrix_eq_aux2}
 
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.nontrivial}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.PresentedAlgebra}
@@ -43,8 +45,12 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux6}
 
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.distinguished_ne_zero_aux1}
+
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux1}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux2}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux3}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.nontrivial_aux1}

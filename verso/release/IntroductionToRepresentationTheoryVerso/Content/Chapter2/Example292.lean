@@ -58,3 +58,5 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.derivationLieSubalgebra.bracket_apply}
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.derivationLieSubalgebra.leibniz}
+
+{Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.subalgebraLieAlgebra}
