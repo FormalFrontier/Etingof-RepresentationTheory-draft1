@@ -1,0 +1,10 @@
+{
+  "module_name": "LinearAlgebra.ExteriorPower.InvariantSubmodules",
+  "declarations": [
+    {
+      "temporary_id": "decl-019274",
+      "new_name": "eq_bot_or_eq_top_of_exteriorPower_invariant",
+      "docstring": "A submodule of an exterior power stable under every linear equivalence is either zero or the whole space."
+    }
+  ]
+}

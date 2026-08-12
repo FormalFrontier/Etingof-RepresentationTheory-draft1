@@ -1,0 +1,25 @@
+{
+  "module_name": "SubgroupCharacters",
+  "declarations": [
+    {
+      "temporary_id": "decl-017866",
+      "new_name": "submoduleOfSubgroupCharacter",
+      "docstring": "Associates a submodule of the group algebra to a subgroup character."
+    },
+    {
+      "temporary_id": "decl-017955",
+      "new_name": "representationOfSubgroupCharacter",
+      "docstring": "Associates a complex representation of a subgroup to a character with values in complex units."
+    },
+    {
+      "temporary_id": "decl-020497",
+      "new_name": "groupAlgebraElementOfSubgroupCharacter",
+      "docstring": "Associates an element of the group algebra to a subgroup character."
+    },
+    {
+      "temporary_id": "decl-020523",
+      "new_name": "auxiliary_equivariant_map_of_subgroup_character",
+      "docstring": "Provides an auxiliary compatibility map associated with a subgroup character."
+    }
+  ]
+}

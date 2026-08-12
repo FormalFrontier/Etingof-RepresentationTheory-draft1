@@ -1,0 +1,55 @@
+{
+  "module_name": "OddOrder.CharacterSums",
+  "declarations": [
+    {
+      "temporary_id": "decl-020754",
+      "new_name": "invariants_eq_bot_of_simple_of_nontrivial",
+      "docstring": "A nontrivial simple representation has trivial invariant subspace."
+    },
+    {
+      "temporary_id": "decl-020819",
+      "new_name": "auxiliary_of_odd_card_of_simple_of_nontrivial",
+      "docstring": "Auxiliary consequence for a nontrivial simple representation of a finite group of odd cardinality."
+    },
+    {
+      "temporary_id": "decl-020883",
+      "new_name": "auxiliary_of_simple_of_dual_intertwiner",
+      "docstring": "Auxiliary dichotomy for a simple representation admitting a comparison with its dual."
+    },
+    {
+      "temporary_id": "decl-021777",
+      "new_name": "auxiliary_not_of_odd_card_of_simple",
+      "docstring": "Auxiliary exclusion for a simple representation of a finite group of odd cardinality."
+    },
+    {
+      "temporary_id": "decl-021781",
+      "new_name": "auxiliary_not_of_odd_card_of_simple_of_nontrivial",
+      "docstring": "Auxiliary exclusion for a nontrivial simple representation of a finite group of odd cardinality."
+    },
+    {
+      "temporary_id": "decl-023385",
+      "new_name": "auxiliaryEquivOfOddCard",
+      "docstring": "Provides an auxiliary self-equivalence for a finite group of odd cardinality."
+    },
+    {
+      "temporary_id": "decl-023388",
+      "new_name": "auxiliaryEquivOfOddCard_apply_eq_square",
+      "docstring": "The auxiliary self-equivalence sends each group element to its square."
+    },
+    {
+      "temporary_id": "decl-023533",
+      "new_name": "character_sum_square_eq_card_of_auxiliary",
+      "docstring": "Under an auxiliary condition, the character sum on squares equals the group cardinality."
+    },
+    {
+      "temporary_id": "decl-023534",
+      "new_name": "sum_character_square_eq_sum_character_of_odd_card",
+      "docstring": "For a finite group of odd cardinality, summing a character on squares gives its ordinary sum."
+    },
+    {
+      "temporary_id": "decl-023535",
+      "new_name": "sum_character_square_eq_zero_of_odd_card",
+      "docstring": "The character sum on squares vanishes for a nontrivial simple representation of a finite group of odd cardinality."
+    }
+  ]
+}
