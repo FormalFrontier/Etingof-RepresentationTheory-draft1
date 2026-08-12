@@ -5,6 +5,7 @@ Authors: Kim Morrison
 -/
 
 import Mathlib
+import RepresentationTheory.Alignment.Attribute
 
 open Finset Equiv.Perm MvPowerSeries
 
@@ -40,6 +41,7 @@ noncomputable def auxiliaryDeterminantPowerSeries :
           1
 
 /-- The determinant of the auxiliary multivariate power series matrix is the auxiliary determinant power series. -/
+@[source_ref "Chapter5/Corollary5.15.4" (role := supporting)]
 theorem det_auxiliaryPowerSeriesMatrix
     (N : ℕ) :
     (auxiliaryPowerSeriesMatrix N k).det = auxiliaryDeterminantPowerSeries N k := by

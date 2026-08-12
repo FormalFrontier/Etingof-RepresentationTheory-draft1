@@ -35,6 +35,7 @@ theorem basisExpansion_apply (b : Basis ι k X) (a : ι → A) :
 
 omit [Algebra k A] [IsScalarTower k A X] in
 /-- A linear map with the displayed coefficient-expansion formula equals the basis expansion. -/
+@[source_ref "Chapter3/Remark3.3.4" (role := primary)]
 theorem eq_basisExpansion_of_apply (b : Basis ι k X) (f : (ι → A) →ₗ[A] X)
     (hf : ∀ a, f a = ∑ i, (a i • b i : X)) :
     f = basisExpansion A b := by

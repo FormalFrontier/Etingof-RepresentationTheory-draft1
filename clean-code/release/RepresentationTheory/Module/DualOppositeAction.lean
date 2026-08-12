@@ -36,7 +36,7 @@ variable {k A V}
 omit [Algebra k A] in
 /-- The action of an element of the opposite ring on a linear dual evaluates by applying the
 functional after the corresponding action on the vector. -/
-@[simp]
+@[simp, source_ref "Chapter3/Definition3.3.2" (role := primary)]
 theorem dualMulOpposite_smul_apply (a : Aᵐᵒᵖ) (f : Module.Dual k V) (v : V) :
     (a • f) v = f (a.unop • v) :=
   rfl

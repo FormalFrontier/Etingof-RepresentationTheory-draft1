@@ -71,7 +71,8 @@ def endomorphismLieAlgebra (k : Type*) [CommRing k] (V : Type*)
     LieAlgebra k (Module.End k V) := inferInstance
 
 /-- The induced Lie algebra structure on the carrier of a Lie subalgebra. -/
-@[reducible] def subalgebraLieAlgebra (k A : Type*) [CommRing k] [Ring A] [Algebra k A]
+@[reducible, source_ref "Chapter2/Example2.9.2" (role := supporting)]
+def subalgebraLieAlgebra (k A : Type*) [CommRing k] [Ring A] [Algebra k A]
     (U : LieSubalgebra k A) :
     LieAlgebra k U := inferInstance
 
