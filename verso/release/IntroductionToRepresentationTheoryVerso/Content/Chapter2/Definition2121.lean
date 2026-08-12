@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -29,3 +30,27 @@ It is easy to see that a choice of a basis $`x_1, \ldots, x_N` in $`V` identifie
 Moreover, it is easy to see that we have decompositions
 
 $$`SV = \bigoplus_{n \geq 0} S^n V, \quad \wedge V = \bigoplus_{n \geq 0} \wedge^n V.`
+
+## Formalization
+%%%
+tag := "Chapter2/Definition2.12.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.ExteriorAlgebra.generator_sq_eq_zero}
+
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.ExteriorAlgebra.relationModelGradedEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.SymmetricAlgebra.relationModelGradedEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.basisQuotientEquivEnvelope}
+
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.generator_commutator}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.ExteriorAlgebra.RelationModel}
+
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.QuotientModel}
