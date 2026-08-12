@@ -136,6 +136,7 @@ noncomputable def UniversalEnvelopingAlgebra.basisRelations (ij : ι × ι) : Fr
       (b.repr ⁅b ij.1, b ij.2⁆).sum fun r a => a • FreeAlgebra.ι k r
 
 /-- A basis-indexed quotient model for the associative envelope of a Lie algebra over a field. -/
+@[source_ref "Chapter2/Definition2.9.9/Derived2" (role := supporting)]
 abbrev UniversalEnvelopingAlgebra.BasisQuotientModel :=
   RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType k ι (ι × ι)
     (UniversalEnvelopingAlgebra.basisRelations k L b)
@@ -253,7 +254,8 @@ theorem UniversalEnvelopingAlgebra.quotientModelToBasisQuotient_apply (x : L) :
 
 /-- A basis-dependent algebra equivalence from the indexed relation quotient to the corresponding enveloping algebra. -/
 @[source_ref "Chapter2/Remark2.9.10" (role := primary),
-  source_ref "Chapter2/Definition2.12.1" (role := primary)]
+  source_ref "Chapter2/Definition2.12.1" (role := primary),
+  source_ref "Chapter2/Definition2.9.9/Derived2" (role := supporting)]
 noncomputable def UniversalEnvelopingAlgebra.basisQuotientEquivEnvelope :
     UniversalEnvelopingAlgebra.BasisQuotientModel k L b ≃ₐ[k]
       RepresentationTheory.Algebra.Lie.AssociatedTypes.LieAlgebra.AuxiliaryType k L :=

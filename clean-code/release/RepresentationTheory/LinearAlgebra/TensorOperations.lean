@@ -23,6 +23,7 @@ section Defs
 variable (k : Type*) [CommRing k] (V : Type*) [AddCommGroup V] [Module k V]
 
 /-- A type-valued construction determined by the displayed parameters. -/
+@[source_ref "Chapter2/Discussion_pure_tensors" (role := supporting)]
 abbrev AuxiliaryType_aux2 (n : ℕ) : Type _ := ⨂[k] (_ : Fin n), V
 
 variable {k V}
