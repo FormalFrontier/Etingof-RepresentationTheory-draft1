@@ -47,4 +47,6 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.factorModule}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.Filtrations.exists_relSeries_bot_top}

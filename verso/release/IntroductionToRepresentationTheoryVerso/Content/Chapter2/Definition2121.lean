@@ -47,6 +47,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.SymmetricAlgebra.RelationModel}
 
+{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.SymmetricAlgebra.relationModelEquivMvPolynomial}
+
 {Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.SymmetricAlgebra.relationModelGradedEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.basisQuotientEquivEnvelope}

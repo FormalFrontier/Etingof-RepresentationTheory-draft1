@@ -29,4 +29,10 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionOne}
+
+{Manual.docstring RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo}
+
+{Manual.docstring RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationProperty}
+
 {Manual.docstring RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar}

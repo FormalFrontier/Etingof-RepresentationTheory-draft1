@@ -29,3 +29,7 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.length_eq}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Module.CompositionSeriesLength.compositionSeries_length_isGreatest}
