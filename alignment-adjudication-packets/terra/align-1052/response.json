@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1052",
+  "associations": [
+    {
+      "association_id": "association:f6b674ded3658e0ccf21",
+      "rationale": "The displayed formal type is null, so it does not directly state finite dimensionality or equality of dimensions for the dual.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8393bad2326697e71c2c",
+      "rationale": "The displayed formal type is null; the instance name alone cannot directly establish the dual-dimension claim.",
+      "role": "supporting"
+    }
+  ]
+}

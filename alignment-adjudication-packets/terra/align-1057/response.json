@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1057",
+  "associations": [
+    {
+      "association_id": "association:49a68a7cb84731d20811",
+      "rationale": "The algebra and module structures are assumptions in this type; its conclusion instead constructs a filtration with simple quotients, so it does not state the displayed setup claim.",
+      "role": "supporting"
+    }
+  ]
+}

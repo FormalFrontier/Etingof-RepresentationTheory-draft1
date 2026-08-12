@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1056",
+  "associations": [
+    {
+      "association_id": "association:ae20a5cc3216ead8e791",
+      "rationale": "The type directly shows that an integral combination of pairwise nonisomorphic irreducible characters with norm one and positive identity value has exactly one coefficient equal to one and all others zero.",
+      "role": "primary"
+    }
+  ]
+}
