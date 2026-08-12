@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-017173",
-      "new_name": "auxiliaryRepresentation_condition",
-      "docstring": "The displayed linear action over an algebraically closed field of characteristic zero satisfies the auxiliary property."
+      "new_name": "auxiliaryLinearEndomorphismFamily_condition",
+      "docstring": "The displayed family of linear endomorphisms indexed by the general linear group satisfies the auxiliary property over an algebraically closed field of characteristic zero."
     },
     {
       "temporary_id": "decl-018333",
@@ -34,12 +34,12 @@
     {
       "temporary_id": "decl-018691",
       "new_name": "tensorToLocalization_tmul_apply",
-      "docstring": "Evaluating the tensor-to-localization map on a pure tensor is the auxiliary tensor pairing after the group element acts on the second factor."
+      "docstring": "After applying the displayed auxiliary evaluator to the tensor-to-localization image of a pure tensor, its value at a group element equals the displayed auxiliary tensor map with the indexed linear endomorphism applied to the second factor."
     },
     {
       "temporary_id": "decl-018907",
       "new_name": "exists_tensorMap_tmul_apply",
-      "docstring": "There exists a map on the tensor product whose evaluated values on pure tensors are given by the auxiliary tensor pairing after acting on the second factor."
+      "docstring": "There exists a map on the tensor product such that, after applying the displayed auxiliary evaluator to its value on a pure tensor, evaluation at a group element equals the displayed auxiliary tensor map with the indexed linear endomorphism applied to the second factor."
     },
     {
       "temporary_id": "decl-022012",
