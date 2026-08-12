@@ -64,3 +64,5 @@ number := false
 {Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.mem_auxiliaryMap'_iff}
 
 {Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.mem_auxiliaryMap_iff}
+
+{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.TwoSidedIdeal.mem_ker_iff}

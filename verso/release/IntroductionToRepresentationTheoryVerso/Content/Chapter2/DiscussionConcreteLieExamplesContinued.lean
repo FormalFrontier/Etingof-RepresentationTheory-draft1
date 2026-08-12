@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -18,3 +19,15 @@ number := false
 Its basis consists of $`X = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}` and $`Y = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}`, with $`[X, Y] = Y`.
 
 (5) $`\mathfrak{so}(n)`, the space of skew-symmetric $`n \times n` matrices, with $`[a, b] = ab - ba`.
+
+## Formalization
+%%%
+tag := "Chapter2/Discussion_concrete_Lie_examples_continued/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary.matrixLieSubalgebraAux}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary.matrixLieSubalgebrasAux_eq}

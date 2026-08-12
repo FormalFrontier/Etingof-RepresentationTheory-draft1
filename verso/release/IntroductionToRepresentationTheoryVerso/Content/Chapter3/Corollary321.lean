@@ -28,3 +28,7 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.RingTheory.SimpleModuleDensity.exists_smul_eq_on_linearIndependent}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.algebra_smul_surjective}

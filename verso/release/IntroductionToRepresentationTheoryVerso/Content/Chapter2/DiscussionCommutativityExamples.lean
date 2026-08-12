@@ -25,4 +25,6 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.Algebra.Noncommutativity.exists_noncommuting_pair_of_one_lt}
+
 {Manual.docstring RepresentationTheory.Algebra.Noncommutativity.monoidAlgebra_mul_comm_iff}
