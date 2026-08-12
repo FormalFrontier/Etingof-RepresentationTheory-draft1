@@ -77,7 +77,8 @@ theorem bijective_or_nilpotent_of_auxiliaryProperty (k : Type*) (A : Type*) (W :
 
 
 /-- Under the displayed module property, a finite sum of nilpotent endomorphisms is nilpotent. -/
-@[source_ref "Chapter3/Lemma3.8.2/Derived4" (role := primary)]
+@[source_ref "Chapter3/Lemma3.8.2/Derived4" (role := primary),
+  source_ref "Chapter3/Lemma3.8.2" (role := primary)]
 theorem sum_nilpotent_of_auxiliaryProperty (k : Type*) (A : Type*) (W : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
