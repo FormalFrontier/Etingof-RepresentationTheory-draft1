@@ -1,0 +1,20 @@
+{
+  "module_name": "GeneralLinearGroup.WeightVectors",
+  "declarations": [
+    {
+      "temporary_id": "decl-020474",
+      "new_name": "iSup_weightCharacter_eq_top_of_diagonal_basis",
+      "docstring": "A diagonal weight-vector basis forces the supremum of the associated weight characters to be top."
+    },
+    {
+      "temporary_id": "decl-020774",
+      "new_name": "property_preserved_by_scalarCharacterTwist",
+      "docstring": "The representation property is preserved after twisting by the indicated power of a scalar character."
+    },
+    {
+      "temporary_id": "decl-021495",
+      "new_name": "nonempty_equivariantMap_dualTwist_to_weightRepresentation",
+      "docstring": "Under the componentwise weight bound, there exists an equivariant map from the twisted dual representation to the displayed weight representation."
+    }
+  ]
+}
