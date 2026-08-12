@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0510",
+  "associations": [
+    {
+      "association_id": "association:967adea8dc0833245297",
+      "rationale": "The type returns a basis of ExtPow indexed by n-element subsets, but it does not expose its vectors as the claimed strictly increasing exterior monomials.",
+      "role": "supporting"
+    }
+  ]
+}

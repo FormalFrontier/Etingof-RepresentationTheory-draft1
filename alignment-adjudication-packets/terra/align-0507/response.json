@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0507",
+  "associations": [
+    {
+      "association_id": "association:aea85839d457b42a117b",
+      "rationale": "The displayed type only introduces ExtPow as an opaque type and does not state its quotient presentation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c004972eb0f32bb7a017",
+      "rationale": "The displayed type supplies a tensor-power submodule, without exposing alternating swap relations or a quotient statement.",
+      "role": "supporting"
+    }
+  ]
+}
