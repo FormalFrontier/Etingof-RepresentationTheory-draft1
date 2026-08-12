@@ -9,12 +9,12 @@
     {
       "temporary_id": "decl-025054",
       "new_name": "character_eq_matrixTrace",
-      "docstring": "The character of the i-th selected representation at g is the trace of the corresponding matrix obtained from the group-algebra element supported at g."
+      "docstring": "The character of the i-th indexed representation at g is the trace of the matrix produced by the displayed auxiliary map from the group-algebra element supported at g."
     },
     {
       "temporary_id": "decl-025056",
       "new_name": "simpleRepresentatives_spec",
-      "docstring": "The selected family consists of simple representations, has no isomorphic members at distinct indices, and contains a representative of every simple finite-dimensional representation."
+      "docstring": "The indexed family consists of simple representations, has no isomorphic members at distinct indices, and contains a representative of every simple finite-dimensional representation."
     },
     {
       "temporary_id": "decl-032698",
@@ -33,8 +33,8 @@
     },
     {
       "temporary_id": "decl-032722",
-      "new_name": "FiniteGroup.sum_selected_simple_characters_mul_inv",
-      "docstring": "The sum over the selected simple representations of the character at g times the character at h⁻¹ is the centralizer order when g and h are conjugate and zero otherwise."
+      "new_name": "FiniteGroup.sum_auxiliaryFamily_characters_mul_inv",
+      "docstring": "The sum over the displayed auxiliary family of the character at g times the character at h⁻¹ is the centralizer order when g and h are conjugate and zero otherwise."
     },
     {
       "temporary_id": "decl-032732",
@@ -54,7 +54,7 @@
     {
       "temporary_id": "decl-033019",
       "new_name": "MonoidAlgebra.trace_mulLeftRight_eq_sum_matrixTrace_mul",
-      "docstring": "The trace of simultaneous left and right multiplication by group-algebra elements a and b equals the sum of the products of their matrix traces over the selected components."
+      "docstring": "The trace of simultaneous left and right multiplication by group-algebra elements a and b equals the sum of products of traces of the indexed matrices produced by the displayed auxiliary map."
     },
     {
       "temporary_id": "decl-033022",

@@ -9,12 +9,12 @@
     {
       "temporary_id": "decl-016490",
       "new_name": "FiniteGroup.exists_complete_simple_family_endomorphismRepresentation",
-      "docstring": "There is a complete pairwise nonisomorphic family of simple representations such that the componentwise postcomposition action on their endomorphisms yields a representation isomorphic to the specified finite-dimensional representation of the group."
+      "docstring": "There is a complete pairwise nonisomorphic family of simple representations such that the componentwise postcomposition action on their endomorphisms yields a representation isomorphic to the displayed auxiliary finite-dimensional representation."
     },
     {
       "temporary_id": "decl-016491",
       "new_name": "FiniteGroup.exists_complete_simple_family_coordinateRepresentation",
-      "docstring": "There is a complete pairwise nonisomorphic family of simple representations whose dimensions index a coordinatewise group action isomorphic to the specified finite-dimensional representation."
+      "docstring": "There is a complete pairwise nonisomorphic family of simple representations whose dimensions index a coordinatewise group action isomorphic to the displayed auxiliary finite-dimensional representation."
     },
     {
       "temporary_id": "decl-016492",
@@ -24,7 +24,7 @@
     {
       "temporary_id": "decl-016493",
       "new_name": "FiniteGroup.exists_positive_dimensions_sum_sq_eq_card",
-      "docstring": "For a finite group over an algebraically closed field of nonzero characteristic relative to its order, there is a finite family of positive dimensions whose squares sum to the group order."
+      "docstring": "For a finite group over an algebraically closed field in which the group order is nonzero, there is a finite family of positive natural numbers whose squares sum to the group order."
     },
     {
       "temporary_id": "decl-025059",
@@ -38,33 +38,33 @@
     },
     {
       "temporary_id": "decl-025063",
-      "new_name": "coordinateFamilyRepresentation",
-      "docstring": "The representation on the family of coordinate vectors indexed by the selected finite-dimensional representations and their dimensions."
+      "new_name": "indexedVectorFamilyRepresentation",
+      "docstring": "A representation on a family of vectors indexed by an auxiliary finite index and a second finite index."
     },
     {
       "temporary_id": "decl-025067",
-      "new_name": "coordinateFamilyRepresentation_apply",
-      "docstring": "The coordinate-family action applies the group action of the representation in each indexed component."
+      "new_name": "indexedVectorFamilyRepresentation_apply",
+      "docstring": "The indexed-vector-family action applies the group action of the representation in each component."
     },
     {
       "temporary_id": "decl-025078",
-      "new_name": "endomorphismsToCoordinateFamily",
-      "docstring": "The linear equivalence sending an indexed family of endomorphisms to its values on the standard coordinate basis."
+      "new_name": "endomorphismsEquivIndexedVectorFamily",
+      "docstring": "A linear equivalence from an indexed family of endomorphisms to a doubly indexed family of vectors."
     },
     {
       "temporary_id": "decl-025082",
-      "new_name": "endomorphismsToCoordinateFamily_apply",
-      "docstring": "Evaluating the endomorphism-to-coordinate equivalence at indices i and j gives the i-th endomorphism applied to the j-th standard basis vector."
+      "new_name": "endomorphismsEquivIndexedVectorFamily_apply",
+      "docstring": "Evaluating the displayed equivalence at indices i and j gives the i-th endomorphism applied to the j-th standard basis vector."
     },
     {
       "temporary_id": "decl-025083",
-      "new_name": "endomorphismsToCoordinateFamily_intertwines",
-      "docstring": "The equivalence from indexed endomorphisms to coordinate vectors intertwines the corresponding group actions."
+      "new_name": "endomorphismsEquivIndexedVectorFamily_intertwines",
+      "docstring": "The equivalence from indexed endomorphisms to an indexed vector family intertwines the displayed group actions."
     },
     {
       "temporary_id": "decl-025087",
-      "new_name": "algebraEquiv_apply_single",
-      "docstring": "On the group-algebra element supported at g, the i-th component of the algebra equivalence is the action of g on the i-th selected representation."
+      "new_name": "auxiliaryMap_apply_single",
+      "docstring": "Applying the displayed auxiliary map to the group-algebra element supported at g gives the action of g in each indexed component."
     },
     {
       "temporary_id": "decl-025088",
@@ -79,7 +79,7 @@
     {
       "temporary_id": "decl-025091",
       "new_name": "endomorphismFamilyRepresentation",
-      "docstring": "The representation on the indexed family of endomorphism spaces of the selected representations."
+      "docstring": "The representation on the indexed family of endomorphism spaces of the displayed auxiliary representations."
     },
     {
       "temporary_id": "decl-025098",
@@ -88,13 +88,13 @@
     },
     {
       "temporary_id": "decl-025127",
-      "new_name": "specifiedFDRepIsoAuxiliary",
-      "docstring": "An isomorphism from the specified finite-dimensional representation of the group to the first auxiliary representation associated with D."
+      "new_name": "auxiliaryFDRepIsoAuxiliary",
+      "docstring": "An isomorphism from the auxiliary finite-dimensional representation constructed from k and G to the first auxiliary representation associated with D."
     },
     {
       "temporary_id": "decl-025128",
-      "new_name": "specifiedFDRepIsoAuxiliaryPrime",
-      "docstring": "An isomorphism from the specified finite-dimensional representation of the group to the second auxiliary representation associated with D."
+      "new_name": "auxiliaryFDRepIsoAuxiliaryPrime",
+      "docstring": "An isomorphism from the auxiliary finite-dimensional representation constructed from k and G to the second auxiliary representation associated with D."
     },
     {
       "temporary_id": "decl-025172",

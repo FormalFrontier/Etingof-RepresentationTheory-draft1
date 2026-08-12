@@ -19,7 +19,7 @@
     {
       "temporary_id": "decl-016503",
       "new_name": "FiniteGroup.span_simple_characters_eq_auxiliarySubmodule",
-      "docstring": "The span of the characters of simple finite-dimensional representations equals the specified submodule of functions on the group."
+      "docstring": "The span of the characters of simple finite-dimensional representations equals the displayed auxiliary submodule of functions on the group."
     },
     {
       "temporary_id": "decl-017965",
