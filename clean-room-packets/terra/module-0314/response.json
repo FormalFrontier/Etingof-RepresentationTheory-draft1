@@ -53,33 +53,33 @@
     },
     {
       "temporary_id": "decl-023606",
-      "new_name": "auxiliaryExteriorSubmodule",
-      "docstring": "Defines an auxiliary submodule of a tensor power."
+      "new_name": "auxiliarySubmodule",
+      "docstring": "Defines an auxiliary submodule associated with a field, a module, and a natural-number index."
     },
     {
       "temporary_id": "decl-023610",
-      "new_name": "auxiliaryExteriorSubmoduleMap",
-      "docstring": "Defines the induced linear map on an auxiliary tensor-power submodule."
+      "new_name": "auxiliarySubmoduleMap",
+      "docstring": "Associates a linear endomorphism with a linear endomorphism of the auxiliary submodule."
     },
     {
       "temporary_id": "decl-023612",
-      "new_name": "auxiliaryExteriorSubmodule_mem_map",
-      "docstring": "Shows that the auxiliary submodule is stable under tensor-power maps."
+      "new_name": "piTensorProductMap_mem_auxiliarySubmodule",
+      "docstring": "Shows that the tensor-product map associated with a linear endomorphism preserves membership in the auxiliary submodule."
     },
     {
       "temporary_id": "decl-023646",
-      "new_name": "auxiliarySymmetricSubmodule",
-      "docstring": "Defines an auxiliary submodule of a tensor power."
+      "new_name": "auxiliarySubmodule'",
+      "docstring": "Defines an auxiliary submodule associated with a field, a module, and a natural-number index."
     },
     {
       "temporary_id": "decl-023649",
-      "new_name": "auxiliarySymmetricSubmoduleMap",
-      "docstring": "Defines the induced linear map on an auxiliary tensor-power submodule."
+      "new_name": "auxiliarySubmoduleMap'",
+      "docstring": "Associates a linear endomorphism with a linear endomorphism of the auxiliary submodule."
     },
     {
       "temporary_id": "decl-023651",
-      "new_name": "auxiliarySymmetricSubmodule_mem_map",
-      "docstring": "Shows that the auxiliary submodule is stable under tensor-power maps."
+      "new_name": "piTensorProductMap_mem_auxiliarySubmodule'",
+      "docstring": "Shows that the tensor-product map associated with a linear endomorphism preserves membership in the auxiliary submodule."
     },
     {
       "temporary_id": "decl-023722",

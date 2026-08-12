@@ -49,22 +49,22 @@
     {
       "temporary_id": "decl-003438",
       "new_name": "auxiliaryCharacterCriterionForFiniteCyclicGroup",
-      "docstring": "The auxiliary property of the representation associated to a cyclic character holds exactly when the character is neither trivial nor the distinguished even-order character."
+      "docstring": "An auxiliary condition on the value constructed from a cyclic character holds exactly when the character is nontrivial and differs from the specified character for every proof that two divides the order."
     },
     {
       "temporary_id": "decl-003439",
-      "new_name": "complementaryCharacterCriterionForFiniteCyclicGroup",
-      "docstring": "The complementary auxiliary property holds exactly for the trivial character or a distinguished even-order character."
+      "new_name": "auxiliaryCharacterCriterion_eq_one_or_eq_specifiedEvenOrder",
+      "docstring": "An auxiliary condition on the value constructed from a cyclic character holds exactly when the character is trivial or agrees with the specified character for some proof that two divides the order."
     },
     {
       "temporary_id": "decl-003440",
       "new_name": "auxiliaryPropertyForEvenCyclicCharacter",
-      "docstring": "The representation associated to the distinguished character of an even cyclic group has the auxiliary property."
+      "docstring": "The value constructed from the specified character for an even order satisfies the auxiliary condition."
     },
     {
       "temporary_id": "decl-003441",
       "new_name": "auxiliaryPropertyForTrivialCyclicCharacter",
-      "docstring": "The representation associated to the trivial character of a nontrivial finite cyclic group has the auxiliary property."
+      "docstring": "The value constructed from the trivial character of a positive-order finite cyclic group satisfies the auxiliary condition."
     },
     {
       "temporary_id": "decl-014765",

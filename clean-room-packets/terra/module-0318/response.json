@@ -23,17 +23,17 @@
     },
     {
       "temporary_id": "decl-003881",
-      "new_name": "inversionAction",
+      "new_name": "multiplicativeZModAction",
       "docstring": "Defines an action of multiplicative residues modulo two by automorphisms of multiplicative residues modulo N."
     },
     {
       "temporary_id": "decl-003884",
-      "new_name": "inversionAction_generator_apply",
-      "docstring": "The nontrivial residue action sends a multiplicative residue to its inverse."
+      "new_name": "multiplicativeZModAction_ofAdd_one_apply",
+      "docstring": "The action of the multiplicative image of one sends a multiplicative residue to its inverse."
     },
     {
       "temporary_id": "decl-003885",
-      "new_name": "inversionAction_one_apply",
+      "new_name": "multiplicativeZModAction_one_apply",
       "docstring": "The identity residue acts trivially on multiplicative residues."
     },
     {
@@ -43,18 +43,18 @@
     },
     {
       "temporary_id": "decl-003944",
-      "new_name": "inversionMulAut",
-      "docstring": "Defines inversion as an automorphism of multiplicative residues modulo N."
+      "new_name": "auxiliaryMulAut",
+      "docstring": "Defines an auxiliary automorphism of multiplicative residues modulo N."
     },
     {
       "temporary_id": "decl-003945",
-      "new_name": "inversionMulAut_apply",
-      "docstring": "The inversion automorphism sends each multiplicative residue to its inverse."
+      "new_name": "auxiliaryMulAut_apply",
+      "docstring": "The auxiliary automorphism sends each multiplicative residue to its inverse."
     },
     {
       "temporary_id": "decl-003946",
-      "new_name": "inversionMulAut_sq",
-      "docstring": "The square of the inversion automorphism is the identity."
+      "new_name": "auxiliaryMulAut_sq",
+      "docstring": "The square of the auxiliary automorphism is the identity."
     },
     {
       "temporary_id": "decl-003948",
