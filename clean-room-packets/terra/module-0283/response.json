@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-025225",
-      "new_name": "youngDiagramOfPartition",
-      "docstring": "Associates a Young diagram with a partition of a natural number."
+      "new_name": "auxiliaryYoungDiagramOfPartition",
+      "docstring": "Assigns an auxiliary Young diagram to each partition of a natural number."
     }
   ]
 }
