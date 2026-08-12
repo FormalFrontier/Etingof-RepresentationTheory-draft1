@@ -1,0 +1,20 @@
+{
+  "module_name": "PolynomialRepresentation.Subrepresentation",
+  "declarations": [
+    {
+      "temporary_id": "decl-005345",
+      "new_name": "subrepresentation_eq_bot_of_le_iSup",
+      "docstring": "A subrepresentation contained in the supremum of the displayed family of submodules is bottom."
+    },
+    {
+      "temporary_id": "decl-005346",
+      "new_name": "submodule_eq_bot_of_invariant_of_le_iSup",
+      "docstring": "An invariant submodule of the quotient polynomial module that lies in the displayed supremum is bottom."
+    },
+    {
+      "temporary_id": "decl-005360",
+      "new_name": "exists_negative_coordinate_of_ne_bot",
+      "docstring": "A non-bottom subrepresentation contains a nonzero vector in a displayed indexed submodule whose index has a negative coordinate."
+    }
+  ]
+}
