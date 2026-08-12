@@ -87,6 +87,7 @@ import RepresentationTheory.Module.FinrankOneSimple
 import RepresentationTheory.Module.SimpleLinearMaps
 import RepresentationTheory.Module.SimpleSubmodule
 import RepresentationTheory.ModuleTheory.ModuleCondition
+import RepresentationTheory.ModuleTheory.Idempotent
 import RepresentationTheory.ModuleEnd.OppositeRing
 import RepresentationTheory.SimpleModule.ScalarEndomorphisms
 import RepresentationTheory.MvPolynomial.QuotientProperty
