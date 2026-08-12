@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -27,3 +28,17 @@ _Second proof_ (general). The proof is by induction on $`\dim V`. The base of in
 2) $`V/W'_1` has a filtration with successive quotients $`W_1, Z_1, \ldots, Z_p` and another filtration with successive quotients $`W'_2, \ldots, W'_m`.
 
 By the induction assumption, this means that the collection of irreducible representations with multiplicities $`W_1, W'_1, Z_1, \ldots, Z_p` coincides on one hand with $`W_1, \ldots, W_n` and on the other hand with $`W'_1, \ldots, W'_m`. We are done. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter3/Theorem3.7.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.equivalent}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.exists_permutation_factorEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.length_eq}
