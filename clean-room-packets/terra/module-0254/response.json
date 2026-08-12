@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-000525",
       "new_name": "auxiliaryGeneralLinearFDRep",
-      "docstring": "Assigns a finite-dimensional representation of the general linear group to each natural-weight parameter over an algebraically closed field."
+      "docstring": "Assigns a finite-dimensional representation of the general linear group to each auxiliary parameter over an algebraically closed field."
     },
     {
       "temporary_id": "decl-000528",
@@ -29,7 +29,7 @@
     {
       "temporary_id": "decl-017169",
       "new_name": "generalLinearRepresentationOnAuxiliarySpace",
-      "docstring": "Defines the general linear group action on the first auxiliary space indexed by the parameter."
+      "docstring": "Defines the general linear group action on an auxiliary space indexed by the parameter."
     },
     {
       "temporary_id": "decl-017170",
@@ -39,27 +39,27 @@
     {
       "temporary_id": "decl-017171",
       "new_name": "auxiliaryGeneralLinearFDRep_representation_eq_auxiliaryConstruction",
-      "docstring": "Identifies the underlying auxiliary representation with the result of applying the displayed representation construction to the given monoid homomorphism and indexed representation."
+      "docstring": "Identifies the representation underlying the auxiliary finite-dimensional representation with the result of the displayed auxiliary construction."
     },
     {
       "temporary_id": "decl-017172",
       "new_name": "generalLinearRepresentationOnAuxiliarySpaceAlt",
-      "docstring": "Defines the general linear group action on the second auxiliary space determined by the indexed parameter."
+      "docstring": "Defines an alternative general linear group action on an auxiliary space determined by the indexed parameter."
     },
     {
       "temporary_id": "decl-019516",
-      "new_name": "auxiliaryGeneralLinearFDRep_invariant_eq_of_shift_eq_zero",
-      "docstring": "When the shift is zero, the polynomial assigned to the auxiliary representation agrees with the polynomial determined by its natural weight."
+      "new_name": "auxiliaryGeneralLinearFDRep_auxiliaryValue_eq_of_shift_eq_zero",
+      "docstring": "When the shift is zero, the auxiliary values formed from the finite-dimensional representation and its natural-valued weight are equal."
     },
     {
       "temporary_id": "decl-020891",
       "new_name": "isSemisimpleModule_auxiliaryRepresentationConstruction",
-      "docstring": "The auxiliary representation construction from a scalar-valued monoid homomorphism preserves semisimplicity."
+      "docstring": "The auxiliary representation construction from a unit-valued monoid homomorphism preserves semisimplicity."
     },
     {
       "temporary_id": "decl-020905",
       "new_name": "isSimpleModule_auxiliaryRepresentationConstruction",
-      "docstring": "The auxiliary representation construction from a scalar-valued monoid homomorphism preserves simplicity."
+      "docstring": "The auxiliary representation construction from a unit-valued monoid homomorphism preserves simplicity."
     }
   ]
 }

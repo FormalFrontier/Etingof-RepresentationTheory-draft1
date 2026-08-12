@@ -13,8 +13,8 @@
     },
     {
       "temporary_id": "decl-017360",
-      "new_name": "auxiliary_object_ext_parts",
-      "docstring": "Two auxiliary indexed objects are equal whenever their functions of parts are equal."
+      "new_name": "auxiliaryIndexedObject_ext_parts",
+      "docstring": "Two auxiliary indexed objects are equal whenever their `parts` functions are equal."
     },
     {
       "temporary_id": "decl-017770",
