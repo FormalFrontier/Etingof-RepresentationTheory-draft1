@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1199",
+  "associations": [
+    {
+      "association_id": "association:c49bb05decc0500c2ab4",
+      "rationale": "The displayed iff identifies algebraic closedness of a field with every polynomial of nonzero degree having a root, directly stating the source characterization.",
+      "role": "primary"
+    }
+  ]
+}

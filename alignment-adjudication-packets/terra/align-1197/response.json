@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1197",
+  "associations": [
+    {
+      "association_id": "association:74d73a0a1d62164b1473",
+      "rationale": "The displayed type supplies a LieRing structure on an associative algebra, but it does not display that the bracket is the commutator, so it supports rather than fully states the source claim.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:41eb6f5ab8f59a7b5ba2",
+      "rationale": "No formal type is displayed, so the declaration cannot directly establish the asserted commutator-bracket characterization from the packet evidence.",
+      "role": "supporting"
+    }
+  ]
+}

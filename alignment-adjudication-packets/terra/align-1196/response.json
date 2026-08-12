@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1196",
+  "associations": [
+    {
+      "association_id": "association:86daad610ea23804234a",
+      "rationale": "The displayed equivalence says that a complex number is integral over the integers exactly when some monic polynomial evaluates to zero at it, directly stating the source definition.",
+      "role": "primary"
+    }
+  ]
+}

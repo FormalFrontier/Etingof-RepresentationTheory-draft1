@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1198",
+  "associations": [
+    {
+      "association_id": "association:c2eedbf88e8753642c7c",
+      "rationale": "For a finite group and a simple finite-dimensional complex representation, the displayed conclusion states that its finrank divides the cardinality of the group, exactly matching the source claim.",
+      "role": "primary"
+    }
+  ]
+}

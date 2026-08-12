@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1201",
+  "associations": [
+    {
+      "association_id": "association:ea1534a2972fb3fad624",
+      "rationale": "The displayed theorem asserts existence of an inner-product structure for which every representation operator preserves the inner product, directly expressing existence of an invariant Hermitian form for the finite-dimensional complex representation.",
+      "role": "primary"
+    }
+  ]
+}

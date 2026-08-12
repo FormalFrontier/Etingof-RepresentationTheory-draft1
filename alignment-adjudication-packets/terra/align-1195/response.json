@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1195",
+  "associations": [
+    {
+      "association_id": "association:8caf05844b7de12f41a0",
+      "rationale": "The displayed type constructs an algebra homomorphism from the opposite algebra to k-linear endomorphisms from an existing right-module structure; it does not state the claimed equivalence or an antihomomorphism from A.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:18c3920781152460c2f3",
+      "rationale": "The displayed type only introduces an opaque RightRepresentation type from a ring and additive group, without displaying its equivalence to an opposite-algebra module or antihomomorphism.",
+      "role": "supporting"
+    }
+  ]
+}

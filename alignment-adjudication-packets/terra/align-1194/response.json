@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1194",
+  "associations": [
+    {
+      "association_id": "association:2dcf4089d57581ba0ef0",
+      "rationale": "The displayed theorem is exactly an iff between projectivity of a finite-dimensional left A-module and injectivity of its k-dual as a module over the opposite algebra.",
+      "role": "primary"
+    }
+  ]
+}
