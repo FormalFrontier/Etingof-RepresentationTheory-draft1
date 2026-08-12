@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0782",
+  "associations": [
+    {
+      "association_id": "association:17955d410ff1fe9a1207",
+      "role": "primary",
+      "rationale": "The type states that every vertex of an IsDynkinDiagram has degree at most three, directly excluding degree at least four."
+    },
+    {
+      "association_id": "association:c52d11644b481d97e381",
+      "role": "primary",
+      "rationale": "The type states that two vertices of degree three are equal, directly excluding multiple trivalent vertices."
+    }
+  ]
+}

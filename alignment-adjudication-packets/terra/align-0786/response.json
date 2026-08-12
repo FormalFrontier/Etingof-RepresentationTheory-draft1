@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0786",
+  "associations": [
+    {
+      "association_id": "association:55e2d95ac49e102d2e52",
+      "role": "primary",
+      "rationale": "The type is an iff characterizing IsAffineDynkinDiagram by equality, up to relabeling, with an affine type, directly giving the affine classification claim."
+    }
+  ]
+}

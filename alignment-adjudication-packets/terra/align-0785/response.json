@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0785",
+  "associations": [
+    {
+      "association_id": "association:fb484a09a926d4713bc7",
+      "role": "primary",
+      "rationale": "The type is an iff characterizing IsDynkinDiagram by equality, up to relabeling, with an enumerated type, directly giving the classification claim."
+    }
+  ]
+}

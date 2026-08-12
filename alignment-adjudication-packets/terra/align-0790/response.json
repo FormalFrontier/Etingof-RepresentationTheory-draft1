@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0790",
+  "associations": [
+    {
+      "association_id": "association:623f6556321b0821eb46",
+      "role": "primary",
+      "rationale": "The type directly states that finite type forces every diagonal adjacency entry to be zero, matching exclusion of loops."
+    },
+    {
+      "association_id": "association:83a31f368c44300319a5",
+      "role": "primary",
+      "rationale": "Under the displayed graph hypotheses, the type directly states finite type iff IsDynkinDiagram, matching the Dynkin conclusion."
+    }
+  ]
+}

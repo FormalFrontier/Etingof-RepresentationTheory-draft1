@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0789",
+  "associations": [
+    {
+      "association_id": "association:78b5088262f943cc0a50",
+      "role": "primary",
+      "rationale": "Given finite type and the stated graph hypotheses, the type directly concludes positive definiteness over Real."
+    }
+  ]
+}

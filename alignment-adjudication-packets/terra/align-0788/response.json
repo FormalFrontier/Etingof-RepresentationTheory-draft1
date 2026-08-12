@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0788",
+  "associations": [
+    {
+      "association_id": "association:fb0488d048b790c357f0",
+      "role": "primary",
+      "rationale": "Given finite type and the stated graph hypotheses, the type directly says the rational quadratic expression is positive for every nonzero vector."
+    }
+  ]
+}
