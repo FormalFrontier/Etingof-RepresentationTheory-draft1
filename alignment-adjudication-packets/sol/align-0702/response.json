@@ -1,0 +1,25 @@
+{
+  "packet_id": "align-0702",
+  "associations": [
+    {
+      "association_id": "association:25acb55b8c578c5fe344",
+      "rationale": "The type directly states that the scalar, skew, and traceless-symmetric subspaces form an internal direct sum in End(R3), which is the asserted decomposition.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:51a49fdbf7e1b42ad852",
+      "rationale": "The type directly supplies the one-dimensionality of the scalar summand in the stated decomposition.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:122651b06f0946fae6fe",
+      "rationale": "The type directly supplies the asserted dimension three of the skew, standard summand.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:230761fb95df8e65cbe9",
+      "rationale": "The type directly supplies the asserted dimension five of the traceless-symmetric summand.",
+      "role": "primary"
+    }
+  ]
+}

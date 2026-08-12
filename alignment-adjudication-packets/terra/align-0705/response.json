@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0705",
+  "associations": [
+    {
+      "association_id": "association:c3532dd7c2c225a9e0c7",
+      "rationale": "For an equivariant map on symSub, the theorem gives scalar actions on the scalar and traceless-symmetric summands and explicitly states that every output remains in symSub, directly covering the two moduli and stress symmetry.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:09471a8ab27286c43840",
+      "rationale": "This gives the additive formula only for an already chosen scalar-plus-traceless pair; it is a useful specialization toward the full arbitrary-strain formula and does not itself state output symmetry.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ae76dfabf04c66142efb",
+      "rationale": "The type quantifies over every strain in symSub, decomposes it into scalar and traceless-symmetric parts, and gives the two-parameter formula for its image, directly stating the Hooke-law formula on the exact domain.",
+      "role": "primary"
+    }
+  ]
+}

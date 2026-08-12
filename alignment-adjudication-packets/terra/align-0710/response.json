@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0710",
+  "associations": [
+    {
+      "association_id": "association:0e5e50e4d150b2abc6ba",
+      "rationale": "For a representation with the defining Rz generator actions, the theorem directly states that its module is simple if and only if z is not 1.",
+      "role": "primary"
+    }
+  ]
+}
