@@ -40,3 +40,5 @@ number := false
 {Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.AlgebraicClosure.zmod_charP}
 
 {Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.AlgebraicClosure.zmod_isAlgClosed}
+
+{Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.Complex.isAlgClosed}

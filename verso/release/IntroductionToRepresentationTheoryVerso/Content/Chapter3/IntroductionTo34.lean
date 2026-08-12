@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,13 @@ tag := "Chapter3/Introduction_to_3.4/heading-1"
 %%%
 
 Let $`A` be an algebra. Let $`V` be a representation of $`A`.
+
+## Formalization
+%%%
+tag := "Chapter3/Introduction_to_3.4/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Filtrations.exists_filtration_simple_quotients}
