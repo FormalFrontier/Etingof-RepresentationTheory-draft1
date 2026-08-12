@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1140",
+  "associations": [
+    {
+      "association_id": "association:aa32a9aab83b633025b3",
+      "role": "primary",
+      "rationale": "The declaration constructs a module over the opposite ring from a left module over a commutative ring, directly defining the asserted right-module structure."
+    },
+    {
+      "association_id": "association:79e69151fa03f4623f07",
+      "role": "primary",
+      "rationale": "The formal equality identifies the action of op(a) on m with the original action of a on m, exactly the rule ma := am."
+    }
+  ]
+}

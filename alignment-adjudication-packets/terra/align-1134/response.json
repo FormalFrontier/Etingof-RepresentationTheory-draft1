@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1134",
+  "associations": [
+    {
+      "association_id": "association:7d977808bc62f7250e30",
+      "role": "primary",
+      "rationale": "The formal type states that any two elements satisfying AssociativeAlgebra.IsUnit in the same possibly non-unital associative algebra are equal, exactly the asserted uniqueness."
+    }
+  ]
+}

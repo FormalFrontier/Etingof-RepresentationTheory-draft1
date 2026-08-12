@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1141",
+  "associations": [
+    {
+      "association_id": "association:b6d986e306f5bf3a99e7",
+      "role": "supporting",
+      "rationale": "The formal type concludes equality of the numbers of summands and a matched family of equivalences for two indecomposable decompositions; it does not state the source's specific injectivity claim about a comparison map or its kernel argument."
+    }
+  ]
+}

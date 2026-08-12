@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1135",
+  "associations": [
+    {
+      "association_id": "association:f9ce82f8641bec60a267",
+      "role": "primary",
+      "rationale": "The formal type states that a finite group of order p^a q^b for primes p and q is solvable, which is precisely Burnside's theorem identified as the section's subject."
+    }
+  ]
+}
