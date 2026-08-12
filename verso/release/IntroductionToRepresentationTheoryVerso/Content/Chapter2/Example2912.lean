@@ -27,6 +27,8 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux5}
+
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.lieEquiv}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.matrix_eq_aux1}

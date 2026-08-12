@@ -39,6 +39,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.Submodule.quotientModule}
 
+{Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom_mul_left_congr}
+
 {Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgebra}
 
 ### Supporting declarations
