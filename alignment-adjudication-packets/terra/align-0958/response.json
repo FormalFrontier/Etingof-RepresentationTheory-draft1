@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0958",
+  "associations": [
+    {
+      "association_id": "association:66eff63cdac550cf6043",
+      "role": "primary",
+      "rationale": "The equivariant theorem directly supplies the stated GL_N × GL_N-equivariant Peter--Weyl decomposition."
+    }
+  ]
+}

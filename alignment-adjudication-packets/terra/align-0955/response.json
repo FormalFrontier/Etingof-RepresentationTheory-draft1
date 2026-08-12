@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0955",
+  "associations": [
+    {
+      "association_id": "association:b3de5b683ce8491a58ce",
+      "role": "primary",
+      "rationale": "This declaration directly states the ±1 indicator alternative for self-dual simple representations."
+    },
+    {
+      "association_id": "association:72f38f239566311deeac",
+      "role": "primary",
+      "rationale": "This declaration directly states the zero indicator alternative for non-self-dual simple representations."
+    }
+  ]
+}

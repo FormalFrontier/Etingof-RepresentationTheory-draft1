@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0959",
+  "associations": [
+    {
+      "association_id": "association:4d285eeec618d97016ad",
+      "role": "primary",
+      "rationale": "This determinant equality directly replaces the descending-factorial alternant by the power alternant."
+    },
+    {
+      "association_id": "association:bb6923a19e7397c44859",
+      "role": "supporting",
+      "rationale": "The Specht-module rank formula uses the resulting power determinant but does not state the column-reduction equality itself."
+    }
+  ]
+}

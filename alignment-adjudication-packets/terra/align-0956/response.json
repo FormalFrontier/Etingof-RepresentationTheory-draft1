@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0956",
+  "associations": [
+    {
+      "association_id": "association:9995586b45160c9cecdb",
+      "role": "primary",
+      "rationale": "`Etingof.Equivalence` is the definition encoding a quasi-inverse and the two identity natural isomorphisms."
+    }
+  ]
+}

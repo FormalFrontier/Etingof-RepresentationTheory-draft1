@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0961",
+  "associations": [
+    {
+      "association_id": "association:ffed3d47062c52714188",
+      "role": "supporting",
+      "rationale": "Krull--Schmidt uniqueness is the later decomposition result supported by this invertible-theta and common-complement step."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0952",
+  "associations": [
+    {
+      "association_id": "association:817353af068a32537752",
+      "role": "primary",
+      "rationale": "`LieAlgebra.SpecialLinear.sl` defines the trace-zero matrix Lie algebra stated in the source."
+    },
+    {
+      "association_id": "association:abfff579bb90b1f8e2c5",
+      "role": "supporting",
+      "rationale": "`sl_bracket` gives bracket behavior for `sl`, not its trace-zero-matrix definition."
+    }
+  ]
+}
