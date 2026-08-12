@@ -18,6 +18,7 @@ namespace RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecom
 /-- The enclosing module predicate holds for every simple module. -/
 @[source_ref "Chapter2/Discussion_after_Theorem2.1.2" (role := primary),
   source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable" (role := primary),
+  source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived01" (role := primary),
   source_ref "Chapter2/Discussion_irreducible_vs_indecomposable" (role := primary)]
 theorem of_isSimpleModule (A V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] (h : IsSimpleModule A V) :
