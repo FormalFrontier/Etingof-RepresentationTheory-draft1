@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: Kim Morrison
 -/
 import RepresentationTheory.Alignment.Attribute
+import RepresentationTheory.Algebra.BasisQuotientPresentations
 import RepresentationTheory.Algebra.Lie.Dual
 import RepresentationTheory.Algebra.Lie.TensorProduct
 import RepresentationTheory.Algebra.Lie.Basic
@@ -12,6 +13,7 @@ import RepresentationTheory.Algebra.Lie.Constructions
 import RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices
 import RepresentationTheory.Algebra.Lie.ThreeDimensional
 import RepresentationTheory.Algebra.Lie.UniversalEnveloping
+import RepresentationTheory.Algebra.Lie.UniversalEnveloping.BasisPresentation
 import RepresentationTheory.Algebra.Lie.Module.Examples
 import RepresentationTheory.Algebra.Lie.Module.Predicates
 import RepresentationTheory.Algebra.Lie.PairedAuxiliaryTypes
