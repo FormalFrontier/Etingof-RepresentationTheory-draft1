@@ -49,14 +49,14 @@ variable [Field k]
 
 /-- The character of a finite-dimensional group representation belongs to the conjugation-invariant submodule. -/
 @[source_ref "Chapter4/Introduction_4.2" (role := primary)]
-theorem FDRep.character_mem_conjugationInvariantSubmodule (V : FDRep k G) :
+theorem character_mem_conjugationInvariantSubmodule (V : FDRep k G) :
     V.character ∈ conjugationInvariantSubmodule k G := by
   intro g h
   exact V.char_conj g h
 
 /-- A finite-dimensional representation character equals the referenced auxiliary map evaluated on the monoid-algebra image of a group element. -/
 @[source_ref "Chapter4/Introduction_4.2" (role := primary)]
-theorem FDRep.character_eq_auxiliaryMap_apply (V : FDRep k G) (g : G) :
+theorem character_eq_auxiliaryMap_apply (V : FDRep k G) (g : G) :
     V.character g =
       RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k (MonoidAlgebra k G)
         (Representation.asModule V.ρ) (MonoidAlgebra.of k G g) := by
