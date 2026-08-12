@@ -1,0 +1,50 @@
+{
+  "module_name": "LinearAlgebra.CentralizerSubmodule",
+  "declarations": [
+    {
+      "temporary_id": "decl-017498",
+      "new_name": "apply_directSumTensor_of_tmul",
+      "docstring": "Extends the specified formula on pure tensors in a direct-sum summand to every tensor in that summand."
+    },
+    {
+      "temporary_id": "decl-017686",
+      "new_name": "centralizerLinearMap",
+      "docstring": "Views an element of the subalgebra as a linear endomorphism over its centralizer."
+    },
+    {
+      "temporary_id": "decl-017692",
+      "new_name": "centralizerLinearMap_apply",
+      "docstring": "The centralizer-linear map associated to an element acts by that element."
+    },
+    {
+      "temporary_id": "decl-018252",
+      "new_name": "commutes_with_centralizer",
+      "docstring": "An element of the subalgebra commutes with every element of its centralizer."
+    },
+    {
+      "temporary_id": "decl-020505",
+      "new_name": "centralizerSubmodule",
+      "docstring": "The submodule over the centralizer associated to an element of the subalgebra."
+    },
+    {
+      "temporary_id": "decl-020509",
+      "new_name": "isSimpleModule_centralizerSubmodule_of_component_data",
+      "docstring": "Under the stated decomposition and component hypotheses, the associated centralizer submodule is simple."
+    },
+    {
+      "temporary_id": "decl-021583",
+      "new_name": "mem_centralizerSubmodule_iff",
+      "docstring": "Characterizes membership in the associated centralizer submodule by membership in the range of the element."
+    },
+    {
+      "temporary_id": "decl-022298",
+      "new_name": "exists_fixed_generator_of_idempotent_of_finrank_range_eq_one",
+      "docstring": "A rank-one idempotent has a nonzero fixed vector that generates its range."
+    },
+    {
+      "temporary_id": "decl-024118",
+      "new_name": "exists_tmul_eq_map_of_range_eq_span",
+      "docstring": "If a linear map has range spanned by a vector, its action on every tensor is a pure tensor with that first factor."
+    }
+  ]
+}
