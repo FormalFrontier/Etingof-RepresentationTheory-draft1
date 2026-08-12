@@ -53,6 +53,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.IsDerivation}
 
+{Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.commutatorLieRing}
+
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.derivationLieEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.derivationLieSubalgebra.bracket_apply}

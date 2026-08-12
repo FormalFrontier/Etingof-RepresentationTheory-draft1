@@ -46,3 +46,5 @@ number := false
 {Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.ZMod.card_eq_prime}
 
 {Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.ZMod.fieldOfPrime}
+
+{Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.isAlgClosed_iff_nonconstant_root}

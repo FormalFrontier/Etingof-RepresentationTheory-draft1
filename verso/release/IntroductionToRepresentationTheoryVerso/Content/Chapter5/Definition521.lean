@@ -27,3 +27,5 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.AlgebraicNumbers.PolynomialCriteria.isAlgebraic_iff_exists_ne_zero_aeval_eq_zero}
+
+{Manual.docstring RepresentationTheory.AlgebraicNumbers.PolynomialCriteria.isIntegral_iff_exists_monic_aeval_eq_zero}

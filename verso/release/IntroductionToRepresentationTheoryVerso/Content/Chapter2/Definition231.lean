@@ -46,3 +46,9 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.mul_smul}
 
 {Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.op_mul_smul}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.oppositeActionAlgHom}
+
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructureAux}
