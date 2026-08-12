@@ -99,7 +99,7 @@
     {
       "temporary_id": "decl-002617",
       "new_name": "finrank_hom_induced_auxiliary_subrepresentation_eq_character_sum",
-      "docstring": "The dimension of morphisms into the induced auxiliary subrepresentation is the normalized character sum weighted by the displayed auxiliary statistic minus one."
+      "docstring": "The dimension of morphisms into the induced auxiliary subrepresentation is the normalized character sum weighted by one less than the displayed auxiliary statistic."
     },
     {
       "temporary_id": "decl-002618",
@@ -154,7 +154,7 @@
     {
       "temporary_id": "decl-002664",
       "new_name": "character_auxiliary_signed_statistic_representation",
-      "docstring": "The character of the auxiliary signed-statistic representation is the permutation sign times the displayed auxiliary statistic minus one."
+      "docstring": "The character of the auxiliary signed-statistic representation is the permutation sign multiplied by one less than the displayed auxiliary statistic."
     },
     {
       "temporary_id": "decl-002676",
