@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:93c36e763ae2bfc5bd2c",
-      "role": "supporting",
-      "rationale": "The formal type establishes analogous exactness for a subcomplex and quotient using the concrete connecting map, a construction-level route supporting the general stated result."
+      "role": "primary",
+      "rationale": "The formal type directly asserts exactness of the three consecutive map pairs for a subcomplex, its quotient, and the concrete connecting map, so it states the resulting long-sequence exactness claim."
     }
   ]
 }
