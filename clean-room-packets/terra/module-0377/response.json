@@ -3,43 +3,43 @@
   "declarations": [
     {
       "temporary_id": "decl-001485",
-      "new_name": "permutationFiber",
-      "docstring": "A type indexed by a natural number, a finitely supported exponent function, and a permutation."
+      "new_name": "PermutationIndexedAuxiliary",
+      "docstring": "An auxiliary type indexed by a natural number, a finitely supported Nat-valued function on the corresponding finite type, and a permutation of that finite type."
     },
     {
       "temporary_id": "decl-005699",
-      "new_name": "weightPairFiber",
-      "docstring": "A type indexed by two natural-valued functions on a finite index type."
+      "new_name": "FunctionPairIndexedAuxiliary",
+      "docstring": "An auxiliary type indexed by a natural number and two Nat-valued functions on the corresponding finite type."
     },
     {
       "temporary_id": "decl-017369",
-      "new_name": "pairedExponent",
-      "docstring": "A finitely supported exponent on the displayed two-sided index type associated to two weight functions."
+      "new_name": "auxiliaryFinsupp",
+      "docstring": "An auxiliary finitely supported Nat-valued function on the displayed index type associated to two Nat-valued functions."
     },
     {
       "temporary_id": "decl-017372",
-      "new_name": "pairedExponent_apply_left",
-      "docstring": "The paired exponent has the first weight as its coefficient on a left index."
+      "new_name": "auxiliaryFinsupp_apply_inl",
+      "docstring": "The auxiliary finitely supported function evaluated at `Sum.inl i` equals the value of the first Nat-valued function at `i`."
     },
     {
       "temporary_id": "decl-017373",
-      "new_name": "pairedExponent_apply_right",
-      "docstring": "The paired exponent has the second weight as its coefficient on a right index."
+      "new_name": "auxiliaryFinsupp_apply_inr",
+      "docstring": "The auxiliary finitely supported function evaluated at `Sum.inr j` equals the value of the second Nat-valued function at `j`."
     },
     {
       "temporary_id": "decl-017777",
-      "new_name": "pairedExponent_coeff_auxiliary_eq_one_of_injective_eq",
-      "docstring": "Under injectivity and pointwise equality of the weights, the coefficient at the displayed auxiliary exponent is one."
+      "new_name": "auxiliaryFinsupp_coeff_auxiliaryIndex_eq_one_of_injective_eq",
+      "docstring": "For injective Nat-valued functions that are pointwise equal, the coefficient indexed by the auxiliary finitely supported function in the displayed auxiliary object is one."
     },
     {
       "temporary_id": "decl-017780",
-      "new_name": "pairedExponent_coeff_auxiliary_eq_signed_permutation_sum",
-      "docstring": "Expresses the indicated coefficient as a signed sum over permutations satisfying a pointwise equality condition."
+      "new_name": "auxiliaryFinsupp_coeff_auxiliaryIndex_eq_signed_permutation_sum",
+      "docstring": "The indicated coefficient indexed by the auxiliary finitely supported function equals the signed sum over permutations satisfying the displayed pointwise equality."
     },
     {
       "temporary_id": "decl-018020",
-      "new_name": "auxiliaryPolynomial_coeff_eq_permutationFiber_card",
-      "docstring": "The coefficient of the displayed auxiliary polynomial is the cardinality of the corresponding permutation fiber."
+      "new_name": "auxiliaryPolynomial_coeff_eq_card_permutationIndexedAuxiliary",
+      "docstring": "The coefficient of the displayed auxiliary polynomial is the cardinality of the corresponding permutation-indexed auxiliary type."
     },
     {
       "temporary_id": "decl-018024",
@@ -48,13 +48,13 @@
     },
     {
       "temporary_id": "decl-018353",
-      "new_name": "auxiliaryDefinition_eq_pairedExponent_self",
-      "docstring": "Identifies the displayed auxiliary definition with the paired exponent formed from a weight function twice."
+      "new_name": "auxiliaryDefinition_eq_auxiliaryFinsupp_self",
+      "docstring": "The displayed auxiliary definition equals the auxiliary finitely supported function formed from the same Nat-valued function in both arguments."
     },
     {
       "temporary_id": "decl-018443",
-      "new_name": "sum_permutationFiber_card_mul_eq_factorial_mul_weightPairFiber_card",
-      "docstring": "Relates a sum of products of permutation-fiber cardinalities to a factorial times a weight-pair-fiber cardinality."
+      "new_name": "sum_card_permutationIndexedAuxiliary_mul_eq_factorial_mul_card_functionPairIndexedAuxiliary",
+      "docstring": "If each of two finitely supported Nat-valued functions has total sum equal to `n`, the sum of products of cardinalities of their permutation-indexed auxiliary types equals `n!` times the cardinality of their function-pair-indexed auxiliary type."
     },
     {
       "temporary_id": "decl-019719",
@@ -63,33 +63,33 @@
     },
     {
       "temporary_id": "decl-019721",
-      "new_name": "pairedExponent_coeff_auxiliaryPowerSeries_eq_weightPairFiber_card_of_le",
-      "docstring": "When every first weight is bounded by the index size, this coefficient equals the cardinality of the weight-pair fiber."
+      "new_name": "auxiliaryFinsupp_coeff_auxiliaryPowerSeries_eq_card_functionPairIndexedAuxiliary_of_le",
+      "docstring": "When every value of the first Nat-valued function is at most `n`, the coefficient indexed by the auxiliary finitely supported function in the auxiliary power series equals the cardinality of the function-pair-indexed auxiliary type."
     },
     {
       "temporary_id": "decl-020612",
-      "new_name": "permutationFiberFintype",
-      "docstring": "Provides a finite-type structure for each permutation fiber."
+      "new_name": "permutationIndexedAuxiliaryFintype",
+      "docstring": "Provides a `Fintype` structure on each permutation-indexed auxiliary type."
     },
     {
       "temporary_id": "decl-020614",
-      "new_name": "weightPairFiberFintype",
-      "docstring": "Provides a finite-type structure for each weight-pair fiber."
+      "new_name": "functionPairIndexedAuxiliaryFintype",
+      "docstring": "Provides a `Fintype` structure on each function-pair-indexed auxiliary type."
     },
     {
       "temporary_id": "decl-022152",
-      "new_name": "sum_auxiliaryPolynomial_coeff_mul_eq_factorial_mul_pairedExponent_coeff",
-      "docstring": "Relates a sum of products of auxiliary-polynomial coefficients to a factorial times an indicated paired-exponent coefficient."
+      "new_name": "sum_auxiliaryPolynomial_coeff_mul_eq_factorial_mul_auxiliaryFinsupp_coeff",
+      "docstring": "If each of two finitely supported Nat-valued functions has total sum equal to `n`, the sum of products of the indicated auxiliary-polynomial coefficients equals `n!` times the auxiliary-Finsupp-indexed coefficient in the auxiliary power series."
     },
     {
       "temporary_id": "decl-024476",
       "new_name": "double_signed_permutation_sum_eq_one_of_injective",
-      "docstring": "For an injective weight function, the displayed double signed permutation sum is one."
+      "docstring": "For an injective Nat-valued function, the displayed double signed permutation sum is one."
     },
     {
       "temporary_id": "decl-024477",
       "new_name": "double_signed_permutation_sum_eq_indicator_of_strictAnti",
-      "docstring": "For strictly antitone weight functions, the displayed double signed permutation sum equals their equality indicator."
+      "docstring": "For strictly antitone Nat-valued functions, the displayed double signed permutation sum equals their equality indicator."
     }
   ]
 }
