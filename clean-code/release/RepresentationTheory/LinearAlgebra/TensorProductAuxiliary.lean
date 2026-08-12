@@ -46,6 +46,7 @@ lemma tensorCoordinateLinearMap_diagonalTensorAux (i j : Fin 2) :
   fin_cases i <;> fin_cases j <;> norm_num
 
 /-- The selected tensor is not equal to any pure tensor formed from two vectors. -/
+@[source_ref "Chapter2/Discussion_pure_tensors" (role := primary)]
 theorem diagonalTensorAux_ne_tmul (v w : TwoCoordinateSpaceAux) :
     diagonalTensorAux ≠ v ⊗ₜ[ℚ] w := by
   intro h
@@ -83,6 +84,7 @@ abbrev PairedPowerSpaceAux (k V : Type*) [CommRing k] [AddCommGroup V] [Module k
 
 /-- Constructs a basis indexed by pairs of finite coordinate functions from a basis of the
 underlying vector space. -/
+@[source_ref "Chapter2/Discussion_tensors_type" (role := supporting)]
 noncomputable def pairedPowerSpaceAux_basis {k V ι : Type*} [Field k] [AddCommGroup V]
     [Module k V] [Finite ι] (b : Module.Basis ι k V) (m n : ℕ) :
     Module.Basis ((Fin n → ι) × (Fin m → ι)) k (PairedPowerSpaceAux k V m n) := by

@@ -19,6 +19,7 @@ abbrev ModulePairDatum (A : Type*) (V₁ V₂ : Type*) [Ring A]
   V₁ ≃ₗ[A] V₂
 
 /-- A further type of data attached to two modules with the same scalars. -/
+@[source_ref "Chapter2/Definition2.3.6" (role := supporting)]
 abbrev ModulePairWitness (A : Type*) (V₁ V₂ : Type*) [Ring A]
     [AddCommGroup V₁] [AddCommGroup V₂] [Module A V₁] [Module A V₂] :=
   V₁ →ₗ[A] V₂
