@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -15,3 +16,17 @@ tag := "Chapter2/Problem2.4.1"
 number := false
 %%%
 **Problem 2.4.1.** A **maximal** ideal in a ring $`A` is an ideal $`I \neq A` such that any strictly larger ideal coincides with $`A`. (This definition is made for left, right, or two-sided ideals.) Show that any unital ring has a maximal left, right, and two-sided ideal. (Hint: Use Zorn's lemma.)
+
+## Formalization
+%%%
+tag := "Chapter2/Problem2.4.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Ring.CoatomExistence.exists_coatom_subobject}
+
+{Manual.docstring RepresentationTheory.Ring.CoatomExistence.exists_coatom_subobject_aux1}
+
+{Manual.docstring RepresentationTheory.Ring.CoatomExistence.exists_coatom_subobject_aux2}
