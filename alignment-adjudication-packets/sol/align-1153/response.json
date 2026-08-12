@@ -18,8 +18,8 @@
     },
     {
       "association_id": "association:388b235f3f7e92d4b17c",
-      "role": "primary",
-      "rationale": "The iff directly characterizes isomorphism of complementary-series representations by equality up to complementaryCharFrobenius, i.e. the stated Frobenius-orbit classification."
+      "role": "supporting",
+      "rationale": "The displayed iff gives the Frobenius-orbit criterion for isomorphism of two complementary-series representations, but not the source's canonical exhaustive representative family or its cardinality, so it supplies only constituent classification evidence."
     },
     {
       "association_id": "association:04994ad5fde03c4b97e4",
