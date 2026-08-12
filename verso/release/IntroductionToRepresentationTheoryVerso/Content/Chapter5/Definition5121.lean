@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -26,3 +27,21 @@ We can define two subgroups of $`S_n` corresponding to $`T_\lambda`:
 2. The column subgroup $`Q_\lambda`: the subgroup which maps every element of $`\{1, \ldots, n\}` into an element standing in the same column in $`T_\lambda`.
 
 Clearly, $`P_\lambda \cap Q_\lambda = \{1\}`.
+
+## Formalization
+%%%
+tag := "Chapter5/Definition5.12.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionTarget}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.chosenAuxiliaryPartitionSource}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.chosenAuxiliaryPartitionTarget}
