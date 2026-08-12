@@ -20,6 +20,7 @@ import RepresentationTheory.Algebra.Lie.PairedAuxiliaryTypes
 import RepresentationTheory.Algebra.TensorProduct.MatrixProductEquivalence
 import RepresentationTheory.Algebra.TensorProduct.Quotient
 import RepresentationTheory.Algebra.TensorProduct.ScalarExtension
+import RepresentationTheory.Algebra.Quiver.LinearRepresentationCategory
 import RepresentationTheory.Algebra.Quiver.Representation.Constructions
 import RepresentationTheory.Algebra.CenterAction
 import RepresentationTheory.Algebra.FieldCommRing
