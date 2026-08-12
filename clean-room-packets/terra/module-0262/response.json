@@ -1,5 +1,5 @@
 {
-  "module_name": "GeneralLinear.WeightSpaceDimensions",
+  "module_name": "GeneralLinear.AuxiliaryPolynomialEmbedding",
   "declarations": [
     {
       "temporary_id": "decl-001145",
@@ -18,28 +18,28 @@
     },
     {
       "temporary_id": "decl-001149",
-      "new_name": "coeff_diagonalAction",
-      "docstring": "Under the coordinate diagonal action, each polynomial coefficient is scaled by the unit raised to the corresponding column sum."
+      "new_name": "coeff_auxiliaryAction",
+      "docstring": "Under the displayed action at a coordinate-indexed auxiliary group element, each polynomial coefficient is scaled by the corresponding power of the unit."
     },
     {
       "temporary_id": "decl-001150",
-      "new_name": "finrank_weightSubmodule_eq_card_auxiliaryMatrixExponentFinset",
-      "docstring": "The dimension of the indicated weight submodule equals the cardinality of the auxiliary matrix-exponent set."
+      "new_name": "finrank_auxiliarySubmodule_eq_card_auxiliaryMatrixExponentFinset",
+      "docstring": "The dimension of the indicated auxiliary submodule equals the cardinality of the auxiliary matrix-exponent set."
     },
     {
       "temporary_id": "decl-001151",
-      "new_name": "finrank_weightSubmodule",
-      "docstring": "The weight-submodule dimension is the displayed product of binomial coefficients when the total weight is the degree, and zero otherwise."
+      "new_name": "finrank_auxiliarySubmodule",
+      "docstring": "The auxiliary-submodule dimension is the displayed product of binomial coefficients when the index sum is the degree, and zero otherwise."
     },
     {
       "temporary_id": "decl-001152",
       "new_name": "auxiliaryPolynomial_coeff",
-      "docstring": "A coefficient of the polynomial associated to the degree representation is the displayed binomial product when its total degree matches, and zero otherwise."
+      "docstring": "A coefficient of the auxiliary polynomial for the displayed indexed representation is the stated binomial product when its total degree matches, and zero otherwise."
     },
     {
       "temporary_id": "decl-001153",
-      "new_name": "map_weightSubmodule_auxiliaryPolynomialEmbedding",
-      "docstring": "The image of a weight submodule under the auxiliary polynomial embedding is spanned by monomials from the corresponding exponent set."
+      "new_name": "map_auxiliarySubmodule_auxiliaryPolynomialEmbedding",
+      "docstring": "The image of the indicated auxiliary submodule under the auxiliary polynomial embedding is spanned by monomials from the corresponding exponent set."
     },
     {
       "temporary_id": "decl-001154",
@@ -48,8 +48,8 @@
     },
     {
       "temporary_id": "decl-001157",
-      "new_name": "mem_weightSubmodule_iff_diagonalAction_auxiliaryPolynomialEmbedding",
-      "docstring": "Weight-submodule membership is equivalent to the embedded polynomial scaling by each coordinate unit to the prescribed exponent."
+      "new_name": "mem_auxiliarySubmodule_iff_auxiliaryPolynomialEmbedding_action",
+      "docstring": "Membership in the auxiliary submodule is equivalent to the embedded polynomial scaling by the prescribed power under each displayed coordinate-indexed action."
     },
     {
       "temporary_id": "decl-001161",
@@ -64,12 +64,12 @@
     {
       "temporary_id": "decl-001165",
       "new_name": "auxiliaryPolynomialEmbedding",
-      "docstring": "An auxiliary linear map from the degree representation into matrix-variable multivariate polynomials."
+      "docstring": "An auxiliary linear map from the displayed indexed representation into matrix-variable multivariate polynomials."
     },
     {
       "temporary_id": "decl-001166",
       "new_name": "auxiliaryPolynomialEmbedding_injective",
-      "docstring": "The auxiliary polynomial map from the degree representation is injective."
+      "docstring": "The auxiliary polynomial map from the displayed indexed representation is injective."
     },
     {
       "temporary_id": "decl-001167",
@@ -83,8 +83,8 @@
     },
     {
       "temporary_id": "decl-001169",
-      "new_name": "diagonalAction_monomial",
-      "docstring": "A coordinate diagonal element scales a monomial by the unit raised to the corresponding column sum."
+      "new_name": "auxiliaryAction_monomial",
+      "docstring": "The displayed action at a coordinate-indexed auxiliary group element scales a monomial by the unit raised to the corresponding column sum."
     },
     {
       "temporary_id": "decl-001170",

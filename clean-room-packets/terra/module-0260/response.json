@@ -1,5 +1,5 @@
 {
-  "module_name": "GeneralLinear.GradedQuotient",
+  "module_name": "GeneralLinear.AuxiliaryPolynomialQuotient",
   "declarations": [
     {
       "temporary_id": "decl-001072",
@@ -13,7 +13,7 @@
     },
     {
       "temporary_id": "decl-001088",
-      "new_name": "homogeneousComponent_groupAction",
+      "new_name": "homogeneousComponent_auxiliaryAction",
       "docstring": "Taking a homogeneous component commutes with the displayed general linear group action on multivariate polynomials."
     },
     {
@@ -28,33 +28,33 @@
     },
     {
       "temporary_id": "decl-001124",
-      "new_name": "auxiliaryGradedProjection",
-      "docstring": "An auxiliary degree-indexed linear endomorphism of the displayed polynomial quotient."
+      "new_name": "auxiliaryLinearEndomorphism",
+      "docstring": "An auxiliary natural-number-indexed linear endomorphism of the displayed polynomial quotient."
     },
     {
       "temporary_id": "decl-001126",
-      "new_name": "auxiliaryGradedProjection_groupAction",
-      "docstring": "The auxiliary graded projection commutes with the general linear group action on the quotient."
+      "new_name": "auxiliaryLinearEndomorphism_commutes_action",
+      "docstring": "The auxiliary linear endomorphism commutes with the displayed general linear group action on the quotient."
     },
     {
       "temporary_id": "decl-001127",
-      "new_name": "auxiliaryGradedProjection_eq_self_of_mem",
-      "docstring": "The degree projection fixes every element of the matching auxiliary subrepresentation."
+      "new_name": "auxiliaryLinearEndomorphism_eq_self_of_mem",
+      "docstring": "The auxiliary linear endomorphism fixes each element of the correspondingly indexed auxiliary subrepresentation."
     },
     {
       "temporary_id": "decl-001128",
-      "new_name": "auxiliaryGradedProjection_mem",
-      "docstring": "The image of the degree projection belongs to the corresponding auxiliary subrepresentation."
+      "new_name": "auxiliaryLinearEndomorphism_mem",
+      "docstring": "The image of the auxiliary linear endomorphism belongs to the correspondingly indexed auxiliary subrepresentation."
     },
     {
       "temporary_id": "decl-001129",
-      "new_name": "auxiliaryGradedProjection_mk",
-      "docstring": "On a quotient class, the degree projection is represented by the matching homogeneous component."
+      "new_name": "auxiliaryLinearEndomorphism_mk",
+      "docstring": "On a quotient class, the auxiliary linear endomorphism is represented by the correspondingly indexed homogeneous component."
     },
     {
       "temporary_id": "decl-001130",
-      "new_name": "auxiliaryGradedProjection_eq_zero_of_mem_ne",
-      "docstring": "The degree projection vanishes on an auxiliary subrepresentation of a different degree."
+      "new_name": "auxiliaryLinearEndomorphism_eq_zero_of_mem_ne",
+      "docstring": "The auxiliary linear endomorphism at one index vanishes on an auxiliary subrepresentation at a distinct index."
     }
   ]
 }
