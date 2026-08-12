@@ -1,0 +1,130 @@
+{
+  "declarations": [
+    {
+      "docstring": "Auxiliary predicate on partitions of a natural number.",
+      "new_name": "auxiliaryPartitionPredicate",
+      "temporary_id": "decl-005280"
+    },
+    {
+      "docstring": "Under the auxiliary restriction of a complex permutation representation, the degree-m comparison element acts as the degree-(m+1) auxiliary element.",
+      "new_name": "auxiliaryRepresentationRestriction_apply_auxiliaryElement",
+      "temporary_id": "decl-017254"
+    },
+    {
+      "docstring": "The auxiliary partition predicate holds exactly when the integer-valued statistic is constant on all associated degree-m partitions.",
+      "new_name": "exists_constant_partitionStatistic_iff_auxiliaryPartitionPredicate",
+      "temporary_id": "decl-018188"
+    },
+    {
+      "docstring": "Rotation on `Fin (m + 1)` sends the cast of `k : Fin m` to its successor.",
+      "new_name": "finRotate_apply_castSucc",
+      "temporary_id": "decl-019390"
+    },
+    {
+      "docstring": "The monoid homomorphism lifting permutations of `Fin m` to permutations of `Fin (m + 1)` while fixing zero.",
+      "new_name": "fixZeroPermutationHom",
+      "temporary_id": "decl-021951"
+    },
+    {
+      "docstring": "The zero-fixing permutation lift is the conjugate of the last-fixing lift by rotation.",
+      "new_name": "fixZeroPermutationHom_eq_rotate_mul_fixLast_mul_rotate_inv",
+      "temporary_id": "decl-021953"
+    },
+    {
+      "docstring": "The zero-fixing lift sends the successor of an index to the successor of its image.",
+      "new_name": "fixZeroPermutationHom_apply_succ",
+      "temporary_id": "decl-021954"
+    },
+    {
+      "docstring": "The zero-fixing lift of a transposition is the transposition of the corresponding successor indices.",
+      "new_name": "fixZeroPermutationHom_apply_swap",
+      "temporary_id": "decl-021955"
+    },
+    {
+      "docstring": "Every zero-fixing permutation lift sends zero to zero.",
+      "new_name": "fixZeroPermutationHom_apply_zero",
+      "temporary_id": "decl-021959"
+    },
+    {
+      "docstring": "The last-fixing lift sends a cast index to the cast of its image.",
+      "new_name": "fixLastPermutationHom_apply_castSucc",
+      "temporary_id": "decl-021962"
+    },
+    {
+      "docstring": "Every last-fixing permutation lift fixes the last index.",
+      "new_name": "fixLastPermutationHom_apply_last",
+      "temporary_id": "decl-021963"
+    },
+    {
+      "docstring": "The auxiliary restricted partition coefficient is one on associated partitions and zero otherwise.",
+      "new_name": "auxiliaryRestrictedPartitionCoefficient_eq_indicator",
+      "temporary_id": "decl-022592"
+    },
+    {
+      "docstring": "Auxiliary construction restricting a complex representation of permutations of `Fin (m + 1)` to permutations of `Fin m`.",
+      "new_name": "auxiliaryRepresentationRestriction",
+      "temporary_id": "decl-022690"
+    },
+    {
+      "docstring": "A partition evaluation has the same value on the zero-fixing and last-fixing lifts of a permutation.",
+      "new_name": "partitionEvaluation_fixZero_eq_fixLast",
+      "temporary_id": "decl-023319"
+    },
+    {
+      "docstring": "Evaluating a partition at a zero-fixing lift equals the sum of the lower-degree evaluations over its associated partitions.",
+      "new_name": "partitionEvaluation_fixZero_eq_sum_associated",
+      "temporary_id": "decl-023322"
+    },
+    {
+      "docstring": "In the auxiliary partition representation, applying an algebra element to a supported vector agrees with multiplication by that element.",
+      "new_name": "auxiliaryPartitionRepresentation_apply_eq_mul",
+      "temporary_id": "decl-023334"
+    },
+    {
+      "docstring": "An auxiliary element of the degree-n algebra, available when n is nonzero.",
+      "new_name": "auxiliaryDegreeElement",
+      "temporary_id": "decl-023498"
+    },
+    {
+      "docstring": "The auxiliary degree-(m+1) element acts by one scalar on the partition-supported subspace exactly when the partition statistic is constant on all associated degree-m partitions.",
+      "new_name": "auxiliaryDegreeElement_scalarAction_iff_constant_partitionStatistic",
+      "temporary_id": "decl-023500"
+    },
+    {
+      "docstring": "For a fixed complex scalar, scalar action by the auxiliary degree-(m+1) element on the partition-supported subspace is equivalent to equality of every associated partition statistic with that scalar.",
+      "new_name": "auxiliaryDegreeElement_scalarAction_iff_partitionStatistic_eq",
+      "temporary_id": "decl-023501"
+    },
+    {
+      "docstring": "A second auxiliary element of the degree-n algebra, available when n is nonzero.",
+      "new_name": "secondaryAuxiliaryDegreeElement",
+      "temporary_id": "decl-023502"
+    },
+    {
+      "docstring": "The secondary auxiliary degree element has a scalar action on the partition-supported subspace exactly when the auxiliary partition predicate holds.",
+      "new_name": "secondaryAuxiliaryDegreeElement_scalarAction_iff_auxiliaryPartitionPredicate",
+      "temporary_id": "decl-023504"
+    },
+    {
+      "docstring": "In a finite-dimensional complex permutation representation, the secondary auxiliary degree element has an eigenbasis, and each eigenvalue is an integer between `1 - n` and `n - 1`.",
+      "new_name": "secondaryAuxiliaryDegreeElement_eigenbasis_and_eigenvalue_bounds",
+      "temporary_id": "decl-023506"
+    },
+    {
+      "docstring": "The secondary auxiliary degree element is the difference of the comparison element and the auxiliary degree element.",
+      "new_name": "secondaryAuxiliaryDegreeElement_eq_comparison_sub_auxiliary",
+      "temporary_id": "decl-023511"
+    },
+    {
+      "docstring": "Every eigenvalue of the secondary auxiliary element in a finite-dimensional complex degree-(m+1) permutation representation is an integer.",
+      "new_name": "secondaryAuxiliaryDegreeElement_eigenvalue_is_integer",
+      "temporary_id": "decl-023515"
+    },
+    {
+      "docstring": "For a partition with r copies of c, the secondary auxiliary degree element acts on every supported vector by the scalar `c - r`.",
+      "new_name": "secondaryAuxiliaryDegreeElement_apply_replicatedParts",
+      "temporary_id": "decl-023517"
+    }
+  ],
+  "module_name": "PermutationPartitionActions"
+}
