@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-020474",
-      "new_name": "supremum_weight_indexed_terms_eq_top_of_diagonal_basis",
-      "docstring": "A basis diagonalized with the prescribed coordinate exponents makes the supremum of the displayed weight-indexed terms equal to top."
+      "new_name": "supremum_indexed_family_eq_top_of_diagonal_basis",
+      "docstring": "If the displayed basis vectors scale by the prescribed coordinate exponents, the supremum of the displayed indexed family is top."
     },
     {
       "temporary_id": "decl-020774",
@@ -14,7 +14,7 @@
     {
       "temporary_id": "decl-021495",
       "new_name": "nonempty_intertwining_map_from_transformed_dual",
-      "docstring": "Under the componentwise bound on the natural weight, there exists a map from the displayed transformation of the dual representation to the displayed target representation satisfying the shown equivariance equation."
+      "docstring": "Under the displayed componentwise bound, there exists a map from the displayed transformation of the dual satisfying the shown commuting equation for every group element and dual vector."
     }
   ]
 }
