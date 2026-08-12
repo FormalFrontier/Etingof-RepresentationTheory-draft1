@@ -18,15 +18,24 @@ def module_path(root: Path, module: str) -> Path:
     return root / (module.replace(".", "/") + ".lean")
 
 
-def canonical_reference(source_node: dict) -> str:
+def canonical_reference(source_node: dict, derived_ordinal: int | None = None) -> str:
     """Return the stable public reference for one private source claim.
 
-    Directly formalized claims cite their containing item.  Claims classified as
-    covered elsewhere retain their within-item identity with ``DerivedN`` when
-    they are not the first claim.  This is the convention used by the clean
-    release and prevents two distinct proof claims from collapsing to one
-    attribute with conflicting roles.
+    Partition nodes cite their item directly, while standalone derived nodes use
+    the stable ``DerivedNN`` overlay identity within their parent item.  Claims
+    classified as covered elsewhere retain their within-item identity with
+    ``DerivedN`` when they are not the first claim.  This convention prevents
+    distinct proof claims from collapsing to one attribute with conflicting
+    roles.
     """
+
+    kind = source_node["kind"]
+    if kind == "partition":
+        return source_node["item_id"]
+    if kind == "derived":
+        if derived_ordinal is None:
+            raise ValueError("derived source node requires an ordinal")
+        return f"{source_node['parent_item_id']}/Derived{derived_ordinal:02d}"
 
     reference = source_node["item_id"]
     if source_node["verdict"] != "formalized" and source_node["ordinal"] > 1:
@@ -48,9 +57,19 @@ def main() -> None:
         for row in read_jsonl(args.proposals)
         if row.get("new_fqn")
     }
-    source_nodes = {
-        row["source_node"]: row for row in read_jsonl(args.source_nodes)
-    }
+    source_node_rows = read_jsonl(args.source_nodes)
+    source_nodes = {row["source_node"]: row for row in source_node_rows}
+    source_references: dict[str, str] = {}
+    derived_counts: dict[str, int] = {}
+    for row in source_node_rows:
+        derived_ordinal = None
+        if row["kind"] == "derived":
+            parent = row["parent_item_id"]
+            derived_counts[parent] = derived_counts.get(parent, 0) + 1
+            derived_ordinal = derived_counts[parent]
+        source_references[row["source_node"]] = canonical_reference(
+            row, derived_ordinal
+        )
 
     errors: list[str] = []
     # Multiple private source claims can intentionally project to the same
@@ -68,7 +87,7 @@ def main() -> None:
         if source_node is None:
             errors.append(f"missing source node {edge['source_node']}")
             continue
-        key = (proposal["new_fqn"], canonical_reference(source_node))
+        key = (proposal["new_fqn"], source_references[edge["source_node"]])
         role = edge["role"]
         if role == "primary" or key not in expected_by_reference:
             expected_by_reference[key] = role
