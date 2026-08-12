@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:748412e31bb7469f2a1c",
+      "rationale": "This directly equates the path-algebra Cartan matrix with the path-count matrix, with the displayed acyclicity and projective-cover conditions.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0872"
+}

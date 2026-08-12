@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:10dbaf35509fdde305de",
+      "rationale": "For objects in blocks with unlinked simple representatives, this makes every Hom space subsingleton, directly expressing its vanishing.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0875"
+}

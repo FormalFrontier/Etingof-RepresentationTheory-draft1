@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:be33235479bc8d8b5024",
+      "rationale": "This directly states the natural isomorphism between G composed with F and the identity functor on finite B-modules.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0879"
+}

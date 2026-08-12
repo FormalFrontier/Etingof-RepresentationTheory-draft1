@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:e734bba46dc40756dc70",
+      "rationale": "This directly proves that every component of the displayed evaluation transformation is an epimorphism.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:72e0585119025ee22a62",
+      "rationale": "This directly constructs the evaluation natural transformation from F composed with G to the identity.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0880"
+}

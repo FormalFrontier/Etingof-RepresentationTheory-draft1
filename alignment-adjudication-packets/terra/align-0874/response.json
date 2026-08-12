@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:506de0625c957748097d",
+      "rationale": "This is an unrestricted module-category equivalence, while the source specifically identifies the finite-dimensional block category.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:36c406dffa570233d1f6",
+      "rationale": "This directly gives the equivalence of finite-length subcategories for the corner algebra and the specified block.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0874"
+}
