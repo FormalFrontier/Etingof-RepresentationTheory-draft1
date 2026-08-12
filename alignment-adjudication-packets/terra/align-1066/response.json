@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1066",
+  "associations": [
+    {
+      "association_id": "association:a385821e7275318b2e54",
+      "rationale": "The type directly states that, on an indecomposable finite-dimensional representation, a finite sum of nilpotent endomorphisms is nilpotent.",
+      "role": "primary"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1063",
+  "associations": [
+    {
+      "association_id": "association:69476c15fc6e0d25f9ca",
+      "rationale": "Under surjectivity of the sink map, the type directly gives an isomorphism from the two opposite reflections back to the original representation.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:fa1815c1480a0cc75dbb",
+      "rationale": "Under injectivity of the source map, the type directly gives an isomorphism from the two opposite reflections back to the original representation.",
+      "role": "primary"
+    }
+  ]
+}

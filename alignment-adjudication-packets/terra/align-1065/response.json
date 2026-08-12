@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1065",
+  "associations": [
+    {
+      "association_id": "association:7be6a884260716901653",
+      "rationale": "The displayed type only returns a submodule; it does not state that this submodule is the span of elements xy - yx.",
+      "role": "supporting"
+    }
+  ]
+}

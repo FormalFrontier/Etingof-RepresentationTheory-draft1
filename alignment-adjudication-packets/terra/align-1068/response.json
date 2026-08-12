@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1068",
+  "associations": [
+    {
+      "association_id": "association:9c5d474fb9445d08bb0f",
+      "rationale": "The theorem includes existence of an indecomposable for every positive root and uniqueness up to representation isomorphism for that dimension vector.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:d46b96244da1a9bb0947",
+      "rationale": "The type directly pairs existence for each positive root with uniqueness up to isomorphism among indecomposables having that dimension vector.",
+      "role": "primary"
+    }
+  ]
+}
