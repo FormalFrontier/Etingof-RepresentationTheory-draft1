@@ -1,0 +1,30 @@
+{
+  "module_name": "GL.Weights",
+  "declarations": [
+    {
+      "temporary_id": "decl-005318",
+      "new_name": "coe_mem_weightSubmodule_of_mem",
+      "docstring": "A coercion from the indicated subtype sends a vector in the given weight submodule to a vector in the corresponding target weight submodule."
+    },
+    {
+      "temporary_id": "decl-005319",
+      "new_name": "mem_range_algebraMap_of_weight_and_span_stable",
+      "docstring": "If a finite family of weight vectors has a span stable under the general linear group action, then every member of the family lies in the image of the displayed algebra map."
+    },
+    {
+      "temporary_id": "decl-005321",
+      "new_name": "exists_polynomial_eval_action_of_weight_and_span_stable",
+      "docstring": "Under the stated weight and span-stability assumptions, the action on each polynomial in the family is given by evaluating a polynomial in the entries of every invertible matrix."
+    },
+    {
+      "temporary_id": "decl-005322",
+      "new_name": "exists_polynomial_eval_apply_of_weight_and_span_stable",
+      "docstring": "Under the stated weight and span-stability assumptions, the value of each family member at an invertible matrix is obtained by evaluating a polynomial in that matrix's entries."
+    },
+    {
+      "temporary_id": "decl-005323",
+      "new_name": "mem_weightSpace_iff_forall_diagonal_apply_eq_smul",
+      "docstring": "A vector belongs to the specified weight space exactly when every one-coordinate diagonal unit acts by the scalar prescribed by that weight."
+    }
+  ]
+}
