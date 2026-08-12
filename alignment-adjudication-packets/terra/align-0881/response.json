@@ -1,0 +1,20 @@
+{
+  "associations": [
+    {
+      "association_id": "association:89ef06283ca69482f62c",
+      "rationale": "States that the kernel of the evaluation map is zero, the kernel-argument component rather than the evaluation-isomorphism claim itself.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bb08cca0cd13ad2f18e1",
+      "rationale": "Directly defines an equivalence with the stated explicit balanced-tensor quasi-inverse role.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:dc00ad72581b44c10904",
+      "rationale": "Directly states that the displayed comparison morphism is an isomorphism, matching evaluation being an isomorphism.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0881"
+}

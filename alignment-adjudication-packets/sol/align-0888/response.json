@@ -1,0 +1,25 @@
+{
+  "associations": [
+    {
+      "association_id": "association:9f2064e744c619bccaf9",
+      "rationale": "Directly states that tensoring by the dual Lie representation is left adjoint to tensoring by the representation.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:556a197263e4cc8c149f",
+      "rationale": "Directly states the reverse Lie-representation adjunction, giving the other adjoint.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:86705783e50c6240da02",
+      "rationale": "Directly states that tensoring by the dual group representation is left adjoint to tensoring by the representation.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:6be242f79dba826a6e31",
+      "rationale": "Directly states the reverse group-representation adjunction, giving the other adjoint.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0888"
+}

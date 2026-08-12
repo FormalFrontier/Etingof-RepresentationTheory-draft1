@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:ecc4b16fbb098fa2be0b",
+      "rationale": "Directly states that the filtration chain's head is bottom, matching that the first term is the zero subrepresentation.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0887"
+}

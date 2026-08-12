@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:2e0bef2a5722b6eec71b",
+      "rationale": "Defines the finite-quiver representation type, which supplies context but does not itself define the stated graph notion.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:85cb5a5de57a3e775939",
+      "rationale": "Its displayed type only introduces a quiver-definition type and does not directly state finiteness, orientations, loops, or multiple edges.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-0886"
+}

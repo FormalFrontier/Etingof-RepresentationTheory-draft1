@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:2b58e153748ecea932ae",
+      "rationale": "Directly states that every simple symmetric-group module is equivalent to a Specht module, expressing exhaustion of irreducibles.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-0883"
+}
