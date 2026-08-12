@@ -28,6 +28,7 @@ import RepresentationTheory.Algebra.Quiver.Representation.Constructions
 import RepresentationTheory.Algebra.CenterAction
 import RepresentationTheory.Algebra.FieldCommRing
 import RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity
+import RepresentationTheory.Algebra.Module.BalancedTensorProduct
 import RepresentationTheory.Algebra.Module.BasisExpansion
 import RepresentationTheory.Algebra.Module.CommutativeOppositeScalars
 import RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence
