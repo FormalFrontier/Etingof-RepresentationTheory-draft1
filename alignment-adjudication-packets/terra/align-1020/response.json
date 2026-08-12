@@ -1,0 +1,1 @@
+{"packet_id":"align-1020","associations":[{"association_id":"association:6652a3eded4aeba1906f","role":"supporting","rationale":"The displayed formal type is only an opaque carrier type for the algebra."},{"association_id":"association:2e130dd2fac45a957736","role":"supporting","rationale":"It states the defining commutation relation but not the quotient presentation itself."}]}
