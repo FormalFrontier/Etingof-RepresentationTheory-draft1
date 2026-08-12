@@ -1,0 +1,165 @@
+{
+  "module_name": "PrimeFieldShearCharacters",
+  "declarations": [
+    {
+      "temporary_id": "decl-003842",
+      "new_name": "AuxiliaryType",
+      "docstring": "An auxiliary type indexed by a prime natural number."
+    },
+    {
+      "temporary_id": "decl-003891",
+      "new_name": "pairAddChar",
+      "docstring": "A unit-valued additive character on pairs of residues, parametrized by two residues."
+    },
+    {
+      "temporary_id": "decl-003893",
+      "new_name": "pairUnitChar",
+      "docstring": "A unit-valued monoid homomorphism on multiplicative pairs of residues determined by two parameters."
+    },
+    {
+      "temporary_id": "decl-003894",
+      "new_name": "pairUnitChar_apply",
+      "docstring": "The pair character at a residue pair is the distinguished unit raised to the corresponding weighted exponent."
+    },
+    {
+      "temporary_id": "decl-003895",
+      "new_name": "pairUnitChar_val",
+      "docstring": "The complex value of the pair character is the primitive additive character of the weighted coordinate sum."
+    },
+    {
+      "temporary_id": "decl-003896",
+      "new_name": "pairUnitChar_comp_shearAction",
+      "docstring": "Precomposition by an inverse shear replaces the first character parameter by its difference with the shear parameter times the second."
+    },
+    {
+      "temporary_id": "decl-003897",
+      "new_name": "pairUnitChar_shearInvariant_iff",
+      "docstring": "A pair character is invariant under every inverse shear exactly when its second parameter is zero."
+    },
+    {
+      "temporary_id": "decl-003899",
+      "new_name": "pairUnitChar_parameters_eq",
+      "docstring": "Equal pair characters have equal first and second parameters."
+    },
+    {
+      "temporary_id": "decl-003900",
+      "new_name": "pairUnitChar_injective",
+      "docstring": "The parametrization of pair characters by pairs of residues is injective."
+    },
+    {
+      "temporary_id": "decl-003901",
+      "new_name": "pairUnitChar_shearStabilizer_eq_one",
+      "docstring": "A pair character with nonzero second parameter has trivial stabilizer under inverse shears."
+    },
+    {
+      "temporary_id": "decl-003902",
+      "new_name": "exists_pairUnitChar_eq",
+      "docstring": "Every unit-valued monoid homomorphism on multiplicative residue pairs is represented by two residue parameters."
+    },
+    {
+      "temporary_id": "decl-003903",
+      "new_name": "auxiliaryMulEquiv",
+      "docstring": "An auxiliary multiplicative equivalence between the indicated prime-indexed types."
+    },
+    {
+      "temporary_id": "decl-003907",
+      "new_name": "auxiliaryMulEquiv_apply",
+      "docstring": "The auxiliary equivalence sends an element to the semidirect-product element built from its three displayed components."
+    },
+    {
+      "temporary_id": "decl-003908",
+      "new_name": "weightedCoordinateHom",
+      "docstring": "The additive homomorphism taking a pair of residues to a weighted sum of its coordinates."
+    },
+    {
+      "temporary_id": "decl-003909",
+      "new_name": "weightedCoordinateHom_apply",
+      "docstring": "The weighted coordinate homomorphism evaluates to the sum of the two coefficient-coordinate products."
+    },
+    {
+      "temporary_id": "decl-003910",
+      "new_name": "primitiveAddChar",
+      "docstring": "A complex-valued additive character on residues modulo a prime."
+    },
+    {
+      "temporary_id": "decl-003911",
+      "new_name": "primitiveAddChar_apply",
+      "docstring": "The additive character at a residue is the distinguished complex unit raised to its natural representative."
+    },
+    {
+      "temporary_id": "decl-003912",
+      "new_name": "primitiveAddChar_isPrimitive",
+      "docstring": "The complex-valued additive character on prime residues is primitive."
+    },
+    {
+      "temporary_id": "decl-003913",
+      "new_name": "residuePairMulAut",
+      "docstring": "A multiplicative automorphism of multiplicative residue pairs associated with a residue parameter."
+    },
+    {
+      "temporary_id": "decl-003917",
+      "new_name": "residuePairMulAut_add",
+      "docstring": "The automorphism associated with a sum of parameters is the product of the corresponding automorphisms."
+    },
+    {
+      "temporary_id": "decl-003918",
+      "new_name": "residuePairMulAut_zero",
+      "docstring": "The automorphism associated with the zero parameter is the identity."
+    },
+    {
+      "temporary_id": "decl-003919",
+      "new_name": "primitiveRootUnit",
+      "docstring": "A complex unit forming a primitive root of prime order."
+    },
+    {
+      "temporary_id": "decl-003923",
+      "new_name": "primitiveRootUnit_pow_prime",
+      "docstring": "The distinguished complex unit raised to the prime exponent is one."
+    },
+    {
+      "temporary_id": "decl-003924",
+      "new_name": "primitiveRootUnit_val_isPrimitiveRoot",
+      "docstring": "The complex value of the distinguished unit is a primitive root of the prime order."
+    },
+    {
+      "temporary_id": "decl-003925",
+      "new_name": "primitiveRootUnit_isPrimitiveRoot",
+      "docstring": "The distinguished complex unit is a primitive root of the prime order."
+    },
+    {
+      "temporary_id": "decl-003926",
+      "new_name": "auxiliaryType_exists_simpleRepresentatives",
+      "docstring": "There is a complete nonisomorphic family of simple representations of the auxiliary type, with dimensions one or the prime and with the specified counts."
+    },
+    {
+      "temporary_id": "decl-003927",
+      "new_name": "auxiliaryGroup_exists_simpleRepresentatives",
+      "docstring": "There is a complete nonisomorphic family of simple representations of the auxiliary group, with prime-square one-dimensional members and one fewer than the prime of prime dimension."
+    },
+    {
+      "temporary_id": "decl-003935",
+      "new_name": "auxiliaryGroup_exists_simpleRepresentatives_with_models",
+      "docstring": "A complete family of simple representations of the auxiliary group has the stated dimension counts and is represented by the displayed one-dimensional and prime-dimensional models."
+    },
+    {
+      "temporary_id": "decl-003938",
+      "new_name": "sum_pairUnitChar_shear",
+      "docstring": "Summing a pair character along all shears yields the original value multiplied by the prime when the indicated product vanishes, and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-003939",
+      "new_name": "shearAction",
+      "docstring": "The monoid homomorphism from multiplicative residues to automorphisms of multiplicative residue pairs given by shears."
+    },
+    {
+      "temporary_id": "decl-003942",
+      "new_name": "shearAction_apply",
+      "docstring": "A shear fixes the first coordinate and adds the parameter times the first coordinate to the second."
+    },
+    {
+      "temporary_id": "decl-003943",
+      "new_name": "primeFact_neZero",
+      "docstring": "A natural number equipped with a primality fact is nonzero."
+    }
+  ]
+}
