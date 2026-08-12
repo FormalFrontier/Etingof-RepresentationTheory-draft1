@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:92da9501d71cf141f137",
-      "rationale": "The equality of the Lie span of xb and yb with top directly states that the images of x and y generate g_n as a Lie algebra.",
-      "role": "primary"
+      "rationale": "The type states that the Lie span of the opaque elements xb and yb is top, but it does not itself identify them as the images of x and y from the source claim.",
+      "role": "supporting"
     }
   ]
 }
