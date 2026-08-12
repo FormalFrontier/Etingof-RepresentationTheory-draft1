@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0647",
+  "associations": [
+    {
+      "association_id": "association:fcbf5547df50d9c199fa",
+      "rationale": "The formal type directly states that split A-linear maps exhibiting the base change of V as a direct summand of the base change of W yield split A-linear maps exhibiting V as a direct summand of W.",
+      "role": "primary"
+    }
+  ]
+}

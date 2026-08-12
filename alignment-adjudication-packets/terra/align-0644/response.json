@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0644",
+  "associations": [
+    {
+      "association_id": "association:fccffe660f3718f44191",
+      "rationale": "Given an equivalence after extension to L, the formal type directly produces a finitely generated K-subalgebra R of L over which the corresponding scalar extensions are already equivalent.",
+      "role": "primary"
+    }
+  ]
+}

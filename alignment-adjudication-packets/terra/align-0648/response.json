@@ -1,0 +1,20 @@
+{
+  "packet_id": "align-0648",
+  "associations": [
+    {
+      "association_id": "association:3958346a8ab97f0d41a8",
+      "rationale": "From split maps after extension to L, the formal type produces a finitely generated K-subalgebra R carrying split maps, supplying the descent step of the stated proof strategy.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6f868932522fe91abb56",
+      "rationale": "For a finite field extension, the formal type turns a split base-changed pair of maps into a split pair over A; it packages the finite-extension consequence rather than stating the full descent-specialization-cancellation strategy.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9faa02f2f704429c73a1",
+      "rationale": "The displayed formal type is a positive-n implication between split-map existentials and does not display finite powers, so it can only support the claimed power-cancellation step.",
+      "role": "supporting"
+    }
+  ]
+}
