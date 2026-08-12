@@ -88,6 +88,7 @@ import RepresentationTheory.Module.CompositionData
 import RepresentationTheory.Module.CompositionSeriesLength
 import RepresentationTheory.Module.DistinguishedElement
 import RepresentationTheory.Module.DualOppositeAction
+import RepresentationTheory.Module.EndomorphismEvaluation
 import RepresentationTheory.Module.FinrankOneSimple
 import RepresentationTheory.Module.SimpleLinearMaps
 import RepresentationTheory.Module.SimpleSubmodule
