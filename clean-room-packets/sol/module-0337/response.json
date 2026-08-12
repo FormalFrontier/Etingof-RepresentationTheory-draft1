@@ -1,0 +1,140 @@
+{
+  "module_name": "FiniteFieldUnitClassDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-024847",
+      "new_name": "Auxiliary.classPredicateAlpha",
+      "docstring": "Auxiliary alpha-class predicate on finite-field units"
+    },
+    {
+      "temporary_id": "decl-024849",
+      "new_name": "Auxiliary.classPredicateBeta",
+      "docstring": "Auxiliary beta-class predicate on finite-field units"
+    },
+    {
+      "temporary_id": "decl-024850",
+      "new_name": "Auxiliary.classPredicateGamma",
+      "docstring": "Auxiliary gamma-class predicate on finite-field units"
+    },
+    {
+      "temporary_id": "decl-024851",
+      "new_name": "Auxiliary.classPredicateDelta",
+      "docstring": "Auxiliary delta-class predicate on finite-field units"
+    },
+    {
+      "temporary_id": "decl-024868",
+      "new_name": "card_classPredicateAlpha",
+      "docstring": "Alpha-class cardinality q^2 * (q - 1)^2 / 2 for q = |GaloisField p n|"
+    },
+    {
+      "temporary_id": "decl-024874",
+      "new_name": "card_classPredicateBeta",
+      "docstring": "Beta-class cardinality (q - 1) * (q^2 - 1) for q = |GaloisField p n|"
+    },
+    {
+      "temporary_id": "decl-024881",
+      "new_name": "card_classPredicateGamma",
+      "docstring": "Gamma-class cardinality q - 1 for q = |GaloisField p n|"
+    },
+    {
+      "temporary_id": "decl-024885",
+      "new_name": "card_classPredicateDelta",
+      "docstring": "Delta-class cardinality (q - 1) * (q - 2) * q * (q + 1) / 2 for q = |GaloisField p n|"
+    },
+    {
+      "temporary_id": "decl-024911",
+      "new_name": "classPredicates_exhaustive",
+      "docstring": "Exhaustive four-way auxiliary-class decomposition"
+    },
+    {
+      "temporary_id": "decl-024912",
+      "new_name": "classPredicates_exactlyOne",
+      "docstring": "Exactly-one form of the four-way auxiliary-class decomposition"
+    },
+    {
+      "temporary_id": "decl-024913",
+      "new_name": "classPredicates_mutuallyExclusive",
+      "docstring": "Mutual exclusivity of the four auxiliary class predicates"
+    },
+    {
+      "temporary_id": "decl-024918",
+      "new_name": "Auxiliary.entryDiscriminant",
+      "docstring": "Auxiliary finite-field value associated with a unit's matrix entries"
+    },
+    {
+      "temporary_id": "decl-024922",
+      "new_name": "entryDiscriminant_eq",
+      "docstring": "Entry discriminant formula (g00 - g11)^2 + 4 * g01 * g10"
+    },
+    {
+      "temporary_id": "decl-024923",
+      "new_name": "entryDiscriminant_eq_zero_of_classPredicateGamma",
+      "docstring": "Vanishing entry discriminant for the gamma class"
+    },
+    {
+      "temporary_id": "decl-024958",
+      "new_name": "not_classPredicateAlpha_of_classPredicateBeta",
+      "docstring": "Exclusion of the alpha class by the beta class"
+    },
+    {
+      "temporary_id": "decl-024959",
+      "new_name": "not_classPredicateDelta_of_classPredicateBeta",
+      "docstring": "Exclusion of the delta class by the beta class"
+    },
+    {
+      "temporary_id": "decl-024969",
+      "new_name": "classPredicateGamma_iff_matrixEntries",
+      "docstring": "Gamma-class characterization by zero off-diagonal entries and equal diagonal entries"
+    },
+    {
+      "temporary_id": "decl-024971",
+      "new_name": "not_classPredicateAlpha_of_classPredicateGamma",
+      "docstring": "Exclusion of the alpha class by the gamma class"
+    },
+    {
+      "temporary_id": "decl-024972",
+      "new_name": "not_classPredicateBeta_of_classPredicateGamma",
+      "docstring": "Exclusion of the beta class by the gamma class"
+    },
+    {
+      "temporary_id": "decl-024973",
+      "new_name": "not_classPredicateDelta_of_classPredicateGamma",
+      "docstring": "Exclusion of the delta class by the gamma class"
+    },
+    {
+      "temporary_id": "decl-024976",
+      "new_name": "not_classPredicateAlpha_of_classPredicateDelta",
+      "docstring": "Exclusion of the alpha class by the delta class"
+    },
+    {
+      "temporary_id": "decl-024982",
+      "new_name": "mem_one_classPredicateFilter",
+      "docstring": "Membership in at least one of the four auxiliary class filters"
+    },
+    {
+      "temporary_id": "decl-025020",
+      "new_name": "sum_eq_sum_classPredicateFilters",
+      "docstring": "Finite sum decomposition across the four auxiliary class filters"
+    },
+    {
+      "temporary_id": "decl-032889",
+      "new_name": "Auxiliary.decidableClassPredicateAlpha",
+      "docstring": "Decidability of the auxiliary alpha-class predicate"
+    },
+    {
+      "temporary_id": "decl-032890",
+      "new_name": "Auxiliary.decidableClassPredicateBeta",
+      "docstring": "Decidability of the auxiliary beta-class predicate"
+    },
+    {
+      "temporary_id": "decl-032891",
+      "new_name": "Auxiliary.decidableClassPredicateGamma",
+      "docstring": "Decidability of the auxiliary gamma-class predicate"
+    },
+    {
+      "temporary_id": "decl-032892",
+      "new_name": "Auxiliary.decidableClassPredicateDelta",
+      "docstring": "Decidability of the auxiliary delta-class predicate"
+    }
+  ]
+}
