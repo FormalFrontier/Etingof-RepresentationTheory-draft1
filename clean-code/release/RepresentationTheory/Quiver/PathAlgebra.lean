@@ -326,6 +326,7 @@ theorem unop_opOfPath (x : Quiver.BundledPath Q) :
   rfl
 
 /-- Multiplying opposite-algebra basis elements associated to composable paths represents their composite. -/
+@[source_ref "Chapter2/Definition2.8.4" (role := primary)]
 theorem opOfPath_mul_opOfPath {a b c : Q} (p : Quiver.Path a b) (q : Quiver.Path b c) :
     opOfPath (k := k) (⟨b, c, q⟩ : Quiver.BundledPath Q) *
         opOfPath (k := k) (⟨a, b, p⟩ : Quiver.BundledPath Q) =

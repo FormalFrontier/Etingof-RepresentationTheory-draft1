@@ -12,7 +12,8 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.LinearAlgebra.ProductModules
 
 /-- A type constructor taking two type arguments. -/
-@[source_ref "Chapter2/Definition2.3.7" (role := supporting)]
+@[source_ref "Chapter2/Definition2.3.7" (role := supporting),
+  source_ref "Chapter2/Discussion_2.1_overview/Derived7" (role := primary)]
 abbrev BinaryTypeConstructor (V₁ V₂ : Type*) := V₁ × V₂
 
 /-- Scalar multiplication on a pair acts componentwise. -/

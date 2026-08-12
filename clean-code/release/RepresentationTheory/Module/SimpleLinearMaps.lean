@@ -30,6 +30,7 @@ theorem linearMap_surjective_of_ne_zero_to_simple
   LinearMap.surjective_of_ne_zero hφ
 
 /-- A nonzero linear map between simple modules is bijective. -/
+@[source_ref "Chapter2/Proposition2.3.9" (role := primary)]
 theorem linearMap_bijective_of_ne_zero_between_simple
     {R : Type*} [Ring R]
     {V₁ : Type*} [AddCommGroup V₁] [Module R V₁] [IsSimpleModule R V₁]

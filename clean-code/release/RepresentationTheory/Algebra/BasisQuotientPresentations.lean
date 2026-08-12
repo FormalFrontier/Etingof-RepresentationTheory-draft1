@@ -78,6 +78,7 @@ noncomputable def SymmetricAlgebra.relationModelEquivMvPolynomial
   SymmetricAlgebra.equivMvPolynomial_ι_apply b i
 
 /-- A chosen basis identifies the exterior relation model with the exterior algebra on finitely supported coordinates. -/
+@[source_ref "Chapter2/Definition2.12.1" (role := primary)]
 noncomputable def ExteriorAlgebra.relationModelEquivFinsupp
     (V : Type v) [AddCommGroup V] [Module k V]
     {ι : Type w} (b : Module.Basis ι k V) :
