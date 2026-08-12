@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1072",
+  "associations": [
+    {
+      "association_id": "association:bc9906ed9888e548354a",
+      "role": "primary",
+      "rationale": "The formal type directly equates the number of conjugacy classes of the displayed GL2 group with the square of the displayed field cardinality minus one, under its stated hypotheses."
+    }
+  ]
+}

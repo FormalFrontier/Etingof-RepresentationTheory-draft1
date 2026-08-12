@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1074",
+  "associations": [
+    {
+      "association_id": "association:a54acb79a8fcbad1c6ad",
+      "role": "supporting",
+      "rationale": "The displayed type produces a RelSeries from a filtration, but it does not state that every filtration term is a subrepresentation of V."
+    }
+  ]
+}

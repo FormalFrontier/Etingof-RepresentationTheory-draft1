@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1076",
+  "associations": [
+    {
+      "association_id": "association:9d63b7094c2fdf4fe5ac",
+      "role": "supporting",
+      "rationale": "The formal type concludes that the character value is zero or the action is scalar under a coprimality assumption; it does not state the claimed Bezout and integrality argument."
+    }
+  ]
+}

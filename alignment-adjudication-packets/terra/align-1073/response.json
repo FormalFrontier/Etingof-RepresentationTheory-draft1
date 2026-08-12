@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1073",
+  "associations": [
+    {
+      "association_id": "association:7d438ed6c5be47a8d70a",
+      "role": "supporting",
+      "rationale": "The displayed type only constructs a Type from ring and module data; it does not show that the elements of that type are representation homomorphisms."
+    }
+  ]
+}
