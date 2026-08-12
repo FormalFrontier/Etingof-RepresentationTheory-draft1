@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -28,3 +29,13 @@ is surjective by the density theorem, so $`\chi_{V_1}, \ldots, \chi_{V_r}` are l
 
 By semisimplicity, we can write $`A = \operatorname{Mat}_{d_1}(k) \oplus \cdots \oplus \operatorname{Mat}_{d_r}(k)`. Then $`[A, A] = \mathfrak{sl}_{d_1}(k) \oplus \cdots \oplus \mathfrak{sl}_{d_r}(k)`, and $`A/[A, A] \cong k^r`. By Theorem
 3.3.1, there are exactly $`r` irreducible representations of $`A` (isomorphic to $`k^{d_1}, \ldots, k^{d_r}`, respectively) and therefore $`r` linearly independent characters on the $`r`-dimensional vector space $`A/[A, A]`. Thus, the characters form a basis. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter3/Theorem3.6.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.linearIndependent_moduleDualElement}

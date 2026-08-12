@@ -42,3 +42,5 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.exists_permutation_factorEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.length_eq}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.linearIndependent_moduleDualElement}

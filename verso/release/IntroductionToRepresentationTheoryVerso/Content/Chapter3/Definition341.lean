@@ -25,4 +25,6 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.Module.CompositionData.ModuleCompositionData.toRelSeries_head}
+
 {Manual.docstring RepresentationTheory.Module.CompositionData.ModuleCompositionData.toRelSeries_last}

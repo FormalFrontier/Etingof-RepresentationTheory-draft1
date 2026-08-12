@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -23,3 +24,13 @@ $$`(A/[A, A])^* \cong \{\varphi \in \operatorname{Hom}_k(k[G], k) \mid gh - hg \
 $$`\cong \{f \in F(G, k) \mid f(gh) = f(hg) \ \forall g, h \in G\},`
 
 which is precisely $`F_c(G, k)`. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter4/Theorem4.2.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.mem_span_moduleDualElement_of_commutes_mul}

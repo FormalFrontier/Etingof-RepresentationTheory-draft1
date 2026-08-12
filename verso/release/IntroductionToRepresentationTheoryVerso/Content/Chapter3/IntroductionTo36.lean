@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,19 @@ Let $`A` be an algebra and $`V` a finite dimensional representation of $`A` with
 $$`\chi_V(a) = \operatorname{Tr}|_V(\rho(a)).`
 
 If $`[A, A]` is the span of commutators $`[x, y] := xy - yx` over all $`x, y \in A`, then $`[A, A] \subseteq \ker \chi_V`. Thus, we may view the character as a mapping $`\chi_V : A/[A, A] \to k`.
+
+## Formalization
+%%%
+tag := "Chapter3/Introduction_to_3.6/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Trace.CommutatorQuotient.traceOnCommutatorQuotient}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement}
+
+{Manual.docstring RepresentationTheory.Algebra.Trace.CommutatorQuotient.traceOnCommutatorQuotient_mk}
