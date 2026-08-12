@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0637",
+  "associations": [
+    {
+      "association_id": "association:7ac3c8f62b30e583a122",
+      "rationale": "The formal type gives an overall equivalence of V with finitely many standard modules, but it does not state a decomposition by the diagonal matrix-unit images.",
+      "role": "supporting"
+    }
+  ]
+}

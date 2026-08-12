@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0638",
+  "associations": [
+    {
+      "association_id": "association:b0ad0c59973025f589cb",
+      "rationale": "The formal type gives an equivalence of V to finitely many standard modules and does not mention multiplication by E_i1 or identify the E_11 and E_ii images.",
+      "role": "supporting"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-0639",
+  "associations": [
+    {
+      "association_id": "association:3fb0b8a81433ac6d4c50",
+      "rationale": "The formal type classifies the whole finite-dimensional module as finitely many standard copies; it does not construct S(v), place v in it, or identify that subrepresentation with the standard module.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ea2a17b905f1adb9737f",
+      "rationale": "The formal type identifies an entire finite-dimensional simple module with the standard module, not the subrepresentation S(v) described in the source.",
+      "role": "supporting"
+    }
+  ]
+}

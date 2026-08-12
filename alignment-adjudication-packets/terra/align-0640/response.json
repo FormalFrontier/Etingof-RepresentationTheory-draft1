@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0640",
+  "associations": [
+    {
+      "association_id": "association:b69a94ed96022d322738",
+      "rationale": "The formal type gives an existence-level equivalence of V with finitely many standard copies, but it does not state that a basis of E_11 V yields the specific direct sum of the subrepresentations S(v_i).",
+      "role": "supporting"
+    }
+  ]
+}

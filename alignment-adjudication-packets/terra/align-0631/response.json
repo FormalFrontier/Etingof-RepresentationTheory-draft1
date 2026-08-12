@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0631",
+  "associations": [
+    {
+      "association_id": "association:63819edf5082216b7df5",
+      "rationale": "The formal type is an iff between simplicity over the product ring and existence of an index whose idempotent range is simple while every other range is bottom, directly stating the source criterion.",
+      "role": "primary"
+    }
+  ]
+}

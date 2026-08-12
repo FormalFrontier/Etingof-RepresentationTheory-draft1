@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0634",
+  "associations": [
+    {
+      "association_id": "association:93aea0921099db195bdc",
+      "rationale": "For a finite-dimensional simple module over the d-by-d matrix algebra, the formal type directly provides a linear equivalence to Fin d to k.",
+      "role": "primary"
+    }
+  ]
+}
