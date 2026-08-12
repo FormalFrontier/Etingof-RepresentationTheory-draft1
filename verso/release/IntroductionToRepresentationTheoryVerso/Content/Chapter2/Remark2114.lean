@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -26,3 +27,23 @@ v \otimes (w_1 + w_2) - v \otimes w_1 - v \otimes w_2,
 $$`
 va \otimes w - v \otimes aw, \quad a \in A.
 `
+
+## Formalization
+%%%
+tag := "Chapter2/Remark2.11.4/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.BalancedTensorProduct.add_left}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.BalancedTensorProduct.add_right}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.BalancedTensorProduct.op_smul_left_eq_smul_right}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.BalancedTensorProduct}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.BalancedTensorProduct.mk}

@@ -26,3 +26,7 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.auxiliaryDecompositionPredicate_iff_auxiliaryDecompositionPredicate'}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate'}

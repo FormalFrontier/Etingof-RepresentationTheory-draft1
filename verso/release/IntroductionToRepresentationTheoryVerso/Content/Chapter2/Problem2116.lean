@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -48,3 +49,13 @@ f \mapsto (w \otimes_B v \mapsto f(v) w)
 `
 
 for all $`v \in V`, $`w \in W` and $`f \in \operatorname{Hom}_B(V, \operatorname{Hom}_C(W, X))`.
+
+## Formalization
+%%%
+tag := "Chapter2/Problem2.11.6/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.BalancedTensorProduct}
