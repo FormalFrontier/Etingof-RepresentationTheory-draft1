@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0859",
+  "associations": [
+    {
+      "association_id": "association:6bede3703157e7d22892",
+      "role": "primary",
+      "rationale": "The declaration directly identifies the algebra's Cartan matrix with the explicit 2 by 2 matrix whose four entries are 1."
+    }
+  ]
+}

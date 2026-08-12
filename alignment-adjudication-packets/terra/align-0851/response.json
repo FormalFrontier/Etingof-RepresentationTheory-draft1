@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0851",
+  "associations": [
+    {
+      "association_id": "association:c1c9432d548a386692a3",
+      "role": "primary",
+      "rationale": "The declaration gives explicit additive-equivalence formulas for Tor in degrees 0 and 1 for arbitrary finitely generated abelian groups, and states all degrees at least 2 are subsingleton."
+    }
+  ]
+}

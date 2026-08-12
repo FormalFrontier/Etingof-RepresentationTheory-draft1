@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0858",
+  "associations": [
+    {
+      "association_id": "association:750df956a99e6edcca33",
+      "role": "primary",
+      "rationale": "The declaration universally asserts existence of an object equipped with IsProgenerator in every finite abelian category."
+    }
+  ]
+}

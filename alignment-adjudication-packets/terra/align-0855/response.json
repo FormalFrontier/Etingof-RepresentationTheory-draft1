@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0855",
+  "associations": [
+    {
+      "association_id": "association:cbd796a25e79656cb51a",
+      "role": "primary",
+      "rationale": "The declaration directly proves that dualDistrib for the two infinite Finsupp modules is not surjective, furnishing the asserted degree-zero obstruction to the literal Ext formula."
+    }
+  ]
+}

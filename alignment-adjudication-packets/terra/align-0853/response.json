@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0853",
+  "associations": [
+    {
+      "association_id": "association:314ca47e6f72bdeefb24",
+      "role": "primary",
+      "rationale": "The declaration explicitly computes Tor for arbitrary finitely generated k[x]-modules via PID-decomposition formulas in degrees 0 and 1, with all higher degrees subsingleton."
+    }
+  ]
+}

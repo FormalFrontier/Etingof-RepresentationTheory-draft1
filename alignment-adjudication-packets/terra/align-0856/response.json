@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0856",
+  "associations": [
+    {
+      "association_id": "association:1db19ca654ed84c86f03",
+      "role": "primary",
+      "rationale": "The declaration directly states a Tor Kunneth isomorphism over the tensor-product algebra, identifying degree i with the direct sum of tensor products of the component Tor groups in complementary degrees."
+    }
+  ]
+}

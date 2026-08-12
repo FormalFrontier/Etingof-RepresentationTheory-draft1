@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0857",
+  "associations": [
+    {
+      "association_id": "association:1bc728157803f24430c3",
+      "role": "primary",
+      "rationale": "For a projective object, the declaration is exactly the equivalence between being a progenerator and having a nonzero map to every simple object."
+    }
+  ]
+}

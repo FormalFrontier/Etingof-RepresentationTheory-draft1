@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-0852",
+  "associations": [
+    {
+      "association_id": "association:165fbf2d84fb10f36988",
+      "role": "primary",
+      "rationale": "For arbitrary finitely generated k[x]-modules, the declaration supplies Ext degree-0 and degree-1 descriptions from PID decompositions and vanishing in every degree at least 2."
+    }
+  ]
+}
