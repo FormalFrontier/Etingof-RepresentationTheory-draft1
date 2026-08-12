@@ -2,8 +2,8 @@
   "associations": [
     {
       "association_id": "association:b6885c12cee28f19a5ba",
-      "rationale": "The formal type directly states that the family carrier Fin N to Complex has finrank N, matching the n-dimensional part of the claim.",
-      "role": "primary"
+      "rationale": "The formal type states that the generic carrier Fin N to Complex has finrank N, but it does not itself identify that carrier with V(alpha,beta) or its q-Weyl action, so it only supports the family's dimension claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:bdf93b7746a8b4fe5fdd",

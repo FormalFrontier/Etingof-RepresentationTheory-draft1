@@ -7,8 +7,8 @@
     },
     {
       "association_id": "association:aaa88b91f9dade6deb22",
-      "rationale": "The formal type directly states that Fin p to k has finrank p, matching the p-dimensional part of the explicit-family claim.",
-      "role": "primary"
+      "rationale": "The formal type states that the generic carrier Fin p to k has finrank p, but it does not itself identify that carrier with the parameterized modules V(alpha,c), so it only supports their p-dimensionality.",
+      "role": "supporting"
     },
     {
       "association_id": "association:d760626dd1c6a4dbfafb",
