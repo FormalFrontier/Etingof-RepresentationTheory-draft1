@@ -1,0 +1,180 @@
+{
+  "module_name": "LinearAlgebra.TensorPower.PermutationTrace",
+  "declarations": [
+    {
+      "temporary_id": "decl-017361",
+      "new_name": "Matrix.orderedProduct",
+      "docstring": "The product, in index order, of a finite family of square matrices."
+    },
+    {
+      "temporary_id": "decl-017364",
+      "new_name": "Matrix.orderedProduct_apply",
+      "docstring": "An entry of an ordered matrix product is the sum of the weights of paths with the prescribed endpoints."
+    },
+    {
+      "temporary_id": "decl-017365",
+      "new_name": "Matrix.orderedProduct_cons",
+      "docstring": "Prepending a matrix to a family multiplies it on the left of the ordered product."
+    },
+    {
+      "temporary_id": "decl-017366",
+      "new_name": "Matrix.orderedProduct_zero",
+      "docstring": "The ordered product of an empty family of matrices is the identity matrix."
+    },
+    {
+      "temporary_id": "decl-017959",
+      "new_name": "Module.Finite.chosenBasis",
+      "docstring": "A chosen basis of a finite module over a field."
+    },
+    {
+      "temporary_id": "decl-018265",
+      "new_name": "LinearMap.cycleProduct",
+      "docstring": "The ordered product of a family of endomorphisms around the permutation cycle through an index."
+    },
+    {
+      "temporary_id": "decl-018267",
+      "new_name": "Equiv.Perm.cycleLengthAt",
+      "docstring": "The length of the cycle of a permutation containing a given index."
+    },
+    {
+      "temporary_id": "decl-018268",
+      "new_name": "Equiv.Perm.cycleLengthAt_pos",
+      "docstring": "The cycle length of a permutation at any index is positive."
+    },
+    {
+      "temporary_id": "decl-019376",
+      "new_name": "Equiv.Perm.cycleFiberSuccessor",
+      "docstring": "The successor map induced by a permutation on a fiber of its cycle-representative map."
+    },
+    {
+      "temporary_id": "decl-020747",
+      "new_name": "Equiv.Perm.inv_pow_cycleLengthAt_apply",
+      "docstring": "Applying the inverse permutation for one full cycle returns an index to itself."
+    },
+    {
+      "temporary_id": "decl-021553",
+      "new_name": "Matrix.permutationCycleProduct",
+      "docstring": "The ordered product of a matrix family along the permutation cycle through an index."
+    },
+    {
+      "temporary_id": "decl-021555",
+      "new_name": "Matrix.permutationCycleProduct_eq_orderedProduct",
+      "docstring": "A matrix product around a permutation cycle is the ordered product indexed by inverse iterates."
+    },
+    {
+      "temporary_id": "decl-021556",
+      "new_name": "Matrix.sum_cycleFiberWeights_eq_trace",
+      "docstring": "The sum of edge weights on a represented permutation cycle equals the trace of its matrix product."
+    },
+    {
+      "temporary_id": "decl-021557",
+      "new_name": "Matrix.sum_permutationWeights_eq_prod_cycleTraces",
+      "docstring": "A sum of matrix-entry weights associated with a permutation factors as a product of traces over its cycles."
+    },
+    {
+      "temporary_id": "decl-021589",
+      "new_name": "Equiv.Perm.mem_cycleRepresentatives_iff",
+      "docstring": "An index represents a permutation cycle exactly when it is no greater than every index in that cycle."
+    },
+    {
+      "temporary_id": "decl-021598",
+      "new_name": "Equiv.Perm.minimalPeriod_inv_eq",
+      "docstring": "A permutation and its inverse have the same minimal period at every index."
+    },
+    {
+      "temporary_id": "decl-021830",
+      "new_name": "Equiv.Perm.cycleRepresentatives",
+      "docstring": "The finite set of least representatives of the cycles of a permutation."
+    },
+    {
+      "temporary_id": "decl-021986",
+      "new_name": "LinearMap.permutedTensorEndomorphism",
+      "docstring": "The endomorphism of a tensor power obtained from factorwise endomorphisms and a permutation of the factors."
+    },
+    {
+      "temporary_id": "decl-021990",
+      "new_name": "LinearMap.trace_permutedTensorEndomorphism_eq_sum",
+      "docstring": "The trace of a permuted tensor endomorphism is a sum of products of matrix entries in a chosen basis."
+    },
+    {
+      "temporary_id": "decl-021991",
+      "new_name": "LinearMap.trace_permutedTensorEndomorphism_eq_prod",
+      "docstring": "The trace of a permuted tensor endomorphism factors into traces of endomorphism products over the permutation cycles."
+    },
+    {
+      "temporary_id": "decl-022149",
+      "new_name": "Equiv.Perm.pow_cycleLengthAt_apply",
+      "docstring": "Applying a permutation for one full cycle returns an index to itself."
+    },
+    {
+      "temporary_id": "decl-022593",
+      "new_name": "Equiv.Perm.cycleRepresentative",
+      "docstring": "The least index in the cycle of a permutation containing a given index."
+    },
+    {
+      "temporary_id": "decl-022614",
+      "new_name": "Equiv.Perm.cycleRepresentative_apply",
+      "docstring": "The cycle representative is unchanged after applying the permutation once."
+    },
+    {
+      "temporary_id": "decl-022615",
+      "new_name": "Equiv.Perm.cycleRepresentative_eq_of_sameCycle",
+      "docstring": "Indices in the same permutation cycle have the same least representative."
+    },
+    {
+      "temporary_id": "decl-022618",
+      "new_name": "Equiv.Perm.cycleRepresentative_eq_self_of_mem",
+      "docstring": "A selected cycle representative is its own least representative."
+    },
+    {
+      "temporary_id": "decl-022619",
+      "new_name": "Equiv.Perm.cycleRepresentative_le_of_sameCycle",
+      "docstring": "The least representative of a cycle is no greater than any index in that cycle."
+    },
+    {
+      "temporary_id": "decl-022620",
+      "new_name": "Equiv.Perm.cycleRepresentative_mem",
+      "docstring": "The least representative of the cycle containing an index belongs to the set of cycle representatives."
+    },
+    {
+      "temporary_id": "decl-022904",
+      "new_name": "Equiv.Perm.sameCycle_cycleRepresentative",
+      "docstring": "Every index lies in the same permutation cycle as its least representative."
+    },
+    {
+      "temporary_id": "decl-023258",
+      "new_name": "Fin.snoc_head_apply_succ",
+      "docstring": "Appending the first entry to a finite sequence agrees with the shifted original sequence at successor indices."
+    },
+    {
+      "temporary_id": "decl-024283",
+      "new_name": "Matrix.trace_orderedProduct_eq_sum_pathWeights",
+      "docstring": "The trace of an ordered matrix product is the sum of the weights of paths whose endpoints agree."
+    },
+    {
+      "temporary_id": "decl-024284",
+      "new_name": "Matrix.trace_orderedProduct_eq_sum_cycleWeights",
+      "docstring": "For a nonempty family, the trace of its ordered product is a sum of products of entries around closed index paths."
+    },
+    {
+      "temporary_id": "decl-024290",
+      "new_name": "LinearMap.trace_cycleProduct_eq_matrixTrace",
+      "docstring": "The trace of an endomorphism product around a permutation cycle equals the matrix trace of the corresponding cycle product."
+    },
+    {
+      "temporary_id": "decl-024470",
+      "new_name": "Fin.zero_sub_one_val",
+      "docstring": "In a nonempty finite type, the value of zero minus one is one less than the cardinality."
+    },
+    {
+      "temporary_id": "decl-024487",
+      "new_name": "Matrix.pathWeight",
+      "docstring": "The product of entries selected by consecutive vertices of a path through a family of matrices."
+    },
+    {
+      "temporary_id": "decl-024489",
+      "new_name": "Matrix.pathWeight_cons",
+      "docstring": "The weight of a path through a prepended matrix factors into its first edge weight and the remaining path weight."
+    }
+  ]
+}
