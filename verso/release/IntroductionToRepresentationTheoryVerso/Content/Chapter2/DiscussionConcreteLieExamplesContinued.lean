@@ -28,6 +28,14 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary.finrank_eq_two}
+
 {Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary.matrixLieSubalgebraAux}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary.matrixLieSubalgebrasAux_eq}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary.subalgebraBasisAux}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary.twoElementVector_linearIndependent}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary.twoElementVector_span_eq_top}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -15,3 +16,13 @@ tag := "Chapter3/Example3.1.2"
 number := false
 %%%
 **Example 3.1.2.** Let $`V` be an irreducible representation of $`A` of dimension $`n`. Then $`Y = \operatorname{End}(V)`, with action of $`A` by left multiplication, is a semisimple representation of $`A`, isomorphic to $`nV` (the direct sum of $`n` copies of $`V`). Indeed, any basis $`v_1, \ldots, v_n` of $`V` gives rise to an isomorphism of representations $`\operatorname{End}(V) \to nV`, given by $`x \to (xv_1, \ldots, xv_n)`.
+
+## Formalization
+%%%
+tag := "Chapter3/Example3.1.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Module.EndomorphismEvaluation.endomorphismModule_isSemisimple}

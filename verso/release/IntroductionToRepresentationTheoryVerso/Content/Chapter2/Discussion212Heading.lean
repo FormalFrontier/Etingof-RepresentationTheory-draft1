@@ -38,3 +38,5 @@ number := false
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorAlgebra.AuxiliaryTypes.TensorAlgebra.auxiliaryTypeEquivDirectSum}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorAlgebra.AuxiliaryTypes.TensorPower.toTensorAlgebra_mul_compatible}

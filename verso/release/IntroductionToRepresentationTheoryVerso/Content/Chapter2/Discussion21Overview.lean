@@ -58,4 +58,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure}
 
+{Manual.docstring RepresentationTheory.Algebra.NonUnitalStructure.NonUnitalAlgebraStructure}
+
+{Manual.docstring RepresentationTheory.Algebra.NonUnitalStructure.NonUnitalAlgebraStructure.DesignatedElement}
+
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData.ModuleAuxiliaryData}

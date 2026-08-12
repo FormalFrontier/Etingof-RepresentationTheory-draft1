@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -19,3 +20,13 @@ number := false
 
 
 Suppose that $`G` is a finite group and $`V` is an irreducible representation of $`G` over $`\mathbb{C}`.
+
+## Formalization
+%%%
+tag := "Chapter5/Introduction/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar}

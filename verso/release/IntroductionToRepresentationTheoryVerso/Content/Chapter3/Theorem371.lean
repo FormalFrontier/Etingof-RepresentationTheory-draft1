@@ -44,3 +44,7 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.length_eq}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.linearIndependent_moduleDualElement}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Filtrations.exists_relSeries_bot_top}

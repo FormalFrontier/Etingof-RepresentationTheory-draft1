@@ -26,4 +26,6 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.AlgebraicNumbers.MatrixCriteria.isAlgebraic_iff_exists_rat_matrix_charpoly_isRoot}
+
 {Manual.docstring RepresentationTheory.AlgebraicNumbers.MatrixCriteria.isIntegral_iff_exists_int_matrix_charpoly_isRoot}
