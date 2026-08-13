@@ -218,6 +218,7 @@ import RepresentationTheory.FunctorPairConstructions
 import RepresentationTheory.UniverseTypeOperator
 import RepresentationTheory.Categories
 import RepresentationTheory.FunctorPair
+import RepresentationTheory.AbstractTypeEquivalence
 import RepresentationTheory.CategoryTheory.Abelian.CategoryProperties
 import RepresentationTheory.CategoryTheory.Adjunction.Representability
 import RepresentationTheory.CochainComplex
