@@ -6,18 +6,18 @@
       "temporary_id": "decl-017477"
     },
     {
-      "docstring": "Under the displayed pairing condition, computes the dimension of maps to each member of the target family.",
-      "new_name": "auxiliaryFinrankHomEqMultiplicity",
+      "docstring": "Under the displayed Hom-dimension condition, the dimension of maps to each member of the target family equals the corresponding value of the natural-number family.",
+      "new_name": "auxiliaryFinrankHomEqNatFamilyValue",
       "temporary_id": "decl-019452"
     },
     {
-      "docstring": "For a projective indecomposable family, relates the displayed algebra predicate to all multiplicities being one.",
-      "new_name": "auxiliaryEndomorphismPropertyIffAllMultiplicitiesOne",
+      "docstring": "For the stated projective indecomposable family, the displayed algebra predicate holds exactly when every value of the natural-number family is one.",
+      "new_name": "auxiliaryEndomorphismPropertyIffForallEqOne",
       "temporary_id": "decl-020776"
     },
     {
-      "docstring": "Uses the stated projective and simple family assumptions to characterize the displayed algebra predicate by unit multiplicities.",
-      "new_name": "auxiliaryEndomorphismPropertyIffAllMultiplicitiesOneOfSimpleFamily",
+      "docstring": "Under the stated projective and simple family assumptions, the displayed algebra predicate holds exactly when every value of the natural-number family is one.",
+      "new_name": "auxiliaryEndomorphismPropertyIffForallEqOneOfSimpleFamily",
       "temporary_id": "decl-020777"
     },
     {
