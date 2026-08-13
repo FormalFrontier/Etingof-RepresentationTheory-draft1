@@ -210,6 +210,7 @@ import RepresentationTheory.AuxiliaryUnavailableStatement
 import RepresentationTheory.Auxiliary.UnavailableStatement
 import RepresentationTheory.AuxiliaryQuotientSummation
 import RepresentationTheory.ZModInvolution
+import RepresentationTheory.FiniteGroupCharacterCoprimality
 
 /-!
 # Representation theory formalization
