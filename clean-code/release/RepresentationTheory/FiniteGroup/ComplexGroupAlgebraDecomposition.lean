@@ -16,6 +16,8 @@ noncomputable section
 
 namespace RepresentationTheory.FiniteGroup.ComplexGroupAlgebraDecomposition
 
+open Module
+
 /-- The complex monoid algebra of a finite group is algebra-equivalent to a product of nonzero
 square complex matrix algebras indexed by the finite cardinality of its conjugacy classes. -/
 theorem exists_fin_conjClasses_card_indexed_matrix_block_decomposition
@@ -36,9 +38,9 @@ conjugacy classes, nonzero block sizes on that type, and a complex-algebra equiv
 monoid algebra to the corresponding product of square complex matrix algebras. -/
 theorem exists_type_indexed_matrix_block_decomposition_card_eq_conjClasses
     (G : Type*) [Group G] [Finite G] :
-    ∃ (ι : Type) (_ : Fintype ι),
-      Nat.card ι = Nat.card (ConjClasses G) ∧
-      ∃ d : ι → ℕ, (∀ j, d j ≠ 0) ∧
+    ∃ (Irrep : Type) (_ : Fintype Irrep),
+      Nat.card Irrep = Nat.card (ConjClasses G) ∧
+      ∃ d : Irrep → ℕ, (∀ j, d j ≠ 0) ∧
         Nonempty (MonoidAlgebra ℂ G ≃ₐ[ℂ] Π j, Matrix (Fin (d j)) (Fin (d j)) ℂ) := by
   obtain ⟨d, hd, he⟩ :=
     exists_fin_conjClasses_card_indexed_matrix_block_decomposition G
