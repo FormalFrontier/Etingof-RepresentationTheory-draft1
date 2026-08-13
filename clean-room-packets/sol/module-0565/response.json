@@ -1,0 +1,150 @@
+{
+  "module_name": "Quiver.LinearAlgebra.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-014927",
+      "new_name": "AuxiliaryEquiv",
+      "docstring": "An auxiliary type relating two objects of the same quiver-indexed construction over a commutative semiring."
+    },
+    {
+      "temporary_id": "decl-014932",
+      "new_name": "linearEquivAt",
+      "docstring": "The linear equivalence supplied at a vertex by an auxiliary equivalence."
+    },
+    {
+      "temporary_id": "decl-014939",
+      "new_name": "linearEquivAt_map",
+      "docstring": "The vertexwise linear equivalences commute with the linear maps induced by every quiver morphism."
+    },
+    {
+      "temporary_id": "decl-014964",
+      "new_name": "auxiliaryEquivNonemptyOfLinearEquivAt",
+      "docstring": "A commuting family of vertexwise linear equivalences determines a nonempty auxiliary equivalence after transport between equal quiver structures."
+    },
+    {
+      "temporary_id": "decl-015018",
+      "new_name": "auxiliaryAt",
+      "docstring": "An auxiliary modification of a quiver-indexed object at a chosen vertex."
+    },
+    {
+      "temporary_id": "decl-017233",
+      "new_name": "Quiver.auxiliarySigmaEquiv",
+      "docstring": "Under the auxiliary vertex condition, the two displayed dependent-pair types are equivalent."
+    },
+    {
+      "temporary_id": "decl-017243",
+      "new_name": "Quiver.auxiliarySigmaMap",
+      "docstring": "The auxiliary map from the second displayed dependent-pair type to the first."
+    },
+    {
+      "temporary_id": "decl-017247",
+      "new_name": "Quiver.auxiliarySigmaMap_fst",
+      "docstring": "The auxiliary map preserves the first projection."
+    },
+    {
+      "temporary_id": "decl-017248",
+      "new_name": "Quiver.auxiliarySigmaMap_mk_auxiliaryHom",
+      "docstring": "Applying the auxiliary map to the pair formed from an element's first projection and its auxiliary quiver morphism recovers the element."
+    },
+    {
+      "temporary_id": "decl-017250",
+      "new_name": "Quiver.auxiliarySigma_fst_ne",
+      "docstring": "The first projection of every element of the auxiliary dependent-pair type differs from the distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-017251",
+      "new_name": "Quiver.auxiliaryHom",
+      "docstring": "The quiver morphism from the first projection of an auxiliary dependent pair to the distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-018403",
+      "new_name": "DirectSum.linearEquivCongr",
+      "docstring": "A family of linear equivalences induces a linear equivalence between the corresponding direct sums."
+    },
+    {
+      "temporary_id": "decl-018405",
+      "new_name": "DirectSum.linearEquivCongr_lof",
+      "docstring": "The direct-sum linear equivalence sends a vector inserted in one summand to the insertion of its image in the corresponding summand."
+    },
+    {
+      "temporary_id": "decl-018406",
+      "new_name": "DirectSum.map_range_eq_of_componentwise_equiv",
+      "docstring": "A componentwise direct-sum equivalence carries the range of the first displayed sum of composites onto the range of the second."
+    },
+    {
+      "temporary_id": "decl-018742",
+      "new_name": "LinearMap.range_eq_ker_of_finrank_add_eq",
+      "docstring": "An injective map followed by a surjective map has range equal to kernel when the range lies in the kernel and the endpoint finranks add to the middle finrank."
+    },
+    {
+      "temporary_id": "decl-020925",
+      "new_name": "Quiver.auxiliaryConditionForward",
+      "docstring": "The first auxiliary condition at a vertex implies the second auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-020926",
+      "new_name": "Quiver.auxiliaryConditionBackward",
+      "docstring": "The second auxiliary condition at a vertex implies the first auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-021841",
+      "new_name": "Quiver.auxiliaryHom_auxiliarySigmaMap",
+      "docstring": "The auxiliary morphism of the auxiliary image of a dependent pair is its second projection."
+    },
+    {
+      "temporary_id": "decl-022527",
+      "new_name": "Quiver.auxiliaryEquivAfterTransform",
+      "docstring": "An auxiliary equivalence remains inhabited after applying the displayed vertex-dependent transformation to both related objects."
+    },
+    {
+      "temporary_id": "decl-022528",
+      "new_name": "Quiver.auxiliaryLinearEquivAt",
+      "docstring": "An auxiliary equivalence induces a linear equivalence between the two displayed vertex-indexed modules after the indicated transformation."
+    },
+    {
+      "temporary_id": "decl-022749",
+      "new_name": "Quiver.auxiliaryOutgoing_eq_cast",
+      "docstring": "The auxiliary operation on a morphism from the distinguished vertex to a distinct vertex agrees with the indicated cast."
+    },
+    {
+      "temporary_id": "decl-022750",
+      "new_name": "Quiver.auxiliaryIncoming_outgoing",
+      "docstring": "Under the auxiliary vertex condition, applying the incoming auxiliary operation after the outgoing one recovers the original morphism."
+    },
+    {
+      "temporary_id": "decl-022755",
+      "new_name": "Quiver.auxiliaryHom_mk_auxiliaryIncoming",
+      "docstring": "The auxiliary morphism of a pair built from a distinct vertex and its transformed incoming morphism is the original morphism."
+    },
+    {
+      "temporary_id": "decl-022756",
+      "new_name": "Quiver.auxiliaryIncoming_eq_cast",
+      "docstring": "The auxiliary operation on a morphism from a distinct vertex to the distinguished vertex agrees with the indicated cast."
+    },
+    {
+      "temporary_id": "decl-022761",
+      "new_name": "Quiver.auxiliaryAway_eq_cast",
+      "docstring": "The auxiliary operation on a morphism whose endpoints both differ from the distinguished vertex agrees with the indicated cast."
+    },
+    {
+      "temporary_id": "decl-022762",
+      "new_name": "Quiver.auxiliaryAway_involutive",
+      "docstring": "Applying the auxiliary operation twice to a morphism between vertices away from the distinguished vertex recovers that morphism."
+    },
+    {
+      "temporary_id": "decl-022767",
+      "new_name": "Quiver.auxiliaryQuiver_eq",
+      "docstring": "The auxiliary quiver structure associated with a chosen vertex is equal to the original quiver structure."
+    },
+    {
+      "temporary_id": "decl-023225",
+      "new_name": "LinearMap.surjective_of_auxiliary_quiver_preimages",
+      "docstring": "If the displayed canonical map at the distinguished vertex is surjective, then a linear map out of the indexed direct sum is surjective whenever every vector transported along the displayed quiver morphisms has a preimage."
+    },
+    {
+      "temporary_id": "decl-024716",
+      "new_name": "Quiver.auxiliary_sum_eq_zero",
+      "docstring": "For the displayed transformed object, the finite sum of the indicated composites of quiver-induced linear maps is zero."
+    }
+  ]
+}
