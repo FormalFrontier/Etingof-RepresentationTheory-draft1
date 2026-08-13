@@ -1,0 +1,30 @@
+{
+  "declarations": [
+    {
+      "docstring": "An injective algebra map from a polynomial ring in `n` variables into an integral domain forces `n` to be at most the codomain's transcendence degree.",
+      "new_name": "natCast_le_trdeg_of_injective_mvPolynomial_algHom",
+      "temporary_id": "decl-021434"
+    },
+    {
+      "docstring": "A base-field algebra map between rational function fields in `n` and `m` variables can exist only when `n ≤ m`.",
+      "new_name": "numVariables_le_of_fractionRing_mvPolynomial_algHom",
+      "temporary_id": "decl-021696"
+    },
+    {
+      "docstring": "If a field of transcendence degree `m` contains an injective image of a polynomial ring in `n` variables, then `n ≤ m`.",
+      "new_name": "numVariables_le_of_injective_mvPolynomial_algHom_of_trdeg_eq",
+      "temporary_id": "decl-021697"
+    },
+    {
+      "docstring": "An injective algebra map from the polynomial ring in `n` variables to the rational function field in `m` variables forces `n ≤ m`.",
+      "new_name": "numVariables_le_of_injective_mvPolynomial_algHom_to_fractionRing",
+      "temporary_id": "decl-021698"
+    },
+    {
+      "docstring": "The rational function field in `m` variables over a field has transcendence degree `m`.",
+      "new_name": "trdeg_fractionRing_mvPolynomial_fin",
+      "temporary_id": "decl-024333"
+    }
+  ],
+  "module_name": "Algebra.TranscendenceDegree.PolynomialFractionFields"
+}
