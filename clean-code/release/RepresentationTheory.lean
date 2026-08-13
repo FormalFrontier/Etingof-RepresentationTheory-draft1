@@ -279,6 +279,7 @@ import RepresentationTheory.CategoryTheory.EnrichedCorepresentability
 import RepresentationTheory.CategoryTheory.TopCatCongruence
 import RepresentationTheory.CategoryTheory.ProjectiveResolution.ShortComplex
 import RepresentationTheory.FinsuppDualTensor
+import RepresentationTheory.GroupTheory.ZMod.ComplexCharacters
 
 /-!
 # Representation theory formalization
