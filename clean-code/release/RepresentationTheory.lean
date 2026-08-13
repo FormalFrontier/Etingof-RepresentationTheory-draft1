@@ -162,6 +162,7 @@ import RepresentationTheory.InductionCoinduction.FiniteIndex
 import RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences
 import RepresentationTheory.Algebra.Module.IsotypicDecomposition
 import RepresentationTheory.TensorPowerRepresentations
+import RepresentationTheory.Complex.InvariantInnerProduct
 
 /-!
 # Representation theory formalization
