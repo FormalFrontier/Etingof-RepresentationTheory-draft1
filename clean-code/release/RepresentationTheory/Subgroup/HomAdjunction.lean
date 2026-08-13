@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Etingof Formalization Project. All rights reserved.
+Copyright (c) 2026 FormalFrontier. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENCE.
-Authors: Etingof Formalization Project
+Authors: FormalFrontier
 -/
 import Mathlib
 import RepresentationTheory.Alignment.Attribute
