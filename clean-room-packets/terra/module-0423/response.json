@@ -1,0 +1,45 @@
+{
+  "module_name": "Etingof.Module0423.RepresentationEquivariance",
+  "declarations": [
+    {
+      "temporary_id": "decl-004917",
+      "new_name": "RepresentationEquivariance.IsIntertwining",
+      "docstring": "A linear equivalence between two representations that commutes with the action of every group element."
+    },
+    {
+      "temporary_id": "decl-004919",
+      "new_name": "twist",
+      "docstring": "Twisting both representations by the same character preserves an intertwining linear equivalence."
+    },
+    {
+      "temporary_id": "decl-004920",
+      "new_name": "symm",
+      "docstring": "The inverse of an intertwining linear equivalence is again intertwining."
+    },
+    {
+      "temporary_id": "decl-004921",
+      "new_name": "trans",
+      "docstring": "The composite of compatible intertwining linear equivalences is intertwining."
+    },
+    {
+      "temporary_id": "decl-017868",
+      "new_name": "twist_one",
+      "docstring": "Twisting a representation by the trivial character leaves it unchanged."
+    },
+    {
+      "temporary_id": "decl-017869",
+      "new_name": "exists_intertwining_twist_power",
+      "docstring": "For an antitone natural weight, every natural twist power admits an intertwining equivalence with the uniformly shifted weight representation."
+    },
+    {
+      "temporary_id": "decl-020698",
+      "new_name": "isIntertwining_isoToLinearEquiv",
+      "docstring": "The linear equivalence underlying an isomorphism of finite-dimensional representations intertwines their actions."
+    },
+    {
+      "temporary_id": "decl-023000",
+      "new_name": "exists_twist_intertwining_generalLinear",
+      "docstring": "A shifted weight representation admits a linear equivalence intertwining the indicated general linear group actions."
+    }
+  ]
+}
