@@ -1,0 +1,65 @@
+{
+  "module_name": "RepresentationTheory.Quiver.FiniteOrbits",
+  "declarations": [
+    {
+      "temporary_id": "decl-017219",
+      "new_name": "Quiver.Rep.listDirectSum_isomorphic_of_forall₂",
+      "docstring": "Pairwise isomorphic lists of quiver representations have isomorphic finite direct sums."
+    },
+    {
+      "temporary_id": "decl-017220",
+      "new_name": "Quiver.Rep.listDirectSum_isomorphic_map",
+      "docstring": "Replacing every member of a finite list of quiver representations by an isomorphic representation preserves the isomorphism class of its direct sum."
+    },
+    {
+      "temporary_id": "decl-018912",
+      "new_name": "Quiver.Rep.exists_pointRepresentation_isomorphic",
+      "docstring": "A quiver representation whose space at each vertex is linearly equivalent to the coordinate space prescribed by a dimension vector is isomorphic to the representation determined by some point of the corresponding representation space."
+    },
+    {
+      "temporary_id": "decl-019402",
+      "new_name": "Quiver.Rep.finite_obj_listDirectSum",
+      "docstring": "The space at a fixed vertex of a finite direct sum is finite-dimensional when the corresponding space of every summand is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-019407",
+      "new_name": "Quiver.Rep.finite_obj_of_mem_listDirectSum",
+      "docstring": "Every summand has a finite-dimensional space at a fixed vertex when the direct sum has a finite-dimensional space there."
+    },
+    {
+      "temporary_id": "decl-019463",
+      "new_name": "Quiver.Rep.sum_finrank_obj_listDirectSum",
+      "docstring": "For componentwise finite-dimensional summands, the sum of the vertexwise finranks of their finite direct sum equals the sum of their individual total vertexwise finranks."
+    },
+    {
+      "temporary_id": "decl-021459",
+      "new_name": "Quiver.Rep.length_le_sum_dimension_of_listDirectSum_isomorphic_pointRepresentation",
+      "docstring": "If a direct sum of indecomposable quiver representations is isomorphic to a representation with a prescribed dimension vector, then the number of summands is at most the sum of the entries of that vector."
+    },
+    {
+      "temporary_id": "decl-021814",
+      "new_name": "Quiver.Rep.one_le_sum_finrank_obj_of_indecomposable",
+      "docstring": "A componentwise finite-dimensional indecomposable quiver representation has positive total vertexwise finrank."
+    },
+    {
+      "temporary_id": "decl-021828",
+      "new_name": "Quiver.Rep.finite_orbitQuotient_of_finite_indecomposable_representatives",
+      "docstring": "If a finite set contains an isomorphic representative of every componentwise free, finite-dimensional, indecomposable quiver representation, then the base-change orbit quotient of the representation space for any fixed dimension vector is finite."
+    },
+    {
+      "temporary_id": "decl-021829",
+      "new_name": "Quiver.Rep.finite_orbitQuotient_of_adjacencyMatrix_conditions",
+      "docstring": "Over an algebraically closed field, an integer matrix that encodes a quiver with at most one arrow between each ordered pair and satisfies the supplied matrix predicate gives a finite base-change orbit quotient for every dimension vector."
+    },
+    {
+      "temporary_id": "decl-022322",
+      "new_name": "Quiver.Rep.toRepresentationSpace",
+      "docstring": "Associates a point of the representation space for a dimension vector to a quiver representation."
+    },
+    {
+      "temporary_id": "decl-022613",
+      "new_name": "Quiver.Rep.pointRepresentation_toRepresentationSpace_isomorphic",
+      "docstring": "If every vertex space of a quiver representation is linearly equivalent to the coordinate space prescribed by a dimension vector, then the representation reconstructed from its associated point is isomorphic to the original representation."
+    }
+  ]
+}
