@@ -7,7 +7,7 @@
     },
     {
       "docstring": "The sorted parts of a partition sum to its size.",
-      "new_name": "Partition.sum_sortedParts",
+      "new_name": "Partition.YoungDiagram.sum_sortedParts",
       "temporary_id": "decl-023260"
     },
     {
