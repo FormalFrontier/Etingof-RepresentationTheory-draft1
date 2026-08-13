@@ -6,18 +6,18 @@
       "temporary_id": "decl-014697"
     },
     {
-      "docstring": "The subtype of complex numbers algebraic over the rationals is algebraically closed.",
-      "new_name": "isAlgClosed_algebraicComplex",
+      "docstring": "The complex subtype underlying the distinguished rational intermediate field is algebraically closed.",
+      "new_name": "isAlgClosed_distinguishedRatIntermediateField",
       "temporary_id": "decl-014698"
     },
     {
-      "docstring": "The rational-algebraic complex numbers form an algebraic closure of the rationals.",
-      "new_name": "isAlgClosure_rat_algebraicComplex",
+      "docstring": "The distinguished rational intermediate field in the complex numbers is an algebraic closure of the rationals.",
+      "new_name": "isAlgClosure_rat_distinguishedRatIntermediateField",
       "temporary_id": "decl-014699"
     },
     {
-      "docstring": "Every element of the rational-algebraic complex-number subtype is algebraic over the rationals.",
-      "new_name": "algebra_isAlgebraic_rat_algebraicComplex",
+      "docstring": "Every element of the distinguished rational intermediate field in the complex numbers is algebraic over the rationals.",
+      "new_name": "algebra_isAlgebraic_rat_distinguishedRatIntermediateField",
       "temporary_id": "decl-014700"
     },
     {
@@ -26,23 +26,23 @@
       "temporary_id": "decl-014701"
     },
     {
-      "docstring": "The integer subalgebra of complex numbers consisting of elements integral over the integers.",
-      "new_name": "integralComplexSubalgebra",
+      "docstring": "A distinguished integer subalgebra of the complex numbers.",
+      "new_name": "distinguishedIntSubalgebra",
       "temporary_id": "decl-017200"
     },
     {
-      "docstring": "The rational intermediate field of complex numbers consisting of elements algebraic over the rationals.",
-      "new_name": "algebraicComplexSubfield",
+      "docstring": "A distinguished rational intermediate field in the complex numbers.",
+      "new_name": "distinguishedRatIntermediateField",
       "temporary_id": "decl-017201"
     },
     {
-      "docstring": "A complex number belongs to the designated integer subalgebra exactly when it is integral over the integers.",
-      "new_name": "mem_integralComplexSubalgebra_iff",
+      "docstring": "Membership in the distinguished integer subalgebra is equivalent to integrality over the integers.",
+      "new_name": "mem_distinguishedIntSubalgebra_iff",
       "temporary_id": "decl-021576"
     },
     {
-      "docstring": "A complex number belongs to the designated rational subfield exactly when it is algebraic over the rationals.",
-      "new_name": "mem_algebraicComplexSubfield_iff",
+      "docstring": "Membership in the distinguished rational intermediate field is equivalent to algebraicity over the rationals.",
+      "new_name": "mem_distinguishedRatIntermediateField_iff",
       "temporary_id": "decl-021577"
     }
   ],
