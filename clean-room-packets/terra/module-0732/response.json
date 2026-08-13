@@ -1,0 +1,26 @@
+{
+  "packet_id": "module-0732",
+  "module_name": "Quiver.Path",
+  "declarations": [
+    {
+      "temporary_id": "decl-005947",
+      "new_name": "comp_toPath_injective",
+      "docstring": "Equality of path composites ending in edges determines the intermediate vertex, path, and edge."
+    },
+    {
+      "temporary_id": "decl-005989",
+      "new_name": "exists_comp_toPath_of_length_succ",
+      "docstring": "A path of successor length decomposes into a path of the preceding length followed by an edge."
+    },
+    {
+      "temporary_id": "decl-005990",
+      "new_name": "exists_factorization_of_length_succ",
+      "docstring": "A successor-length path admits a product factorization through a preceding-length path and an edge."
+    },
+    {
+      "temporary_id": "decl-006292",
+      "new_name": "mul_factorization_injective",
+      "docstring": "Equality of displayed products from path-edge factorizations determines both factors and the intermediate vertex."
+    }
+  ]
+}
