@@ -1,0 +1,46 @@
+{
+  "packet_id": "module-0730",
+  "module_name": "MoritaEquivalence",
+  "declarations": [
+    {
+      "id": "decl-005193",
+      "name": "idempotent_eq_one_of_one_sub_nilpotent",
+      "docstring": "An idempotent is one when its complement is nilpotent."
+    },
+    {
+      "id": "decl-005665",
+      "name": "finrank_associated_subtype_le",
+      "docstring": "The finrank of the module subtype associated to an element is at most the finrank of the ambient algebra."
+    },
+    {
+      "id": "decl-005668",
+      "name": "symm",
+      "docstring": "The ring relation is symmetric."
+    },
+    {
+      "id": "decl-005671",
+      "name": "trans",
+      "docstring": "The ring relation is transitive."
+    },
+    {
+      "id": "decl-005682",
+      "name": "exists_idempotent_algEquiv_corner",
+      "docstring": "Under the stated hypotheses, the second algebra is algebra equivalent to a corner subtype determined by an idempotent of the first."
+    },
+    {
+      "id": "decl-018621",
+      "name": "isSimpleModule_equivalence_obj",
+      "docstring": "An equivalence of module categories sends a simple module to a simple module."
+    },
+    {
+      "id": "decl-020694",
+      "name": "moduleCatIsoBiproductOfIsInternal",
+      "docstring": "An internal finite direct-sum decomposition induces an isomorphism from the ambient module to the biproduct of its summands."
+    },
+    {
+      "id": "decl-023217",
+      "name": "simple_equivalence_obj",
+      "docstring": "An equivalence between categories with zero morphisms sends a simple object to a simple object."
+    }
+  ]
+}
