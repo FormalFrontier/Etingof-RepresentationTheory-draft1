@@ -28,7 +28,7 @@
     },
     {
       "temporary_id": "decl-024614",
-      "new_name": "auxiliaryProjection",
+      "new_name": "auxiliaryLinearMapToSubmodule",
       "docstring": "An auxiliary complex-linear map from the displayed linear-map space to the partition-indexed submodule."
     },
     {
@@ -38,13 +38,13 @@
     },
     {
       "temporary_id": "decl-024637",
-      "new_name": "auxiliaryMultiplicity_eq_finrank",
-      "docstring": "The auxiliary partition multiplicity equals the complex dimension of the corresponding submodule."
+      "new_name": "auxiliary_nat_value_eq_finrank",
+      "docstring": "The displayed auxiliary natural-number value equals the complex dimension of the corresponding submodule."
     },
     {
       "temporary_id": "decl-024642",
-      "new_name": "auxiliaryMultiplicity_eq_of_structure",
-      "docstring": "The displayed auxiliary structure identifies the partition multiplicity with the second auxiliary quantity."
+      "new_name": "auxiliary_nat_value_eq_of_structure",
+      "docstring": "Given the displayed auxiliary structure, the two displayed natural-number quantities are equal."
     },
     {
       "temporary_id": "decl-024644",
@@ -53,13 +53,13 @@
     },
     {
       "temporary_id": "decl-024647",
-      "new_name": "auxiliaryRangeMap",
+      "new_name": "auxiliaryAmbientToSubmodule",
       "docstring": "An auxiliary linear map from the ambient partition-dependent space into the displayed submodule."
     },
     {
       "temporary_id": "decl-024652",
-      "new_name": "auxiliaryRangeMap_apply",
-      "docstring": "The auxiliary range map sends an element of the submodule to that same element."
+      "new_name": "auxiliaryAmbientToSubmodule_apply",
+      "docstring": "The auxiliary map into the submodule sends an element of that submodule to the same element."
     },
     {
       "temporary_id": "decl-024654",
