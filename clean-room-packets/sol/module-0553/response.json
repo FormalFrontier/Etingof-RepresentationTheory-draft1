@@ -1,0 +1,255 @@
+{
+  "module_name": "SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory",
+  "declarations": [
+    {
+      "temporary_id": "decl-012887",
+      "new_name": "IsCompleteSimpleFamily",
+      "docstring": "A family of finite-dimensional representations that lists all simple objects without repetition."
+    },
+    {
+      "temporary_id": "decl-012889",
+      "new_name": "eq_of_isomorphic",
+      "docstring": "Two entries in the family have the same index whenever they are isomorphic."
+    },
+    {
+      "temporary_id": "decl-012890",
+      "new_name": "exists_isomorphic_entry",
+      "docstring": "Every simple representation is isomorphic to an entry of the family."
+    },
+    {
+      "temporary_id": "decl-012895",
+      "new_name": "simple_entry",
+      "docstring": "Each representation occurring in the family is simple."
+    },
+    {
+      "temporary_id": "decl-012896",
+      "new_name": "auxiliaryIndexPredicate",
+      "docstring": "An auxiliary binary predicate on indices of a family of representations."
+    },
+    {
+      "temporary_id": "decl-012898",
+      "new_name": "IndexPathConnected",
+      "docstring": "The path-connectedness relation on indices of a representation family."
+    },
+    {
+      "temporary_id": "decl-012899",
+      "new_name": "of_positive_multiplicity",
+      "docstring": "Indices joined with positive multiplicity are path-connected."
+    },
+    {
+      "temporary_id": "decl-012900",
+      "new_name": "refl",
+      "docstring": "Every index is path-connected to itself."
+    },
+    {
+      "temporary_id": "decl-012901",
+      "new_name": "symm_of_complete",
+      "docstring": "Path-connectedness is symmetric for a complete family over a finite group."
+    },
+    {
+      "temporary_id": "decl-012902",
+      "new_name": "trans",
+      "docstring": "Path-connectedness of indices is transitive."
+    },
+    {
+      "temporary_id": "decl-012903",
+      "new_name": "tautologicalFDRep",
+      "docstring": "The two-dimensional finite-dimensional representation obtained from a subgroup of the special unitary group."
+    },
+    {
+      "temporary_id": "decl-012906",
+      "new_name": "central_involution_acts_by_sign",
+      "docstring": "A central element of square one acts on a simple representation by a scalar sign."
+    },
+    {
+      "temporary_id": "decl-012907",
+      "new_name": "star_character_tautological_eq",
+      "docstring": "The character of the tautological representation is fixed by complex conjugation for a finite subgroup."
+    },
+    {
+      "temporary_id": "decl-012908",
+      "new_name": "character_tautological_eq_trace",
+      "docstring": "The tautological character at a group element equals the trace of its underlying matrix."
+    },
+    {
+      "temporary_id": "decl-012909",
+      "new_name": "character_tautological_im_eq_zero",
+      "docstring": "The tautological character of a finite subgroup has zero imaginary part."
+    },
+    {
+      "temporary_id": "decl-012910",
+      "new_name": "character_tautological_inv",
+      "docstring": "The tautological character takes the same value on an element and its inverse."
+    },
+    {
+      "temporary_id": "decl-012911",
+      "new_name": "auxiliaryCharacterIdentity",
+      "docstring": "An auxiliary character identity involving the tautological representation and the distinguished special unitary element."
+    },
+    {
+      "temporary_id": "decl-012912",
+      "new_name": "character_tautological_re_le_two",
+      "docstring": "The real part of the tautological character is at most two."
+    },
+    {
+      "temporary_id": "decl-012913",
+      "new_name": "character_eq_sum_simple_characters",
+      "docstring": "A character decomposes as the sum of the simple characters weighted by morphism-space dimensions."
+    },
+    {
+      "temporary_id": "decl-012915",
+      "new_name": "eq_negIdentity_of_sq_eq_one",
+      "docstring": "A nonidentity element of square one in the two-dimensional special unitary group is the negative identity."
+    },
+    {
+      "temporary_id": "decl-012916",
+      "new_name": "negIdentity_mem_of_even_card",
+      "docstring": "A finite subgroup of even cardinality contains the negative identity."
+    },
+    {
+      "temporary_id": "decl-012917",
+      "new_name": "equivariant_endomorphism_eq_smul_id",
+      "docstring": "An endomorphism commuting with a simple representation is a scalar multiple of the identity."
+    },
+    {
+      "temporary_id": "decl-012919",
+      "new_name": "finrank_simple_entry_ne_zero",
+      "docstring": "Every entry of a complete simple family has nonzero dimension."
+    },
+    {
+      "temporary_id": "decl-012920",
+      "new_name": "finrank_eq_sum_hom_finrank_mul",
+      "docstring": "The dimension of a representation is the sum of simple dimensions weighted by morphism-space dimensions."
+    },
+    {
+      "temporary_id": "decl-012921",
+      "new_name": "finrank_invariants_tautological_eq_zero",
+      "docstring": "The tautological representation of a nontrivial finite subgroup has no nonzero invariant vectors."
+    },
+    {
+      "temporary_id": "decl-012923",
+      "new_name": "isCyclic_of_odd_card",
+      "docstring": "A finite subgroup of odd cardinality is cyclic."
+    },
+    {
+      "temporary_id": "decl-012925",
+      "new_name": "auxiliaryIntegerPairing",
+      "docstring": "An auxiliary integer-valued pairing on indices of a representation family."
+    },
+    {
+      "temporary_id": "decl-012927",
+      "new_name": "auxiliaryIntegerPairing_self_eq_zero_of_nontrivial",
+      "docstring": "The auxiliary integer pairing vanishes on equal indices under the stated size and nontriviality assumptions."
+    },
+    {
+      "temporary_id": "decl-012928",
+      "new_name": "auxiliaryIntegerPairing_self_eq_zero_of_isCyclic",
+      "docstring": "For a sufficiently large complete family over a cyclic group, the auxiliary integer pairing vanishes on the diagonal."
+    },
+    {
+      "temporary_id": "decl-012929",
+      "new_name": "auxiliaryIntegerPairing_self_eq_zero_of_central_negation",
+      "docstring": "A central element acting by negation on the tautological representation forces the auxiliary pairing to vanish on the diagonal."
+    },
+    {
+      "temporary_id": "decl-012930",
+      "new_name": "auxiliaryQuadraticFormEntry",
+      "docstring": "An auxiliary integer matrix entry associated with a family of representations."
+    },
+    {
+      "temporary_id": "decl-012932",
+      "new_name": "exists_ne_zero_self_dot_mulVec_eq_zero",
+      "docstring": "The auxiliary integer matrix has a nonzero integral vector on which its quadratic form vanishes."
+    },
+    {
+      "temporary_id": "decl-012933",
+      "new_name": "self_dot_mulVec_nonnegative",
+      "docstring": "The quadratic form of the auxiliary integer matrix is nonnegative on integral vectors."
+    },
+    {
+      "temporary_id": "decl-012934",
+      "new_name": "exists_positiveMultiplicity_path",
+      "docstring": "Any two indices in a complete simple family are joined by a path of positive multiplicities."
+    },
+    {
+      "temporary_id": "decl-012940",
+      "new_name": "weighted_auxiliaryRowSum_eq_zero",
+      "docstring": "Each row of the auxiliary integer matrix has dimension-weighted sum zero."
+    },
+    {
+      "temporary_id": "decl-012941",
+      "new_name": "auxiliaryPairingClassification",
+      "docstring": "An auxiliary classification property holds for the integer pairing under the stated finiteness, size, and nontriviality hypotheses."
+    },
+    {
+      "temporary_id": "decl-012942",
+      "new_name": "weighted_auxiliaryRowSum_eq_zero_alternate",
+      "docstring": "The dimension vector lies in the kernel of every row of the auxiliary integer matrix."
+    },
+    {
+      "temporary_id": "decl-012943",
+      "new_name": "sum_tensorMultiplicity_mul_finrank_eq_two_mul",
+      "docstring": "The multiplicity-weighted sum of simple dimensions is twice the dimension of the selected simple representation."
+    },
+    {
+      "temporary_id": "decl-012944",
+      "new_name": "tensorMultiplicity",
+      "docstring": "The natural-number multiplicity attached to a pair of entries in a representation family."
+    },
+    {
+      "temporary_id": "decl-012946",
+      "new_name": "tensorMultiplicity_le_one_of_nontrivial",
+      "docstring": "All pairwise multiplicities are at most one for a sufficiently large complete family over a nontrivial finite subgroup."
+    },
+    {
+      "temporary_id": "decl-012948",
+      "new_name": "tensorMultiplicity_le_one_of_ne",
+      "docstring": "The multiplicity between distinct entries of a sufficiently large complete family is at most one."
+    },
+    {
+      "temporary_id": "decl-012955",
+      "new_name": "tensorMultiplicity_comm",
+      "docstring": "The multiplicity attached to two entries of a complete simple family is symmetric."
+    },
+    {
+      "temporary_id": "decl-012956",
+      "new_name": "negIdentity",
+      "docstring": "The negative identity element of the two-dimensional complex special unitary group."
+    },
+    {
+      "temporary_id": "decl-012958",
+      "new_name": "negIdentity_mul_comm",
+      "docstring": "The negative identity commutes with every element of the two-dimensional special unitary group."
+    },
+    {
+      "temporary_id": "decl-012959",
+      "new_name": "auxiliaryNegIdentityProperty",
+      "docstring": "An auxiliary property of the negative identity in the two-dimensional special unitary group."
+    },
+    {
+      "temporary_id": "decl-012960",
+      "new_name": "nontrivial_of_isCyclic_of_three_le",
+      "docstring": "A cyclic finite subgroup admitting a complete simple family with at least three entries is nontrivial."
+    },
+    {
+      "temporary_id": "decl-012962",
+      "new_name": "isCyclic_or_negIdentity_mem",
+      "docstring": "A finite subgroup is cyclic or contains the negative identity."
+    },
+    {
+      "temporary_id": "decl-012963",
+      "new_name": "tautologicalRepresentation",
+      "docstring": "The tautological linear representation of a subgroup on two-dimensional complex coordinate space."
+    },
+    {
+      "temporary_id": "decl-012969",
+      "new_name": "tautologicalRepresentation_apply_eq_neg",
+      "docstring": "An element whose underlying matrix is the negative identity acts by negation in the tautological representation."
+    },
+    {
+      "temporary_id": "decl-012970",
+      "new_name": "eq_one_of_character_tautological_eq_two",
+      "docstring": "A subgroup element with tautological character equal to two is the identity."
+    }
+  ]
+}
