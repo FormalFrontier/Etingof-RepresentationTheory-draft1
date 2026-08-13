@@ -1,0 +1,15 @@
+{
+  "module_name": "RingTheory.Ideal.Quotient",
+  "declarations": [
+    {
+      "temporary_id": "decl-020499",
+      "new_name": "exists_unit_sub_one_mem_ideal_conj_idempotent_eq_of_quotient_eq",
+      "docstring": "Idempotents that agree modulo a nilpotent two-sided ideal are conjugate by a unit congruent to one modulo that ideal."
+    },
+    {
+      "temporary_id": "decl-020504",
+      "new_name": "exists_idempotent_lift_of_is_nilpotent",
+      "docstring": "Lifts an idempotent of the quotient by a nilpotent two-sided ideal to an idempotent of the ring."
+    }
+  ]
+}
