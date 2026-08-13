@@ -1,0 +1,15 @@
+{
+  "module_name": "AuxiliaryRepresentationTransport",
+  "declarations": [
+    {
+      "temporary_id": "decl-016609",
+      "new_name": "auxiliary_theorem",
+      "docstring": "An auxiliary result whose formal statement is unavailable."
+    },
+    {
+      "temporary_id": "decl-020559",
+      "new_name": "auxiliary_transport_iso",
+      "docstring": "Transport along the displayed character equality gives an isomorphism between the associated auxiliary representations."
+    }
+  ]
+}
