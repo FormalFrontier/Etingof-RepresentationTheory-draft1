@@ -1,99 +1,99 @@
 {
-  "module_name": "VertexModule",
+  "module_name": "QuiverAuxiliary",
   "declarations": [
     {
       "temporary_id": "decl-005878",
-      "new_name": "pathCoefficient_arrowTerm_mul",
-      "docstring": "The coefficient at an arrow path of its associated term multiplied by an element equals the coefficient of that element at the trivial path on the target."
+      "new_name": "auxiliary_apply_mul",
+      "docstring": "Applying the first displayed linear map to the displayed product agrees with applying the second displayed linear map to the remaining factor."
     },
     {
       "temporary_id": "decl-005880",
-      "new_name": "vertexAuxiliary",
-      "docstring": "An auxiliary element of the type associated to a vertex."
+      "new_name": "auxiliary",
+      "docstring": "An auxiliary element in the type indexed by an element of the quiver."
     },
     {
       "temporary_id": "decl-005881",
-      "new_name": "vertexAuxiliary_down",
-      "docstring": "The value underlying the auxiliary vertex element is one."
+      "new_name": "auxiliary_down",
+      "docstring": "The value underlying the auxiliary element is one."
     },
     {
       "temporary_id": "decl-005882",
-      "new_name": "vertexEvaluation",
-      "docstring": "A ring homomorphism to the ground field associated to a vertex."
+      "new_name": "auxiliaryRingHom",
+      "docstring": "An auxiliary ring homomorphism to the field indexed by an element of the quiver."
     },
     {
       "temporary_id": "decl-005889",
-      "new_name": "vertexEvaluation_apply",
-      "docstring": "Vertex evaluation agrees with the linear functional indexed by the trivial path at that vertex."
+      "new_name": "auxiliaryRingHom_apply",
+      "docstring": "The auxiliary ring homomorphism agrees with the displayed linear map indexed by the nil path."
     },
     {
       "temporary_id": "decl-005892",
-      "new_name": "vertexEvaluation_arrowTerm",
-      "docstring": "Evaluation at the target vertex vanishes on the term associated to an arrow."
+      "new_name": "auxiliaryRingHom_apply_eq_zero",
+      "docstring": "The auxiliary ring homomorphism sends the displayed element associated with a quiver homomorphism to zero."
     },
     {
       "temporary_id": "decl-005893",
-      "new_name": "VertexModule",
-      "docstring": "The type associated to a vertex over a field and a finite quiver."
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary family of types indexed by a finite quiver."
     },
     {
       "temporary_id": "decl-005894",
-      "new_name": "vertexModule_smul_down",
-      "docstring": "The underlying value of the action is vertex evaluation multiplied by the underlying value of the vector."
+      "new_name": "auxiliary_smul_down",
+      "docstring": "The value underlying the displayed action is the auxiliary ring homomorphism applied to the scalar times the value underlying the element."
     },
     {
       "temporary_id": "decl-005897",
-      "new_name": "vertexModule_smul_eq_smul",
-      "docstring": "The action on the vertex module agrees with scalar multiplication by the vertex evaluation."
+      "new_name": "auxiliary_smul_eq_smul",
+      "docstring": "The displayed action agrees with scalar multiplication through the auxiliary ring homomorphism."
     },
     {
       "temporary_id": "decl-005902",
-      "new_name": "pathCoefficient",
-      "docstring": "The linear functional giving the coefficient indexed by a path."
+      "new_name": "auxiliaryLinearMap",
+      "docstring": "An auxiliary family of linear maps to the field."
     },
     {
       "temporary_id": "decl-005903",
-      "new_name": "pathCoefficient_auxiliary",
-      "docstring": "The coefficient of the auxiliary term determined by two paths is one when their optional combination is the indexed path and zero otherwise."
+      "new_name": "auxiliaryLinearMap_apply_auxiliary",
+      "docstring": "The auxiliary linear map applied to the displayed binary construction is one when the displayed optional value equals its index and zero otherwise."
     },
     {
       "temporary_id": "decl-005904",
-      "new_name": "pathCoefficient_single",
-      "docstring": "The coefficient of a singleton path term is its scalar at the indexed path and zero at every other path."
+      "new_name": "auxiliaryLinearMap_single",
+      "docstring": "The auxiliary linear map applied to a finitely supported singleton is its scalar at the matching index and zero otherwise."
     },
     {
       "temporary_id": "decl-005920",
-      "new_name": "auxiliary_eq_some_trivial_iff",
-      "docstring": "The auxiliary optional operation returns the trivial path at a vertex exactly when both input paths are that trivial path."
+      "new_name": "auxiliary_eq_some_nil_iff",
+      "docstring": "The displayed optional operation returns the nil path at an element of the quiver exactly when both inputs are that nil path."
     },
     {
       "temporary_id": "decl-005923",
       "new_name": "auxiliary_eq_some_left_iff",
-      "docstring": "The auxiliary optional operation on a path and a second path returns the first path exactly when the second is the trivial path at the target of the first."
+      "docstring": "The displayed optional operation on two indices returns the first index exactly when the second is the nil path at the displayed endpoint of the first."
     },
     {
       "temporary_id": "decl-006112",
-      "new_name": "instAddCommGroupVertexModule",
-      "docstring": "The additive commutative group structure on the type associated to a vertex."
+      "new_name": "instAddCommGroupAuxiliary",
+      "docstring": "The additive commutative group structure on the auxiliary type."
     },
     {
       "temporary_id": "decl-006160",
-      "new_name": "instModuleVertexModule",
-      "docstring": "The ground-field module structure on the type associated to a vertex."
+      "new_name": "instModuleAuxiliary",
+      "docstring": "The field module structure on the auxiliary type."
     },
     {
       "temporary_id": "decl-006168",
-      "new_name": "instModuleVertexModuleViaEvaluation",
-      "docstring": "The module structure induced on the vertex type by the surrounding algebra."
+      "new_name": "instModuleAuxiliarySelf",
+      "docstring": "The module structure on the auxiliary type over the surrounding scalar type."
     },
     {
       "temporary_id": "decl-006288",
-      "new_name": "arrowTerm_smul_vertexModule",
-      "docstring": "The term associated to an arrow ending at a vertex acts as zero on the type associated to that vertex."
+      "new_name": "auxiliary_smul_eq_zero",
+      "docstring": "The displayed scalar associated with a quiver homomorphism acts as zero on the auxiliary type."
     },
     {
       "temporary_id": "decl-013965",
-      "new_name": "auxiliary_of_exists_hom",
+      "new_name": "not_auxiliary_zero_of_exists_hom",
       "docstring": "If some pair of vertices admits an arrow, the displayed predicate does not hold for zero in the associated algebra."
     }
   ]
