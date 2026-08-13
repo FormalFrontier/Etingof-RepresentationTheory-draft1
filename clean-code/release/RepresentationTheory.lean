@@ -313,6 +313,7 @@ import RepresentationTheory.ModuleCat.RightTensor
 import RepresentationTheory.AsModuleEquivalences
 import RepresentationTheory.Quiver.EdgeModule
 import RepresentationTheory.Algebra.Module.BalancedTensorProduct.Adjunction
+import RepresentationTheory.FGModuleCat.SimpleModules
 
 /-!
 # Representation theory formalization
