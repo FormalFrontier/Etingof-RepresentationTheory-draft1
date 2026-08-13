@@ -1,0 +1,125 @@
+{
+  "module_name": "Quiver.Module.TensorPresentation",
+  "declarations": [
+    {
+      "temporary_id": "decl-005858",
+      "new_name": "auxiliaryAction",
+      "docstring": "An auxiliary additive homomorphism from the ambient scalar type to additive maps between the displayed module carriers."
+    },
+    {
+      "temporary_id": "decl-005860",
+      "new_name": "auxiliaryAction_smul",
+      "docstring": "The auxiliary homomorphism intertwines the function-valued scalar actions on its scalar and source arguments."
+    },
+    {
+      "temporary_id": "decl-005861",
+      "new_name": "auxiliaryAction_mul_apply",
+      "docstring": "Applying the auxiliary homomorphism to the displayed product agrees with the corresponding iterated pure tensor."
+    },
+    {
+      "temporary_id": "decl-005862",
+      "new_name": "auxiliaryAction_single_apply",
+      "docstring": "Applying the auxiliary homomorphism to a finitely supported singleton agrees with the auxiliary indexed operation."
+    },
+    {
+      "temporary_id": "decl-005928",
+      "new_name": "auxiliaryTerm",
+      "docstring": "An auxiliary operation taking an index, a field scalar, and an element of the displayed source carrier to the target carrier."
+    },
+    {
+      "temporary_id": "decl-005930",
+      "new_name": "auxiliaryTermAddHom",
+      "docstring": "The auxiliary indexed operation packaged as an additive homomorphism in its scalar and source arguments."
+    },
+    {
+      "temporary_id": "decl-005933",
+      "new_name": "auxiliaryTerm_add_scalar",
+      "docstring": "The auxiliary indexed operation is additive in its field-scalar argument."
+    },
+    {
+      "temporary_id": "decl-005934",
+      "new_name": "auxiliaryTerm_add",
+      "docstring": "The auxiliary indexed operation is additive in its source argument."
+    },
+    {
+      "temporary_id": "decl-005935",
+      "new_name": "auxiliaryTerm_smul",
+      "docstring": "Scaling the scalar argument by the value of a vertex function at the displayed endpoint agrees with acting by that function on the source argument."
+    },
+    {
+      "temporary_id": "decl-005936",
+      "new_name": "auxiliaryTerm_cons",
+      "docstring": "At a path formed by appending a quiver homomorphism, the auxiliary operation equals the displayed iterated pure tensor."
+    },
+    {
+      "temporary_id": "decl-005937",
+      "new_name": "auxiliaryTerm_nil",
+      "docstring": "The auxiliary operation at a nil path is zero."
+    },
+    {
+      "temporary_id": "decl-006048",
+      "new_name": "auxiliary_apply_zero_eq_single",
+      "docstring": "Applying the displayed auxiliary map to its degree-zero value produces the singleton supported at zero."
+    },
+    {
+      "temporary_id": "decl-006059",
+      "new_name": "auxiliary_zero_eq_tmul",
+      "docstring": "The degree-zero value of the displayed auxiliary map is a pure tensor of one with the image under the displayed morphism."
+    },
+    {
+      "temporary_id": "decl-006220",
+      "new_name": "smul_eq_const_smul",
+      "docstring": "Scalar multiplication by a field element agrees with scalar multiplication by the corresponding constant function."
+    },
+    {
+      "temporary_id": "decl-006245",
+      "new_name": "auxiliary_tmul_eq_tmul_smul",
+      "docstring": "The pure tensor with the value of the displayed map at zero equals the pure tensor of one with that value acting on the second factor."
+    },
+    {
+      "temporary_id": "decl-006386",
+      "new_name": "auxiliaryShortComplex_exact",
+      "docstring": "The displayed short complex is exact."
+    },
+    {
+      "temporary_id": "decl-006388",
+      "new_name": "auxiliary_exists_preimage",
+      "docstring": "An element whose components vanish above a bound and whose image under the displayed morphism is zero has a preimage under the preceding morphism."
+    },
+    {
+      "temporary_id": "decl-006394",
+      "new_name": "auxiliaryShortComplex_shortExact",
+      "docstring": "The displayed short complex is short exact."
+    },
+    {
+      "temporary_id": "decl-006401",
+      "new_name": "auxiliary_morphism_injective",
+      "docstring": "The displayed module morphism is injective on underlying elements."
+    },
+    {
+      "temporary_id": "decl-006402",
+      "new_name": "auxiliary_morphism_mono",
+      "docstring": "The displayed module morphism is a monomorphism."
+    },
+    {
+      "temporary_id": "decl-006423",
+      "new_name": "auxiliaryLeftInverse",
+      "docstring": "An auxiliary additive homomorphism between the two displayed module carriers."
+    },
+    {
+      "temporary_id": "decl-006424",
+      "new_name": "auxiliaryLeftInverse_apply",
+      "docstring": "The auxiliary additive homomorphism sends the image under the displayed morphism back to the original element."
+    },
+    {
+      "temporary_id": "decl-006425",
+      "new_name": "auxiliaryLeftInverse_tmul",
+      "docstring": "On a pure tensor, the auxiliary additive homomorphism agrees with the auxiliary action."
+    },
+    {
+      "temporary_id": "decl-006487",
+      "new_name": "eq_zero_of_auxiliary_succ_eq_zero",
+      "docstring": "An element is zero when every positive-degree component and its image under the displayed morphism are zero."
+    }
+  ]
+}
