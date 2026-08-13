@@ -310,6 +310,7 @@ import RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProduc
 import RepresentationTheory.Algebra.Homological.EquivalenceInvariance
 import RepresentationTheory.Algebra.Homological.AuxiliaryDimensionTransfer
 import RepresentationTheory.ModuleCat.RightTensor
+import RepresentationTheory.AsModuleEquivalences
 
 /-!
 # Representation theory formalization
