@@ -1,50 +1,50 @@
 {
-  "module_name": "TensorPower.MutualCentralizers",
+  "module_name": "Auxiliary.MutualCentralizers",
   "declarations": [
     {
       "temporary_id": "decl-016473",
-      "new_name": "auxiliaryTensorPowerSpace",
-      "docstring": "An auxiliary type associated with a field, a module, and a natural tensor parameter."
+      "new_name": "auxiliarySpace",
+      "docstring": "An auxiliary type associated with a field, a module, and a natural parameter."
     },
     {
       "temporary_id": "decl-016570",
-      "new_name": "exists_fin_tensorPower_decomposition",
-      "docstring": "For a coordinate module of sufficiently large rank, the auxiliary tensor-power space admits a direct-sum decomposition into tensor products with representation carriers."
+      "new_name": "exists_fin_auxiliarySpace_decomposition",
+      "docstring": "For a coordinate module and a bounded natural parameter, the auxiliary space is linearly equivalent to a direct sum of tensor products with representation carriers."
     },
     {
       "temporary_id": "decl-016571",
-      "new_name": "exists_fin_tensorPower_decomposition_with_action_compatibility",
-      "docstring": "A coordinate-module decomposition can be chosen so that evaluation realizes every summand and intertwines the general linear action."
+      "new_name": "exists_fin_auxiliarySpace_decomposition_with_action_compatibility",
+      "docstring": "A coordinate-module decomposition can be chosen so that its component maps realize pure tensors and intertwine the general linear action."
     },
     {
       "temporary_id": "decl-016574",
-      "new_name": "exists_tensorPower_decomposition",
-      "docstring": "Over an algebraically closed field of characteristic zero, the auxiliary tensor-power space of a finite module decomposes as a direct sum of tensor products."
+      "new_name": "exists_auxiliarySpace_decomposition",
+      "docstring": "Over an algebraically closed field of characteristic zero, the auxiliary space of a finite module is linearly equivalent to a direct sum of tensor products."
     },
     {
       "temporary_id": "decl-016575",
-      "new_name": "exists_tensorPower_decomposition_with_compatibility",
-      "docstring": "A tensor-power decomposition can be selected with compatible evaluation maps and a compatible action of the distinguished endomorphism algebra."
+      "new_name": "exists_auxiliarySpace_decomposition_with_compatibility",
+      "docstring": "An auxiliary-space decomposition can be selected with compatible component maps and an intertwining condition for an associated algebra action."
     },
     {
       "temporary_id": "decl-016576",
-      "new_name": "exists_tensorPower_decomposition_evaluation",
-      "docstring": "A tensor-power decomposition can be chosen whose inverse evaluates each pure tensor from an individual direct-sum component."
+      "new_name": "exists_auxiliarySpace_decomposition_evaluation",
+      "docstring": "An auxiliary-space decomposition can be chosen whose inverse sends each component pure tensor to its evaluation."
     },
     {
       "temporary_id": "decl-016578",
       "new_name": "mutual_centralizer_algebras",
-      "docstring": "The two distinguished endomorphism subalgebras are centralizers of one another in characteristic zero."
+      "docstring": "The two associated endomorphism subalgebras are centralizers of one another in characteristic zero."
     },
     {
       "temporary_id": "decl-016579",
-      "new_name": "exists_tensorPower_decomposition_of_charZero",
-      "docstring": "In characteristic zero, the auxiliary tensor-power space of a finite module has a direct-sum tensor-product decomposition."
+      "new_name": "exists_auxiliarySpace_decomposition_of_charZero",
+      "docstring": "In characteristic zero, the auxiliary space of a finite module is linearly equivalent to a direct sum of tensor products."
     },
     {
       "temporary_id": "decl-016582",
-      "new_name": "centralizer_algebras_semisimple",
-      "docstring": "Both distinguished endomorphism algebras are semisimple over a characteristic-zero field."
+      "new_name": "associatedSubalgebras_semisimple",
+      "docstring": "Both associated endomorphism subalgebras are semisimple over a characteristic-zero field."
     },
     {
       "temporary_id": "decl-017864",
@@ -54,7 +54,7 @@
     {
       "temporary_id": "decl-018384",
       "new_name": "auxiliaryEndomorphismAlgebra",
-      "docstring": "An auxiliary subalgebra of endomorphisms of the tensor-power space."
+      "docstring": "An auxiliary subalgebra of endomorphisms of the auxiliary space."
     },
     {
       "temporary_id": "decl-018386",
@@ -68,18 +68,18 @@
     },
     {
       "temporary_id": "decl-023613",
-      "new_name": "permuteTensorFactors",
-      "docstring": "A permutation of the index set induces a linear self-equivalence of the auxiliary tensor-power space."
+      "new_name": "auxiliarySpacePermutationEquiv",
+      "docstring": "A permutation of a finite index type induces a linear self-equivalence of the auxiliary space."
     },
     {
       "temporary_id": "decl-023615",
-      "new_name": "permuteTensorFactors_comp_map",
-      "docstring": "Permuting tensor factors commutes with applying the same linear endomorphism in every factor."
+      "new_name": "auxiliarySpacePermutationEquiv_comp_factorwiseMap",
+      "docstring": "The permutation equivalence commutes with the map induced by applying one linear endomorphism factorwise."
     },
     {
       "temporary_id": "decl-023618",
       "new_name": "permutationGroupAlgebraAction",
-      "docstring": "The permutation action on tensor factors extends linearly to an algebra homomorphism from the permutation group algebra."
+      "docstring": "The permutation action on the auxiliary space extends to an algebra homomorphism from the permutation group algebra."
     },
     {
       "temporary_id": "decl-023626",
@@ -89,7 +89,7 @@
     {
       "temporary_id": "decl-023627",
       "new_name": "permutationActionAlgebra",
-      "docstring": "The subalgebra of tensor-power endomorphisms associated with permutations of tensor factors."
+      "docstring": "The subalgebra of auxiliary-space endomorphisms associated with permutations."
     },
     {
       "temporary_id": "decl-023631",
@@ -98,8 +98,8 @@
     },
     {
       "temporary_id": "decl-023637",
-      "new_name": "faithfulSMul_permutationActionAlgebra_tensorPower",
-      "docstring": "The permutation-action algebra acts faithfully on the auxiliary tensor-power space."
+      "new_name": "faithfulSMul_permutationActionAlgebra_auxiliarySpace",
+      "docstring": "The permutation-action algebra acts faithfully on the auxiliary space."
     },
     {
       "temporary_id": "decl-023638",
@@ -114,12 +114,12 @@
     {
       "temporary_id": "decl-023642",
       "new_name": "permutationAction",
-      "docstring": "Permutations of tensor factors define a monoid homomorphism into tensor-power endomorphisms."
+      "docstring": "Permutations define a monoid homomorphism into auxiliary-space endomorphisms."
     },
     {
       "temporary_id": "decl-024035",
-      "new_name": "finite_tensorPower",
-      "docstring": "The auxiliary tensor-power space of a finite module is finite over the base field."
+      "new_name": "finite_auxiliarySpace",
+      "docstring": "The auxiliary space of a finite module is finite over the base field."
     }
   ]
 }
