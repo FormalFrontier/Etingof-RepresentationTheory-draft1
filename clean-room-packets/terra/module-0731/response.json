@@ -69,8 +69,8 @@
     },
     {
       "temporary_id": "decl-006293",
-      "new_name": "vertexElement_mul",
-      "docstring": "Multiplication of two vertex elements agrees with their prescribed product."
+      "new_name": "pathElement_mul_pathElement",
+      "docstring": "Multiplication of two path elements agrees with their prescribed product."
     },
     {
       "temporary_id": "decl-006536",
