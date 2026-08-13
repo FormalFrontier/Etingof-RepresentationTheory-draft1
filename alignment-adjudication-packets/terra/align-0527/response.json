@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:9114a9d22a78ca0a0e50",
-      "rationale": "The displayed equality gives the polynomial-action formula, but its type does not itself display that the named polynomial has degree k.",
-      "role": "supporting"
+      "rationale": "For a highest-weight vector w, the displayed equality directly identifies E^k F^k w with a named polynomial in H applied to w; the separate natDegree theorem supplies the degree-k property.",
+      "role": "primary"
     },
     {
       "association_id": "association:38c08521823ad745a9cd",
@@ -13,8 +13,8 @@
     },
     {
       "association_id": "association:09e7aa091434ea7075eb",
-      "rationale": "This directly gives the named polynomial's degree, but not the asserted E^k F^k w polynomial-action formula.",
-      "role": "supporting"
+      "rationale": "This theorem directly supplies the degree-k clause by stating that the polynomial used in the polynomial-action formula has natural degree k.",
+      "role": "primary"
     }
   ]
 }

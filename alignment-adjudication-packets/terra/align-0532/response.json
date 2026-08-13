@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:e8ea0afe8fcdfb5132d1",
-      "rationale": "The type gives an intertwining property for the opaque named Casimir operator, but does not display the source's defining EF + FE + H^2/2 formula or scalar action.",
-      "role": "supporting"
+      "rationale": "The theorem directly states that the named Casimir commutes with the action of every sl2 element, which is the centrality clause of the source claim.",
+      "role": "primary"
     },
     {
       "association_id": "association:b90602ebee72ef692df1",
-      "rationale": "The displayed equality gives the scalar-action calculation on the standard module, but not the source's centrality assertion.",
-      "role": "supporting"
+      "rationale": "The displayed equality directly expands EF + FE + H^2/2 on V_lambda and identifies it with the scalar lambda(lambda+2)/2 times the identity.",
+      "role": "primary"
     }
   ]
 }

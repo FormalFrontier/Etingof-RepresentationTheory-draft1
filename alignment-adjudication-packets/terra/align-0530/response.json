@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:ea1d110e18151b9fabdf",
-      "rationale": "The displayed conclusion has the least-positive-iterate equation, but only under the opaque maxGenEigenspace and no-higher-eigenvalue conditions, so it is supporting evidence for the contextual claim.",
-      "role": "supporting"
+      "rationale": "The hypotheses express that N is the least positive exponent annihilating the selected nonzero vector under F, and the conclusion directly states lambda = N - 1.",
+      "role": "primary"
     }
   ]
 }

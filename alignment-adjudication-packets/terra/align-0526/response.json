@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:7f57a83406620600527b",
-      "rationale": "The conclusion uses the opaque maxGenEigenspace construction and a no-higher-eigenvalue hypothesis, so the displayed type does not directly state the maximal-real-part formulation.",
-      "role": "supporting"
+      "rationale": "Under the no-higher-weight hypothesis encoding the selected maximal weight, the theorem directly says that E vanishes on every vector in the corresponding generalized H-eigenspace.",
+      "role": "primary"
     }
   ]
 }

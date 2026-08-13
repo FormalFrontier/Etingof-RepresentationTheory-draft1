@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:b16b0e5afe540b21765d",
-      "rationale": "The equality of the opaque generalized-eigenspace and eigenspace constructions is conditional supporting evidence, not a direct diagonalizability statement for the selected space.",
-      "role": "supporting"
+      "rationale": "Under the no-higher-weight hypothesis selecting lambda, the equality of its maximal generalized eigenspace with its eigenspace directly states that H has no nontrivial generalized part there.",
+      "role": "primary"
     }
   ]
 }

@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:d06af803fd773adade54",
-      "rationale": "It gives positive F-iterate nilpotence for membership in the opaque maxGenEigenspace construction, rather than directly stating the selected highest-weight-space claim.",
-      "role": "supporting"
+      "rationale": "The theorem directly states that every vector in the selected generalized H-eigenspace is annihilated by F^N for some positive N.",
+      "role": "primary"
     }
   ]
 }
