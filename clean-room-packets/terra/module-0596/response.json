@@ -3,18 +3,18 @@
   "declarations": [
     {
       "temporary_id": "decl-020890",
-      "new_name": "moduleCat_isSemisimple_of_isSemisimpleRing",
-      "docstring": "A semisimple ring has a semisimple category of modules."
+      "new_name": "moduleCat_auxiliaryProperty_of_isSemisimpleRing",
+      "docstring": "The module category of a semisimple ring satisfies the displayed auxiliary category property."
     },
     {
       "temporary_id": "decl-021549",
-      "new_name": "moduleCat_isSemisimple_of_isUnit_card",
-      "docstring": "Finite-group representations over a field form a semisimple module category when the group order is invertible."
+      "new_name": "monoidAlgebra_moduleCat_auxiliaryProperty_of_isUnit_card",
+      "docstring": "When a finite group's cardinality is invertible in the field, the module category over its monoid algebra satisfies the displayed auxiliary category property."
     },
     {
       "temporary_id": "decl-021550",
       "new_name": "monoidAlgebra_isSemisimpleRing_of_isUnit_card",
-      "docstring": "The algebra of a finite group over a field is semisimple if its order is invertible in the field."
+      "docstring": "The monoid algebra of a finite group over a field is a semisimple ring when the group cardinality is invertible in the field."
     }
   ]
 }
