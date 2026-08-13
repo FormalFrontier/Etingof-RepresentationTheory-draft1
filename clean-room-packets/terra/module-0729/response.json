@@ -1,60 +1,60 @@
 {
-  "module_name": "CategoryTheory.Abelian.CompositionFactorCount",
+  "module_name": "CategoryTheory.Abelian.SubobjectLength",
   "declarations": [
     {
       "temporary_id": "decl-017970",
-      "new_name": "compositionFactorCount",
-      "docstring": "The natural-number measure assigned to an object by its composition factors."
+      "new_name": "objectLength",
+      "docstring": "A natural-number-valued length assigned to an object of a category."
     },
     {
       "temporary_id": "decl-017972",
-      "new_name": "compositionFactorCount_shortExact",
-      "docstring": "The composition-factor measure is additive across a short exact sequence."
+      "new_name": "objectLength_shortExact",
+      "docstring": "Object length is additive across a short exact sequence."
     },
     {
       "temporary_id": "decl-017973",
-      "new_name": "compositionFactorCount_biprod",
-      "docstring": "The composition-factor measure of a binary biproduct is the sum of the two measures."
+      "new_name": "objectLength_biprod",
+      "docstring": "The length of a binary biproduct is the sum of the lengths of its two objects."
     },
     {
       "temporary_id": "decl-017975",
-      "new_name": "compositionFactorCount_eq_zero_iff_isZero",
-      "docstring": "An object has vanishing composition-factor measure exactly when it is zero."
+      "new_name": "objectLength_eq_zero_iff_isZero",
+      "docstring": "An object has length zero exactly when it is a zero object."
     },
     {
       "temporary_id": "decl-017976",
-      "new_name": "compositionFactorCount_eq_zero_iff_isZero_of_finiteDimensionalOrder",
-      "docstring": "With a finite-dimensional subobject order, zero measure characterizes zero objects."
+      "new_name": "objectLength_eq_zero_iff_isZero_of_finiteDimensionalOrder",
+      "docstring": "With a finite-dimensional subobject order, length zero characterizes zero objects."
     },
     {
       "temporary_id": "decl-017977",
-      "new_name": "compositionFactorCount_eq_zero_of_isZero",
-      "docstring": "A zero object has zero composition-factor measure."
+      "new_name": "objectLength_eq_zero_of_isZero",
+      "docstring": "A zero object has length zero."
     },
     {
       "temporary_id": "decl-017978",
-      "new_name": "compositionFactorCount_subobject_mono",
-      "docstring": "The composition-factor measure is monotone under inclusion of subobjects."
+      "new_name": "objectLength_le_of_subobject_le",
+      "docstring": "Inclusion of subobjects gives an inequality between the lengths of their underlying objects."
     },
     {
       "temporary_id": "decl-017979",
-      "new_name": "compositionFactorCount_subobject_add_cokernel",
-      "docstring": "Extending a subobject adds the measure of the associated cokernel."
+      "new_name": "objectLength_eq_add_cokernel_of_subobject_le",
+      "docstring": "The length of the larger subobject is the length of the smaller one plus that of the induced cokernel."
     },
     {
       "temporary_id": "decl-017981",
-      "new_name": "compositionFactorCount_pos_of_not_isZero",
-      "docstring": "Every nonzero object has positive composition-factor measure."
+      "new_name": "objectLength_pos_of_not_isZero",
+      "docstring": "The length of an object that is not zero is positive."
     },
     {
       "temporary_id": "decl-017982",
-      "new_name": "compositionFactorCount_eq_one_of_simple",
-      "docstring": "A simple object contributes one unit to the composition-factor measure."
+      "new_name": "objectLength_eq_one_of_simple",
+      "docstring": "A simple object has length one."
     },
     {
       "temporary_id": "decl-017983",
-      "new_name": "compositionFactorCount_subobject_strictMono",
-      "docstring": "A strict inclusion of subobjects strictly increases the composition-factor measure."
+      "new_name": "objectLength_lt_of_subobject_lt",
+      "docstring": "A strict inclusion of subobjects gives a strict inequality between the lengths of their underlying objects."
     },
     {
       "temporary_id": "decl-018831",
@@ -83,8 +83,8 @@
     },
     {
       "temporary_id": "decl-018918",
-      "new_name": "exists_pow_image_factorization_isIso",
-      "docstring": "At a positive iterate, the canonical composite through its image is invertible."
+      "new_name": "exists_pow_image_ι_comp_factorThruImage_isIso",
+      "docstring": "For some positive power, its image inclusion followed by its factor-through-image map is an isomorphism."
     },
     {
       "temporary_id": "decl-019394",
