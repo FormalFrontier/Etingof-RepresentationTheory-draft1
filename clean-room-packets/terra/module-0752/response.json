@@ -1,0 +1,35 @@
+{
+  "module_name": "RingTheory.ModuleLength",
+  "declarations": [
+    {
+      "temporary_id": "decl-018147",
+      "new_name": "targets_related_of_sourceRelations_of_indecomposable_finiteLength",
+      "docstring": "Derives a relation between two targets from two opaque relations out of an indecomposable finite-length module."
+    },
+    {
+      "temporary_id": "decl-018875",
+      "new_name": "exists_isCompl_linearEquiv_quotient_of_subsingleton_ext",
+      "docstring": "A suitable subsingleton condition supplies a complementary submodule linearly equivalent to the quotient."
+    },
+    {
+      "temporary_id": "decl-018876",
+      "new_name": "exists_isCompl_with_relation_partition_of_finiteLength",
+      "docstring": "A finite-length module has complementary submodules separating two opaque relation conditions."
+    },
+    {
+      "temporary_id": "decl-019318",
+      "new_name": "relation_or_of_isCompl",
+      "docstring": "A relation out of the indicated quotient yields one out of either a complementary submodule or the quotient by the ambient submodule."
+    },
+    {
+      "temporary_id": "decl-020840",
+      "new_name": "finiteLength_quotient_of_finiteLength",
+      "docstring": "Quotients of a finite-length module have finite length."
+    },
+    {
+      "temporary_id": "decl-020841",
+      "new_name": "finiteLength_submodule_of_finiteLength",
+      "docstring": "Submodules of a finite-length module have finite length."
+    }
+  ]
+}
