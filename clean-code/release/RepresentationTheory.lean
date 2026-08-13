@@ -294,6 +294,7 @@ import RepresentationTheory.LinearAlgebra.ExteriorAlgebra.Contraction
 import RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex
 import RepresentationTheory.CategoryTheory.Abelian.ProjectiveResolution
 import RepresentationTheory.FDRep.SimpleCharacters
+import RepresentationTheory.Algebra.Auxiliary
 
 /-!
 # Representation theory formalization
