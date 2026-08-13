@@ -1,0 +1,15 @@
+{
+  "module_name": "Auxiliary.TensorDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-016577",
+      "new_name": "existsAuxiliaryDirectSumTensorProductDecomposition",
+      "docstring": "Asserts the existence of an indexed direct-sum tensor-product decomposition with a uniqueness condition on its indexed factors."
+    },
+    {
+      "temporary_id": "decl-023632",
+      "new_name": "auxiliarySubtypeRing",
+      "docstring": "The ring structure carried by the displayed subtype."
+    }
+  ]
+}
