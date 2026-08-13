@@ -1,0 +1,95 @@
+{
+  "module_name": "SymmetricPower.Basis",
+  "declarations": [
+    {
+      "temporary_id": "decl-016226",
+      "new_name": "SymmetricPower.Basis.Index",
+      "docstring": "The auxiliary index type parameterized by a natural number and a label type."
+    },
+    {
+      "temporary_id": "decl-016227",
+      "new_name": "SymmetricPower.Basis.functionSetoid",
+      "docstring": "The setoid on functions from `Fin n` to a label type."
+    },
+    {
+      "temporary_id": "decl-016230",
+      "new_name": "SymmetricPower.Basis.element",
+      "docstring": "Associates an element of a symmetric power to an auxiliary index using a module basis."
+    },
+    {
+      "temporary_id": "decl-016232",
+      "new_name": "SymmetricPower.Basis.element_ofFunction",
+      "docstring": "On an index obtained from a function, the associated element is the symmetric-power class of the corresponding tensor-basis element."
+    },
+    {
+      "temporary_id": "decl-016233",
+      "new_name": "SymmetricPower.Basis.elementLinearMap",
+      "docstring": "The linear map from finitely supported coefficient functions on the auxiliary indices to the symmetric power determined by a module basis."
+    },
+    {
+      "temporary_id": "decl-016235",
+      "new_name": "SymmetricPower.Basis.elementLinearMap_single",
+      "docstring": "Evaluating the element linear map on a singleton coefficient function scales the associated element."
+    },
+    {
+      "temporary_id": "decl-016236",
+      "new_name": "SymmetricPower.Basis.coordinateEquiv",
+      "docstring": "The linear equivalence between a symmetric power and finitely supported coordinate functions indexed by the auxiliary type."
+    },
+    {
+      "temporary_id": "decl-016240",
+      "new_name": "SymmetricPower.Basis.coordinateEquiv_symm_single",
+      "docstring": "The inverse coordinate equivalence sends the unit singleton at an index to its associated symmetric-power element."
+    },
+    {
+      "temporary_id": "decl-016241",
+      "new_name": "SymmetricPower.Basis.basis",
+      "docstring": "The module basis of the symmetric power indexed by the auxiliary index type."
+    },
+    {
+      "temporary_id": "decl-016243",
+      "new_name": "SymmetricPower.Basis.basis_apply",
+      "docstring": "The symmetric-power basis evaluates at an index as the associated element."
+    },
+    {
+      "temporary_id": "decl-016244",
+      "new_name": "SymmetricPower.Basis.basis_ofFunction",
+      "docstring": "At an index arising from a function, the symmetric-power basis is the class of the corresponding tensor-basis element."
+    },
+    {
+      "temporary_id": "decl-016245",
+      "new_name": "SymmetricPower.Basis.tensorBasis",
+      "docstring": "The basis of the finite pi tensor product induced by a module basis."
+    },
+    {
+      "temporary_id": "decl-016248",
+      "new_name": "SymmetricPower.Basis.coordinates",
+      "docstring": "The linear map assigning finitely supported auxiliary-index coordinates to elements of a symmetric power."
+    },
+    {
+      "temporary_id": "decl-016253",
+      "new_name": "SymmetricPower.Basis.tensorCoordinates",
+      "docstring": "The linear map assigning finitely supported auxiliary-index coordinates to elements of the finite pi tensor product."
+    },
+    {
+      "temporary_id": "decl-016257",
+      "new_name": "SymmetricPower.Basis.tensorCoordinates_tensorBasis",
+      "docstring": "The tensor coordinate map sends a tensor-basis element to the unit singleton at its function index."
+    },
+    {
+      "temporary_id": "decl-016258",
+      "new_name": "SymmetricPower.Basis.tensorCoordinates_reindex",
+      "docstring": "The tensor coordinate map is unchanged by reindexing with a permutation of `Fin n`."
+    },
+    {
+      "temporary_id": "decl-016259",
+      "new_name": "SymmetricPower.Basis.coordinates_mk",
+      "docstring": "Taking coordinates after forming a symmetric-power class agrees with the tensor coordinate map."
+    },
+    {
+      "temporary_id": "decl-016260",
+      "new_name": "SymmetricPower.Basis.indexOfFunction",
+      "docstring": "Maps a function from `Fin n` to the auxiliary index type."
+    }
+  ]
+}
