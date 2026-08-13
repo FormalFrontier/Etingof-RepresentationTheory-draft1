@@ -179,6 +179,7 @@ import RepresentationTheory.Module.IndexedCoordinateProjections
 import RepresentationTheory.TensorCoefficientIndependence
 import RepresentationTheory.FiniteGroupCharacterArithmetic
 import RepresentationTheory.RepresentationAveragingTrace
+import RepresentationTheory.SymmetricPower.Basis
 
 /-!
 # Representation theory formalization
