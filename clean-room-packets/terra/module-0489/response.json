@@ -1,0 +1,50 @@
+{
+  "module_name": "AuxiliaryPartitionPermutationAverages",
+  "declarations": [
+    {
+      "temporary_id": "decl-005383",
+      "new_name": "auxiliaryCount",
+      "docstring": "An auxiliary natural-number function of an indexing object and two natural-number arguments."
+    },
+    {
+      "temporary_id": "decl-023794",
+      "new_name": "auxiliary_eq_inv_card_smul_sum",
+      "docstring": "The displayed auxiliary function equals an inverse-cardinality scalar multiple of a finite sum of permuted functions."
+    },
+    {
+      "temporary_id": "decl-023795",
+      "new_name": "auxiliary_apply_eq_inv_card_mul_sum",
+      "docstring": "Pointwise evaluation of the displayed auxiliary function equals an inverse-cardinality multiple of a finite sum."
+    },
+    {
+      "temporary_id": "decl-023810",
+      "new_name": "auxiliaryPermutationMap_injective",
+      "docstring": "The auxiliary map associated with a finite permutation is injective."
+    },
+    {
+      "temporary_id": "decl-023811",
+      "new_name": "auxiliaryPermutationMap_inv_apply",
+      "docstring": "Applying the auxiliary map for a permutation and then the map for its inverse recovers the original input."
+    },
+    {
+      "temporary_id": "decl-024595",
+      "new_name": "auxiliaryPermutationCount",
+      "docstring": "An auxiliary natural-number function determined by two partitions, a finite permutation, and two natural-number arguments."
+    },
+    {
+      "temporary_id": "decl-024600",
+      "new_name": "auxiliaryPermutationCount_mul_eq",
+      "docstring": "The auxiliary permutation count is unchanged by right multiplication with an element of the displayed subgroup."
+    },
+    {
+      "temporary_id": "decl-024601",
+      "new_name": "auxiliaryPermutationCount_standardization",
+      "docstring": "At the displayed standardizing permutation, the auxiliary permutation count agrees with the indexing object's auxiliary count."
+    },
+    {
+      "temporary_id": "decl-024653",
+      "new_name": "auxiliary_exists_of_ne_zero",
+      "docstring": "A nonzero auxiliary evaluation yields a subgroup element satisfying the displayed relation between the two standardized permutations."
+    }
+  ]
+}
