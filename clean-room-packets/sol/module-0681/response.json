@@ -1,0 +1,125 @@
+{
+  "declarations": [
+    {
+      "docstring": "The map induced by a pair of module morphisms sends a pure tensor to the tensor of their values.",
+      "new_name": "TensorProduct.RightModuleBifunctor.map_tmul",
+      "temporary_id": "decl-019023"
+    },
+    {
+      "docstring": "A scalar embedded into the opposite tensor-product algebra acts on the tensor product in the same way as the original scalar.",
+      "new_name": "TensorProduct.RightModuleBifunctor.algebraMap_smul_eq_smul",
+      "temporary_id": "decl-019025"
+    },
+    {
+      "docstring": "A bifunctor from two categories of right modules to vector spaces, parameterized by a module structure on the tensor product of two vector spaces.",
+      "new_name": "TensorProduct.RightModuleBifunctor.moduleBifunctorOfTensorProductModule",
+      "temporary_id": "decl-019225"
+    },
+    {
+      "docstring": "Mapping in the first variable of the tensor-product-module bifunctor agrees with the displayed map obtained by fixing the second variable.",
+      "new_name": "TensorProduct.RightModuleBifunctor.moduleBifunctorOfTensorProductModule_map_first",
+      "temporary_id": "decl-019226"
+    },
+    {
+      "docstring": "Mapping in the second variable of the tensor-product-module bifunctor agrees with the displayed map obtained by fixing the first variable.",
+      "new_name": "TensorProduct.RightModuleBifunctor.moduleBifunctorOfTensorProductModule_map_second",
+      "temporary_id": "decl-019227"
+    },
+    {
+      "docstring": "A bifunctor from two categories of right modules to vector spaces, parameterized by a module over each algebra.",
+      "new_name": "TensorProduct.RightModuleBifunctor.moduleBifunctorOfFactorModules",
+      "temporary_id": "decl-019315"
+    },
+    {
+      "docstring": "Mapping in the first variable of the factor-module bifunctor is the right whiskering of the corresponding map.",
+      "new_name": "TensorProduct.RightModuleBifunctor.moduleBifunctorOfFactorModules_map_first",
+      "temporary_id": "decl-019316"
+    },
+    {
+      "docstring": "Mapping in the second variable of the factor-module bifunctor is the left whiskering of the corresponding map.",
+      "new_name": "TensorProduct.RightModuleBifunctor.moduleBifunctorOfFactorModules_map_second",
+      "temporary_id": "decl-019317"
+    },
+    {
+      "docstring": "Base-field scalar multiplication commutes with the action of the opposite algebra on a right module.",
+      "new_name": "TensorProduct.RightModuleBifunctor.baseField_smulCommClass",
+      "temporary_id": "decl-020589"
+    },
+    {
+      "docstring": "Base-field scalars commute with the opposite tensor-product algebra on the tensor product of two right modules.",
+      "new_name": "TensorProduct.RightModuleBifunctor.tensorProduct_smulCommClass",
+      "temporary_id": "decl-020590"
+    },
+    {
+      "docstring": "The tensor product of two right modules carries a module structure over the opposite of the tensor product algebra.",
+      "new_name": "TensorProduct.RightModuleBifunctor.tensorProductRightModule",
+      "temporary_id": "decl-020602"
+    },
+    {
+      "docstring": "The carrier of a right module over an algebra is naturally a module over the base field.",
+      "new_name": "TensorProduct.RightModuleBifunctor.baseFieldModule",
+      "temporary_id": "decl-020630"
+    },
+    {
+      "docstring": "The base field, opposite algebra, and carrier of a right module form a scalar tower.",
+      "new_name": "TensorProduct.RightModuleBifunctor.baseField_isScalarTower",
+      "temporary_id": "decl-020678"
+    },
+    {
+      "docstring": "For fixed right modules, the two displayed module bifunctors have isomorphic values when the tensor-product action satisfies the pure-tensor formula.",
+      "new_name": "TensorProduct.RightModuleBifunctor.comparisonObjIso",
+      "temporary_id": "decl-022341"
+    },
+    {
+      "docstring": "The forward map of the objectwise comparison sends a tensor of pure-tensor classes to the corresponding tensor of classes.",
+      "new_name": "TensorProduct.RightModuleBifunctor.comparisonObjIso_hom_tmul",
+      "temporary_id": "decl-022343"
+    },
+    {
+      "docstring": "The tensor-product-module bifunctor is isomorphic to the factor-module bifunctor under the stated pure-tensor action rule.",
+      "new_name": "TensorProduct.RightModuleBifunctor.comparisonIso",
+      "temporary_id": "decl-022344"
+    },
+    {
+      "docstring": "Fixing the first right module in the two bifunctors yields isomorphic functors of the second module.",
+      "new_name": "TensorProduct.RightModuleBifunctor.comparisonIsoApp",
+      "temporary_id": "decl-022346"
+    },
+    {
+      "docstring": "The component of the fixed-first-variable comparison map is the forward map of the objectwise comparison.",
+      "new_name": "TensorProduct.RightModuleBifunctor.comparisonIsoApp_hom_app",
+      "temporary_id": "decl-022349"
+    },
+    {
+      "docstring": "The two explicitly displayed module objects built from the tensor-product data are isomorphic over the base field.",
+      "new_name": "TensorProduct.RightModuleBifunctor.explicitComparisonObjIso",
+      "temporary_id": "decl-022381"
+    },
+    {
+      "docstring": "The carriers of the values of the two module bifunctors are linearly equivalent over the base field.",
+      "new_name": "TensorProduct.RightModuleBifunctor.comparisonLinearEquiv",
+      "temporary_id": "decl-022383"
+    },
+    {
+      "docstring": "The comparison linear equivalence sends a tensor of pure-tensor classes to the tensor of the corresponding classes.",
+      "new_name": "TensorProduct.RightModuleBifunctor.comparisonLinearEquiv_tmul",
+      "temporary_id": "decl-022386"
+    },
+    {
+      "docstring": "The carrier of the tensor-product-module bifunctor value is linearly equivalent to the displayed tensor-product module carrier.",
+      "new_name": "TensorProduct.RightModuleBifunctor.moduleBifunctorCarrierLinearEquiv",
+      "temporary_id": "decl-022417"
+    },
+    {
+      "docstring": "The carrier linear equivalence acts as the identity on every element of the bifunctor value.",
+      "new_name": "TensorProduct.RightModuleBifunctor.moduleBifunctorCarrierLinearEquiv_apply",
+      "temporary_id": "decl-022423"
+    },
+    {
+      "docstring": "An auxiliary equality between the two displayed maps associated with a morphism of right modules.",
+      "new_name": "TensorProduct.RightModuleBifunctor.Auxiliary.moduleMorphismMap_eq",
+      "temporary_id": "decl-024078"
+    }
+  ],
+  "module_name": "TensorProduct.RightModuleBifunctor"
+}
