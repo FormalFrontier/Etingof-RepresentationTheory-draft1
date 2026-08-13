@@ -94,7 +94,7 @@
     {
       "temporary_id": "decl-014452",
       "new_name": "auxiliaryZModDegreeOneIsZero",
-      "docstring": "The degree-one auxiliary categorical object associated with a nonzero cyclic module is zero."
+      "docstring": "The degree-one auxiliary categorical object associated with a cyclic module of nonzero modulus is zero."
     },
     {
       "temporary_id": "decl-014455",
@@ -104,7 +104,7 @@
     {
       "temporary_id": "decl-014456",
       "new_name": "auxiliaryZModDegreeOneGcdIso",
-      "docstring": "The degree-one auxiliary categorical object of two nonzero cyclic modules is isomorphic to the gcd cyclic module."
+      "docstring": "The degree-one auxiliary categorical object of two cyclic modules with nonzero moduli is isomorphic to the gcd cyclic module."
     },
     {
       "temporary_id": "decl-014458",
@@ -139,7 +139,7 @@
     {
       "temporary_id": "decl-014484",
       "new_name": "auxiliaryPolynomialQuotientDegreeOneIsZero",
-      "docstring": "The degree-one auxiliary categorical object of a nonzero polynomial quotient is zero."
+      "docstring": "The degree-one auxiliary categorical object of a quotient by a nonzero polynomial is zero."
     },
     {
       "temporary_id": "decl-014487",
@@ -149,7 +149,7 @@
     {
       "temporary_id": "decl-014488",
       "new_name": "auxiliaryPolynomialQuotientDegreeOneIso",
-      "docstring": "The degree-one auxiliary categorical object of two nonzero polynomial quotients is isomorphic to their joint quotient."
+      "docstring": "The degree-one auxiliary categorical object of two quotients by nonzero polynomials is isomorphic to their joint quotient."
     },
     {
       "temporary_id": "decl-014490",
@@ -174,12 +174,12 @@
     {
       "temporary_id": "decl-017071",
       "new_name": "linearMapZModAddEquivGcd",
-      "docstring": "Integer-linear maps between nontrivial cyclic modules are additively equivalent to the cyclic module of their gcd."
+      "docstring": "Integer-linear maps between cyclic modules with nonzero moduli are additively equivalent to the cyclic module of their gcd."
     },
     {
       "temporary_id": "decl-017072",
       "new_name": "linearMapZModKerAddEquiv",
-      "docstring": "Maps out of a nontrivial cyclic module are additively equivalent to the kernel of multiplication by its modulus."
+      "docstring": "Maps out of a cyclic module with nonzero modulus are additively equivalent to the kernel of multiplication by its modulus."
     },
     {
       "temporary_id": "decl-017081",
@@ -229,7 +229,7 @@
     {
       "temporary_id": "decl-017096",
       "new_name": "subsingleton_linearMapZModToInt",
-      "docstring": "Every integer-linear map from a nontrivial finite cyclic module to the integers is equal."
+      "docstring": "Integer-linear maps from a cyclic module with nonzero modulus to the integers form a subsingleton."
     },
     {
       "temporary_id": "decl-017097",
@@ -254,7 +254,7 @@
     {
       "temporary_id": "decl-019239",
       "new_name": "auxiliaryIntZModDegreeOneQuotientAddEquiv",
-      "docstring": "The degree-one auxiliary construction from a nonzero cyclic module is additively equivalent to the target modulo its generated scalar submodule."
+      "docstring": "The degree-one auxiliary construction from a cyclic module with nonzero modulus is additively equivalent to the target modulo its generated scalar submodule."
     },
     {
       "temporary_id": "decl-019919",
@@ -274,12 +274,12 @@
     {
       "temporary_id": "decl-024247",
       "new_name": "auxiliaryPolynomialQuotientDegreeOneKerIso",
-      "docstring": "The degree-one auxiliary categorical object of a nonzero polynomial quotient is isomorphic to a scalar-map kernel."
+      "docstring": "The degree-one auxiliary categorical object of a quotient by a nonzero polynomial is isomorphic to a scalar-map kernel."
     },
     {
       "temporary_id": "decl-024253",
       "new_name": "auxiliaryIntZModDegreeOneKerIso",
-      "docstring": "The degree-one auxiliary categorical object of a nonzero cyclic module is isomorphic to a natural scalar-map kernel."
+      "docstring": "The degree-one auxiliary categorical object of a cyclic module with nonzero modulus is isomorphic to a natural scalar-map kernel."
     },
     {
       "temporary_id": "decl-024261",
