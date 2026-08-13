@@ -1,5 +1,4 @@
 {
-  "packet_id": "module-0733",
   "module_name": "TensorCoordinateMaps",
   "declarations": [
     {
@@ -29,23 +28,23 @@
     },
     {
       "temporary_id": "decl-006050",
-      "new_name": "boundary_succ_apply",
-      "docstring": "The successor coordinate of the boundary image is the difference of adjacent coordinate images."
+      "new_name": "difference_succ_apply",
+      "docstring": "The successor coordinate of the difference morphism is the multiplication image at an index minus the action image at its successor."
     },
     {
       "temporary_id": "decl-006053",
-      "new_name": "boundary_zero_apply",
-      "docstring": "The zeroth coordinate of the boundary image is the negation of the zeroth action image."
+      "new_name": "difference_zero_apply",
+      "docstring": "The zeroth coordinate of the difference morphism is the negation of the zeroth action image."
     },
     {
       "temporary_id": "decl-006056",
-      "new_name": "boundary_tmul_succ_apply",
-      "docstring": "Computes a successor boundary coordinate on a nested pure tensor as a difference of two pure tensors."
+      "new_name": "difference_tmul_succ_apply",
+      "docstring": "Computes a successor difference coordinate on a nested pure tensor as a difference of two pure tensors."
     },
     {
       "temporary_id": "decl-006057",
-      "new_name": "boundary_tmul_zero_apply",
-      "docstring": "Computes the zeroth boundary coordinate on a nested pure tensor as a negated pure tensor."
+      "new_name": "difference_tmul_zero_apply",
+      "docstring": "Computes the zeroth difference coordinate on a nested pure tensor as a negated pure tensor."
     },
     {
       "temporary_id": "decl-006237",
@@ -64,8 +63,8 @@
     },
     {
       "temporary_id": "decl-006398",
-      "new_name": "boundary_eq_difference",
-      "docstring": "The boundary morphism is pointwise the difference of the multiplication and action morphisms."
+      "new_name": "difference_apply",
+      "docstring": "The difference morphism is pointwise the multiplication morphism minus the action morphism."
     },
     {
       "temporary_id": "decl-006404",
@@ -89,38 +88,38 @@
     },
     {
       "temporary_id": "decl-006450",
-      "new_name": "multiplicationRestrictedHom",
-      "docstring": "A quiver morphism into the restricted-scalar target using multiplication in the first tensor factor."
+      "new_name": "firstFactorEmbeddingHom",
+      "docstring": "A quiver morphism into the restricted-scalar target that embeds the first tensor factor."
     },
     {
       "temporary_id": "decl-006453",
-      "new_name": "multiplicationRestrictedAddHom",
-      "docstring": "The additive map into the restricted-scalar target associated with multiplication in the first tensor factor."
+      "new_name": "firstFactorEmbeddingAddHom",
+      "docstring": "The additive map into the restricted-scalar target that embeds the first tensor factor."
     },
     {
       "temporary_id": "decl-006454",
-      "new_name": "multiplicationRestrictedAddHom_tmul",
+      "new_name": "firstFactorEmbeddingAddHom_tmul",
       "docstring": "The restricted additive multiplication map sends a pure tensor to the tensor with its first factor embedded."
     },
     {
       "temporary_id": "decl-006455",
-      "new_name": "multiplicationRestrictedBilinear",
+      "new_name": "firstFactorEmbeddingBilinear",
       "docstring": "The curried additive map sending two inputs to their pure tensor after embedding the first."
     },
     {
       "temporary_id": "decl-006464",
-      "new_name": "multiplicationRestrictedBilinear_apply",
-      "docstring": "The curried multiplication map evaluates to the pure tensor with embedded first input."
+      "new_name": "firstFactorEmbeddingBilinear_apply",
+      "docstring": "The curried embedding map evaluates to the pure tensor with embedded first input."
     },
     {
       "temporary_id": "decl-006465",
-      "new_name": "multiplicationRestrictedBilinear_smul",
-      "docstring": "Scaling the first input of the curried multiplication map agrees with scaling its second input."
+      "new_name": "firstFactorEmbeddingBilinear_smul",
+      "docstring": "Scaling the first input of the curried embedding map agrees with scaling its second input."
     },
     {
       "temporary_id": "decl-006466",
-      "new_name": "multiplicationRestrictedHom_tmul",
-      "docstring": "The restricted multiplication morphism sends a pure tensor to the tensor with embedded first factor."
+      "new_name": "firstFactorEmbeddingHom_tmul",
+      "docstring": "The restricted embedding morphism sends a pure tensor to the tensor with embedded first factor."
     },
     {
       "temporary_id": "decl-006467",
