@@ -232,6 +232,7 @@ import RepresentationTheory.CategoryTheory.Adjunction.Representability
 import RepresentationTheory.CochainComplex
 import RepresentationTheory.FunctorPredicateLogic
 import RepresentationTheory.CategoryTheory.ShortComplex.Auxiliary
+import RepresentationTheory.CategoryTheory.ShortComplex.Biproduct
 import RepresentationTheory.Preadditive.FunctorProperties
 import RepresentationTheory.CategoryTheory.Abelian.ShortExactPreservation
 import RepresentationTheory.CategoryTheory.Abelian.AdditiveAdjunctionAuxiliary
