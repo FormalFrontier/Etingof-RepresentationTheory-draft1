@@ -1,5 +1,5 @@
 {
-  "module_name": "ring_theory.idempotent",
+  "module_name": "RingTheory.Idempotent",
   "declarations": [
     {
       "temporary_id": "decl-001418",
