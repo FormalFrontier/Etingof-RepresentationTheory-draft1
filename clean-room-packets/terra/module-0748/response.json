@@ -1,0 +1,95 @@
+{
+  "module_name": "Algebra.Category.ModuleCat.RingElementActions",
+  "declarations": [
+    {
+      "temporary_id": "decl-013991",
+      "new_name": "ringElementSubtype",
+      "docstring": "A subtype collecting selected elements of a ring."
+    },
+    {
+      "temporary_id": "decl-014087",
+      "new_name": "ringElementSubtype_actsAsIdentity_iff_of_condition",
+      "docstring": "The identity-action property agrees across objects under the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014088",
+      "new_name": "ringElementSubtype_actsAsIdentity_iff_of_simpleCondition",
+      "docstring": "For simple modules, the identity-action property agrees under the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014089",
+      "new_name": "ringElementSubtype_actsAsIdentity_iff_of_auxiliaryCondition",
+      "docstring": "The identity-action property agrees across objects under an additional displayed condition."
+    },
+    {
+      "temporary_id": "decl-014090",
+      "new_name": "ringElementSubtype_actsAsIdentity_iff_of_iso",
+      "docstring": "An isomorphism preserves whether the selected element acts as the identity."
+    },
+    {
+      "temporary_id": "decl-014091",
+      "new_name": "scalar_actsAsIdentity_of_condition",
+      "docstring": "A scalar fixing one module fixes another module under the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014093",
+      "new_name": "simpleModules_satisfyCondition_of_scalarActsAsIdentity",
+      "docstring": "Finite-length and simple-module hypotheses turn identity scalar actions into the stated condition."
+    },
+    {
+      "temporary_id": "decl-014114",
+      "new_name": "simpleModuleRingElementFlag",
+      "docstring": "The Boolean flag associated with a selected ring element on a simple module."
+    },
+    {
+      "temporary_id": "decl-014115",
+      "new_name": "simpleModuleRingElementFlag_eq_false_iff_actsAsZero",
+      "docstring": "The flag is false exactly when the element annihilates the simple module."
+    },
+    {
+      "temporary_id": "decl-014116",
+      "new_name": "simpleModuleRingElementFlag_eq_of_condition",
+      "docstring": "The flag is unchanged between simple modules satisfying the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014117",
+      "new_name": "simpleModuleRingElementFlag_eq_true_iff_actsAsIdentity",
+      "docstring": "The flag is true exactly when the element fixes every vector in the simple module."
+    },
+    {
+      "temporary_id": "decl-014118",
+      "new_name": "centralIdempotent_actsAsZero_or_identity",
+      "docstring": "A central idempotent acts either as zero or as the identity on a simple module."
+    },
+    {
+      "temporary_id": "decl-014119",
+      "new_name": "simpleModuleCondition_of_indecomposable",
+      "docstring": "An indecomposable finite-length module imposes the displayed condition on two simple modules."
+    },
+    {
+      "temporary_id": "decl-014146",
+      "new_name": "existsUnique_index_actsAsIdentity",
+      "docstring": "A finite family of central orthogonal idempotents has a unique member fixing a given simple module."
+    },
+    {
+      "temporary_id": "decl-014148",
+      "new_name": "exists_simpleModule_with_condition_of_indecomposable",
+      "docstring": "An indecomposable finite-length module admits a simple module satisfying the displayed condition."
+    },
+    {
+      "temporary_id": "decl-014151",
+      "new_name": "exists_simpleModule_scalarActsAsIdentity",
+      "docstring": "A nonzero central idempotent fixes every element of some simple module."
+    },
+    {
+      "temporary_id": "decl-014153",
+      "new_name": "hom_subsingleton_of_simpleModule_conditions",
+      "docstring": "Morphisms between modules are subsingleton under the displayed simple-module conditions."
+    },
+    {
+      "temporary_id": "decl-014176",
+      "new_name": "centerScalar_ext_comp",
+      "docstring": "The action of a central scalar commutes with composition of an extension class."
+    }
+  ]
+}
