@@ -164,6 +164,7 @@ import RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences
 import RepresentationTheory.Algebra.Module.IsotypicDecomposition
 import RepresentationTheory.TensorPowerRepresentations
 import RepresentationTheory.Complex.InvariantInnerProduct
+import RepresentationTheory.Polynomial.Recurrences
 
 /-!
 # Representation theory formalization
