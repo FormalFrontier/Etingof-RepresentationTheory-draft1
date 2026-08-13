@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-019535",
-      "new_name": "linearIndependent_of_injective_antitone_parameterization",
-      "docstring": "An indexed family is linearly independent when its antitone parameterization is injective and agrees pointwise with the displayed family."
+      "new_name": "auxiliaryLinearIndependentOfInjectiveParameterization",
+      "docstring": "Auxiliary linear-independence statement from the displayed injectivity and pointwise equality hypotheses."
     }
   ]
 }
