@@ -311,6 +311,7 @@ import RepresentationTheory.Algebra.Homological.EquivalenceInvariance
 import RepresentationTheory.Algebra.Homological.AuxiliaryDimensionTransfer
 import RepresentationTheory.ModuleCat.RightTensor
 import RepresentationTheory.AsModuleEquivalences
+import RepresentationTheory.Quiver.EdgeModule
 
 /-!
 # Representation theory formalization
