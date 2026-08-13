@@ -1,0 +1,50 @@
+{
+  "module_name": "Algebra.Homology.Flatness",
+  "declarations": [
+    {
+      "temporary_id": "decl-005179",
+      "new_name": "Module.Flat",
+      "docstring": "A predicate expressing flatness for an additive group regarded as a module over the opposite of a ring."
+    },
+    {
+      "temporary_id": "decl-005181",
+      "new_name": "map_exact",
+      "docstring": "The displayed functor sends an exact short complex to an exact short complex."
+    },
+    {
+      "temporary_id": "decl-005182",
+      "new_name": "map_shortExact",
+      "docstring": "The displayed functor sends a short exact complex to a short exact complex."
+    },
+    {
+      "temporary_id": "decl-005183",
+      "new_name": "preservesHomology",
+      "docstring": "The displayed functor preserves homology."
+    },
+    {
+      "temporary_id": "decl-014361",
+      "new_name": "Module.Projective.flat_of_opposite",
+      "docstring": "A projective module over an opposite ring is flat."
+    },
+    {
+      "temporary_id": "decl-014362",
+      "new_name": "Module.Projective.flat_of_commRing",
+      "docstring": "A projective module over a commutative ring is flat."
+    },
+    {
+      "temporary_id": "decl-014363",
+      "new_name": "Localization.flat",
+      "docstring": "Localization of a commutative ring at a submonoid is flat as a module."
+    },
+    {
+      "temporary_id": "decl-014364",
+      "new_name": "localizationAwayX_flat_not_projective",
+      "docstring": "Localization away from the polynomial variable over the complex numbers is flat but not projective."
+    },
+    {
+      "temporary_id": "decl-020150",
+      "new_name": "linearMap_localizationAwayX_to_polynomial_eq_zero",
+      "docstring": "Every linear map from the displayed localization to the polynomial ring over the complex numbers is zero."
+    }
+  ]
+}
