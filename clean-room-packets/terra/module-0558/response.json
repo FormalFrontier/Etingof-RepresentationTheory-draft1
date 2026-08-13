@@ -1,40 +1,40 @@
 {
-  "module_name": "Quiver.LinearAuxiliary",
+  "module_name": "Quiver.Auxiliary",
   "declarations": [
     {
       "temporary_id": "decl-013168",
-      "new_name": "AuxiliaryObjectRelation",
-      "docstring": "A binary predicate comparing two linear objects indexed by the same quiver."
+      "new_name": "auxiliaryRelation",
+      "docstring": "A binary proposition on two opaque values parameterized by a field and a quiver."
     },
     {
       "temporary_id": "decl-013170",
-      "new_name": "AuxiliaryVertexPropertyOne",
-      "docstring": "A distinguished property of a vertex in a quiver."
+      "new_name": "auxiliaryVertexPropertyOne",
+      "docstring": "The first auxiliary predicate on a vertex of a quiver."
     },
     {
       "temporary_id": "decl-013171",
-      "new_name": "AuxiliaryVertexPropertyTwo",
-      "docstring": "A second distinguished property of a vertex in a quiver."
+      "new_name": "auxiliaryVertexPropertyTwo",
+      "docstring": "The second auxiliary predicate on a vertex of a quiver."
     },
     {
       "temporary_id": "decl-013172",
-      "new_name": "moduleAddCommGroup",
+      "new_name": "addCommGroupOfModule",
       "docstring": "The additive commutative group structure induced on a module over a field."
     },
     {
       "temporary_id": "decl-013173",
-      "new_name": "vertexRank",
-      "docstring": "The natural-number-valued rank assigned to a linear object's component at each vertex."
+      "new_name": "auxiliaryVertexValue",
+      "docstring": "A natural-number-valued function on the vertices associated with an opaque value."
     },
     {
       "temporary_id": "decl-013175",
-      "new_name": "vertexRank_eq_of_fin_basis",
-      "docstring": "A component with a basis indexed by a finite range has rank equal to the range size."
+      "new_name": "auxiliaryVertexValue_eq_of_fin_basis",
+      "docstring": "Under the displayed finite-basis hypothesis, the auxiliary value at a vertex equals the supplied natural number."
     },
     {
       "temporary_id": "decl-013179",
-      "new_name": "existsAuxiliaryDataWithPrescribedRanks",
-      "docstring": "Prescribed finite bases on an ordered quiver yield auxiliary data whose total size is the sum of the vertex ranks and whose local values agree with them."
+      "new_name": "existsAuxiliaryDataWithVertexValues",
+      "docstring": "Under the displayed ordering and finite-basis hypotheses, there is auxiliary data satisfying the two stated equalities."
     },
     {
       "temporary_id": "decl-013182",
@@ -48,13 +48,13 @@
     },
     {
       "temporary_id": "decl-013184",
-      "new_name": "AuxiliaryElidedDefinition",
+      "new_name": "auxiliaryElidedDefinition",
       "docstring": "An auxiliary construction whose elaborated type is unavailable in this interface."
     },
     {
       "temporary_id": "decl-013187",
-      "new_name": "AuxiliaryObjectAtVertex",
-      "docstring": "Constructs an auxiliary linear object associated with a chosen vertex of a quiver."
+      "new_name": "auxiliaryObjectAtVertex",
+      "docstring": "Maps a vertex to an opaque value parameterized by a field and a quiver."
     }
   ]
 }
