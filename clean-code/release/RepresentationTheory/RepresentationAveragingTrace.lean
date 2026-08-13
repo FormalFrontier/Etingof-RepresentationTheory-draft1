@@ -29,8 +29,7 @@ omit [Module.Finite k W] in
 /-- The averaging map sends a vector to the inverse group order times the sum of all its translates. -/
 lemma averageMap_apply_eq_inv_card_smul_sum (w : W) :
     averageMap σ w = (Fintype.card Γ : k)⁻¹ • ∑ h : Γ, σ h w := by
-  rw [averageMap_eq_inv_card_smul_sum]
-  simp
+  rw [averageMap_eq_inv_card_smul_sum]; simp
 
 omit [Module.Finite k W] in
 /-- The kernel of the averaging map equals the kernel defining the coinvariants. -/
@@ -51,10 +50,8 @@ lemma averageMap_ker_eq_coinvariants_ker :
       have := Coinvariants.sub_mem_ker (ρ := σ) h w
       simpa [neg_sub] using (Submodule.neg_mem _ this)
     have : w = w - averageMap σ w := by
-      rw [LinearMap.mem_ker] at hw
-      rw [hw, sub_zero]
-    rw [this]
-    exact hsub
+      rw [LinearMap.mem_ker] at hw; rw [hw, sub_zero]
+    rw [this]; exact hsub
   · rw [Coinvariants.ker, Submodule.span_le]
     rintro _ ⟨⟨g, x⟩, rfl⟩
     simp only [SetLike.mem_coe, LinearMap.mem_ker, map_sub]
@@ -131,8 +128,7 @@ theorem trace_coinvariantsMap_eq_average_trace (Φ : IntertwiningMap σ σ) :
       = (Fintype.card Γ : k)⁻¹ * ∑ h : Γ, LinearMap.trace k W (σ h ∘ₗ Φ.toLinearMap) := by
     have hcomp_sum : (∑ h : Γ, σ h) ∘ₗ Φ.toLinearMap =
         ∑ h : Γ, (σ h ∘ₗ Φ.toLinearMap) := by
-      ext w
-      simp [LinearMap.sum_apply]
+      ext w; simp [LinearMap.sum_apply]
     rw [averageMap_eq_inv_card_smul_sum, LinearMap.smul_comp, hcomp_sum, map_smul, map_sum,
       smul_eq_mul]
   rw [step1, step2, step3]
@@ -171,8 +167,7 @@ lemma auxiliary_theorem {G : Type*} [Group G] [DecidableEq G] (H : Subgroup G) [
         = (if h = (⟨a, ha⟩ : H) then f h else 0) := by
       intro h
       by_cases hh : h = ⟨a, ha⟩
-      · subst hh
-        simp
+      · subst hh; simp
       · have hne : (↑h : G) ≠ a := fun hc => hh (Subtype.ext hc)
         rw [if_neg hne, if_neg hh]
     rw [Finset.sum_congr rfl (fun h _ => hcongr h), Finset.sum_ite_eq']
@@ -180,8 +175,7 @@ lemma auxiliary_theorem {G : Type*} [Group G] [DecidableEq G] (H : Subgroup G) [
   · rw [dif_neg ha]
     refine Finset.sum_eq_zero fun h _ => ?_
     rw [if_neg]
-    intro hc
-    exact ha (hc ▸ h.2)
+    intro hc; exact ha (hc ▸ h.2)
 
 end Helpers
 
