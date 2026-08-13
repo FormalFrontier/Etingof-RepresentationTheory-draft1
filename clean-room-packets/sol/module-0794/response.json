@@ -1,0 +1,190 @@
+{
+  "module_name": "Equiv.Perm.CycleShiftCentralizer",
+  "declarations": [
+    {
+      "temporary_id": "decl-016941",
+      "new_name": "CycleIndexSpace",
+      "docstring": "An auxiliary type assembled from a family of types indexed by natural numbers."
+    },
+    {
+      "temporary_id": "decl-016942",
+      "new_name": "CentralizerData",
+      "docstring": "Auxiliary multiplicative data used to parametrize permutations centralizing the cycle shift."
+    },
+    {
+      "temporary_id": "decl-016943",
+      "new_name": "CentralizerFactor",
+      "docstring": "An auxiliary type associated with a label type and a natural-number cycle size."
+    },
+    {
+      "temporary_id": "decl-016944",
+      "new_name": "apply_pow_eq_pow_apply",
+      "docstring": "A permutation centralizing the cycle shift commutes pointwise with every natural power of that shift."
+    },
+    {
+      "temporary_id": "decl-016945",
+      "new_name": "cycleLabelPerm",
+      "docstring": "The permutation induced on labels of a fixed cycle size by a permutation centralizing the cycle shift."
+    },
+    {
+      "temporary_id": "decl-016948",
+      "new_name": "cycleLabelPerm_apply",
+      "docstring": "The induced permutation on cycle labels is the first component of the associated cycle parameter."
+    },
+    {
+      "temporary_id": "decl-016949",
+      "new_name": "cycleParameter",
+      "docstring": "The target label and cyclic offset associated with a centralizing permutation and a cycle label."
+    },
+    {
+      "temporary_id": "decl-016951",
+      "new_name": "cycleParameter_fst_leftInverse",
+      "docstring": "The first components of the cycle parameters for a centralizing permutation and its inverse compose to the identity in one order."
+    },
+    {
+      "temporary_id": "decl-016952",
+      "new_name": "cycleParameter_fst_rightInverse",
+      "docstring": "The first components of the cycle parameters for a centralizing permutation and its inverse compose to the identity in the other order."
+    },
+    {
+      "temporary_id": "decl-016953",
+      "new_name": "apply_eq_cycleParameter",
+      "docstring": "A centralizing permutation sends a cycle point to the parameterized target label and adds the associated cyclic offset."
+    },
+    {
+      "temporary_id": "decl-016954",
+      "new_name": "permuteFunctions",
+      "docstring": "Permutation of a function domain as a monoid homomorphism into multiplicative automorphisms of group-valued functions."
+    },
+    {
+      "temporary_id": "decl-016966",
+      "new_name": "permuteFunctions_apply",
+      "docstring": "The permuted function evaluates at a point by applying the original function to its inverse image."
+    },
+    {
+      "temporary_id": "decl-016967",
+      "new_name": "exists_cycleParameter",
+      "docstring": "On each cycle label, a centralizing permutation acts by a target label and a fixed cyclic offset."
+    },
+    {
+      "temporary_id": "decl-016968",
+      "new_name": "sigma_fst_apply",
+      "docstring": "A permutation centralizing the cycle shift preserves the natural-number index of every cycle point."
+    },
+    {
+      "temporary_id": "decl-016969",
+      "new_name": "sigma_fst_apply_dvd",
+      "docstring": "The natural-number index of the image under a centralizing permutation divides the original cycle size."
+    },
+    {
+      "temporary_id": "decl-016970",
+      "new_name": "card_centralizerFactor",
+      "docstring": "For a finite label type, the auxiliary factor has cardinality equal to the cycle size raised to the label cardinality times its factorial."
+    },
+    {
+      "temporary_id": "decl-016971",
+      "new_name": "neZero_index_of_nonempty",
+      "docstring": "If the zeroth label type is empty, any index carrying a label is nonzero."
+    },
+    {
+      "temporary_id": "decl-016972",
+      "new_name": "piEquivFin",
+      "docstring": "A dependent function space whose factors above a bound are subsingletons is equivalent to the corresponding finite dependent function space."
+    },
+    {
+      "temporary_id": "decl-016976",
+      "new_name": "centralizerDataAction",
+      "docstring": "The action of centralizer parameter data on the indexed cycle space."
+    },
+    {
+      "temporary_id": "decl-016978",
+      "new_name": "centralizerDataAction_apply",
+      "docstring": "Centralizer data acts by permuting a cycle label and adding the associated cyclic component to its position."
+    },
+    {
+      "temporary_id": "decl-016979",
+      "new_name": "centralizerDataAction_mul",
+      "docstring": "The action of a product of centralizer data is the composite of the two actions."
+    },
+    {
+      "temporary_id": "decl-016980",
+      "new_name": "centralizerDataAction_one",
+      "docstring": "The identity centralizer datum acts as the identity."
+    },
+    {
+      "temporary_id": "decl-016981",
+      "new_name": "centralizerDataAction_cycleShift",
+      "docstring": "The action of centralizer data commutes with the canonical cycle shift."
+    },
+    {
+      "temporary_id": "decl-016982",
+      "new_name": "centralizerDataEquiv",
+      "docstring": "A multiplicative equivalence between centralizer data and the subgroup of permutations centralizing the cycle shift."
+    },
+    {
+      "temporary_id": "decl-016986",
+      "new_name": "coe_centralizerDataEquiv",
+      "docstring": "The permutation underlying the centralizer-data equivalence agrees with the permutation homomorphism."
+    },
+    {
+      "temporary_id": "decl-016987",
+      "new_name": "centralizerDataPermHom",
+      "docstring": "The monoid homomorphism from centralizer data to permutations of the indexed cycle space."
+    },
+    {
+      "temporary_id": "decl-016996",
+      "new_name": "centralizerDataPermHom_apply",
+      "docstring": "The permutation homomorphism acts on cycle points by the centralizer-data action."
+    },
+    {
+      "temporary_id": "decl-016997",
+      "new_name": "centralizerDataPermHom_injective",
+      "docstring": "The permutation homomorphism from centralizer data is injective."
+    },
+    {
+      "temporary_id": "decl-016998",
+      "new_name": "centralizerDataPermHom_mem_centralizer",
+      "docstring": "Every permutation arising from centralizer data belongs to the centralizer of the cycle shift."
+    },
+    {
+      "temporary_id": "decl-016999",
+      "new_name": "centralizerDataPermHom_fromCentralizer",
+      "docstring": "Extracting data from a centralizing permutation and mapping it back recovers the original permutation."
+    },
+    {
+      "temporary_id": "decl-017000",
+      "new_name": "cycleShift",
+      "docstring": "The canonical permutation of the indexed cycle space that advances each cyclic coordinate."
+    },
+    {
+      "temporary_id": "decl-017003",
+      "new_name": "cycleShift_apply",
+      "docstring": "The cycle shift fixes the index and label and adds one to the cyclic coordinate."
+    },
+    {
+      "temporary_id": "decl-017004",
+      "new_name": "cycleShift_pow_apply",
+      "docstring": "A natural power of the cycle shift adds the cast of that power to the cyclic coordinate."
+    },
+    {
+      "temporary_id": "decl-017005",
+      "new_name": "sigma_mk_inj",
+      "docstring": "Equality of two dependent pairs with the same natural-number index implies equality of their second components."
+    },
+    {
+      "temporary_id": "decl-017006",
+      "new_name": "centralizerDataOfMem",
+      "docstring": "Centralizer parameter data extracted from a permutation belonging to the cycle-shift centralizer."
+    },
+    {
+      "temporary_id": "decl-017008",
+      "new_name": "centralizerFactorCongr",
+      "docstring": "An equivalence of label types induces a multiplicative equivalence of their auxiliary centralizer factors."
+    },
+    {
+      "temporary_id": "decl-017012",
+      "new_name": "centralizerFactor_subsingleton_of_isEmpty",
+      "docstring": "The auxiliary centralizer factor of an empty label type is a subsingleton."
+    }
+  ]
+}
