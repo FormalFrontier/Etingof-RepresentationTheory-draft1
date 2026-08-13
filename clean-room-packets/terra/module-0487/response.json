@@ -1,0 +1,75 @@
+{
+  "module_name": "AuxiliaryPartitionSubmodules",
+  "declarations": [
+    {
+      "temporary_id": "decl-017042",
+      "new_name": "auxiliarySubmodule",
+      "docstring": "An auxiliary complex submodule indexed by a natural number and two partitions."
+    },
+    {
+      "temporary_id": "decl-017047",
+      "new_name": "auxiliaryStructure",
+      "docstring": "An auxiliary type indexed by a natural number and two partitions of that number."
+    },
+    {
+      "temporary_id": "decl-022867",
+      "new_name": "auxiliaryLinearMap",
+      "docstring": "Associates an auxiliary linear map to each element of the displayed partition-indexed submodule."
+    },
+    {
+      "temporary_id": "decl-023268",
+      "new_name": "auxiliary_span_range_eq_top",
+      "docstring": "The range of the auxiliary generating map spans the entire displayed submodule."
+    },
+    {
+      "temporary_id": "decl-024575",
+      "new_name": "auxiliaryGenerator",
+      "docstring": "Maps each auxiliary indexing object to an element of the displayed partition-indexed submodule."
+    },
+    {
+      "temporary_id": "decl-024614",
+      "new_name": "auxiliaryProjection",
+      "docstring": "An auxiliary complex-linear map from the displayed linear-map space to the partition-indexed submodule."
+    },
+    {
+      "temporary_id": "decl-024622",
+      "new_name": "auxiliaryLinearEquiv",
+      "docstring": "An auxiliary linear equivalence between the displayed linear-map space and partition-indexed submodule."
+    },
+    {
+      "temporary_id": "decl-024637",
+      "new_name": "auxiliaryMultiplicity_eq_finrank",
+      "docstring": "The auxiliary partition multiplicity equals the complex dimension of the corresponding submodule."
+    },
+    {
+      "temporary_id": "decl-024642",
+      "new_name": "auxiliaryMultiplicity_eq_of_structure",
+      "docstring": "The displayed auxiliary structure identifies the partition multiplicity with the second auxiliary quantity."
+    },
+    {
+      "temporary_id": "decl-024644",
+      "new_name": "auxiliaryEndomorphism",
+      "docstring": "An auxiliary complex-linear endomorphism of the displayed partition-dependent space."
+    },
+    {
+      "temporary_id": "decl-024647",
+      "new_name": "auxiliaryRangeMap",
+      "docstring": "An auxiliary linear map from the ambient partition-dependent space into the displayed submodule."
+    },
+    {
+      "temporary_id": "decl-024652",
+      "new_name": "auxiliaryRangeMap_apply",
+      "docstring": "The auxiliary range map sends an element of the submodule to that same element."
+    },
+    {
+      "temporary_id": "decl-024654",
+      "new_name": "auxiliaryEndomorphism_apply",
+      "docstring": "The auxiliary endomorphism fixes every element belonging to the displayed submodule."
+    },
+    {
+      "temporary_id": "decl-024655",
+      "new_name": "auxiliaryEndomorphism_mem",
+      "docstring": "The value of the auxiliary endomorphism belongs to the displayed partition-indexed submodule."
+    }
+  ]
+}
