@@ -1,50 +1,50 @@
 {
-  "module_name": "HomologicalAlgebra.ComplexProductComparison",
+  "module_name": "HomologicalComplex.NatTensorHomology",
   "declarations": [
     {
       "temporary_id": "decl-005439",
-      "new_name": "naturalIndexedType",
-      "docstring": "A family of types indexed by natural numbers."
+      "new_name": "NatDegreePair",
+      "docstring": "The pairs of natural-number degrees whose sum is the specified degree."
     },
     {
       "temporary_id": "decl-021331",
-      "new_name": "chainComplexProductFunctorIso",
-      "docstring": "The comparison isomorphism between two degree-indexed functors on pairs of chain complexes of modules."
+      "new_name": "chainComplexTensorHomologyIso",
+      "docstring": "The natural isomorphism from tensor-product homology to the direct sum of tensor products of homology objects for chain complexes."
     },
     {
       "temporary_id": "decl-021335",
-      "new_name": "chainComplexProductFunctorIso_app",
-      "docstring": "States the component of the chain-complex product comparison isomorphism on a pair of complexes."
+      "new_name": "chainComplexTensorHomologyIso_app",
+      "docstring": "Identifies a component of the chain-complex tensor-homology isomorphism with the corresponding objectwise isomorphism."
     },
     {
       "temporary_id": "decl-021336",
-      "new_name": "chainComplexProductFunctorIsoTarget",
-      "docstring": "The target degree-indexed functor from pairs of chain complexes of modules to modules."
+      "new_name": "chainComplexTensorHomologySource",
+      "docstring": "The degree-indexed direct-sum functor of tensor products of homology objects of pairs of chain complexes."
     },
     {
       "temporary_id": "decl-021342",
-      "new_name": "chainComplexProductFunctorIsoSource",
-      "docstring": "The source degree-indexed functor from pairs of chain complexes of modules to modules."
+      "new_name": "chainComplexTensorHomologyTarget",
+      "docstring": "The degree-indexed tensor-product homology functor on pairs of chain complexes."
     },
     {
       "temporary_id": "decl-021374",
-      "new_name": "cochainComplexProductFunctorIso",
-      "docstring": "The comparison isomorphism between two degree-indexed functors on pairs of cochain complexes of modules."
+      "new_name": "cochainComplexTensorHomologyIso",
+      "docstring": "The natural isomorphism from tensor-product cohomology to the direct sum of tensor products of cohomology objects for cochain complexes."
     },
     {
       "temporary_id": "decl-021378",
-      "new_name": "cochainComplexProductFunctorIso_app",
-      "docstring": "States the component of the cochain-complex product comparison isomorphism on a pair of complexes."
+      "new_name": "cochainComplexTensorHomologyIso_app",
+      "docstring": "Identifies a component of the cochain-complex tensor-homology isomorphism with the corresponding objectwise isomorphism."
     },
     {
       "temporary_id": "decl-021379",
-      "new_name": "cochainComplexProductFunctorIsoTarget",
-      "docstring": "The target degree-indexed functor from pairs of cochain complexes of modules to modules."
+      "new_name": "cochainComplexTensorHomologySource",
+      "docstring": "The degree-indexed direct-sum functor of tensor products of cohomology objects of pairs of cochain complexes."
     },
     {
       "temporary_id": "decl-021385",
-      "new_name": "cochainComplexProductFunctorIsoSource",
-      "docstring": "The source degree-indexed functor from pairs of cochain complexes of modules to modules."
+      "new_name": "cochainComplexTensorHomologyTarget",
+      "docstring": "The degree-indexed tensor-product cohomology functor on pairs of cochain complexes."
     }
   ]
 }
