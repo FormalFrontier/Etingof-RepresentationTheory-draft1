@@ -1,0 +1,35 @@
+{
+  "declarations": [
+    {
+      "docstring": "Identifies morphisms from a finite biproduct with their component morphisms to the target.",
+      "new_name": "biproductHomToComponentsLinearEquiv",
+      "temporary_id": "decl-017477"
+    },
+    {
+      "docstring": "Under the displayed pairing condition, computes the dimension of maps to each member of the target family.",
+      "new_name": "auxiliaryFinrankHomEqMultiplicity",
+      "temporary_id": "decl-019452"
+    },
+    {
+      "docstring": "For a projective indecomposable family, relates the displayed algebra predicate to all multiplicities being one.",
+      "new_name": "auxiliaryEndomorphismPropertyIffAllMultiplicitiesOne",
+      "temporary_id": "decl-020776"
+    },
+    {
+      "docstring": "Uses the stated projective and simple family assumptions to characterize the displayed algebra predicate by unit multiplicities.",
+      "new_name": "auxiliaryEndomorphismPropertyIffAllMultiplicitiesOneOfSimpleFamily",
+      "temporary_id": "decl-020777"
+    },
+    {
+      "docstring": "Constructs an algebra equivalence from the displayed endomorphism quotient to a family of square matrix algebras.",
+      "new_name": "auxiliaryQuotientEndomorphismAlgEquivPiMatrix",
+      "temporary_id": "decl-021568"
+    },
+    {
+      "docstring": "Under the stated projective and simple family assumptions, constructs the corresponding algebra equivalence to square matrix algebras.",
+      "new_name": "auxiliaryQuotientEndomorphismAlgEquivPiMatrixOfSimpleFamily",
+      "temporary_id": "decl-021569"
+    }
+  ],
+  "module_name": "CategoryTheory.BiproductEndomorphismAuxiliary"
+}
