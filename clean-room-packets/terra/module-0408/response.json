@@ -1,0 +1,15 @@
+{
+  "module_name": "SimpleSymmetricGroupRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-019688",
+      "new_name": "simpleSymmetricGroupRepresentationAuxiliary_eq_one",
+      "docstring": "For a simple finite-dimensional complex representation of a finite symmetric group, the associated auxiliary quantity is one."
+    },
+    {
+      "temporary_id": "decl-020878",
+      "new_name": "simpleSymmetricGroupRepresentation_auxiliary",
+      "docstring": "Establishes the auxiliary property associated with a simple finite-dimensional complex representation of a finite symmetric group."
+    }
+  ]
+}
