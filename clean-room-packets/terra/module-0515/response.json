@@ -1,0 +1,10 @@
+{
+  "module_name": "OneDimensionalSubmoduleComplements",
+  "declarations": [
+    {
+      "temporary_id": "decl-003707",
+      "new_name": "finrank_eq_one_iff_isCompl_eq_bot",
+      "docstring": "A finite-dimensional vector space has dimension one if and only if it is nontrivial and every pair of complementary submodules contains the zero submodule."
+    }
+  ]
+}
