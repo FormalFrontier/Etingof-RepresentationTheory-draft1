@@ -53,6 +53,7 @@ import RepresentationTheory.Algebra.Module.TensorProductCoordinates
 import RepresentationTheory.Algebra.Module.TensorRestriction
 import RepresentationTheory.Algebra.Module.TensorEquivDescent
 import RepresentationTheory.Algebra.Module.TensorSplitDescent
+import RepresentationTheory.Algebra.Module.TwistedLatticeShifts
 import RepresentationTheory.Algebra.ModuleActions
 import RepresentationTheory.Algebra.DesignatedElements
 import RepresentationTheory.Algebra.ModulePair
