@@ -242,6 +242,7 @@ import RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses
 import RepresentationTheory.CategoryTheory.ModuleCategories
 import RepresentationTheory.CategoryTheory.Preadditive.IsoHomEquiv
 import RepresentationTheory.Algebra.Homology.LinearYoneda
+import RepresentationTheory.Mathlib.Algebra.Homology.CochainComplex.Monoidal
 import RepresentationTheory.Algebra.TensorProduct.Module
 import RepresentationTheory.HomologicalComplexShortExactHomology
 import RepresentationTheory.CategoryTheory.EnrichedCorepresentability
