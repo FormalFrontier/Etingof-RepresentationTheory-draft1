@@ -3,7 +3,7 @@
   "declarations": [
     {
       "temporary_id": "decl-018879",
-      "new_name": "isIso_comp_biproduct_π_of_indecomposable_retract",
+      "new_name": "isIso_comp_biproductProjection_of_indecomposable_retract",
       "docstring": "For an indecomposable retract of a finite biproduct of indecomposables, one component of the retract inclusion is an isomorphism."
     },
     {
