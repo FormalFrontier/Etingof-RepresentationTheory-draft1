@@ -1,0 +1,50 @@
+{
+  "declarations": [
+    {
+      "docstring": "A parameterized auxiliary object associated with a ring and one of its modules.",
+      "new_name": "Auxiliary",
+      "temporary_id": "decl-014560"
+    },
+    {
+      "docstring": "The type attached to a given auxiliary object.",
+      "new_name": "Carrier",
+      "temporary_id": "decl-014561"
+    },
+    {
+      "docstring": "The additive commutative group structure provided on the attached type.",
+      "new_name": "instAddCommGroupCarrier",
+      "temporary_id": "decl-014564"
+    },
+    {
+      "docstring": "An opaque property asserted for the attached type over the ambient ring.",
+      "new_name": "auxiliaryProperty",
+      "temporary_id": "decl-014567"
+    },
+    {
+      "docstring": "The scalar action of the ambient ring on the attached type.",
+      "new_name": "instModuleCarrier",
+      "temporary_id": "decl-014574"
+    },
+    {
+      "docstring": "The attached type is a projective module over the ambient ring.",
+      "new_name": "projective",
+      "temporary_id": "decl-014577"
+    },
+    {
+      "docstring": "The linear map from the attached type to the ambient module.",
+      "new_name": "toLinearMap",
+      "temporary_id": "decl-014580"
+    },
+    {
+      "docstring": "If a submodule together with the map kernel spans the attached type, then the submodule is all of it.",
+      "new_name": "eq_top_of_sup_kernel_eq_top",
+      "temporary_id": "decl-014581"
+    },
+    {
+      "docstring": "The associated linear map reaches every element of the ambient module.",
+      "new_name": "surjective_toLinearMap",
+      "temporary_id": "decl-014582"
+    }
+  ],
+  "module_name": "RingModuleAuxiliary"
+}
