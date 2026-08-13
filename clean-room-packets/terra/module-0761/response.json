@@ -3,18 +3,18 @@
   "declarations": [
     {
       "temporary_id": "decl-018144",
-      "new_name": "CompositionSeries.module_factor_count",
+      "new_name": "CompositionSeries.moduleNatInvariant",
       "docstring": "A natural-number invariant associated with a composition series of submodules and a module."
     },
     {
       "temporary_id": "decl-018146",
-      "new_name": "CompositionSeries.module_factor_count_eraseLast",
-      "docstring": "Expresses the module-factor count after removing the final member of a nonempty composition series."
+      "new_name": "CompositionSeries.moduleNatInvariant_eraseLast",
+      "docstring": "Describes the invariant of a nonempty composition series using the series with its last term erased and the final quotient."
     },
     {
       "temporary_id": "decl-022190",
-      "new_name": "CompositionSeries.module_factor_count_eq_finrank_hom",
-      "docstring": "Identifies the module-factor count of a composition series with the finite rank of a linear-map module under the given hypotheses."
+      "new_name": "CompositionSeries.moduleNatInvariant_eq_finrank_hom",
+      "docstring": "Identifies the series invariant with the finite rank of a linear-map module under the stated hypotheses."
     },
     {
       "temporary_id": "decl-032850",
