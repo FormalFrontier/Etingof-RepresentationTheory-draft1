@@ -82,16 +82,6 @@
       "docstring": "A summand in complementary integer degrees maps from the tensor of extensions to the corresponding natural tensor component."
     },
     {
-      "temporary_id": "decl-016420",
-      "new_name": "optionElim",
-      "docstring": "Eliminates an option using a value case and a constructor-index fallback case."
-    },
-    {
-      "temporary_id": "decl-016421",
-      "new_name": "applyElse",
-      "docstring": "With evidence for the fallback constructor-index case, the option eliminator returns the supplied fallback value."
-    },
-    {
       "temporary_id": "decl-016425",
       "new_name": "extendedTensorSummandToTensorComponent_toExtended",
       "docstring": "After identifying integer degrees with natural degrees, the summand map followed by the reverse component comparison is the integer-graded tensor summand map."

@@ -175,42 +175,6 @@
       "temporary_id": "decl-008330"
     },
     {
-      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {p : Nat} \u2192\n      {motive : decl-008328.{u} k p \u2192 Sort u_1} \u2192\n        (t : decl-008328.{u} k p) \u2192\n          ((n : Fin p) \u2192 motive (decl-008372.{u} n)) \u2192\n            (Nat.hasNotBit 1 (decl-008340.{u} t) \u2192 motive t) \u2192 motive t",
-      "kind": "definition",
-      "owner_temporary_id": "decl-008330",
-      "project_type_dependencies": [
-        "decl-008328",
-        "decl-008340",
-        "decl-008372"
-      ],
-      "structural_type_hash": "812110709",
-      "temporary_id": "decl-008331"
-    },
-    {
-      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {p : Nat} \u2192\n      {motive : decl-008328.{u} k p \u2192 Sort u_1} \u2192\n        (t : decl-008328.{u} k p) \u2192\n          ((\u03b2 lam : k) \u2192\n              (simple : Or (Ne.{u + 1} \u03b2 0) (Ne.{u + 1} (HPow.hPow.{u, 0, u} lam p) lam)) \u2192\n                motive (decl-008361.{u} \u03b2 lam simple)) \u2192\n            (Nat.hasNotBit 2 (decl-008340.{u} t) \u2192 motive t) \u2192 motive t",
-      "kind": "definition",
-      "owner_temporary_id": "decl-008330",
-      "project_type_dependencies": [
-        "decl-008328",
-        "decl-008340",
-        "decl-008361"
-      ],
-      "structural_type_hash": "1359514414",
-      "temporary_id": "decl-008332"
-    },
-    {
-      "formal_type": "{k : Type u} \u2192\n  [inst : Field.{u} k] \u2192\n    {p : Nat} \u2192\n      {motive : decl-008328.{u} k p \u2192 Sort u_1} \u2192\n        (t : decl-008328.{u} k p) \u2192\n          ((\u03b1 lam q : k) \u2192\n              (alpha_ne : Ne.{u + 1} \u03b1 0) \u2192\n                motive (decl-008341.{u} \u03b1 lam q alpha_ne)) \u2192\n            (Nat.hasNotBit 4 (decl-008340.{u} t) \u2192 motive t) \u2192 motive t",
-      "kind": "definition",
-      "owner_temporary_id": "decl-008330",
-      "project_type_dependencies": [
-        "decl-008328",
-        "decl-008340",
-        "decl-008341"
-      ],
-      "structural_type_hash": "1447045935",
-      "temporary_id": "decl-008333"
-    },
-    {
       "formal_type": "(k : Type u) \u2192 [inst : Field.{u} k] \u2192 {p : Nat} \u2192 decl-008328.{u} k p \u2192 Nat",
       "kind": "definition",
       "owner_temporary_id": "decl-008328",

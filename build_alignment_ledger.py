@@ -206,7 +206,11 @@ def is_generated(name: str, kind: str, *, explicitly_declared: bool = False) -> 
     # declaration command.  The explicit-source guard matters for conventional
     # names such as `ext` and `instReprFoo`: both are also valid user names.
     source_sensitive_generated = bool(
-        re.search(r"(?:\._unsafe_rec|\.toCtorIdx|(?:^|\.)instRepr[^.]+(?:\.repr)?|\.ext)$", name)
+        re.search(
+            r"(?:\._unsafe_rec|\.toCtorIdx|(?:^|\.)instRepr[^.]+(?:\.repr)?|\.ext|"
+            r"\._sparseCasesOn_[1-9][0-9]*(?:\.[A-Za-z_][A-Za-z0-9_']*_eq)?)$",
+            name,
+        )
     )
     if source_sensitive_generated and not explicitly_declared:
         return True

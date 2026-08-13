@@ -166,24 +166,6 @@
       "temporary_id": "decl-016314"
     },
     {
-      "formal_type": "{\u03b1 : Type u} \u2192\n  {motive : Option.{u} \u03b1 \u2192 Sort u_1} \u2192\n    (t : Option.{u} \u03b1) \u2192\n      ((val : \u03b1) \u2192 motive (Option.some.{u} val)) \u2192 (Nat.hasNotBit 2 (Option.ctorIdx.{u} t) \u2192 motive t) \u2192 motive t",
-      "kind": "definition",
-      "owner_temporary_id": "decl-016314",
-      "project_type_dependencies": [],
-      "structural_type_hash": "2334663261",
-      "temporary_id": "decl-016320"
-    },
-    {
-      "formal_type": "\u2200 {\u03b1 : Type u} {motive : Option.{u} \u03b1 \u2192 Sort u_1} (t : Option.{u} \u03b1) (some : (val : \u03b1) \u2192 motive (Option.some.{u} val))\n  (\u00abelse\u00bb : Nat.hasNotBit 2 (Option.ctorIdx.{u} t) \u2192 motive t) (h : Nat.hasNotBit 2 (Option.ctorIdx.{u} t)),\n  Eq.{u_1} (decl-016320.{u_1, u} t some \u00abelse\u00bb) (\u00abelse\u00bb h)",
-      "kind": "theorem",
-      "owner_temporary_id": "decl-016320",
-      "project_type_dependencies": [
-        "decl-016320"
-      ],
-      "structural_type_hash": "2790585071",
-      "temporary_id": "decl-016321"
-    },
-    {
       "formal_type": "\u2200 {k : Type u} [inst : Field.{u} k] (C D : ChainComplex.{u, u + 1, 0} (ModuleCat.{u, u} k) Nat) (n : Nat) (a b : Int)\n  (h : Eq.{1} (HAdd.hAdd.{0, 0, 0} a b) (Neg.neg.{0} (Nat.cast.{0} n))) {p q : Nat},\n  Eq.{1} (ComplexShape.Embedding.r.{0, 0} decl-016273 a) (Option.some.{0} p) \u2192\n    Eq.{1} (ComplexShape.Embedding.r.{0, 0} decl-016273 b) (Option.some.{0} q) \u2192\n      Eq.{1}\n          (ComplexShape.\u03c0.{0, 0, 0} (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat) (ComplexShape.down.{0} Nat)\n            (Prod.mk.{0, 0} p q))\n          n \u2192\n        Eq.{u + 1}\n          (CategoryTheory.CategoryStruct.comp.{u, u + 1} (decl-016314.{u} C D n a b h)\n            (decl-016299.{u} C D n))\n          (decl-016372.{u} C D a b (Neg.neg.{0} (Nat.cast.{0} n)) h)",
       "kind": "theorem",
       "owner_temporary_id": null,

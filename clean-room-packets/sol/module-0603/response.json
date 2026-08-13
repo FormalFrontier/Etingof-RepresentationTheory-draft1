@@ -82,16 +82,6 @@
       "docstring": "Maps a summand indexed by integer degrees adding to `-n` into degree `n` of the original tensor complex."
     },
     {
-      "temporary_id": "decl-016320",
-      "new_name": "auxiliaryOptionRec",
-      "docstring": "An auxiliary dependent eliminator for an optional value with a fallback branch."
-    },
-    {
-      "temporary_id": "decl-016321",
-      "new_name": "apply_of_auxiliaryCase",
-      "docstring": "The auxiliary optional-value eliminator selects its fallback branch when supplied the corresponding case witness."
-    },
-    {
       "temporary_id": "decl-016325",
       "new_name": "extendedTensorSummandToTensorComponent_comp_reverse",
       "docstring": "Composing an extended summand map with the reverse component comparison gives the corresponding extended tensor inclusion."

@@ -1,5 +1,5 @@
 {
-  "declaration_count": 12729,
+  "declaration_count": 12722,
   "module_count": 796,
   "packets": [
     {
@@ -4217,17 +4217,17 @@
       "route": "terra"
     },
     {
-      "declaration_count": 55,
+      "declaration_count": 53,
       "module_temporary_id": "module-0603",
       "packet": "sol/module-0603/packet.json",
-      "packet_sha256": "1e583e48229bca080d6a25a4169051cd9c69c8d2058db43dc4249c9f741910bc",
+      "packet_sha256": "b9e087870980c3039625bbeaeabfdab655bade7bd875b085ad5f24ff3a5d778f",
       "route": "sol"
     },
     {
-      "declaration_count": 49,
+      "declaration_count": 47,
       "module_temporary_id": "module-0604",
       "packet": "sol/module-0604/packet.json",
-      "packet_sha256": "f1e0bdf81ed1440fa14b841775758208574f49223ef2140f05adb4b1e9598ca2",
+      "packet_sha256": "0741814c0dfbdee3c356027b348f018076520e3273ada18810d84b39b15865fa",
       "route": "sol"
     },
     {
@@ -5568,10 +5568,10 @@
       "route": "terra"
     },
     {
-      "declaration_count": 70,
+      "declaration_count": 67,
       "module_temporary_id": "module-0796",
       "packet": "sol/module-0796/packet.json",
-      "packet_sha256": "5c6ed8eea8ebe1b85010701c543ef78f35e39e2119acf6078e7d0c3ea31166d0",
+      "packet_sha256": "6b230f77b400dfca837c6eeeb97808addf445e690ad5320fa5871c0b0803aeaa",
       "route": "sol"
     }
   ],
