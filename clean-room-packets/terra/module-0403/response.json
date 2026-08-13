@@ -3,22 +3,22 @@
   "declarations": [
     {
       "temporary_id": "decl-014677",
-      "new_name": "Polynomial.AuxiliaryMatrix.charpoly_eq_of_monic",
+      "new_name": "Polynomial.charpoly_auxiliaryMatrix_eq_of_monic",
       "docstring": "The characteristic polynomial of the auxiliary matrix of a monic polynomial is that polynomial."
     },
     {
       "temporary_id": "decl-014678",
-      "new_name": "Polynomial.AuxiliaryMatrix.isRoot_charpoly_map_of_monic",
+      "new_name": "Polynomial.isRoot_charpoly_map_auxiliaryMatrix_of_monic",
       "docstring": "A root of a monic polynomial remains a root of the characteristic polynomial after mapping its auxiliary matrix."
     },
     {
       "temporary_id": "decl-014679",
-      "new_name": "Polynomial.AuxiliaryMatrix",
+      "new_name": "Polynomial.auxiliaryMatrix",
       "docstring": "An auxiliary square matrix indexed by the natural degree of a polynomial."
     },
     {
       "temporary_id": "decl-014681",
-      "new_name": "Polynomial.AuxiliaryMatrix.eq_leftMulMatrix",
+      "new_name": "Polynomial.auxiliaryMatrix_eq_leftMulMatrix",
       "docstring": "For a monic polynomial, the auxiliary matrix is the matrix of multiplication by the distinguished root."
     },
     {
