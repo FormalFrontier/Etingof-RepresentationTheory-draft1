@@ -1,0 +1,85 @@
+{
+  "module_name": "RepresentationTheory.Quiver.GenericBaseChange",
+  "declarations": [
+    {
+      "temporary_id": "decl-012816",
+      "new_name": "VertexMatrixIndex",
+      "docstring": "The finite index type for entries of one square matrix of size `m i` at every vertex `i`."
+    },
+    {
+      "temporary_id": "decl-012818",
+      "new_name": "ArrowMatrixIndex",
+      "docstring": "The finite index type for matrix entries attached to the arrows of a finite quiver with dimension vector `m`."
+    },
+    {
+      "temporary_id": "decl-012826",
+      "new_name": "genericVertexDeterminantProduct",
+      "docstring": "The product of the determinants of the generic square matrices associated with the vertices of a dimension vector."
+    },
+    {
+      "temporary_id": "decl-012828",
+      "new_name": "genericVertexDeterminantProduct_ne_zero",
+      "docstring": "The product of the generic vertex-matrix determinants is a nonzero polynomial over any field."
+    },
+    {
+      "temporary_id": "decl-012840",
+      "new_name": "evalGenericVertexMatricesAtIdentity",
+      "docstring": "The polynomial evaluation homomorphism that specializes every generic vertex matrix to the corresponding identity matrix."
+    },
+    {
+      "temporary_id": "decl-012842",
+      "new_name": "evalGenericVertexMatricesAtIdentity_genericVertexDeterminantProduct",
+      "docstring": "Specializing all generic vertex matrices to identity sends their determinant product to one."
+    },
+    {
+      "temporary_id": "decl-012851",
+      "new_name": "card_vertexMatrixIndex",
+      "docstring": "The number of vertex-matrix coordinates is the sum of the squares of the dimensions at all vertices."
+    },
+    {
+      "temporary_id": "decl-012852",
+      "new_name": "genericVertexMatrix",
+      "docstring": "The square matrix at a vertex whose entries are the corresponding coordinate variables in the multivariable polynomial ring."
+    },
+    {
+      "temporary_id": "decl-012854",
+      "new_name": "mappedGenericVertexMatrix",
+      "docstring": "The generic square matrix at a vertex after transporting its polynomial entries into a commutative algebra."
+    },
+    {
+      "temporary_id": "decl-012856",
+      "new_name": "mappedGenericVertexMatrixInv",
+      "docstring": "The inverse candidate for a mapped generic vertex matrix, which is an actual inverse after localizing at the determinant product."
+    },
+    {
+      "temporary_id": "decl-012857",
+      "new_name": "mappedGenericVertexMatrix_mul_inv",
+      "docstring": "In the localization at the generic determinant product, a mapped generic vertex matrix multiplied by its inverse is the identity matrix."
+    },
+    {
+      "temporary_id": "decl-012858",
+      "new_name": "evalGenericVertexMatricesAtIdentity_genericVertexMatrix",
+      "docstring": "Entrywise identity specialization sends each generic vertex matrix to the identity matrix."
+    },
+    {
+      "temporary_id": "decl-012874",
+      "new_name": "isUnit_det_mappedGenericVertexMatrix",
+      "docstring": "The determinant of every mapped generic vertex matrix is a unit in the localization at the common determinant product."
+    },
+    {
+      "temporary_id": "decl-012876",
+      "new_name": "genericBaseChangeAlgHom",
+      "docstring": "The algebra homomorphism that evaluates arrow-matrix coordinates after applying the generic vertexwise change of basis to a given family of arrow matrices."
+    },
+    {
+      "temporary_id": "decl-012878",
+      "new_name": "genericBaseChangeAlgHom_apply_X",
+      "docstring": "On an arrow-coordinate variable, generic base change gives the corresponding entry of the target generic matrix times the arrow matrix times the inverse source generic matrix."
+    },
+    {
+      "temporary_id": "decl-012886",
+      "new_name": "card_arrowMatrixIndex",
+      "docstring": "The number of arrow-matrix coordinates is the sum, over ordered vertex pairs, of the arrow count times the two vertex dimensions."
+    }
+  ]
+}
