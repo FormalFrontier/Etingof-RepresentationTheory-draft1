@@ -23,8 +23,8 @@
     },
     {
       "temporary_id": "decl-017271",
-      "new_name": "BalancedTensorQuotient.map_not_injective",
-      "docstring": "A concrete induced map on balanced tensor quotients that is not injective."
+      "new_name": "BalancedTensorQuotient.map_mulTwo_not_injective",
+      "docstring": "The balanced-quotient map induced by multiplication by two over the integers with left factor `ZMod 2` is not injective."
     },
     {
       "temporary_id": "decl-017272",
@@ -74,12 +74,12 @@
     {
       "temporary_id": "decl-020176",
       "new_name": "coyoneda_obj_preservesFiniteLimits",
-      "docstring": "Each representable presheaf functor supplied by the contravariant Yoneda construction preserves finite limits."
+      "docstring": "The covariant hom functor represented by any object preserves finite limits."
     },
     {
       "temporary_id": "decl-020178",
-      "new_name": "intToZModTwo_precomposition_not_surjective",
-      "docstring": "Precomposition by any integer-linear map from integers to integers modulo two is not surjective on maps to integers modulo two."
+      "new_name": "postcomp_intToZModTwo_not_surjective",
+      "docstring": "For every integer-linear map from the integers to `ZMod 2`, postcomposition with that map is not surjective on linear maps with source `ZMod 2`."
     },
     {
       "temporary_id": "decl-020512",
@@ -149,12 +149,12 @@
     {
       "temporary_id": "decl-023485",
       "new_name": "subsingleton_linearMap_zmodTwo_int",
-      "docstring": "Every integer-linear map from integers modulo two to integers is equal."
+      "docstring": "The type of integer-linear maps from `ZMod 2` to the integers is a subsingleton."
     },
     {
       "temporary_id": "decl-024112",
-      "new_name": "lTensor_not_injective",
-      "docstring": "Tensoring a specified integer-linear endomorphism with integers modulo two need not be injective."
+      "new_name": "lTensor_mulTwo_not_injective",
+      "docstring": "Left tensoring multiplication by two on the integers with `ZMod 2` yields a noninjective map."
     },
     {
       "temporary_id": "decl-024117",
