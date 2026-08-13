@@ -3,7 +3,7 @@
   "declarations": [
     {
       "temporary_id": "decl-005383",
-      "new_name": "auxiliaryCount",
+      "new_name": "auxiliaryNatFunction",
       "docstring": "An auxiliary natural-number function of an indexing object and two natural-number arguments."
     },
     {
@@ -28,18 +28,18 @@
     },
     {
       "temporary_id": "decl-024595",
-      "new_name": "auxiliaryPermutationCount",
+      "new_name": "auxiliaryPermutationNatFunction",
       "docstring": "An auxiliary natural-number function determined by two partitions, a finite permutation, and two natural-number arguments."
     },
     {
       "temporary_id": "decl-024600",
-      "new_name": "auxiliaryPermutationCount_mul_eq",
-      "docstring": "The auxiliary permutation count is unchanged by right multiplication with an element of the displayed subgroup."
+      "new_name": "auxiliaryPermutationNatFunction_mul_eq",
+      "docstring": "The auxiliary natural-number function is unchanged by right multiplication with an element of the displayed subgroup."
     },
     {
       "temporary_id": "decl-024601",
-      "new_name": "auxiliaryPermutationCount_standardization",
-      "docstring": "At the displayed standardizing permutation, the auxiliary permutation count agrees with the indexing object's auxiliary count."
+      "new_name": "auxiliaryPermutationNatFunction_standardization",
+      "docstring": "At the displayed standardizing permutation, the auxiliary natural-number function agrees with the indexing object's displayed natural-number function."
     },
     {
       "temporary_id": "decl-024653",
