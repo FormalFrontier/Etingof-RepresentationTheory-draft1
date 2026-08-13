@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -17,3 +18,21 @@ number := false
 %%%
 
 *Definition 7.8.6.* The map $`c_i` is called the *connecting homomorphism*, and the sequence (7.8.1) is called the *long exact sequence of cohomology*.
+
+## Formalization
+%%%
+tag := "Chapter7/Definition7.8.6/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.HomologicalComplexShortExactHomology.homologyHomThirdToFirstOfRel}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.HomologicalComplexShortExactHomology.exact_delta_homologyMap_f}
+
+{Manual.docstring RepresentationTheory.HomologicalComplexShortExactHomology.exact_homologyMap_f_g}
+
+{Manual.docstring RepresentationTheory.HomologicalComplexShortExactHomology.exact_homologyMap_g_delta}
