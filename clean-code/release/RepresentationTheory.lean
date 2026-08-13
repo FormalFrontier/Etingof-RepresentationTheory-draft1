@@ -192,6 +192,7 @@ import RepresentationTheory.IntegerMatrixVectorCoordinateFunction
 import RepresentationTheory.OneDimensionalSubmoduleComplements
 import RepresentationTheory.QuiverVertexReversal
 import RepresentationTheory.AuxiliaryUnavailableStatement
+import RepresentationTheory.Auxiliary.UnavailableStatement
 
 /-!
 # Representation theory formalization
