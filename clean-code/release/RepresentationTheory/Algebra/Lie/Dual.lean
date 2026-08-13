@@ -18,7 +18,7 @@ set_option linter.style.whitespace false
 namespace RepresentationTheory.Algebra.Lie.Dual
 
 /-- The dual-module type for a module of a Lie algebra over a commutative ring. -/
-@[nolint unusedArguments, source_ref "Chapter2/Definition2.14.2" (role := primary)]
+@[nolint unusedArguments, source_ref "Chapter2/Definition2.14.2" (role := supporting)]
 abbrev LieModuleDual (k : Type*) (L : Type*) (V : Type*)
     [CommRing k] [LieRing L] [LieAlgebra k L]
     [AddCommGroup V] [Module k V] [LieRingModule L V] [LieModule k L V] :=
