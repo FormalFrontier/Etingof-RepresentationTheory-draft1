@@ -1,0 +1,55 @@
+{
+  "module_name": "Auxiliary.IntegerModuleStructure",
+  "declarations": [
+    {
+      "temporary_id": "decl-014438",
+      "new_name": "auxiliarySubsingletonDegreeZeroOfZMod",
+      "docstring": "Records uniqueness in degree zero for the displayed nontrivial cyclic integer module."
+    },
+    {
+      "temporary_id": "decl-014439",
+      "new_name": "auxiliaryFiniteIntModuleDecomposition",
+      "docstring": "Packages the stated degree-zero and degree-one descriptions for finite integer modules."
+    },
+    {
+      "temporary_id": "decl-014440",
+      "new_name": "auxiliaryFiniteIntModuleHigherDegreeSubsingleton",
+      "docstring": "States that the displayed groups above the first two degrees have at most one element."
+    },
+    {
+      "temporary_id": "decl-014443",
+      "new_name": "auxiliaryDegreeZeroEquivUnderlyingModule",
+      "docstring": "Provides the asserted degree-zero additive equivalence from the integer module to its carrier."
+    },
+    {
+      "temporary_id": "decl-014445",
+      "new_name": "auxiliaryZModDegreeOneEquivGcd",
+      "docstring": "Gives the specified first-degree cyclic-module calculation using a greatest common divisor."
+    },
+    {
+      "temporary_id": "decl-014446",
+      "new_name": "auxiliaryDegreeOneEquivInvariantFactors",
+      "docstring": "Expresses the first-degree calculation through the displayed invariant-factor data."
+    },
+    {
+      "temporary_id": "decl-014447",
+      "new_name": "auxiliaryDegreeOneEquivQuotients",
+      "docstring": "Describes the first-degree result as a family of integer scalar quotients."
+    },
+    {
+      "temporary_id": "decl-014451",
+      "new_name": "auxiliaryDegreeZeroEquivInvariantFactors",
+      "docstring": "Expresses the degree-zero calculation by the displayed free and cyclic invariant factors."
+    },
+    {
+      "temporary_id": "decl-020685",
+      "new_name": "intQuotientSpanIsoZModNatAbs",
+      "docstring": "Identifies an integer quotient by one generated ideal with the cyclic module of matching absolute modulus."
+    },
+    {
+      "temporary_id": "decl-020692",
+      "new_name": "invariantFactorIsoZModNatAbs",
+      "docstring": "Identifies each displayed invariant-factor component with the corresponding cyclic module."
+    }
+  ]
+}
