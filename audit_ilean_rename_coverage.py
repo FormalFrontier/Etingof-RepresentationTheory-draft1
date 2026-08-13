@@ -359,6 +359,27 @@ def main() -> None:
         except (ValueError, UnicodeError) as exc:
             errors.append(f"{old_fqn}: invalid definition range {position[:4]}: {exc}")
             continue
+        # Some Lean/simps versions index a generated projection theorem at the
+        # `simps` token rather than leaving its definition range null.  Accept
+        # that representation only when the same strict source-side origin
+        # check used for null-range generated declarations succeeds.
+        if spelling == "simps":
+            generated = simps_generated_origin(old_fqn, module, source, ilean, by_old)
+            if generated is not None:
+                parent_fqn, parent_position = generated
+                definition_audit.append({
+                    "temporary_id": proposal["temporary_id"],
+                    "old_fqn": old_fqn,
+                    "new_fqn": proposal["new_fqn"],
+                    "old_module": module,
+                    "new_module": proposal["new_module"],
+                    "definition_range": position[:4],
+                    "definition_spelling": spelling,
+                    "generated_by": "simps",
+                    "generated_from": parent_fqn,
+                    "generator_definition_range": parent_position[:4],
+                })
+                continue
         if not spelling or not (
             old_fqn.endswith(spelling)
             or spelling.endswith(old_fqn)
