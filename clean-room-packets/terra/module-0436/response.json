@@ -1,35 +1,35 @@
 {
-  "module_name": "RepresentationTheory.SymmetricGroup.PartitionTraceAuxiliary",
+  "module_name": "SymmetricGroup.PartitionScalarAuxiliary",
   "declarations": [
     {
       "temporary_id": "decl-023055",
-      "new_name": "PartitionTraceAuxiliary.monoidAlgebraCoeFun",
+      "new_name": "monoidAlgebraCoeFun",
       "docstring": "The coercion that evaluates an element of a monoid algebra at an index."
     },
     {
       "temporary_id": "decl-023269",
-      "new_name": "PartitionTraceAuxiliary.permutationEndomorphism",
-      "docstring": "An endomorphism of the designated partition subspace associated to a permutation."
+      "new_name": "permutationSubtypeEndomorphism",
+      "docstring": "The linear endomorphism of the displayed subtype associated with a permutation."
     },
     {
       "temporary_id": "decl-023276",
-      "new_name": "PartitionTraceAuxiliary.partitionTraceValue",
-      "docstring": "The scalar attached to a partition and a permutation."
+      "new_name": "partitionPermutationScalar",
+      "docstring": "The scalar associated with a partition and a permutation."
     },
     {
       "temporary_id": "decl-024682",
-      "new_name": "PartitionTraceAuxiliary.exists_rank_one_idempotent_factorization",
+      "new_name": "exists_rankOneIdempotent_smul_eq_restriction",
       "docstring": "Under the stated trace identities, the restricted operator is a nonzero scalar multiple of an idempotent with one-dimensional range."
     },
     {
       "temporary_id": "decl-024684",
-      "new_name": "PartitionTraceAuxiliary.restriction_eq_zero_of_partition_ne",
+      "new_name": "restriction_eq_zero_of_partition_ne",
       "docstring": "Under the stated trace identities, the restricted operator vanishes for a partition distinct from the specified one."
     },
     {
       "temporary_id": "decl-024688",
-      "new_name": "PartitionTraceAuxiliary.weighted_partition_trace_sum_eq_ite",
-      "docstring": "For a quasi-idempotent indexed by one partition, its coefficient-weighted scalar sum at another partition is the scaling factor when the partitions agree and zero otherwise."
+      "new_name": "weighted_partitionScalar_sum_eq_ite",
+      "docstring": "Under the displayed product relation, the weighted sum is the scalar when the partitions agree and zero otherwise."
     }
   ]
 }
