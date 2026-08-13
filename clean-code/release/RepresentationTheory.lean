@@ -214,6 +214,7 @@ import RepresentationTheory.FiniteGroupCharacterCoprimality
 import RepresentationTheory.CategoryTheory.ObjectProperty
 import RepresentationTheory.CategoryPair
 import RepresentationTheory.FunctorPairConstructions
+import RepresentationTheory.UniverseTypeOperator
 
 /-!
 # Representation theory formalization
