@@ -1,0 +1,55 @@
+{
+  "module_name": "CategoryTheory.SubobjectFiniteDimensional",
+  "declarations": [
+    {
+      "temporary_id": "decl-005147",
+      "new_name": "SubobjectFiniteDimensional",
+      "docstring": "A category whose subobject orders are finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-005150",
+      "new_name": "finiteDimensionalOrder_subobject",
+      "docstring": "The subobjects of any object form a finite-dimensional order."
+    },
+    {
+      "temporary_id": "decl-005151",
+      "new_name": "finiteDimensionalOrder_subobject'",
+      "docstring": "Each object's subobject order is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-005152",
+      "new_name": "Auxiliary.fintype",
+      "docstring": "The opaque auxiliary type is finite."
+    },
+    {
+      "temporary_id": "decl-005154",
+      "new_name": "simple_iso_auxiliaryObject",
+      "docstring": "Every simple object is isomorphic to an object indexed by the auxiliary type."
+    },
+    {
+      "temporary_id": "decl-005162",
+      "new_name": "Auxiliary.object",
+      "docstring": "The object of the category associated to an auxiliary index."
+    },
+    {
+      "temporary_id": "decl-005163",
+      "new_name": "Auxiliary.simple_object",
+      "docstring": "The object associated to an auxiliary index is simple."
+    },
+    {
+      "temporary_id": "decl-005164",
+      "new_name": "abelian",
+      "docstring": "The category has an abelian category structure."
+    },
+    {
+      "temporary_id": "decl-005165",
+      "new_name": "enoughProjectives",
+      "docstring": "The category has enough projectives."
+    },
+    {
+      "temporary_id": "decl-005166",
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary type associated to the category."
+    }
+  ]
+}
