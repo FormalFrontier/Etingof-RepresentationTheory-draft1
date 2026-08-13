@@ -30,6 +30,10 @@ tag := "Chapter5/Theorem5.3.1/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroupCharacterArithmetic.finrank_dvd_card_of_simple}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CharacterIntegrality.isIntegral_card_conjClass_mul_character_div_finrank}
