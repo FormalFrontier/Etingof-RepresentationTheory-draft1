@@ -1,0 +1,105 @@
+{
+  "declarations": [
+    {
+      "docstring": "An additive equivalence from the displayed auxiliary construction to finitely supported functions.",
+      "new_name": "auxiliaryFinsuppAddEquiv",
+      "temporary_id": "decl-019592"
+    },
+    {
+      "docstring": "Evaluating the auxiliary additive equivalence on a pure tensor agrees with the coefficient-action map.",
+      "new_name": "auxiliaryFinsuppAddEquiv_tmul",
+      "temporary_id": "decl-019596"
+    },
+    {
+      "docstring": "The additive homomorphism associated with one index into the auxiliary finitely supported construction.",
+      "new_name": "auxiliaryFinsuppGenerator",
+      "temporary_id": "decl-019634"
+    },
+    {
+      "docstring": "An isomorphism identifying the auxiliary functor on a free module with a composite additive-group functor.",
+      "new_name": "auxiliaryFreeModuleFunctorIso",
+      "temporary_id": "decl-019640"
+    },
+    {
+      "docstring": "Short exactness is retained after applying the auxiliary functor associated with a free module.",
+      "new_name": "auxiliaryFreeModule_shortExact",
+      "temporary_id": "decl-019643"
+    },
+    {
+      "docstring": "The linear coefficient-action map from a module into additive maps between finitely supported functions.",
+      "new_name": "auxiliaryFinsuppCoefficientAction",
+      "temporary_id": "decl-019646"
+    },
+    {
+      "docstring": "The coefficient-action map sends a single-supported input to the corresponding single-supported output.",
+      "new_name": "auxiliaryFinsuppCoefficientAction_single",
+      "temporary_id": "decl-019650"
+    },
+    {
+      "docstring": "The coefficient-action map commutes with applying a linear map to its module argument.",
+      "new_name": "auxiliaryFinsuppCoefficientAction_map",
+      "temporary_id": "decl-021530"
+    },
+    {
+      "docstring": "A retract is transported between the images of a short complex under the auxiliary functor.",
+      "new_name": "auxiliaryShortComplexMapRetract",
+      "temporary_id": "decl-021534"
+    },
+    {
+      "docstring": "The auxiliary assignment from modules to additive-group valued functors.",
+      "new_name": "auxiliaryModuleToAddCommGrpFunctor",
+      "temporary_id": "decl-024055"
+    },
+    {
+      "docstring": "A projective module preserves short exactness after the associated auxiliary functor is applied.",
+      "new_name": "auxiliaryShortExact_map_of_projective",
+      "temporary_id": "decl-024062"
+    },
+    {
+      "docstring": "Short exactness is preserved by the auxiliary functor evaluated at the ring module.",
+      "new_name": "auxiliaryShortExact_map_ring",
+      "temporary_id": "decl-024396"
+    },
+    {
+      "docstring": "An additive equivalence from the displayed auxiliary tensor construction over the ring to the module.",
+      "new_name": "auxiliaryTensorRingAddEquiv",
+      "temporary_id": "decl-024401"
+    },
+    {
+      "docstring": "The auxiliary tensor-ring additive equivalence evaluates a pure tensor by the opposite-ring action.",
+      "new_name": "auxiliaryTensorRingAddEquiv_tmul",
+      "temporary_id": "decl-024405"
+    },
+    {
+      "docstring": "The additive homomorphism from the auxiliary tensor-ring construction to the module.",
+      "new_name": "auxiliaryTensorRingToModule",
+      "temporary_id": "decl-024408"
+    },
+    {
+      "docstring": "The auxiliary tensor-ring map sends a pure tensor to the corresponding scalar action.",
+      "new_name": "auxiliaryTensorRingToModule_tmul",
+      "temporary_id": "decl-024409"
+    },
+    {
+      "docstring": "The additive homomorphism from the module into the auxiliary tensor-ring construction.",
+      "new_name": "auxiliaryModuleToTensorRing",
+      "temporary_id": "decl-024415"
+    },
+    {
+      "docstring": "An isomorphism from the auxiliary functor evaluated at the ring to the additive-group forgetful functor.",
+      "new_name": "auxiliaryRingFunctorIso",
+      "temporary_id": "decl-024421"
+    },
+    {
+      "docstring": "The linear map sending a module element to its opposite-ring coefficient-action additive map.",
+      "new_name": "auxiliaryCoefficientAction",
+      "temporary_id": "decl-024426"
+    },
+    {
+      "docstring": "Applying the coefficient-action map evaluates to the opposite-ring scalar action.",
+      "new_name": "auxiliaryCoefficientAction_apply",
+      "temporary_id": "decl-024435"
+    }
+  ],
+  "module_name": "ModuleCategoryTensorFinsupp"
+}
