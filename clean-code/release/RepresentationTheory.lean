@@ -227,6 +227,7 @@ import RepresentationTheory.CategoryTheory.Abelian.ShortExactPreservation
 import RepresentationTheory.CategoryTheory.Abelian.AdditiveAdjunctionAuxiliary
 import RepresentationTheory.CategoryTheory.Yoneda
 import RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra
+import RepresentationTheory.SymmetricGroup.PartitionDominance
 import RepresentationTheory.Partitions.SquareScalar
 
 /-!
