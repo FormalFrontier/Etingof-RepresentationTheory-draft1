@@ -1,25 +1,25 @@
 {
-  "module_name": "CategoryTheory.ModuleCategories",
   "declarations": [
     {
-      "temporary_id": "decl-019330",
+      "docstring": "The category of finitely generated modules over a finite-dimensional algebra over a field is abelian.",
       "new_name": "fgModuleCatAbelian",
-      "docstring": "The category of finitely generated modules over a finite-dimensional algebra over a field is abelian."
+      "temporary_id": "decl-019330"
     },
     {
-      "temporary_id": "decl-019353",
+      "docstring": "Finitely generated modules over a finite-dimensional algebra over a field form a linear category over that field.",
       "new_name": "fgModuleCatLinear",
-      "docstring": "Finitely generated modules over a finite-dimensional algebra over a field form a linear category over that field."
+      "temporary_id": "decl-019353"
     },
     {
-      "temporary_id": "decl-021604",
+      "docstring": "The category of modules over a ring is abelian.",
       "new_name": "moduleCatAbelian",
-      "docstring": "The category of modules over a ring is abelian."
+      "temporary_id": "decl-021604"
     },
     {
-      "temporary_id": "decl-021605",
+      "docstring": "The category of modules over an algebra is linear over its base field.",
       "new_name": "moduleCatLinear",
-      "docstring": "The category of modules over an algebra is linear over its base field."
+      "temporary_id": "decl-021605"
     }
-  ]
+  ],
+  "module_name": "CategoryTheory.ModuleCategories"
 }
