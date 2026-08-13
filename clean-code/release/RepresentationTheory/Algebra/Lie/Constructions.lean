@@ -66,7 +66,7 @@ def commutatorLieRing (k : Type*) [CommRing k]
     LieRing A := inferInstance
 
 /-- The Lie algebra structure on module endomorphisms. -/
-@[reducible, source_ref "Chapter2/Example2.9.2" (role := primary)]
+@[reducible, source_ref "Chapter2/Example2.9.2" (role := supporting)]
 def endomorphismLieAlgebra (k : Type*) [CommRing k] (V : Type*)
     [AddCommGroup V] [Module k V] :
     LieAlgebra k (Module.End k V) := inferInstance
