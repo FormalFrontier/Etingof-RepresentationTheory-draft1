@@ -236,6 +236,7 @@ import RepresentationTheory.Algebra.Module.Projective.Lifting
 import RepresentationTheory.Algebra.FiniteDimensional.FGModuleCategory
 import RepresentationTheory.CategoryTheory.Abelian.ObjectData
 import RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses
+import RepresentationTheory.CategoryTheory.ModuleCategories
 
 /-!
 # Representation theory formalization
