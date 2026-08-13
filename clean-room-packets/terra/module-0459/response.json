@@ -1,0 +1,15 @@
+{
+  "module_name": "PartitionFinrank",
+  "declarations": [
+    {
+      "temporary_id": "decl-016530",
+      "new_name": "finrank_eq_factorial_div_hookLengthProduct",
+      "docstring": "The finrank of the partition-indexed subtype equals the factorial divided by its Young diagram hook-length product."
+    },
+    {
+      "temporary_id": "decl-019457",
+      "new_name": "finrank_eq_card_auxiliaryType",
+      "docstring": "The finrank of the partition-indexed subtype equals the cardinality of an auxiliary type."
+    }
+  ]
+}
