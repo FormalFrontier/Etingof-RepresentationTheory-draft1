@@ -80,6 +80,72 @@ def simps_generated_origin(
     return None
 
 
+def reassoc_generated_origin(
+    old_fqn: str,
+    module: str,
+    source: str,
+    ilean: dict,
+    proposals_by_old: dict[str, dict],
+) -> tuple[str, list] | None:
+    """Find the indexed ``@[reassoc]`` lemma that generated ``old_fqn``.
+
+    A reassociation theorem has no source token of its own.  Accept that case
+    only when both the old and new names are exact ``_assoc`` extensions, the
+    child is present in the provider index with a null definition, and the
+    indexed parent lemma has an immediately attached ``@[reassoc]`` attribute.
+    """
+    if not old_fqn.endswith("_assoc"):
+        return None
+    parent_fqn = old_fqn.removesuffix("_assoc")
+    child = proposals_by_old.get(old_fqn)
+    parent = proposals_by_old.get(parent_fqn)
+    if child is None or parent is None:
+        return None
+    if (
+        child.get("old_module") != module
+        or parent.get("old_module") != module
+        or child.get("new_module") != parent.get("new_module")
+        or child.get("new_fqn") != f"{parent.get('new_fqn')}_assoc"
+    ):
+        return None
+
+    references = ilean.get("references", {})
+    child_ref = next(
+        (
+            record
+            for encoded, record in references.items()
+            if reference_name(encoded) == old_fqn
+        ),
+        None,
+    )
+    parent_ref = next(
+        (
+            record
+            for encoded, record in references.items()
+            if reference_name(encoded) == parent_fqn
+        ),
+        None,
+    )
+    if child_ref is None or child_ref.get("definition") is not None:
+        return None
+    position = parent_ref.get("definition") if parent_ref else None
+    if position is None:
+        return None
+    try:
+        spelling = source_slice(source, position)
+    except (ValueError, UnicodeError):
+        return None
+    if parent_fqn.rsplit(".", 1)[-1] != spelling:
+        return None
+
+    source_lines = source.splitlines(keepends=True)
+    start_line = position[0]
+    attached_context = "".join(source_lines[max(0, start_line - 2) : start_line + 1])
+    if not re.search(r"@\[\s*reassoc\s*\]\s*(?:lemma|theorem)\s+", attached_context):
+        return None
+    return parent_fqn, position
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("tainted", type=Path)
@@ -127,6 +193,10 @@ def main() -> None:
         position = ref.get("definition") if ref else None
         if position is None:
             generated = simps_generated_origin(old_fqn, module, source, ilean, by_old)
+            generated_by = "simps"
+            if generated is None:
+                generated = reassoc_generated_origin(old_fqn, module, source, ilean, by_old)
+                generated_by = "reassoc"
             if generated is None:
                 errors.append(f"{old_fqn}: no definition range in provider ilean")
                 continue
@@ -139,7 +209,7 @@ def main() -> None:
                 "new_module": proposal["new_module"],
                 "definition_range": None,
                 "definition_spelling": None,
-                "generated_by": "simps",
+                "generated_by": generated_by,
                 "generated_from": parent_fqn,
                 "generator_definition_range": parent_position[:4],
             })
