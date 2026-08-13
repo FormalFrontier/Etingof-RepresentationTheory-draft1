@@ -33,7 +33,7 @@
     },
     {
       "temporary_id": "decl-020775",
-      "new_name": "isArtinianRing",
+      "new_name": "isArtinianRing_of_module_finite",
       "docstring": "A ring finite as a module over a field is Artinian."
     },
     {
