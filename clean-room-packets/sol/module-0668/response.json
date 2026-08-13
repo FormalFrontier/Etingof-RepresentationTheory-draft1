@@ -26,8 +26,8 @@
       "temporary_id": "decl-001303"
     },
     {
-      "docstring": "An auxiliary inductive object for three indexed additive families with the opposite connecting direction.",
-      "new_name": "AuxiliaryReverse",
+      "docstring": "An auxiliary inductive object parameterized by three indexed additive families.",
+      "new_name": "Auxiliary2",
       "temporary_id": "decl-004815"
     },
     {
@@ -36,18 +36,18 @@
       "temporary_id": "decl-004819"
     },
     {
-      "docstring": "Returns the degreewise first-to-second map for the reverse auxiliary object.",
-      "new_name": "firstToSecondReverse",
+      "docstring": "Returns the degreewise map from the first family to the second family.",
+      "new_name": "firstToSecond",
       "temporary_id": "decl-004821"
     },
     {
-      "docstring": "Returns the degreewise second-to-third map for the reverse auxiliary object.",
-      "new_name": "secondToThirdReverse",
+      "docstring": "Returns the degreewise map from the second family to the third family.",
+      "new_name": "secondToThird",
       "temporary_id": "decl-004822"
     },
     {
-      "docstring": "The reverse auxiliary maps form the displayed five-map exact sequence.",
-      "new_name": "fiveTermExactReverse",
+      "docstring": "The five displayed consecutive maps satisfy the given exactness condition.",
+      "new_name": "fiveTermExact",
       "temporary_id": "decl-004833"
     },
     {
