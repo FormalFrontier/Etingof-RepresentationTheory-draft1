@@ -1,0 +1,105 @@
+{
+  "module_name": "HomologicalAlgebra.TensorProductProjectiveResolution",
+  "declarations": [
+    {
+      "temporary_id": "decl-005701",
+      "new_name": "TensorProductProjectiveResolution.tensorProductModuleObject",
+      "docstring": "The module-category object over the tensor product algebra carried by the tensor product of two modules."
+    },
+    {
+      "temporary_id": "decl-018218",
+      "new_name": "TensorProductProjectiveResolution.linearYonedaTotalToTensorComplex",
+      "docstring": "The degreewise morphism from linear Yoneda applied to the total tensor-product resolution to the tensor complex."
+    },
+    {
+      "temporary_id": "decl-018221",
+      "new_name": "TensorProductProjectiveResolution.tensorComplexToLinearYonedaTotal",
+      "docstring": "The degreewise morphism from the tensor complex to linear Yoneda applied to the total tensor-product resolution."
+    },
+    {
+      "temporary_id": "decl-018223",
+      "new_name": "TensorProductProjectiveResolution.linearYonedaTotalIsoTensorComplex",
+      "docstring": "The degreewise isomorphism between linear Yoneda on the total tensor-product resolution and the associated tensor complex."
+    },
+    {
+      "temporary_id": "decl-019371",
+      "new_name": "TensorProductProjectiveResolution.fintypeDegreePairs",
+      "docstring": "The finite type of pairs of natural numbers whose sum is a prescribed degree."
+    },
+    {
+      "temporary_id": "decl-019741",
+      "new_name": "TensorProductProjectiveResolution.linearYonedaTensorObjectIso",
+      "docstring": "A degreewise isomorphism from linear Yoneda on a tensor-product object to the tensor product of the two linear Yoneda components."
+    },
+    {
+      "temporary_id": "decl-020142",
+      "new_name": "TensorProductProjectiveResolution.tensorLinearYonedaComplex",
+      "docstring": "The cochain complex over the base field associated to two projective resolutions and their coefficient modules."
+    },
+    {
+      "temporary_id": "decl-020175",
+      "new_name": "TensorProductProjectiveResolution.tensorProductLinearYonedaFunctor",
+      "docstring": "The contravariant module-valued functor obtained from the tensor product of two coefficient modules."
+    },
+    {
+      "temporary_id": "decl-021494",
+      "new_name": "TensorProductProjectiveResolution.linearYonedaObjComponent",
+      "docstring": "A component of the linear Yoneda complex is the module of morphisms from the corresponding component of the original complex."
+    },
+    {
+      "temporary_id": "decl-022394",
+      "new_name": "TensorProductProjectiveResolution.linearYonedaTotalIsoTensorObjComponent",
+      "docstring": "The componentwise isomorphism between linear Yoneda on the total tensor resolution and the tensor object of the two linear Yoneda complexes."
+    },
+    {
+      "temporary_id": "decl-023390",
+      "new_name": "TensorProductProjectiveResolution.summandToTotalComponent",
+      "docstring": "The morphism from a tensor-product summand indexed by two degrees to the component in their total degree."
+    },
+    {
+      "temporary_id": "decl-023397",
+      "new_name": "TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne",
+      "docstring": "An auxiliary theorem whose formal type was unavailable for inspection."
+    },
+    {
+      "temporary_id": "decl-023398",
+      "new_name": "TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremTwo",
+      "docstring": "A second auxiliary theorem whose formal type was unavailable for inspection."
+    },
+    {
+      "temporary_id": "decl-023399",
+      "new_name": "TensorProductProjectiveResolution.totalComponentToSummand",
+      "docstring": "The morphism from a component in total degree to the tensor-product summand indexed by two degrees with that sum."
+    },
+    {
+      "temporary_id": "decl-023411",
+      "new_name": "TensorProductProjectiveResolution.linearYonedaTensorObjectComponent",
+      "docstring": "Linear Yoneda evaluated on a tensor-product object agrees with the module of morphisms into the tensor product coefficient object."
+    },
+    {
+      "temporary_id": "decl-023569",
+      "new_name": "TensorProductProjectiveResolution.sum_totalComponentToSummand_comp_summandToTotalComponent",
+      "docstring": "Summing the projection-inclusion composites over all degree pairs gives the identity on the corresponding total component."
+    },
+    {
+      "temporary_id": "decl-023574",
+      "new_name": "TensorProductProjectiveResolution.homTensorProductIsoTensorHom",
+      "docstring": "For finite projective modules, morphisms from their tensor product into the tensor product coefficient module are isomorphic to the tensor product of the two morphism modules."
+    },
+    {
+      "temporary_id": "decl-024119",
+      "new_name": "TensorProductProjectiveResolution.tensorLinearYonedaSummandToTotal",
+      "docstring": "The morphism from a pair-indexed tensor product of linear Yoneda components into the associated total-degree component."
+    },
+    {
+      "temporary_id": "decl-024731",
+      "new_name": "TensorProductProjectiveResolution.summandInclusion_comp_linearYonedaTotalIso_inv",
+      "docstring": "The summand inclusion followed by the inverse total-complex comparison equals the corresponding tensor-Hom comparison and mapped projection composite."
+    },
+    {
+      "temporary_id": "decl-024732",
+      "new_name": "TensorProductProjectiveResolution.summandInclusion_comp_linearYonedaTotalIso_inv_comp",
+      "docstring": "The summand comparison identity remains valid after postcomposition with a morphism from the total linear Yoneda component."
+    }
+  ]
+}
