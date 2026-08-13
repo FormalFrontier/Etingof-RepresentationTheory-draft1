@@ -59,6 +59,10 @@ tag := "Chapter2/Problem2.15.1/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.quadraticGeneratorCombination_succ_eq_smul_id}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.bracket_lowering_coordinateVector}
@@ -82,7 +86,5 @@ number := false
 {Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple_apply_raising}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple_apply_weight}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.quadraticGeneratorCombination_succ_eq_smul_id}
 
 {Manual.docstring RepresentationTheory.Polynomial.Recurrences.mul_geometricSeriesPolynomial}
