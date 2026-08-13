@@ -73,7 +73,7 @@
     {
       "temporary_id": "decl-006504",
       "new_name": "actionMap_apply",
-      "docstring": "Evaluating the packaged action map gives algebra multiplication on the morphism value."
+      "docstring": "The packaged map sends an algebra element and a module element to the scalar action on the morphism value."
     },
     {
       "temporary_id": "decl-006505",
@@ -87,13 +87,13 @@
     },
     {
       "temporary_id": "decl-006535",
-      "new_name": "toOppositeRingHom_commute",
-      "docstring": "Images of two functions under the opposite-algebra homomorphism commute."
+      "new_name": "scalarImages_commute",
+      "docstring": "Images of functions under the displayed map commute."
     },
     {
       "temporary_id": "decl-006550",
-      "new_name": "smul_eq_mul_toOppositeRingHom",
-      "docstring": "Function scalar multiplication on the algebra is right multiplication by its opposite-algebra image."
+      "new_name": "smul_eq_mul_image",
+      "docstring": "Function scalar multiplication on the algebra equals right multiplication by the corresponding image."
     }
   ],
   "module_name": "TensorAdjunction"
