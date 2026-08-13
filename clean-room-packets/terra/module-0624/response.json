@@ -1,0 +1,85 @@
+{
+  "module_name": "Algebra.Module.BalancedTensorProduct",
+  "declarations": [
+    {
+      "temporary_id": "decl-020016",
+      "new_name": "balancedTensorProductCurry",
+      "docstring": "Curries a balanced bilinear map into an additive homomorphism from the balanced tensor product."
+    },
+    {
+      "temporary_id": "decl-020027",
+      "new_name": "balancedTensorProductCurry_tmul",
+      "docstring": "Evaluating the curried map on a pure tensor agrees with the original bilinear map."
+    },
+    {
+      "temporary_id": "decl-020028",
+      "new_name": "balancedTensorProductUncurry",
+      "docstring": "Uncurries an additive map from the balanced tensor product to a balanced bilinear map."
+    },
+    {
+      "temporary_id": "decl-020042",
+      "new_name": "balancedTensorProductUncurry_apply",
+      "docstring": "The uncurried map sends a pair to the value of the original map on its pure tensor."
+    },
+    {
+      "temporary_id": "decl-020073",
+      "new_name": "addMonoidHomToOppositeModuleFunctor",
+      "docstring": "The functor sending an additive commutative group to its additive homomorphisms out of a fixed module."
+    },
+    {
+      "temporary_id": "decl-020082",
+      "new_name": "addMonoidHomToOppositeModuleFunctor_map_apply",
+      "docstring": "The functorial image of a morphism acts by postcomposition on additive homomorphisms."
+    },
+    {
+      "temporary_id": "decl-020110",
+      "new_name": "addMonoidHomOppositeModule",
+      "docstring": "The opposite-ring module structure on additive homomorphisms from a fixed module."
+    },
+    {
+      "temporary_id": "decl-020117",
+      "new_name": "addMonoidHomOppositeSMul",
+      "docstring": "The opposite-ring scalar action on additive homomorphisms from a fixed module."
+    },
+    {
+      "temporary_id": "decl-020118",
+      "new_name": "op_smul_addMonoidHom_apply",
+      "docstring": "Opposite scalar multiplication on an additive homomorphism is precomposition by scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-021603",
+      "new_name": "op_smul_tmul",
+      "docstring": "A scalar may be moved across a pure tensor from the first factor to the second factor."
+    },
+    {
+      "temporary_id": "decl-023893",
+      "new_name": "balancedTensorProductAdjunction",
+      "docstring": "The adjunction between the balanced tensor-product functor and the additive-hom functor."
+    },
+    {
+      "temporary_id": "decl-023973",
+      "new_name": "balancedTensorProductEquivTensorProduct",
+      "docstring": "Identifies the balanced tensor product with the tensor product over a commutative ring under compatible actions."
+    },
+    {
+      "temporary_id": "decl-023986",
+      "new_name": "balancedTensorProductEquivTensorProduct_tmul",
+      "docstring": "The comparison equivalence takes each pure tensor to the corresponding tensor over the ring."
+    },
+    {
+      "temporary_id": "decl-024010",
+      "new_name": "balancedTensorProductHom_ext",
+      "docstring": "Additive homomorphisms out of the balanced tensor product agree when they agree on all pure tensors."
+    },
+    {
+      "temporary_id": "decl-024061",
+      "new_name": "balancedTensorProductFunctor_map_tmul",
+      "docstring": "The tensor-product functor maps a pure tensor by applying the morphism to its first factor."
+    },
+    {
+      "temporary_id": "decl-024063",
+      "new_name": "balancedTensorProductFunctor_preservesFiniteColimits",
+      "docstring": "The balanced tensor-product functor preserves finite colimits."
+    }
+  ]
+}
