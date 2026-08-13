@@ -1,0 +1,180 @@
+{
+  "module_name": "HomologicalAlgebra.TensorProductHomology",
+  "declarations": [
+    {
+      "temporary_id": "decl-005438",
+      "new_name": "TotalDegreeIndex",
+      "docstring": "The type of bidegree indices associated with an integer total degree."
+    },
+    {
+      "temporary_id": "decl-018288",
+      "new_name": "cyclesTensorCyclesToTensorHomology",
+      "docstring": "Sends a tensor of cycles to the homology of the tensor product complex in the summed degree."
+    },
+    {
+      "temporary_id": "decl-018290",
+      "new_name": "cyclesTensorCyclesToTensorHomology_natural",
+      "docstring": "The cycle-tensor map to tensor-product homology commutes with morphisms of both complexes."
+    },
+    {
+      "temporary_id": "decl-018291",
+      "new_name": "cyclesTensorCyclesToTensorCycles",
+      "docstring": "Maps a tensor of cycle objects into the cycles of the tensor product complex in total degree."
+    },
+    {
+      "temporary_id": "decl-018296",
+      "new_name": "cyclesTensorCyclesToTensorCycles_comp_iCycles",
+      "docstring": "Including the induced tensor-product cycle map recovers the corresponding map into the degree component."
+    },
+    {
+      "temporary_id": "decl-018297",
+      "new_name": "cyclesTensorCyclesToTensorCycles_comp_iCycles_assoc",
+      "docstring": "The comparison between the cycle map and its inclusion remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-018298",
+      "new_name": "cyclesTensorCyclesToTensorCycles_natural",
+      "docstring": "The map from tensors of cycles to tensor-product cycles is natural in both complexes."
+    },
+    {
+      "temporary_id": "decl-018299",
+      "new_name": "cyclesTensorCyclesToTensorComponent",
+      "docstring": "Maps a tensor of cycles into the summed-degree component of the tensor product complex."
+    },
+    {
+      "temporary_id": "decl-018309",
+      "new_name": "cyclesTensorCyclesToTensorComponent_comp_d",
+      "docstring": "The degree-component map obtained from two cycles is annihilated by every outgoing differential."
+    },
+    {
+      "temporary_id": "decl-018310",
+      "new_name": "cyclesTensorCyclesToTensorComponent_natural",
+      "docstring": "The component-level tensor map on cycles commutes with maps of the two complexes."
+    },
+    {
+      "temporary_id": "decl-018606",
+      "new_name": "tensorHomologyProjections_epi",
+      "docstring": "The tensor product of the two canonical projections onto homology is an epimorphism."
+    },
+    {
+      "temporary_id": "decl-018607",
+      "new_name": "tensorLeft_homologyProjection_epi",
+      "docstring": "Tensoring a canonical homology projection on the left by a module preserves its epimorphism property."
+    },
+    {
+      "temporary_id": "decl-018608",
+      "new_name": "tensorRight_homologyProjection_epi",
+      "docstring": "Tensoring a canonical homology projection on the right by a module yields an epimorphism."
+    },
+    {
+      "temporary_id": "decl-020288",
+      "new_name": "tensorHomologyProjections_comp_homologyTensorHomologyToTensorHomology",
+      "docstring": "Passing both cycle factors to homology before applying the pairwise tensor-homology map gives the direct cycle-level map."
+    },
+    {
+      "temporary_id": "decl-020289",
+      "new_name": "tensorHomologyProjections_comp_homologyTensorHomologyToTensorHomology_assoc",
+      "docstring": "The factorization through the tensor of homology objects is stable under further postcomposition."
+    },
+    {
+      "temporary_id": "decl-020807",
+      "new_name": "tensorLeft_homologyCokernel_isColimit",
+      "docstring": "Tensoring on the left carries the cokernel presentation of a homology object to a colimit cokernel cofork."
+    },
+    {
+      "temporary_id": "decl-020810",
+      "new_name": "tensorRight_homologyCokernel_isColimit",
+      "docstring": "Tensoring on the right preserves the colimit witness for the cokernel defining a homology object."
+    },
+    {
+      "temporary_id": "decl-021303",
+      "new_name": "homologyTensorCyclesToTensorHomology",
+      "docstring": "Maps homology in one factor tensored with cycles in the other to homology of the tensor product complex."
+    },
+    {
+      "temporary_id": "decl-021392",
+      "new_name": "totalHomologyTensorToTensorHomology",
+      "docstring": "Combines the direct sum of pairwise tensor products of homology into tensor-product homology at a fixed total degree."
+    },
+    {
+      "temporary_id": "decl-021400",
+      "new_name": "totalHomologyTensorToTensorHomology_natural",
+      "docstring": "The total-degree map from pairwise homology tensors is natural in both cochain complexes."
+    },
+    {
+      "temporary_id": "decl-021404",
+      "new_name": "totalHomologyTensorNatTrans",
+      "docstring": "The natural transformation from the total pairwise-homology functor to tensor-product homology in a fixed degree."
+    },
+    {
+      "temporary_id": "decl-021406",
+      "new_name": "totalHomologyTensorFunctor",
+      "docstring": "The functor assigning two cochain complexes their total-degree object assembled from tensor products of homology."
+    },
+    {
+      "temporary_id": "decl-021414",
+      "new_name": "homologyTensorHomologyToTensorHomology",
+      "docstring": "Maps a tensor product of two homology objects to homology of the tensor product complex in the summed degree."
+    },
+    {
+      "temporary_id": "decl-021419",
+      "new_name": "homologyTensorHomologyToTensorHomology_natural",
+      "docstring": "The pairwise map from a tensor of homology objects to tensor-product homology is natural in both inputs."
+    },
+    {
+      "temporary_id": "decl-021420",
+      "new_name": "tensorHomologyFunctor",
+      "docstring": "The functor taking a pair of cochain complexes to the specified degree of the homology of their tensor product."
+    },
+    {
+      "temporary_id": "decl-023890",
+      "new_name": "tensorComplex_eq_tensorObj",
+      "docstring": "The specified complex constructed from two cochain complexes agrees with their monoidal tensor object."
+    },
+    {
+      "temporary_id": "decl-024551",
+      "new_name": "tensorLeft_homologyProjection_comp_homologyTensorHomologyToTensorHomology",
+      "docstring": "Projecting the second cycle factor to homology before the pairwise homology map gives the homology-tensored-with-cycles map."
+    },
+    {
+      "temporary_id": "decl-024552",
+      "new_name": "tensorLeft_homologyProjection_comp_homologyTensorHomologyToTensorHomology_assoc",
+      "docstring": "The factorization through homology in the second tensor factor persists after postcomposition."
+    },
+    {
+      "temporary_id": "decl-024553",
+      "new_name": "tensorRight_homologyProjection_comp_homologyTensorCyclesToTensorHomology",
+      "docstring": "Projecting the first cycle factor to homology and then using the mixed map recovers the map defined on two cycle objects."
+    },
+    {
+      "temporary_id": "decl-024554",
+      "new_name": "tensorRight_homologyProjection_comp_homologyTensorCyclesToTensorHomology_assoc",
+      "docstring": "The first-factor homology projection identity is unchanged by an additional morphism on the right."
+    },
+    {
+      "temporary_id": "decl-024740",
+      "new_name": "sigmaInclusion_comp_totalHomologyTensorToTensorHomology",
+      "docstring": "On each summand, the total-degree homology map agrees with the pairwise map followed by degree transport."
+    },
+    {
+      "temporary_id": "decl-024741",
+      "new_name": "sigmaInclusion_comp_totalHomologyTensorToTensorHomology_assoc",
+      "docstring": "The description of the total-degree map on a summand remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-024742",
+      "new_name": "sigmaInclusion_pair_comp_totalHomologyTensorToTensorHomology",
+      "docstring": "The summand indexed by a chosen degree pair is sent by the total map through the corresponding pairwise homology morphism."
+    },
+    {
+      "temporary_id": "decl-024743",
+      "new_name": "sigmaInclusion_naturality",
+      "docstring": "Mapping the total-degree functor after a summand inclusion equals the tensor of the induced homology maps followed by the target inclusion."
+    },
+    {
+      "temporary_id": "decl-024744",
+      "new_name": "sigmaInclusion_naturality_assoc",
+      "docstring": "Naturality of a total-degree summand inclusion is preserved under subsequent composition."
+    }
+  ]
+}
