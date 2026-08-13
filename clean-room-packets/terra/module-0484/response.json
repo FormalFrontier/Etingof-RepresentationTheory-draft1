@@ -3,12 +3,12 @@
   "declarations": [
     {
       "temporary_id": "decl-005367",
-      "new_name": "auxiliary_leftPerm_eq_one",
+      "new_name": "auxiliary_left_perm_eq_one",
       "docstring": "Under the displayed subgroup conditions, a permutation preserving every auxiliary position value is the identity."
     },
     {
       "temporary_id": "decl-005375",
-      "new_name": "auxiliary_leftPerm_eq_one_of_map_eq",
+      "new_name": "auxiliary_left_perm_eq_one_of_map_eq",
       "docstring": "Equality of the displayed auxiliary permutation images forces the left permutation to be the identity."
     },
     {
