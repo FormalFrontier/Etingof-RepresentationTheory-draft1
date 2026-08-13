@@ -1,0 +1,25 @@
+import Mathlib.RingTheory.Jacobson.Radical
+import Mathlib.RingTheory.Ideal.Quotient.Defs
+import Mathlib.RingTheory.Artinian.Ring
+import Mathlib.RingTheory.SimpleModule.Basic
+import Mathlib.LinearAlgebra.Dimension.Finrank
+
+namespace RepresentationTheory.FieldAlgebraProperties
+
+/-- A property of a ring equipped with an algebra structure over a field. -/
+def fieldAlgebraProperty (k : Type*) [Field k]
+    (A : Type*) [Ring A] [Algebra k A] : Prop :=
+  ∀ x y : A ⧸ Ring.jacobson A, x * y = y * x
+
+/-- A proposition associated with a ring algebra over a field. -/
+def fieldAlgebraProperty' (k : Type*) [Field k]
+    (A : Type*) [Ring A] [Algebra k A] : Prop :=
+  ∀ (M : Type*) [AddCommGroup M] [Module A M] [IsSimpleModule A M] [Module k M]
+    [IsScalarTower k A M], Module.finrank k M = 1
+
+/-- The property holds for a commutative ring carrying an algebra structure over a field. -/
+theorem fieldAlgebraProperty.commRing (k : Type*) [Field k]
+    (A : Type*) [CommRing A] [Algebra k A] : fieldAlgebraProperty k A :=
+  fun x y => mul_comm x y
+
+end RepresentationTheory.FieldAlgebraProperties
