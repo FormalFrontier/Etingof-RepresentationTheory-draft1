@@ -1,0 +1,10 @@
+{
+  "module_name": "Algebra.Module.Property",
+  "declarations": [
+    {
+      "temporary_id": "decl-014583",
+      "new_name": "ModuleProperty",
+      "docstring": "A proposition associated with a module over a ring."
+    }
+  ]
+}
