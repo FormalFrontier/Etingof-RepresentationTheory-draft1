@@ -1,0 +1,10 @@
+{
+  "module_name": "CategoryTheory/Abelian/ExtensionClasses",
+  "declarations": [
+    {
+      "temporary_id": "decl-004111",
+      "new_name": "CategoryTheory.ExtensionClasses",
+      "docstring": "The type of degree-indexed extension classes for an ordered pair of objects in an abelian category."
+    }
+  ]
+}
