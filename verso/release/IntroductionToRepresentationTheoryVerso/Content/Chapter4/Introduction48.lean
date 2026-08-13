@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -102,3 +103,13 @@ For another example consider $`A_4`, the group of even permutations of four item
 where $`\epsilon = \exp(\frac{2\pi i}{3})`.
 
 The last row can be computed using the orthogonality of rows. Another way to compute the last row is to note that $`\mathbb{C}^3` is the representation of $`A_4` by rotations of the regular tetrahedron: in this case $`(123), (132)` are the rotations by $`120^0` and $`240^0` around a perpendicular to a face of the tetrahedron, while $`(12)(34)` is the rotation by $`180^0` around an axis perpendicular to two opposite edges.
+
+## Formalization
+%%%
+tag := "Chapter4/Introduction_4.8/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroup.CharacterPairing.FiniteGroup.normalized_characterPairing_eq_finrank_hom}

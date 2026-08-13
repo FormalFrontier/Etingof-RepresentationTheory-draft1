@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -43,3 +44,15 @@ $$`\operatorname{Tr}|_{V \otimes W^*}(P) = \dim \mathrm{Hom}_G(\mathbb{C}, V \ot
 $$`= \dim(V \otimes W^*)^G = \dim \mathrm{Hom}_G(W, V).`
 
 $`\square`
+
+## Formalization
+%%%
+tag := "Chapter4/Theorem4.5.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroup.CharacterPairing.FiniteGroup.normalized_characterPairing_eq_finrank_hom}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.CharacterPairing.FiniteGroup.normalized_characterPairing_of_simple}

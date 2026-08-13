@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,15 @@ We define a positive definite Hermitian inner product on $`\mathrm{F}_c(G, \math
 
 $$`(f_1, f_2) = \frac{1}{|G|} \sum_{g \in G} f_1(g)\overline{f_2(g)}.`
 The following theorem says that characters of irreducible representations of $`G` form an orthonormal basis of $`F_c(G, \mathbb{C})` under this inner product.
+
+## Formalization
+%%%
+tag := "Chapter4/Introduction_4.5/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroup.CharacterPairing.FiniteGroup.normalized_characterPairing_eq_finrank_hom}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.CharacterPairing.FiniteGroup.normalized_characterPairing_of_simple}
