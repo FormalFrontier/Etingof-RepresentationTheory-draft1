@@ -51,7 +51,7 @@ instance instLieAlgebra : LieAlgebra k (AbelianLieAlgebra k V) where
   lie_smul _ _ _ := by simp
 
 /-- The zero-bracket Lie algebra is Lie-abelian. -/
-@[source_ref "Chapter2/Example2.9.2" (role := primary)]
+@[source_ref "Chapter2/Example2.9.2" (role := supporting)]
 instance isLieAbelian : IsLieAbelian (AbelianLieAlgebra k V) :=
   ⟨fun x y => bracket_eq_zero x y⟩
 

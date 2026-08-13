@@ -143,7 +143,7 @@ theorem exists_map_agreeing_on_iSup (p : ι → Submodule A V)
 /--
 For an internal family of simple submodules, a surjective linear map agrees on the associated submodule with a suitable map.
 -/
-@[source_ref "Chapter3/Lemma3.1.6" (role := primary), source_ref "Chapter3/Discussion_after_Lemma3.1.6" (role := supporting)]
+@[source_ref "Chapter3/Lemma3.1.6" (role := supporting), source_ref "Chapter3/Discussion_after_Lemma3.1.6" (role := supporting)]
 theorem exists_map_agreeing_on_iSup_of_internal [DecidableEq ι] (p : ι → Submodule A V)
     (hInt : DirectSum.IsInternal p) (hsimple : ∀ i, IsSimpleModule A (p i))
     (f : V →ₗ[A] U) (hf : Function.Surjective f) :
