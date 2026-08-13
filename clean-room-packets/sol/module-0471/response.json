@@ -4,71 +4,71 @@
     {
       "temporary_id": "decl-004359",
       "new_name": "auxiliarySubgroup",
-      "docstring": "An auxiliary subgroup of the displayed finite-field group."
+      "docstring": "An auxiliary subgroup of the displayed group."
     },
     {
       "temporary_id": "decl-004388",
-      "new_name": "auxiliaryCharacterRatio",
-      "docstring": "An auxiliary complex-valued function determined by two characters and a subgroup element."
+      "new_name": "auxiliaryComplexFunction",
+      "docstring": "An auxiliary complex-valued function of two monoid homomorphisms and a subgroup element."
     },
     {
       "temporary_id": "decl-004391",
-      "new_name": "auxiliaryCharacterRatio_mul",
-      "docstring": "The auxiliary character-ratio function is multiplicative on subgroup elements."
+      "new_name": "auxiliaryComplexFunction_mul",
+      "docstring": "The auxiliary complex-valued function is multiplicative on subgroup elements."
     },
     {
       "temporary_id": "decl-004392",
-      "new_name": "auxiliaryCharacterRatio_one",
-      "docstring": "The auxiliary character-ratio function takes value one at the identity."
+      "new_name": "auxiliaryComplexFunction_one",
+      "docstring": "The auxiliary complex-valued function takes value one at the identity."
     },
     {
       "temporary_id": "decl-004406",
-      "new_name": "auxiliary_entry_zero_ne_zero",
-      "docstring": "The indicated zero-indexed entry of an auxiliary subgroup element is nonzero."
+      "new_name": "auxiliary_eval_zero_zero_ne_zero",
+      "docstring": "The indicated evaluation at two zero indices is nonzero."
     },
     {
       "temporary_id": "decl-004407",
-      "new_name": "auxiliary_entry_one_ne_zero",
-      "docstring": "The indicated one-indexed entry of an auxiliary subgroup element is nonzero."
+      "new_name": "auxiliary_eval_one_one_ne_zero",
+      "docstring": "The indicated evaluation at two one indices is nonzero."
     },
     {
       "temporary_id": "decl-004430",
       "new_name": "auxiliaryRepresentation",
-      "docstring": "An auxiliary finite-dimensional representation associated with a character."
+      "docstring": "An auxiliary finite-dimensional representation associated with a monoid homomorphism."
     },
     {
       "temporary_id": "decl-004501",
-      "new_name": "auxiliaryFactor",
-      "docstring": "Associates an auxiliary subgroup factor to each group element."
+      "new_name": "auxiliarySubgroupMap",
+      "docstring": "Maps each displayed group element to an auxiliary subgroup element."
     },
     {
       "temporary_id": "decl-004513",
-      "new_name": "auxiliaryFactor_mul",
-      "docstring": "The auxiliary factor of a product is described by multiplication of the component factors."
+      "new_name": "auxiliarySubgroupMap_mul",
+      "docstring": "The auxiliary subgroup map is compatible with the displayed multiplication."
     },
     {
       "temporary_id": "decl-004514",
-      "new_name": "auxiliaryFactor_auxiliaryElement",
-      "docstring": "The auxiliary factor of the displayed auxiliary element is the identity."
+      "new_name": "auxiliarySubgroupMap_auxiliaryElement",
+      "docstring": "The auxiliary subgroup map sends the displayed auxiliary element to the identity."
     },
     {
       "temporary_id": "decl-004515",
-      "new_name": "auxiliaryFactor_decomposition",
-      "docstring": "Each displayed group element decomposes using its auxiliary factor and auxiliary element."
+      "new_name": "auxiliarySubgroupMap_decomposition",
+      "docstring": "Each displayed group element has the indicated decomposition using the auxiliary subgroup map."
     },
     {
       "temporary_id": "decl-004516",
-      "new_name": "auxiliaryOption",
-      "docstring": "Associates an optional finite-field value to each displayed group element."
+      "new_name": "auxiliaryOptionMap",
+      "docstring": "Maps each displayed group element to an optional finite-field value."
     },
     {
       "temporary_id": "decl-004518",
-      "new_name": "auxiliaryOption_mul",
+      "new_name": "auxiliaryOptionMap_mul",
       "docstring": "The auxiliary optional value is unchanged after multiplication by an auxiliary subgroup factor."
     },
     {
       "temporary_id": "decl-004519",
-      "new_name": "auxiliaryOption_auxiliaryElement",
+      "new_name": "auxiliaryOptionMap_auxiliaryElement",
       "docstring": "Applying the auxiliary option map to the auxiliary element recovers its input."
     },
     {
@@ -79,7 +79,7 @@
     {
       "temporary_id": "decl-004528",
       "new_name": "auxiliaryOtherRepresentation",
-      "docstring": "A second auxiliary finite-dimensional representation associated with a character."
+      "docstring": "A second auxiliary finite-dimensional representation associated with a monoid homomorphism."
     },
     {
       "temporary_id": "decl-004540",
@@ -93,28 +93,28 @@
     },
     {
       "temporary_id": "decl-004605",
-      "new_name": "auxiliaryExtendFunction",
-      "docstring": "Extends an auxiliary complex-valued function from optional values to the group."
+      "new_name": "auxiliaryFunctionOnGroup",
+      "docstring": "An auxiliary complex-valued function on the displayed group from the given input data."
     },
     {
       "temporary_id": "decl-004607",
-      "new_name": "auxiliaryExtendFunction_auxiliaryElement",
-      "docstring": "The auxiliary extension agrees with its input function on auxiliary elements."
+      "new_name": "auxiliaryFunctionOnGroup_auxiliaryElement",
+      "docstring": "The auxiliary function on the group agrees with its input function on the displayed auxiliary elements."
     },
     {
       "temporary_id": "decl-004608",
-      "new_name": "auxiliaryExtendFunction_mem",
-      "docstring": "The auxiliary extension belongs to the displayed submodule."
+      "new_name": "auxiliaryFunctionOnGroup_mem",
+      "docstring": "The auxiliary function on the group belongs to the displayed submodule."
     },
     {
       "temporary_id": "decl-004653",
       "new_name": "auxiliaryPairedRepresentation",
-      "docstring": "An auxiliary finite-dimensional representation associated with a pair of characters."
+      "docstring": "An auxiliary finite-dimensional representation associated with a pair of monoid homomorphisms."
     },
     {
       "temporary_id": "decl-004655",
       "new_name": "auxiliarySubmoduleRepresentation",
-      "docstring": "The representation induced on the displayed auxiliary submodule."
+      "docstring": "A representation whose carrier is the displayed auxiliary submodule."
     },
     {
       "temporary_id": "decl-004669",
@@ -139,7 +139,7 @@
     {
       "temporary_id": "decl-016597",
       "new_name": "auxiliaryPairedRepresentation_simple_of_ne",
-      "docstring": "The auxiliary paired representation is simple when its two characters differ."
+      "docstring": "The auxiliary paired representation is simple when its two monoid homomorphisms differ."
     },
     {
       "temporary_id": "decl-016598",
@@ -149,12 +149,12 @@
     {
       "temporary_id": "decl-016599",
       "new_name": "auxiliaryRepresentation_iso_iff",
-      "docstring": "Two auxiliary representations are isomorphic exactly when their associated characters agree."
+      "docstring": "Two auxiliary representations are isomorphic exactly when their associated monoid homomorphisms agree."
     },
     {
       "temporary_id": "decl-016600",
       "new_name": "auxiliaryPairedRepresentation_iso_iff",
-      "docstring": "Under the stated inequalities, two auxiliary paired representations are isomorphic exactly when their unordered character pairs agree."
+      "docstring": "Under the stated inequalities, two auxiliary paired representations are isomorphic exactly when their unordered monoid-homomorphism pairs agree."
     },
     {
       "temporary_id": "decl-032894",
