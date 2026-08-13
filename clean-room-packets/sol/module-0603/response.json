@@ -18,8 +18,8 @@
     },
     {
       "temporary_id": "decl-016276",
-      "new_name": "tensorComponentToExtendedTensorComponent_eq",
-      "docstring": "The comparison from a tensor component to the corresponding extended tensor component is the composite of the two inverse comparison maps."
+      "new_name": "auxiliaryTensorComponentComparisonEq",
+      "docstring": "The displayed tensor-component map is the composite of two inverse comparison maps."
     },
     {
       "temporary_id": "decl-016277",
@@ -73,8 +73,8 @@
     },
     {
       "temporary_id": "decl-016313",
-      "new_name": "auxiliaryTensorReindexingCompatibility",
-      "docstring": "An auxiliary tensor-reindexing compatibility assertion whose displayed type is unavailable."
+      "new_name": "auxiliaryAssertion",
+      "docstring": "An auxiliary assertion whose formal type was unavailable in the packet."
     },
     {
       "temporary_id": "decl-016314",
@@ -98,8 +98,8 @@
     },
     {
       "temporary_id": "decl-016326",
-      "new_name": "extendedTensorSummandToTensorComponent_eq",
-      "docstring": "The extended summand map is obtained from the two extension isomorphisms followed by the tensor-summand inclusion."
+      "new_name": "auxiliaryExtendedTensorSummandMapEq",
+      "docstring": "The displayed summand map factors through two extension-component maps and a tensor-summand map."
     },
     {
       "temporary_id": "decl-016327",
@@ -118,23 +118,23 @@
     },
     {
       "temporary_id": "decl-016335",
-      "new_name": "chainTensorFunctor",
-      "docstring": "The curried tensor-product functor on nonnegatively graded chain complexes."
+      "new_name": "auxiliaryChainComplexBifunctor",
+      "docstring": "An auxiliary curried endofunctor-valued functor on nonnegatively graded chain complexes over a field."
     },
     {
       "temporary_id": "decl-016337",
-      "new_name": "cochainTensorFunctor",
-      "docstring": "The curried tensor-product functor on integer-graded cochain complexes."
+      "new_name": "auxiliaryCochainComplexBifunctor",
+      "docstring": "An auxiliary curried endofunctor-valued functor on integer-graded cochain complexes over a field."
     },
     {
       "temporary_id": "decl-016339",
-      "new_name": "tensorAfterChainToCochainFunctor",
-      "docstring": "The bifunctor that extends two chain complexes to cochain complexes and then tensors them."
+      "new_name": "auxiliaryChainToCochainBifunctorSource",
+      "docstring": "An auxiliary functor assigning to each chain complex a functor from chain complexes to cochain complexes."
     },
     {
       "temporary_id": "decl-016340",
-      "new_name": "chainTensorThenToCochainFunctor",
-      "docstring": "The bifunctor that tensors two chain complexes and then extends the result to a cochain complex."
+      "new_name": "auxiliaryChainToCochainBifunctorTarget",
+      "docstring": "An auxiliary functor assigning to each chain complex a functor from chain complexes to cochain complexes."
     },
     {
       "temporary_id": "decl-016341",
@@ -143,13 +143,13 @@
     },
     {
       "temporary_id": "decl-016350",
-      "new_name": "extendedTensorComponentIso_hom_comp_extendXIso_hom",
-      "docstring": "At a negative degree, the component isomorphism followed by the extension component isomorphism equals the forward tensor comparison."
+      "new_name": "auxiliaryExtendedTensorComponentComparisonEq",
+      "docstring": "The displayed component-isomorphism composite agrees with the forward tensor comparison at a negative degree."
     },
     {
       "temporary_id": "decl-016351",
-      "new_name": "extendedTensorComponentIso_hom_comp_extendXIso_hom_assoc",
-      "docstring": "The component-isomorphism identity remains valid after postcomposition."
+      "new_name": "auxiliaryExtendedTensorComponentComparisonEq_assoc",
+      "docstring": "The displayed component-isomorphism identity remains valid after postcomposition."
     },
     {
       "temporary_id": "decl-016352",
@@ -178,18 +178,18 @@
     },
     {
       "temporary_id": "decl-016361",
-      "new_name": "tensorAfterChainToCochainIsoChainTensorThenToCochain",
-      "docstring": "The bifunctor that tensors after extension is naturally isomorphic to the bifunctor that extends after tensoring."
+      "new_name": "auxiliaryChainToCochainBifunctorIso",
+      "docstring": "An isomorphism between the two displayed auxiliary chain-to-cochain bifunctors."
     },
     {
       "temporary_id": "decl-016364",
-      "new_name": "tensorAfterChainToCochainIsoChainTensorThenToCochain_app",
-      "docstring": "The component of the bifunctor isomorphism is the tensor-extension isomorphism."
+      "new_name": "auxiliaryChainToCochainBifunctorIso_app",
+      "docstring": "Each component of the auxiliary bifunctor isomorphism agrees with the tensor-extension isomorphism."
     },
     {
       "temporary_id": "decl-016365",
       "new_name": "tensorSummandInclusion",
-      "docstring": "Includes the tensor of components in degrees `p` and `q` into degree `n` of the tensor complex when the degrees add to `n`."
+      "docstring": "Maps the tensor of components in degrees `p` and `q` into degree `n` when their displayed tensor-shape index is `n`."
     },
     {
       "temporary_id": "decl-016371",
@@ -199,7 +199,7 @@
     {
       "temporary_id": "decl-016372",
       "new_name": "extendedTensorSummandInclusion",
-      "docstring": "Includes a tensor of components of two extended complexes into the component indexed by their sum."
+      "docstring": "Maps a tensor of components of two extended complexes into the component selected by their displayed tensor-shape index."
     },
     {
       "temporary_id": "decl-016376",
@@ -229,12 +229,12 @@
     {
       "temporary_id": "decl-021306",
       "new_name": "nonempty_homologyTensorIsoSigma",
-      "docstring": "There exists an isomorphism from the homology of a tensor product to the coproduct of tensor products of homology objects in complementary degrees."
+      "docstring": "There exists an isomorphism from tensor-product homology to the displayed coproduct of tensor products of homology objects."
     },
     {
       "temporary_id": "decl-021307",
       "new_name": "homologyTensorIsoSigma",
-      "docstring": "An isomorphism from tensor-product homology to the coproduct of the tensor products of homology objects whose degrees sum to the target degree."
+      "docstring": "An isomorphism from tensor-product homology to the displayed coproduct of tensor products of homology objects."
     },
     {
       "temporary_id": "decl-021735",
