@@ -189,6 +189,7 @@ import RepresentationTheory.AuxiliaryFiniteDimensionalFamily
 import RepresentationTheory.QuiverVertexPredicates
 import RepresentationTheory.IntegerMatrixVectorPredicates
 import RepresentationTheory.IntegerMatrixVectorCoordinateFunction
+import RepresentationTheory.OneDimensionalSubmoduleComplements
 
 /-!
 # Representation theory formalization
