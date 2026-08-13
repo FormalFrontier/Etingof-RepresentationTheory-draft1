@@ -1,0 +1,165 @@
+{
+  "module_name": "AuxiliaryFiniteFieldRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-004359",
+      "new_name": "auxiliarySubgroup",
+      "docstring": "An auxiliary subgroup of the displayed finite-field group."
+    },
+    {
+      "temporary_id": "decl-004388",
+      "new_name": "auxiliaryCharacterRatio",
+      "docstring": "An auxiliary complex-valued function determined by two characters and a subgroup element."
+    },
+    {
+      "temporary_id": "decl-004391",
+      "new_name": "auxiliaryCharacterRatio_mul",
+      "docstring": "The auxiliary character-ratio function is multiplicative on subgroup elements."
+    },
+    {
+      "temporary_id": "decl-004392",
+      "new_name": "auxiliaryCharacterRatio_one",
+      "docstring": "The auxiliary character-ratio function takes value one at the identity."
+    },
+    {
+      "temporary_id": "decl-004406",
+      "new_name": "auxiliary_entry_zero_ne_zero",
+      "docstring": "The indicated zero-indexed entry of an auxiliary subgroup element is nonzero."
+    },
+    {
+      "temporary_id": "decl-004407",
+      "new_name": "auxiliary_entry_one_ne_zero",
+      "docstring": "The indicated one-indexed entry of an auxiliary subgroup element is nonzero."
+    },
+    {
+      "temporary_id": "decl-004430",
+      "new_name": "auxiliaryRepresentation",
+      "docstring": "An auxiliary finite-dimensional representation associated with a character."
+    },
+    {
+      "temporary_id": "decl-004501",
+      "new_name": "auxiliaryFactor",
+      "docstring": "Associates an auxiliary subgroup factor to each group element."
+    },
+    {
+      "temporary_id": "decl-004513",
+      "new_name": "auxiliaryFactor_mul",
+      "docstring": "The auxiliary factor of a product is described by multiplication of the component factors."
+    },
+    {
+      "temporary_id": "decl-004514",
+      "new_name": "auxiliaryFactor_auxiliaryElement",
+      "docstring": "The auxiliary factor of the displayed auxiliary element is the identity."
+    },
+    {
+      "temporary_id": "decl-004515",
+      "new_name": "auxiliaryFactor_decomposition",
+      "docstring": "Each displayed group element decomposes using its auxiliary factor and auxiliary element."
+    },
+    {
+      "temporary_id": "decl-004516",
+      "new_name": "auxiliaryOption",
+      "docstring": "Associates an optional finite-field value to each displayed group element."
+    },
+    {
+      "temporary_id": "decl-004518",
+      "new_name": "auxiliaryOption_mul",
+      "docstring": "The auxiliary optional value is unchanged after multiplication by an auxiliary subgroup factor."
+    },
+    {
+      "temporary_id": "decl-004519",
+      "new_name": "auxiliaryOption_auxiliaryElement",
+      "docstring": "Applying the auxiliary option map to the auxiliary element recovers its input."
+    },
+    {
+      "temporary_id": "decl-004522",
+      "new_name": "auxiliaryElement",
+      "docstring": "Builds an auxiliary group element from an optional finite-field value."
+    },
+    {
+      "temporary_id": "decl-004528",
+      "new_name": "auxiliaryOtherRepresentation",
+      "docstring": "A second auxiliary finite-dimensional representation associated with a character."
+    },
+    {
+      "temporary_id": "decl-004540",
+      "new_name": "auxiliaryOtherRepresentation_simple",
+      "docstring": "The second auxiliary representation is simple."
+    },
+    {
+      "temporary_id": "decl-004604",
+      "new_name": "auxiliary_exists_factor_decomposition",
+      "docstring": "Every displayed group element has an auxiliary factor decomposition."
+    },
+    {
+      "temporary_id": "decl-004605",
+      "new_name": "auxiliaryExtendFunction",
+      "docstring": "Extends an auxiliary complex-valued function from optional values to the group."
+    },
+    {
+      "temporary_id": "decl-004607",
+      "new_name": "auxiliaryExtendFunction_auxiliaryElement",
+      "docstring": "The auxiliary extension agrees with its input function on auxiliary elements."
+    },
+    {
+      "temporary_id": "decl-004608",
+      "new_name": "auxiliaryExtendFunction_mem",
+      "docstring": "The auxiliary extension belongs to the displayed submodule."
+    },
+    {
+      "temporary_id": "decl-004653",
+      "new_name": "auxiliaryPairedRepresentation",
+      "docstring": "An auxiliary finite-dimensional representation associated with a pair of characters."
+    },
+    {
+      "temporary_id": "decl-004655",
+      "new_name": "auxiliarySubmoduleRepresentation",
+      "docstring": "The representation induced on the displayed auxiliary submodule."
+    },
+    {
+      "temporary_id": "decl-004669",
+      "new_name": "auxiliarySubmodule",
+      "docstring": "An auxiliary submodule of complex-valued functions on the displayed group."
+    },
+    {
+      "temporary_id": "decl-004674",
+      "new_name": "auxiliaryPairedRepresentation_iso_biprod",
+      "docstring": "The diagonal auxiliary paired representation is isomorphic to a biproduct of two auxiliary representations."
+    },
+    {
+      "temporary_id": "decl-004675",
+      "new_name": "auxiliarySubmodule_ext",
+      "docstring": "A member of the auxiliary submodule vanishing on all auxiliary elements is zero."
+    },
+    {
+      "temporary_id": "decl-004676",
+      "new_name": "auxiliaryPairedRepresentation_finrank",
+      "docstring": "The auxiliary paired representation has the displayed finite dimension."
+    },
+    {
+      "temporary_id": "decl-016597",
+      "new_name": "auxiliaryPairedRepresentation_simple_of_ne",
+      "docstring": "The auxiliary paired representation is simple when its two characters differ."
+    },
+    {
+      "temporary_id": "decl-016598",
+      "new_name": "auxiliary_representation_summary_of_pos",
+      "docstring": "A positive index gives the displayed decomposition, simplicity, and dimension properties for auxiliary representations."
+    },
+    {
+      "temporary_id": "decl-016599",
+      "new_name": "auxiliaryRepresentation_iso_iff",
+      "docstring": "Two auxiliary representations are isomorphic exactly when their associated characters agree."
+    },
+    {
+      "temporary_id": "decl-016600",
+      "new_name": "auxiliaryPairedRepresentation_iso_iff",
+      "docstring": "Under the stated inequalities, two auxiliary paired representations are isomorphic exactly when their unordered character pairs agree."
+    },
+    {
+      "temporary_id": "decl-032894",
+      "new_name": "auxiliaryFintypeGaloisField",
+      "docstring": "An auxiliary finite enumeration structure for the displayed Galois field."
+    }
+  ]
+}
