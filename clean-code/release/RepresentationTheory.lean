@@ -181,6 +181,7 @@ import RepresentationTheory.FiniteGroupCharacterArithmetic
 import RepresentationTheory.RepresentationAveragingTrace
 import RepresentationTheory.SymmetricPower.Basis
 import RepresentationTheory.AuxiliaryIntegerMatrixProperty
+import RepresentationTheory.AuxiliaryIntegerMatrixTransform
 
 /-!
 # Representation theory formalization
