@@ -1,0 +1,45 @@
+{
+  "declarations": [
+    {
+      "docstring": "Short exact complexes whose left and right endpoints are identified with `X` and `Z`, respectively.",
+      "new_name": "CategoryTheory.ShortComplex.Extension",
+      "temporary_id": "decl-004114"
+    },
+    {
+      "docstring": "The isomorphism from the left endpoint of the associated short exact complex to `X`.",
+      "new_name": "leftIso",
+      "temporary_id": "decl-004119"
+    },
+    {
+      "docstring": "The isomorphism from the right endpoint of the associated short exact complex to `Z`.",
+      "new_name": "rightIso",
+      "temporary_id": "decl-004130"
+    },
+    {
+      "docstring": "The short exact complex associated with an extension.",
+      "new_name": "shortExactSequence",
+      "temporary_id": "decl-004131"
+    },
+    {
+      "docstring": "An alternative short exact complex associated with an extension.",
+      "new_name": "shortExactSequence'",
+      "temporary_id": "decl-004132"
+    },
+    {
+      "docstring": "The type of short exact complexes in a category with zero morphisms.",
+      "new_name": "CategoryTheory.ShortComplex.ShortExactSequence",
+      "temporary_id": "decl-015608"
+    },
+    {
+      "docstring": "Regard a short exact complex as an extension of its right endpoint by its left endpoint.",
+      "new_name": "toExtension",
+      "temporary_id": "decl-015609"
+    },
+    {
+      "docstring": "A short complex in an abelian category is short exact exactly when its first map is mono, its second map is epi, and the induced cokernel morphism is an isomorphism.",
+      "new_name": "CategoryTheory.ShortComplex.shortExact_iff_mono_epi_isIso_cokernelDesc",
+      "temporary_id": "decl-023126"
+    }
+  ],
+  "module_name": "CategoryTheory.ShortComplex.Extensions"
+}
