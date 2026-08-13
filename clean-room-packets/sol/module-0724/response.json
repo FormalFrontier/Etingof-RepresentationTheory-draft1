@@ -17,37 +17,37 @@
     },
     {
       "docstring": "The auxiliary property is transported along an equivalence of preadditive categories with finite biproducts.",
-      "new_name": "auxiliaryUnderEquivalence",
+      "new_name": "mapEquivalence",
       "temporary_id": "decl-005259"
     },
     {
       "docstring": "An auxiliary hypothesis produces an object with the auxiliary property whose opposite endomorphism algebra is equivalent to the given algebra.",
-      "new_name": "auxiliaryExistsAlgEquiv",
+      "new_name": "existsObjectAlgEquivOppositeEnd",
       "temporary_id": "decl-005312"
     },
     {
-      "docstring": "For finite algebras, one auxiliary relation implies the other auxiliary relation.",
-      "new_name": "auxiliaryFinite",
+      "docstring": "When both algebras are finitely generated as modules over the field, one auxiliary relation implies the other.",
+      "new_name": "ofModuleFinite",
       "temporary_id": "decl-005314"
     },
     {
       "docstring": "An auxiliary ring hypothesis produces an object with the auxiliary property whose opposite endomorphism ring is equivalent to the given ring.",
-      "new_name": "auxiliaryExistsRingEquiv",
+      "new_name": "existsObjectRingEquivOppositeEnd",
       "temporary_id": "decl-005676"
     },
     {
       "docstring": "An auxiliary relation between rings implies an auxiliary relation between their algebra structures.",
-      "new_name": "auxiliaryAlgebra",
+      "new_name": "toAlgebra",
       "temporary_id": "decl-005679"
     },
     {
-      "docstring": "An auxiliary ring relation implies another auxiliary relation when the relevant module categories are equivalent.",
-      "new_name": "auxiliaryOfModuleCatEquivalence",
+      "docstring": "Given the stated module-category equivalences for auxiliary objects, an auxiliary ring relation yields another auxiliary relation.",
+      "new_name": "ofModuleCatEquivalence",
       "temporary_id": "decl-005680"
     },
     {
-      "docstring": "The given algebra is equivalent to the opposite endomorphism algebra of the distinguished finitely generated module.",
-      "new_name": "distinguishedFGModuleAlgEquivOppositeEnd",
+      "docstring": "The given algebra is equivalent to the opposite endomorphism algebra of the finitely generated module associated to its underlying ring.",
+      "new_name": "fgModuleOfRingAlgEquivOppositeEnd",
       "temporary_id": "decl-017154"
     },
     {
@@ -61,23 +61,23 @@
       "temporary_id": "decl-018626"
     },
     {
-      "docstring": "A distinguished finitely generated module associated to a ring.",
-      "new_name": "distinguishedFGModule",
+      "docstring": "A finitely generated module object associated to a ring.",
+      "new_name": "fgModuleOfRing",
       "temporary_id": "decl-019354"
     },
     {
-      "docstring": "The categorical endomorphism algebra of the distinguished finitely generated module is equivalent to the algebra of linear endomorphisms of the ring.",
-      "new_name": "distinguishedFGModuleEndAlgEquivModuleEnd",
+      "docstring": "The categorical endomorphism algebra of the finitely generated module associated to a ring is equivalent to its algebra of linear endomorphisms.",
+      "new_name": "fgModuleOfRingEndAlgEquivModuleEnd",
       "temporary_id": "decl-019356"
     },
     {
-      "docstring": "The categorical endomorphism ring of the distinguished finitely generated module is equivalent to the ring of module endomorphisms of the ring.",
-      "new_name": "distinguishedFGModuleEndRingEquivModuleEnd",
+      "docstring": "The categorical endomorphism ring of the finitely generated module associated to a ring is equivalent to its ring of module endomorphisms.",
+      "new_name": "fgModuleOfRingEndRingEquivModuleEnd",
       "temporary_id": "decl-019360"
     },
     {
-      "docstring": "The distinguished finitely generated module satisfies the auxiliary object property.",
-      "new_name": "distinguishedFGModuleAuxiliary",
+      "docstring": "The finitely generated module associated to a ring satisfies the auxiliary object property.",
+      "new_name": "fgModuleOfRingAuxiliary",
       "temporary_id": "decl-019366"
     },
     {
@@ -96,8 +96,8 @@
       "temporary_id": "decl-019492"
     },
     {
-      "docstring": "For finite algebras, the two auxiliary relations are equivalent.",
-      "new_name": "auxiliaryFiniteIff",
+      "docstring": "When both algebras are finitely generated as modules over the field, the two auxiliary relations are equivalent.",
+      "new_name": "auxiliaryModuleFiniteIff",
       "temporary_id": "decl-021016"
     },
     {
@@ -131,8 +131,8 @@
       "temporary_id": "decl-022843"
     },
     {
-      "docstring": "A ring is equivalent to the opposite endomorphism ring of its distinguished finitely generated module.",
-      "new_name": "distinguishedFGModuleRingEquivOppositeEnd",
+      "docstring": "A ring is equivalent to the opposite endomorphism ring of its associated finitely generated module.",
+      "new_name": "fgModuleOfRingRingEquivOppositeEnd",
       "temporary_id": "decl-022844"
     }
   ],
