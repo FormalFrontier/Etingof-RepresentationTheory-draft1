@@ -1,0 +1,115 @@
+{
+  "module_name": "AuxiliaryQuiverRepresentationTransform",
+  "declarations": [
+    {
+      "temporary_id": "decl-000622",
+      "new_name": "auxiliaryTypeAt",
+      "docstring": "An auxiliary type associated with a selected vertex of a quiver."
+    },
+    {
+      "temporary_id": "decl-015006",
+      "new_name": "auxiliaryDirectSumMap",
+      "docstring": "A linear map from the displayed direct sum indexed at a vertex to that vertex's module."
+    },
+    {
+      "temporary_id": "decl-019926",
+      "new_name": "heq_apply",
+      "docstring": "Heterogeneously equal functions send heterogeneously equal arguments to heterogeneously equal values when their domain and codomain types agree."
+    },
+    {
+      "temporary_id": "decl-019927",
+      "new_name": "heq_coe_linearMap",
+      "docstring": "Heterogeneously equal linear maps have heterogeneously equal underlying functions under the displayed type and structure equalities."
+    },
+    {
+      "temporary_id": "decl-022463",
+      "new_name": "auxiliaryAddCommMonoid",
+      "docstring": "An additive commutative monoid structure on the displayed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-022464",
+      "new_name": "auxiliaryHomType",
+      "docstring": "An auxiliary type determined by three quiver vertices and decisions comparing two of them with the selected vertex."
+    },
+    {
+      "temporary_id": "decl-022471",
+      "new_name": "auxiliaryLinearEquivKernel",
+      "docstring": "A linear equivalence from the auxiliary space at the selected vertex to the kernel of the displayed direct-sum map."
+    },
+    {
+      "temporary_id": "decl-022472",
+      "new_name": "auxiliaryLinearEquivOfNe",
+      "docstring": "Away from the selected vertex, the auxiliary space is linearly equivalent to the original vertex module."
+    },
+    {
+      "temporary_id": "decl-022474",
+      "new_name": "auxiliaryRepresentationLinearEquivAt",
+      "docstring": "The selected vertex module of the auxiliary representation is linearly equivalent to the kernel of the displayed direct-sum map."
+    },
+    {
+      "temporary_id": "decl-022475",
+      "new_name": "auxiliaryRepresentationLinearEquivOfNe",
+      "docstring": "Away from the selected vertex, the auxiliary representation's vertex module is linearly equivalent to the original one."
+    },
+    {
+      "temporary_id": "decl-022491",
+      "new_name": "auxiliaryLinearMap",
+      "docstring": "An auxiliary linear map between the displayed vertex-dependent spaces."
+    },
+    {
+      "temporary_id": "decl-022495",
+      "new_name": "auxiliary_arrow_map_from_selected",
+      "docstring": "After the displayed linear equivalences, an arrow map from the selected vertex is the indicated direct-sum component of the kernel inclusion."
+    },
+    {
+      "temporary_id": "decl-022496",
+      "new_name": "auxiliary_arrow_map_of_ne",
+      "docstring": "For an arrow whose endpoints differ from the selected vertex, the displayed linear equivalences intertwine the auxiliary and original arrow maps."
+    },
+    {
+      "temporary_id": "decl-022498",
+      "new_name": "auxiliaryModule",
+      "docstring": "A module structure on the displayed auxiliary vertex-dependent type."
+    },
+    {
+      "temporary_id": "decl-022499",
+      "new_name": "auxiliarySpace",
+      "docstring": "An auxiliary type attached to a representation, a selected vertex, another vertex, and a decision comparing them."
+    },
+    {
+      "temporary_id": "decl-022500",
+      "new_name": "auxiliaryRepresentation_obj_at",
+      "docstring": "At the selected vertex, the auxiliary representation's object is the kernel of the displayed direct-sum map."
+    },
+    {
+      "temporary_id": "decl-022502",
+      "new_name": "auxiliaryRepresentation_obj_of_ne",
+      "docstring": "Away from the selected vertex, the auxiliary representation's object agrees with the original representation's object."
+    },
+    {
+      "temporary_id": "decl-022534",
+      "new_name": "auxiliaryRepresentation",
+      "docstring": "An auxiliary quiver representation associated with a selected vertex satisfying the displayed predicate."
+    },
+    {
+      "temporary_id": "decl-022745",
+      "new_name": "auxiliaryReverseHom",
+      "docstring": "Maps a quiver morphism from the selected vertex to a distinct vertex to a morphism in the reverse direction."
+    },
+    {
+      "temporary_id": "decl-022748",
+      "new_name": "auxiliaryReverseHom_eq_cast",
+      "docstring": "The auxiliary reverse-direction morphism is the displayed cast of the original morphism."
+    },
+    {
+      "temporary_id": "decl-022758",
+      "new_name": "auxiliaryPreserveHom",
+      "docstring": "Maps a quiver morphism between vertices distinct from the selected vertex to the same displayed morphism type."
+    },
+    {
+      "temporary_id": "decl-022760",
+      "new_name": "auxiliaryPreserveHom_eq_cast",
+      "docstring": "The auxiliary morphism away from the selected vertex is the displayed cast of the original morphism."
+    }
+  ]
+}
