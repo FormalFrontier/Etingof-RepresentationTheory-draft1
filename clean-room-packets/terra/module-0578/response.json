@@ -1,1 +1,30 @@
-{"declarations":[{"docstring":"The type of cochain complexes in a category with zero morphisms.","new_name":"CochainComplex","temporary_id":"decl-001284"},{"docstring":"States that a cochain complex is exact at the specified degree.","new_name":"CochainComplex.IsExactAt","temporary_id":"decl-001923"},{"docstring":"States that a cochain complex is exact at every degree.","new_name":"CochainComplex.IsExact","temporary_id":"decl-005146"},{"docstring":"The cohomology object of a cochain complex at a given degree.","new_name":"CochainComplex.cohomology","temporary_id":"decl-018037"},{"docstring":"The differential from a degree of a cochain complex to its successor.","new_name":"CochainComplex.d","temporary_id":"decl-018396"}],"module_name":"CategoryTheory.CochainComplex"}
+{
+  "declarations": [
+    {
+      "docstring": "The type of integer-indexed cochain complexes in a category with zero morphisms.",
+      "new_name": "IntIndexed",
+      "temporary_id": "decl-001284"
+    },
+    {
+      "docstring": "A property of an integer-indexed cochain complex at a specified degree.",
+      "new_name": "IntIndexed.degreeProperty",
+      "temporary_id": "decl-001923"
+    },
+    {
+      "docstring": "A property of an integer-indexed cochain complex.",
+      "new_name": "IntIndexed.property",
+      "temporary_id": "decl-005146"
+    },
+    {
+      "docstring": "An object assigned to an integer degree of a cochain complex in an abelian category.",
+      "new_name": "IntIndexed.degreeObject",
+      "temporary_id": "decl-018037"
+    },
+    {
+      "docstring": "The morphism from the component in one degree to the component in the succeeding degree.",
+      "new_name": "IntIndexed.nextDifferential",
+      "temporary_id": "decl-018396"
+    }
+  ],
+  "module_name": "CochainComplex"
+}
