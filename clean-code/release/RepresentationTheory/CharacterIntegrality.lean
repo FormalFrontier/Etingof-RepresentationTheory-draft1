@@ -1,6 +1,8 @@
--- Copyright (c) 2026 FormalFrontier. All rights reserved.
--- Released under Apache 2.0 license as described in the file LICENCE.
--- Authors: FormalFrontier
+/-
+Copyright (c) 2026 FormalFrontier. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENCE.
+Authors: FormalFrontier
+-/
 import Mathlib
 import RepresentationTheory.Alignment.Attribute
 
@@ -9,9 +11,9 @@ open CategoryTheory
 set_option linter.unusedFintypeInType false in
 set_option linter.unusedDecidableInType false in
 /-- For a finite simple complex representation of positive dimension, the character value scaled by the conjugacy class size and divided by the dimension is integral over the integers. -/
-@[source_ref "Chapter5/Theorem5.3.1" (role := supporting)]
-@[source_ref "Chapter5/Proposition5.3.2" (role := primary)]
-@[source_ref "Chapter5/Discussion_proof_of_Theorem5.3.1" (role := primary)]
+@[source_ref "Chapter5/Theorem5.3.1" (role := supporting),
+  source_ref "Chapter5/Proposition5.3.2" (role := primary),
+  source_ref "Chapter5/Discussion_proof_of_Theorem5.3.1" (role := primary)]
 theorem RepresentationTheory.CharacterIntegrality.isIntegral_card_conjClass_mul_character_div_finrank
     (G : Type*) [Group G] [Fintype G] [DecidableEq G]
     (V : FDRep ℂ G) [Simple V]
