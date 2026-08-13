@@ -43,8 +43,8 @@
     },
     {
       "temporary_id": "decl-020536",
-      "new_name": "indecomposable_projective_iso_of_biproduct",
-      "docstring": "An indecomposable projective object is isomorphic to one of the stated indecomposable biproduct summands."
+      "new_name": "indecomposable_projective_iso_family_object",
+      "docstring": "Under the stated hypotheses, an indecomposable projective object is isomorphic to an object in the given finite family."
     },
     {
       "temporary_id": "decl-020844",
