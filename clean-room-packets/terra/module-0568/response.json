@@ -1,0 +1,30 @@
+{
+  "module_name": "Quiver.DimensionVectorClassification",
+  "declarations": [
+    {
+      "temporary_id": "decl-016735",
+      "new_name": "Quiver.finite_and_finrankVector_classification",
+      "docstring": "Under the given matrix and quiver hypotheses, the predicate on integer vectors has finitely many solutions, holds for the componentwise finrank vector of every object with the stated property, and classifies such objects by that vector up to the specified relation."
+    },
+    {
+      "temporary_id": "decl-016737",
+      "new_name": "finite_setOf_vectorPredicate",
+      "docstring": "Under the stated matrix hypothesis, only finitely many integer vectors satisfy the specified predicate."
+    },
+    {
+      "temporary_id": "decl-016740",
+      "new_name": "vectorPredicate_of_nonneg_of_dot_mulVec_eq_two",
+      "docstring": "A nonnegative nonzero integer vector satisfies the specified predicate when its dot product with the indicated matrix product is two."
+    },
+    {
+      "temporary_id": "decl-016741",
+      "new_name": "Quiver.exists_finrankVector_and_related_of_vectorPredicate",
+      "docstring": "Under the given matrix and quiver hypotheses, a vector satisfying the specified predicate is realized as the componentwise finrank vector of an object with the stated property, and any two such objects with that finrank vector are related."
+    },
+    {
+      "temporary_id": "decl-022105",
+      "new_name": "two_le_dot_mulVec_two_smul_one_sub_adj_of_ne_zero",
+      "docstring": "For a nonzero integer vector, its dot product with the image under twice the identity matrix minus the adjacency matrix is at least two."
+    }
+  ]
+}
