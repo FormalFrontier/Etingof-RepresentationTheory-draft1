@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -40,3 +41,13 @@ and $`gf = \alpha^{-1} h \alpha(f)`. This means that $`\chi_\sigma(g) = \chi_V(h
 
 $$`\chi(g) = \sum_{\sigma \in H \backslash G, \sigma g = \sigma} \chi_V(x_\sigma g x_\sigma^{-1}).`
 $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_proof_of_Theorem5.9.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryUnavailableStatement.auxiliary_theorem}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -19,3 +20,13 @@ number := false
 *Definition 6.7.1.* Let $`Q` be a quiver and let $`\Gamma` be the underlying graph. Fix any labeling $`1, \ldots, n` of the vertices of $`\Gamma`. Then the *Coxeter element* $`c` of $`Q` corresponding to this labeling is defined as
 
 $$`c = s_1 s_2 \ldots s_n.`
+
+## Formalization
+%%%
+tag := "Chapter6/Definition6.7.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.IntegerMatrixVectorCoordinateFunction.matrixVectorCoordinateValue}
