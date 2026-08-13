@@ -1,0 +1,20 @@
+{
+  "module_name": "AuxiliaryResults",
+  "declarations": [
+    {
+      "temporary_id": "decl-016523",
+      "new_name": "exists_auxiliaryLinearEquiv_subtype_overAuxiliaryAlgebra",
+      "docstring": "A simple module over an auxiliary algebra is nonempty linearly equivalent to a subtype defined by some auxiliary parameter."
+    },
+    {
+      "temporary_id": "decl-017966",
+      "new_name": "exists_auxiliaryLinearEquiv_subtype_overPermutationMonoidAlgebra",
+      "docstring": "A simple module over the permutation monoid algebra is nonempty linearly equivalent to a subtype arising from an auxiliary parameter."
+    },
+    {
+      "temporary_id": "decl-020770",
+      "new_name": "auxiliaryValue_le_partitionCard",
+      "docstring": "The value associated with an auxiliary input is bounded above by the cardinality of the partition type."
+    }
+  ]
+}
