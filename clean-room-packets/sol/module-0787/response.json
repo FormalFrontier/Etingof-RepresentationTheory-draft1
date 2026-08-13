@@ -1,0 +1,180 @@
+{
+  "module_name": "QuiverRepresentation.VertexCompositionSeries",
+  "declarations": [
+    {
+      "temporary_id": "decl-005291",
+      "new_name": "IsElementaryExtensionAt",
+      "docstring": "A designated elementary-extension relation between two subrepresentations at a vertex."
+    },
+    {
+      "temporary_id": "decl-005292",
+      "new_name": "component_eq_of_ne",
+      "docstring": "Subrepresentations in an elementary extension at one vertex have equal components at every other vertex."
+    },
+    {
+      "temporary_id": "decl-005294",
+      "new_name": "eq_or_eq_of_le",
+      "docstring": "Every subrepresentation between the endpoints of an elementary extension equals one of the endpoints."
+    },
+    {
+      "temporary_id": "decl-005298",
+      "new_name": "exists_surjective_linearMap_ker_componentIntersection",
+      "docstring": "An elementary extension admits a surjective linear functional whose kernel is the component intersection at the selected vertex."
+    },
+    {
+      "temporary_id": "decl-005300",
+      "new_name": "le",
+      "docstring": "The lower endpoint of an elementary extension is below its upper endpoint."
+    },
+    {
+      "temporary_id": "decl-005301",
+      "new_name": "ne",
+      "docstring": "The endpoints of an elementary extension are distinct."
+    },
+    {
+      "temporary_id": "decl-014886",
+      "new_name": "VertexCompositionSeries",
+      "docstring": "Data for a finite chain of subrepresentations whose successive steps are indexed by vertices."
+    },
+    {
+      "temporary_id": "decl-014891",
+      "new_name": "vertex",
+      "docstring": "The vertex associated with a step of the composition series."
+    },
+    {
+      "temporary_id": "decl-014892",
+      "new_name": "length",
+      "docstring": "The number of steps in the vertex composition series."
+    },
+    {
+      "temporary_id": "decl-014899",
+      "new_name": "multiplicity",
+      "docstring": "The natural-number multiplicity assigned by the series to each vertex."
+    },
+    {
+      "temporary_id": "decl-014904",
+      "new_name": "isElementaryExtensionAt_step",
+      "docstring": "Each consecutive pair of steps forms an elementary extension at its associated vertex."
+    },
+    {
+      "temporary_id": "decl-014905",
+      "new_name": "step",
+      "docstring": "The subrepresentation at a natural-number stage of the composition series."
+    },
+    {
+      "temporary_id": "decl-014906",
+      "new_name": "step_length",
+      "docstring": "The step at the length of the series is the top subrepresentation."
+    },
+    {
+      "temporary_id": "decl-014907",
+      "new_name": "step_ne_step_succ",
+      "docstring": "Each indexed step below the length differs from its successor."
+    },
+    {
+      "temporary_id": "decl-014908",
+      "new_name": "step_zero",
+      "docstring": "The initial step of the series is the bottom subrepresentation."
+    },
+    {
+      "temporary_id": "decl-015088",
+      "new_name": "bot_component",
+      "docstring": "Every component of the bottom subrepresentation is the bottom submodule."
+    },
+    {
+      "temporary_id": "decl-015092",
+      "new_name": "ext",
+      "docstring": "Two subrepresentations with equal components at every vertex are equal."
+    },
+    {
+      "temporary_id": "decl-015094",
+      "new_name": "orderBot",
+      "docstring": "The order-bottom structure on subrepresentations of a quiver representation."
+    },
+    {
+      "temporary_id": "decl-015097",
+      "new_name": "orderTop",
+      "docstring": "The order-top structure on subrepresentations of a quiver representation."
+    },
+    {
+      "temporary_id": "decl-015100",
+      "new_name": "partialOrder",
+      "docstring": "The partial-order structure on subrepresentations of a quiver representation."
+    },
+    {
+      "temporary_id": "decl-015105",
+      "new_name": "le_iff_componentwise",
+      "docstring": "One subrepresentation is below another exactly when this holds for every vertex component."
+    },
+    {
+      "temporary_id": "decl-015107",
+      "new_name": "mem_componentIntersection_iff",
+      "docstring": "An element of the upper component belongs to the component intersection exactly when its value lies in the lower component."
+    },
+    {
+      "temporary_id": "decl-015118",
+      "new_name": "componentIntersection",
+      "docstring": "The component of one subrepresentation viewed as a submodule inside the component of another."
+    },
+    {
+      "temporary_id": "decl-015119",
+      "new_name": "componentIntersection_eq_top_iff",
+      "docstring": "The component intersection is top exactly when the second component is contained in the first."
+    },
+    {
+      "temporary_id": "decl-015120",
+      "new_name": "toRepresentation",
+      "docstring": "The quiver representation carried by a subrepresentation."
+    },
+    {
+      "temporary_id": "decl-015127",
+      "new_name": "top_component",
+      "docstring": "Every component of the top subrepresentation is the top submodule."
+    },
+    {
+      "temporary_id": "decl-017130",
+      "new_name": "auxiliary_theorem",
+      "docstring": "An auxiliary result whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-018783",
+      "new_name": "exists_vertexCompositionSeries_with_multiplicity",
+      "docstring": "For a finite vertex ordering that decreases along arrows and chosen vertex-space bases, there exists a series whose length is the sum of dimensions and whose vertex multiplicities are those dimensions."
+    },
+    {
+      "temporary_id": "decl-018920",
+      "new_name": "exists_prefixSum_le_lt",
+      "docstring": "A number below a finite sum lies between one prefix sum and that prefix sum plus the next term."
+    },
+    {
+      "temporary_id": "decl-020833",
+      "new_name": "isEmpty_fin_ite_eq_of_ne",
+      "docstring": "For distinct values, the finite type whose size is one only when they are equal is empty."
+    },
+    {
+      "temporary_id": "decl-020923",
+      "new_name": "isElementaryExtensionAt_of_linearMap",
+      "docstring": "Componentwise containment, a surjective functional with the specified kernel, and arrow compatibility imply an elementary extension at the selected vertex."
+    },
+    {
+      "temporary_id": "decl-024387",
+      "new_name": "unique_fin_ite_self",
+      "docstring": "The finite type whose size tests equality of a value with itself has a unique element."
+    },
+    {
+      "temporary_id": "decl-024480",
+      "new_name": "representationAtVertex",
+      "docstring": "A quiver representation associated with a selected vertex."
+    },
+    {
+      "temporary_id": "decl-024481",
+      "new_name": "representationAtVertex_map_eq_zero",
+      "docstring": "Every arrow map in the representation associated with a vertex is zero."
+    },
+    {
+      "temporary_id": "decl-024482",
+      "new_name": "representationAtVertex_space_subsingleton_of_ne",
+      "docstring": "At a vertex different from the selected one, the associated representation space is a subsingleton."
+    }
+  ]
+}
