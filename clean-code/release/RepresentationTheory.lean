@@ -315,6 +315,7 @@ import RepresentationTheory.Quiver.EdgeModule
 import RepresentationTheory.Algebra.Module.BalancedTensorProduct.Adjunction
 import RepresentationTheory.FGModuleCat.SimpleModules
 import RepresentationTheory.Algebra.Module.SimpleQuotient
+import RepresentationTheory.VirtualRepresentations.Basic
 
 /-!
 # Representation theory formalization
