@@ -1,0 +1,20 @@
+{
+  "module_name": "Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-005123",
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary predicate for a field algebra."
+    },
+    {
+      "temporary_id": "decl-005125",
+      "new_name": "Auxiliary.commRing",
+      "docstring": "The auxiliary predicate is available for commutative coefficient rings."
+    },
+    {
+      "temporary_id": "decl-005126",
+      "new_name": "Auxiliary_1",
+      "docstring": "A second auxiliary predicate for a field algebra."
+    }
+  ]
+}
