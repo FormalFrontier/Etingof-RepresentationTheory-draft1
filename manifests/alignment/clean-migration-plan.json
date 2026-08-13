@@ -336,7 +336,6 @@
       "EtingofRepresentationTheory.Chapter5.SchurWeylGLTransfer"
     ],
     "EtingofRepresentationTheory.Chapter5.Problem5_2_7": [
-      "EtingofRepresentationTheory.Chapter5.Remark5_2_8",
       "EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat",
       "EtingofRepresentationTheory.Infrastructure.FDRepDirectSum",
       "EtingofRepresentationTheory.Infrastructure.FDRepIsotypic",
@@ -363,6 +362,12 @@
     ],
     "EtingofRepresentationTheory.Chapter5.Remark5_15_5": [
       "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Remark5_26_2": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_26_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Remark5_2_8": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_3_1"
     ]
   },
   "export_ready": [
@@ -2097,15 +2102,26 @@
     ],
     "EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep": [
       "decl-001853"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Remark5_23_3": [
+      "decl-001834",
+      "decl-001835",
+      "decl-001838",
+      "decl-001839",
+      "decl-001840",
+      "decl-001846",
+      "decl-001849",
+      "decl-001854",
+      "decl-001856"
     ]
   },
   "schema_version": "clean-migration-plan/v1",
   "summary": {
-    "directly_blocked_modules": 102,
+    "directly_blocked_modules": 104,
     "eligible_source_modules": 796,
     "export_ready_modules": 274,
-    "fully_named_modules": 405,
-    "partially_named_modules": 7,
+    "fully_named_modules": 407,
+    "partially_named_modules": 8,
     "transitively_blocked_modules": 29
   },
   "transitive_blockers": {
