@@ -4,22 +4,22 @@
     {
       "temporary_id": "decl-005114",
       "new_name": "of_surjective_intertwining",
-      "docstring": "The property is preserved by a surjective linear map intertwining the two general linear group actions."
+      "docstring": "The predicate is transferred along a surjective linear map that intertwines the two indexed families of linear maps."
     },
     {
       "temporary_id": "decl-018665",
       "new_name": "coeff_apply_monomial",
-      "docstring": "Expresses the coefficient of the image of a monomial under a general linear group element using the polynomial attached to two multi-indices."
+      "docstring": "Relates an evaluation involving the polynomial indexed by two exponent families to the coefficient indexed by the second family after applying the given map to the monomial indexed by the first."
     },
     {
       "temporary_id": "decl-022074",
       "new_name": "fdRep_rho_satisfies_property",
-      "docstring": "The action underlying the displayed finite-dimensional representation satisfies the ambient predicate."
+      "docstring": "The family of linear maps obtained from the ρ field of the finite-dimensional representation satisfies the ambient predicate."
     },
     {
       "temporary_id": "decl-022262",
       "new_name": "fdRep_rho_satisfies_property'",
-      "docstring": "The action underlying the second displayed finite-dimensional representation satisfies the ambient predicate."
+      "docstring": "The family of linear maps obtained from the ρ field of the finite-dimensional representation satisfies the ambient predicate."
     },
     {
       "temporary_id": "decl-022842",
