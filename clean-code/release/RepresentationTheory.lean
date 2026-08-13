@@ -167,6 +167,7 @@ import RepresentationTheory.Complex.InvariantInnerProduct
 import RepresentationTheory.Polynomial.Recurrences
 import RepresentationTheory.Group.ConjugateDuality
 import RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional
+import RepresentationTheory.Group.CharacterDuality
 
 /-!
 # Representation theory formalization
