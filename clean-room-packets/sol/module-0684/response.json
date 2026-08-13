@@ -1,0 +1,55 @@
+{
+  "module_name": "LinearYonedaTensorProductComparison",
+  "declarations": [
+    {
+      "temporary_id": "decl-019746",
+      "new_name": "linearYonedaTensorDegreewiseIso_inv_naturality_fst",
+      "docstring": "The inverse degreewise comparison intertwines the differential in the first projective resolution with the corresponding mapped morphism."
+    },
+    {
+      "temporary_id": "decl-019747",
+      "new_name": "linearYonedaTensorDegreewiseIso_inv_naturality_fst_assoc",
+      "docstring": "The first-variable naturality identity for the inverse degreewise comparison remains valid after composition with a further morphism."
+    },
+    {
+      "temporary_id": "decl-019748",
+      "new_name": "linearYonedaTensorDegreewiseIso_inv_naturality_snd",
+      "docstring": "The inverse degreewise comparison intertwines the differential in the second projective resolution with the corresponding mapped morphism."
+    },
+    {
+      "temporary_id": "decl-019749",
+      "new_name": "linearYonedaTensorDegreewiseIso_inv_naturality_snd_assoc",
+      "docstring": "The second-variable naturality identity for the inverse degreewise comparison remains valid after composition with a further morphism."
+    },
+    {
+      "temporary_id": "decl-022387",
+      "new_name": "linearYonedaTensorProductComplexIso",
+      "docstring": "The linear Yoneda complex of the tensor product resolution is isomorphic to the tensor product of the two linear Yoneda complexes."
+    },
+    {
+      "temporary_id": "decl-022398",
+      "new_name": "linearYonedaTensorProductComponentIso_hom_naturality",
+      "docstring": "The forward maps of the componentwise comparison isomorphisms commute with the differentials."
+    },
+    {
+      "temporary_id": "decl-022399",
+      "new_name": "linearYonedaTensorProductComponentIso_inv_naturality",
+      "docstring": "The inverse maps of the componentwise comparison isomorphisms commute with the differentials."
+    },
+    {
+      "temporary_id": "decl-022401",
+      "new_name": "linearYonedaTensorProductComplexIso_hom_f",
+      "docstring": "Each component of the forward map of the complex comparison is the forward map of the corresponding componentwise isomorphism."
+    },
+    {
+      "temporary_id": "decl-023404",
+      "new_name": "Auxiliary.opaqueResultA",
+      "docstring": "Auxiliary result retained because its formal type could not be pretty printed."
+    },
+    {
+      "temporary_id": "decl-024733",
+      "new_name": "Auxiliary.opaqueResultB",
+      "docstring": "Auxiliary result retained because its formal type could not be pretty printed."
+    }
+  ]
+}
