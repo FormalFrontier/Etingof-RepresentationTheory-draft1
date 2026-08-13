@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-013176",
-      "new_name": "Quiver.exists_auxiliary_realization_with_prescribed_counts",
-      "docstring": "Under the supplied compatibility assumptions, the chosen integer vector is realized pointwise by the natural-number data of an auxiliary object and an accompanying witness."
+      "new_name": "Quiver.exists_witness_with_prescribed_values",
+      "docstring": "Under the stated compatibility and thinness assumptions, there is a witness whose associated natural-number values agree with the supplied integer vector, as do those of a further witness."
     },
     {
       "temporary_id": "decl-013180",
