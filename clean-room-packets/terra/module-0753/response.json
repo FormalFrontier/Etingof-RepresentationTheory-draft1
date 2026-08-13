@@ -24,12 +24,12 @@
     {
       "temporary_id": "decl-023481",
       "new_name": "extSubsingleton_of_isZero_left",
-      "docstring": "Extensions in every degree out of a zero module object form a subsingleton."
+      "docstring": "Extensions in every degree with a zero module object as the left argument form a subsingleton."
     },
     {
       "temporary_id": "decl-023482",
       "new_name": "extSubsingleton_of_isZero_right",
-      "docstring": "Extensions in every degree into a zero module object form a subsingleton."
+      "docstring": "Extensions in every degree with a zero module object as the right argument form a subsingleton."
     }
   ]
 }
