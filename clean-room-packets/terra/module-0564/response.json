@@ -1,0 +1,25 @@
+{
+  "module_name": "Quiver.Representation.AuxiliaryVertexRanks",
+  "declarations": [
+    {
+      "temporary_id": "decl-014741",
+      "new_name": "Quiver.Representation.auxiliaryVertexNat_cast_eq_finiteFamilyIntTransform_of_surjective",
+      "docstring": "If the indicated map is surjective, the integer cast of the vertexwise natural number for the constructed object equals the finite-family transform of the vertexwise module finranks."
+    },
+    {
+      "temporary_id": "decl-014742",
+      "new_name": "Quiver.Representation.auxiliaryVertexNat_cast_eq_finiteFamilyIntTransform_of_injective",
+      "docstring": "If the indicated map is injective, the integer cast of the vertexwise natural number for the constructed object equals the finite-family transform of the vertexwise module finranks."
+    },
+    {
+      "temporary_id": "decl-014976",
+      "new_name": "auxiliaryVertexNat",
+      "docstring": "Assigns a natural number to a vertex for an object over a commutative semiring."
+    },
+    {
+      "temporary_id": "decl-023171",
+      "new_name": "finiteFamilyIntTransformAux",
+      "docstring": "Produces an integer at a vertex from a finite family of vertices, a distinguished vertex, and an integer-valued function on the vertex type."
+    }
+  ]
+}
