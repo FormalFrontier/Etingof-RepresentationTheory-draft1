@@ -28,12 +28,12 @@
     },
     {
       "temporary_id": "decl-003541",
-      "new_name": "integerMatrixB_action_onVector_eq_ones",
+      "new_name": "integerMatrixB_operationAtZeroOneTwo_eq_ones",
       "docstring": "Evaluates the displayed operation on the matrix and vector to four entries equal to one."
     },
     {
       "temporary_id": "decl-003542",
-      "new_name": "integerMatrixB_action_onVector_eq_oneOneOneTwo",
+      "new_name": "integerMatrixB_operationAtThreeZeroOneTwo_eq_oneOneOneTwo",
       "docstring": "Evaluates the displayed operation on the matrix and vector to the entries one, one, one, and two."
     }
   ]
