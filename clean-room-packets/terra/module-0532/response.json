@@ -1,0 +1,20 @@
+{
+  "declarations": [
+    {
+      "docstring": "A square integer matrix satisfies the adjacency conditions for a finite quiver.",
+      "new_name": "RepresentationTheory.Quiver.IsAdjacencyMatrix",
+      "temporary_id": "decl-005177"
+    },
+    {
+      "docstring": "A zero-one quiver adjacency matrix has every diagonal entry equal to zero.",
+      "new_name": "diagonal_eq_zero_of_entries_eq_zero_or_one",
+      "temporary_id": "decl-005178"
+    },
+    {
+      "docstring": "The binary relation between two objects over the same finite quiver and base field.",
+      "new_name": "Related",
+      "temporary_id": "decl-014910"
+    }
+  ],
+  "module_name": "RepresentationTheory.Quiver.Finite"
+}
