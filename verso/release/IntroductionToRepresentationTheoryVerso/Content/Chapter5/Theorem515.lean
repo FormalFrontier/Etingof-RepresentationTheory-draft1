@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -42,3 +43,15 @@ Finally, the number of involutions in $`G` equals
 $$`\frac{1}{|G|} \sum_V \dim V \, \chi_V\!\left(\sum_{g \in G} g^2\right) = \sum_{\text{real } V} \dim V - \sum_{\text{quat. } V} \dim V.`
 
 $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.1.5/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Representation.Character.AuxiliaryVanishing.auxiliaryStatement}
+
+{Manual.docstring RepresentationTheory.Representation.Character.AuxiliaryVanishing.auxiliaryValue_eq_zero_of_character_not_inversionInvariant}
