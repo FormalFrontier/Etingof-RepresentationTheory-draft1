@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,13 @@ number := false
 $$`0 \to \mathrm{Hom}_A(P_0, N) \to \mathrm{Hom}_A(P_1, N) \to \mathrm{Hom}_A(P_2, N) \to \ldots`
 
 induced by the resolution $`P_\bullet`.
+
+## Formalization
+%%%
+tag := "Chapter8/Definition8.2.4/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses}
