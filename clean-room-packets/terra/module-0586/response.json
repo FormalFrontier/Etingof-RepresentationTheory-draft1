@@ -1,0 +1,10 @@
+{
+  "module_name": "AuxiliaryShortExactMap",
+  "declarations": [
+    {
+      "temporary_id": "decl-017133",
+      "new_name": "shortExact_map_of_auxiliary",
+      "docstring": "Under the stated source-category hypothesis, an additive functor maps a short exact complex to a short exact complex."
+    }
+  ]
+}
