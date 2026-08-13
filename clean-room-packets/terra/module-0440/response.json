@@ -1,0 +1,20 @@
+{
+  "module_name": "SimpleModuleTraceIdentities",
+  "declarations": [
+    {
+      "temporary_id": "decl-023203",
+      "new_name": "nonemptyLinearEquiv_of_common_trace_identity",
+      "docstring": "Two simple submodules satisfying a common trace identity are linearly equivalent."
+    },
+    {
+      "temporary_id": "decl-023207",
+      "new_name": "nonemptyLinearEquiv_of_common_trace_identity",
+      "docstring": "A shared trace identity for two simple submodules yields a linear equivalence between them."
+    },
+    {
+      "temporary_id": "decl-024302",
+      "new_name": "exists_partition_trace_identity_of_isSimple",
+      "docstring": "A simple submodule admits a partition giving the required trace identity for every permutation."
+    }
+  ]
+}
