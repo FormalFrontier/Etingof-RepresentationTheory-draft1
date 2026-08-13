@@ -16,7 +16,7 @@
       "temporary_id": "decl-006049"
     },
     {
-      "docstring": "The nth component of a pure tensor is obtained by acting on its first factor.",
+      "docstring": "The nth component of a pure tensor is the tensor of the nth image of its first factor with its second factor.",
       "new_name": "componentData_tmul_apply",
       "temporary_id": "decl-006058"
     },
@@ -26,8 +26,8 @@
       "temporary_id": "decl-006226"
     },
     {
-      "docstring": "The degree-data map agrees with the displayed component map.",
-      "new_name": "degreeData_eq",
+      "docstring": "The degree-data map agrees pointwise with the comparison map.",
+      "new_name": "degreeData_eq_comparisonMap",
       "temporary_id": "decl-006229"
     },
     {
@@ -46,8 +46,8 @@
       "temporary_id": "decl-006249"
     },
     {
-      "docstring": "The reconstruction linear map has the indicated action.",
-      "new_name": "ofDegreeData_eq",
+      "docstring": "The reconstruction map agrees pointwise with the comparison map.",
+      "new_name": "ofDegreeData_eq_comparisonMap",
       "temporary_id": "decl-006252"
     },
     {
@@ -56,13 +56,13 @@
       "temporary_id": "decl-006253"
     },
     {
-      "docstring": "Multiplying a path-indexed basis element by a vertex scalar function scales it at the displayed vertex.",
-      "new_name": "pathBasis_mul_vertexFunction",
+      "docstring": "Multiplying the element indexed by x by the image of s scales it by s at the displayed vertex of x.",
+      "new_name": "indexedElement_mul_vertexFunction",
       "temporary_id": "decl-006295"
     },
     {
-      "docstring": "Multiplication by a trivial path selects matching path-indexed basis elements.",
-      "new_name": "pathBasis_mul_trivialPath",
+      "docstring": "Right multiplication by the element indexed by the length-zero path at i returns the indexed element when its displayed vertex is i, and zero otherwise.",
+      "new_name": "indexedElement_mul_nilPath",
       "temporary_id": "decl-006296"
     },
     {
@@ -71,5 +71,5 @@
       "temporary_id": "decl-006372"
     }
   ],
-  "module_name": "QuiverPathGrading"
+  "module_name": "Grading"
 }
