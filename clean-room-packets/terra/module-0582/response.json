@@ -1,40 +1,40 @@
 {
   "declarations": [
     {
-      "docstring": "A predicate on functors between two categories.",
-      "new_name": "CategoryTheory.Functor.PropertyDecomposition.IsComposite",
+      "docstring": "A proposition-valued functor predicate equivalent to the conjunction of two other predicates.",
+      "new_name": "Conjunction",
       "temporary_id": "decl-001924"
     },
     {
-      "docstring": "A composite functor property implies its first component property.",
-      "new_name": "hasFirstComponent",
+      "docstring": "The conjunction predicate implies its left-hand predicate.",
+      "new_name": "left",
       "temporary_id": "decl-001925"
     },
     {
-      "docstring": "The two component properties together give the composite functor property.",
-      "new_name": "ofComponents",
+      "docstring": "The left- and right-hand predicates imply the conjunction predicate.",
+      "new_name": "of_left_right",
       "temporary_id": "decl-001926"
     },
     {
-      "docstring": "A composite functor property implies its second component property.",
-      "new_name": "hasSecondComponent",
+      "docstring": "The conjunction predicate implies its right-hand predicate.",
+      "new_name": "right",
       "temporary_id": "decl-001927"
     },
     {
-      "docstring": "The first component predicate in a decomposition of functor properties.",
-      "new_name": "CategoryTheory.Functor.PropertyDecomposition.HasFirstComponent",
+      "docstring": "The left-hand proposition-valued predicate on functors in a conjunction.",
+      "new_name": "Left",
       "temporary_id": "decl-005440"
     },
     {
-      "docstring": "The second component predicate in a decomposition of functor properties.",
-      "new_name": "CategoryTheory.Functor.PropertyDecomposition.HasSecondComponent",
+      "docstring": "The right-hand proposition-valued predicate on functors in a conjunction.",
+      "new_name": "Right",
       "temporary_id": "decl-015497"
     },
     {
-      "docstring": "The composite functor property is equivalent to both component properties holding.",
-      "new_name": "CategoryTheory.Functor.PropertyDecomposition.isComposite_iff",
+      "docstring": "The conjunction predicate holds exactly when its left- and right-hand predicates both hold.",
+      "new_name": "conjunction_iff",
       "temporary_id": "decl-018738"
     }
   ],
-  "module_name": "CategoryTheory.Functor.PropertyDecomposition"
+  "module_name": "FunctorPredicateLogic"
 }
