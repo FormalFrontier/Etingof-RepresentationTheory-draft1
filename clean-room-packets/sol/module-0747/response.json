@@ -1,0 +1,175 @@
+{
+  "declarations": [
+    {
+      "docstring": "The family of one-vertex types used to carry a prescribed finite number of loops.",
+      "new_name": "LoopQuiver",
+      "temporary_id": "decl-013930"
+    },
+    {
+      "docstring": "The canonical vertex in the type associated with a given loop count.",
+      "new_name": "vertex",
+      "temporary_id": "decl-013931"
+    },
+    {
+      "docstring": "A path-indexed basis for every module hom space identifies the module hom-dimension matrix with the path-counting matrix.",
+      "new_name": "moduleHomDimensionMatrix_eq_pathCountingMatrix_of_pathBasis",
+      "temporary_id": "decl-013932"
+    },
+    {
+      "docstring": "For a finite quiver without nontrivial closed paths, the matrix attached to its distinguished module family is the path-counting matrix.",
+      "new_name": "distinguishedModuleMatrix_eq_pathCountingMatrix",
+      "temporary_id": "decl-013933"
+    },
+    {
+      "docstring": "A vertex occurring along a path determines a factorization of that path as a composite.",
+      "new_name": "exists_eq_comp_of_mem_pathVertices",
+      "temporary_id": "decl-013936"
+    },
+    {
+      "docstring": "A finite quiver with finite arrow sets and no nontrivial closed paths has finitely many paths between any two vertices.",
+      "new_name": "finite_paths_between_of_no_nontrivial_cycles",
+      "temporary_id": "decl-013939"
+    },
+    {
+      "docstring": "In a quiver with finite vertices and arrows, the paths of fixed endpoints and fixed length form a finite type.",
+      "new_name": "finite_paths_of_fixed_length",
+      "temporary_id": "decl-013940"
+    },
+    {
+      "docstring": "The algebra homomorphism from a finitely generated free algebra to its scalar field that sends every generator to zero.",
+      "new_name": "freeAlgebraAugmentation",
+      "temporary_id": "decl-013941"
+    },
+    {
+      "docstring": "The free-algebra augmentation vanishes on each canonical generator.",
+      "new_name": "freeAlgebraAugmentation_apply_generator",
+      "temporary_id": "decl-013943"
+    },
+    {
+      "docstring": "The algebra equivalence between the free algebra on finitely many generators and the path algebra of the corresponding loop quiver.",
+      "new_name": "freeAlgebraEquivLoopQuiverPathAlgebra",
+      "temporary_id": "decl-013944"
+    },
+    {
+      "docstring": "The algebra homomorphism from a finite free algebra to the path algebra of the corresponding loop quiver.",
+      "new_name": "freeAlgebraToLoopQuiverPathAlgebra",
+      "temporary_id": "decl-013945"
+    },
+    {
+      "docstring": "Mapping from a loop-quiver path algebra to the free algebra and back is the identity.",
+      "new_name": "freeAlgebraToPathAlgebra_comp_pathAlgebraToFreeAlgebra",
+      "temporary_id": "decl-013946"
+    },
+    {
+      "docstring": "The round trip from the loop-quiver path algebra through the free algebra fixes every arrow element.",
+      "new_name": "freeAlgebraToPathAlgebra_comp_pathAlgebraToFreeAlgebra_apply_arrow",
+      "temporary_id": "decl-013947"
+    },
+    {
+      "docstring": "The round trip from the loop-quiver path algebra through the free algebra fixes every path element.",
+      "new_name": "freeAlgebraToPathAlgebra_comp_pathAlgebraToFreeAlgebra_apply_path",
+      "temporary_id": "decl-013948"
+    },
+    {
+      "docstring": "The map from the free algebra to the loop-quiver path algebra sends a generator to its indexed loop arrow.",
+      "new_name": "freeAlgebraToLoopQuiverPathAlgebra_apply_generator",
+      "temporary_id": "decl-013949"
+    },
+    {
+      "docstring": "The path algebra of a finite quiver satisfies the indexed algebra property at index one.",
+      "new_name": "pathAlgebra_indexedProperty_one",
+      "temporary_id": "decl-013950"
+    },
+    {
+      "docstring": "The algebra invariant of a free algebra on at least one generator is one.",
+      "new_name": "freeAlgebra_indexInvariant_eq_one",
+      "temporary_id": "decl-013952"
+    },
+    {
+      "docstring": "The algebra invariant of a finite-quiver path algebra is one whenever the quiver has an arrow.",
+      "new_name": "pathAlgebra_indexInvariant_eq_one_of_hasArrow",
+      "temporary_id": "decl-013953"
+    },
+    {
+      "docstring": "Each vertex type in the finite loop-quiver family is finite.",
+      "new_name": "loopQuiverFintype",
+      "temporary_id": "decl-013956"
+    },
+    {
+      "docstring": "Each vertex type in the finite loop-quiver family has exactly one element.",
+      "new_name": "loopQuiverUnique",
+      "temporary_id": "decl-013959"
+    },
+    {
+      "docstring": "The loop arrow selected by an index at the canonical vertex of a loop quiver.",
+      "new_name": "loopQuiverArrow",
+      "temporary_id": "decl-013962"
+    },
+    {
+      "docstring": "The quiver structure with the prescribed finite family of loops on its unique vertex.",
+      "new_name": "loopQuiverQuiver",
+      "temporary_id": "decl-013963"
+    },
+    {
+      "docstring": "A free algebra with at least one generator does not satisfy the indexed algebra property at index zero.",
+      "new_name": "freeAlgebra_not_indexedProperty_zero",
+      "temporary_id": "decl-013964"
+    },
+    {
+      "docstring": "The natural-number matrix recording the path counts between pairs of vertices of a quiver.",
+      "new_name": "quiverPathCountingMatrix",
+      "temporary_id": "decl-013966"
+    },
+    {
+      "docstring": "The ordered list of vertices visited by a quiver path, including both endpoints.",
+      "new_name": "pathVertices",
+      "temporary_id": "decl-013968"
+    },
+    {
+      "docstring": "The list of vertices visited by a path has length one more than the number of arrows in the path.",
+      "new_name": "pathVertices_length",
+      "temporary_id": "decl-013976"
+    },
+    {
+      "docstring": "When all closed paths are trivial, the vertices visited by any path have no repetitions.",
+      "new_name": "pathVertices_nodup_of_no_nontrivial_cycles",
+      "temporary_id": "decl-013979"
+    },
+    {
+      "docstring": "The algebra homomorphism from a loop-quiver path algebra to the free algebra on its loop indices.",
+      "new_name": "loopQuiverPathAlgebraToFreeAlgebra",
+      "temporary_id": "decl-013982"
+    },
+    {
+      "docstring": "The map from a loop-quiver path algebra to the free algebra sends an arrow to the generator indexed by that arrow.",
+      "new_name": "loopQuiverPathAlgebraToFreeAlgebra_apply_arrow",
+      "temporary_id": "decl-013983"
+    },
+    {
+      "docstring": "Mapping from the free algebra to the loop-quiver path algebra and back is the identity.",
+      "new_name": "pathAlgebraToFreeAlgebra_comp_freeAlgebraToPathAlgebra",
+      "temporary_id": "decl-013984"
+    },
+    {
+      "docstring": "There is a unique algebra homomorphism from the loop-quiver path algebra that sends vertices to one and arrows to their indexed free generators.",
+      "new_name": "existsUnique_loopQuiverPathAlgebraToFreeAlgebra",
+      "temporary_id": "decl-013985"
+    },
+    {
+      "docstring": "The map from a loop-quiver path algebra to the free algebra sends every vertex element to one.",
+      "new_name": "loopQuiverPathAlgebraToFreeAlgebra_apply_vertex",
+      "temporary_id": "decl-013986"
+    },
+    {
+      "docstring": "In a finite quiver without nontrivial closed paths, every path has length strictly less than the number of vertices.",
+      "new_name": "path_length_lt_card_of_no_nontrivial_cycles",
+      "temporary_id": "decl-013987"
+    },
+    {
+      "docstring": "The path-algebra element associated with the unique vertex of a loop quiver is the multiplicative identity.",
+      "new_name": "loopQuiver_vertexPath_eq_one",
+      "temporary_id": "decl-013989"
+    }
+  ],
+  "module_name": "Quiver.PathAlgebra.LoopQuiver"
+}
