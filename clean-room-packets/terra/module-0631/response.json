@@ -1,0 +1,15 @@
+{
+  "module_name": "Algebra.Homology.Tor",
+  "declarations": [
+    {
+      "temporary_id": "decl-004134",
+      "new_name": "ModuleCat.Tor",
+      "docstring": "The n-indexed k-module object associated to two A-module objects."
+    },
+    {
+      "temporary_id": "decl-019022",
+      "new_name": "ModuleCat.torIsoHomology",
+      "docstring": "An isomorphism from the n-indexed Tor object to the homology of the linear Yoneda complex of a projective resolution."
+    }
+  ]
+}
