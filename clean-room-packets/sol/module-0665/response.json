@@ -2,12 +2,12 @@
   "declarations": [
     {
       "docstring": "The degree-n k-module obtained from the linear Yoneda complex associated to a projective resolution and a coefficient module.",
-      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaHomology",
+      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObj",
       "temporary_id": "decl-013266"
     },
     {
       "docstring": "The degree-n additive commutative group attached to a left module and a projective resolution of an opposite-ring module.",
-      "new_name": "CategoryTheory.ProjectiveResolution.modulePairHomology",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroup",
       "temporary_id": "decl-013268"
     },
     {
@@ -16,23 +16,23 @@
       "temporary_id": "decl-013272"
     },
     {
-      "docstring": "The degree-n linear Yoneda homology modules obtained from two projective resolutions are isomorphic.",
-      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaHomologyIso",
+      "docstring": "The degree-n linear Yoneda objects for two projective resolutions are isomorphic.",
+      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObjIso",
       "temporary_id": "decl-013275"
     },
     {
-      "docstring": "A morphism of projective resolution complexes induces a map on the degree-n linear Yoneda homology modules.",
-      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaHomologyMap",
+      "docstring": "A morphism of projective-resolution complexes induces, in the displayed direction, a map between degree-n linear Yoneda objects.",
+      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObjMap",
       "temporary_id": "decl-013276"
     },
     {
-      "docstring": "A resolution morphism compatible with the augmentations induces the hom of the canonical linear Yoneda homology isomorphism.",
-      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaHomologyMap_eq_isoHom",
+      "docstring": "Under the displayed composition equality, the induced map on degree-n linear Yoneda objects is the hom of the specified isomorphism.",
+      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObjMap_eq_isoHom",
       "temporary_id": "decl-013277"
     },
     {
-      "docstring": "Two resolution morphisms compatible with the augmentations induce the same map on linear Yoneda homology.",
-      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaHomologyMap_eq_of_lifts",
+      "docstring": "Two complex morphisms satisfying the displayed composition equalities induce equal maps on degree-n linear Yoneda objects.",
+      "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObjMap_eq_of_comm",
       "temporary_id": "decl-013278"
     },
     {
@@ -46,12 +46,12 @@
       "temporary_id": "decl-013281"
     },
     {
-      "docstring": "Compatible morphisms between the same projective resolutions induce equal homology maps after applying an additive functor.",
-      "new_name": "CategoryTheory.ProjectiveResolution.functorHomologyMap_eq_of_lifts",
+      "docstring": "Two morphisms satisfying the displayed degree-zero composition equalities induce equal homology maps after applying an additive functor.",
+      "new_name": "CategoryTheory.ProjectiveResolution.functorHomologyMap_eq_of_comm",
       "temporary_id": "decl-013282"
     },
     {
-      "docstring": "Applying an additive functor to two projective resolutions gives canonically isomorphic homology objects in every degree.",
+      "docstring": "Applying an additive functor to two projective resolutions gives an isomorphism between their homology objects in every degree.",
       "new_name": "CategoryTheory.ProjectiveResolution.functorHomologyIso",
       "temporary_id": "decl-013283"
     },
@@ -67,32 +67,32 @@
     },
     {
       "docstring": "The degree-n groups attached to a left module and two projective resolutions of an opposite-ring module are isomorphic.",
-      "new_name": "CategoryTheory.ProjectiveResolution.modulePairHomologyIso",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupIso",
       "temporary_id": "decl-013291"
     },
     {
-      "docstring": "The hom of the module-pair homology comparison isomorphism from a projective resolution to itself is the identity.",
-      "new_name": "CategoryTheory.ProjectiveResolution.modulePairHomologyIso_self_hom",
+      "docstring": "The hom of the module-pair group isomorphism from a projective resolution to itself is the identity.",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupIso_self_hom",
       "temporary_id": "decl-013294"
     },
     {
-      "docstring": "The composite of two module-pair homology comparison isomorphisms agrees with the direct comparison isomorphism.",
-      "new_name": "CategoryTheory.ProjectiveResolution.modulePairHomologyIso_comp_hom",
+      "docstring": "The composite of two module-pair group isomorphisms equals the direct isomorphism.",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupIso_comp_hom",
       "temporary_id": "decl-013295"
     },
     {
-      "docstring": "A morphism of projective resolution complexes induces a map on the associated degree-n module-pair homology groups.",
-      "new_name": "CategoryTheory.ProjectiveResolution.modulePairHomologyMap",
+      "docstring": "A morphism of projective-resolution complexes induces a map on the associated degree-n module-pair groups.",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupMap",
       "temporary_id": "decl-013296"
     },
     {
-      "docstring": "A resolution morphism compatible with the augmentations induces the hom of the module-pair homology comparison isomorphism.",
-      "new_name": "CategoryTheory.ProjectiveResolution.modulePairHomologyMap_eq_isoHom",
+      "docstring": "Under the displayed composition equality, the induced map on degree-n module-pair groups is the hom of the specified isomorphism.",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupMap_eq_isoHom",
       "temporary_id": "decl-013297"
     },
     {
-      "docstring": "Two resolution morphisms compatible with the augmentations induce the same map on module-pair homology.",
-      "new_name": "CategoryTheory.ProjectiveResolution.modulePairHomologyMap_eq_of_lifts",
+      "docstring": "Two complex morphisms satisfying the displayed composition equalities induce equal maps on degree-n module-pair groups.",
+      "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupMap_eq_of_comm",
       "temporary_id": "decl-013298"
     },
     {
@@ -106,8 +106,8 @@
       "temporary_id": "decl-014392"
     },
     {
-      "docstring": "Between any two projective resolutions of the same module there exists a complex morphism intertwining their augmentations.",
-      "new_name": "CategoryTheory.ProjectiveResolution.existsComparisonHom",
+      "docstring": "Between two projective resolutions of the same module, there exists a complex morphism satisfying the displayed composition equality.",
+      "new_name": "CategoryTheory.ProjectiveResolution.existsHom_comp_pi",
       "temporary_id": "decl-014393"
     }
   ],
