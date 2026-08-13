@@ -19,7 +19,7 @@ namespace RepresentationTheory.Algebra.SimpleModule.Endomorphisms
 /-- Every linear endomorphism of a finite-dimensional simple module over an algebraically closed
 field is scalar multiplication. -/
 @[source_ref "Chapter2/Corollary2.3.10" (role := primary),
-  source_ref "Chapter2/Discussion_proof_Corollary2.3.10/Derived2" (role := primary),
+  source_ref "Chapter2/Discussion_proof_Corollary2.3.10/Derived2" (role := supporting),
   source_ref "Chapter2/Discussion_proof_Corollary2.3.12/Derived2" (role := supporting)]
 theorem endomorphism_eq_smul
     {k : Type*} [Field k] [IsAlgClosed k]
