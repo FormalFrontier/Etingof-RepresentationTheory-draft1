@@ -38,18 +38,18 @@
     },
     {
       "temporary_id": "decl-019017",
-      "new_name": "Auxiliary.ext_addEquiv_pi_left",
-      "docstring": "Expresses an Ext group as a family of Ext groups indexed by auxiliary components in the first argument."
+      "new_name": "Auxiliary.addEquiv_pi_left",
+      "docstring": "Provides an additive equivalence from an expression with a specified first module-category object to a function type indexed by auxiliary objects."
     },
     {
       "temporary_id": "decl-019038",
-      "new_name": "Auxiliary.ext_addEquiv_pi_both",
-      "docstring": "Expresses an Ext group as a doubly indexed family after decomposing both arguments into auxiliary components."
+      "new_name": "Auxiliary.addEquiv_pi_both",
+      "docstring": "Provides an additive equivalence from an expression with two specified module-category objects to a doubly indexed function type built from auxiliary objects."
     },
     {
       "temporary_id": "decl-019081",
-      "new_name": "Auxiliary.ext_addEquiv_pi_right",
-      "docstring": "Expresses an Ext group as a family of Ext groups indexed by auxiliary components in the second argument."
+      "new_name": "Auxiliary.addEquiv_pi_right",
+      "docstring": "Provides an additive equivalence from an expression with a specified second module-category object to a function type indexed by auxiliary objects."
     },
     {
       "temporary_id": "decl-019370",
