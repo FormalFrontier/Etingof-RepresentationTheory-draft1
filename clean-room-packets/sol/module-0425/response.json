@@ -1,30 +1,30 @@
 {
-  "module_name": "SymmetricGroup.SimpleModuleCharacter",
+  "module_name": "SymmetricGroup.SimpleModuleTrace",
   "declarations": [
     {
       "temporary_id": "decl-018964",
-      "new_name": "auxiliaryExistsDistinguishedSimpleSummandComplex",
-      "docstring": "For a displayed decomposition into finite, pairwise nonisomorphic simple complex submodules, selects a summand whose traces of all permutation operators agree with the partition attached to the given antitone index, while every other summand agrees with a different partition."
+      "new_name": "existsSimpleSubmoduleWithPrescribedTraceComplex",
+      "docstring": "A decomposition into finite pairwise nonisomorphic simple complex submodules contains a summand with the prescribed traces of all permutation operators; every other summand has traces prescribed by a different partition."
     },
     {
       "temporary_id": "decl-018965",
-      "new_name": "auxiliaryExistsDistinguishedSimpleSummand",
-      "docstring": "Over an algebraically closed field of characteristic zero, a displayed decomposition into finite, pairwise nonisomorphic simple submodules has a summand whose traces of all permutation operators agree with the partition attached to the given antitone index, while every other summand agrees with a different partition."
+      "new_name": "existsSimpleSubmoduleWithPrescribedTrace",
+      "docstring": "Over an algebraically closed field of characteristic zero, a decomposition into finite pairwise nonisomorphic simple submodules contains a summand with the prescribed traces of all permutation operators; every other summand has traces prescribed by a different partition."
     },
     {
       "temporary_id": "decl-023208",
-      "new_name": "auxiliarySimpleModulesLinearlyEquivOfTraceEqComplex",
-      "docstring": "Two simple complex submodules are linearly equivalent if the traces of every restricted permutation operator on both submodules agree with the values associated to the same partition."
+      "new_name": "nonemptyLinearEquivOfTraceEqComplex",
+      "docstring": "Two simple complex submodules with equal prescribed traces for every restricted permutation operator are linearly equivalent."
     },
     {
       "temporary_id": "decl-024674",
-      "new_name": "auxiliaryNonzeroComplex",
-      "docstring": "The complex auxiliary value associated to an antitone natural-valued function on `Fin N` is nonzero."
+      "new_name": "complexValueNeZeroOfAntitone",
+      "docstring": "For an antitone natural-valued function on `Fin N`, the displayed expression is nonzero."
     },
     {
       "temporary_id": "decl-024675",
-      "new_name": "auxiliaryNonzero",
-      "docstring": "Over an algebraically closed field of characteristic zero, the auxiliary value associated to an antitone natural-valued function on `Fin N` is nonzero."
+      "new_name": "valueNeZeroOfAntitone",
+      "docstring": "Over an algebraically closed field of characteristic zero, the displayed value for an antitone natural-valued function on `Fin N` is nonzero."
     }
   ]
 }
