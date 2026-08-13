@@ -28,8 +28,8 @@
     },
     {
       "temporary_id": "decl-004091",
-      "new_name": "reflectionHomEquiv_adjacent_nonempty",
-      "docstring": "States that the two displayed reflected morphism spaces admit an equivalence."
+      "new_name": "reflectionHomEquiv_source_target_nonempty",
+      "docstring": "The hom spaces obtained by reflecting the source and the target admit an equivalence."
     },
     {
       "temporary_id": "decl-014987",
@@ -73,13 +73,13 @@
     },
     {
       "temporary_id": "decl-017241",
-      "new_name": "outgoingIndex_ne",
-      "docstring": "The vertex recorded by an outgoing-arrow index differs from the distinguished vertex."
+      "new_name": "incomingIndex_ne",
+      "docstring": "The source vertex recorded by an incoming-arrow index differs from the distinguished vertex."
     },
     {
       "temporary_id": "decl-017249",
-      "new_name": "incomingIndex_ne",
-      "docstring": "The vertex recorded by an incoming-arrow index differs from the distinguished vertex."
+      "new_name": "outgoingIndex_ne",
+      "docstring": "The target vertex recorded by an outgoing-arrow index differs from the distinguished vertex."
     },
     {
       "temporary_id": "decl-020043",
@@ -109,27 +109,27 @@
     {
       "temporary_id": "decl-022739",
       "new_name": "arrowTo",
-      "docstring": "Extracts the arrow into the distinguished vertex represented by an index."
+      "docstring": "Extracts the incoming arrow associated with an outgoing-arrow index."
     },
     {
       "temporary_id": "decl-022742",
       "new_name": "arrowTo_eq",
-      "docstring": "Identifies the extracted arrow with the arrow stored in its index."
+      "docstring": "The extracted incoming arrow is the reflected reversal of the outgoing arrow stored in its index."
     },
     {
       "temporary_id": "decl-022743",
       "new_name": "arrowTo_mk",
-      "docstring": "Extracting the arrow from a constructed index returns the original arrow."
+      "docstring": "Extracting the incoming arrow from an outgoing index constructed from an incoming arrow returns the original arrow."
     },
     {
       "temporary_id": "decl-022757",
       "new_name": "mk_arrowTo",
-      "docstring": "Reconstructing an index from its extracted arrow returns its stored arrow data."
+      "docstring": "Converting an extracted incoming arrow back recovers the outgoing arrow stored in the index."
     },
     {
       "temporary_id": "decl-022763",
-      "new_name": "transport_arrowTo",
-      "docstring": "Transporting an arrow through the index conversion and back leaves it unchanged."
+      "new_name": "reflectArrow_involutive",
+      "docstring": "Reflecting an arrow whose endpoints avoid the distinguished vertex twice recovers the original arrow."
     },
     {
       "temporary_id": "decl-023223",
@@ -143,8 +143,8 @@
     },
     {
       "temporary_id": "decl-023261",
-      "new_name": "incomingOutgoingIndexEquiv",
-      "docstring": "Equates the two index types associated with the distinguished vertex."
+      "new_name": "outgoingIncomingIndexEquiv",
+      "docstring": "An equivalence from outgoing-arrow indices to incoming-arrow indices at the distinguished vertex."
     }
   ]
 }
