@@ -176,6 +176,7 @@ import RepresentationTheory.Subgroup.HomAdjunction
 import RepresentationTheory.SemisimpleAlgebraCenters
 import RepresentationTheory.FiniteGroup.ComplexGroupAlgebraDecomposition
 import RepresentationTheory.Module.IndexedCoordinateProjections
+import RepresentationTheory.TensorCoefficientIndependence
 
 /-!
 # Representation theory formalization
