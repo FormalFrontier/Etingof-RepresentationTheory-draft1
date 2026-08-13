@@ -304,6 +304,7 @@ import RepresentationTheory.FiniteDimensional.Equivalences
 import RepresentationTheory.Algebra.TensorProduct.ModuleCat
 import RepresentationTheory.Algebra.TensorProduct.Free
 import RepresentationTheory.Algebra.Algebra.TensorProduct.ModuleCat
+import RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProduct
 import RepresentationTheory.Algebra.Homological.EquivalenceInvariance
 import RepresentationTheory.Algebra.Homological.AuxiliaryDimensionTransfer
 import RepresentationTheory.ModuleCat.RightTensor
