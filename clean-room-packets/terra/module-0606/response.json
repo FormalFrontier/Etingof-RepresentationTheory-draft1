@@ -1,0 +1,50 @@
+{
+  "module_name": "HomologicalAlgebra.ComplexProductComparison",
+  "declarations": [
+    {
+      "temporary_id": "decl-005439",
+      "new_name": "naturalIndexedType",
+      "docstring": "A family of types indexed by natural numbers."
+    },
+    {
+      "temporary_id": "decl-021331",
+      "new_name": "chainComplexProductFunctorIso",
+      "docstring": "The comparison isomorphism between two degree-indexed functors on pairs of chain complexes of modules."
+    },
+    {
+      "temporary_id": "decl-021335",
+      "new_name": "chainComplexProductFunctorIso_app",
+      "docstring": "States the component of the chain-complex product comparison isomorphism on a pair of complexes."
+    },
+    {
+      "temporary_id": "decl-021336",
+      "new_name": "chainComplexProductFunctorIsoTarget",
+      "docstring": "The target degree-indexed functor from pairs of chain complexes of modules to modules."
+    },
+    {
+      "temporary_id": "decl-021342",
+      "new_name": "chainComplexProductFunctorIsoSource",
+      "docstring": "The source degree-indexed functor from pairs of chain complexes of modules to modules."
+    },
+    {
+      "temporary_id": "decl-021374",
+      "new_name": "cochainComplexProductFunctorIso",
+      "docstring": "The comparison isomorphism between two degree-indexed functors on pairs of cochain complexes of modules."
+    },
+    {
+      "temporary_id": "decl-021378",
+      "new_name": "cochainComplexProductFunctorIso_app",
+      "docstring": "States the component of the cochain-complex product comparison isomorphism on a pair of complexes."
+    },
+    {
+      "temporary_id": "decl-021379",
+      "new_name": "cochainComplexProductFunctorIsoTarget",
+      "docstring": "The target degree-indexed functor from pairs of cochain complexes of modules to modules."
+    },
+    {
+      "temporary_id": "decl-021385",
+      "new_name": "cochainComplexProductFunctorIsoSource",
+      "docstring": "The source degree-indexed functor from pairs of cochain complexes of modules to modules."
+    }
+  ]
+}
