@@ -296,6 +296,7 @@ import RepresentationTheory.CategoryTheory.Abelian.ProjectiveResolution
 import RepresentationTheory.FDRep.SimpleCharacters
 import RepresentationTheory.Algebra.Auxiliary
 import RepresentationTheory.SymmetricGroup.PartitionSubmodules
+import RepresentationTheory.FiniteGroup.Character.Irreducibility
 
 /-!
 # Representation theory formalization
