@@ -1,0 +1,95 @@
+{
+  "module_name": "ModuleCat.FiniteFreeRetractEndomorphisms",
+  "declarations": [
+    {
+      "temporary_id": "decl-005220",
+      "new_name": "auxiliarySubalgebraEquivEnd",
+      "docstring": "An algebra equivalence from the designated subalgebra associated with an auxiliary endomorphism to the opposite endomorphism algebra of the module."
+    },
+    {
+      "temporary_id": "decl-005222",
+      "new_name": "auxiliarySubringEquivEnd",
+      "docstring": "A ring equivalence from the designated subring associated with an auxiliary endomorphism to the opposite endomorphism ring of the module."
+    },
+    {
+      "temporary_id": "decl-005234",
+      "new_name": "auxiliaryOppositeEndomorphism",
+      "docstring": "An auxiliary element of the opposite endomorphism ring obtained from a module satisfying the designated property."
+    },
+    {
+      "temporary_id": "decl-005237",
+      "new_name": "auxiliaryOppositeEndomorphism_property",
+      "docstring": "The auxiliary opposite endomorphism satisfies the designated predicate."
+    },
+    {
+      "temporary_id": "decl-005238",
+      "new_name": "finiteFreeRetractData",
+      "docstring": "Finite-free retract data obtained from a finitely generated module satisfying the designated property."
+    },
+    {
+      "temporary_id": "decl-005258",
+      "new_name": "toAuxiliaryAlgebraRelation",
+      "docstring": "A finite algebra and a module satisfying the designated property yield the auxiliary algebra relation with the opposite endomorphism algebra."
+    },
+    {
+      "temporary_id": "decl-005262",
+      "new_name": "exists_moduleCatEquivalenceEnd",
+      "docstring": "A module satisfying the designated property yields an equivalence with modules over its opposite endomorphism ring."
+    },
+    {
+      "temporary_id": "decl-014538",
+      "new_name": "FiniteFreeRetractData",
+      "docstring": "Data exhibiting a finitely generated module as a retract of a finite free module."
+    },
+    {
+      "temporary_id": "decl-014543",
+      "new_name": "auxiliaryModule",
+      "docstring": "An auxiliary finitely generated module associated with finite-free retract data."
+    },
+    {
+      "temporary_id": "decl-014545",
+      "new_name": "toFiniteFree",
+      "docstring": "The morphism from the given module to the finite free module specified by the retract data."
+    },
+    {
+      "temporary_id": "decl-014546",
+      "new_name": "toFiniteFree_comp_fromFiniteFree",
+      "docstring": "The morphism to the finite free module followed by the return morphism is the identity."
+    },
+    {
+      "temporary_id": "decl-014555",
+      "new_name": "fromFiniteFree",
+      "docstring": "The morphism from the finite free module back to the given module."
+    },
+    {
+      "temporary_id": "decl-014556",
+      "new_name": "rank",
+      "docstring": "The natural-number rank of the finite free module in the retract data."
+    },
+    {
+      "temporary_id": "decl-014557",
+      "new_name": "rank_pos",
+      "docstring": "The rank specified by finite-free retract data is positive."
+    },
+    {
+      "temporary_id": "decl-019331",
+      "new_name": "endAlgEquivModuleEnd",
+      "docstring": "The categorical endomorphism algebra of a finitely generated module is equivalent to the algebra of endomorphisms of its carrier."
+    },
+    {
+      "temporary_id": "decl-019335",
+      "new_name": "endRingEquivModuleEnd",
+      "docstring": "The categorical endomorphism ring of a finitely generated module is equivalent to the endomorphism ring of its carrier."
+    },
+    {
+      "temporary_id": "decl-019575",
+      "new_name": "opModuleEndAlgEquivMatrix",
+      "docstring": "The opposite algebra of endomorphisms of a finite free module is equivalent to the corresponding square matrix algebra."
+    },
+    {
+      "temporary_id": "decl-019579",
+      "new_name": "opModuleEndRingEquivMatrix",
+      "docstring": "The opposite ring of endomorphisms of a finite free module is equivalent to the corresponding square matrix ring."
+    }
+  ]
+}
