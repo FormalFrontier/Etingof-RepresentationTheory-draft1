@@ -8,7 +8,7 @@
     },
     {
       "temporary_id": "decl-016653",
-      "new_name": "auxiliary_tensorProduct_iff",
+      "new_name": "auxiliary_tensorProduct_characterization",
       "docstring": "Over an algebraically closed field, the auxiliary representation property is characterized by the displayed tensor-product construction and decomposition."
     },
     {
@@ -23,7 +23,7 @@
     },
     {
       "temporary_id": "decl-019237",
-      "new_name": "apply",
+      "new_name": "tensorProductRepresentation_apply",
       "docstring": "The tensor-product representation acts through the two components of a product element."
     },
     {
