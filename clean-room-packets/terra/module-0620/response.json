@@ -1,0 +1,25 @@
+{
+  "module_name": "CategoryTheory.Abelian.YonedaFiniteLimitColimitPreservation",
+  "declarations": [
+    {
+      "temporary_id": "decl-004916",
+      "new_name": "preadditiveYonedaObjPreservesFiniteLimitsAndColimits",
+      "docstring": "The condition that the preadditive Yoneda functor represented by an object preserves finite limits and finite colimits."
+    },
+    {
+      "temporary_id": "decl-014584",
+      "new_name": "preadditiveCoyonedaObjPreservesFiniteLimitsAndColimits",
+      "docstring": "The condition that the preadditive Coyoneda functor represented by an object preserves finite limits and finite colimits."
+    },
+    {
+      "temporary_id": "decl-020565",
+      "new_name": "preadditiveYonedaObjPreservesFiniteLimitsAndColimits_iff",
+      "docstring": "Characterizes the Yoneda preservation condition by preservation of finite limits and finite colimits."
+    },
+    {
+      "temporary_id": "decl-022189",
+      "new_name": "preadditiveCoyonedaObjPreservesFiniteLimitsAndColimits_iff",
+      "docstring": "Characterizes the Coyoneda preservation condition by preservation of finite limits and finite colimits."
+    }
+  ]
+}
