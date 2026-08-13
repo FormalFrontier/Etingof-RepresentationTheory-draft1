@@ -280,6 +280,7 @@ import RepresentationTheory.CategoryTheory.TopCatCongruence
 import RepresentationTheory.CategoryTheory.ProjectiveResolution.ShortComplex
 import RepresentationTheory.FinsuppDualTensor
 import RepresentationTheory.GroupTheory.ZMod.ComplexCharacters
+import RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates
 
 /-!
 # Representation theory formalization
