@@ -213,6 +213,7 @@ import RepresentationTheory.ZModInvolution
 import RepresentationTheory.FiniteGroupCharacterCoprimality
 import RepresentationTheory.CategoryTheory.ObjectProperty
 import RepresentationTheory.CategoryPair
+import RepresentationTheory.FunctorPairConstructions
 
 /-!
 # Representation theory formalization
