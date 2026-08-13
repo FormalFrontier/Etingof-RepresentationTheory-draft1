@@ -24,7 +24,7 @@ def conjugateModule (V : Type u) : Type u := V
 namespace conjugateModule
 
 /-- The additive commutative group structure on the displayed type construction. -/
-instance : AddCommGroup (conjugateModule V) := inferInstanceAs (AddCommGroup V)
+instance instAddCommGroup : AddCommGroup (conjugateModule V) := inferInstanceAs (AddCommGroup V)
 
 /-- The complex module structure on the displayed type construction. -/
 noncomputable instance instModule : Module ℂ (conjugateModule V) := Module.compHom V (starRingEnd ℂ)
