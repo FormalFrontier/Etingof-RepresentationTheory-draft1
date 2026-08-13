@@ -24,6 +24,7 @@ import RepresentationTheory.Algebra.Lie.Module.Examples
 import RepresentationTheory.Algebra.Lie.Module.Predicates
 import RepresentationTheory.Algebra.Lie.PairedAuxiliaryTypes
 import RepresentationTheory.Algebra.TensorProduct.MatrixProductEquivalence
+import RepresentationTheory.Algebra.TensorProduct.OppositeModule
 import RepresentationTheory.Algebra.TensorProduct.Quotient
 import RepresentationTheory.Algebra.TensorProduct.ScalarExtension
 import RepresentationTheory.Algebra.Quiver.LinearRepresentationCategory
