@@ -1,5 +1,5 @@
 {
-  "module_name": "Representation/PermutationGroupSpectrum",
+  "module_name": "Representation.PermutationGroupSpectrum",
   "declarations": [
     {
       "temporary_id": "decl-023526",
