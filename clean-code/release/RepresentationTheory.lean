@@ -226,6 +226,7 @@ import RepresentationTheory.Preadditive.FunctorProperties
 import RepresentationTheory.CategoryTheory.Abelian.ShortExactPreservation
 import RepresentationTheory.CategoryTheory.Abelian.AdditiveAdjunctionAuxiliary
 import RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra
+import RepresentationTheory.Partitions.SquareScalar
 
 /-!
 # Representation theory formalization
