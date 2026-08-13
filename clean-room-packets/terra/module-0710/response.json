@@ -1,0 +1,70 @@
+{
+  "module_name": "Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-005305",
+      "new_name": "AlgebraAuxiliary",
+      "docstring": "An auxiliary relation between two rings equipped with algebra structures over a common field."
+    },
+    {
+      "temporary_id": "decl-005306",
+      "new_name": "symm",
+      "docstring": "The auxiliary algebra relation is unchanged when its two ring arguments are exchanged."
+    },
+    {
+      "temporary_id": "decl-005308",
+      "new_name": "toRingAuxiliary",
+      "docstring": "An instance of the auxiliary algebra relation induces the associated auxiliary relation on the underlying rings."
+    },
+    {
+      "temporary_id": "decl-005310",
+      "new_name": "trans",
+      "docstring": "The auxiliary algebra relation composes through an intermediate algebra."
+    },
+    {
+      "temporary_id": "decl-005311",
+      "new_name": "AlgebraAuxiliary'",
+      "docstring": "A second auxiliary relation between two rings equipped with algebra structures over a common field."
+    },
+    {
+      "temporary_id": "decl-005313",
+      "new_name": "symm",
+      "docstring": "The second auxiliary algebra relation is unchanged when its two ring arguments are exchanged."
+    },
+    {
+      "temporary_id": "decl-005315",
+      "new_name": "toRingAuxiliary",
+      "docstring": "An instance of the second auxiliary algebra relation induces the associated auxiliary relation on the underlying rings."
+    },
+    {
+      "temporary_id": "decl-005317",
+      "new_name": "trans",
+      "docstring": "The second auxiliary algebra relation composes through an intermediate algebra."
+    },
+    {
+      "temporary_id": "decl-005663",
+      "new_name": "RingAuxiliary",
+      "docstring": "An auxiliary relation between two rings, with independently varying universe levels."
+    },
+    {
+      "temporary_id": "decl-005672",
+      "new_name": "RingAuxiliary'",
+      "docstring": "A second auxiliary relation between two rings in the same universe."
+    },
+    {
+      "temporary_id": "decl-005677",
+      "new_name": "refl",
+      "docstring": "Every ring is related to itself by the second auxiliary ring relation."
+    },
+    {
+      "temporary_id": "decl-005678",
+      "new_name": "symm",
+      "docstring": "The second auxiliary ring relation is invariant under swapping its ring arguments."
+    },
+    {
+      "temporary_id": "decl-005681",
+      "new_name": "trans",
+      "docstring": "The second auxiliary ring relation composes through an intermediate ring."
+    }
+  ]
+}
