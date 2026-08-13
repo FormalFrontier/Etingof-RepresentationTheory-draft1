@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -45,3 +46,13 @@ is the commutator of the matrices
 $$`A = \begin{pmatrix} a & 0 \\ 0 & 1 \end{pmatrix}, \qquad B = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}.`
 
 This completes the proof. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Proposition5.25.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.SpecialLinear.Commutator.generalLinear_commutator_eq_specialLinear_range}
