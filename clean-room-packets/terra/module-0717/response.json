@@ -8,13 +8,13 @@
     },
     {
       "temporary_id": "decl-004097",
-      "new_name": "exists_projective_with_nonempty_auxiliary",
+      "new_name": "exists_object_with_nonempty_auxiliary",
       "docstring": "There exists an object whose associated auxiliary type is nonempty."
     },
     {
       "temporary_id": "decl-004098",
       "new_name": "nonempty_auxiliary_iff_forall_simple_exists_ne_zero",
-      "docstring": "For a projective object, nonemptiness of its auxiliary type is equivalent to having a nonzero morphism from every simple object."
+      "docstring": "For a projective object, nonemptiness of its auxiliary type is equivalent to the existence of a nonzero morphism for every simple object."
     },
     {
       "temporary_id": "decl-004099",
