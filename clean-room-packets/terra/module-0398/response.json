@@ -1,0 +1,15 @@
+{
+  "declarations": [
+    {
+      "docstring": "Over an infinite field, the span of the range of the pointwise tensor-product maps induced by linear equivalences is the underlying submodule of the auxiliary subalgebra.",
+      "new_name": "span_range_piTensorProduct_map_eq_auxiliary",
+      "temporary_id": "decl-014640"
+    },
+    {
+      "docstring": "Over a field of characteristic zero, the span of the range of the pointwise tensor-product maps induced by linear equivalences is the underlying submodule of the centralizer of the auxiliary set.",
+      "new_name": "span_range_piTensorProduct_map_eq_centralizer_auxiliary",
+      "temporary_id": "decl-014641"
+    }
+  ],
+  "module_name": "PiTensorProduct.MapSpanCentralizer"
+}
