@@ -1,0 +1,10 @@
+{
+  "module_name": "FiniteGroupSolvability",
+  "declarations": [
+    {
+      "temporary_id": "decl-016626",
+      "new_name": "isSolvable_of_card_eq_prime_pow_mul_prime_pow",
+      "docstring": "A finite group whose order is a product of powers of two primes is solvable."
+    }
+  ]
+}
