@@ -24,7 +24,7 @@
     {
       "temporary_id": "decl-018489",
       "new_name": "exists_neighborCount_le_one",
-      "docstring": "If every index has at most two neighbors, some index has at most one neighbor."
+      "docstring": "For a nonempty matrix satisfying the structural condition, if every index has at most two neighbors, then some index has at most one neighbor."
     },
     {
       "temporary_id": "decl-018491",
@@ -49,12 +49,12 @@
     {
       "temporary_id": "decl-021898",
       "new_name": "exists_pathLabeling_from_endpoint",
-      "docstring": "From an index with at most one neighbor, there is a labeling beginning there whose unit entries occur exactly between consecutive indices."
+      "docstring": "For a nonempty matrix satisfying the structural condition whose neighbor counts are at most two, an index with at most one neighbor admits a labeling beginning there whose unit entries occur exactly between consecutive indices."
     },
     {
       "temporary_id": "decl-023454",
       "new_name": "quadraticForm_pos_of_nonnegative",
-      "docstring": "Every nonzero nonnegative integer vector on an entrywise bounded embedded submatrix has positive value under the associated quadratic form."
+      "docstring": "If an integer matrix satisfies the structural condition, every nonzero nonnegative integer vector on an entrywise bounded embedded submatrix has positive value under the associated quadratic form."
     },
     {
       "temporary_id": "decl-024478",
