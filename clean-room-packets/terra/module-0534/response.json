@@ -1,0 +1,10 @@
+{
+  "module_name": "IntegralVectorSign",
+  "declarations": [
+    {
+      "temporary_id": "decl-005523",
+      "new_name": "all_nonnegative_or_all_nonpositive",
+      "docstring": "Under the given matrix and vector hypotheses, the integer vector has either only nonnegative coordinates or only nonpositive coordinates."
+    }
+  ]
+}
