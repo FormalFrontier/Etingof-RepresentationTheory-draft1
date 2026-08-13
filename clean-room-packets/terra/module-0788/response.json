@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-025075",
-      "new_name": "cast_dimension_ne_zero",
-      "docstring": "Each indexed dimension in the decomposition data has nonzero image in the field."
+      "new_name": "cast_indexedNat_ne_zero",
+      "docstring": "The field cast of each indexed natural number supplied by the data is nonzero."
     },
     {
       "temporary_id": "decl-032972",
