@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-015565",
       "new_name": "partitionIndexedSubmodule",
-      "docstring": "Defines the submodule indexed by a partition inside the ambient module of functions."
+      "docstring": "Defines a partition-indexed submodule of the specified ambient module built from the function space."
     },
     {
       "temporary_id": "decl-015568",
@@ -19,7 +19,7 @@
     {
       "temporary_id": "decl-015569",
       "new_name": "partitionIndexedSubmodule_ne_bot_of_partitionLength_le_rank",
-      "docstring": "The partition-indexed submodule is nontrivial when the ambient rank accommodates every partition part."
+      "docstring": "The partition-indexed submodule is nontrivial when the number of partition parts does not exceed the ambient rank."
     },
     {
       "temporary_id": "decl-015570",
@@ -38,13 +38,13 @@
     },
     {
       "temporary_id": "decl-015573",
-      "new_name": "complexPartitionIndexedSubmodule_one_eq_bot",
-      "docstring": "The selected partition-indexed complex submodule at rank one is bottom."
+      "new_name": "selectedPartitionOfTwo_complexSubmodule_rank_one_eq_bot",
+      "docstring": "Over the complex numbers, the submodule indexed by the selected partition of two is bottom in rank one."
     },
     {
       "temporary_id": "decl-015574",
-      "new_name": "complexPartitionIndexedSubmodule_two_ne_bot",
-      "docstring": "The selected partition-indexed complex submodule at rank two is nontrivial."
+      "new_name": "selectedPartitionOfTwo_complexSubmodule_rank_two_ne_bot",
+      "docstring": "Over the complex numbers, the submodule indexed by the selected partition of two is nonzero in rank two."
     },
     {
       "temporary_id": "decl-015575",
@@ -53,13 +53,13 @@
     },
     {
       "temporary_id": "decl-016593",
-      "new_name": "partitionIndexedRepresentation_properties",
-      "docstring": "Combines the vanishing criterion with admissible-rank equalities for an auxiliary invariant and the representation dimension."
+      "new_name": "partitionIndexedSubmodule_vanishing_and_representationFormulas",
+      "docstring": "Records the bottom criterion for the partition-indexed submodule and, in admissible rank, two equalities involving its associated representation."
     },
     {
       "temporary_id": "decl-017734",
-      "new_name": "auxiliaryPartition_card_eq_two",
-      "docstring": "The auxiliary partition has exactly two parts."
+      "new_name": "selectedPartitionOfTwo_parts_card_eq_two",
+      "docstring": "The selected partition of two has exactly two parts."
     },
     {
       "temporary_id": "decl-018059",
@@ -69,7 +69,7 @@
     {
       "temporary_id": "decl-018061",
       "new_name": "partitionIndexedAlternatingEndomorphism_apply",
-      "docstring": "Evaluates the endomorphism as a signed sum over permutations acting by precomposition."
+      "docstring": "Evaluates the endomorphism as a signed sum indexed by permutations, with each summand obtained by inverse precomposition."
     },
     {
       "temporary_id": "decl-018062",
@@ -78,13 +78,13 @@
     },
     {
       "temporary_id": "decl-018843",
-      "new_name": "exists_pair_of_auxiliarySortedPartValue_eq_and_map_eq_of_rank_lt_partitionLength",
-      "docstring": "When a partition has more parts than the ambient rank, every map identifies distinct indices with equal auxiliary sorted-part values."
+      "new_name": "exists_ne_with_sortedPartsData_eq_and_apply_eq_of_rank_lt_partitionLength",
+      "docstring": "If the number of parts exceeds the ambient rank, every map has distinct indices where both the specified sorted-parts construction and the map agree."
     },
     {
       "temporary_id": "decl-019409",
-      "new_name": "partitionIndexedRepresentation_finrank_eq_auxiliaryNat",
-      "docstring": "In admissible rank, computes the scalar-valued finite dimension of the associated representation using an auxiliary natural-number expression."
+      "new_name": "partitionIndexedRepresentation_finrank_cast_eq_associatedValue",
+      "docstring": "In admissible rank, the cast of the finite rank of the associated representation equals the specified value of its rank-indexed partition function."
     },
     {
       "temporary_id": "decl-019410",
@@ -93,28 +93,28 @@
     },
     {
       "temporary_id": "decl-019411",
-      "new_name": "partitionIndexedRepresentation_finrank_eq_auxiliaryNat_of_partitionFromFunction",
-      "docstring": "Computes the representation dimension from a weakly decreasing finite function with the prescribed total and partition parts."
+      "new_name": "partitionIndexedRepresentation_finrank_cast_eq_associatedValue_of_matchingFunction",
+      "docstring": "For a weakly decreasing finite function with the prescribed sum and partition parts, the cast finite rank equals the corresponding specified value."
     },
     {
       "temporary_id": "decl-019514",
-      "new_name": "partitionIndexedRepresentation_auxiliaryInvariant_eq_of_partitionLength_le_rank",
-      "docstring": "In admissible rank, identifies an auxiliary invariant of the representation with a value derived from its rank-indexed partition function."
+      "new_name": "partitionIndexedRepresentation_associatedValue_eq_of_partitionLength_le_rank",
+      "docstring": "In admissible rank, the specified representation-dependent value equals the corresponding value of the rank-indexed partition function."
     },
     {
       "temporary_id": "decl-019515",
-      "new_name": "partitionIndexedRepresentation_auxiliaryInvariant_eq_of_partitionFromFunction",
-      "docstring": "Computes an auxiliary invariant of the representation from a weakly decreasing finite function with the prescribed partition parts."
+      "new_name": "partitionIndexedRepresentation_associatedValue_eq_of_matchingFunction",
+      "docstring": "For a weakly decreasing finite function with the prescribed sum and partition parts, the specified value of the representation equals the corresponding function value."
     },
     {
       "temporary_id": "decl-019840",
-      "new_name": "partitionIndexedCompositeEndomorphism_range_stable_under_generalLinearAction",
-      "docstring": "The range of the composite endomorphism is stable under the general linear group action."
+      "new_name": "partitionIndexedCompositeEndomorphism_range_stable_under_generalLinearOperator",
+      "docstring": "The range of the composite endomorphism is preserved by each specified operator indexed by the general linear group."
     },
     {
       "temporary_id": "decl-019842",
-      "new_name": "partitionIndexedCompositeEndomorphism_commutes_with_generalLinearAction",
-      "docstring": "The composite endomorphism commutes with the general linear group action."
+      "new_name": "partitionIndexedCompositeEndomorphism_commutes_with_generalLinearOperator",
+      "docstring": "The composite endomorphism commutes with each specified operator indexed by the general linear group."
     },
     {
       "temporary_id": "decl-021789",
@@ -123,8 +123,8 @@
     },
     {
       "temporary_id": "decl-021809",
-      "new_name": "auxiliaryPartition",
-      "docstring": "Defines an auxiliary partition of two."
+      "new_name": "selectedPartitionOfTwo",
+      "docstring": "A specified partition of the natural number two."
     },
     {
       "temporary_id": "decl-021870",
@@ -178,7 +178,7 @@
     },
     {
       "temporary_id": "decl-023259",
-      "new_name": "sortedParts_length_eq_partitionCard",
+      "new_name": "sortedParts_length_eq_parts_card",
       "docstring": "The length of a partition's sorted-parts list equals the number of its parts."
     },
     {
@@ -188,8 +188,8 @@
     },
     {
       "temporary_id": "decl-023617",
-      "new_name": "permutationLinearMap_apply_auxiliaryFunctionMap",
-      "docstring": "A permutation linear map sends the auxiliary function map to its precomposition by the inverse permutation."
+      "new_name": "permutationOperator_apply_functionIndexedElement",
+      "docstring": "The permutation-dependent operator sends the element indexed by a function to the element indexed by precomposition with the inverse permutation."
     },
     {
       "temporary_id": "decl-024503",
@@ -198,8 +198,8 @@
     },
     {
       "temporary_id": "decl-024525",
-      "new_name": "auxiliaryNat_pos_of_antitone",
-      "docstring": "The auxiliary natural-number expression is positive for every weakly decreasing rank-indexed function."
+      "new_name": "associatedValue_pos_of_antitone",
+      "docstring": "The specified value of a rank-indexed function is positive whenever that function is weakly decreasing."
     }
   ]
 }
