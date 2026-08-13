@@ -1,0 +1,10 @@
+{
+  "declarations": [
+    {
+      "docstring": "The type determined by an object property on a category.",
+      "new_name": "CategoryTheory.ObjectProperty.AssociatedType",
+      "temporary_id": "decl-004339"
+    }
+  ],
+  "module_name": "CategoryTheory.ObjectProperty.AssociatedType"
+}
