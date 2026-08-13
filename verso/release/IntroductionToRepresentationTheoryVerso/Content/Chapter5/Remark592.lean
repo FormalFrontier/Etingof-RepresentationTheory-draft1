@@ -27,6 +27,10 @@ tag := "Chapter5/Remark5.9.2/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryQuotientSummation.inv_card_mul_sum_eq_sum_quotient}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Auxiliary.UnavailableStatement.auxiliary}

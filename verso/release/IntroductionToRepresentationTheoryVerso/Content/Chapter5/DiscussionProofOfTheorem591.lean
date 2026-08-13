@@ -50,4 +50,10 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.AuxiliaryQuotientSummation.inv_card_mul_sum_eq_sum_quotient}
+
 {Manual.docstring RepresentationTheory.AuxiliaryUnavailableStatement.auxiliary_theorem}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryQuotientSummation.auxiliary_theorem}
