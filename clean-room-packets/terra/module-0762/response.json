@@ -1,5 +1,5 @@
 {
-  "module_name": "Algebra.CategoryTheory.Endomorphism",
+  "module_name": "Algebra.QuotientMatrixDecomposition",
   "declarations": [
     {
       "temporary_id": "decl-018885",
