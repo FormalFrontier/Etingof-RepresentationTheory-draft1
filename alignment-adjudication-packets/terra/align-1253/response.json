@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:49811de1de786ea02536",
-      "rationale": "The existential map e is stated to intertwine the induced G-action with left multiplication in the character left ideal, directly expressing the natural G-representation isomorphism requested by the source.",
-      "role": "primary"
+      "rationale": "The displayed type gives an existential witness e satisfying the required equivariance equation, but e's type is elided, so it does not visibly assert that e is an isomorphism onto the character left ideal.",
+      "role": "supporting"
     }
   ]
 }
