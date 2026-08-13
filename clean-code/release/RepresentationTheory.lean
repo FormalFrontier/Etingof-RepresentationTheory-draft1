@@ -121,6 +121,7 @@ import RepresentationTheory.QuantumGroup.SL2Representations
 import RepresentationTheory.RealAlgebra.EndomorphismCounterexample
 import RepresentationTheory.Ring.CoatomExistence
 import RepresentationTheory.FieldTheory.IsAlgClosed.Basic
+import RepresentationTheory.RingTheory.Ideal.IdempotentLifting
 import RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence
 import RepresentationTheory.RingTheory.JacobsonRadical.TwoSided
 import RepresentationTheory.RingTheory.SimpleModuleDensity
