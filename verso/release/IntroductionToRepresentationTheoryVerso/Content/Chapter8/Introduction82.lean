@@ -33,4 +33,6 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroupFunctor}
+
 {Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses}

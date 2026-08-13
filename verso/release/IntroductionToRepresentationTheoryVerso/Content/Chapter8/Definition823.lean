@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,21 @@ number := false
 $$`\cdots \to P_2 \otimes_A N \to P_1 \otimes_A N \to P_0 \otimes_A N \to 0`
 
 induced by the resolution $`P_\bullet`.
+
+## Formalization
+%%%
+tag := "Chapter8/Definition8.2.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroupIsoResolutionHomology}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroup}
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroupFunctor}
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionFunctor}
