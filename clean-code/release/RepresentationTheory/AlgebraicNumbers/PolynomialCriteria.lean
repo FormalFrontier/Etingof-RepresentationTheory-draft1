@@ -11,7 +11,7 @@ namespace RepresentationTheory.AlgebraicNumbers.PolynomialCriteria
 
 /-- A complex number is algebraic over the rationals exactly when it is a zero of a nonzero rational polynomial. -/
 @[source_ref "Chapter5/Introduction_5.2" (role := supporting),
-  source_ref "Chapter5/Definition5.2.1" (role := primary)]
+  source_ref "Chapter5/Definition5.2.1" (role := supporting)]
 theorem isAlgebraic_iff_exists_ne_zero_aeval_eq_zero (z : ℂ) :
     IsAlgebraic ℚ z ↔ ∃ p : Polynomial ℚ, p ≠ 0 ∧ (Polynomial.aeval (R := ℚ) z) p = 0 :=
   Iff.rfl
