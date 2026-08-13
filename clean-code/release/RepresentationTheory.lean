@@ -312,6 +312,7 @@ import RepresentationTheory.Algebra.Homological.AuxiliaryDimensionTransfer
 import RepresentationTheory.ModuleCat.RightTensor
 import RepresentationTheory.AsModuleEquivalences
 import RepresentationTheory.Quiver.EdgeModule
+import RepresentationTheory.Algebra.Module.BalancedTensorProduct.Adjunction
 
 /-!
 # Representation theory formalization
