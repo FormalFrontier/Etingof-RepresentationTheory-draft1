@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:92ce929c2fe231f5105d",
-      "role": "primary",
-      "rationale": "The theorem directly asserts existence of the indexed tensor-Hom decomposition through a bimodule decomposition equivalence and gives its evaluation formula."
+      "role": "supporting",
+      "rationale": "The theorem exposes the indexed tensor-Hom evaluation formula, but the claimed equivariance for both algebra actions is hidden in the opaque BimoduleDecompositionEquiv type rather than stated by the displayed formal type."
     },
     {
       "association_id": "association:6260a733b853ebb3dedd",
