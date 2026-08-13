@@ -1,0 +1,210 @@
+{
+  "module_name": "Quiver.FinFourLinearData",
+  "declarations": [
+    {
+      "temporary_id": "decl-003442",
+      "new_name": "finFourQuiverA",
+      "docstring": "A quiver structure on the four-element vertex type."
+    },
+    {
+      "temporary_id": "decl-003444",
+      "new_name": "finFourQuiverB",
+      "docstring": "A second quiver structure whose vertices are indexed by `Fin 4`."
+    },
+    {
+      "temporary_id": "decl-003445",
+      "new_name": "finFourQuiverB_hom_subsingleton",
+      "docstring": "There is at most one arrow between any ordered pair of vertices in `finFourQuiverB`."
+    },
+    {
+      "temporary_id": "decl-003446",
+      "new_name": "finFourQuiverC",
+      "docstring": "An additional quiver carried by the type `Fin 4`."
+    },
+    {
+      "temporary_id": "decl-003447",
+      "new_name": "finFourQuiverC_hom_subsingleton",
+      "docstring": "Every hom type of `finFourQuiverC` contains at most one arrow."
+    },
+    {
+      "temporary_id": "decl-003448",
+      "new_name": "finFourQuiverD",
+      "docstring": "A quiver with four finitely indexed vertices."
+    },
+    {
+      "temporary_id": "decl-003449",
+      "new_name": "finFourQuiverD_hom_subsingleton",
+      "docstring": "Parallel arrows in `finFourQuiverD` are unique whenever they exist."
+    },
+    {
+      "temporary_id": "decl-003450",
+      "new_name": "finFourQuiverACopy",
+      "docstring": "A quiver presentation on `Fin 4` equal to `finFourQuiverA`."
+    },
+    {
+      "temporary_id": "decl-003451",
+      "new_name": "finFourQuiverACopy_eq",
+      "docstring": "The copied quiver presentation agrees with `finFourQuiverA`."
+    },
+    {
+      "temporary_id": "decl-003474",
+      "new_name": "finFourDiagramA",
+      "docstring": "An auxiliary complex-valued construction indexed by the vertices of `finFourQuiverA`."
+    },
+    {
+      "temporary_id": "decl-003475",
+      "new_name": "finFourDiagramB",
+      "docstring": "An auxiliary complex-valued construction associated with `finFourQuiverB`."
+    },
+    {
+      "temporary_id": "decl-003476",
+      "new_name": "finFourDiagramB_invariant_eq",
+      "docstring": "The vertexwise numerical invariant of `finFourDiagramB` has values one, zero, zero, and one."
+    },
+    {
+      "temporary_id": "decl-003477",
+      "new_name": "finFourDiagramB_finite",
+      "docstring": "Every vertex object of `finFourDiagramB` is finite as a complex module."
+    },
+    {
+      "temporary_id": "decl-003478",
+      "new_name": "finFourDiagramB_free",
+      "docstring": "The complex module attached to each vertex of `finFourDiagramB` is free."
+    },
+    {
+      "temporary_id": "decl-003479",
+      "new_name": "finFourDiagramB_hasProperty",
+      "docstring": "The construction `finFourDiagramB` satisfies its designated auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-003480",
+      "new_name": "finFourDiagramC",
+      "docstring": "An auxiliary complex-valued construction associated with `finFourQuiverC`."
+    },
+    {
+      "temporary_id": "decl-003481",
+      "new_name": "finFourDiagramC_invariant_eq",
+      "docstring": "The vertexwise numerical invariant of `finFourDiagramC` has values one, one, zero, and one."
+    },
+    {
+      "temporary_id": "decl-003482",
+      "new_name": "finFourDiagramC_finite",
+      "docstring": "Each vertex object belonging to `finFourDiagramC` is a finite complex module."
+    },
+    {
+      "temporary_id": "decl-003483",
+      "new_name": "finFourDiagramC_free",
+      "docstring": "At every vertex, `finFourDiagramC` supplies a free module over the complex numbers."
+    },
+    {
+      "temporary_id": "decl-003484",
+      "new_name": "finFourDiagramC_hasProperty",
+      "docstring": "The auxiliary predicate for `finFourDiagramC` is satisfied."
+    },
+    {
+      "temporary_id": "decl-003485",
+      "new_name": "finFourDiagramD",
+      "docstring": "An auxiliary complex-valued construction associated with `finFourQuiverD`."
+    },
+    {
+      "temporary_id": "decl-003487",
+      "new_name": "finFourDiagramD_invariant_eq",
+      "docstring": "The numerical invariant of `finFourDiagramD` is one at each of its four vertices."
+    },
+    {
+      "temporary_id": "decl-003488",
+      "new_name": "finFourDiagramD_finite",
+      "docstring": "All vertex objects of `finFourDiagramD` are finite as modules over the complex numbers."
+    },
+    {
+      "temporary_id": "decl-003489",
+      "new_name": "finFourDiagramD_free",
+      "docstring": "Every complex module occurring at a vertex of `finFourDiagramD` is free."
+    },
+    {
+      "temporary_id": "decl-003490",
+      "new_name": "finFourDiagramD_hasProperty",
+      "docstring": "The designated auxiliary predicate holds for `finFourDiagramD`."
+    },
+    {
+      "temporary_id": "decl-003496",
+      "new_name": "finFourDiagramACopy",
+      "docstring": "An auxiliary complex-valued construction based on `finFourQuiverACopy`."
+    },
+    {
+      "temporary_id": "decl-003497",
+      "new_name": "finFourDiagramACopy_invariant_eq",
+      "docstring": "The vertexwise numerical invariant of `finFourDiagramACopy` has values one, one, one, and two."
+    },
+    {
+      "temporary_id": "decl-003498",
+      "new_name": "finFourDiagramACopy_finite",
+      "docstring": "Each vertex object of `finFourDiagramACopy` is finite over the complex numbers."
+    },
+    {
+      "temporary_id": "decl-003499",
+      "new_name": "finFourDiagramACopy_free",
+      "docstring": "The complex modules at the vertices of `finFourDiagramACopy` are free."
+    },
+    {
+      "temporary_id": "decl-003500",
+      "new_name": "finFourDiagramACopy_hasProperty",
+      "docstring": "The construction `finFourDiagramACopy` fulfills its associated auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-003502",
+      "new_name": "finFourQuiverA_auxFintypeAtZero",
+      "docstring": "A finite type structure on the auxiliary type attached to vertex zero of `finFourQuiverA`."
+    },
+    {
+      "temporary_id": "decl-003504",
+      "new_name": "finFourQuiverB_auxFintypeAtOne",
+      "docstring": "A finite type structure on the auxiliary type associated with vertex one of `finFourQuiverB`."
+    },
+    {
+      "temporary_id": "decl-003505",
+      "new_name": "finFourQuiverC_auxFintypeAtTwo",
+      "docstring": "A finite type structure for the auxiliary type at vertex two of `finFourQuiverC`."
+    },
+    {
+      "temporary_id": "decl-003506",
+      "new_name": "finFourQuiverD_auxFintypeAtThree",
+      "docstring": "A finite type structure for the auxiliary type at vertex three of `finFourQuiverD`."
+    },
+    {
+      "temporary_id": "decl-003517",
+      "new_name": "finFourDiagramAAlt",
+      "docstring": "Another auxiliary complex-valued construction associated with `finFourQuiverA`."
+    },
+    {
+      "temporary_id": "decl-003518",
+      "new_name": "finFourDiagramAAlt_finrank_eq",
+      "docstring": "The complex finranks of `finFourDiagramAAlt` at its vertices are one, one, one, and two."
+    },
+    {
+      "temporary_id": "decl-003519",
+      "new_name": "finFourDiagramAAlt_finite",
+      "docstring": "Every vertex object in `finFourDiagramAAlt` is a finite complex module."
+    },
+    {
+      "temporary_id": "decl-003520",
+      "new_name": "finFourDiagramAAlt_free",
+      "docstring": "Each vertex object in `finFourDiagramAAlt` is free as a module over the complex numbers."
+    },
+    {
+      "temporary_id": "decl-003521",
+      "new_name": "finFourDiagramAAlt_hasProperty",
+      "docstring": "The auxiliary predicate associated with `finFourDiagramAAlt` holds."
+    },
+    {
+      "temporary_id": "decl-003537",
+      "new_name": "finFourQuiverD_hasAuxProperty",
+      "docstring": "The supplied auxiliary object satisfies the designated predicate relative to `finFourQuiverD`."
+    },
+    {
+      "temporary_id": "decl-003538",
+      "new_name": "finFourQuiverD_hasAuxPropertyAtThree",
+      "docstring": "Vertex three of `finFourQuiverD` satisfies the relevant auxiliary predicate."
+    }
+  ]
+}
