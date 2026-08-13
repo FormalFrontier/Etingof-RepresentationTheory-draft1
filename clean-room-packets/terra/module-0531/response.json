@@ -1,0 +1,55 @@
+{
+  "module_name": "RepresentationTheory.Quiver.FourVertexStar",
+  "declarations": [
+    {
+      "temporary_id": "decl-003486",
+      "new_name": "RepresentationTheory.Quiver.FourVertexStar.vertexAddCommGroup",
+      "docstring": "The additive commutative group structure on the carrier at each of the four vertices."
+    },
+    {
+      "temporary_id": "decl-003492",
+      "new_name": "RepresentationTheory.Quiver.FourVertexStar.comparisonWithComplexModel",
+      "docstring": "The comparison between the four-vertex object and its complex-valued model."
+    },
+    {
+      "temporary_id": "decl-003507",
+      "new_name": "RepresentationTheory.Quiver.FourVertexStar.complexModel",
+      "docstring": "A complex-valued model on the four vertices of the star quiver."
+    },
+    {
+      "temporary_id": "decl-003527",
+      "new_name": "RepresentationTheory.Quiver.FourVertexStar.arrowToZero",
+      "docstring": "A quiver arrow from vertex 3 to vertex 0."
+    },
+    {
+      "temporary_id": "decl-003529",
+      "new_name": "RepresentationTheory.Quiver.FourVertexStar.arrowToOne",
+      "docstring": "A quiver arrow from vertex 3 to vertex 1."
+    },
+    {
+      "temporary_id": "decl-003531",
+      "new_name": "RepresentationTheory.Quiver.FourVertexStar.arrowToTwo",
+      "docstring": "A quiver arrow from vertex 3 to vertex 2."
+    },
+    {
+      "temporary_id": "decl-003533",
+      "new_name": "RepresentationTheory.Quiver.FourVertexStar.linearMapToZero",
+      "docstring": "The complex-linear map from the carrier at vertex 3 to the carrier at vertex 0."
+    },
+    {
+      "temporary_id": "decl-003534",
+      "new_name": "RepresentationTheory.Quiver.FourVertexStar.linearMapToOne",
+      "docstring": "The complex-linear map from the carrier at vertex 3 to the carrier at vertex 1."
+    },
+    {
+      "temporary_id": "decl-003535",
+      "new_name": "RepresentationTheory.Quiver.FourVertexStar.linearMapToTwo",
+      "docstring": "The complex-linear map from the carrier at vertex 3 to the carrier at vertex 2."
+    },
+    {
+      "temporary_id": "decl-003536",
+      "new_name": "RepresentationTheory.Quiver.FourVertexStar.linearMaps_bijective",
+      "docstring": "The three linear maps from vertex 3 to vertices 0, 1, and 2 are bijective."
+    }
+  ]
+}
