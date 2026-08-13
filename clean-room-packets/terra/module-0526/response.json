@@ -1,0 +1,20 @@
+{
+  "module_name": "AdjacencyCardinalities",
+  "declarations": [
+    {
+      "temporary_id": "decl-003735",
+      "new_name": "finiteAdjacencyAtSix_ncard",
+      "docstring": "The adjacency collection at index six is finite and contains thirty-six elements."
+    },
+    {
+      "temporary_id": "decl-003736",
+      "new_name": "finiteAdjacencyAtSeven_ncard",
+      "docstring": "At index seven, the associated adjacency collection is finite with cardinality sixty-three."
+    },
+    {
+      "temporary_id": "decl-003737",
+      "new_name": "finiteAdjacencyAtEight_ncard",
+      "docstring": "The adjacency collection indexed by eight is finite and has one hundred twenty members."
+    }
+  ]
+}
