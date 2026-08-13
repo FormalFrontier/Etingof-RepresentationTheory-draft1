@@ -291,6 +291,7 @@ import RepresentationTheory.ModuleCat.Auxiliary
 import RepresentationTheory.Algebra.Homology.TensorProductConstruction
 import RepresentationTheory.TensorProduct.AuxiliaryScalarAction
 import RepresentationTheory.LinearAlgebra.ExteriorAlgebra.Contraction
+import RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex
 
 /-!
 # Representation theory formalization
