@@ -23,68 +23,68 @@
     },
     {
       "temporary_id": "decl-024082",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToDerivedHom_add",
-      "docstring": "The morphism induced by a sum of linear maps is the sum of the induced morphisms."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToHom_add",
+      "docstring": "The morphism assigned to a sum of linear maps is the sum of the assigned morphisms."
     },
     {
       "temporary_id": "decl-024083",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToDerivedHom_comp",
-      "docstring": "The morphism induced by a composite of linear maps is the composite of the induced morphisms."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToHom_comp",
+      "docstring": "The morphism assigned to a composite of linear maps is the composite of the assigned morphisms."
     },
     {
       "temporary_id": "decl-024085",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToDerivedHom_id",
-      "docstring": "The identity linear map induces the identity morphism."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToHom_id",
+      "docstring": "The identity linear map is assigned the identity morphism."
     },
     {
       "temporary_id": "decl-024195",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_biprod",
-      "docstring": "Canonical isomorphism between the derived object of a binary biproduct and the biproduct of the derived objects."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.objectConstruction_biprod",
+      "docstring": "An isomorphism between the value of the displayed object construction on a binary biproduct and the biproduct of its values."
     },
     {
       "temporary_id": "decl-024199",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_biproduct",
-      "docstring": "Canonical isomorphism between the derived object of a finite biproduct and the biproduct of the derived objects."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.objectFunctor_biproduct",
+      "docstring": "An isomorphism between the displayed object construction on a finite biproduct and the biproduct of the corresponding functor values."
     },
     {
       "temporary_id": "decl-024211",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedFunctor_additive",
-      "docstring": "The displayed degreewise derived functor is additive."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.objectFunctor_additive",
+      "docstring": "The displayed functor is additive."
     },
     {
       "temporary_id": "decl-024215",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_biproduct_family",
-      "docstring": "Canonical isomorphism from the derived object formed with a finite family of modules to the corresponding biproduct."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.objectConstruction_pi_biproduct",
+      "docstring": "An isomorphism between the displayed construction on a finite dependent function module and the biproduct of its values on the factors."
     },
     {
       "temporary_id": "decl-024219",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_prod",
-      "docstring": "Canonical isomorphism between the derived object for a product of two modules and the biproduct of the individual derived objects."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.objectConstruction_prod_biprod",
+      "docstring": "An isomorphism between the displayed construction on a product of two modules and the biproduct of its values on the factors."
     },
     {
       "temporary_id": "decl-024224",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_map",
-      "docstring": "Constructs the morphism of derived objects induced by a linear map."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToObjectHom",
+      "docstring": "An additive homomorphism from linear maps to morphisms between values of the displayed object construction."
     },
     {
       "temporary_id": "decl-024235",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_map_add",
-      "docstring": "The derived morphism associated with a sum of linear maps is the sum of the associated morphisms."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToObjectHom_add",
+      "docstring": "The objectwise morphism assigned to a sum of linear maps is the sum of the assigned morphisms."
     },
     {
       "temporary_id": "decl-024236",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_map_comp",
-      "docstring": "The derived morphism associated with a composite of linear maps is the composite of the associated morphisms."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToObjectHom_comp",
+      "docstring": "The objectwise morphism assigned to a composite of linear maps is the composite of the assigned morphisms."
     },
     {
       "temporary_id": "decl-024237",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_map_id",
-      "docstring": "The identity linear map induces the identity morphism on the derived object."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToObjectHom_id",
+      "docstring": "The objectwise morphism assigned to the identity linear map is the identity morphism."
     },
     {
       "temporary_id": "decl-024238",
-      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_map_zero",
-      "docstring": "The zero linear map induces the zero morphism on the derived object."
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToObjectHom_zero",
+      "docstring": "The objectwise morphism assigned to the zero linear map is zero."
     }
   ]
 }
