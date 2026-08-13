@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-008301",
-      "new_name": "parameterModuleEquiv",
-      "docstring": "An auxiliary type of equivalences between the modules associated with two parameters."
+      "new_name": "parameterEquivWitness",
+      "docstring": "An auxiliary witness type associated with two module parameters."
     },
     {
       "temporary_id": "decl-008303",
@@ -53,13 +53,13 @@
     },
     {
       "temporary_id": "decl-008321",
-      "new_name": "module",
+      "new_name": "moduleStructure",
       "docstring": "The field-module structure on the carrier of irreducible-module data."
     },
     {
       "temporary_id": "decl-008326",
       "new_name": "setoid",
-      "docstring": "The setoid on irreducible-module data induced by the designated relation."
+      "docstring": "A setoid on irreducible-module data."
     },
     {
       "temporary_id": "decl-008328",
@@ -73,8 +73,8 @@
     },
     {
       "temporary_id": "decl-008330",
-      "new_name": "parameterEquivalent",
-      "docstring": "The parameter equivalence predicate used to characterize equivalences of parameter modules."
+      "new_name": "parameterEquivCondition",
+      "docstring": "A designated predicate on two module parameters used in the witness nonemptiness criterion."
     },
     {
       "temporary_id": "decl-008348",
@@ -133,18 +133,18 @@
     },
     {
       "temporary_id": "decl-008408",
-      "new_name": "toLieHom_firstGenerator",
-      "docstring": "The Lie homomorphism sends the first designated generator to the first endomorphism."
+      "new_name": "toLieHom_firstElement",
+      "docstring": "The Lie homomorphism sends the first designated Lie-algebra element to the first endomorphism."
     },
     {
       "temporary_id": "decl-008409",
-      "new_name": "toLieHom_secondGenerator",
-      "docstring": "The Lie homomorphism sends the second designated generator to the second endomorphism."
+      "new_name": "toLieHom_secondElement",
+      "docstring": "The Lie homomorphism sends the second designated Lie-algebra element to the second endomorphism."
     },
     {
       "temporary_id": "decl-008410",
-      "new_name": "toLieHom_thirdGenerator",
-      "docstring": "The Lie homomorphism sends the third designated generator to the third endomorphism."
+      "new_name": "toLieHom_thirdElement",
+      "docstring": "The Lie homomorphism sends the third designated Lie-algebra element to the third endomorphism."
     },
     {
       "temporary_id": "decl-008411",
@@ -243,18 +243,18 @@
     },
     {
       "temporary_id": "decl-008480",
-      "new_name": "parameterModuleLieHom_firstGenerator",
-      "docstring": "The parameter-module Lie homomorphism sends the first generator to the first endomorphism of its associated triple."
+      "new_name": "parameterModuleLieHom_firstElement",
+      "docstring": "The parameter-module Lie homomorphism sends the first designated Lie-algebra element to the first endomorphism of its associated triple."
     },
     {
       "temporary_id": "decl-008481",
-      "new_name": "parameterModuleLieHom_secondGenerator",
-      "docstring": "The parameter-module Lie homomorphism sends the second generator to the second endomorphism of its associated triple."
+      "new_name": "parameterModuleLieHom_secondElement",
+      "docstring": "The parameter-module Lie homomorphism sends the second designated Lie-algebra element to the second endomorphism of its associated triple."
     },
     {
       "temporary_id": "decl-008482",
-      "new_name": "parameterModuleLieHom_thirdGenerator",
-      "docstring": "The parameter-module Lie homomorphism sends the third generator to the third endomorphism of its associated triple."
+      "new_name": "parameterModuleLieHom_thirdElement",
+      "docstring": "The parameter-module Lie homomorphism sends the third designated Lie-algebra element to the third endomorphism of its associated triple."
     },
     {
       "temporary_id": "decl-008483",
@@ -288,8 +288,8 @@
     },
     {
       "temporary_id": "decl-008528",
-      "new_name": "nonempty_parameterModuleEquiv_iff",
-      "docstring": "The auxiliary equivalence type between two parameter modules is nonempty exactly when the parameters satisfy the equivalence predicate."
+      "new_name": "nonempty_parameterEquivWitness_iff",
+      "docstring": "The auxiliary witness type is nonempty exactly when the two parameters satisfy the designated condition."
     },
     {
       "temporary_id": "decl-008530",
