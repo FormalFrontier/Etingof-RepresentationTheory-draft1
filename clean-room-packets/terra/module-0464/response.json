@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-016563",
       "new_name": "sum_reindexConjugates_mem_auxiliary",
-      "docstring": "The sum of all permutation conjugates of a factorwise-linear tensor endomorphism lies in the designated auxiliary subalgebra."
+      "docstring": "The sum of all permutation conjugates of an endomorphism in the span of factorwise tensor maps belongs to the designated auxiliary subalgebra."
     },
     {
       "temporary_id": "decl-016565",
