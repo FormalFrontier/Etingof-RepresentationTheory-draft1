@@ -2,7 +2,7 @@
   "declarations": [
     {
       "docstring": "Data in a category equipped with zero morphisms, indexed by two objects.",
-      "new_name": "CategoryTheory.ZeroMorphismsData",
+      "new_name": "ZeroMorphismsData",
       "temporary_id": "decl-004114"
     },
     {
@@ -17,17 +17,17 @@
     },
     {
       "docstring": "Converts this data to auxiliary categorical data.",
-      "new_name": "toAuxiliaryData",
+      "new_name": "toData",
       "temporary_id": "decl-004131"
     },
     {
       "docstring": "A second conversion of this data to auxiliary categorical data.",
-      "new_name": "toAuxiliaryData'",
+      "new_name": "toData'",
       "temporary_id": "decl-004132"
     },
     {
       "docstring": "Auxiliary data in a category equipped with zero morphisms.",
-      "new_name": "CategoryTheory.AuxiliaryData",
+      "new_name": "Data",
       "temporary_id": "decl-015608"
     },
     {
@@ -37,7 +37,7 @@
     },
     {
       "docstring": "A short complex in an abelian category is short exact exactly when its first map is mono, its second map is epi, and the induced cokernel morphism is an isomorphism.",
-      "new_name": "CategoryTheory.ShortComplex.shortExact_iff_mono_epi_isIso_cokernelDesc",
+      "new_name": "shortExact_iff_mono_epi_isIso_cokernelDesc",
       "temporary_id": "decl-023126"
     }
   ],
