@@ -1,0 +1,100 @@
+{
+  "module_name": "VertexModule",
+  "declarations": [
+    {
+      "temporary_id": "decl-005878",
+      "new_name": "pathCoefficient_arrowTerm_mul",
+      "docstring": "The coefficient at an arrow path of its associated term multiplied by an element equals the coefficient of that element at the trivial path on the target."
+    },
+    {
+      "temporary_id": "decl-005880",
+      "new_name": "vertexAuxiliary",
+      "docstring": "An auxiliary element of the type associated to a vertex."
+    },
+    {
+      "temporary_id": "decl-005881",
+      "new_name": "vertexAuxiliary_down",
+      "docstring": "The value underlying the auxiliary vertex element is one."
+    },
+    {
+      "temporary_id": "decl-005882",
+      "new_name": "vertexEvaluation",
+      "docstring": "A ring homomorphism to the ground field associated to a vertex."
+    },
+    {
+      "temporary_id": "decl-005889",
+      "new_name": "vertexEvaluation_apply",
+      "docstring": "Vertex evaluation agrees with the linear functional indexed by the trivial path at that vertex."
+    },
+    {
+      "temporary_id": "decl-005892",
+      "new_name": "vertexEvaluation_arrowTerm",
+      "docstring": "Evaluation at the target vertex vanishes on the term associated to an arrow."
+    },
+    {
+      "temporary_id": "decl-005893",
+      "new_name": "VertexModule",
+      "docstring": "The type associated to a vertex over a field and a finite quiver."
+    },
+    {
+      "temporary_id": "decl-005894",
+      "new_name": "vertexModule_smul_down",
+      "docstring": "The underlying value of the action is vertex evaluation multiplied by the underlying value of the vector."
+    },
+    {
+      "temporary_id": "decl-005897",
+      "new_name": "vertexModule_smul_eq_smul",
+      "docstring": "The action on the vertex module agrees with scalar multiplication by the vertex evaluation."
+    },
+    {
+      "temporary_id": "decl-005902",
+      "new_name": "pathCoefficient",
+      "docstring": "The linear functional giving the coefficient indexed by a path."
+    },
+    {
+      "temporary_id": "decl-005903",
+      "new_name": "pathCoefficient_auxiliary",
+      "docstring": "The coefficient of the auxiliary term determined by two paths is one when their optional combination is the indexed path and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-005904",
+      "new_name": "pathCoefficient_single",
+      "docstring": "The coefficient of a singleton path term is its scalar at the indexed path and zero at every other path."
+    },
+    {
+      "temporary_id": "decl-005920",
+      "new_name": "auxiliary_eq_some_trivial_iff",
+      "docstring": "The auxiliary optional operation returns the trivial path at a vertex exactly when both input paths are that trivial path."
+    },
+    {
+      "temporary_id": "decl-005923",
+      "new_name": "auxiliary_eq_some_left_iff",
+      "docstring": "The auxiliary optional operation on a path and a second path returns the first path exactly when the second is the trivial path at the target of the first."
+    },
+    {
+      "temporary_id": "decl-006112",
+      "new_name": "instAddCommGroupVertexModule",
+      "docstring": "The additive commutative group structure on the type associated to a vertex."
+    },
+    {
+      "temporary_id": "decl-006160",
+      "new_name": "instModuleVertexModule",
+      "docstring": "The ground-field module structure on the type associated to a vertex."
+    },
+    {
+      "temporary_id": "decl-006168",
+      "new_name": "instModuleVertexModuleViaEvaluation",
+      "docstring": "The module structure induced on the vertex type by the surrounding algebra."
+    },
+    {
+      "temporary_id": "decl-006288",
+      "new_name": "arrowTerm_smul_vertexModule",
+      "docstring": "The term associated to an arrow ending at a vertex acts as zero on the type associated to that vertex."
+    },
+    {
+      "temporary_id": "decl-013965",
+      "new_name": "auxiliary_of_exists_hom",
+      "docstring": "If some pair of vertices admits an arrow, the displayed predicate does not hold for zero in the associated algebra."
+    }
+  ]
+}
