@@ -1,0 +1,10 @@
+{
+  "declarations": [
+    {
+      "docstring": "An injective underlying function of the vertex-indexed map gives an inhabitant of the associated auxiliary construction.",
+      "new_name": "nonemptyAuxiliaryOfInjective",
+      "temporary_id": "decl-014723"
+    }
+  ],
+  "module_name": "Quiver.Auxiliary"
+}
