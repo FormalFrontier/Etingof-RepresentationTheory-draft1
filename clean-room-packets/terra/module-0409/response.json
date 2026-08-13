@@ -1,0 +1,30 @@
+{
+  "module_name": "Auxiliary.PolynomialRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-018341",
+      "new_name": "auxiliary_subrepresentation_embeds_in_polynomial_power",
+      "docstring": "A finite-dimensional subrepresentation with bounded basis degrees embeds equivariantly into a polynomial-power representation."
+    },
+    {
+      "temporary_id": "decl-018810",
+      "new_name": "auxiliary_simple_subrepresentation_embeds_in_negative_polynomial_power",
+      "docstring": "A simple finite-dimensional subrepresentation admits an equivariant embedding into a negative polynomial-power representation."
+    },
+    {
+      "temporary_id": "decl-018812",
+      "new_name": "auxiliary_subrepresentation_embeds_in_polynomial_power_with_cofinal_weights",
+      "docstring": "A finite-dimensional subrepresentation embeds equivariantly into a polynomial-power representation with cofinal weight data."
+    },
+    {
+      "temporary_id": "decl-018913",
+      "new_name": "auxiliary_simple_representation_embeds_in_polynomial_representation",
+      "docstring": "A simple representation with an injective polynomial-equivariant map embeds into a polynomial representation."
+    },
+    {
+      "temporary_id": "decl-022075",
+      "new_name": "auxiliary_polynomial_representation_character_is_finite_weighted_sum",
+      "docstring": "The character of a polynomial representation is a finite weighted sum of displayed terms."
+    }
+  ]
+}
