@@ -13,8 +13,8 @@
     },
     {
       "temporary_id": "decl-005269",
-      "new_name": "projective",
-      "docstring": "Every object satisfying this property is projective."
+      "new_name": "toProjective",
+      "docstring": "The projectivity structure carried by an object satisfying this property."
     },
     {
       "temporary_id": "decl-005270",
