@@ -1,0 +1,20 @@
+{
+  "module_name": "Mathlib.LinearAlgebra.Projective",
+  "declarations": [
+    {
+      "docstring": "A module is projective exactly when every surjective linear map onto it has a linear section.",
+      "new_name": "Module.Projective.iff_surjective_has_section",
+      "temporary_id": "decl-016743"
+    },
+    {
+      "docstring": "A module is projective exactly when it is a retract of a suitable module.",
+      "new_name": "Module.Projective.iff_exists_retract",
+      "temporary_id": "decl-016744"
+    },
+    {
+      "docstring": "A module is projective exactly when applying linear maps from it preserves the displayed short exact sequence conditions.",
+      "new_name": "Module.Projective.iff_hom_preserves_short_exact",
+      "temporary_id": "decl-016746"
+    }
+  ]
+}
