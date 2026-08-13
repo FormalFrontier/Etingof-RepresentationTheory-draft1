@@ -153,6 +153,7 @@ import RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients
 import RepresentationTheory.Representation.Character.AuxiliaryVanishing
 import RepresentationTheory.GeneralLinearGroup.Auxiliary
 import RepresentationTheory.Algebra.Module.ComplementConstructions
+import RepresentationTheory.MvPowerSeries.AuxiliaryExponentCoefficients
 
 /-!
 # Representation theory formalization
