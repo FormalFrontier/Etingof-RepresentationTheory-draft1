@@ -153,6 +153,7 @@ import RepresentationTheory.LinearAlgebra.Trace.FunctionSpace
 import RepresentationTheory.GraphSpectrumSymmetry
 import RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients
 import RepresentationTheory.Representation.Character.AuxiliaryVanishing
+import RepresentationTheory.Representation.AlgebraDensity
 import RepresentationTheory.GeneralLinearGroup.Auxiliary
 import RepresentationTheory.Algebra.Module.ComplementConstructions
 import RepresentationTheory.MvPowerSeries.AuxiliaryExponentCoefficients
