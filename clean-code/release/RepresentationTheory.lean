@@ -152,6 +152,7 @@ import RepresentationTheory.GraphSpectrumSymmetry
 import RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients
 import RepresentationTheory.Representation.Character.AuxiliaryVanishing
 import RepresentationTheory.GeneralLinearGroup.Auxiliary
+import RepresentationTheory.Algebra.Module.ComplementConstructions
 
 /-!
 # Representation theory formalization
