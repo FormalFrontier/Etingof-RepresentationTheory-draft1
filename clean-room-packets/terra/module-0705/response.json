@@ -38,12 +38,12 @@
     },
     {
       "temporary_id": "decl-005164",
-      "new_name": "abelian",
+      "new_name": "toAbelian",
       "docstring": "The category has an abelian category structure."
     },
     {
       "temporary_id": "decl-005165",
-      "new_name": "enoughProjectives",
+      "new_name": "toEnoughProjectives",
       "docstring": "The category has enough projectives."
     },
     {
