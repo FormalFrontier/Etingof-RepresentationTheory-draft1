@@ -124,6 +124,7 @@ import RepresentationTheory.QuantumGroup.SL2Representations
 import RepresentationTheory.RealAlgebra.EndomorphismCounterexample
 import RepresentationTheory.Ring.CoatomExistence
 import RepresentationTheory.RingModuleAuxiliary
+import RepresentationTheory.RingPredicateBounds
 import RepresentationTheory.FieldAlgebraProperties
 import RepresentationTheory.FieldTheory.IsAlgClosed.Basic
 import RepresentationTheory.RingTheory.Ideal.IdempotentLifting
