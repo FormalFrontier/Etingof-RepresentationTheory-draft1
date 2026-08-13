@@ -1,49 +1,49 @@
 {
-  "module_name": "Auxiliary/GeneralLinearModule",
+  "module_name": "GeneralLinear/InvariantSubtype",
   "declarations": [
     {
       "temporary_id": "decl-022929",
-      "new_name": "isSimpleModule_auxiliaryCentralizerAction",
+      "new_name": "GeneralLinear.isSimpleModule_centralizerSubtypeAction",
       "docstring": "The indicated submodule is simple for the action of its centralizing subalgebra."
     },
     {
       "temporary_id": "decl-022980",
-      "new_name": "auxiliaryIsScalarTower",
-      "docstring": "The displayed scalar actions on the auxiliary subtype form a scalar tower."
+      "new_name": "GeneralLinear.isScalarTower_actingSubtype",
+      "docstring": "The scalar actions on the acting and invariant subtypes form a scalar tower."
     },
     {
       "temporary_id": "decl-022981",
-      "new_name": "auxiliaryModule",
-      "docstring": "The specified auxiliary subtype carries the displayed module structure."
+      "new_name": "GeneralLinear.invariantSubtypeModule",
+      "docstring": "The invariant subtype carries a module structure over the acting subtype."
     },
     {
       "temporary_id": "decl-022988",
-      "new_name": "auxiliarySMul",
-      "docstring": "The specified auxiliary subtype has the displayed scalar multiplication."
+      "new_name": "GeneralLinear.actingSubtypeSMul",
+      "docstring": "The acting subtype acts by scalar multiplication on the invariant subtype."
     },
     {
       "temporary_id": "decl-022992",
-      "new_name": "auxiliary_smul_coe",
-      "docstring": "Coercing the auxiliary scalar action agrees with applying the underlying map."
+      "new_name": "GeneralLinear.actingSubtype_smul_coe",
+      "docstring": "Coercing the scalar action of the acting subtype agrees with applying its underlying map."
     },
     {
       "temporary_id": "decl-022994",
-      "new_name": "isSimpleModule_auxiliaryComplex",
-      "docstring": "Under the stated order and size hypotheses, the complex auxiliary module is simple."
+      "new_name": "GeneralLinear.isSimpleModule_invariantSubtypeComplex",
+      "docstring": "Under the order and size hypotheses, the complex invariant subtype is a simple module."
     },
     {
       "temporary_id": "decl-022995",
-      "new_name": "isSimpleModule_auxiliary",
-      "docstring": "An antitone index function makes the displayed auxiliary module simple."
+      "new_name": "GeneralLinear.isSimpleModule_invariantSubtype",
+      "docstring": "An antitone index function makes the invariant subtype a simple module."
     },
     {
       "temporary_id": "decl-022999",
-      "new_name": "auxiliary_apply_mem",
-      "docstring": "An element of the auxiliary acting subtype sends the auxiliary submodule into itself."
+      "new_name": "GeneralLinear.actingSubtype_apply_mem",
+      "docstring": "Applying an element of the acting subtype preserves membership in the invariant subtype."
     },
     {
       "temporary_id": "decl-023004",
-      "new_name": "isSimpleModule_auxiliaryGeneralLinearRepresentation",
+      "new_name": "GeneralLinear.isSimpleModule_representationComplex",
       "docstring": "Under the stated order and size hypotheses, the displayed complex general linear representation is simple."
     }
   ]
