@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -32,3 +33,17 @@ $`\operatorname{Hom}_A(A, N) = N`), so the statement follows, since if the direc
 $$`0 \to K \to M \to N \to 0.`
 
 $`\square`
+
+## Formalization
+%%%
+tag := "Chapter8/Theorem8.1.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Mathlib.LinearAlgebra.Projective.Module.Projective.iff_exists_retract}
+
+{Manual.docstring RepresentationTheory.Mathlib.LinearAlgebra.Projective.Module.Projective.iff_hom_preserves_short_exact}
+
+{Manual.docstring RepresentationTheory.Mathlib.LinearAlgebra.Projective.Module.Projective.iff_surjective_has_section}
