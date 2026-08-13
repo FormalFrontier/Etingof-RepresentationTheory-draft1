@@ -189,3 +189,4 @@ import RepresentationTheory.AuxiliaryIntegerVectorTransforms
 
 The public import surface for the library.
 -/
+import RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction
