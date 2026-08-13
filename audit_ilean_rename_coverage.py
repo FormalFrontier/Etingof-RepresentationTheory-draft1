@@ -91,8 +91,9 @@ def reassoc_generated_origin(
 
     A reassociation theorem has no source token of its own.  Accept that case
     only when both the old and new names are exact ``_assoc`` extensions, the
-    child is present in the provider index with a null definition, and the
-    indexed parent lemma has an immediately attached ``@[reassoc]`` attribute.
+    child is absent from the provider index or has a null definition, and the
+    indexed parent lemma has an attached ``@[reassoc]`` attribute.  A later
+    explicit attribute additionally requires an indexed null child.
     """
     if not old_fqn.endswith("_assoc"):
         return None
@@ -126,7 +127,7 @@ def reassoc_generated_origin(
         ),
         None,
     )
-    if child_ref is None or child_ref.get("definition") is not None:
+    if child_ref is not None and child_ref.get("definition") is not None:
         return None
     position = parent_ref.get("definition") if parent_ref else None
     if position is None:
@@ -141,8 +142,17 @@ def reassoc_generated_origin(
     source_lines = source.splitlines(keepends=True)
     start_line = position[0]
     attached_context = "".join(source_lines[max(0, start_line - 2) : start_line + 1])
-    if not re.search(r"@\[\s*reassoc\s*\]\s*(?:lemma|theorem)\s+", attached_context):
-        return None
+    attached = re.search(r"@\[\s*reassoc\s*\]\s*(?:lemma|theorem)\s+", attached_context)
+    explicit = re.search(
+        rf"(?m)^\s*attribute\s+\[\s*reassoc\s*\]\s+{re.escape(spelling)}\s*$",
+        source,
+    )
+    if attached is None:
+        if child_ref is None or explicit is None:
+            return None
+        explicit_line = source.count("\n", 0, explicit.start())
+        if explicit_line <= start_line:
+            return None
     return parent_fqn, position
 
 
