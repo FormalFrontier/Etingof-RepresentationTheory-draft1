@@ -1,0 +1,10 @@
+{
+  "module_name": "CharacterIntegrality",
+  "declarations": [
+    {
+      "temporary_id": "decl-014703",
+      "new_name": "isIntegral_card_conjClass_mul_character_div_finrank",
+      "docstring": "For a finite simple complex representation of positive dimension, the character value scaled by the conjugacy class size and divided by the dimension is integral over the integers."
+    }
+  ]
+}
