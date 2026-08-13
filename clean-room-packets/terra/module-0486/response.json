@@ -13,7 +13,7 @@
     },
     {
       "temporary_id": "decl-017041",
-      "new_name": "auxiliaryMultiplicity",
+      "new_name": "auxiliaryNatValue",
       "docstring": "An auxiliary natural-number value associated with a pair of partitions."
     },
     {
@@ -38,13 +38,13 @@
     },
     {
       "temporary_id": "decl-024636",
-      "new_name": "auxiliaryMultiplicity_self",
-      "docstring": "The auxiliary multiplicity of a partition paired with itself is one."
+      "new_name": "auxiliaryNatValue_self",
+      "docstring": "The auxiliary natural-number value of a partition paired with itself is one."
     },
     {
       "temporary_id": "decl-024643",
-      "new_name": "auxiliaryMultiplicity_eq_zero_of_not_relation",
-      "docstring": "The auxiliary multiplicity is zero when the displayed relation between the partitions fails."
+      "new_name": "auxiliaryNatValue_eq_zero_of_not_relation",
+      "docstring": "The auxiliary natural-number value is zero when the displayed relation between the partitions fails."
     }
   ]
 }
