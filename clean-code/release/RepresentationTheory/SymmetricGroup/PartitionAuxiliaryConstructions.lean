@@ -26,7 +26,7 @@ noncomputable def auxiliaryPartitionNatList {n : ℕ} (la : Nat.Partition n) : L
   la.parts.sort (· ≥ ·)
 
 /-- A second auxiliary type indexed by a natural number and a partition of it. -/
-@[source_ref "Chapter5/Definition5.12.1" (role := supporting)]
+@[source_ref "Chapter5/Definition5.12.1" (role := primary)]
 noncomputable def AuxiliaryPartitionTarget (n : ℕ) (la : Nat.Partition n) : Type :=
   let parts := (auxiliaryPartitionNatList la)
   let Cell := { c : ℕ × ℕ // c.1 < parts.length ∧ c.2 < parts.getD c.1 0 }
@@ -307,12 +307,12 @@ private theorem canonicalFun_col_inc (n : ℕ) (la : Nat.Partition n)
   omega
 
 /-- Selects an object of the auxiliary target type for each partition. -/
-@[source_ref "Chapter5/Definition5.12.1" (role := supporting)]
+@[source_ref "Chapter5/Definition5.12.1" (role := primary)]
 noncomputable def chosenAuxiliaryPartitionTarget (n : ℕ) (la : Nat.Partition n) : AuxiliaryPartitionTarget n la :=
   ⟨canonicalFun n la, canonicalFun_bijective n la⟩
 
 /-- Selects an object of the auxiliary source type for each partition. -/
-@[source_ref "Chapter5/Definition5.12.1" (role := supporting)]
+@[source_ref "Chapter5/Definition5.12.1" (role := primary)]
 noncomputable def chosenAuxiliaryPartitionSource (n : ℕ) (la : Nat.Partition n) :
     AuxiliaryPartitionSource n la :=
   ⟨canonicalFun n la, canonicalFun_bijective n la,
