@@ -1,0 +1,40 @@
+{
+  "declarations": [
+    {
+      "docstring": "Under componentwise scalar-action hypotheses, asserts the existence of a linear equivalence between the degree-indexed tensor-product object and the direct sum of tensor products indexed by pairs whose degrees add to the chosen index.",
+      "new_name": "Auxiliary.nonempty_tensorProductGradedPieceLinearEquivDirectSum",
+      "temporary_id": "decl-014499"
+    },
+    {
+      "docstring": "Under finite projective resolution hypotheses and compatibility of scalar multiplication on pure tensors, asserts the existence of a degreewise isomorphism with the indexed sum of tensor products in complementary degrees.",
+      "new_name": "Auxiliary.nonempty_projectiveResolutionTensorProductObjectIsoSigma",
+      "temporary_id": "decl-014500"
+    },
+    {
+      "docstring": "Constructs the degreewise isomorphism between the object over the tensor-product algebra and the indexed sum of tensor products of the two resolution-based objects.",
+      "new_name": "Auxiliary.projectiveResolutionTensorProductObjectIsoSigma",
+      "temporary_id": "decl-014501"
+    },
+    {
+      "docstring": "For opposite-side module objects and a componentwise scalar action on pure tensors, asserts the existence of a degreewise isomorphism with the indexed sum over complementary degrees.",
+      "new_name": "Auxiliary.nonempty_rightModuleTensorProductObjectIsoSigma",
+      "temporary_id": "decl-014517"
+    },
+    {
+      "docstring": "Constructs the degreewise isomorphism for opposite-side module objects from the tensor-product construction to the indexed sum of the two component constructions.",
+      "new_name": "Auxiliary.rightModuleTensorProductObjectIsoSigma",
+      "temporary_id": "decl-014518"
+    },
+    {
+      "docstring": "Shows that a module structure on a tensor product whose action on pure tensors is componentwise agrees with the displayed tensor-product module structure.",
+      "new_name": "Auxiliary.tensorProductModule_eq_of_smul_tmul",
+      "temporary_id": "decl-020651"
+    },
+    {
+      "docstring": "Builds a scalar tower from a tensor-product module action that distributes componentwise over pure tensors.",
+      "new_name": "Auxiliary.tensorProductIsScalarTower_of_smul_tmul",
+      "temporary_id": "decl-020887"
+    }
+  ],
+  "module_name": "Auxiliary.TensorProductGradedComparisons"
+}
