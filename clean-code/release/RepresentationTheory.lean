@@ -108,6 +108,7 @@ import RepresentationTheory.Module.FinrankOneSimple
 import RepresentationTheory.Module.SimpleLinearMaps
 import RepresentationTheory.Module.SimpleSubmodule
 import RepresentationTheory.ModuleObjectProperties
+import RepresentationTheory.ModuleCat.Equivalence.Finite
 import RepresentationTheory.ModuleTheory.ModuleCondition
 import RepresentationTheory.ModuleTheory.Idempotent
 import RepresentationTheory.ModuleEnd.OppositeRing
