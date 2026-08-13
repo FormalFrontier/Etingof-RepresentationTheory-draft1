@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -36,3 +37,15 @@ $$`
 `
 
 Let $`f \in \operatorname{Hom}(N, I)`, and define the module $`E := (M \oplus I)/N`, where $`N` is embedded into $`M \oplus I` via $`x \mapsto (j(x), -f(x))`. Clearly, we have an inclusion $`I \to E`, since the image of $`N \oplus I` in $`E` is naturally identified with $`I`. So there is a splitting $`E \to I` of this inclusion, i.e., a map $`M \oplus I \to I`, $`(m, i) \mapsto g(m) + i` such that $`g(j(x)) - f(x) = 0`. This means that the map $`j^* : \operatorname{Hom}(M, I) \to \operatorname{Hom}(N, I)` is surjective, i.e., the functor $`\operatorname{Hom}(?, I)` is exact, as desired. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter8/Theorem8.1.5/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Mathlib.LinearAlgebra.Injective.Module.injective_iff_every_injective_map_from_splits}
+
+{Manual.docstring RepresentationTheory.Mathlib.LinearAlgebra.Injective.Module.injective_iff_hom_exact_on_short_exact}
