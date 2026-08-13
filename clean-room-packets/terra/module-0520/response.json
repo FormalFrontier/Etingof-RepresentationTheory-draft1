@@ -1,0 +1,15 @@
+{
+  "module_name": "TwelveElementInvariantClassification",
+  "declarations": [
+    {
+      "temporary_id": "decl-000468",
+      "new_name": "classificationSet_card",
+      "docstring": "The finite classification set has twelve elements."
+    },
+    {
+      "temporary_id": "decl-003731",
+      "new_name": "invariant_mem_classificationSet_of_property",
+      "docstring": "The invariant of any object satisfying the predicate belongs to the finite classification set."
+    }
+  ]
+}
