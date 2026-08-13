@@ -1,0 +1,10 @@
+{
+  "module_name": "Mathlib.CategoryTheory.Abelian.ObjectData",
+  "declarations": [
+    {
+      "temporary_id": "decl-014585",
+      "new_name": "AbelianCategoryObjectData",
+      "docstring": "A type of data associated with an object of an abelian category."
+    }
+  ]
+}
