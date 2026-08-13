@@ -1,0 +1,10 @@
+{
+  "declarations": [
+    {
+      "docstring": "A type-valued construction associated with a functor from `C` to `D` and a functor from `D` to `C`.",
+      "new_name": "Data",
+      "temporary_id": "decl-000515"
+    }
+  ],
+  "module_name": "FunctorPair"
+}
