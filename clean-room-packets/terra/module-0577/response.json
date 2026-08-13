@@ -1,0 +1,100 @@
+{
+  "module_name": "AbelianCategoryRepresentation",
+  "declarations": [
+    {
+      "temporary_id": "decl-000473",
+      "new_name": "AbelianStructure",
+      "docstring": "Data equipping a category with an abelian structure."
+    },
+    {
+      "temporary_id": "decl-017122",
+      "new_name": "abelianStructureOfObjectProperty",
+      "docstring": "Constructs an abelian structure on a full subcategory of modules from the stated closure assumptions."
+    },
+    {
+      "temporary_id": "decl-018636",
+      "new_name": "essImage_containsZero",
+      "docstring": "The essential image of a zero-object-preserving functor contains the zero object."
+    },
+    {
+      "temporary_id": "decl-018637",
+      "new_name": "essImage_closedUnderImages",
+      "docstring": "The essential image of an exact full faithful functor is closed under images."
+    },
+    {
+      "temporary_id": "decl-018638",
+      "new_name": "essImage_closedUnderCokernels",
+      "docstring": "The essential image of a full faithful functor is closed under cokernels when it preserves parallel-pair colimits."
+    },
+    {
+      "temporary_id": "decl-018639",
+      "new_name": "essImage_closedUnderColimitsOfShape",
+      "docstring": "The essential image of a full faithful colimit-preserving functor is closed under colimits of the given shape."
+    },
+    {
+      "temporary_id": "decl-018640",
+      "new_name": "essImage_closedUnderFiniteCoproducts",
+      "docstring": "The essential image of a full faithful functor that preserves finite coproducts is closed under them."
+    },
+    {
+      "temporary_id": "decl-018641",
+      "new_name": "essImage_closedUnderFiniteProducts",
+      "docstring": "The essential image of a full faithful functor that preserves finite products is closed under them."
+    },
+    {
+      "temporary_id": "decl-018642",
+      "new_name": "essImage_closedUnderKernels",
+      "docstring": "The essential image of a full faithful functor is closed under kernels when it preserves parallel-pair limits."
+    },
+    {
+      "temporary_id": "decl-018643",
+      "new_name": "essImage_closedUnderLimitsOfShape",
+      "docstring": "The essential image of a full faithful limit-preserving functor is closed under limits of the given shape."
+    },
+    {
+      "temporary_id": "decl-018644",
+      "new_name": "essImage_mem_of_isColimit",
+      "docstring": "A colimit object lies in the essential image when every object of its diagram does."
+    },
+    {
+      "temporary_id": "decl-018645",
+      "new_name": "essImage_mem_of_isLimit",
+      "docstring": "A limit object lies in the essential image when every object of its diagram does."
+    },
+    {
+      "temporary_id": "decl-018828",
+      "new_name": "exists_moduleCatFullSubcategoryEquivalence",
+      "docstring": "Every abelian category is equivalent to a full subcategory of modules satisfying the displayed closure conditions."
+    },
+    {
+      "temporary_id": "decl-021611",
+      "new_name": "representationFunctor",
+      "docstring": "The functor from an abelian category to modules over its associated ring."
+    },
+    {
+      "temporary_id": "decl-021612",
+      "new_name": "representationRing",
+      "docstring": "The ring associated to an abelian category for its module representation."
+    },
+    {
+      "temporary_id": "decl-021623",
+      "new_name": "representationImage",
+      "docstring": "The object property selecting modules in the represented subcategory."
+    },
+    {
+      "temporary_id": "decl-021624",
+      "new_name": "representationEquivalence",
+      "docstring": "The equivalence from an abelian category to the full subcategory of represented modules."
+    },
+    {
+      "temporary_id": "decl-021626",
+      "new_name": "representationEquivalenceCompInclusionIso",
+      "docstring": "The natural isomorphism identifying the represented-subcategory inclusion after the equivalence with the representation functor."
+    },
+    {
+      "temporary_id": "decl-021627",
+      "new_name": "representationImage_closedUnderImages",
+      "docstring": "The represented-module object property is closed under images."
+    }
+  ]
+}
