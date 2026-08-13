@@ -1,5 +1,5 @@
 {
-  "module_name": "RepresentationTheory.Quiver.GenericBaseChange",
+  "module_name": "Quiver.GenericBaseChange",
   "declarations": [
     {
       "temporary_id": "decl-012816",
@@ -34,7 +34,7 @@
     {
       "temporary_id": "decl-012851",
       "new_name": "card_vertexMatrixIndex",
-      "docstring": "The number of vertex-matrix coordinates is the sum of the squares of the dimensions at all vertices."
+      "docstring": "The cardinality of the vertex-coordinate index equals the sum over vertices of each dimension multiplied by itself."
     },
     {
       "temporary_id": "decl-012852",

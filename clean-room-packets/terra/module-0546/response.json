@@ -1,9 +1,9 @@
 {
-  "module_name": "RepresentationTheory.Quiver.FiniteOrbits",
+  "module_name": "Quiver.FiniteOrbits",
   "declarations": [
     {
       "temporary_id": "decl-017219",
-      "new_name": "Quiver.Rep.listDirectSum_isomorphic_of_forall₂",
+      "new_name": "Quiver.Rep.listDirectSum_isomorphic_of_forall2",
       "docstring": "Pairwise isomorphic lists of quiver representations have isomorphic finite direct sums."
     },
     {
