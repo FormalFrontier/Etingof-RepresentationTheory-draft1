@@ -1,0 +1,55 @@
+{
+  "module_name": "Mathlib.Algebra.Category.ModuleCat.TensorHom",
+  "declarations": [
+    {
+      "temporary_id": "decl-020021",
+      "new_name": "ModuleCat.tensorHomUncurry",
+      "docstring": "Builds an additive map from the displayed tensor-product quotient by evaluating a linear family of additive maps."
+    },
+    {
+      "temporary_id": "decl-020026",
+      "new_name": "ModuleCat.tensorHomUncurry_tmul",
+      "docstring": "The uncurried map sends a pure tensor to the value obtained by evaluating the corresponding additive map."
+    },
+    {
+      "temporary_id": "decl-020034",
+      "new_name": "ModuleCat.tensorHomCurry",
+      "docstring": "Turns an additive map on the displayed tensor-product quotient into a linear family of additive maps."
+    },
+    {
+      "temporary_id": "decl-020041",
+      "new_name": "ModuleCat.tensorHomCurry_apply",
+      "docstring": "Evaluating the curried map twice agrees with evaluating the original map on the associated pure tensor."
+    },
+    {
+      "temporary_id": "decl-020064",
+      "new_name": "ModuleCat.rightModuleHomFunctor",
+      "docstring": "The functor from additive commutative groups to A-modules associated with a right A-module."
+    },
+    {
+      "temporary_id": "decl-020101",
+      "new_name": "ModuleCat.rightModuleHomModule",
+      "docstring": "The A-module structure on additive homomorphisms from a right A-module to an additive commutative group."
+    },
+    {
+      "temporary_id": "decl-020108",
+      "new_name": "ModuleCat.rightModuleHomSMul",
+      "docstring": "The scalar action on additive homomorphisms from a right A-module."
+    },
+    {
+      "temporary_id": "decl-020109",
+      "new_name": "ModuleCat.rightModuleHom_smul_apply",
+      "docstring": "Scalar multiplication of an additive homomorphism is evaluated by acting on its input through the opposite ring."
+    },
+    {
+      "temporary_id": "decl-023898",
+      "new_name": "ModuleCat.tensorHomAdjunction",
+      "docstring": "The adjunction between the displayed tensoring functor and the functor associated with a right A-module."
+    },
+    {
+      "temporary_id": "decl-023921",
+      "new_name": "ModuleCat.tensorFunctor_preservesFiniteColimits",
+      "docstring": "The displayed tensoring functor preserves finite colimits."
+    }
+  ]
+}
