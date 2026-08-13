@@ -1,0 +1,45 @@
+{
+  "module_name": "CategoryTheory.Limits.Biproducts.Indecomposable",
+  "declarations": [
+    {
+      "temporary_id": "decl-018879",
+      "new_name": "isIso_comp_biproduct_π_of_indecomposable_retract",
+      "docstring": "For an indecomposable retract of a finite biproduct of indecomposables, one component of the retract inclusion is an isomorphism."
+    },
+    {
+      "temporary_id": "decl-020538",
+      "new_name": "indecomposable_iso_biproduct_summand_of_retract",
+      "docstring": "An indecomposable retract of a finite biproduct of indecomposable objects is isomorphic to one of its summands."
+    },
+    {
+      "temporary_id": "decl-021299",
+      "new_name": "biproduct_iso_indecomposable_summand",
+      "docstring": "An isomorphism between finite biproducts of indecomposables matches every source summand with an isomorphic target summand."
+    },
+    {
+      "temporary_id": "decl-021937",
+      "new_name": "biproductIsoBiprodBiproductComplement",
+      "docstring": "Separates a selected term of a finite biproduct from the complementary family as a binary biproduct."
+    },
+    {
+      "temporary_id": "decl-021944",
+      "new_name": "biproductIsoBiprodBiproductComplement_hom_comp_fst",
+      "docstring": "The first binary projection through the splitting isomorphism is the projection onto the selected biproduct component."
+    },
+    {
+      "temporary_id": "decl-021945",
+      "new_name": "biproductIsoBiprodBiproductComplement_hom_comp_fst_assoc",
+      "docstring": "Postcomposing the transported first binary projection agrees with postcomposing the selected biproduct projection."
+    },
+    {
+      "temporary_id": "decl-021946",
+      "new_name": "biproductIsoBiprodBiproductComplement_inl_comp_inv",
+      "docstring": "The first binary inclusion transported through the inverse splitting isomorphism is the selected biproduct inclusion."
+    },
+    {
+      "temporary_id": "decl-021947",
+      "new_name": "biproductIsoBiprodBiproductComplement_inl_comp_inv_assoc",
+      "docstring": "Precomposing with the transported first binary inclusion agrees with precomposing with the selected biproduct inclusion."
+    }
+  ]
+}
