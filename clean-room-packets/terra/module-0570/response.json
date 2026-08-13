@@ -8,18 +8,18 @@
     },
     {
       "temporary_id": "decl-017517",
-      "new_name": "Matrix.exists_adjacency_reindexing_of_exists_degree_three",
-      "docstring": "A nonempty adjacency matrix satisfying the specified condition admits the required finite-model reindexing when some vertex has degree three."
+      "new_name": "Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three",
+      "docstring": "A nonempty adjacency matrix satisfying the specified condition admits the required finite-model reindexing when its associated vertex-valued function takes the value three."
     },
     {
       "temporary_id": "decl-017667",
-      "new_name": "Matrix.exists_adjacent_degree_one_of_degree_three",
-      "docstring": "In an adjacency matrix satisfying the specified condition, every vertex of degree three is adjacent to a vertex of degree one."
+      "new_name": "Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three",
+      "docstring": "If the matrix-dependent value at an index is three, then some index has both matrix entry one from it and matrix-dependent value one."
     },
     {
       "temporary_id": "decl-018529",
-      "new_name": "Matrix.vertex_eq_of_degree_eq_three",
-      "docstring": "An adjacency matrix satisfying the specified condition has at most one vertex of degree three."
+      "new_name": "Matrix.vertex_eq_of_values_eq_three",
+      "docstring": "Any two indices assigned the value three by the given matrix-dependent function are equal."
     },
     {
       "temporary_id": "decl-024334",
