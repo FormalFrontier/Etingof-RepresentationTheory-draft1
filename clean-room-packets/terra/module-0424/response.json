@@ -1,10 +1,10 @@
 {
-  "module_name": "GeneralLinear/InvariantSubtype",
+  "module_name": "GeneralLinear.InvariantSubtype",
   "declarations": [
     {
       "temporary_id": "decl-022929",
       "new_name": "GeneralLinear.isSimpleModule_centralizerSubtypeAction",
-      "docstring": "The indicated submodule is simple for the action of its centralizing subalgebra."
+      "docstring": "The indicated subtype is simple under the action of the centralizing subalgebra."
     },
     {
       "temporary_id": "decl-022980",
