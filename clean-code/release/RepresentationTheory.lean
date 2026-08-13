@@ -237,6 +237,7 @@ import RepresentationTheory.Algebra.FiniteDimensional.FGModuleCategory
 import RepresentationTheory.CategoryTheory.Abelian.ObjectData
 import RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses
 import RepresentationTheory.CategoryTheory.ModuleCategories
+import RepresentationTheory.CategoryTheory.Preadditive.IsoHomEquiv
 
 /-!
 # Representation theory formalization
