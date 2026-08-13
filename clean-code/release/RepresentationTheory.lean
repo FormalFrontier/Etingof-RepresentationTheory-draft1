@@ -272,6 +272,7 @@ import RepresentationTheory.Mathlib.Algebra.Algebra.FiniteDimensional.RingProper
 import RepresentationTheory.Mathlib.Algebra.Homology.CochainComplex.Monoidal
 import RepresentationTheory.Mathlib.LinearAlgebra.Injective
 import RepresentationTheory.Mathlib.LinearAlgebra.Projective
+import RepresentationTheory.Mathlib.LinearAlgebra.SymmetricPower.Functor
 import RepresentationTheory.Algebra.TensorProduct.Module
 import RepresentationTheory.HomologicalComplexShortExactHomology
 import RepresentationTheory.CategoryTheory.EnrichedCorepresentability
