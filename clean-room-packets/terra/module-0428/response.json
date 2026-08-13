@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-023051",
-      "new_name": "uniformIndexShift_eq_prod_variables_mul",
-      "docstring": "Adding one to every coordinate of the index multiplies the associated multivariable polynomial by the product of all variables."
+      "new_name": "auxiliary_eq_prod_variables_mul",
+      "docstring": "Auxiliary equality relating the value at the function obtained by adding one to each index with the product of all variables times the original value."
     }
   ]
 }
