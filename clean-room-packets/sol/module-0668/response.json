@@ -1,0 +1,195 @@
+{
+  "declarations": [
+    {
+      "docstring": "An auxiliary inductive object parameterized by three indexed additive families.",
+      "new_name": "Auxiliary",
+      "temporary_id": "decl-001285"
+    },
+    {
+      "docstring": "Returns the map from the third family at degree n to the first family at the succeeding degree.",
+      "new_name": "toFirstSucc",
+      "temporary_id": "decl-001289"
+    },
+    {
+      "docstring": "Returns the degreewise map from the first family to the second family.",
+      "new_name": "firstToSecond",
+      "temporary_id": "decl-001291"
+    },
+    {
+      "docstring": "Returns the degreewise map from the second family to the third family.",
+      "new_name": "secondToThird",
+      "temporary_id": "decl-001292"
+    },
+    {
+      "docstring": "The five displayed consecutive maps satisfy the given exactness condition.",
+      "new_name": "fiveTermExact",
+      "temporary_id": "decl-001303"
+    },
+    {
+      "docstring": "An auxiliary inductive object for three indexed additive families with the opposite connecting direction.",
+      "new_name": "AuxiliaryReverse",
+      "temporary_id": "decl-004815"
+    },
+    {
+      "docstring": "Returns the map from the next third-family term to the current first-family term.",
+      "new_name": "succToFirst",
+      "temporary_id": "decl-004819"
+    },
+    {
+      "docstring": "Returns the degreewise first-to-second map for the reverse auxiliary object.",
+      "new_name": "firstToSecondReverse",
+      "temporary_id": "decl-004821"
+    },
+    {
+      "docstring": "Returns the degreewise second-to-third map for the reverse auxiliary object.",
+      "new_name": "secondToThirdReverse",
+      "temporary_id": "decl-004822"
+    },
+    {
+      "docstring": "The reverse auxiliary maps form the displayed five-map exact sequence.",
+      "new_name": "fiveTermExactReverse",
+      "temporary_id": "decl-004833"
+    },
+    {
+      "docstring": "Constructs the connecting morphism between the displayed indexed additive objects.",
+      "new_name": "connectingMap",
+      "temporary_id": "decl-014398"
+    },
+    {
+      "docstring": "Packages the three displayed indexed constructions into an auxiliary exactness object.",
+      "new_name": "exactData",
+      "temporary_id": "decl-014404"
+    },
+    {
+      "docstring": "Evaluation of the postcomposition additive equivalence agrees with composition by the first map.",
+      "new_name": "postcompAsCompose",
+      "temporary_id": "decl-014408"
+    },
+    {
+      "docstring": "A short exact complex yields exactness for the displayed postcomposition construction.",
+      "new_name": "postcompExact",
+      "temporary_id": "decl-014409"
+    },
+    {
+      "docstring": "The displayed postcomposition morphism is monic for a short exact complex.",
+      "new_name": "postcompMono",
+      "temporary_id": "decl-014410"
+    },
+    {
+      "docstring": "Constructs the oppositely directed connecting morphism from the displayed module data.",
+      "new_name": "oppositeConnectingMap",
+      "temporary_id": "decl-014412"
+    },
+    {
+      "docstring": "The five displayed maps associated to the opposite construction are exact.",
+      "new_name": "oppositeFiveMapExact",
+      "temporary_id": "decl-014414"
+    },
+    {
+      "docstring": "Packages the opposite indexed constructions into the reverse auxiliary exactness object.",
+      "new_name": "oppositeExactData",
+      "temporary_id": "decl-014415"
+    },
+    {
+      "docstring": "The indicated degree-zero morphism is epic for a short exact complex.",
+      "new_name": "oppositeEpi",
+      "temporary_id": "decl-014416"
+    },
+    {
+      "docstring": "A short exact complex induces exactness for the displayed opposite construction.",
+      "new_name": "oppositeExact",
+      "temporary_id": "decl-014417"
+    },
+    {
+      "docstring": "The degree-zero comparison is compatible with the second morphism of the short complex.",
+      "new_name": "oppositeZeroNaturality",
+      "temporary_id": "decl-014418"
+    },
+    {
+      "docstring": "Constructs the connecting morphism for the displayed module-valued indexed objects.",
+      "new_name": "moduleConnectingMap",
+      "temporary_id": "decl-014421"
+    },
+    {
+      "docstring": "Packages the displayed reversed module-valued constructions into an auxiliary exactness object.",
+      "new_name": "moduleExactData",
+      "temporary_id": "decl-014423"
+    },
+    {
+      "docstring": "Evaluation of the precomposition additive equivalence agrees with composition by the second map.",
+      "new_name": "precompAsCompose",
+      "temporary_id": "decl-014427"
+    },
+    {
+      "docstring": "A short exact complex gives exactness for the displayed precomposition construction.",
+      "new_name": "precompExact",
+      "temporary_id": "decl-014428"
+    },
+    {
+      "docstring": "The displayed precomposition morphism is monic for a short exact complex.",
+      "new_name": "precompMono",
+      "temporary_id": "decl-014429"
+    },
+    {
+      "docstring": "Constructs a connecting morphism after applying the indexed functors to a short exact complex.",
+      "new_name": "functorConnectingMap",
+      "temporary_id": "decl-014431"
+    },
+    {
+      "docstring": "The five functor-applied morphisms surrounding the connecting map are exact.",
+      "new_name": "functorFiveMapExact",
+      "temporary_id": "decl-014433"
+    },
+    {
+      "docstring": "Packages the functor-applied indexed objects into the reverse auxiliary exactness object.",
+      "new_name": "functorExactData",
+      "temporary_id": "decl-014434"
+    },
+    {
+      "docstring": "The degree-zero image of the second map is epic under the short exactness assumption.",
+      "new_name": "functorEpi",
+      "temporary_id": "decl-014435"
+    },
+    {
+      "docstring": "The functor-applied degree-zero construction is exact for a short exact complex.",
+      "new_name": "functorExact",
+      "temporary_id": "decl-014436"
+    },
+    {
+      "docstring": "The degree-zero comparison commutes with the functor image of the second map.",
+      "new_name": "functorZeroNaturality",
+      "temporary_id": "decl-014437"
+    },
+    {
+      "docstring": "An auxiliary copy of the functor-applied connecting morphism.",
+      "new_name": "auxiliaryFunctorConnectingMap",
+      "temporary_id": "decl-024207"
+    },
+    {
+      "docstring": "The auxiliary connecting morphism is natural in a linear map of coefficient objects.",
+      "new_name": "auxiliaryConnectingNaturality",
+      "temporary_id": "decl-024209"
+    },
+    {
+      "docstring": "The auxiliary connecting morphism is natural in a morphism of short complexes.",
+      "new_name": "auxiliaryConnectingNaturalityInComplex",
+      "temporary_id": "decl-024210"
+    },
+    {
+      "docstring": "An auxiliary copy of the oppositely directed connecting morphism.",
+      "new_name": "auxiliaryOppositeConnectingMap",
+      "temporary_id": "decl-024239"
+    },
+    {
+      "docstring": "The opposite auxiliary connecting morphism is natural in a module morphism.",
+      "new_name": "auxiliaryOppositeNaturality",
+      "temporary_id": "decl-024245"
+    },
+    {
+      "docstring": "The opposite auxiliary connecting morphism is natural in a morphism of short complexes.",
+      "new_name": "auxiliaryOppositeNaturalityInComplex",
+      "temporary_id": "decl-024246"
+    }
+  ],
+  "module_name": "ShortExactDerived"
+}
