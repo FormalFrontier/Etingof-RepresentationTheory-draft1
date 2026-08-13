@@ -1,5 +1,5 @@
 {
-  "module_name": "Auxiliary",
+  "module_name": "Algebra.Homological.AuxiliaryDimensionTransfer",
   "declarations": [
     {
       "temporary_id": "decl-019904",
