@@ -1,0 +1,70 @@
+{
+  "module_name": "Mathlib.RepresentationTheory.PiTensorProduct.Equivariant",
+  "declarations": [
+    {
+      "temporary_id": "decl-021592",
+      "new_name": "mem_equivariantLinearMaps_iff",
+      "docstring": "Characterizes the linear maps in the equivariant submodule by commutation with every permutation action."
+    },
+    {
+      "temporary_id": "decl-022033",
+      "new_name": "permRepresentation_map_comm",
+      "docstring": "Mapping every tensor factor by a linear map commutes with the permutation representation on tensor products."
+    },
+    {
+      "temporary_id": "decl-022034",
+      "new_name": "linearMap_ext_tprod",
+      "docstring": "Two linear maps out of a Pi tensor product are equal when they agree on all pure tensors."
+    },
+    {
+      "temporary_id": "decl-022942",
+      "new_name": "equivariantLinearMapsFunctor",
+      "docstring": "The functor sending a module to the module of equivariant maps into its Pi tensor product."
+    },
+    {
+      "temporary_id": "decl-022946",
+      "new_name": "equivariantLinearMapsFunctor_obj",
+      "docstring": "Identifies the object of the equivariant-linear-maps functor with its defining subtype."
+    },
+    {
+      "temporary_id": "decl-022947",
+      "new_name": "equivariantLinearMapsMap",
+      "docstring": "Lifts a linear map between modules to a map between the corresponding equivariant-map submodules."
+    },
+    {
+      "temporary_id": "decl-022951",
+      "new_name": "equivariantLinearMapsMap_apply",
+      "docstring": "The lifted map acts on an equivariant linear map by postcomposition with the factorwise tensor map."
+    },
+    {
+      "temporary_id": "decl-022952",
+      "new_name": "equivariantLinearMapsMap_comp",
+      "docstring": "The lift of a composite linear map is the composite of the lifted maps."
+    },
+    {
+      "temporary_id": "decl-022953",
+      "new_name": "equivariantLinearMapsMap_id",
+      "docstring": "Lifting the identity linear map gives the identity on equivariant linear maps."
+    },
+    {
+      "temporary_id": "decl-023015",
+      "new_name": "equivariantLinearMaps",
+      "docstring": "The submodule of linear maps that intertwine a permutation-group representation with its action on a Pi tensor product."
+    },
+    {
+      "temporary_id": "decl-023018",
+      "new_name": "equivariantLinearMapsTrivialEquivInvariants",
+      "docstring": "The equivariant maps from the trivial representation to a Pi tensor product are linearly equivalent to its invariant tensors."
+    },
+    {
+      "temporary_id": "decl-024030",
+      "new_name": "permRepresentation",
+      "docstring": "The representation of finite permutations on a Pi tensor product obtained by permuting tensor factors."
+    },
+    {
+      "temporary_id": "decl-024034",
+      "new_name": "permRepresentation_apply_tprod",
+      "docstring": "A permutation acts on a pure tensor by reindexing its factors using the inverse permutation."
+    }
+  ]
+}
