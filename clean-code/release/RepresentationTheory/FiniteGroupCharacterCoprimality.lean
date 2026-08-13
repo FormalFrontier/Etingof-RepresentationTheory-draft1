@@ -1,6 +1,6 @@
 /-
 Copyright (c) 2026 FormalFrontier. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
+Released under Apache 2.0 license as described in the file LICENCE.
 Authors: FormalFrontier
 -/
 
@@ -449,4 +449,3 @@ theorem character_eq_zero_or_action_eq_smul_id_of_conjClassCard_coprime_finrank
     exact Or.inl (by rw [hε_sum, hzero])
 
 end RepresentationTheory.FiniteGroupCharacterCoprimality
-
