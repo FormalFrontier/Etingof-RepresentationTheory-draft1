@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-003707",
-      "new_name": "finrank_eq_one_iff_isCompl_eq_bot",
-      "docstring": "A finite-dimensional vector space has dimension one if and only if it is nontrivial and every pair of complementary submodules contains the zero submodule."
+      "new_name": "nontrivial_and_isCompl_eq_bot_iff_finrank_eq_one",
+      "docstring": "A finite-dimensional vector space is nontrivial and every pair of complementary submodules has one member equal to the zero submodule if and only if its dimension is one."
     }
   ]
 }
