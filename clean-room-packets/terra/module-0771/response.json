@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-024814",
-      "new_name": "isComplete_of_sum_finrank_sq_eq_card",
-      "docstring": "A full set of pairwise distinct simple representations exhausts the simple objects when its dimension-square total has the expected size."
+      "new_name": "exists_iso_of_sum_finrank_sq_eq_card",
+      "docstring": "A finite pairwise nonisomorphic family of simple representations contains an isomorphic copy of every simple representation if the sum of its squared dimensions equals the group cardinality."
     }
   ]
 }
