@@ -1,0 +1,170 @@
+{
+  "module_name": "FiniteDimensionalLinearChainClassification",
+  "declarations": [
+    {
+      "temporary_id": "decl-000083",
+      "new_name": "Equiv",
+      "docstring": "An equivalence between two finite-dimensional three-space linear-chain representations."
+    },
+    {
+      "temporary_id": "decl-000087",
+      "new_name": "leftToMiddle_comm_apply",
+      "docstring": "The left and middle linear equivalences intertwine the first structure maps of equivalent chains."
+    },
+    {
+      "temporary_id": "decl-000088",
+      "new_name": "middleToRight_comm_apply",
+      "docstring": "The middle and right linear equivalences intertwine the second structure maps of equivalent chains."
+    },
+    {
+      "temporary_id": "decl-000090",
+      "new_name": "dimension_eq",
+      "docstring": "Equivalent linear-chain representations have the same ordered triple of dimensions."
+    },
+    {
+      "temporary_id": "decl-000091",
+      "new_name": "leftLinearEquiv",
+      "docstring": "The linear equivalence between the left spaces of two equivalent chain representations."
+    },
+    {
+      "temporary_id": "decl-000092",
+      "new_name": "middleLinearEquiv",
+      "docstring": "The linear equivalence between the middle spaces of two equivalent chain representations."
+    },
+    {
+      "temporary_id": "decl-000093",
+      "new_name": "rightLinearEquiv",
+      "docstring": "The linear equivalence between the right spaces of two equivalent chain representations."
+    },
+    {
+      "temporary_id": "decl-000094",
+      "new_name": "finrank_eq",
+      "docstring": "A chain-representation equivalence preserves the finranks of all three spaces."
+    },
+    {
+      "temporary_id": "decl-000105",
+      "new_name": "refl",
+      "docstring": "The identity equivalence of a linear-chain representation."
+    },
+    {
+      "temporary_id": "decl-000109",
+      "new_name": "symm",
+      "docstring": "Reverses an equivalence of linear-chain representations."
+    },
+    {
+      "temporary_id": "decl-000112",
+      "new_name": "trans",
+      "docstring": "Composes two equivalences of linear-chain representations."
+    },
+    {
+      "temporary_id": "decl-000126",
+      "new_name": "dimension",
+      "docstring": "The ordered triple of left, middle, and right dimensions of a linear-chain representation."
+    },
+    {
+      "temporary_id": "decl-000128",
+      "new_name": "zeroZeroOneModel_dimension",
+      "docstring": "The corresponding standard chain model has dimension triple `(0, 0, 1)`."
+    },
+    {
+      "temporary_id": "decl-000129",
+      "new_name": "zeroOneZeroModel_dimension",
+      "docstring": "The corresponding standard chain model has dimension triple `(0, 1, 0)`."
+    },
+    {
+      "temporary_id": "decl-000130",
+      "new_name": "zeroOneOneModel_dimension",
+      "docstring": "The corresponding standard chain model has dimension triple `(0, 1, 1)`."
+    },
+    {
+      "temporary_id": "decl-000131",
+      "new_name": "oneZeroZeroModel_dimension",
+      "docstring": "The corresponding standard chain model has dimension triple `(1, 0, 0)`."
+    },
+    {
+      "temporary_id": "decl-000132",
+      "new_name": "oneOneZeroModel_dimension",
+      "docstring": "The corresponding standard chain model has dimension triple `(1, 1, 0)`."
+    },
+    {
+      "temporary_id": "decl-000133",
+      "new_name": "oneOneOneModel_dimension",
+      "docstring": "The corresponding standard chain model has dimension triple `(1, 1, 1)`."
+    },
+    {
+      "temporary_id": "decl-000134",
+      "new_name": "existsUnique_equiv_standardModel_of_isIndecomposable",
+      "docstring": "Every indecomposable linear-chain representation is equivalent to a unique member of the six-element family of standard models."
+    },
+    {
+      "temporary_id": "decl-000153",
+      "new_name": "standardModel",
+      "docstring": "The six-element indexed family of standard finite-dimensional linear-chain representations."
+    },
+    {
+      "temporary_id": "decl-000161",
+      "new_name": "zeroZeroOneModel",
+      "docstring": "A standard linear-chain representation of dimension triple `(0, 0, 1)`."
+    },
+    {
+      "temporary_id": "decl-000162",
+      "new_name": "zeroZeroOneModel_isIndecomposable",
+      "docstring": "The standard chain model of dimension triple `(0, 0, 1)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000164",
+      "new_name": "zeroOneZeroModel",
+      "docstring": "A standard linear-chain representation of dimension triple `(0, 1, 0)`."
+    },
+    {
+      "temporary_id": "decl-000165",
+      "new_name": "zeroOneZeroModel_isIndecomposable",
+      "docstring": "The standard chain model of dimension triple `(0, 1, 0)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000167",
+      "new_name": "zeroOneOneModel",
+      "docstring": "A standard linear-chain representation of dimension triple `(0, 1, 1)`."
+    },
+    {
+      "temporary_id": "decl-000168",
+      "new_name": "zeroOneOneModel_isIndecomposable",
+      "docstring": "The standard chain model of dimension triple `(0, 1, 1)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000172",
+      "new_name": "oneZeroZeroModel",
+      "docstring": "A standard linear-chain representation of dimension triple `(1, 0, 0)`."
+    },
+    {
+      "temporary_id": "decl-000175",
+      "new_name": "oneZeroZeroModel_isIndecomposable",
+      "docstring": "The standard chain model of dimension triple `(1, 0, 0)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000177",
+      "new_name": "oneOneZeroModel",
+      "docstring": "A standard linear-chain representation of dimension triple `(1, 1, 0)`."
+    },
+    {
+      "temporary_id": "decl-000178",
+      "new_name": "oneOneZeroModel_isIndecomposable",
+      "docstring": "The standard chain model of dimension triple `(1, 1, 0)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000182",
+      "new_name": "oneOneOneModel",
+      "docstring": "A standard linear-chain representation of dimension triple `(1, 1, 1)`."
+    },
+    {
+      "temporary_id": "decl-000183",
+      "new_name": "oneOneOneModel_isIndecomposable",
+      "docstring": "The standard chain model of dimension triple `(1, 1, 1)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000189",
+      "new_name": "standardModel_isIndecomposable",
+      "docstring": "Every member of the six-element family of standard chain models is indecomposable."
+    }
+  ]
+}
