@@ -205,6 +205,7 @@ import RepresentationTheory.QuiverVertexReversal
 import RepresentationTheory.AuxiliaryUnavailableStatement
 import RepresentationTheory.Auxiliary.UnavailableStatement
 import RepresentationTheory.AuxiliaryQuotientSummation
+import RepresentationTheory.ZModInvolution
 
 /-!
 # Representation theory formalization
