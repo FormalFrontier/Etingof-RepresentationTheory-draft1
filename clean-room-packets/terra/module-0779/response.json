@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-017204",
       "new_name": "det_matrix_eq_sign_revPerm_mul_prod_sub",
-      "docstring": "The determinant of the specified polynomial matrix is the sign of the reversal permutation times the product of the variable differences over all pairs of ordered indices."
+      "docstring": "The determinant of the specified polynomial matrix is the sign of the reversal permutation times the product of the variable differences X j - X i for i < j."
     },
     {
       "temporary_id": "decl-017874",
       "new_name": "cast_value_eq_coeff_map_det_mul_psumPart",
-      "docstring": "The complex cast of the specified rational value equals a coefficient of the mapped determinant multiplied by the partition power-sum polynomial."
+      "docstring": "The complex cast of the specified rational value equals the indicated coefficient of the scalar-mapped product of the determinant and the partition power-sum polynomial."
     }
   ]
 }
