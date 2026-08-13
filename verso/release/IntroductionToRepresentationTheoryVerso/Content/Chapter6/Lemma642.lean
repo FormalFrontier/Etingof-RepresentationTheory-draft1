@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -29,3 +30,15 @@ $$`B(x, x) = x^T A x = \sum_{i,j} x_i a_{ij} x_j = 2 \sum_i x_i^2 + \sum_{i,j,\ 
 $$`= 2 \sum_i x_i^2 + 2 \cdot \sum_{i < j} a_{ij} x_i x_j,`
 
 which is even. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter6/Lemma6.4.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.Matrix.TwoIdentitySub.Matrix.dotProduct_mulVec_two_smul_one_sub_pos}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.Matrix.TwoIdentitySub.Matrix.even_dotProduct_mulVec_two_smul_one_sub}
