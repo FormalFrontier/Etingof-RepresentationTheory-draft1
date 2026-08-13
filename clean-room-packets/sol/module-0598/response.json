@@ -65,7 +65,7 @@
     {"temporary_id":"decl-004076","new_name":"acyclicInverse","docstring":"A morphism from an acyclic complex into the coproduct of its two-term components."},
     {"temporary_id":"decl-004080","new_name":"acyclicInverse_comp_sigmaTwoTermComponentToComplex","docstring":"The acyclic inverse followed by the coproduct-to-complex morphism is the identity."},
     {"temporary_id":"decl-004082","new_name":"acyclicInverse_f_eq","docstring":"Describes a component of the morphism into the coproduct of two-term components."},
-    {"temporary_id":"decl-004083","new_name":"sigma_ι_comp_sigmaTwoTermComponentToComplex_f","docstring":"Composing a coproduct inclusion with the component morphism recovers the two-term map."},
+    {"temporary_id":"decl-004083","new_name":"sigmaInclusion_comp_sigmaTwoTermComponentToComplex_f","docstring":"Composing a coproduct inclusion with the component morphism recovers the two-term map."},
     {"temporary_id":"decl-004084","new_name":"exists_acyclicComplexIso_sigmaTwoTermComplex","docstring":"Every acyclic cochain complex over a field has a decomposition into two-term complexes with invertible differentials."},
     {"temporary_id":"decl-004085","new_name":"exists_shortExact_isEmpty_splitting","docstring":"There exists a short exact complex with no splitting."},
     {"temporary_id":"decl-004089","new_name":"ShortComplex.nonempty_splitting_of_shortExact","docstring":"Every short exact complex of vector spaces admits a splitting."}
