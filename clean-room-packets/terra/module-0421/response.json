@@ -1,0 +1,60 @@
+{
+  "module_name": "Auxiliary.SpecialLinearRepresentation",
+  "declarations": [
+    {
+      "temporary_id": "decl-004725",
+      "new_name": "Auxiliary.SpecialLinearRepresentation.finiteProperty",
+      "docstring": "An auxiliary property of finite modules equipped with a special-linear-group representation."
+    },
+    {
+      "temporary_id": "decl-004726",
+      "new_name": "toFiniteProperty'",
+      "docstring": "Transfers the first auxiliary finite-representation property to the second one."
+    },
+    {
+      "temporary_id": "decl-004745",
+      "new_name": "Auxiliary.SpecialLinearRepresentation.property",
+      "docstring": "An auxiliary property of modules equipped with a special-linear-group representation."
+    },
+    {
+      "temporary_id": "decl-005117",
+      "new_name": "toAuxiliaryProperty",
+      "docstring": "Carries an auxiliary property along the displayed general-linear to special-linear representation map."
+    },
+    {
+      "temporary_id": "decl-005120",
+      "new_name": "Auxiliary.SpecialLinearRepresentation.finiteLinearMapProperty",
+      "docstring": "An auxiliary property of special-linear-group actions by linear endomorphisms on a finite module."
+    },
+    {
+      "temporary_id": "decl-005122",
+      "new_name": "Auxiliary.SpecialLinearRepresentation.finiteProperty'",
+      "docstring": "A second auxiliary property of finite modules equipped with a special-linear-group representation."
+    },
+    {
+      "temporary_id": "decl-018823",
+      "new_name": "Auxiliary.SpecialLinearRepresentation.finiteProperty_exists_equiv",
+      "docstring": "Under the displayed simplicity assumption, produces an equivalent representation from the indicated family."
+    },
+    {
+      "temporary_id": "decl-018824",
+      "new_name": "Auxiliary.SpecialLinearRepresentation.finiteProperty'_exists_equiv",
+      "docstring": "Under the displayed simplicity assumption, produces an equivalent representation from the indicated family."
+    },
+    {
+      "temporary_id": "decl-019897",
+      "new_name": "Auxiliary.SpecialLinearRepresentation.finiteProperty_of_finiteProperty'",
+      "docstring": "Derives the first auxiliary finite-representation property from the second under module simplicity."
+    },
+    {
+      "temporary_id": "decl-019902",
+      "new_name": "Auxiliary.SpecialLinearRepresentation.property_of_isSimpleModule",
+      "docstring": "Shows that a simple special-linear-group module has the auxiliary representation property."
+    },
+    {
+      "temporary_id": "decl-020911",
+      "new_name": "Auxiliary.SpecialLinearRepresentation.isSimpleModule_of_specialLinear",
+      "docstring": "Promotes simplicity from the displayed special-linear-group representation to the general-linear-group representation."
+    }
+  ]
+}
