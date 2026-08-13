@@ -1,0 +1,10 @@
+{
+  "module_name": "FiniteGroupCharacterCoprimality",
+  "declarations": [
+    {
+      "temporary_id": "decl-016649",
+      "new_name": "character_eq_zero_or_action_eq_smul_id_of_conjClassCard_coprime_finrank",
+      "docstring": "For a simple finite-group representation, coprimality of the conjugacy-class size and dimension forces a zero character value or scalar action."
+    }
+  ]
+}
