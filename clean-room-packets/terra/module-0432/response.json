@@ -29,7 +29,7 @@
     {
       "temporary_id": "decl-024394",
       "new_name": "unitEndomorphismCentralizerElement_smul_eq_comp",
-      "docstring": "Scalar multiplication by the centralizer element associated to an invertible endomorphism agrees with composition by its induced linear map."
+      "docstring": "The action of the centralizer element supplied for an invertible endomorphism equals composition with the linear map obtained from that element."
     }
   ]
 }
