@@ -1,0 +1,35 @@
+{
+  "module_name": "SymmetricPower.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-003419",
+      "new_name": "symmetricPower_submodule_eq_bot_or_top_of_linearEquiv_invariant",
+      "docstring": "A submodule of a symmetric power preserved by every linear equivalence is either bottom or top."
+    },
+    {
+      "temporary_id": "decl-021628",
+      "new_name": "auxiliaryScalar",
+      "docstring": "Associates a scalar to a coefficient function and an auxiliary object parameterized by finite data."
+    },
+    {
+      "temporary_id": "decl-021630",
+      "new_name": "auxiliaryScalar_apply_finMap",
+      "docstring": "The scalar assigned to the displayed finite-map input is the product of the coefficients selected by that map."
+    },
+    {
+      "temporary_id": "decl-023729",
+      "new_name": "diagonalLinearMap_apply_auxiliaryTerm",
+      "docstring": "A linear map that scales each basis vector by a prescribed coefficient scales the displayed auxiliary term by their product."
+    },
+    {
+      "temporary_id": "decl-023731",
+      "new_name": "symmetricPower_submodule_eq_bot_or_top_of_linearEquiv_stable",
+      "docstring": "Any submodule of a symmetric power stable under all linear equivalences is trivial or the whole space."
+    },
+    {
+      "temporary_id": "decl-024148",
+      "new_name": "auxiliaryElement_eq_of_listPerm",
+      "docstring": "Auxiliary elements determined by finite maps agree when their lists of values are permutations."
+    }
+  ]
+}
