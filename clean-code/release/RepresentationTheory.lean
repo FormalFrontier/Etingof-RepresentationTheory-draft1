@@ -130,6 +130,7 @@ import RepresentationTheory.RingPredicateBounds
 import RepresentationTheory.FieldAlgebraProperties
 import RepresentationTheory.FieldTheory.IsAlgClosed.Basic
 import RepresentationTheory.RingTheory.Ideal.IdempotentLifting
+import RepresentationTheory.RingTheory.Ideal.Quotient
 import RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence
 import RepresentationTheory.RingTheory.JacobsonRadical.TwoSided
 import RepresentationTheory.RingTheory.SimpleModuleDensity
