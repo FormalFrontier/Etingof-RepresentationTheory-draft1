@@ -1,0 +1,75 @@
+{
+  "module_name": "RepresentationTheory.FDRep.Character",
+  "declarations": [
+    {
+      "temporary_id": "decl-004184",
+      "new_name": "biprodCarrierLinearEquiv",
+      "docstring": "The underlying vector space of a binary biproduct is linearly equivalent to the product of its components."
+    },
+    {
+      "temporary_id": "decl-004191",
+      "new_name": "character_biprod",
+      "docstring": "The character of a binary biproduct is the sum of the two component characters."
+    },
+    {
+      "temporary_id": "decl-004194",
+      "new_name": "character_eq_zero_of_isZero",
+      "docstring": "A zero representation has the zero character at every group element."
+    },
+    {
+      "temporary_id": "decl-004196",
+      "new_name": "exists_character_eq_sum_smul",
+      "docstring": "A complete family of simple representations expresses every character with natural coefficients."
+    },
+    {
+      "temporary_id": "decl-004198",
+      "new_name": "exists_finrank_hom_eq_sum_mul",
+      "docstring": "The coefficients arising from a complete simple family give the corresponding Hom-space dimension formula."
+    },
+    {
+      "temporary_id": "decl-004199",
+      "new_name": "finrank_hom_biproduct",
+      "docstring": "The dimension of maps from a fixed representation into a finite biproduct is the sum of the component dimensions."
+    },
+    {
+      "temporary_id": "decl-004200",
+      "new_name": "finrank_hom_eq_sum_multiplicity_mul",
+      "docstring": "For a complete pairwise distinct simple family, Hom-space dimensions are obtained from the associated multiplicities."
+    },
+    {
+      "temporary_id": "decl-004201",
+      "new_name": "finrank_hom_simple_eq_ite",
+      "docstring": "Maps between members of a pairwise nonisomorphic simple family have dimension one on the diagonal and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-004203",
+      "new_name": "finrank_hom_biproductWithMultiplicities",
+      "docstring": "Maps into a representation assembled from a finite family have dimension given by the weighted component sum."
+    },
+    {
+      "temporary_id": "decl-004209",
+      "new_name": "homBiproductLinearEquiv",
+      "docstring": "Maps from a fixed representation to a finite biproduct are linearly equivalent to families of component maps."
+    },
+    {
+      "temporary_id": "decl-004215",
+      "new_name": "hom_action_comm",
+      "docstring": "A morphism of representations commutes with the action of each group element."
+    },
+    {
+      "temporary_id": "decl-004217",
+      "new_name": "biproductWithMultiplicities",
+      "docstring": "A representation associated with a finite family and a natural-number multiplicity for each member."
+    },
+    {
+      "temporary_id": "decl-004224",
+      "new_name": "simpleMultiplicity",
+      "docstring": "The multiplicity function assigned to a representation relative to a family of representations."
+    },
+    {
+      "temporary_id": "decl-004226",
+      "new_name": "iso_biproductWithMultiplicities_simpleMultiplicity",
+      "docstring": "A complete pairwise distinct simple family reconstructs every representation from its assigned multiplicities."
+    }
+  ]
+}
