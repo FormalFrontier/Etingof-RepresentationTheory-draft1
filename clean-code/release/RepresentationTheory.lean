@@ -175,6 +175,7 @@ import RepresentationTheory.InductionAndCoinduction
 import RepresentationTheory.SpecialLinear.Commutator
 import RepresentationTheory.AuxiliaryTypeCharacters
 import RepresentationTheory.Matrix.CharpolyDiscriminant
+import RepresentationTheory.Matrix.TwoIdentitySub
 import RepresentationTheory.MatrixBoundedVectors
 import RepresentationTheory.Subgroup.HomAdjunction
 import RepresentationTheory.SemisimpleAlgebraCenters
