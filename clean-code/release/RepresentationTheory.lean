@@ -174,6 +174,7 @@ import RepresentationTheory.GeneralLinearGroup.Auxiliary
 import RepresentationTheory.Algebra.Module.ComplementConstructions
 import RepresentationTheory.MvPowerSeries.AuxiliaryExponentCoefficients
 import RepresentationTheory.NumberTheory.IntegralClosure.Rat
+import RepresentationTheory.NumberTheory.AlgebraicNumber.Complex
 import RepresentationTheory.InductionCoinduction.FiniteIndex
 import RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences
 import RepresentationTheory.Algebra.Module.IsotypicDecomposition
