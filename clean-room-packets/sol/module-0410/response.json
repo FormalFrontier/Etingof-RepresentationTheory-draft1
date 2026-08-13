@@ -1,0 +1,145 @@
+{
+  "module_name": "PolynomialEvaluation.CoefficientExtraction",
+  "declarations": [
+    {
+      "temporary_id": "decl-005683",
+      "new_name": "CoefficientTarget",
+      "docstring": "A family of target types indexed by the number of variables."
+    },
+    {
+      "temporary_id": "decl-005684",
+      "new_name": "generator",
+      "docstring": "The distinguished target element associated with an index."
+    },
+    {
+      "temporary_id": "decl-005686",
+      "new_name": "generator_mul_inverseGenerator_eq_one",
+      "docstring": "A distinguished generator multiplied by its inverse generator is one."
+    },
+    {
+      "temporary_id": "decl-005687",
+      "new_name": "inverseGenerator",
+      "docstring": "The target element serving as a right inverse to the indexed generator."
+    },
+    {
+      "temporary_id": "decl-005689",
+      "new_name": "coefficient",
+      "docstring": "Extracts a complex coefficient at an integral finitely supported exponent."
+    },
+    {
+      "temporary_id": "decl-005691",
+      "new_name": "coefficient_monomial_mul",
+      "docstring": "Multiplication by a monomial shifts the requested exponent and scales the coefficient."
+    },
+    {
+      "temporary_id": "decl-005692",
+      "new_name": "monomial",
+      "docstring": "Builds a target element from an integral exponent and a complex coefficient."
+    },
+    {
+      "temporary_id": "decl-005694",
+      "new_name": "monomial_mul_monomial",
+      "docstring": "The product of two monomials adds their exponents and multiplies their coefficients."
+    },
+    {
+      "temporary_id": "decl-005695",
+      "new_name": "monomial_pow",
+      "docstring": "A natural power of a unit-coefficient monomial scales its exponent."
+    },
+    {
+      "temporary_id": "decl-005696",
+      "new_name": "prod_monomial",
+      "docstring": "A finite product of unit-coefficient monomials is the monomial at the summed exponent."
+    },
+    {
+      "temporary_id": "decl-005697",
+      "new_name": "monomial_zero",
+      "docstring": "The unit-coefficient monomial at the zero exponent is one."
+    },
+    {
+      "temporary_id": "decl-015406",
+      "new_name": "partitionPermutationValue_eq_coefficient",
+      "docstring": "Expresses the value attached to a partition and permutation as a shifted coefficient."
+    },
+    {
+      "temporary_id": "decl-015407",
+      "new_name": "shiftedPolynomial_coefficient",
+      "docstring": "Identifies a shifted target coefficient with a signed multivariate polynomial coefficient."
+    },
+    {
+      "temporary_id": "decl-017499",
+      "new_name": "auxiliaryPolynomial",
+      "docstring": "An auxiliary complex multivariate polynomial for each number of variables."
+    },
+    {
+      "temporary_id": "decl-017501",
+      "new_name": "auxiliaryPolynomial_eq_sign_smul",
+      "docstring": "Rewrites the auxiliary polynomial as a reversal sign times its defining polynomial."
+    },
+    {
+      "temporary_id": "decl-017758",
+      "new_name": "auxiliaryIdentityOne",
+      "docstring": "An auxiliary identity used in coefficient extraction."
+    },
+    {
+      "temporary_id": "decl-018033",
+      "new_name": "coefficient_polynomialMap",
+      "docstring": "Coefficient extraction after the polynomial map recovers the original polynomial coefficient."
+    },
+    {
+      "temporary_id": "decl-018972",
+      "new_name": "natFinsuppToInt",
+      "docstring": "The additive map casting finitely supported natural exponents to integer exponents."
+    },
+    {
+      "temporary_id": "decl-018974",
+      "new_name": "natFinsuppToInt_apply",
+      "docstring": "Casting a finitely supported natural exponent acts pointwise by the natural-number cast."
+    },
+    {
+      "temporary_id": "decl-018975",
+      "new_name": "natFinsuppToInt_injective",
+      "docstring": "Pointwise casting of finitely supported natural exponents to integers is injective."
+    },
+    {
+      "temporary_id": "decl-019668",
+      "new_name": "auxiliaryElement",
+      "docstring": "An auxiliary element of the coefficient target for each number of variables."
+    },
+    {
+      "temporary_id": "decl-021637",
+      "new_name": "monomial_auxiliaryExponent_eq_prod_generator",
+      "docstring": "The unit monomial at the cast auxiliary exponent equals an iterated product of generators."
+    },
+    {
+      "temporary_id": "decl-022783",
+      "new_name": "auxiliaryExponent_cast_eq_sum",
+      "docstring": "The cast auxiliary exponent is a sum of singleton vectors weighted by upper-index counts."
+    },
+    {
+      "temporary_id": "decl-022786",
+      "new_name": "monomial_mul_auxiliaryElement",
+      "docstring": "Multiplying the auxiliary element by the exponent monomial gives the image of the auxiliary polynomial."
+    },
+    {
+      "temporary_id": "decl-023150",
+      "new_name": "auxiliaryIdentityTwo",
+      "docstring": "An auxiliary identity concerning the coefficient construction."
+    },
+    {
+      "temporary_id": "decl-024143",
+      "new_name": "polynomialMap",
+      "docstring": "A ring homomorphism from complex multivariate polynomials into the coefficient target."
+    },
+    {
+      "temporary_id": "decl-024144",
+      "new_name": "polynomialMap_X",
+      "docstring": "The polynomial map sends each variable to its corresponding distinguished generator."
+    },
+    {
+      "temporary_id": "decl-024145",
+      "new_name": "polynomialMap_injective",
+      "docstring": "The polynomial map into the coefficient target is injective."
+    }
+  ]
+}
