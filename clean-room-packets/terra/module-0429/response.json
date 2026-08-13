@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-016577",
       "new_name": "existsAuxiliaryDirectSumTensorProductDecomposition",
-      "docstring": "Asserts the existence of an indexed direct-sum tensor-product decomposition with a uniqueness condition on its indexed factors."
+      "docstring": "An auxiliary existence statement for an indexed direct sum of tensor products, where linearly equivalent second tensor factors have equal indices."
     },
     {
       "temporary_id": "decl-023632",
