@@ -1,0 +1,60 @@
+{
+  "module_name": "InvariantTheory.MatrixTuplePolynomial",
+  "declarations": [
+    {
+      "temporary_id": "decl-005658",
+      "new_name": "MatrixTuplePolynomial",
+      "docstring": "The type of polynomial expressions associated with a finite tuple of square complex matrices."
+    },
+    {
+      "temporary_id": "decl-018148",
+      "new_name": "MatrixTuplePolynomial.conjugationAlgHom",
+      "docstring": "The complex-algebra endomorphism on matrix-tuple polynomials induced by an invertible change of basis."
+    },
+    {
+      "temporary_id": "decl-018150",
+      "new_name": "MatrixTuplePolynomial.conjugationAlgHom_X_isWeightedHomogeneous",
+      "docstring": "The transformed coordinate variable is weighted homogeneous of the variable's multidegree."
+    },
+    {
+      "temporary_id": "decl-018153",
+      "new_name": "MatrixTuplePolynomial.conjugationAlgHom_monomial_isWeightedHomogeneous",
+      "docstring": "The transformed monomial is weighted homogeneous with degree obtained by weighting its exponent."
+    },
+    {
+      "temporary_id": "decl-018154",
+      "new_name": "MatrixTuplePolynomial.weightedHomogeneousComponent_conjugationAlgHom",
+      "docstring": "Taking a weighted homogeneous component commutes with the change-of-basis endomorphism."
+    },
+    {
+      "temporary_id": "decl-019798",
+      "new_name": "MatrixTuplePolynomial.genericMatrix",
+      "docstring": "The family of generic square matrices whose entries are matrix-tuple polynomials."
+    },
+    {
+      "temporary_id": "decl-020749",
+      "new_name": "MatrixTuplePolynomial.conjugationInvariantSubalgebra",
+      "docstring": "The complex subalgebra of matrix-tuple polynomials invariant under change of basis."
+    },
+    {
+      "temporary_id": "decl-021565",
+      "new_name": "MatrixTuplePolynomial.variableWeight",
+      "docstring": "The multidegree of a matrix coordinate variable, indexed by its tuple position and matrix entries."
+    },
+    {
+      "temporary_id": "decl-024280",
+      "new_name": "MatrixTuplePolynomial.traceWord",
+      "docstring": "The polynomial obtained by taking the trace of the product of generic matrices specified by a word."
+    },
+    {
+      "temporary_id": "decl-024282",
+      "new_name": "MatrixTuplePolynomial.traceWord_mem_conjugationInvariantSubalgebra",
+      "docstring": "Every trace-word polynomial belongs to the change-of-basis invariant subalgebra."
+    },
+    {
+      "temporary_id": "decl-024511",
+      "new_name": "MatrixTuplePolynomial.weightedHomogeneousComponent_mem_conjugationInvariantSubalgebra",
+      "docstring": "Each weighted homogeneous component of an invariant polynomial remains in the invariant subalgebra."
+    }
+  ]
+}
