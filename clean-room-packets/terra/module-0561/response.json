@@ -1,10 +1,10 @@
 {
-  "module_name": "Auxiliary",
+  "module_name": "Surjective",
   "declarations": [
     {
       "temporary_id": "decl-014722",
-      "new_name": "nonempty_auxiliary_of_surjective",
-      "docstring": "Surjectivity of the given map ensures that the associated auxiliary type is nonempty."
+      "new_name": "nonempty_of_surjective",
+      "docstring": "A surjective map has a nonempty codomain."
     }
   ]
 }
