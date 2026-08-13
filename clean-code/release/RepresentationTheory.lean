@@ -300,6 +300,7 @@ import RepresentationTheory.FiniteGroup.Character.Irreducibility
 import RepresentationTheory.AbelianCategoryRepresentation
 import RepresentationTheory.FiniteDimensional.Equivalences
 import RepresentationTheory.Algebra.TensorProduct.ModuleCat
+import RepresentationTheory.Algebra.Homological.EquivalenceInvariance
 
 /-!
 # Representation theory formalization
