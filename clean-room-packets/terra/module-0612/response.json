@@ -14,7 +14,7 @@
     {
       "temporary_id": "decl-021731",
       "new_name": "rat_moduleCat_equivalence_matrix_fin_two",
-      "docstring": "The category of rational modules is equivalent to the category of modules over two-by-two rational matrices."
+      "docstring": "Rational modules and modules over two-by-two rational matrices form equivalent categories."
     }
   ]
 }
