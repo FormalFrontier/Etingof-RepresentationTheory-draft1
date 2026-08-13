@@ -1,0 +1,115 @@
+{
+  "module_name": "CategoryTheory.Abelian.CompositionFactorCount",
+  "declarations": [
+    {
+      "temporary_id": "decl-017970",
+      "new_name": "compositionFactorCount",
+      "docstring": "The natural-number measure assigned to an object by its composition factors."
+    },
+    {
+      "temporary_id": "decl-017972",
+      "new_name": "compositionFactorCount_shortExact",
+      "docstring": "The composition-factor measure is additive across a short exact sequence."
+    },
+    {
+      "temporary_id": "decl-017973",
+      "new_name": "compositionFactorCount_biprod",
+      "docstring": "The composition-factor measure of a binary biproduct is the sum of the two measures."
+    },
+    {
+      "temporary_id": "decl-017975",
+      "new_name": "compositionFactorCount_eq_zero_iff_isZero",
+      "docstring": "An object has vanishing composition-factor measure exactly when it is zero."
+    },
+    {
+      "temporary_id": "decl-017976",
+      "new_name": "compositionFactorCount_eq_zero_iff_isZero_of_finiteDimensionalOrder",
+      "docstring": "With a finite-dimensional subobject order, zero measure characterizes zero objects."
+    },
+    {
+      "temporary_id": "decl-017977",
+      "new_name": "compositionFactorCount_eq_zero_of_isZero",
+      "docstring": "A zero object has zero composition-factor measure."
+    },
+    {
+      "temporary_id": "decl-017978",
+      "new_name": "compositionFactorCount_subobject_mono",
+      "docstring": "The composition-factor measure is monotone under inclusion of subobjects."
+    },
+    {
+      "temporary_id": "decl-017979",
+      "new_name": "compositionFactorCount_subobject_add_cokernel",
+      "docstring": "Extending a subobject adds the measure of the associated cokernel."
+    },
+    {
+      "temporary_id": "decl-017981",
+      "new_name": "compositionFactorCount_pos_of_not_isZero",
+      "docstring": "Every nonzero object has positive composition-factor measure."
+    },
+    {
+      "temporary_id": "decl-017982",
+      "new_name": "compositionFactorCount_eq_one_of_simple",
+      "docstring": "A simple object contributes one unit to the composition-factor measure."
+    },
+    {
+      "temporary_id": "decl-017983",
+      "new_name": "compositionFactorCount_subobject_strictMono",
+      "docstring": "A strict inclusion of subobjects strictly increases the composition-factor measure."
+    },
+    {
+      "temporary_id": "decl-018831",
+      "new_name": "antitone_subobject_sequence_eventually_constant",
+      "docstring": "A decreasing sequence of subobjects eventually stops changing."
+    },
+    {
+      "temporary_id": "decl-018832",
+      "new_name": "monotone_subobject_sequence_eventually_constant",
+      "docstring": "An increasing sequence of subobjects eventually stops changing."
+    },
+    {
+      "temporary_id": "decl-018856",
+      "new_name": "imageSubobject_pow_eventually_constant",
+      "docstring": "The image subobjects of successive powers of an endomorphism eventually stabilize."
+    },
+    {
+      "temporary_id": "decl-018857",
+      "new_name": "exists_pow_image_kernel_stabilization",
+      "docstring": "Some positive power has both image and kernel subobjects unchanged after doubling its exponent."
+    },
+    {
+      "temporary_id": "decl-018882",
+      "new_name": "kernelSubobject_pow_eventually_constant",
+      "docstring": "The kernel subobjects of successive powers of an endomorphism eventually stabilize."
+    },
+    {
+      "temporary_id": "decl-018918",
+      "new_name": "exists_pow_image_factorization_isIso",
+      "docstring": "At a positive iterate, the canonical composite through its image is invertible."
+    },
+    {
+      "temporary_id": "decl-019394",
+      "new_name": "finiteDimensionalOrder_subobject_of_isZero",
+      "docstring": "The subobject order of a zero object is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-019925",
+      "new_name": "subobject_height_lt_top",
+      "docstring": "For a finite-dimensional subobject order, its top height is finite."
+    },
+    {
+      "temporary_id": "decl-020508",
+      "new_name": "imageSubobject_pow_antitone",
+      "docstring": "Images of increasing powers of an endomorphism form a decreasing subobject sequence."
+    },
+    {
+      "temporary_id": "decl-021023",
+      "new_name": "kernelSubobject_pow_monotone",
+      "docstring": "Kernels of increasing powers of an endomorphism form an increasing subobject sequence."
+    },
+    {
+      "temporary_id": "decl-024515",
+      "new_name": "subobject_wellFoundedLT",
+      "docstring": "Strict descent among subobjects is well-founded."
+    }
+  ]
+}
