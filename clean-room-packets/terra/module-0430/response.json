@@ -1,0 +1,70 @@
+{
+  "module_name": "RepresentationTheory.GeneralLinear.DecompositionInvariants",
+  "declarations": [
+    {
+      "temporary_id": "decl-019528",
+      "new_name": "invariant_eq_of_linearEquiv",
+      "docstring": "The representation invariant agrees for representations whose associated modules are linearly equivalent."
+    },
+    {
+      "temporary_id": "decl-019865",
+      "new_name": "iSup_eq_top_of_surjective_equivariant",
+      "docstring": "A surjective equivariant linear map transfers the specified supremum-equals-top property to its target."
+    },
+    {
+      "temporary_id": "decl-019871",
+      "new_name": "iSup_eq_top_for_auxiliaryRepresentation",
+      "docstring": "The specified supremum for the representation indexed by a natural-valued tuple is top."
+    },
+    {
+      "temporary_id": "decl-020963",
+      "new_name": "iso_of_invariant_eq_and_finrank_eq",
+      "docstring": "A representation satisfying the stated auxiliary conditions is isomorphic to the indexed representation when their invariants and dimensions agree."
+    },
+    {
+      "temporary_id": "decl-023057",
+      "new_name": "auxiliaryDefinition",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-023063",
+      "new_name": "weightedInvariant_sum_eq",
+      "docstring": "An equivariant direct-sum decomposition yields the displayed equality between weighted sums of representation invariants."
+    },
+    {
+      "temporary_id": "decl-023064",
+      "new_name": "summand_iSup_eq_top",
+      "docstring": "Every positive-multiplicity summand in the equivariant direct-sum decomposition has the specified supremum equal to top."
+    },
+    {
+      "temporary_id": "decl-023065",
+      "new_name": "summand_auxiliaryProperty",
+      "docstring": "Every positive-multiplicity summand in the equivariant direct-sum decomposition satisfies the specified auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-023066",
+      "new_name": "exists_injective_invariantLabeling",
+      "docstring": "Pairwise nonisomorphic simple summands of the decomposition admit an injective labeling whose labels determine their invariants."
+    },
+    {
+      "temporary_id": "decl-023067",
+      "new_name": "linearIndependent_invariant_of_pairwise_nonisomorphic",
+      "docstring": "The invariants of pairwise nonisomorphic simple summands are linearly independent under the stated supremum and auxiliary conditions."
+    },
+    {
+      "temporary_id": "decl-023068",
+      "new_name": "exists_injective_summandIndexing",
+      "docstring": "An equivariant decomposition into simple summands admits an injective indexing of the prescribed invariant values by summands."
+    },
+    {
+      "temporary_id": "decl-023162",
+      "new_name": "simpleModule_iso_directSummand",
+      "docstring": "A simple module embedded in a finite direct sum of simple modules is linearly equivalent to one of the summands."
+    },
+    {
+      "temporary_id": "decl-023194",
+      "new_name": "iso_indexedRepresentation_of_invariant_eq",
+      "docstring": "A simple representation satisfying the stated supremum and auxiliary conditions is isomorphic to the indexed representation with the same invariant."
+    }
+  ]
+}
