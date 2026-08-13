@@ -18,7 +18,7 @@
     },
     {
       "temporary_id": "decl-019921",
-      "new_name": "ringProperty₁_iff_ringProperty₂",
+      "new_name": "firstRingProperty_iff_secondRingProperty",
       "docstring": "The two displayed degree-indexed properties agree for every commutative ring."
     },
     {
@@ -28,7 +28,7 @@
     },
     {
       "temporary_id": "decl-022788",
-      "new_name": "ringConstruction₁_eq_ringConstruction₂",
+      "new_name": "firstRingConstruction_eq_secondRingConstruction",
       "docstring": "The two displayed constructions agree for all commutative rings."
     }
   ]
