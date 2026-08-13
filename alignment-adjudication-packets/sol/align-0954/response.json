@@ -2,7 +2,7 @@
   "associations": [
     {
       "association_id": "association:a68c2483f60e085fc3a9",
-      "rationale": "This declaration defines a quiver on Fin 4, directly matching the source claim's four-vertex displayed quiver and its arrow data.",
+      "rationale": "This example-level declaration has type `Quiver (Fin 4)`, matching the source's four-vertex quiver as the primary formal object.",
       "role": "primary"
     },
     {

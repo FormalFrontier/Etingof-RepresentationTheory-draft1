@@ -4,7 +4,7 @@
     {
       "association_id": "association:ffed3d47062c52714188",
       "role": "supporting",
-      "rationale": "Krull--Schmidt uniqueness is the later decomposition result supported by this invertible-theta and common-complement step."
+      "rationale": "Krull--Schmidt uniqueness concerns the same indecomposable-decomposition argument but does not state the source's invertible-theta and common-complement proof step."
     }
   ]
 }
