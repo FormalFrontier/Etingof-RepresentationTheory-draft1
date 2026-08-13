@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,13 @@ Similarly,
 $$`\operatorname{Ext}^i_{A_1 \otimes A_2}(M_1 \otimes M_2, N_1 \otimes N_2) = \bigoplus_{j+m=i} \operatorname{Ext}^j_{A_1}(M_1, N_1) \otimes \operatorname{Ext}^m_{A_2}(M_2, N_2),`
 
 if $`N_i` are finite dimensional.
+
+## Formalization
+%%%
+tag := "Chapter8/Problem8.2.8/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FinsuppDualTensor.dualDistrib_finsuppNat_not_surjective}
