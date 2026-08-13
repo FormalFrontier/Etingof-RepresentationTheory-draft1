@@ -32,4 +32,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.ModuleTheory.Idempotent.linearMapSpanSingletonEquivFixedByIdempotent}
 
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.sandwich_eq_zero_of_strictDominates}
+
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra.exists_idempotent_sandwich_eq_smul}
