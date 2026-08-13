@@ -128,8 +128,8 @@
     },
     {
       "temporary_id": "decl-024097",
-      "new_name": "tensorOfTransformedHomologyIso",
-      "docstring": "Gives the displayed isomorphism from the tensor complex of transformed inputs to its homology."
+      "new_name": "tensorTransformedXHomologyIso",
+      "docstring": "At each integer degree, the tensor product component of the transformed complexes is isomorphic to its homology in that degree."
     }
   ]
 }
