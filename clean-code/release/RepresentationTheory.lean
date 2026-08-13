@@ -218,6 +218,7 @@ import RepresentationTheory.UniverseTypeOperator
 import RepresentationTheory.Categories
 import RepresentationTheory.FunctorPair
 import RepresentationTheory.CategoryTheory.Abelian.CategoryProperties
+import RepresentationTheory.CategoryTheory.Adjunction.Representability
 
 /-!
 # Representation theory formalization
