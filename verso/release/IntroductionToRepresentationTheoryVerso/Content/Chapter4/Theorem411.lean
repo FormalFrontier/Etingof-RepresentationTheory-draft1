@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -41,3 +42,13 @@ $$`\overline{P}\rho(h)y = \frac{1}{|G|} \sum_{g \in G} \rho(g) P \rho(g^{-1}h) y
 $$`= \frac{1}{|G|} \sum_{\ell \in G} \rho(h\ell) P \rho(\ell^{-1}) y = \rho(h) \overline{P} y = 0,`
 
 so $`\rho(h)y \in \ker \overline{P} = W'`. Thus, $`W'` is invariant under the action of $`G` and is therefore a subrepresentation of $`V`. Thus, $`V = W \oplus W'` is the desired decomposition into subrepresentations. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter4/Theorem4.1.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional.finiteDimensional_tfae}

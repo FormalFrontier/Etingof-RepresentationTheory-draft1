@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -33,3 +34,25 @@ By Theorem 3.5.4, if $`\operatorname{Rad}(A) = 0`, then clearly $`A \cong \bigop
 Next, $`(3) \Rightarrow (4)` by Theorem 3.3.1. Clearly $`(4) \Rightarrow (5)`.
 
 To see that $`(5) \Rightarrow (1)`, note that if $`A` is a completely reducible representation of $`A`, then each element of $`\operatorname{Rad}(A)` kills it, but the only element that kills $`1 \in A` is $`0`; thus $`\operatorname{Rad}(A) = 0`, so $`A` is semisimple. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter3/Proposition3.5.8/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional.auxiliaryProperty_of_subsingleton}
+
+{Manual.docstring RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional.finiteDimensional_tfae}
+
+{Manual.docstring RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional.nonempty_algEquiv_finZero_matrix}
+
+{Manual.docstring RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional.not_auxiliaryProperty_of_subsingleton}
+
+{Manual.docstring RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional.not_isSimpleModule_of_subsingleton}
+
+{Manual.docstring RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional.not_isSimpleRing_of_subsingleton}
+
+{Manual.docstring RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional.subsingleton_module_of_subsingleton_ring}
