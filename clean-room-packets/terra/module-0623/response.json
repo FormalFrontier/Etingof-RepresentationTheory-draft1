@@ -1,25 +1,25 @@
 {
-  "module_name": "Mathlib.Algebra.Category.ModuleCat.TensorHom",
+  "module_name": "Algebra.Category.ModuleCat.TensorHom",
   "declarations": [
     {
       "temporary_id": "decl-020021",
-      "new_name": "ModuleCat.tensorHomUncurry",
-      "docstring": "Builds an additive map from the displayed tensor-product quotient by evaluating a linear family of additive maps."
+      "new_name": "ModuleCat.linearMapToAddMonoidHom",
+      "docstring": "Converts a linear family of additive homomorphisms into an additive homomorphism with the displayed domain."
     },
     {
       "temporary_id": "decl-020026",
-      "new_name": "ModuleCat.tensorHomUncurry_tmul",
-      "docstring": "The uncurried map sends a pure tensor to the value obtained by evaluating the corresponding additive map."
+      "new_name": "ModuleCat.linearMapToAddMonoidHom_mk_tmul",
+      "docstring": "On the class of a pure tensor, the resulting additive homomorphism agrees with successive evaluation of the original linear map."
     },
     {
       "temporary_id": "decl-020034",
-      "new_name": "ModuleCat.tensorHomCurry",
-      "docstring": "Turns an additive map on the displayed tensor-product quotient into a linear family of additive maps."
+      "new_name": "ModuleCat.addMonoidHomToLinearMap",
+      "docstring": "Converts an additive homomorphism with the displayed domain into a linear family of additive homomorphisms out of the right module."
     },
     {
       "temporary_id": "decl-020041",
-      "new_name": "ModuleCat.tensorHomCurry_apply",
-      "docstring": "Evaluating the curried map twice agrees with evaluating the original map on the associated pure tensor."
+      "new_name": "ModuleCat.addMonoidHomToLinearMap_apply",
+      "docstring": "Successive evaluation of the resulting linear map agrees with the original additive homomorphism on the class of the corresponding pure tensor."
     },
     {
       "temporary_id": "decl-020064",
@@ -43,13 +43,13 @@
     },
     {
       "temporary_id": "decl-023898",
-      "new_name": "ModuleCat.tensorHomAdjunction",
-      "docstring": "The adjunction between the displayed tensoring functor and the functor associated with a right A-module."
+      "new_name": "ModuleCat.rightModuleHomAdjunction",
+      "docstring": "An adjunction whose right adjoint is the additive-hom functor associated with a right A-module."
     },
     {
       "temporary_id": "decl-023921",
-      "new_name": "ModuleCat.tensorFunctor_preservesFiniteColimits",
-      "docstring": "The displayed tensoring functor preserves finite colimits."
+      "new_name": "ModuleCat.rightModuleHomLeftAdjoint_preservesFiniteColimits",
+      "docstring": "The displayed functor preserves finite colimits."
     }
   ]
 }
