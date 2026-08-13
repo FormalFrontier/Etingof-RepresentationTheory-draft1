@@ -1,0 +1,205 @@
+{
+  "module_name": "Partitions.GeneralLinear",
+  "declarations": [
+    {
+      "temporary_id": "decl-015563",
+      "new_name": "partitionIndexedGeneralLinearRepresentation",
+      "docstring": "Associates a finite-dimensional representation of the general linear group to a partition and an ambient rank over an algebraically closed field."
+    },
+    {
+      "temporary_id": "decl-015565",
+      "new_name": "partitionIndexedSubmodule",
+      "docstring": "Defines the submodule indexed by a partition inside the ambient module of functions."
+    },
+    {
+      "temporary_id": "decl-015568",
+      "new_name": "partitionIndexedSubmodule_eq_bot_of_rank_lt_partitionLength",
+      "docstring": "The partition-indexed submodule is bottom when the ambient rank is smaller than the number of partition parts."
+    },
+    {
+      "temporary_id": "decl-015569",
+      "new_name": "partitionIndexedSubmodule_ne_bot_of_partitionLength_le_rank",
+      "docstring": "The partition-indexed submodule is nontrivial when the ambient rank accommodates every partition part."
+    },
+    {
+      "temporary_id": "decl-015570",
+      "new_name": "partitionIndexedSubmodule_apply_partitionFromFunction",
+      "docstring": "Identifies the submodule for a partition built from a finite function with the corresponding function-indexed submodule."
+    },
+    {
+      "temporary_id": "decl-015571",
+      "new_name": "partitionIndexedSubmodule_eq_bot_iff_rank_lt_partitionLength",
+      "docstring": "Characterizes when the partition-indexed submodule is bottom by comparison of ambient rank and partition length."
+    },
+    {
+      "temporary_id": "decl-015572",
+      "new_name": "partitionIndexedSubmodule_ne_bot_iff_partitionLength_le_rank",
+      "docstring": "Characterizes when the partition-indexed submodule is nontrivial by comparison of partition length and ambient rank."
+    },
+    {
+      "temporary_id": "decl-015573",
+      "new_name": "complexPartitionIndexedSubmodule_one_eq_bot",
+      "docstring": "The selected partition-indexed complex submodule at rank one is bottom."
+    },
+    {
+      "temporary_id": "decl-015574",
+      "new_name": "complexPartitionIndexedSubmodule_two_ne_bot",
+      "docstring": "The selected partition-indexed complex submodule at rank two is nontrivial."
+    },
+    {
+      "temporary_id": "decl-015575",
+      "new_name": "partitionIndexedGeneralLinearRepresentation_apply_partitionFromFunction",
+      "docstring": "Identifies the representation for a partition formed from a finite function with the corresponding function-indexed representation."
+    },
+    {
+      "temporary_id": "decl-016593",
+      "new_name": "partitionIndexedRepresentation_properties",
+      "docstring": "Combines the vanishing criterion with admissible-rank equalities for an auxiliary invariant and the representation dimension."
+    },
+    {
+      "temporary_id": "decl-017734",
+      "new_name": "auxiliaryPartition_card_eq_two",
+      "docstring": "The auxiliary partition has exactly two parts."
+    },
+    {
+      "temporary_id": "decl-018059",
+      "new_name": "partitionIndexedAlternatingEndomorphism",
+      "docstring": "Defines an endomorphism of the ambient module associated with a partition and an ambient rank."
+    },
+    {
+      "temporary_id": "decl-018061",
+      "new_name": "partitionIndexedAlternatingEndomorphism_apply",
+      "docstring": "Evaluates the endomorphism as a signed sum over permutations acting by precomposition."
+    },
+    {
+      "temporary_id": "decl-018062",
+      "new_name": "partitionIndexedAlternatingEndomorphism_eq_zero_of_rank_lt_partitionLength",
+      "docstring": "The alternating endomorphism is zero when the ambient rank is smaller than the partition length."
+    },
+    {
+      "temporary_id": "decl-018843",
+      "new_name": "exists_pair_of_auxiliarySortedPartValue_eq_and_map_eq_of_rank_lt_partitionLength",
+      "docstring": "When a partition has more parts than the ambient rank, every map identifies distinct indices with equal auxiliary sorted-part values."
+    },
+    {
+      "temporary_id": "decl-019409",
+      "new_name": "partitionIndexedRepresentation_finrank_eq_auxiliaryNat",
+      "docstring": "In admissible rank, computes the scalar-valued finite dimension of the associated representation using an auxiliary natural-number expression."
+    },
+    {
+      "temporary_id": "decl-019410",
+      "new_name": "partitionIndexedRepresentation_finrank_eq_zero_iff_rank_lt_partitionLength",
+      "docstring": "The associated representation has zero finite dimension exactly when the ambient rank is smaller than the partition length."
+    },
+    {
+      "temporary_id": "decl-019411",
+      "new_name": "partitionIndexedRepresentation_finrank_eq_auxiliaryNat_of_partitionFromFunction",
+      "docstring": "Computes the representation dimension from a weakly decreasing finite function with the prescribed total and partition parts."
+    },
+    {
+      "temporary_id": "decl-019514",
+      "new_name": "partitionIndexedRepresentation_auxiliaryInvariant_eq_of_partitionLength_le_rank",
+      "docstring": "In admissible rank, identifies an auxiliary invariant of the representation with a value derived from its rank-indexed partition function."
+    },
+    {
+      "temporary_id": "decl-019515",
+      "new_name": "partitionIndexedRepresentation_auxiliaryInvariant_eq_of_partitionFromFunction",
+      "docstring": "Computes an auxiliary invariant of the representation from a weakly decreasing finite function with the prescribed partition parts."
+    },
+    {
+      "temporary_id": "decl-019840",
+      "new_name": "partitionIndexedCompositeEndomorphism_range_stable_under_generalLinearAction",
+      "docstring": "The range of the composite endomorphism is stable under the general linear group action."
+    },
+    {
+      "temporary_id": "decl-019842",
+      "new_name": "partitionIndexedCompositeEndomorphism_commutes_with_generalLinearAction",
+      "docstring": "The composite endomorphism commutes with the general linear group action."
+    },
+    {
+      "temporary_id": "decl-021789",
+      "new_name": "partitionPaddedFunction_toList_eq_sortedParts_append_zeros",
+      "docstring": "For an admissible rank, the values of the rank-indexed partition function are the sorted parts followed by enough zeros."
+    },
+    {
+      "temporary_id": "decl-021809",
+      "new_name": "auxiliaryPartition",
+      "docstring": "Defines an auxiliary partition of two."
+    },
+    {
+      "temporary_id": "decl-021870",
+      "new_name": "partitionPaddedFunction",
+      "docstring": "Defines a rank-indexed natural-valued function associated with a partition."
+    },
+    {
+      "temporary_id": "decl-021872",
+      "new_name": "partitionPaddedFunction_antitone",
+      "docstring": "The rank-indexed function associated with a partition is weakly decreasing."
+    },
+    {
+      "temporary_id": "decl-021873",
+      "new_name": "partitionIndexedCompositeEndomorphism",
+      "docstring": "Defines a composite endomorphism of the partition-indexed ambient module."
+    },
+    {
+      "temporary_id": "decl-021877",
+      "new_name": "partitionIndexedCompositeEndomorphism_eq_alternating_mul_auxiliary",
+      "docstring": "Factors the composite endomorphism as the product of the alternating endomorphism and an auxiliary endomorphism."
+    },
+    {
+      "temporary_id": "decl-021878",
+      "new_name": "partitionIndexedCompositeEndomorphism_eq_zero_of_rank_lt_partitionLength",
+      "docstring": "The composite endomorphism is zero when the ambient rank is smaller than the partition length."
+    },
+    {
+      "temporary_id": "decl-021879",
+      "new_name": "partitionIndexedCompositeEndomorphism_apply_partitionFromFunction",
+      "docstring": "Identifies the composite endomorphism for a partition created from a finite function with the corresponding function-indexed endomorphism."
+    },
+    {
+      "temporary_id": "decl-022890",
+      "new_name": "partitionIndexedAuxiliaryEndomorphism",
+      "docstring": "Defines an auxiliary endomorphism of the partition-indexed ambient module."
+    },
+    {
+      "temporary_id": "decl-022954",
+      "new_name": "partitionIndexedSubmoduleRepresentation",
+      "docstring": "Defines the general linear representation carried by the partition-indexed submodule."
+    },
+    {
+      "temporary_id": "decl-022959",
+      "new_name": "partitionIndexedSubmodule_addCommGroup",
+      "docstring": "Provides the additive commutative group structure on the carrier of the partition-indexed submodule."
+    },
+    {
+      "temporary_id": "decl-022966",
+      "new_name": "partitionIndexedSubmodule_moduleFinite",
+      "docstring": "The carrier of the partition-indexed submodule is a finite module over the coefficient field."
+    },
+    {
+      "temporary_id": "decl-023259",
+      "new_name": "sortedParts_length_eq_partitionCard",
+      "docstring": "The length of a partition's sorted-parts list equals the number of its parts."
+    },
+    {
+      "temporary_id": "decl-023554",
+      "new_name": "sum_partitionPaddedFunction_eq_partitionSize_of_partitionLength_le_rank",
+      "docstring": "For an admissible rank, the sum of the rank-indexed partition function equals the size of the partition."
+    },
+    {
+      "temporary_id": "decl-023617",
+      "new_name": "permutationLinearMap_apply_auxiliaryFunctionMap",
+      "docstring": "A permutation linear map sends the auxiliary function map to its precomposition by the inverse permutation."
+    },
+    {
+      "temporary_id": "decl-024503",
+      "new_name": "partitionFromPaddedFunction_parts_eq_of_partitionLength_le_rank",
+      "docstring": "An admissible padded partition function reconstructs the original multiset of partition parts."
+    },
+    {
+      "temporary_id": "decl-024525",
+      "new_name": "auxiliaryNat_pos_of_antitone",
+      "docstring": "The auxiliary natural-number expression is positive for every weakly decreasing rank-indexed function."
+    }
+  ]
+}
