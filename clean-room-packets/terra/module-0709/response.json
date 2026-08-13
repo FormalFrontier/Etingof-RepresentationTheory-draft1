@@ -1,10 +1,10 @@
 {
-  "module_name": "Auxiliary",
+  "module_name": "RegularModuleProperty",
   "declarations": [
     {
       "temporary_id": "decl-021606",
-      "new_name": "auxiliary",
-      "docstring": "An auxiliary statement about the regular module object over a ring."
+      "new_name": "regularModuleProperty",
+      "docstring": "The regular module of a ring satisfies the indicated module property."
     }
   ]
 }
