@@ -1,0 +1,45 @@
+{
+  "declarations": [
+    {
+      "docstring": "There are auxiliary presentations whose zeroth and first components are products of cyclic groups determined by pairwise gcds, while every component indexed two or more is subsingleton.",
+      "new_name": "Algebra.Auxiliary.exists_gcdZModComponentEquivalences_and_higher_subsingleton",
+      "temporary_id": "decl-014453"
+    },
+    {
+      "docstring": "Every component indexed by a natural number plus two is subsingleton when the first input is finite over the integers.",
+      "new_name": "Algebra.Auxiliary.componentAtNatAddTwo_subsingleton",
+      "temporary_id": "decl-014454"
+    },
+    {
+      "docstring": "For presentations with nonzero indexed coefficients, the component at one is additively equivalent to the product of cyclic groups whose orders are the corresponding gcds.",
+      "new_name": "Algebra.Auxiliary.componentAtOne_addEquiv_pi_zmod_gcd",
+      "temporary_id": "decl-014457"
+    },
+    {
+      "docstring": "The zeroth component associated to two cyclic groups of orders `a` and `c` is isomorphic to the cyclic group of order `a.gcd c`.",
+      "new_name": "Algebra.Auxiliary.componentAtZero_zmod_iso_zmod_gcd",
+      "temporary_id": "decl-014460"
+    },
+    {
+      "docstring": "The component at zero is additively equivalent to the product of cyclic groups whose orders are gcds of the indexed coefficients.",
+      "new_name": "Algebra.Auxiliary.componentAtZero_addEquiv_pi_zmod_gcd",
+      "temporary_id": "decl-014461"
+    },
+    {
+      "docstring": "An indexed module is linearly equivalent over the integers to the cyclic group whose order is the absolute value of its associated coefficient.",
+      "new_name": "Algebra.Auxiliary.indexedModule_linearEquiv_zmod_natAbs",
+      "temporary_id": "decl-020693"
+    },
+    {
+      "docstring": "An indexed object is isomorphic to the integer module carried by the cyclic group whose order is the absolute value of its associated coefficient.",
+      "new_name": "Algebra.Auxiliary.indexedObject_iso_zmod_natAbs",
+      "temporary_id": "decl-021647"
+    },
+    {
+      "docstring": "The quotient of `ZMod c` by the span of the image of `a` is additively equivalent to `ZMod (a.gcd c)`.",
+      "new_name": "Algebra.Auxiliary.zmodQuotientSpan_addEquiv_zmod_gcd",
+      "temporary_id": "decl-024714"
+    }
+  ],
+  "module_name": "Algebra.Auxiliary.GcdZModEquivalences"
+}
