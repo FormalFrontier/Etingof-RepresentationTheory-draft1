@@ -174,6 +174,7 @@ import RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences
 import RepresentationTheory.Algebra.Module.IsotypicDecomposition
 import RepresentationTheory.TensorPowerRepresentations
 import RepresentationTheory.Complex.InvariantInnerProduct
+import RepresentationTheory.Polynomial.AdjoinRoot.Matrix
 import RepresentationTheory.Polynomial.Recurrences
 import RepresentationTheory.Group.ConjugateDuality
 import RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional
