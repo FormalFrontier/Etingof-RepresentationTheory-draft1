@@ -241,6 +241,7 @@ import RepresentationTheory.CategoryTheory.Preadditive.IsoHomEquiv
 import RepresentationTheory.Algebra.Homology.LinearYoneda
 import RepresentationTheory.Algebra.TensorProduct.Module
 import RepresentationTheory.HomologicalComplexShortExactHomology
+import RepresentationTheory.CategoryTheory.EnrichedCorepresentability
 
 /-!
 # Representation theory formalization
