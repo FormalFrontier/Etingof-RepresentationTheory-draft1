@@ -301,6 +301,7 @@ import RepresentationTheory.AbelianCategoryRepresentation
 import RepresentationTheory.FiniteDimensional.Equivalences
 import RepresentationTheory.Algebra.TensorProduct.ModuleCat
 import RepresentationTheory.Algebra.Homological.EquivalenceInvariance
+import RepresentationTheory.Algebra.Homological.AuxiliaryDimensionTransfer
 
 /-!
 # Representation theory formalization
