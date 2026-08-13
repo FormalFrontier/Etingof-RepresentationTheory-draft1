@@ -29,6 +29,10 @@ tag := "Chapter8/Definition8.2.4/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.LinearYoneda.ModuleCat.linearYonedaHomologyIsoOfProjectiveResolution}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses}
