@@ -1,35 +1,35 @@
 {
-  "module_name": "FinitelyGeneratedModules",
+  "module_name": "ModuleObjectProperties",
   "declarations": [
     {
       "temporary_id": "decl-013188",
-      "new_name": "ModuleCat.finitelyGeneratedSubcategoryHasAbelianStructure",
-      "docstring": "For a commutative algebra of finite type over the integers, the full subcategory of finitely generated modules admits an abelian category structure."
+      "new_name": "ModuleCat.moduleObjectPropertyFullSubcategoryHasAbelianStructure",
+      "docstring": "For a commutative algebra of finite type over the integers, the full subcategory defined by this module object property has an abelian category structure."
     },
     {
       "temporary_id": "decl-013189",
       "new_name": "containsZero",
-      "docstring": "The zero module is finitely generated over any commutative ring."
+      "docstring": "This object property of modules over a commutative ring contains the zero object."
     },
     {
       "temporary_id": "decl-013190",
       "new_name": "isClosedUnderFiniteProducts",
-      "docstring": "Finite products of finitely generated modules over a commutative ring are finitely generated."
+      "docstring": "This object property of modules over a commutative ring is closed under finite products."
     },
     {
       "temporary_id": "decl-013191",
       "new_name": "isClosedUnderQuotients",
-      "docstring": "Every quotient of a finitely generated module over a commutative ring is finitely generated."
+      "docstring": "This object property of modules over a commutative ring is closed under quotients."
     },
     {
       "temporary_id": "decl-013192",
       "new_name": "isClosedUnderSubobjects",
-      "docstring": "Over a Noetherian commutative ring, submodules of finitely generated modules are finitely generated."
+      "docstring": "Over a Noetherian commutative ring, this object property of modules is closed under subobjects."
     },
     {
       "temporary_id": "decl-020842",
-      "new_name": "ModuleCat.finitelyGenerated",
-      "docstring": "The object property on `ModuleCat A` consisting of modules that are finitely generated over `A`."
+      "new_name": "ModuleCat.moduleObjectProperty",
+      "docstring": "An object property of the category of modules over a commutative ring."
     }
   ]
 }
