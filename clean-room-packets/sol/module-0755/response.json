@@ -1,0 +1,270 @@
+{
+  "module_name": "RepresentationTheory.PermutationRepresentation.CharTwo",
+  "declarations": [
+    {
+      "temporary_id": "decl-013997",
+      "new_name": "ActingPermutationType",
+      "docstring": "The ambient type of acting permutations used in the constructions below."
+    },
+    {
+      "temporary_id": "decl-013998",
+      "new_name": "nonempty_algEquiv_matrix_prod_auxiliaryAlgebra",
+      "docstring": "In characteristic two, the monoid algebra is algebra-equivalent to a product of two-by-two matrices and the auxiliary algebra."
+    },
+    {
+      "temporary_id": "decl-013999",
+      "new_name": "distinguishedSubrepresentationBasis",
+      "docstring": "A basis indexed by two coordinates for the distinguished subrepresentation."
+    },
+    {
+      "temporary_id": "decl-014002",
+      "new_name": "associatedType_card_eq_two",
+      "docstring": "The associated type for the monoid algebra has cardinality two."
+    },
+    {
+      "temporary_id": "decl-014003",
+      "new_name": "distinguishedSubrepresentationEquiv",
+      "docstring": "The distinguished subrepresentation is linearly equivalent to functions on two indices."
+    },
+    {
+      "temporary_id": "decl-014012",
+      "new_name": "distinguishedSubrepresentationEquiv_apply_one",
+      "docstring": "The second coordinate of the linear equivalence is the value of the vector at index two."
+    },
+    {
+      "temporary_id": "decl-014013",
+      "new_name": "distinguishedSubrepresentationEquiv_apply_zero",
+      "docstring": "The first coordinate of the linear equivalence is the value of the vector at index zero."
+    },
+    {
+      "temporary_id": "decl-014014",
+      "new_name": "distinguishedSubrepresentationEquiv_symm_apply",
+      "docstring": "The inverse equivalence sends two coordinates to the vector whose entries are the first coordinate, their sum, and the second coordinate."
+    },
+    {
+      "temporary_id": "decl-014015",
+      "new_name": "distinguishedAlgebraElement",
+      "docstring": "A distinguished element of the monoid algebra."
+    },
+    {
+      "temporary_id": "decl-014017",
+      "new_name": "monoidAlgebraAuxiliaryData",
+      "docstring": "Auxiliary structure carried by the monoid algebra in characteristic two."
+    },
+    {
+      "temporary_id": "decl-014019",
+      "new_name": "distinguishedAlgebraElement_mul_comm",
+      "docstring": "The distinguished algebra element commutes with every element of the monoid algebra."
+    },
+    {
+      "temporary_id": "decl-014020",
+      "new_name": "distinguishedAlgebraElement_mul_single_comm",
+      "docstring": "The distinguished algebra element commutes with every single basis element."
+    },
+    {
+      "temporary_id": "decl-014021",
+      "new_name": "isIdempotentElem_distinguishedAlgebraElement",
+      "docstring": "In characteristic two, the distinguished algebra element is idempotent."
+    },
+    {
+      "temporary_id": "decl-014023",
+      "new_name": "distinguishedAlgebraElement_smul_restrictedRepresentation",
+      "docstring": "The distinguished algebra element acts as the identity on the restricted representation."
+    },
+    {
+      "temporary_id": "decl-014024",
+      "new_name": "distinguishedAlgebraElement_smul_oneDimensionalRepresentation",
+      "docstring": "The distinguished algebra element acts as zero on the one-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-014025",
+      "new_name": "AuxiliaryAlgebra",
+      "docstring": "An auxiliary type depending on a field."
+    },
+    {
+      "temporary_id": "decl-014026",
+      "new_name": "distinguishedModuleObjects_not_related",
+      "docstring": "The displayed relation does not hold between the two distinguished module objects in characteristic two."
+    },
+    {
+      "temporary_id": "decl-014028",
+      "new_name": "one_add_one_eq_zero",
+      "docstring": "Over a field of characteristic two, one plus one is zero."
+    },
+    {
+      "temporary_id": "decl-014029",
+      "new_name": "coordinatePermutationRepresentation",
+      "docstring": "The representation on functions with three coordinates."
+    },
+    {
+      "temporary_id": "decl-014032",
+      "new_name": "coordinatePermutationRepresentation_apply",
+      "docstring": "Acting on a coordinate function evaluates it at the inverse image of the coordinate."
+    },
+    {
+      "temporary_id": "decl-014033",
+      "new_name": "auxiliaryAlgebraHom",
+      "docstring": "An algebra homomorphism from the monoid algebra to the auxiliary algebra in characteristic two."
+    },
+    {
+      "temporary_id": "decl-014036",
+      "new_name": "auxiliaryAlgebraHom_distinguishedAlgebraElement",
+      "docstring": "The auxiliary algebra homomorphism sends the distinguished algebra element to zero."
+    },
+    {
+      "temporary_id": "decl-014037",
+      "new_name": "auxiliaryAlgebraHom_single",
+      "docstring": "On a single basis element, the auxiliary algebra homomorphism agrees with the units homomorphism evaluated at its sign."
+    },
+    {
+      "temporary_id": "decl-014038",
+      "new_name": "auxiliaryAlgebraHom_surjective",
+      "docstring": "The auxiliary algebra homomorphism is surjective."
+    },
+    {
+      "temporary_id": "decl-014039",
+      "new_name": "matrixAlgebraHom",
+      "docstring": "An algebra homomorphism from the monoid algebra to two-by-two matrices in characteristic two."
+    },
+    {
+      "temporary_id": "decl-014044",
+      "new_name": "matrixAlgebraHom_distinguishedAlgebraElement",
+      "docstring": "The matrix algebra homomorphism sends the distinguished algebra element to the identity matrix."
+    },
+    {
+      "temporary_id": "decl-014045",
+      "new_name": "matrixAlgebraHom_single_apply",
+      "docstring": "A matrix entry of the image of a single basis element is computed from its action on the corresponding basis vector."
+    },
+    {
+      "temporary_id": "decl-014046",
+      "new_name": "matrixAlgebraHom_single_one",
+      "docstring": "The single basis element at the identity maps to the identity matrix."
+    },
+    {
+      "temporary_id": "decl-014047",
+      "new_name": "matrixAlgebraHom_single_eq_toMatrix",
+      "docstring": "The image of a single basis element is the matrix of its action on the distinguished subrepresentation."
+    },
+    {
+      "temporary_id": "decl-014048",
+      "new_name": "matrixAlgebraHom_surjective",
+      "docstring": "The matrix algebra homomorphism is surjective."
+    },
+    {
+      "temporary_id": "decl-014049",
+      "new_name": "matrixAlgebraHom_single_swap_zero_one",
+      "docstring": "The transposition of indices zero and one maps to the displayed two-by-two matrix."
+    },
+    {
+      "temporary_id": "decl-014050",
+      "new_name": "matrixAlgebraHom_single_swap_zero_two",
+      "docstring": "The transposition of indices zero and two maps to the displayed two-by-two matrix."
+    },
+    {
+      "temporary_id": "decl-014051",
+      "new_name": "matrixAlgebraHom_single_distinguishedPermutation",
+      "docstring": "The distinguished permutation maps to the displayed two-by-two matrix."
+    },
+    {
+      "temporary_id": "decl-014052",
+      "new_name": "matrixAlgebraHom_single_distinguishedPermutation_sq",
+      "docstring": "The square of the distinguished permutation maps to the displayed two-by-two matrix."
+    },
+    {
+      "temporary_id": "decl-014053",
+      "new_name": "auxiliaryMonoidHom",
+      "docstring": "A monoid homomorphism from the acting permutation type to the auxiliary algebra in characteristic two."
+    },
+    {
+      "temporary_id": "decl-014054",
+      "new_name": "simpleModule_iso_distinguished_or_oneDimensional",
+      "docstring": "Every simple module object over the monoid algebra is isomorphic to one of the two distinguished module objects."
+    },
+    {
+      "temporary_id": "decl-014060",
+      "new_name": "distinguishedModuleObject",
+      "docstring": "A distinguished module object over the monoid algebra."
+    },
+    {
+      "temporary_id": "decl-014061",
+      "new_name": "restrictedRepresentation_isSimpleModule",
+      "docstring": "In characteristic two, the module underlying the restricted representation is simple."
+    },
+    {
+      "temporary_id": "decl-014063",
+      "new_name": "restrictedRepresentation",
+      "docstring": "The representation obtained on the carrier of the distinguished subrepresentation."
+    },
+    {
+      "temporary_id": "decl-014064",
+      "new_name": "distinguishedSubrepresentation",
+      "docstring": "A distinguished subrepresentation of the three-coordinate permutation representation."
+    },
+    {
+      "temporary_id": "decl-014068",
+      "new_name": "coordinateSum",
+      "docstring": "The linear map from three-coordinate functions to the sum of their coordinates."
+    },
+    {
+      "temporary_id": "decl-014070",
+      "new_name": "coordinateSum_apply",
+      "docstring": "The coordinate-sum map evaluates to the sum over all three coordinates."
+    },
+    {
+      "temporary_id": "decl-014071",
+      "new_name": "distinguishedNilpotent",
+      "docstring": "A distinguished element of the auxiliary algebra."
+    },
+    {
+      "temporary_id": "decl-014072",
+      "new_name": "distinguishedNilpotent_sq",
+      "docstring": "In characteristic two, the square of the distinguished auxiliary element is zero."
+    },
+    {
+      "temporary_id": "decl-014073",
+      "new_name": "distinguishedPermutation",
+      "docstring": "A distinguished element of the acting permutation type."
+    },
+    {
+      "temporary_id": "decl-014074",
+      "new_name": "oneDimensionalModuleObject",
+      "docstring": "A module object over the monoid algebra associated with the one-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-014075",
+      "new_name": "oneDimensionalRepresentation_isSimpleModule",
+      "docstring": "The module underlying the one-dimensional representation is simple."
+    },
+    {
+      "temporary_id": "decl-014076",
+      "new_name": "oneDimensionalRepresentation",
+      "docstring": "A representation of the acting permutation type on the base field."
+    },
+    {
+      "temporary_id": "decl-014078",
+      "new_name": "secondDistinguishedPermutation",
+      "docstring": "A second distinguished element of the acting permutation type."
+    },
+    {
+      "temporary_id": "decl-014079",
+      "new_name": "unitsToAuxiliaryAlgebra",
+      "docstring": "A monoid homomorphism from the units of the integers to the auxiliary algebra in characteristic two."
+    },
+    {
+      "temporary_id": "decl-014084",
+      "new_name": "unitsToAuxiliaryAlgebra_auxiliary",
+      "docstring": "An auxiliary property relating the units homomorphism and the distinguished element of the auxiliary algebra."
+    },
+    {
+      "temporary_id": "decl-014085",
+      "new_name": "unitsToAuxiliaryAlgebra_one",
+      "docstring": "The units homomorphism sends one to one."
+    },
+    {
+      "temporary_id": "decl-014086",
+      "new_name": "one_add_distinguishedNilpotent_sq",
+      "docstring": "In characteristic two, the square of one plus the distinguished auxiliary element is one."
+    }
+  ]
+}
