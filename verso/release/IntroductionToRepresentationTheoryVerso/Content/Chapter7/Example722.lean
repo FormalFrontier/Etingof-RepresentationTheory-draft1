@@ -46,3 +46,5 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.Mathlib.LinearAlgebra.SymmetricPower.Functor.SymmetricPower.moduleEndofunctorOfNat}
+
+{Manual.docstring RepresentationTheory.Mathlib.RepresentationTheory.PiTensorProduct.Equivariant.equivariantLinearMapsFunctor}
