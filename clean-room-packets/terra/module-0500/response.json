@@ -1,0 +1,15 @@
+{
+  "module_name": "AuxiliaryIntegerVectorTransforms",
+  "declarations": [
+    {
+      "temporary_id": "decl-022846",
+      "new_name": "auxiliaryVectorTransform",
+      "docstring": "An auxiliary transformation of an integer-valued finite vector determined by a matrix and a second vector."
+    },
+    {
+      "temporary_id": "decl-023169",
+      "new_name": "auxiliaryCoordinateTransform",
+      "docstring": "An auxiliary transformation of an integer-valued finite vector determined by a matrix and a selected coordinate."
+    }
+  ]
+}
