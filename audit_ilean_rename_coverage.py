@@ -161,6 +161,117 @@ def reassoc_generated_origin(
     return parent_fqn, position
 
 
+def tactic_macro_generated_origin(
+    old_fqn: str,
+    source: str,
+) -> tuple[str, list[int]] | None:
+    """Locate the string token that generated a tactic-macro declaration.
+
+    Lean gives a command such as ``macro "cartan_det" : tactic =>`` the
+    synthesized environment name ``tacticCartan_det``.  That declaration has
+    neither an identifier token nor a definition range in the ``.ilean`` file.
+    Accept this case only for an exact, unique one-token tactic macro enclosed
+    by the namespace encoded in ``old_fqn``.
+    """
+    namespace, separator, leaf = old_fqn.rpartition(".")
+    if not separator or not leaf.startswith("tactic") or len(leaf) == len("tactic"):
+        return None
+    surface = leaf[len("tactic") :]
+    surface = surface[:1].lower() + surface[1:]
+    if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_']*", surface):
+        return None
+    expected_leaf = f"tactic{surface[:1].upper()}{surface[1:]}"
+    if leaf != expected_leaf:
+        return None
+
+    # Preserve offsets while hiding line comments and nested block comments so
+    # that commented-out macro or namespace commands cannot satisfy the audit.
+    visible = list(source)
+    index = 0
+    block_depth = 0
+    in_string = False
+    escaped = False
+    while index < len(source):
+        if block_depth:
+            if source.startswith("/-", index):
+                visible[index : index + 2] = "  "
+                block_depth += 1
+                index += 2
+            elif source.startswith("-/", index):
+                visible[index : index + 2] = "  "
+                block_depth -= 1
+                index += 2
+            else:
+                if source[index] != "\n":
+                    visible[index] = " "
+                index += 1
+        elif in_string:
+            if escaped:
+                escaped = False
+            elif source[index] == "\\":
+                escaped = True
+            elif source[index] == '"':
+                in_string = False
+            index += 1
+        elif source.startswith("--", index):
+            end = source.find("\n", index)
+            if end < 0:
+                end = len(source)
+            visible[index:end] = " " * (end - index)
+            index = end
+        elif source.startswith("/-", index):
+            visible[index : index + 2] = "  "
+            block_depth = 1
+            index += 2
+        else:
+            if source[index] == '"':
+                in_string = True
+            index += 1
+    visible_source = "".join(visible)
+
+    pattern = re.compile(
+        rf'(?m)^[ \t]*macro[ \t]+"(?P<surface>{re.escape(surface)})"'
+        r"[ \t]*:[ \t]*tactic[ \t]*=>"
+    )
+    matches = list(pattern.finditer(visible_source))
+    if len(matches) != 1:
+        return None
+    match = matches[0]
+
+    namespace_pattern = re.compile(
+        rf"(?m)^[ \t]*namespace[ \t]+{re.escape(namespace)}[ \t]*$"
+    )
+    namespace_matches = list(namespace_pattern.finditer(visible_source, 0, match.start()))
+    if not namespace_matches:
+        return None
+    namespace_match = namespace_matches[-1]
+    scope_boundary_pattern = re.compile(
+        r"(?m)^[ \t]*(?:namespace(?:[ \t]+[^\r\n]+)?|end(?:[ \t]+[^\r\n]+)?)[ \t]*$"
+    )
+    if scope_boundary_pattern.search(visible_source, namespace_match.end(), match.start()):
+        return None
+
+    end_pattern = re.compile(
+        rf"(?m)^[ \t]*end[ \t]+{re.escape(namespace)}[ \t]*$"
+    )
+    end_match = end_pattern.search(visible_source, match.end())
+    if end_match is None:
+        return None
+    boundary = scope_boundary_pattern.search(visible_source, match.end(), end_match.end())
+    if boundary is None or boundary.start() != end_match.start():
+        return None
+
+    start = match.start("surface")
+    end = match.end("surface")
+    start_line = source.count("\n", 0, start)
+    start_column = start - (source.rfind("\n", 0, start) + 1)
+    end_line = source.count("\n", 0, end)
+    end_column = end - (source.rfind("\n", 0, end) + 1)
+    if start_line != end_line:
+        return None
+    return surface, [start_line, start_column, end_line, end_column]
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("tainted", type=Path)
@@ -213,7 +324,21 @@ def main() -> None:
                 generated = reassoc_generated_origin(old_fqn, module, source, ilean, by_old)
                 generated_by = "reassoc"
             if generated is None:
-                errors.append(f"{old_fqn}: no definition range in provider ilean")
+                macro_origin = tactic_macro_generated_origin(old_fqn, source)
+                if macro_origin is None:
+                    errors.append(f"{old_fqn}: no definition range in provider ilean")
+                    continue
+                macro_spelling, macro_position = macro_origin
+                definition_audit.append({
+                    "temporary_id": proposal["temporary_id"],
+                    "old_fqn": old_fqn,
+                    "new_fqn": proposal["new_fqn"],
+                    "old_module": module,
+                    "new_module": proposal["new_module"],
+                    "definition_range": macro_position,
+                    "definition_spelling": macro_spelling,
+                    "generated_by": "tactic_macro",
+                })
                 continue
             parent_fqn, parent_position = generated
             definition_audit.append({
