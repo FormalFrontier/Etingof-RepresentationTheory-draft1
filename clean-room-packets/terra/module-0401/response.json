@@ -1,0 +1,90 @@
+{
+  "module_name": "GeneralLinearGroup.ExteriorPower",
+  "declarations": [
+    {
+      "docstring": "The representation indexed by the pointwise successor is isomorphic to the tensor product of the original representation with an auxiliary finite-dimensional representation.",
+      "new_name": "shiftedAuxiliaryRepresentationTensorAuxiliaryIsoNonempty",
+      "temporary_id": "decl-014674"
+    },
+    {
+      "docstring": "The successor-indexed representation is isomorphic to the tensor product of the original representation and an auxiliary representation.",
+      "new_name": "shiftedAuxiliaryRepresentationTensorIsoNonempty",
+      "temporary_id": "decl-014675"
+    },
+    {
+      "docstring": "An auxiliary finite-dimensional representation of the general linear group.",
+      "new_name": "auxiliaryFiniteDimensionalRepresentation",
+      "temporary_id": "decl-018336"
+    },
+    {
+      "docstring": "An auxiliary representation on a subtype defined by membership in an indexed collection.",
+      "new_name": "auxiliarySubtypeRepresentation",
+      "temporary_id": "decl-018342"
+    },
+    {
+      "docstring": "Incrementing every index multiplies the auxiliary polynomial by the product of the polynomial variables.",
+      "new_name": "auxiliaryPolynomial_shift_eq_mul",
+      "temporary_id": "decl-019539"
+    },
+    {
+      "docstring": "The auxiliary invariant of the subtype representation with shifted parameter agrees with that of the corresponding finite-dimensional representation.",
+      "new_name": "auxiliaryInvariant_ofSubtypeRepresentation_shift",
+      "temporary_id": "decl-019848"
+    },
+    {
+      "docstring": "The additive commutative group structure on the auxiliary membership subtype.",
+      "new_name": "auxiliarySubtypeAddCommGroup",
+      "temporary_id": "decl-022199"
+    },
+    {
+      "docstring": "The finite-dimensional representation for the incremented index is isomorphic to the auxiliary subtype representation.",
+      "new_name": "shiftedAuxiliarySubtypeRepresentationIsoNonempty",
+      "temporary_id": "decl-023007"
+    },
+    {
+      "docstring": "The tensor product of an indexed representation with an auxiliary representation is isomorphic to the auxiliary subtype representation.",
+      "new_name": "tensorAuxiliaryRepresentationIsoNonempty",
+      "temporary_id": "decl-023013"
+    },
+    {
+      "docstring": "The right tensor unitor intertwines the indicated auxiliary subtype action with the tensor-product action.",
+      "new_name": "auxiliarySubtypeRepresentation_tensorRightUnitor_naturality",
+      "temporary_id": "decl-024054"
+    },
+    {
+      "docstring": "The representation of the general linear group on the specified exterior-power subtype.",
+      "new_name": "exteriorPowerRepresentation",
+      "temporary_id": "decl-024174"
+    },
+    {
+      "docstring": "The exterior-power representation acts by scalar multiplication by the determinant.",
+      "new_name": "exteriorPowerRepresentation_apply",
+      "temporary_id": "decl-024177"
+    },
+    {
+      "docstring": "A second auxiliary finite-dimensional representation of the general linear group.",
+      "new_name": "auxiliaryFiniteDimensionalRepresentationPrime",
+      "temporary_id": "decl-024178"
+    },
+    {
+      "docstring": "An isomorphism between the two auxiliary finite-dimensional representations.",
+      "new_name": "auxiliaryFiniteDimensionalRepresentationsIso",
+      "temporary_id": "decl-024180"
+    },
+    {
+      "docstring": "A linear equivalence from the specified exterior-power subtype to the base field.",
+      "new_name": "exteriorPowerLinearEquiv",
+      "temporary_id": "decl-024182"
+    },
+    {
+      "docstring": "The exterior-power linear equivalence evaluates through the alternating map associated with the standard basis determinant.",
+      "new_name": "exteriorPowerLinearEquiv_apply",
+      "temporary_id": "decl-024192"
+    },
+    {
+      "docstring": "The exterior-power linear equivalence intertwines the exterior-power action with multiplication by the determinant.",
+      "new_name": "exteriorPowerLinearEquiv_intertwines",
+      "temporary_id": "decl-024193"
+    }
+  ]
+}
