@@ -92,8 +92,8 @@ def reassoc_generated_origin(
     A reassociation theorem has no source token of its own.  Accept that case
     only when both the old and new names are exact ``_assoc`` extensions, the
     child is absent from the provider index or has a null definition, and the
-    indexed parent lemma has an attached ``@[reassoc]`` or
-    ``@[reassoc (attr := simp)]`` attribute.  A later explicit attribute
+    indexed parent lemma has an attached ``@[reassoc]``, ``@[simp, reassoc]``,
+    or ``@[reassoc (attr := simp)]`` attribute.  A later explicit attribute
     additionally requires an indexed null child.
     """
     if not old_fqn.endswith("_assoc"):
@@ -144,7 +144,8 @@ def reassoc_generated_origin(
     start_line = position[0]
     attached_context = "".join(source_lines[max(0, start_line - 2) : start_line + 1])
     attached = re.search(
-        r"@\[\s*reassoc(?:\s*\(\s*attr\s*:=\s*simp\s*\))?\s*\]"
+        r"@\[\s*(?:simp\s*,\s*)?reassoc"
+        r"(?:\s*\(\s*attr\s*:=\s*simp\s*\))?\s*\]"
         r"\s*(?:lemma|theorem)\s+",
         attached_context,
     )
