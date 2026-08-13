@@ -1,0 +1,35 @@
+{
+  "module_name": "FinitelyGeneratedModules",
+  "declarations": [
+    {
+      "temporary_id": "decl-013188",
+      "new_name": "ModuleCat.finitelyGeneratedSubcategoryHasAbelianStructure",
+      "docstring": "For a commutative algebra of finite type over the integers, the full subcategory of finitely generated modules admits an abelian category structure."
+    },
+    {
+      "temporary_id": "decl-013189",
+      "new_name": "containsZero",
+      "docstring": "The zero module is finitely generated over any commutative ring."
+    },
+    {
+      "temporary_id": "decl-013190",
+      "new_name": "isClosedUnderFiniteProducts",
+      "docstring": "Finite products of finitely generated modules over a commutative ring are finitely generated."
+    },
+    {
+      "temporary_id": "decl-013191",
+      "new_name": "isClosedUnderQuotients",
+      "docstring": "Every quotient of a finitely generated module over a commutative ring is finitely generated."
+    },
+    {
+      "temporary_id": "decl-013192",
+      "new_name": "isClosedUnderSubobjects",
+      "docstring": "Over a Noetherian commutative ring, submodules of finitely generated modules are finitely generated."
+    },
+    {
+      "temporary_id": "decl-020842",
+      "new_name": "ModuleCat.finitelyGenerated",
+      "docstring": "The object property on `ModuleCat A` consisting of modules that are finitely generated over `A`."
+    }
+  ]
+}
