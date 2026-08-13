@@ -180,6 +180,7 @@ import RepresentationTheory.TensorCoefficientIndependence
 import RepresentationTheory.FiniteGroupCharacterArithmetic
 import RepresentationTheory.RepresentationAveragingTrace
 import RepresentationTheory.SymmetricPower.Basis
+import RepresentationTheory.AuxiliaryIntegerMatrixProperty
 
 /-!
 # Representation theory formalization
