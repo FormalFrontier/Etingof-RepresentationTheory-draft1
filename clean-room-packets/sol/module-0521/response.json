@@ -1,0 +1,225 @@
+{
+  "module_name": "FourVertexStarRepresentationClassification",
+  "declarations": [
+    {
+      "temporary_id": "decl-000334",
+      "new_name": "DimensionRealization",
+      "docstring": "Data realizing an admissible four-coordinate dimension by a representation over a field."
+    },
+    {
+      "temporary_id": "decl-000339",
+      "new_name": "dimension_apply",
+      "docstring": "The dimension of the realized representation at each vertex agrees with the corresponding coordinate of the prescribed dimension data."
+    },
+    {
+      "temporary_id": "decl-000340",
+      "new_name": "vertexFinite",
+      "docstring": "Every vertex of the representation associated with a dimension realization satisfies the finite-vertex condition."
+    },
+    {
+      "temporary_id": "decl-000341",
+      "new_name": "vertexFree",
+      "docstring": "Every vertex of the representation associated with a dimension realization satisfies the free-vertex condition."
+    },
+    {
+      "temporary_id": "decl-000342",
+      "new_name": "isIndecomposable",
+      "docstring": "The representation associated with a dimension realization is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000353",
+      "new_name": "toRepresentation",
+      "docstring": "The four-vertex quiver representation determined by a dimension realization."
+    },
+    {
+      "temporary_id": "decl-000354",
+      "new_name": "AdmissibleDimension",
+      "docstring": "The type of admissible four-coordinate dimension data for the fixed representation shape."
+    },
+    {
+      "temporary_id": "decl-000355",
+      "new_name": "IsVertexFinite",
+      "docstring": "The predicate that a quiver representation satisfies the designated finiteness condition at a vertex."
+    },
+    {
+      "temporary_id": "decl-000356",
+      "new_name": "IsVertexFree",
+      "docstring": "The predicate that a quiver representation satisfies the designated freeness condition at a vertex."
+    },
+    {
+      "temporary_id": "decl-000358",
+      "new_name": "Equiv",
+      "docstring": "An equivalence between two four-space star-shaped representations."
+    },
+    {
+      "temporary_id": "decl-000361",
+      "new_name": "leafOneLinearEquiv",
+      "docstring": "The linear equivalence on the first leaf space of equivalent star-shaped representations."
+    },
+    {
+      "temporary_id": "decl-000362",
+      "new_name": "leafTwoLinearEquiv",
+      "docstring": "The linear equivalence on the second leaf space of equivalent star-shaped representations."
+    },
+    {
+      "temporary_id": "decl-000363",
+      "new_name": "leafThreeLinearEquiv",
+      "docstring": "The linear equivalence on the third leaf space of equivalent star-shaped representations."
+    },
+    {
+      "temporary_id": "decl-000365",
+      "new_name": "centerLinearEquiv",
+      "docstring": "The linear equivalence on the center space of equivalent star-shaped representations."
+    },
+    {
+      "temporary_id": "decl-000366",
+      "new_name": "leafOne_comm_apply",
+      "docstring": "The center and first-leaf equivalences intertwine the first leaf-to-center structure map."
+    },
+    {
+      "temporary_id": "decl-000367",
+      "new_name": "leafTwo_comm_apply",
+      "docstring": "The center and second-leaf equivalences intertwine the second leaf-to-center structure map."
+    },
+    {
+      "temporary_id": "decl-000368",
+      "new_name": "leafThree_comm_apply",
+      "docstring": "The center and third-leaf equivalences intertwine the third leaf-to-center structure map."
+    },
+    {
+      "temporary_id": "decl-000380",
+      "new_name": "adjacencyMatrix_isCompatible",
+      "docstring": "The fixed four-vertex quiver and its integer matrix satisfy the designated compatibility condition."
+    },
+    {
+      "temporary_id": "decl-000381",
+      "new_name": "hom_subsingleton",
+      "docstring": "Every arrow type between two vertices of the fixed four-vertex quiver is a subsingleton."
+    },
+    {
+      "temporary_id": "decl-000392",
+      "new_name": "canonicalDimensionRealization",
+      "docstring": "The canonical realization of an admissible dimension over a field."
+    },
+    {
+      "temporary_id": "decl-000393",
+      "new_name": "standardRepresentation",
+      "docstring": "The standard four-vertex quiver representation associated with an admissible dimension."
+    },
+    {
+      "temporary_id": "decl-000394",
+      "new_name": "standardRepresentation_dimension_apply",
+      "docstring": "At each vertex, the standard representation has the coordinate prescribed by its admissible dimension."
+    },
+    {
+      "temporary_id": "decl-000395",
+      "new_name": "standardRepresentation_isVertexFinite",
+      "docstring": "The standard representation satisfies the finite-vertex condition at every vertex."
+    },
+    {
+      "temporary_id": "decl-000396",
+      "new_name": "standardRepresentation_isVertexFree",
+      "docstring": "The standard representation satisfies the free-vertex condition at every vertex."
+    },
+    {
+      "temporary_id": "decl-000397",
+      "new_name": "standardRepresentation_isIndecomposable",
+      "docstring": "Every standard representation indexed by an admissible dimension is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000398",
+      "new_name": "standardRepresentation_not_equiv_of_ne",
+      "docstring": "Standard representations attached to distinct admissible dimensions are not equivalent."
+    },
+    {
+      "temporary_id": "decl-000400",
+      "new_name": "classificationIndex",
+      "docstring": "The admissible dimension indexing an indecomposable star-shaped representation."
+    },
+    {
+      "temporary_id": "decl-000401",
+      "new_name": "card_admissibleDimension",
+      "docstring": "There are exactly twelve admissible dimensions."
+    },
+    {
+      "temporary_id": "decl-000402",
+      "new_name": "admissibleDimension_satisfies_condition",
+      "docstring": "Every admissible dimension satisfies the required integer matrix-vector condition."
+    },
+    {
+      "temporary_id": "decl-000405",
+      "new_name": "existsUnique_equiv_standardRepresentation_of_isIndecomposable",
+      "docstring": "Every indecomposable representation is equivalent to a standard representation for a unique admissible dimension."
+    },
+    {
+      "temporary_id": "decl-000409",
+      "new_name": "adjacencyMatrix_satisfies_condition",
+      "docstring": "The fixed four-by-four integer matrix satisfies the designated matrix condition."
+    },
+    {
+      "temporary_id": "decl-000415",
+      "new_name": "isIndecomposable_of_toQuiverRepresentation",
+      "docstring": "Indecomposability of the associated quiver representation implies indecomposability of the original star-shaped representation."
+    },
+    {
+      "temporary_id": "decl-000416",
+      "new_name": "equivOfQuiverRepresentationEquiv",
+      "docstring": "An equivalence between the associated quiver representations induces an equivalence of the original star-shaped representations."
+    },
+    {
+      "temporary_id": "decl-000421",
+      "new_name": "equiv_standardRepresentation_classificationIndex",
+      "docstring": "An indecomposable representation is equivalent to the standard representation indexed by its classification dimension."
+    },
+    {
+      "temporary_id": "decl-000436",
+      "new_name": "tupleToDimensionVector",
+      "docstring": "Converts a four-component nested tuple of natural numbers into an integer-valued function on four vertices."
+    },
+    {
+      "temporary_id": "decl-000441",
+      "new_name": "toQuiverRepresentation_dimension_apply",
+      "docstring": "The converted dimension tuple of a representation agrees vertexwise with the dimension of its associated quiver representation."
+    },
+    {
+      "temporary_id": "decl-000442",
+      "new_name": "tupleToDimensionVector_injective",
+      "docstring": "The conversion from four-component tuples to integer-valued dimension vectors is injective."
+    },
+    {
+      "temporary_id": "decl-000444",
+      "new_name": "toQuiverRepresentation",
+      "docstring": "Converts a star-shaped four-space representation into a representation of the fixed quiver."
+    },
+    {
+      "temporary_id": "decl-000459",
+      "new_name": "vertexAddCommMonoid",
+      "docstring": "The additive commutative monoid structure on a vertex space of the associated quiver representation."
+    },
+    {
+      "temporary_id": "decl-000460",
+      "new_name": "vertexModuleFinite",
+      "docstring": "Each vertex space of the associated quiver representation is a finite module."
+    },
+    {
+      "temporary_id": "decl-000461",
+      "new_name": "vertexModuleFree",
+      "docstring": "Each vertex space of the associated quiver representation is a free module."
+    },
+    {
+      "temporary_id": "decl-000462",
+      "new_name": "toQuiverRepresentation_isIndecomposable",
+      "docstring": "An indecomposable star-shaped representation yields an indecomposable associated quiver representation."
+    },
+    {
+      "temporary_id": "decl-000463",
+      "new_name": "vertexModule",
+      "docstring": "The scalar module structure on a vertex space of the associated quiver representation."
+    },
+    {
+      "temporary_id": "decl-000464",
+      "new_name": "vertexSpace",
+      "docstring": "The vector space of a star-shaped representation at one of the four vertices."
+    }
+  ]
+}
