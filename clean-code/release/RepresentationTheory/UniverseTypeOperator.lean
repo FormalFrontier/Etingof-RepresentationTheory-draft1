@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2026 FormalFrontier. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENCE.
+Authors: FormalFrontier
+-/
+
 import Mathlib.CategoryTheory.Category.Basic
 import RepresentationTheory.Alignment.Attribute
 
@@ -5,12 +11,6 @@ import RepresentationTheory.Alignment.Attribute
 # Universe Type Operator
 
 This module defines a universe type operator.
--/
-
-/-
-Copyright (c) 2026 FormalFrontier. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENCE.
-Authors: FormalFrontier
 -/
 
 namespace RepresentationTheory.UniverseTypeOperator
