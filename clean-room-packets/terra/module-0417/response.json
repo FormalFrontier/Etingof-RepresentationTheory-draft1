@@ -1,0 +1,10 @@
+{
+  "declarations": [
+    {
+      "docstring": "Auxiliary theorem with an unavailable displayed statement.",
+      "new_name": "auxiliary",
+      "temporary_id": "decl-015437"
+    }
+  ],
+  "module_name": "Auxiliary.UnavailableStatement"
+}
