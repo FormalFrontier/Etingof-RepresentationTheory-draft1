@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:25ae80a51bf75dc4dd8a",
-      "role": "primary",
-      "rationale": "The conjunction directly exhibits a module that is indecomposable but not simple, providing the asserted counterexample to the converse."
+      "role": "supporting",
+      "rationale": "The source claim leaves the converse elided; this conjunction supplies a concrete indecomposable, non-simple counterexample rather than itself stating that contextual converse."
     }
   ]
 }
