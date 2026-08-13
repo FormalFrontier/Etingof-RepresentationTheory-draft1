@@ -1,0 +1,20 @@
+{
+  "module_name": "AuxiliaryRingInvariants",
+  "declarations": [
+    {
+      "temporary_id": "decl-020181",
+      "new_name": "auxiliary_eq_one_of_at_one_and_not_at_zero",
+      "docstring": "An opaque ring invariant is one when its associated predicate holds at one but fails at zero."
+    },
+    {
+      "temporary_id": "decl-020183",
+      "new_name": "auxiliary_eq_top_of_forall_not",
+      "docstring": "If the associated predicate fails at every natural-number index, the opaque invariant is top."
+    },
+    {
+      "temporary_id": "decl-020185",
+      "new_name": "auxiliary_le_natCast_of",
+      "docstring": "A true associated predicate at an index bounds the opaque invariant by the corresponding natural-number cast."
+    }
+  ]
+}
