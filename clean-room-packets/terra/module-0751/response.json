@@ -1,0 +1,45 @@
+{
+  "module_name": "Algebra.Module.SimpleQuotient",
+  "declarations": [
+    {
+      "temporary_id": "decl-005133",
+      "new_name": "nontrivial",
+      "docstring": "Shows that the source module of this selected-target condition is nontrivial."
+    },
+    {
+      "temporary_id": "decl-005134",
+      "new_name": "of_linearEquiv",
+      "docstring": "Transports the selected-target condition across a linear equivalence of source modules."
+    },
+    {
+      "temporary_id": "decl-005135",
+      "new_name": "linearEquiv",
+      "docstring": "A selected target of a simple source is linearly equivalent to that source."
+    },
+    {
+      "temporary_id": "decl-005136",
+      "new_name": "of_submodule",
+      "docstring": "Extends the selected-target condition from a submodule to its ambient module."
+    },
+    {
+      "temporary_id": "decl-005137",
+      "new_name": "submodule_or_quotient",
+      "docstring": "Places a selected target on either a chosen submodule or its quotient."
+    },
+    {
+      "temporary_id": "decl-005139",
+      "new_name": "of_surjective",
+      "docstring": "Pulls the selected-target condition back along a surjective linear map."
+    },
+    {
+      "temporary_id": "decl-018878",
+      "new_name": "exists_simple_target",
+      "docstring": "Every small nontrivial module admits a target satisfying the displayed condition."
+    },
+    {
+      "temporary_id": "decl-020821",
+      "new_name": "simple_target_iff",
+      "docstring": "Characterizes the condition using a simple target together with a surjective witness."
+    }
+  ]
+}
