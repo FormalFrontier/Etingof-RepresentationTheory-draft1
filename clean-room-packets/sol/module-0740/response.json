@@ -3,7 +3,7 @@
   "declarations": [
     {
       "temporary_id": "decl-005830",
-      "new_name": "Auxiliary",
+      "new_name": "FieldQuiverAuxiliary",
       "docstring": "An auxiliary type associated to a field and a quiver."
     },
     {
@@ -43,7 +43,7 @@
     },
     {
       "temporary_id": "decl-006094",
-      "new_name": "instAddCommGroupAuxiliary",
+      "new_name": "instAddCommGroupFieldQuiverAuxiliary",
       "docstring": "The additive commutative group structure on the auxiliary type."
     },
     {
@@ -53,12 +53,12 @@
     },
     {
       "temporary_id": "decl-006159",
-      "new_name": "instModuleFunctionsAuxiliary",
+      "new_name": "instModuleFunctionsFieldQuiverAuxiliary",
       "docstring": "The module structure on the auxiliary type over the ring of vertex-indexed functions."
     },
     {
       "temporary_id": "decl-006169",
-      "new_name": "instModuleAuxiliary",
+      "new_name": "instModuleFieldQuiverAuxiliary",
       "docstring": "The ground-field module structure on the auxiliary type."
     },
     {
@@ -74,7 +74,7 @@
     {
       "temporary_id": "decl-006303",
       "new_name": "one_tmul_smul_eq_tmul",
-      "docstring": "Tensoring one with the action of an embedded function equals tensoring that function with the same element."
+      "docstring": "Tensoring one with the action of the displayed image of a function equals tensoring that image with the same element."
     },
     {
       "temporary_id": "decl-006354",
@@ -144,27 +144,27 @@
     {
       "temporary_id": "decl-006435",
       "new_name": "auxiliaryComparisonAddHom_tmul",
-      "docstring": "On a pure tensor, the auxiliary additive homomorphism is the difference of the displayed multiplication and action tensors."
+      "docstring": "On a pure tensor, the auxiliary additive homomorphism is the difference of the tensor with the displayed image and the corresponding action tensor."
     },
     {
       "temporary_id": "decl-006436",
-      "new_name": "auxiliaryBilinearMap",
+      "new_name": "auxiliaryBiadditiveMap",
       "docstring": "A curried additive map from the auxiliary type and the secondary function-module object to the restricted associated module."
     },
     {
       "temporary_id": "decl-006447",
-      "new_name": "auxiliaryBilinearMap_apply",
-      "docstring": "The auxiliary bilinear map is the difference of the displayed multiplication and action tensors."
+      "new_name": "auxiliaryBiadditiveMap_apply",
+      "docstring": "The auxiliary biadditive map is the difference of the tensor with the displayed image and the corresponding action tensor."
     },
     {
       "temporary_id": "decl-006448",
-      "new_name": "auxiliaryBilinearMap_smul",
-      "docstring": "Moving a function scalar between the two arguments of the auxiliary bilinear map does not change its value."
+      "new_name": "auxiliaryBiadditiveMap_smul",
+      "docstring": "Moving a function scalar between the two arguments of the auxiliary biadditive map does not change its value."
     },
     {
       "temporary_id": "decl-006449",
       "new_name": "auxiliaryComparisonHom_tmul",
-      "docstring": "The auxiliary comparison morphism sends a pure tensor to the difference of the displayed multiplication and action tensors."
+      "docstring": "The auxiliary comparison morphism sends a pure tensor to the difference of the tensor with the displayed image and the corresponding action tensor."
     },
     {
       "temporary_id": "decl-006484",
