@@ -3,17 +3,17 @@
   "declarations": [
     {
       "temporary_id": "decl-015511",
-      "new_name": "Auxiliary.invSelf_action",
+      "new_name": "invSelf_action",
       "docstring": "The action of an invertible matrix on the distinguished inverse is scalar multiplication by the inverse determinant."
     },
     {
       "temporary_id": "decl-015512",
-      "new_name": "Auxiliary.mem_action",
+      "new_name": "auxiliary_action_mem",
       "docstring": "Membership in the submodule associated to an element is preserved by the matrix action."
     },
     {
       "temporary_id": "decl-015513",
-      "new_name": "Auxiliary.action_map_mul_invSelf_pow",
+      "new_name": "action_map_mul_invSelf_pow",
       "docstring": "Describes the matrix action on a polynomial times a power of the distinguished inverse."
     },
     {
