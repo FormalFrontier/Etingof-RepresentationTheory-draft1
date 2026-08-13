@@ -1,0 +1,80 @@
+{
+  "module_name": "RepresentationTheory.Subgroup.RestrictionCoinduction",
+  "declarations": [
+    {
+      "temporary_id": "decl-016514",
+      "new_name": "coinductionRestrictionHomFunctorIso",
+      "docstring": "Exhibits the natural identification between the two Hom-valued functors associated with subgroup restriction and coinduction."
+    },
+    {
+      "temporary_id": "decl-016516",
+      "new_name": "restrictionCoinductionAdjunction",
+      "docstring": "Packages restriction from an ambient group to a subgroup as the left adjoint of coinduction."
+    },
+    {
+      "temporary_id": "decl-016517",
+      "new_name": "restrictionCoinductionHomEquiv_apply",
+      "docstring": "The restriction-coinduction Hom equivalence sends a morphism to its value at the identity element."
+    },
+    {
+      "temporary_id": "decl-016518",
+      "new_name": "restrictionCoinductionHomEquiv",
+      "docstring": "Identifies maps into a coinduced representation with maps out of the corresponding restricted representation."
+    },
+    {
+      "temporary_id": "decl-016519",
+      "new_name": "coinductionRestrictionHomFunctorIso_app",
+      "docstring": "The component of the Hom-functor isomorphism at a representation agrees with the associated Hom-valued isomorphism."
+    },
+    {
+      "temporary_id": "decl-016520",
+      "new_name": "coinductionRestrictionHomFunctorIso_app_apply",
+      "docstring": "On a subgroup representation, the Hom-functor isomorphism acts through the inverse restriction-coinduction equivalence."
+    },
+    {
+      "temporary_id": "decl-016521",
+      "new_name": "nonemptyRestrictionCoinductionHomEquiv",
+      "docstring": "A restriction-coinduction correspondence exists between the displayed spaces of representation morphisms."
+    },
+    {
+      "temporary_id": "decl-019670",
+      "new_name": "coinductionRestrictionHomIso",
+      "docstring": "Gives the Hom-valued isomorphism for a fixed representation of the ambient group."
+    },
+    {
+      "temporary_id": "decl-019673",
+      "new_name": "coinductionRestrictionHomIso_app_apply",
+      "docstring": "The Hom-valued isomorphism sends each map by the inverse restriction-coinduction correspondence."
+    },
+    {
+      "temporary_id": "decl-020085",
+      "new_name": "coinductionHomFunctor",
+      "docstring": "Forms the Hom-valued functor using maps into the coinduction of a subgroup representation."
+    },
+    {
+      "temporary_id": "decl-020086",
+      "new_name": "coinductionHomFunctor_obj",
+      "docstring": "Evaluating the coinduction Hom functor yields the module of maps into the coinduced representation."
+    },
+    {
+      "temporary_id": "decl-020136",
+      "new_name": "restrictionHomFunctor",
+      "docstring": "Forms the Hom-valued functor using maps from the restriction of an ambient representation."
+    },
+    {
+      "temporary_id": "decl-020137",
+      "new_name": "restrictionHomFunctor_obj",
+      "docstring": "Evaluating the restriction Hom functor yields the module of maps from the restricted representation."
+    },
+    {
+      "temporary_id": "decl-020518",
+      "new_name": "coinductionFunctor",
+      "docstring": "Coinduces representations from a subgroup to its ambient group."
+    },
+    {
+      "temporary_id": "decl-022648",
+      "new_name": "restrictionFunctor",
+      "docstring": "Restricts representations of an ambient group to a subgroup."
+    }
+  ]
+}
