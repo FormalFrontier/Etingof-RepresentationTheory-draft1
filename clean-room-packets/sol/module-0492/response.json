@@ -1,0 +1,105 @@
+{
+  "module_name": "AuxiliaryPartitionIndexMaps",
+  "declarations": [
+    {
+      "temporary_id": "decl-005386",
+      "new_name": "entry_le_entry_of_auxiliary_le",
+      "docstring": "Ordering the displayed auxiliary indices orders the corresponding natural-number entries."
+    },
+    {
+      "temporary_id": "decl-005397",
+      "new_name": "entry_eq_auxiliary_nat_value",
+      "docstring": "An entry of the partition-indexed object equals the displayed value obtained from the sorted parts."
+    },
+    {
+      "temporary_id": "decl-005400",
+      "new_name": "toAuxiliaryObject",
+      "docstring": "Maps a partition-indexed object to the displayed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-005402",
+      "new_name": "toAuxiliaryObject_property",
+      "docstring": "The converted auxiliary object satisfies the displayed predicate for the target partition."
+    },
+    {
+      "temporary_id": "decl-005403",
+      "new_name": "toAuxiliaryObject_injective",
+      "docstring": "The conversion to the displayed auxiliary type is injective."
+    },
+    {
+      "temporary_id": "decl-005404",
+      "new_name": "auxiliary_lt_of_entry_lt",
+      "docstring": "A strict inequality between two entries implies the corresponding strict inequality between auxiliary indices."
+    },
+    {
+      "temporary_id": "decl-005406",
+      "new_name": "auxiliary_roundTrip",
+      "docstring": "The displayed round trip on a partition-indexed object recovers that object."
+    },
+    {
+      "temporary_id": "decl-016207",
+      "new_name": "AuxiliaryProperty",
+      "docstring": "An auxiliary predicate on a partition and a partition-indexed object."
+    },
+    {
+      "temporary_id": "decl-016209",
+      "new_name": "auxiliaryNatFunction",
+      "docstring": "An auxiliary natural-number function associated with a partition and a partition-indexed object."
+    },
+    {
+      "temporary_id": "decl-016211",
+      "new_name": "auxiliaryNatFunction_eq",
+      "docstring": "At a cell of the displayed diagram, the auxiliary natural-number function equals the indicated sorted-part value."
+    },
+    {
+      "temporary_id": "decl-016212",
+      "new_name": "toAuxiliaryFamily",
+      "docstring": "Builds an object of the displayed auxiliary family from an object satisfying the auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-016220",
+      "new_name": "toAuxiliaryFamily_entry",
+      "docstring": "Each entry of the constructed auxiliary object is the displayed sorted-part value at the associated index."
+    },
+    {
+      "temporary_id": "decl-017735",
+      "new_name": "card_filter_auxiliary_nat_value_eq_getD",
+      "docstring": "The number of finite indices with the displayed value equals the corresponding sorted part, with default value zero."
+    },
+    {
+      "temporary_id": "decl-022878",
+      "new_name": "auxiliary_nat_value_equiv_symm_eq_fst",
+      "docstring": "The displayed natural-number value at the inverse image of an index equals its first coordinate."
+    },
+    {
+      "temporary_id": "decl-023266",
+      "new_name": "span_range_auxiliaryFamilyMap_eq_top",
+      "docstring": "The range of the auxiliary family map spans the entire displayed submodule."
+    },
+    {
+      "temporary_id": "decl-023740",
+      "new_name": "auxiliary_map_apply_eq_equiv_symm",
+      "docstring": "Evaluating the displayed auxiliary map at the indicated value agrees with the inverse equivalence."
+    },
+    {
+      "temporary_id": "decl-024577",
+      "new_name": "auxiliary_maps_eq_of_property",
+      "docstring": "When the auxiliary predicate holds, the two displayed submodule-valued maps agree after the indicated conversion."
+    },
+    {
+      "temporary_id": "decl-024585",
+      "new_name": "auxiliary_map_eq_zero_of_not_property",
+      "docstring": "The displayed submodule-valued map is zero when the auxiliary predicate fails."
+    },
+    {
+      "temporary_id": "decl-024594",
+      "new_name": "auxiliary_map_mem_span_range",
+      "docstring": "Every value of the displayed auxiliary map belongs to the span of the auxiliary family map's range."
+    },
+    {
+      "temporary_id": "decl-024657",
+      "new_name": "auxiliaryFamilyMap",
+      "docstring": "Maps each object of an auxiliary partition-indexed family into the displayed submodule."
+    }
+  ]
+}
