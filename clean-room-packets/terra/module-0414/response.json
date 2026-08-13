@@ -3,7 +3,7 @@
   "declarations": [
     {
       "temporary_id": "decl-015409",
-      "new_name": "characterPairingProduct_not_rat_between_zero_one",
+      "new_name": "character_pairing_product_not_rat_between_zero_one",
       "docstring": "The product of character values paired with inverse group elements cannot be a rational number strictly between zero and one."
     },
     {
@@ -13,7 +13,7 @@
     },
     {
       "temporary_id": "decl-015411",
-      "new_name": "characterPairingProduct_is_rat",
+      "new_name": "character_pairing_product_is_rat",
       "docstring": "The product of character values over nonidentity elements, paired with their inverses, is rational."
     },
     {
@@ -24,7 +24,7 @@
     {
       "temporary_id": "decl-015413",
       "new_name": "eigenvalue_pow_eq_one_of_end_pow_eq_one",
-      "docstring": "Every eigenvalue of an endomorphism whose positive power is the identity has that same power equal to one."
+      "docstring": "Every eigenvalue of an endomorphism whose given power is the identity has that same power equal to one."
     },
     {
       "temporary_id": "decl-015414",
@@ -49,7 +49,7 @@
     {
       "temporary_id": "decl-015419",
       "new_name": "apply_pow_eq_smul_pow_of_mem_eigenspace",
-      "docstring": "On an eigenvector, every natural power of an endomorphism acts by the corresponding power of its eigenvalue."
+      "docstring": "Every natural power of an endomorphism acts on a vector in an eigenspace by the corresponding power of the eigenvalue."
     },
     {
       "temporary_id": "decl-015420",
@@ -68,7 +68,7 @@
     },
     {
       "temporary_id": "decl-015425",
-      "new_name": "map_characterPairingProduct_eq_of_card_coprime",
+      "new_name": "map_character_pairing_product_eq_of_card_coprime",
       "docstring": "A ring endomorphism acting as a coprime power on the relevant roots fixes the character pairing product over nonidentity elements."
     },
     {
