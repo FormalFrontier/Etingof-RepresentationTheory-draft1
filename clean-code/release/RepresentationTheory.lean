@@ -106,6 +106,7 @@ import RepresentationTheory.Module.EndomorphismEvaluation
 import RepresentationTheory.Module.FinrankOneSimple
 import RepresentationTheory.Module.SimpleLinearMaps
 import RepresentationTheory.Module.SimpleSubmodule
+import RepresentationTheory.ModuleObjectProperties
 import RepresentationTheory.ModuleTheory.ModuleCondition
 import RepresentationTheory.ModuleTheory.Idempotent
 import RepresentationTheory.ModuleEnd.OppositeRing
