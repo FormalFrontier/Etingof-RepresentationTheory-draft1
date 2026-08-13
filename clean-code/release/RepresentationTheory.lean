@@ -222,6 +222,7 @@ import RepresentationTheory.CategoryTheory.Adjunction.Representability
 import RepresentationTheory.CochainComplex
 import RepresentationTheory.FunctorPredicateLogic
 import RepresentationTheory.CategoryTheory.ShortComplex.Auxiliary
+import RepresentationTheory.Preadditive.FunctorProperties
 
 /-!
 # Representation theory formalization
