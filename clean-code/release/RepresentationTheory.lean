@@ -66,6 +66,7 @@ import RepresentationTheory.Algebra.SimpleModule.Endomorphisms
 import RepresentationTheory.Algebra.Semisimplicity.EndomorphismProduct
 import RepresentationTheory.LinearAlgebra.InvariantSubmodule.Eigenbasis
 import RepresentationTheory.LinearAlgebra.Matrix.TensorProduct
+import RepresentationTheory.LinearAlgebra.Matrix.TwoIdentitySub
 import RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData
 import RepresentationTheory.LinearAlgebra.ModuleConditions
 import RepresentationTheory.LinearAlgebra.ModulePairData
