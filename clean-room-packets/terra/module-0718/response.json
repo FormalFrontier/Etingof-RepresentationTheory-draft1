@@ -1,0 +1,130 @@
+{
+  "module_name": "AuxiliaryProjectiveResolution",
+  "declarations": [
+    {
+      "temporary_id": "decl-004267",
+      "new_name": "auxiliaryResolutionTerm",
+      "docstring": "The module placed at a given degree in an auxiliary resolution construction."
+    },
+    {
+      "temporary_id": "decl-004268",
+      "new_name": "auxiliaryFiniteModuleBound",
+      "docstring": "A natural-number bound attached to a finite module."
+    },
+    {
+      "temporary_id": "decl-004270",
+      "new_name": "auxiliaryResolutionComplex",
+      "docstring": "An auxiliary chain complex associated to a finite module over a Noetherian ring."
+    },
+    {
+      "temporary_id": "decl-004272",
+      "new_name": "auxiliaryResolutionComplex_d",
+      "docstring": "Identifies a differential of the auxiliary resolution complex with the displayed morphism."
+    },
+    {
+      "temporary_id": "decl-004273",
+      "new_name": "auxiliaryResolutionComplex_exactAt_succ",
+      "docstring": "The auxiliary resolution complex is exact at each positive degree."
+    },
+    {
+      "temporary_id": "decl-004274",
+      "new_name": "auxiliaryResolutionDifferential",
+      "docstring": "The morphism between successive terms of the auxiliary resolution."
+    },
+    {
+      "temporary_id": "decl-004277",
+      "new_name": "auxiliaryResolutionDifferential_comp_auxiliaryResolutionMap",
+      "docstring": "The composite of the indicated resolution differential and map is zero."
+    },
+    {
+      "temporary_id": "decl-004278",
+      "new_name": "auxiliaryResolutionDifferential_comp",
+      "docstring": "Two consecutive auxiliary resolution differentials compose to zero."
+    },
+    {
+      "temporary_id": "decl-004279",
+      "new_name": "auxiliaryResolutionDifferential_exact",
+      "docstring": "The short complex formed by consecutive auxiliary resolution differentials is exact."
+    },
+    {
+      "temporary_id": "decl-004280",
+      "new_name": "exists_finite_projectiveResolution",
+      "docstring": "A finite module over a Noetherian ring admits a projective resolution with finite terms."
+    },
+    {
+      "temporary_id": "decl-004281",
+      "new_name": "finite_kernel",
+      "docstring": "The kernel of a morphism with finite source is finite over a Noetherian ring."
+    },
+    {
+      "temporary_id": "decl-004282",
+      "new_name": "auxiliaryProjectiveSource",
+      "docstring": "An auxiliary module associated to a finite module."
+    },
+    {
+      "temporary_id": "decl-004283",
+      "new_name": "auxiliaryProjectiveSourceTo",
+      "docstring": "The canonical morphism from the auxiliary projective source to the given module."
+    },
+    {
+      "temporary_id": "decl-004285",
+      "new_name": "auxiliaryProjectiveSourceTo_epi",
+      "docstring": "The morphism from the auxiliary projective source is an epimorphism."
+    },
+    {
+      "temporary_id": "decl-004286",
+      "new_name": "auxiliaryProjectiveSource_finite",
+      "docstring": "The auxiliary projective source of a finite module is finite."
+    },
+    {
+      "temporary_id": "decl-004287",
+      "new_name": "auxiliarySyzygy_finite",
+      "docstring": "Every displayed auxiliary syzygy is finite over the base ring."
+    },
+    {
+      "temporary_id": "decl-004288",
+      "new_name": "auxiliaryProjectiveSource_projective",
+      "docstring": "The auxiliary projective source is projective."
+    },
+    {
+      "temporary_id": "decl-004289",
+      "new_name": "auxiliaryResolutionComplex_projective",
+      "docstring": "Each degree of the auxiliary resolution complex is projective."
+    },
+    {
+      "temporary_id": "decl-004291",
+      "new_name": "auxiliaryResolutionShortComplex_exact",
+      "docstring": "The short complex connecting a resolution term and auxiliary syzygy is exact."
+    },
+    {
+      "temporary_id": "decl-004292",
+      "new_name": "auxiliaryResolutionMap",
+      "docstring": "The morphism from an auxiliary resolution term to the corresponding syzygy."
+    },
+    {
+      "temporary_id": "decl-004293",
+      "new_name": "auxiliaryProjectiveResolution",
+      "docstring": "A projective resolution selected for a finite module over a Noetherian ring."
+    },
+    {
+      "temporary_id": "decl-004300",
+      "new_name": "auxiliaryOpaqueDefinition",
+      "docstring": "An auxiliary definition whose formal expression is unavailable."
+    },
+    {
+      "temporary_id": "decl-004307",
+      "new_name": "auxiliarySyzygy",
+      "docstring": "The recursively indexed auxiliary module used in the resolution construction."
+    },
+    {
+      "temporary_id": "decl-004308",
+      "new_name": "auxiliarySyzygy_succ_eq_kernel",
+      "docstring": "The next auxiliary syzygy is the kernel of the corresponding resolution map."
+    },
+    {
+      "temporary_id": "decl-004309",
+      "new_name": "auxiliarySyzygy_zero",
+      "docstring": "The zeroth auxiliary syzygy is the original module."
+    }
+  ]
+}
