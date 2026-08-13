@@ -1,0 +1,60 @@
+{
+  "module_name": "Auxiliary.MembershipSubtypes",
+  "declarations": [
+    {
+      "temporary_id": "decl-019795",
+      "new_name": "perm_mem_membershipSubtypeLinearMap_range",
+      "docstring": "The permutation-indexed value belongs to the range of the displayed linear map."
+    },
+    {
+      "temporary_id": "decl-019796",
+      "new_name": "perm_mem_auxiliaryFunction_span",
+      "docstring": "The permutation-indexed value belongs to the Complex span of the range of the displayed function."
+    },
+    {
+      "temporary_id": "decl-022296",
+      "new_name": "membershipSubtypeLinearMap_range_eq_auxiliaryFunction_span",
+      "docstring": "The range of the displayed linear map equals the Complex span of the range of the displayed function."
+    },
+    {
+      "temporary_id": "decl-023267",
+      "new_name": "auxiliaryFunction_span_eq_top",
+      "docstring": "The Complex span of the range of the displayed function is the top submodule."
+    },
+    {
+      "temporary_id": "decl-023354",
+      "new_name": "to_membershipSubtype",
+      "docstring": "Maps the displayed source type into the subtype defined by membership in the displayed set."
+    },
+    {
+      "temporary_id": "decl-023357",
+      "new_name": "membershipSubtypeBasis",
+      "docstring": "A Complex basis of the displayed membership subtype, indexed by the displayed type."
+    },
+    {
+      "temporary_id": "decl-023361",
+      "new_name": "membershipSubtypeBasis_apply",
+      "docstring": "The membership-subtype basis evaluated at an index equals the displayed subtype-valued function."
+    },
+    {
+      "temporary_id": "decl-023362",
+      "new_name": "linearIndependent_to_membershipSubtype",
+      "docstring": "The displayed subtype-valued function is linearly independent over Complex."
+    },
+    {
+      "temporary_id": "decl-023791",
+      "new_name": "membershipSubtypeLinearMap",
+      "docstring": "A Complex-linear map from the displayed membership subtype to the displayed codomain."
+    },
+    {
+      "temporary_id": "decl-023793",
+      "new_name": "membershipSubtypeLinearMap_apply",
+      "docstring": "Applying the membership-subtype linear map to the displayed subtype-valued function gives the displayed function."
+    },
+    {
+      "temporary_id": "decl-023803",
+      "new_name": "auxiliaryMap_apply_subtypeVal",
+      "docstring": "Applying the displayed map to the underlying value of the subtype-valued function gives the displayed function."
+    }
+  ]
+}
