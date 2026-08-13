@@ -3,13 +3,13 @@
   "declarations": [
     {
       "temporary_id": "decl-017888",
-      "new_name": "ratCastAuxiliaryValue_eq_subspaceFinrank",
-      "docstring": "The rational cast of the auxiliary value equals the natural-number cast of the finrank of the indicated complex subspace."
+      "new_name": "ratCastAuxiliaryValue_eq_finrank",
+      "docstring": "The rational cast of the auxiliary value equals the natural-number cast of the finrank of the displayed Complex subtype."
     },
     {
       "temporary_id": "decl-017889",
-      "new_name": "auxiliaryValue_eq_subspaceFinrank",
-      "docstring": "The auxiliary value equals the natural-number cast of the finrank of the indicated complex subspace."
+      "new_name": "auxiliaryValue_eq_finrank",
+      "docstring": "The auxiliary value equals the natural-number cast of the finrank of the displayed Complex subtype."
     },
     {
       "temporary_id": "decl-019732",
@@ -23,8 +23,8 @@
     },
     {
       "temporary_id": "decl-023321",
-      "new_name": "auxiliaryAtOne_eq_subspaceFinrank",
-      "docstring": "The auxiliary construction evaluated at one equals the natural-number cast of the finrank of the associated complex subspace."
+      "new_name": "auxiliaryAtOne_eq_finrank",
+      "docstring": "The auxiliary construction evaluated at one equals the natural-number cast of the finrank of the displayed Complex subtype."
     },
     {
       "temporary_id": "decl-023529",
@@ -34,7 +34,7 @@
     {
       "temporary_id": "decl-023530",
       "new_name": "sum_variables_pow_eq_sum_finrank_smul",
-      "docstring": "The power of the sum of all variables is a finite sum whose coefficients are natural-number casts of complex subspace finranks."
+      "docstring": "The power of the sum of all variables is a finite sum whose coefficients are natural-number casts of finranks of the displayed Complex subtypes."
     },
     {
       "temporary_id": "decl-024347",
