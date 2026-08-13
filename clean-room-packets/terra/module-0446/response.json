@@ -1,50 +1,50 @@
 {
-  "module_name": "LinearAlgebra.SymmetricPower.BasisShear",
+  "module_name": "LinearAlgebra.SymmetricPower.BasisPairMaps",
   "declarations": [
     {
       "temporary_id": "decl-005662",
-      "new_name": "elementaryTransition",
-      "docstring": "A basic relation used to pass between the underlying indexed objects."
+      "new_name": "objectRelation",
+      "docstring": "A binary relation on two elements of the same indexed type."
     },
     {
       "temporary_id": "decl-021633",
-      "new_name": "elementaryTransition_reflTransGen_complete",
-      "docstring": "Any two indexed objects are connected by a finite chain of elementary transitions, with stationary steps permitted."
+      "new_name": "objectRelation_reflTransGen",
+      "docstring": "Every pair of elements of the indexed type lies in the reflexive-transitive closure of the binary relation."
     },
     {
       "temporary_id": "decl-021635",
-      "new_name": "Submodule.closedUnderElementaryTransition",
-      "docstring": "Under the stated invariance hypotheses, the submodule is stable when an indexed element is replaced along an elementary transition."
+      "new_name": "Submodule.mem_of_objectRelation",
+      "docstring": "Under the scaling and invariance hypotheses, membership of the displayed vector indexed by M passes to the displayed vector indexed by any related N."
     },
     {
       "temporary_id": "decl-023730",
-      "new_name": "basisShear_symmetricPower_apply_indexedElement",
-      "docstring": "The induced basis shear expands the displayed indexed symmetric-power element by summing over subsets of positions carrying the target index."
+      "new_name": "basisPairLinearMap_apply_eq_sum",
+      "docstring": "The displayed transformation of the element indexed by p is the sum over subsets of positions where p equals j, replacing p by i on each selected subset."
     },
     {
       "temporary_id": "decl-024319",
-      "new_name": "basisShearEquiv",
-      "docstring": "The invertible basis shear that adds the i-th basis vector at the j-th coordinate."
+      "new_name": "basisPairLinearEquiv",
+      "docstring": "A linear equivalence associated with a basis and a pair of distinct finite indices."
     },
     {
       "temporary_id": "decl-024326",
-      "new_name": "basisShear",
-      "docstring": "The linear basis shear that changes the j-th basis vector by adding the i-th one."
+      "new_name": "basisPairLinearMap",
+      "docstring": "A linear map associated with a basis and an ordered pair of finite indices."
     },
     {
       "temporary_id": "decl-024329",
-      "new_name": "basisShear_apply_basis",
-      "docstring": "The formula for the basis shear on a single basis vector."
+      "new_name": "basisPairLinearMap_apply_basis",
+      "docstring": "On the l-th basis vector, the basis-pair linear map adds the i-th basis vector exactly when l equals j."
     },
     {
       "temporary_id": "decl-024330",
-      "new_name": "basisShearEquiv_toLinearMap",
-      "docstring": "The underlying linear map of the invertible shear agrees with the associated basis shear."
+      "new_name": "basisPairLinearEquiv_toLinearMap",
+      "docstring": "For distinct indices, the linear map underlying the basis-pair equivalence is the associated basis-pair linear map."
     },
     {
       "temporary_id": "decl-024331",
-      "new_name": "basisShear_symmetricPower_updatedCoeff_ne_zero",
-      "docstring": "Changing a selected target-index position to the source index yields a nonzero coordinate after the induced shear."
+      "new_name": "basisPairLinearMap_update_coeff_ne_zero",
+      "docstring": "If p maps m₀ to j, the coefficient at the index obtained by updating p at m₀ to i is nonzero after the displayed transformation."
     }
   ]
 }
