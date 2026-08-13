@@ -1,7 +1,7 @@
 {
   "declarations": [
     {
-      "docstring": "Auxiliary theorem with an unavailable displayed statement.",
+      "docstring": "Auxiliary theorem.",
       "new_name": "auxiliary",
       "temporary_id": "decl-015437"
     }
