@@ -1,0 +1,50 @@
+{
+  "module_name": "FGModuleCat.Finite",
+  "declarations": [
+    {
+      "temporary_id": "decl-018919",
+      "new_name": "auxiliary_exists_nonempty",
+      "docstring": "There is an object satisfying the displayed auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-019340",
+      "new_name": "FGModuleCat.homLinearEquiv",
+      "docstring": "The hom space between finitely generated modules is linearly equivalent to the corresponding space of linear maps."
+    },
+    {
+      "temporary_id": "decl-019344",
+      "new_name": "FGModuleCat.auxiliary",
+      "docstring": "The category of finitely generated modules satisfies the displayed auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-019352",
+      "new_name": "FGModuleCat.auxiliaryOfAlgebraicallyClosed",
+      "docstring": "Over an algebraically closed field, the category of finitely generated modules has the displayed auxiliary property."
+    },
+    {
+      "temporary_id": "decl-019368",
+      "new_name": "FGModuleCat.simple_endAlgEquiv",
+      "docstring": "The endomorphism algebra of a simple finitely generated module is algebra-equivalent to the base field."
+    },
+    {
+      "temporary_id": "decl-019369",
+      "new_name": "FGModuleCat.finiteDimensional_hom",
+      "docstring": "Hom spaces between finitely generated modules are finite-dimensional over the base field."
+    },
+    {
+      "temporary_id": "decl-020775",
+      "new_name": "isArtinianRing",
+      "docstring": "A ring finite as a module over a field is Artinian."
+    },
+    {
+      "temporary_id": "decl-020864",
+      "new_name": "FGModuleCat.isNoetherianRing_opEnd",
+      "docstring": "The opposite endomorphism ring of a finitely generated module is Noetherian."
+    },
+    {
+      "temporary_id": "decl-021678",
+      "new_name": "FGModuleCat.exists_equivalence_opEnd",
+      "docstring": "There is a finitely generated module whose opposite endomorphism ring gives an equivalent category of finitely generated modules."
+    }
+  ]
+}
