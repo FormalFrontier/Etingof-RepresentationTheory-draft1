@@ -1,0 +1,20 @@
+{
+  "module_name": "Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-019904",
+      "new_name": "auxiliary_ulift_down",
+      "docstring": "Transfers the auxiliary ring-indexed datum from a lifted universe to the original ring."
+    },
+    {
+      "temporary_id": "decl-019912",
+      "new_name": "hasProjectiveDimensionLT_of_fully_faithful",
+      "docstring": "A full and faithful additive functor reflects a strict bound on projective dimension under the stated preservation hypotheses."
+    },
+    {
+      "temporary_id": "decl-020186",
+      "new_name": "auxiliary_le_ulift",
+      "docstring": "Places an auxiliary ring-indexed quantity below its value after a universe lift."
+    }
+  ]
+}
