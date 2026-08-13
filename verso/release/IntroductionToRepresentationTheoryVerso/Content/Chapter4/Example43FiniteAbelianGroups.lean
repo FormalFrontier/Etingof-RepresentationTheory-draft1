@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,27 @@ For given $`n \geq 1`, define $`\rho : \mathbb{Z}_n \to \mathbb{C}^\times` by $`
 
 $$`(G_1 \times G_2 \times \cdots \times G_n)^\vee = G_1^\vee \times G_2^\vee \times \cdots \times G_n^\vee,`
 so $`G^\vee \cong G` for any finite abelian group $`G`. This isomorphism is, however, noncanonical: the particular decomposition of $`G` as $`\mathbb{Z}_{n_1} \times \cdots \times \mathbb{Z}_{n_k}` is not unique as far as which elements of $`G` correspond to $`\mathbb{Z}_{n_1}`, etc., is concerned. On the other hand, $`G \cong (G^\vee)^\vee` is a canonical isomorphism, given by $`\varphi : G \to (G^\vee)^\vee`, where $`\varphi(g)(\chi) = \chi(g)`.
+
+## Formalization
+%%%
+tag := "Chapter4/Example4.3_FiniteAbelianGroups/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Group.CharacterDuality.characterGroupDualEquiv}
+
+{Manual.docstring RepresentationTheory.Group.CharacterDuality.characterGroupDualEquiv_apply}
+
+{Manual.docstring RepresentationTheory.Group.CharacterDuality.characterGroupPiEquiv}
+
+{Manual.docstring RepresentationTheory.Group.CharacterDuality.characterGroupProdEquiv}
+
+{Manual.docstring RepresentationTheory.Group.CharacterDuality.finrank_eq_one_of_isSimpleModule}
+
+{Manual.docstring RepresentationTheory.Group.CharacterDuality.nonempty_characterGroupEquiv}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Group.CharacterDuality.characterGroup}
