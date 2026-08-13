@@ -14,7 +14,7 @@
     {
       "temporary_id": "decl-024840",
       "new_name": "toModuleCat",
-      "docstring": "The functor sending a finitely generated module to its underlying module."
+      "docstring": "A functor from finitely generated modules over a ring to modules over the same ring."
     },
     {
       "temporary_id": "decl-024842",
