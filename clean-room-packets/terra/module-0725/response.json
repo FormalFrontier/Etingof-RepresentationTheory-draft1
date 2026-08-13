@@ -1,0 +1,55 @@
+{
+  "module_name": "PolynomialModule.Finsupp",
+  "declarations": [
+    {
+      "temporary_id": "decl-032758",
+      "new_name": "tensorPolynomialToFinsupp",
+      "docstring": "Sends a tensor of a polynomial with a module element to its finitely supported coefficient family."
+    },
+    {
+      "temporary_id": "decl-032772",
+      "new_name": "finsuppToTensorPolynomial",
+      "docstring": "Builds a polynomial tensor expression from a finitely supported family indexed by natural numbers."
+    },
+    {
+      "temporary_id": "decl-032776",
+      "new_name": "tensorPolynomialToFinsupp_bijective",
+      "docstring": "The map from polynomial tensors to finitely supported coefficient families is bijective."
+    },
+    {
+      "temporary_id": "decl-032777",
+      "new_name": "tensorPolynomialToFinsupp_injective",
+      "docstring": "The coefficient-family map on polynomial tensors is injective."
+    },
+    {
+      "temporary_id": "decl-032778",
+      "new_name": "finsuppToTensorPolynomial_leftInverse_tensorPolynomialToFinsupp",
+      "docstring": "Converting a polynomial tensor to coefficients and back recovers the original tensor."
+    },
+    {
+      "temporary_id": "decl-032779",
+      "new_name": "finsuppToTensorPolynomial_rightInverse_tensorPolynomialToFinsupp",
+      "docstring": "Converting a finitely supported coefficient family to a polynomial tensor and back recovers the family."
+    },
+    {
+      "temporary_id": "decl-032858",
+      "new_name": "finsupp_sum_powers_eq_zero_add_map_sum_range",
+      "docstring": "Rewrites a finite sum of iterated linear-map actions using its zeroth term and shifted coefficient sum."
+    },
+    {
+      "temporary_id": "decl-032862",
+      "new_name": "finsupp_eq_zero_of_apply_eq_map_succ",
+      "docstring": "A finitely supported family satisfying a successor recurrence with a zero-preserving map is zero."
+    },
+    {
+      "temporary_id": "decl-032923",
+      "new_name": "restrictScalars_polynomial_module_eq",
+      "docstring": "The module structure obtained by restricting polynomial scalars along constants agrees with the standard one."
+    },
+    {
+      "temporary_id": "decl-032962",
+      "new_name": "X_smul_id_sub_map_injective",
+      "docstring": "The polynomial-module endomorphism given by multiplication by `X` minus a mapped linear action is injective."
+    }
+  ]
+}
