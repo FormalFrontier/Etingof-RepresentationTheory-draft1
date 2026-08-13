@@ -1,0 +1,15 @@
+{
+  "module_name": "RepresentationTheory.FDRep.Character",
+  "declarations": [
+    {
+      "temporary_id": "decl-024812",
+      "new_name": "characterInner_eq_ite_isIso_of_simple",
+      "docstring": "For simple finite-dimensional representations, the normalized character pairing is one when they are isomorphic and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-024835",
+      "new_name": "characterInner_eq_finrank_hom",
+      "docstring": "The normalized character pairing equals the field dimension of the morphism space from the second representation to the first."
+    }
+  ]
+}
