@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:0a9010fc68ba450774e6",
-      "role": "primary",
-      "rationale": "The formal type states that each row of the McKay Cartan matrix paired with the irreducible-dimension entries sums to zero, directly giving the stated dimension vector as a kernel vector."
+      "role": "supporting",
+      "rationale": "The formal type states that each row of the McKay Cartan matrix paired with the irreducible-dimension entries sums to zero, directly giving the dimension vector a kernel relation. It does not itself state the source claim's positivity condition."
     }
   ]
 }
