@@ -1,0 +1,30 @@
+{
+  "module_name": "AuxiliaryPartitionLinearEquivalences",
+  "declarations": [
+    {
+      "temporary_id": "decl-017040",
+      "new_name": "auxiliaryFamily",
+      "docstring": "An auxiliary type indexed by a natural number and two partitions of that number."
+    },
+    {
+      "temporary_id": "decl-024626",
+      "new_name": "auxiliaryDirectSumLinearEquiv",
+      "docstring": "An auxiliary linear equivalence from the displayed partition-dependent space to a direct sum indexed by partitions."
+    },
+    {
+      "temporary_id": "decl-024627",
+      "new_name": "auxiliaryDirectSumLinearEquivOfEq",
+      "docstring": "Builds the auxiliary direct-sum linear equivalence from the displayed family of equalities."
+    },
+    {
+      "temporary_id": "decl-024631",
+      "new_name": "auxiliaryComponentLinearEquiv",
+      "docstring": "An auxiliary linear equivalence between the displayed subspace and one component of the partition-indexed family."
+    },
+    {
+      "temporary_id": "decl-024632",
+      "new_name": "auxiliaryComponentLinearEquivOfEq",
+      "docstring": "Builds the auxiliary component linear equivalence from the displayed equality."
+    }
+  ]
+}
