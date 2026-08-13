@@ -53,8 +53,8 @@
     },
     {
       "temporary_id": "decl-025575",
-      "new_name": "tensorProductToDirectSum_commutes",
-      "docstring": "The basis-indexed tensor-product equivalence intertwines the displayed representation actions."
+      "new_name": "tensorProductToDirectSum_equivariant",
+      "docstring": "The basis-indexed tensor-product equivalence intertwines the tensor-product and direct-sum representation actions."
     },
     {
       "temporary_id": "decl-025576",
