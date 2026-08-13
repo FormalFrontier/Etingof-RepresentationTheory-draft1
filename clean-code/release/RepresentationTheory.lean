@@ -173,6 +173,7 @@ import RepresentationTheory.SpecialLinear.Commutator
 import RepresentationTheory.AuxiliaryTypeCharacters
 import RepresentationTheory.Matrix.CharpolyDiscriminant
 import RepresentationTheory.Subgroup.HomAdjunction
+import RepresentationTheory.SemisimpleAlgebraCenters
 
 /-!
 # Representation theory formalization
