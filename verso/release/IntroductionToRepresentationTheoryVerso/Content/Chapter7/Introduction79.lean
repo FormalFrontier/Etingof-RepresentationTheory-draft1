@@ -31,3 +31,7 @@ number := false
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FunctorPredicateLogic.Conjunction}
+
+{Manual.docstring RepresentationTheory.Preadditive.FunctorProperties.LinearProperty}
+
+{Manual.docstring RepresentationTheory.Preadditive.FunctorProperties.PreadditiveProperty}
