@@ -1,0 +1,35 @@
+{
+  "module_name": "Algebra.PartitionPermutation",
+  "declarations": [
+    {
+      "temporary_id": "decl-023279",
+      "new_name": "MonoidAlgebra.coeFun",
+      "docstring": "The coercion from a monoid algebra to functions from its indexing type to its coefficient type."
+    },
+    {
+      "temporary_id": "decl-023298",
+      "new_name": "partitionSubtypeLinearEndomorphismOfPerm",
+      "docstring": "Associates a permutation with a linear endomorphism of the subtype determined by a partition."
+    },
+    {
+      "temporary_id": "decl-023313",
+      "new_name": "partitionPermutationValue",
+      "docstring": "Returns a field element from a partition and a permutation of its finite index type."
+    },
+    {
+      "temporary_id": "decl-023316",
+      "new_name": "partitionPermutationValue_eq_algebraMap_rat",
+      "docstring": "Over a characteristic-zero field, this value is the image of its rational instance."
+    },
+    {
+      "temporary_id": "decl-023317",
+      "new_name": "partitionPermutationValue_complex_eq",
+      "docstring": "The complex-valued instance agrees with the other complex-valued expression on the same inputs."
+    },
+    {
+      "temporary_id": "decl-023318",
+      "new_name": "partitionPermutationValue_injective",
+      "docstring": "In characteristic zero, a partition is determined by its values on all permutations."
+    }
+  ]
+}
