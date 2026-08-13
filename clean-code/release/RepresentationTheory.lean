@@ -238,6 +238,7 @@ import RepresentationTheory.CategoryTheory.Abelian.ObjectData
 import RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses
 import RepresentationTheory.CategoryTheory.ModuleCategories
 import RepresentationTheory.CategoryTheory.Preadditive.IsoHomEquiv
+import RepresentationTheory.Algebra.Homology.LinearYoneda
 
 /-!
 # Representation theory formalization
