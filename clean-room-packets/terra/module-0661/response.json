@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-005179",
-      "new_name": "Module.Flat",
-      "docstring": "A predicate expressing flatness for an additive group regarded as a module over the opposite of a ring."
+      "new_name": "Module.OppositeRingModuleProperty",
+      "docstring": "A proposition on an additive commutative group equipped with a module structure over the opposite of a ring."
     },
     {
       "temporary_id": "decl-005181",
@@ -23,12 +23,12 @@
     },
     {
       "temporary_id": "decl-014361",
-      "new_name": "Module.Projective.flat_of_opposite",
-      "docstring": "A projective module over an opposite ring is flat."
+      "new_name": "Module.Projective.oppositeRingModuleProperty",
+      "docstring": "A projective module over an opposite ring satisfies the opposite-ring module property."
     },
     {
       "temporary_id": "decl-014362",
-      "new_name": "Module.Projective.flat_of_commRing",
+      "new_name": "Module.Projective.flat",
       "docstring": "A projective module over a commutative ring is flat."
     },
     {
