@@ -184,6 +184,7 @@ import RepresentationTheory.AuxiliaryIntegerMatrixProperty
 import RepresentationTheory.AuxiliaryIntegerMatrixTransform
 import RepresentationTheory.AuxiliaryIntegerVectorTransforms
 import RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction
+import RepresentationTheory.AuxiliaryIntegerMatrixVectorProperty
 
 /-!
 # Representation theory formalization
