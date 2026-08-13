@@ -1,0 +1,160 @@
+{
+  "module_name": "ModuleEndomorphisms",
+  "declarations": [
+    {
+      "temporary_id": "decl-018208",
+      "new_name": "finitelyGeneratedModuleDualFunctor",
+      "docstring": "The duality endofunctor on the core of finitely generated modules."
+    },
+    {
+      "temporary_id": "decl-018432",
+      "new_name": "finitelyGeneratedModuleDoubleDualFunctor",
+      "docstring": "The double-dual endofunctor of finitely generated modules."
+    },
+    {
+      "temporary_id": "decl-018438",
+      "new_name": "finitelyGeneratedModuleDoubleDualIso",
+      "docstring": "An isomorphism from the identity to double dualization on finitely generated modules."
+    },
+    {
+      "temporary_id": "decl-018447",
+      "new_name": "moduleDoubleDualLinearEquiv",
+      "docstring": "A linear equivalence between a finite free module and its double dual."
+    },
+    {
+      "temporary_id": "decl-018449",
+      "new_name": "dualMapDualMap_comp_eval",
+      "docstring": "Applying the dual map twice is compatible with evaluation."
+    },
+    {
+      "temporary_id": "decl-018462",
+      "new_name": "transvection",
+      "docstring": "The linear automorphism defined by a functional vanishing at a chosen vector."
+    },
+    {
+      "temporary_id": "decl-018470",
+      "new_name": "transvection_apply",
+      "docstring": "The value of a transvection on a vector."
+    },
+    {
+      "temporary_id": "decl-018474",
+      "new_name": "invariantBilinearMap_eq_zero_of_exists_square_ne_one",
+      "docstring": "An automorphism-invariant map to the dual is zero when the field has a suitable element."
+    },
+    {
+      "temporary_id": "decl-018475",
+      "new_name": "invariantBilinearMap_eq_zero_of_finrank_ge_three",
+      "docstring": "An automorphism-invariant map to the dual vanishes in finite dimension at least three."
+    },
+    {
+      "temporary_id": "decl-018825",
+      "new_name": "exists_nonzero_dual_vanishing_at_pair",
+      "docstring": "In finite dimension at least three, two vectors admit a common nonzero annihilating functional."
+    },
+    {
+      "temporary_id": "decl-019494",
+      "new_name": "restrictionEndToAlgebra",
+      "docstring": "Extracts an algebra element from an endomorphism of scalar restriction."
+    },
+    {
+      "temporary_id": "decl-019495",
+      "new_name": "restrictionEndToAlgebra_algebraToRestrictionEnd",
+      "docstring": "Extracting the element associated with a scalar endomorphism returns that scalar."
+    },
+    {
+      "temporary_id": "decl-019496",
+      "new_name": "restrictionEndRingEquivAlgebra",
+      "docstring": "The ring equivalence between endomorphisms of scalar restriction and the algebra."
+    },
+    {
+      "temporary_id": "decl-019500",
+      "new_name": "restrictionFunctor",
+      "docstring": "The functor restricting scalars along an algebra structure."
+    },
+    {
+      "temporary_id": "decl-019501",
+      "new_name": "algebraToRestrictionEnd",
+      "docstring": "Turns an algebra element into a natural endomorphism of scalar restriction."
+    },
+    {
+      "temporary_id": "decl-019505",
+      "new_name": "restrictionEnd_app_eq_smul",
+      "docstring": "A scalar-restriction endomorphism acts as multiplication by its extracted element."
+    },
+    {
+      "temporary_id": "decl-019506",
+      "new_name": "naturalEndomorphism_eq_smul",
+      "docstring": "A natural family of endomorphisms is multiplication by its value on one."
+    },
+    {
+      "temporary_id": "decl-019509",
+      "new_name": "smul_smul",
+      "docstring": "Successive scalar actions agree with multiplication of the scalars."
+    },
+    {
+      "temporary_id": "decl-020478",
+      "new_name": "moduleEndToCenter",
+      "docstring": "Extracts a ring element from an endomorphism of the identity module functor."
+    },
+    {
+      "temporary_id": "decl-020479",
+      "new_name": "moduleEndToCenter_centerToModuleEnd",
+      "docstring": "Extracting the central element associated with a central scalar endomorphism returns that element."
+    },
+    {
+      "temporary_id": "decl-020480",
+      "new_name": "moduleEndToCenter_mem_center",
+      "docstring": "The element extracted from an identity-functor endomorphism is central."
+    },
+    {
+      "temporary_id": "decl-020481",
+      "new_name": "moduleEndRingEquivCenter",
+      "docstring": "The ring equivalence between identity-functor endomorphisms and the center."
+    },
+    {
+      "temporary_id": "decl-020489",
+      "new_name": "moduleEnd_app_eq_smul",
+      "docstring": "An identity-functor endomorphism acts by its extracted ring element."
+    },
+    {
+      "temporary_id": "decl-020490",
+      "new_name": "naturalModuleEnd_one_mem_center",
+      "docstring": "The value at one of a natural module endomorphism commutes with every ring element."
+    },
+    {
+      "temporary_id": "decl-020491",
+      "new_name": "naturalModuleEnd_eq_smul",
+      "docstring": "A natural module endomorphism is multiplication by its value at one."
+    },
+    {
+      "temporary_id": "decl-020492",
+      "new_name": "centerToModuleEnd",
+      "docstring": "Turns a central ring element into an endomorphism of the identity module functor."
+    },
+    {
+      "temporary_id": "decl-021502",
+      "new_name": "nonempty_doubleDualLinearEquiv_iff_finiteDimensional",
+      "docstring": "A module is finite-dimensional exactly when it is linearly equivalent to its double dual."
+    },
+    {
+      "temporary_id": "decl-021504",
+      "new_name": "nonempty_dualLinearEquiv_iff_finiteDimensional",
+      "docstring": "A module is finite-dimensional exactly when it is linearly equivalent to its dual."
+    },
+    {
+      "temporary_id": "decl-021762",
+      "new_name": "invariantBilinearMap_not_bijective_of_exists_square_ne_one",
+      "docstring": "An automorphism-invariant map to the dual is not bijective when the field has a suitable element."
+    },
+    {
+      "temporary_id": "decl-021763",
+      "new_name": "invariantBilinearMap_not_bijective_of_finrank_ge_three",
+      "docstring": "An automorphism-invariant map to the dual is not bijective in finite dimension at least three."
+    },
+    {
+      "temporary_id": "decl-021786",
+      "new_name": "isEmpty_iso_id_finitelyGeneratedModuleDualFunctor",
+      "docstring": "There is no isomorphism from the identity to the duality functor on finitely generated modules."
+    }
+  ]
+}
