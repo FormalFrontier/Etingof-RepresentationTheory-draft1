@@ -1861,19 +1861,6 @@ private lemma baseChange_comm {G A : Type} [Group G] [CommGroup A] [Fintype G]
   rw [hx, map_mul, Module.End.mul_apply, baseChange_comm_A, baseChange_comm_G,
     ← Module.End.mul_apply, ← map_mul]
 
-/-- Under the displayed equality, the two auxiliary representations are isomorphic. -/
-@[source_ref "Chapter5/Discussion_semidirect_products" (role := primary),
-  source_ref "Chapter5/Theorem5.27.1" (role := supporting)]
-theorem auxiliary_nonempty_iso_of_eq {G A : Type} [Group G] [CommGroup A] [Fintype G]
-    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
-    (U : FDRep ℂ ↥(stabAux φ χ₁)) :
-    Nonempty (inducedRepV φ χ₂ (transportRep φ hg U) ≅ inducedRepV φ χ₁ U) :=
-  ⟨Action.mkIso (baseChangeEquiv φ hg U).toFGModuleCatIso (fun x => by
-    refine FGModuleCat.hom_ext (LinearMap.ext (fun v => ?_))
-    change (baseChangeEquiv φ hg U) ((inducedRepV φ χ₂ (transportRep φ hg U)).ρ x v)
-        = (inducedRepV φ χ₁ U).ρ x ((baseChangeEquiv φ hg U) v)
-    exact baseChange_comm φ hg U x v)⟩
-
 -- ===========================================================================
 -- (ii)(b): at a fixed character χ, the induced representation V(χ, U) determines
 -- the inducing representation U up to isomorphism.  This is the "U is determined by
@@ -2127,21 +2114,6 @@ private noncomputable def inducedRepV_U_iso {G A : Type} [Group G] [CommGroup A]
 
 -- (ii) full classification: V(χ₁, U₁) ≅ V(χ₂, U₂) implies there is g with χ₂ = g · χ₁
 -- AND U₂ is isomorphic to the transport g(U₁) of U₁ to the stabilizer of χ₂.
-private lemma inducedRepV_orbit_classification {G A : Type} [Group G] [CommGroup A] [Fintype G]
-    (φ : G →* MulAut A) (χ₁ χ₂ : A →* ℂˣ)
-    (U₁ : FDRep ℂ ↥(stabAux φ χ₁)) (U₂ : FDRep ℂ ↥(stabAux φ χ₂))
-    (hU₁ : CategoryTheory.Simple U₁) (hU₂ : CategoryTheory.Simple U₂)
-    (hiso : Nonempty (inducedRepV φ χ₁ U₁ ≅ inducedRepV φ χ₂ U₂)) :
-    ∃ (g : G) (hg : dualSmulAux φ g χ₁ = χ₂),
-      Nonempty (U₂ ≅ transportRep φ hg U₁) := by
-  obtain ⟨g, hg⟩ := inducedRepV_orbit_injectivity φ χ₁ χ₂ U₁ U₂ hU₁ hU₂ hiso
-  refine ⟨g, hg, ?_⟩
-  obtain ⟨e⟩ := hiso
-  obtain ⟨e0⟩ := auxiliary_nonempty_iso_of_eq φ hg U₁
-  -- e0 : V(χ₂, g(U₁)) ≅ V(χ₁, U₁); compose with e to land at V(χ₂, U₂)
-  have e1 : inducedRepV φ χ₂ (transportRep φ hg U₁) ≅ inducedRepV φ χ₂ U₂ := e0.trans e
-  exact ⟨(inducedRepV_U_iso φ χ₂ (transportRep φ hg U₁) U₂ e1).symm⟩
-
 -- Dimension of the induced representation: the carrier of `inducedRepV φ χ U` is the Pi
 -- type `(G ⧸ stab χ) → U`, so its ℂ-dimension is `[G : stab χ] · dim U`.
 private lemma inducedRepV_finrank {G A : Type} [Group G] [CommGroup A] [Fintype G]
@@ -2240,6 +2212,22 @@ private noncomputable def transportRep_central_iso {G A : Type} [Group G] [CommG
   rw [transportRep_ρ_apply, hconj h]
 
 open Classical in
+mutual
+private lemma inducedRepV_orbit_classification {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) (χ₁ χ₂ : A →* ℂˣ)
+    (U₁ : FDRep ℂ ↥(stabAux φ χ₁)) (U₂ : FDRep ℂ ↥(stabAux φ χ₂))
+    (hU₁ : CategoryTheory.Simple U₁) (hU₂ : CategoryTheory.Simple U₂)
+    (hiso : Nonempty (inducedRepV φ χ₁ U₁ ≅ inducedRepV φ χ₂ U₂)) :
+    ∃ (g : G) (hg : dualSmulAux φ g χ₁ = χ₂),
+      Nonempty (U₂ ≅ transportRep φ hg U₁) := by
+  obtain ⟨g, hg⟩ := inducedRepV_orbit_injectivity φ χ₁ χ₂ U₁ U₂ hU₁ hU₂ hiso
+  refine ⟨g, hg, ?_⟩
+  obtain ⟨e⟩ := hiso
+  obtain ⟨e0⟩ := auxiliary_nonempty_iso_of_eq φ hg U₁
+  -- e0 : V(χ₂, g(U₁)) ≅ V(χ₁, U₁); compose with e to land at V(χ₂, U₂)
+  have e1 : inducedRepV φ χ₂ (transportRep φ hg U₁) ≅ inducedRepV φ χ₂ U₂ := e0.trans e
+  exact ⟨(inducedRepV_U_iso φ χ₂ (transportRep φ hg U₁) U₂ e1).symm⟩
+
 /-- An auxiliary result whose formal statement is unavailable. -/
 @[source_ref "Chapter5/Discussion_semidirect_products" (role := supporting),
   source_ref "Chapter5/Theorem5.27.1" (role := supporting)]
@@ -2448,6 +2436,20 @@ theorem auxiliary_theorem
   · intro _χ₁ _χ₂ U _g hg hU
     haveI := hU
     exact transportRep_simple φ hg U
+
+/-- Under the displayed equality, the two auxiliary representations are isomorphic. -/
+@[source_ref "Chapter5/Discussion_semidirect_products" (role := primary),
+  source_ref "Chapter5/Theorem5.27.1" (role := supporting)]
+theorem auxiliary_nonempty_iso_of_eq {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (U : FDRep ℂ ↥(stabAux φ χ₁)) :
+    Nonempty (inducedRepV φ χ₂ (transportRep φ hg U) ≅ inducedRepV φ χ₁ U) :=
+  ⟨Action.mkIso (baseChangeEquiv φ hg U).toFGModuleCatIso (fun x => by
+    refine FGModuleCat.hom_ext (LinearMap.ext (fun v => ?_))
+    change (baseChangeEquiv φ hg U) ((inducedRepV φ χ₂ (transportRep φ hg U)).ρ x v)
+        = (inducedRepV φ χ₁ U).ρ x ((baseChangeEquiv φ hg U) v)
+    exact baseChange_comm φ hg U x v)⟩
+end
 
 end
 
