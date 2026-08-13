@@ -1,0 +1,280 @@
+{
+  "module_name": "SymmetricGroup.PartitionIndexedClasses",
+  "declarations": [
+    {
+      "temporary_id": "decl-001314",
+      "new_name": "permutationClass_inv_mul_ne_tableauClass",
+      "docstring": "A nonidentity auxiliary permutation sends the permutation attached to a tableau, after inverse left multiplication, to a class different from the tableau's class."
+    },
+    {
+      "temporary_id": "decl-015219",
+      "new_name": "tableauStabilizer",
+      "docstring": "Assigns a subgroup of permutations of `Fin n` to each partition-indexed tableau."
+    },
+    {
+      "temporary_id": "decl-015536",
+      "new_name": "eq_one_of_mem_auxiliary_subgroups",
+      "docstring": "A permutation lying in both auxiliary permutation collections is the identity."
+    },
+    {
+      "temporary_id": "decl-016261",
+      "new_name": "PartitionIndexedClass",
+      "docstring": "An auxiliary type indexed by a natural number and a partition of it."
+    },
+    {
+      "temporary_id": "decl-016262",
+      "new_name": "PartitionIndexedModule",
+      "docstring": "A second auxiliary type indexed by a natural number and a partition of it."
+    },
+    {
+      "temporary_id": "decl-016263",
+      "new_name": "permutationSetoid",
+      "docstring": "An auxiliary setoid on permutations of a finite type, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-018074",
+      "new_name": "permutationRel_inv_mul_of_mem_auxiliarySubgroup",
+      "docstring": "Membership in the auxiliary permutation collection relates a tableau permutation to its inverse translate."
+    },
+    {
+      "temporary_id": "decl-018084",
+      "new_name": "strictPermutationRel_inv_mul_of_mem_auxiliarySubgroup",
+      "docstring": "A nonidentity member of the auxiliary permutation collection is strictly related to the corresponding inverse translate of a tableau permutation."
+    },
+    {
+      "temporary_id": "decl-018814",
+      "new_name": "exists_nonzero_tableau_rel_extremal",
+      "docstring": "From a nonzero value on a member of a finite tableau set, one can select another nonzero member whose related nonzero members have the same tableau class."
+    },
+    {
+      "temporary_id": "decl-018817",
+      "new_name": "exists_rel_extremal_in_finset",
+      "docstring": "Every pointed finite set of partition-indexed classes contains a member such that any related member of the set is equal to it."
+    },
+    {
+      "temporary_id": "decl-019462",
+      "new_name": "card_tableaux_le_finrank_auxiliarySubmodule",
+      "docstring": "The number of partition-indexed tableaux is bounded by the complex finrank of the indicated subtype."
+    },
+    {
+      "temporary_id": "decl-019782",
+      "new_name": "auxiliaryOpaqueProperty",
+      "docstring": "An auxiliary proposition whose internal statement is unavailable."
+    },
+    {
+      "temporary_id": "decl-019788",
+      "new_name": "permutationVector",
+      "docstring": "Maps a permutation of `Fin n` into the second partition-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-019790",
+      "new_name": "permutationVector_mul_eq_sign_smul",
+      "docstring": "Left multiplication by an auxiliary permutation changes its associated vector by the permutation's sign."
+    },
+    {
+      "temporary_id": "decl-019794",
+      "new_name": "permutationVector_tableauPermutation",
+      "docstring": "The vector associated with a tableau permutation equals the vector assigned directly to the tableau."
+    },
+    {
+      "temporary_id": "decl-020616",
+      "new_name": "partitionIndexedClassFintype",
+      "docstring": "Provides a finite type structure on the first partition-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-021574",
+      "new_name": "mem_tableauStabilizer_iff_exists_auxiliaryConjugate",
+      "docstring": "A permutation belongs to the tableau-associated subgroup exactly when it is obtained by conjugating an auxiliary permutation by the tableau permutation."
+    },
+    {
+      "temporary_id": "decl-022086",
+      "new_name": "tableauVector",
+      "docstring": "Assigns an element of the second partition-indexed auxiliary type to each tableau."
+    },
+    {
+      "temporary_id": "decl-022088",
+      "new_name": "permutationRel_of_tableauVector_apply_ne_zero",
+      "docstring": "A nonzero coefficient of a tableau vector at a permutation class forces the tableau permutation to be related to that permutation."
+    },
+    {
+      "temporary_id": "decl-022089",
+      "new_name": "tableauVector_apply_tableauClass",
+      "docstring": "A tableau vector takes the value one at its own tableau class."
+    },
+    {
+      "temporary_id": "decl-022090",
+      "new_name": "linearIndependent_tableauVector",
+      "docstring": "The family of tableau vectors is linearly independent over the complex numbers."
+    },
+    {
+      "temporary_id": "decl-022091",
+      "new_name": "tableauVector_mem_mappedAuxiliarySubmodule",
+      "docstring": "Every tableau vector lies in the image of the scalar-restricted auxiliary submodule under the indicated linear map."
+    },
+    {
+      "temporary_id": "decl-022092",
+      "new_name": "permutationRel_of_tableauVector_apply_tableauClass_ne_zero",
+      "docstring": "A nonzero tableau-vector coefficient at another tableau's class forces the two tableau permutations to be related."
+    },
+    {
+      "temporary_id": "decl-023741",
+      "new_name": "auxiliaryConjugate_mem_of_mem_tableauStabilizer",
+      "docstring": "Conjugating a member of the tableau-associated subgroup by the tableau permutation yields a member of the auxiliary permutation collection."
+    },
+    {
+      "temporary_id": "decl-023743",
+      "new_name": "tableauIndex",
+      "docstring": "Assigns a natural-number index to each position of a partition-indexed tableau."
+    },
+    {
+      "temporary_id": "decl-023744",
+      "new_name": "tableauClass",
+      "docstring": "Maps each partition-indexed tableau into the first auxiliary partition-indexed type."
+    },
+    {
+      "temporary_id": "decl-023746",
+      "new_name": "tableauClass_injective",
+      "docstring": "The map from tableaux to their auxiliary classes is injective."
+    },
+    {
+      "temporary_id": "decl-023755",
+      "new_name": "permutationIndexedStatistic",
+      "docstring": "A natural-number statistic of a permutation, a finite index, and an additional natural-number parameter."
+    },
+    {
+      "temporary_id": "decl-023757",
+      "new_name": "permutationIndexedStatistic_eq_of_class_eq",
+      "docstring": "Equal permutation classes have equal values of the indexed permutation statistic."
+    },
+    {
+      "temporary_id": "decl-023761",
+      "new_name": "permutationRel",
+      "docstring": "An auxiliary binary relation on permutations, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-023762",
+      "new_name": "permutationClass_eq_of_rel_and_reverse",
+      "docstring": "Two permutations related in both directions determine equal auxiliary classes."
+    },
+    {
+      "temporary_id": "decl-023763",
+      "new_name": "middle_permutationClass_eq_of_rel_chain",
+      "docstring": "Along a two-step relation chain, equality of the endpoint classes forces equality of the middle and final classes."
+    },
+    {
+      "temporary_id": "decl-023785",
+      "new_name": "permutationRel_congr",
+      "docstring": "The auxiliary permutation relation is preserved when either argument is replaced by one with the same class."
+    },
+    {
+      "temporary_id": "decl-023786",
+      "new_name": "permutationRel_refl",
+      "docstring": "The auxiliary relation holds from every permutation to itself."
+    },
+    {
+      "temporary_id": "decl-023787",
+      "new_name": "permutationRel_trans",
+      "docstring": "The auxiliary relation is transitive on permutations."
+    },
+    {
+      "temporary_id": "decl-023788",
+      "new_name": "permutationClassLinearMap",
+      "docstring": "A complex-linear map from an auxiliary source to the second partition-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-023796",
+      "new_name": "permutationClassLinearMap_auxiliaryVector",
+      "docstring": "The linear map sends the distinguished auxiliary source element to the cardinality scalar times the basis vector at the identity class."
+    },
+    {
+      "temporary_id": "decl-023797",
+      "new_name": "eq_zero_of_mem_auxiliarySubmodule_of_linearMap_eq_zero",
+      "docstring": "On the indicated auxiliary submodule, a vector with zero image under the linear map is itself zero."
+    },
+    {
+      "temporary_id": "decl-023798",
+      "new_name": "linearMap_mul_eq_zero",
+      "docstring": "If a vector maps to zero, then every left multiple of it also maps to zero."
+    },
+    {
+      "temporary_id": "decl-023799",
+      "new_name": "linearMap_permutation_mul_eq_zero",
+      "docstring": "If a vector maps to zero, then left multiplication by any permutation monomial still maps to zero."
+    },
+    {
+      "temporary_id": "decl-023800",
+      "new_name": "linearMap_monomial",
+      "docstring": "The linear map sends the monomial of a permutation to the unit basis vector at the inverse permutation's class."
+    },
+    {
+      "temporary_id": "decl-023801",
+      "new_name": "linearMap_permutation_mul",
+      "docstring": "Left multiplication by a permutation is carried to reindexing by the inverse class action under the linear map."
+    },
+    {
+      "temporary_id": "decl-023802",
+      "new_name": "linearMap_permutation_mul_auxiliaryVector",
+      "docstring": "The image of a permutation multiple of the distinguished vector is the auxiliary cardinality scalar times the vector of the inverse permutation."
+    },
+    {
+      "temporary_id": "decl-023804",
+      "new_name": "linearMap_auxiliaryVector_ne_zero",
+      "docstring": "The distinguished auxiliary vector has nonzero image under the linear map."
+    },
+    {
+      "temporary_id": "decl-023808",
+      "new_name": "permutationClassAction",
+      "docstring": "Defines an action of permutations on the first partition-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-023819",
+      "new_name": "permutationClassAction_mk",
+      "docstring": "Acting by a permutation on the class of another permutation gives the class of their right product."
+    },
+    {
+      "temporary_id": "decl-023820",
+      "new_name": "permutationProfile",
+      "docstring": "Assigns a natural-valued profile on `Fin n` to each permutation, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-023821",
+      "new_name": "permutationProfile_eq_of_class_eq",
+      "docstring": "Equal permutation classes have equal natural-valued profiles."
+    },
+    {
+      "temporary_id": "decl-023822",
+      "new_name": "strictPermutationRel",
+      "docstring": "A second auxiliary binary relation on permutations, indexed by a partition."
+    },
+    {
+      "temporary_id": "decl-024162",
+      "new_name": "permutationClass",
+      "docstring": "Maps a permutation to the first partition-indexed auxiliary type."
+    },
+    {
+      "temporary_id": "decl-024163",
+      "new_name": "permutationClass_eq_iff_mul_inv_mem",
+      "docstring": "Two permutations have equal auxiliary classes exactly when their quotient product belongs to the indicated permutation collection."
+    },
+    {
+      "temporary_id": "decl-024164",
+      "new_name": "permutationClass_eq_iff_partitionValue_eq",
+      "docstring": "Two permutations have equal auxiliary classes exactly when the indicated sorted-partition values agree at every finite index."
+    },
+    {
+      "temporary_id": "decl-024165",
+      "new_name": "permutationClass_eq_of_profile_eq",
+      "docstring": "Permutations with equal natural-valued profiles have equal auxiliary classes."
+    },
+    {
+      "temporary_id": "decl-024166",
+      "new_name": "permutationClass_tableauPermutation",
+      "docstring": "The class of the permutation attached to a tableau agrees with the tableau's auxiliary class."
+    },
+    {
+      "temporary_id": "decl-024167",
+      "new_name": "permutationClass_quotientOut",
+      "docstring": "Taking a quotient representative and then its permutation class recovers the original class."
+    }
+  ]
+}
