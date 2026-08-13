@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -37,6 +38,46 @@ def source_slice(source: str, position: list) -> str:
 
 def module_path(root: Path, module: str, suffix: str) -> Path:
     return root / (module.replace(".", "/") + suffix)
+
+
+def simps_generated_origin(
+    old_fqn: str,
+    module: str,
+    source: str,
+    ilean: dict,
+    proposals_by_old: dict[str, dict],
+) -> tuple[str, list] | None:
+    """Find an indexed ``@[simps]`` declaration that generated ``old_fqn``.
+
+    Declarations synthesized by ``simps`` exist in the environment but have no
+    source token of their own, so Lean's identifier index cannot give them a
+    definition range.  Accept that exceptional case only when the missing name
+    extends a resolved declaration in the same provider module and that
+    declaration has an immediately attached ``@[simps]`` attribute.
+    """
+    references = ilean.get("references", {})
+    source_lines = source.splitlines(keepends=True)
+    candidates = sorted(proposals_by_old, key=len, reverse=True)
+    for parent_fqn in candidates:
+        parent = proposals_by_old[parent_fqn]
+        if parent.get("old_module") != module or not old_fqn.startswith(parent_fqn + "_"):
+            continue
+        parent_ref = next(
+            (
+                record
+                for encoded, record in references.items()
+                if reference_name(encoded) == parent_fqn
+            ),
+            None,
+        )
+        position = parent_ref.get("definition") if parent_ref else None
+        if position is None:
+            continue
+        start_line = position[0]
+        attached_context = "".join(source_lines[max(0, start_line - 2) : start_line + 1])
+        if re.search(r"@\[\s*simps!?[^\]]*\]\s*(?:noncomputable\s+)?def\s+", attached_context):
+            return parent_fqn, position
+    return None
 
 
 def main() -> None:
@@ -85,7 +126,23 @@ def main() -> None:
         )
         position = ref.get("definition") if ref else None
         if position is None:
-            errors.append(f"{old_fqn}: no definition range in provider ilean")
+            generated = simps_generated_origin(old_fqn, module, source, ilean, by_old)
+            if generated is None:
+                errors.append(f"{old_fqn}: no definition range in provider ilean")
+                continue
+            parent_fqn, parent_position = generated
+            definition_audit.append({
+                "temporary_id": proposal["temporary_id"],
+                "old_fqn": old_fqn,
+                "new_fqn": proposal["new_fqn"],
+                "old_module": module,
+                "new_module": proposal["new_module"],
+                "definition_range": None,
+                "definition_spelling": None,
+                "generated_by": "simps",
+                "generated_from": parent_fqn,
+                "generator_definition_range": parent_position[:4],
+            })
             continue
         try:
             spelling = source_slice(source, position)
