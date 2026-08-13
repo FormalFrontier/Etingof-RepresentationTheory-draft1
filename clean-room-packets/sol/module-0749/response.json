@@ -1,0 +1,195 @@
+{
+  "module_name": "RingTheory.Module.ComponentRestriction",
+  "declarations": [
+    {
+      "temporary_id": "decl-013990",
+      "new_name": "associatedModuleCategory",
+      "docstring": "The type of modules selected by the construction associated with an R-module."
+    },
+    {
+      "temporary_id": "decl-013992",
+      "new_name": "selectedComponentRing",
+      "docstring": "The ring type determined by an element of the opaque parameter space for R."
+    },
+    {
+      "temporary_id": "decl-014097",
+      "new_name": "simpleModuleParameter",
+      "docstring": "The opaque ring parameter selected by a simple module over a finite-dimensional algebra."
+    },
+    {
+      "temporary_id": "decl-014099",
+      "new_name": "simpleModuleParameter_value_eq",
+      "docstring": "The underlying value of the parameter attached to a simple module agrees with the comparison construction."
+    },
+    {
+      "temporary_id": "decl-014105",
+      "new_name": "componentModuleEquivalence",
+      "docstring": "The equivalence from modules over the selected component ring to the associated module category."
+    },
+    {
+      "temporary_id": "decl-014106",
+      "new_name": "finiteLengthComponentEquivalence",
+      "docstring": "The equivalence between finite-length component-ring modules and finite-length modules satisfying the selected condition."
+    },
+    {
+      "temporary_id": "decl-014107",
+      "new_name": "componentModuleEquivalence_functor_eq",
+      "docstring": "The forward functor of the component-module equivalence is the designated component-module functor."
+    },
+    {
+      "temporary_id": "decl-014108",
+      "new_name": "componentModuleEquivalence_obj_carrier",
+      "docstring": "Applying the component-module equivalence preserves the underlying carrier of a module."
+    },
+    {
+      "temporary_id": "decl-014120",
+      "new_name": "componentRingToBaseLinearMap",
+      "docstring": "The R-linear map from the selected component ring into the base ring."
+    },
+    {
+      "temporary_id": "decl-014121",
+      "new_name": "componentRingToBaseLinearMap_injective",
+      "docstring": "The linear map from the selected component ring to the base ring is injective."
+    },
+    {
+      "temporary_id": "decl-014122",
+      "new_name": "componentRingToBaseLinearMap_toComponentRingHom",
+      "docstring": "Mapping an element to the component ring and back to R gives left multiplication by the underlying parameter."
+    },
+    {
+      "temporary_id": "decl-014123",
+      "new_name": "componentRingToBaseLinearMap_mul",
+      "docstring": "The linear map from the component ring to R preserves multiplication."
+    },
+    {
+      "temporary_id": "decl-014124",
+      "new_name": "componentRingToBaseLinearMap_one",
+      "docstring": "The image of one under the component-to-base linear map is the underlying parameter in R."
+    },
+    {
+      "temporary_id": "decl-014125",
+      "new_name": "leftMulKernelIdeal",
+      "docstring": "The ideal of elements annihilated by left multiplication with the underlying parameter."
+    },
+    {
+      "temporary_id": "decl-014129",
+      "new_name": "leftMulKernelIdeal_isTwoSided",
+      "docstring": "The kernel ideal for left multiplication by the parameter is two-sided."
+    },
+    {
+      "temporary_id": "decl-014130",
+      "new_name": "toComponentRingHom",
+      "docstring": "The ring homomorphism from R onto the selected component ring."
+    },
+    {
+      "temporary_id": "decl-014132",
+      "new_name": "toComponentRingHom_eq_iff",
+      "docstring": "Two elements have the same image in the component ring exactly when their left multiples by the parameter agree."
+    },
+    {
+      "temporary_id": "decl-014133",
+      "new_name": "toComponentRingHom_surjective",
+      "docstring": "The canonical homomorphism from R to the selected component ring is surjective."
+    },
+    {
+      "temporary_id": "decl-014134",
+      "new_name": "toComponentRingHom_parameter",
+      "docstring": "The component-ring homomorphism sends the underlying parameter to one."
+    },
+    {
+      "temporary_id": "decl-014135",
+      "new_name": "componentModuleFunctor",
+      "docstring": "The functor from component-ring modules to the module category associated with the chosen simple module."
+    },
+    {
+      "temporary_id": "decl-014137",
+      "new_name": "finiteLengthComponentModuleFunctor",
+      "docstring": "The component-module functor restricted to finite-length modules and the selected module condition."
+    },
+    {
+      "temporary_id": "decl-014159",
+      "new_name": "restrictScalars_satisfies_moduleCondition",
+      "docstring": "Restriction of scalars from the selected component ring satisfies the opaque condition associated with the simple module."
+    },
+    {
+      "temporary_id": "decl-014160",
+      "new_name": "finiteLengthComponentModuleFunctor_essSurj",
+      "docstring": "The finite-length component-module functor is essentially surjective."
+    },
+    {
+      "temporary_id": "decl-014161",
+      "new_name": "componentModuleFunctor_essSurj",
+      "docstring": "The component-module functor is essentially surjective."
+    },
+    {
+      "temporary_id": "decl-014162",
+      "new_name": "finiteLengthComponentModuleFunctor_faithful",
+      "docstring": "The finite-length component-module functor is faithful."
+    },
+    {
+      "temporary_id": "decl-014163",
+      "new_name": "componentModuleFunctor_faithful",
+      "docstring": "The component-module functor is faithful."
+    },
+    {
+      "temporary_id": "decl-014164",
+      "new_name": "finiteLengthComponentModuleFunctor_full",
+      "docstring": "The finite-length component-module functor is full."
+    },
+    {
+      "temporary_id": "decl-014165",
+      "new_name": "componentModuleFunctor_full",
+      "docstring": "The component-module functor is full."
+    },
+    {
+      "temporary_id": "decl-014166",
+      "new_name": "finiteLengthComponentModuleFunctor_isEquivalence",
+      "docstring": "The finite-length component-module functor is an equivalence."
+    },
+    {
+      "temporary_id": "decl-014167",
+      "new_name": "componentModuleFunctor_isEquivalence",
+      "docstring": "The component-module functor is an equivalence."
+    },
+    {
+      "temporary_id": "decl-014168",
+      "new_name": "toComponentRingHom_ringHomSurjective",
+      "docstring": "The canonical map to the component ring carries the surjective ring-homomorphism property."
+    },
+    {
+      "temporary_id": "decl-014169",
+      "new_name": "isFiniteLength_restrictScalars_iff",
+      "docstring": "Along a surjective ring homomorphism, a module has finite length exactly when its restriction of scalars does."
+    },
+    {
+      "temporary_id": "decl-014174",
+      "new_name": "isTorsionBy_leftMulKernelIdeal_of_moduleCondition",
+      "docstring": "A module satisfying the selected condition is torsion with respect to the left-multiplication kernel ideal."
+    },
+    {
+      "temporary_id": "decl-014175",
+      "new_name": "mem_leftMulKernelIdeal_iff",
+      "docstring": "An element belongs to the kernel ideal exactly when its left multiple by the underlying parameter is zero."
+    },
+    {
+      "temporary_id": "decl-014177",
+      "new_name": "leftMulLinearMap",
+      "docstring": "The R-linear endomorphism given by left multiplication with the underlying parameter."
+    },
+    {
+      "temporary_id": "decl-014181",
+      "new_name": "range_componentRingToBaseLinearMap",
+      "docstring": "The range of the component-to-base linear map consists exactly of left multiples by the underlying parameter."
+    },
+    {
+      "temporary_id": "decl-014182",
+      "new_name": "restrictScalarsCarrierLinearMap",
+      "docstring": "The scalar-compatible linear map from the carrier of a restricted module to its original carrier."
+    },
+    {
+      "temporary_id": "decl-014185",
+      "new_name": "restrictScalars_full_of_surjective",
+      "docstring": "Restriction of scalars along a surjective ring homomorphism is full."
+    }
+  ]
+}
