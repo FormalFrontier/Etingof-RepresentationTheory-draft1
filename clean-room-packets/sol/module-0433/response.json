@@ -1,5 +1,5 @@
 {
-  "module_name": "RepresentationTheory.PartitionedDecomposition",
+  "module_name": "PartitionedDecomposition",
   "declarations": [
     {
       "temporary_id": "decl-000890",
@@ -84,7 +84,7 @@
     {
       "temporary_id": "decl-023289",
       "new_name": "existsEquivariantFamily",
-      "docstring": "A pairwise inequivalent family of simple modules admits compatible equivariant linear equivalences."
+      "docstring": "A pairwise inequivalent family of simple modules admits compatible equivariant maps."
     },
     {
       "temporary_id": "decl-023620",
