@@ -38,3 +38,9 @@ number := false
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementE}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementF}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra.left_idempotent_sq}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra.right_idempotent_sq}

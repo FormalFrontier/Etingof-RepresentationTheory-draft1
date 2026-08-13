@@ -31,3 +31,5 @@ number := false
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.ModuleTheory.Idempotent.linearMapSpanSingletonEquivFixedByIdempotent}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra.exists_idempotent_sandwich_eq_smul}

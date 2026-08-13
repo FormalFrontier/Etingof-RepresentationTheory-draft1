@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,19 @@ To show this, it is sufficient to find a transposition $`t` such that $`t \in P_
 $$`a_\lambda g b_\lambda = a_\lambda t g b_\lambda = a_\lambda g (g^{-1}tg) b_\lambda = -a_\lambda g b_\lambda,`
 
 so $`a_\lambda g b_\lambda = 0`. In other words, we have to find two elements $`i, j` standing in the same row in the tableau $`T = T_\lambda` and in the same column in the tableau $`T' = gT` (where $`gT` is the tableau of the same shape as $`T` obtained by permuting the entries of $`T` by the permutation $`g`). Thus, it suffices to show that if such a pair does not exist, then $`g \in P_\lambda Q_\lambda`, i.e., there exists $`p \in P_\lambda`, $`q' \in Q'_\lambda := gQ_\lambda g^{-1}` such that $`pT = q'T'` (so that $`g = pq^{-1}`, $`q = g^{-1}q'g \in Q_\lambda`).
+
+## Formalization
+%%%
+tag := "Chapter5/Lemma5.13.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra.exists_idempotent_sandwich_eq_smul}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra.exists_fixed_sign_sandwich_eq_smul_mul}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra.exists_swap_mem_left_of_not_mem_mul}
