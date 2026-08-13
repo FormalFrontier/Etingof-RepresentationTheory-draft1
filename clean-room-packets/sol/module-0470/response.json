@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-005143",
-      "new_name": "IsRepresentationEquivariant",
-      "docstring": "A linear equivalence respects the actions of two representations."
+      "new_name": "Auxiliary.IsRepresentationRelation",
+      "docstring": "An auxiliary predicate on two representations and a linear equivalence."
     },
     {
       "temporary_id": "decl-005145",
@@ -13,8 +13,8 @@
     },
     {
       "temporary_id": "decl-016596",
-      "new_name": "auxiliary_nonempty_equivariantLinearEquiv",
-      "docstring": "There exists an auxiliary equivariant linear equivalence between the displayed representations."
+      "new_name": "auxiliary_nonempty_representationRelation",
+      "docstring": "The displayed representations and linear equivalence satisfy the indicated auxiliary predicate."
     },
     {
       "temporary_id": "decl-017174",
@@ -53,8 +53,8 @@
     },
     {
       "temporary_id": "decl-021726",
-      "new_name": "auxiliary_nonempty_equivariantLinearEquiv_of_bijective",
-      "docstring": "Bijectivity of the auxiliary direct-sum map yields an equivariant linear equivalence."
+      "new_name": "auxiliary_nonempty_representationRelation_of_bijective",
+      "docstring": "Bijectivity of the auxiliary direct-sum map yields the indicated auxiliary predicate."
     },
     {
       "temporary_id": "decl-022002",
@@ -128,8 +128,8 @@
     },
     {
       "temporary_id": "decl-022790",
-      "new_name": "auxiliary_range_le_iSup",
-      "docstring": "The range of the displayed auxiliary element lies below the supremum of the component ranges."
+      "new_name": "auxiliary_submodule_le_iSup",
+      "docstring": "The indicated auxiliary submodule lies below the supremum of the component ranges."
     },
     {
       "temporary_id": "decl-023206",
