@@ -1,0 +1,110 @@
+{
+  "module_name": "AuxiliaryQuiverRepresentationOperations",
+  "declarations": [
+    {
+      "temporary_id": "decl-014914",
+      "new_name": "prod",
+      "docstring": "Auxiliary relations between two pairs of quiver representations induce a relation between their products."
+    },
+    {
+      "temporary_id": "decl-014915",
+      "new_name": "commutes_apply",
+      "docstring": "A vertexwise linear equivalence commuting with every quiver arrow also commutes after evaluation on a vector."
+    },
+    {
+      "temporary_id": "decl-014916",
+      "new_name": "refl",
+      "docstring": "Every auxiliary quiver representation is related to itself."
+    },
+    {
+      "temporary_id": "decl-014917",
+      "new_name": "symm",
+      "docstring": "An auxiliary relation between quiver representations can be reversed."
+    },
+    {
+      "temporary_id": "decl-014918",
+      "new_name": "trans",
+      "docstring": "Auxiliary relations between quiver representations compose transitively."
+    },
+    {
+      "temporary_id": "decl-014956",
+      "new_name": "auxiliaryListProduct_append",
+      "docstring": "The product of the auxiliary list products is related to the auxiliary product of the appended lists."
+    },
+    {
+      "temporary_id": "decl-014957",
+      "new_name": "auxiliaryProduct_assoc",
+      "docstring": "The two parenthesizations of a triple auxiliary product are related."
+    },
+    {
+      "temporary_id": "decl-014958",
+      "new_name": "auxiliaryProduct_zero_right",
+      "docstring": "An auxiliary representation is related to its product with the auxiliary zero representation on the right."
+    },
+    {
+      "temporary_id": "decl-014959",
+      "new_name": "auxiliaryProduct_subobjects_of_isCompl",
+      "docstring": "Pointwise complementary invariant submodules give an auxiliary relation between a representation and the product of the associated subobjects."
+    },
+    {
+      "temporary_id": "decl-014960",
+      "new_name": "auxiliaryRelation_zero_of_subsingleton",
+      "docstring": "A representation with subsingleton vertex spaces is related to the auxiliary zero representation."
+    },
+    {
+      "temporary_id": "decl-014961",
+      "new_name": "auxiliaryProduct_zero_left",
+      "docstring": "The product of the auxiliary zero representation with a representation is related to that representation."
+    },
+    {
+      "temporary_id": "decl-014967",
+      "new_name": "auxiliaryListProduct",
+      "docstring": "Combines a list of auxiliary quiver representations into one representation."
+    },
+    {
+      "temporary_id": "decl-014968",
+      "new_name": "auxiliaryListProduct_cons",
+      "docstring": "The auxiliary product of a nonempty list is the product of its head with the product of its tail."
+    },
+    {
+      "temporary_id": "decl-014969",
+      "new_name": "auxiliaryListProduct_nil",
+      "docstring": "The auxiliary product of the empty list is the auxiliary zero representation."
+    },
+    {
+      "temporary_id": "decl-014970",
+      "new_name": "auxiliaryProduct_map",
+      "docstring": "The arrow map of an auxiliary product representation is the product of the component arrow maps."
+    },
+    {
+      "temporary_id": "decl-014971",
+      "new_name": "auxiliaryProduct_obj",
+      "docstring": "At each vertex, an auxiliary product representation has the product of the component vertex spaces."
+    },
+    {
+      "temporary_id": "decl-014972",
+      "new_name": "auxiliary_exists_list_of_property",
+      "docstring": "A representation with finite vertex modules is related to the auxiliary product of a list whose members satisfy the displayed property."
+    },
+    {
+      "temporary_id": "decl-014978",
+      "new_name": "finrank_pos_of_ne_bot",
+      "docstring": "A nonzero submodule of a finite-dimensional vector space has positive dimension."
+    },
+    {
+      "temporary_id": "decl-015011",
+      "new_name": "auxiliarySubobject",
+      "docstring": "Builds an auxiliary quiver representation from a vertexwise family of submodules preserved by every arrow map."
+    },
+    {
+      "temporary_id": "decl-015012",
+      "new_name": "auxiliarySubobject_obj",
+      "docstring": "The vertex space of the auxiliary subobject is the corresponding submodule subtype."
+    },
+    {
+      "temporary_id": "decl-015025",
+      "new_name": "auxiliaryZero",
+      "docstring": "The auxiliary zero quiver representation over a field."
+    }
+  ]
+}
