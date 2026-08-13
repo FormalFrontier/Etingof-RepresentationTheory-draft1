@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -40,3 +41,13 @@ Since $`V` is an irreducible representation, $`(\chi_V, \chi_V) = 1`, so
 
 $$`\sum_{C_i} \lambda_i \overline{\chi_V(g_{C_i})} = \frac{|G|}{\dim V}.`
 Since $`\frac{|G|}{\dim V} \in \mathbb{Q}` and $`\sum_{C_i} \lambda_i \overline{\chi_V(g_{C_i})} \in \overline{\mathbb{Z}}`, by Proposition 5.2.5, $`\frac{|G|}{\dim V} \in \mathbb{Z}`. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_proof_of_Theorem5.3.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.NumberTheory.IntegralClosure.Rat.Rat.isIntegral_complex_iff}
