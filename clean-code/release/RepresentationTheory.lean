@@ -190,6 +190,7 @@ import RepresentationTheory.QuiverVertexPredicates
 import RepresentationTheory.IntegerMatrixVectorPredicates
 import RepresentationTheory.IntegerMatrixVectorCoordinateFunction
 import RepresentationTheory.OneDimensionalSubmoduleComplements
+import RepresentationTheory.QuiverVertexReversal
 
 /-!
 # Representation theory formalization
