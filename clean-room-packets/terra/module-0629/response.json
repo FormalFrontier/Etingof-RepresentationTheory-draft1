@@ -1,0 +1,20 @@
+{
+  "module_name": "Algebra.Module.Lifting",
+  "declarations": [
+    {
+      "temporary_id": "decl-004103",
+      "new_name": "subsingleton_of_lifts_along_surjective_addMonoidHoms",
+      "docstring": "An additive commutative group is subsingleton when its maps lift through every surjective homomorphism between finite additive commutative groups."
+    },
+    {
+      "temporary_id": "decl-004107",
+      "new_name": "subsingleton_of_lifts_along_surjective_polynomialLinearMaps",
+      "docstring": "A finite-dimensional polynomial module is subsingleton when its maps lift through every surjective polynomial-linear map."
+    },
+    {
+      "temporary_id": "decl-004110",
+      "new_name": "exists_surjective_finFreeLinearMap_of_finite",
+      "docstring": "A finite module over a commutative ring of finite type over the integers admits a surjective linear map from a finite free module."
+    }
+  ]
+}
