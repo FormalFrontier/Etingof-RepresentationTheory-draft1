@@ -230,6 +230,7 @@ import RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra
 import RepresentationTheory.SymmetricGroup.PartitionDominance
 import RepresentationTheory.Partitions.SquareScalar
 import RepresentationTheory.PartitionAuxiliary
+import RepresentationTheory.Algebra.Module.Properties
 
 /-!
 # Representation theory formalization
