@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,13 @@ On the lattice $`\mathbb{Z}^n` (or the space $`\mathbb{R}^n`) we then define an 
 $$`B(x, y) = x^T A y`
 
 corresponding to the graph $`\Gamma`.
+
+## Formalization
+%%%
+tag := "Chapter6/Definition6.4.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryIntegerMatrixTransform.auxiliaryTransform}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,15 @@ number := false
 $$`s_\alpha(v) = v - B(v, \alpha)\alpha.`
 
 We denote $`s_{\alpha_i}` by $`s_i` and call these *simple reflections*.
+
+## Formalization
+%%%
+tag := "Chapter6/Definition6.4.10/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryCoordinateTransform}
+
+{Manual.docstring RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryVectorTransform}
