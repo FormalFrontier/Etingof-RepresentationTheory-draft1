@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -69,3 +70,15 @@ Not every functor has a left or right adjoint, but if it does, it is unique and 
 :::
 
 $`F, G` are a pair of adjoint functors, then $`F(X)` represents the functor $`Y \mapsto \operatorname{Hom}(X, G(Y))` and $`G(Y)` represents the functor $`X \mapsto \operatorname{Hom}(F(X), Y)`.
+
+## Formalization
+%%%
+tag := "Chapter7/Discussion_after_Definition7.6.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Adjunction.Representability.corepresentableBy}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Adjunction.Representability.representableBy}

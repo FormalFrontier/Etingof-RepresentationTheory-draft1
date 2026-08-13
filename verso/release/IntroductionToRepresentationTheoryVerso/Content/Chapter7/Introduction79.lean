@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -20,3 +21,13 @@ number := false
 %%%
 tag := "Chapter7/Introduction_7.9/heading-1"
 %%%
+
+## Formalization
+%%%
+tag := "Chapter7/Introduction_7.9/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FunctorPredicateLogic.Conjunction}

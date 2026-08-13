@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -20,3 +21,21 @@ number := false
 
 [^differentials]: A famous example of a complex is the *de Rham complex*, in which $`C_m` is the space of differential $`m`-forms on a Euclidean space or, more generally, a manifold, and $`d_m` is the exterior differential of differential forms. This explains the term "differential".
 $`H^i = \operatorname{Ker}(d_i)/\operatorname{Im}(d_{i-1})`. The complex is said to be *exact* in the $`i`th term if $`H^i = 0` and is said to be *an exact sequence* if it is exact in all terms.
+
+## Formalization
+%%%
+tag := "Chapter7/Definition7.8.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CochainComplex.IntIndexed}
+
+{Manual.docstring RepresentationTheory.CochainComplex.IntIndexed.degreeObject}
+
+{Manual.docstring RepresentationTheory.CochainComplex.IntIndexed.degreeProperty}
+
+{Manual.docstring RepresentationTheory.CochainComplex.IntIndexed.nextDifferential}
+
+{Manual.docstring RepresentationTheory.CochainComplex.IntIndexed.property}

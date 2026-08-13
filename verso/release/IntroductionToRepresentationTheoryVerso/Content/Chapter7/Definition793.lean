@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -33,3 +34,19 @@ the sequence
 $$`F(X) \to F(Y) \to F(Z) \to 0`
 
 is exact. $`F` is *exact* if it is both left and right exact.
+
+## Formalization
+%%%
+tag := "Chapter7/Definition7.9.3/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FunctorPredicateLogic.Conjunction}
+
+{Manual.docstring RepresentationTheory.FunctorPredicateLogic.Left}
+
+{Manual.docstring RepresentationTheory.FunctorPredicateLogic.Right}
+
+{Manual.docstring RepresentationTheory.FunctorPredicateLogic.conjunction_iff}

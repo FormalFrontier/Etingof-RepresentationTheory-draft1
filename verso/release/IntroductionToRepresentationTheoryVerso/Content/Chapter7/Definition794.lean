@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,13 @@ number := false
 $$`0 \to X \to X \oplus Y \to Y \to 0`
 
 (where the maps are obvious).
+
+## Formalization
+%%%
+tag := "Chapter7/Definition7.9.4/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.CategoryProperties.AbelianCategoryProperty}
