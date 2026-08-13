@@ -58,8 +58,8 @@
     },
     {
       "temporary_id": "decl-012427",
-      "new_name": "IsAffineDynkinMatrix.exists_pathEnumeration_of_unique_degree_three",
-      "docstring": "If all degrees are at most three, every degree-three vertex is fixed, and a nonempty connected vertex set has a unique attachment to that vertex, then the set has a simple linear enumeration starting at the attachment."
+      "new_name": "IsAffineDynkinMatrix.exists_pathEnumeration_of_degree_le_three_of_degree_eq_three_imp_eq",
+      "docstring": "If all degrees are at most three, every degree-three vertex equals a chosen vertex, and a nonempty connected vertex set has a unique attachment to it, then the set has a simple linear enumeration starting at the attachment."
     },
     {
       "temporary_id": "decl-012428",
