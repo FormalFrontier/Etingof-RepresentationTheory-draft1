@@ -1,0 +1,145 @@
+{
+  "module_name": "Quiver.Module.VertexSimpleAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-005888",
+      "new_name": "auxiliaryRingHom_algebraMap",
+      "docstring": "The auxiliary ring homomorphism indexed by a quiver element sends an algebra-mapped field scalar to that scalar."
+    },
+    {
+      "temporary_id": "decl-005890",
+      "new_name": "auxiliaryRingHom_distinguishedVertexElement",
+      "docstring": "The auxiliary ring homomorphism sends the distinguished element with the matching index to one."
+    },
+    {
+      "temporary_id": "decl-005891",
+      "new_name": "auxiliaryRingHom_distinguishedVertexElement_ne",
+      "docstring": "At a different index, the auxiliary ring homomorphism sends the distinguished element to zero."
+    },
+    {
+      "temporary_id": "decl-005895",
+      "new_name": "instIsSimpleModuleAuxiliary",
+      "docstring": "The auxiliary module indexed by any element of the finite quiver is simple."
+    },
+    {
+      "temporary_id": "decl-005896",
+      "new_name": "not_linearEquiv_auxiliary_of_ne",
+      "docstring": "Auxiliary modules at distinct quiver indices admit no linear equivalence."
+    },
+    {
+      "temporary_id": "decl-005979",
+      "new_name": "auxiliaryElement_ne_zero",
+      "docstring": "The displayed auxiliary element of the secondary vertex-indexed type is nonzero."
+    },
+    {
+      "temporary_id": "decl-005981",
+      "new_name": "distinguishedVertexElement_mul_eq_self_of_mem_span",
+      "docstring": "When all loop paths are nil, an element in the indicated singleton span with auxiliary value one is fixed as displayed by multiplication with the distinguished vertex element."
+    },
+    {
+      "temporary_id": "decl-005984",
+      "new_name": "distinguishedVertexElement_ne_zero",
+      "docstring": "The distinguished element associated with each quiver index is nonzero."
+    },
+    {
+      "temporary_id": "decl-005987",
+      "new_name": "exists_linearEquiv_auxiliary",
+      "docstring": "If every loop path is nil, every simple module is linearly equivalent to an auxiliary module at some quiver index."
+    },
+    {
+      "temporary_id": "decl-005993",
+      "new_name": "finrank_end_secondaryAuxiliary_eq_one",
+      "docstring": "If every loop path is nil, the endomorphism space of the secondary auxiliary type has field dimension one."
+    },
+    {
+      "temporary_id": "decl-006030",
+      "new_name": "linearMap_id_ne_zero",
+      "docstring": "The identity linear map on the displayed vertex-indexed type is nonzero."
+    },
+    {
+      "temporary_id": "decl-006191",
+      "new_name": "auxiliary_nontrivial",
+      "docstring": "The auxiliary module at each quiver index is nontrivial."
+    },
+    {
+      "temporary_id": "decl-006193",
+      "new_name": "secondaryAuxiliary_nontrivial",
+      "docstring": "The secondary auxiliary type at each quiver index is nontrivial."
+    },
+    {
+      "temporary_id": "decl-006307",
+      "new_name": "auxiliaryPredicate_of_no_nontrivial_loops",
+      "docstring": "If every loop path is nil, the displayed predicate holds for each secondary auxiliary type."
+    },
+    {
+      "temporary_id": "decl-006308",
+      "new_name": "secondaryAuxiliary_projective",
+      "docstring": "Each secondary auxiliary type is projective over the ambient scalar type."
+    },
+    {
+      "temporary_id": "decl-006330",
+      "new_name": "toSecondaryAuxiliaryLinearMap",
+      "docstring": "An auxiliary linear map from the ambient scalar type to the secondary vertex-indexed type."
+    },
+    {
+      "temporary_id": "decl-006333",
+      "new_name": "toSecondaryAuxiliaryLinearMap_apply",
+      "docstring": "The value underlying the auxiliary linear map is right multiplication by the distinguished vertex element."
+    },
+    {
+      "temporary_id": "decl-006334",
+      "new_name": "secondaryToAuxiliaryLinearMap",
+      "docstring": "An auxiliary linear map from the secondary vertex-indexed type to the auxiliary module with the same index."
+    },
+    {
+      "temporary_id": "decl-006337",
+      "new_name": "secondaryToAuxiliaryLinearMap_down_apply",
+      "docstring": "The value underlying the auxiliary linear map agrees with the auxiliary ring homomorphism applied to the underlying input."
+    },
+    {
+      "temporary_id": "decl-006338",
+      "new_name": "secondaryToAuxiliaryLinearMap_auxiliaryElement",
+      "docstring": "The auxiliary linear map sends the displayed secondary element to the displayed auxiliary element."
+    },
+    {
+      "temporary_id": "decl-006339",
+      "new_name": "eq_top_of_sup_ker_secondaryToAuxiliary_eq_top",
+      "docstring": "If every loop path is nil, a submodule whose supremum with the kernel of the auxiliary map is top must itself be top."
+    },
+    {
+      "temporary_id": "decl-006340",
+      "new_name": "secondaryToAuxiliaryLinearMap_surjective",
+      "docstring": "The auxiliary linear map from the secondary type to the auxiliary module is surjective."
+    },
+    {
+      "temporary_id": "decl-006376",
+      "new_name": "span_auxiliaryElement_eq_top",
+      "docstring": "The submodule spanned by the displayed auxiliary element is top."
+    },
+    {
+      "temporary_id": "decl-006490",
+      "new_name": "path_subsingleton_of_loops_eq_nil",
+      "docstring": "If every loop path is nil, the paths from any quiver element to itself form a subsingleton."
+    },
+    {
+      "temporary_id": "decl-006491",
+      "new_name": "sum_distinguishedVertexElement_eq_one",
+      "docstring": "The sum of the distinguished elements over all quiver indices is one."
+    },
+    {
+      "temporary_id": "decl-006544",
+      "new_name": "auxiliaryStructureOfNoNontrivialLoops",
+      "docstring": "An auxiliary structure on each vertex-indexed auxiliary module when every loop path is nil."
+    },
+    {
+      "temporary_id": "decl-006545",
+      "new_name": "auxiliaryStructure_value",
+      "docstring": "The displayed value of the auxiliary structure is the corresponding secondary auxiliary type."
+    },
+    {
+      "temporary_id": "decl-013934",
+      "new_name": "auxiliaryResults_of_no_nontrivial_loops",
+      "docstring": "For a finite quiver with only nil loop paths and finite hom types, the displayed simplicity, classification, auxiliary identification, and family equality all hold."
+    }
+  ]
+}
