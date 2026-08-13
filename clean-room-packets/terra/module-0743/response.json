@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-006297",
-      "new_name": "nilPathTerm_mul",
-      "docstring": "The product of the terms associated to trivial paths at two vertices is the first term when the vertices agree and zero otherwise."
+      "new_name": "auxiliary_nilPath_mul",
+      "docstring": "The product of the displayed elements indexed by nil paths is the first element when the quiver indices agree and zero otherwise."
     },
     {
       "temporary_id": "decl-006528",
