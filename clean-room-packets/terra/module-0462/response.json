@@ -1,5 +1,5 @@
 {
-  "module_name": "RepresentationTheory.IsotypicComponents",
+  "module_name": "IsotypicComponents",
   "declarations": [
     {
       "temporary_id": "decl-016531",
@@ -29,7 +29,7 @@
     {
       "temporary_id": "decl-023161",
       "new_name": "exists_isotypicComponent_representatives_of_isSemisimple",
-      "docstring": "For a semisimple algebra action, chooses pairwise nonisomorphic representatives of all simple isotypic components."
+      "docstring": "For a semisimple algebra action, selects a submodule inside each isotypic component so that distinct selections are nonisomorphic and every simple module is represented."
     }
   ]
 }
