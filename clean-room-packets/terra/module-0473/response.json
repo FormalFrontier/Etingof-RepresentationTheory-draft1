@@ -1,5 +1,5 @@
 {
-  "module_name": "AuxiliaryRepresentationTransport",
+  "module_name": "AuxiliaryRepresentationIsomorphisms",
   "declarations": [
     {
       "temporary_id": "decl-016609",
@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-020559",
-      "new_name": "auxiliary_transport_iso",
-      "docstring": "Transport along the displayed character equality gives an isomorphism between the associated auxiliary representations."
+      "new_name": "auxiliary_nonempty_iso_of_eq",
+      "docstring": "Under the displayed equality, the two auxiliary representations are isomorphic."
     }
   ]
 }
