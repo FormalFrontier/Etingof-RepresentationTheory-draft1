@@ -1,0 +1,40 @@
+{
+  "module_name": "CategoryTheory.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-005213",
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary property of an object in a category with zero morphisms."
+    },
+    {
+      "temporary_id": "decl-005215",
+      "new_name": "exists_epi",
+      "docstring": "For every object, there are displayed data yielding an epimorphism."
+    },
+    {
+      "temporary_id": "decl-005269",
+      "new_name": "projective",
+      "docstring": "An object with this auxiliary property is projective."
+    },
+    {
+      "temporary_id": "decl-005270",
+      "new_name": "Auxiliary2",
+      "docstring": "An auxiliary property of an object in a category."
+    },
+    {
+      "temporary_id": "decl-005271",
+      "new_name": "iff_projective_and_epi_sigma_desc",
+      "docstring": "This property is equivalent to projectivity together with the displayed epimorphism condition on coproduct desc maps."
+    },
+    {
+      "temporary_id": "decl-005275",
+      "new_name": "isSeparator",
+      "docstring": "This auxiliary property makes the object a separator."
+    },
+    {
+      "temporary_id": "decl-005276",
+      "new_name": "projective",
+      "docstring": "This auxiliary property makes the object projective."
+    }
+  ]
+}
