@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:319e9625faa9a9854bfb",
-      "role": "primary",
-      "rationale": "The declaration directly states that the displayed Weyl counterexample module is simple."
+      "role": "supporting",
+      "rationale": "The declaration states only that the counterexample module is simple; it is a prerequisite/property of the example and does not state that the module is not an external tensor product with a simple first factor."
     },
     {
       "association_id": "association:ad88dea0f15342f1fc90",

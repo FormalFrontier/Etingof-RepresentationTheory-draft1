@@ -2,8 +2,8 @@
   "associations": [
     {
       "association_id": "association:d3b795e9c8b39b4bce0f",
-      "rationale": "Under the same algebraically closed, finite-dimensional, simple-module hypotheses, the formal type directly concludes that an arbitrary A-linear endomorphism φ equals scalar multiplication by some c. This is exactly the mathematical conclusion of the source proof step; the eigenvalue and φ - λ Id language describes its proof method.",
-      "role": "primary"
+      "rationale": "The formal type concludes only that an arbitrary endomorphism of the simple module is scalar. It does not display the eigenvalue, the map φ - λ Id, or the stated application of Schur's lemma, so it is consequence-level support for this proof step.",
+      "role": "supporting"
     }
   ],
   "packet_id": "align-0437"
