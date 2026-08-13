@@ -1,5 +1,5 @@
 {
-  "module_name": "TensorProduct.LinearMap",
+  "module_name": "TensorProduct.RightLinearMap",
   "declarations": [
     {
       "temporary_id": "decl-021542",
