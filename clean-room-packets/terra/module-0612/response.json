@@ -1,0 +1,20 @@
+{
+  "module_name": "Rat.MatrixTwo",
+  "declarations": [
+    {
+      "temporary_id": "decl-020837",
+      "new_name": "rat_matrix_fin_two_ringEquiv_isEmpty",
+      "docstring": "There is no ring equivalence from the rationals to two-by-two rational matrices."
+    },
+    {
+      "temporary_id": "decl-021677",
+      "new_name": "rat_moduleCat_equivalence_matrix_fin_two_and_ringEquiv_isEmpty",
+      "docstring": "The rational module categories are equivalent, while the corresponding rings admit no equivalence."
+    },
+    {
+      "temporary_id": "decl-021731",
+      "new_name": "rat_moduleCat_equivalence_matrix_fin_two",
+      "docstring": "The category of rational modules is equivalent to the category of modules over two-by-two rational matrices."
+    }
+  ]
+}
