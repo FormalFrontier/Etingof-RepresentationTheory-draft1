@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -17,3 +18,13 @@ number := false
 %%%
 
 *Problem 6.1.3.* *Dynkin diagrams.* Let $`\Gamma` be a graph, i.e., a finite set of points (vertices) connected with a certain number of edges (we allow multiple edges). We assume that $`\Gamma` is connected (any vertex can be connected to any other by a path of edges) and has no self-loops (edges from a vertex to itself). Suppose the vertices of $`\Gamma` are labeled by integers $`1, \ldots, n`. Then one can assign to $`\Gamma` an $`n \times n` matrix $`R = (r_{ij})`, where $`r_{ij}` is the number of edges connecting vertices $`i` and $`j`. This matrix is obviously symmetric and is called the *adjacency matrix*. Define the matrix $`A = 2I - R`, where $`I` is the identity matrix.
+
+## Formalization
+%%%
+tag := "Chapter6/Problem6.1.3/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Matrix.TwoIdentitySub.twoIdentitySub}
