@@ -28,3 +28,5 @@ number := false
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Complex.RootsOfUnity.AverageIntegral.rootsOfUnity_all_eq_or_sum_eq_zero_of_average_integral}
+
+{Manual.docstring RepresentationTheory.FiniteGroupCharacterCoprimality.character_eq_zero_or_action_eq_smul_id_of_conjClassCard_coprime_finrank}
