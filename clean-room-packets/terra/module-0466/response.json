@@ -1,0 +1,25 @@
+{
+  "module_name": "FDRep.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-016583",
+      "new_name": "card_involutions_eq_sum_finrank_mul_auxiliaryInvariant",
+      "docstring": "Relates the number of self-inverse group elements to contributions from a simple, pairwise nonisomorphic family."
+    },
+    {
+      "temporary_id": "decl-019689",
+      "new_name": "auxiliaryInvariant_eq_representationInvariant",
+      "docstring": "Identifies the auxiliary representation invariant with the invariant obtained from its action map."
+    },
+    {
+      "temporary_id": "decl-019691",
+      "new_name": "card_involutions_eq_sum_representationInvariant_mul_finrank",
+      "docstring": "Expresses the involution count through a simple family of complex representations."
+    },
+    {
+      "temporary_id": "decl-024818",
+      "new_name": "auxiliaryInvariant",
+      "docstring": "An auxiliary scalar invariant attached to a finite-dimensional group representation."
+    }
+  ]
+}
