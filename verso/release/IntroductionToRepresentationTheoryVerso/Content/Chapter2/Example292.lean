@@ -35,8 +35,6 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.AbelianLieAlgebra.isLieAbelian}
-
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.derivationLieSubalgebra}
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.mem_derivationLieSubalgebra_iff}
@@ -48,6 +46,8 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.AbelianLieAlgebra.instLieAlgebra}
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.AbelianLieAlgebra.instLieRing}
+
+{Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.AbelianLieAlgebra.isLieAbelian}
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.IsDerivation}
 

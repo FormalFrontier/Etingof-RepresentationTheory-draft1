@@ -31,4 +31,6 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_linearIndependent_coordinates_pi}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.algebra_smul_surjective}

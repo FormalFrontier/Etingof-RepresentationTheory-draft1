@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -23,3 +24,13 @@ by
 $$`\phi(a_1, \ldots, a_n) = a_1 y_1 + \cdots + a_n y_n`
 
 where $`\{y_i\}` is a basis of $`X^*`. The map $`\phi` is clearly surjective, as $`k \subset A`. Thus, the dual map $`\phi^* : X \longrightarrow A^{n*}` is injective. But $`A^{n*} \cong A^n` as representations of $`A` (check it!). Hence, $`\operatorname{Im} \phi^* \cong X` is a subrepresentation of $`A^n`. Next, $`\operatorname{Mat}_{d_i}(k) = d_i V_i`, so $`A = \bigoplus_{i=1}^r d_i V_i`, $`A^n = \bigoplus_{i=1}^r n d_i V_i`, as a representation of $`A`. Hence by Proposition 3.1.4, $`X = \bigoplus_{i=1}^r m_i V_i`, as desired. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter3/Discussion_proof_of_Theorem3.3.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_equiv_directSum_fin}

@@ -39,4 +39,6 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_equiv_pi_fin}
+
 {Manual.docstring RepresentationTheory.RingTheory.SimpleModuleDensity.exists_smul_eq_on_linearIndependent}

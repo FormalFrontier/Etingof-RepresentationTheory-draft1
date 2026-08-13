@@ -27,6 +27,10 @@ tag := "Chapter3/Discussion_after_Lemma3.1.6/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_linearIndependent_coordinates_directSum}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.ComplementConstructions.exists_map_agreeing_on_iSup_of_internal}

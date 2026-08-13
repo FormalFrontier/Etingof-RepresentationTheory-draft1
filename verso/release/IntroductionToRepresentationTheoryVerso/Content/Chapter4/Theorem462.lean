@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,17 @@ $$`\mathbf{B}(v, w) = \sum_{g \in G} B(\rho_V(g)v, \rho_V(g)w).`
 Then $`\mathbf{B}` is a positive definite $`G`-invariant Hermitian form on $`V`.
 
 If $`V` is an irreducible representation and $`B_1, B_2` are two positive definite $`G`-invariant Hermitian forms on $`V`, then $`B_1(v, w) = B_2(Av, w)` for some linear map $`A : V \to V` (since any positive definite Hermitian form is nondegenerate), and moreover $`A` is also $`G`-invariant, i.e., is a homomorphism of representations. Then by Schur's lemma, $`A = \lambda \mathrm{Id}`, and clearly $`\lambda > 0`. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter4/Theorem4.6.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Complex.InvariantInnerProduct.Representation.auxiliaryInvariantInnerProductResult}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Complex.InvariantInnerProduct.Representation.exists_invariantInnerProductCore}

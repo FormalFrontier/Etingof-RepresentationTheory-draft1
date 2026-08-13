@@ -29,8 +29,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.ComplementConstructions.exists_isCompl_iSup_ker}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.ComplementConstructions.exists_map_agreeing_on_iSup_of_internal}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.ComplementConstructions.disjoint_sup_of_disjoint}
@@ -38,3 +36,5 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Module.ComplementConstructions.exists_bijective_restriction_of_surjective}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.ComplementConstructions.exists_map_agreeing_on_iSup}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ComplementConstructions.exists_map_agreeing_on_iSup_of_internal}
