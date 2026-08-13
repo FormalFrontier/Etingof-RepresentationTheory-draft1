@@ -1,0 +1,45 @@
+{
+  "module_name": "Auxiliary.RingData",
+  "declarations": [
+    {
+      "temporary_id": "decl-004746",
+      "new_name": "auxiliaryRingNatProperty",
+      "docstring": "An auxiliary property of a ring indexed by a natural number."
+    },
+    {
+      "temporary_id": "decl-004747",
+      "new_name": "auxiliaryRingNatPropertyAux",
+      "docstring": "A second auxiliary property of a ring indexed by a natural number."
+    },
+    {
+      "temporary_id": "decl-004748",
+      "new_name": "auxiliaryRingNatPropertyThird",
+      "docstring": "A third auxiliary property of a ring indexed by a natural number."
+    },
+    {
+      "temporary_id": "decl-019922",
+      "new_name": "auxiliaryRingNatPropertyThird_opposite_iff",
+      "docstring": "The third auxiliary natural-number-indexed ring property is equivalent to the second one for the opposite ring."
+    },
+    {
+      "temporary_id": "decl-020179",
+      "new_name": "auxiliaryRingENatInvariant",
+      "docstring": "An auxiliary extended-natural-valued invariant of a ring."
+    },
+    {
+      "temporary_id": "decl-021435",
+      "new_name": "auxiliaryRingENatInvariantAux",
+      "docstring": "A second auxiliary extended-natural-valued invariant of a ring."
+    },
+    {
+      "temporary_id": "decl-022787",
+      "new_name": "auxiliaryRingENatInvariantThird",
+      "docstring": "A third auxiliary extended-natural-valued invariant of a ring."
+    },
+    {
+      "temporary_id": "decl-022789",
+      "new_name": "auxiliaryRingENatInvariantThird_opposite",
+      "docstring": "The third auxiliary extended-natural-valued ring invariant equals the second one for the opposite ring."
+    }
+  ]
+}
