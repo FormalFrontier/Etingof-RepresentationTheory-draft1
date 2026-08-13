@@ -146,8 +146,7 @@ theorem finrank_dvd_card_of_simple
     rw [eq_div_iff hd0, mul_comm]; exact hdT
   have hqint : ∃ n : ℤ, q = n := by
     rw [← RepresentationTheory.NumberTheory.IntegralClosure.Rat.Rat.isIntegral_complex_iff q,
-      hq_c, ← hT_c]
-    exact hT_int
+      hq_c, ← hT_c]; exact hT_int
   obtain ⟨n, hn⟩ := hqint
   rw [hq_def, div_eq_iff (by exact_mod_cast hdpos.ne')] at hn
   have hZ : (Fintype.card G : ℤ) = n * (Module.finrank ℂ V : ℤ) := by exact_mod_cast hn
