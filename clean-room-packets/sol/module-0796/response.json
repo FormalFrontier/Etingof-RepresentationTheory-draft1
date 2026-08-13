@@ -1,0 +1,340 @@
+{
+  "module_name": "LieModule.IrreducibleParameterModules",
+  "declarations": [
+    {
+      "temporary_id": "decl-008300",
+      "new_name": "parameterModule",
+      "docstring": "The vector-space type associated with a module parameter."
+    },
+    {
+      "temporary_id": "decl-008301",
+      "new_name": "parameterModuleEquiv",
+      "docstring": "An auxiliary type of equivalences between the modules associated with two parameters."
+    },
+    {
+      "temporary_id": "decl-008303",
+      "new_name": "IrreducibleModuleData",
+      "docstring": "Auxiliary data carrying a finite-dimensional irreducible module for the designated Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008304",
+      "new_name": "moduleDataRelated",
+      "docstring": "A relation between two irreducible-module data."
+    },
+    {
+      "temporary_id": "decl-008307",
+      "new_name": "addCommGroup",
+      "docstring": "The additive commutative group structure on the carrier of irreducible-module data."
+    },
+    {
+      "temporary_id": "decl-008308",
+      "new_name": "carrier",
+      "docstring": "The carrier type of irreducible-module data."
+    },
+    {
+      "temporary_id": "decl-008311",
+      "new_name": "finiteDimensional",
+      "docstring": "The carrier of irreducible-module data is finite-dimensional over the field."
+    },
+    {
+      "temporary_id": "decl-008312",
+      "new_name": "isIrreducible",
+      "docstring": "The Lie module carried by irreducible-module data is irreducible."
+    },
+    {
+      "temporary_id": "decl-008313",
+      "new_name": "lieModule",
+      "docstring": "The compatible Lie-module structure on the carrier of irreducible-module data."
+    },
+    {
+      "temporary_id": "decl-008314",
+      "new_name": "lieRingModule",
+      "docstring": "The Lie-ring module structure on the carrier of irreducible-module data."
+    },
+    {
+      "temporary_id": "decl-008321",
+      "new_name": "module",
+      "docstring": "The field-module structure on the carrier of irreducible-module data."
+    },
+    {
+      "temporary_id": "decl-008326",
+      "new_name": "setoid",
+      "docstring": "The setoid on irreducible-module data induced by the designated relation."
+    },
+    {
+      "temporary_id": "decl-008328",
+      "new_name": "ModuleParameter",
+      "docstring": "Auxiliary parameter data for a field and a natural-number characteristic index."
+    },
+    {
+      "temporary_id": "decl-008329",
+      "new_name": "parameterRelated",
+      "docstring": "A designated relation between two module parameters."
+    },
+    {
+      "temporary_id": "decl-008330",
+      "new_name": "parameterEquivalent",
+      "docstring": "The parameter equivalence predicate used to characterize equivalences of parameter modules."
+    },
+    {
+      "temporary_id": "decl-008348",
+      "new_name": "dimension",
+      "docstring": "The natural-number dimension associated with a module parameter."
+    },
+    {
+      "temporary_id": "decl-008353",
+      "new_name": "firstScalar",
+      "docstring": "The first field-valued scalar associated with a module parameter."
+    },
+    {
+      "temporary_id": "decl-008357",
+      "new_name": "secondScalar",
+      "docstring": "The second field-valued scalar associated with a module parameter."
+    },
+    {
+      "temporary_id": "decl-008378",
+      "new_name": "LieEndomorphismTriple",
+      "docstring": "Data of three linear endomorphisms used to define a representation of the designated Lie algebra."
+    },
+    {
+      "temporary_id": "decl-008379",
+      "new_name": "first",
+      "docstring": "The first endomorphism in a Lie-endomorphism triple."
+    },
+    {
+      "temporary_id": "decl-008380",
+      "new_name": "second",
+      "docstring": "The second endomorphism in a Lie-endomorphism triple."
+    },
+    {
+      "temporary_id": "decl-008381",
+      "new_name": "third",
+      "docstring": "The third endomorphism in a Lie-endomorphism triple."
+    },
+    {
+      "temporary_id": "decl-008386",
+      "new_name": "bracket_first_second",
+      "docstring": "The bracket of the first and second endomorphisms is the third."
+    },
+    {
+      "temporary_id": "decl-008387",
+      "new_name": "bracket_third_first",
+      "docstring": "The bracket of the third endomorphism with the first is twice the first."
+    },
+    {
+      "temporary_id": "decl-008388",
+      "new_name": "bracket_third_second",
+      "docstring": "The bracket of the third endomorphism with the second is negative twice the second."
+    },
+    {
+      "temporary_id": "decl-008399",
+      "new_name": "toLieHom",
+      "docstring": "The Lie homomorphism from the designated Lie algebra to endomorphisms defined by a Lie-endomorphism triple."
+    },
+    {
+      "temporary_id": "decl-008408",
+      "new_name": "toLieHom_firstGenerator",
+      "docstring": "The Lie homomorphism sends the first designated generator to the first endomorphism."
+    },
+    {
+      "temporary_id": "decl-008409",
+      "new_name": "toLieHom_secondGenerator",
+      "docstring": "The Lie homomorphism sends the second designated generator to the second endomorphism."
+    },
+    {
+      "temporary_id": "decl-008410",
+      "new_name": "toLieHom_thirdGenerator",
+      "docstring": "The Lie homomorphism sends the third designated generator to the third endomorphism."
+    },
+    {
+      "temporary_id": "decl-008411",
+      "new_name": "coordinateVector",
+      "docstring": "The coordinate vector indexed by a finite index."
+    },
+    {
+      "temporary_id": "decl-008413",
+      "new_name": "coordinateVector_apply",
+      "docstring": "A coordinate vector is one at its selected index and zero at every other index."
+    },
+    {
+      "temporary_id": "decl-008414",
+      "new_name": "parameterQuotientEquivModuleData",
+      "docstring": "Over an algebraically closed field, parameter equivalence classes are equivalent to irreducible-module data classes."
+    },
+    {
+      "temporary_id": "decl-008415",
+      "new_name": "parameterQuotientToModuleData",
+      "docstring": "A map from parameter equivalence classes to irreducible-module data classes."
+    },
+    {
+      "temporary_id": "decl-008416",
+      "new_name": "recurrenceCoefficient",
+      "docstring": "A field-valued coefficient depending on three scalars and a natural-number index."
+    },
+    {
+      "temporary_id": "decl-008418",
+      "new_name": "cyclicForwardEndomorphism",
+      "docstring": "A parameterized endomorphism of the coordinate space with cyclic forward behavior."
+    },
+    {
+      "temporary_id": "decl-008421",
+      "new_name": "cyclicForwardEndomorphism_apply_last",
+      "docstring": "The cyclic forward endomorphism sends the last coordinate vector to the first scaled by its parameter."
+    },
+    {
+      "temporary_id": "decl-008428",
+      "new_name": "cyclicForwardEndomorphism_apply_lt_last",
+      "docstring": "Away from the last index, the cyclic forward endomorphism sends a coordinate vector to its successor."
+    },
+    {
+      "temporary_id": "decl-008433",
+      "new_name": "weightedBackwardEndomorphism",
+      "docstring": "A three-scalar endomorphism of the coordinate space with weighted backward behavior."
+    },
+    {
+      "temporary_id": "decl-008439",
+      "new_name": "weightedBackwardEndomorphism_apply_pos",
+      "docstring": "At a positive index, the weighted backward endomorphism moves to the predecessor with the displayed recurrence coefficient."
+    },
+    {
+      "temporary_id": "decl-008446",
+      "new_name": "weightedBackwardEndomorphism_apply_zero",
+      "docstring": "At index zero, the weighted backward endomorphism sends the coordinate vector to the last one scaled by the third parameter."
+    },
+    {
+      "temporary_id": "decl-008451",
+      "new_name": "parameterThirdEndomorphism",
+      "docstring": "A scalar-parameterized third endomorphism on the finite coordinate space."
+    },
+    {
+      "temporary_id": "decl-008455",
+      "new_name": "bracket_cyclicForward_weightedBackward",
+      "docstring": "Under the characteristic and size hypotheses, the bracket of the cyclic forward and weighted backward endomorphisms is the third endomorphism."
+    },
+    {
+      "temporary_id": "decl-008470",
+      "new_name": "bracket_parameterThird_cyclicForward",
+      "docstring": "The bracket of the third parameter endomorphism with the cyclic forward endomorphism is twice the latter."
+    },
+    {
+      "temporary_id": "decl-008473",
+      "new_name": "bracket_parameterThird_weightedBackward",
+      "docstring": "The bracket of the third parameter endomorphism with the weighted backward endomorphism is negative twice the latter."
+    },
+    {
+      "temporary_id": "decl-008475",
+      "new_name": "exists_parameterModule_equiv",
+      "docstring": "Every finite-dimensional irreducible module for the designated Lie algebra over the given field is equivalent to a parameter module."
+    },
+    {
+      "temporary_id": "decl-008476",
+      "new_name": "moduleDataOfParameter",
+      "docstring": "Irreducible-module data associated with a module parameter."
+    },
+    {
+      "temporary_id": "decl-008477",
+      "new_name": "finrank_parameterModule",
+      "docstring": "The dimension of a parameter module equals the natural number stored in its parameter."
+    },
+    {
+      "temporary_id": "decl-008478",
+      "new_name": "parameterModuleLieHom",
+      "docstring": "The Lie homomorphism defining the action on a parameter module."
+    },
+    {
+      "temporary_id": "decl-008480",
+      "new_name": "parameterModuleLieHom_firstGenerator",
+      "docstring": "The parameter-module Lie homomorphism sends the first generator to the first endomorphism of its associated triple."
+    },
+    {
+      "temporary_id": "decl-008481",
+      "new_name": "parameterModuleLieHom_secondGenerator",
+      "docstring": "The parameter-module Lie homomorphism sends the second generator to the second endomorphism of its associated triple."
+    },
+    {
+      "temporary_id": "decl-008482",
+      "new_name": "parameterModuleLieHom_thirdGenerator",
+      "docstring": "The parameter-module Lie homomorphism sends the third generator to the third endomorphism of its associated triple."
+    },
+    {
+      "temporary_id": "decl-008483",
+      "new_name": "lieModule_parameterModule",
+      "docstring": "The parameter module carries the compatible Lie-module structure."
+    },
+    {
+      "temporary_id": "decl-008484",
+      "new_name": "lieRingModule_parameterModule",
+      "docstring": "The parameter module carries the Lie-ring module structure."
+    },
+    {
+      "temporary_id": "decl-008487",
+      "new_name": "parameterSetoid",
+      "docstring": "The setoid on module parameters in positive prime characteristic."
+    },
+    {
+      "temporary_id": "decl-008489",
+      "new_name": "parameterLieEndomorphismTriple",
+      "docstring": "The Lie-endomorphism triple associated with a module parameter."
+    },
+    {
+      "temporary_id": "decl-008520",
+      "new_name": "finiteDimensional_parameterModule",
+      "docstring": "Every parameter module is finite-dimensional over the field."
+    },
+    {
+      "temporary_id": "decl-008521",
+      "new_name": "isIrreducible_parameterModule",
+      "docstring": "Under the prime characteristic hypotheses, every parameter module is irreducible."
+    },
+    {
+      "temporary_id": "decl-008528",
+      "new_name": "nonempty_parameterModuleEquiv_iff",
+      "docstring": "The auxiliary equivalence type between two parameter modules is nonempty exactly when the parameters satisfy the equivalence predicate."
+    },
+    {
+      "temporary_id": "decl-008530",
+      "new_name": "standardBackwardEndomorphism",
+      "docstring": "A scalar-parameterized endomorphism of a finite coordinate space with weighted backward behavior."
+    },
+    {
+      "temporary_id": "decl-008534",
+      "new_name": "standardBackwardEndomorphism_apply_pos",
+      "docstring": "At a positive index, the standard backward endomorphism moves to the predecessor with coefficient given by the index and scalar parameter."
+    },
+    {
+      "temporary_id": "decl-008542",
+      "new_name": "standardCyclicForwardEndomorphism",
+      "docstring": "A scalar-parameterized endomorphism of a finite coordinate space with cyclic forward behavior."
+    },
+    {
+      "temporary_id": "decl-008552",
+      "new_name": "standardCyclicForwardEndomorphism_apply_last",
+      "docstring": "The standard cyclic forward endomorphism sends the last coordinate vector to the first scaled by its parameter."
+    },
+    {
+      "temporary_id": "decl-008558",
+      "new_name": "standardCyclicForwardEndomorphism_apply_lt_last",
+      "docstring": "Away from the last index, the standard cyclic forward endomorphism sends each coordinate vector to its successor."
+    },
+    {
+      "temporary_id": "decl-008564",
+      "new_name": "standardThirdEndomorphism",
+      "docstring": "A scalar-parameterized third endomorphism on a finite coordinate space."
+    },
+    {
+      "temporary_id": "decl-008569",
+      "new_name": "bracket_standardBackward_cyclicForward",
+      "docstring": "Under the displayed scalar condition, the bracket of the standard backward and cyclic forward endomorphisms is the standard third endomorphism."
+    },
+    {
+      "temporary_id": "decl-008586",
+      "new_name": "bracket_standardThird_backward",
+      "docstring": "The bracket of the standard third endomorphism with the standard backward endomorphism is twice the latter."
+    },
+    {
+      "temporary_id": "decl-008587",
+      "new_name": "bracket_standardThird_cyclicForward",
+      "docstring": "Under the displayed scalar condition, the bracket of the standard third endomorphism with the cyclic forward endomorphism is negative twice the latter."
+    }
+  ]
+}
