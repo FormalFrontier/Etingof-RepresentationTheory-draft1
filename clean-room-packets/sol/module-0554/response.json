@@ -1,0 +1,305 @@
+{
+  "module_name": "FiniteDimensionalLinearMapPair",
+  "declarations": [
+    {
+      "temporary_id": "decl-012972",
+      "new_name": "finrank_eq_or_eq_add_one",
+      "docstring": "Under the auxiliary condition, the two component dimensions are equal or differ by one."
+    },
+    {
+      "temporary_id": "decl-012982",
+      "new_name": "exists_compatible_complements_of_not_isNilpotent",
+      "docstring": "If the composite is not nilpotent, there are complementary decompositions respected by both maps whose second summands have equal dimension."
+    },
+    {
+      "temporary_id": "decl-012995",
+      "new_name": "combinedEndomorphism_isNilpotent_of_comp_isNilpotent",
+      "docstring": "Nilpotence of the composite on the second component implies nilpotence of the induced endomorphism on the product."
+    },
+    {
+      "temporary_id": "decl-012996",
+      "new_name": "finrank_ker_combinedEndomorphism_eq_one",
+      "docstring": "For a nontrivial pair satisfying the auxiliary condition, nilpotence of the second composite forces the product endomorphism to have one-dimensional kernel."
+    },
+    {
+      "temporary_id": "decl-015132",
+      "new_name": "AuxiliaryClass",
+      "docstring": "An auxiliary type classifying selected finite-dimensional pairs."
+    },
+    {
+      "temporary_id": "decl-015139",
+      "new_name": "eq_of_rep_equiv",
+      "docstring": "Two auxiliary classes are equal when their representatives are equivalent."
+    },
+    {
+      "temporary_id": "decl-015174",
+      "new_name": "rep",
+      "docstring": "Chooses a finite-dimensional pair representing an auxiliary class."
+    },
+    {
+      "temporary_id": "decl-015181",
+      "new_name": "finrank_rep",
+      "docstring": "Computes the dimensions of the two components of the chosen representative."
+    },
+    {
+      "temporary_id": "decl-015182",
+      "new_name": "rep_auxiliaryCondition",
+      "docstring": "The chosen representative satisfies the auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-015183",
+      "new_name": "AuxiliaryPredicate",
+      "docstring": "An auxiliary predicate on finite-dimensional pairs of opposite linear maps."
+    },
+    {
+      "temporary_id": "decl-015186",
+      "new_name": "auxiliaryEigenvalueModel",
+      "docstring": "An auxiliary finite-dimensional pair determined by a positive size and a complex parameter."
+    },
+    {
+      "temporary_id": "decl-015192",
+      "new_name": "auxiliaryEigenvalueModel_condition",
+      "docstring": "The parameterized auxiliary model satisfies the auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-015198",
+      "new_name": "auxiliaryModelA",
+      "docstring": "A first auxiliary finite-dimensional pair of positive size."
+    },
+    {
+      "temporary_id": "decl-015201",
+      "new_name": "auxiliaryModelA_condition",
+      "docstring": "The first auxiliary model satisfies the auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-015202",
+      "new_name": "auxiliaryEigenvalueModel_equiv_iff",
+      "docstring": "Equivalent parameterized auxiliary models have the same size and complex parameter."
+    },
+    {
+      "temporary_id": "decl-015203",
+      "new_name": "trace_comp_auxiliaryEigenvalueModel",
+      "docstring": "The trace of the composite in the parameterized auxiliary model is its size times its complex parameter."
+    },
+    {
+      "temporary_id": "decl-015204",
+      "new_name": "auxiliaryModelB",
+      "docstring": "A second auxiliary finite-dimensional pair of positive size."
+    },
+    {
+      "temporary_id": "decl-015209",
+      "new_name": "auxiliaryModelB_condition",
+      "docstring": "The second auxiliary model satisfies the auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-015210",
+      "new_name": "auxiliaryModelC",
+      "docstring": "A third auxiliary finite-dimensional pair of positive size."
+    },
+    {
+      "temporary_id": "decl-015213",
+      "new_name": "auxiliaryModelC_condition",
+      "docstring": "The third auxiliary model satisfies the auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-021715",
+      "new_name": "auxiliaryPolynomialProperty_of_isNilpotent_finrank_ker_eq_one",
+      "docstring": "A nilpotent endomorphism with one-dimensional kernel satisfies the indicated polynomial-module property."
+    },
+    {
+      "temporary_id": "decl-023113",
+      "new_name": "linearIndependent_iterates_of_last_ne_zero",
+      "docstring": "The indexed iterates of a vector are linearly independent when its final coordinate is nonzero."
+    },
+    {
+      "temporary_id": "decl-025310",
+      "new_name": "FiniteDimensionalLinearMapPair",
+      "docstring": "A pair of finite-dimensional vector spaces equipped with linear maps in opposite directions."
+    },
+    {
+      "temporary_id": "decl-025311",
+      "new_name": "leftToRight",
+      "docstring": "The linear map from the left component to the right component."
+    },
+    {
+      "temporary_id": "decl-025313",
+      "new_name": "rightToLeft",
+      "docstring": "The linear map from the right component to the left component."
+    },
+    {
+      "temporary_id": "decl-025359",
+      "new_name": "AuxiliaryCondition",
+      "docstring": "An auxiliary condition on a finite-dimensional pair of opposite linear maps."
+    },
+    {
+      "temporary_id": "decl-025361",
+      "new_name": "Equiv",
+      "docstring": "An equivalence between finite-dimensional linear-map pairs."
+    },
+    {
+      "temporary_id": "decl-025365",
+      "new_name": "conj_rightToLeft_comp_leftToRight",
+      "docstring": "The left composite is carried to the corresponding composite by conjugation along an equivalence."
+    },
+    {
+      "temporary_id": "decl-025367",
+      "new_name": "leftMap",
+      "docstring": "The linear equivalence between the left components."
+    },
+    {
+      "temporary_id": "decl-025368",
+      "new_name": "rightMap",
+      "docstring": "The linear equivalence between the right components."
+    },
+    {
+      "temporary_id": "decl-025369",
+      "new_name": "finrank_eq",
+      "docstring": "Equivalent pairs have equal dimensions in both components."
+    },
+    {
+      "temporary_id": "decl-025370",
+      "new_name": "auxiliaryCondition_iff",
+      "docstring": "The auxiliary condition is invariant under equivalence."
+    },
+    {
+      "temporary_id": "decl-025371",
+      "new_name": "auxiliaryCondition",
+      "docstring": "An equivalence transports the auxiliary condition to its target."
+    },
+    {
+      "temporary_id": "decl-025372",
+      "new_name": "rightToLeft_injective_iff",
+      "docstring": "Injectivity of the right-to-left map is invariant under equivalence."
+    },
+    {
+      "temporary_id": "decl-025373",
+      "new_name": "rightMap_leftToRight",
+      "docstring": "The component equivalences intertwine the left-to-right maps."
+    },
+    {
+      "temporary_id": "decl-025374",
+      "new_name": "leftMap_rightToLeft",
+      "docstring": "The component equivalences intertwine the right-to-left maps."
+    },
+    {
+      "temporary_id": "decl-025385",
+      "new_name": "refl",
+      "docstring": "The identity equivalence of a finite-dimensional linear-map pair."
+    },
+    {
+      "temporary_id": "decl-025390",
+      "new_name": "symm",
+      "docstring": "Reverses an equivalence of finite-dimensional linear-map pairs."
+    },
+    {
+      "temporary_id": "decl-025393",
+      "new_name": "trace_rightToLeft_comp_leftToRight_eq",
+      "docstring": "Equivalent complex pairs have the same trace for the left-side composite."
+    },
+    {
+      "temporary_id": "decl-025394",
+      "new_name": "trans",
+      "docstring": "Composes equivalences of finite-dimensional linear-map pairs."
+    },
+    {
+      "temporary_id": "decl-025464",
+      "new_name": "Left",
+      "docstring": "The left vector space of a finite-dimensional linear-map pair."
+    },
+    {
+      "temporary_id": "decl-025465",
+      "new_name": "Right",
+      "docstring": "The right vector space of a finite-dimensional linear-map pair."
+    },
+    {
+      "temporary_id": "decl-025469",
+      "new_name": "combinedEndomorphism",
+      "docstring": "The endomorphism of the product that applies each map to the opposite component."
+    },
+    {
+      "temporary_id": "decl-025471",
+      "new_name": "combinedEndomorphism_apply",
+      "docstring": "The combined endomorphism swaps the components while applying the two structure maps."
+    },
+    {
+      "temporary_id": "decl-025472",
+      "new_name": "finrank_ker_combinedEndomorphism",
+      "docstring": "The kernel dimension of the combined endomorphism is the sum of the kernel dimensions of the component maps."
+    },
+    {
+      "temporary_id": "decl-025474",
+      "new_name": "leftToRight_injectiveOn_iInf_range_powers",
+      "docstring": "The left-to-right map is injective on the intersection of the ranges of all powers of the left composite."
+    },
+    {
+      "temporary_id": "decl-025475",
+      "new_name": "leftToRight_mem_iSup_ker_powers",
+      "docstring": "The left-to-right map sends the union of kernels of powers of the left composite into the analogous subspace on the right."
+    },
+    {
+      "temporary_id": "decl-025476",
+      "new_name": "leftToRight_mem_iInf_range_powers",
+      "docstring": "The left-to-right map sends the intersection of ranges of powers of the left composite into the analogous subspace on the right."
+    },
+    {
+      "temporary_id": "decl-025477",
+      "new_name": "rightToLeft_injectiveOn_iInf_range_powers",
+      "docstring": "The right-to-left map is injective on the intersection of the ranges of all powers of the right composite."
+    },
+    {
+      "temporary_id": "decl-025478",
+      "new_name": "rightToLeft_mem_iSup_ker_powers",
+      "docstring": "The right-to-left map sends the union of kernels of powers of the right composite into the analogous subspace on the left."
+    },
+    {
+      "temporary_id": "decl-025479",
+      "new_name": "rightToLeft_mem_iInf_range_powers",
+      "docstring": "The right-to-left map sends the intersection of ranges of powers of the right composite into the analogous subspace on the left."
+    },
+    {
+      "temporary_id": "decl-025480",
+      "new_name": "auxiliaryCondition_dual_iff",
+      "docstring": "Swapping the two components preserves the auxiliary condition."
+    },
+    {
+      "temporary_id": "decl-025481",
+      "new_name": "instAddCommGroupLeft",
+      "docstring": "The additive commutative group structure on the left component."
+    },
+    {
+      "temporary_id": "decl-025482",
+      "new_name": "instAddCommGroupRight",
+      "docstring": "The additive commutative group structure on the right component."
+    },
+    {
+      "temporary_id": "decl-025483",
+      "new_name": "finiteDimensional_left",
+      "docstring": "The left component is finite-dimensional over the base field."
+    },
+    {
+      "temporary_id": "decl-025484",
+      "new_name": "finiteDimensional_right",
+      "docstring": "The right component is finite-dimensional over the base field."
+    },
+    {
+      "temporary_id": "decl-025485",
+      "new_name": "instModuleLeft",
+      "docstring": "The module structure on the left component."
+    },
+    {
+      "temporary_id": "decl-025486",
+      "new_name": "instModuleRight",
+      "docstring": "The module structure on the right component."
+    },
+    {
+      "temporary_id": "decl-025516",
+      "new_name": "dual",
+      "docstring": "Swaps the two component spaces and their opposing linear maps."
+    },
+    {
+      "temporary_id": "decl-032955",
+      "new_name": "exists_nontrivial_compatible_complements",
+      "docstring": "A nilpotent composite with sufficiently large total kernel admits two nonzero complementary pairs of subspaces respected by both maps."
+    }
+  ]
+}
