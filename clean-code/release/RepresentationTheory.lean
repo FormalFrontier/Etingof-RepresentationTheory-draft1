@@ -212,6 +212,7 @@ import RepresentationTheory.AuxiliaryQuotientSummation
 import RepresentationTheory.ZModInvolution
 import RepresentationTheory.FiniteGroupCharacterCoprimality
 import RepresentationTheory.CategoryTheory.ObjectProperty
+import RepresentationTheory.CategoryPair
 
 /-!
 # Representation theory formalization
