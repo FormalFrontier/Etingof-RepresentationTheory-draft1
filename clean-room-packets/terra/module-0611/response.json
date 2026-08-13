@@ -1,0 +1,120 @@
+{
+  "module_name": "Mathlib.Algebra.Homology.CochainComplex.HomologyComplex",
+  "declarations": [
+    {
+      "temporary_id": "decl-013258",
+      "new_name": "tensorProduct_d_comp_d",
+      "docstring": "The composite of two differentials in the tensor product complex is zero."
+    },
+    {
+      "temporary_id": "decl-013259",
+      "new_name": "tensorProduct_acyclic_of_acyclic",
+      "docstring": "The tensor product complex is acyclic when either input complex is acyclic."
+    },
+    {
+      "temporary_id": "decl-013260",
+      "new_name": "exists_biproduct_extension_homologyMap_isIso",
+      "docstring": "Construct an extension by a biproduct whose induced maps on homology are isomorphisms."
+    },
+    {
+      "temporary_id": "decl-013265",
+      "new_name": "tensorProduct_homologyIso",
+      "docstring": "Identify the homology of the tensor product complex with the indexed sum of tensor products of homology objects."
+    },
+    {
+      "temporary_id": "decl-020231",
+      "new_name": "homologyMap_toHomologyComplex_comp_fromHomologyComplex",
+      "docstring": "The comparison from a complex through its homology complex induces the identity on homology."
+    },
+    {
+      "temporary_id": "decl-020232",
+      "new_name": "homologyTensorProductHomologyIso",
+      "docstring": "The tensor product of homology complexes has homology given by the indexed sum of tensor products of the original homology objects."
+    },
+    {
+      "temporary_id": "decl-020244",
+      "new_name": "homologyComplex",
+      "docstring": "The cochain complex formed from the homology objects of a cochain complex."
+    },
+    {
+      "temporary_id": "decl-020258",
+      "new_name": "homologyComplex_d",
+      "docstring": "All differentials of the homology complex are zero."
+    },
+    {
+      "temporary_id": "decl-020471",
+      "new_name": "iCycles_comp_cyclesProjection",
+      "docstring": "Including cycles and then projecting back to cycles gives the identity."
+    },
+    {
+      "temporary_id": "decl-020472",
+      "new_name": "iCycles_comp_cyclesProjection_comp",
+      "docstring": "Inserting the cycle projection after the inclusion does not change a map out of cycles."
+    },
+    {
+      "temporary_id": "decl-021843",
+      "new_name": "toHomologyComplex",
+      "docstring": "The morphism from a cochain complex to its homology complex."
+    },
+    {
+      "temporary_id": "decl-022774",
+      "new_name": "homologySection",
+      "docstring": "A chosen morphism from homology to cycles."
+    },
+    {
+      "temporary_id": "decl-022777",
+      "new_name": "homologySectionLinear",
+      "docstring": "The linear map underlying a chosen section from homology to cycles."
+    },
+    {
+      "temporary_id": "decl-022779",
+      "new_name": "homologyProjection_comp_homologySectionLinear",
+      "docstring": "The homology projection composed with the chosen linear section is the identity."
+    },
+    {
+      "temporary_id": "decl-022784",
+      "new_name": "homologySection_comp_homologyProjection",
+      "docstring": "The chosen section followed by the homology projection is the identity."
+    },
+    {
+      "temporary_id": "decl-022785",
+      "new_name": "homologySection_comp_homologyProjection_comp",
+      "docstring": "Precomposing a map from homology with its projection and chosen section leaves it unchanged."
+    },
+    {
+      "temporary_id": "decl-022901",
+      "new_name": "fromHomologyComplex",
+      "docstring": "A morphism from the homology complex back to the original cochain complex."
+    },
+    {
+      "temporary_id": "decl-022903",
+      "new_name": "fromHomologyComplex_comp_toHomologyComplex",
+      "docstring": "The morphisms between a homology complex and its original complex compose to the identity on the homology complex."
+    },
+    {
+      "temporary_id": "decl-023830",
+      "new_name": "cyclesProjection",
+      "docstring": "A chosen projection from a component of a complex onto its cycles."
+    },
+    {
+      "temporary_id": "decl-023832",
+      "new_name": "cyclesProjectionLinear",
+      "docstring": "The linear map underlying the chosen projection onto cycles."
+    },
+    {
+      "temporary_id": "decl-023834",
+      "new_name": "cyclesProjectionLinear_comp_iCycles",
+      "docstring": "The cycle projection composed with the cycle inclusion is the identity linear map."
+    },
+    {
+      "temporary_id": "decl-023904",
+      "new_name": "tensorObj_homologyComplex_d",
+      "docstring": "The tensor product of two homology complexes has zero differentials."
+    },
+    {
+      "temporary_id": "decl-023959",
+      "new_name": "tensorObjXIsoSigma",
+      "docstring": "Identify a degree of a tensor product complex with the indexed sum of tensor products of its input degrees."
+    }
+  ]
+}
