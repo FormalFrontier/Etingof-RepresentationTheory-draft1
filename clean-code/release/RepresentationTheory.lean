@@ -193,6 +193,7 @@ import RepresentationTheory.OneDimensionalSubmoduleComplements
 import RepresentationTheory.QuiverVertexReversal
 import RepresentationTheory.AuxiliaryUnavailableStatement
 import RepresentationTheory.Auxiliary.UnavailableStatement
+import RepresentationTheory.AuxiliaryQuotientSummation
 
 /-!
 # Representation theory formalization
