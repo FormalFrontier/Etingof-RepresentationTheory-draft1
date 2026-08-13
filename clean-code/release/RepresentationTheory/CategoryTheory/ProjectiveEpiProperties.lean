@@ -33,7 +33,7 @@ end IsProjectiveEpiSigmaDesc
 /-- A property of an object in a category with zero morphisms that supplies epimorphism witnesses
 and entails projectivity. -/
 class HasProjectiveEpiWitnesses {C : Type u} [Category.{v} C] [HasZeroMorphisms C] (P : C)
-    extends Projective P where
+    extends toProjective : Projective P where
   /-- For each object, the property supplies existential data whose final morphism is an
   epimorphism. -/
   exists_epi : ∀ (X : C), ∃ (n : ℕ) (_ : HasBiproduct (fun _ : Fin n => P))
