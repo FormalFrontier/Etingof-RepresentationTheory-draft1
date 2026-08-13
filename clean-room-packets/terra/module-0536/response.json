@@ -1,0 +1,30 @@
+{
+  "module_name": "Quiver.MatrixOrientation",
+  "declarations": [
+    {
+      "temporary_id": "decl-005208",
+      "new_name": "IsMatrixOrientation",
+      "docstring": "Records that a quiver on `Fin n` realizes the orientation data encoded by an integer adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-022765",
+      "new_name": "isMatrixOrientation_vertexReorientation",
+      "docstring": "Reorienting a matrix-compatible quiver at a vertex preserves its matrix orientation when the matrix is symmetric with zero diagonal."
+    },
+    {
+      "temporary_id": "decl-023412",
+      "new_name": "quiverOfAdjacencyMatrix",
+      "docstring": "Builds a quiver on `Fin n` from an integer adjacency matrix."
+    },
+    {
+      "temporary_id": "decl-023413",
+      "new_name": "quiverOfAdjacencyMatrix_isMatrixOrientation",
+      "docstring": "The quiver constructed from a symmetric zero-diagonal matrix realizes the matrix as an orientation."
+    },
+    {
+      "temporary_id": "decl-023414",
+      "new_name": "quiverOfAdjacencyMatrix_hom_subsingleton",
+      "docstring": "Between any two vertices, the quiver constructed from an adjacency matrix has at most one arrow."
+    }
+  ]
+}
