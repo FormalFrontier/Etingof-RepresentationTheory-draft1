@@ -9,12 +9,12 @@
     {
       "temporary_id": "decl-005273",
       "new_name": "exists_epi",
-      "docstring": "For every object, produces witnesses for an epimorphism under the stated assumptions."
+      "docstring": "For each object, there are a parameter and a morphism that is an epimorphism."
     },
     {
       "temporary_id": "decl-005274",
-      "new_name": "toAuxiliary",
-      "docstring": "Derives the displayed auxiliary property of P from the given hypothesis."
+      "new_name": "implies_property",
+      "docstring": "The hypothesis on P implies the target property."
     }
   ]
 }
