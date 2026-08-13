@@ -58,7 +58,7 @@ end TensorPower
 namespace TensorAlgebra
 
 /-- A chosen basis gives an algebra equivalence from the auxiliary type to a free algebra. -/
-@[source_ref "Chapter2/Discussion_2.12_heading" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.12_heading" (role := supporting)]
 noncomputable def basisAuxiliaryTypeEquivFreeAlgebra {ι : Type w} (b : Module.Basis ι k V) :
     AuxiliaryType k V ≃ₐ[k] FreeAlgebra k ι :=
   _root_.TensorAlgebra.equivFreeAlgebra b
