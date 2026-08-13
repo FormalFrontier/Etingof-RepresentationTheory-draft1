@@ -287,6 +287,7 @@ import RepresentationTheory.GroupTheory.ConjugacyClassBounds
 import RepresentationTheory.FGModuleCat.Projectivity
 import RepresentationTheory.FGModuleCat.SubobjectOrder
 import RepresentationTheory.FDRep.Biproduct
+import RepresentationTheory.ModuleCat.Auxiliary
 
 /-!
 # Representation theory formalization
