@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-016774",
       "new_name": "fieldNatType",
-      "docstring": "The type indexed by a field and a natural number used in these declarations."
+      "docstring": "A type determined by a field and a natural-number index."
     },
     {
       "temporary_id": "decl-016775",
-      "new_name": "fieldNatType_eq_top_of_one_lt",
-      "docstring": "For indices greater than one, the displayed construction is the greatest element."
+      "new_name": "fieldNatType_construction_eq_top_of_one_lt",
+      "docstring": "For indices greater than one, the displayed construction on the indexed type is the greatest element."
     },
     {
       "temporary_id": "decl-016777",
