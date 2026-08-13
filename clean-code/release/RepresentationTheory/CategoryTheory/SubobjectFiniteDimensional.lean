@@ -58,15 +58,15 @@ theorem simple_iso_auxiliaryObject {C : Type u} [Category.{v} C]
   simpa [Auxiliary.object] using
     SubobjectFiniteDimensional.simple_iso_auxiliaryObject_data X hX
 
-/-- The subobjects of any object form a finite-dimensional order. -/
-theorem finiteDimensionalOrder_subobject {C : Type u} [Category.{v} C]
+/-- Each object's subobject order is finite-dimensional. -/
+theorem finiteDimensionalOrder_subobject' {C : Type u} [Category.{v} C]
     [SubobjectFiniteDimensional C] (X : C) : FiniteDimensionalOrder (Subobject X) :=
   SubobjectFiniteDimensional.finiteDimensionalOrder_subobject_data X
 
-/-- Each object's subobject order is finite-dimensional. -/
-instance finiteDimensionalOrder_subobject' {C : Type u} [Category.{v} C]
+/-- The subobjects of any object form a finite-dimensional order. -/
+instance finiteDimensionalOrder_subobject {C : Type u} [Category.{v} C]
     [SubobjectFiniteDimensional C] (X : C) : FiniteDimensionalOrder (Subobject X) :=
-  SubobjectFiniteDimensional.finiteDimensionalOrder_subobject X
+  SubobjectFiniteDimensional.finiteDimensionalOrder_subobject' X
 
 end SubobjectFiniteDimensional
 
