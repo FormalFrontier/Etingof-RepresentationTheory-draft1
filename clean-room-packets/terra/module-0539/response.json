@@ -1,0 +1,25 @@
+{
+  "module_name": "Matrix.TwoIdentitySub",
+  "declarations": [
+    {
+      "temporary_id": "decl-012237",
+      "new_name": "twoIdentitySub",
+      "docstring": "Returns twice the identity matrix minus the given square integer matrix."
+    },
+    {
+      "temporary_id": "decl-012239",
+      "new_name": "twoIdentitySub_apply_self_of_apply_self_eq_zero",
+      "docstring": "Twice the identity minus a zero-diagonal integer matrix has every diagonal entry equal to two."
+    },
+    {
+      "temporary_id": "decl-012240",
+      "new_name": "twoIdentitySub_eq_two_smul_one_sub",
+      "docstring": "Expresses the transformed matrix as twice the identity matrix minus the original matrix."
+    },
+    {
+      "temporary_id": "decl-012241",
+      "new_name": "isSymm_twoIdentitySub",
+      "docstring": "Subtracting a symmetric integer matrix from twice the identity matrix preserves symmetry."
+    }
+  ]
+}
