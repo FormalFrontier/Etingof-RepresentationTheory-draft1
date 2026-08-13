@@ -43,13 +43,13 @@
     },
     {
       "temporary_id": "decl-024639",
-      "new_name": "auxiliaryMultiplicity_self_eq_auxiliaryCard",
-      "docstring": "On a diagonal pair of partitions, the auxiliary multiplicity equals the auxiliary cardinal quantity."
+      "new_name": "auxiliary_nat_value_self_eq_auxiliaryCard",
+      "docstring": "On a diagonal pair of partitions, the displayed auxiliary natural-number value equals the auxiliary cardinal quantity."
     },
     {
       "temporary_id": "decl-024640",
-      "new_name": "auxiliaryMultiplicity_eq_auxiliaryCard_of_not_relation",
-      "docstring": "When the displayed relation fails, the auxiliary multiplicity equals the auxiliary cardinal quantity."
+      "new_name": "auxiliary_nat_value_eq_auxiliaryCard_of_not_relation",
+      "docstring": "When the displayed relation fails, the displayed auxiliary natural-number value equals the auxiliary cardinal quantity."
     }
   ]
 }
