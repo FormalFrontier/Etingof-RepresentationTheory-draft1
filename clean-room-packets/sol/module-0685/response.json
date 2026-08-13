@@ -63,7 +63,7 @@
     },
     {
       "temporary_id": "decl-023398",
-      "new_name": "TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremTwo",
+      "new_name": "TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne_assoc",
       "docstring": "A second auxiliary theorem whose formal type was unavailable for inspection."
     },
     {
@@ -98,7 +98,7 @@
     },
     {
       "temporary_id": "decl-024732",
-      "new_name": "TensorProductProjectiveResolution.summandInclusion_comp_linearYonedaTotalIso_inv_comp",
+      "new_name": "TensorProductProjectiveResolution.summandInclusion_comp_linearYonedaTotalIso_inv_assoc",
       "docstring": "The summand comparison identity remains valid after postcomposition with a morphism from the total linear Yoneda component."
     }
   ]
