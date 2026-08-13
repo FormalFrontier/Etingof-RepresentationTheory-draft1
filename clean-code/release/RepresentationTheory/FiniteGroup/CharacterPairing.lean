@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: FormalFrontier
 -/
 
+import RepresentationTheory.Alignment.Attribute
 import RepresentationTheory.FDRep.Character
 
 open FDRep CategoryTheory
@@ -14,6 +15,9 @@ namespace RepresentationTheory.FiniteGroup.CharacterPairing
 
 /-- The group-order-normalized sum of the character of V times the inverse-argument character of
 W equals the dimension of the morphism space from W to V. -/
+@[source_ref "Chapter4/Introduction_4.5" (role := supporting),
+  source_ref "Chapter4/Introduction_4.8" (role := primary),
+  source_ref "Chapter4/Theorem4.5.1" (role := primary)]
 theorem FiniteGroup.normalized_characterPairing_eq_finrank_hom
     {k : Type u} {G : Type v} [Field k] [Group G] [Fintype G]
     [Invertible (Fintype.card G : k)]
@@ -25,6 +29,8 @@ theorem FiniteGroup.normalized_characterPairing_eq_finrank_hom
 open scoped Classical in
 /-- For simple finite-dimensional representations, the normalized character pairing is one when
 the representations are isomorphic and zero otherwise. -/
+@[source_ref "Chapter4/Introduction_4.5/Derived2" (role := supporting),
+  source_ref "Chapter4/Theorem4.5.1" (role := primary)]
 theorem FiniteGroup.normalized_characterPairing_of_simple
     {k : Type u} {G : Type v} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [Invertible (Fintype.card G : k)]
