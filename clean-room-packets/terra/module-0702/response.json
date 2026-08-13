@@ -1,0 +1,45 @@
+{
+  "module_name": "ProjectiveDimension",
+  "declarations": [
+    {
+      "temporary_id": "decl-022180",
+      "new_name": "projectiveDimension",
+      "docstring": "The projective dimension of a module, valued in extended natural numbers."
+    },
+    {
+      "temporary_id": "decl-022182",
+      "new_name": "projectiveDimensionAux",
+      "docstring": "An auxiliary extended-natural-valued invariant of a module used to characterize projective dimension."
+    },
+    {
+      "temporary_id": "decl-022184",
+      "new_name": "projectiveDimension_eq_projectiveDimensionAux",
+      "docstring": "For a nonzero module, the projective dimension equals the auxiliary module invariant."
+    },
+    {
+      "temporary_id": "decl-022185",
+      "new_name": "projectiveDimension_eq_zero_iff_projective",
+      "docstring": "A module has projective dimension zero exactly when it is projective."
+    },
+    {
+      "temporary_id": "decl-022186",
+      "new_name": "projectiveDimension_eq_zero_of_isZero",
+      "docstring": "A zero module has projective dimension zero."
+    },
+    {
+      "temporary_id": "decl-022187",
+      "new_name": "projectiveDimension_le_iff",
+      "docstring": "The projective dimension is at most a natural number exactly when the module has projective dimension bounded by that number."
+    },
+    {
+      "temporary_id": "decl-024711",
+      "new_name": "zero_le_projectiveDimension",
+      "docstring": "Zero is at most the projective dimension of every module."
+    },
+    {
+      "temporary_id": "decl-024712",
+      "new_name": "zero_le_projectiveDimensionAux",
+      "docstring": "For a nonzero module, zero is at most the auxiliary module invariant."
+    }
+  ]
+}
