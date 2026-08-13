@@ -172,6 +172,7 @@ import RepresentationTheory.InductionAndCoinduction
 import RepresentationTheory.SpecialLinear.Commutator
 import RepresentationTheory.AuxiliaryTypeCharacters
 import RepresentationTheory.Matrix.CharpolyDiscriminant
+import RepresentationTheory.Subgroup.HomAdjunction
 
 /-!
 # Representation theory formalization
