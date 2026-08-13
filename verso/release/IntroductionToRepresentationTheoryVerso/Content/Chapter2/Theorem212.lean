@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -59,3 +60,13 @@ We will prove the following striking theorem, proved by P. Gabriel in early 1970
 [^Chapter2/Theorem2.1.2/footnote-1]: We will prove this theorem when the field $`k` is algebraically closed, but it is valid even without this assumption.
 
 The graphs listed in the theorem are called (simply laced) **Dynkin diagrams**. These graphs arise in a multitude of classification problems in mathematics, such as the classification of simple Lie algebras, singularities, platonic solids, reflection groups, etc. In fact, if we needed to make contact with an alien civilization and show them how sophisticated our civilization is, perhaps showing them Dynkin diagrams would be the best choice!
+
+## Formalization
+%%%
+tag := "Chapter2/Theorem2.1.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix}
