@@ -1,0 +1,55 @@
+{
+  "module_name": "AuxiliaryPartitionCardinality",
+  "declarations": [
+    {
+      "temporary_id": "decl-005363",
+      "new_name": "auxiliaryFamily",
+      "docstring": "An auxiliary type indexed by a natural number and two partitions of that number."
+    },
+    {
+      "temporary_id": "decl-005365",
+      "new_name": "auxiliary_card_filter_lt_eq_sum_take",
+      "docstring": "The number of cells whose auxiliary entry is below a bound equals the sum of the corresponding initial sorted parts."
+    },
+    {
+      "temporary_id": "decl-005384",
+      "new_name": "auxiliary_relation",
+      "docstring": "The two partitions indexing an auxiliary object satisfy the displayed relation."
+    },
+    {
+      "temporary_id": "decl-021029",
+      "new_name": "auxiliaryCard_self",
+      "docstring": "The auxiliary cardinal quantity for a partition paired with itself is one."
+    },
+    {
+      "temporary_id": "decl-021030",
+      "new_name": "auxiliaryCard_eq_natCard",
+      "docstring": "The auxiliary cardinal quantity equals the cardinality of the corresponding auxiliary type."
+    },
+    {
+      "temporary_id": "decl-021031",
+      "new_name": "auxiliaryCard_eq_zero_of_not_relation",
+      "docstring": "The auxiliary cardinal quantity is zero when the displayed partition relation fails."
+    },
+    {
+      "temporary_id": "decl-021032",
+      "new_name": "auxiliaryEquivFin",
+      "docstring": "An equivalence between the auxiliary partition-indexed type and a finite type of the corresponding auxiliary cardinality."
+    },
+    {
+      "temporary_id": "decl-021035",
+      "new_name": "auxiliary_finite",
+      "docstring": "Each auxiliary partition-indexed type is finite."
+    },
+    {
+      "temporary_id": "decl-024639",
+      "new_name": "auxiliaryMultiplicity_self_eq_auxiliaryCard",
+      "docstring": "On a diagonal pair of partitions, the auxiliary multiplicity equals the auxiliary cardinal quantity."
+    },
+    {
+      "temporary_id": "decl-024640",
+      "new_name": "auxiliaryMultiplicity_eq_auxiliaryCard_of_not_relation",
+      "docstring": "When the displayed relation fails, the auxiliary multiplicity equals the auxiliary cardinal quantity."
+    }
+  ]
+}
