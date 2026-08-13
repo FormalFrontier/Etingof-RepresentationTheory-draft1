@@ -1,0 +1,55 @@
+{
+  "module_name": "PartitionPolynomialEvaluation",
+  "declarations": [
+    {
+      "temporary_id": "decl-014646",
+      "new_name": "auxiliaryEvaluationAtOneFormula",
+      "docstring": "Expresses the value at one of an auxiliary multivariate polynomial as a quotient of products over ordered index pairs."
+    },
+    {
+      "temporary_id": "decl-014660",
+      "new_name": "auxiliaryRatEvaluationFormula",
+      "docstring": "Gives a rational specialization of an auxiliary polynomial as a quotient of pairwise power differences."
+    },
+    {
+      "temporary_id": "decl-014661",
+      "new_name": "auxiliaryComplexEvaluationFormula",
+      "docstring": "Gives a complex specialization of an auxiliary polynomial as a quotient of pairwise power differences."
+    },
+    {
+      "temporary_id": "decl-014662",
+      "new_name": "auxiliaryComplexInversePowerEvaluationFormula",
+      "docstring": "Evaluates an auxiliary polynomial over the complex numbers using negative power differences under the stated nonvanishing assumptions."
+    },
+    {
+      "temporary_id": "decl-014663",
+      "new_name": "auxiliaryFieldEvaluationFormula",
+      "docstring": "Gives a field-valued specialization of an auxiliary polynomial as a quotient of pairwise power differences."
+    },
+    {
+      "temporary_id": "decl-014666",
+      "new_name": "auxiliaryFieldEvaluationMulFormula",
+      "docstring": "States the denominator-cleared form of a field-valued auxiliary polynomial evaluation."
+    },
+    {
+      "temporary_id": "decl-014669",
+      "new_name": "auxiliaryFieldInversePowerEvaluationFormula",
+      "docstring": "Evaluates an auxiliary polynomial over a field using negative power differences under the stated nonvanishing assumptions."
+    },
+    {
+      "temporary_id": "decl-018693",
+      "new_name": "evaluationAtRat",
+      "docstring": "The rational-valued ring homomorphism from multivariate polynomials indexed by a finite type."
+    },
+    {
+      "temporary_id": "decl-018695",
+      "new_name": "evaluationAtField",
+      "docstring": "The field-valued ring homomorphism from rational multivariate polynomials indexed by a finite type."
+    },
+    {
+      "temporary_id": "decl-018697",
+      "new_name": "evaluationAtField_rat",
+      "docstring": "The field-valued evaluation agrees with the rational evaluation after specializing the field to the rationals."
+    }
+  ]
+}
