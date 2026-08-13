@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-013909",
       "new_name": "unrenderedMatrixTheorem",
-      "docstring": "An auxiliary theorem whose statement is unavailable in the rendered packet."
+      "docstring": "The formal statement of this theorem was not rendered in the packet."
     },
     {
       "temporary_id": "decl-013910",
       "new_name": "unrenderedTheorem",
-      "docstring": "A theorem retained from a packet with no renderable formal statement."
+      "docstring": "The formal statement of this theorem was not rendered in the packet."
     },
     {
       "temporary_id": "decl-013911",
@@ -39,12 +39,12 @@
     {
       "temporary_id": "decl-013918",
       "new_name": "linearMapFinranks_matrixAuxiliary",
-      "docstring": "An auxiliary result about the rank-vector construction and its associated matrix."
+      "docstring": "The formal statement of this theorem was not rendered in the packet."
     },
     {
       "temporary_id": "decl-013919",
       "new_name": "linearMapFinranks_matrixAuxiliaryTwo",
-      "docstring": "A second auxiliary result concerning the rank-vector construction and its associated matrix."
+      "docstring": "The formal statement of this theorem was not rendered in the packet."
     },
     {
       "temporary_id": "decl-013920",
