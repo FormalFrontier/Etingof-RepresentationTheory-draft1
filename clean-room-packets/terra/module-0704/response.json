@@ -63,8 +63,8 @@
     },
     {
       "temporary_id": "decl-019251",
-      "new_name": "subsingleton_hom_of_not_auxiliaryModuleRelation",
-      "docstring": "Morphisms between simple module objects form a subsingleton when the auxiliary relation does not hold."
+      "new_name": "subsingleton_ext_one_of_not_auxiliaryModuleRelation",
+      "docstring": "Degree-one extensions between simple module objects form a subsingleton when the auxiliary relation does not hold."
     }
   ]
 }
