@@ -1,0 +1,35 @@
+{
+  "module_name": "QuiverVertexReversal",
+  "declarations": [
+    {
+      "temporary_id": "decl-015492",
+      "new_name": "reversedAtHom",
+      "docstring": "The arrow type obtained by reversing arrows incident to a distinguished vertex."
+    },
+    {
+      "temporary_id": "decl-015493",
+      "new_name": "reversedAtHom_eq_of_eq_eq",
+      "docstring": "The reversed arrow type agrees with the original arrow type when both endpoints are distinguished."
+    },
+    {
+      "temporary_id": "decl-015494",
+      "new_name": "reversedAtHom_eq_of_eq_ne",
+      "docstring": "The reversed arrow type points into the distinguished vertex when only the source is distinguished."
+    },
+    {
+      "temporary_id": "decl-015495",
+      "new_name": "reversedAtHom_eq_of_ne_eq",
+      "docstring": "The reversed arrow type points out of the distinguished vertex when only the target is distinguished."
+    },
+    {
+      "temporary_id": "decl-015496",
+      "new_name": "reversedAtHom_eq_of_ne_ne",
+      "docstring": "The reversed arrow type agrees with the original arrow type when neither endpoint is distinguished."
+    },
+    {
+      "temporary_id": "decl-022764",
+      "new_name": "reverseAtVertex",
+      "docstring": "The quiver obtained by reversing arrows incident to a chosen vertex."
+    }
+  ]
+}
