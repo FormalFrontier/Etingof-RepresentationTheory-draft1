@@ -1,10 +1,10 @@
 {
-  "module_name": "Algebra.Homological.AuxiliaryInvariance",
+  "module_name": "Algebra.Homological.EquivalenceInvariance",
   "declarations": [
     {
       "temporary_id": "decl-019903",
-      "new_name": "auxiliaryProperty_iff_of_ringEquiv",
-      "docstring": "Auxiliary transport principle for an opaque degree-indexed ring property."
+      "new_name": "ringProperty_iff_of_ringEquiv",
+      "docstring": "A degree-indexed property of rings is invariant under ring equivalences."
     },
     {
       "temporary_id": "decl-019906",
@@ -18,18 +18,18 @@
     },
     {
       "temporary_id": "decl-019921",
-      "new_name": "auxiliaryProperty_iff_auxiliaryProperty",
-      "docstring": "Relates two auxiliary degree-indexed properties available for commutative rings."
+      "new_name": "ringProperty₁_iff_ringProperty₂",
+      "docstring": "The two displayed degree-indexed properties agree for every commutative ring."
     },
     {
       "temporary_id": "decl-020180",
-      "new_name": "auxiliaryObject_eq_of_ringEquiv",
-      "docstring": "Records invariance of an auxiliary ring-associated object under ring equivalence."
+      "new_name": "ringConstruction_eq_of_ringEquiv",
+      "docstring": "Ring equivalences leave the displayed ring-indexed construction unchanged."
     },
     {
       "temporary_id": "decl-022788",
-      "new_name": "auxiliaryObject_eq_auxiliaryObject",
-      "docstring": "Identifies two auxiliary objects attached to a commutative ring."
+      "new_name": "ringConstruction₁_eq_ringConstruction₂",
+      "docstring": "The two displayed constructions agree for all commutative rings."
     }
   ]
 }
