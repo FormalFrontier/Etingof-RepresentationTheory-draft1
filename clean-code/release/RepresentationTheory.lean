@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: Kim Morrison
 -/
 import RepresentationTheory.Alignment.Attribute
+import RepresentationTheory.Analysis.Algebra.DerivationExponential
 import RepresentationTheory.Algebra.Algebraic.ConjRoot.FiniteSum
 import RepresentationTheory.CauchyDeterminant
 import RepresentationTheory.CharacterIntegrality
