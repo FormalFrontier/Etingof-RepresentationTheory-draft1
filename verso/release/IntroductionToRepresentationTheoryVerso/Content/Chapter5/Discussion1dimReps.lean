@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -29,3 +30,19 @@ where $`\xi` is a homomorphism
 $$`\xi : \mathbb{F}_q^\times \to \mathbb{C}^\times;`
 
 so there are $`q - 1` such representations, denoted $`\mathbb{C}_\xi`.
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_1dim_reps/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryTypeCharacters.card_auxiliaryType_complexCharacters}
+
+{Manual.docstring RepresentationTheory.AuxiliaryTypeCharacters.unitsCharacterEquiv}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryTypeCharacters.unitsCharacterEquiv_apply}
