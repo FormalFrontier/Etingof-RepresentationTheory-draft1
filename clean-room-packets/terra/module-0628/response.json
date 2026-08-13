@@ -39,7 +39,7 @@
     {
       "temporary_id": "decl-004315",
       "new_name": "freeCoverTo_epi",
-      "docstring": "The morphism from the associated module object is an epimorphism."
+      "docstring": "The morphism from the associated module object to the given module is an epimorphism."
     },
     {
       "temporary_id": "decl-004316",
@@ -53,33 +53,33 @@
     },
     {
       "temporary_id": "decl-004319",
-      "new_name": "kernelLift",
-      "docstring": "Constructs a morphism from the image of the kernel under over to the source of a morphism."
+      "new_name": "assignedKernelToSource",
+      "docstring": "Constructs a morphism from the object assigned to a kernel into the source of the original morphism."
     },
     {
       "temporary_id": "decl-004321",
-      "new_name": "kernelLift_comp",
-      "docstring": "Composing the kernel lift with the given morphism yields zero."
+      "new_name": "assignedKernelToSource_comp",
+      "docstring": "Composing the morphism from the assigned kernel object with the original morphism yields zero."
     },
     {
       "temporary_id": "decl-004322",
-      "new_name": "kernelLift_exact",
-      "docstring": "The short complex made from the kernel lift and the given morphism is exact."
+      "new_name": "assignedKernelToSource_exact",
+      "docstring": "The morphism from the assigned kernel object and the original morphism form an exact short complex."
     },
     {
       "temporary_id": "decl-004323",
       "new_name": "projectiveResolutionOf",
-      "docstring": "Constructs a projective resolution from a projective epimorphic family."
+      "docstring": "Constructs a projective resolution from an object assignment with projective values and epimorphisms to the original objects."
     },
     {
       "temporary_id": "decl-004329",
       "new_name": "iteratedKernelComplex",
-      "docstring": "Builds a chain complex from an endofunction, a family of morphisms, and an object."
+      "docstring": "Builds a chain complex from an object assignment, morphisms from assigned objects to the original objects, and a chosen object."
     },
     {
       "temporary_id": "decl-004333",
       "new_name": "iteratedKernelComplex_d_one_zero",
-      "docstring": "Identifies the differential from degree one to degree zero in the constructed complex."
+      "docstring": "The differential from degree one to degree zero is the morphism from the object assigned to the kernel of the comparison map at the chosen object into that map's source."
     },
     {
       "temporary_id": "decl-004334",
@@ -88,8 +88,8 @@
     },
     {
       "temporary_id": "decl-004336",
-      "new_name": "projectiveResolutionOf_term_eq_over",
-      "docstring": "Every term of the constructed projective resolution is equal to over applied to some object."
+      "new_name": "projectiveResolutionOf_exists_term_eq_assignedObject",
+      "docstring": "In every degree, the constructed projective resolution has a term equal to the object assigned to some object."
     },
     {
       "temporary_id": "decl-004337",
