@@ -229,6 +229,7 @@ import RepresentationTheory.CategoryTheory.Yoneda
 import RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra
 import RepresentationTheory.SymmetricGroup.PartitionDominance
 import RepresentationTheory.Partitions.SquareScalar
+import RepresentationTheory.PartitionAuxiliary
 
 /-!
 # Representation theory formalization
