@@ -1,160 +1,160 @@
 {
-  "module_name": "RingTheory.Module.ComponentRestriction",
+  "module_name": "RingTheory.Module.ParameterAssociated",
   "declarations": [
     {
       "temporary_id": "decl-013990",
-      "new_name": "associatedModuleCategory",
-      "docstring": "The type of modules selected by the construction associated with an R-module."
+      "new_name": "associatedModuleType",
+      "docstring": "The type produced from an R-module by the associated construction."
     },
     {
       "temporary_id": "decl-013992",
-      "new_name": "selectedComponentRing",
-      "docstring": "The ring type determined by an element of the opaque parameter space for R."
+      "new_name": "parameterAssociatedType",
+      "docstring": "The type associated with an element of the opaque parameter space for R."
     },
     {
       "temporary_id": "decl-014097",
       "new_name": "simpleModuleParameter",
-      "docstring": "The opaque ring parameter selected by a simple module over a finite-dimensional algebra."
+      "docstring": "An opaque parameter associated with a simple module over a finite-dimensional algebra."
     },
     {
       "temporary_id": "decl-014099",
       "new_name": "simpleModuleParameter_value_eq",
-      "docstring": "The underlying value of the parameter attached to a simple module agrees with the comparison construction."
+      "docstring": "The underlying value of the simple-module parameter equals that of the displayed comparison term."
     },
     {
       "temporary_id": "decl-014105",
-      "new_name": "componentModuleEquivalence",
-      "docstring": "The equivalence from modules over the selected component ring to the associated module category."
+      "new_name": "parameterModuleEquivalence",
+      "docstring": "An equivalence from a module category determined by the parameter to the category determined by the simple module."
     },
     {
       "temporary_id": "decl-014106",
-      "new_name": "finiteLengthComponentEquivalence",
-      "docstring": "The equivalence between finite-length component-ring modules and finite-length modules satisfying the selected condition."
+      "new_name": "finiteLengthParameterEquivalence",
+      "docstring": "An equivalence between finite-length parameter-associated modules and finite-length modules satisfying the displayed condition."
     },
     {
       "temporary_id": "decl-014107",
-      "new_name": "componentModuleEquivalence_functor_eq",
-      "docstring": "The forward functor of the component-module equivalence is the designated component-module functor."
+      "new_name": "parameterModuleEquivalence_functor_eq",
+      "docstring": "The forward functor of the parameter-module equivalence equals the displayed functor."
     },
     {
       "temporary_id": "decl-014108",
-      "new_name": "componentModuleEquivalence_obj_carrier",
-      "docstring": "Applying the component-module equivalence preserves the underlying carrier of a module."
+      "new_name": "parameterModuleEquivalence_obj_carrier",
+      "docstring": "Under the parameter-module equivalence, the underlying carrier of an object is unchanged."
     },
     {
       "temporary_id": "decl-014120",
-      "new_name": "componentRingToBaseLinearMap",
-      "docstring": "The R-linear map from the selected component ring into the base ring."
+      "new_name": "parameterTypeToBaseLinearMap",
+      "docstring": "The R-linear map from the parameter-associated type to R."
     },
     {
       "temporary_id": "decl-014121",
-      "new_name": "componentRingToBaseLinearMap_injective",
-      "docstring": "The linear map from the selected component ring to the base ring is injective."
+      "new_name": "parameterTypeToBaseLinearMap_injective",
+      "docstring": "The R-linear map from the parameter-associated type to R is injective."
     },
     {
       "temporary_id": "decl-014122",
-      "new_name": "componentRingToBaseLinearMap_toComponentRingHom",
-      "docstring": "Mapping an element to the component ring and back to R gives left multiplication by the underlying parameter."
+      "new_name": "parameterTypeToBaseLinearMap_toParameterAssociatedRingHom",
+      "docstring": "Mapping an element into the parameter-associated type and back to R gives left multiplication by the underlying parameter."
     },
     {
       "temporary_id": "decl-014123",
-      "new_name": "componentRingToBaseLinearMap_mul",
-      "docstring": "The linear map from the component ring to R preserves multiplication."
+      "new_name": "parameterTypeToBaseLinearMap_mul",
+      "docstring": "The linear map from the parameter-associated type to R preserves multiplication."
     },
     {
       "temporary_id": "decl-014124",
-      "new_name": "componentRingToBaseLinearMap_one",
-      "docstring": "The image of one under the component-to-base linear map is the underlying parameter in R."
+      "new_name": "parameterTypeToBaseLinearMap_one",
+      "docstring": "The image of one under the parameter-type-to-base linear map is the underlying parameter in R."
     },
     {
       "temporary_id": "decl-014125",
-      "new_name": "leftMulKernelIdeal",
-      "docstring": "The ideal of elements annihilated by left multiplication with the underlying parameter."
+      "new_name": "parameterAssociatedIdeal",
+      "docstring": "The ideal associated with an element of the opaque parameter space for R."
     },
     {
       "temporary_id": "decl-014129",
-      "new_name": "leftMulKernelIdeal_isTwoSided",
-      "docstring": "The kernel ideal for left multiplication by the parameter is two-sided."
+      "new_name": "parameterAssociatedIdeal_isTwoSided",
+      "docstring": "The parameter-associated ideal is two-sided."
     },
     {
       "temporary_id": "decl-014130",
-      "new_name": "toComponentRingHom",
-      "docstring": "The ring homomorphism from R onto the selected component ring."
+      "new_name": "toParameterAssociatedRingHom",
+      "docstring": "The ring homomorphism from R to the parameter-associated type."
     },
     {
       "temporary_id": "decl-014132",
-      "new_name": "toComponentRingHom_eq_iff",
-      "docstring": "Two elements have the same image in the component ring exactly when their left multiples by the parameter agree."
+      "new_name": "toParameterAssociatedRingHom_eq_iff",
+      "docstring": "Two elements have the same image under the homomorphism exactly when their left multiples by the parameter agree."
     },
     {
       "temporary_id": "decl-014133",
-      "new_name": "toComponentRingHom_surjective",
-      "docstring": "The canonical homomorphism from R to the selected component ring is surjective."
+      "new_name": "toParameterAssociatedRingHom_surjective",
+      "docstring": "The homomorphism from R to the parameter-associated type is surjective."
     },
     {
       "temporary_id": "decl-014134",
-      "new_name": "toComponentRingHom_parameter",
-      "docstring": "The component-ring homomorphism sends the underlying parameter to one."
+      "new_name": "toParameterAssociatedRingHom_parameter",
+      "docstring": "The parameter-associated homomorphism sends the underlying parameter to one."
     },
     {
       "temporary_id": "decl-014135",
-      "new_name": "componentModuleFunctor",
-      "docstring": "The functor from component-ring modules to the module category associated with the chosen simple module."
+      "new_name": "parameterModuleFunctor",
+      "docstring": "The functor from modules over the parameter-associated type to the category associated with the chosen simple module."
     },
     {
       "temporary_id": "decl-014137",
-      "new_name": "finiteLengthComponentModuleFunctor",
-      "docstring": "The component-module functor restricted to finite-length modules and the selected module condition."
+      "new_name": "finiteLengthParameterModuleFunctor",
+      "docstring": "The functor between finite-length parameter-associated modules and finite-length modules satisfying the displayed condition."
     },
     {
       "temporary_id": "decl-014159",
-      "new_name": "restrictScalars_satisfies_moduleCondition",
-      "docstring": "Restriction of scalars from the selected component ring satisfies the opaque condition associated with the simple module."
+      "new_name": "restrictScalars_satisfies_condition",
+      "docstring": "Restricting scalars from the parameter-associated type yields a module satisfying the displayed condition."
     },
     {
       "temporary_id": "decl-014160",
-      "new_name": "finiteLengthComponentModuleFunctor_essSurj",
-      "docstring": "The finite-length component-module functor is essentially surjective."
+      "new_name": "finiteLengthParameterModuleFunctor_essSurj",
+      "docstring": "The finite-length parameter-module functor is essentially surjective."
     },
     {
       "temporary_id": "decl-014161",
-      "new_name": "componentModuleFunctor_essSurj",
-      "docstring": "The component-module functor is essentially surjective."
+      "new_name": "parameterModuleFunctor_essSurj",
+      "docstring": "The parameter-module functor is essentially surjective."
     },
     {
       "temporary_id": "decl-014162",
-      "new_name": "finiteLengthComponentModuleFunctor_faithful",
-      "docstring": "The finite-length component-module functor is faithful."
+      "new_name": "finiteLengthParameterModuleFunctor_faithful",
+      "docstring": "The finite-length parameter-module functor is faithful."
     },
     {
       "temporary_id": "decl-014163",
-      "new_name": "componentModuleFunctor_faithful",
-      "docstring": "The component-module functor is faithful."
+      "new_name": "parameterModuleFunctor_faithful",
+      "docstring": "The parameter-module functor is faithful."
     },
     {
       "temporary_id": "decl-014164",
-      "new_name": "finiteLengthComponentModuleFunctor_full",
-      "docstring": "The finite-length component-module functor is full."
+      "new_name": "finiteLengthParameterModuleFunctor_full",
+      "docstring": "The finite-length parameter-module functor is full."
     },
     {
       "temporary_id": "decl-014165",
-      "new_name": "componentModuleFunctor_full",
-      "docstring": "The component-module functor is full."
+      "new_name": "parameterModuleFunctor_full",
+      "docstring": "The parameter-module functor is full."
     },
     {
       "temporary_id": "decl-014166",
-      "new_name": "finiteLengthComponentModuleFunctor_isEquivalence",
-      "docstring": "The finite-length component-module functor is an equivalence."
+      "new_name": "finiteLengthParameterModuleFunctor_isEquivalence",
+      "docstring": "The finite-length parameter-module functor is an equivalence."
     },
     {
       "temporary_id": "decl-014167",
-      "new_name": "componentModuleFunctor_isEquivalence",
-      "docstring": "The component-module functor is an equivalence."
+      "new_name": "parameterModuleFunctor_isEquivalence",
+      "docstring": "The parameter-module functor is an equivalence."
     },
     {
       "temporary_id": "decl-014168",
-      "new_name": "toComponentRingHom_ringHomSurjective",
-      "docstring": "The canonical map to the component ring carries the surjective ring-homomorphism property."
+      "new_name": "toParameterAssociatedRingHom_ringHomSurjective",
+      "docstring": "The homomorphism to the parameter-associated type carries the surjective ring-homomorphism property."
     },
     {
       "temporary_id": "decl-014169",
@@ -163,23 +163,23 @@
     },
     {
       "temporary_id": "decl-014174",
-      "new_name": "isTorsionBy_leftMulKernelIdeal_of_moduleCondition",
-      "docstring": "A module satisfying the selected condition is torsion with respect to the left-multiplication kernel ideal."
+      "new_name": "isTorsionBy_parameterAssociatedIdeal_of_condition",
+      "docstring": "A module satisfying the displayed condition is torsion with respect to the parameter-associated ideal."
     },
     {
       "temporary_id": "decl-014175",
-      "new_name": "mem_leftMulKernelIdeal_iff",
-      "docstring": "An element belongs to the kernel ideal exactly when its left multiple by the underlying parameter is zero."
+      "new_name": "mem_parameterAssociatedIdeal_iff",
+      "docstring": "An element belongs to the parameter-associated ideal exactly when its left multiple by the underlying parameter is zero."
     },
     {
       "temporary_id": "decl-014177",
-      "new_name": "leftMulLinearMap",
-      "docstring": "The R-linear endomorphism given by left multiplication with the underlying parameter."
+      "new_name": "parameterAssociatedLinearMap",
+      "docstring": "The R-linear endomorphism associated with an opaque parameter."
     },
     {
       "temporary_id": "decl-014181",
-      "new_name": "range_componentRingToBaseLinearMap",
-      "docstring": "The range of the component-to-base linear map consists exactly of left multiples by the underlying parameter."
+      "new_name": "range_parameterTypeToBaseLinearMap",
+      "docstring": "The range of the parameter-type-to-base linear map consists exactly of left multiples by the underlying parameter."
     },
     {
       "temporary_id": "decl-014182",
