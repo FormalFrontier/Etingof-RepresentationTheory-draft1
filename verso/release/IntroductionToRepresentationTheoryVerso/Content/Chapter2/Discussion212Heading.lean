@@ -31,12 +31,10 @@ tag := "Chapter2/Discussion_2.12_heading/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.LinearAlgebra.TensorAlgebra.AuxiliaryTypes.TensorAlgebra.basisAuxiliaryTypeEquivFreeAlgebra}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorAlgebra.AuxiliaryTypes.TensorAlgebra.auxiliaryTypeEquivDirectSum}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorAlgebra.AuxiliaryTypes.TensorAlgebra.basisAuxiliaryTypeEquivFreeAlgebra}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorAlgebra.AuxiliaryTypes.TensorPower.toTensorAlgebra_mul_compatible}
