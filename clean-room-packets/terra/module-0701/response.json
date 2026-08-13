@@ -1,34 +1,34 @@
 {
-  "module_name": "Auxiliary",
+  "module_name": "ModuleFamilyNatMatrix",
   "declarations": [
     {
       "temporary_id": "decl-017188",
-      "new_name": "Auxiliary.matrix",
+      "new_name": "ModuleFamilyNatMatrix.matrix",
       "docstring": "An auxiliary natural-number matrix associated with a family of modules."
     },
     {
       "temporary_id": "decl-017191",
-      "new_name": "Auxiliary.matrix_diagonal_pos",
+      "new_name": "ModuleFamilyNatMatrix.matrix_diagonal_pos",
       "docstring": "The diagonal entry of the auxiliary matrix is positive for a finite nontrivial module."
     },
     {
       "temporary_id": "decl-017192",
-      "new_name": "Auxiliary.matrix_diagonal_pos_of_auxiliary",
+      "new_name": "ModuleFamilyNatMatrix.matrix_diagonal_pos_of_auxiliary",
       "docstring": "An auxiliary hypothesis yields positivity of the corresponding diagonal matrix entry."
     },
     {
       "temporary_id": "decl-017193",
-      "new_name": "Auxiliary.matrix_nonneg",
+      "new_name": "ModuleFamilyNatMatrix.matrix_nonneg",
       "docstring": "Every entry of the auxiliary matrix is nonnegative."
     },
     {
       "temporary_id": "decl-017194",
-      "new_name": "Auxiliary.matrix_natCast_diagonal_pos",
+      "new_name": "ModuleFamilyNatMatrix.matrix_natCast_diagonal_pos",
       "docstring": "The diagonal entry remains positive after the auxiliary matrix is mapped by natural-number casting."
     },
     {
       "temporary_id": "decl-017195",
-      "new_name": "Auxiliary.matrix_natCast_nonneg",
+      "new_name": "ModuleFamilyNatMatrix.matrix_natCast_nonneg",
       "docstring": "Every entry remains nonnegative after the auxiliary matrix is mapped by natural-number casting."
     }
   ]
