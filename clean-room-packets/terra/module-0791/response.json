@@ -1,0 +1,55 @@
+{
+  "module_name": "MonoidAlgebra.PartitionSubmoduleSandwich",
+  "declarations": [
+    {
+      "temporary_id": "decl-016118",
+      "new_name": "partitionSubmodule",
+      "docstring": "A submodule of the permutation-group algebra associated with a partition."
+    },
+    {
+      "temporary_id": "decl-016119",
+      "new_name": "isSimpleModule_partitionSubmodule_rat",
+      "docstring": "The rational partition submodule is simple over the designated rational algebra."
+    },
+    {
+      "temporary_id": "decl-016120",
+      "new_name": "isSimpleModule_partitionSubmodule",
+      "docstring": "Over a characteristic-zero field, each partition submodule is simple over the permutation-group algebra."
+    },
+    {
+      "temporary_id": "decl-017053",
+      "new_name": "exists_sandwich_eq_smul",
+      "docstring": "Sandwiching any algebra element between the designated partition-indexed element gives a scalar multiple of that element."
+    },
+    {
+      "temporary_id": "decl-017054",
+      "new_name": "exists_sandwich_eq_smul_rat",
+      "docstring": "Over the designated rational algebra, every sandwich by the partition-indexed element is a scalar multiple of that element."
+    },
+    {
+      "temporary_id": "decl-017058",
+      "new_name": "ne_zero_of_self_mul_eq_smul",
+      "docstring": "A scalar expressing the square of the designated partition-indexed element as its scalar multiple is nonzero."
+    },
+    {
+      "temporary_id": "decl-017065",
+      "new_name": "sandwich_perm_eq_coeff_one_smul",
+      "docstring": "Sandwiching a permutation basis element equals its identity coefficient times the designated partition-indexed element."
+    },
+    {
+      "temporary_id": "decl-021710",
+      "new_name": "neZero_natCast_card_perm",
+      "docstring": "In a characteristic-zero field, the cast of the cardinality of the finite permutation group is nonzero."
+    },
+    {
+      "temporary_id": "decl-021711",
+      "new_name": "neZero_natCast_card_auxiliaryType",
+      "docstring": "The displayed cast of the cardinality of the designated auxiliary finite type is nonzero."
+    },
+    {
+      "temporary_id": "decl-023335",
+      "new_name": "monoidAlgebraCoeFun",
+      "docstring": "A monoid-algebra element coerces to its coefficient function on the indexing type."
+    }
+  ]
+}
