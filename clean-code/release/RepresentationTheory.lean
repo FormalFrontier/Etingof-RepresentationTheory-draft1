@@ -182,6 +182,7 @@ import RepresentationTheory.RepresentationAveragingTrace
 import RepresentationTheory.SymmetricPower.Basis
 import RepresentationTheory.AuxiliaryIntegerMatrixProperty
 import RepresentationTheory.AuxiliaryIntegerMatrixTransform
+import RepresentationTheory.AuxiliaryIntegerVectorTransforms
 
 /-!
 # Representation theory formalization
