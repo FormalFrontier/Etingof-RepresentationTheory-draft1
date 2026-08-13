@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -23,3 +24,15 @@ The 2-dimensional representation can be visualized as representing the symmetrie
 $$`\rho((12)) = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}, \qquad \rho((123)) = \begin{pmatrix} \cos 120° & -\sin 120° \\ \sin 120° & \cos 120° \end{pmatrix}.`
 
 To show that this representation is irreducible, consider any subrepresentation $`V`. The space $`V` must be the span of a subset of the eigenvectors of $`\rho((12))`, which are the nonzero multiples of $`(1, 0)` and $`(0, 1)`. Also, $`V` must be the span of a subset of the eigenvectors of $`\rho((123))`, which are different vectors. Thus, $`V` must be either $`\mathbb{C}^2` or $`0`.
+
+## Formalization
+%%%
+tag := "Chapter4/Example4.3_S3/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.PermutationDegreeThree.card_conjClasses_perm_fin_three}
+
+{Manual.docstring RepresentationTheory.PermutationDegreeThree.one_sq_add_one_sq_add_two_sq_eq_card_perm_fin_three}

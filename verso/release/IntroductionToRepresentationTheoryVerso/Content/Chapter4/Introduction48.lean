@@ -113,3 +113,13 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterPairing.FiniteGroup.normalized_characterPairing_eq_finrank_hom}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.PermutationDegreeThree.auxiliaryRepresentationOne}
+
+{Manual.docstring RepresentationTheory.PermutationDegreeThree.auxiliaryRepresentationTwo}
+
+{Manual.docstring RepresentationTheory.PermutationDegreeThree.character_reducedCoordinateRepresentation}
+
+{Manual.docstring RepresentationTheory.PermutationDegreeThree.reducedCoordinateRepresentation}
