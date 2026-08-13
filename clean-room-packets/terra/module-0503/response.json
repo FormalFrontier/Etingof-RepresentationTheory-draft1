@@ -1,0 +1,15 @@
+{
+  "module_name": "IntegerMatrixVectorPredicates",
+  "declarations": [
+    {
+      "temporary_id": "decl-005207",
+      "new_name": "integerMatrixVectorPredicate",
+      "docstring": "A predicate on an integer square matrix and an integer vector with the same finite index type."
+    },
+    {
+      "temporary_id": "decl-005212",
+      "new_name": "integerMatrixVectorCondition",
+      "docstring": "A condition on an integer square matrix together with an integer vector over the corresponding finite index type."
+    }
+  ]
+}
