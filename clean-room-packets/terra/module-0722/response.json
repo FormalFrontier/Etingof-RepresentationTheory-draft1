@@ -8,28 +8,28 @@
     },
     {
       "temporary_id": "decl-005167",
-      "new_name": "AuxiliaryCategoryCondition",
-      "docstring": "Auxiliary typeclass condition on a linear category over a field."
+      "new_name": "SchurFiniteLengthCategory",
+      "docstring": "A condition on a linear category over a field with finite-length objects and scalar simple-object endomorphisms."
     },
     {
       "temporary_id": "decl-005169",
       "new_name": "simpleEndAlgEquiv",
-      "docstring": "Under the auxiliary condition, the endomorphism algebra of a simple object is equivalent to the base field."
+      "docstring": "In a Schur finite-length category, the endomorphism algebra of a simple object is equivalent to the base field."
     },
     {
       "temporary_id": "decl-005170",
       "new_name": "finiteDimensional_end",
-      "docstring": "A simple object has a finite-dimensional endomorphism space under the auxiliary condition."
+      "docstring": "The endomorphism space of a simple object is finite-dimensional in a Schur finite-length category."
     },
     {
       "temporary_id": "decl-005171",
       "new_name": "finiteDimensional_hom",
-      "docstring": "All morphism spaces are finite-dimensional under the auxiliary condition."
+      "docstring": "Every morphism space in a Schur finite-length category is finite-dimensional."
     },
     {
       "temporary_id": "decl-005172",
       "new_name": "hasFiniteLength",
-      "docstring": "Every object has finite length under the auxiliary condition."
+      "docstring": "Every object in a Schur finite-length category has finite length."
     },
     {
       "temporary_id": "decl-018739",
