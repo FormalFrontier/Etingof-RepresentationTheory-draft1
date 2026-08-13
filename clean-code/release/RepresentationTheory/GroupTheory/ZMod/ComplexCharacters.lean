@@ -45,9 +45,17 @@ theorem card_self_inverse_complex_characters :
       {χ : Multiplicative (ZMod N) →* ℂˣ // χ = χ⁻¹} ≃
         (powMonoidHom 2 : (Multiplicative (ZMod N) →* ℂˣ) →* _).ker :=
     Equiv.subtypeEquivRight fun χ => by
-      rw [MonoidHom.mem_ker, powMonoidHom_apply, pow_two, mul_eq_one_iff_eq_inv]
-  rw [Nat.card_congr hEquiv, IsCyclic.card_powMonoidHom_ker, card_complex_characters,
-    Nat.gcd_comm]
+      rw [MonoidHom.mem_ker, powMonoidHom_apply, pow_two]
+      constructor
+      · intro h
+        calc
+          χ * χ = χ * χ⁻¹ := congrArg (fun z => χ * z) h
+          _ = 1 := mul_inv_cancel χ
+      · intro h
+        exact (mul_eq_one_iff_eq_inv (a := χ) (b := χ)).mp h
+  rw [Nat.card_congr hEquiv,
+    IsCyclic.card_powMonoidHom_ker (Multiplicative (ZMod N) →* ℂˣ) 2,
+    card_complex_characters, Nat.gcd_comm]
 
 /-- The number of complex characters not fixed by inversion is the modulus minus its greatest common divisor with two. -/
 theorem card_non_self_inverse_complex_characters :
@@ -85,7 +93,9 @@ theorem two_dvd_card_non_self_inverse_complex_characters :
   haveI : Fintype (Multiplicative (ZMod N) →* ℂˣ) := Fintype.ofFinite _
   rw [Nat.card_eq_fintype_card]
   have h := two_dvd_card_ne_fixed_of_involutive
-    (f := (·⁻¹ : (Multiplicative (ZMod N) →* ℂˣ) → _)) inv_involutive
+    (f := fun χ : (Multiplicative (ZMod N) →* ℂˣ) => χ⁻¹) (by
+      intro χ
+      exact inv_inv χ)
   rwa [Fintype.card_congr (Equiv.subtypeEquivRight (fun χ => ne_comm))] at h
 
 /-- Half the number of complex characters not fixed by inversion equals half the difference between the modulus and its greatest common divisor with two. -/
