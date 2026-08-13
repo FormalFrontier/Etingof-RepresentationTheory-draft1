@@ -1,0 +1,60 @@
+{
+  "module_name": "Representation.MonoidAlgebraModuleEquivalences",
+  "declarations": [
+    {
+      "temporary_id": "decl-017729",
+      "new_name": "card_le_card_conjClasses_of_simpleModule_family_sameUniverse",
+      "docstring": "A finite pairwise nonisomorphic family of simple group-algebra modules in the field universe has cardinality at most the number of conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-017730",
+      "new_name": "card_le_card_conjClasses_of_simpleModule_family",
+      "docstring": "A finite pairwise nonisomorphic family of simple group-algebra modules in any universe has cardinality at most the number of conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-018617",
+      "new_name": "representationEquivOfModuleLinearEquiv",
+      "docstring": "A linear equivalence of the modules associated with two representations induces an equivalence of those representations."
+    },
+    {
+      "temporary_id": "decl-021500",
+      "new_name": "moduleLinearEquivOfFDRepIso",
+      "docstring": "An isomorphism between the finite-dimensional representations obtained from two group-algebra modules induces a module-linear equivalence."
+    },
+    {
+      "temporary_id": "decl-022595",
+      "new_name": "representationOfMonoidAlgebraModule",
+      "docstring": "The group representation associated with a compatible module over the monoid algebra."
+    },
+    {
+      "temporary_id": "decl-022599",
+      "new_name": "asModuleRepresentationOfMonoidAlgebraModule",
+      "docstring": "The module underlying the associated representation is linearly equivalent to the original monoid-algebra module."
+    },
+    {
+      "temporary_id": "decl-022606",
+      "new_name": "representationOfMonoidAlgebraModule_apply",
+      "docstring": "The associated representation acts by the monoid-algebra element supported at the group element with coefficient one."
+    },
+    {
+      "temporary_id": "decl-022607",
+      "new_name": "asAlgebraHom_representationOfMonoidAlgebraModule",
+      "docstring": "The algebra homomorphism of the associated representation is scalar multiplication by the monoid algebra."
+    },
+    {
+      "temporary_id": "decl-024304",
+      "new_name": "linearEquiv_transportModule",
+      "docstring": "A linear equivalence becomes linear over a second ring after transporting the source module structure to the target."
+    },
+    {
+      "temporary_id": "decl-024310",
+      "new_name": "moduleTransportAlongLinearEquiv",
+      "docstring": "A module structure transported across a linear equivalence to its target."
+    },
+    {
+      "temporary_id": "decl-024318",
+      "new_name": "isScalarTower_moduleTransportAlongLinearEquiv",
+      "docstring": "Transporting a module structure across a base-linear equivalence preserves the compatible scalar-tower structure."
+    }
+  ]
+}
