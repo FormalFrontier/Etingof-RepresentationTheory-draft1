@@ -1,25 +1,25 @@
 {
-  "module_name": "Quiver.Representation.AuxiliaryVertexRanks",
+  "module_name": "Quiver.AuxiliaryNatInt",
   "declarations": [
     {
       "temporary_id": "decl-014741",
-      "new_name": "Quiver.Representation.auxiliaryVertexNat_cast_eq_finiteFamilyIntTransform_of_surjective",
-      "docstring": "If the indicated map is surjective, the integer cast of the vertexwise natural number for the constructed object equals the finite-family transform of the vertexwise module finranks."
+      "new_name": "Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_surjective",
+      "docstring": "If the displayed map is surjective, the integer cast of the conclusion's natural-valued expression equals its other displayed integer-valued expression at every vertex."
     },
     {
       "temporary_id": "decl-014742",
-      "new_name": "Quiver.Representation.auxiliaryVertexNat_cast_eq_finiteFamilyIntTransform_of_injective",
-      "docstring": "If the indicated map is injective, the integer cast of the vertexwise natural number for the constructed object equals the finite-family transform of the vertexwise module finranks."
+      "new_name": "Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_injective",
+      "docstring": "If the displayed map is injective, the integer cast of the conclusion's natural-valued expression equals its other displayed integer-valued expression at every vertex."
     },
     {
       "temporary_id": "decl-014976",
-      "new_name": "auxiliaryVertexNat",
-      "docstring": "Assigns a natural number to a vertex for an object over a commutative semiring."
+      "new_name": "auxiliaryNat",
+      "docstring": "Takes the supplied parameter and a vertex of its quiver, and returns a natural number."
     },
     {
       "temporary_id": "decl-023171",
-      "new_name": "finiteFamilyIntTransformAux",
-      "docstring": "Produces an integer at a vertex from a finite family of vertices, a distinguished vertex, and an integer-valued function on the vertex type."
+      "new_name": "Quiver.Auxiliary.auxiliaryInt",
+      "docstring": "Takes a finite index type, a map into V, a distinguished element, an integer-valued function on V, and a target element, and returns an integer."
     }
   ]
 }
