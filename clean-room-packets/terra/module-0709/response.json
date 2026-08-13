@@ -1,0 +1,10 @@
+{
+  "module_name": "Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-021606",
+      "new_name": "auxiliary",
+      "docstring": "An auxiliary statement about the regular module object over a ring."
+    }
+  ]
+}
