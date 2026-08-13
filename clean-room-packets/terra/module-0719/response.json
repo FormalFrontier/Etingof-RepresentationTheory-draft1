@@ -1,20 +1,20 @@
 {
-  "module_name": "AuxiliaryRingInvariants",
+  "module_name": "RingPredicateBounds",
   "declarations": [
     {
       "temporary_id": "decl-020181",
-      "new_name": "auxiliary_eq_one_of_at_one_and_not_at_zero",
-      "docstring": "An opaque ring invariant is one when its associated predicate holds at one but fails at zero."
+      "new_name": "eq_one_of_predicate_one_and_not_predicate_zero",
+      "docstring": "The ring-indexed value equals one when its index predicate holds at one and fails at zero."
     },
     {
       "temporary_id": "decl-020183",
-      "new_name": "auxiliary_eq_top_of_forall_not",
-      "docstring": "If the associated predicate fails at every natural-number index, the opaque invariant is top."
+      "new_name": "eq_top_of_forall_not_predicate",
+      "docstring": "The ring-indexed value is top when the index predicate fails for every natural number."
     },
     {
       "temporary_id": "decl-020185",
-      "new_name": "auxiliary_le_natCast_of",
-      "docstring": "A true associated predicate at an index bounds the opaque invariant by the corresponding natural-number cast."
+      "new_name": "le_natCast_of_predicate",
+      "docstring": "Whenever the index predicate holds, the ring-indexed value is at most that index viewed in its ambient ordered type."
     }
   ]
 }
