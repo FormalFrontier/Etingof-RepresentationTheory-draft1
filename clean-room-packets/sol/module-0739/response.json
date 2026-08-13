@@ -78,7 +78,7 @@
     },
     {
       "temporary_id": "decl-005975",
-      "new_name": "vertexIdempotent",
+      "new_name": "auxiliaryVertexIdempotent",
       "docstring": "Associates an element of the ambient quiver algebra to each vertex."
     },
     {
@@ -98,7 +98,7 @@
     },
     {
       "temporary_id": "decl-005983",
-      "new_name": "vertexIdempotent_mul_self",
+      "new_name": "auxiliaryVertexIdempotent_mul_self",
       "docstring": "The algebra element associated to a vertex is idempotent."
     },
     {
