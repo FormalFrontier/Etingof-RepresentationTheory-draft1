@@ -219,6 +219,7 @@ import RepresentationTheory.Categories
 import RepresentationTheory.FunctorPair
 import RepresentationTheory.CategoryTheory.Abelian.CategoryProperties
 import RepresentationTheory.CategoryTheory.Adjunction.Representability
+import RepresentationTheory.CochainComplex
 
 /-!
 # Representation theory formalization
