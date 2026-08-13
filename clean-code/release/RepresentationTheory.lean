@@ -168,6 +168,7 @@ import RepresentationTheory.Polynomial.Recurrences
 import RepresentationTheory.Group.ConjugateDuality
 import RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional
 import RepresentationTheory.Group.CharacterDuality
+import RepresentationTheory.InductionAndCoinduction
 
 /-!
 # Representation theory formalization
