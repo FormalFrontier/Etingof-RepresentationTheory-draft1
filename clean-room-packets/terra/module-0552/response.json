@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-021720",
-      "new_name": "not_of_no_finiteRankAdjacencyEmbedding",
-      "docstring": "A nonempty connected symmetric zero-one adjacency matrix that contains no adjacency-preserving copy of the indicated finite-rank structure fails the specified condition."
+      "new_name": "not_of_no_adjacencyPreservingMap",
+      "docstring": "A nonempty connected symmetric zero-one adjacency matrix admitting no map that preserves the displayed adjacency entries of the indicated rank-indexed structure fails the specified condition."
     },
     {
       "temporary_id": "decl-021721",
