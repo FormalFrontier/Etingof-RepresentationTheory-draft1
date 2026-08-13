@@ -1,1 +1,25 @@
-{"declarations":[{"docstring":"Constructs the connecting morphism on homology associated with a short exact sequence of homological complexes along a shape relation.","new_name":"CategoryTheory.ShortComplex.ShortExact.homologyConnectingHom","temporary_id":"decl-018185"},{"docstring":"The connecting morphism followed by the homology map induced by the first structure map is exact.","new_name":"CategoryTheory.ShortComplex.ShortExact.homology_exact_connectingHom_f","temporary_id":"decl-021524"},{"docstring":"The homology maps induced by the two structure maps form an exact pair in every degree.","new_name":"CategoryTheory.ShortComplex.ShortExact.homology_exact_f_g","temporary_id":"decl-021525"},{"docstring":"The homology map induced by the second structure map followed by the connecting morphism is exact.","new_name":"CategoryTheory.ShortComplex.ShortExact.homology_exact_g_connectingHom","temporary_id":"decl-021526"}],"module_name":"CategoryTheory.HomologicalComplex.HomologyShortExact"}
+{
+  "declarations": [
+    {
+      "docstring": "Returns a morphism from the homology of the third object in degree i to the homology of the first object in degree j for related degrees.",
+      "new_name": "homologyHomThirdToFirstOfRel",
+      "temporary_id": "decl-018185"
+    },
+    {
+      "docstring": "The morphism δ followed by the homology map induced by f forms an exact pair.",
+      "new_name": "exact_delta_homologyMap_f",
+      "temporary_id": "decl-021524"
+    },
+    {
+      "docstring": "The homology maps induced by f and g form an exact pair in every degree.",
+      "new_name": "exact_homologyMap_f_g",
+      "temporary_id": "decl-021525"
+    },
+    {
+      "docstring": "The homology map induced by g followed by the morphism δ forms an exact pair.",
+      "new_name": "exact_homologyMap_g_delta",
+      "temporary_id": "decl-021526"
+    }
+  ],
+  "module_name": "HomologicalComplexShortExactHomology"
+}
