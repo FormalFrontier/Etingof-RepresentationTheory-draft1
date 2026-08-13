@@ -674,7 +674,7 @@ theorem quadraticGeneratorCombination_eq_smul_id (d : ℕ) :
   rw [finFunctionRepresentation_apply_raising, finFunctionRepresentation_apply_lowering, finFunctionRepresentation_apply_weight, quadraticGeneratorCombination_ends]
 
 /-- In the representation indexed by `lam + 1`, the displayed symmetric quadratic combination is `(lam * (lam + 2) / 2)` times the identity. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
+@[source_ref "Chapter2/Problem2.15.1" (role := primary)]
 theorem quadraticGeneratorCombination_succ_eq_smul_id (lam : ℕ) :
     finFunctionRepresentation (lam + 1) raisingElement * finFunctionRepresentation (lam + 1) loweringElement
         + finFunctionRepresentation (lam + 1) loweringElement * finFunctionRepresentation (lam + 1) raisingElement
