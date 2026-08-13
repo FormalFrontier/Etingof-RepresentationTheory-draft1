@@ -1,0 +1,35 @@
+{
+  "declarations": [
+    {
+      "docstring": "The functor obtained by tensoring with a fixed right module preserves addition on morphisms.",
+      "new_name": "TensorProductFunctorAuxiliary.fixedRightModuleTensorFunctor_additive",
+      "temporary_id": "decl-020574"
+    },
+    {
+      "docstring": "The additive-group-valued functor on left modules formed by fixing a right module tensor factor.",
+      "new_name": "TensorProductFunctorAuxiliary.fixedRightModuleTensorFunctor",
+      "temporary_id": "decl-023916"
+    },
+    {
+      "docstring": "The auxiliary morphism associated to a linear map between left modules.",
+      "new_name": "TensorProductFunctorAuxiliary.mapObject",
+      "temporary_id": "decl-024080"
+    },
+    {
+      "docstring": "The additive homomorphism on the tensor construction induced by a linear map in the left-module factor.",
+      "new_name": "TensorProductFunctorAuxiliary.mapTensor",
+      "temporary_id": "decl-024086"
+    },
+    {
+      "docstring": "On a pure tensor, the induced homomorphism applies the linear map to the left-module entry.",
+      "new_name": "TensorProductFunctorAuxiliary.mapTensor_tmul",
+      "temporary_id": "decl-024089"
+    },
+    {
+      "docstring": "The morphism on a specified degree of the auxiliary construction induced by a linear map.",
+      "new_name": "TensorProductFunctorAuxiliary.mapDegree",
+      "temporary_id": "decl-024231"
+    }
+  ],
+  "module_name": "Algebra.Homology.TensorProductFunctorAuxiliary"
+}
