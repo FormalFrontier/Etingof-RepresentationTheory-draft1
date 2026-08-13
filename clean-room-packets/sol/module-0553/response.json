@@ -83,8 +83,8 @@
     },
     {
       "temporary_id": "decl-012911",
-      "new_name": "auxiliaryCharacterIdentity",
-      "docstring": "An auxiliary character identity involving the tautological representation and the distinguished special unitary element."
+      "new_name": "auxiliaryTheoremOne",
+      "docstring": "An auxiliary theorem."
     },
     {
       "temporary_id": "decl-012912",
@@ -223,8 +223,8 @@
     },
     {
       "temporary_id": "decl-012959",
-      "new_name": "auxiliaryNegIdentityProperty",
-      "docstring": "An auxiliary property of the negative identity in the two-dimensional special unitary group."
+      "new_name": "auxiliaryTheoremTwo",
+      "docstring": "An auxiliary theorem."
     },
     {
       "temporary_id": "decl-012960",
