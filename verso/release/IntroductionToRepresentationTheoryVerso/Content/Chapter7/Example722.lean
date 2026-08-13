@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -35,3 +36,13 @@ $$`\mathbf{Groups} \to \mathbf{Sets}, \qquad \mathbf{Rings} \to \mathbf{AbelianG
 8. We have an obvious notion of the Cartesian product of categories (obtained by taking the Cartesian products of the classes of objects and morphisms of the factors). The functors of direct sum and tensor product are then functors $`\mathbf{Vect}_k \times \mathbf{Vect}_k \to \mathbf{Vect}_k`. Also the operations $`V \mapsto V^{\otimes n}`, $`V \mapsto S^n V`, $`V \mapsto \wedge^n V` are functors on $`\mathbf{Vect}_k`. More generally, if $`\pi` is a representation of $`S_n`, we have functors $`V \mapsto \operatorname{Hom}_{S_n}(\pi, V^{\otimes n})`. Such functors are called the *Schur functors*. Thus, the irreducible Schur functors are labeled by Young diagrams.
 
 9. The reflection functors $`F_i^\pm : \operatorname{Rep}(Q) \to \operatorname{Rep}(\overline{Q}_i)` are functors between representation categories of quivers.
+
+## Formalization
+%%%
+tag := "Chapter7/Example7.2.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Mathlib.LinearAlgebra.SymmetricPower.Functor.SymmetricPower.moduleEndofunctorOfNat}
