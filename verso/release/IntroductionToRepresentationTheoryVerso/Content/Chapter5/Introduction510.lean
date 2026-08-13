@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -22,3 +23,15 @@ tag := "Chapter5/Introduction_5.10/heading-1"
 %%%
 
 A very important result about induced representations is the Frobenius reciprocity theorem which connects the operations Ind and Res.
+
+## Formalization
+%%%
+tag := "Chapter5/Introduction_5.10/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Subgroup.HomAdjunction.ambientSubgroupAdjunction}
+
+{Manual.docstring RepresentationTheory.Subgroup.HomAdjunction.ambientSubgroupHomFunctorIso}

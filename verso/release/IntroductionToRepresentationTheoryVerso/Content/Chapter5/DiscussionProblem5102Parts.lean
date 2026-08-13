@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -40,3 +41,15 @@ is given by $`f \mapsto f(1)` for every $`f \in \operatorname{Hom}_{k[G]}(k[G]_2
 
 (e) Let $`V` be a representation of $`G` and let $`W` be a representation of $`H`. Use (b) to prove that $`\operatorname{Hom}_G(\operatorname{Ind}_H^G W, V)` is naturally isomorphic to $`\operatorname{Hom}_H(W, \operatorname{Res}_H^G V)`.
 (f) Let $`V` be a representation of $`H`. Prove that $`\operatorname{Ind}_H^G(V^*) \cong \left(\operatorname{Ind}_H^G V\right)^*` as representations of $`G`. \[Hint: Write $`\operatorname{Ind}_H^G V` as $`k[G]_2 \otimes_{k[H]} V` and write $`\operatorname{Ind}_H^G(V^*)` as $`\operatorname{Hom}_{k[H]}(k[G]_1, V^*)`. Prove that the map $`\operatorname{Hom}_{k[H]}(k[G]_1, V^*) \times \left(\operatorname{Ind}_H^G(V)\right) \to k` given by $`(f, (x \otimes_{k[H]} v)) \mapsto (f(Sx))(v)` is a nondegenerate $`G`-invariant bilinear form, where $`S : k[G] \to k[G]` is the linear map defined by $`Sg = g^{-1}` for every $`g \in G`.\]
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_Problem5.10.2_parts/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Subgroup.HomAdjunction.ambientSubgroupHomEquiv}
+
+{Manual.docstring RepresentationTheory.Subgroup.HomAdjunction.ambientSubgroupHomFunctorIso}

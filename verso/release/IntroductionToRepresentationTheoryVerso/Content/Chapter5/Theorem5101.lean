@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -43,3 +44,23 @@ This holds since $`F(F'(\beta))v = (F'(\beta)v)(e) = \beta(v)`.
 (e) $`F' \circ F = \operatorname{Id}_E`; i.e., $`(F'(F(\alpha))v)(x) = (\alpha v)(x)`.
 
 Indeed, $`(F'(F(\alpha))v)(x) = F(\alpha xv) = (\alpha xv)(e) = (x\alpha v)(e) = (\alpha v)(x)`, and we are done. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.10.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Subgroup.HomAdjunction.ambientSubgroupAdjunction}
+
+{Manual.docstring RepresentationTheory.Subgroup.HomAdjunction.ambientSubgroupHomEquiv}
+
+{Manual.docstring RepresentationTheory.Subgroup.HomAdjunction.ambientSubgroupHomEquiv_apply}
+
+{Manual.docstring RepresentationTheory.Subgroup.HomAdjunction.ambientSubgroupHomFunctorIso}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Subgroup.HomAdjunction.ambientSubgroupHomFunctorIso_app_apply}
