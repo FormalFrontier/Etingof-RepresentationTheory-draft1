@@ -252,6 +252,7 @@ import RepresentationTheory.PartitionAuxiliary
 import RepresentationTheory.Algebra.Module.Property
 import RepresentationTheory.Algebra.Module.Properties
 import RepresentationTheory.Algebra.Module.Projective.Lifting
+import RepresentationTheory.Algebra.Module.Lifting
 import RepresentationTheory.Algebra.FiniteDimensional.FGModuleCategory
 import RepresentationTheory.CategoryTheory.Abelian.ObjectData
 import RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses
