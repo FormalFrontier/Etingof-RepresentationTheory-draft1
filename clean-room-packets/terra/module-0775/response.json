@@ -1,5 +1,5 @@
 {
-  "module_name": "RepresentationTheory.FDRep.Character",
+  "module_name": "FDRep.Character",
   "declarations": [
     {
       "temporary_id": "decl-004184",
@@ -33,8 +33,8 @@
     },
     {
       "temporary_id": "decl-004200",
-      "new_name": "finrank_hom_eq_sum_multiplicity_mul",
-      "docstring": "For a complete pairwise distinct simple family, Hom-space dimensions are obtained from the associated multiplicities."
+      "new_name": "finrank_hom_eq_sum_indexedNatForRepresentation_mul",
+      "docstring": "For a complete pairwise distinct simple family, Hom-space dimensions are given by a weighted sum using the indexed natural numbers assigned to the representation."
     },
     {
       "temporary_id": "decl-004201",
@@ -43,8 +43,8 @@
     },
     {
       "temporary_id": "decl-004203",
-      "new_name": "finrank_hom_biproductWithMultiplicities",
-      "docstring": "Maps into a representation assembled from a finite family have dimension given by the weighted component sum."
+      "new_name": "finrank_hom_representationFromIndexedNats",
+      "docstring": "Maps into the representation returned from a finite family and indexed natural numbers have dimension given by the weighted component sum."
     },
     {
       "temporary_id": "decl-004209",
@@ -58,18 +58,18 @@
     },
     {
       "temporary_id": "decl-004217",
-      "new_name": "biproductWithMultiplicities",
-      "docstring": "A representation associated with a finite family and a natural-number multiplicity for each member."
+      "new_name": "representationFromIndexedNats",
+      "docstring": "A representation-valued operation on a finite family of representations and an indexed family of natural numbers."
     },
     {
       "temporary_id": "decl-004224",
-      "new_name": "simpleMultiplicity",
-      "docstring": "The multiplicity function assigned to a representation relative to a family of representations."
+      "new_name": "indexedNatForRepresentation",
+      "docstring": "An indexed natural-number-valued operation on a family of representations and a representation."
     },
     {
       "temporary_id": "decl-004226",
-      "new_name": "iso_biproductWithMultiplicities_simpleMultiplicity",
-      "docstring": "A complete pairwise distinct simple family reconstructs every representation from its assigned multiplicities."
+      "new_name": "iso_representationFromIndexedNats_indexedNatForRepresentation",
+      "docstring": "For a complete pairwise distinct simple family, every representation is isomorphic to the result obtained from its associated indexed natural numbers."
     }
   ]
 }
