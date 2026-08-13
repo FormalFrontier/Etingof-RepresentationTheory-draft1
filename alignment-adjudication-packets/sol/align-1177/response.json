@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:8a81a25363facf638794",
-      "rationale": "The displayed type only provides a YoungTableau type indexed by n and a partition, so it is one constituent of the compound representation claim.",
-      "role": "supporting"
+      "rationale": "The displayed type directly defines YoungTableau for a partition of n, visibly formalizing the source claim that tableaux of partitions are represented.",
+      "role": "primary"
     },
     {
       "association_id": "association:c89a9063f641cadf4bb8",
-      "rationale": "The function constructs a StandardYoungTableau for each partition, supporting the canonical increasing-tableau constituent but not the full compound claim about partitions and diagrams/tableaux.",
-      "role": "supporting"
+      "rationale": "The displayed function directly supplies a canonical StandardYoungTableau for every partition, visibly formalizing the canonical increasing-tableau part of the source claim.",
+      "role": "primary"
     },
     {
       "association_id": "association:d78a759d97c24d5ca59a",
-      "rationale": "The function constructs a YoungTableau for each partition, which is a constituent construction rather than a statement of the complete compound source claim.",
-      "role": "supporting"
+      "rationale": "The displayed function directly supplies a canonical YoungTableau for every partition, visibly formalizing the canonical-tableau part of the source claim.",
+      "role": "primary"
     },
     {
       "association_id": "association:69e4dc8d5b19cccb886e",
