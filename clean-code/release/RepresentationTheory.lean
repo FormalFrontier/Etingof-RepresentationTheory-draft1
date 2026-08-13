@@ -61,6 +61,7 @@ import RepresentationTheory.Algebra.DesignatedElements
 import RepresentationTheory.Algebra.ModulePair
 import RepresentationTheory.Algebra.MonoidAlgebra.Center
 import RepresentationTheory.Algebra.MvPolynomial.VariableCount
+import RepresentationTheory.Algebra.MvPolynomial.WeightedComponents
 import RepresentationTheory.Algebra.NonUnitalStructure
 import RepresentationTheory.Algebra.Noncommutativity
 import RepresentationTheory.Algebra.Representation.Equivalences
