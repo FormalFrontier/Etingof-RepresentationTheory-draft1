@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -75,3 +76,13 @@ B(\alpha, \alpha) = B(\beta + \gamma, \beta + \gamma) = \underbrace{B(\beta, \be
 `
 
 But this is a contradiction, since $`\alpha` was assumed to be a root. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter6/Lemma6.4.6/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.IntegralVectorSign.all_nonnegative_or_all_nonpositive}
