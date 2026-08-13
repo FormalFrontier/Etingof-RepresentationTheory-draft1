@@ -1,0 +1,45 @@
+{
+  "module_name": "Quiver.AuxiliaryVertexTransform",
+  "declarations": [
+    {
+      "temporary_id": "decl-014724",
+      "new_name": "Quiver.auxiliary_disjunction_after_vertex_transform",
+      "docstring": "For the supplied quiver datum with finite free vertex modules, the indicated vertex transform satisfies one of the two auxiliary predicates whenever the original datum satisfies the first."
+    },
+    {
+      "temporary_id": "decl-014731",
+      "new_name": "Quiver.auxiliary_disjunction_after_finite_vertex_transform",
+      "docstring": "With a finite indexing type at the chosen vertex and finite free vertex modules, the alternative vertex transform satisfies one of the two auxiliary predicates if the original datum satisfies the first."
+    },
+    {
+      "temporary_id": "decl-014926",
+      "new_name": "AuxiliaryProperty",
+      "docstring": "An auxiliary proposition attached to a quiver datum over a commutative semiring."
+    },
+    {
+      "temporary_id": "decl-017230",
+      "new_name": "Quiver.auxiliary_hom_to_vertex",
+      "docstring": "Produces a quiver hom from the first projection of an auxiliary sigma element to the selected vertex."
+    },
+    {
+      "temporary_id": "decl-017235",
+      "new_name": "Quiver.auxiliary_hom_from_vertex",
+      "docstring": "Produces a quiver hom from the selected vertex to the first projection of an auxiliary sigma element."
+    },
+    {
+      "temporary_id": "decl-017242",
+      "new_name": "Quiver.auxiliary_sigma_fst_ne_vertex",
+      "docstring": "Under the given vertex condition, the first projection of every element of the auxiliary sigma type differs from the selected vertex."
+    },
+    {
+      "temporary_id": "decl-022497",
+      "new_name": "Quiver.auxiliary_map_apply_eq_component",
+      "docstring": "Evaluating the auxiliary map after the structure map associated with a sigma element gives the corresponding component of the underlying direct-sum element."
+    },
+    {
+      "temporary_id": "decl-022744",
+      "new_name": "Quiver.auxiliary_hom_data_eq_sigma_snd",
+      "docstring": "Applying the auxiliary hom-data map to the hom obtained from a sigma element returns that element's second projection."
+    }
+  ]
+}
