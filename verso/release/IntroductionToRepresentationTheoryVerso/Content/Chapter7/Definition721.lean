@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -20,3 +21,13 @@ number := false
 
 (i) a map $`F : Ob(\mathcal{C}) \to Ob(\mathcal{D})`;
 (ii) for each $`X, Y \in \mathcal{C}`, a map $`F = F_{X,Y} : \operatorname{Hom}(X, Y) \to \operatorname{Hom}(F(X), F(Y))` which preserves compositions and identity morphisms.
+
+## Formalization
+%%%
+tag := "Chapter7/Definition7.2.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.CategoryPair.AssociatedType}

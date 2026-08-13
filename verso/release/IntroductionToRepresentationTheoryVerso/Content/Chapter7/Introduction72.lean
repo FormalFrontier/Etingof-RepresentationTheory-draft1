@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -22,3 +23,13 @@ tag := "Chapter7/Introduction_7.2/heading-1"
 %%%
 
 We would like to define arrows between categories. Such arrows are called functors.
+
+## Formalization
+%%%
+tag := "Chapter7/Introduction_7.2/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CategoryPair.AssociatedType}

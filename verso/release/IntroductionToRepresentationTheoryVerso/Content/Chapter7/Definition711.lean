@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -32,3 +33,13 @@ This data is required to satisfy the following axioms:
 1. The composition is associative, i.e., $`(f \circ g) \circ h = f \circ (g \circ h)`.
 
 2. For each $`X \in Ob(\mathcal{C})`, there is a morphism $`1_X \in \operatorname{Hom}(X, X)`, called the *unit morphism*, such that $`1_X \circ f = f` and $`g \circ 1_X = g` for any $`f, g` for which compositions make sense.
+
+## Formalization
+%%%
+tag := "Chapter7/Definition7.1.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.UniverseTypeOperator.TypeOperator}
