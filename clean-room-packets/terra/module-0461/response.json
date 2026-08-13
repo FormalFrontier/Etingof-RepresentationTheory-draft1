@@ -13,7 +13,7 @@
     },
     {
       "temporary_id": "decl-019955",
-      "new_name": "linearEquivLinearMapDual",
+      "new_name": "linearEquivLinearMapPrecomp",
       "docstring": "An equivariant equivalence induces a centralizer-linear equivalence between the corresponding linear-map spaces."
     },
     {
