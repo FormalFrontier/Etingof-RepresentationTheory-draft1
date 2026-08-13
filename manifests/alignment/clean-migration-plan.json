@@ -102,7 +102,6 @@
       "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
     ],
     "EtingofRepresentationTheory.Chapter5.CauchyDetQuotient": [
-      "EtingofRepresentationTheory.Chapter5.QuotDetDegreeAlgebraic",
       "EtingofRepresentationTheory.Chapter5.Theorem5_23_2Core"
     ],
     "EtingofRepresentationTheory.Chapter5.CauchyDetQuotientGrading": [
@@ -247,7 +246,6 @@
       "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_SourceIdeal"
     ],
     "EtingofRepresentationTheory.Chapter5.Lemma5_4_7": [
-      "EtingofRepresentationTheory.Chapter5.Proposition5_2_5",
       "EtingofRepresentationTheory.Infrastructure.RegularCharacter"
     ],
     "EtingofRepresentationTheory.Chapter5.Lemma5_7_2": [
@@ -2027,6 +2025,26 @@
       "renamed_imports": {}
     },
     {
+      "new_module": "RepresentationTheory.Polynomial.AdjoinRoot.Matrix",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.NumberTheory.AlgebraicNumber.Complex",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.NumberTheory.IntegralClosure.Rat",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Proposition5_2_5",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.CharacterIntegrality",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Proposition5_3_2",
+      "renamed_imports": {}
+    },
+    {
       "new_module": "RepresentationTheory.Infrastructure.Triangularization",
       "old_module": "EtingofRepresentationTheory.Infrastructure.Triangularization",
       "renamed_imports": {}
@@ -2077,10 +2095,10 @@
   "summary": {
     "directly_blocked_modules": 100,
     "eligible_source_modules": 796,
-    "export_ready_modules": 270,
-    "fully_named_modules": 396,
+    "export_ready_modules": 274,
+    "fully_named_modules": 401,
     "partially_named_modules": 7,
-    "transitively_blocked_modules": 26
+    "transitively_blocked_modules": 27
   },
   "transitive_blockers": {
     "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim": [
@@ -2175,6 +2193,11 @@
     "EtingofRepresentationTheory.Chapter5.Problem5_24_2": [
       "EtingofRepresentationTheory.Chapter5.PermutationTraceWord",
       "EtingofRepresentationTheory.Chapter5.Problem5_24_2_Bridge"
+    ],
+    "EtingofRepresentationTheory.Chapter5.QuotDetDegreeAlgebraic": [
+      "EtingofRepresentationTheory.Chapter5.CauchyDetQuotientDegree",
+      "EtingofRepresentationTheory.Chapter5.CauchyWeightSpaceDimension",
+      "EtingofRepresentationTheory.Chapter5.GLRepAlgebraic"
     ]
   }
 }
