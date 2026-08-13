@@ -3,7 +3,7 @@
   "declarations": [
     {
       "temporary_id": "decl-001922",
-      "new_name": "Pair",
+      "new_name": "ParameterizedType",
       "docstring": "A type parameterized by two categories."
     }
   ]
