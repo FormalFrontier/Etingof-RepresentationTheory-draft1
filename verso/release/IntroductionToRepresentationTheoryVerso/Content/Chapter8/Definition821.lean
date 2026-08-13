@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,13 @@ number := false
 $$`\cdots \to P_2 \to P_1 \to P_0 \to M \to 0`
 
 such that all modules $`P_i`, $`i \geq 0`, are projective.
+
+## Formalization
+%%%
+tag := "Chapter8/Definition8.2.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData}
