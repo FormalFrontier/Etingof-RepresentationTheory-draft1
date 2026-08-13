@@ -277,6 +277,7 @@ import RepresentationTheory.Algebra.TensorProduct.Module
 import RepresentationTheory.HomologicalComplexShortExactHomology
 import RepresentationTheory.CategoryTheory.EnrichedCorepresentability
 import RepresentationTheory.CategoryTheory.TopCatCongruence
+import RepresentationTheory.CategoryTheory.ProjectiveResolution.ShortComplex
 
 /-!
 # Representation theory formalization
