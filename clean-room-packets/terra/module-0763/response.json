@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-025155",
       "new_name": "ModuleCat.subsingleton_ext_restrictScalars_of_subsingleton_ext_extendScalars",
-      "docstring": "Transfers subsingleton Ext groups from extension of scalars to restriction of scalars."
+      "docstring": "A subsingleton Ext type from an extended module yields the corresponding subsingleton Ext type into a restricted module."
     },
     {
       "temporary_id": "decl-025158",
@@ -14,7 +14,7 @@
     {
       "temporary_id": "decl-025159",
       "new_name": "ModuleCat.hasProjectiveDimensionLT_of_retract_restrictScalars_extendScalars",
-      "docstring": "Bounds projective dimension after extension of scalars when the original object is a retract after restriction."
+      "docstring": "A retract of the restriction of its scalar extension inherits any strict projective-dimension bound held by that extension."
     },
     {
       "temporary_id": "decl-025161",
