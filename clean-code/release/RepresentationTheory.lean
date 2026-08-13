@@ -151,6 +151,7 @@ import RepresentationTheory.LinearAlgebra.Trace.FunctionSpace
 import RepresentationTheory.GraphSpectrumSymmetry
 import RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients
 import RepresentationTheory.Representation.Character.AuxiliaryVanishing
+import RepresentationTheory.GeneralLinearGroup.Auxiliary
 
 /-!
 # Representation theory formalization
