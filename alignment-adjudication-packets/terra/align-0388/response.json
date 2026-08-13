@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:9e9562203cb23cfdc864",
-      "role": "primary",
-      "rationale": "The declaration directly asserts the existence of a simple quaternionic-type representation of the quaternion group."
+      "role": "supporting",
+      "rationale": "The declaration asserts existence of a simple quaternionic-type representation, but its displayed type does not state that this representation is the unique two-dimensional irreducible."
     },
     {
       "association_id": "association:a85ff4a980c6c1037ac5",
