@@ -1,0 +1,161 @@
+{
+  "packet_id": "module-0733",
+  "module_name": "TensorCoordinateMaps",
+  "declarations": [
+    {
+      "temporary_id": "decl-005991",
+      "new_name": "exists_supported_preimage_single",
+      "docstring": "Constructs a sequence supported at one index whose image is the tensor of a single vertex coefficient with a module element."
+    },
+    {
+      "temporary_id": "decl-005992",
+      "new_name": "exists_supported_preimage_succ",
+      "docstring": "Constructs a sequence supported at a chosen index whose image is the next coordinate of the given element."
+    },
+    {
+      "temporary_id": "decl-006039",
+      "new_name": "tensorToFinsupp",
+      "docstring": "The linear map from a tensor product to finitely supported tensor-valued sequences."
+    },
+    {
+      "temporary_id": "decl-006046",
+      "new_name": "tensorToFinsupp_injective",
+      "docstring": "The tensor-to-finitely-supported-sequence map is injective."
+    },
+    {
+      "temporary_id": "decl-006047",
+      "new_name": "tensorToFinsupp_tmul_apply",
+      "docstring": "Evaluating the image of a pure tensor at an index applies the corresponding component map to its first factor."
+    },
+    {
+      "temporary_id": "decl-006050",
+      "new_name": "boundary_succ_apply",
+      "docstring": "The successor coordinate of the boundary image is the difference of adjacent coordinate images."
+    },
+    {
+      "temporary_id": "decl-006053",
+      "new_name": "boundary_zero_apply",
+      "docstring": "The zeroth coordinate of the boundary image is the negation of the zeroth action image."
+    },
+    {
+      "temporary_id": "decl-006056",
+      "new_name": "boundary_tmul_succ_apply",
+      "docstring": "Computes a successor boundary coordinate on a nested pure tensor as a difference of two pure tensors."
+    },
+    {
+      "temporary_id": "decl-006057",
+      "new_name": "boundary_tmul_zero_apply",
+      "docstring": "Computes the zeroth boundary coordinate on a nested pure tensor as a negated pure tensor."
+    },
+    {
+      "temporary_id": "decl-006237",
+      "new_name": "component_succ_mul",
+      "docstring": "A successor component of a product with an embedded finitely supported element equals the preceding component times that element."
+    },
+    {
+      "temporary_id": "decl-006239",
+      "new_name": "component_zero_mul",
+      "docstring": "The zeroth component of a product with an embedded finitely supported element vanishes."
+    },
+    {
+      "temporary_id": "decl-006242",
+      "new_name": "component_mul_generators",
+      "docstring": "Computes a component of the product of two specified generators, with support at the successor of the first generator's index."
+    },
+    {
+      "temporary_id": "decl-006398",
+      "new_name": "boundary_eq_difference",
+      "docstring": "The boundary morphism is pointwise the difference of the multiplication and action morphisms."
+    },
+    {
+      "temporary_id": "decl-006404",
+      "new_name": "multiplicationHom",
+      "docstring": "The quiver morphism from the tensor construction to its target induced by multiplication of tensor factors."
+    },
+    {
+      "temporary_id": "decl-006427",
+      "new_name": "multiplicationHom_tmul",
+      "docstring": "The multiplication morphism sends a nested pure tensor to the pure tensor obtained by multiplying its first two factors."
+    },
+    {
+      "temporary_id": "decl-006428",
+      "new_name": "actionHom",
+      "docstring": "The quiver morphism from the tensor construction to its target induced by the scalar action on the module factor."
+    },
+    {
+      "temporary_id": "decl-006430",
+      "new_name": "actionHom_tmul",
+      "docstring": "The action morphism sends a nested pure tensor to the pure tensor obtained by acting on its module factor."
+    },
+    {
+      "temporary_id": "decl-006450",
+      "new_name": "multiplicationRestrictedHom",
+      "docstring": "A quiver morphism into the restricted-scalar target using multiplication in the first tensor factor."
+    },
+    {
+      "temporary_id": "decl-006453",
+      "new_name": "multiplicationRestrictedAddHom",
+      "docstring": "The additive map into the restricted-scalar target associated with multiplication in the first tensor factor."
+    },
+    {
+      "temporary_id": "decl-006454",
+      "new_name": "multiplicationRestrictedAddHom_tmul",
+      "docstring": "The restricted additive multiplication map sends a pure tensor to the tensor with its first factor embedded."
+    },
+    {
+      "temporary_id": "decl-006455",
+      "new_name": "multiplicationRestrictedBilinear",
+      "docstring": "The curried additive map sending two inputs to their pure tensor after embedding the first."
+    },
+    {
+      "temporary_id": "decl-006464",
+      "new_name": "multiplicationRestrictedBilinear_apply",
+      "docstring": "The curried multiplication map evaluates to the pure tensor with embedded first input."
+    },
+    {
+      "temporary_id": "decl-006465",
+      "new_name": "multiplicationRestrictedBilinear_smul",
+      "docstring": "Scaling the first input of the curried multiplication map agrees with scaling its second input."
+    },
+    {
+      "temporary_id": "decl-006466",
+      "new_name": "multiplicationRestrictedHom_tmul",
+      "docstring": "The restricted multiplication morphism sends a pure tensor to the tensor with embedded first factor."
+    },
+    {
+      "temporary_id": "decl-006467",
+      "new_name": "actionRestrictedHom",
+      "docstring": "A quiver morphism into the restricted-scalar target using the first input's action on the module factor."
+    },
+    {
+      "temporary_id": "decl-006470",
+      "new_name": "actionRestrictedAddHom",
+      "docstring": "The additive map into the restricted-scalar target associated with action on the module factor."
+    },
+    {
+      "temporary_id": "decl-006471",
+      "new_name": "actionRestrictedAddHom_tmul",
+      "docstring": "The restricted additive action map sends a pure tensor to one tensored with the acted-on module element."
+    },
+    {
+      "temporary_id": "decl-006472",
+      "new_name": "actionRestrictedBilinear",
+      "docstring": "The curried additive map sending two inputs to one tensored with the action on the second input."
+    },
+    {
+      "temporary_id": "decl-006481",
+      "new_name": "actionRestrictedBilinear_apply",
+      "docstring": "The curried action map evaluates to one tensored with the acted-on second input."
+    },
+    {
+      "temporary_id": "decl-006482",
+      "new_name": "actionRestrictedBilinear_smul",
+      "docstring": "Scaling the first input of the curried action map agrees with scaling its second input."
+    },
+    {
+      "temporary_id": "decl-006483",
+      "new_name": "actionRestrictedHom_tmul",
+      "docstring": "The restricted action morphism sends a pure tensor to one tensored with the acted-on module factor."
+    }
+  ]
+}
