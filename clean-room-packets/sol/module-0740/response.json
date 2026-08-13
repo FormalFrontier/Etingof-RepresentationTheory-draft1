@@ -1,0 +1,230 @@
+{
+  "module_name": "ModuleTensorAuxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-005830",
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary type associated to a field and a quiver."
+    },
+    {
+      "temporary_id": "decl-005863",
+      "new_name": "ModuleAuxiliary",
+      "docstring": "An auxiliary type associated to an object of the displayed module category."
+    },
+    {
+      "temporary_id": "decl-005864",
+      "new_name": "functionModuleObject",
+      "docstring": "A module object over the function ring associated to an object of the original module category."
+    },
+    {
+      "temporary_id": "decl-005872",
+      "new_name": "auxiliary_left_weight_eq_mul",
+      "docstring": "Under the displayed map, the first auxiliary weighted action agrees with left multiplication by the image of the function."
+    },
+    {
+      "temporary_id": "decl-005873",
+      "new_name": "auxiliary_right_weight_eq_mul",
+      "docstring": "Under the displayed map, the second auxiliary weighted action agrees with right multiplication by the image of the function."
+    },
+    {
+      "temporary_id": "decl-005986",
+      "new_name": "auxiliaryModuleToObject_epi",
+      "docstring": "The auxiliary morphism from the associated module object is an epimorphism."
+    },
+    {
+      "temporary_id": "decl-006073",
+      "new_name": "auxiliaryModuleObject",
+      "docstring": "An auxiliary module-category object associated to a given module-category object."
+    },
+    {
+      "temporary_id": "decl-006074",
+      "new_name": "secondaryAuxiliaryModuleObject",
+      "docstring": "A second auxiliary module-category object associated to a given module-category object."
+    },
+    {
+      "temporary_id": "decl-006094",
+      "new_name": "instAddCommGroupAuxiliary",
+      "docstring": "The additive commutative group structure on the auxiliary type."
+    },
+    {
+      "temporary_id": "decl-006130",
+      "new_name": "instAddCommGroupModuleAuxiliary",
+      "docstring": "The additive commutative group structure on the module-associated auxiliary type."
+    },
+    {
+      "temporary_id": "decl-006159",
+      "new_name": "instModuleFunctionsAuxiliary",
+      "docstring": "The module structure on the auxiliary type over the ring of vertex-indexed functions."
+    },
+    {
+      "temporary_id": "decl-006169",
+      "new_name": "instModuleAuxiliary",
+      "docstring": "The ground-field module structure on the auxiliary type."
+    },
+    {
+      "temporary_id": "decl-006178",
+      "new_name": "instModuleFunctionsModuleAuxiliary",
+      "docstring": "The function-ring module structure on the module-associated auxiliary type."
+    },
+    {
+      "temporary_id": "decl-006214",
+      "new_name": "instSMulFunctionsModuleAuxiliary",
+      "docstring": "The scalar action of vertex-indexed functions on the module-associated auxiliary type."
+    },
+    {
+      "temporary_id": "decl-006303",
+      "new_name": "one_tmul_smul_eq_tmul",
+      "docstring": "Tensoring one with the action of an embedded function equals tensoring that function with the same element."
+    },
+    {
+      "temporary_id": "decl-006354",
+      "new_name": "secondaryFunctionModuleObject",
+      "docstring": "A second module object over the function ring associated to an object of the original module category."
+    },
+    {
+      "temporary_id": "decl-006377",
+      "new_name": "functionAction",
+      "docstring": "The linear endomorphism of the auxiliary type determined by a vertex-indexed function."
+    },
+    {
+      "temporary_id": "decl-006380",
+      "new_name": "functionAction_add",
+      "docstring": "The endomorphism associated to a sum of functions is the sum of their endomorphisms."
+    },
+    {
+      "temporary_id": "decl-006381",
+      "new_name": "functionAction_apply",
+      "docstring": "Applying the function endomorphism agrees with the displayed auxiliary weighted action."
+    },
+    {
+      "temporary_id": "decl-006382",
+      "new_name": "functionAction_mul",
+      "docstring": "The endomorphism associated to a product of functions is the composite of their endomorphisms."
+    },
+    {
+      "temporary_id": "decl-006383",
+      "new_name": "functionAction_one",
+      "docstring": "The endomorphism associated to the constant one function is the identity."
+    },
+    {
+      "temporary_id": "decl-006384",
+      "new_name": "functionAction_zero",
+      "docstring": "The endomorphism associated to the zero function is zero."
+    },
+    {
+      "temporary_id": "decl-006385",
+      "new_name": "auxiliaryShortComplex",
+      "docstring": "An auxiliary short complex associated to a module-category object."
+    },
+    {
+      "temporary_id": "decl-006395",
+      "new_name": "auxiliaryDifferential",
+      "docstring": "An auxiliary morphism from the secondary associated module object to the first."
+    },
+    {
+      "temporary_id": "decl-006397",
+      "new_name": "auxiliaryDifferential_comp_toObject",
+      "docstring": "Composing the auxiliary differential with the morphism to the original object gives zero."
+    },
+    {
+      "temporary_id": "decl-006403",
+      "new_name": "auxiliaryDifferential_tmul",
+      "docstring": "The auxiliary differential on a nested pure tensor is the difference of the displayed multiplication and action tensors."
+    },
+    {
+      "temporary_id": "decl-006431",
+      "new_name": "auxiliaryComparisonHom",
+      "docstring": "An auxiliary morphism from the function-ring module object to a scalar restriction of the associated module object."
+    },
+    {
+      "temporary_id": "decl-006434",
+      "new_name": "auxiliaryComparisonAddHom",
+      "docstring": "An additive homomorphism from the module-associated auxiliary type to the restricted associated module."
+    },
+    {
+      "temporary_id": "decl-006435",
+      "new_name": "auxiliaryComparisonAddHom_tmul",
+      "docstring": "On a pure tensor, the auxiliary additive homomorphism is the difference of the displayed multiplication and action tensors."
+    },
+    {
+      "temporary_id": "decl-006436",
+      "new_name": "auxiliaryBilinearMap",
+      "docstring": "A curried additive map from the auxiliary type and the secondary function-module object to the restricted associated module."
+    },
+    {
+      "temporary_id": "decl-006447",
+      "new_name": "auxiliaryBilinearMap_apply",
+      "docstring": "The auxiliary bilinear map is the difference of the displayed multiplication and action tensors."
+    },
+    {
+      "temporary_id": "decl-006448",
+      "new_name": "auxiliaryBilinearMap_smul",
+      "docstring": "Moving a function scalar between the two arguments of the auxiliary bilinear map does not change its value."
+    },
+    {
+      "temporary_id": "decl-006449",
+      "new_name": "auxiliaryComparisonHom_tmul",
+      "docstring": "The auxiliary comparison morphism sends a pure tensor to the difference of the displayed multiplication and action tensors."
+    },
+    {
+      "temporary_id": "decl-006484",
+      "new_name": "auxiliaryModuleToObject",
+      "docstring": "A morphism from the auxiliary associated module object to the original object."
+    },
+    {
+      "temporary_id": "decl-006486",
+      "new_name": "auxiliaryModuleToObject_eq_counitApp",
+      "docstring": "The auxiliary morphism to the original object is the component of the displayed adjunction counit."
+    },
+    {
+      "temporary_id": "decl-006489",
+      "new_name": "auxiliaryModuleToObject_tmul",
+      "docstring": "The auxiliary morphism sends a pure tensor to the scalar action of its first factor on the second."
+    },
+    {
+      "temporary_id": "decl-006551",
+      "new_name": "moduleAuxiliary_smul_eq_tensorMap",
+      "docstring": "The function action on the module-associated auxiliary type is the tensor-product map induced by the function endomorphism and the identity."
+    },
+    {
+      "temporary_id": "decl-006552",
+      "new_name": "tensorMap_functionAction_tmul",
+      "docstring": "The displayed tensor-product map applies the function endomorphism to the first factor of a pure tensor."
+    },
+    {
+      "temporary_id": "decl-006566",
+      "new_name": "auxiliaryAction_add_argument",
+      "docstring": "The auxiliary weighted action preserves addition in its finitely supported argument."
+    },
+    {
+      "temporary_id": "decl-006567",
+      "new_name": "auxiliaryAction_add_scalar",
+      "docstring": "The auxiliary weighted action sends a sum of functions to the sum of their actions."
+    },
+    {
+      "temporary_id": "decl-006570",
+      "new_name": "auxiliaryAction_mul_scalar",
+      "docstring": "The action of a product of functions is the successive auxiliary action of the two functions."
+    },
+    {
+      "temporary_id": "decl-006571",
+      "new_name": "auxiliaryAction_one_scalar",
+      "docstring": "The auxiliary weighted action of the constant one function fixes every finitely supported value."
+    },
+    {
+      "temporary_id": "decl-006572",
+      "new_name": "auxiliaryAction_single",
+      "docstring": "On a singleton, the auxiliary weighted action multiplies its coefficient by the function value at the assigned vertex."
+    },
+    {
+      "temporary_id": "decl-006573",
+      "new_name": "auxiliaryAction_zero_scalar",
+      "docstring": "The auxiliary weighted action of the zero function is zero."
+    },
+    {
+      "temporary_id": "decl-006574",
+      "new_name": "auxiliaryAction_zero_argument",
+      "docstring": "The auxiliary weighted action sends the zero finitely supported value to zero."
+    }
+  ]
+}
