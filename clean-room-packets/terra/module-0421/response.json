@@ -24,7 +24,7 @@
     {
       "temporary_id": "decl-005120",
       "new_name": "Auxiliary.SpecialLinearRepresentation.finiteLinearMapProperty",
-      "docstring": "An auxiliary property of special-linear-group actions by linear endomorphisms on a finite module."
+      "docstring": "An auxiliary property of functions from the special linear group to linear endomorphisms of a finite module."
     },
     {
       "temporary_id": "decl-005122",
