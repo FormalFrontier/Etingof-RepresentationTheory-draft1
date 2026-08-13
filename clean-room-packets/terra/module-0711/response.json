@@ -1,20 +1,20 @@
 {
-  "module_name": "Auxiliary",
+  "module_name": "FieldAlgebraProperties",
   "declarations": [
     {
       "temporary_id": "decl-005123",
-      "new_name": "Auxiliary",
-      "docstring": "An auxiliary predicate for a field algebra."
+      "new_name": "fieldAlgebraProperty",
+      "docstring": "A property of a ring equipped with an algebra structure over a field."
     },
     {
       "temporary_id": "decl-005125",
-      "new_name": "Auxiliary.commRing",
-      "docstring": "The auxiliary predicate is available for commutative coefficient rings."
+      "new_name": "commRing",
+      "docstring": "The property holds for a commutative ring carrying an algebra structure over a field."
     },
     {
       "temporary_id": "decl-005126",
-      "new_name": "Auxiliary_1",
-      "docstring": "A second auxiliary predicate for a field algebra."
+      "new_name": "fieldAlgebraProperty'",
+      "docstring": "A proposition associated with a ring algebra over a field."
     }
   ]
 }
