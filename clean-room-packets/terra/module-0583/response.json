@@ -2,7 +2,7 @@
   "declarations": [
     {
       "docstring": "A proposition associated with a category equipped with an abelian structure.",
-      "new_name": "CategoryTheory.AbelianCategoryProperty",
+      "new_name": "AbelianCategoryProperty",
       "temporary_id": "decl-005288"
     }
   ],
