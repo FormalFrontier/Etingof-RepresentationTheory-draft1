@@ -186,6 +186,7 @@ import RepresentationTheory.AuxiliaryIntegerVectorTransforms
 import RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction
 import RepresentationTheory.AuxiliaryIntegerMatrixVectorProperty
 import RepresentationTheory.AuxiliaryFiniteDimensionalFamily
+import RepresentationTheory.QuiverVertexPredicates
 
 /-!
 # Representation theory formalization
