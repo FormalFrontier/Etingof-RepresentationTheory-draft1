@@ -33,8 +33,8 @@
     },
     {
       "temporary_id": "decl-018878",
-      "new_name": "exists_simple_target",
-      "docstring": "Every small nontrivial module admits a target satisfying the displayed condition."
+      "new_name": "exists_target",
+      "docstring": "Every small nontrivial module admits a second module satisfying the displayed condition."
     },
     {
       "temporary_id": "decl-020821",
