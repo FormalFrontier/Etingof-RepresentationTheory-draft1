@@ -242,6 +242,7 @@ import RepresentationTheory.Algebra.Homology.LinearYoneda
 import RepresentationTheory.Algebra.TensorProduct.Module
 import RepresentationTheory.HomologicalComplexShortExactHomology
 import RepresentationTheory.CategoryTheory.EnrichedCorepresentability
+import RepresentationTheory.CategoryTheory.TopCatCongruence
 
 /-!
 # Representation theory formalization
