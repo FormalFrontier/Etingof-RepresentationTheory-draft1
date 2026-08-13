@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-018171",
-      "new_name": "Partition.selfMapAux",
-      "docstring": "An auxiliary self-map on the partitions of each natural number."
+      "new_name": "Partition.selfMap",
+      "docstring": "A self-map of the partitions of a natural number."
     },
     {
       "temporary_id": "decl-023139",
@@ -13,8 +13,8 @@
     },
     {
       "temporary_id": "decl-023141",
-      "new_name": "permutationMonoidHomAux",
-      "docstring": "An auxiliary monoid homomorphism from permutations of a finite type into the associated algebra."
+      "new_name": "permutationMonoidHom",
+      "docstring": "A monoid homomorphism from finite permutations to the indicated complex algebra."
     },
     {
       "temporary_id": "decl-023144",
@@ -23,8 +23,8 @@
     },
     {
       "temporary_id": "decl-023145",
-      "new_name": "signTwistAlgHom_apply_partitionElementAux",
-      "docstring": "Applying the sign twist to the partition-indexed auxiliary element gives the sum of the corresponding permutation monomials."
+      "new_name": "signTwistAlgHom_apply_partitionIndexedElement_eq_sum",
+      "docstring": "The sign twist sends the indicated partition-indexed element to a sum over all finite permutations."
     },
     {
       "temporary_id": "decl-023146",
@@ -38,8 +38,8 @@
     },
     {
       "temporary_id": "decl-023148",
-      "new_name": "signTwistAlgHom_apply_partitionAlternatingElementAux",
-      "docstring": "The sign twist of the partition-indexed auxiliary element is the sum of permutation monomials weighted by their signs."
+      "new_name": "signTwistAlgHom_apply_partitionIndexedElement_eq_signWeightedSum",
+      "docstring": "The sign twist sends the indicated partition-indexed element to a sign-weighted sum over all finite permutations."
     },
     {
       "temporary_id": "decl-023149",
@@ -48,8 +48,8 @@
     },
     {
       "temporary_id": "decl-023345",
-      "new_name": "exists_signTwistedEquivariantMapAux",
-      "docstring": "There is an auxiliary map on the indicated partition-indexed subtype that intertwines permutation action with its sign twist."
+      "new_name": "exists_signTwistedEquivariantMap",
+      "docstring": "There exists a map from the indicated partition-indexed subtype that intertwines permutation action with its sign twist."
     }
   ]
 }
