@@ -1,5 +1,5 @@
 {
-  "module_name": "Mathlib.Algebra.Homology.CochainComplex.HomologyComplex",
+  "module_name": "Algebra.Homology.CochainComplex.HomologyComplex",
   "declarations": [
     {
       "temporary_id": "decl-013258",
@@ -13,13 +13,13 @@
     },
     {
       "temporary_id": "decl-013260",
-      "new_name": "exists_biproduct_extension_homologyMap_isIso",
-      "docstring": "Construct an extension by a biproduct whose induced maps on homology are isomorphisms."
+      "new_name": "exists_biprod_inr_comp_iso_inv_homologyMap_isIso",
+      "docstring": "There exist data and an isomorphism such that, in every degree, the map on homology induced by the second biproduct inclusion followed by the inverse isomorphism is an isomorphism."
     },
     {
       "temporary_id": "decl-013265",
-      "new_name": "tensorProduct_homologyIso",
-      "docstring": "Identify the homology of the tensor product complex with the indexed sum of tensor products of homology objects."
+      "new_name": "tensorProduct_homologyIso_nonempty",
+      "docstring": "There exists an isomorphism between the homology of the tensor product complex and the indexed sum of tensor products of the input homology objects."
     },
     {
       "temporary_id": "decl-020231",
@@ -48,7 +48,7 @@
     },
     {
       "temporary_id": "decl-020472",
-      "new_name": "iCycles_comp_cyclesProjection_comp",
+      "new_name": "iCycles_comp_cyclesProjection_assoc",
       "docstring": "Inserting the cycle projection after the inclusion does not change a map out of cycles."
     },
     {
@@ -68,17 +68,17 @@
     },
     {
       "temporary_id": "decl-022779",
-      "new_name": "homologyProjection_comp_homologySectionLinear",
+      "new_name": "homologyPi_comp_homologySectionLinear",
       "docstring": "The homology projection composed with the chosen linear section is the identity."
     },
     {
       "temporary_id": "decl-022784",
-      "new_name": "homologySection_comp_homologyProjection",
+      "new_name": "homologySection_comp_homologyPi",
       "docstring": "The chosen section followed by the homology projection is the identity."
     },
     {
       "temporary_id": "decl-022785",
-      "new_name": "homologySection_comp_homologyProjection_comp",
+      "new_name": "homologySection_comp_homologyPi_assoc",
       "docstring": "Precomposing a map from homology with its projection and chosen section leaves it unchanged."
     },
     {
