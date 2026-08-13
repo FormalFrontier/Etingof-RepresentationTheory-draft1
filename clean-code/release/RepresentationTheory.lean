@@ -183,10 +183,10 @@ import RepresentationTheory.SymmetricPower.Basis
 import RepresentationTheory.AuxiliaryIntegerMatrixProperty
 import RepresentationTheory.AuxiliaryIntegerMatrixTransform
 import RepresentationTheory.AuxiliaryIntegerVectorTransforms
+import RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction
 
 /-!
 # Representation theory formalization
 
 The public import surface for the library.
 -/
-import RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction
