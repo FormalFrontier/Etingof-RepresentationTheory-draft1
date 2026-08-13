@@ -1,0 +1,40 @@
+{
+  "declarations": [
+    {
+      "docstring": "A predicate on functors between two categories.",
+      "new_name": "CategoryTheory.Functor.PropertyDecomposition.IsComposite",
+      "temporary_id": "decl-001924"
+    },
+    {
+      "docstring": "A composite functor property implies its first component property.",
+      "new_name": "hasFirstComponent",
+      "temporary_id": "decl-001925"
+    },
+    {
+      "docstring": "The two component properties together give the composite functor property.",
+      "new_name": "ofComponents",
+      "temporary_id": "decl-001926"
+    },
+    {
+      "docstring": "A composite functor property implies its second component property.",
+      "new_name": "hasSecondComponent",
+      "temporary_id": "decl-001927"
+    },
+    {
+      "docstring": "The first component predicate in a decomposition of functor properties.",
+      "new_name": "CategoryTheory.Functor.PropertyDecomposition.HasFirstComponent",
+      "temporary_id": "decl-005440"
+    },
+    {
+      "docstring": "The second component predicate in a decomposition of functor properties.",
+      "new_name": "CategoryTheory.Functor.PropertyDecomposition.HasSecondComponent",
+      "temporary_id": "decl-015497"
+    },
+    {
+      "docstring": "The composite functor property is equivalent to both component properties holding.",
+      "new_name": "CategoryTheory.Functor.PropertyDecomposition.isComposite_iff",
+      "temporary_id": "decl-018738"
+    }
+  ],
+  "module_name": "CategoryTheory.Functor.PropertyDecomposition"
+}
