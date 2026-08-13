@@ -1,0 +1,275 @@
+{
+  "module_name": "LinearAlgebra.TwoSpaceSystem.Nilpotent",
+  "declarations": [
+    {
+      "temporary_id": "decl-012971",
+      "new_name": "TwoSpaceSystem.Auxiliary.property_of_compatibility",
+      "docstring": "An auxiliary compatibility condition implies the associated property."
+    },
+    {
+      "temporary_id": "decl-012981",
+      "new_name": "TwoSpaceSystem.Auxiliary.eq_of_nonempty_rep_relations",
+      "docstring": "Two parameters are equal when their representatives both admit the prescribed relation to the same system."
+    },
+    {
+      "temporary_id": "decl-012985",
+      "new_name": "TwoSpaceSystem.exists_related_nonzero_scalar_of_not_isNilpotent",
+      "docstring": "Failure of nilpotency yields a dependent index, a nonzero scalar, and a related system carrying the corresponding witness."
+    },
+    {
+      "temporary_id": "decl-012994",
+      "new_name": "TwoSpaceSystem.exists_nonzero_scalar_witness_of_not_isNilpotent",
+      "docstring": "Under the auxiliary compatibility hypothesis, a nonnilpotent composite has a nonzero scalar witness at some dependent index."
+    },
+    {
+      "temporary_id": "decl-012997",
+      "new_name": "TwoSpaceSystem.nonempty_nilpotentBlockDecomposition",
+      "docstring": "A system whose alternating composite is nilpotent admits a block decomposition."
+    },
+    {
+      "temporary_id": "decl-013007",
+      "new_name": "TwoSpaceSystem.nonempty_cyclicBasisData_of_isNilpotent",
+      "docstring": "A compatible nilpotent system with both component spaces nontrivial admits cyclic basis data."
+    },
+    {
+      "temporary_id": "decl-013008",
+      "new_name": "TwoSpaceSystem.nonempty_cyclicBasisData_of_ker_finrank_eq_one",
+      "docstring": "A nilpotent system whose coupled endomorphism has one-dimensional kernel admits cyclic basis data."
+    },
+    {
+      "temporary_id": "decl-015184",
+      "new_name": "TwoSpaceSystem.Auxiliary.property_of_cyclicBasisData",
+      "docstring": "Cyclic basis data supplies the associated auxiliary property."
+    },
+    {
+      "temporary_id": "decl-025312",
+      "new_name": "isNilpotent_of_isCompl_restrict",
+      "docstring": "Nilpotency on two invariant restrictions with complementary right subspaces implies nilpotency of the full coupled endomorphism."
+    },
+    {
+      "temporary_id": "decl-025314",
+      "new_name": "NilpotentBlockDecomposition",
+      "docstring": "Data decomposing a nilpotent two-space system into finitely indexed blocks."
+    },
+    {
+      "temporary_id": "decl-025317",
+      "new_name": "auxiliary",
+      "docstring": "Auxiliary data attached to a nilpotent block decomposition."
+    },
+    {
+      "temporary_id": "decl-025318",
+      "new_name": "auxiliary_spec",
+      "docstring": "The auxiliary data of a nilpotent block decomposition satisfies its defining property."
+    },
+    {
+      "temporary_id": "decl-025321",
+      "new_name": "of_subsingleton",
+      "docstring": "Constructs a block decomposition when both component spaces are subsingletons."
+    },
+    {
+      "temporary_id": "decl-025328",
+      "new_name": "blockVector",
+      "docstring": "The vector in the product of component spaces assigned to a block index."
+    },
+    {
+      "temporary_id": "decl-025329",
+      "new_name": "blockVector_fst_eq_zero_or_snd_eq_zero",
+      "docstring": "Every indexed block vector has at least one zero component."
+    },
+    {
+      "temporary_id": "decl-025330",
+      "new_name": "indexFintype",
+      "docstring": "The index type of a block decomposition is finite."
+    },
+    {
+      "temporary_id": "decl-025331",
+      "new_name": "iterate_blockVector_eq_zero",
+      "docstring": "Applying the coupled endomorphism to a block vector as many times as its block length gives zero."
+    },
+    {
+      "temporary_id": "decl-025332",
+      "new_name": "blockLength",
+      "docstring": "The positive natural-number length assigned to a block index."
+    },
+    {
+      "temporary_id": "decl-025333",
+      "new_name": "blockLength_pos",
+      "docstring": "Each block in the decomposition has positive length."
+    },
+    {
+      "temporary_id": "decl-025342",
+      "new_name": "combine",
+      "docstring": "Combines block decompositions on two complementary invariant restrictions into one for the ambient system."
+    },
+    {
+      "temporary_id": "decl-025358",
+      "new_name": "Index",
+      "docstring": "The type indexing the blocks of a nilpotent decomposition."
+    },
+    {
+      "temporary_id": "decl-025389",
+      "new_name": "transform",
+      "docstring": "Transports a relation between systems through the operation that exchanges their component spaces."
+    },
+    {
+      "temporary_id": "decl-025398",
+      "new_name": "CyclicBasisData",
+      "docstring": "Data presenting the product of the two component spaces by iterates of one cyclic vector."
+    },
+    {
+      "temporary_id": "decl-025401",
+      "new_name": "basis",
+      "docstring": "The finite basis of the product space supplied by cyclic basis data."
+    },
+    {
+      "temporary_id": "decl-025402",
+      "new_name": "basis_apply",
+      "docstring": "The basis vector at an index is the corresponding iterate of the cyclic vector."
+    },
+    {
+      "temporary_id": "decl-025405",
+      "new_name": "cyclicVector",
+      "docstring": "The vector whose successive iterates form the specified basis."
+    },
+    {
+      "temporary_id": "decl-025406",
+      "new_name": "cyclicVector_fst_eq_zero_or_snd_eq_zero",
+      "docstring": "The cyclic vector lies entirely in one of the two component summands."
+    },
+    {
+      "temporary_id": "decl-025407",
+      "new_name": "iterate_cyclicVector_eq_zero",
+      "docstring": "The iterate at the specified length annihilates the cyclic vector."
+    },
+    {
+      "temporary_id": "decl-025408",
+      "new_name": "length",
+      "docstring": "The number of iterates occurring in the cyclic basis."
+    },
+    {
+      "temporary_id": "decl-025409",
+      "new_name": "length_pos",
+      "docstring": "The length of cyclic basis data is positive."
+    },
+    {
+      "temporary_id": "decl-025420",
+      "new_name": "transform",
+      "docstring": "Exchanges the component spaces in cyclic basis data along the corresponding system transformation."
+    },
+    {
+      "temporary_id": "decl-025424",
+      "new_name": "toNilpotentBlockDecomposition",
+      "docstring": "Turns a cyclic basis presentation into a nilpotent block decomposition."
+    },
+    {
+      "temporary_id": "decl-025426",
+      "new_name": "Iso",
+      "docstring": "A structure-preserving linear isomorphism between two two-space systems."
+    },
+    {
+      "temporary_id": "decl-025431",
+      "new_name": "homLeft",
+      "docstring": "The forward linear map between the left component spaces."
+    },
+    {
+      "temporary_id": "decl-025432",
+      "new_name": "homRight",
+      "docstring": "The forward linear map between the right component spaces."
+    },
+    {
+      "temporary_id": "decl-025433",
+      "new_name": "hom_commutes_forwardMap",
+      "docstring": "The forward component maps intertwine the map from the left space to the right space."
+    },
+    {
+      "temporary_id": "decl-025434",
+      "new_name": "inv_commutes_forwardMap",
+      "docstring": "The inverse component maps intertwine the map from the left space to the right space."
+    },
+    {
+      "temporary_id": "decl-025435",
+      "new_name": "hom_commutes_reverseMap",
+      "docstring": "The forward component maps intertwine the map from the right space to the left space."
+    },
+    {
+      "temporary_id": "decl-025436",
+      "new_name": "inv_commutes_reverseMap",
+      "docstring": "The inverse component maps intertwine the map from the right space to the left space."
+    },
+    {
+      "temporary_id": "decl-025445",
+      "new_name": "invLeft",
+      "docstring": "The inverse linear map between the left component spaces."
+    },
+    {
+      "temporary_id": "decl-025446",
+      "new_name": "invRight",
+      "docstring": "The inverse linear map between the right component spaces."
+    },
+    {
+      "temporary_id": "decl-025449",
+      "new_name": "refl",
+      "docstring": "The identity structure-preserving isomorphism of a system."
+    },
+    {
+      "temporary_id": "decl-025454",
+      "new_name": "invLeft_homLeft",
+      "docstring": "The inverse left-component map is a left inverse of the forward left-component map."
+    },
+    {
+      "temporary_id": "decl-025455",
+      "new_name": "invRight_homRight",
+      "docstring": "The inverse right-component map is a left inverse of the forward right-component map."
+    },
+    {
+      "temporary_id": "decl-025456",
+      "new_name": "trans",
+      "docstring": "Composes two structure-preserving isomorphisms."
+    },
+    {
+      "temporary_id": "decl-025498",
+      "new_name": "restrict",
+      "docstring": "Restricts a system to a pair of subspaces preserved by its two structure maps."
+    },
+    {
+      "temporary_id": "decl-025503",
+      "new_name": "restrictIso",
+      "docstring": "Complementary invariant subspaces give a structure-preserving isomorphism from one restriction to the ambient system."
+    },
+    {
+      "temporary_id": "decl-025510",
+      "new_name": "isNilpotent_restrict",
+      "docstring": "Nilpotency of the ambient coupled endomorphism descends to every invariant restriction."
+    },
+    {
+      "temporary_id": "decl-025511",
+      "new_name": "coe_iterate_restrict_apply_right",
+      "docstring": "After inclusion into the ambient right space, every iterate on a restriction agrees with the ambient iterate."
+    },
+    {
+      "temporary_id": "decl-025512",
+      "new_name": "coe_forwardMap_restrict_apply",
+      "docstring": "The forward structure map of a restriction agrees with the ambient forward map after coercion."
+    },
+    {
+      "temporary_id": "decl-025513",
+      "new_name": "coe_reverseMap_restrict_apply",
+      "docstring": "The reverse structure map of a restriction agrees with the ambient reverse map after coercion."
+    },
+    {
+      "temporary_id": "decl-025514",
+      "new_name": "coe_coupledEndomorphism_restrict_apply",
+      "docstring": "The coupled endomorphism on an invariant restriction commutes with inclusion into the ambient product space."
+    },
+    {
+      "temporary_id": "decl-025515",
+      "new_name": "coe_iterate_coupledEndomorphism_restrict_apply",
+      "docstring": "Every power of the restricted coupled endomorphism commutes with inclusion into the ambient product space."
+    },
+    {
+      "temporary_id": "decl-025518",
+      "new_name": "doubleTransformRelation",
+      "docstring": "Applying the component-exchanging transformation twice produces a system related to the original one."
+    }
+  ]
+}
