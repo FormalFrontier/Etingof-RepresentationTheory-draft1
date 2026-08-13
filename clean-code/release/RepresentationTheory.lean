@@ -120,6 +120,7 @@ import RepresentationTheory.Combinatorics.Quiver.FourVertices
 import RepresentationTheory.QuantumGroup.SL2Representations
 import RepresentationTheory.RealAlgebra.EndomorphismCounterexample
 import RepresentationTheory.Ring.CoatomExistence
+import RepresentationTheory.RingModuleAuxiliary
 import RepresentationTheory.FieldTheory.IsAlgClosed.Basic
 import RepresentationTheory.RingTheory.Ideal.IdempotentLifting
 import RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence
