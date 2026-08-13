@@ -258,6 +258,7 @@ import RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra
 import RepresentationTheory.SymmetricGroup.PartitionDominance
 import RepresentationTheory.Partitions.SquareScalar
 import RepresentationTheory.PartitionAuxiliary
+import RepresentationTheory.PermutationDegreeThree
 import RepresentationTheory.Algebra.Module.Property
 import RepresentationTheory.Algebra.Module.Properties
 import RepresentationTheory.Algebra.Module.Projective.Lifting
