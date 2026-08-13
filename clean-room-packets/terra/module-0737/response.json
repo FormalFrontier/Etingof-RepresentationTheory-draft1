@@ -1,5 +1,5 @@
 {
-  "module_name": "path_degree_decomposition",
+  "module_name": "PathDegreeDecomposition",
   "declarations": [
     {
       "temporary_id": "decl-006221",
@@ -29,17 +29,17 @@
     {
       "temporary_id": "decl-006236",
       "new_name": "degreeProjection_comp",
-      "docstring": "Composing degree projections is zero unless their degrees agree."
+      "docstring": "Composing the projections at two degrees returns the latter projection when the degrees agree and zero otherwise."
     },
     {
       "temporary_id": "decl-006241",
       "new_name": "degreeProjection_path_mul_arrow",
-      "docstring": "Projecting a path followed by an arrow at its resulting degree leaves it unchanged."
+      "docstring": "Projection at one more than the path length fixes the product of the terms associated to the path and arrow."
     },
     {
       "temporary_id": "decl-006243",
       "new_name": "degreeProjection_single",
-      "docstring": "Projects a single path term to zero away from its path degree."
+      "docstring": "Projecting a single path term returns that term at its path degree and zero at every other degree."
     },
     {
       "temporary_id": "decl-006244",
@@ -64,7 +64,7 @@
     {
       "temporary_id": "decl-006291",
       "new_name": "path_mul_arrow_eq_comp",
-      "docstring": "The product of a path and a composable arrow is their concatenated path."
+      "docstring": "The product of the terms associated to a path and a composable arrow is the term associated to their concatenation."
     },
     {
       "temporary_id": "decl-006317",
