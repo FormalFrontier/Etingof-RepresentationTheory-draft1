@@ -1,5 +1,5 @@
 {
-  "module_name": "RepresentationTheory.PermutationRepresentation.CharTwo",
+  "module_name": "PermutationRepresentation.CharTwo",
   "declarations": [
     {
       "temporary_id": "decl-013997",
@@ -48,8 +48,8 @@
     },
     {
       "temporary_id": "decl-014017",
-      "new_name": "monoidAlgebraAuxiliaryData",
-      "docstring": "Auxiliary structure carried by the monoid algebra in characteristic two."
+      "new_name": "monoidAlgebraCharacteristicTwoData",
+      "docstring": "Data associated with the monoid algebra when the field has characteristic two."
     },
     {
       "temporary_id": "decl-014019",
@@ -253,8 +253,8 @@
     },
     {
       "temporary_id": "decl-014084",
-      "new_name": "unitsToAuxiliaryAlgebra_auxiliary",
-      "docstring": "An auxiliary property relating the units homomorphism and the distinguished element of the auxiliary algebra."
+      "new_name": "unitsToAuxiliaryAlgebra_property",
+      "docstring": "A property of the units-to-auxiliary-algebra homomorphism in characteristic two."
     },
     {
       "temporary_id": "decl-014085",
