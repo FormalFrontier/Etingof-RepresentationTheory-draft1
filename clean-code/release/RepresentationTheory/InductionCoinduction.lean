@@ -1,6 +1,8 @@
--- Copyright (c) 2026 FormalFrontier. All rights reserved.
--- Released under Apache 2.0 license as described in the file LICENSE.
--- Authors: FormalFrontier
+/-
+Copyright (c) 2026 FormalFrontier. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: FormalFrontier
+-/
 
 import RepresentationTheory.FiniteGroups.CharacterRigidity
 import RepresentationTheory.AuxiliaryUnavailableStatement
