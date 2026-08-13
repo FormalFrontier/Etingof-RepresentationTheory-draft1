@@ -1,0 +1,280 @@
+{
+  "module_name": "HomologicalComplex.TensorProduct.Reindexing",
+  "declarations": [
+    {
+      "temporary_id": "decl-016273",
+      "new_name": "negDegreeEmbedding",
+      "docstring": "Embeds nonnegative chain degrees into integer cochain degrees by sending each degree to its negative."
+    },
+    {
+      "temporary_id": "decl-016274",
+      "new_name": "negDegreeEmbedding_f",
+      "docstring": "The degree map of the negative-degree embedding sends `n` to `-n`."
+    },
+    {
+      "temporary_id": "decl-016275",
+      "new_name": "chainToCochainFunctor",
+      "docstring": "The functor from nonnegatively graded chain complexes to integer-graded cochain complexes."
+    },
+    {
+      "temporary_id": "decl-016276",
+      "new_name": "tensorComponentToExtendedTensorComponent_eq",
+      "docstring": "The comparison from a tensor component to the corresponding extended tensor component is the composite of the two inverse comparison maps."
+    },
+    {
+      "temporary_id": "decl-016277",
+      "new_name": "extendedTensorComponentToTensorComponent",
+      "docstring": "The comparison from the negative-degree component of the tensor of two extended complexes to the corresponding tensor component."
+    },
+    {
+      "temporary_id": "decl-016279",
+      "new_name": "extendedTensorComponentToTensorComponent_comm_d",
+      "docstring": "The component comparison intertwines the differentials of the extended and original tensor complexes."
+    },
+    {
+      "temporary_id": "decl-016294",
+      "new_name": "extendedTensorComponentToTensorComponent_comm_d_assoc",
+      "docstring": "The differential compatibility of the component comparison remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-016295",
+      "new_name": "extendedTensorComponentToTensorComponent_naturality",
+      "docstring": "The component comparison is natural in morphisms of both chain complexes."
+    },
+    {
+      "temporary_id": "decl-016299",
+      "new_name": "tensorComponentToExtendedTensorComponent",
+      "docstring": "The comparison from a tensor component to the matching negative-degree component of the tensor of the extended complexes."
+    },
+    {
+      "temporary_id": "decl-016301",
+      "new_name": "extendedTensorComponent_isZero_of_pos",
+      "docstring": "Positive-degree components of the tensor of two negatively extended chain complexes are zero."
+    },
+    {
+      "temporary_id": "decl-016305",
+      "new_name": "tensorObj_isZero_of_left",
+      "docstring": "A tensor product is zero when its left factor is zero in a monoidal preadditive category."
+    },
+    {
+      "temporary_id": "decl-016306",
+      "new_name": "tensorObj_isZero_of_right",
+      "docstring": "A tensor product is zero when its right factor is zero in a monoidal preadditive category."
+    },
+    {
+      "temporary_id": "decl-016307",
+      "new_name": "extendedTensorComponentIsoTensorComponent",
+      "docstring": "The negative-degree component of the tensor of two extended complexes is isomorphic to the corresponding tensor component."
+    },
+    {
+      "temporary_id": "decl-016311",
+      "new_name": "extendedTensorComponentIsoExtendedTensorComponent",
+      "docstring": "The negative-degree tensor component of the extended factors is isomorphic to the corresponding component of the extended tensor product."
+    },
+    {
+      "temporary_id": "decl-016313",
+      "new_name": "auxiliaryTensorReindexingCompatibility",
+      "docstring": "An auxiliary tensor-reindexing compatibility assertion whose displayed type is unavailable."
+    },
+    {
+      "temporary_id": "decl-016314",
+      "new_name": "extendedTensorSummandToTensorComponent",
+      "docstring": "Maps a summand indexed by integer degrees adding to `-n` into degree `n` of the original tensor complex."
+    },
+    {
+      "temporary_id": "decl-016320",
+      "new_name": "auxiliaryOptionRec",
+      "docstring": "An auxiliary dependent eliminator for an optional value with a fallback branch."
+    },
+    {
+      "temporary_id": "decl-016321",
+      "new_name": "apply_of_auxiliaryCase",
+      "docstring": "The auxiliary optional-value eliminator selects its fallback branch when supplied the corresponding case witness."
+    },
+    {
+      "temporary_id": "decl-016325",
+      "new_name": "extendedTensorSummandToTensorComponent_comp_reverse",
+      "docstring": "Composing an extended summand map with the reverse component comparison gives the corresponding extended tensor inclusion."
+    },
+    {
+      "temporary_id": "decl-016326",
+      "new_name": "extendedTensorSummandToTensorComponent_eq",
+      "docstring": "The extended summand map is obtained from the two extension isomorphisms followed by the tensor-summand inclusion."
+    },
+    {
+      "temporary_id": "decl-016327",
+      "new_name": "tensorSummandToExtendedTensorComponent",
+      "docstring": "Maps an original tensor summand into the matching negative-degree component of the tensor of extended complexes."
+    },
+    {
+      "temporary_id": "decl-016333",
+      "new_name": "tensorSummandToExtendedTensorComponent_comp_forward",
+      "docstring": "The extended tensor summand map followed by the forward component comparison is the original tensor-summand inclusion."
+    },
+    {
+      "temporary_id": "decl-016334",
+      "new_name": "negDegreeEmbedding_r_neg",
+      "docstring": "The partial inverse of the negative-degree embedding sends `-p` back to `p`."
+    },
+    {
+      "temporary_id": "decl-016335",
+      "new_name": "chainTensorFunctor",
+      "docstring": "The curried tensor-product functor on nonnegatively graded chain complexes."
+    },
+    {
+      "temporary_id": "decl-016337",
+      "new_name": "cochainTensorFunctor",
+      "docstring": "The curried tensor-product functor on integer-graded cochain complexes."
+    },
+    {
+      "temporary_id": "decl-016339",
+      "new_name": "tensorAfterChainToCochainFunctor",
+      "docstring": "The bifunctor that extends two chain complexes to cochain complexes and then tensors them."
+    },
+    {
+      "temporary_id": "decl-016340",
+      "new_name": "chainTensorThenToCochainFunctor",
+      "docstring": "The bifunctor that tensors two chain complexes and then extends the result to a cochain complex."
+    },
+    {
+      "temporary_id": "decl-016341",
+      "new_name": "extendedTensorComponentIso",
+      "docstring": "At every integer degree, tensoring two extended complexes is isomorphic to extending their tensor product."
+    },
+    {
+      "temporary_id": "decl-016350",
+      "new_name": "extendedTensorComponentIso_hom_comp_extendXIso_hom",
+      "docstring": "At a negative degree, the component isomorphism followed by the extension component isomorphism equals the forward tensor comparison."
+    },
+    {
+      "temporary_id": "decl-016351",
+      "new_name": "extendedTensorComponentIso_hom_comp_extendXIso_hom_assoc",
+      "docstring": "The component-isomorphism identity remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-016352",
+      "new_name": "extendedTensorComponentIso_neg",
+      "docstring": "The general component isomorphism at degree `-n` agrees with the designated negative-degree isomorphism."
+    },
+    {
+      "temporary_id": "decl-016353",
+      "new_name": "tensorExtendIsoExtendTensor",
+      "docstring": "Tensoring two negatively extended chain complexes is isomorphic to negatively extending their tensor product."
+    },
+    {
+      "temporary_id": "decl-016358",
+      "new_name": "tensorExtendIsoExtendTensor_naturality",
+      "docstring": "The tensor-extension isomorphism is natural in morphisms of both chain complexes."
+    },
+    {
+      "temporary_id": "decl-016359",
+      "new_name": "tensorExtendIsoExtendTensor_naturality_left",
+      "docstring": "The tensor-extension isomorphism is natural in a morphism of the left chain complex."
+    },
+    {
+      "temporary_id": "decl-016360",
+      "new_name": "tensorExtendIsoExtendTensor_naturality_right",
+      "docstring": "The tensor-extension isomorphism is natural in a morphism of the right chain complex."
+    },
+    {
+      "temporary_id": "decl-016361",
+      "new_name": "tensorAfterChainToCochainIsoChainTensorThenToCochain",
+      "docstring": "The bifunctor that tensors after extension is naturally isomorphic to the bifunctor that extends after tensoring."
+    },
+    {
+      "temporary_id": "decl-016364",
+      "new_name": "tensorAfterChainToCochainIsoChainTensorThenToCochain_app",
+      "docstring": "The component of the bifunctor isomorphism is the tensor-extension isomorphism."
+    },
+    {
+      "temporary_id": "decl-016365",
+      "new_name": "tensorSummandInclusion",
+      "docstring": "Includes the tensor of components in degrees `p` and `q` into degree `n` of the tensor complex when the degrees add to `n`."
+    },
+    {
+      "temporary_id": "decl-016371",
+      "new_name": "tensorSummandInclusion_comp_reverse",
+      "docstring": "The tensor-summand inclusion followed by the reverse comparison is the corresponding inclusion into the extended tensor component."
+    },
+    {
+      "temporary_id": "decl-016372",
+      "new_name": "extendedTensorSummandInclusion",
+      "docstring": "Includes a tensor of components of two extended complexes into the component indexed by their sum."
+    },
+    {
+      "temporary_id": "decl-016376",
+      "new_name": "extendedTensorSummandInclusion_comp_forward",
+      "docstring": "An extended tensor-summand inclusion followed by the forward comparison gives the associated map to the original tensor component."
+    },
+    {
+      "temporary_id": "decl-020259",
+      "new_name": "extendedHomology_isZero_of_pos",
+      "docstring": "The homology of a negatively extended chain complex vanishes in every positive integer degree."
+    },
+    {
+      "temporary_id": "decl-020263",
+      "new_name": "extendedHomologyIso",
+      "docstring": "Homology of the negatively extended complex in degree `-n` is isomorphic to the original homology in degree `n`."
+    },
+    {
+      "temporary_id": "decl-020270",
+      "new_name": "extendedHomologyIso_naturality",
+      "docstring": "The homology isomorphism for negative extension is natural in chain-complex morphisms."
+    },
+    {
+      "temporary_id": "decl-020271",
+      "new_name": "extendedHomologyIso_naturality_assoc",
+      "docstring": "Naturality of the negative-extension homology isomorphism remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-021306",
+      "new_name": "nonempty_homologyTensorIsoSigma",
+      "docstring": "There exists an isomorphism from the homology of a tensor product to the coproduct of tensor products of homology objects in complementary degrees."
+    },
+    {
+      "temporary_id": "decl-021307",
+      "new_name": "homologyTensorIsoSigma",
+      "docstring": "An isomorphism from tensor-product homology to the coproduct of the tensor products of homology objects whose degrees sum to the target degree."
+    },
+    {
+      "temporary_id": "decl-021735",
+      "new_name": "nonempty_tensorExtendIsoExtendTensor",
+      "docstring": "There exists an isomorphism between the tensor of two negatively extended complexes and the negative extension of their tensor product."
+    },
+    {
+      "temporary_id": "decl-023130",
+      "new_name": "sigmaIsoOfInjective",
+      "docstring": "Constructs an isomorphism of coproducts from an injective reindexing, isomorphisms on its image, and vanishing of the remaining summands."
+    },
+    {
+      "temporary_id": "decl-023134",
+      "new_name": "sigmaMapOfReindex",
+      "docstring": "Maps one coproduct to another using a reindexing and isomorphisms between the selected summands."
+    },
+    {
+      "temporary_id": "decl-023137",
+      "new_name": "sigmaMapOfReindexInv",
+      "docstring": "Maps the reindexed coproduct back to the original coproduct using the inverse summand isomorphisms."
+    },
+    {
+      "temporary_id": "decl-024746",
+      "new_name": "sigmaInclusion_comp_sigmaMapOfReindex",
+      "docstring": "For an injective reindexing, the forward coproduct map carries each selected injection through its summand isomorphism."
+    },
+    {
+      "temporary_id": "decl-024747",
+      "new_name": "sigmaInclusion_comp_sigmaMapOfReindex_assoc",
+      "docstring": "The formula for the forward coproduct map on selected injections remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-024748",
+      "new_name": "sigmaInclusion_comp_sigmaMapOfReindexInv",
+      "docstring": "The reverse coproduct map carries each injection through the inverse of its summand isomorphism."
+    },
+    {
+      "temporary_id": "decl-024749",
+      "new_name": "sigmaInclusion_comp_sigmaMapOfReindexInv_assoc",
+      "docstring": "The formula for the reverse coproduct map on injections remains valid after postcomposition."
+    }
+  ]
+}
