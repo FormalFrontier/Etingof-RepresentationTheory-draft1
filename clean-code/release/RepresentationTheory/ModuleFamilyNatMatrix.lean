@@ -28,15 +28,6 @@ noncomputable def matrix
     Matrix ι ι ℕ :=
   Matrix.of fun i j => Module.finrank k (P i →ₗ[A] P j)
 
-omit [Algebra k A] in
-/-- Every entry of the auxiliary matrix is nonnegative. -/
-theorem matrix_nonneg
-    {ι : Type*} (P : ι → Type*)
-    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)]
-    [∀ i, Module k (P i)] [∀ i, SMulCommClass A k (P i)]
-    (i j : ι) : 0 ≤ matrix (k := k) (A := A) P i j :=
-  Nat.zero_le _
-
 /-- The diagonal entry of the auxiliary matrix is positive for a finite nontrivial module. -/
 theorem matrix_diagonal_pos
     {ι : Type*} (P : ι → Type*)
@@ -69,15 +60,13 @@ theorem matrix_diagonal_pos_of_auxiliary
   matrix_diagonal_pos P i
 
 omit [Algebra k A] in
-/-- Every entry remains nonnegative after the auxiliary matrix is mapped by natural-number casting. -/
-theorem matrix_natCast_nonneg
+/-- Every entry of the auxiliary matrix is nonnegative. -/
+theorem matrix_nonneg
     {ι : Type*} (P : ι → Type*)
     [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)]
     [∀ i, Module k (P i)] [∀ i, SMulCommClass A k (P i)]
-    (i j : ι) :
-    (0 : ℤ) ≤ ((matrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)) i j := by
-  rw [Matrix.map_apply]
-  exact Int.natCast_nonneg _
+    (i j : ι) : 0 ≤ matrix (k := k) (A := A) P i j :=
+  Nat.zero_le _
 
 /-- The diagonal entry remains positive after the auxiliary matrix is mapped by natural-number casting. -/
 theorem matrix_natCast_diagonal_pos
@@ -89,5 +78,15 @@ theorem matrix_natCast_diagonal_pos
     (0 : ℤ) < ((matrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)) i i := by
   rw [Matrix.map_apply]
   exact_mod_cast matrix_diagonal_pos P i
+
+omit [Algebra k A] in
+/-- Every entry remains nonnegative after the auxiliary matrix is mapped by natural-number casting. -/
+theorem matrix_natCast_nonneg
+    {ι : Type*} (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)]
+    [∀ i, Module k (P i)] [∀ i, SMulCommClass A k (P i)]
+    (i j : ι) :
+    (0 : ℤ) ≤ ((matrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)) i j := by
+  rw [Matrix.map_apply]; exact Int.natCast_nonneg _
 
 end RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix
