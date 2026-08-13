@@ -2,39 +2,39 @@
   "declarations": [
     {
       "docstring": "The type on the left side of the categorical data.",
-      "new_name": "CategoryTheory.AbstractTypeEquivalence.Left",
+      "new_name": "Left",
       "temporary_id": "decl-001061"
     },
     {
       "docstring": "The type on the right side of the categorical data.",
-      "new_name": "CategoryTheory.AbstractTypeEquivalence.Right",
+      "new_name": "Right",
       "temporary_id": "decl-001062"
     },
     {
       "docstring": "An equivalence between the left and right types equipped with their category structures.",
-      "new_name": "CategoryTheory.AbstractTypeEquivalence.equivalence",
+      "new_name": "equivalence",
       "temporary_id": "decl-017760"
     },
     {
       "docstring": "A functor from the left type to the right type.",
-      "new_name": "CategoryTheory.AbstractTypeEquivalence.leftToRight",
+      "new_name": "leftToRight",
       "temporary_id": "decl-019753"
     },
     {
       "docstring": "A functor from the right type to the left type.",
-      "new_name": "CategoryTheory.AbstractTypeEquivalence.rightToLeft",
+      "new_name": "rightToLeft",
       "temporary_id": "decl-019756"
     },
     {
       "docstring": "A category structure on the left type.",
-      "new_name": "CategoryTheory.AbstractTypeEquivalence.leftCategory",
+      "new_name": "leftCategory",
       "temporary_id": "decl-020583"
     },
     {
       "docstring": "A category structure on the right type.",
-      "new_name": "CategoryTheory.AbstractTypeEquivalence.rightCategory",
+      "new_name": "rightCategory",
       "temporary_id": "decl-020586"
     }
   ],
-  "module_name": "CategoryTheory.AbstractTypeEquivalence"
+  "module_name": "AbstractTypeEquivalence"
 }
