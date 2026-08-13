@@ -1,0 +1,35 @@
+{
+  "module_name": "InductionCoinduction.FiniteIndexEquivalences",
+  "declarations": [
+    {
+      "temporary_id": "decl-015432",
+      "new_name": "finrank_coindV",
+      "docstring": "The dimension of a coinduced representation is the subgroup index times the original dimension."
+    },
+    {
+      "temporary_id": "decl-015433",
+      "new_name": "finrank_indV",
+      "docstring": "The dimension of an induced representation is the subgroup index times the original dimension."
+    },
+    {
+      "temporary_id": "decl-018045",
+      "new_name": "coindVEquivRightCosetFunctions",
+      "docstring": "The coinduced representation is linearly equivalent to functions from right cosets."
+    },
+    {
+      "temporary_id": "decl-018242",
+      "new_name": "rightCosetCorrection",
+      "docstring": "The subgroup element correcting a group element by its chosen right-coset representative."
+    },
+    {
+      "temporary_id": "decl-018244",
+      "new_name": "rightCosetCorrection_val",
+      "docstring": "The value of the right-coset correction is the group element times the inverse chosen representative."
+    },
+    {
+      "temporary_id": "decl-020519",
+      "new_name": "indVEquivCoindV",
+      "docstring": "A linear equivalence between induced and coinduced representations of a finite-index subgroup."
+    }
+  ]
+}
