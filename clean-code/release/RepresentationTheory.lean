@@ -233,6 +233,7 @@ import RepresentationTheory.PartitionAuxiliary
 import RepresentationTheory.Algebra.Module.Property
 import RepresentationTheory.Algebra.Module.Properties
 import RepresentationTheory.CategoryTheory.Abelian.ObjectData
+import RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses
 
 /-!
 # Representation theory formalization
