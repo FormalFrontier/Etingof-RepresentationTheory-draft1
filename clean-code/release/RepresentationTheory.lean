@@ -177,6 +177,7 @@ import RepresentationTheory.SemisimpleAlgebraCenters
 import RepresentationTheory.FiniteGroup.ComplexGroupAlgebraDecomposition
 import RepresentationTheory.Module.IndexedCoordinateProjections
 import RepresentationTheory.TensorCoefficientIndependence
+import RepresentationTheory.FiniteGroupCharacterArithmetic
 
 /-!
 # Representation theory formalization
