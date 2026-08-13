@@ -44,7 +44,7 @@
     {
       "temporary_id": "decl-004875",
       "new_name": "subgroupCharacterAveraging",
-      "docstring": "A complex-linear endomorphism of group-valued functions associated with finite subgroup character data."
+      "docstring": "A complex-linear endomorphism of complex-valued functions on the group associated with finite subgroup character data."
     },
     {
       "temporary_id": "decl-004878",
