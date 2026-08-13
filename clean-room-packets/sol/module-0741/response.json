@@ -1,10 +1,10 @@
 {
-  "module_name": "Quiver.Module.TensorPresentation",
+  "module_name": "ModuleTensorPresentation",
   "declarations": [
     {
       "temporary_id": "decl-005858",
       "new_name": "auxiliaryAction",
-      "docstring": "An auxiliary additive homomorphism from the ambient scalar type to additive maps between the displayed module carriers."
+      "docstring": "An auxiliary additive homomorphism from the displayed algebra to additive maps between the displayed module carriers."
     },
     {
       "temporary_id": "decl-005860",
@@ -103,17 +103,17 @@
     },
     {
       "temporary_id": "decl-006423",
-      "new_name": "auxiliaryLeftInverse",
+      "new_name": "auxiliaryAddHom",
       "docstring": "An auxiliary additive homomorphism between the two displayed module carriers."
     },
     {
       "temporary_id": "decl-006424",
-      "new_name": "auxiliaryLeftInverse_apply",
+      "new_name": "auxiliaryAddHom_apply_image",
       "docstring": "The auxiliary additive homomorphism sends the image under the displayed morphism back to the original element."
     },
     {
       "temporary_id": "decl-006425",
-      "new_name": "auxiliaryLeftInverse_tmul",
+      "new_name": "auxiliaryAddHom_tmul",
       "docstring": "On a pure tensor, the auxiliary additive homomorphism agrees with the auxiliary action."
     },
     {
