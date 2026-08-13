@@ -1,0 +1,180 @@
+{
+  "module_name": "FiniteDimensionalLinearMapRepresentations",
+  "declarations": [
+    {
+      "temporary_id": "decl-000002",
+      "new_name": "LinearMapRepresentation",
+      "docstring": "A finite-dimensional representation consisting of two vector spaces over a field and a linear map between them."
+    },
+    {
+      "temporary_id": "decl-000003",
+      "new_name": "IsIndecomposable",
+      "docstring": "The predicate that a finite-dimensional linear-map representation is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000004",
+      "new_name": "Equiv",
+      "docstring": "An equivalence between two finite-dimensional linear-map representations."
+    },
+    {
+      "temporary_id": "decl-000008",
+      "new_name": "map_comm_apply",
+      "docstring": "The domain and codomain linear equivalences of a representation equivalence intertwine the two structure maps."
+    },
+    {
+      "temporary_id": "decl-000010",
+      "new_name": "dimension_eq",
+      "docstring": "Equivalent linear-map representations have the same ordered pair of dimensions."
+    },
+    {
+      "temporary_id": "decl-000011",
+      "new_name": "domainLinearEquiv",
+      "docstring": "The linear equivalence between the domain spaces of two equivalent representations."
+    },
+    {
+      "temporary_id": "decl-000012",
+      "new_name": "codomainLinearEquiv",
+      "docstring": "The linear equivalence between the codomain spaces of two equivalent representations."
+    },
+    {
+      "temporary_id": "decl-000013",
+      "new_name": "finrank_eq",
+      "docstring": "A representation equivalence preserves the finranks of both its domain and codomain spaces."
+    },
+    {
+      "temporary_id": "decl-000024",
+      "new_name": "refl",
+      "docstring": "The identity equivalence of a linear-map representation."
+    },
+    {
+      "temporary_id": "decl-000027",
+      "new_name": "symm",
+      "docstring": "Reverses an equivalence of linear-map representations."
+    },
+    {
+      "temporary_id": "decl-000029",
+      "new_name": "trans",
+      "docstring": "Composes two equivalences of linear-map representations."
+    },
+    {
+      "temporary_id": "decl-000032",
+      "new_name": "domain",
+      "docstring": "The domain vector space of a linear-map representation."
+    },
+    {
+      "temporary_id": "decl-000033",
+      "new_name": "codomain",
+      "docstring": "The codomain vector space of a linear-map representation."
+    },
+    {
+      "temporary_id": "decl-000036",
+      "new_name": "domainAddCommGroup",
+      "docstring": "The additive commutative group structure on the domain space of a representation."
+    },
+    {
+      "temporary_id": "decl-000037",
+      "new_name": "codomainAddCommGroup",
+      "docstring": "The additive commutative group structure on the codomain space of a representation."
+    },
+    {
+      "temporary_id": "decl-000040",
+      "new_name": "dimension",
+      "docstring": "The ordered pair of domain and codomain dimensions of a linear-map representation."
+    },
+    {
+      "temporary_id": "decl-000042",
+      "new_name": "zeroOneModel_dimension",
+      "docstring": "The standard zero-to-one model has dimension pair `(0, 1)`."
+    },
+    {
+      "temporary_id": "decl-000043",
+      "new_name": "oneOneModel_dimension",
+      "docstring": "The standard one-to-one model has dimension pair `(1, 1)`."
+    },
+    {
+      "temporary_id": "decl-000044",
+      "new_name": "oneZeroModel_dimension",
+      "docstring": "The standard one-to-zero model has dimension pair `(1, 0)`."
+    },
+    {
+      "temporary_id": "decl-000045",
+      "new_name": "existsUnique_equiv_standardModel_of_isIndecomposable",
+      "docstring": "Every indecomposable linear-map representation is equivalent to a unique member of the three-element family of standard models."
+    },
+    {
+      "temporary_id": "decl-000046",
+      "new_name": "linearMap",
+      "docstring": "The structure map from the domain space to the codomain space of a representation."
+    },
+    {
+      "temporary_id": "decl-000047",
+      "new_name": "finiteDimensional_domain",
+      "docstring": "The domain space of a linear-map representation is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-000048",
+      "new_name": "finiteDimensional_codomain",
+      "docstring": "The codomain space of a linear-map representation is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-000055",
+      "new_name": "domainModule",
+      "docstring": "The scalar module structure on the domain space of a representation."
+    },
+    {
+      "temporary_id": "decl-000056",
+      "new_name": "codomainModule",
+      "docstring": "The scalar module structure on the codomain space of a representation."
+    },
+    {
+      "temporary_id": "decl-000061",
+      "new_name": "standardModel",
+      "docstring": "The three-element indexed family of standard linear-map representations."
+    },
+    {
+      "temporary_id": "decl-000066",
+      "new_name": "zeroOneModel",
+      "docstring": "A standard linear-map representation whose domain and codomain dimensions are zero and one."
+    },
+    {
+      "temporary_id": "decl-000067",
+      "new_name": "zeroOneModel_isIndecomposable",
+      "docstring": "The standard model of dimension pair `(0, 1)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000069",
+      "new_name": "oneOneModel",
+      "docstring": "A standard linear-map representation whose domain and codomain dimensions are both one."
+    },
+    {
+      "temporary_id": "decl-000070",
+      "new_name": "oneOneModel_isIndecomposable",
+      "docstring": "The standard model of dimension pair `(1, 1)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000074",
+      "new_name": "standardModel_isIndecomposable",
+      "docstring": "Every member of the three-element family of standard models is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000075",
+      "new_name": "oneZeroModel",
+      "docstring": "A standard linear-map representation whose domain and codomain dimensions are one and zero."
+    },
+    {
+      "temporary_id": "decl-000078",
+      "new_name": "oneZeroModel_isIndecomposable",
+      "docstring": "The standard model of dimension pair `(1, 0)` is indecomposable."
+    },
+    {
+      "temporary_id": "decl-000080",
+      "new_name": "submodule_eq_bot_of_subsingleton",
+      "docstring": "Every submodule of a subsingleton module is the bottom submodule."
+    },
+    {
+      "temporary_id": "decl-003714",
+      "new_name": "isIndecomposable_dimension_cases",
+      "docstring": "An indecomposable representation has dimension pair `(1, 0)`, `(0, 1)`, or `(1, 1)`, with an injective structure map in the last case."
+    }
+  ]
+}
