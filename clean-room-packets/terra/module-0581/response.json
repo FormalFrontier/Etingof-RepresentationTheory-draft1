@@ -1,8 +1,8 @@
 {
   "declarations": [
     {
-      "docstring": "A predicate on a functor between preadditive categories expressing additivity.",
-      "new_name": "CategoryTheory.Functor.IsAdditive",
+      "docstring": "A property of a functor between preadditive categories.",
+      "new_name": "PreadditiveProperty",
       "temporary_id": "decl-000488"
     },
     {
@@ -21,10 +21,10 @@
       "temporary_id": "decl-000492"
     },
     {
-      "docstring": "A predicate on a functor between preadditive categories equipped with linear structures over a semiring.",
-      "new_name": "CategoryTheory.Functor.IsLinear",
+      "docstring": "A property of a functor between preadditive categories with linear structures over a semiring.",
+      "new_name": "LinearProperty",
       "temporary_id": "decl-005581"
     }
   ],
-  "module_name": "CategoryTheory.Preadditive.FunctorProperties"
+  "module_name": "Preadditive.FunctorProperties"
 }
