@@ -175,6 +175,7 @@ import RepresentationTheory.Matrix.CharpolyDiscriminant
 import RepresentationTheory.Subgroup.HomAdjunction
 import RepresentationTheory.SemisimpleAlgebraCenters
 import RepresentationTheory.FiniteGroup.ComplexGroupAlgebraDecomposition
+import RepresentationTheory.Module.IndexedCoordinateProjections
 
 /-!
 # Representation theory formalization
