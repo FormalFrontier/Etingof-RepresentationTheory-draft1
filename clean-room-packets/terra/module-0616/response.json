@@ -1,0 +1,90 @@
+{
+  "module_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.Additivity",
+  "declarations": [
+    {
+      "temporary_id": "decl-000302",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.leftDerived_additive",
+      "docstring": "The left-derived functor of an additive functor is additive in every degree."
+    },
+    {
+      "temporary_id": "decl-000308",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.leftDerived_natTrans_add",
+      "docstring": "Deriving the sum of two natural transformations agrees with the sum of their derived transformations."
+    },
+    {
+      "temporary_id": "decl-000309",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.mapHomologicalComplex_natTrans_add",
+      "docstring": "Mapping homological complexes sends the sum of natural transformations to the sum of the induced transformations."
+    },
+    {
+      "temporary_id": "decl-000312",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.projectiveResolutions_additive",
+      "docstring": "The functor assigning projective resolutions is additive."
+    },
+    {
+      "temporary_id": "decl-024082",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToDerivedHom_add",
+      "docstring": "The morphism induced by a sum of linear maps is the sum of the induced morphisms."
+    },
+    {
+      "temporary_id": "decl-024083",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToDerivedHom_comp",
+      "docstring": "The morphism induced by a composite of linear maps is the composite of the induced morphisms."
+    },
+    {
+      "temporary_id": "decl-024085",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.linearMapToDerivedHom_id",
+      "docstring": "The identity linear map induces the identity morphism."
+    },
+    {
+      "temporary_id": "decl-024195",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_biprod",
+      "docstring": "Canonical isomorphism between the derived object of a binary biproduct and the biproduct of the derived objects."
+    },
+    {
+      "temporary_id": "decl-024199",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_biproduct",
+      "docstring": "Canonical isomorphism between the derived object of a finite biproduct and the biproduct of the derived objects."
+    },
+    {
+      "temporary_id": "decl-024211",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedFunctor_additive",
+      "docstring": "The displayed degreewise derived functor is additive."
+    },
+    {
+      "temporary_id": "decl-024215",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_biproduct_family",
+      "docstring": "Canonical isomorphism from the derived object formed with a finite family of modules to the corresponding biproduct."
+    },
+    {
+      "temporary_id": "decl-024219",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_prod",
+      "docstring": "Canonical isomorphism between the derived object for a product of two modules and the biproduct of the individual derived objects."
+    },
+    {
+      "temporary_id": "decl-024224",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_map",
+      "docstring": "Constructs the morphism of derived objects induced by a linear map."
+    },
+    {
+      "temporary_id": "decl-024235",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_map_add",
+      "docstring": "The derived morphism associated with a sum of linear maps is the sum of the associated morphisms."
+    },
+    {
+      "temporary_id": "decl-024236",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_map_comp",
+      "docstring": "The derived morphism associated with a composite of linear maps is the composite of the associated morphisms."
+    },
+    {
+      "temporary_id": "decl-024237",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_map_id",
+      "docstring": "The identity linear map induces the identity morphism on the derived object."
+    },
+    {
+      "temporary_id": "decl-024238",
+      "new_name": "CategoryTheory.HomologicalAlgebra.DerivedFunctor.derivedObject_map_zero",
+      "docstring": "The zero linear map induces the zero morphism on the derived object."
+    }
+  ]
+}
