@@ -1,0 +1,11 @@
+{
+  "module_name": "AuxiliaryModuleCategoryEquivalences",
+  "declarations": [
+    {"temporary_id": "decl-013993", "new_name": "AuxiliaryModuleCategory", "docstring": "An auxiliary type associated with a small ring and one of its module-category objects."},
+    {"temporary_id": "decl-013994", "new_name": "AuxiliaryFieldCategory", "docstring": "An auxiliary type associated with a field."},
+    {"temporary_id": "decl-014139", "new_name": "isSimpleRing_auxiliary", "docstring": "The displayed ring formed from the given simple module data is simple."},
+    {"temporary_id": "decl-014186", "new_name": "auxiliaryModuleCategoryEquivalence", "docstring": "Constructs an equivalence from the module category over the field to the displayed module category."},
+    {"temporary_id": "decl-014187", "new_name": "auxiliaryFieldCategoryEquivalence", "docstring": "Constructs an equivalence from the module category over the field to the displayed auxiliary type."},
+    {"temporary_id": "decl-014190", "new_name": "auxiliarySimpleRingModuleCategoryEquivalence", "docstring": "Constructs an equivalence from modules over the field to modules over the displayed simple ring."}
+  ]
+}
