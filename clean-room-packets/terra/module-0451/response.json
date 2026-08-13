@@ -1,0 +1,20 @@
+{
+  "module_name": "Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-016524",
+      "new_name": "isEmpty_linearEquiv_auxiliary_of_ne",
+      "docstring": "For distinct partitions, the type of linear equivalences between the associated auxiliary subtypes is empty."
+    },
+    {
+      "temporary_id": "decl-020768",
+      "new_name": "auxiliaryCard_le_partition_card",
+      "docstring": "The auxiliary cardinality associated with `D` is at most the number of partitions of `n`."
+    },
+    {
+      "temporary_id": "decl-024121",
+      "new_name": "MonoidAlgebra.coeFun",
+      "docstring": "The function coercion from a monoid algebra to functions `G → R`."
+    }
+  ]
+}
