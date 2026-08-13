@@ -171,6 +171,7 @@ import RepresentationTheory.Group.CharacterDuality
 import RepresentationTheory.InductionAndCoinduction
 import RepresentationTheory.SpecialLinear.Commutator
 import RepresentationTheory.AuxiliaryTypeCharacters
+import RepresentationTheory.Matrix.CharpolyDiscriminant
 
 /-!
 # Representation theory formalization
