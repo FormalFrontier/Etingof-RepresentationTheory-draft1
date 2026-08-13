@@ -23,8 +23,8 @@
     },
     {
       "temporary_id": "decl-021457",
-      "new_name": "leftFunctor_linear_of_rightFunctor_additive_linear",
-      "docstring": "The left functor of an adjunction is linear when the right functor is additive and linear."
+      "new_name": "leftAdjoint_linear_of_rightAdjoint_additive_linear",
+      "docstring": "A left adjoint is linear when its right adjoint is both additive and linear."
     },
     {
       "temporary_id": "decl-022643",
