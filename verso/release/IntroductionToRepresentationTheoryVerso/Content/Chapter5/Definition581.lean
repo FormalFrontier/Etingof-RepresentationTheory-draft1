@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,25 @@ number := false
 $$`\operatorname{Ind}_H^G V = \{f : G \to V \mid f(hx) = \rho_V(h) f(x) \ \forall x \in G, h \in H\}`
 
 and the action $`g(f)(x) = f(xg)` $`\forall g \in G`.
+
+## Formalization
+%%%
+tag := "Chapter5/Definition5.8.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced_apply}
+
+{Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced_equivariance}
+
+{Manual.docstring RepresentationTheory.InductionAndCoinduction.finiteIndexInducedIsoCoinduced}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced}
+
+{Manual.docstring RepresentationTheory.InductionAndCoinduction.finiteIndexInduced}
+
+{Manual.docstring RepresentationTheory.InductionAndCoinduction.induced}
