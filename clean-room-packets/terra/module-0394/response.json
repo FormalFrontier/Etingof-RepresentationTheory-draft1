@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-021596",
-      "new_name": "mem_iff_commutes_with_induced_units",
-      "docstring": "An endomorphism lies in the designated collection exactly when it commutes with every operator induced by a unit of the underlying endomorphism ring."
+      "new_name": "mem_iff_commutes_with_unit_images",
+      "docstring": "An endomorphism belongs to the given collection exactly when it commutes with the image of every unit of the specified endomorphism ring."
     }
   ]
 }
