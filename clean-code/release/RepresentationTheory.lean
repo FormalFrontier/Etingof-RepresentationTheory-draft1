@@ -80,6 +80,7 @@ import RepresentationTheory.Group.IndexedPolynomial
 import RepresentationTheory.Group.SimpleCharacterCriterion
 import RepresentationTheory.Group.UnitaryRepresentations
 import RepresentationTheory.GroupAction.DenseOrbit
+import RepresentationTheory.IntegralVectorSign
 import RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 import RepresentationTheory.CategoryTheory.QuiverLinearMaps
 import RepresentationTheory.CategoryTheory.QuiverSubdiagrams
