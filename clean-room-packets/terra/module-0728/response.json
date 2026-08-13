@@ -1,19 +1,19 @@
 {
-  "module_name": "CategoryTheory.Auxiliary",
+  "module_name": "CategoryTheory.EndomorphismDecomposition",
   "declarations": [
     {
       "temporary_id": "decl-019487",
-      "new_name": "CategoryTheory.Auxiliary.endDecomposesAsNilpotentAndIsIso",
+      "new_name": "CategoryTheory.EndomorphismDecomposition.endDecomposesAsNilpotentAndIsIso",
       "docstring": "An endomorphism can be represented, after an isomorphism to a binary biproduct, by a nilpotent component and an invertible component."
     },
     {
       "temporary_id": "decl-020853",
-      "new_name": "CategoryTheory.Auxiliary.indecomposableEndIsLocalRing",
+      "new_name": "CategoryTheory.EndomorphismDecomposition.indecomposableEndIsLocalRing",
       "docstring": "The endomorphism ring of an indecomposable object is local."
     },
     {
       "temporary_id": "decl-020858",
-      "new_name": "CategoryTheory.Auxiliary.indecomposableEndIsNilpotentOrIsIso",
+      "new_name": "CategoryTheory.EndomorphismDecomposition.indecomposableEndIsNilpotentOrIsIso",
       "docstring": "Each endomorphism of an indecomposable object is either nilpotent or invertible."
     }
   ]
