@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -23,3 +24,15 @@ $$`\begin{array}{ccc} \longrightarrow & \overset{i}{\bullet} & \longleftarrow \\
 We call a vertex $`i \in Q` a *source* if all edges connected to $`i` point away from $`i`:
 
 $$`\begin{array}{ccc} \longleftarrow & \overset{i}{\bullet} & \longrightarrow \\ & \downarrow & \end{array}.`
+
+## Formalization
+%%%
+tag := "Chapter6/Definition6.6.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.QuiverVertexPredicates.vertexCondition}
+
+{Manual.docstring RepresentationTheory.QuiverVertexPredicates.vertexProperty}
