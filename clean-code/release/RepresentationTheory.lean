@@ -295,6 +295,7 @@ import RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex
 import RepresentationTheory.CategoryTheory.Abelian.ProjectiveResolution
 import RepresentationTheory.FDRep.SimpleCharacters
 import RepresentationTheory.Algebra.Auxiliary
+import RepresentationTheory.SymmetricGroup.PartitionSubmodules
 
 /-!
 # Representation theory formalization
