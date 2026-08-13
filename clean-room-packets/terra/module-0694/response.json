@@ -1,0 +1,20 @@
+{
+  "declarations": [
+    {
+      "docstring": "Converts the first auxiliary condition into the second over an algebraically closed field for a finite algebra.",
+      "new_name": "toAuxiliaryOfIsAlgClosed",
+      "temporary_id": "decl-005124"
+    },
+    {
+      "docstring": "Converts the second auxiliary condition into the first.",
+      "new_name": "toAuxiliary",
+      "temporary_id": "decl-005127"
+    },
+    {
+      "docstring": "Over an algebraically closed field, the two auxiliary conditions are equivalent for finite algebras.",
+      "new_name": "auxiliary_iff_auxiliary",
+      "temporary_id": "decl-020780"
+    }
+  ],
+  "module_name": "Algebra.Auxiliary"
+}
