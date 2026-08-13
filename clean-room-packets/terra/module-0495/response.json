@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-001460",
       "new_name": "auxiliary_exists_representation_finrank_eq",
-      "docstring": "Under the displayed matrix and quiver hypotheses, there exists an auxiliary representation whose vertexwise dimensions are the prescribed nonnegative integers."
+      "docstring": "Under the displayed matrix and quiver hypotheses, there exists an auxiliary representation whose vertexwise finranks realize the prescribed integer-valued function."
     },
     {
       "temporary_id": "decl-001468",
-      "new_name": "auxiliary_exists_representation_finrank_eq_coordinateFunction",
-      "docstring": "For a selected finite index, there exists an auxiliary quiver representation whose vertexwise dimensions equal the displayed coordinate function."
+      "new_name": "auxiliary_exists_representation_finrank_eq_auxiliary_value",
+      "docstring": "For a selected finite index, there exists an auxiliary quiver representation whose vertexwise finranks equal the displayed auxiliary values."
     },
     {
       "temporary_id": "decl-023196",
@@ -18,12 +18,12 @@
     },
     {
       "temporary_id": "decl-023197",
-      "new_name": "auxiliaryRepresentation_moduleFinite",
+      "new_name": "auxiliaryRepresentation_finite",
       "docstring": "Every vertex module of the auxiliary representation is finite over the coefficient semiring."
     },
     {
       "temporary_id": "decl-023198",
-      "new_name": "auxiliaryRepresentation_moduleFree",
+      "new_name": "auxiliaryRepresentation_free",
       "docstring": "Every vertex module of the auxiliary representation is free over the coefficient semiring."
     }
   ]
