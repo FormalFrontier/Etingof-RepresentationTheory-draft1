@@ -74,8 +74,7 @@ private lemma sandwich_scalar (n : ℕ) (la : Nat.Partition n) :
         RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementA n la) *
       RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB n la := by
     simp only [mul_assoc]
-  rw [this, hℓ]
-  simp only [RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC,
+  rw [this, hℓ]; simp only [RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC,
     mul_assoc]
 
 private lemma trace_lmul_monoidAlgebra
@@ -117,12 +116,10 @@ theorem perm_eq_one_of_mem_of_mem (n : ℕ) (la : Nat.Partition n)
     sortedParts_sum n la
   have hk : k.val <
       (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by
-    rw [hsum]
-    exact k.isLt
+    rw [hsum]; exact k.isLt
   have hσk : (σ k).val <
       (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by
-    rw [hsum]
-    exact (σ k).isLt
+    rw [hsum]; exact (σ k).isLt
   exact RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq
     (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la)
     (σ k).val k.val hσk hk (hrow k) (hcol k)
@@ -141,8 +138,7 @@ private lemma columnAntisymmetrizer_apply_mem (n : ℕ) (la : Nat.Partition n) (
   · intro q _ hq
     have : (q : G' n) ≠ σ := fun h => hq (Subtype.ext h)
     simp [this]
-  · intro h
-    exact absurd (Finset.mem_univ _) h
+  · intro h; exact absurd (Finset.mem_univ _) h
 
 private lemma columnAntisymmetrizer_apply_not_mem (n : ℕ) (la : Nat.Partition n) (σ : G' n)
     (hσ : σ ∉ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la) :
@@ -183,8 +179,7 @@ lemma coeff_one_eq_one (n : ℕ) (la : Nat.Partition n) :
     · intro p _ hp
       have hp_ne : (p : G' n) ≠ 1 := fun h => hp (Subtype.ext h)
       simp [hp_ne]
-    · intro h
-      exact absurd (Finset.mem_univ _) h
+    · intro h; exact absurd (Finset.mem_univ _) h
   · intro q _ hq
     have hq_ne : (q : G' n) ≠ 1 := fun h => hq (Subtype.ext h)
     suffices h :
@@ -194,17 +189,14 @@ lemma coeff_one_eq_one (n : ℕ) (la : Nat.Partition n) :
     simp only [RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB,
       MonoidAlgebra.of_apply]
     rw [monoidAlgebra_fintype_sum_apply]
-    apply Finset.sum_eq_zero
-    intro p _
+    apply Finset.sum_eq_zero; intro p _
     rw [MonoidAlgebra.coeff_single, Finsupp.single_apply]
     split_ifs with h
-    · exfalso
-      exact hq_ne (inv_eq_one.mp (perm_eq_one_of_mem_of_mem n la (q : G' n)⁻¹
+    · exfalso; exact hq_ne (inv_eq_one.mp (perm_eq_one_of_mem_of_mem n la (q : G' n)⁻¹
         (h ▸ p.prop)
         ((RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la).inv_mem q.prop)))
     · rfl
-  · intro h
-    exact absurd (Finset.mem_univ _) h
+  · intro h; exact absurd (Finset.mem_univ _) h
 
 /-- The square of the partition-indexed element is nonzero. -/
 lemma self_mul_ne_zero (n : ℕ) (la : Nat.Partition n) :
@@ -257,10 +249,7 @@ theorem partitionSubmodule_isSimpleModule
     obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp
       (show n₀ ∈ partitionSubmodule n la from hN_le hn₀)
     have hcn₀ : c * n₀ = f a • c := by
-      rw [← ha]
-      change c * (a * c) = _
-      rw [← mul_assoc]
-      exact hf a
+      rw [← ha]; change c * (a * c) = _; rw [← mul_assoc]; exact hf a
     have hcn₀_N : c * n₀ ∈ N := N.smul_mem _ hn₀
     by_cases hfa : f a = 0
     · rw [hfa, zero_smul] at hcn₀
@@ -268,9 +257,7 @@ theorem partitionSubmodule_isSimpleModule
         calc c * c = c * (n₀ + p₀) := by rw [hc_eq]
           _ = c * n₀ + c * p₀ := mul_add _ _ _
           _ = c * p₀ := by rw [hcn₀, zero_add]
-      have hαc_P : α • c ∈ P := by
-        rw [← hα_eq, hcc_cp₀]
-        exact P.smul_mem _ hp₀
+      have hαc_P : α • c ∈ P := by rw [← hα_eq, hcc_cp₀]; exact P.smul_mem _ hp₀
       have h1 : α • n₀ ∈ N := Submodule.smul_of_tower_mem N α hn₀
       have h2 : α • n₀ ∈ P := by
         rw [show α • n₀ = α • c - α • p₀ from by rw [← hc_eq, smul_add, add_sub_cancel_right]]
@@ -279,13 +266,8 @@ theorem partitionSubmodule_isSimpleModule
         (Submodule.mem_bot (R := A' n)).mp
           (hP.inf_eq_bot ▸ Submodule.mem_inf.mpr ⟨h1, h2⟩)
       have hn₀_zero : n₀ = 0 := (smul_eq_zero.mp h3).resolve_left hα_ne
-      exfalso
-      apply hN_ne_bot
-      rw [eq_bot_iff]
-      intro x hx
-      have hc_P : c ∈ P := by
-        rw [← hc_eq, hn₀_zero, zero_add]
-        exact hp₀
+      exfalso; apply hN_ne_bot; rw [eq_bot_iff]; intro x hx
+      have hc_P : c ∈ P := by rw [← hc_eq, hn₀_zero, zero_add]; exact hp₀
       have hV_le_P : partitionSubmodule n la ≤ P :=
         Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hc_P)
       exact (Submodule.mem_bot (R := A' n)).mpr
