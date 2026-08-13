@@ -232,6 +232,7 @@ import RepresentationTheory.Partitions.SquareScalar
 import RepresentationTheory.PartitionAuxiliary
 import RepresentationTheory.Algebra.Module.Property
 import RepresentationTheory.Algebra.Module.Properties
+import RepresentationTheory.CategoryTheory.Abelian.ObjectData
 
 /-!
 # Representation theory formalization
