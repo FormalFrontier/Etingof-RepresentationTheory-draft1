@@ -1,0 +1,15 @@
+{
+  "module_name": "Quiver.Auxiliary",
+  "declarations": [
+    {
+      "temporary_id": "decl-013176",
+      "new_name": "Quiver.exists_auxiliary_realization_with_prescribed_counts",
+      "docstring": "Under the supplied compatibility assumptions, the chosen integer vector is realized pointwise by the natural-number data of an auxiliary object and an accompanying witness."
+    },
+    {
+      "temporary_id": "decl-013180",
+      "new_name": "Quiver.exists_order_target_lt_source",
+      "docstring": "A compatible finite quiver admits an ordering in which the target of every arrow precedes its source."
+    }
+  ]
+}
