@@ -1,10 +1,10 @@
 {
   "associations": [
-    {
-      "association_id": "association:a4d1f7d3c6bf038cbeed",
-      "rationale": "The formal type directly constructs, from a basis indexed by ι, an algebra equivalence between the tensor algebra of V and the free algebra on ι.",
-      "role": "primary"
-    }
+      {
+        "association_id": "association:a4d1f7d3c6bf038cbeed",
+        "rationale": "The formal type constructs a basis-dependent algebra equivalence between the tensor algebra and a free algebra, but it does not state how the equivalence acts on the named generators.",
+        "role": "supporting"
+      }
   ],
   "packet_id": "align-0413"
 }

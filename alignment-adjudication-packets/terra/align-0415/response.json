@@ -1,10 +1,10 @@
 {
   "associations": [
-    {
-      "association_id": "association:8fd7f718723511749de8",
-      "rationale": "Given a quiver vertex together with a proof that it is a sink, the declaration directly constructs an endofunctor on quiver representations. Its result type confirms the functoriality assertion, although the kernel formula is not visible in the displayed type.",
-      "role": "primary"
-    }
+      {
+        "association_id": "association:8fd7f718723511749de8",
+        "rationale": "Given a sink, the declaration constructs an endofunctor on quiver representations, but the displayed type does not state that its reflected vertex is the kernel of the incoming map.",
+        "role": "supporting"
+      }
   ],
   "packet_id": "align-0415"
 }
