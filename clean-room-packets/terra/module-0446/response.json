@@ -1,0 +1,50 @@
+{
+  "module_name": "LinearAlgebra.SymmetricPower.BasisShear",
+  "declarations": [
+    {
+      "temporary_id": "decl-005662",
+      "new_name": "elementaryTransition",
+      "docstring": "A basic relation used to pass between the underlying indexed objects."
+    },
+    {
+      "temporary_id": "decl-021633",
+      "new_name": "elementaryTransition_reflTransGen_complete",
+      "docstring": "Any two indexed objects are connected by a finite chain of elementary transitions, with stationary steps permitted."
+    },
+    {
+      "temporary_id": "decl-021635",
+      "new_name": "Submodule.closedUnderElementaryTransition",
+      "docstring": "Under the stated invariance hypotheses, the submodule is stable when an indexed element is replaced along an elementary transition."
+    },
+    {
+      "temporary_id": "decl-023730",
+      "new_name": "basisShear_symmetricPower_apply_indexedElement",
+      "docstring": "The induced basis shear expands the displayed indexed symmetric-power element by summing over subsets of positions carrying the target index."
+    },
+    {
+      "temporary_id": "decl-024319",
+      "new_name": "basisShearEquiv",
+      "docstring": "The invertible basis shear that adds the i-th basis vector at the j-th coordinate."
+    },
+    {
+      "temporary_id": "decl-024326",
+      "new_name": "basisShear",
+      "docstring": "The linear basis shear that changes the j-th basis vector by adding the i-th one."
+    },
+    {
+      "temporary_id": "decl-024329",
+      "new_name": "basisShear_apply_basis",
+      "docstring": "The formula for the basis shear on a single basis vector."
+    },
+    {
+      "temporary_id": "decl-024330",
+      "new_name": "basisShearEquiv_toLinearMap",
+      "docstring": "The underlying linear map of the invertible shear agrees with the associated basis shear."
+    },
+    {
+      "temporary_id": "decl-024331",
+      "new_name": "basisShear_symmetricPower_updatedCoeff_ne_zero",
+      "docstring": "Changing a selected target-index position to the source index yields a nonzero coordinate after the induced shear."
+    }
+  ]
+}
