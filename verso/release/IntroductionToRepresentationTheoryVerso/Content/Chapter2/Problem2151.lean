@@ -84,3 +84,5 @@ number := false
 {Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple_apply_weight}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.quadraticGeneratorCombination_succ_eq_smul_id}
+
+{Manual.docstring RepresentationTheory.Polynomial.Recurrences.mul_geometricSeriesPolynomial}
