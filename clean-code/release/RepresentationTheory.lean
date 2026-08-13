@@ -285,6 +285,7 @@ import RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates
 import RepresentationTheory.ConjugacyClassTrace
 import RepresentationTheory.GroupTheory.ConjugacyClassBounds
 import RepresentationTheory.FGModuleCat.Projectivity
+import RepresentationTheory.FGModuleCat.SubobjectOrder
 import RepresentationTheory.FDRep.Biproduct
 
 /-!
