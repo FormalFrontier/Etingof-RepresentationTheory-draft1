@@ -1,0 +1,20 @@
+{
+  "module_name": "AuxiliarySemisimpleDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-004709",
+      "new_name": "auxiliary",
+      "docstring": "An auxiliary family of types indexed by a natural number and a field."
+    },
+    {
+      "temporary_id": "decl-016594",
+      "new_name": "isSemisimpleModule_of_auxiliary",
+      "docstring": "Establishes semisimplicity for the module associated with a representation under an auxiliary hypothesis."
+    },
+    {
+      "temporary_id": "decl-016595",
+      "new_name": "nonempty_linearEquiv_auxiliary",
+      "docstring": "Provides the existence of a linear equivalence from the auxiliary type to the displayed direct sum."
+    }
+  ]
+}
