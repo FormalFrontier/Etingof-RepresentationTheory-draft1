@@ -1,0 +1,60 @@
+{
+  "module_name": "Algebra.Module.Duality",
+  "declarations": [
+    {
+      "temporary_id": "decl-003577",
+      "new_name": "Module.Dual.oppositeModule",
+      "docstring": "The natural `Aᵐᵒᵖ`-module structure on the `k`-linear dual of an `A`-module."
+    },
+    {
+      "temporary_id": "decl-003588",
+      "new_name": "Module.Dual.linearTranspose",
+      "docstring": "The transpose of an `A`-linear map as an `Aᵐᵒᵖ`-linear map between `k`-linear duals."
+    },
+    {
+      "temporary_id": "decl-003592",
+      "new_name": "Module.Dual.linearTranspose_apply",
+      "docstring": "Evaluating a transposed linear map is evaluation of the functional after the original map."
+    },
+    {
+      "temporary_id": "decl-003593",
+      "new_name": "Module.Dual.isScalarTower",
+      "docstring": "Scalars from `k` and `Aᵐᵒᵖ` act compatibly on the dual of an `A`-module."
+    },
+    {
+      "temporary_id": "decl-003594",
+      "new_name": "Module.Dual.opposite_smul_apply",
+      "docstring": "An opposite-ring scalar acts on a dual functional by precomposing with its underlying scalar action."
+    },
+    {
+      "temporary_id": "decl-003595",
+      "new_name": "Module.Projective.ofDualInjective",
+      "docstring": "A finite-dimensional module is projective when its `k`-linear dual is injective over the opposite algebra."
+    },
+    {
+      "temporary_id": "decl-003596",
+      "new_name": "Module.Dual.algebra_isInjective",
+      "docstring": "The `k`-linear dual of an algebra is injective as a module over its opposite ring."
+    },
+    {
+      "temporary_id": "decl-003597",
+      "new_name": "Module.Dual.finsuppLinearEquiv",
+      "docstring": "The dual of finitely supported `A`-valued functions is linearly equivalent to arbitrary functions into the dual of `A`."
+    },
+    {
+      "temporary_id": "decl-003607",
+      "new_name": "Module.Injective.ofRetract",
+      "docstring": "A retract of an injective module is injective."
+    },
+    {
+      "temporary_id": "decl-003608",
+      "new_name": "Module.Dual.injective_of_projective",
+      "docstring": "The `k`-linear dual of a projective algebra module is injective over the opposite algebra."
+    },
+    {
+      "temporary_id": "decl-003738",
+      "new_name": "Module.projective_iff_dual_injective",
+      "docstring": "For finite-dimensional algebra modules, projectivity is equivalent to injectivity of the `k`-linear dual over the opposite algebra."
+    }
+  ]
+}
