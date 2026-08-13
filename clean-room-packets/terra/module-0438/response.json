@@ -1,15 +1,15 @@
 {
-  "module_name": "RepresentationTheory.InvariantSubspaces",
+  "module_name": "RepresentationTheory.Submodules",
   "declarations": [
     {
       "temporary_id": "decl-005338",
-      "new_name": "exists_simpleFDRep_embedding_of_invariant_ne_bot",
-      "docstring": "A nonzero invariant submodule contains the range of an injective equivariant map from a simple finite-dimensional representation."
+      "new_name": "exists_isSimpleModule_embedding_of_nonzero_submodule",
+      "docstring": "A nonzero submodule satisfying the displayed closure condition contains the image of an injective map from a simple module that intertwines the indicated group-indexed maps."
     },
     {
       "temporary_id": "decl-005348",
-      "new_name": "matrixPolynomialAction_mem_restrictTotalDegree",
-      "docstring": "The general linear group action on matrix polynomials preserves membership in the bounded-total-degree subspace."
+      "new_name": "generalLinearGroupIndexedMap_preserves_restrictTotalDegree",
+      "docstring": "For every general-linear-group index, the displayed map carries each polynomial in the total-degree-restricted collection to another member of that collection."
     },
     {
       "temporary_id": "decl-018880",
