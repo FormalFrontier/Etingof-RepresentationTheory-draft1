@@ -73,12 +73,12 @@
     },
     {
       "temporary_id": "decl-000567",
-      "new_name": "auxiliary_finite_set_ncard",
+      "new_name": "auxiliary_set_ncard",
       "docstring": "The auxiliary set has cardinality `n * (n + 1) / 2`."
     },
     {
       "temporary_id": "decl-000572",
-      "new_name": "auxiliary_finite_set",
+      "new_name": "auxiliary_set",
       "docstring": "An auxiliary set of integer-valued functions on `Fin (n + 1)`."
     },
     {
