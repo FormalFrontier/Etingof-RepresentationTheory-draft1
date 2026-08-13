@@ -165,6 +165,7 @@ import RepresentationTheory.Algebra.Module.IsotypicDecomposition
 import RepresentationTheory.TensorPowerRepresentations
 import RepresentationTheory.Complex.InvariantInnerProduct
 import RepresentationTheory.Polynomial.Recurrences
+import RepresentationTheory.Group.ConjugateDuality
 
 /-!
 # Representation theory formalization
