@@ -1,15 +1,15 @@
 {
-  "module_name": "RepresentationTheory.FDRep.Character",
+  "module_name": "FDRep.Character",
   "declarations": [
     {
       "temporary_id": "decl-024812",
-      "new_name": "characterInner_eq_ite_isIso_of_simple",
-      "docstring": "For simple finite-dimensional representations, the normalized character pairing is one when they are isomorphic and zero otherwise."
+      "new_name": "normalizedCharacterSum_eq_ite_iso_of_simple",
+      "docstring": "For simple finite-dimensional representations, the group-cardinality-normalized sum of their character values at an element and its inverse is one when the representations are isomorphic and zero otherwise."
     },
     {
       "temporary_id": "decl-024835",
-      "new_name": "characterInner_eq_finrank_hom",
-      "docstring": "The normalized character pairing equals the field dimension of the morphism space from the second representation to the first."
+      "new_name": "normalizedCharacterSum_eq_finrank_hom",
+      "docstring": "The group-cardinality-normalized sum of the character values of the first representation at each element times those of the second at its inverse equals the field dimension of the morphisms from the second representation to the first."
     }
   ]
 }
