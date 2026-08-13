@@ -170,6 +170,7 @@ import RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional
 import RepresentationTheory.Group.CharacterDuality
 import RepresentationTheory.InductionAndCoinduction
 import RepresentationTheory.SpecialLinear.Commutator
+import RepresentationTheory.AuxiliaryTypeCharacters
 
 /-!
 # Representation theory formalization
