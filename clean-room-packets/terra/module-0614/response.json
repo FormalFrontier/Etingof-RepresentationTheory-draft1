@@ -3,13 +3,13 @@
   "declarations": [
     {
       "temporary_id": "decl-025165",
-      "new_name": "SymmetricPower.functorOfNat",
-      "docstring": "The endofunctor on modules associated to a natural-number-indexed symmetric power."
+      "new_name": "SymmetricPower.moduleEndofunctorOfNat",
+      "docstring": "A natural-number-indexed family of endofunctors on modules over a commutative ring."
     },
     {
       "temporary_id": "decl-025166",
-      "new_name": "SymmetricPower.functor",
-      "docstring": "The endofunctor on modules associated to the symmetric power indexed by a type."
+      "new_name": "SymmetricPower.moduleEndofunctorOfType",
+      "docstring": "A type-indexed family of endofunctors on modules over a commutative ring."
     },
     {
       "temporary_id": "decl-025584",
