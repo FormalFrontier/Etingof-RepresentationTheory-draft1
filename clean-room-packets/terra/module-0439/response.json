@@ -1,0 +1,15 @@
+{
+  "module_name": "PartitionTensor.Complexification",
+  "declarations": [
+    {
+      "temporary_id": "decl-023283",
+      "new_name": "complexificationLinearEquiv",
+      "docstring": "The linear equivalence between the rational and complex scalar extensions of the displayed partition-indexed subtype."
+    },
+    {
+      "temporary_id": "decl-023288",
+      "new_name": "complexificationLinearEquiv_intertwinesPermutation",
+      "docstring": "The complexification equivalence intertwines the permutation maps after base change."
+    }
+  ]
+}
