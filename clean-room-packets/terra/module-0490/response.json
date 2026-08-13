@@ -3,18 +3,18 @@
   "declarations": [
     {
       "temporary_id": "decl-024638",
-      "new_name": "auxiliaryMultiplicity_eq_auxiliaryCard",
+      "new_name": "auxiliary_nat_values_eq",
       "docstring": "The two displayed auxiliary natural-number quantities associated with the pair of partitions are equal."
     },
     {
       "temporary_id": "decl-024656",
-      "new_name": "auxiliaryStructure",
-      "docstring": "An auxiliary structure associated with a pair of partitions."
+      "new_name": "auxiliaryObject",
+      "docstring": "An auxiliary object associated with a pair of partitions."
     },
     {
       "temporary_id": "decl-024658",
-      "new_name": "auxiliaryCoordinate_ne_zero",
-      "docstring": "The auxiliary coordinate functional is nonzero on the corresponding member of the displayed family."
+      "new_name": "auxiliary_evaluation_ne_zero",
+      "docstring": "The indicated auxiliary evaluation is nonzero on the corresponding member of the displayed family."
     },
     {
       "temporary_id": "decl-024661",
