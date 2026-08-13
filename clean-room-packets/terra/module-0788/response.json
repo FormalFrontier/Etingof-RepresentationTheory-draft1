@@ -1,0 +1,30 @@
+{
+  "module_name": "FDRep.RegularRepresentationCharacter",
+  "declarations": [
+    {
+      "temporary_id": "decl-025075",
+      "new_name": "cast_dimension_ne_zero",
+      "docstring": "Each indexed dimension in the decomposition data has nonzero image in the field."
+    },
+    {
+      "temporary_id": "decl-032972",
+      "new_name": "trace_ofMulAction_eq_ite",
+      "docstring": "The trace of multiplication by a group element on the group algebra is the group cardinality at the identity and zero otherwise."
+    },
+    {
+      "temporary_id": "decl-032973",
+      "new_name": "trace_ofMulAction_eq_zero_of_ne_one",
+      "docstring": "Multiplication by a nonidentity element has zero trace on the group algebra."
+    },
+    {
+      "temporary_id": "decl-032974",
+      "new_name": "trace_ofMulAction_one",
+      "docstring": "The trace of multiplication by the identity on the group algebra is the field cast of the group cardinality."
+    },
+    {
+      "temporary_id": "decl-033005",
+      "new_name": "sum_finrank_mul_character_eq_zero_of_ne_one",
+      "docstring": "For an indexed pairwise nonisomorphic simple family, the dimension-weighted sum of character values vanishes at every nonidentity group element."
+    }
+  ]
+}
