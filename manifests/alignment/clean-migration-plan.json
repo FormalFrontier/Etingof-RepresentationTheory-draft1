@@ -3,47 +3,348 @@
     "EtingofRepresentationTheory.Chapter2.Theorem2_1_2_General": [
       "EtingofRepresentationTheory.Chapter2.Theorem2_1_2"
     ],
-    "EtingofRepresentationTheory.Chapter3.Discussion_alternative_proof_of_Proposition3_1_4": [
-      "EtingofRepresentationTheory.Chapter3.Remark3_1_3"
-    ],
     "EtingofRepresentationTheory.Chapter3.Problem3_9_3": [
       "EtingofRepresentationTheory.Chapter2.Theorem2_1_2",
       "EtingofRepresentationTheory.Chapter6.Problem6_9_3"
     ],
-    "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor": [
-      "EtingofRepresentationTheory.Chapter3.Problem3_9_5"
-    ],
-    "EtingofRepresentationTheory.Chapter4.Discussion_after_Theorem4_6_2": [
-      "EtingofRepresentationTheory.Chapter4.Theorem4_6_2"
-    ],
-    "EtingofRepresentationTheory.Chapter4.Example4_8_1": [
-      "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Golden",
-      "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4Quotient"
-    ],
-    "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Classes": [
-      "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4"
+    "EtingofRepresentationTheory.Chapter4.Example4_3_Q8": [
+      "EtingofRepresentationTheory.Chapter4.Corollary4_2_2"
     ],
     "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Complete": [
-      "EtingofRepresentationTheory.Chapter4.Corollary4_2_2",
-      "EtingofRepresentationTheory.Chapter4.Example4_9_1"
+      "EtingofRepresentationTheory.Chapter4.Corollary4_2_2"
     ],
-    "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5OuterTwist": [
-      "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Golden",
-      "EtingofRepresentationTheory.Chapter5.CharEqIso"
-    ],
-    "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Assembly": [
-      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_StrictBound"
-    ],
-    "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_CountingBound": [
-      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Cocenter"
+    "EtingofRepresentationTheory.Chapter4.Example4_9_1": [
+      "EtingofRepresentationTheory.Infrastructure.FDRepDirectSum"
     ],
     "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_FieldGeneral": [
-      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3",
-      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_SplitSimples",
-      "EtingofRepresentationTheory.Chapter4.SimpleModuleClassesBaseChange"
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3"
     ],
     "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_SemisimpleBaseChange": [
       "EtingofRepresentationTheory.Chapter4.Exercise4_2_3"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_SplitSimples": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3",
+      "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_StrictBound": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Introduction_4_8": [
+      "EtingofRepresentationTheory.Chapter4.Corollary4_2_2"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Introduction_4_9": [
+      "EtingofRepresentationTheory.Infrastructure.FDRepIsotypic",
+      "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Problem4_12_1": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3",
+      "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Problem4_12_10_OrbitEval": [
+      "EtingofRepresentationTheory.Chapter5.RepresentationAsModuleHom"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Problem4_12_2": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3",
+      "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration",
+      "EtingofRepresentationTheory.Infrastructure.SimpleModuleCount"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Problem4_12_5": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Problem4_12_6": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3",
+      "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration",
+      "EtingofRepresentationTheory.Infrastructure.SimpleModuleCount"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Problem4_12_9": [
+      "EtingofRepresentationTheory.Infrastructure.FDRepDirectSum"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Problem4_5_2": [
+      "EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Proposition4_7_1": [
+      "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Remark4_5_3": [
+      "EtingofRepresentationTheory.Infrastructure.RegularCharacter"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Remark4_5_5": [
+      "EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat"
+    ],
+    "EtingofRepresentationTheory.Chapter4.SimpleModuleClassesBaseChange": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Theorem4_2_1": [
+      "EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat",
+      "EtingofRepresentationTheory.Infrastructure.ColumnRepSimple",
+      "EtingofRepresentationTheory.Infrastructure.RegularCharacter"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Theorem4_5_1": [
+      "EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat"
+    ],
+    "EtingofRepresentationTheory.Chapter5.AbelianFDRep": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3"
+    ],
+    "EtingofRepresentationTheory.Chapter5.AlgIrrepGLExhaustive": [
+      "EtingofRepresentationTheory.Chapter5.RepresentationAsModuleHom",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_23_2_PeterWeyl"
+    ],
+    "EtingofRepresentationTheory.Chapter5.AlgIrrepGLNonIso": [
+      "EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep",
+      "EtingofRepresentationTheory.Chapter5.Proposition5_22_2",
+      "EtingofRepresentationTheory.Chapter5.RepresentationAsModuleHom",
+      "EtingofRepresentationTheory.Chapter5.SchurPolyShift",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CauchyCharDiff": [
+      "EtingofRepresentationTheory.Chapter5.SchurPolyShift"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CauchyCharacterRight": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CauchyDetQuotient": [
+      "EtingofRepresentationTheory.Chapter5.QuotDetDegreeAlgebraic",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_23_2Core"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CauchyDetQuotientGrading": [
+      "EtingofRepresentationTheory.Chapter5.RepresentationAsModuleHom"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CauchySchurBasis": [
+      "EtingofRepresentationTheory.Chapter5.SchurWeylPolynomialIdentity"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CharValueHookFormula": [
+      "EtingofRepresentationTheory.Chapter5.SchurWeylPolynomialIdentity"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CharacterMultiplicityBridge": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Classification",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CharacterOrthogonality": [
+      "EtingofRepresentationTheory.Chapter5.Proposition5_21_1",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CleanCharacterExtractionBase": [
+      "EtingofRepresentationTheory.Chapter5.SchurModuleSimple",
+      "EtingofRepresentationTheory.Chapter5.TraceVanishingDensity"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CleanConstituentExtraction": [
+      "EtingofRepresentationTheory.Chapter5.SimpleSubrepExtraction",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.ConstituentCharacterExtraction": [
+      "EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso"
+    ],
+    "EtingofRepresentationTheory.Chapter5.ContragredientIdentity": [
+      "EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep",
+      "EtingofRepresentationTheory.Chapter5.SchurModuleContragredientHalf"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Corollary5_12_4": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Classification",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1",
+      "EtingofRepresentationTheory.Infrastructure.SpechtModuleSimple"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Corollary5_19_2": [
+      "EtingofRepresentationTheory.Chapter5.SchurWeylPartition"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Corollary5_1_6": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_1_5"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Corollary5_26_3": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_26_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Definition5_7_1": [
+      "EtingofRepresentationTheory.Infrastructure.IrrepClasses"
+    ],
+    "EtingofRepresentationTheory.Chapter5.DetInvElim": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.DetTwistAlgebraic": [
+      "EtingofRepresentationTheory.Chapter5.Proposition5_22_2"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Discussion5_11_S4S3": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_10_1",
+      "EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat",
+      "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Discussion5_11_examples": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_10_1",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_9_1",
+      "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Discussion_1dim_reps": [
+      "EtingofRepresentationTheory.Chapter5.Proposition5_25_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary": [
+      "EtingofRepresentationTheory.Infrastructure.CompletenessByCounting"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Discussion_footnote_5_15": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.EllipticInduced": [
+      "EtingofRepresentationTheory.Infrastructure.InducedCharacter"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Example5_12_3": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Distinct"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Example5_19_3": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_18_4"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Example5_1_3": [
+      "EtingofRepresentationTheory.Chapter4.Corollary4_2_2",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Classification",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_1_5",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Exercise5_1_7": [
+      "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_27_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_27_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Heisenberg": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_27_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Exercise5_27_3": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_27_1",
+      "EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat",
+      "EtingofRepresentationTheory.Infrastructure.CompletenessCriterion"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Exercise5_3_3": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_3_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.FRTHelpers": [
+      "EtingofRepresentationTheory.Chapter5.SYTFintype"
+    ],
+    "EtingofRepresentationTheory.Chapter5.FormalCharacterIso": [
+      "EtingofRepresentationTheory.Chapter5.SchurWeylGLTransfer",
+      "EtingofRepresentationTheory.Chapter5.SchurWeylPolynomialIdentity",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.GL2CharacterIdentification": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_25_2",
+      "EtingofRepresentationTheory.Infrastructure.FDRepCharacterBiprod"
+    ],
+    "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeries": [
+      "EtingofRepresentationTheory.Infrastructure.FDRepCharacterBiprod",
+      "EtingofRepresentationTheory.Infrastructure.VirtualCharacterSimple"
+    ],
+    "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
+    ],
+    "EtingofRepresentationTheory.Chapter5.GLRepAlgebraic": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.IrrepCountConjClasses": [
+      "EtingofRepresentationTheory.Chapter5.WedderburnCenterFinrank"
+    ],
+    "EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.KernelLemmaKPrimeAssembly": [
+      "EtingofRepresentationTheory.Chapter5.SimpleSubrepExtraction"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Lemma5_13_3_Exact": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_SourceIdeal"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Lemma5_4_7": [
+      "EtingofRepresentationTheory.Chapter5.Proposition5_2_5",
+      "EtingofRepresentationTheory.Infrastructure.RegularCharacter"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Lemma5_7_2": [
+      "EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat"
+    ],
+    "EtingofRepresentationTheory.Chapter5.LinearDualContragredientHalf": [
+      "EtingofRepresentationTheory.Chapter5.SchurModuleContragredientHalf"
+    ],
+    "EtingofRepresentationTheory.Chapter5.LinearDualDetTwistCharacter": [
+      "EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep",
+      "EtingofRepresentationTheory.Chapter5.SchurPolyInverseShift",
+      "EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso"
+    ],
+    "EtingofRepresentationTheory.Chapter5.MultiplicitySpaceBiduality": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_18_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PermDiagonalTrace": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_14_3"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PermutationTraceWord": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_18_4"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PeterWeylMatrixCoeff": [
+      "EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PolynomialGLDecomposition": [
+      "EtingofRepresentationTheory.Chapter5.RepresentationAsModuleHom",
+      "EtingofRepresentationTheory.Chapter5.SchurWeylGLTransfer",
+      "EtingofRepresentationTheory.Chapter5.SchurWeylLDistinct",
+      "EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassification",
+      "EtingofRepresentationTheory.Chapter5.SemisimpleIsotypic"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PolynomialRepEmbedding": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PolynomialTensorBridge": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_18_4"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PolynomialWeightSaturation": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PolytabloidBasis": [
+      "EtingofRepresentationTheory.Chapter5.SYTFintype",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_12_2"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PowerSumCauchyBilinear": [
+      "EtingofRepresentationTheory.Chapter5.Proposition5_21_1",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_14_3"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PrimitiveIdempotentSimplicity": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_18_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Problem5_10_2": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_10_1",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_9_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Problem5_11_1": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_9_1",
+      "EtingofRepresentationTheory.Infrastructure.FDRepCharacterBiprod"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Problem5_12_5": [
+      "EtingofRepresentationTheory.Chapter5.RealTypeSymmetricGroup"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Problem5_16_1": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_15_1",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Problem5_16_1_Iso": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3",
+      "EtingofRepresentationTheory.Infrastructure.FDRepDirectSum",
+      "EtingofRepresentationTheory.Infrastructure.FDRepIsotypic"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Problem5_16_2": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Problem5_16_3": [
+      "EtingofRepresentationTheory.Chapter5.SumTranspositionsEigenvalues",
+      "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Problem5_24_1": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Problem5_24_1_b": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Problem5_24_2": [
+      "EtingofRepresentationTheory.Chapter5.Problem5_24_2_Bridge",
+      "EtingofRepresentationTheory.Chapter5.Problem5_24_2_Core"
     ]
   },
   "export_ready": [
@@ -856,6 +1157,13 @@
       "renamed_imports": {}
     },
     {
+      "new_module": "RepresentationTheory.Module.SemisimpleHomDecomposition",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Discussion_alternative_proof_of_Proposition3_1_4",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Remark3_1_3": "RepresentationTheory.Module.IsotypicDecomposition"
+      }
+    },
+    {
       "new_module": "RepresentationTheory.LinearAlgebra.Trace.FunctionSpace",
       "old_module": "EtingofRepresentationTheory.Chapter3.Discussion_footnote_3_7_1",
       "renamed_imports": {
@@ -985,6 +1293,62 @@
       }
     },
     {
+      "new_module": "RepresentationTheory.Algebra.Module.ExtensionCocycles",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_1",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Corollary2_3_10": "RepresentationTheory.Algebra.SimpleModule.Endomorphisms"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.PolynomialEvaluationModules",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Definition2_3_8": "RepresentationTheory.LinearAlgebra.ModuleDecompositions",
+        "EtingofRepresentationTheory.Chapter3.Problem3_9_1": "RepresentationTheory.Algebra.Module.ExtensionCocycles"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.TwoDimensionalPolynomialModules",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2_Classification",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Problem3_9_2": "RepresentationTheory.Algebra.Module.PolynomialEvaluationModules"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Module.FormalDeformations",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_4",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Problem3_9_1": "RepresentationTheory.Algebra.Module.ExtensionCocycles"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Problem3_9_5": "RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Odd",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport": "RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules",
+        "EtingofRepresentationTheory.Chapter3.Theorem3_3_1": "RepresentationTheory.Algebra.Matrix.ProductSemisimplicity"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor": "RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor"
+      }
+    },
+    {
       "new_module": "RepresentationTheory.Algebra.Module.IsotypicDecomposition",
       "old_module": "EtingofRepresentationTheory.Chapter3.Proposition3_1_4",
       "renamed_imports": {}
@@ -1009,6 +1373,21 @@
       }
     },
     {
+      "new_module": "RepresentationTheory.Algebra.WeylAlgebra.PolynomialBimodule",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Remark3_10_3",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.WeylAlgebraDomain": "RepresentationTheory.RingTheory.OrderedMonomialBasis",
+        "EtingofRepresentationTheory.Chapter2.WeylAlgebraUniversal": "RepresentationTheory.RingTheory.EndomorphismRelationAction"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Module.IsotypicDecomposition",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Remark3_1_3",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Corollary2_3_10": "RepresentationTheory.Algebra.SimpleModule.Endomorphisms"
+      }
+    },
+    {
       "new_module": "RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates",
       "old_module": "EtingofRepresentationTheory.Chapter3.Remark3_1_5",
       "renamed_imports": {
@@ -1028,6 +1407,11 @@
       }
     },
     {
+      "new_module": "RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct",
+      "old_module": "EtingofRepresentationTheory.Chapter3.TensorProductRadical",
+      "renamed_imports": {}
+    },
+    {
       "new_module": "RepresentationTheory.Algebra.Module.TensorProductSimplicity",
       "old_module": "EtingofRepresentationTheory.Chapter3.Theorem3_10_2",
       "renamed_imports": {
@@ -1038,6 +1422,13 @@
       "new_module": "RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity",
       "old_module": "EtingofRepresentationTheory.Chapter3.Theorem3_2_2",
       "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Matrix.ProductSemisimplicity",
+      "old_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Proposition3_1_4": "RepresentationTheory.Algebra.Module.IsotypicDecomposition"
+      }
     },
     {
       "new_module": "RepresentationTheory.Algebra.Semisimplicity.EndomorphismProduct",
@@ -1109,6 +1500,13 @@
       "renamed_imports": {}
     },
     {
+      "new_module": "RepresentationTheory.Group.ConjugateDuality",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Discussion_after_Theorem4_6_2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Theorem4_6_2": "RepresentationTheory.Complex.InvariantInnerProduct"
+      }
+    },
+    {
       "new_module": "RepresentationTheory.Group.CyclicPrimeRepresentation",
       "old_module": "EtingofRepresentationTheory.Chapter4.Example4_1_3",
       "renamed_imports": {}
@@ -1119,9 +1517,466 @@
       "renamed_imports": {}
     },
     {
+      "new_module": "RepresentationTheory.PermutationDegreeThree",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_3_S3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.PermutationDegreeFour",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_3_S4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Group.SmallRepresentationData",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Golden": "RepresentationTheory.TensorSquareSpectralDecomposition",
+        "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5OuterTwist": "RepresentationTheory.Group.OuterAutomorphismTwist",
+        "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4Quotient": "RepresentationTheory.QuotientPermutationRepresentation"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Group.PermutationSubgroupData",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Classes",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4": "RepresentationTheory.PermutationActionRepresentations"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.TensorSquareSpectralDecomposition",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Golden",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Lambda2": "RepresentationTheory.AlternatingTensorSquare"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.AlternatingTensorSquare",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Lambda2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Reps": "RepresentationTheory.IndexedPermutationFinsetAction"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Group.OuterAutomorphismTwist",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5OuterTwist",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Golden": "RepresentationTheory.TensorSquareSpectralDecomposition",
+        "EtingofRepresentationTheory.Chapter5.CharEqIso": "RepresentationTheory.FiniteGroups.CharacterRigidity"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.IndexedPermutationFinsetAction",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Reps",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Classes": "RepresentationTheory.Group.PermutationSubgroupData"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.QuaternionGroupTwo",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.Q8",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.PermutationActionRepresentations",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Example4_8_1.Q8": "RepresentationTheory.QuaternionGroupTwo"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.QuotientPermutationRepresentation",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4Quotient",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Example4_3_S3": "RepresentationTheory.PermutationDegreeThree",
+        "EtingofRepresentationTheory.Chapter4.Example4_3_S4": "RepresentationTheory.PermutationDegreeFour",
+        "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4": "RepresentationTheory.PermutationActionRepresentations",
+        "EtingofRepresentationTheory.Chapter5.CharEqIso": "RepresentationTheory.FiniteGroups.CharacterRigidity"
+      }
+    },
+    {
       "new_module": "RepresentationTheory.Algebra.TensorProduct.MatrixProductEquivalence",
       "old_module": "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_BaseChangePiMatrix",
       "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.ConjugacyClassTrace",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Cocenter",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.GroupTheory.ConjugacyClassBounds",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_CountingBound",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Cocenter": "RepresentationTheory.ConjugacyClassTrace"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.ConjugationInvariantCharacters",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Introduction_4_2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter3.Theorem3_6_2": "RepresentationTheory.Algebra.Module.Dual.SimpleFamilies"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.AuxiliaryMatrixDeterminantIrreducibility",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Lemma4_10_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.TensorPowerRepresentations",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_10",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.MatrixConjugationActions",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_11",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.GraphSpectrumSymmetry",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.QuaternionRotationMaps",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_7",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.FiniteRotationGroups",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_8",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Problem4_12_7": "RepresentationTheory.QuaternionRotationMaps"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.ModularPGroup",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Problem4_1_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.SemisimpleGroupAlgebraCardinality",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Proposition4_1_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.MultiplicativeIntAuxiliaryExample",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Remark4_6_4",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter2.Example2_3_14": "RepresentationTheory.RingTheory.Polynomial.JordanBlockModule"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Complex.InvariantInnerProduct",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Theorem4_6_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.InvariantComplements",
+      "old_module": "EtingofRepresentationTheory.Chapter4.Theorem4_6_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.FiniteGroups.CharacterRigidity",
+      "old_module": "EtingofRepresentationTheory.Chapter5.CharEqIso",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Module.IndexedCoordinateProjections",
+      "old_module": "EtingofRepresentationTheory.Chapter5.CharacterIndependence",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.DualContraction",
+      "old_module": "EtingofRepresentationTheory.Chapter5.ContragredientPairing",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.AuxiliaryPowerSeriesMatrix",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Corollary5_15_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.TensorCoefficientIndependence",
+      "old_module": "EtingofRepresentationTheory.Chapter5.CrossSummandMatrixCoeff",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.CharacterIndependence": "RepresentationTheory.Module.IndexedCoordinateProjections",
+        "EtingofRepresentationTheory.Chapter5.MatrixCoeffInjective": "RepresentationTheory.Representation.AlgebraDensity"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_12_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.YoungDiagram.PartitionConstructions",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_14_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.FiniteGroupRepresentations.Auxiliary",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_1_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_1_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.GeneralLinearGroup.Auxiliary",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_23_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.AlgebraicNumbers.PolynomialCriteria",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_2_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.AlgebraicNumbers.MatrixCriteria",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_2_2",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.SolvableGroups.Series",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_4_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.InductionAndCoinduction",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Auxiliary.MultivariablePolynomialPrimality",
+      "old_module": "EtingofRepresentationTheory.Chapter5.DetIrreducible",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.DetLocalization": "RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization",
+      "old_module": "EtingofRepresentationTheory.Chapter5.DetLocalization",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.Definition5_23_1": "RepresentationTheory.GeneralLinearGroup.Auxiliary",
+        "EtingofRepresentationTheory.Chapter5.EvalEqOnGL": "RepresentationTheory.MvPolynomial.Vanishing"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.InvariantSubmodule.Eigenbasis",
+      "old_module": "EtingofRepresentationTheory.Chapter5.DiagonalCoordinate",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.GroupTheory.ZMod.ComplexCharacters",
+      "old_module": "EtingofRepresentationTheory.Chapter5.DihedralCharacterCombinatorics",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.ZModInvolution",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Discussion5_25_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Matrix.CharpolyDiscriminant",
+      "old_module": "EtingofRepresentationTheory.Chapter5.DistinctEigenvalueDensity",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.MvPolynomial.Vanishing",
+      "old_module": "EtingofRepresentationTheory.Chapter5.EvalEqOnGL",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.FiniteDimensional.Equivalences",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Transport",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter4.Example4_3_S3": "RepresentationTheory.PermutationDegreeThree",
+        "EtingofRepresentationTheory.Chapter5.CharEqIso": "RepresentationTheory.FiniteGroups.CharacterRigidity"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.SubgroupCharacters",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Exercise5_8_5",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.Definition5_8_1": "RepresentationTheory.InductionAndCoinduction"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.ExteriorPower.InvariantSubmodules",
+      "old_module": "EtingofRepresentationTheory.Chapter5.ExteriorIrreducible",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.DiagonalCoordinate": "RepresentationTheory.LinearAlgebra.InvariantSubmodule.Eigenbasis"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Representation.Character.InversionAndInvariantForms",
+      "old_module": "EtingofRepresentationTheory.Chapter5.FrobeniusSchurRealType",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.Definition5_1_1": "RepresentationTheory.FiniteGroupRepresentations.Auxiliary",
+        "EtingofRepresentationTheory.Chapter5.Definition5_1_4": "RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Representation.Character.AuxiliaryVanishing",
+      "old_module": "EtingofRepresentationTheory.Chapter5.FrobeniusSchurTraceIdentity",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.Definition5_1_4": "RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Representation.Character.AuxiliaryProperties",
+      "old_module": "EtingofRepresentationTheory.Chapter5.FrobeniusSchurTrichotomy",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.Definition5_1_1": "RepresentationTheory.FiniteGroupRepresentations.Auxiliary",
+        "EtingofRepresentationTheory.Chapter5.Definition5_1_4": "RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar",
+        "EtingofRepresentationTheory.Chapter5.FrobeniusSchurRealType": "RepresentationTheory.Representation.Character.InversionAndInvariantForms",
+        "EtingofRepresentationTheory.Chapter5.FrobeniusSchurTraceIdentity": "RepresentationTheory.Representation.Character.AuxiliaryVanishing"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.FiniteFieldMatrixCharacterValues",
+      "old_module": "EtingofRepresentationTheory.Chapter5.GL2CharacterValues",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClasses": "RepresentationTheory.FiniteFieldUnitClassDecomposition"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.FiniteGroups.GL2Conjugacy",
+      "old_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.GL2CharacterValues": "RepresentationTheory.FiniteFieldMatrixCharacterValues"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.FiniteFieldUnitClassDecomposition",
+      "old_module": "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClasses",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.GaloisFieldAuxiliary",
+      "old_module": "EtingofRepresentationTheory.Chapter5.GL2NormalizerInfra",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.GL2CharacterValues": "RepresentationTheory.FiniteFieldMatrixCharacterValues"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.MonoidAlgebra.Center",
+      "old_module": "EtingofRepresentationTheory.Chapter5.GroupAlgebraCenter",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.SymmetricGroup.AuxiliaryMonoidAlgebra",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Introduction5_14",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.Definition5_12_1": "RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions",
+        "EtingofRepresentationTheory.Chapter5.Definition5_8_1": "RepresentationTheory.InductionAndCoinduction"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_1",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.Definition5_12_1": "RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.SymmetricGroup.PartitionDominance",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.Lemma5_13_1": "RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Partitions.SquareScalar",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_3",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.Lemma5_13_1": "RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.ModuleTheory.Idempotent",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_4",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.CauchyDeterminant",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Lemma5_15_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.PiTensorProduct.Constructions",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Lemma5_18_3",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.FiniteField.CharacterSums",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Lemma5_25_3",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.GL2CharacterValues": "RepresentationTheory.FiniteFieldMatrixCharacterValues",
+        "EtingofRepresentationTheory.Chapter5.GL2NormalizerInfra": "RepresentationTheory.GaloisFieldAuxiliary"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Algebra.Algebraic.ConjRoot.FiniteSum",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Lemma5_2_6",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Complex.RootsOfUnity.AverageIntegral",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Lemma5_4_5",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.Matrix.LocalizationActions",
+      "old_module": "EtingofRepresentationTheory.Chapter5.LocalizationGLBiAction",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.LocalizationGLRightAction": "RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction",
+        "EtingofRepresentationTheory.Chapter5.PolynomialGLBiAction": "RepresentationTheory.Matrix.MvPolynomialAction"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction",
+      "old_module": "EtingofRepresentationTheory.Chapter5.LocalizationGLRightAction",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.DetLocalization": "RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization",
+        "EtingofRepresentationTheory.Chapter5.PolynomialGLRightAction": "RepresentationTheory.Matrix.MvPolynomialRightMul"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Representation.AlgebraDensity",
+      "old_module": "EtingofRepresentationTheory.Chapter5.MatrixCoeffInjective",
+      "renamed_imports": {}
+    },
+    {
+      "new_module": "RepresentationTheory.Matrix.MvPolynomialAction",
+      "old_module": "EtingofRepresentationTheory.Chapter5.PolynomialGLBiAction",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.PolynomialGLRightAction": "RepresentationTheory.Matrix.MvPolynomialRightMul"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Matrix.MvPolynomialRightMul",
+      "old_module": "EtingofRepresentationTheory.Chapter5.PolynomialGLRightAction",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.DetLocalization": "RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.MvPowerSeries.AuxiliaryExponentCoefficients",
+      "old_module": "EtingofRepresentationTheory.Chapter5.PowerSumCauchyIdentity",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.Corollary5_15_4": "RepresentationTheory.LinearAlgebra.AuxiliaryPowerSeriesMatrix"
+      }
+    },
+    {
+      "new_module": "RepresentationTheory.Complex.RealEndomorphismCentralizer",
+      "old_module": "EtingofRepresentationTheory.Chapter5.Problem5_1_2",
+      "renamed_imports": {
+        "EtingofRepresentationTheory.Chapter5.Definition5_1_1": "RepresentationTheory.FiniteGroupRepresentations.Auxiliary"
+      }
     },
     {
       "new_module": "RepresentationTheory.Infrastructure.Triangularization",
@@ -1135,16 +1990,135 @@
     ],
     "EtingofRepresentationTheory.Chapter4.Corollary4_2_2": [
       "decl-025118"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Exercise4_2_3": [
+      "decl-005078"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Theorem4_10_2": [
+      "decl-025034",
+      "decl-025035",
+      "decl-025047",
+      "decl-025049",
+      "decl-025100"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Theorem4_1_1": [
+      "decl-025059",
+      "decl-025061",
+      "decl-025063",
+      "decl-025067",
+      "decl-025078",
+      "decl-025082",
+      "decl-025083",
+      "decl-025087",
+      "decl-025088",
+      "decl-025089",
+      "decl-025091",
+      "decl-025098",
+      "decl-025127",
+      "decl-025128"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Theorem4_5_4": [
+      "decl-025054",
+      "decl-025056"
+    ],
+    "EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep": [
+      "decl-001853"
     ]
   },
   "schema_version": "clean-migration-plan/v1",
   "summary": {
-    "directly_blocked_modules": 13,
+    "directly_blocked_modules": 97,
     "eligible_source_modules": 796,
-    "export_ready_modules": 176,
-    "fully_named_modules": 189,
-    "partially_named_modules": 2,
-    "transitively_blocked_modules": 0
+    "export_ready_modules": 264,
+    "fully_named_modules": 385,
+    "partially_named_modules": 7,
+    "transitively_blocked_modules": 24
   },
-  "transitive_blockers": {}
+  "transitive_blockers": {
+    "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim": [
+      "EtingofRepresentationTheory.Chapter3.Problem3_9_3"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Assembly": [
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_FieldGeneral",
+      "EtingofRepresentationTheory.Chapter4.Exercise4_2_3_StrictBound"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Exercise4_3_1": [
+      "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Problem4_12_10_Symmetric": [
+      "EtingofRepresentationTheory.Chapter5.Example5_19_3"
+    ],
+    "EtingofRepresentationTheory.Chapter4.Problem4_12_5_CosetModels": [
+      "EtingofRepresentationTheory.Chapter4.Problem4_12_5"
+    ],
+    "EtingofRepresentationTheory.Chapter5.AlgIrrepDualPairing": [
+      "EtingofRepresentationTheory.Chapter5.ContragredientIdentity"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CauchyCharacterRightAssembly": [
+      "EtingofRepresentationTheory.Chapter5.CauchySchurBasis",
+      "EtingofRepresentationTheory.Chapter5.CauchyWeightSpaceDimension",
+      "EtingofRepresentationTheory.Chapter5.FormalCharacterIso"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CauchyDetQuotientDegree": [
+      "EtingofRepresentationTheory.Chapter5.CauchyCharDiff",
+      "EtingofRepresentationTheory.Chapter5.CauchyCharacterRightAssembly",
+      "EtingofRepresentationTheory.Chapter5.PolyRightGrading"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CauchyWeightSpaceDimension": [
+      "EtingofRepresentationTheory.Chapter5.CauchyCharacterRight"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CleanFormalCharacterAdditivity": [
+      "EtingofRepresentationTheory.Chapter5.FormalCharacterIso"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CleanQuotientHelpers": [
+      "EtingofRepresentationTheory.Chapter5.CleanFormalCharacterAdditivity",
+      "EtingofRepresentationTheory.Chapter5.GLRepAlgebraic"
+    ],
+    "EtingofRepresentationTheory.Chapter5.CleanSubSpanning": [
+      "EtingofRepresentationTheory.Chapter5.CleanFormalCharacterAdditivity",
+      "EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Definition5_7_1_Bridge": [
+      "EtingofRepresentationTheory.Chapter5.Definition5_7_1",
+      "EtingofRepresentationTheory.Chapter5.Lemma5_7_2"
+    ],
+    "EtingofRepresentationTheory.Chapter5.DetClearing": [
+      "EtingofRepresentationTheory.Chapter5.PolynomialWeightSaturation"
+    ],
+    "EtingofRepresentationTheory.Chapter5.DetPowerFiltration": [
+      "EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime"
+    ],
+    "EtingofRepresentationTheory.Chapter5.DetShiftIso": [
+      "EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime"
+    ],
+    "EtingofRepresentationTheory.Chapter5.DiagonalizableConj": [
+      "EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace"
+    ],
+    "EtingofRepresentationTheory.Chapter5.DualCharTwist": [
+      "EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime"
+    ],
+    "EtingofRepresentationTheory.Chapter5.FormalCharacterDual": [
+      "EtingofRepresentationTheory.Chapter5.DetInvElim"
+    ],
+    "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits": [
+      "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeries"
+    ],
+    "EtingofRepresentationTheory.Chapter5.KernelLemmaK": [
+      "EtingofRepresentationTheory.Chapter5.DetPowerFiltration",
+      "EtingofRepresentationTheory.Chapter5.KernelLemmaKPrimeAssembly"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PolyRightGrading": [
+      "EtingofRepresentationTheory.Chapter5.DetShiftIso"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PolynomialGLSemisimple": [
+      "EtingofRepresentationTheory.Chapter5.FormalCharacterIso",
+      "EtingofRepresentationTheory.Chapter5.GLRepAlgebraic",
+      "EtingofRepresentationTheory.Chapter5.PolynomialGLDecomposition",
+      "EtingofRepresentationTheory.Chapter5.PolynomialWeightSaturation"
+    ],
+    "EtingofRepresentationTheory.Chapter5.PowerSumCauchyBilinearGen": [
+      "EtingofRepresentationTheory.Chapter5.PermDiagonalTrace",
+      "EtingofRepresentationTheory.Chapter5.PowerSumCauchyBilinear"
+    ]
+  }
 }
