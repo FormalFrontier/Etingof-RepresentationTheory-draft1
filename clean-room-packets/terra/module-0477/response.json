@@ -1,0 +1,10 @@
+{
+  "module_name": "FiniteGroupNormalSubgroups",
+  "declarations": [
+    {
+      "temporary_id": "decl-016651",
+      "new_name": "exists_nontrivial_proper_normalSubgroup_of_conjClassCard_eq_prime_pow",
+      "docstring": "A finite group with a conjugacy class of positive prime-power size has a nontrivial proper normal subgroup."
+    }
+  ]
+}
