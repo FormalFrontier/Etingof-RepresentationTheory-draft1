@@ -12,7 +12,7 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.Group.IndexedPolynomial
 
 /-- A multivariate polynomial whose variables are indexed by the elements of a finite group. -/
-@[source_ref "Chapter4/Definition4.10.1" (role := primary),
+@[source_ref "Chapter4/Definition4.10.1" (role := supporting),
   source_ref "Chapter4/Introduction_4.10" (role := supporting)]
 noncomputable def groupIndexedPolynomial
     (k : Type*) (G : Type*) [CommRing k] [Group G] [Fintype G] [DecidableEq G] :

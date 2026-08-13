@@ -305,7 +305,7 @@ theorem sum_vertexPath_eq_one [Fintype Q] :
 end Quiver.PathAlgebra
 
 /-- The opposite of the path algebra of a quiver over a field. -/
-@[source_ref "Chapter2/Definition2.8.4" (role := primary),
+@[source_ref "Chapter2/Definition2.8.4" (role := supporting),
   source_ref "Chapter2/Discussion_path_algebra_intro" (role := primary)]
 abbrev Quiver.OppositePathAlgebra (k : Type*) (Q : Type*) [Field k] [Quiver Q]
     [DecidableEq Q] : Type _ :=

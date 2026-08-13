@@ -87,7 +87,7 @@ theorem representationTrace_finFun (n : ℕ) (a : A) :
   exact trace_linearMapOnFunctions k V n _
 
 /-- In characteristic p, the trace-valued function of an action on p copies of a module is zero. -/
-@[source_ref "Chapter3/Theorem3.7.1/Derived9" (role := primary),
+@[source_ref "Chapter3/Theorem3.7.1/Derived9" (role := supporting),
   source_ref "Chapter3/Theorem3.7.1" (role := primary)]
 theorem representationTrace_finFun_eq_zero_of_char (p : ℕ) [CharP k p] :
     RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A (Fin p → V) = 0 := by
