@@ -1,0 +1,30 @@
+{
+  "module_name": "RepresentationTheory.InvariantSubspaces",
+  "declarations": [
+    {
+      "temporary_id": "decl-005338",
+      "new_name": "exists_simpleFDRep_embedding_of_invariant_ne_bot",
+      "docstring": "A nonzero invariant submodule contains the range of an injective equivariant map from a simple finite-dimensional representation."
+    },
+    {
+      "temporary_id": "decl-005348",
+      "new_name": "matrixPolynomialAction_mem_restrictTotalDegree",
+      "docstring": "The general linear group action on matrix polynomials preserves membership in the bounded-total-degree subspace."
+    },
+    {
+      "temporary_id": "decl-018880",
+      "new_name": "exists_isSimpleModule_submodule_le_of_finite",
+      "docstring": "A nonzero submodule that is finite-dimensional over the field contains a simple submodule."
+    },
+    {
+      "temporary_id": "decl-020913",
+      "new_name": "isSimpleModule_toRepresentation_of_asSubmodule",
+      "docstring": "Simplicity of a subrepresentation as a submodule implies simplicity of its associated representation module."
+    },
+    {
+      "temporary_id": "decl-024149",
+      "new_name": "Subrepresentation.toRepresentationLinearEquivAsSubmodule",
+      "docstring": "The module of a subrepresentation's associated representation is linearly equivalent to its underlying submodule."
+    }
+  ]
+}
