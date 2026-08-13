@@ -1,0 +1,17 @@
+{
+  "module_name": "CategoryTheory.LinearAlgebra.Auxiliary",
+  "declarations": [
+    {"temporary_id": "decl-017468", "new_name": "biproductHomLinearEquiv", "docstring": "The linear equivalence between morphisms of finite biproducts and families of component morphisms."},
+    {"temporary_id": "decl-017748", "new_name": "homFinrank", "docstring": "The dimension of the morphism space from one value of a family to another."},
+    {"temporary_id": "decl-018884", "new_name": "exists_noncommuting_matrices_of_ne", "docstring": "Distinct elements of a finite indexing type yield two square matrices that do not commute."},
+    {"temporary_id": "decl-019413", "new_name": "finrank_biproductHom", "docstring": "The dimension of morphisms between finite biproducts is the double sum of the component dimensions."},
+    {"temporary_id": "decl-019414", "new_name": "auxiliaryFinrankOpEndEqSumHomFinrankMul", "docstring": "Computes the dimension of the opposite endomorphism object associated with a family and multiplicities."},
+    {"temporary_id": "decl-019415", "new_name": "auxiliaryFinrankOpEndEqSumHomFinrankIff", "docstring": "Characterizes when the displayed endomorphism dimension is the unweighted sum of morphism-space dimensions."},
+    {"temporary_id": "decl-019419", "new_name": "auxiliaryFinrankOpEndOne", "docstring": "For constant multiplicity one, the opposite endomorphism dimension is the sum of all morphism-space dimensions."},
+    {"temporary_id": "decl-019426", "new_name": "auxiliaryFinrankEndEqSumHomFinrank", "docstring": "Computes the dimension of the endomorphism object as a sum over pairs of indexed summands."},
+    {"temporary_id": "decl-021567", "new_name": "matrix_mul_comm_of_subsingleton", "docstring": "Square matrices over a subsingleton finite index type commute under multiplication."},
+    {"temporary_id": "decl-021812", "new_name": "one_le_homFinrank_self", "docstring": "A nontrivial endomorphism space has dimension at least one."},
+    {"temporary_id": "decl-023071", "new_name": "forall_matrix_mul_comm_iff", "docstring": "With positive dimensions, all displayed square matrix products commute exactly when every dimension is one."},
+    {"temporary_id": "decl-023531", "new_name": "auxiliarySumHomFinrankLeFinrankOpEnd", "docstring": "The unweighted sum of morphism-space dimensions is bounded by the indicated opposite endomorphism dimension."}
+  ]
+}
