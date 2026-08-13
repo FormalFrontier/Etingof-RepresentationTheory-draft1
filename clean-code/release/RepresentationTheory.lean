@@ -161,6 +161,7 @@ import RepresentationTheory.NumberTheory.IntegralClosure.Rat
 import RepresentationTheory.InductionCoinduction.FiniteIndex
 import RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences
 import RepresentationTheory.Algebra.Module.IsotypicDecomposition
+import RepresentationTheory.TensorPowerRepresentations
 
 /-!
 # Representation theory formalization
