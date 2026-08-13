@@ -39,8 +39,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.derivationLieSubalgebra}
 
-{Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.endomorphismLieAlgebra}
-
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.mem_derivationLieSubalgebra_iff}
 
 ### Supporting declarations
@@ -60,5 +58,7 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.derivationLieSubalgebra.bracket_apply}
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.derivationLieSubalgebra.leibniz}
+
+{Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.endomorphismLieAlgebra}
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.subalgebraLieAlgebra}

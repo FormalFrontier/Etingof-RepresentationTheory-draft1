@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -17,3 +18,19 @@ number := false
 %%%
 
 **Remark 5.8.2.** In fact, $`\operatorname{Ind}_H^G V` is naturally isomorphic to the representation $`\operatorname{Hom}_H(k[G], V)`.
+
+## Formalization
+%%%
+tag := "Chapter5/Remark5.8.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndex.indCoindIsoOfFiniteIndex}
+
+{Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndex.indFunctorIsoCoindFunctorOfFiniteIndex}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndex.indFunctorIsoCoindFunctorOfFiniteIndex_app}

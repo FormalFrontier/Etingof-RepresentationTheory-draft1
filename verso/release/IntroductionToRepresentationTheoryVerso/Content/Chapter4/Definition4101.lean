@@ -25,6 +25,6 @@ tag := "Chapter4/Definition4.10.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Group.IndexedPolynomial.groupIndexedPolynomial}

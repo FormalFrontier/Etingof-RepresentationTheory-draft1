@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -23,3 +24,19 @@ Because of this,
 $$`\dim(\operatorname{Ind}_H^G V) = \dim V \cdot (G : H),`
 
 where $`(G : H)` is the index of $`H` in $`G`.
+
+## Formalization
+%%%
+tag := "Chapter5/Remark5.8.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences.coindVEquivRightCosetFunctions}
+
+{Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences.finrank_indV}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences.finrank_coindV}

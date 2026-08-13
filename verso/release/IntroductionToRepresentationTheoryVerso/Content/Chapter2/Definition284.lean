@@ -27,13 +27,13 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra}
-
 {Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.opOfPath_mul_opOfPath}
 
 {Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.opOfPath_mul_opOfPath_eq_zero}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra}
 
 {Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.opOfPath}
 
