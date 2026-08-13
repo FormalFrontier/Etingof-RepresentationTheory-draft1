@@ -1,0 +1,12 @@
+{
+  "module_name": "Auxiliary.DimensionProperties",
+  "declarations": [
+    {"temporary_id": "decl-003739", "new_name": "Auxiliary.invariant_eq_variable_count", "docstring": "The auxiliary invariant of a multivariate polynomial ring over a field equals the number of variables."},
+    {"temporary_id": "decl-032878", "new_name": "Auxiliary.property_of_ringEquiv", "docstring": "Transfers the auxiliary degree-indexed property across a ring equivalence."},
+    {"temporary_id": "decl-032879", "new_name": "Auxiliary.property_polynomial_succ", "docstring": "The auxiliary property in degree d for a commutative ring implies it in degree d + 1 for its polynomial ring."},
+    {"temporary_id": "decl-032881", "new_name": "Auxiliary.property_zero_of_isSemisimpleRing", "docstring": "A small semisimple ring satisfies the auxiliary property in degree zero."},
+    {"temporary_id": "decl-032882", "new_name": "CategoryTheory.HasProjectiveDimensionLT.ofEquivalence", "docstring": "An equivalence of abelian categories preserves the bound on projective dimension."},
+    {"temporary_id": "decl-032936", "new_name": "Auxiliary.property_mvPolynomial_variable_count", "docstring": "A multivariate polynomial ring in n variables over a field satisfies the auxiliary property in degree n."},
+    {"temporary_id": "decl-032939", "new_name": "Auxiliary.variable_count_le_of_property", "docstring": "If a multivariate polynomial ring over a field has the auxiliary property in degree d, then its number of variables is at most d."}
+  ]
+}
