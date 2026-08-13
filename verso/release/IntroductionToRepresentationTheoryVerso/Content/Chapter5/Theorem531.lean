@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -22,3 +23,13 @@ $$`\dim V \text{ divides } |G|.`
 **Proof.** Let $`C_1, C_2, \ldots, C_n` be the conjugacy classes of $`G`. Let $`g_{C_i}` be representatives of $`C_i`. Set
 
 $$`\lambda_i = \chi_V(g_{C_i}) \frac{|C_i|}{\dim V}.`
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.3.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CharacterIntegrality.isIntegral_card_conjClass_mul_character_div_finrank}

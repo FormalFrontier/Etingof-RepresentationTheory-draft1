@@ -50,4 +50,6 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.CharacterIntegrality.isIntegral_card_conjClass_mul_character_div_finrank}
+
 {Manual.docstring RepresentationTheory.NumberTheory.IntegralClosure.Rat.Rat.isIntegral_complex_iff}
