@@ -274,6 +274,7 @@ import RepresentationTheory.Mathlib.Algebra.Homology.CochainComplex.Monoidal
 import RepresentationTheory.Mathlib.LinearAlgebra.Injective
 import RepresentationTheory.Mathlib.LinearAlgebra.Projective
 import RepresentationTheory.Mathlib.LinearAlgebra.SymmetricPower.Functor
+import RepresentationTheory.Mathlib.RepresentationTheory.PiTensorProduct.Equivariant
 import RepresentationTheory.Algebra.TensorProduct.Module
 import RepresentationTheory.HomologicalComplexShortExactHomology
 import RepresentationTheory.CategoryTheory.EnrichedCorepresentability
