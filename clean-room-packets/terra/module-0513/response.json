@@ -1,0 +1,65 @@
+{
+  "module_name": "IntegerAdjacencyMatrixCombinatorics",
+  "declarations": [
+    {
+      "temporary_id": "decl-017134",
+      "new_name": "rowSum_eq_neighborCount",
+      "docstring": "For a zero-one integer matrix, the sum of a row equals the neighbor count at its index."
+    },
+    {
+      "temporary_id": "decl-017224",
+      "new_name": "ordered_triple_cases_of_pairwise_sum_gt_product",
+      "docstring": "If one is at most p, p is at most q, q is at most r, and the sum of the three pairwise products of their successors exceeds the triple product, then p and q are one or the triple is one of the three listed exceptional cases."
+    },
+    {
+      "temporary_id": "decl-018477",
+      "new_name": "neighborCount_le_three",
+      "docstring": "A matrix satisfying the structural condition has at most three neighbors at each index."
+    },
+    {
+      "temporary_id": "decl-018483",
+      "new_name": "edgeCount_eq_card_sub_one",
+      "docstring": "For a nonempty matrix satisfying the structural condition, the edge count is one less than the number of indices."
+    },
+    {
+      "temporary_id": "decl-018489",
+      "new_name": "exists_neighborCount_le_one",
+      "docstring": "If every index has at most two neighbors, some index has at most one neighbor."
+    },
+    {
+      "temporary_id": "decl-018491",
+      "new_name": "no_nodup_adjacencyCycle",
+      "docstring": "A matrix satisfying the structural condition has no duplicate-free adjacency cycle of length at least three."
+    },
+    {
+      "temporary_id": "decl-018556",
+      "new_name": "edgeCount",
+      "docstring": "An edge-count statistic associated with a finite square integer matrix."
+    },
+    {
+      "temporary_id": "decl-021520",
+      "new_name": "reachable_of_list_path",
+      "docstring": "A list with specified endpoints and adjacent consecutive entries witnesses reachability between those endpoints."
+    },
+    {
+      "temporary_id": "decl-021897",
+      "new_name": "exists_relabeling_eq_pathGraph",
+      "docstring": "A nonempty matrix satisfying the structural condition with neighbor counts at most two is, after relabeling, the adjacency matrix of a finite path."
+    },
+    {
+      "temporary_id": "decl-021898",
+      "new_name": "exists_pathLabeling_from_endpoint",
+      "docstring": "From an index with at most one neighbor, there is a labeling beginning there whose unit entries occur exactly between consecutive indices."
+    },
+    {
+      "temporary_id": "decl-023454",
+      "new_name": "quadraticForm_pos_of_nonnegative",
+      "docstring": "Every nonzero nonnegative integer vector on an entrywise bounded embedded submatrix has positive value under the associated quadratic form."
+    },
+    {
+      "temporary_id": "decl-024478",
+      "new_name": "neighborCount",
+      "docstring": "The number of neighbors associated with an index of a finite square integer matrix."
+    }
+  ]
+}
