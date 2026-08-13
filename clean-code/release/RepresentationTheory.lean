@@ -154,6 +154,7 @@ import RepresentationTheory.Representation.Character.AuxiliaryVanishing
 import RepresentationTheory.GeneralLinearGroup.Auxiliary
 import RepresentationTheory.Algebra.Module.ComplementConstructions
 import RepresentationTheory.MvPowerSeries.AuxiliaryExponentCoefficients
+import RepresentationTheory.NumberTheory.IntegralClosure.Rat
 
 /-!
 # Representation theory formalization
