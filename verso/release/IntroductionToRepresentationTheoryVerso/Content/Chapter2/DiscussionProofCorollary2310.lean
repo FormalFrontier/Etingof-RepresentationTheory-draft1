@@ -23,6 +23,6 @@ tag := "Chapter2/Discussion_proof_Corollary2.3.10/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.SimpleModule.Endomorphisms.endomorphism_eq_smul}
