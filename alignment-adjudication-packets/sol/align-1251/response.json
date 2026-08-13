@@ -13,13 +13,13 @@
     },
     {
       "association_id": "association:0c5b283ae9e9a34d4f68",
-      "rationale": "This only handles the specialized cardinality-two affine case, so it supports the referenced affine classification rather than stating the full case named by the source on its own.",
-      "role": "supporting"
+      "rationale": "The type directly gives the complete affine-group classification in the cardinality-two case, including exhaustiveness and the dimensions of both simple representations, furnishing that case of the referenced affine problem.",
+      "role": "primary"
     },
     {
       "association_id": "association:8a6a1596de4b7b39e2fd",
-      "rationale": "This is the cardinality-two specialization for the displayed Problem4_12_6.Affine group and therefore supports, but does not alone state, the whole referenced classification task.",
-      "role": "supporting"
+      "rationale": "The type directly gives the complete cardinality-two classification for the displayed Problem4_12_6.Affine group, including exhaustiveness and one-dimensionality, furnishing that case of the problem named by the source.",
+      "role": "primary"
     },
     {
       "association_id": "association:4f25e1ffbe02b1655a64",
