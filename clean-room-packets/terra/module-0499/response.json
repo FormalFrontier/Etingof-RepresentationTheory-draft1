@@ -1,0 +1,10 @@
+{
+  "module_name": "AuxiliaryIntegerMatrixTransform",
+  "declarations": [
+    {
+      "temporary_id": "decl-017751",
+      "new_name": "auxiliaryTransform",
+      "docstring": "An auxiliary transformation of square integer matrices indexed by a finite type."
+    }
+  ]
+}
