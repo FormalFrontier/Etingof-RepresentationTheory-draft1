@@ -148,6 +148,7 @@ import RepresentationTheory.LinearAlgebra.MatrixTraceKernels
 import RepresentationTheory.Module.RepresentationTraceAdditivity
 import RepresentationTheory.Algebra.Lie.FaithfulFiniteDimensionalRepresentation
 import RepresentationTheory.LinearAlgebra.Trace.FunctionSpace
+import RepresentationTheory.GraphSpectrumSymmetry
 
 /-!
 # Representation theory formalization
