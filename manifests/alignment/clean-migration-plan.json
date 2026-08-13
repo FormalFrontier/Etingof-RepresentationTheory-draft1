@@ -306,9 +306,6 @@
       "EtingofRepresentationTheory.Chapter5.Theorem5_9_1",
       "EtingofRepresentationTheory.Infrastructure.FDRepCharacterBiprod"
     ],
-    "EtingofRepresentationTheory.Chapter5.Problem5_12_5": [
-      "EtingofRepresentationTheory.Chapter5.RealTypeSymmetricGroup"
-    ],
     "EtingofRepresentationTheory.Chapter5.Problem5_16_1": [
       "EtingofRepresentationTheory.Chapter5.Theorem5_15_1",
       "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
@@ -355,6 +352,17 @@
       "EtingofRepresentationTheory.Chapter5.SchurPolyShift",
       "EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso",
       "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.RealizationCoreAnalytic": [
+      "EtingofRepresentationTheory.Chapter5.RightTranslationHullDecomp",
+      "EtingofRepresentationTheory.Chapter5.SchurModuleContragredientHalf",
+      "EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Remark5_15_2": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
+    ],
+    "EtingofRepresentationTheory.Chapter5.Remark5_15_5": [
+      "EtingofRepresentationTheory.Chapter5.Theorem5_15_1"
     ]
   },
   "export_ready": [
@@ -2093,12 +2101,12 @@
   },
   "schema_version": "clean-migration-plan/v1",
   "summary": {
-    "directly_blocked_modules": 100,
+    "directly_blocked_modules": 102,
     "eligible_source_modules": 796,
     "export_ready_modules": 274,
-    "fully_named_modules": 401,
+    "fully_named_modules": 405,
     "partially_named_modules": 7,
-    "transitively_blocked_modules": 27
+    "transitively_blocked_modules": 29
   },
   "transitive_blockers": {
     "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim": [
@@ -2190,6 +2198,10 @@
       "EtingofRepresentationTheory.Chapter5.PermDiagonalTrace",
       "EtingofRepresentationTheory.Chapter5.PowerSumCauchyBilinear"
     ],
+    "EtingofRepresentationTheory.Chapter5.Problem5_12_5": [
+      "EtingofRepresentationTheory.Chapter5.Corollary5_1_6",
+      "EtingofRepresentationTheory.Chapter5.RealTypeSymmetricGroup"
+    ],
     "EtingofRepresentationTheory.Chapter5.Problem5_24_2": [
       "EtingofRepresentationTheory.Chapter5.PermutationTraceWord",
       "EtingofRepresentationTheory.Chapter5.Problem5_24_2_Bridge"
@@ -2198,6 +2210,9 @@
       "EtingofRepresentationTheory.Chapter5.CauchyDetQuotientDegree",
       "EtingofRepresentationTheory.Chapter5.CauchyWeightSpaceDimension",
       "EtingofRepresentationTheory.Chapter5.GLRepAlgebraic"
+    ],
+    "EtingofRepresentationTheory.Chapter5.RealTypeSymmetricGroup": [
+      "EtingofRepresentationTheory.Chapter5.Example5_1_3"
     ]
   }
 }
