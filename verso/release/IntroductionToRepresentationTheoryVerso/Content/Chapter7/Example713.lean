@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -27,3 +28,15 @@ number := false
 5. The category of topological spaces (morphisms are continuous maps).
 
 6. The homotopy category of topological spaces (morphisms are homotopy classes of continuous maps).
+
+## Formalization
+%%%
+tag := "Chapter7/Example7.1.3/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.TopCatCongruence.AuxiliaryType}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.TopCatCongruence.topCatHomRel}
