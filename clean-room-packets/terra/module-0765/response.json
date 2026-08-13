@@ -36,11 +36,11 @@
       "new_name": "isSeparator",
       "docstring": "The given object is a separator."
     },
-    {
-      "temporary_id": "decl-005264",
-      "new_name": "fgModuleFunctor",
-      "docstring": "The functor sending objects to their hom-modules from the given object, regarded as finitely generated modules."
-    },
+      {
+        "temporary_id": "decl-005264",
+        "new_name": "fgModuleFunctor",
+        "docstring": "A functor from the given category to finitely generated modules over the opposite endomorphism ring of the given object."
+      },
     {
       "temporary_id": "decl-016759",
       "new_name": "fgModuleFunctor_isEquivalence",
@@ -61,10 +61,10 @@
       "new_name": "fgModuleFunctor_isEquivalence_of_noetherian",
       "docstring": "The module functor is an equivalence when the opposite endomorphism ring is noetherian."
     },
-    {
-      "temporary_id": "decl-020865",
-      "new_name": "endRing_isNoetherian",
-      "docstring": "Under the displayed field-linear hypotheses, the opposite endomorphism ring is noetherian."
-    }
+      {
+        "temporary_id": "decl-020865",
+        "new_name": "opEnd_isNoetherian",
+        "docstring": "Under the displayed field-linear hypotheses, the opposite endomorphism ring is noetherian."
+      }
   ]
 }
