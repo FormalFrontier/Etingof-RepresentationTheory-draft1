@@ -1,0 +1,35 @@
+{
+  "module_name": "Algebra.Homological.AuxiliaryInvariance",
+  "declarations": [
+    {
+      "temporary_id": "decl-019903",
+      "new_name": "auxiliaryProperty_iff_of_ringEquiv",
+      "docstring": "Auxiliary transport principle for an opaque degree-indexed ring property."
+    },
+    {
+      "temporary_id": "decl-019906",
+      "new_name": "hasProjectiveDimensionLT_of_equivalence",
+      "docstring": "An equivalence sends objects of bounded projective dimension to objects with the same bound."
+    },
+    {
+      "temporary_id": "decl-019911",
+      "new_name": "hasProjectiveDimensionLT_iff_of_equivalence",
+      "docstring": "A categorical equivalence preserves and reflects bounded projective dimension."
+    },
+    {
+      "temporary_id": "decl-019921",
+      "new_name": "auxiliaryProperty_iff_auxiliaryProperty",
+      "docstring": "Relates two auxiliary degree-indexed properties available for commutative rings."
+    },
+    {
+      "temporary_id": "decl-020180",
+      "new_name": "auxiliaryObject_eq_of_ringEquiv",
+      "docstring": "Records invariance of an auxiliary ring-associated object under ring equivalence."
+    },
+    {
+      "temporary_id": "decl-022788",
+      "new_name": "auxiliaryObject_eq_auxiliaryObject",
+      "docstring": "Identifies two auxiliary objects attached to a commutative ring."
+    }
+  ]
+}
