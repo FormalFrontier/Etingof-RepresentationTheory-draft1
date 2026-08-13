@@ -1,0 +1,15 @@
+{
+  "module_name": "RepresentationTheory.FDRep.Completeness",
+  "declarations": [
+    {
+      "temporary_id": "decl-018752",
+      "new_name": "simpleFDRepFamily_complete_of_card_eq_conjClasses",
+      "docstring": "A pairwise nonisomorphic family of simple finite-dimensional representations is complete when its size equals the number of conjugacy classes."
+    },
+    {
+      "temporary_id": "decl-018753",
+      "new_name": "simpleFDRepFamily_complete_of_completeFamily_card_eq",
+      "docstring": "A pairwise nonisomorphic family of simple finite-dimensional representations is complete if it has the same size as a complete family."
+    }
+  ]
+}
