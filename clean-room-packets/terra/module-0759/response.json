@@ -1,0 +1,85 @@
+{
+  "module_name": "CategoryTheory.ProjectiveResolution.ShortComplex",
+  "declarations": [
+    {
+      "temporary_id": "decl-014586",
+      "new_name": "StageData",
+      "docstring": "Auxiliary data associated to a stage of a projective resolution."
+    },
+    {
+      "temporary_id": "decl-014591",
+      "new_name": "epi_to_target",
+      "docstring": "The morphism attached to this stage data is an epimorphism."
+    },
+    {
+      "temporary_id": "decl-014592",
+      "new_name": "exact",
+      "docstring": "The short complex formed by the displayed differential and attached morphism is exact."
+    },
+    {
+      "temporary_id": "decl-014601",
+      "new_name": "target",
+      "docstring": "The object associated to the given stage data."
+    },
+    {
+      "temporary_id": "decl-014602",
+      "new_name": "to_target",
+      "docstring": "The morphism from the resolution component to the associated target object."
+    },
+    {
+      "temporary_id": "decl-014605",
+      "new_name": "next",
+      "docstring": "Advances the given stage data to the next natural-number index."
+    },
+    {
+      "temporary_id": "decl-014613",
+      "new_name": "d_comp_to_target",
+      "docstring": "The displayed resolution differential composed with the attached morphism is zero."
+    },
+    {
+      "temporary_id": "decl-014614",
+      "new_name": "stage_short_complex_X2_projective",
+      "docstring": "The middle object of the associated short complex is projective."
+    },
+    {
+      "temporary_id": "decl-014615",
+      "new_name": "stage_object",
+      "docstring": "The object associated to a projective resolution at the specified stage."
+    },
+    {
+      "temporary_id": "decl-014616",
+      "new_name": "stage_short_complex",
+      "docstring": "The short complex associated to a projective resolution and a stage."
+    },
+    {
+      "temporary_id": "decl-014617",
+      "new_name": "stage_short_complex_X1",
+      "docstring": "Identifies the first object of the associated short complex."
+    },
+    {
+      "temporary_id": "decl-014618",
+      "new_name": "stage_short_complex_X2",
+      "docstring": "Identifies the middle object of the associated short complex with the resolution component."
+    },
+    {
+      "temporary_id": "decl-014619",
+      "new_name": "stage_short_complex_X3",
+      "docstring": "Identifies the third object of the associated short complex."
+    },
+    {
+      "temporary_id": "decl-014620",
+      "new_name": "stage_short_complex_short_exact",
+      "docstring": "The associated short complex is short exact."
+    },
+    {
+      "temporary_id": "decl-014621",
+      "new_name": "stage_data",
+      "docstring": "Constructs auxiliary stage data from a projective resolution and an index."
+    },
+    {
+      "temporary_id": "decl-014628",
+      "new_name": "stage_object_zero",
+      "docstring": "The object associated to the zero stage is the resolved object."
+    }
+  ]
+}
