@@ -239,6 +239,7 @@ import RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses
 import RepresentationTheory.CategoryTheory.ModuleCategories
 import RepresentationTheory.CategoryTheory.Preadditive.IsoHomEquiv
 import RepresentationTheory.Algebra.Homology.LinearYoneda
+import RepresentationTheory.Algebra.TensorProduct.Module
 
 /-!
 # Representation theory formalization
