@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-020823",
-      "new_name": "target_property_of_connected_binary_adjacency_and_quadratic_pos",
-      "docstring": "A symmetric integer adjacency matrix has the asserted target property when it has zero diagonal, only zero-one entries, an edge path between every pair of indices, and a strictly positive `2I - adj` quadratic form on every nonzero coordinatewise nonnegative integer vector."
+      "new_name": "connected_zero_one_adjacency_quadratic_pos",
+      "docstring": "Derives the conclusion from a symmetric zero-one matrix with zero diagonal and paths between every pair of vertices, when its `2I - adj` quadratic form is positive on every nonzero nonnegative integer vector."
     },
     {
       "temporary_id": "decl-024127",
