@@ -1,0 +1,55 @@
+{
+  "module_name": "PartitionMonoidAlgebra",
+  "declarations": [
+    {
+      "temporary_id": "decl-001306",
+      "new_name": "partitionIndexedElement",
+      "docstring": "An element of the monoid algebra selected by a partition."
+    },
+    {
+      "temporary_id": "decl-005448",
+      "new_name": "partitionIndexedElement'_mul_mul_partitionIndexedElement_eq_zero_of_not_dominates",
+      "docstring": "A product with the two partition-indexed elements vanishes when the indicated dominance relation fails."
+    },
+    {
+      "temporary_id": "decl-015541",
+      "new_name": "partitionIndexedElement'",
+      "docstring": "A second element of the monoid algebra selected by a partition."
+    },
+    {
+      "temporary_id": "decl-015543",
+      "new_name": "partitionIndexedElement'_mul_of_eq_self_of_mem",
+      "docstring": "Multiplication by the embedded member leaves the primed partition-indexed element unchanged."
+    },
+    {
+      "temporary_id": "decl-016525",
+      "new_name": "isEmpty_linearEquiv_subtypeOf_mem_of_ne",
+      "docstring": "Distinct partitions give subtypes for which the displayed linear equivalence type is empty."
+    },
+    {
+      "temporary_id": "decl-017335",
+      "new_name": "partitionIndexedElement'_mul_of_perm_mul_partitionIndexedElement_eq_zero_of_not_dominates",
+      "docstring": "Inserting a permutation into the product yields zero under the stated failure of dominance."
+    },
+    {
+      "temporary_id": "decl-021803",
+      "new_name": "of_mul_partitionIndexedElement_eq_sign_smul_of_mem",
+      "docstring": "An embedded member acts on the partition-indexed element through its permutation sign."
+    },
+    {
+      "temporary_id": "decl-024689",
+      "new_name": "partitionIndexedProduct_mul_subtype_val_eq_zero_of_not_dominates",
+      "docstring": "The partition-indexed product annihilates values from the displayed subtype when dominance fails."
+    },
+    {
+      "temporary_id": "decl-024690",
+      "new_name": "partitionIndexedProduct_eq_partitionIndexedElement_mul_partitionIndexedElement'",
+      "docstring": "The partition-indexed product is the product of the two displayed partition-indexed elements."
+    },
+    {
+      "temporary_id": "decl-024691",
+      "new_name": "partitionIndexedProduct_mul_self_ne_zero",
+      "docstring": "The square of the displayed partition-indexed product is nonzero over a characteristic-zero field."
+    }
+  ]
+}
