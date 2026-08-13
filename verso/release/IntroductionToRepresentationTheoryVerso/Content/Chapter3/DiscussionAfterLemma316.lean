@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -19,3 +20,13 @@ Now we are ready to prove Proposition 3.1.4. Let $`W` be a submodule of $`V := \
 $$`W = \operatorname{Ker}(V \to V/W) = \bigoplus_X \operatorname{Ker}(V_X \to U_X) \otimes X,`
 
 as desired.
+
+## Formalization
+%%%
+tag := "Chapter3/Discussion_after_Lemma3.1.6/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ComplementConstructions.exists_map_agreeing_on_iSup_of_internal}
