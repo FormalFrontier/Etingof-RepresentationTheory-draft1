@@ -1,0 +1,30 @@
+{
+  "module_name": "FDRep.CharacterDifference",
+  "declarations": [
+    {
+      "temporary_id": "decl-018927",
+      "new_name": "exists_simple_character_eq_sub_of_norm_eq_one",
+      "docstring": "If the normalized squared norm of a character difference is one and the dimension difference is positive, that difference is the character of a simple representation."
+    },
+    {
+      "temporary_id": "decl-019455",
+      "new_name": "finrank_characterDifferenceRepresentation",
+      "docstring": "The dimension of the selected character-difference representation is the difference of the two original dimensions."
+    },
+    {
+      "temporary_id": "decl-023163",
+      "new_name": "characterDifferenceRepresentation",
+      "docstring": "A complex finite-dimensional representation selected from a normalized character difference with positive dimension difference."
+    },
+    {
+      "temporary_id": "decl-023165",
+      "new_name": "character_characterDifferenceRepresentation",
+      "docstring": "The character of the selected representation is the difference of the two given characters."
+    },
+    {
+      "temporary_id": "decl-023166",
+      "new_name": "simple_characterDifferenceRepresentation",
+      "docstring": "The representation selected from the character-difference hypotheses is simple."
+    }
+  ]
+}
