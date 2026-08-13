@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -17,3 +18,13 @@ number := false
 %%%
 
 **Problem 4.12.4.** Recall that the adjacency matrix of a graph $`\Gamma` (without multiple edges) is the matrix in which the $`ij`th entry is 1 if the vertices $`i` and $`j` are connected with an edge, and zero otherwise. Let $`\Gamma` be a finite graph whose automorphism group is nonabelian. Show that the adjacency matrix of $`\Gamma` must have repeated eigenvalues.
+
+## Formalization
+%%%
+tag := "Chapter4/Problem4.12.4/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.GraphSpectrumSymmetry.not_squarefree_charpoly_of_noncommuting_automorphisms}

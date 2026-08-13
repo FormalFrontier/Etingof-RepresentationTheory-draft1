@@ -48,3 +48,13 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.family_algebra_smul_surjective}
 
 {Manual.docstring RepresentationTheory.Algebra.Semisimplicity.EndomorphismProduct.nonempty_algEquiv_quotient_endProduct}
+
+{Manual.docstring RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients.exists_coatom_quotient_equiv}
+
+{Manual.docstring RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients.exists_finite_coatomFamily}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients.exists_finite_coatomFamily_algEquiv_quotient}
+
+{Manual.docstring RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients.exists_finite_coatomFamily_of_coatoms}
