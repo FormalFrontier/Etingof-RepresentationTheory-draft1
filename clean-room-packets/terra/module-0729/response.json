@@ -83,7 +83,7 @@
     },
     {
       "temporary_id": "decl-018918",
-      "new_name": "exists_pow_image_ι_comp_factorThruImage_isIso",
+      "new_name": "exists_pow_image_inclusion_comp_factorThruImage_isIso",
       "docstring": "For some positive power, its image inclusion followed by its factor-through-image map is an isomorphism."
     },
     {
