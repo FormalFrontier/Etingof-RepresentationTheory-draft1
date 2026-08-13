@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -24,3 +25,13 @@ Hint: To prove the "if" part, use induction in $`d` and the long exact sequence 
 
 (iii) Show that if $`\operatorname{pd}(M) = d > 0` and $`P_\bullet` is any projective resolution of $`M`, then the kernel $`K_d` of the map $`P_{d-1} \to P_{d-2}` in this
 resolution is projective (where we agree that $`P_{-1} = M`). Thus, by replacing $`P_d` with $`K_d` and all terms to the left of $`P_d` by zero, we get a projective resolution of $`M` of length $`d`. Deduce that if $`A` and $`M` are finite dimensional, then there is a finite resolution $`P_\bullet` of $`M` with finite dimensional $`P_i`.
+
+## Formalization
+%%%
+tag := "Chapter9/Problem9.4.2/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryProjectiveResolution.exists_finite_projectiveResolution}
