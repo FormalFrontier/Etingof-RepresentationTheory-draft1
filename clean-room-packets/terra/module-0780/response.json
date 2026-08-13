@@ -1,0 +1,50 @@
+{
+  "module_name": "Order.FiniteDimensionalSubobjectLattices",
+  "declarations": [
+    {
+      "temporary_id": "decl-019393",
+      "new_name": "finiteDimensionalOrder_subobject_of_objectProperty",
+      "docstring": "An object of an abelian category satisfying the designated property has a finite-dimensional subobject order."
+    },
+    {
+      "temporary_id": "decl-020856",
+      "new_name": "isModularLattice_subobject",
+      "docstring": "The subobjects of an object in an abelian category form a modular lattice."
+    },
+    {
+      "temporary_id": "decl-021548",
+      "new_name": "map_pullback_eq_min_mk",
+      "docstring": "Mapping the pullback of a subobject along a monomorphism gives its minimum with the subobject defined by that monomorphism."
+    },
+    {
+      "temporary_id": "decl-022217",
+      "new_name": "pullback_exists_eq_max_kernelSubobject",
+      "docstring": "Pulling back the existential image of a subobject gives its maximum with the kernel subobject."
+    },
+    {
+      "temporary_id": "decl-025230",
+      "new_name": "finiteDimensionalOrder_of_finite_nonempty",
+      "docstring": "Every finite nonempty preorder is a finite-dimensional order."
+    },
+    {
+      "temporary_id": "decl-025232",
+      "new_name": "finiteDimensionalOrder_of_orderIso",
+      "docstring": "A preorder order-isomorphic to a finite-dimensional order is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-025233",
+      "new_name": "finiteDimensionalOrder_of_strictMono",
+      "docstring": "A nonempty preorder admitting a strictly monotone map into a finite-dimensional order is finite-dimensional."
+    },
+    {
+      "temporary_id": "decl-025234",
+      "new_name": "finiteDimensionalOrder_prod",
+      "docstring": "The product of two finite-dimensional preorders is a finite-dimensional order."
+    },
+    {
+      "temporary_id": "decl-025238",
+      "new_name": "height_lt_top",
+      "docstring": "The height of every element in a finite-dimensional preorder is strictly below the top value."
+    }
+  ]
+}
