@@ -1,0 +1,25 @@
+{
+  "module_name": "FGModuleCat.Projectivity",
+  "declarations": [
+    {
+      "temporary_id": "decl-024837",
+      "new_name": "enoughProjectives_of_isNoetherianRing",
+      "docstring": "The category of finitely generated modules over a Noetherian ring has enough projective objects."
+    },
+    {
+      "temporary_id": "decl-024839",
+      "new_name": "epi_of_toModuleCat_map_epi",
+      "docstring": "A morphism of finitely generated modules is epic when its image under the functor to modules is epic."
+    },
+    {
+      "temporary_id": "decl-024840",
+      "new_name": "toModuleCat",
+      "docstring": "The functor sending a finitely generated module to its underlying module."
+    },
+    {
+      "temporary_id": "decl-024842",
+      "new_name": "projective_of_toModuleCat_projective",
+      "docstring": "A finitely generated module is projective if its image in the module category is projective."
+    }
+  ]
+}
