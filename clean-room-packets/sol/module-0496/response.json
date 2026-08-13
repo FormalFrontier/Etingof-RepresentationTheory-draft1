@@ -1,0 +1,150 @@
+{
+  "module_name": "AuxiliaryQuiverConstructions",
+  "declarations": [
+    {
+      "temporary_id": "decl-001456",
+      "new_name": "auxiliary_property_finrank",
+      "docstring": "Under the displayed matrix and quiver hypotheses, the vertexwise finrank function of an auxiliary representation satisfies the indicated predicate."
+    },
+    {
+      "temporary_id": "decl-005098",
+      "new_name": "AuxiliaryListProperty",
+      "docstring": "An auxiliary predicate relating a finite quiver and a list of its vertices."
+    },
+    {
+      "temporary_id": "decl-005100",
+      "new_name": "get_property",
+      "docstring": "Every vertex at a valid position in a list satisfying the auxiliary predicate has the displayed vertex property."
+    },
+    {
+      "temporary_id": "decl-005103",
+      "new_name": "perm_finRange",
+      "docstring": "A list satisfying the auxiliary predicate is a permutation of the full finite range."
+    },
+    {
+      "temporary_id": "decl-016660",
+      "new_name": "auxiliary_exists_data_of_representation",
+      "docstring": "Under the displayed hypotheses, there exist a vertex list, a finite index, a second quiver, and an auxiliary representation satisfying the stated equalities and finiteness conditions."
+    },
+    {
+      "temporary_id": "decl-017138",
+      "new_name": "auxiliary_exists_list_property",
+      "docstring": "Under the displayed matrix and quiver hypotheses, there exists a vertex list satisfying the auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-017146",
+      "new_name": "auxiliary_property_get_take",
+      "docstring": "Every valid entry of a prefix of a list satisfying the auxiliary predicate has the displayed vertex property."
+    },
+    {
+      "temporary_id": "decl-017147",
+      "new_name": "auxiliary_property_get_replicate_append_take",
+      "docstring": "Every valid entry of repeated copies followed by a prefix of an auxiliary list has the displayed vertex property."
+    },
+    {
+      "temporary_id": "decl-018931",
+      "new_name": "auxiliary_exists_vertex_property",
+      "docstring": "For a nonempty finite vertex type under the displayed hypotheses, some vertex has the auxiliary property."
+    },
+    {
+      "temporary_id": "decl-018946",
+      "new_name": "auxiliary_exists_ordering_no_hom_of_le",
+      "docstring": "There exists a duplicate-free ordering of all vertices with no quiver morphism from an earlier vertex to a later one."
+    },
+    {
+      "temporary_id": "decl-019483",
+      "new_name": "auxiliaryFintypeAt",
+      "docstring": "A finite type structure on the displayed type associated with a selected finite vertex."
+    },
+    {
+      "temporary_id": "decl-019484",
+      "new_name": "quiverHomFintypeOfSubsingleton",
+      "docstring": "A finite type structure on each quiver morphism type when all such types are subsingletons."
+    },
+    {
+      "temporary_id": "decl-019797",
+      "new_name": "auxiliary_iterate_exists_apply_neg",
+      "docstring": "Some iterate of the displayed list-indexed map has a negative coordinate for every nonzero nonnegative input."
+    },
+    {
+      "temporary_id": "decl-020532",
+      "new_name": "auxiliary_finrank_quadratic_form_eq_two",
+      "docstring": "The displayed quadratic expression on the vertexwise finrank function of an auxiliary representation equals two."
+    },
+    {
+      "temporary_id": "decl-020991",
+      "new_name": "auxiliaryListMap",
+      "docstring": "An auxiliary operation sending a quiver and a list of vertices to another quiver."
+    },
+    {
+      "temporary_id": "decl-020998",
+      "new_name": "auxiliaryListMap_append",
+      "docstring": "Applying the auxiliary quiver operation to an appended list is the same as applying it successively to the two lists."
+    },
+    {
+      "temporary_id": "decl-020999",
+      "new_name": "auxiliaryListMap_eq_self_of_perm",
+      "docstring": "The auxiliary quiver operation fixes a quiver when the vertex list permutes the full finite range."
+    },
+    {
+      "temporary_id": "decl-021000",
+      "new_name": "auxiliaryListMap_replicate_eq_self",
+      "docstring": "Applying the auxiliary quiver operation to any number of repeated full vertex lists fixes the quiver."
+    },
+    {
+      "temporary_id": "decl-021001",
+      "new_name": "auxiliaryListMap_property",
+      "docstring": "The auxiliary quiver operation preserves the displayed relation with the integer matrix."
+    },
+    {
+      "temporary_id": "decl-021004",
+      "new_name": "auxiliaryVectorMap_append",
+      "docstring": "The auxiliary vector map for an appended list is the composition of the maps for its two parts."
+    },
+    {
+      "temporary_id": "decl-021007",
+      "new_name": "auxiliaryVectorMap_replicate",
+      "docstring": "The auxiliary vector map for repeated copies of a list equals the corresponding iterate."
+    },
+    {
+      "temporary_id": "decl-021816",
+      "new_name": "auxiliary_prefix_or_full_list",
+      "docstring": "Under the displayed hypotheses, either a prefix yields the stated equality and auxiliary predicate, or the full-list transform is nonnegative, nonzero, and satisfies the alternative predicate."
+    },
+    {
+      "temporary_id": "decl-022477",
+      "new_name": "auxiliaryRepresentation_finite_at",
+      "docstring": "The module at the selected vertex of the displayed auxiliary representation is finite."
+    },
+    {
+      "temporary_id": "decl-022478",
+      "new_name": "auxiliaryRepresentation_finite_of_ne",
+      "docstring": "Every module away from the selected vertex of the displayed auxiliary representation is finite."
+    },
+    {
+      "temporary_id": "decl-022479",
+      "new_name": "auxiliaryRepresentation_free_at",
+      "docstring": "The module at the selected vertex of the displayed auxiliary representation is free."
+    },
+    {
+      "temporary_id": "decl-022480",
+      "new_name": "auxiliaryRepresentation_free_of_ne",
+      "docstring": "Every module away from the selected vertex of the displayed auxiliary representation is free."
+    },
+    {
+      "temporary_id": "decl-022766",
+      "new_name": "auxiliary_vertex_property_imp_other",
+      "docstring": "One displayed auxiliary property of a finite vertex implies the other."
+    },
+    {
+      "temporary_id": "decl-023172",
+      "new_name": "auxiliary_vector_maps_eq",
+      "docstring": "Under the displayed quiver and vertex hypotheses, the two auxiliary maps on integer-valued vertex functions agree."
+    },
+    {
+      "temporary_id": "decl-023484",
+      "new_name": "auxiliary_quiverHom_subsingleton",
+      "docstring": "Every quiver morphism type is a subsingleton under the displayed family of subsingleton assumptions."
+    }
+  ]
+}
