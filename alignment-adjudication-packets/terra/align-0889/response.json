@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:b83cdbfe11279a84c1b8",
-      "role": "primary",
-      "rationale": "This declaration defines the dual-representation type attached to a Lie module V, directly providing the representation whose underlying space is the dual of V."
+      "role": "supporting",
+      "rationale": "The displayed formal type is only a type-valued declaration parameterized by a Lie module; it does not directly state that its underlying space is V's dual."
     }
   ]
 }

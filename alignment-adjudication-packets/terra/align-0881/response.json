@@ -7,8 +7,8 @@
     },
     {
       "association_id": "association:bb08cca0cd13ad2f18e1",
-      "rationale": "Directly defines an equivalence with the stated explicit balanced-tensor quasi-inverse role.",
-      "role": "primary"
+      "rationale": "States an abstract equivalence of categories, but its displayed type neither identifies it with evaluation nor specifies the claimed quasi-inverse.",
+      "role": "supporting"
     },
     {
       "association_id": "association:dc00ad72581b44c10904",

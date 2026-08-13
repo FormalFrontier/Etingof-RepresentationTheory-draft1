@@ -2,8 +2,8 @@
   "associations": [
     {
       "association_id": "association:dc9715c6674fd3d89b3d",
-      "rationale": "Directly states a linear equivalence from the assembled direct sum to V, i.e. the evaluation map is an isomorphism.",
-      "role": "primary"
+      "rationale": "States the existence of a linear equivalence from the direct sum to V, but the displayed type does not identify that equivalence as the assembled evaluation map.",
+      "role": "supporting"
     },
     {
       "association_id": "association:973536f690d25a1677a7",
