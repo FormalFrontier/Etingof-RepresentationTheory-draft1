@@ -290,6 +290,7 @@ import RepresentationTheory.FDRep.Biproduct
 import RepresentationTheory.ModuleCat.Auxiliary
 import RepresentationTheory.Algebra.Homology.TensorProductConstruction
 import RepresentationTheory.TensorProduct.AuxiliaryScalarAction
+import RepresentationTheory.LinearAlgebra.ExteriorAlgebra.Contraction
 
 /-!
 # Representation theory formalization
