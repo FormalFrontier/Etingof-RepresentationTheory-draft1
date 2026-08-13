@@ -1,60 +1,60 @@
 {
-  "module_name": "HomologicalAlgebra.ProjectiveResolution.TensorProduct",
   "declarations": [
     {
-      "temporary_id": "decl-019086",
+      "docstring": "An auxiliary morphism from degree zero of the displayed tensor-product complex to its specified target.",
       "new_name": "auxiliaryMap",
-      "docstring": "An auxiliary morphism from degree zero of the displayed tensor-product complex to its specified target."
+      "temporary_id": "decl-019086"
     },
     {
-      "temporary_id": "decl-019090",
-      "new_name": "auxiliaryMap_d",
-      "docstring": "The preceding auxiliary morphism is killed by the differential entering degree zero."
+      "docstring": "The differential from degree one to degree zero composed with the auxiliary morphism is zero.",
+      "new_name": "d_auxiliaryMap",
+      "temporary_id": "decl-019090"
     },
     {
-      "temporary_id": "decl-019099",
+      "docstring": "Builds the chain complex over the tensor-product ring associated to two projective resolutions.",
       "new_name": "tensorProduct",
-      "docstring": "Builds the chain complex over the tensor-product ring associated to two projective resolutions."
+      "temporary_id": "decl-019099"
     },
     {
-      "temporary_id": "decl-019103",
+      "docstring": "For every natural number, the fibre of the downward complex shape over that index is finite.",
       "new_name": "finite_preimage_down",
-      "docstring": "For every natural number, the fibre of the downward complex shape over that index is finite."
+      "temporary_id": "decl-019103"
     },
     {
-      "temporary_id": "decl-019143",
+      "docstring": "The displayed auxiliary two-variable map vanishes when its first morphism argument is zero.",
       "new_name": "auxiliaryMap_zero_left",
-      "docstring": "The displayed auxiliary two-variable map vanishes when its first morphism argument is zero."
+      "temporary_id": "decl-019143"
     },
     {
-      "temporary_id": "decl-019144",
+      "docstring": "The displayed auxiliary two-variable map vanishes when its second morphism argument is zero.",
       "new_name": "auxiliaryMap_zero_right",
-      "docstring": "The displayed auxiliary two-variable map vanishes when its second morphism argument is zero."
+      "temporary_id": "decl-019144"
     },
     {
-      "temporary_id": "decl-019148",
+      "docstring": "This auxiliary map is zero when its first morphism input is zero.",
       "new_name": "auxiliaryMapToSingle_zero_left",
-      "docstring": "This auxiliary map is zero when its first morphism input is zero."
+      "temporary_id": "decl-019148"
     },
     {
-      "temporary_id": "decl-019149",
+      "docstring": "This auxiliary map is zero when its second morphism input is zero.",
       "new_name": "auxiliaryMapToSingle_zero_right",
-      "docstring": "This auxiliary map is zero when its second morphism input is zero."
+      "temporary_id": "decl-019149"
     },
     {
-      "temporary_id": "decl-019232",
+      "docstring": "Packages an auxiliary morphism from the displayed complex as a map into a complex concentrated in degree zero.",
       "new_name": "auxiliaryToSingle",
-      "docstring": "Packages an auxiliary morphism from the displayed complex as a map into a complex concentrated in degree zero."
+      "temporary_id": "decl-019232"
     },
     {
-      "temporary_id": "decl-020657",
+      "docstring": "The indicated functor sends zero morphisms to zero morphisms.",
       "new_name": "auxiliaryFunctor_preservesZeroMorphisms",
-      "docstring": "The indicated functor sends zero morphisms to zero morphisms."
+      "temporary_id": "decl-020657"
     },
     {
-      "temporary_id": "decl-020660",
+      "docstring": "Every object image under the indicated functor has the zero-morphism preservation property.",
       "new_name": "auxiliaryFunctor_obj_preservesZeroMorphisms",
-      "docstring": "Every object image under the indicated functor has the zero-morphism preservation property."
+      "temporary_id": "decl-020660"
     }
-  ]
+  ],
+  "module_name": "HomologicalAlgebra.ProjectiveResolution.TensorProduct"
 }
