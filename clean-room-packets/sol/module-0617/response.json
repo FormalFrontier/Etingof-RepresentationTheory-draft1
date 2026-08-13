@@ -23,13 +23,13 @@
     },
     {
       "temporary_id": "decl-000662",
-      "new_name": "splitHead_tailFace_relation",
-      "docstring": "An auxiliary relation between the successor tensor tail, head splitting, and tail face maps."
+      "new_name": "splitHead_aux",
+      "docstring": "A supporting result for the tensor-tail construction."
     },
     {
       "temporary_id": "decl-000664",
-      "new_name": "splitHead_relation",
-      "docstring": "An auxiliary relation involving the successor tensor tail and the head-splitting map."
+      "new_name": "splitHead_aux_1",
+      "docstring": "A supporting result for the tensor-tail construction."
     },
     {
       "temporary_id": "decl-000665",
@@ -123,8 +123,8 @@
     },
     {
       "temporary_id": "decl-000713",
-      "new_name": "barBoundary_face_relation",
-      "docstring": "An auxiliary relation connecting the bar boundary with the indexed face maps."
+      "new_name": "barBoundary_aux",
+      "docstring": "A supporting result for the tensor bar boundary."
     },
     {
       "temporary_id": "decl-000714",
@@ -133,8 +133,8 @@
     },
     {
       "temporary_id": "decl-000715",
-      "new_name": "barBoundary_relation",
-      "docstring": "An auxiliary relation involving the bar boundary on consecutive tensor bar terms."
+      "new_name": "barBoundary_aux_1",
+      "docstring": "A supporting result for the tensor bar boundary."
     },
     {
       "temporary_id": "decl-000716",
@@ -288,7 +288,7 @@
     },
     {
       "temporary_id": "decl-000779",
-      "new_name": "contractNth_contractNth",
+      "new_name": "contractNth_contractNth_assoc",
       "docstring": "For an associative operation, two ordered adjacent contractions satisfy the corresponding index-shift identity."
     },
     {
