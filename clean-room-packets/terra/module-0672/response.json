@@ -3,43 +3,43 @@
   "declarations": [
     {
       "temporary_id": "decl-014438",
-      "new_name": "auxiliarySubsingletonDegreeZeroOfZMod",
-      "docstring": "Records uniqueness in degree zero for the displayed nontrivial cyclic integer module."
+      "new_name": "auxiliaryZModIntIndexZeroSubsingleton",
+      "docstring": "States that the displayed value at index zero is subsingleton when the ZMod modulus is nonzero."
     },
     {
       "temporary_id": "decl-014439",
-      "new_name": "auxiliaryFiniteIntModuleDecomposition",
-      "docstring": "Packages the stated degree-zero and degree-one descriptions for finite integer modules."
+      "new_name": "auxiliaryFiniteIntModuleIndexZeroOneEquivsAndAddTwoSubsingleton",
+      "docstring": "For finite integer modules, gives the displayed additive equivalences at indices zero and one and subsingleton values at indices n + 2."
     },
     {
       "temporary_id": "decl-014440",
-      "new_name": "auxiliaryFiniteIntModuleHigherDegreeSubsingleton",
-      "docstring": "States that the displayed groups above the first two degrees have at most one element."
+      "new_name": "auxiliaryFiniteIntModuleIndexAddTwoSubsingleton",
+      "docstring": "States that the displayed value at index n + 2 is subsingleton for a finite integer module and an integer module Z."
     },
     {
       "temporary_id": "decl-014443",
-      "new_name": "auxiliaryDegreeZeroEquivUnderlyingModule",
-      "docstring": "Provides the asserted degree-zero additive equivalence from the integer module to its carrier."
+      "new_name": "auxiliaryIntIndexZeroEquivCarrier",
+      "docstring": "Gives an additive equivalence between the displayed value at index zero and the carrier of Z."
     },
     {
       "temporary_id": "decl-014445",
-      "new_name": "auxiliaryZModDegreeOneEquivGcd",
-      "docstring": "Gives the specified first-degree cyclic-module calculation using a greatest common divisor."
+      "new_name": "auxiliaryZModIndexOneEquivGcd",
+      "docstring": "Gives an additive equivalence between the displayed value at index one and ZMod (a.gcd c)."
     },
     {
       "temporary_id": "decl-014446",
-      "new_name": "auxiliaryDegreeOneEquivInvariantFactors",
-      "docstring": "Expresses the first-degree calculation through the displayed invariant-factor data."
+      "new_name": "auxiliaryIndexOneEquivIndexedZModGcd",
+      "docstring": "Gives an additive equivalence between the displayed value at index one and the shown doubly indexed family of ZMod types with gcd moduli."
     },
     {
       "temporary_id": "decl-014447",
-      "new_name": "auxiliaryDegreeOneEquivQuotients",
-      "docstring": "Describes the first-degree result as a family of integer scalar quotients."
+      "new_name": "auxiliaryIndexOneEquivIndexedScalarQuotients",
+      "docstring": "Gives an additive equivalence between the displayed value at index one and the shown family of quotients of N."
     },
     {
       "temporary_id": "decl-014451",
-      "new_name": "auxiliaryDegreeZeroEquivInvariantFactors",
-      "docstring": "Expresses the degree-zero calculation by the displayed free and cyclic invariant factors."
+      "new_name": "auxiliaryIndexZeroEquivFinFunctionsProdIndexedZModGcd",
+      "docstring": "Gives an additive equivalence between the displayed value at index zero and the product of the shown Fin-indexed function space with a doubly indexed family of ZMod types with gcd moduli."
     },
     {
       "temporary_id": "decl-020685",
@@ -48,8 +48,8 @@
     },
     {
       "temporary_id": "decl-020692",
-      "new_name": "invariantFactorIsoZModNatAbs",
-      "docstring": "Identifies each displayed invariant-factor component with the corresponding cyclic module."
+      "new_name": "auxiliaryIndexedModuleIsoZModNatAbs",
+      "docstring": "For each j, identifies the displayed integer module with ZMod at the natural absolute value of the displayed associated integer."
     }
   ]
 }
