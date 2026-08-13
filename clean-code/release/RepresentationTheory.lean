@@ -292,6 +292,7 @@ import RepresentationTheory.Algebra.Homology.TensorProductConstruction
 import RepresentationTheory.TensorProduct.AuxiliaryScalarAction
 import RepresentationTheory.LinearAlgebra.ExteriorAlgebra.Contraction
 import RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex
+import RepresentationTheory.CategoryTheory.Abelian.ProjectiveResolution
 
 /-!
 # Representation theory formalization
