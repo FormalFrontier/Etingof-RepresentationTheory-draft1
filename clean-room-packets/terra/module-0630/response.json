@@ -3,13 +3,13 @@
   "declarations": [
     {
       "temporary_id": "decl-018982",
-      "new_name": "projectiveResolutionHomologyAddEquiv",
-      "docstring": "Additive correspondence arising from a projective resolution at a fixed degree."
+      "new_name": "projectiveResolutionDegreeAddEquiv",
+      "docstring": "An additive equivalence at a natural-number degree in the setting of a projective resolution over an algebra."
     },
     {
       "temporary_id": "decl-018992",
-      "new_name": "projectiveResolutionHomologyLinearEquiv",
-      "docstring": "Field-linear correspondence arising from a projective resolution at a fixed degree."
+      "new_name": "projectiveResolutionDegreeLinearEquiv",
+      "docstring": "A linear equivalence over the base field at a natural-number degree in the setting of a projective resolution over an algebra."
     },
     {
       "temporary_id": "decl-023256",
@@ -19,7 +19,7 @@
     {
       "temporary_id": "decl-025027",
       "new_name": "homologyMap_smul",
-      "docstring": "Homology maps commute with scalar multiplication of morphisms."
+      "docstring": "The homology map of a scalar multiple of a morphism is the corresponding scalar multiple of its homology map."
     }
   ]
 }
