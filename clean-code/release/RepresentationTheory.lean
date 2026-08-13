@@ -107,9 +107,10 @@ import RepresentationTheory.ModuleTheory.Idempotent
 import RepresentationTheory.ModuleEnd.OppositeRing
 import RepresentationTheory.SimpleModule.ScalarEndomorphisms
 import RepresentationTheory.MvPolynomial.QuotientProperty
-import RepresentationTheory.Quiver.PathAlgebra
 import RepresentationTheory.Quiver.Arrows
 import RepresentationTheory.Quiver.DependentPropertiesAuxiliary
+import RepresentationTheory.Quiver.MatrixOrientation
+import RepresentationTheory.Quiver.PathAlgebra
 import RepresentationTheory.Combinatorics.Quiver.FourVertices
 import RepresentationTheory.QuantumGroup.SL2Representations
 import RepresentationTheory.RealAlgebra.EndomorphismCounterexample
