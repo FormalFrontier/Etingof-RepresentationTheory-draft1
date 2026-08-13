@@ -156,6 +156,7 @@ import RepresentationTheory.Algebra.Module.ComplementConstructions
 import RepresentationTheory.MvPowerSeries.AuxiliaryExponentCoefficients
 import RepresentationTheory.NumberTheory.IntegralClosure.Rat
 import RepresentationTheory.InductionCoinduction.FiniteIndex
+import RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences
 
 /-!
 # Representation theory formalization
