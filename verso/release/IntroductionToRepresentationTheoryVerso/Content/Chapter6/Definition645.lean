@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -23,3 +24,13 @@ $$`\alpha_i = (0, \ldots, \overbrace{1}^{i\text{th}}, \ldots, 0)`
 *simple roots*.
 
 The $`\alpha_i` naturally form a basis of the lattice $`\mathbb{Z}^n`.
+
+## Formalization
+%%%
+tag := "Chapter6/Definition6.4.5/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction.auxiliaryValue}

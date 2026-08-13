@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,13 @@ number := false
 $$`d(V) = (\dim V_1, \ldots, \dim V_n)`
 
 *the dimension vector* of this representation.
+
+## Formalization
+%%%
+tag := "Chapter6/Definition6.5.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteDimensionalFamily.auxiliaryNatValue}

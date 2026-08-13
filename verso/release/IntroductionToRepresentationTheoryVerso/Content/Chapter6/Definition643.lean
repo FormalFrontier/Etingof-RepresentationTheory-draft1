@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,13 @@ number := false
 So for the inner product $`B`, a root is a nonzero vector $`x \in \mathbb{Z}^n` such that
 
 $$`B(x, x) = 2.`
+
+## Formalization
+%%%
+tag := "Chapter6/Definition6.4.3/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryIntegerMatrixVectorProperty.IsAuxiliaryForMatrix}
