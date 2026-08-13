@@ -1,0 +1,45 @@
+{
+  "module_name": "RingTheory.CentralPrimitiveIdempotent",
+  "declarations": [
+    {
+      "temporary_id": "decl-013995",
+      "new_name": "IsCentralPrimitiveIdempotent",
+      "docstring": "States that an element is a central primitive idempotent of a ring."
+    },
+    {
+      "temporary_id": "decl-013996",
+      "new_name": "map",
+      "docstring": "A ring equivalence carries central primitive idempotents to central primitive idempotents."
+    },
+    {
+      "temporary_id": "decl-014149",
+      "new_name": "exists_completeOrthogonalCentralPrimitiveIdempotents_of_finiteDimensional",
+      "docstring": "A finite-dimensional algebra has a complete orthogonal family consisting exactly of its central primitive idempotents."
+    },
+    {
+      "temporary_id": "decl-014150",
+      "new_name": "exists_completeOrthogonalCentralPrimitiveIdempotents_of_isArtinianRing",
+      "docstring": "An Artinian commutative ring has a complete orthogonal family consisting exactly of its central primitive idempotents."
+    },
+    {
+      "temporary_id": "decl-014152",
+      "new_name": "finite_centralPrimitiveIdempotents_of_finiteDimensional",
+      "docstring": "The central primitive idempotents of a finite-dimensional algebra form a finite type."
+    },
+    {
+      "temporary_id": "decl-014171",
+      "new_name": "isCentralPrimitiveIdempotent_center_iff",
+      "docstring": "For an element of the center, central primitivity is unchanged on passing to the center subalgebra."
+    },
+    {
+      "temporary_id": "decl-014172",
+      "new_name": "isCentralPrimitiveIdempotent_iff",
+      "docstring": "Over a commutative ring, central primitivity means being a nonzero idempotent with no proper nonzero idempotent beneath it."
+    },
+    {
+      "temporary_id": "decl-014173",
+      "new_name": "isCentralPrimitiveIdempotent_pi_single",
+      "docstring": "A coordinate unit in a finite product of fields is a central primitive idempotent."
+    }
+  ]
+}
