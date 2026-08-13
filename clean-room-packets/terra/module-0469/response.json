@@ -1,0 +1,70 @@
+{
+  "module_name": "AuxiliaryModuleData",
+  "declarations": [
+    {
+      "temporary_id": "decl-000516",
+      "new_name": "auxiliaryFamily",
+      "docstring": "An auxiliary family of types parameterized by an index, a label, and an algebraically closed field."
+    },
+    {
+      "temporary_id": "decl-000517",
+      "new_name": "instAddCommGroup",
+      "docstring": "The additive commutative group structure on each member of the auxiliary family."
+    },
+    {
+      "temporary_id": "decl-000519",
+      "new_name": "finite",
+      "docstring": "Each auxiliary family member is finite as a module over its coefficient field."
+    },
+    {
+      "temporary_id": "decl-000520",
+      "new_name": "instModule",
+      "docstring": "The module structure on each member of the auxiliary family."
+    },
+    {
+      "temporary_id": "decl-000521",
+      "new_name": "auxiliaryOtherFamily",
+      "docstring": "A second auxiliary family of types parameterized by an index, a label, and an algebraically closed field."
+    },
+    {
+      "temporary_id": "decl-000522",
+      "new_name": "instAddCommGroup",
+      "docstring": "The additive commutative group structure on each member of the second auxiliary family."
+    },
+    {
+      "temporary_id": "decl-000524",
+      "new_name": "instModule",
+      "docstring": "The module structure on each member of the second auxiliary family."
+    },
+    {
+      "temporary_id": "decl-001833",
+      "new_name": "auxiliaryIndex",
+      "docstring": "An auxiliary type of labels for each natural-number index."
+    },
+    {
+      "temporary_id": "decl-001841",
+      "new_name": "countable",
+      "docstring": "Each auxiliary index type is countable."
+    },
+    {
+      "temporary_id": "decl-001842",
+      "new_name": "toNat",
+      "docstring": "Associates a natural number to an auxiliary label."
+    },
+    {
+      "temporary_id": "decl-001851",
+      "new_name": "toNatAt",
+      "docstring": "Associates a natural number to an auxiliary label at a finite position."
+    },
+    {
+      "temporary_id": "decl-001857",
+      "new_name": "auxiliaryMap",
+      "docstring": "An auxiliary self-map of each index type."
+    },
+    {
+      "temporary_id": "decl-022996",
+      "new_name": "auxiliary_ne_bot_of_antitone",
+      "docstring": "An auxiliary construction indexed by an antitone finite sequence is nontrivial."
+    }
+  ]
+}
