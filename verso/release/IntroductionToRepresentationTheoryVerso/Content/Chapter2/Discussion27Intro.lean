@@ -33,7 +33,21 @@ tag := "Chapter2/Discussion_2.7_intro/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShift_generators_commute_up_to_unit}
+
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShiftSubalgebra}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShift_auxiliary_identity_four}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShift_auxiliary_identity_one}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShift_auxiliary_identity_three}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShift_auxiliary_identity_two}
 
 {Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra}
 
