@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-004103",
       "new_name": "subsingleton_of_lifts_along_surjective_addMonoidHoms",
-      "docstring": "An additive commutative group is subsingleton when its maps lift through every surjective homomorphism between finite additive commutative groups."
+      "docstring": "A finite additive commutative group is subsingleton if every homomorphism from it to a finite additive commutative group lifts along every surjective homomorphism between finite additive commutative groups."
     },
     {
       "temporary_id": "decl-004107",
       "new_name": "subsingleton_of_lifts_along_surjective_polynomialLinearMaps",
-      "docstring": "A finite-dimensional polynomial module is subsingleton when its maps lift through every surjective polynomial-linear map."
+      "docstring": "A module over a polynomial ring that is finite-dimensional over the coefficient field is subsingleton if every polynomial-linear map from it to another such module lifts along every surjective polynomial-linear map between such modules."
     },
     {
       "temporary_id": "decl-004110",
