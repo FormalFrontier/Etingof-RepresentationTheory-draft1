@@ -1,0 +1,250 @@
+{
+  "module_name": "EightDimensionalRationalVectors",
+  "declarations": [
+    {
+      "temporary_id": "decl-013013",
+      "new_name": "Auxiliary.rationalVectorPredicateA",
+      "docstring": "An auxiliary predicate on rational vectors with eight coordinates."
+    },
+    {
+      "temporary_id": "decl-013014",
+      "new_name": "Auxiliary.rationalVectorPredicateB",
+      "docstring": "A second auxiliary predicate on eight-coordinate rational vectors."
+    },
+    {
+      "temporary_id": "decl-013015",
+      "new_name": "Auxiliary.rationalVectorSetA",
+      "docstring": "An auxiliary set of rational vectors indexed by eight coordinates."
+    },
+    {
+      "temporary_id": "decl-013027",
+      "new_name": "ncard_setTransform_rationalVectorSetA",
+      "docstring": "The transformed first auxiliary vector set has cardinality seventy-two."
+    },
+    {
+      "temporary_id": "decl-013033",
+      "new_name": "Auxiliary.rationalVectorSetB",
+      "docstring": "A second auxiliary set of rational vectors with eight coordinates."
+    },
+    {
+      "temporary_id": "decl-013046",
+      "new_name": "ncard_setTransform_rationalVectorSetB",
+      "docstring": "The transformed second auxiliary vector set has cardinality one hundred twenty-six."
+    },
+    {
+      "temporary_id": "decl-013052",
+      "new_name": "Auxiliary.rationalVectorSetC",
+      "docstring": "A third auxiliary set of rational vectors with eight coordinates."
+    },
+    {
+      "temporary_id": "decl-013054",
+      "new_name": "ncard_setTransform_rationalVectorSetC",
+      "docstring": "The transformed third auxiliary vector set has cardinality two hundred forty."
+    },
+    {
+      "temporary_id": "decl-013060",
+      "new_name": "Auxiliary.rationalVectorPredicateC",
+      "docstring": "A third auxiliary predicate on eight-coordinate rational vectors."
+    },
+    {
+      "temporary_id": "decl-013061",
+      "new_name": "Auxiliary.parameterType",
+      "docstring": "An auxiliary type used to parameterize vector constructions."
+    },
+    {
+      "temporary_id": "decl-013074",
+      "new_name": "Auxiliary.rationalVectorFinset",
+      "docstring": "An auxiliary finite collection of eight-coordinate rational vectors."
+    },
+    {
+      "temporary_id": "decl-013075",
+      "new_name": "signVector_satisfies_predicateA",
+      "docstring": "Every rational vector encoded by Boolean signs satisfies the first auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-013076",
+      "new_name": "twoCoordinateVector_satisfies_predicateB",
+      "docstring": "Each vector constructed from two indices and two Boolean values satisfies the second auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-013077",
+      "new_name": "twoCoordinateIntegerVector",
+      "docstring": "Constructs an integer vector from two coordinates and two Boolean parameters."
+    },
+    {
+      "temporary_id": "decl-013079",
+      "new_name": "Auxiliary.twoCoordinateIntegerVector_propertyA",
+      "docstring": "An auxiliary property of the two-coordinate integer vector construction."
+    },
+    {
+      "temporary_id": "decl-013080",
+      "new_name": "Auxiliary.twoCoordinateIntegerVector_propertyB",
+      "docstring": "A second auxiliary property of the two-coordinate integer vector construction."
+    },
+    {
+      "temporary_id": "decl-013081",
+      "new_name": "twoCoordinateIntegerVector_eq_zero_of_ne",
+      "docstring": "The constructed integer vector vanishes at coordinates distinct from both selected indices."
+    },
+    {
+      "temporary_id": "decl-013082",
+      "new_name": "Auxiliary.parameterIntegerVector",
+      "docstring": "Associates an eight-coordinate integer vector to an auxiliary parameter."
+    },
+    {
+      "temporary_id": "decl-013084",
+      "new_name": "Auxiliary.rationalMatrixA",
+      "docstring": "An auxiliary rational matrix indexed by eight rows and columns."
+    },
+    {
+      "temporary_id": "decl-013088",
+      "new_name": "signVector_satisfies_predicateC_of_even_weight",
+      "docstring": "A Boolean sign vector satisfies the third auxiliary predicate when its weight is even."
+    },
+    {
+      "temporary_id": "decl-013089",
+      "new_name": "signVector_satisfies_predicateC_iff_even_weight",
+      "docstring": "The third auxiliary predicate holds for a Boolean sign vector exactly when its weight is even."
+    },
+    {
+      "temporary_id": "decl-013091",
+      "new_name": "twoCoordinateVector_satisfies_predicateC",
+      "docstring": "Every rational vector constructed from two indices and two Boolean values satisfies the third auxiliary predicate."
+    },
+    {
+      "temporary_id": "decl-013092",
+      "new_name": "twoCoordinateIntegerVector_sum_even",
+      "docstring": "The coordinate sum of a two-coordinate integer vector is even."
+    },
+    {
+      "temporary_id": "decl-013093",
+      "new_name": "Auxiliary.integerMatrix",
+      "docstring": "An auxiliary integer matrix with eight rows and columns."
+    },
+    {
+      "temporary_id": "decl-013095",
+      "new_name": "eq_signVector_of_predicateA_and_pairing_self_eq_two",
+      "docstring": "A vector satisfying the first predicate and having self-pairing two is encoded by Boolean signs."
+    },
+    {
+      "temporary_id": "decl-013096",
+      "new_name": "signVector",
+      "docstring": "Encodes eight Boolean signs as an eight-coordinate rational vector."
+    },
+    {
+      "temporary_id": "decl-013098",
+      "new_name": "signVector_apply_eq_iff",
+      "docstring": "Two coordinates of a sign vector agree exactly when their Boolean signs agree."
+    },
+    {
+      "temporary_id": "decl-013099",
+      "new_name": "signVector_injective",
+      "docstring": "The rational-vector encoding of Boolean signs is injective."
+    },
+    {
+      "temporary_id": "decl-013100",
+      "new_name": "signVector_mem_setTransform_of_even_weight",
+      "docstring": "A sign vector of even Boolean weight belongs to the transformed third auxiliary set."
+    },
+    {
+      "temporary_id": "decl-013101",
+      "new_name": "Auxiliary.rationalVectorPairing",
+      "docstring": "An auxiliary rational-valued pairing of eight-coordinate rational vectors."
+    },
+    {
+      "temporary_id": "decl-013105",
+      "new_name": "signVector_pairing_self",
+      "docstring": "Every Boolean sign vector has self-pairing equal to two."
+    },
+    {
+      "temporary_id": "decl-013106",
+      "new_name": "twoCoordinateVector_pairing_self",
+      "docstring": "A two-coordinate rational vector at distinct indices has self-pairing two."
+    },
+    {
+      "temporary_id": "decl-013112",
+      "new_name": "eq_twoCoordinateVector_of_predicateB_and_pairing_self_eq_two",
+      "docstring": "A vector satisfying the second predicate with self-pairing two has a two-coordinate representation at increasing indices."
+    },
+    {
+      "temporary_id": "decl-013115",
+      "new_name": "twoCoordinateVector",
+      "docstring": "Constructs a rational vector from two coordinates and two Boolean parameters."
+    },
+    {
+      "temporary_id": "decl-013116",
+      "new_name": "Auxiliary.parameterRationalVector",
+      "docstring": "Associates an eight-coordinate rational vector to an auxiliary parameter."
+    },
+    {
+      "temporary_id": "decl-013118",
+      "new_name": "parameterRationalVector_injOn_ordered",
+      "docstring": "The parameterized rational-vector construction is injective when the two stored indices are increasing."
+    },
+    {
+      "temporary_id": "decl-013122",
+      "new_name": "parameterRationalVector_mem_setTransform_of_ordered",
+      "docstring": "A parameterized rational vector lies in the transformed third auxiliary set when its stored indices are increasing."
+    },
+    {
+      "temporary_id": "decl-013124",
+      "new_name": "twoCoordinateVector_ne_signVector",
+      "docstring": "No two-coordinate rational vector equals a vector encoded by Boolean signs."
+    },
+    {
+      "temporary_id": "decl-013126",
+      "new_name": "boolVectorWeight",
+      "docstring": "Assigns a natural-number weight to an eight-coordinate Boolean vector."
+    },
+    {
+      "temporary_id": "decl-013134",
+      "new_name": "Auxiliary.rationalVectorSetTransform",
+      "docstring": "An auxiliary transformation of sets of eight-coordinate rational vectors."
+    },
+    {
+      "temporary_id": "decl-013143",
+      "new_name": "Auxiliary.rationalVector_property",
+      "docstring": "An auxiliary fact concerning rational vectors."
+    },
+    {
+      "temporary_id": "decl-013146",
+      "new_name": "twoCoordinateIntegerVector_sq_sum",
+      "docstring": "For distinct selected indices, the sum of squared coordinates of the constructed integer vector is two."
+    },
+    {
+      "temporary_id": "decl-013147",
+      "new_name": "signVector_sum_eq_weight_sub_four",
+      "docstring": "The coordinate sum of a sign vector is its Boolean weight, cast to the rationals, minus four."
+    },
+    {
+      "temporary_id": "decl-013148",
+      "new_name": "integralBasisVector",
+      "docstring": "Associates a rational vector to each of eight basis indices."
+    },
+    {
+      "temporary_id": "decl-013161",
+      "new_name": "Auxiliary.integerMatrix_structure",
+      "docstring": "An auxiliary structural property and adjacency representation for the integer matrix."
+    },
+    {
+      "temporary_id": "decl-013162",
+      "new_name": "Auxiliary.integralBasisVector_property",
+      "docstring": "An auxiliary property of the indexed rational vectors and their pairing."
+    },
+    {
+      "temporary_id": "decl-013163",
+      "new_name": "rationalVectorSetC_integerSpan_characterization",
+      "docstring": "The third auxiliary set consists exactly of integer linear combinations of the indexed rational vectors."
+    },
+    {
+      "temporary_id": "decl-013164",
+      "new_name": "integralBasisVector_integer_independent",
+      "docstring": "An integer linear combination of the indexed rational vectors is zero only when every coefficient is zero."
+    },
+    {
+      "temporary_id": "decl-013167",
+      "new_name": "integralBasisVector_pairing_self",
+      "docstring": "Each indexed rational vector has self-pairing equal to two."
+    }
+  ]
+}
