@@ -1,0 +1,50 @@
+{
+  "module_name": "FGModuleCat.ProjectiveSeparators",
+  "declarations": [
+    {
+      "temporary_id": "decl-005184",
+      "new_name": "IsProjectiveSeparator",
+      "docstring": "A property of a finitely generated module that entails projectivity and separator behavior."
+    },
+    {
+      "temporary_id": "decl-005188",
+      "new_name": "projective",
+      "docstring": "A finitely generated module with the designated projective-separator property is projective."
+    },
+    {
+      "temporary_id": "decl-005191",
+      "new_name": "isSeparator",
+      "docstring": "A finitely generated module with the designated projective-separator property is a separator."
+    },
+    {
+      "temporary_id": "decl-005674",
+      "new_name": "exists_isProjectiveSeparator_of_isNoetherianRing",
+      "docstring": "For the designated relation from a Noetherian ring to another ring, there exists a finitely generated module with the projective-separator property."
+    },
+    {
+      "temporary_id": "decl-005675",
+      "new_name": "exists_isProjectiveSeparator_of_finiteAlgebras",
+      "docstring": "For the designated relation between finite algebras, there exists a finitely generated module with the projective-separator property."
+    },
+    {
+      "temporary_id": "decl-019490",
+      "new_name": "isProjectiveSeparator_equivalence_obj_regular",
+      "docstring": "An equivalence of finitely generated module categories sends the regular module over a Noetherian ring to a module with the projective-separator property."
+    },
+    {
+      "temporary_id": "decl-020898",
+      "new_name": "isSeparator_regularModule",
+      "docstring": "A ring regarded as a finitely generated module over itself is a separator."
+    },
+    {
+      "temporary_id": "decl-022198",
+      "new_name": "projective_regularModule",
+      "docstring": "A Noetherian ring regarded as a finitely generated module over itself is projective."
+    },
+    {
+      "temporary_id": "decl-022565",
+      "new_name": "isProjectiveSeparator_regularModule",
+      "docstring": "The regular module over a Noetherian ring has the projective-separator property."
+    }
+  ]
+}
