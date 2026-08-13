@@ -27,6 +27,10 @@ tag := "Chapter5/Introduction/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionOne}
@@ -34,5 +38,3 @@ number := false
 {Manual.docstring RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo}
 
 {Manual.docstring RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationProperty}
-
-{Manual.docstring RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar}

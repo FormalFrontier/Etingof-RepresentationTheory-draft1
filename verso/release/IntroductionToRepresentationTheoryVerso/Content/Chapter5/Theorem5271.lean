@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -48,3 +49,15 @@ $$`
 `
 
 (iv) The proof is essentially the same as that of the Frobenius formula. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.27.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryRepresentationIsomorphisms.auxiliary_nonempty_iso_of_eq}
+
+{Manual.docstring RepresentationTheory.AuxiliaryRepresentationIsomorphisms.auxiliary_theorem}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -34,3 +35,17 @@ V_{(O,x,U)} = \operatorname{Ind}_{G_x}^G U = \{f : G \to U | f(hg) = hf(g), h \i
 `
 
 Next, we introduce an additional action of $`A` on this space by $`(af)(g) = x(g(a))f(g)`. Then it is easy to check that these two actions combine into an action of $`G \ltimes A`. Also, it is clear that this representation does not really depend on the choice of $`x`, in the following sense. Let $`x, y \in O` and $`g \in G` be such that $`gx = y`, and let $`g(U)` be the representation of $`G_y` obtained from the representation $`U` of $`G_x` by the action of $`g`. Then $`V_{(O,x,U)}` is (naturally) isomorphic to $`V_{(O,y,g(U))}`. Thus we will denote $`V_{(O,x,U)}` by $`V_{(O,U)}` (remembering, however, that $`x` has been fixed).
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_semidirect_products/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryRepresentationIsomorphisms.auxiliary_nonempty_iso_of_eq}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryRepresentationIsomorphisms.auxiliary_theorem}
