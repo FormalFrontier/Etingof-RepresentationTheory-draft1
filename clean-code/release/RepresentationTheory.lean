@@ -302,6 +302,7 @@ import RepresentationTheory.FiniteDimensional.Equivalences
 import RepresentationTheory.Algebra.TensorProduct.ModuleCat
 import RepresentationTheory.Algebra.Homological.EquivalenceInvariance
 import RepresentationTheory.Algebra.Homological.AuxiliaryDimensionTransfer
+import RepresentationTheory.ModuleCat.RightTensor
 
 /-!
 # Representation theory formalization
