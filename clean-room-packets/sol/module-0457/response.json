@@ -18,8 +18,8 @@
     },
     {
       "temporary_id": "decl-018030",
-      "new_name": "SymmetricGroup.PartitionCharacter.IsSymmetric.coeff_eq_coeff_partitionOfSum",
-      "docstring": "A symmetric polynomial has equal coefficients at an exponent vector of total degree `n` and at its associated partition exponent."
+      "new_name": "SymmetricGroup.PartitionCharacter.IsSymmetric.coeff_eq_auxiliary",
+      "docstring": "A symmetric polynomial has equal coefficients at the displayed exponent vector and at an auxiliary exponent vector."
     },
     {
       "temporary_id": "decl-018034",
@@ -38,8 +38,8 @@
     },
     {
       "temporary_id": "decl-020979",
-      "new_name": "SymmetricGroup.PartitionCharacter.nonempty_linearEquiv_component_pi",
-      "docstring": "A partition component is complex-linearly equivalent to an indexed family of copies of the corresponding partition subspace."
+      "new_name": "SymmetricGroup.PartitionCharacter.nonempty_linearEquiv_auxiliary",
+      "docstring": "There is a complex-linear equivalence between the displayed auxiliary subtypes."
     },
     {
       "temporary_id": "decl-020980",
@@ -53,23 +53,23 @@
     },
     {
       "temporary_id": "decl-021971",
-      "new_name": "SymmetricGroup.PartitionCharacter.natCast_auxiliaryMultiplicity_eq_coeff",
-      "docstring": "The natural cast of an auxiliary multiplicity equals a specified coefficient of the permutation-indexed polynomial."
+      "new_name": "SymmetricGroup.PartitionCharacter.natCast_auxiliary_eq_coeff",
+      "docstring": "The natural cast of an auxiliary natural value equals the displayed polynomial coefficient."
     },
     {
       "temporary_id": "decl-021972",
-      "new_name": "SymmetricGroup.PartitionCharacter.natCast_auxiliaryMultiplicity_eq_trace",
-      "docstring": "The natural cast of an auxiliary multiplicity equals the trace of the partition permutation endomorphism."
+      "new_name": "SymmetricGroup.PartitionCharacter.natCast_auxiliary_eq_trace",
+      "docstring": "The natural cast of an auxiliary natural value equals the trace of the displayed endomorphism."
     },
     {
       "temporary_id": "decl-021974",
-      "new_name": "SymmetricGroup.PartitionCharacter.partitionPermutationEndomorphism",
-      "docstring": "The complex-linear endomorphism of a partition-indexed space associated with a permutation of `Fin n`."
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPermutationEndomorphism",
+      "docstring": "An auxiliary complex-linear endomorphism indexed by a partition and a permutation of `Fin n`."
     },
     {
       "temporary_id": "decl-021977",
-      "new_name": "SymmetricGroup.PartitionCharacter.partitionPermutationEndomorphism_mapsTo_component",
-      "docstring": "The partition permutation endomorphism maps each partition component into itself."
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPermutationEndomorphism_mapsTo_auxiliary",
+      "docstring": "The displayed auxiliary endomorphism maps the displayed auxiliary set into itself."
     },
     {
       "temporary_id": "decl-021978",
@@ -113,18 +113,18 @@
     },
     {
       "temporary_id": "decl-023290",
-      "new_name": "SymmetricGroup.PartitionCharacter.partitionSubspacePermutationEndomorphism",
-      "docstring": "The complex-linear endomorphism of a partition subspace associated with a permutation of `Fin n`."
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliarySubtypePermutationEndomorphism",
+      "docstring": "An auxiliary complex-linear endomorphism of the displayed subtype, indexed by a permutation of `Fin n`."
     },
     {
       "temporary_id": "decl-023310",
-      "new_name": "SymmetricGroup.PartitionCharacter.characterValue",
-      "docstring": "The complex character value associated with a partition and a permutation of `Fin n`."
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPartitionPermutationValue",
+      "docstring": "An auxiliary complex value indexed by a partition and a permutation of `Fin n`."
     },
     {
       "temporary_id": "decl-023320",
-      "new_name": "SymmetricGroup.PartitionCharacter.eq_of_characterValue_eq",
-      "docstring": "Two partitions are equal when all their associated character values agree."
+      "new_name": "SymmetricGroup.PartitionCharacter.eq_of_auxiliaryPartitionPermutationValue_eq",
+      "docstring": "Two partitions are equal when their displayed auxiliary values agree for every permutation."
     },
     {
       "temporary_id": "decl-023323",
@@ -133,8 +133,8 @@
     },
     {
       "temporary_id": "decl-023325",
-      "new_name": "SymmetricGroup.PartitionCharacter.partitionFDRep_character",
-      "docstring": "The character of the partition-indexed finite-dimensional representation equals its associated character value."
+      "new_name": "SymmetricGroup.PartitionCharacter.partitionFDRep_character_eq_auxiliary",
+      "docstring": "The character of the displayed finite-dimensional representation equals an auxiliary value."
     },
     {
       "temporary_id": "decl-023326",
@@ -163,28 +163,28 @@
     },
     {
       "temporary_id": "decl-023347",
-      "new_name": "SymmetricGroup.PartitionCharacter.partitionMultiplicity",
-      "docstring": "The natural-valued multiplicity associated with two partitions of `n`."
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPartitionNat",
+      "docstring": "An auxiliary natural number indexed by two partitions of `n`."
     },
     {
       "temporary_id": "decl-023350",
-      "new_name": "SymmetricGroup.PartitionCharacter.partitionMultiplicity_self",
-      "docstring": "The multiplicity of a partition with itself is one."
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPartitionNat_self",
+      "docstring": "The auxiliary natural number at two equal partition arguments is one."
     },
     {
       "temporary_id": "decl-023351",
-      "new_name": "SymmetricGroup.PartitionCharacter.partitionMultiplicity_eq_zero_of_auxiliaryRelation",
-      "docstring": "The partition multiplicity vanishes when the displayed auxiliary relation holds."
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPartitionNat_eq_zero_of_auxiliaryRelation",
+      "docstring": "The auxiliary natural number is zero when the displayed auxiliary relation holds."
     },
     {
       "temporary_id": "decl-023352",
-      "new_name": "SymmetricGroup.PartitionCharacter.partitionMultiplicity_eq_zero_of_not_auxiliaryRelation",
-      "docstring": "The partition multiplicity vanishes when the displayed auxiliary relation fails in the specified direction."
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPartitionNat_eq_zero_of_not_auxiliaryRelation",
+      "docstring": "The auxiliary natural number is zero when the displayed auxiliary relation fails in the specified direction."
     },
     {
       "temporary_id": "decl-023363",
-      "new_name": "SymmetricGroup.PartitionCharacter.sum_characterValue_mul_inv",
-      "docstring": "The sum of paired character values at a permutation and its inverse is `n!` for equal partitions and zero otherwise."
+      "new_name": "SymmetricGroup.PartitionCharacter.sum_auxiliaryPartitionPermutationValue_mul_inv",
+      "docstring": "The displayed sum of paired auxiliary values at a permutation and its inverse is `n!` for equal partitions and zero otherwise."
     },
     {
       "temporary_id": "decl-023566",
@@ -198,28 +198,28 @@
     },
     {
       "temporary_id": "decl-024295",
-      "new_name": "SymmetricGroup.PartitionCharacter.trace_restrict_partitionComponent",
-      "docstring": "The trace of a partition permutation endomorphism restricted to a component is the component multiplicity times its character value."
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryResultD",
+      "docstring": "An auxiliary assertion whose displayed formal type contains an elided expression."
     },
     {
       "temporary_id": "decl-024296",
-      "new_name": "SymmetricGroup.PartitionCharacter.trace_restrict_partitionComponent_eq_mul_trace",
-      "docstring": "Given the displayed linear equivalence, the restricted trace equals the component multiplicity times the trace on the associated partition subspace."
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryResultE",
+      "docstring": "An auxiliary assertion whose displayed formal type contains an elided expression."
     },
     {
       "temporary_id": "decl-024473",
-      "new_name": "SymmetricGroup.PartitionCharacter.alternatingPermutationPolynomial",
-      "docstring": "The multivariable polynomial obtained from signed monomials indexed by permutations of `Fin n`."
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPolynomial",
+      "docstring": "An auxiliary multivariable polynomial indexed by `n`."
     },
     {
       "temporary_id": "decl-024475",
-      "new_name": "SymmetricGroup.PartitionCharacter.alternatingPermutationPolynomial_eq_sum",
-      "docstring": "The alternating permutation polynomial is the sum of sign-weighted monomials at the associated permutation exponent vectors."
+      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryPolynomial_eq_sum",
+      "docstring": "The auxiliary polynomial equals the displayed sum of sign-weighted monomials."
     },
     {
       "temporary_id": "decl-024708",
-      "new_name": "SymmetricGroup.PartitionCharacter.natCast_auxiliaryMultiplicity_eq_sum_mul_characterValue",
-      "docstring": "The natural cast of an auxiliary multiplicity is the sum of partition multiplicities times their character values."
+      "new_name": "SymmetricGroup.PartitionCharacter.natCast_auxiliary_eq_sum_auxiliary_mul_auxiliary",
+      "docstring": "The natural cast of an auxiliary natural value equals the displayed sum of products of auxiliary values."
     }
   ]
 }
