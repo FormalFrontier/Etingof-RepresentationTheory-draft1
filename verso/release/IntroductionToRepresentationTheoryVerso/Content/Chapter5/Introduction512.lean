@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -22,3 +23,13 @@ tag := "Chapter5/Introduction_5.12/heading-1"
 %%%
 
 In this subsection we give a description of the representations of the symmetric group $`S_n` for any $`n`.
+
+## Formalization
+%%%
+tag := "Chapter5/Introduction_5.12/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.PartitionAuxiliary.partitionSubmodule_isSimpleModule}

@@ -34,6 +34,10 @@ tag := "Chapter5/Definition5.12.1/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.PartitionAuxiliary.perm_eq_one_of_mem_of_mem}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionTarget}

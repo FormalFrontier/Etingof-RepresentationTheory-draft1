@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -23,3 +24,13 @@ The irreducible representations of $`S_n` are described by the following theorem
 The modules $`V_\lambda` are called the **Specht modules**.
 
 The proof of this theorem is given in the next subsection.
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.12.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.PartitionAuxiliary.partitionSubmodule_isSimpleModule}
