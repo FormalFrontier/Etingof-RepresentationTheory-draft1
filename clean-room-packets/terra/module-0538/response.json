@@ -1,0 +1,85 @@
+{
+  "module_name": "PolynomialRepresentation.FiniteOrbits",
+  "declarations": [
+    {
+      "temporary_id": "decl-012207",
+      "new_name": "IsPolynomiallyDense",
+      "docstring": "A subset of a finite-dimensional vector space is polynomially dense when every coordinate polynomial that vanishes on the subset is zero."
+    },
+    {
+      "temporary_id": "decl-012208",
+      "new_name": "IsPolynomialGeneralLinearProductRepresentation",
+      "docstring": "The condition that a finite-dimensional representation of a product of general linear groups is polynomial in the matrix entries."
+    },
+    {
+      "temporary_id": "decl-012213",
+      "new_name": "RepresentationOrbitQuotient",
+      "docstring": "The orbit quotient of a representation, using the multiplicative action induced by its linear operators."
+    },
+    {
+      "temporary_id": "decl-012214",
+      "new_name": "generalLinearEvalAlgHom",
+      "docstring": "Evaluation of the determinant-localized matrix polynomial ring at an invertible matrix."
+    },
+    {
+      "temporary_id": "decl-012220",
+      "new_name": "eval_comp_matrixVectorSubstitutionAlgHom",
+      "docstring": "Evaluating a matrix-vector substitution at a group element agrees with polynomial evaluation at the coordinates of the represented vector when the matrix entries realize the representation."
+    },
+    {
+      "temporary_id": "decl-012221",
+      "new_name": "exists_injective_localizedMatrixVectorSubstitutionAlgHom_of_finite_orbits",
+      "docstring": "A polynomial representation of a general linear group with finitely many orbits admits an injective coordinate algebra map into the determinant-localized matrix polynomial ring."
+    },
+    {
+      "temporary_id": "decl-012222",
+      "new_name": "exists_isPolynomiallyDense_orbit_of_finite_orbits",
+      "docstring": "An action with finitely many orbits on a finite-dimensional vector space over an infinite field has a polynomially dense orbit."
+    },
+    {
+      "temporary_id": "decl-012223",
+      "new_name": "finrank_le_sq_of_finite_representation_orbits",
+      "docstring": "A polynomial representation of a general linear group with finite orbit quotient has dimension at most the square of the matrix size."
+    },
+    {
+      "temporary_id": "decl-012224",
+      "new_name": "finrank_le_sq_of_finite_compatible_action_orbits",
+      "docstring": "A polynomial representation of a general linear group carried by a compatible action with finitely many orbits has dimension at most the square of the matrix size."
+    },
+    {
+      "temporary_id": "decl-012225",
+      "new_name": "finrank_le_sum_sq_of_finite_representation_orbits",
+      "docstring": "A polynomial representation of a product of general linear groups with finite orbit quotient has dimension at most the sum of the squares of the block sizes."
+    },
+    {
+      "temporary_id": "decl-012226",
+      "new_name": "finrank_le_sum_sq_of_finite_compatible_action_orbits",
+      "docstring": "A polynomial representation of a product of general linear groups carried by a compatible action with finitely many orbits has dimension at most the sum of the squares of the block sizes."
+    },
+    {
+      "temporary_id": "decl-012227",
+      "new_name": "localizedMatrixVectorSubstitutionAlgHom",
+      "docstring": "The algebra homomorphism obtained by multiplying a polynomial matrix by the coordinate vector of a based vector and passing to the determinant localization."
+    },
+    {
+      "temporary_id": "decl-012228",
+      "new_name": "matrixVectorSubstitutionAlgHom_injective_of_isPolynomiallyDense_orbit",
+      "docstring": "A matrix-vector substitution is injective when its evaluations realize a representation on a polynomially dense orbit."
+    },
+    {
+      "temporary_id": "decl-012229",
+      "new_name": "matrixVectorSubstitutionAlgHom",
+      "docstring": "The algebra homomorphism sending coordinate variables to the entries of a coefficient matrix applied to the coordinate vector of a based vector."
+    },
+    {
+      "temporary_id": "decl-012231",
+      "new_name": "mulActionOfRepresentation",
+      "docstring": "The multiplicative action on a representation space obtained by applying the representing linear maps."
+    },
+    {
+      "temporary_id": "decl-012234",
+      "new_name": "basisCoordinates",
+      "docstring": "The coordinate vector of a vector relative to a basis indexed by `Fin`."
+    }
+  ]
+}
