@@ -1,0 +1,40 @@
+{
+  "module_name": "CategoryTheory.Auxiliary.FGModuleCatEquivalence",
+  "declarations": [
+    {
+      "docstring": "Produces the displayed auxiliary data, including an equivalence with finitely generated modules over the opposite endomorphism ring of a constructed object.",
+      "new_name": "exists_auxiliary_fgModuleCat_equivalence_of_opposite_end",
+      "temporary_id": "decl-001473"
+    },
+    {
+      "docstring": "Constructs a type satisfying the displayed predicate and an equivalence from the given category to finitely generated modules over that type.",
+      "new_name": "exists_auxiliary_fgModuleCat_equivalence",
+      "temporary_id": "decl-001474"
+    },
+    {
+      "docstring": "For a supplied object with the stated auxiliary instance, constructs a displayed-predicate type whose finite-module category is equivalent to the given category.",
+      "new_name": "exists_auxiliary_fgModuleCat_equivalence_of_object",
+      "temporary_id": "decl-001475"
+    },
+    {
+      "docstring": "For a supplied object, produces the displayed auxiliary data and an equivalence with finitely generated modules over its opposite endomorphism ring.",
+      "new_name": "exists_auxiliary_fgModuleCat_equivalence_of_opposite_end_of_object",
+      "temporary_id": "decl-001476"
+    },
+    {
+      "docstring": "Constructs auxiliary data with the stated finite-module equivalence, relation, finrank bound, and algebra-equivalence comparison property.",
+      "new_name": "exists_auxiliary_fgModuleCat_base_with_finrank_bound",
+      "temporary_id": "decl-001477"
+    },
+    {
+      "docstring": "For a supplied object, constructs auxiliary data with the displayed module-category equivalence, finrank inequality, and comparison property.",
+      "new_name": "exists_auxiliary_fgModuleCat_base_with_finrank_bound_of_object",
+      "temporary_id": "decl-001478"
+    },
+    {
+      "docstring": "For a finite algebra over the field, constructs a type carrying the displayed predicate and related to the input by the stated auxiliary condition.",
+      "new_name": "exists_auxiliary_type_with_related_type",
+      "temporary_id": "decl-001479"
+    }
+  ]
+}
