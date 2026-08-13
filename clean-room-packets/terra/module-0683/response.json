@@ -16,7 +16,7 @@
       "temporary_id": "decl-022402"
     },
     {
-      "docstring": "The module-category isomorphism induced by the tensor-product linear-map equivalence for finite projective factors.",
+      "docstring": "An isomorphism of k-modules between a linear-map module over the tensor-product algebra and the tensor product of the corresponding factorwise linear-map modules.",
       "new_name": "tensorProductLinearMapIso",
       "temporary_id": "decl-022411"
     },
