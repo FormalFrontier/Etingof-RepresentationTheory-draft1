@@ -1,20 +1,20 @@
 {
-  "module_name": "Determinants.AuxiliaryIdentities",
+  "module_name": "Determinants.FiniteNatFamilyTransforms",
   "declarations": [
     {
       "temporary_id": "decl-023046",
-      "new_name": "auxiliaryDeterminantIdentity",
-      "docstring": "Expresses the determinant of an auxiliary matrix built from a bounded finite family as the sign of the reversal permutation times an auxiliary factor and an auxiliary determinant."
+      "new_name": "det_eq_reversePermSign_mul",
+      "docstring": "For a finite natural-number family bounded by the parameter, relates a determinant of an associated subtraction matrix to the reversal sign, a factor derived from the transformed family, and another determinant."
     },
     {
       "temporary_id": "decl-024483",
-      "new_name": "auxiliaryIndexTransform",
-      "docstring": "An auxiliary transformation of a finite family of natural numbers, parameterized by a natural number."
+      "new_name": "finiteNatFamilyTransform",
+      "docstring": "Transforms a natural-number-valued family indexed by Fin N using a natural-number parameter."
     },
     {
       "temporary_id": "decl-024485",
-      "new_name": "auxiliaryIndexTransform_antitone",
-      "docstring": "The auxiliary transformation sends an antitone finite family to an antitone finite family for every natural-number parameter."
+      "new_name": "finiteNatFamilyTransform_antitone",
+      "docstring": "Shows that applying the finite-family transformation at any parameter preserves antitonicity."
     }
   ]
 }
