@@ -29,4 +29,6 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.Auxiliary.UnavailableStatement.auxiliary}
+
 {Manual.docstring RepresentationTheory.AuxiliaryUnavailableStatement.auxiliary_theorem}
