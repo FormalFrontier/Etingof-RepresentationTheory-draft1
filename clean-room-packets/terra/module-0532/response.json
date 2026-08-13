@@ -2,7 +2,7 @@
   "declarations": [
     {
       "docstring": "A square integer matrix satisfies the adjacency conditions for a finite quiver.",
-      "new_name": "RepresentationTheory.Quiver.IsAdjacencyMatrix",
+      "new_name": "IsAdjacencyMatrix",
       "temporary_id": "decl-005177"
     },
     {
@@ -16,5 +16,5 @@
       "temporary_id": "decl-014910"
     }
   ],
-  "module_name": "RepresentationTheory.Quiver.Finite"
+  "module_name": "Quiver.Finite"
 }
