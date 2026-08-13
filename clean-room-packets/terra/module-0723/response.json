@@ -1,0 +1,40 @@
+{
+  "module_name": "CategoryTheory.Preadditive.ProjectiveDecomposition",
+  "declarations": [
+    {
+      "temporary_id": "decl-005263",
+      "new_name": "auxiliaryIso",
+      "docstring": "The auxiliary object property is preserved when the object is replaced by an isomorphic one."
+    },
+    {
+      "temporary_id": "decl-020869",
+      "new_name": "auxiliaryOfPositiveMultiplicities",
+      "docstring": "Establishes the auxiliary property for a finite biproduct built with positive multiplicities of projective summands."
+    },
+    {
+      "temporary_id": "decl-021689",
+      "new_name": "biproductOfMultiplicities",
+      "docstring": "Forms the finite biproduct obtained by repeating each member of a family according to a natural-number multiplicity."
+    },
+    {
+      "temporary_id": "decl-021691",
+      "new_name": "auxiliary",
+      "docstring": "An auxiliary definition associated with the enclosing multiplicity-indexed biproduct construction."
+    },
+    {
+      "temporary_id": "decl-021692",
+      "new_name": "auxiliaryPrime",
+      "docstring": "A second auxiliary definition associated with the enclosing multiplicity-indexed biproduct construction."
+    },
+    {
+      "temporary_id": "decl-022177",
+      "new_name": "auxiliaryExistsPositiveMultiplicities",
+      "docstring": "Classifies objects with the auxiliary property by positive multiplicities of a complete family of indecomposable projectives."
+    },
+    {
+      "temporary_id": "decl-022178",
+      "new_name": "auxiliaryIffExistsPositiveMultiplicities",
+      "docstring": "Characterizes the auxiliary property by the existence of positive multiplicities in a complete family of indecomposable projectives."
+    }
+  ]
+}
