@@ -415,6 +415,7 @@ import RepresentationTheory.UnitTupleActions
 import RepresentationTheory.Auxiliary.LinearIndependence
 import RepresentationTheory.GeneralLinear.WeightedPolynomialIndexShift
 import RepresentationTheory.Auxiliary.AuxiliaryPolynomialSubrepresentation
+import RepresentationTheory.AuxiliaryModuleData
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
