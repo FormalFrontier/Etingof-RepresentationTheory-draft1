@@ -152,6 +152,7 @@ import RepresentationTheory.RingTheory.Ideal.Quotient
 import RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence
 import RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct
 import RepresentationTheory.RingTheory.JacobsonRadical.TwoSided
+import RepresentationTheory.RingTheory.Module.ParameterAssociated
 import RepresentationTheory.RingTheory.SimpleModuleDensity
 import RepresentationTheory.RingTheory.SimpleModuleDimensionBound
 import RepresentationTheory.RingTheory.SimpleModuleAnnihilator
