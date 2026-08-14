@@ -317,6 +317,7 @@ import RepresentationTheory.FGModuleCat.SimpleModules
 import RepresentationTheory.Algebra.Module.SimpleQuotient
 import RepresentationTheory.VirtualRepresentations.Basic
 import RepresentationTheory.Representation.FiniteProducts
+import RepresentationTheory.Algebra.Category.ModuleCat.Projective
 
 /-!
 # Representation theory formalization
