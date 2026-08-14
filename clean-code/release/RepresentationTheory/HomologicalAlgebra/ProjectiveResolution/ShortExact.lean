@@ -110,7 +110,6 @@ noncomputable def CategoryTheory.ShortComplex.ShortExact.connectingAux :
             simp [CategoryTheory.ShortComplex.ShortExact.connectingZero_comp_augmentation, CategoryTheory.ShortComplex.ShortExact.d_comp_degreeOneToLeft]),
         (CategoryTheory.ProjectiveResolution.exact_d_one_augmentation P₁).liftFromProjective_comp _ _⟩
   | n + 1 => by
-      -- `(a, b, hab)` are `(sₙ, sₙ₊₁, twist relation)`; build `sₙ₊₂` and return `(sₙ₊₁, sₙ₊₂, …)`.
       set a := (CategoryTheory.ShortComplex.ShortExact.connectingAux n).1 with hadef
       set b := (CategoryTheory.ShortComplex.ShortExact.connectingAux n).2.1 with hbdef
       have hab : b ≫ P₁.complex.d (n + 1) n = -(P₃.complex.d (n + 2) (n + 1)) ≫ a :=
