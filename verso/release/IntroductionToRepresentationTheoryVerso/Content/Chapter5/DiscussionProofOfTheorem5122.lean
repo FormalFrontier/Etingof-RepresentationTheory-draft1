@@ -32,3 +32,9 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.PartitionAuxiliary.partitionSubmodule_isSimpleModule}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliarySubmodules.indexedSubmodule_isSimple}
+
+{Manual.docstring RepresentationTheory.AuxiliarySubmodules.product_sq_eq_smul}
