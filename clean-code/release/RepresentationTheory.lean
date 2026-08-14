@@ -429,6 +429,7 @@ import RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.Localization
 import RepresentationTheory.GeneralLinearRepresentation.SubrepresentationQuotient
 import RepresentationTheory.Submodules
 import RepresentationTheory.Auxiliary.GeneralLinearLocalizationFiltration
+import RepresentationTheory.GeneralLinear.AuxiliaryPolynomialEmbedding
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
