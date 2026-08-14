@@ -1,6 +1,8 @@
 import Mathlib
 import RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation
 
+set_option linter.style.longLine false
+
 noncomputable section
 
 namespace RepresentationTheory.Representation.DualCompatibility
