@@ -412,6 +412,7 @@ import RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary
 import RepresentationTheory.TensorPower
 import RepresentationTheory.AuxiliaryCharacter
 import RepresentationTheory.UnitTupleActions
+import RepresentationTheory.Auxiliary.LinearIndependence
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
