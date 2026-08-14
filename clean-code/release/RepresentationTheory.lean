@@ -399,6 +399,7 @@ import RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
 import RepresentationTheory.PartitionLinearMapVanishing
 import RepresentationTheory.PermutationPolynomialAuxiliary
 import RepresentationTheory.Matrix.MvPolynomialRightMul
+import RepresentationTheory.Auxiliary.MutualCentralizers
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
