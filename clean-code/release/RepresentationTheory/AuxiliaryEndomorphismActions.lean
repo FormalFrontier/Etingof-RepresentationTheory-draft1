@@ -105,7 +105,7 @@ noncomputable def auxiliarySubalgebra :
     (PiTensorProduct.reindex k (fun _ => V) σ).toLinearMap)
 
 omit [Module.Finite k V] in
-private lemma diagonalLieAction_commutes_reindex (b : Module.End k V)
+private lemma endomorphismLieHom_commutes_reindex (b : Module.End k V)
     (σ : Equiv.Perm (Fin n)) :
     endomorphismLieHom k V n b *
       (PiTensorProduct.reindex k (fun _ : Fin n => V) σ).toLinearMap =
@@ -192,7 +192,7 @@ theorem centralizer_auxiliarySubalgebra_eq_range_universalEnvelopingAlgebraHom [
         AlgHom.comp_apply,
         universalEnvelopingAlgebraHom,
         UniversalEnvelopingAlgebra.lift_ι_apply]
-      have h := diagonalLieAction_commutes_reindex k V n b σ
+      have h := endomorphismLieHom_commutes_reindex k V n b σ
       have he_inv : (↑e : Module.End k (auxiliarySpace k V n)) *
           ↑e.symm = 1 := by
         ext v; simp [Module.End.mul_eq_comp]
