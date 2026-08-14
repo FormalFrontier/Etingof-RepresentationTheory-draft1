@@ -37,6 +37,7 @@ import RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity
 import RepresentationTheory.Algebra.Module.BalancedTensorProduct
 import RepresentationTheory.Algebra.Module.BasisExpansion
 import RepresentationTheory.Algebra.Module.CommutativeOppositeScalars
+import RepresentationTheory.Algebra.Module.CompositionSeries
 import RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence
 import RepresentationTheory.Algebra.Module.TensorProduct
 import RepresentationTheory.Algebra.Module.EndomorphismDichotomy
