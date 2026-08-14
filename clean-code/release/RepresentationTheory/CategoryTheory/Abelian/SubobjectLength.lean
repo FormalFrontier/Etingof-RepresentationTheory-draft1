@@ -10,53 +10,12 @@ import Mathlib.Algebra.Homology.ShortComplex.Exact
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 
 /-!
-# Composition length for finite abelian categories (Krull–Schmidt)
+# Lengths of subobject lattices
 
-This file introduces a `ℕ`-valued **composition length** `Etingof.clength X` for objects of a
-finite abelian category, together with the additivity property that every later Krull–Schmidt
-step (existence of a decomposition into indecomposables, Fitting's lemma) uses as its
-well-founded induction measure.
-
-## Design
-
-`clength X` is defined as the order-theoretic **height** of the top element of the subobject
-lattice `CategoryTheory.Subobject X`:
-
-```
-clength X = (Order.height (⊤ : Subobject X)).toNat.
-```
-
-For a finite-length object this height is finite and equals the length of any composition
-series, by the Jordan–Hölder theorem applied to the (modular) subobject lattice. The definition
-above is total: it returns a value in `ℕ` for every object, so it can carry the API even before
-the finiteness and additivity content is in place. `Order.height` lives in `ℕ∞`, and
-`.toNat` sends `⊤` (the not-finite-length case, which does not occur in a finite abelian category)
-to `0`.
-
-## Mathlib correspondence and additivity
-
-Mathlib develops Jordan–Hölder only abstractly (`Mathlib/Order/JordanHolder.lean`,
-`CompositionSeries`, `CompositionSeries.jordan_holder`) and concretely for `Submodule R M`
-(`JordanHolderModule.instJordanHolderLattice`). For the subobject lattice of an abelian category
-it has neither a `JordanHolderLattice` instance, nor the `IsModularLattice (Subobject X)`
-instance, nor the categorical second isomorphism theorem `(A ⊔ B)/A ≅ B/(A ⊓ B)` that such an
-instance needs. The Stacks-project approach (tag `0FCK`) for categorical Jordan–Hölder is noted as
-future work in `Mathlib/CategoryTheory/Noetherian.lean`.
-
-Consequently the additivity of `clength` over short exact sequences,
-
-```
-clength S.X₂ = clength S.X₁ + clength S.X₃,
-```
-
-is the categorical Jordan–Hölder content and the hard part of the development. It is `le_antisymm`
-of the two one-sided bounds: `clength_add_le` (the modularity-free lower bound, via the
-down-interval isomorphism `height_mk_eq_height_top` and the epi-side inequality
-`height_top_le_coheight_kernel`) and `clength_le_add` (the Schreier-refinement upper bound, via the
-order-reflecting embedding `Subobject X₂ ↪ Subobject X₁ × Subobject X₃` of `Φ_reflecting` and the
-product-order height bound `height_prod_le`). Finiteness of the height in a finite abelian category
-comes from the §9.6 standing assumption recorded as `FiniteDimensionalOrder (Subobject X)`. The
-`clength_eq_zero` characterisation holds in both directions.
+This module assigns each object a natural number obtained from the order height at its maximal
+subobject. Short exact sequences control this value additively, and the resulting rank yields
+well-founded strict descent together with eventual constancy for images and kernels of iterated
+endomorphisms.
 -/
 
 universe w v u
