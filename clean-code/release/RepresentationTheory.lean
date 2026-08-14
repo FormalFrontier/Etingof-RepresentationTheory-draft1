@@ -80,6 +80,7 @@ import RepresentationTheory.LinearAlgebra.ModulePairData
 import RepresentationTheory.FiniteGroupRepresentations.Auxiliary
 import RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar
 import RepresentationTheory.Foundations.TypeFamilies
+import RepresentationTheory.Group.CharacterAuxiliary
 import RepresentationTheory.Group.CyclicPrimeRepresentation
 import RepresentationTheory.Group.IndexedPolynomial
 import RepresentationTheory.Group.SimpleCharacterCriterion
