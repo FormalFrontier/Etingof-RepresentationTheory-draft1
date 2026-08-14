@@ -3,6 +3,16 @@ import RepresentationTheory.GeneralLinearGroup.WeightCharacter
 import RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary
 import RepresentationTheory.TensorPower
 
+set_option backward.isDefEq.respectTransparency false
+set_option linter.unusedSectionVars false
+set_option linter.unusedFintypeInType false
+set_option linter.unusedDecidableInType false
+set_option linter.style.cdot false
+set_option linter.style.emptyLine false
+set_option linter.style.longLine false
+set_option linter.style.setOption false
+set_option linter.style.maxHeartbeats false
+
 open CategoryTheory MvPolynomial
 
 open scoped TensorProduct
