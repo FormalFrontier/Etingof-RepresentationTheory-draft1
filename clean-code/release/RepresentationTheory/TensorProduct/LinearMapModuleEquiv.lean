@@ -1,7 +1,7 @@
 import RepresentationTheory.Algebra.TensorProduct.ModuleCat
 import RepresentationTheory.TensorProduct.LinearMap
-open RepresentationTheory.TensorProduct.LinearMap
 open CategoryTheory TensorProduct
+open RepresentationTheory.TensorProduct.LinearMap
 namespace RepresentationTheory.TensorProduct.LinearMapModuleEquiv
 universe u
 variable (k : Type u) [Field k]
