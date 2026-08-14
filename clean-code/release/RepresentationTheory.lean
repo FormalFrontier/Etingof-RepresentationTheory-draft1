@@ -259,6 +259,7 @@ import RepresentationTheory.FunctorPredicateLogic
 import RepresentationTheory.CategoryTheory.ShortComplex.Auxiliary
 import RepresentationTheory.CategoryTheory.ShortComplex.Biproduct
 import RepresentationTheory.CategoryTheory.ProjectiveEpiProperties
+import RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence
 import RepresentationTheory.RegularModuleProperty
 import RepresentationTheory.ProjectiveDimension
 import RepresentationTheory.Preadditive.FunctorProperties
