@@ -390,6 +390,7 @@ import RepresentationTheory.QuaternionGroupTwo
 import RepresentationTheory.Representation.IsIrreducible
 import RepresentationTheory.SymmetricPolynomials.Alternant
 import RepresentationTheory.SimpleModule.SubtypeRepresentation
+import RepresentationTheory.AuxiliaryModuleCategoryEquivalences
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
