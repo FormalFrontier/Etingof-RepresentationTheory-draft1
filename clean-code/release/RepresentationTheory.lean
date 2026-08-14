@@ -102,6 +102,7 @@ import RepresentationTheory.LinearAlgebra.SymmetricTensors
 import RepresentationTheory.LinearAlgebra.Triangularization
 import RepresentationTheory.Module.CompositionData
 import RepresentationTheory.Module.CompositionSeriesLength
+import RepresentationTheory.Module.Corepresentability
 import RepresentationTheory.Module.DistinguishedElement
 import RepresentationTheory.Module.DualOppositeAction
 import RepresentationTheory.Module.EndomorphismEvaluation
