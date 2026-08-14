@@ -1,6 +1,5 @@
 import Mathlib
 import RepresentationTheory.FDRep.GroupAlgebraDecomposition
-import RepresentationTheory.Alignment.Attribute
 
 open CategoryTheory Representation
 
