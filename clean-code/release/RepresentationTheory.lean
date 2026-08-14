@@ -120,6 +120,7 @@ import RepresentationTheory.Quiver.Arrows
 import RepresentationTheory.Quiver.DependentPropertiesAuxiliary
 import RepresentationTheory.Quiver.MatrixOrientation
 import RepresentationTheory.Quiver.PathAlgebra
+import RepresentationTheory.QuiverAuxiliary
 import RepresentationTheory.FunctionRingHom
 import RepresentationTheory.Combinatorics.Quiver.FourVertices
 import RepresentationTheory.QuantumGroup.SL2Representations
