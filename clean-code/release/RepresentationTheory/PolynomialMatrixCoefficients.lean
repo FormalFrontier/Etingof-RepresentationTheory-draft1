@@ -79,18 +79,13 @@ lemma eval_polynomialCoordinateLinearMap_eq_coord {d : ℕ} (b : Module.Basis (F
     MvPolynomial.eval s (polynomialCoordinateLinearMap k N b P a x) = b.coord a (T x) := by
   classical
   rw [polynomialCoordinateLinearMap_apply, map_sum]
-  
   have hx_repr : x = ∑ c : Fin d, b.coord c x • b c := by
     conv_lhs => rw [← b.sum_repr x]
     refine Finset.sum_congr rfl (fun c _ => ?_)
     rw [Module.Basis.coord_apply]
-  
   conv_rhs => rw [hx_repr, map_sum, map_sum]
   refine Finset.sum_congr rfl (fun c _ => ?_)
-  
   rw [MvPolynomial.smul_eval]
-  
-  
   rw [show T ((b.coord c) x • b c) = (b.coord c) x • T (b c) from
         T.map_smul _ _,
       show (b.coord a) ((b.coord c) x • T (b c)) =
@@ -135,7 +130,6 @@ lemma tensorCoordinateLinearMap_eq_zero_iff {d : ℕ} [CharZero k]
       ⟨fun h => (homogeneousToAuxiliary_injective k N n)
         (h.trans (map_zero _).symm),
        fun h => h ▸ map_zero _⟩]
-  
   refine ⟨fun h => ?_, fun h => ?_⟩
   · have := congrArg Subtype.val h
     simpa [LinearMap.codRestrict] using this
@@ -188,7 +182,6 @@ theorem exists_injective_tensorFamilyMap
       Function.Injective φ := by
   classical
   obtain ⟨d, b, P, hhom, hP⟩ := hpoly
-  
   let m := Fintype.card (Fin d × (Fin n → Fin N))
   let e : Fin d × (Fin n → Fin N) ≃ Fin m := Fintype.equivFin _
   let reindex :
@@ -198,19 +191,15 @@ theorem exists_injective_tensorFamilyMap
   let φ : M →ₗ[k] (Fin m → auxiliarySpace k (AuxiliaryFactor k N) n) :=
     reindex.toLinearMap.comp (tensorCoordinateFamilyLinearMap k N n b P hhom)
   refine ⟨m, φ, ?_⟩
-  
   rw [show Function.Injective φ ↔
       Function.Injective (tensorCoordinateFamilyLinearMap k N n b P hhom) from
     by simp [φ, LinearMap.coe_comp, reindex.injective.of_comp_iff]]
   rw [← LinearMap.ker_eq_bot, Submodule.eq_bot_iff]
   intro x hx
   rw [LinearMap.mem_ker] at hx
-  
-  
   have hx_pt : ∀ p : Fin d × (Fin n → Fin N),
       tensorCoordinateFamilyLinearMap k N n b P hhom x p = 0 :=
     fun p => congrFun hx p
-  
   have hx_split : ∀ a : Fin d,
       (tensorCoordinateLinearEquiv k N n) (tensorCoordinateLinearMap k N n b P hhom a x) = 0 := by
     intro a
@@ -218,13 +207,10 @@ theorem exists_injective_tensorFamilyMap
     have := hx_pt (a, j)
     rw [tensorCoordinateFamilyLinearMap_apply] at this
     simpa using this
-  
   have hx_row : ∀ a : Fin d, tensorCoordinateLinearMap k N n b P hhom a x = 0 :=
     fun a => (tensorCoordinateLinearEquiv k N n).map_eq_zero_iff.mp (hx_split a)
-  
   have hx_poly : ∀ a : Fin d, polynomialCoordinateLinearMap k N b P a x = 0 :=
     fun a => (tensorCoordinateLinearMap_eq_zero_iff k N n b P hhom a x).mp (hx_row a)
-  
   have hcoord_zero : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (a : Fin d),
       b.coord a (ρ g x) = 0 := by
     intro g a
@@ -239,7 +225,6 @@ theorem exists_injective_tensorFamilyMap
       (fun ij => (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2) hP_g a x
     rw [hx_poly a, map_zero] at h
     exact h.symm
-  
   have hρ_zero : ∀ g : Matrix.GeneralLinearGroup (Fin N) k, ρ g x = 0 := by
     intro g
     apply b.repr.injective
@@ -247,7 +232,6 @@ theorem exists_injective_tensorFamilyMap
     rw [LinearEquiv.map_zero, Finsupp.zero_apply]
     have := hcoord_zero g a
     rwa [Module.Basis.coord_apply] at this
-  
   have hone : ρ 1 = LinearMap.id := ρ.map_one
   have h := hρ_zero 1
   rw [hone, LinearMap.id_apply] at h
@@ -261,7 +245,6 @@ lemma tensorCoordinateLinearEquiv_map (g : Matrix (Fin N) (Fin N) k)
       PiTensorProduct.map (fun _ : Fin n => Matrix.toLin' g)
         (tensorCoordinateLinearEquiv k N n z j) := by
   classical
-  
   suffices h :
       ((LinearMap.proj j :
           ((Fin n → Fin N) → auxiliarySpace k (AuxiliaryFactor k N) n) →ₗ[k]
@@ -301,13 +284,11 @@ lemma polynomialCoordinateLinearMap_equivariant {d : ℕ} (b : Module.Basis (Fin
       secondCoordinateMatrixAlgHom k N
         (g : Matrix (Fin N) (Fin N) k) (polynomialCoordinateLinearMap k N b P a x) := by
   classical
-  
   set eg : MvPolynomial (Fin N × Fin N) k →ₐ[k] MvPolynomial (Fin N × Fin N) k :=
     secondCoordinateMatrixAlgHom k N (g : Matrix (Fin N) (Fin N) k) with hegd
   set eval_g : MvPolynomial (Fin N × Fin N) k → k :=
     fun p => MvPolynomial.eval
       (fun ij : Fin N × Fin N => (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2) p with hevalg
-  
   have hrepr : ∀ c' : Fin d,
       b.coord c' (ρ g x) = ∑ c : Fin d, b.coord c x * eval_g (P c' c) := by
     intro c'
@@ -321,13 +302,11 @@ lemma polynomialCoordinateLinearMap_equivariant {d : ℕ} (b : Module.Basis (Fin
     congr 1
     have := hP g c' c
     rwa [Module.Basis.coord_apply]
-  
   have hLHS :
       polynomialCoordinateLinearMap k N b P a (ρ g x) =
         ∑ c : Fin d, b.coord c x • eg (P a c) := by
     rw [polynomialCoordinateLinearMap_apply]
     simp_rw [hrepr]
-    
     have hswap :
         (∑ c' : Fin d, (∑ c : Fin d, b.coord c x * eval_g (P c' c)) • P a c') =
           (∑ c : Fin d, b.coord c x • (∑ c' : Fin d, eval_g (P c' c) • P a c')) := by
@@ -373,7 +352,6 @@ lemma tensorCoordinateLinearMap_equivariant [CharZero k] {d : ℕ}
         (tensorCoordinateLinearMap k N n b P hhom a x) := by
   unfold tensorCoordinateLinearMap
   simp only [LinearMap.comp_apply]
-  
   have hmc := polynomialCoordinateLinearMap_equivariant k N b P ρ hP hP_mul g a x
   have heq :
       (LinearMap.codRestrict (MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k n)
@@ -457,7 +435,6 @@ theorem exists_injective_equivariant_tensorFamilyMap_of_covariant_coefficients
             (φ x i)) := by
   classical
   obtain ⟨d, b, P, hhom, hP, hP_mul⟩ := hpoly
-  
   let m := Fintype.card (Fin d × (Fin n → Fin N))
   let e : Fin d × (Fin n → Fin N) ≃ Fin m := Fintype.equivFin _
   let reindex :
@@ -513,7 +490,6 @@ theorem exists_injective_equivariant_tensorFamilyMap_of_covariant_coefficients
     rw [hone, LinearMap.id_apply] at h
     exact h
   · intro g x i
-    
     change tensorCoordinateFamilyLinearMap k N n b P hhom (ρ g x) (e.symm i) =
       PiTensorProduct.map (fun _ => Matrix.toLin' (g : Matrix (Fin N) (Fin N) k))
         (tensorCoordinateFamilyLinearMap k N n b P hhom x (e.symm i))
@@ -570,7 +546,6 @@ lemma polynomialTransform_matrixCoefficient [Infinite k] {d : ℕ}
                (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
              (P c c') • P a c := by
   classical
-  
   have hP_coord : ∀ (e : Matrix.GeneralLinearGroup (Fin N) k) (a c : Fin d),
       MvPolynomial.eval
           (fun ij : Fin N × Fin N => (e : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
@@ -581,8 +556,6 @@ lemma polynomialTransform_matrixCoefficient [Infinite k] {d : ℕ}
   rw [eval_polynomialTransform k N (g : Matrix (Fin N) (Fin N) k)
        (h : Matrix (Fin N) (Fin N) k) (P a c'), map_sum]
   simp only [MvPolynomial.smul_eval]
-  
-  
   have hLHS : MvPolynomial.eval
                 (fun ij : Fin N × Fin N =>
                   ((h : Matrix (Fin N) (Fin N) k) * (g : Matrix (Fin N) (Fin N) k))
@@ -592,7 +565,6 @@ lemma polynomialTransform_matrixCoefficient [Infinite k] {d : ℕ}
     rwa [ρ.map_mul, Module.End.mul_apply] at hPhg
   rw [hLHS]
   simp_rw [hP_coord]
-  
   conv_lhs =>
     rw [show ρ g (b c') = ∑ c : Fin d, b.coord c (ρ g (b c')) • b c from by
       simp_rw [Module.Basis.coord_apply]; exact (b.sum_repr _).symm]
@@ -684,7 +656,6 @@ private theorem unitToGeneralLinearGroup_acts_as_pow (n : ℕ)
   rw [← sub_eq_zero]
   set L : M →ₗ[k] M :=
     M.ρ (unitToGeneralLinearGroup k N t) - ((t : k) ^ n) • LinearMap.id with hL
-  
   have hker :
       (⨆ μ : Fin N →₀ ℕ, weightSpace k N M (fun i => μ i)) ≤ LinearMap.ker L := by
     rw [iSup_le_iff]
@@ -701,7 +672,6 @@ private theorem unitToGeneralLinearGroup_acts_as_pow (n : ℕ)
         rw [LinearMap.mem_ker, LinearMap.sub_apply, sub_eq_zero,
           LinearMap.smul_apply, LinearMap.id_apply] at h2
         exact h2
-      
       have act : ∀ (s : Finset (Fin N))
           (comm : (↑s : Set (Fin N)).Pairwise
             fun a b => Commute (M.ρ (diagonalUnit k N a t)) (M.ρ (diagonalUnit k N b t))),
@@ -717,7 +687,6 @@ private theorem unitToGeneralLinearGroup_acts_as_pow (n : ℕ)
       have hprod : M.ρ (unitToGeneralLinearGroup k N t) w = ((t : k) ^ (∑ i, μ i)) • w := by
         rw [unitToGeneralLinearGroup_eq_noncommProd, Finset.map_noncommProd, act Finset.univ,
           Finset.prod_pow_eq_pow_sum]
-      
       have hne : weightSpace k N M (fun i => μ i) ≠ ⊥ := by
         intro h; exact hw0 ((Submodule.mem_bot k).1 (h ▸ hw))
       have hsum : ∑ i, μ i = n := h_homog (fun i => μ i) hne
@@ -829,9 +798,6 @@ private theorem exists_polynomial_matrixCoefficients_of_auxiliarySpan
                (fun ij : Fin N × Fin N =>
                  (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
                (Q a c) := by
-  
-  
-  
   exact exists_basis_with_polynomial_matrix_coefficients n M halg h_span
 
 private theorem polynomialMatrixCoefficient_isHomogeneous (n : ℕ) [CharZero k] [IsAlgClosed k]
@@ -848,7 +814,6 @@ private theorem polynomialMatrixCoefficient_isHomogeneous (n : ℕ) [CharZero k]
     (a c : Fin d) : (Q a c).IsHomogeneous n := by
   apply isHomogeneous_of_gl_scaling
   intro g t
-  
   have hmatrix : ∀ ij : Fin N × Fin N,
       ((unitToGeneralLinearGroup k N t * g : Matrix.GeneralLinearGroup (Fin N) k) :
           Matrix (Fin N) (Fin N) k) ij.1 ij.2
@@ -858,7 +823,6 @@ private theorem polynomialMatrixCoefficient_isHomogeneous (n : ℕ) [CharZero k]
         (g : Matrix (Fin N) (Fin N) k)) ij.1 ij.2 = _
     rw [show (unitToGeneralLinearGroup k N t : Matrix (Fin N) (Fin N) k)
           = Matrix.diagonal (fun _ => (t : k)) from rfl, Matrix.diagonal_mul]
-  
   have hpt : (fun ij : Fin N × Fin N => (t : k) * (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
       = (fun ij : Fin N × Fin N =>
           ((unitToGeneralLinearGroup k N t * g : Matrix.GeneralLinearGroup (Fin N) k) :
@@ -887,9 +851,6 @@ private theorem exists_homogeneous_matrixCoefficients_of_unitAction (n : ℕ)
                (fun ij : Fin N × Fin N =>
                  (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
                (P a c)) := by
-  
-  
-  
   obtain ⟨d, b, Q, hQ⟩ :=
     exists_polynomial_matrixCoefficients_of_auxiliarySpan k N n M halg h_span
   exact ⟨d, b, Q,
@@ -913,7 +874,6 @@ theorem exists_homogeneous_matrixCoefficients_of_auxiliarySubmodules
                (fun ij : Fin N × Fin N =>
                  (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
                (P a c)) :=
-  
   exists_homogeneous_matrixCoefficients_of_unitAction k N n M halg h_span
     (fun t => unitToGeneralLinearGroup_acts_as_pow k N n M halg h_span h_homog t)
 
