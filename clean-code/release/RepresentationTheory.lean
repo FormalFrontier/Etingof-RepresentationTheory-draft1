@@ -428,6 +428,7 @@ import RepresentationTheory.LinearAlgebra.SubalgebraCentralizerRange
 import RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction
 import RepresentationTheory.GeneralLinearRepresentation.SubrepresentationQuotient
 import RepresentationTheory.Submodules
+import RepresentationTheory.Auxiliary.GeneralLinearLocalizationFiltration
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
