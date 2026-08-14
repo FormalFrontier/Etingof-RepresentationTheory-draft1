@@ -1,4 +1,5 @@
 import Mathlib
+import RepresentationTheory.Alignment.Attribute
 import RepresentationTheory.FDRep.GroupAlgebraDecomposition
 
 open CategoryTheory
@@ -8,6 +9,10 @@ universe u
 namespace RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition
 
 /-- The group algebra of a finite group over a field is semisimple when the group order is a unit in the field. -/
+@[source_ref "Chapter2/Discussion_after_Theorem2.1.2/Derived2" (role := supporting),
+  source_ref "Chapter4/Discussion_after_Theorem4.6.3" (role := supporting),
+  source_ref "Chapter4/Theorem4.1.1" (role := primary),
+  source_ref "Chapter4/Theorem4.2.1/Derived2" (role := supporting)]
 theorem MonoidAlgebra.isSemisimpleRing_of_isUnit_card
     (k : Type*) (G : Type*) [Field k] [Group G] [Fintype G]
     (h : IsUnit (Fintype.card G : k)) :
@@ -19,6 +24,7 @@ theorem MonoidAlgebra.isSemisimpleRing_of_isUnit_card
   infer_instance
 
 /-- For a finite group over an algebraically closed field in which the group order is nonzero, there is a finite family of positive natural numbers whose squares sum to the group order. -/
+@[source_ref "Chapter4/Theorem4.1.1" (role := primary)]
 theorem FiniteGroup.exists_positive_dimensions_sum_sq_eq_card
     (k : Type u) (G : Type u) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [NeZero (Nat.card G : k)] :
@@ -29,6 +35,8 @@ theorem FiniteGroup.exists_positive_dimensions_sum_sq_eq_card
   ⟨D.count, D.dimension, D.dimension_neZero, D.sum_dimension_sq_eq_card⟩
 
 /-- There is a complete pairwise nonisomorphic family of simple finite-dimensional representations whose endomorphism algebras form an algebra equivalent to the group algebra, and whose squared dimensions sum to the group order. -/
+@[source_ref "Chapter4/Proposition4.1.2/Derived2" (role := primary),
+  source_ref "Chapter4/Theorem4.1.1" (role := primary)]
 theorem FiniteGroup.exists_complete_simple_family_with_groupAlgebra_equiv
     (k : Type u) (G : Type u) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [NeZero (Nat.card G : k)] :
@@ -78,6 +86,7 @@ noncomputable def endomorphismFamilyRepresentation (D : DecompositionData k G) :
   map_mul' g h := by rw [map_mul, map_mul, map_mul]
 
 /-- Applying the displayed auxiliary map to the group-algebra element supported at g gives the action of g in each indexed component. -/
+@[source_ref "Chapter4/Theorem4.1.1" (role := primary)]
 theorem auxiliaryMap_apply_single (D : DecompositionData k G) (g : G) (i : Fin D.count) :
     D.groupAlgebraEquivRepresentationEnd (MonoidAlgebra.of k G g) i = (D.representation i).ρ g := by
   have hproj : (D.groupAlgebraEquivMatrix (MonoidAlgebra.of k G g)) i =
@@ -112,6 +121,7 @@ noncomputable def auxiliaryFDRepPrime (D : DecompositionData k G) : FDRep k G :=
   FDRep.of D.endomorphismFamilyRepresentation
 
 /-- An isomorphism from the auxiliary finite-dimensional representation constructed from k and G to the second auxiliary representation associated with D. -/
+@[source_ref "Chapter4/Theorem4.1.1" (role := supporting)]
 noncomputable def auxiliaryFDRepIsoAuxiliaryPrime (D : DecompositionData k G) :
     RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.FiniteGroup.auxiliaryFDRep k G ≅
       D.auxiliaryFDRepPrime :=
@@ -169,6 +179,7 @@ noncomputable def auxiliaryFDRepIso (D : DecompositionData k G) :
     exact D.endomorphismsEquivIndexedVectorFamily_intertwines g F)
 
 /-- An isomorphism from the auxiliary finite-dimensional representation constructed from k and G to the first auxiliary representation associated with D. -/
+@[source_ref "Chapter4/Theorem4.1.1" (role := supporting)]
 noncomputable def auxiliaryFDRepIsoAuxiliary (D : DecompositionData k G) :
     RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.FiniteGroup.auxiliaryFDRep k G ≅
       D.auxiliaryFDRep :=
@@ -179,6 +190,7 @@ end RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData
 namespace RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition
 
 /-- There is a complete pairwise nonisomorphic family of simple representations such that the componentwise postcomposition action on their endomorphisms yields a representation isomorphic to the displayed auxiliary finite-dimensional representation. -/
+@[source_ref "Chapter4/Theorem4.1.1" (role := supporting)]
 theorem FiniteGroup.exists_complete_simple_family_endomorphismRepresentation (k G : Type u)
     [Field k] [IsAlgClosed k] [Group G] [Fintype G] [NeZero (Nat.card G : k)] :
     ∃ (n : ℕ) (V : Fin n → FDRep k G) (ρ_end : Representation k G (Π i, Module.End k (V i))),
@@ -194,6 +206,8 @@ theorem FiniteGroup.exists_complete_simple_family_endomorphismRepresentation (k 
     D.endomorphismFamilyRepresentation_apply, ⟨D.auxiliaryFDRepIsoAuxiliaryPrime⟩⟩
 
 /-- There is a complete pairwise nonisomorphic family of simple representations whose dimensions index a coordinatewise group action isomorphic to the displayed auxiliary finite-dimensional representation. -/
+@[source_ref "Chapter4/Proposition4.1.2/Derived3" (role := supporting),
+  source_ref "Chapter4/Theorem4.1.1" (role := primary)]
 theorem FiniteGroup.exists_complete_simple_family_coordinateRepresentation (k G : Type u)
     [Field k] [IsAlgClosed k] [Group G] [Fintype G] [NeZero (Nat.card G : k)] :
     ∃ (n : ℕ) (V : Fin n → FDRep k G) (d : Fin n → ℕ)
