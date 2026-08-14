@@ -321,6 +321,7 @@ import RepresentationTheory.Algebra.Category.ModuleCat.Projective
 import RepresentationTheory.PolynomialModule.Finsupp
 import RepresentationTheory.Induction.Transitivity
 import RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero
+import RepresentationTheory.TensorAdjunction
 
 /-!
 # Representation theory formalization
