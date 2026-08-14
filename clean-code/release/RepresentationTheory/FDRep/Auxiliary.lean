@@ -1,4 +1,5 @@
 import Mathlib
+import RepresentationTheory.Alignment.Attribute
 import RepresentationTheory.FDRep.GroupAlgebraDecomposition
 import RepresentationTheory.FDRep.RegularRepresentationCharacter
 import RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar
@@ -43,6 +44,7 @@ private lemma sum_dim_char_eq_regularChar
       D V hV hinj h hne
 
 /-- Relates the number of group elements whose square is one to the sum of their representation-theoretic contributions over a simple, pairwise nonisomorphic family. -/
+@[source_ref "Chapter5/Theorem5.1.5" (role := primary)]
 theorem card_sq_eq_one_eq_sum_finrank_mul_auxiliaryInvariant
     [DecidableEq G] [IsAlgClosed k] [NeZero (Nat.card G : k)]
     [Invertible (Fintype.card G : k)]
@@ -78,6 +80,7 @@ lemma representationInvariant_eq_auxiliaryInvariant
     auxiliaryInvariant, FDRep.character, invOf_eq_inv, smul_eq_mul]
 
 /-- Expresses the number of group elements whose square is one as a sum over a simple, pairwise nonisomorphic family of complex representations. -/
+@[source_ref "Chapter5/Theorem5.1.5" (role := primary)]
 theorem card_sq_eq_one_eq_sum_representationInvariant_mul_finrank
     [DecidableEq G] [NeZero (Nat.card G : ℂ)] [Invertible (Fintype.card G : ℂ)]
     (D : RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData ℂ G)
