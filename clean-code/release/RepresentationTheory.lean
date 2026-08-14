@@ -362,6 +362,7 @@ import RepresentationTheory.VirtualRepresentations.CharacterCriteria
 import RepresentationTheory.Representation.FiniteProducts
 import RepresentationTheory.Algebra.Category.ModuleCat.Projective
 import RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions
+import RepresentationTheory.Algebra.Category.ModuleCat.TensorHom
 import RepresentationTheory.PolynomialModule.Finsupp
 import RepresentationTheory.Induction.Transitivity
 import RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero
