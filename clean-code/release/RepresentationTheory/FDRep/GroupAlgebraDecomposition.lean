@@ -107,7 +107,7 @@ instance isSimpleModule_matrix_fin {k : Type*} [Field k] (n : ℕ) [NeZero n] :
       obtain ⟨w, hw, hwne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hm
       obtain ⟨i, hi⟩ : ∃ i, w i ≠ 0 := by
         by_contra h; push Not at h; exact hwne (funext h)
-      -- For any target v, construct M with M.mulVec w = v
+
       let M : Matrix (Fin n) (Fin n) k := fun j l => if l = i then v j * (w i)⁻¹ else 0
       have : M.mulVec w = v := by
         ext j; simp only [Matrix.mulVec, M, dotProduct]; simp [mul_assoc, inv_mul_cancel₀ hi]
@@ -460,9 +460,9 @@ private lemma Matrix.mul_single_eq_sum {n : ℕ}
       ∑ a, M a j • Matrix.single a j₀ (1 : k) := by
   ext p q; simp only [Matrix.mul_apply, Matrix.sum_apply, Matrix.single_apply,
     mul_one, mul_ite, mul_zero]
-  -- LHS: ∑ x, if j = x ∧ j₀ = q then M p x else 0
-  -- RHS: ∑ x, M x j * if x = p ∧ j₀ = q then 1 else 0
-  -- Both evaluate to: if j₀ = q then M p j else 0
+
+
+
   trans (if j₀ = q then M p j else 0)
   · convert Finset.sum_ite_eq Finset.univ j
       (fun x => if j₀ = q then M p x else 0) using 1
@@ -481,15 +481,15 @@ set_option maxHeartbeats 400000 in
 theorem DecompositionData.exists_iso_representation_of_simple [NeZero (Nat.card G : k)]
     (D : DecompositionData k G) (W : FDRep k G) (hW : Simple W) :
     ∃ i, Nonempty (W ≅ D.representation i) := by
-  -- Step 1: Each centralIdemEndo is a scalar by Schur's lemma
+
   have hschur : ∀ i : Fin D.count, ∃ c : k,
       c • 𝟙 W = D.centralIdemEndo W i := fun i =>
     endomorphism_simple_eq_smul_id k (D.centralIdemEndo W i)
   choose c hc using hschur
-  -- Step 2: Each c_i satisfies c_i² = c_i (idempotent)
+
   have hc_idem : ∀ i, c i * c i = c i := by
     intro i
-    -- centralIdemEndo ≫ centralIdemEndo = centralIdemEndo (from centralIdem_sq)
+
     have hendo_sq : D.centralIdemEndo W i ≫ D.centralIdemEndo W i = D.centralIdemEndo W i := by
       ext v
       change Representation.asAlgebraHom W.ρ (D.centralIdem i)
@@ -501,57 +501,57 @@ theorem DecompositionData.exists_iso_representation_of_simple [NeZero (Nat.card 
           (Representation.asAlgebraHom W.ρ (D.centralIdem i * D.centralIdem i)) v from by
             rw [map_mul]; rfl]
       rw [D.centralIdem_sq]
-    -- Work pointwise: endo(v) = c_i • v, endo(endo(v)) = endo(v)
-    -- So c_i • (c_i • v) = c_i • v, giving (c_i² - c_i) • v = 0 for all v
-    -- endo acts as c_i • id on W, so endo(w) = c_i • w for all w
+
+
+
     have hcv : ∀ w : W.V, (D.centralIdemEndo W i).hom.hom w = c i • w := by
       intro w
       exact congr_fun (congr_arg (fun f => f.hom.hom) (hc i).symm) w
     have hpt : ∀ v : W.V,
         (c i * c i - c i) • v = 0 := by
       intro v
-      -- endo(endo(v)) = endo(v) from hendo_sq
+
       have hsqv := congr_fun (congr_arg (fun f => f.hom.hom) hendo_sq) v
-      -- hsqv : endo(endo(v)) = endo(v)
-      -- rewrite both sides using hcv
-      -- Simplify hsqv to nested application, then rewrite with hcv
+
+
+
       change (D.centralIdemEndo W i).hom.hom
           ((D.centralIdemEndo W i).hom.hom v) =
           (D.centralIdemEndo W i).hom.hom v at hsqv
       simp only [hcv, smul_smul] at hsqv
-      -- hsqv : (c i * c i) • v = c i • v
+
       have : (c i * c i - c i) • v = 0 := by rw [sub_smul, hsqv, sub_self]
       exact this
-    -- If c_i² ≠ c_i, then (c_i² - c_i) is a nonzero scalar annihilating all of W
+
     by_contra hne
     have hne' : c i * c i - c i ≠ 0 := sub_ne_zero.mpr hne
-    -- This means all v = 0, so W is zero, contradicting Simple
+
     have : ∀ v : W.V, v = 0 := by
       intro v
       have := hpt v
       rwa [smul_eq_zero, or_iff_right hne'] at this
-    -- If all vectors are 0, then 𝟙 W = 0, contradicting simplicity
-    exact id_nonzero W (by ext v; simp [this v]) -- v4.29.0: simp now closes goal
-  -- Step 3: ∑ c_i = 1
+
+    exact id_nonzero W (by ext v; simp [this v])
+
   have hc_sum : ∑ i, c i = 1 := by
-    -- endo acts as c_i • id on W
+
     have hcv' : ∀ (i : Fin D.count) (w : W.V),
         (D.centralIdemEndo W i).hom.hom w = c i • w := by
       intro j w
       exact congr_fun (congr_arg (fun f => f.hom.hom) (hc j).symm) w
-    -- For any v: (∑ c_i) • v = ∑ c_i • v = ∑ e_i(v) = (∑ e_i)(v) = id(v) = v
+
     have hsum_pt : ∀ v : W.V, (∑ i, c i) • v = v := by
       intro v
-      -- (∑ c_i) • v = ∑ c_i • v = ∑ e_i(v) = v
+
       rw [Finset.sum_smul]
-      -- ∑ c_i • v = ∑ e_i(v), since e_i(v) = c_i • v
+
       have : ∑ i, c i • v = ∑ i, Representation.asAlgebraHom W.ρ (D.centralIdem i) v :=
         Finset.sum_congr rfl (fun i _ => (hcv' i v).symm)
       rw [this]
-      -- ∑ e_i(v) = (∑ e_i)(v) = asAlgebraHom(1)(v) = v
+
       rw [← LinearMap.sum_apply, ← map_sum, D.centralIdem_sum]
       simp [Representation.asAlgebraHom_single, MonoidAlgebra.one_def]
-    -- Extract scalar: (∑ c_i - 1) • v = 0 for all v
+
     by_contra hne
     have hne' : ∑ i, c i - 1 ≠ 0 := sub_ne_zero.mpr hne
     have : ∀ v : W.V, v = 0 := by
@@ -559,8 +559,8 @@ theorem DecompositionData.exists_iso_representation_of_simple [NeZero (Nat.card 
       have h := hsum_pt v
       have h2 : (∑ i, c i - 1) • v = 0 := by rw [sub_smul, h, one_smul, sub_self]
       rwa [smul_eq_zero, or_iff_right hne'] at h2
-    exact id_nonzero W (by ext v; simp [this v]) -- v4.29.0: simp now closes goal
-  -- Step 4: Find i₀ with c_{i₀} = 1
+    exact id_nonzero W (by ext v; simp [this v])
+
   have hc_01 : ∀ i, c i = 0 ∨ c i = 1 := by
     intro i
     have h := hc_idem i
@@ -576,19 +576,19 @@ theorem DecompositionData.exists_iso_representation_of_simple [NeZero (Nat.card 
     rw [show ∑ i, c i = ∑ i, (0 : k) from Finset.sum_congr rfl (fun i _ => hall i),
       Finset.sum_const_zero] at hc_sum
     exact one_ne_zero hc_sum.symm
-  -- Step 5: Construct isomorphism W ≅ representation i₀
-  -- centralIdem i₀ acts as id on W, so W is a module over the i₀-th Wedderburn block
-  -- This gives W ≅ representation i₀
+
+
+
   refine ⟨i₀, ?_⟩
-  -- centralIdemEndo W i₀ = 𝟙 W
+
   have hid : D.centralIdemEndo W i₀ = 𝟙 W := by
     have := (hc i₀).symm; rwa [hi₀, one_smul] at this
-  -- Pointwise: e_{i₀} acts as identity on W
+
   have hid_pt : ∀ w : W,
       Representation.asAlgebraHom W.ρ (D.centralIdem i₀) w = w := by
     intro w
     exact congr_arg (fun f => f.hom.hom w) hid
-  -- Key algebraic identity: e_{i₀} * a = iso.symm (Pi.single i₀ (matrixBlockHom i₀ a))
+
   have heidem_mul : ∀ a : MonoidAlgebra k G,
       D.centralIdem i₀ * a = D.groupAlgebraEquivMatrix.symm (Pi.single i₀ (D.matrixBlockHom i₀ a)) := by
     intro a
@@ -599,7 +599,7 @@ theorem DecompositionData.exists_iso_representation_of_simple [NeZero (Nat.card 
     by_cases h : i₀ = j
     · subst h; simp [Pi.single_eq_same, matrixBlockHom, Pi.evalRingHom]
     · simp [Pi.single_eq_of_ne (Ne.symm h)]
-  -- The k[G]-action on W factors through matrixBlockHom i₀
+
   have hfactor : ∀ (a : MonoidAlgebra k G) (w : W),
       Representation.asAlgebraHom W.ρ a w =
       Representation.asAlgebraHom W.ρ (D.groupAlgebraEquivMatrix.symm (Pi.single i₀ (D.matrixBlockHom i₀ a))) w := by
@@ -609,19 +609,19 @@ theorem DecompositionData.exists_iso_representation_of_simple [NeZero (Nat.card 
       Representation.asAlgebraHom W.ρ (D.centralIdem i₀)
         (Representation.asAlgebraHom W.ρ a w)
     rw [hid_pt]
-  -- Use Schur's lemma: construct a nonzero FDRep morphism representation i₀ ⟶ W
-  -- Then isIso_of_hom_simple gives the isomorphism
+
+
   haveI := D.dimension_neZero i₀
   haveI := D.simple_representation i₀
-  -- W is nontrivial (from Simple)
+
   obtain ⟨w₀, hw₀⟩ : ∃ w₀ : W.V, w₀ ≠ 0 := by
     by_contra h; push Not at h
-    exact id_nonzero W (by ext v; simp [h v]) -- v4.29.0: simp now closes goal
-  -- Helper: matrixBlockHom i₀ inverts iso.symm ∘ Pi.single i₀
+    exact id_nonzero W (by ext v; simp [h v])
+
   have hproj_single : ∀ X : Matrix (Fin (D.dimension i₀)) (Fin (D.dimension i₀)) k,
       D.matrixBlockHom i₀ (D.groupAlgebraEquivMatrix.symm (Pi.single i₀ X)) = X := by
     intro X; simp [matrixBlockHom, Pi.evalRingHom, Pi.single]
-  -- Find j₀ such that some diagonal matrix unit doesn't kill w₀
+
   obtain ⟨j₀, hj₀⟩ : ∃ j₀ : Fin (D.dimension i₀),
       Representation.asAlgebraHom W.ρ
         (D.groupAlgebraEquivMatrix.symm (Pi.single i₀ (Matrix.single j₀ j₀ (1 : k)))) w₀ ≠ 0 := by
@@ -638,16 +638,16 @@ theorem DecompositionData.exists_iso_representation_of_simple [NeZero (Nat.card 
       · simp [Pi.single_eq_of_ne (Ne.symm hl)]
     rw [this, map_sum, LinearMap.sum_apply]
     exact Finset.sum_eq_zero (fun j _ => h j)
-  -- Define φ j = action of matrix unit E_{j,j₀} on w₀
+
   set φ : Fin (D.dimension i₀) → W.V :=
     fun j => Representation.asAlgebraHom W.ρ
       (D.groupAlgebraEquivMatrix.symm (Pi.single i₀ (Matrix.single j j₀ (1 : k)))) w₀
-  -- Key equivariance: W.ρ g (φ j) = ∑ a, M a j • φ a
+
   have hphi_equivar : ∀ (g : G) (j : Fin (D.dimension i₀)),
       W.ρ g (φ j) = ∑ a, (D.matrixBlockHom i₀ (MonoidAlgebra.of k G g)) a j • φ a := by
     intro g j
     set M := D.matrixBlockHom i₀ (MonoidAlgebra.of k G g)
-    -- W.ρ g (φ j) = asAlgebraHom (of g) (φ j)
+
     have hρ_eq : W.ρ g (φ j) =
         Representation.asAlgebraHom W.ρ (MonoidAlgebra.of k G g) (φ j) := by
       rw [MonoidAlgebra.of_apply, Representation.asAlgebraHom_single, one_smul]
@@ -659,13 +659,13 @@ theorem DecompositionData.exists_iso_representation_of_simple [NeZero (Nat.card 
         D.groupAlgebraEquivMatrix.symm (Pi.single i₀ (Matrix.single j j₀ (1 : k)))) =
       M * Matrix.single j j₀ 1 from by rw [map_mul, hproj_single]]
     rw [Matrix.mul_single_eq_sum]
-    -- Use linearity: the composition asAlgebraHom ∘ iso.symm ∘ Pi.single i₀ is linear
-    -- So distributing over ∑ and • works step by step
+
+
     change (Representation.asAlgebraHom W.ρ)
       (D.groupAlgebraEquivMatrix.symm (Pi.single i₀ (∑ a, M a j • Matrix.single a j₀ (1 : k)))) w₀ =
       ∑ a, M a j • (Representation.asAlgebraHom W.ρ)
         (D.groupAlgebraEquivMatrix.symm (Pi.single i₀ (Matrix.single a j₀ 1))) w₀
-    -- Define the linear map: X ↦ asAlgebraHom(iso.symm(Pi.single i₀ X)) w₀
+
     let L : Matrix (Fin (D.dimension i₀)) (Fin (D.dimension i₀)) k →ₗ[k] W.V :=
       { toFun := fun X => (Representation.asAlgebraHom W.ρ)
           (D.groupAlgebraEquivMatrix.symm (Pi.single i₀ X)) w₀
@@ -676,7 +676,7 @@ theorem DecompositionData.exists_iso_representation_of_simple [NeZero (Nat.card 
             map_smul, map_smul, LinearMap.smul_apply, RingHom.id_apply] }
     change L (∑ a, M a j • Matrix.single a j₀ 1) = ∑ a, M a j • L (Matrix.single a j₀ 1)
     rw [map_sum]; congr 1; ext a; rw [map_smul]
-  -- Construct the FDRep morphism: f(v) = ∑_j v_j • φ_j
+
   let fHom : D.representation i₀ ⟶ W :=
     { hom := FGModuleCat.ofHom
         { toFun := fun v => ∑ j, v j • φ j
@@ -686,46 +686,46 @@ theorem DecompositionData.exists_iso_representation_of_simple [NeZero (Nat.card 
             rw [Finset.smul_sum]; congr 1; ext j; rw [smul_smul] }
       comm := fun g => by
         ext v
-        -- Goal: f(ρ_col(g)(v)) = W.ρ g (f(v))
+
         change ∑ j, ((D.coordinateRepresentation i₀) g v) j • φ j = W.ρ g (∑ j, v j • φ j)
-        -- RHS: distribute W.ρ g over the sum
+
         rw [map_sum]; simp_rw [map_smul]
-        -- Rewrite W.ρ g (φ j) using hphi_equivar
+
         simp_rw [hphi_equivar g]
-        -- coordinateRepresentation g = mulVecLin (matrixBlockHom (of g))
-        -- (coordinateRepresentation g v) j = ∑ a, M j a * v a  where M = matrixBlockHom (of g)
-        -- Need: ∑ j, (∑ a, M j a * v a) • φ j = ∑ x, v x • ∑ a, M a x • φ a
-        -- This is just rearranging a double sum
-        -- coordinateRepresentation is definitionally mulVec, so we can just use show
-        -- after hphi_equivar, LHS has coordinateRepresentation and RHS has expanded form
-        -- Goal: ∑ j, (coordinateRepresentation i₀ g v) j • φ j = ∑ x, v x • ∑ a, M a x • φ a
-        -- coordinateRepresentation g v j = ∑ a, M j a * v a  by definition
+
+
+
+
+
+
+
+
         simp_rw [show ∀ j, ((D.coordinateRepresentation i₀) g v) j =
           ∑ a, (D.matrixBlockHom i₀ (MonoidAlgebra.of k G g)) j a * v a from fun j => rfl]
-        -- Distribute (∑ a, c a) • x = ∑ a, c a • x on LHS
+
         conv_lhs => arg 2; ext x; rw [Finset.sum_smul]
-        -- RHS: distribute v x • over the inner sum, combine smul
+
         conv_rhs => arg 2; ext x; rw [Finset.smul_sum]; arg 2; ext a; rw [smul_smul]
         rw [Finset.sum_comm]
         congr 1; ext x; congr 1; ext a; ring }
-  -- fHom is nonzero: f(e_{j₀}) = φ j₀ ≠ 0
+
   have hfHom_ne : fHom ≠ 0 := by
     intro h
     apply hj₀
-    -- If fHom = 0, then φ j₀ = 0 (since fHom(e_{j₀}) = φ j₀)
-    -- fHom = 0 means the underlying hom is 0
+
+
     have h2 : ∀ v : Fin (D.dimension i₀) → k, ∑ j, v j • φ j = 0 := by
       intro v
       exact congr_arg (fun (f : D.representation i₀ ⟶ W) => f.hom.hom v) h
     specialize h2 (Pi.single (M := fun _ => k) j₀ 1)
-    -- φ j₀ = ∑ j, (Pi.single j₀ 1) j • φ j  (only j₀ term survives)
+
     have hs : ∑ j, (Pi.single (M := fun _ => k) j₀ 1) j • φ j = φ j₀ := by
       rw [show ∑ j, (Pi.single (M := fun _ => k) j₀ 1) j • φ j =
         ∑ j, if j = j₀ then φ j else 0 from by
           congr 1; ext j; by_cases hj : j = j₀ <;> simp [hj]]
       rw [Finset.sum_ite_eq']; simp
     rw [hs] at h2; exact h2
-  -- By Schur's lemma, a nonzero morphism between simples is an isomorphism
+
   haveI : IsIso fHom := isIso_of_hom_simple hfHom_ne
   exact ⟨(asIso fHom).symm⟩
 
@@ -746,17 +746,17 @@ theorem DecompositionData.exists_reindex_dimension_eq_finrank [NeZero (Nat.card 
     (hV : ∀ i, Simple (V i))
     (hinj : ∀ i j, Nonempty ((V i) ≅ (V j)) → i = j) :
     ∃ σ : Equiv.Perm (Fin D.count), ∀ i, D.dimension (σ i) = Module.finrank k (V i) := by
-  -- For each i, V i is simple, so V i ≅ representation (τ i) for some τ i
+
   choose τ hτ using fun i => D.exists_iso_representation_of_simple (V i) (hV i)
-  -- τ is injective: V i ≅ representation(τ i) ≅ representation(τ j) ≅ V j implies i = j
+
   have hτ_inj : Function.Injective τ := by
     intro i j h
     exact hinj i j ⟨(hτ i).some ≪≫ (h ▸ (hτ j).some.symm)⟩
-  -- τ is bijective (injective endomorphism of a finite type)
+
   have hτ_bij : Function.Bijective τ := Finite.injective_iff_bijective.mp hτ_inj
   let σ := Equiv.ofBijective τ hτ_bij
   refine ⟨σ, fun i => ?_⟩
-  -- finrank k (V i) = finrank k (representation (τ i)) = D.dimension (τ i) = D.dimension (σ i)
+
   rw [show (σ : Fin D.count → Fin D.count) i = τ i from rfl, ← D.finrank_representation (τ i)]
   exact (LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv (hτ i).some)).symm
 
@@ -799,7 +799,7 @@ theorem sum_finrank_sq_eq_card_of_completeSimpleFamily [NeZero (Nat.card G : k)]
     (hsurj : ∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (W ≅ V i)) :
     ∑ i, (Module.finrank k (V i)) ^ 2 = Fintype.card G := by
   let D : DecompositionData k G := DecompositionData.default
-  -- `τ i` is the Wedderburn block matching `V i`
+
   choose τ hτ using fun i => D.exists_iso_representation_of_simple (V i) (hV i)
   have hτ_inj : Function.Injective τ := fun i j h =>
     hinj i j ⟨(hτ i).some ≪≫ (h ▸ (hτ j).some.symm)⟩
