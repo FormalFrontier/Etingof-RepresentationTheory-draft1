@@ -407,6 +407,7 @@ import RepresentationTheory.GeneralLinearGroup.WeightCharacter
 import RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation
 import RepresentationTheory.Representation.DualCompatibility
 import RepresentationTheory.Auxiliary.GeneralLinearGroupPolynomialEvaluation
+import RepresentationTheory.MvPolynomial.UniformIndexShift
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
