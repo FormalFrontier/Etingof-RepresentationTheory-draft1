@@ -1,8 +1,10 @@
 import Mathlib
+import RepresentationTheory.Alignment.Attribute
 import RepresentationTheory.GeneralLinearGroup.Auxiliary
 import RepresentationTheory.GeneralLinearGroup.WeightCharacter
 
 set_option linter.style.longLine false
+set_option linter.style.header false
 
 open CategoryTheory
 open scoped TensorProduct
@@ -14,6 +16,7 @@ namespace RepresentationTheory.AuxiliaryModuleData
 variable {k : Type*} [Field k] [IsAlgClosed k] [CharZero k]
 
 /-- An auxiliary type of labels for each natural-number index. -/
+@[source_ref"Chapter5/Discussion_after_Definition5.23.1"(role:=supporting)]
 def auxiliaryIndex (n : ℕ) := { lam : Fin n → ℤ // Antitone lam }
 
 /-- Associates a natural number to an auxiliary label. -/
