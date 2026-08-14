@@ -154,14 +154,14 @@ def characterHomOfSquareEqOne (α β : ℂ) (hα : α ^ 2 = 1) (hβ : β ^ 2 = 1
   map_one' := by change characterValueFunction α β (a 0) = 1; change α ^ (0 : ZMod 4).val = 1; simp
   map_mul' x y := by
     rcases x with i | i <;> rcases y with j | j
-    · -- a i * a j = a (i + j)
+    ·
       change characterValueFunction α β (a i * a j) = characterValueFunction α β (a i) * characterValueFunction α β (a j)
       rw [a_mul_a]
       change α ^ (i + j).val = α ^ i.val * α ^ j.val
       have hp : (i + j).val % 2 = (i.val + j.val) % 2 := by revert i j; decide
       rw [← pow_add]
       exact pow_eq_of_mod_two_eq hα hp
-    · -- a i * xa j = xa (j - i)
+    ·
       change characterValueFunction α β (a i * xa j) = characterValueFunction α β (a i) * characterValueFunction α β (xa j)
       rw [a_mul_xa]
       change β * α ^ (j - i).val = α ^ i.val * (β * α ^ j.val)
@@ -169,14 +169,14 @@ def characterHomOfSquareEqOne (α β : ℂ) (hα : α ^ 2 = 1) (hβ : β ^ 2 = 1
       have e : α ^ i.val * (β * α ^ j.val) = β * α ^ (i.val + j.val) := by rw [pow_add]; ring
       rw [e]
       exact congrArg (β * ·) (pow_eq_of_mod_two_eq hα hp)
-    · -- xa i * a j = xa (i + j)
+    ·
       change characterValueFunction α β (xa i * a j) = characterValueFunction α β (xa i) * characterValueFunction α β (a j)
       rw [xa_mul_a]
       change β * α ^ (i + j).val = β * α ^ i.val * α ^ j.val
       have hp : (i + j).val % 2 = (i.val + j.val) % 2 := by revert i j; decide
       rw [mul_assoc, ← pow_add]
       exact congrArg (β * ·) (pow_eq_of_mod_two_eq hα hp)
-    · -- xa i * xa j = a (2 + j - i)
+    ·
       change characterValueFunction α β (xa i * xa j) = characterValueFunction α β (xa i) * characterValueFunction α β (xa j)
       rw [xa_mul_xa]
       change α ^ ((2 : ZMod 4) + j - i).val = β * α ^ i.val * (β * α ^ j.val)
