@@ -361,6 +361,7 @@ import RepresentationTheory.PolynomialModule.Finsupp
 import RepresentationTheory.Induction.Transitivity
 import RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero
 import RepresentationTheory.TensorAdjunction
+import RepresentationTheory.TensorProduct.LinearMapModuleEquiv
 import RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison
 import RepresentationTheory.SubcomplexHomologySequence
 import RepresentationTheory.FDRep.GroupAlgebraDecomposition
