@@ -322,6 +322,7 @@ import RepresentationTheory.FGModuleCat.SubobjectOrder
 import RepresentationTheory.FDRep.Biproduct
 import RepresentationTheory.ModuleCat.Auxiliary
 import RepresentationTheory.Algebra.Homology.TensorProductConstruction
+import RepresentationTheory.Algebra.Homology.TensorProduct
 import RepresentationTheory.PiTensorProduct.Constructions
 import RepresentationTheory.TensorProduct.AuxiliaryScalarAction
 import RepresentationTheory.TensorProduct.BalancedRelations
