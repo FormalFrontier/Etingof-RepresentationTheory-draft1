@@ -5,6 +5,8 @@ import RepresentationTheory.FGModuleCat.FiniteLengthAndSubmoduleComplexes
 import RepresentationTheory.FGModuleCat.SubobjectOrder
 import RepresentationTheory.FGModuleCat.Projectivity
 
+set_option linter.dupNamespace false
+
 open CategoryTheory Limits
 
 open scoped ModuleCat.Algebra
