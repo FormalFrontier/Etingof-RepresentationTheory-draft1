@@ -6,12 +6,11 @@ Authors: FormalFrontier
 
 import RepresentationTheory.PathDegreeDecomposition
 
-set_option backward.isDefEq.respectTransparency false
-set_option linter.dupNamespace false
-
 universe u
 
 namespace RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+
+set_option linter.dupNamespace false
 
 variable {k : Type u} {Q : Type u} [Field k] [Quiver.{u + 1} Q] [DecidableEq Q]
 
@@ -60,8 +59,9 @@ theorem mul_factorization_injective {a c b₁ b₂ : Q}
         (ofPath (⟨a, b₂, p₂⟩ : Quiver.BundledPath Q) : Quiver.PathAlgebra k Q) *
           ofEdge ⟨b₂, c, e₂⟩) :
     b₁ = b₂ ∧ HEq p₁ p₂ ∧ HEq e₁ e₂ := by
-  rw [path_mul_arrow_eq_comp, path_mul_arrow_eq_comp, ofPath, ofPath,
-    Finsupp.single_left_inj (one_ne_zero)] at h
+  set_option backward.isDefEq.respectTransparency false in
+    rw [path_mul_arrow_eq_comp, path_mul_arrow_eq_comp, ofPath, ofPath,
+      Finsupp.single_left_inj (one_ne_zero)] at h
   simp only [Sigma.mk.injEq, heq_eq_eq, true_and] at h
   exact comp_toPath_injective p₁ e₁ p₂ e₂ h
 
