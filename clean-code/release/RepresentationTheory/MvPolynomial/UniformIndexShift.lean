@@ -4,8 +4,9 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: FormalFrontier
 -/
 
-import Mathlib
 import RepresentationTheory.GeneralLinearGroup.WeightCharacter
+
+set_option linter.style.header false
 
 noncomputable section
 
@@ -13,7 +14,7 @@ namespace RepresentationTheory.MvPolynomial.UniformIndexShift
 
 open MvPolynomial
 
-private lemma shiftedExps_shift (N : ℕ) (lam : Fin N → ℕ) :
+private lemma addStaircase_shift (N : ℕ) (lam : Fin N → ℕ) :
     RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N (fun i => lam i + 1) =
       fun j => RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam j + 1 := by
   ext j; simp [RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase]; omega
@@ -33,8 +34,8 @@ private lemma alternant_det_shift (N : ℕ) (e : Fin N → ℕ) :
         (RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix N e).det := by
   rw [alternantMatrix_shift, Matrix.det_mul, Matrix.det_diagonal]
 
-set_option linter.style.longLine false in
-/-- Auxiliary equality relating the value at the function obtained by adding one to each index with the product of all variables times the original value. -/
+/-- Auxiliary equality relating the value at the function obtained by adding one to each index
+with the product of all variables times the original value. -/
 theorem auxiliary_eq_prod_variables_mul (N : ℕ) (lam : Fin N → ℕ) :
     RepresentationTheory.SymmetricPolynomials.Alternant.partitionPolynomial N
         (fun i => lam i + 1) =
@@ -45,6 +46,6 @@ theorem auxiliary_eq_prod_variables_mul (N : ℕ) (lam : Fin N → ℕ) :
   rw [mul_assoc,
     RepresentationTheory.SymmetricPolynomials.Alternant.partitionPolynomial_mul_det_staircase,
     RepresentationTheory.SymmetricPolynomials.Alternant.partitionPolynomial_mul_det_staircase,
-    ← alternant_det_shift, shiftedExps_shift]
+    ← alternant_det_shift, addStaircase_shift]
 
 end RepresentationTheory.MvPolynomial.UniformIndexShift
