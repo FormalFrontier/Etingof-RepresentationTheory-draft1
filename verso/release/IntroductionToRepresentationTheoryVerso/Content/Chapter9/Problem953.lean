@@ -36,3 +36,9 @@ number := false
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions.exists_simpleModule_with_condition_of_indecomposable}
+
+{Manual.docstring RepresentationTheory.PermutationRepresentation.CharTwo.associatedType_card_eq_two}
+
+{Manual.docstring RepresentationTheory.PermutationRepresentation.CharTwo.nonempty_algEquiv_matrix_prod_auxiliaryAlgebra}
+
+{Manual.docstring RepresentationTheory.PermutationRepresentation.CharTwo.simpleModule_iso_distinguished_or_oneDimensional}
