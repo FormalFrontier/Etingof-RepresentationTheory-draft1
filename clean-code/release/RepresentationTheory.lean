@@ -39,6 +39,7 @@ import RepresentationTheory.Algebra.Module.BasisExpansion
 import RepresentationTheory.Algebra.Module.CommutativeOppositeScalars
 import RepresentationTheory.Algebra.Module.CompositionSeries
 import RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence
+import RepresentationTheory.Algebra.Module.Duality
 import RepresentationTheory.Algebra.Module.TensorProduct
 import RepresentationTheory.Algebra.Module.EndomorphismDichotomy
 import RepresentationTheory.Algebra.Module.EquivalenceTransfers
