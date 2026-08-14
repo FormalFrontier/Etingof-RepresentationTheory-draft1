@@ -1,5 +1,6 @@
 import RepresentationTheory.Algebra.TensorProduct.ModuleCat
 import RepresentationTheory.TensorProduct.LinearMap
+open RepresentationTheory.TensorProduct.LinearMap
 open CategoryTheory TensorProduct
 namespace RepresentationTheory.TensorProduct.LinearMapModuleEquiv
 universe u
