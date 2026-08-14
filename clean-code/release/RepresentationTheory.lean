@@ -89,6 +89,7 @@ import RepresentationTheory.Group.SimpleCharacterCriterion
 import RepresentationTheory.Group.UnitaryRepresentations
 import RepresentationTheory.GroupAction.DenseOrbit
 import RepresentationTheory.IntegralVectorSign
+import RepresentationTheory.InvolutiveSquareZeroAlgebra
 import RepresentationTheory.CategoryTheory.LinearFunctors
 import RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 import RepresentationTheory.CategoryTheory.QuiverLinearMaps
