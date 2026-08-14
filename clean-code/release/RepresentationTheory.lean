@@ -404,6 +404,7 @@ import RepresentationTheory.Auxiliary.PermutationPolynomials
 import RepresentationTheory.Combinatorics.PermutationPowerSeries
 import RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial
 import RepresentationTheory.GeneralLinearGroup.WeightCharacter
+import RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
