@@ -316,6 +316,7 @@ import RepresentationTheory.Algebra.Module.BalancedTensorProduct.Adjunction
 import RepresentationTheory.FGModuleCat.SimpleModules
 import RepresentationTheory.Algebra.Module.SimpleQuotient
 import RepresentationTheory.VirtualRepresentations.Basic
+import RepresentationTheory.Representation.FiniteProducts
 
 /-!
 # Representation theory formalization
