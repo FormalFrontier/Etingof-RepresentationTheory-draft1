@@ -32,6 +32,18 @@ tag := "Chapter9/Problem9.4.2/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveDimension.exists_finite_projectiveResolution_of_hasProjectiveDimensionLE}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveDimension.hasProjectiveDimensionLE_iff_ext_subsingleton}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveDimension.projectiveResolution_object_projective_of_hasProjectiveDimensionLE}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveDimension.projectiveResolution_structure_of_hasProjectiveDimensionLE}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveDimension.right_endpoint_value_eq_left_endpoint_value_add_one_of_shortExact_of_projective_middle_of_no_splitting}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryProjectiveResolution.exists_finite_projectiveResolution}
