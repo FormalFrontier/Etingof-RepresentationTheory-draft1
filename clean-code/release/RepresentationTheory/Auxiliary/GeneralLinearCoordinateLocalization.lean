@@ -2,6 +2,8 @@ import Mathlib
 import RepresentationTheory.GeneralLinearGroup.Auxiliary
 import RepresentationTheory.MvPolynomial.Vanishing
 
+set_option linter.style.longLine false
+
 namespace RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
 
 variable {k : Type*} [Field k] {N : ℕ}
@@ -149,7 +151,6 @@ theorem auxiliary_localization_ringHom_action_apply
     (g : Matrix.GeneralLinearGroup (Fin N) k)
     (p : MvPolynomial (RepresentationTheory.GeneralLinearGroup.Auxiliary.AuxiliaryIndex N) k) :
     RepresentationTheory.GeneralLinearGroup.Auxiliary.auxiliaryPolynomialEvaluation g p = localization_evaluation_ringHom (auxiliary_localization_ringHom p) g := by
-
   have hΦΨ :
       (MvPolynomial.eval (Sum.elim
           (fun ij : Fin N × Fin N => (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
@@ -200,13 +201,11 @@ theorem exists_localization_presentation (f : Localization.Away (auxiliary_matri
             * IsLocalization.Away.invSelf (auxiliary_matrix_polynomial k N) ^ n := by rw [h]
 
 open Classical in
-
 /-- The least exponent needed to represent an element of the localization using a power of the distinguished inverse. -/
 noncomputable def localization_denominator_order (f : Localization.Away (auxiliary_matrix_polynomial k N)) : ℕ :=
   Nat.find (exists_localization_presentation f)
 
 open Classical in
-
 /-- Every localized element has a numerator presentation whose inverse exponent is its denominator order. -/
 theorem exists_numerator_at_denominator_order (f : Localization.Away (auxiliary_matrix_polynomial k N)) :
     ∃ Q : MvPolynomial (Fin N × Fin N) k,
@@ -215,7 +214,6 @@ theorem exists_numerator_at_denominator_order (f : Localization.Away (auxiliary_
   Nat.find_spec (exists_localization_presentation f)
 
 open Classical in
-
 /-- Any presentation with inverse exponent `r` bounds the denominator order above by `r`. -/
 theorem denominator_order_le_of_exists_presentation {f : Localization.Away (auxiliary_matrix_polynomial k N)} {r : ℕ}
     (h : ∃ Q : MvPolynomial (Fin N × Fin N) k,
@@ -254,7 +252,6 @@ theorem auxiliary_polynomial_dvd_numerator_of_order_lt {f : Localization.Away (a
             * IsLocalization.Away.invSelf (auxiliary_matrix_polynomial k N) ^ r)
     (hlt : localization_denominator_order f < r) : auxiliary_matrix_polynomial k N ∣ Q := by
   obtain ⟨Qs, hs⟩ := exists_numerator_at_denominator_order f
-
   obtain ⟨s, hsdef⟩ : ∃ s, localization_denominator_order f = s := ⟨_, rfl⟩
   rw [hsdef] at hs hlt
   have hQeq : algebraMap _ (Localization.Away (auxiliary_matrix_polynomial k N)) Q
@@ -291,7 +288,6 @@ theorem auxiliary_polynomial_not_dvd_numerator_at_order {f : Localization.Away (
     (hpos : 1 ≤ localization_denominator_order f) : ¬ auxiliary_matrix_polynomial k N ∣ Q := by
   intro hd
   obtain ⟨Q', rfl⟩ := hd
-
   obtain ⟨s, hsdef⟩ : ∃ s, localization_denominator_order f = s := ⟨_, rfl⟩
   rw [hsdef] at hQ hpos
   have hlow : ∃ Q'' : MvPolynomial (Fin N × Fin N) k,
