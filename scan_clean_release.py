@@ -20,8 +20,8 @@ BANNED_TEXT = (
     "Mathlib correspondence",
 )
 SOURCE_REF = re.compile(
-    r'source_ref\s+"(?:Frontmatter|Backmatter|Chapter\d+)/[A-Za-z][A-Za-z0-9_.-]*'
-    r'(?:/Derived\d+)?"\s+\(role\s*:=\s*(?:primary|supporting)\)'
+    r'source_ref\s*"(?:Frontmatter|Backmatter|Chapter\d+)/[A-Za-z][A-Za-z0-9_.-]*'
+    r'(?:/Derived\d+)?"\s*\(role\s*:=\s*(?:primary|supporting)\)'
 )
 
 
