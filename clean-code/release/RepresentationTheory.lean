@@ -418,6 +418,7 @@ import RepresentationTheory.Auxiliary.AuxiliaryPolynomialSubrepresentation
 import RepresentationTheory.AuxiliaryModuleData
 import RepresentationTheory.GeneralLinearRepresentation.WeightSpaceMorphisms
 import RepresentationTheory.LinearAlgebra.GeneralLinearGroup.Auxiliary
+import RepresentationTheory.Determinants.FiniteNatFamilyTransforms
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
