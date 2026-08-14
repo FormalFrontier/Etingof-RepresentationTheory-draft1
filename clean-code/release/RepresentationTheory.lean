@@ -350,6 +350,7 @@ import RepresentationTheory.Algebra.Module.BalancedTensorProduct.Adjunction
 import RepresentationTheory.FGModuleCat.SimpleModules
 import RepresentationTheory.Algebra.Module.SimpleQuotient
 import RepresentationTheory.VirtualRepresentations.Basic
+import RepresentationTheory.VirtualRepresentations.CharacterCriteria
 import RepresentationTheory.Representation.FiniteProducts
 import RepresentationTheory.Algebra.Category.ModuleCat.Projective
 import RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions
@@ -363,6 +364,7 @@ import RepresentationTheory.FDRep.GroupAlgebraDecomposition
 import RepresentationTheory.FDRep.RegularRepresentationCharacter
 import RepresentationTheory.FGModuleCat.FiniteLengthAndSubmoduleComplexes
 import RepresentationTheory.FiniteFieldUnitClassDecomposition
+import RepresentationTheory.FiniteGroup.ClassFunctions
 import RepresentationTheory.HomologicalAlgebra.AcyclicComplexDecomposition
 import RepresentationTheory.Group.SimpleRepresentations
 import RepresentationTheory.QuaternionGroupTwo
