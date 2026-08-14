@@ -345,6 +345,7 @@ import RepresentationTheory.Algebra.Homological.EquivalenceInvariance
 import RepresentationTheory.Algebra.Homological.AuxiliaryDimensionTransfer
 import RepresentationTheory.ModuleCat.RightTensor
 import RepresentationTheory.AsModuleEquivalences
+import RepresentationTheory.AuxiliarySubgroupFunctions
 import RepresentationTheory.Quiver.EdgeModule
 import RepresentationTheory.Algebra.Module.BalancedTensorProduct.Adjunction
 import RepresentationTheory.FGModuleCat.SimpleModules
