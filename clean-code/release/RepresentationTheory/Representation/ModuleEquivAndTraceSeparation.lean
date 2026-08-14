@@ -70,8 +70,6 @@ theorem isSimpleModule_fdRep_of_antitone (N : ℕ) (lam : Fin N → ℕ)
   letI : AddCommGroup (schurSubmodule k N lam) :=
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (schurSubmodule k N lam).addCommMonoid }
-  change IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
-    (schurSubmoduleRepresentation k N lam).asModule
   haveI := isSimpleModule_invariantSubtype (k := k) N lam hlam
   refine isSimpleModule_of_auxiliary_piTensorProduct_action k
     (N := N) (n := ∑ i, lam i)
@@ -97,7 +95,7 @@ theorem trace_coefficients_eq_zero_of_diagonal_sum_eq_zero
       ∑ i, (c i : k) • LinearMap.trace k (L i)
         ((L i).ρ (unitTupleElement k N t)) = 0) :
     ∀ i, c i = 0 := by
-  letI := Classical.decEq k
+  classical
   have hdist : Pairwise (fun i j => ¬ Nonempty
       (Representation.asModule (L i).ρ ≃ₗ[MonoidAlgebra k
         (Matrix.GeneralLinearGroup (Fin N) k)] Representation.asModule (L j).ρ)) := by
