@@ -8,6 +8,7 @@ import RepresentationTheory.Analysis.Algebra.DerivationExponential
 import RepresentationTheory.Algebra.Algebraic.ConjRoot.FiniteSum
 import RepresentationTheory.CauchyDeterminant
 import RepresentationTheory.CharacterIntegrality
+import RepresentationTheory.ComplexRepresentationAuxiliaryElements
 import RepresentationTheory.Complex.RootsOfUnity.AverageIntegral
 import RepresentationTheory.ConjugationInvariantCharacters
 import RepresentationTheory.Algebra.BasisQuotientPresentations
