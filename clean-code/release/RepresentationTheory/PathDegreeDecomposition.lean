@@ -94,8 +94,7 @@ theorem degreeProjection_comp (m n : ℕ) (a : Quiver.BundledPath Q →₀ k) :
   induction a using Finsupp.induction_linear with
   | zero => simp
   | add f g hf hg =>
-      rw [map_add, map_add, hf, hg]
-      split_ifs <;> simp
+      rw [map_add, map_add, hf, hg]; split_ifs <;> simp
   | single p c =>
       by_cases hpn : pathDegree p = n
       · subst hpn
