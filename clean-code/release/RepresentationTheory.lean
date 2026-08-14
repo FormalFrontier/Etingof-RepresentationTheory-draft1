@@ -48,6 +48,7 @@ import RepresentationTheory.Algebra.Module.Filtrations
 import RepresentationTheory.Algebra.Module.IndependentSpanningFamilies
 import RepresentationTheory.Algebra.Module.FinitelyGeneratedSubalgebraDescent
 import RepresentationTheory.Algebra.Module.AuxiliaryPredicates
+import RepresentationTheory.Algebra.Module.Pi.SimpleModules
 import RepresentationTheory.Algebra.Module.Simple
 import RepresentationTheory.Algebra.Module.Simple.FiniteDimensional
 import RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity
@@ -73,6 +74,7 @@ import RepresentationTheory.Algebra.Representation.Equivalences
 import RepresentationTheory.Algebra.Ring.ModuleStructures
 import RepresentationTheory.Algebra.SimpleModule.Dimension
 import RepresentationTheory.Algebra.SimpleModule.Endomorphisms
+import RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial
 import RepresentationTheory.Algebra.Semisimplicity.EndomorphismProduct
 import RepresentationTheory.LinearAlgebra.InvariantSubmodule.Eigenbasis
 import RepresentationTheory.LinearAlgebra.Matrix.TensorProduct
@@ -113,6 +115,7 @@ import RepresentationTheory.Module.DistinguishedElement
 import RepresentationTheory.Module.DualOppositeAction
 import RepresentationTheory.Module.EndomorphismEvaluation
 import RepresentationTheory.Module.FinrankOneSimple
+import RepresentationTheory.Module.FunctorEndomorphisms
 import RepresentationTheory.ModuleFamilyNatMatrix
 import RepresentationTheory.Module.SimpleLinearMaps
 import RepresentationTheory.Module.SimpleSubmodule
@@ -147,6 +150,7 @@ import RepresentationTheory.RingTheory.Idempotent
 import RepresentationTheory.RingTheory.Ideal.IdempotentLifting
 import RepresentationTheory.RingTheory.Ideal.Quotient
 import RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence
+import RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct
 import RepresentationTheory.RingTheory.JacobsonRadical.TwoSided
 import RepresentationTheory.RingTheory.SimpleModuleDensity
 import RepresentationTheory.RingTheory.SimpleModuleDimensionBound
@@ -317,7 +321,10 @@ import RepresentationTheory.FGModuleCat.SubobjectOrder
 import RepresentationTheory.FDRep.Biproduct
 import RepresentationTheory.ModuleCat.Auxiliary
 import RepresentationTheory.Algebra.Homology.TensorProductConstruction
+import RepresentationTheory.PiTensorProduct.Constructions
 import RepresentationTheory.TensorProduct.AuxiliaryScalarAction
+import RepresentationTheory.TensorProduct.BalancedRelations
+import RepresentationTheory.TensorProduct.LinearMap
 import RepresentationTheory.LinearAlgebra.ExteriorAlgebra.Contraction
 import RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex
 import RepresentationTheory.CategoryTheory.Abelian.ProjectiveDimension
@@ -332,6 +339,7 @@ import RepresentationTheory.FiniteDimensional.Equivalences
 import RepresentationTheory.Algebra.TensorProduct.ModuleCat
 import RepresentationTheory.Algebra.TensorProduct.Free
 import RepresentationTheory.Algebra.Algebra.TensorProduct.ModuleCat
+import RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.ShortExact
 import RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProduct
 import RepresentationTheory.Algebra.Homological.EquivalenceInvariance
 import RepresentationTheory.Algebra.Homological.AuxiliaryDimensionTransfer
@@ -351,6 +359,11 @@ import RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero
 import RepresentationTheory.TensorAdjunction
 import RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison
 import RepresentationTheory.SubcomplexHomologySequence
+import RepresentationTheory.FDRep.GroupAlgebraDecomposition
+import RepresentationTheory.FiniteFieldUnitClassDecomposition
+import RepresentationTheory.HomologicalAlgebra.AcyclicComplexDecomposition
+import RepresentationTheory.QuaternionGroupTwo
+import RepresentationTheory.SymmetricPolynomials.Alternant
 
 /-!
 # Representation theory formalization
