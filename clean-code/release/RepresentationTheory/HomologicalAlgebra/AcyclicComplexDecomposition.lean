@@ -3,14 +3,6 @@ import RepresentationTheory.Alignment.Attribute
 
 set_option backward.isDefEq.respectTransparency false
 
-/-!
-# Decomposition of acyclic complexes over a field
-
-This module constructs contracting homotopies and decomposes acyclic cochain complexes of modules
-over a field into coproducts of two-term complexes. It also records splitting for short exact
-complexes over a field and a nonsplitting example over the integers.
--/
-
 open CategoryTheory
 
 universe u
@@ -99,12 +91,9 @@ variable {K} in
 lemma acyclicContractingHom_add_d_comp_acyclicContractingHom (hK : K.Acyclic) (n : ℤ) (x : K.X (n + 1)) :
     acyclicContractingHom hK (n + 1) ((K.d (n + 1) (n + 1 + 1)).hom x)
       + (K.d n (n + 1)).hom (acyclicContractingHom hK n x) = x := by
-  -- split `x = z + w` with `z ∈ Zⁿ⁺¹`, `w ∈ Wⁿ⁺¹`
   obtain ⟨z, hz, w, hw, rfl⟩ := chosenComplementComplement_add_chosenComplement K (n + 1) x
-  -- `z ∈ Zⁿ⁺¹ = range dⁿ|_{Wⁿ}`, so `z = dⁿ w₀` for a unique `w₀ ∈ Wⁿ`
   have hzrange : z ∈ LinearMap.range (chosenComplementToNext K n) := by rw [range_chosenComplementToNext_eq hK n]; exact hz
   obtain ⟨w0, hw0⟩ := hzrange
-  -- second summand: `dⁿ(sⁿ(z + w)) = z`
   have hproj2 : (LinearMap.linearProjOfIsCompl (chosenComplement K (n + 1)) (chosenComplementToNext K n)
       (chosenComplementToNext_injective K n) (isCompl_range_chosenComplementToNext_chosenComplement_succ hK n)) (z + w) = w0 := by
     rw [map_add, ← hw0, LinearMap.linearProjOfIsCompl_apply_left,
@@ -113,7 +102,6 @@ lemma acyclicContractingHom_add_d_comp_acyclicContractingHom (hK : K.Acyclic) (n
   have hsecond : (K.d n (n + 1)).hom (acyclicContractingHom hK n (z + w)) = z := by
     rw [acyclicContractingHom, LinearMap.comp_apply, hproj2, ← hw0]
     rfl
-  -- first summand: `sⁿ⁺¹(dⁿ⁺¹(z + w)) = w`
   have hzker : (K.d (n + 1) (n + 1 + 1)).hom z = 0 := hz
   have hwd : (K.d (n + 1) (n + 1 + 1)).hom w = chosenComplementToNext K (n + 1) ⟨w, hw⟩ := by
     rw [chosenComplementToNext, LinearMap.comp_apply, Submodule.subtype_apply]
@@ -141,8 +129,6 @@ variable {K} in
 /-- The acyclic contracting map vanishes away from adjacent degrees. -/
 lemma acyclicContractingMap_eq_zero (hK : K.Acyclic) {i j : ℤ} (h : ¬ i = j + 1) :
     acyclicContractingMap hK i j = 0 := dif_neg h
-
-/-! ## Two-term complexes in consecutive degrees -/
 
 section Disk
 
@@ -255,8 +241,6 @@ lemma twoTermComplex_hom_ext {V : ModuleCat.{u} k} {i : ℤ} {L : CochainComplex
     · exact (isZero_twoTermComponentObject (V := V) (i := i) (n := n) (by tauto)).eq_of_src _ _
 
 end Disk
-
-/-! ## Coproduct decomposition of an acyclic complex -/
 
 section DirectSum
 
@@ -535,15 +519,12 @@ theorem acyclic_homotopy_id_zero {k : Type u} [Field k]
 theorem ShortComplex.nonempty_splitting_of_shortExact {k : Type u} [Field k]
     (S : ShortComplex (ModuleCat.{u} k)) (hS : S.ShortExact) :
     Nonempty S.Splitting :=
-  -- `S.X₃` is a `k`-vector space, hence free, hence projective, so the epi `S.g`
-  -- has a section and the short exact sequence splits.
   ⟨hS.splittingOfProjective⟩
 
 /-- There exists a short exact complex with no splitting. -/
 @[source_ref "Chapter7/Exercise7.8.4" (role := supporting)]
 theorem exists_shortExact_isEmpty_splitting :
     ∃ S : ShortComplex (ModuleCat.{0} ℤ), S.ShortExact ∧ IsEmpty S.Splitting := by
-  -- The short exact sequence `0 → ℤ →^{·2} ℤ → ℤ/2 → 0`.
   let f : ℤ →ₗ[ℤ] ℤ := (2 : ℤ) • LinearMap.id
   let g : ℤ →ₗ[ℤ] ZMod 2 := (Int.castAddHom (ZMod 2)).toIntLinearMap
   have hf : ∀ x : ℤ, f x = 2 * x := fun x => by simp [f]
@@ -583,7 +564,6 @@ theorem exists_shortExact_isEmpty_splitting :
       exact ⟨x, hx⟩
   · -- No splitting: a retraction `r` of `·2` would give `2 * r 1 = 1` in `ℤ`.
     refine ⟨fun sp => ?_⟩
-    -- View the retraction as a linear map `ρ : ℤ →ₗ[ℤ] ℤ` (the carriers are `ℤ`).
     let ρ : ℤ →ₗ[ℤ] ℤ := sp.r.hom
     have hr : ρ.comp f = LinearMap.id := by
       have h := ModuleCat.hom_ext_iff.mp sp.f_r
@@ -591,7 +571,6 @@ theorem exists_shortExact_isEmpty_splitting :
       exact h
     have key := DFunLike.congr_fun hr (1 : ℤ)
     rw [LinearMap.comp_apply, LinearMap.id_apply, hf, mul_one] at key
-    -- `key : ρ 2 = 1`; but `ρ 2 = 2 * ρ 1` by linearity.
     have hlin : ρ (2 : ℤ) = 2 * ρ (1 : ℤ) := by
       have h := map_smul ρ (2 : ℤ) (1 : ℤ)
       simpa using h
