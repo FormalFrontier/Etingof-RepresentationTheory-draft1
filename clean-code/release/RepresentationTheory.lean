@@ -364,6 +364,7 @@ import RepresentationTheory.FiniteFieldUnitClassDecomposition
 import RepresentationTheory.HomologicalAlgebra.AcyclicComplexDecomposition
 import RepresentationTheory.QuaternionGroupTwo
 import RepresentationTheory.SymmetricPolynomials.Alternant
+import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
 # Representation theory formalization
