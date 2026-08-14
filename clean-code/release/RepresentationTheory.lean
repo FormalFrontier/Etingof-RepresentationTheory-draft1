@@ -275,6 +275,7 @@ import RepresentationTheory.PartitionAuxiliary
 import RepresentationTheory.AuxiliarySubmodules
 import RepresentationTheory.Equiv.Perm.CycleShiftCentralizer
 import RepresentationTheory.PermutationDegreeThree
+import RepresentationTheory.PermutationRepresentation.CharTwo
 import RepresentationTheory.Algebra.Module.Property
 import RepresentationTheory.Algebra.Module.Properties
 import RepresentationTheory.Algebra.Module.Projective.Lifting
