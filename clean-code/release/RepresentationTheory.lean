@@ -267,6 +267,7 @@ import RepresentationTheory.AuxiliaryProjectiveResolution
 import RepresentationTheory.CategoryTheory.Abelian.CategoryProperties
 import RepresentationTheory.CategoryTheory.Adjunction.Representability
 import RepresentationTheory.CochainComplex
+import RepresentationTheory.CyclicCharacterSpan
 import RepresentationTheory.FunctorPredicateLogic
 import RepresentationTheory.CategoryTheory.ShortComplex.Auxiliary
 import RepresentationTheory.CategoryTheory.ShortComplex.Biproduct
