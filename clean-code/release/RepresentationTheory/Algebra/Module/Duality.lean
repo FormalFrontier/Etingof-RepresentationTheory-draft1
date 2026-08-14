@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2026 FormalFrontier. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENCE.
+Authors: FormalFrontier
+-/
+
 import Mathlib.Algebra.Module.Projective
 import Mathlib.Algebra.Module.Injective
 import Mathlib.LinearAlgebra.Finsupp.LSum

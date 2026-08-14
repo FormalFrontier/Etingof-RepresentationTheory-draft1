@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2026 FormalFrontier. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENCE.
+Authors: FormalFrontier
+-/
+
 import RepresentationTheory.ModuleTheory.SimpleModule.PropertyElementActions
 import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
 import Mathlib.Algebra.Module.Torsion.Basic

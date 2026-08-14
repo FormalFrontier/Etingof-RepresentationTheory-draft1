@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2026 FormalFrontier. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENCE.
+Authors: FormalFrontier
+-/
+
 import Mathlib.CategoryTheory.Preadditive.Projective.Basic
 import Mathlib.CategoryTheory.Generator.Basic
 import Mathlib.CategoryTheory.Limits.Shapes.Biproducts
