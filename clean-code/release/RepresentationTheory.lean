@@ -133,6 +133,7 @@ import RepresentationTheory.RealAlgebra.EndomorphismCounterexample
 import RepresentationTheory.Ring.CoatomExistence
 import RepresentationTheory.RingModuleAuxiliary
 import RepresentationTheory.RingPredicateBounds
+import RepresentationTheory.RingTheory.Artinian.ModuleIdempotents
 import RepresentationTheory.FieldAlgebraProperties
 import RepresentationTheory.FieldTheory.IsAlgClosed.Basic
 import RepresentationTheory.FDRep.Character
