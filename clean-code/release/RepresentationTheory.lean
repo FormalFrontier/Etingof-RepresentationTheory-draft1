@@ -265,6 +265,7 @@ import RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra
 import RepresentationTheory.SymmetricGroup.PartitionDominance
 import RepresentationTheory.Partitions.SquareScalar
 import RepresentationTheory.PartitionAuxiliary
+import RepresentationTheory.AuxiliarySubmodules
 import RepresentationTheory.Equiv.Perm.CycleShiftCentralizer
 import RepresentationTheory.PermutationDegreeThree
 import RepresentationTheory.Algebra.Module.Property
