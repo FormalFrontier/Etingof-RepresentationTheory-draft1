@@ -402,6 +402,7 @@ import RepresentationTheory.Matrix.MvPolynomialRightMul
 import RepresentationTheory.Auxiliary.MutualCentralizers
 import RepresentationTheory.Auxiliary.PermutationPolynomials
 import RepresentationTheory.Combinatorics.PermutationPowerSeries
+import RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
