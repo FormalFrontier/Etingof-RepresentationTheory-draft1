@@ -27,7 +27,7 @@ private lemma sum_powerset_neg_one_pow_card_eq_zero
     {α : Type*} {x : Finset α} (hx : x.Nonempty) :
     (∑ m ∈ x.powerset, (-1 : k) ^ m.card) = 0 := by
   have hZ := Finset.sum_powerset_neg_one_pow_card_of_nonempty hx
-  -- Cast the ℤ identity to k
+
   have : (∑ m ∈ x.powerset, (-1 : k) ^ m.card) =
       ((∑ m ∈ x.powerset, (-1 : ℤ) ^ m.card : ℤ) : k) := by
     rw [Int.cast_sum]
@@ -41,52 +41,52 @@ private lemma alternating_superset_sum
       (-1 : k) ^ (n - S.card)) =
     if T = Finset.univ then 1 else 0 := by
   classical
-  -- Biject {S | T ⊆ S ⊆ univ} ↔ {T' | T' ⊆ univ \ T} via S ↦ S \ T
-  -- Under this bijection: n - |S| = n - |T| - |T'| = |univ \ T| - |T'|
-  -- And the sum becomes ∑_{T' ⊆ univ\T} (-1)^{|univ\T| - |T'|}
-  -- For T = univ: univ \ T = ∅, so the only T' is ∅, giving (-1)^0 = 1
-  -- For T ≠ univ: univ \ T is nonempty, and the sum = (-1)^{|univ\T|} * ∑ (-1)^{|T'|} = 0
+
+
+
+
+
   split_ifs with hT
-  · -- Case T = univ: only superset is univ itself
+  ·
     subst hT
     have : Finset.univ.powerset.filter (fun S => Finset.univ ⊆ S) =
         {(Finset.univ : Finset (Fin n))} := by
       ext S; simp [Finset.univ_subset_iff]
     rw [this, Finset.sum_singleton, Finset.card_univ, Fintype.card_fin, Nat.sub_self, pow_zero]
-  · -- Case T ≠ univ: use Möbius identity
+  ·
     have hC : (Finset.univ \ T).Nonempty := by
       rw [Finset.sdiff_nonempty]
       exact fun h => hT (Finset.univ_subset_iff.mp h)
-    -- Biject {S | T ⊆ S ⊆ univ} ↔ powerset(univ \ T) via S ↦ S \ T, inverse T' ↦ T' ∪ T
+
     rw [show ∑ S ∈ Finset.univ.powerset.filter (fun S => T ⊆ S),
           (-1 : k) ^ (n - S.card) =
         ∑ T' ∈ (Finset.univ \ T).powerset,
           (-1 : k) ^ ((Finset.univ \ T).card - T'.card) from by
       apply Finset.sum_nbij' (· \ T) (· ∪ T)
-      · -- hi: S \ T ∈ powerset(univ \ T)
+      ·
         intro S hS
         simp only [Finset.mem_filter, Finset.mem_powerset] at hS ⊢
         exact Finset.sdiff_subset_sdiff hS.1 (Finset.Subset.refl T)
-      · -- hj: T' ∪ T ∈ filtered set
+      ·
         intro T' hT'
         simp only [Finset.mem_powerset] at hT'
         simp only [Finset.mem_filter, Finset.mem_powerset]
         exact ⟨Finset.union_subset (hT'.trans Finset.sdiff_subset) (Finset.subset_univ T),
                Finset.subset_union_right⟩
-      · -- left_inv: (S \ T) ∪ T = S
+      ·
         intro S hS
         simp only [Finset.mem_filter, Finset.mem_powerset] at hS
         exact Finset.sdiff_union_of_subset hS.2
-      · -- right_inv: (T' ∪ T) \ T = T'
+      ·
         intro T' hT'
         simp only [Finset.mem_powerset] at hT'
         rw [Finset.union_sdiff_right, Finset.sdiff_eq_self_of_disjoint]
         exact Finset.disjoint_of_subset_left hT' disjoint_sdiff_self_left
-      · -- h: summands match; need n - |S| = |C| - |S \ T| where C = univ \ T
+      ·
         intro S hS
         simp only [Finset.mem_filter, Finset.mem_powerset] at hS
         congr 1
-        -- Use card_sdiff_add_card to avoid ℕ subtraction issues
+
         have h1 : (S \ T).card + T.card = S.card :=
           Finset.card_sdiff_add_card_eq_card hS.2
         have h2 : ((Finset.univ : Finset (Fin n)) \ T).card + T.card =
@@ -98,8 +98,8 @@ private lemma alternating_superset_sum
           Finset.card_le_card (Finset.sdiff_subset_sdiff hS.1 (Finset.Subset.refl T))
         simp only [Finset.card_univ, Fintype.card_fin] at h2 h3
         omega]
-    -- Now need: ∑ T' ∈ C.powerset, (-1)^(C.card - T'.card) = 0
-    -- Factor: (-1)^(a-b) = (-1)^a * (-1)^b since (-1)^2 = 1
+
+
     set C := Finset.univ \ T with hCdef
     have factor : ∀ T' ∈ C.powerset, (-1 : k) ^ (C.card - T'.card) =
         (-1 : k) ^ C.card * (-1 : k) ^ T'.card := by
@@ -127,7 +127,7 @@ private lemma polarization_eq [CharZero k] (f : Fin n → U) :
       ∑ S ∈ (Finset.univ : Finset (Fin n)).powerset,
         ((-1 : k) ^ (n - S.card)) • SymmetricPower.tprod k (fun _ => ∑ i ∈ S, f i) := by
   classical
-  -- Step 1: Expand each tprod(const(∑ f i)) using multilinearity, distribute smul
+
   conv_rhs =>
     arg 2; ext S
     rw [show (-1 : k) ^ (n - S.card) • SymmetricPower.tprod k (fun _ => ∑ i ∈ S, f i) =
@@ -135,7 +135,7 @@ private lemma polarization_eq [CharZero k] (f : Fin n → U) :
           (-1 : k) ^ (n - S.card) • (SymmetricPower.tprod k) (fun i => f (r i)) by
       rw [MultilinearMap.map_sum_finset (SymmetricPower.tprod k) (fun _ => f) (fun _ => S)]
       rw [Finset.smul_sum]]
-  -- Step 2: Swap the order of summation using sum_comm'
+
   rw [Finset.sum_comm'
     (s' := fun r => Finset.univ.powerset.filter (fun S => ∀ i, r i ∈ S))
     (t' := Fintype.piFinset (fun _ : Fin n => Finset.univ))
@@ -143,9 +143,9 @@ private lemma polarization_eq [CharZero k] (f : Fin n → U) :
       intro S r
       simp only [Finset.mem_powerset, Fintype.mem_piFinset, Finset.mem_filter, Finset.mem_univ]
       tauto)]
-  -- Step 3: Factor out tprod(f ∘ r) from the inner sum
+
   simp_rw [← Finset.sum_smul]
-  -- Step 4: Evaluate inner coefficient using alternating_superset_sum
+
   have coeff_eq : ∀ r : Fin n → Fin n,
       (∑ S ∈ Finset.univ.powerset.filter (fun S => ∀ j, r j ∈ S),
         (-1 : k) ^ (n - S.card)) =
@@ -154,17 +154,17 @@ private lemma polarization_eq [CharZero k] (f : Fin n → U) :
     convert alternating_superset_sum k n (Finset.image r Finset.univ) using 2
     ext S; simp [Finset.subset_iff]
   simp_rw [coeff_eq]
-  -- Step 5: Non-surjective terms vanish
+
   simp only [ite_smul, one_smul, zero_smul]
   rw [Finset.sum_ite, Finset.sum_const_zero, add_zero]
-  -- Step 6: In the symmetric power, tprod(f ∘ σ) = tprod(f) for any permutation σ
-  -- The sum is over surjective (= bijective for Fin n) functions
-  -- Each gives tprod(f), and there are n! of them
-  -- First, simplify tprod using symmetry: in the symmetric power, permuting args is identity
+
+
+
+
   have tprod_perm : ∀ (σ : Equiv.Perm (Fin n)),
       (⨂ₛ[k] (i : Fin n), f (σ i)) = SymmetricPower.tprod k f := by
     intro σ; exact SymmetricPower.tprod_equiv σ f
-  -- Step 6a: Each term in the filtered sum equals tprod k f
+
   have all_eq : ∀ x ∈ (Fintype.piFinset fun _ : Fin n => Finset.univ).filter
         (fun x => Finset.image x Finset.univ = Finset.univ),
       (⨂ₛ[k] (i : Fin n), f (x i)) = SymmetricPower.tprod k f := by
@@ -178,9 +178,9 @@ private lemma polarization_eq [CharZero k] (f : Fin n → U) :
       ((Finite.surjective_iff_bijective (α := Fin n)).mp hxsurj))
   rw [Finset.sum_congr rfl all_eq, Finset.sum_const, ← Nat.cast_smul_eq_nsmul k]
   congr 1
-  -- Step 6b: Card of {r : Fin n → Fin n | image r univ = univ} = n!
+
   norm_cast
-  -- Establish bijection with Perm (Fin n) via embedding
+
   let e : Equiv.Perm (Fin n) ↪ (Fin n → Fin n) :=
     ⟨fun σ => σ, fun σ₁ σ₂ h => Equiv.ext (congr_fun h)⟩
   have hmap : (Fintype.piFinset fun _ : Fin n => (Finset.univ : Finset (Fin n))).filter
@@ -209,7 +209,7 @@ theorem span_symmetricPowerSubset_eq_top [CharZero k] :
   rw [eq_top_iff, ← SymmetricPower.span_tprod_eq_top]
   apply Submodule.span_le.mpr
   rintro _ ⟨f, rfl⟩
-  -- Need: tprod k f ∈ Submodule.span k (symmetricPowerSubset k U n)
+
   have hfact : (n.factorial : k) ≠ 0 :=
     Nat.cast_ne_zero.mpr n.factorial_ne_zero
   rw [show SymmetricPower.tprod k f =
@@ -243,8 +243,8 @@ noncomputable def piTensorEndSubalgebraAlternate :
   Algebra.adjoin k (Set.range fun (f : Module.End k V) =>
     PiTensorProduct.map (fun _ => f))
 
--- Vandermonde coefficient extraction: evaluations of a module-valued polynomial
--- at 0, 1, ..., d in a submodule implies all coefficients are in the submodule.
+
+
 private lemma polynomial_coeffs_in_submodule [CharZero k]
     {A : Type*} [AddCommGroup A] [Module k A]
     (M : Submodule k A)
@@ -273,11 +273,11 @@ private lemma polynomial_coeffs_in_submodule [CharZero k]
     rw [show ∑ j, V⁻¹ m j * V j i = (V⁻¹ * V) m i from rfl, hWV, Matrix.one_apply]
   simp_rw [coeff_eq]; simp [ite_smul]
 
--- Helper: card of any subset of Fin n is < n+1
+
 private lemma card_finset_fin_lt (S : Finset (Fin n)) : S.card < n + 1 := by
   have := S.card_le_univ; simp at this; omega
 
--- Regroup a sum over subsets by cardinality
+
 open Finset in
 set_option maxHeartbeats 800000 in
 private lemma sum_regroup_by_card
@@ -300,7 +300,7 @@ private lemma sum_regroup_by_card
     · intro h; exact Fin.ext h
   · intro S hS; simp only [mem_filter, mem_univ, true_and] at hS; simp [hS]
 
--- Subsets of size n-1 correspond to erasing single elements
+
 set_option maxHeartbeats 800000 in
 private lemma sum_card_pred_eq_sum_erase (hn : 0 < n)
     {M : Type*} [AddCommMonoid M]
@@ -340,7 +340,7 @@ private lemma sum_card_pred_eq_sum_erase (hn : 0 < n)
       exact (Finset.mem_sdiff.mp this).2 hxS
   · intro i _; rfl
 
--- Piecewise on complement of singleton = if-then-else
+
 omit [Module.Finite k V] in
 private lemma piecewise_erase_eq {α : Type*} [DecidableEq α] [Fintype α]
     {β : Type*} (i : α) (f g : β) :
@@ -348,29 +348,29 @@ private lemma piecewise_erase_eq {α : Type*} [DecidableEq α] [Fintype α]
     fun j => if j = i then g else f := by
   ext x
   simp only [Finset.piecewise, Finset.mem_erase, Finset.mem_univ, and_true]
-  -- Goal: (if x ≠ i then f else g) = (if x = i then g else f)
+
   by_cases hx : x = i <;> simp [hx]
 
--- ⊆ direction: diag ≤ fullDiag via multilinear expansion + Vandermonde
-set_option maxHeartbeats 3200000 in -- multilinear expansion over 2^n subsets + Vandermonde
+
+set_option maxHeartbeats 3200000 in
 omit [Module.Finite k V] in
 private lemma diag_le_fullDiag [CharZero k] :
     piTensorEndSubalgebra k V n ≤ piTensorEndSubalgebraAlternate k V n := by
   apply Algebra.adjoin_le
   rintro _ ⟨b, rfl⟩
-  -- Need: Δ_n(b) = ∑ i, map(fun j => if j = i then b else id) ∈ fullDiag
-  -- Handle n = 0: empty sum is 0, trivially in any subalgebra
+
+
   by_cases hn : n = 0
   · subst hn; simp [Finset.sum_empty]
   · push Not at hn; have hn' : 0 < n := Nat.pos_of_ne_zero hn
-    -- Use the multilinear map
+
     let mm := PiTensorProduct.mapMultilinear k (fun _ : Fin n => V) (fun _ => V)
-    -- Define coefficients grouped by subset cardinality
+
     set a : Fin (n + 1) → Module.End k (⨂[k] (_ : Fin n), V) :=
       fun m => ∑ S ∈ (Finset.univ : Finset (Finset (Fin n))).filter
         (fun S => S.card = m.val),
         mm (S.piecewise (fun _ => LinearMap.id) (fun _ => b))
-    -- Step 1: evaluations at integers equal map applied to (c•id + b)
+
     have h_eval : ∀ j : Fin (n + 1),
         ∑ m : Fin (n + 1), ((j : ℕ) : k) ^ (m : ℕ) • a m =
           mm (fun _ => ((j : ℕ) : k) • LinearMap.id + b) := by
@@ -390,21 +390,21 @@ private lemma diag_le_fullDiag [CharZero k] :
       congr 1; funext i
       simp only [Finset.piecewise, base]
       split_ifs with h <;> simp
-    -- Step 2: each evaluation ∈ fullDiag
+
     have h_mem : ∀ j : Fin (n + 1),
         ∑ m : Fin (n + 1), ((j : ℕ) : k) ^ (m : ℕ) • a m ∈
           (piTensorEndSubalgebraAlternate k V n).toSubmodule := by
       intro j; rw [h_eval]
       exact Algebra.subset_adjoin ⟨_, rfl⟩
-    -- Step 3: all coefficients ∈ fullDiag by Vandermonde
+
     have h_all := polynomial_coeffs_in_submodule k
       (piTensorEndSubalgebraAlternate k V n).toSubmodule n a h_mem
-    -- Step 4: a(n-1) = Δ_n(b)
+
     have h_target := h_all ⟨n - 1, by omega⟩
     simp only [a] at h_target
     rw [sum_card_pred_eq_sum_erase n hn'] at h_target
-    -- Now h_target : ∑ i, mm((univ.erase i).piecewise id b) ∈ fullDiag.toSubmodule
-    -- Identify each term: mm((univ.erase i).piecewise id b) = map(fun j => if j=i then b else id)
+
+
     simp_rw [show ∀ i : Fin n, mm ((Finset.univ.erase i).piecewise
         (fun _ => LinearMap.id) (fun _ => b)) =
         PiTensorProduct.map (fun j => if j = i then b else LinearMap.id) from
@@ -413,63 +413,63 @@ private lemma diag_le_fullDiag [CharZero k] :
         rw [piecewise_erase_eq]] at h_target
     exact h_target
 
--- ⊇ direction: fullDiag ≤ diag via Newton's identity for commuting position operators
--- Position operator B_i(f) acts as f on tensor position i, identity elsewhere.
--- These pairwise commute, and their product Π_i B_i = f^⊗n (full diagonal generator).
--- Newton's identity expresses Π_i B_i as a polynomial in power sums
--- p_m = Σ_i B_i^m = Δ_n(f^m), which are generators of diag.
-set_option maxHeartbeats 800000 in -- rc2: Newton-identity transfer through adjoin subalgebra + noncommProd reductions overran default 200000
+
+
+
+
+
+set_option maxHeartbeats 800000 in
 omit [Module.Finite k V] in
 private lemma fullDiag_le_diag [CharZero k] :
     piTensorEndSubalgebraAlternate k V n ≤ piTensorEndSubalgebra k V n := by
   apply Algebra.adjoin_le
   rintro _ ⟨f, rfl⟩
-  -- Need: PiTensorProduct.map (fun _ => f) ∈ piTensorEndSubalgebra
-  -- Define position operators B_i(f) = map(fun j => if j = i then f else id)
+
+
   set B : Fin n → Module.End k (⨂[k] (_ : Fin n), V) :=
     fun i => PiTensorProduct.map (fun j => if j = i then f else LinearMap.id)
-  -- B_i commute (they act on independent positions)
+
   have hcomm : ∀ i j, Commute (B i) (B j) := by
     intro i j
     change B i * B j = B j * B i
     simp only [B, ← PiTensorProduct.map_mul]
     congr 1; ext x
-    -- v4.31: standalone `dsimp only [Pi.mul_apply]` makes no progress; fold it into simp_all.
+
     by_cases hi : x = i <;> by_cases hj : x = j <;> simp_all
-  -- B_i^m = map(fun j => if j = i then f^m else id) (position operator of f^m)
+
   have hpow : ∀ i m, B i ^ m = PiTensorProduct.map
       (fun j => if j = i then f ^ m else LinearMap.id) := by
     intro i m; simp only [B, ← PiTensorProduct.map_pow]
     congr 1; ext x; by_cases h : x = i <;> simp [h]
-  -- Power sum p_m = Σ_i B_i^m = Δ_n(f^m) ∈ diag
+
   have hpsum : ∀ m, 0 < m → ∑ i, B i ^ m ∈ (piTensorEndSubalgebra k V n : Set _) := by
     intro m _; simp_rw [hpow]; exact Algebra.subset_adjoin ⟨f ^ m, rfl⟩
-  -- Elementary symmetric function: e_m = Σ_{|S|=m} noncommProd_S(B)
+
   set e : ℕ → Module.End k (⨂[k] (_ : Fin n), V) := fun m =>
     ∑ S ∈ (Finset.univ : Finset (Fin n)).powersetCard m,
       S.noncommProd B (fun i _ j _ _ => hcomm i j)
-  -- e_n = map(fun _ => f) (the full diagonal generator)
+
   suffices heq : e n = PiTensorProduct.map (fun _ => f) by
     change PiTensorProduct.map (fun _ => f) ∈ _
     rw [← heq]
-    -- By strong induction, show e m ∈ diag for all m
+
     suffices ∀ m, e m ∈ piTensorEndSubalgebra k V n from this n
     intro m
     induction m using Nat.strongRecOn with | ind m ih => ?_
     by_cases hm : m = 0
     · subst hm; simp [e, Finset.powersetCard_zero]
-    · -- For m ≥ 1: use Newton's identity
-        -- m • e_m = Σ_{j < m} (-1)^j • (e_j * p_{m-j})
+    ·
+
         have hm' : 0 < m := Nat.pos_of_ne_zero hm
         have hcast : (m : k) ≠ 0 := Nat.cast_ne_zero.mpr hm
-        -- Newton's identity via commutative subalgebra transfer
+
         have newton : (m : k) • e m =
             (-1 : k) ^ (m + 1) • ∑ j ∈ Finset.range m,
               ((-1 : k) ^ j) • (e j * ∑ i : Fin n, B i ^ (m - j)) := by
-          -- Build a commutative subalgebra from pairwise-commuting generators
+
           set A := Algebra.adjoin k (Set.range B)
           have hBA : ∀ i, B i ∈ A := fun i => Algebra.subset_adjoin ⟨i, rfl⟩
-          -- All elements of A commute (generators commute, closure properties)
+
           have hcommA : ∀ (a b : A), a * b = b * a := by
             intro a b; apply Subtype.ext; change a.val * b.val = b.val * a.val
             exact Algebra.adjoin_induction₂
@@ -482,13 +482,13 @@ private lemma fullDiag_le_diag [CharZero k] :
               (fun _ _ _ _ _ _ h₁ h₂ => by rw [mul_assoc, h₂, ← mul_assoc, h₁, mul_assoc])
               (fun _ _ _ _ _ _ h₁ h₂ => by rw [← mul_assoc, h₁, mul_assoc, h₂, ← mul_assoc])
               a.property b.property
-          -- CommRing instance on A
+
           letI : CommRing A := { show Ring A from inferInstance with mul_comm := hcommA }
-          -- Lift B into A
+
           set B' : Fin n → A := fun i => ⟨B i, hBA i⟩
-          -- Evaluation algebra homomorphism
+
           set ψ : MvPolynomial (Fin n) k →ₐ[k] A := MvPolynomial.aeval B' with hψ_def
-          -- Product in A coerces to noncommProd in End
+
           have prod_val : ∀ S : Finset (Fin n),
               (∏ i ∈ S, B' i : A).val =
                 S.noncommProd B (fun i _ j _ _ => hcomm i j) := by
@@ -499,33 +499,33 @@ private lemma fullDiag_le_diag [CharZero k] :
               rw [Finset.prod_cons, Finset.noncommProd_cons]
               change (B' a * ∏ i ∈ s, B' i).val = B a * s.noncommProd B _
               simp only [Subalgebra.coe_mul]; rw [ih]
-          -- ψ maps esymm to e
+
           have esymm_val : ∀ j,
               (ψ (MvPolynomial.esymm (Fin n) k j) : Module.End k _) = e j := by
             intro j
             simp only [MvPolynomial.esymm, map_sum, map_prod, MvPolynomial.aeval_X, hψ_def, e]
             rw [AddSubmonoidClass.coe_finsetSum]
             exact Finset.sum_congr rfl (fun T _ => prod_val T)
-          -- ψ maps psum to power sum
+
           have psum_val : ∀ d,
               (ψ (MvPolynomial.psum (Fin n) k d) : Module.End k _) =
                 ∑ i : Fin n, B i ^ d := by
             intro d
             simp only [MvPolynomial.psum, map_sum, map_pow, MvPolynomial.aeval_X, hψ_def]
             simp only [AddSubmonoidClass.coe_finsetSum, SubmonoidClass.coe_pow, B']
-          -- Composite evaluation: MvPolynomial → A → End
+
           set Φ : MvPolynomial (Fin n) k →ₐ[k] Module.End k (⨂[k] (_ : Fin n), V) :=
             A.val.comp ψ
           have Φ_esymm : ∀ j, Φ (MvPolynomial.esymm (Fin n) k j) = e j := esymm_val
           have Φ_psum : ∀ d, Φ (MvPolynomial.psum (Fin n) k d) = ∑ i : Fin n, B i ^ d :=
             psum_val
-          -- Apply Φ to Mathlib's Newton identity
+
           have h := congr_arg Φ (MvPolynomial.mul_esymm_eq_sum (Fin n) k m)
           simp only [map_mul, map_pow, map_neg, map_one, map_sum,
             Φ_esymm, Φ_psum] at h
           rw [map_natCast Φ m] at h
-          -- h : ↑m * e m = (-1)^(m+1) * ∑ antidiag, (-1)^x.1 * e x.1 * ∑ i, B i ^ x.2
-          -- Convert antidiagonal sum to range sum in h
+
+
           rw [show (Finset.HasAntidiagonal.antidiagonal m).filter (fun x => x.1 < m) =
               (Finset.range m).map ⟨fun j => (j, m - j), fun a b h => by
                 simp [Prod.ext_iff] at h; exact h.1⟩ from by
@@ -540,11 +540,11 @@ private lemma fullDiag_le_diag [CharZero k] :
               exact ⟨by omega, by omega⟩,
             Finset.sum_map] at h
           simp only [Function.Embedding.coeFn_mk] at h
-          -- h : ↑m * e m = (-1)^(m+1) * ∑ j ∈ range m, (-1)^j * e j * ∑ i, B i ^ (m-j)
-          -- Convert goal from • to *, then use h
+
+
           rw [Nat.cast_smul_eq_nsmul k m (e m), nsmul_eq_mul, h]
-          -- Goal: (-1)^(m+1) * ∑ ... = (-1:k)^(m+1) • ∑ j, (-1:k)^j • (e j * ∑ ...)
-          -- Convert (-1 : End)^p to algebraMap and * to •
+
+
           have neg_pow_smul : ∀ (p : ℕ)
               (x : Module.End k (⨂[k] (_ : Fin n), V)),
               (-1 : Module.End k (⨂[k] (_ : Fin n), V)) ^ p * x = (-1 : k) ^ p • x := by
@@ -567,8 +567,8 @@ private lemma fullDiag_le_diag [CharZero k] :
         apply Subalgebra.mul_mem
         · exact ih j hjm
         · exact hpsum (m - j) (Nat.sub_pos_of_lt hjm)
-  -- Proof that e_n = map(fun _ => f):
-  -- e_n has exactly one summand (S = univ) since powersetCard n univ = {univ}
+
+
   simp only [e]
   have hcard : (Finset.univ : Finset (Fin n)).card = n :=
     Finset.card_univ.trans (Fintype.card_fin n)
@@ -576,9 +576,9 @@ private lemma fullDiag_le_diag [CharZero k] :
     have := Finset.powersetCard_self (Finset.univ : Finset (Fin n))
     rwa [hcard] at this
   rw [huniv, Finset.sum_singleton]
-  -- noncommProd of B over univ = map(fun _ => f)
-  -- Strategy: pull PiTensorProduct.map out of noncommProd, reduce to Pi-level identity
-  -- First show via map_noncommProd that mapMonoidHom commutes with noncommProd
+
+
+
   set piF : Fin n → (Fin n → Module.End k V) :=
     fun i j => if j = i then f else LinearMap.id with hpiF_def
   have hpiFcomm : ∀ i ∈ (Finset.univ : Finset (Fin n)),
@@ -587,7 +587,7 @@ private lemma fullDiag_le_diag [CharZero k] :
     intro i _ j _ _
     ext x; simp only [Pi.mul_apply, piF]
     by_cases hi : x = i <;> by_cases hj : x = j <;> simp_all
-  -- The Pi-level product: for each position j, ∏_i piF(i)(j) = f
+
   have piF_prod : Finset.univ.noncommProd piF hpiFcomm = fun _ => f := by
     funext j
     change (Pi.evalMonoidHom (fun _ : Fin n => Module.End k V) j)
@@ -602,13 +602,13 @@ private lemma fullDiag_le_diag [CharZero k] :
       rw [h, mul_one]
     rw [Finset.noncommProd_eq_pow_card _ _ _ (1 : Module.End k V)
       (fun i hi => by simp only [Ne.symm (Finset.mem_erase.mp hi).1, ite_false]; rfl), one_pow]
-  -- Now connect: B i = mapMonoidHom (piF i), so noncommProd B = mapMonoidHom (noncommProd piF)
+
   have key := Finset.map_noncommProd Finset.univ piF hpiFcomm PiTensorProduct.mapMonoidHom
-  -- key : mapMonoidHom (noncommProd piF _) = noncommProd (fun i => mapMonoidHom (piF i)) _
+
   rw [piF_prod] at key
-  -- key : map (fun _ => f) = noncommProd (fun i => map (piF i)) _
-  -- Goal: noncommProd B _ = map (fun _ => f)
-  -- B i = mapMonoidHom (piF i), so noncommProd B = noncommProd (mapMonoidHom ∘ piF)
+
+
+
   have hBeq : ∀ i ∈ Finset.univ, B i = PiTensorProduct.mapMonoidHom (piF i) := by
     intro i _; simp [B, piF]
   rw [Finset.noncommProd_congr rfl hBeq, ← key]; rfl
@@ -652,27 +652,27 @@ noncomputable def piTensorSubalgebra : Subalgebra k (⨂[k] (_ : Fin n), A) :=
 noncomputable def piTensorSubalgebraAlternate : Subalgebra k (⨂[k] (_ : Fin n), A) :=
   Algebra.adjoin k (Set.range (toPiTensorProductAlternate k A n))
 
--- ⊆ direction: Δ_n(b) ∈ Alg(a^{⊗n}) via multilinear expansion of `(c•1 + b)^{⊗n}`
--- plus Vandermonde coefficient extraction (char 0).
+
+
 set_option maxHeartbeats 3200000 in
 private lemma tensor_diag_le_fullDiag [CharZero k] :
     piTensorSubalgebra k A n ≤ piTensorSubalgebraAlternate k A n := by
   apply Algebra.adjoin_le
   rintro _ ⟨b, rfl⟩
-  -- Need: Δ_n(b) = ∑ i, singleAlgHom i b ∈ fullDiag
+
   by_cases hn : n = 0
   · subst hn; simp only [toPiTensorProduct, Finset.univ_eq_empty, Finset.sum_empty]
     exact Subalgebra.zero_mem _
   · have hn' : 0 < n := Nat.pos_of_ne_zero hn
-    -- The multilinear map `tprod`
+
     set mm := (tprod k : MultilinearMap k (fun _ : Fin n => A) (⨂[k] (_ : Fin n), A))
       with hmm
-    -- Coefficients grouped by subset cardinality
+
     set a : Fin (n + 1) → ⨂[k] (_ : Fin n), A :=
       fun m => ∑ S ∈ (Finset.univ : Finset (Finset (Fin n))).filter
         (fun S => S.card = m.val),
         mm (S.piecewise (fun _ => (1 : A)) (fun _ => b))
-    -- Step 1: evaluations at integers equal `tprod` applied to `(c•1 + b)`
+
     have h_eval : ∀ j : Fin (n + 1),
         ∑ m : Fin (n + 1), ((j : ℕ) : k) ^ (m : ℕ) • a m =
           mm (fun _ => ((j : ℕ) : k) • (1 : A) + b) := by
@@ -692,20 +692,20 @@ private lemma tensor_diag_le_fullDiag [CharZero k] :
       congr 1; funext i
       simp only [Finset.piecewise, base]
       split_ifs with h <;> simp
-    -- Step 2: each evaluation ∈ fullDiag
+
     have h_mem : ∀ j : Fin (n + 1),
         ∑ m : Fin (n + 1), ((j : ℕ) : k) ^ (m : ℕ) • a m ∈
           (piTensorSubalgebraAlternate k A n).toSubmodule := by
       intro j; rw [h_eval]
       exact Algebra.subset_adjoin ⟨((j : ℕ) : k) • (1 : A) + b, rfl⟩
-    -- Step 3: all coefficients ∈ fullDiag by Vandermonde
+
     have h_all := polynomial_coeffs_in_submodule k
       (piTensorSubalgebraAlternate k A n).toSubmodule n a h_mem
-    -- Step 4: a(n-1) = Δ_n(b)
+
     have h_target := h_all ⟨n - 1, by omega⟩
     simp only [a] at h_target
     rw [sum_card_pred_eq_sum_erase n hn'] at h_target
-    -- Identify each term: mm((univ.erase i).piecewise 1 b) = singleAlgHom i b
+
     rw [show (∑ i : Fin n, mm ((Finset.univ.erase i).piecewise
         (fun _ => (1 : A)) (fun _ => b))) =
         ∑ i : Fin n, singleAlgHom (R := k) (A := fun _ : Fin n => A) i b from by
@@ -715,20 +715,20 @@ private lemma tensor_diag_le_fullDiag [CharZero k] :
       simp only [MonoidHom.mulSingle_apply, Pi.mulSingle_apply]] at h_target
     exact h_target
 
--- ⊇ direction: a^{⊗n} ∈ Alg(Δ_n(a)) via Newton's identity for the pairwise
--- commuting position elements `σ_i(f) = 1 ⊗ ⋯ ⊗ f ⊗ ⋯ ⊗ 1`.
--- The Newton-identity transfer through the `MvPolynomial.aeval` commutative
--- subalgebra plus the `noncommProd` reductions overruns the default 200000.
+
+
+
+
 set_option maxHeartbeats 800000 in
 private lemma tensor_fullDiag_le_diag [CharZero k] :
     piTensorSubalgebraAlternate k A n ≤ piTensorSubalgebra k A n := by
   apply Algebra.adjoin_le
   rintro _ ⟨f, rfl⟩
-  -- Need: f^{⊗n} = tprod (const f) ∈ diag
-  -- Position elements σ_i(f) = singleAlgHom i f
+
+
   set B : Fin n → ⨂[k] (_ : Fin n), A :=
     fun i => singleAlgHom (R := k) (A := fun _ : Fin n => A) i f with hB
-  -- The σ_i(f) pairwise commute (they touch independent tensor factors)
+
   have hcomm : ∀ i j, Commute (B i) (B j) := by
     intro i j
     simp only [B, singleAlgHom_apply]
@@ -740,19 +740,19 @@ private lemma tensor_fullDiag_le_diag [CharZero k] :
     funext x
     simp only [Pi.mul_apply, MonoidHom.mulSingle_apply, Pi.mulSingle_apply]
     by_cases hi : x = i <;> by_cases hj : x = j <;> simp_all
-  -- σ_i(f)^m = σ_i(f^m)
+
   have hpow : ∀ i m, B i ^ m =
       singleAlgHom (R := k) (A := fun _ : Fin n => A) i (f ^ m) := by
     intro i m; simp only [B, ← map_pow]
-  -- Power sum p_m = Σ_i σ_i(f^m) = Δ_n(f^m) ∈ diag
+
   have hpsum : ∀ m, 0 < m → ∑ i, B i ^ m ∈ (piTensorSubalgebra k A n : Set _) := by
     intro m _; simp_rw [hpow]
     exact Algebra.subset_adjoin ⟨f ^ m, rfl⟩
-  -- Elementary symmetric functions e_m = Σ_{|S|=m} ∏_{i∈S} σ_i(f)
+
   set e : ℕ → ⨂[k] (_ : Fin n), A := fun m =>
     ∑ S ∈ (Finset.univ : Finset (Fin n)).powersetCard m,
       S.noncommProd B (fun i _ j _ _ => hcomm i j)
-  -- e_n = f^{⊗n}
+
   suffices heq : e n = toPiTensorProductAlternate k A n f by
     change toPiTensorProductAlternate k A n f ∈ _
     rw [← heq]
@@ -763,7 +763,7 @@ private lemma tensor_fullDiag_le_diag [CharZero k] :
     · subst hm; simp [e, Finset.powersetCard_zero]
     · have hm' : 0 < m := Nat.pos_of_ne_zero hm
       have hcast : (m : k) ≠ 0 := Nat.cast_ne_zero.mpr hm
-      -- Newton's identity via a commutative subalgebra
+
       have newton : (m : k) • e m =
           (-1 : k) ^ (m + 1) • ∑ j ∈ Finset.range m,
             ((-1 : k) ^ j) • (e j * ∑ i : Fin n, B i ^ (m - j)) := by
@@ -849,7 +849,7 @@ private lemma tensor_fullDiag_le_diag [CharZero k] :
       apply Subalgebra.mul_mem
       · exact ih j hjm
       · exact hpsum (m - j) (Nat.sub_pos_of_lt hjm)
-  -- Proof that e_n = f^{⊗n}: e_n has a single summand (S = univ)
+
   simp only [e]
   have hcard : (Finset.univ : Finset (Fin n)).card = n :=
     Finset.card_univ.trans (Fintype.card_fin n)
@@ -857,8 +857,8 @@ private lemma tensor_fullDiag_le_diag [CharZero k] :
     have := Finset.powersetCard_self (Finset.univ : Finset (Fin n))
     rwa [hcard] at this
   rw [huniv, Finset.sum_singleton]
-  -- noncommProd of σ_i(f) over univ = tprod (const f)
-  -- Position functions piF i = (1 ⊗ ⋯ f ⋯ ⊗ 1) at the Pi level: f in slot i, 1 elsewhere
+
+
   set piF : Fin n → (Fin n → A) := fun i j => if j = i then f else 1 with hpiF_def
   have hpiFcomm : ∀ i ∈ (Finset.univ : Finset (Fin n)),
       ∀ j ∈ (Finset.univ : Finset (Fin n)), i ≠ j →
@@ -866,7 +866,7 @@ private lemma tensor_fullDiag_le_diag [CharZero k] :
     intro i _ j _ _
     ext x; simp only [Pi.mul_apply, piF]
     by_cases hi : x = i <;> by_cases hj : x = j <;> simp_all
-  -- The Pi-level product over all positions is the constant function f
+
   have piF_prod : Finset.univ.noncommProd piF hpiFcomm = fun _ => f := by
     funext j
     change (Pi.evalMonoidHom (fun _ : Fin n => A) j)
@@ -880,10 +880,10 @@ private lemma tensor_fullDiag_le_diag [CharZero k] :
         (fun i => if j = i then f else (1 : A)) _ = 1 by rw [h, mul_one]
     rw [Finset.noncommProd_eq_pow_card _ _ _ (1 : A)
       (fun i hi => by simp only [Ne.symm (Finset.mem_erase.mp hi).1, ite_false]), one_pow]
-  -- tprodMonoidHom carries the Pi-level product to the noncommProd of the σ_i(f)
+
   have key := Finset.map_noncommProd Finset.univ piF hpiFcomm (tprodMonoidHom k)
   rw [piF_prod] at key
-  -- B i = tprodMonoidHom (piF i) = σ_i(f)
+
   have hBeq : ∀ i ∈ (Finset.univ : Finset (Fin n)), B i = tprodMonoidHom k (piF i) := by
     intro i _
     simp only [B, singleAlgHom_apply, tprodMonoidHom_apply, piF]
