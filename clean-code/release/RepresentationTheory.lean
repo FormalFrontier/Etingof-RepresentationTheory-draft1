@@ -425,6 +425,7 @@ import RepresentationTheory.MatrixPolynomialHomogeneity
 import RepresentationTheory.LinearAlgebra.GeneralLinearGroup.Auxiliary
 import RepresentationTheory.Determinants.FiniteNatFamilyTransforms
 import RepresentationTheory.LinearAlgebra.SubalgebraCentralizerRange
+import RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
