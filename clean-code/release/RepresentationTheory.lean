@@ -413,6 +413,7 @@ import RepresentationTheory.TensorPower
 import RepresentationTheory.AuxiliaryCharacter
 import RepresentationTheory.UnitTupleActions
 import RepresentationTheory.Auxiliary.LinearIndependence
+import RepresentationTheory.GeneralLinear.WeightedPolynomialIndexShift
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
