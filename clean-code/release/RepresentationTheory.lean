@@ -320,6 +320,7 @@ import RepresentationTheory.Representation.FiniteProducts
 import RepresentationTheory.Algebra.Category.ModuleCat.Projective
 import RepresentationTheory.PolynomialModule.Finsupp
 import RepresentationTheory.Induction.Transitivity
+import RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero
 
 /-!
 # Representation theory formalization
