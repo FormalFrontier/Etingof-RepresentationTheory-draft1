@@ -502,7 +502,8 @@ variable (k : Type*) [Field k] (d : ℕ) [NeZero d]
 
 
 /-- The standard column module over a nonempty full matrix algebra is simple. -/
-@[source_ref "Chapter3/Problem3.3.3" (role := primary)]
+@[source_ref "Chapter3/Problem3.3.3" (role := primary),
+  source_ref "Chapter3/Problem3.3.3/Derived12" (role := supporting)]
 theorem isSimpleModule_standardMatrixModule :
     IsSimpleModule (Matrix (Fin d) (Fin d) k) (Fin d → k) where
   eq_bot_or_eq_top s := by
@@ -534,7 +535,8 @@ theorem isSimpleModule_standardMatrixModule :
 
 
 /-- Every finite-dimensional simple module over a nonempty full matrix algebra is linearly equivalent to the standard column module. -/
-@[source_ref "Chapter3/Problem3.3.3" (role := primary)]
+@[source_ref "Chapter3/Problem3.3.3" (role := primary),
+  source_ref "Chapter3/Problem3.3.3/Derived15" (role := supporting)]
 theorem nonempty_equiv_standardModule_of_isSimpleModule (V : Type*) [AddCommGroup V] [Module k V]
     [Module (Matrix (Fin d) (Fin d) k) V]
     [IsScalarTower k (Matrix (Fin d) (Fin d) k) V]
@@ -588,7 +590,10 @@ theorem nonempty_equiv_standardModule_of_isSimpleModule (V : Type*) [AddCommGrou
 
 
 /-- Every finite-dimensional module over a nonempty full matrix algebra is linearly equivalent to a finite product of copies of its standard module. -/
-@[source_ref "Chapter3/Problem3.3.3" (role := primary)]
+@[source_ref "Chapter3/Problem3.3.3" (role := primary),
+  source_ref "Chapter3/Problem3.3.3/Derived13" (role := supporting),
+  source_ref "Chapter3/Problem3.3.3/Derived14" (role := supporting),
+  source_ref "Chapter3/Problem3.3.3/Derived15" (role := supporting)]
 theorem exists_equiv_pi_standardModule (V : Type*) [AddCommGroup V] [Module k V]
     [Module (Matrix (Fin d) (Fin d) k) V]
     [IsScalarTower k (Matrix (Fin d) (Fin d) k) V]
