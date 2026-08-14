@@ -1,6 +1,7 @@
 import Mathlib
 import RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
 
+set_option linter.style.longLine false
 set_option linter.dupNamespace false
 
 namespace RepresentationTheory.Matrix.MvPolynomialRightMul.Matrix
