@@ -247,6 +247,7 @@ import RepresentationTheory.CategoryTheory.ObjectProperty
 import RepresentationTheory.CategoryTheory.IsomorphismClasses
 import RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional
 import RepresentationTheory.CategoryTheory.Abelian.FiniteLength
+import RepresentationTheory.CategoryTheory.Abelian.SubobjectLength
 import RepresentationTheory.CategoryPair
 import RepresentationTheory.FunctorPairConstructions
 import RepresentationTheory.UniverseTypeOperator
