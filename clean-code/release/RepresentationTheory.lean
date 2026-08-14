@@ -396,6 +396,7 @@ import RepresentationTheory.PathDegreeDecomposition
 import RepresentationTheory.FGModuleCat.Finite
 import RepresentationTheory.CentralizerDecomposition
 import RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
+import RepresentationTheory.PartitionLinearMapVanishing
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
