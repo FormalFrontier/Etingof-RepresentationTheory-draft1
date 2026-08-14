@@ -5,58 +5,12 @@ import Mathlib.RingTheory.Nilpotent.Basic
 import Mathlib.RingTheory.LocalRing.Basic
 
 /-!
-# Fitting's lemma and local endomorphism rings (Krull–Schmidt)
+# Endomorphism decompositions
 
-This file is the hard core of the Krull–Schmidt chain for a finite abelian category `C`. It
-records Fitting's lemma (the `ker`/`im` block decomposition of an endomorphism) and derives the
-two facts the uniqueness half of Krull–Schmidt rests on:
-
-* **`Etingof.indecomposableEndIsNilpotentOrIsIso`**: every endomorphism of an indecomposable
-  object is nilpotent or an isomorphism;
-* **`Etingof.indecomposableEndIsLocalRing`**: the endomorphism ring of an indecomposable
-  object is local.
-
-## Design and the Fitting decomposition
-
-Mathlib has the Fitting decomposition only for Artinian modules
-(`Mathlib/RingTheory/Artinian/Module.lean`); there is nothing for an abstract abelian category.
-The categorical statement,
-
-```
-∃ n, X ≅ ker (f ^ n) ⊞ im (f ^ n),  with f nilpotent on the kernel and iso on the image,
-```
-
-needs the descending image chain `im (f^n)` and the ascending kernel chain `ker (f^n)` to
-stabilise. That stabilisation is exactly the finite-length input of `KrullSchmidt/Length.lean`:
-the chains are measured by `Etingof.clength`, whose finiteness and monotonicity is the
-categorical Jordan–Hölder content of that file. The Fitting decomposition
-`endDecomposesAsNilpotentAndIsIso` is stated here in the convenient block-conjugation form
-
-```
-f = e.hom ≫ biprod.map fK fI ≫ e.inv,   IsNilpotent fK,   IsIso fI,
-```
-
-and is proved from the single finite-length input `Etingof.RepresentationTheory.CategoryTheory.Abelian.SubobjectLength.exists_pow_image_inclusion_comp_factorThruImage_isIso`: at the
-stabilising power `n` the image restriction `g' := image.ι (fⁿ) ≫ factorThruImage (fⁿ)` is an
-isomorphism. Given that iso the whole construction is elementary abelian-category algebra:
-`factorThruImage (fⁿ)` becomes a split epi (section `(g')⁻¹ ≫ image.ι (fⁿ)`), its kernel and image
-split `X` as a biproduct, `f` is block-diagonal because it preserves both summands (the kernel
-summand directly, the image summand because `f` maps `im (fⁿ)` into `im (fⁿ⁺¹) ⊆ im (fⁿ)`), and the
-two blocks are read off from `(fK)ⁿ = (fⁿ)|_K = 0` and `(fI)ⁿ = (fⁿ)|_I = g'`. The
-nilpotent-or-iso dichotomy and the local-ring property below follow from the statement of
-`endDecomposesAsNilpotentAndIsIso` alone.
-
-The two reductions are elementary once the block form is in hand:
-
-* For an indecomposable `X`, the block iso `e : X ≅ K ⊞ I` forces `IsZero K` or `IsZero I`. In the
-  first case `fK` is an iso (any endomorphism of a zero object is), so both blocks are isos and `f`
-  is an iso; in the second case `fI` is nilpotent (it is `0`), so both blocks are nilpotent and `f`
-  is nilpotent. Conjugation by `e` (as `Iso.conj`, a multiplicative equivalence sending `0` to `0`)
-  transports nilpotence and invertibility from the block map back to `f`.
-* The local-ring property uses the characterisation `∀ a, IsUnit a ∨ IsUnit (1 - a)`
-  (`IsLocalRing.of_isUnit_or_isUnit_one_sub_self`): an iso `a` is a unit, and a nilpotent `a` makes
-  `1 - a` a unit (`IsNilpotent.isUnit_one_sub`). The ring `End X` is nontrivial because `X` is
-  nonzero (`𝟙 X ≠ 0`).
+This module expresses an endomorphism in block form after identifying its object with a binary
+biproduct, with one block nilpotent and the other invertible. When the object satisfies the stated
+indecomposability condition, this description yields a nilpotence-or-invertibility alternative and
+a local endomorphism ring.
 -/
 
 universe v u
