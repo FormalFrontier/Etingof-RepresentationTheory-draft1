@@ -349,6 +349,7 @@ import RepresentationTheory.Quiver.EdgeModule
 import RepresentationTheory.Algebra.Module.BalancedTensorProduct.Adjunction
 import RepresentationTheory.FGModuleCat.SimpleModules
 import RepresentationTheory.Algebra.Module.SimpleQuotient
+import RepresentationTheory.Algebra.ModuleCategory.Auxiliary
 import RepresentationTheory.VirtualRepresentations.Basic
 import RepresentationTheory.VirtualRepresentations.CharacterCriteria
 import RepresentationTheory.Representation.FiniteProducts
