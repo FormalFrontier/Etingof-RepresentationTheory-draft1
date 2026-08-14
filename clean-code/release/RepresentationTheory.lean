@@ -424,6 +424,7 @@ import RepresentationTheory.GeneralLinearRepresentation.WeightSpaceEigenspaces
 import RepresentationTheory.MatrixPolynomialHomogeneity
 import RepresentationTheory.LinearAlgebra.GeneralLinearGroup.Auxiliary
 import RepresentationTheory.Determinants.FiniteNatFamilyTransforms
+import RepresentationTheory.LinearAlgebra.SubalgebraCentralizerRange
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
