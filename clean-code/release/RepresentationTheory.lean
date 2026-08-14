@@ -318,6 +318,7 @@ import RepresentationTheory.Algebra.Module.SimpleQuotient
 import RepresentationTheory.VirtualRepresentations.Basic
 import RepresentationTheory.Representation.FiniteProducts
 import RepresentationTheory.Algebra.Category.ModuleCat.Projective
+import RepresentationTheory.PolynomialModule.Finsupp
 
 /-!
 # Representation theory formalization
