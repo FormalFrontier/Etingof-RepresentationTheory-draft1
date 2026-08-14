@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -27,3 +28,25 @@ Define a homomorphism $`c_i : H^i(E) \to H^{i+1}(C)` as follows. Given $`x \in H
 (7.8.1) $`\ldots H^{i-1}(E) \to H^i(C) \to H^i(D) \to H^i(E) \to H^{i+1}(C) \ldots,`
 
 where the first map is $`c_{i-1}`, the middle two maps are induced by the maps $`C_i \to D_i \to E_i`, and the last map is $`c_i`, is exact.
+
+## Formalization
+%%%
+tag := "Chapter7/Problem7.8.5/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.SubcomplexHomologySequence.Subcomplex.boundaryHomologyClass_eq_of_quotientHomologyClass_eq}
+
+{Manual.docstring RepresentationTheory.SubcomplexHomologySequence.Subcomplex.boundaryHomologyClass_eq_of_quotientMap_eq}
+
+{Manual.docstring RepresentationTheory.SubcomplexHomologySequence.Subcomplex.connectingHom}
+
+{Manual.docstring RepresentationTheory.SubcomplexHomologySequence.shortExact_homologySequence_exact}
+
+{Manual.docstring RepresentationTheory.SubcomplexHomologySequence.subcomplex_homologySequence_exact}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.SubcomplexHomologySequence.Subcomplex.connectingHom_eq_delta}
