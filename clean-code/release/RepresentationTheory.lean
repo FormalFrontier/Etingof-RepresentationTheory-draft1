@@ -409,6 +409,7 @@ import RepresentationTheory.Representation.DualCompatibility
 import RepresentationTheory.Auxiliary.GeneralLinearGroupPolynomialEvaluation
 import RepresentationTheory.MvPolynomial.UniformIndexShift
 import RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary
+import RepresentationTheory.TensorPower
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
