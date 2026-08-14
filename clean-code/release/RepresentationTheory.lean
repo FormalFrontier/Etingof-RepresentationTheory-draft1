@@ -199,6 +199,7 @@ import RepresentationTheory.Group.ConjugateDuality
 import RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional
 import RepresentationTheory.Group.CharacterDuality
 import RepresentationTheory.InductionAndCoinduction
+import RepresentationTheory.SubgroupCharacters
 import RepresentationTheory.InductionCoinduction
 import RepresentationTheory.SpecialLinear.Commutator
 import RepresentationTheory.AuxiliaryTypeCharacters
