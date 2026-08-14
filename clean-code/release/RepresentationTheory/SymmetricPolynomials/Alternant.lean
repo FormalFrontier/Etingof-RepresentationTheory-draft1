@@ -52,7 +52,7 @@ private theorem X_zero_sub_dvd {n : ℕ} (k : Fin n)
       if m = (0 : Fin (n + 1)) then (MvPolynomial.X k.succ : MvPolynomial (Fin (n + 1)) ℚ)
       else MvPolynomial.X m) p = 0) :
     (MvPolynomial.X 0 - MvPolynomial.X k.succ : MvPolynomial (Fin (n + 1)) ℚ) ∣ p := by
-  -- The substitution factors as: rename Fin.succ ∘ Poly.aeval (X k) ∘ finSuccEquiv
+
   have hcomp : (MvPolynomial.aeval (fun m : Fin (n + 1) =>
       if m = (0 : Fin (n + 1)) then (MvPolynomial.X k.succ : MvPolynomial (Fin (n + 1)) ℚ)
       else MvPolynomial.X m) : MvPolynomial (Fin (n + 1)) ℚ →ₐ[ℚ] _) =
@@ -66,7 +66,7 @@ private theorem X_zero_sub_dvd {n : ℕ} (k : Fin n)
     · simp [AlgHom.comp_apply, AlgHom.restrictScalars_apply,
         MvPolynomial.finSuccEquiv_X_succ, Polynomial.aeval_C, MvPolynomial.rename_X,
         Fin.succ_ne_zero]
-  -- Since rename Fin.succ is injective, the polynomial evaluation must be 0
+
   have heval : Polynomial.aeval (MvPolynomial.X k : MvPolynomial (Fin n) ℚ)
       (MvPolynomial.finSuccEquiv ℚ n p) = 0 := by
     have : (MvPolynomial.aeval (fun m : Fin (n + 1) =>
@@ -76,11 +76,11 @@ private theorem X_zero_sub_dvd {n : ℕ} (k : Fin n)
     simp only [AlgHom.comp_apply, AlgHom.restrictScalars_apply] at this
     exact MvPolynomial.rename_injective _ (Fin.succ_injective n)
       (this.symm.trans (map_zero _).symm)
-  -- By univariate factor theorem: (Poly.X - Poly.C(X k)) | finSuccEquiv p
+
   have hdvd_poly : (Polynomial.X - Polynomial.C (MvPolynomial.X k)) ∣
       MvPolynomial.finSuccEquiv ℚ n p :=
     Polynomial.dvd_iff_isRoot.mpr heval
-  -- Pull back through finSuccEquiv
+
   obtain ⟨q, hq⟩ := hdvd_poly
   exact ⟨(MvPolynomial.finSuccEquiv ℚ n).symm q, (MvPolynomial.finSuccEquiv ℚ n).injective <| by
     rw [map_mul, AlgEquiv.apply_symm_apply,
@@ -94,15 +94,15 @@ private theorem X_sub_X_dvd {N : ℕ} {i j : Fin N} (hij : i ≠ j)
     (p : MvPolynomial (Fin N) ℚ)
     (hp : substMap N i j p = 0) :
     (MvPolynomial.X i - MvPolynomial.X j : MvPolynomial (Fin N) ℚ) ∣ p := by
-  -- Swap variables i and 0, reducing to the X_0 case
+
   obtain ⟨n, rfl⟩ : ∃ n, N = n + 1 := ⟨N - 1, by omega⟩
-  -- Let σ = swap i 0
+
   set σ := Equiv.swap i (0 : Fin (n + 1))
-  -- The renamed polynomial has the same divisibility property
+
   suffices h : (MvPolynomial.X (0 : Fin (n + 1)) -
       MvPolynomial.X (σ j) : MvPolynomial (Fin (n + 1)) ℚ) ∣
       MvPolynomial.rename σ p by
-    -- Pull back through rename σ⁻¹
+
     obtain ⟨q, hq⟩ := h
     refine ⟨MvPolynomial.rename σ.symm q, ?_⟩
     apply (MvPolynomial.rename_injective _ σ.injective)
@@ -112,7 +112,7 @@ private theorem X_sub_X_dvd {N : ℕ} {i j : Fin N} (hij : i ≠ j)
         MvPolynomial.X (0 : Fin (n + 1)) - MvPolynomial.X (σ j) from by
       simp only [map_sub, MvPolynomial.rename_X, σ, Equiv.swap_apply_left]]
     exact hq
-  -- Now show σ j ≠ 0
+
   have hσj : σ j ≠ 0 := by
     change Equiv.swap i 0 j ≠ 0
     rcases eq_or_ne j i with rfl | hji
@@ -120,14 +120,14 @@ private theorem X_sub_X_dvd {N : ℕ} {i j : Fin N} (hij : i ≠ j)
     rcases eq_or_ne j 0 with rfl | hj0
     · rw [Equiv.swap_apply_right]; exact fun h => hij (h ▸ rfl)
     · rw [Equiv.swap_apply_of_ne_of_ne hji hj0]; exact hj0
-  -- Write σ j = k.succ for some k
+
   obtain ⟨k, hk⟩ : ∃ k : Fin n, k.succ = σ j :=
     ⟨(σ j).pred hσj, Fin.succ_pred _ _⟩
   rw [← hk]
-  -- Apply X_zero_sub_dvd; need the substitution condition on the renamed polynomial
+
   apply X_zero_sub_dvd
-  -- Key: (substMap 0 (σ j)) ∘ (rename σ) = (rename σ) ∘ (substMap i j) as algebra homs
-  -- Both agree on generators X_m: they send X_m to X_{σ (if m=i then j else m)}
+
+
   have hcomp : ((substMap (n + 1) 0 (σ j)).comp (MvPolynomial.rename σ) :
       MvPolynomial (Fin (n + 1)) ℚ →ₐ[ℚ] _) =
     (MvPolynomial.rename σ).comp (substMap (n + 1) i j) := by
@@ -135,7 +135,7 @@ private theorem X_sub_X_dvd {N : ℕ} {i j : Fin N} (hij : i ≠ j)
     simp only [AlgHom.comp_apply, substMap, MvPolynomial.aeval_X, MvPolynomial.rename_X]
     simp only [σ, Equiv.swap_apply_def]
     split_ifs with h1 h2 h3 <;> simp_all [Equiv.swap_apply_of_ne_of_ne]
-  -- Therefore substMap 0 (σ j) (rename σ p) = rename σ (substMap i j p) = rename σ 0 = 0
+
   change (substMap (n + 1) 0 k.succ) (MvPolynomial.rename σ p) = 0
   rw [show substMap (n + 1) 0 k.succ = substMap (n + 1) 0 (σ j) from by rw [← hk],
     show (substMap (n + 1) 0 (σ j)) (MvPolynomial.rename σ p) =
@@ -170,17 +170,17 @@ private theorem X_sub_X_not_associated {N : ℕ} {i₁ j₁ i₂ j₂ : Fin N}
     ¬Associated (MvPolynomial.X j₁ - MvPolynomial.X i₁ : MvPolynomial (Fin N) ℚ)
       (MvPolynomial.X j₂ - MvPolynomial.X i₂) := by
   intro ⟨u, hu⟩
-  -- Evaluate hu at x_k = δ_{k,j₁}
+
   have hev₁ := congr_arg
     (MvPolynomial.eval (fun k : Fin N => if k = j₁ then (1 : ℚ) else 0)) hu
   simp only [map_mul, MvPolynomial.eval_sub, MvPolynomial.eval_X, ite_true,
     if_neg h₁.ne, sub_zero] at hev₁
-  -- Evaluate hu at x_k = δ_{k,i₁}
+
   have hev₂ := congr_arg
     (MvPolynomial.eval (fun k : Fin N => if k = i₁ then (1 : ℚ) else 0)) hu
   simp only [map_mul, MvPolynomial.eval_sub, MvPolynomial.eval_X, ite_true,
     if_neg h₁.ne', zero_sub] at hev₂
-  -- Both eval(u) are nonzero since u is a unit
+
   have hu₁ : (MvPolynomial.eval (fun k : Fin N => if k = j₁ then (1 : ℚ) else 0)) ↑u ≠ 0 :=
     (Units.map (MvPolynomial.eval (R := ℚ)
       (fun k : Fin N => if k = j₁ then 1 else 0)).toMonoidHom u).isUnit.ne_zero
@@ -213,7 +213,7 @@ private theorem X_sub_X_isRelPrime {N : ℕ} {i₁ j₁ i₂ j₂ : Fin N}
       ((X_sub_X_prime h₁.ne').associated_of_dvd (X_sub_X_prime h₂.ne') hdvd)
 
 set_option maxHeartbeats 8000000 in
--- Pairwise relative-primality elaboration for the nested product is expensive.
+
 
 private theorem prod_dvd_alternant (N : ℕ) (e : Fin N → ℕ) :
     (∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
@@ -222,13 +222,13 @@ private theorem prod_dvd_alternant (N : ℕ) (e : Fin N → ℕ) :
   letI : DecompositionMonoid (MvPolynomial (Fin N) ℚ) :=
     UniqueFactorizationMonoid.instDecompositionMonoid
   apply Fintype.prod_dvd_of_isRelPrime
-  · -- Pairwise IsRelPrime of inner products
+  ·
     intro i₁ i₂ hi
     apply IsRelPrime.prod_left_iff.mpr; intro j₁ hj₁
     apply IsRelPrime.prod_right_iff.mpr; intro j₂ hj₂
     simp only [Finset.mem_Ioi] at hj₁ hj₂
     exact X_sub_X_isRelPrime hj₁ hj₂ (by intro h; exact hi (Prod.mk.inj h).1)
-  · -- Each inner product divides the alternant det
+  ·
     intro i
     apply Finset.prod_dvd_of_isRelPrime
     · intro j₁ hj₁ j₂ hj₂ hjne
@@ -278,7 +278,7 @@ theorem partitionPolynomial_mul_det_staircase (N : ℕ) (lam : Fin N → ℕ) :
     partitionPolynomial N lam * (alternantMatrix N (staircaseExponents N)).det =
       (alternantMatrix N (addStaircase N lam)).det := by
   have h := (vandermonde_dvd_alternant N (addStaircase N lam)).choose_spec
-  -- h : alternant_det = vandermonde_det * choose
+
   rw [partitionPolynomial, mul_comm]
   exact h.symm
 
@@ -468,11 +468,11 @@ theorem coeff_det_alternantMatrix_of_strictAnti {N : ℕ}
       · exact absurd hgt (not_lt.mpr (le_of_eq (congr_arg e heq.symm)))
       · exact absurd hgt (not_lt.mpr (le_of_lt (he hlt)))
     exact ⟨by rw [← h]; simp [show σ.symm = 1 from perm_eq_one_of_strictMono hmono],
-           -- v4.30: the rewrite chain already closes `σ = 1`, so no trailing `simp`.
+
            by rw [← σ.symm_symm, perm_eq_one_of_strictMono hmono]; rfl⟩
   split_ifs with heq
   · rw [Finset.sum_eq_single 1]
-    · -- v4.30: simp normal form changed; reduce `σ = 1` summand to `1 • 1 = 1` explicitly.
+    ·
       subst heq
       have hident : Finsupp.equivFunOnFinite.symm (e ∘ ⇑(1 : Equiv.Perm (Fin N)).symm) =
           Finsupp.equivFunOnFinite.symm e := (key 1).2 (by rfl)
@@ -542,8 +542,8 @@ theorem det_alternantMatrix_isHomogeneous {N : ℕ} (e : Fin N → ℕ) :
     (alternantMatrix N e).det.IsHomogeneous (∑ j : Fin N, e j) := by
   rw [Matrix.det_apply, show ∑ j : Fin N, e j = ∑ j : Fin N, 1 * e j by simp]
   apply MvPolynomial.IsHomogeneous.sum; intro σ _ d hd
-  -- `hd` involves the `ℤˣ`-scalar `sign σ • …` from `det_apply`; peel it off the
-  -- coefficient via `coeff_sign_smul` to expose the underlying product.
+
+
   rw [coeff_sign_smul] at hd
   have hne : MvPolynomial.coeff d (∏ i, alternantMatrix N e (σ i) i) ≠ 0 :=
     fun hc => hd (by rw [hc, smul_zero])
@@ -589,7 +589,7 @@ theorem psumPart_eq_sum_partitionPolynomial
     (MvPolynomial.psumPart (Fin N) ℚ μ : MvPolynomial (Fin N) ℚ) =
       ∑ lam : FinPartition N n,
         (partitionExpansionCoeff N lam μ : ℚ) • partitionPolynomial N lam.parts := by
-  -- Step 1: Cancel the Vandermonde determinant Δ from both sides (integral domain)
+
   have hΔ : (alternantMatrix N (staircaseExponents N)).det ≠ 0 := by
     obtain ⟨u, hu⟩ := alternant_det_associated_prod N
     intro h
@@ -600,23 +600,23 @@ theorem psumPart_eq_sum_partitionPolynomial
           (X_sub_X_prime (mem_Ioi.mp hj).ne').ne_zero
     exact hprod (by rw [← hu, h, zero_mul])
   apply mul_left_cancel₀ hΔ
-  -- Step 2: Rewrite RHS: Δ * Σ c_λ • S_λ = Σ c_λ • (S_λ * Δ) = Σ c_λ • D_λ
+
   rw [Finset.mul_sum]
   simp_rw [Algebra.mul_smul_comm,
     mul_comm (alternantMatrix N (staircaseExponents N)).det (partitionPolynomial _ _),
     partitionPolynomial_mul_det_staircase]
-  -- Step 3: Antisymmetric basis decomposition
-  -- Goal: Δ * p_μ = Σ_λ coeff_{λ+ρ}(Δ * p_μ) • D_λ
+
+
   simp only [partitionExpansionCoeff]
   rw [← sub_eq_zero]
   apply eq_zero_of_alternating_coeff_strictAnti_eq_zero
-  · -- Antisymmetry of the difference
-    -- The RHS `sign σ • (F - G)` uses the `ℤˣ`-smul; distribute it via `sign_smul_sub`.
+  ·
+
     intro σ
     rw [map_sub, sign_smul_sub]
     congr 1
     · rw [map_mul, rename_det_alternantMatrix, (psumPart_isSymmetric N μ) σ, smul_mul_assoc]
-    · -- rename σ (∑ c • D) = sign σ • ∑ c • D
+    ·
       trans ∑ lam : FinPartition N n, Equiv.Perm.sign σ •
         (MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (addStaircase N lam.parts))
           ((alternantMatrix N (staircaseExponents N)).det * psumPart (Fin N) ℚ μ) •
@@ -624,7 +624,7 @@ theorem psumPart_eq_sum_partitionPolynomial
       · rw [map_sum]; apply Finset.sum_congr rfl; intro lam _
         rw [AlgHom.map_smul_of_tower, rename_det_alternantMatrix, smul_comm]
       · exact (Finset.smul_sum ..).symm
-  · -- Coefficient condition: for StrictAnti e, coeff_e(F - Σ c • D) = 0
+  ·
     intro e he
     simp only [MvPolynomial.coeff_sub, MvPolynomial.coeff_sum, MvPolynomial.coeff_smul,
       smul_eq_mul, sub_eq_zero]
@@ -650,7 +650,7 @@ theorem psumPart_eq_sum_partitionPolynomial
         funext j; have := congr_fun (ha'.trans hb'.symm) j; simp [addStaircase] at this; omega
       cases a; cases b; simp_all
     rcases Nat.eq_zero_or_pos filt.card with hcard | hcard
-    · -- No matching partition → coeff_e(F) = 0 by homogeneity
+    ·
       rw [hcard, zero_nsmul]; symm
       have hne : ∀ lam : FinPartition N n, addStaircase N lam.parts ≠ e := by
         intro lam hlam
@@ -669,7 +669,7 @@ theorem psumPart_eq_sum_partitionPolynomial
       rw [hweight] at hd
       obtain ⟨lam, hlam⟩ := exists_finPartition_addStaircase_eq e he (by exact_mod_cast hd)
       exact hne lam hlam
-    · -- Matching partition exists, card = 1
+    ·
       have : filt.card = 1 := by omega
       rw [this, one_nsmul]
 
@@ -739,7 +739,7 @@ theorem degLex_degree_det_alternantMatrix {N : ℕ} {e : Fin N → ℕ} (he : St
       Finsupp.equivFunOnFinite.symm e := by
   classical
   set m : MonomialOrder (Fin N) := MonomialOrder.degLex with hm
-  -- Expand the determinant as a sum of signed monomials `± x^{e ∘ σ⁻¹}`.
+
   have hmono : ∀ σ : Equiv.Perm (Fin N), (∏ j, alternantMatrix N e (σ j) j)
       = monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (1 : ℚ) := fun σ => by
     rw [show (∏ j, alternantMatrix N e (σ j) j)
@@ -752,23 +752,23 @@ theorem degLex_degree_det_alternantMatrix {N : ℕ} {e : Fin N → ℕ} (he : St
         Equiv.Perm.sign σ • monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (1 : ℚ) := by
     rw [Matrix.det_apply]
     exact Finset.sum_congr rfl (fun σ _ => by rw [hmono σ])
-  -- Each signed-monomial term has degree exactly `x^{e ∘ σ⁻¹}`.
+
   have hterm : ∀ σ : Equiv.Perm (Fin N),
       m.degree (Equiv.Perm.sign σ •
           monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (1 : ℚ))
         = Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm) := by
     intro σ
-    -- Rewrite the `ℤˣ`-smul on the monomial via `sign_smul_monomial`, then read off
-    -- the degree; the `±1` coefficient is nonzero.
+
+
     have hc : (((Equiv.Perm.sign σ : ℤ) : ℚ)) ≠ 0 := by
       rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hs | hs <;> rw [hs] <;> simp
     rw [sign_smul_monomial, MonomialOrder.degree_monomial, if_neg hc]
-  -- Lower bound: `x^e` lies in the support (its coefficient is `1`).
+
   have hlower : Finsupp.equivFunOnFinite.symm e ≼[m] m.degree (alternantMatrix N e).det := by
     apply m.le_degree
     rw [MvPolynomial.mem_support_iff, coeff_det_alternantMatrix_of_strictAnti he he, if_pos rfl]
     exact one_ne_zero
-  -- Upper bound: every monomial of the determinant is `≼ x^e`.
+
   have hupper : m.degree (alternantMatrix N e).det ≼[m] Finsupp.equivFunOnFinite.symm e := by
     rw [hdet]
     refine le_trans m.degree_sum_le (Finset.sup_le (fun σ _ => ?_))
@@ -785,7 +785,7 @@ theorem coeff_partitionPolynomial_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam 
     intro i j hij; simp only [addStaircase]; have := hlam (le_of_lt hij); omega
   have hve : StrictAnti (staircaseExponents N) := by
     intro i j hij; simp only [staircaseExponents]; omega
-  -- The Schur polynomial and the Vandermonde alternant are nonzero.
+
   have hΔne : (alternantMatrix N (staircaseExponents N)).det ≠ 0 := by
     intro h
     have hcoeff := coeff_det_alternantMatrix_of_strictAnti hve hve
@@ -798,20 +798,20 @@ theorem coeff_partitionPolynomial_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam 
     have hcoeff := coeff_det_alternantMatrix_of_strictAnti hsv hsv
     rw [if_pos rfl, ← hprod, MvPolynomial.coeff_zero] at hcoeff
     exact one_ne_zero hcoeff.symm
-  -- Leading monomials of the three alternants.
+
   have hΔdeg : m.degree (alternantMatrix N (staircaseExponents N)).det
       = Finsupp.equivFunOnFinite.symm (staircaseExponents N) :=
     degLex_degree_det_alternantMatrix hve
   have hDdeg : m.degree (alternantMatrix N (addStaircase N lam)).det
       = Finsupp.equivFunOnFinite.symm (addStaircase N lam) :=
     degLex_degree_det_alternantMatrix hsv
-  -- `δ` is additive on the shifted exponents: `symm (λ+δ) = symm λ + symm δ`.
+
   have hadd : Finsupp.equivFunOnFinite.symm (addStaircase N lam)
       = Finsupp.equivFunOnFinite.symm lam
         + Finsupp.equivFunOnFinite.symm (staircaseExponents N) := by
     ext i
     simp only [Finsupp.add_apply, Finsupp.coe_equivFunOnFinite_symm, addStaircase, staircaseExponents]
-  -- Read off `degree S_λ = symm λ` from `degree (S_λ · Δ) = degree D_{λ+δ}`.
+
   have hmul := m.degree_mul hsne hΔne
   rw [partitionPolynomial_mul_det_staircase, hDdeg, hΔdeg, hadd] at hmul
   have hdeg_schur : m.degree (partitionPolynomial N lam) = Finsupp.equivFunOnFinite.symm lam :=
