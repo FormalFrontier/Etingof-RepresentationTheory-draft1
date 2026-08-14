@@ -431,6 +431,7 @@ import RepresentationTheory.Submodules
 import RepresentationTheory.Auxiliary.GeneralLinearLocalizationFiltration
 import RepresentationTheory.GeneralLinear.AuxiliaryPolynomialEmbedding
 import RepresentationTheory.MonoidAlgebra.PartitionSubmoduleSandwich
+import RepresentationTheory.PartitionMonoidAlgebra
 import RepresentationTheory.representation_theory.finite_group.simple_exhaustion
 
 /-!
