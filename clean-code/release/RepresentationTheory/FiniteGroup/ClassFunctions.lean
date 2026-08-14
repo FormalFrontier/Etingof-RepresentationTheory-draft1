@@ -5,6 +5,8 @@ import RepresentationTheory.Representation.IsIrreducible
 import RepresentationTheory.FDRep.RegularRepresentationCharacter
 import RepresentationTheory.FDRep.Character
 
+set_option linter.dupNamespace false
+
 open FDRep CategoryTheory Finset
 
 universe u

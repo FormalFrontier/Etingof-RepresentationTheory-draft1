@@ -2,6 +2,8 @@ import Mathlib
 import RepresentationTheory.Alignment.Attribute
 import RepresentationTheory.FDRep.GroupAlgebraDecomposition
 
+set_option linter.dupNamespace false
+
 open CategoryTheory
 
 universe u
