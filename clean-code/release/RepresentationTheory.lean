@@ -323,6 +323,7 @@ import RepresentationTheory.Induction.Transitivity
 import RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero
 import RepresentationTheory.TensorAdjunction
 import RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison
+import RepresentationTheory.SubcomplexHomologySequence
 
 /-!
 # Representation theory formalization
