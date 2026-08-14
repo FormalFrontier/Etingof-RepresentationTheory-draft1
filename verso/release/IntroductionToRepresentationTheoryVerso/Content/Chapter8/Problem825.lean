@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -30,3 +31,37 @@ The collection of homomorphisms satisfying the conditions of (i) and (ii) is cal
 (iv) Deduce that $`\psi_i(P, Q)` are isomorphisms (use that $`\psi_i(P, P) = \mathrm{id}` and $`\psi_i(Q, R) \circ \psi_i(P, Q) = \psi_i(P, R)`).
 
 (v) Define similar maps $`\xi_i(Q, P, f) : \mathrm{Ext}^i_P(M, N) \to \mathrm{Ext}^i_Q(M, N)` and show that they are independent on $`f` and are isomorphisms.
+
+## Formalization
+%%%
+tag := "Chapter8/Problem8.2.5/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.existsHom_comp_pi}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaObjIso}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaObjMap_eq_of_comm}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.modulePairGroupIso}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.modulePairGroupIso_comp_hom}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.modulePairGroupIso_self_hom}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.modulePairGroupMap_eq_of_comm}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaMapOfResolutionHom}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaObjMap}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaObjMap_eq_isoHom}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.modulePairGroupMap}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.modulePairGroupMap_eq_isoHom}
