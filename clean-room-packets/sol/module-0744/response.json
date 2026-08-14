@@ -8,7 +8,7 @@
     {"temporary_id":"decl-013309","new_name":"opaqueTheorem","docstring":"A theorem whose proposition is unrenderable in this packet."},
     {"temporary_id":"decl-013310","new_name":"negativeProjectiveInvolutionEnd","docstring":"The endomorphism that negates the first coordinate and fixes the second on the negative projective module."},
     {"temporary_id":"decl-013313","new_name":"negativeProjectiveInvolutionEnd_apply","docstring":"The negative projective involution acts diagonally with signs minus one and one."},
-    {"temporary_id":"decl-013314","new_name":"opaqueTheorem_1","docstring":"A theorem whose proposition is unrenderable in this packet."},
+    {"temporary_id":"decl-013314","new_name":"opaqueTheoremB","docstring":"A theorem whose proposition is unrenderable in this packet."},
     {"temporary_id":"decl-013315","new_name":"positiveProjectiveShiftEnd","docstring":"The endomorphism sending a positive projective vector to the vector with coordinates zero and its first coordinate."},
     {"temporary_id":"decl-013318","new_name":"positiveProjectiveShiftEnd_apply","docstring":"The positive projective shift has coordinates zero and the original first coordinate."},
     {"temporary_id":"decl-013319","new_name":"positiveProjectiveShiftEnd_mulVec","docstring":"The positive projective shift is multiplication by the displayed two-by-two matrix."},
