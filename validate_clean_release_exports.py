@@ -27,6 +27,14 @@ def reference_name(encoded: str) -> str | None:
     return value.get("c", {}).get("n") if isinstance(value, dict) else None
 
 
+def reference_module(encoded: str) -> str | None:
+    try:
+        value = json.loads(encoded)
+    except json.JSONDecodeError:
+        return None
+    return value.get("c", {}).get("m") if isinstance(value, dict) else None
+
+
 def normalized(value: str) -> str:
     return " ".join(value.split())
 
@@ -64,6 +72,16 @@ def main() -> None:
             for encoded, record in ilean.get("references", {}).items()
             if record.get("definition") is not None
         }
+        # Declarations synthesized by command elaborators such as `@[reassoc]`
+        # have no source-range definition in the `.ilean` index.  A resolved
+        # constant reference whose defining module is this module still proves
+        # that the generated declaration exists in the compiled environment.
+        locally_generated = {
+            reference_name(encoded)
+            for encoded in ilean.get("references", {})
+            if reference_module(encoded) == module
+        }
+        available = defined | locally_generated
         docstrings = {
             normalized(match.group(1))
             for match in re.finditer(r"/--(.*?)-/", source, flags=re.DOTALL)
@@ -71,7 +89,7 @@ def main() -> None:
         for proposal in proposals:
             checked_declarations += 1
             new_fqn = proposal["new_fqn"]
-            if new_fqn not in defined:
+            if new_fqn not in available:
                 errors.append(f"{module}: missing clean-room declaration {new_fqn}")
             expected_doc = normalized(proposal["cleanroom_docstring"])
             if expected_doc not in docstrings:
