@@ -13,6 +13,62 @@ from pathlib import Path
 IMPORT = re.compile(r"(?m)^\s*(?:public\s+)?import\s+([^\s]+)\s*$")
 
 
+def strip_lean_comments(source: str) -> str:
+    """Remove nested Lean comments while preserving strings and identifier apostrophes."""
+
+    output: list[str] = []
+    index = 0
+    block_depth = 0
+    in_line_comment = False
+    in_string = False
+    escaped = False
+    while index < len(source):
+        char = source[index]
+        following = source[index + 1] if index + 1 < len(source) else ""
+        if in_line_comment:
+            if char == "\n":
+                in_line_comment = False
+                output.append(char)
+            index += 1
+            continue
+        if block_depth:
+            if char == "/" and following == "-":
+                block_depth += 1
+                index += 2
+            elif char == "-" and following == "/":
+                block_depth -= 1
+                index += 2
+            else:
+                if char == "\n":
+                    output.append(char)
+                index += 1
+            continue
+        if in_string:
+            output.append(char)
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            index += 1
+            continue
+        if char == '"':
+            in_string = True
+            output.append(char)
+            index += 1
+        elif char == "-" and following == "-":
+            in_line_comment = True
+            index += 2
+        elif char == "/" and following == "-":
+            block_depth = 1
+            index += 2
+        else:
+            output.append(char)
+            index += 1
+    return "".join(output)
+
+
 def read_jsonl(path: Path) -> list[dict]:
     with path.open(encoding="utf-8") as stream:
         return [json.loads(line) for line in stream if line.strip()]
@@ -61,14 +117,51 @@ def main() -> None:
 
     dependencies: dict[str, list[str]] = {}
     direct_blockers: dict[str, list[str]] = {}
+
+    source_by_module: dict[str, str] = {}
+    imports_by_module: dict[str, list[str]] = {}
+
+    def source_for(module: str) -> str:
+        if module not in source_by_module:
+            source_by_module[module] = (draft / project_modules[module]["path"]).read_text(
+                encoding="utf-8"
+            )
+        return source_by_module[module]
+
+    def project_imports_for(module: str) -> list[str]:
+        if module not in imports_by_module:
+            imports_by_module[module] = sorted(
+                imported
+                for imported in IMPORT.findall(source_for(module))
+                if imported in project_modules
+            )
+        return imports_by_module[module]
+
+    def is_transparent_reexport(module: str) -> bool:
+        without_comments = strip_lean_comments(source_for(module))
+        return not IMPORT.sub("", without_comments).strip()
+
+    def expand_import(module: str, active: set[str]) -> set[str]:
+        if module in resolved_modules:
+            return {module}
+        if module in active or not is_transparent_reexport(module):
+            return {module}
+        expanded: set[str] = set()
+        for imported in project_imports_for(module):
+            expanded.update(expand_import(imported, active | {module}))
+        return expanded
+
     for old_module in sorted(resolved_modules):
         row = project_modules.get(old_module)
         if row is None:
             direct_blockers[old_module] = ["missing-module-disposition"]
             continue
-        source = (draft / row["path"]).read_text(encoding="utf-8")
         project_imports = sorted(
-            imported for imported in IMPORT.findall(source) if imported in project_modules
+            {
+                expanded
+                for imported in project_imports_for(old_module)
+                for expanded in expand_import(imported, {old_module})
+            }
         )
         dependencies[old_module] = project_imports
         blockers = [imported for imported in project_imports if imported not in resolved_modules]
