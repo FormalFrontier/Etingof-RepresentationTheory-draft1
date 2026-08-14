@@ -1,14 +1,6 @@
 import Mathlib
 import RepresentationTheory.Alignment.Attribute
 
-/-!
-# A four-class decomposition of finite-field units
-
-This module defines four auxiliary predicates on units represented by two-by-two matrices over a
-finite field. It proves an exhaustive, mutually exclusive decomposition, decomposes finite sums,
-and computes the cardinalities of the four classes in odd characteristic.
--/
-
 namespace RepresentationTheory.FiniteFieldUnitClassDecomposition
 
 variable (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ)
@@ -88,13 +80,13 @@ theorem classPredicates_exhaustive (g : GL2' p n) :
   by_cases hscalar : Auxiliary.classPredicateGamma g
   · exact Or.inl hscalar
   · by_cases hsq : IsSquare (Auxiliary.entryDiscriminant g)
-    · -- disc is a square
+    ·
       by_cases hdisc : Auxiliary.entryDiscriminant g = 0
-      · -- disc = 0 and not scalar → parabolic
+      ·
         exact Or.inr (Or.inl ⟨hdisc, hscalar⟩)
-      · -- disc ≠ 0 and square → split semisimple
+      ·
         exact Or.inr (Or.inr (Or.inl ⟨hdisc, hsq⟩))
-    · -- disc is not a square → elliptic
+    ·
       exact Or.inr (Or.inr (Or.inr hsq))
 
 /-- Exclusion of the beta class by the gamma class -/
@@ -189,7 +181,7 @@ theorem sum_eq_sum_classPredicateFilters [Fintype (GaloisField p n)] [DecidableE
     (∑ g ∈ Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateBeta g), f g) +
     (∑ g ∈ Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateDelta g), f g) +
     (∑ g ∈ Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateAlpha g), f g) := by
-  -- Pairwise disjointness of the four filtered sets
+
   set S := Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateGamma g)
   set P := Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateBeta g)
   set SS := Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateDelta g)
@@ -206,12 +198,12 @@ theorem sum_eq_sum_classPredicateFilters [Fintype (GaloisField p n)] [DecidableE
     fun g _ hp he => (not_classPredicateAlpha_of_classPredicateBeta g hp) he
   have hSSE : Disjoint SS E := Finset.disjoint_filter.mpr
     fun g _ hss he => (not_classPredicateAlpha_of_classPredicateDelta g hss) he
-  -- Composite disjointness
+
   have hSPuSS : Disjoint (S ∪ P) SS :=
     disjoint_sup_left.mpr ⟨hSSS, hPSS⟩
   have hSPSSuE : Disjoint (S ∪ P ∪ SS) E :=
     disjoint_sup_left.mpr ⟨disjoint_sup_left.mpr ⟨hSE, hPE⟩, hSSE⟩
-  -- The four sets cover univ
+
   have hunion : Finset.univ = S ∪ P ∪ SS ∪ E := by
     ext g; simp only [S, P, SS, E]
     simp only [Finset.mem_univ, Finset.mem_union, Finset.mem_filter, true_and, true_iff]
@@ -235,20 +227,20 @@ theorem card_classPredicateGamma [Fintype (GaloisField p n)]
     [DecidableEq (GaloisField p n)] [Fintype (GL2' p n)] (hn : n ≠ 0) :
     (Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateGamma g)).card =
     Fintype.card (GaloisField p n) - 1 := by
-  -- Scalar matrices biject with nonzero field elements
-  -- Define the scalar matrix construction
+
+
   let scalarMat : (GaloisField p n)ˣ → GL2' p n := fun x =>
     ⟨Matrix.diagonal (fun _ => (x : GaloisField p n)),
      Matrix.diagonal (fun _ => (↑x⁻¹ : GaloisField p n)),
      by rw [Matrix.diagonal_mul_diagonal]; simp [Matrix.diagonal_one],
      by rw [Matrix.diagonal_mul_diagonal]; simp [Matrix.diagonal_one]⟩
-  -- scalarMat is injective
+
   have scalarMat_inj : Function.Injective scalarMat := by
     intro a b hab
     have h := congr_arg (fun g => (g : GL2' p n).val 0 0) hab
     simp only [scalarMat, Matrix.diagonal_apply, ite_true] at h
     exact Units.ext h
-  -- Image of scalarMat = scalar filter
+
   have scalarMat_image : (Finset.univ.image scalarMat) =
       Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateGamma g) := by
     ext g
@@ -258,7 +250,7 @@ theorem card_classPredicateGamma [Fintype (GaloisField p n)]
       refine ⟨?_, ?_, ?_⟩ <;> simp [GL2.mat, scalarMat, Matrix.diagonal]
     · intro hg
       obtain ⟨h01, h10, h00⟩ := hg
-      -- g₀₀ is nonzero (since g ∈ GL₂ and det = g₀₀²)
+
       have h00_ne : g.val 0 0 ≠ 0 := by
         intro h0
         have hdet : Matrix.det g.val = 0 := by
@@ -272,11 +264,9 @@ theorem card_classPredicateGamma [Fintype (GaloisField p n)]
       refine ⟨Units.mk0 (g.val 0 0) h00_ne, Units.ext (Matrix.ext fun i j => ?_)⟩
       fin_cases i <;> fin_cases j <;>
         simp [scalarMat, h01, h10, h00]
-  -- Compute the cardinality
+
   rw [← scalarMat_image, Finset.card_image_of_injective _ scalarMat_inj,
       Finset.card_univ, Fintype.card_units]
-
-/-! ## Counting auxiliary entry-discriminant fibers -/
 
 private lemma GaloisField.two_ne_zero (hp2 : p ≠ 2) (hn : n ≠ 0) :
     (2 : GaloisField p n) ≠ 0 := by
@@ -331,9 +321,9 @@ private lemma GL2.card_disc_zero_g01_zero (hp2 : p ≠ 2) (hn : n ≠ 0)
     (Finset.univ.filter (fun g : GL2' p n =>
       Auxiliary.entryDiscriminant g = 0 ∧ g.val 0 1 = 0)).card =
     (Fintype.card (GaloisField p n) - 1) * Fintype.card (GaloisField p n) := by
-  -- Bijection with (𝔽_q× × 𝔽_q): (a, b) ↦ [[a, 0], [b, a]], det = a² ≠ 0
+
   let F := GaloisField p n
-  -- Helper: det of a GL₂ element is nonzero
+
   have det_ne_zero : ∀ g : GL2' p n, Matrix.det g.val ≠ 0 := by
     intro g hdet
     have hmul : g.val * (g⁻¹ : GL2' p n).val = 1 := by
@@ -341,14 +331,14 @@ private lemma GL2.card_disc_zero_g01_zero (hp2 : p ≠ 2) (hn : n ≠ 0)
     have hdet1 : Matrix.det g.val * Matrix.det (g⁻¹ : GL2' p n).val = 1 := by
       rw [← Matrix.det_mul, hmul, Matrix.det_one]
     rw [hdet, zero_mul] at hdet1; exact one_ne_zero hdet1.symm
-  -- Define the forward map
+
   let toMat : Fˣ → F → Matrix (Fin 2) (Fin 2) F := fun a b =>
     !![↑a, 0; b, ↑a]
   have toMat_det : ∀ (a : Fˣ) (b : F), Matrix.det (toMat a b) ≠ 0 := by
     intro a b; simp [toMat, Matrix.det_fin_two]
   let toGL : Fˣ × F → GL2' p n := fun ⟨a, b⟩ =>
     Matrix.GeneralLinearGroup.mkOfDetNeZero (toMat a b) (toMat_det a b)
-  -- toGL lands in the filter
+
   have toGL_val : ∀ (a : Fˣ) (b : F), (toGL ⟨a, b⟩).val = toMat a b := by
     intro a b; simp [toGL]
   have toGL_disc : ∀ (a : Fˣ) (b : F), Auxiliary.entryDiscriminant (toGL ⟨a, b⟩) = 0 := by
@@ -356,7 +346,7 @@ private lemma GL2.card_disc_zero_g01_zero (hp2 : p ≠ 2) (hn : n ≠ 0)
     simp only [Auxiliary.entryDiscriminant, GL2.mat, toGL_val, toMat]; simp
   have toGL_01 : ∀ (a : Fˣ) (b : F), (toGL ⟨a, b⟩).val 0 1 = 0 := by
     intro a b; simp [toGL_val, toMat]
-  -- toGL is injective
+
   have toGL_inj : Function.Injective toGL := by
     intro ⟨a₁, b₁⟩ ⟨a₂, b₂⟩ h
     have hval : toMat a₁ b₁ = toMat a₂ b₂ := by
@@ -369,7 +359,7 @@ private lemma GL2.card_disc_zero_g01_zero (hp2 : p ≠ 2) (hn : n ≠ 0)
       have := congr_fun (congr_fun hval 1) 0
       simp [toMat] at this; exact this
     exact Prod.ext (Units.ext ha) hb
-  -- toGL is surjective onto the filter
+
   have toGL_surj : ∀ g ∈ Finset.univ.filter (fun g : GL2' p n =>
       Auxiliary.entryDiscriminant g = 0 ∧ g.val 0 1 = 0), ∃ ab : Fˣ × F, toGL ab = g := by
     intro g hg
@@ -384,7 +374,7 @@ private lemma GL2.card_disc_zero_g01_zero (hp2 : p ≠ 2) (hn : n ≠ 0)
       Matrix.GeneralLinearGroup.ext fun i j => ?_⟩
     simp only [toGL_val, toMat]
     fin_cases i <;> fin_cases j <;> simp [h01, h00_eq]
-  -- Now compute the cardinality
+
   have himage : (Finset.univ.image toGL) =
       Finset.univ.filter (fun g : GL2' p n => Auxiliary.entryDiscriminant g = 0 ∧ g.val 0 1 = 0) := by
     ext g
@@ -402,14 +392,14 @@ private lemma GL2.card_disc_zero_g01_ne (hp2 : p ≠ 2) (hn : n ≠ 0)
     (Finset.univ.filter (fun g : GL2' p n =>
       Auxiliary.entryDiscriminant g = 0 ∧ g.val 0 1 ≠ 0)).card =
     (Fintype.card (GaloisField p n) - 1) ^ 2 * Fintype.card (GaloisField p n) := by
-  -- Bijection with (𝔽_q× × 𝔽_q× × 𝔽_q):
-  -- (c, s, d) ↦ [[s+d, c], [-d²/c, s-d]], where s = (a+b)/2, d = (a-b)/2
-  -- disc = (2d)² + 4·c·(-d²/c) = 4d² - 4d² = 0
-  -- det = (s+d)(s-d) - c·(-d²/c) = s²-d²+d² = s² ≠ 0
+
+
+
+
   let F := GaloisField p n
   have h2 : (2 : F) ≠ 0 := GaloisField.two_ne_zero hp2 hn
   have h4 : (4 : F) ≠ 0 := GaloisField.four_ne_zero hp2 hn
-  -- Helper: det of a GL₂ element is nonzero
+
   have det_ne_zero : ∀ g : GL2' p n, Matrix.det g.val ≠ 0 := by
     intro g hdet
     have hmul : g.val * (g⁻¹ : GL2' p n).val = 1 := by
@@ -419,38 +409,38 @@ private lemma GL2.card_disc_zero_g01_ne (hp2 : p ≠ 2) (hn : n ≠ 0)
     rw [hdet, zero_mul] at hdet1; exact one_ne_zero hdet1.symm
   have cancel_inv : ∀ (a b : F), a ≠ 0 → a * (b * a⁻¹) = b := by
     intros a b ha; rw [← mul_assoc, mul_comm a b, mul_assoc, mul_inv_cancel₀ ha, mul_one]
-  -- Define the forward map
+
   let toMat : Fˣ → Fˣ → F → Matrix (Fin 2) (Fin 2) F := fun c s d =>
     !![↑s + d, ↑c; -(d ^ 2 * (↑c : F)⁻¹), ↑s - d]
   have toMat_det : ∀ (c : Fˣ) (s : Fˣ) (d : F), Matrix.det (toMat c s d) ≠ 0 := by
     intro c s d
     have hc_ne : (↑c : F) ≠ 0 := c.ne_zero
     have : (toMat c s d).det = (↑s : F) ^ 2 := by
-      -- det = (s+d)(s-d) + c·(d²·c⁻¹) = s²-d²+d² = s²
+
       simp only [toMat, Matrix.det_fin_two]; simp
-      -- Goal: (↑s + d) * (↑s - d) - ↑c * -(d ^ 2 * (↑c)⁻¹) = ↑s ^ 2
+
       rw [mul_neg, sub_neg_eq_add, cancel_inv _ _ hc_ne]; ring
     rw [this]; exact pow_ne_zero 2 s.ne_zero
   let toGL : Fˣ × Fˣ × F → GL2' p n := fun ⟨c, s, d⟩ =>
     Matrix.GeneralLinearGroup.mkOfDetNeZero (toMat c s d) (toMat_det c s d)
   have toGL_val : ∀ (c : Fˣ) (s : Fˣ) (d : F), (toGL ⟨c, s, d⟩).val = toMat c s d := by
     intro c s d; simp [toGL]
-  -- toGL has disc = 0
+
   have toGL_disc : ∀ (c : Fˣ) (s : Fˣ) (d : F), Auxiliary.entryDiscriminant (toGL ⟨c, s, d⟩) = 0 := by
     intro c s d
     have hc_ne : (↑c : F) ≠ 0 := c.ne_zero
     simp only [Auxiliary.entryDiscriminant, GL2.mat, toGL_val]
-    -- Reduce !![...] i j and simplify the disc expression
+
     simp [toMat]
-    -- Goal: (d + d) ^ 2 + -(4 * ↑c * (d ^ 2 * (↑c)⁻¹)) = 0
+
     rw [show 4 * (↑c : F) * (d ^ 2 * (↑c : F)⁻¹) =
       4 * ((↑c : F) * (d ^ 2 * (↑c : F)⁻¹)) from by ring,
       cancel_inv _ _ hc_ne]; ring
-  -- toGL has g₀₁ ≠ 0
+
   have toGL_01 : ∀ (c : Fˣ) (s : Fˣ) (d : F), (toGL ⟨c, s, d⟩).val 0 1 ≠ 0 := by
     intro c s d
     simp [toGL_val, toMat, c.ne_zero]
-  -- toGL is injective
+
   have toGL_inj : Function.Injective toGL := by
     intro ⟨c₁, s₁, d₁⟩ ⟨c₂, s₂, d₂⟩ h
     have hval : toMat c₁ s₁ d₁ = toMat c₂ s₂ d₂ := by
@@ -469,22 +459,22 @@ private lemma GL2.card_disc_zero_g01_ne (hp2 : p ≠ 2) (hn : n ≠ 0)
       have : 2 * (↑s₁ : F) = 2 * ↑s₂ := by linear_combination h_sum + h_diff
       exact mul_left_cancel₀ h2 this
     have hd : d₁ = d₂ := by
-      have h1 := hsd_sum  -- ↑s₁ + d₁ = ↑s₂ + d₂
-      rw [hs] at h1  -- now ↑s₂ + d₁ = ↑s₂ + d₂
+      have h1 := hsd_sum
+      rw [hs] at h1
       exact add_left_cancel h1
     exact Prod.ext (Units.ext hc) (Prod.ext (Units.ext hs) hd)
-  -- toGL is surjective onto the filter
+
   have toGL_surj : ∀ g ∈ Finset.univ.filter (fun g : GL2' p n =>
       Auxiliary.entryDiscriminant g = 0 ∧ g.val 0 1 ≠ 0), ∃ csd : Fˣ × Fˣ × F, toGL csd = g := by
     intro g hg
     simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hg
     obtain ⟨hdisc, h01⟩ := hg
-    -- c = g₀₁ (nonzero)
-    -- s = (g₀₀ + g₁₁)/2, d = (g₀₀ - g₁₁)/2
+
+
     set c := Units.mk0 (g.val 0 1) h01
     set s_val := (g.val 0 0 + g.val 1 1) / 2
     set d_val := (g.val 0 0 - g.val 1 1) / 2
-    -- s_val is nonzero because det = s_val² ≠ 0
+
     have hdet := det_ne_zero g
     have hg10 := GL2.g10_of_disc_zero_g01_ne hp2 hn hdisc h01
     have hdet_eq := GL2.det_of_disc_zero_g01_ne hp2 hn hdisc h01
@@ -493,19 +483,19 @@ private lemma GL2.card_disc_zero_g01_ne (hp2 : p ≠ 2) (hn : n ≠ 0)
       apply hdet
       rw [hdet_eq]; change s_val ^ 2 = 0; rw [h0, sq, zero_mul]
     set s := Units.mk0 s_val hs_ne
-    -- Show g₀₀ = s_val + d_val, g₁₁ = s_val - d_val
+
     have h00 : g.val 0 0 = s_val + d_val := by
       change g.val 0 0 = (g.val 0 0 + g.val 1 1) / 2 + (g.val 0 0 - g.val 1 1) / 2
       field_simp; ring
     have h11 : g.val 1 1 = s_val - d_val := by
       change g.val 1 1 = (g.val 0 0 + g.val 1 1) / 2 - (g.val 0 0 - g.val 1 1) / 2
       field_simp; ring
-    -- Show g₁₀ = -(d_val^2 * g₀₁⁻¹)
+
     have h10 : g.val 1 0 = -(d_val ^ 2 * (g.val 0 1)⁻¹) := by
       rw [hg10]
-      -- hg10 gives: g₁₀ = -(g₀₀ - g₁₁)² / (4 * g₀₁)
-      -- d_val = (g₀₀ - g₁₁) / 2, so d_val² = (g₀₀ - g₁₁)² / 4
-      -- -(d_val² * g₀₁⁻¹) = -((g₀₀ - g₁₁)² / 4 * g₀₁⁻¹) = -(g₀₀ - g₁₁)² / (4 * g₀₁)
+
+
+
       simp only [d_val]
       field_simp; ring
     refine ⟨⟨c, s, d_val⟩, Matrix.GeneralLinearGroup.ext fun i j => ?_⟩
@@ -514,7 +504,7 @@ private lemma GL2.card_disc_zero_g01_ne (hp2 : p ≠ 2) (hn : n ≠ 0)
     · exact h00.symm
     · exact h10.symm
     · exact h11.symm
-  -- Now compute the cardinality
+
   have himage : (Finset.univ.image toGL) =
       Finset.univ.filter (fun g : GL2' p n => Auxiliary.entryDiscriminant g = 0 ∧ g.val 0 1 ≠ 0) := by
     ext g
@@ -525,15 +515,15 @@ private lemma GL2.card_disc_zero_g01_ne (hp2 : p ≠ 2) (hn : n ≠ 0)
       exact toGL_surj g (by simp only [Finset.mem_filter, Finset.mem_univ, true_and]; exact hg)
   rw [← himage, Finset.card_image_of_injective _ toGL_inj, Finset.card_univ,
       Fintype.card_prod, Fintype.card_prod]
-  -- card (Fˣ × Fˣ × F) = card Fˣ * (card Fˣ * card F) = (q-1) * ((q-1) * q) = (q-1)² * q
-  -- F = GaloisField p n as a let-binding, so unfold it for card_units
+
+
   change Fintype.card (GaloisField p n)ˣ * (Fintype.card (GaloisField p n)ˣ *
     Fintype.card (GaloisField p n)) =
     (Fintype.card (GaloisField p n) - 1) ^ 2 * Fintype.card (GaloisField p n)
   rw [Fintype.card_units]
   set q := Fintype.card (GaloisField p n)
   have hq1 : 1 ≤ q := Fintype.card_pos
-  -- (q-1) * ((q-1)*q) = (q-1)^2 * q
+
   zify [hq1]; ring
 
 private lemma GL2.card_disc_eq_zero (hp2 : p ≠ 2) (hn : n ≠ 0)
@@ -541,7 +531,7 @@ private lemma GL2.card_disc_eq_zero (hp2 : p ≠ 2) (hn : n ≠ 0)
     [Fintype (GL2' p n)] :
     (Finset.univ.filter (fun g : GL2' p n => Auxiliary.entryDiscriminant g = 0)).card =
     (Fintype.card (GaloisField p n) - 1) * Fintype.card (GaloisField p n) ^ 2 := by
-  -- Split filter by g₀₁ = 0 vs g₀₁ ≠ 0
+
   have hsplit : Finset.univ.filter (fun g : GL2' p n => Auxiliary.entryDiscriminant g = 0) =
       Finset.univ.filter (fun g : GL2' p n => Auxiliary.entryDiscriminant g = 0 ∧ g.val 0 1 = 0) ∪
       Finset.univ.filter (fun g : GL2' p n => Auxiliary.entryDiscriminant g = 0 ∧ g.val 0 1 ≠ 0) := by
@@ -560,7 +550,7 @@ private lemma GL2.card_disc_eq_zero (hp2 : p ≠ 2) (hn : n ≠ 0)
   rw [GL2.card_disc_zero_g01_zero hp2 hn, GL2.card_disc_zero_g01_ne hp2 hn]
   set q := Fintype.card (GaloisField p n)
   have hq1 : 1 ≤ q := Fintype.card_pos
-  -- (q-1)*q + (q-1)²*q = (q-1)*q² in ℕ
+
   zify [hq1]; ring
 
 /-- Beta-class cardinality (q - 1) * (q^2 - 1) for q = |GaloisField p n| -/
@@ -570,7 +560,7 @@ theorem card_classPredicateBeta [Fintype (GaloisField p n)]
     (Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateBeta g)).card =
     (Fintype.card (GaloisField p n) - 1) *
     (Fintype.card (GaloisField p n) ^ 2 - 1) := by
-  -- IsParabolic = disc=0 ∧ ¬IsScalar, so filter = disc=0 \ scalar
+
   have h_sub : Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateGamma g) ⊆
       Finset.univ.filter (fun g : GL2' p n => Auxiliary.entryDiscriminant g = 0) := by
     intro g; simp only [Finset.mem_filter, Finset.mem_univ, true_and]
@@ -587,7 +577,7 @@ theorem card_classPredicateBeta [Fintype (GaloisField p n)]
   have h_disc := GL2.card_disc_eq_zero hp2 hn
   have h_scalar := card_classPredicateGamma (p := p) hn
   set q := Fintype.card (GaloisField p n)
-  -- sdiff.card + (q-1) = (q-1)*q², and we need sdiff.card = (q-1)*(q²-1)
+
   have hq1 : 1 ≤ q := Fintype.card_pos
   suffices h : (q - 1) * (q ^ 2 - 1) + (q - 1) = (q - 1) * q ^ 2 by omega
   have hq2 : 1 ≤ q ^ 2 := Nat.one_le_pow _ _ hq1
@@ -610,7 +600,7 @@ private lemma GL2.card_partition [Fintype (GaloisField p n)]
   set P := Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateBeta g)
   set SS := Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateDelta g)
   set E := Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateAlpha g)
-  -- Disjointness (same as in sum_split)
+
   have hSP : Disjoint S P := Finset.disjoint_filter.mpr
     fun g _ hs hp => (not_classPredicateBeta_of_classPredicateGamma g hs) hp
   have hSSS : Disjoint S SS := Finset.disjoint_filter.mpr
@@ -626,7 +616,7 @@ private lemma GL2.card_partition [Fintype (GaloisField p n)]
   have hSPuSS : Disjoint (S ∪ P) SS := disjoint_sup_left.mpr ⟨hSSS, hPSS⟩
   have hSPSSuE : Disjoint (S ∪ P ∪ SS) E :=
     disjoint_sup_left.mpr ⟨disjoint_sup_left.mpr ⟨hSE, hPE⟩, hSSE⟩
-  -- Coverage
+
   have hunion : Finset.univ = S ∪ P ∪ SS ∪ E := by
     ext g; simp only [S, P, SS, E]
     simp only [Finset.mem_univ, Finset.mem_union, Finset.mem_filter, true_and, true_iff]
@@ -671,10 +661,10 @@ private lemma two_mul_card_nonsquare (hp2 : p ≠ 2) (hn : n ≠ 0)
     2 * (Finset.univ.filter (fun a : GaloisField p n => ¬IsSquare a)).card =
     Fintype.card (GaloisField p n) - 1 := by
   have hF : ringChar (GaloisField p n) ≠ 2 := GaloisField.ringChar_ne_two hp2
-  -- Use set for NSq to replace in goal (avoids set F which causes instance diamonds)
+
   set NSq := Finset.univ.filter (fun a : GaloisField p n => ¬IsSquare a) with NSq_def
   let NZSq := Finset.univ.filter (fun a : GaloisField p n => a ≠ 0 ∧ IsSquare a)
-  -- Partition F \ {0} into nonzero squares and nonsquares
+
   have hunion : NZSq ∪ NSq = Finset.univ.filter (fun a : GaloisField p n => a ≠ 0) := by
     ext a; simp only [NZSq, NSq, Finset.mem_union, Finset.mem_filter, Finset.mem_univ, true_and]
     constructor
@@ -689,9 +679,9 @@ private lemma two_mul_card_nonsquare (hp2 : p ≠ 2) (hn : n ≠ 0)
   have hsum : NZSq.card + NSq.card = Fintype.card (GaloisField p n) - 1 := by
     rw [← Finset.card_union_of_disjoint hdisj, hunion, Finset.filter_ne']
     simp
-  -- Use quadratic character: ∑ a : F, χ(a) = 0
+
   have hχ_sum := quadraticChar_sum_zero hF
-  -- The sum splits as |NZSq| - |NSq| = 0 (in ℤ)
+
   have hχ_NZSq : ∀ a ∈ NZSq, quadraticChar (GaloisField p n) a = 1 := by
     intro a ha
     simp only [NZSq, Finset.mem_filter, Finset.mem_univ, true_and] at ha
@@ -700,7 +690,7 @@ private lemma two_mul_card_nonsquare (hp2 : p ≠ 2) (hn : n ≠ 0)
     intro a ha
     simp only [NSq, Finset.mem_filter, Finset.mem_univ, true_and] at ha
     exact quadraticChar_neg_one_iff_not_isSquare.mpr ha
-  -- Partition Finset.univ into {0} ∪ NZSq ∪ NSq
+
   have hpart : Finset.univ = ({0} : Finset (GaloisField p n)) ∪ NZSq ∪ NSq := by
     ext a; simp only [Finset.mem_univ, true_iff, Finset.mem_union, Finset.mem_singleton,
       NZSq, NSq, Finset.mem_filter, true_and]
@@ -722,8 +712,8 @@ private lemma two_mul_card_nonsquare (hp2 : p ≠ 2) (hn : n ≠ 0)
   simp only [Finset.sum_singleton, MulChar.map_zero] at hχ_sum
   simp only [Finset.sum_congr rfl hχ_NZSq, Finset.sum_congr rfl hχ_NSq,
       Finset.sum_const, nsmul_eq_mul] at hχ_sum
-  -- hχ_sum : 0 + NZSq.card * 1 + NSq.card * -1 = 0
-  -- So NZSq.card = NSq.card (in ℤ, hence in ℕ)
+
+
   have hequal : NZSq.card = NSq.card := by omega
   omega
 
@@ -743,7 +733,7 @@ private lemma card_elliptic_fiber (hp2 : p ≠ 2) (hn : n ≠ 0)
     (Finset.univ.filter (fun x : GaloisField p n => ¬IsSquare x)).card := by
   have h4c : (4 : GaloisField p n) * c ≠ 0 :=
     mul_ne_zero (GaloisField.four_ne_zero hp2 hn) hc
-  -- The map φ : d ↦ (a-b)² + 4cd is a bijection F → F
+
   let φ : GaloisField p n → GaloisField p n := fun d => (a - b) ^ 2 + 4 * c * d
   have hφ_inj : Function.Injective φ := by
     intro d₁ d₂ h
@@ -754,17 +744,17 @@ private lemma card_elliptic_fiber (hp2 : p ≠ 2) (hn : n ≠ 0)
     refine ⟨(y - (a - b) ^ 2) / (4 * c), ?_⟩
     change (a - b) ^ 2 + 4 * c * ((y - (a - b) ^ 2) / (4 * c)) = y
     rw [mul_div_cancel₀ _ h4c, add_sub_cancel]
-  -- The excluded d (det = 0): d₀ = a*b/c
+
   set d₀ := a * b / c
-  -- At d₀, disc = (a+b)²
+
   have hφ_d₀ : φ d₀ = (a + b) ^ 2 := by
     simp only [φ, d₀]
     field_simp
     ring
-  -- (a+b)² is always a square
+
   have hφ_d₀_sq : IsSquare (φ d₀) := by
     rw [hφ_d₀]; exact ⟨a + b, by ring⟩
-  -- The valid domain is F \ {d₀} (det ≠ 0 iff d ≠ d₀)
+
   have hdet_iff : ∀ d, (a * b - c * d ≠ 0) ↔ d ≠ d₀ := by
     intro d
     constructor
@@ -772,7 +762,7 @@ private lemma card_elliptic_fiber (hp2 : p ≠ 2) (hn : n ≠ 0)
     · intro hd h
       have hcd : c * d = a * b := (sub_eq_zero.mp h).symm
       exact hd (show d = d₀ by simp only [d₀]; rw [← hcd, mul_div_cancel_left₀ d hc])
-  -- Rewrite the LHS filter using hdet_iff
+
   have hlhs : (Finset.univ.filter (fun d : GaloisField p n =>
       a * b - c * d ≠ 0 ∧ ¬IsSquare ((a - b) ^ 2 + 4 * c * d))) =
       (Finset.univ.filter (fun d : GaloisField p n =>
@@ -781,16 +771,16 @@ private lemma card_elliptic_fiber (hp2 : p ≠ 2) (hn : n ≠ 0)
     exact ⟨fun ⟨h1, h2⟩ => ⟨(hdet_iff d).mp h1, h2⟩,
            fun ⟨h1, h2⟩ => ⟨(hdet_iff d).mpr h1, h2⟩⟩
   rw [hlhs]
-  -- Use φ as a bijection from {d ≠ d₀ : ¬IsSquare(φ d)} to {x : ¬IsSquare x}
+
   apply Finset.card_nbij φ
-  · -- φ maps the LHS filter into the RHS filter (Set.MapsTo)
+  ·
     intro d hd
     simp only [Finset.mem_coe, Finset.mem_filter, Finset.mem_univ, true_and] at hd ⊢
     exact hd.2
-  · -- φ is injective on the filter (Set.InjOn)
+  ·
     intro d₁ _ d₂ _ h
     exact hφ_inj h
-  · -- φ is surjective onto {x : ¬IsSquare x} (Set.SurjOn)
+  ·
     intro x hx
     simp only [Finset.mem_coe, Finset.mem_filter, Finset.mem_univ, true_and] at hx
     obtain ⟨d, rfl⟩ := hφ_surj x
@@ -804,26 +794,26 @@ theorem card_classPredicateAlpha [Fintype (GaloisField p n)]
     (Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateAlpha g)).card =
     Fintype.card (GaloisField p n) ^ 2 *
     (Fintype.card (GaloisField p n) - 1) ^ 2 / 2 := by
-  -- Bijection ψ : g ↦ (g₀₀, g₁₁, g₀₁, disc(g)) maps elliptic filter to
-  -- F × F × {c ≠ 0} × {nonsquare}, which has card q²(q-1)·NSq = q²(q-1)²/2.
+
+
   let F := GaloisField p n
   have h4_ne : (4 : F) ≠ 0 := GaloisField.four_ne_zero hp2 hn
   set q := Fintype.card F with q_def
   set NSq := (Finset.univ.filter (fun x : F => ¬IsSquare x)).card with NSq_def
   have hNSq : 2 * NSq = q - 1 := two_mul_card_nonsquare hp2 hn
   have hq1 : 1 ≤ q := Fintype.card_pos
-  -- Target product set
+
   set T := (Finset.univ : Finset F) ×ˢ ((Finset.univ : Finset F) ×ˢ
     (Finset.univ.filter (fun c : F => c ≠ 0) ×ˢ
      Finset.univ.filter (fun x : F => ¬IsSquare x))) with T_def
-  -- Bijection ψ(g) = (g₀₀, g₁₁, g₀₁, disc(g))
+
   suffices hbij : (Finset.univ.filter (fun g : GL2' p n => Auxiliary.classPredicateAlpha g)).card = T.card by
     rw [hbij]
-    -- Compute T.card = q * q * (q-1) * NSq
+
     have hne_card : (Finset.univ.filter (fun c : F => c ≠ 0)).card = q - 1 := by
       rw [Finset.filter_ne', Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ]
     simp only [T, Finset.card_product, Finset.card_univ, hne_card]
-    -- Fold Fintype.card F back to q and filter.card to NSq
+
     change q * (q * ((q - 1) * NSq)) = q ^ 2 * (q - 1) ^ 2 / 2
     have hmul : 2 * (q * (q * ((q - 1) * NSq))) = q ^ 2 * (q - 1) ^ 2 := by
       calc 2 * (q * (q * ((q - 1) * NSq)))
@@ -833,13 +823,13 @@ theorem card_classPredicateAlpha [Fintype (GaloisField p n)]
     omega
   apply Finset.card_nbij (fun g : GL2' p n =>
     (g.val 0 0, (g.val 1 1, (g.val 0 1, Auxiliary.entryDiscriminant g))))
-  · -- maps_to
+  ·
     intro g hg
     simp only [Finset.mem_coe, Finset.mem_filter, Finset.mem_univ, true_and] at hg
     simp only [T, Finset.mem_coe, Finset.mem_product, Finset.mem_univ, Finset.mem_filter,
       true_and]
     exact ⟨fun h01 => hg (GL2.isSquare_disc_of_g01_zero h01), hg⟩
-  · -- inj_on
+  ·
     intro g₁ hg₁ g₂ _ h
     simp only [Prod.mk.injEq] at h
     obtain ⟨h00, h11, h01, hdisc⟩ := h
@@ -858,7 +848,7 @@ theorem card_classPredicateAlpha [Fintype (GaloisField p n)]
       · exact h01
       · exact h10
       · exact h11
-  · -- surj_on
+  ·
     intro t ht
     simp only [T, Finset.mem_coe, Finset.mem_product, Finset.mem_univ, Finset.mem_filter,
       true_and] at ht
@@ -881,7 +871,7 @@ theorem card_classPredicateAlpha [Fintype (GaloisField p n)]
     have hdet' : Matrix.det !![a, c; d, b] ≠ 0 := by
       simp only [Matrix.det_fin_two_of, ne_eq]; exact hdet
     set g := Matrix.GeneralLinearGroup.mkOfDetNeZero !![a, c; d, b] hdet'
-    -- Helper: extract matrix entries of g
+
     have hg00 : g.val 0 0 = a := by simp [g, Matrix.cons_val_zero]
     have hg11 : g.val 1 1 = b := by simp [g, Matrix.cons_val_one]
     have hg01 : g.val 0 1 = c := by simp [g, Matrix.cons_val_zero, Matrix.cons_val_one,
@@ -904,7 +894,7 @@ theorem card_classPredicateDelta [Fintype (GaloisField p n)]
     (Fintype.card (GaloisField p n) - 2) *
     Fintype.card (GaloisField p n) *
     (Fintype.card (GaloisField p n) + 1) / 2 := by
-  -- By complement from the partition identity
+
   have hpart := GL2.card_partition (p := p) (n := n)
   have hS := card_classPredicateGamma (p := p) hn
   have hP := card_classPredicateBeta hp2 hn
@@ -924,28 +914,28 @@ theorem card_classPredicateDelta [Fintype (GaloisField p n)]
         exact hp2 (hp.out.eq_one_or_self_of_dvd 2 h |>.resolve_left (by omega) |>.symm)
       omega
     rw [hp_odd]; simp
-  -- hpart: (q-1) + (q-1)*(q^2-1) + SS + q^2*(q-1)^2/2 = (q^2-1)*(q^2-q)
-  -- Strategy: the target value uniquely satisfies hpart. Show target satisfies it too.
-  -- It suffices to show the target value satisfies the same equation as SS
+
+
+
   suffices htarget : (q - 1) + (q - 1) * (q ^ 2 - 1) +
       (q - 1) * (q - 2) * q * (q + 1) / 2 + q ^ 2 * (q - 1) ^ 2 / 2 =
       (q ^ 2 - 1) * (q ^ 2 - q) by omega
-  -- Combine the two /2 terms using divisibility
+
   have hE_dvd : 2 ∣ q ^ 2 * (q - 1) ^ 2 := by
     have : 2 ∣ (q - 1) := by omega
     exact dvd_mul_of_dvd_right (Dvd.dvd.pow this (by omega)) _
   have hSS_dvd : 2 ∣ (q - 1) * (q - 2) * q * (q + 1) := by
     have : 2 ∣ (q + 1) := by omega
     exact dvd_mul_of_dvd_right this _
-  -- Extract witnesses for the even numbers
+
   obtain ⟨a, ha⟩ := hSS_dvd
   obtain ⟨b, hb⟩ := hE_dvd
-  -- Simplify the /2 terms
+
   rw [ha, hb, Nat.mul_div_cancel_left _ (by omega : 0 < 2),
       Nat.mul_div_cancel_left _ (by omega : 0 < 2)]
-  -- Goal: (q-1) + (q-1)*(q²-1) + a + b = (q²-1)*(q²-q)
-  -- where ha: (q-1)*(q-2)*q*(q+1) = 2*a and hb: q²*(q-1)² = 2*b
-  -- Verify this polynomial identity in ℤ
+
+
+
   have hq1 : 1 ≤ q := by omega
   have hq2 : 1 ≤ q ^ 2 := Nat.one_le_pow _ _ hq1
   have hq2q : q ≤ q ^ 2 := le_self_pow₀ (by omega) (by omega)
