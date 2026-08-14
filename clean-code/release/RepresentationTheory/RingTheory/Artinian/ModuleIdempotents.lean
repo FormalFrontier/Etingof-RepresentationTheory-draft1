@@ -195,7 +195,7 @@ lemma exists_orthogonal_idempotents_with_finrank
     have h0 := Module.mem_annihilator.mp (hann j hmem) m
     rwa [sub_smul, sub_eq_zero] at h0
 
-  have hmodule_scalar_submodule_eq : ∀ (a a' : A) (j : ι),
+  have hsmulRange_eq : ∀ (a a' : A) (j : ι),
       Ideal.Quotient.mk (Ring.jacobson A) a = Ideal.Quotient.mk (Ring.jacobson A) a' →
       module_scalar_submodule (k := k) (A := A) (M j) a = module_scalar_submodule (k := k) (A := A) (M j) a' := by
     intro a a' j hq
@@ -278,7 +278,7 @@ lemma exists_orthogonal_idempotents_with_finrank
     congr 1
     exact pi_single_one_mul_comm l (WA (π b))
 
-  have hmodule_scalar_submodule_A_sub : ∀ (j : ι) (l : Fin n) (a : A) (ha : π a = c l),
+  have hsmulRange_A_sub : ∀ (j : ι) (l : Fin n) (a : A) (ha : π a = c l),
       ∀ (b : A) (x : M j), x ∈ module_scalar_submodule (k := k) (A := A) (M j) a →
         b • x ∈ module_scalar_submodule (k := k) (A := A) (M j) a := by
     intro j l a ha b x ⟨m, hm⟩
@@ -290,7 +290,7 @@ lemma exists_orthogonal_idempotents_with_finrank
     rw [← mul_smul, hsmul_eq _ _ j _ hcomm, mul_smul]
     exact ⟨b • m, rfl⟩
 
-  have hmodule_scalar_submodule_bot_or_top : ∀ (j : ι) (l : Fin n) (a : A) (ha : π a = c l),
+  have hsmulRange_bot_or_top : ∀ (j : ι) (l : Fin n) (a : A) (ha : π a = c l),
       module_scalar_submodule (k := k) (A := A) (M j) a = ⊥ ∨
         module_scalar_submodule (k := k) (A := A) (M j) a = ⊤ := by
     intro j l a ha
@@ -299,7 +299,7 @@ lemma exists_orthogonal_idempotents_with_finrank
       { carrier := (module_scalar_submodule (k := k) (A := A) (M j) a : Set (M j))
         add_mem' := (module_scalar_submodule (k := k) (A := A) (M j) a).add_mem
         zero_mem' := (module_scalar_submodule (k := k) (A := A) (M j) a).zero_mem
-        smul_mem' := fun b x hx => hmodule_scalar_submodule_A_sub j l a ha b x hx }
+        smul_mem' := fun b x hx => hsmulRange_A_sub j l a ha b x hx }
     rcases IsSimpleOrder.eq_bot_or_eq_top N with h | h
     · left; ext x; constructor
       · intro hx
@@ -330,9 +330,9 @@ lemma exists_orthogonal_idempotents_with_finrank
         module_scalar_submodule (k := k) (A := A) (M j) a = ⊥ := by
       intro l a ha
       obtain ⟨a₀, ha₀, hne⟩ := h_none l
-      rcases hmodule_scalar_submodule_bot_or_top j l a₀ ha₀ with h | h
+      rcases hsmulRange_bot_or_top j l a₀ ha₀ with h | h
       ·
-        rwa [hmodule_scalar_submodule_eq a a₀ j (ha.trans ha₀.symm)]
+        rwa [hsmulRange_eq a a₀ j (ha.trans ha₀.symm)]
       · exact absurd h hne
 
     haveI : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
@@ -427,11 +427,11 @@ lemma exists_orthogonal_idempotents_with_finrank
   have hc_zero : ∀ (p : ι) (l' : Fin n) (hl' : l' ≠ σ p) (a : A)
       (ha : π a = c l'), ∀ m : M p, a • m = 0 := by
     intro p l' hl' a ha m
-    rcases hmodule_scalar_submodule_bot_or_top p l' a ha with h | h
+    rcases hsmulRange_bot_or_top p l' a ha with h | h
     · have : a • m ∈ module_scalar_submodule (k := k) (A := A) (M p) a := ⟨m, rfl⟩
       rw [h] at this; exact (Submodule.mem_bot k).mp this
     · exfalso; exact hl' (hblock_unique p l' (σ p)
-        (fun a' ha' => hmodule_scalar_submodule_eq a' a p (ha'.trans ha.symm) ▸ h) (hσ_spec p))
+        (fun a' ha' => hsmulRange_eq a' a p (ha'.trans ha.symm) ▸ h) (hσ_spec p))
 
   have hσ_inj : Function.Injective σ := by
     intro i j hij
@@ -690,11 +690,11 @@ lemma exists_orthogonal_idempotents_with_finrank
 
       obtain ⟨a_c, ha_c⟩ := Ideal.Quotient.mk_surjective (c (σ i))
       have hc_bot : module_scalar_submodule (k := k) (A := A) (M j) a_c = ⊥ := by
-        rcases hmodule_scalar_submodule_bot_or_top j (σ i) a_c ha_c with h | h
+        rcases hsmulRange_bot_or_top j (σ i) a_c ha_c with h | h
         · exact h
         ·
           exfalso; exact hσ_ne (hblock_unique j (σ i) (σ j)
-            (fun a' ha' => hmodule_scalar_submodule_eq a' a_c j (ha'.trans ha_c.symm) ▸ h)
+            (fun a' ha' => hsmulRange_eq a' a_c j (ha'.trans ha_c.symm) ▸ h)
             (hσ_spec j))
 
       have hc_zero : ∀ m : M j, a_c • m = 0 := by
@@ -1401,7 +1401,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
     have hmem : a - a' ∈ Ring.jacobson A := Ideal.Quotient.eq.mp hq
     have h0 := Module.mem_annihilator.mp (hann j hmem) m
     rwa [sub_smul, sub_eq_zero] at h0
-  have hmodule_scalar_submodule_eq : ∀ (a a' : A) (j : ι),
+  have hsmulRange_eq : ∀ (a a' : A) (j : ι),
       π a = π a' → module_scalar_submodule (k := k) (A := A) (M j) a = module_scalar_submodule (k := k) (A := A) (M j) a' := by
     intro a a' j hq
     have : module_scalar_linearMap (k := k) (A := A) (M j) a = module_scalar_linearMap (k := k) (A := A) (M j) a' := by
@@ -1491,7 +1491,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
     change WA.symm (Pi.single l 1) * π b = π b * WA.symm (Pi.single l 1)
     rw [show π b = WA.symm (WA (π b)) from (WA.symm_apply_apply _).symm]
     rw [hWA_mul, hWA_mul]; congr 1; exact pi_single_one_mul_comm l (WA (π b))
-  have hmodule_scalar_submodule_A_sub : ∀ (j : ι) (l : Fin n) (a : A) (ha : π a = c l),
+  have hsmulRange_A_sub : ∀ (j : ι) (l : Fin n) (a : A) (ha : π a = c l),
       ∀ (b : A) (x : M j), x ∈ module_scalar_submodule (k := k) (A := A) (M j) a →
         b • x ∈ module_scalar_submodule (k := k) (A := A) (M j) a := by
     intro j l a ha b x ⟨m, hm⟩
@@ -1500,7 +1500,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
       rw [map_mul, map_mul, ha]; exact (hc_comm l (π b)).symm
     change b • (a • m) ∈ module_scalar_submodule (k := k) (A := A) (M j) a
     rw [← mul_smul, hsmul_eq _ _ j _ hcomm, mul_smul]; exact ⟨b • m, rfl⟩
-  have hmodule_scalar_submodule_bot_or_top : ∀ (j : ι) (l : Fin n) (a : A) (ha : π a = c l),
+  have hsmulRange_bot_or_top : ∀ (j : ι) (l : Fin n) (a : A) (ha : π a = c l),
       module_scalar_submodule (k := k) (A := A) (M j) a = ⊥ ∨
         module_scalar_submodule (k := k) (A := A) (M j) a = ⊤ := by
     intro j l a ha
@@ -1508,7 +1508,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
       { carrier := (module_scalar_submodule (k := k) (A := A) (M j) a : Set (M j))
         add_mem' := (module_scalar_submodule (k := k) (A := A) (M j) a).add_mem
         zero_mem' := (module_scalar_submodule (k := k) (A := A) (M j) a).zero_mem
-        smul_mem' := fun b x hx => hmodule_scalar_submodule_A_sub j l a ha b x hx }
+        smul_mem' := fun b x hx => hsmulRange_A_sub j l a ha b x hx }
     rcases IsSimpleOrder.eq_bot_or_eq_top N with h | h
     · left; ext x; constructor
       · intro hx; have : x ∈ N := hx; rw [h] at this
@@ -1531,8 +1531,8 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
         module_scalar_submodule (k := k) (A := A) (M j) a = ⊥ := by
       intro l a ha
       obtain ⟨a₀, ha₀, hne⟩ := h_none l
-      rcases hmodule_scalar_submodule_bot_or_top j l a₀ ha₀ with h | h
-      · rwa [hmodule_scalar_submodule_eq a a₀ j (ha.trans ha₀.symm)]
+      rcases hsmulRange_bot_or_top j l a₀ ha₀ with h | h
+      · rwa [hsmulRange_eq a a₀ j (ha.trans ha₀.symm)]
       · exact absurd h hne
     haveI : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
     obtain ⟨m, hm⟩ := exists_ne (0 : M j)
@@ -1598,11 +1598,11 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
   have hc_zero : ∀ (p : ι) (l' : Fin n) (hl' : l' ≠ σ p) (a : A)
       (ha : π a = c l'), ∀ m : M p, a • m = 0 := by
     intro p l' hl' a ha m
-    rcases hmodule_scalar_submodule_bot_or_top p l' a ha with h | h
+    rcases hsmulRange_bot_or_top p l' a ha with h | h
     · have : a • m ∈ module_scalar_submodule (k := k) (A := A) (M p) a := ⟨m, rfl⟩
       rw [h] at this; exact (Submodule.mem_bot k).mp this
     · exfalso; exact hl' (hblock_unique p l' (σ p)
-        (fun a' ha' => hmodule_scalar_submodule_eq a' a p (ha'.trans ha.symm) ▸ h) (hσ_spec p))
+        (fun a' ha' => hsmulRange_eq a' a p (ha'.trans ha.symm) ▸ h) (hσ_spec p))
 
   have hσ_inj : Function.Injective σ := by
     intro i j hij; apply hM i j
@@ -1846,10 +1846,10 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
         congr 1; rw [← Pi.single_mul_left]; simp
       obtain ⟨a_c, ha_c⟩ := Ideal.Quotient.mk_surjective (c l)
       have hc_bot : module_scalar_submodule (k := k) (A := A) (M j) a_c = ⊥ := by
-        rcases hmodule_scalar_submodule_bot_or_top j l a_c ha_c with h | h
+        rcases hsmulRange_bot_or_top j l a_c ha_c with h | h
         · exact h
         · exfalso; exact hlj (hblock_unique j l (σ j)
-            (fun a' ha' => hmodule_scalar_submodule_eq a' a_c j (ha'.trans ha_c.symm) ▸ h) (hσ_spec j)).symm
+            (fun a' ha' => hsmulRange_eq a' a_c j (ha'.trans ha_c.symm) ▸ h) (hσ_spec j)).symm
       have ha_zero : ∀ m : M j, e_raw ⟨l, j_idx⟩ • m = 0 := by
         intro m
         have hca_zero : ∀ m : M j, a_c • m = 0 := by
