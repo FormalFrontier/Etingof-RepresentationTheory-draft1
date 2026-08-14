@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,17 @@ number := false
 (ii) Show that any indecomposable object of $`\mathcal{C}` lies in some $`\mathcal{C}_k` and that $`\operatorname{Hom}(M, N) = 0` if $`M \in \mathcal{C}_k`, $`N \in \mathcal{C}_l`, $`k \neq l`. Thus, $`\mathcal{C} = \bigoplus_{k \in B} \mathcal{C}_k`.
 
 (iii) Determine the blocks in the category of left $`A`-modules for $`A = k[S_3]`, where $`k` is of characteristic 2.
+
+## Formalization
+%%%
+tag := "Chapter9/Problem9.5.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions.hom_subsingleton_of_simpleModule_conditions}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions.exists_simpleModule_with_condition_of_indecomposable}
