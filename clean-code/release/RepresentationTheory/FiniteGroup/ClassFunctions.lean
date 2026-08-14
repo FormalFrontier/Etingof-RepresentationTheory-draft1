@@ -1,4 +1,5 @@
 import Mathlib
+import RepresentationTheory.Alignment.Attribute
 import RepresentationTheory.ConjugationInvariantCharacters
 import RepresentationTheory.Representation.IsIrreducible
 import RepresentationTheory.FDRep.RegularRepresentationCharacter
@@ -169,7 +170,7 @@ theorem FiniteGroup.ClassFunction.eq_zero_of_characterPairing_eq_zero
 open FiniteGroup in
 
 /-- A conjugation-invariant function on a finite group lies in the span of the characters of simple finite-dimensional representations. -/
-@[source_ref "Chapter4/Theorem4.2.1" (role := primary)]
+@[source_ref "Chapter4/Theorem4.2.1" (role := supporting)]
 theorem FiniteGroup.ClassFunction.mem_span_simple_characters
     {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [Invertible (Fintype.card G : k)]
@@ -249,7 +250,7 @@ theorem FiniteGroup.ClassFunction.mem_span_simple_characters
 open FiniteGroup in
 
 /-- An auxiliary linear-independence result for the displayed subtype inclusion over the coefficient field. -/
-@[source_ref "Chapter4/Theorem4.2.1" (role := primary)]
+@[source_ref "Chapter4/Theorem4.2.1" (role := supporting)]
 theorem FiniteGroup.auxiliarySubtypeValLinearIndependent
     {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [Invertible (Fintype.card G : k)] :
@@ -304,8 +305,8 @@ theorem FiniteGroup.auxiliarySubtypeValLinearIndependent
   exact (mul_eq_zero.mp hfin).resolve_right (Invertible.ne_zero _)
 
 /-- The span of the characters of simple finite-dimensional representations equals the displayed auxiliary submodule of functions on the group. -/
-@[source_ref "Chapter4/Theorem4.2.1" (role := primary),
-  source_ref "Chapter4/Introduction_4.5" (role := primary)]
+@[source_ref "Chapter4/Theorem4.2.1" (role := supporting),
+  source_ref "Chapter4/Introduction_4.5/Derived2" (role := supporting)]
 theorem FiniteGroup.span_simple_characters_eq_auxiliarySubmodule
     {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [Invertible (Fintype.card G : k)] :
