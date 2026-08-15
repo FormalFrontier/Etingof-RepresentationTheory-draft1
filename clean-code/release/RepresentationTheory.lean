@@ -647,6 +647,7 @@ import RepresentationTheory.ParameterizedAlgebra.FiniteSimpleModules
 import RepresentationTheory.MvPolynomial.GroupIndexedFactorization
 import RepresentationTheory.RingTheory.OrderedMonomialBasis
 import RepresentationTheory.MoritaEquivalence
+import RepresentationTheory.Algebra.Module.TensorProductSimplicity
 
 /-!
 # Representation theory formalization
