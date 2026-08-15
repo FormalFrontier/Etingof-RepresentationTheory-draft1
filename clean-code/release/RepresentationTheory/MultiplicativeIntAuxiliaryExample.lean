@@ -15,16 +15,14 @@ namespace multiplicativeInt_infinite_and_exists_auxiliary_nonirreducible_represe
 
 /-- An auxiliary predicate on a representation of a monoid over a field. -/
 def auxiliaryRepresentationProperty {k G V : Type*} [Field k] [Monoid G] [AddCommGroup V]
-    [Module k V] (rho : Representation k G V) : Prop :=
-  Nontrivial (Subrepresentation rho) ∧
-    ∀ S T : Subrepresentation rho, IsCompl S T → S = ⊥ ∨ T = ⊥
+    [Module k V] (ρ : Representation k G V) : Prop :=
+  Nontrivial (Subrepresentation ρ) ∧
+    ∀ S T : Subrepresentation ρ, IsCompl S T → S = ⊥ ∨ T = ⊥
 
 /-- The square of the specified auxiliary endomorphism is zero. -/
 lemma auxiliaryEndomorphism_sq_eq_zero :
     (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) ^ 2 = 0 := by
-  apply LinearMap.ext
-  intro v
-  funext i
+  apply LinearMap.ext; intro v; funext i
   rw [jordanNilpotent_boundary_formula, dif_neg (by omega)]
   simp
 
@@ -35,9 +33,7 @@ lemma auxiliaryEndomorphism_apply_auxiliaryVector_eq_zero :
   simp only [jordanNilpotent_coordinate_formula, Pi.zero_apply]
   split
   · apply Pi.single_eq_of_ne
-    intro hh
-    rw [Fin.ext_iff] at hh
-    simp at hh
+    intro hh; rw [Fin.ext_iff] at hh; simp at hh
   · rfl
 
 /-- An auxiliary invertible complex-linear endomorphism of the two-coordinate function space. -/
@@ -152,22 +148,17 @@ lemma auxiliarySubrepresentation_toSubmodule :
 /-- The auxiliary subrepresentation is not the bottom subrepresentation. -/
 lemma auxiliarySubrepresentation_ne_bot : auxiliarySubrepresentation ≠ ⊥ := by
   intro h
-  have h2 : auxiliarySubrepresentation.toSubmodule = ⊥ := by
-    rw [h]
-    rfl
+  have h2 : auxiliarySubrepresentation.toSubmodule = ⊥ := by rw [h]; rfl
   rw [auxiliarySubrepresentation_toSubmodule, Submodule.span_singleton_eq_bot] at h2
   exact jordanEigenvector_ne_zero 2 h2
 
 /-- The auxiliary subrepresentation is not the top subrepresentation. -/
 lemma auxiliarySubrepresentation_ne_top : auxiliarySubrepresentation ≠ ⊤ := by
   intro h
-  have h2 : auxiliarySubrepresentation.toSubmodule = ⊤ := by
-    rw [h]
-    rfl
+  have h2 : auxiliarySubrepresentation.toSubmodule = ⊤ := by rw [h]; rfl
   have he1 : (Pi.single (1 : Fin 2) (1 : ℂ)) ∈
       Submodule.span ℂ {(jordanEigenvector 2 : Fin 2 → ℂ)} := by
-    rw [← auxiliarySubrepresentation_toSubmodule, h2]
-    exact Submodule.mem_top
+    rw [← auxiliarySubrepresentation_toSubmodule, h2]; exact Submodule.mem_top
   rw [Submodule.mem_span_singleton] at he1
   obtain ⟨c, hc⟩ := he1
   have hco := congrFun hc (1 : Fin 2)
@@ -196,8 +187,7 @@ lemma nonzeroSubrepresentation_contains_auxiliaryVector
     have := S.apply_mem_toSubmodule (Multiplicative.ofAdd 1) hm
     rwa [multiplicativeIntRepresentation_ofAdd_one] at this
   have hbot : S.toSubmodule ≠ ⊥ := by
-    intro h
-    exact hS (Subrepresentation.toSubmodule_injective (by rw [h]; rfl))
+    intro h; exact hS (Subrepresentation.toSubmodule_injective (by rw [h]; rfl))
   exact jordanEigenvector_mem_of_invariant 1 2 hbot hinv
 
 /-- The integer representation satisfies the auxiliary representation property. -/
@@ -214,8 +204,7 @@ theorem auxiliaryRepresentationProperty_multiplicativeIntRepresentation :
   have hTe0 : (jordanEigenvector 2 : Fin 2 → ℂ) ∈ T.toSubmodule :=
     nonzeroSubrepresentation_contains_auxiliaryVector hT
   have hmem : (jordanEigenvector 2 : Fin 2 → ℂ) ∈ (S ⊓ T).toSubmodule := by
-    rw [Subrepresentation.toSubmodule_inf]
-    exact Submodule.mem_inf.mpr ⟨hSe0, hTe0⟩
+    rw [Subrepresentation.toSubmodule_inf]; exact Submodule.mem_inf.mpr ⟨hSe0, hTe0⟩
   rw [hcompl.inf_eq_bot] at hmem
   rw [show (⊥ : Subrepresentation multiplicativeIntRepresentation).toSubmodule =
       (⊥ : Submodule ℂ (Fin 2 → ℂ)) from rfl, Submodule.mem_bot] at hmem
@@ -228,8 +217,8 @@ open multiplicativeInt_infinite_and_exists_auxiliary_nonirreducible_representati
 @[source_ref "Chapter4/Remark4.6.4" (role := primary)]
 theorem multiplicativeInt_infinite_and_exists_auxiliary_nonirreducible_representation :
     Infinite (Multiplicative ℤ) ∧
-      ∃ rho : Representation ℂ (Multiplicative ℤ) (Fin 2 → ℂ),
-        auxiliaryRepresentationProperty rho ∧ ¬ Representation.IsIrreducible rho :=
+      ∃ ρ : Representation ℂ (Multiplicative ℤ) (Fin 2 → ℂ),
+        auxiliaryRepresentationProperty ρ ∧ ¬ Representation.IsIrreducible ρ :=
   ⟨inferInstance, multiplicativeIntRepresentation,
     auxiliaryRepresentationProperty_multiplicativeIntRepresentation,
     multiplicativeIntRepresentation_not_isIrreducible⟩
