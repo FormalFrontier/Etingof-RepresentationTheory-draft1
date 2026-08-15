@@ -529,6 +529,7 @@ import RepresentationTheory.Permutation.CentralizerCycleFacts
 import RepresentationTheory.PermutationActionRepresentations
 import RepresentationTheory.Quiver.Finite
 import RepresentationTheory.Quiver.LinearAlgebra.Auxiliary
+import RepresentationTheory.Quiver.Representation.MatrixModel
 import RepresentationTheory.QuiverRepresentation.Auxiliary
 import RepresentationTheory.QuiverRepresentationQuotientTransform
 import RepresentationTheory.Rat.MatrixTwo
