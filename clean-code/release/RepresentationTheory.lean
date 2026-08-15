@@ -658,6 +658,7 @@ import RepresentationTheory.IntegerAdjacencyMatrixCombinatorics
 import RepresentationTheory.CategoryTheory.BiproductEndomorphismAuxiliary
 import RepresentationTheory.LieAlgebra.FiniteDimensionalModules
 import RepresentationTheory.FiniteGroup.CharacterArithmetic
+import RepresentationTheory.Matrix.BinaryAdjacencyClassification
 
 /-!
 # Representation theory formalization
