@@ -26,7 +26,7 @@ abbrev FiniteQuiverRepresentation (k : Type) [CommSemiring k] (n : ℕ) [Quiver.
     k (Fin n)
 
 /-- A finiteness property for representations of a quiver over a field. -/
-@[source_ref "Chapter2/Discussion_after_Theorem2.1.1" (role := supporting)]
+@[source_ref "Chapter2/Discussion_after_Theorem2.1.1/Derived4" (role := supporting)]
 def QuiverRepresentationFiniteness (k : Type) [Field k] (n : ℕ)
     [Quiver.{0} (Fin n)] : Prop :=
   ∃ (m : ℕ) (reps : Fin m → FiniteQuiverRepresentation k n),
