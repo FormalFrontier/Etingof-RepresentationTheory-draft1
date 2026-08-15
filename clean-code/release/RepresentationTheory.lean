@@ -750,6 +750,9 @@ import RepresentationTheory.FiniteGroup.RationalForms
 import RepresentationTheory.Quiver.FourVertexStar
 import RepresentationTheory.ThreeArrowQuiver.LinearRangeConfiguration
 import RepresentationTheory.GaloisFieldCharacters
+import RepresentationTheory.FourVertexStarRepresentationClassification
+import RepresentationTheory.FiniteGroups.GL2Conjugacy
+import RepresentationTheory.GeneralLinearGroup.SpecialLinearRestriction
 
 /-!
 # Representation theory formalization
