@@ -631,6 +631,7 @@ import RepresentationTheory.Quiver.FiniteFreeInjectivity
 import RepresentationTheory.SymmetricAlgebra.ProjectiveResolution
 import RepresentationTheory.FiniteSetCardinality
 import RepresentationTheory.FiniteAssociatedSetCardinality
+import RepresentationTheory.Algebra.Module.KrullSchmidt
 
 /-!
 # Representation theory formalization
