@@ -572,6 +572,7 @@ import RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolutio
 import RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics
 import RepresentationTheory.YoungDiagram.PartitionFormulas
 import RepresentationTheory.PartitionFinrank
+import RepresentationTheory.AuxiliaryIntegralQuadraticFormMaps
 
 /-!
 # Representation theory formalization
