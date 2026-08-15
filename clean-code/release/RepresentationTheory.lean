@@ -776,6 +776,7 @@ import RepresentationTheory.Auxiliary.TensorProductGradedComparisons
 import RepresentationTheory.FiniteGroupRepresentations.SubgroupInductionAuxiliary
 import RepresentationTheory.FiniteGroupRepresentation
 import RepresentationTheory.PolynomialQuotientZModAuxiliary
+import RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory
 
 /-!
 # Representation theory formalization
