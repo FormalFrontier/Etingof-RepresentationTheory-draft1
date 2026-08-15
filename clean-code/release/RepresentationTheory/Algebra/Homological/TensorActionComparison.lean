@@ -426,7 +426,7 @@ noncomputable abbrev scalarEndofunctor :
   ModuleCat.restrictScalars (selfAlgEquiv k V).toRingEquiv.toRingHom
 
 /-- A projective resolution of the second coefficient module object. -/
-noncomputable def secondCoefficientProjectiveResolution : ProjectiveResolution (SecondCoefficientModuleObject k V) :=
+noncomputable def secondCoefficientProjectiveResolution : RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData (SecondCoefficientModuleObject k V) :=
   ProjectiveResolution.self _
 
 
@@ -438,7 +438,7 @@ noncomputable def secondCoefficientResolutionZeroIso :
 
 /-- A component morphism from a tensor product of resolution terms to the corresponding augmentation target. -/
 noncomputable def totalComponentToAugmentation
-    {M : ModuleCat.{u} (CoefficientAlgebra k V)} (P : ProjectiveResolution M) (n i₁ i₂ : ℕ)
+    {M : ModuleCat.{u} (CoefficientAlgebra k V)} (P : RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData M) (n i₁ i₂ : ℕ)
     (h : (ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
       (i₁, i₂) = n) :
     ((RepresentationTheory.Algebra.TensorProduct.ModuleCat.tensorProductFunctor k (CoefficientAlgebra k V) (CoefficientAlgebra k V)).obj (P.complex.X i₁)).obj
@@ -455,7 +455,7 @@ noncomputable def totalComponentToAugmentation
 /-- At second degree zero, the component morphism is induced by the zeroth-term isomorphism. -/
 @[simp]
 theorem totalComponentToAugmentation_zero
-    {M : ModuleCat.{u} (CoefficientAlgebra k V)} (P : ProjectiveResolution M) (n : ℕ)
+    {M : ModuleCat.{u} (CoefficientAlgebra k V)} (P : RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData M) (n : ℕ)
     (h : (ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
       (n, 0) = n) :
     totalComponentToAugmentation k V P n n 0 h =
@@ -466,7 +466,7 @@ theorem totalComponentToAugmentation_zero
 
 /-- Each term of the tensor product complex is isomorphic to the indicated functorial tensor object. -/
 noncomputable def tensorResolutionComponentIso
-    {M : ModuleCat.{u} (CoefficientAlgebra k V)} (P : ProjectiveResolution M) (n : ℕ) :
+    {M : ModuleCat.{u} (CoefficientAlgebra k V)} (P : RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData M) (n : ℕ) :
     (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProduct.tensorProduct (k := k) P (secondCoefficientProjectiveResolution k V)).X n ≅
       ((RepresentationTheory.Algebra.TensorProduct.ModuleCat.tensorProductFunctor k (CoefficientAlgebra k V) (CoefficientAlgebra k V)).obj (P.complex.X n)).obj
         (SecondCoefficientModuleObject k V) where
@@ -878,13 +878,13 @@ theorem gradedTensor_free (i : ℕ) :
 /-- A projective resolution of the tensor module object determined by a finite basis. -/
 noncomputable def tensorModuleProjectiveResolution
     (b : Module.Basis (Fin (Module.finrank k V)) k V) :
-    ProjectiveResolution (TensorModuleObject k V) :=
+    RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData (TensorModuleObject k V) :=
   RepresentationTheory.HomologicalAlgebra.TensorProduct.tensorProduct (k := k) (RepresentationTheory.SymmetricAlgebra.ProjectiveResolution.projectiveResolutionOfBasis b) (secondCoefficientProjectiveResolution k V)
 
 /-- A projective resolution of the endofunctor image of the tensor module object, chosen from a finite basis. -/
 noncomputable def mappedTensorProjectiveResolution
     (b : Module.Basis (Fin (Module.finrank k V)) k V) :
-    ProjectiveResolution ((scalarEndofunctor k V).obj (TensorModuleObject k V)) :=
+    RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData ((scalarEndofunctor k V).obj (TensorModuleObject k V)) :=
   (scalarEndofunctor k V).mapProjectiveResolution (tensorModuleProjectiveResolution k V b)
 
 /-- The endofunctor image of the tensor module object is isomorphic to the coefficient module object. -/
@@ -897,7 +897,7 @@ noncomputable def endofunctorCoefficientIso :
 /-- A basis-indexed projective resolution of the coefficient module object. -/
 noncomputable def auxiliaryProjectiveResolution
     (b : Module.Basis (Fin (Module.finrank k V)) k V) :
-    ProjectiveResolution
+    RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData
       (@ModuleCat.of (ActingAlgebra k V) _ (CoefficientAlgebra k V) _ (coefficientModule k V)) where
   complex := (mappedTensorProjectiveResolution k V b).complex
   projective := (mappedTensorProjectiveResolution k V b).projective
@@ -937,7 +937,7 @@ theorem auxiliaryProjectiveResolution_quasiIso
 @[source_ref "Chapter8/Problem8.2.10" (role := primary)]
 noncomputable def coefficientProjectiveResolution
     (b : Module.Basis (Fin (Module.finrank k V)) k V) :
-    ProjectiveResolution
+    RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData
       (@ModuleCat.of (ActingAlgebra k V) _ (CoefficientAlgebra k V) _ (coefficientModule k V)) :=
   auxiliaryProjectiveResolution k V b
 
