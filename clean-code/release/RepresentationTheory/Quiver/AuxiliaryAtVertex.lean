@@ -8,6 +8,7 @@ import RepresentationTheory.AuxiliaryQuiverRepresentationTransform
 import RepresentationTheory.QuiverRepresentationQuotientTransform
 import RepresentationTheory.QuiverRepresentation.Auxiliary
 import RepresentationTheory.Quiver.LinearAlgebra.Auxiliary
+import RepresentationTheory.Alignment.Attribute
 
 set_option backward.isDefEq.respectTransparency false
 
@@ -62,6 +63,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_evaluatio
   rfl
 
 /-- Under the displayed field, quiver, free, and finite hypotheses, the first auxiliary proposition on ρ implies one of two auxiliary propositions on the result of the displayed construction. -/
+@[source_ref "Chapter6/Proposition6.6.7" (role := primary)]
 theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary
     {k : Type*} [Field k]
     {Q : Type*} [DecidableEq Q] [Quiver Q]
@@ -571,6 +573,7 @@ set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 400000 in
 
 /-- Under the displayed field, quiver, free, finite, and Fintype hypotheses, the first auxiliary proposition on ρ implies one of two auxiliary propositions on the result of the displayed construction. -/
+@[source_ref "Chapter6/Proposition6.6.7" (role := primary)]
 theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary_of_fintype
     {k : Type*} [Field k]
     {Q : Type*} [DecidableEq Q] [Quiver Q]
