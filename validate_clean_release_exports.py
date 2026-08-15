@@ -10,6 +10,9 @@ from collections import defaultdict
 from pathlib import Path
 
 
+IMPORT = re.compile(r"(?m)^\s*(?:public\s+)?import\s+([^\s]+)\s*$")
+
+
 def read_jsonl(path: Path) -> list[dict]:
     with path.open(encoding="utf-8") as stream:
         return [json.loads(line) for line in stream if line.strip()]
@@ -52,6 +55,21 @@ def main() -> None:
             proposals_by_module[proposal["new_module"]].append(proposal)
 
     errors: list[str] = []
+    umbrella_path = release / "RepresentationTheory.lean"
+    if not umbrella_path.exists():
+        umbrella_imports: set[str] = set()
+        errors.append("missing public umbrella RepresentationTheory.lean")
+    else:
+        umbrella_imports = set(IMPORT.findall(umbrella_path.read_text(encoding="utf-8")))
+    public_modules = {
+        ".".join(path.relative_to(release).with_suffix("").parts)
+        for path in (release / "RepresentationTheory").rglob("*.lean")
+    }
+    for module in sorted(public_modules - umbrella_imports):
+        errors.append(f"RepresentationTheory.lean: missing public module import {module}")
+    for module in sorted(umbrella_imports - public_modules):
+        errors.append(f"RepresentationTheory.lean: import has no public module source {module}")
+
     checked_modules = checked_declarations = 0
     for module, proposals in sorted(proposals_by_module.items()):
         source_path = module_path(release, module, ".lean")
@@ -101,6 +119,8 @@ def main() -> None:
     result = {
         "modules": checked_modules,
         "declarations": checked_declarations,
+        "public_modules": len(public_modules),
+        "umbrella_imports": len(umbrella_imports),
         "errors": len(errors),
     }
     print(json.dumps(result, sort_keys=True))
