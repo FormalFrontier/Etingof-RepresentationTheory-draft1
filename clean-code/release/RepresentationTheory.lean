@@ -574,6 +574,7 @@ import RepresentationTheory.YoungDiagram.PartitionFormulas
 import RepresentationTheory.PartitionFinrank
 import RepresentationTheory.AuxiliaryIntegralQuadraticFormMaps
 import RepresentationTheory.IntegerMatrix.ReflectionDynamics
+import RepresentationTheory.Quiver.AuxiliaryAtVertex
 
 /-!
 # Representation theory formalization
