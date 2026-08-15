@@ -310,8 +310,7 @@ theorem freeAlgebraToAssociatedAlgebra_comp_associatedAlgebraToFreeAlgebra
         (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k (LoopQuiver.{u} n)) := by
   ext f
   simp only [AlgHom.coe_comp, Function.comp_apply, AlgHom.coe_id, id_eq]
-  induction f using
-      _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.induction_on with
+  induction f using Finsupp.induction_linear with
   | zero => rw [map_zero, map_zero]
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | single s c =>
@@ -402,8 +401,7 @@ theorem freeAlgebra_not_condition_at_zero
   have hzero : (FreeAlgebra.ι k ⟨0, hn⟩ : FreeAlgebra k (Fin n)) * w = 0 := by
     have h1 := s.map_smul (FreeAlgebra.ι k ⟨0, hn⟩) (1 : k)
     rw [hact, map_zero] at h1
-    rw [← smul_eq_mul]
-    exact h1.symm
+    rw [← smul_eq_mul]; exact h1.symm
   have hw0 : w = 0 := by
     rcases mul_eq_zero.mp hzero with h | h
     · exact absurd h (FreeAlgebra.ι_ne_zero (⟨0, hn⟩ : Fin n))
