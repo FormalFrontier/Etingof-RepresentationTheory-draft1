@@ -571,6 +571,7 @@ import RepresentationTheory.QuiverRepresentationAuxiliaryFunctor
 import RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution
 import RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics
 import RepresentationTheory.YoungDiagram.PartitionFormulas
+import RepresentationTheory.PartitionFinrank
 
 /-!
 # Representation theory formalization
