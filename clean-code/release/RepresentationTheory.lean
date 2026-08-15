@@ -667,6 +667,7 @@ import RepresentationTheory.DerivedFunctorExactness
 import RepresentationTheory.LieModule.CentralAction
 import RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion
 import RepresentationTheory.CharacterCoefficientAlgebra
+import RepresentationTheory.Auxiliary.PartitionPermutationRelations
 
 /-!
 # Representation theory formalization
