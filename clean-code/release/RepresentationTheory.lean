@@ -713,6 +713,7 @@ import RepresentationTheory.Auxiliary.TensorProductPairingMaps
 import RepresentationTheory.QuaternionFunctionSubmodule
 import RepresentationTheory.TraceAlgebra.Generation
 import RepresentationTheory.TensorProduct.RightLinearMap
+import RepresentationTheory.TensorProduct.RightModuleBifunctor
 
 /-!
 # Representation theory formalization
