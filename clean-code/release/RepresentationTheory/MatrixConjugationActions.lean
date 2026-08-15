@@ -38,8 +38,8 @@ def realConjugationRepresentation : Representation ℝ realMatrixSubmonoid realM
       LinearMap.mulRight_apply, Module.End.mul_apply]
     simp [mul_assoc]
 
-@[simp]
 /-- Computes the displayed real representation action. -/
+@[simp]
 theorem realConjugationRepresentation_apply (A : realMatrixSubmonoid) (M : realMatrixSpace) :
     realConjugationRepresentation A M = (A : realMatrixSpace) * M * star (A : realMatrixSpace) := by
   simp [realConjugationRepresentation, mul_assoc]
@@ -380,8 +380,8 @@ def coordinateRepresentation : Representation ℝ realMatrixSubmonoid (Fin 3 →
   map_one' := by rw [Submonoid.coe_one, Matrix.mulVecLin_one]; rfl
   map_mul' A B := by rw [Submonoid.coe_mul, Matrix.mulVecLin_mul]; rfl
 
-@[simp]
 /-- Computes the displayed coordinate representation action. -/
+@[simp]
 theorem coordinateRepresentation_apply (A : realMatrixSubmonoid) (v : Fin 3 → ℝ) : coordinateRepresentation A v = (A : realMatrixSpace) *ᵥ v := rfl
 
 
@@ -391,8 +391,8 @@ def coordinateLinearMap : (Fin 3 → ℝ) →ₗ[ℝ] realMatrixSpace where
   map_add' u v := by ext i j; fin_cases i <;> fin_cases j <;> simp <;> ring
   map_smul' c v := by ext i j; fin_cases i <;> fin_cases j <;> simp
 
-@[simp]
 /-- Computes the displayed coordinate linear map. -/
+@[simp]
 theorem coordinateLinearMap_apply (v : Fin 3 → ℝ) :
     coordinateLinearMap v = !![0, -v 2, v 1; v 2, 0, -v 0; -v 1, v 0, 0] := rfl
 
@@ -434,12 +434,12 @@ def matrixToCoordinateLinearMap : realMatrixSpace →ₗ[ℝ] (Fin 3 → ℝ) wh
   map_add' M N := by ext i; fin_cases i <;> simp
   map_smul' c M := by ext i; fin_cases i <;> simp
 
-@[simp]
 /-- An auxiliary result about the displayed real matrix space. -/
+@[simp]
 theorem auxiliaryRealMatrixResultP (M : realMatrixSpace) : matrixToCoordinateLinearMap M = ![M 2 1, M 0 2, M 1 0] := rfl
 
-@[simp]
 /-- An auxiliary result involving three coordinates. -/
+@[simp]
 theorem auxiliaryCoordinateResultB (v : Fin 3 → ℝ) : matrixToCoordinateLinearMap (coordinateLinearMap v) = v := by
   ext i; fin_cases i <;> simp
 
@@ -464,8 +464,8 @@ def auxiliaryRealRepresentation : Representation ℝ realMatrixSubmonoid auxilia
   map_one' := by ext M; simp
   map_mul' A B := by ext M; simp
 
-@[simp]
 /-- An auxiliary result about the displayed matrix action. -/
+@[simp]
 theorem auxiliaryActionResultC (A : realMatrixSubmonoid) (M : auxiliaryRealSubmoduleB) :
     (auxiliaryRealRepresentation A M : realMatrixSpace) = realConjugationRepresentation A (M : realMatrixSpace) := rfl
 
@@ -479,8 +479,8 @@ def coordinateLinearEquiv : (Fin 3 → ℝ) ≃ₗ[ℝ] auxiliaryRealSubmoduleB 
   left_inv v := auxiliaryCoordinateResultB v
   right_inv M := by ext : 1; exact auxiliaryMatrixResultB M.2
 
-@[simp]
 /-- Computes the displayed coordinate equivalence. -/
+@[simp]
 theorem coordinateLinearEquiv_apply (v : Fin 3 → ℝ) : (coordinateLinearEquiv v : realMatrixSpace) = coordinateLinearMap v := rfl
 
 
@@ -986,8 +986,8 @@ def complexConjugationRepresentation : Representation ℂ realMatrixSubmonoid co
       LinearMap.mulLeft_apply, LinearMap.mulRight_apply, Module.End.mul_apply]
     simp [mul_assoc]
 
-@[simp]
 /-- Computes the displayed complex representation action. -/
+@[simp]
 theorem complexConjugationRepresentation_apply (A : realMatrixSubmonoid) (M : complexMatrixSpace) :
     complexConjugationRepresentation A M = complexificationMap (A : realMatrixSpace) * M * (complexificationMap (A : realMatrixSpace))ᵀ := by
   simp [complexConjugationRepresentation, mul_assoc]
