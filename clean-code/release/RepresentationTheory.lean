@@ -674,6 +674,7 @@ import RepresentationTheory.PermutationPartitionActions
 import RepresentationTheory.Quiver.FiniteTypeCriterion
 import RepresentationTheory.LieAlgebra.ModuleProducts
 import RepresentationTheory.AuxiliaryRepresentationDecompositions
+import RepresentationTheory.LieAlgebra.TensorProductDecomposition
 
 /-!
 # Representation theory formalization
