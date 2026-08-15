@@ -41,8 +41,8 @@ noncomputable def hilbertSeries {k A : Type*} [Field k] [Ring A] [Algebra k A]
     (Module.finrank k (G.component n) : ℤ)
 
 /-- The coefficient of the Hilbert series in degree `n` is the integer cast of the finrank of the corresponding homogeneous component. -/
-@[source_ref "Chapter2/Problem2.8.11" (role := primary)]
-@[simp] theorem hilbertSeries_coeff {k A : Type*} [Field k] [Ring A] [Algebra k A]
+@[source_ref "Chapter2/Problem2.8.11" (role := primary), simp]
+theorem hilbertSeries_coeff {k A : Type*} [Field k] [Ring A] [Algebra k A]
     (G : LocallyFiniteGrading k A) (n : ℕ) :
     PowerSeries.coeff n (hilbertSeries G) =
       letI : Module.Finite k (G.component n) := G.component_moduleFinite n
