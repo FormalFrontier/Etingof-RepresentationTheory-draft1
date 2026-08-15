@@ -714,6 +714,7 @@ import RepresentationTheory.QuaternionFunctionSubmodule
 import RepresentationTheory.TraceAlgebra.Generation
 import RepresentationTheory.TensorProduct.RightLinearMap
 import RepresentationTheory.TensorProduct.RightModuleBifunctor
+import RepresentationTheory.ParameterizedAlgebra.SimpleModuleClassification
 
 /-!
 # Representation theory formalization
