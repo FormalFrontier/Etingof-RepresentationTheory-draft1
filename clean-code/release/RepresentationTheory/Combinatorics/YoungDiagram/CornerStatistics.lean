@@ -6,15 +6,18 @@ Authors: mathlib-initiative
 
 import RepresentationTheory.YoungDiagram.PartitionConstructions
 import RepresentationTheory.Partition.YoungDiagram
+import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics
 
 /-- An auxiliary natural-number statistic of a Young diagram at two indices. -/
+@[source_ref "Chapter5/Discussion_hook_length_derivation" (role := supporting)]
 def YoungDiagram.auxiliaryCellStatistic (μ : YoungDiagram) (i j : ℕ) : ℕ :=
   μ.rowLen i + μ.colLen j - i - j - 1
 
 
 /-- An auxiliary natural-number statistic of a Young diagram. -/
+@[source_ref "Chapter5/Discussion_hook_length_derivation" (role := supporting)]
 noncomputable def YoungDiagram.auxiliaryDiagramStatistic (μ : YoungDiagram) : ℕ :=
   μ.cells.prod (fun c => μ.auxiliaryCellStatistic c.1 c.2)
 
@@ -916,6 +919,7 @@ end
 
 
 /-- An auxiliary finite set of pairs associated with a Young diagram and two indices. -/
+@[source_ref "Chapter5/Discussion_hook_length_derivation" (role := supporting)]
 def YoungDiagram.auxiliaryCellFinset (μ : YoungDiagram) (i j : ℕ) :
     Finset (ℕ × ℕ) :=
   ((Finset.Ico (j + 1) (μ.rowLen i)).image (fun b' => (i, b'))) ∪
@@ -1011,6 +1015,7 @@ private lemma YoungDiagram.hookCellsExcl_disjoint
 
 
 /-- For a cell of a Young diagram, the associated hook cells excluding that cell have cardinality one less than its hook length. -/
+@[source_ref "Chapter5/Discussion_hook_length_derivation" (role := supporting)]
 lemma YoungDiagram.card_hookCellsExcl_eq_hookLength_sub_one
     {μ : YoungDiagram} {i j : ℕ} (hmem : (i, j) ∈ μ.cells) :
     (μ.auxiliaryCellFinset i j).card = μ.auxiliaryCellStatistic i j - 1 := by
