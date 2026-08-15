@@ -8,8 +8,8 @@ import Mathlib
 import RepresentationTheory.Alignment.Attribute
 import RepresentationTheory.AuxiliaryIntegerMatrixProperty
 import RepresentationTheory.FiniteIntegerMatrixModels
-import RepresentationTheory.DynkinDiagram.FiniteSimplyLaced
 import RepresentationTheory.Matrix.BinaryAdjacencyClassification
+import RepresentationTheory.DynkinDiagram.FiniteSimplyLaced
 
 /-!
 # Affine Dynkin diagram classification
@@ -19,7 +19,7 @@ set_option backward.isDefEq.respectTransparency false
 
 namespace RepresentationTheory.DynkinDiagram.AffineClassification
 
-open Matrix Finset
+open _root_.Matrix Finset
 
 /-! ## The affine Dynkin diagram predicate (part (g) definition) -/
 
@@ -52,8 +52,6 @@ inductive AffineDynkinDiagram where
   | E6tilde
   | E7tilde
   | E8tilde
-
-open AffineDynkinDiagram
 
 /-- The number of vertices of an affine Dynkin diagram. -/
 def AffineDynkinDiagram.rank : AffineDynkinDiagram → ℕ
@@ -277,7 +275,7 @@ theorem AffineDynkinDiagram.two_smul_one_sub_adjacency_mulVec_marks_eq_zero (t :
               = 2 * (AffineDynkinDiagram.Dtilde (m+6) hn).marks i
                 - ∑ j, (AffineDynkinDiagram.Dtilde (m+6) hn).adjacency i j
                     * (AffineDynkinDiagram.Dtilde (m+6) hn).marks j := by
-            rw [Matrix.sub_mulVec, Matrix.smul_mulVec, Matrix.one_mulVec, Pi.sub_apply, Pi.smul_apply]
+            rw [sub_mulVec, smul_mulVec, Matrix.one_mulVec, Pi.sub_apply, Pi.smul_apply]
             simp only [Matrix.mulVec, dotProduct, two_smul, two_mul]
           rw [Pi.zero_apply, hrow, dtilde_key m hn i, sub_self]
   | E6tilde => decide
@@ -624,7 +622,7 @@ theorem AffineDynkinDiagram.adjacency_isAffineDynkinMatrix (t : AffineDynkinDiag
     intro x
     have cartan_symm :
         (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adjacency).IsSymm :=
-      (Matrix.isSymm_one.smul 2).sub hsymm
+      (isSymm_one.smul 2).sub hsymm
     have cartan_off : ∀ i j, i ≠ j →
         (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adjacency) i j ≤ 0 := by
       intro i j hij
@@ -677,7 +675,7 @@ lemma IsAffineDynkinMatrix.map_equiv {n m : ℕ} {adj : Matrix (Fin n) (Fin n) �
         dotProduct (x ∘ σ)
           ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (x ∘ σ)) := by
     intro x
-    simp only [dotProduct, Matrix.mulVec, Matrix.sub_apply, Matrix.smul_apply,
+    simp only [dotProduct, mulVec, Matrix.sub_apply, Matrix.smul_apply,
       Matrix.one_apply, Function.comp]
     symm
     apply Fintype.sum_equiv σ; intro i; congr 1
@@ -1599,7 +1597,7 @@ lemma IsAffineDynkinMatrix.degree_le_four {n : ℕ} (adj : Matrix (Fin n) (Fin n
           Finset.sum_le_univ_sum_of_nonneg (fun b => adj_x_nonneg a b)
   have mulVec_eq : ∀ a, ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x) a =
       2 * x a - ∑ b, adj a b * x b := by
-    intro a; simp only [Matrix.mulVec, dotProduct]
+    intro a; simp only [mulVec, dotProduct]
     rw [show ∑ b, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) a b * x b =
         ∑ b, (2 * (1 : Matrix _ _ ℤ) a b * x b - adj a b * x b) from
       Finset.sum_congr rfl (fun b _ => by
@@ -1858,7 +1856,8 @@ lemma IsAffineDynkinMatrix.exists_equiv_cycle_of_two_mul_card_le_entrySum {n : �
   have h01 := hD.2.2.1
   have hconn := hD.2.2.2.1
   have hpos := hD.2.2.2.2.1
-  -- Row sums of `2·Id − adj` against the all-ones vector (as in `isDynkinDiagram_isTree`).
+  -- Row sums of `2·Id − adj` against the all-ones vector (as in
+  -- `sum_adjacency_entries_eq_twice_rank_sub_two_of_isFiniteSimplyLaced`).
   have hone : ∀ i j : Fin n,
       (2 • (1 : Matrix (Fin n) (Fin n) ℤ)) i j = if i = j then 2 else 0 := by
     intro i j; simp only [Matrix.smul_apply, Matrix.one_apply, two_nsmul]
@@ -1966,7 +1965,7 @@ lemma IsAffineDynkinMatrix.exists_pos_weighted_degreeBalance {n : ℕ} (adj : Ma
   refine ⟨w, hw_pos, ?_⟩
   have mulVec_eq : ∀ a, ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec w) a =
       2 * w a - ∑ b, adj a b * w b := by
-    intro a; simp only [Matrix.mulVec, dotProduct]
+    intro a; simp only [mulVec, dotProduct]
     rw [show ∑ b, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) a b * w b =
         ∑ b, (2 * (1 : Matrix _ _ ℤ) a b * w b - adj a b * w b) from
       Finset.sum_congr rfl (fun b _ => by
@@ -2283,7 +2282,7 @@ lemma IsAffineDynkinMatrix.exists_unique_or_pair_degree_three {n : ℕ} (adj : M
       obtain ⟨b', hb'⟩ := Fin.exists_succAbove_eq hbu
       have hda' := hsubdeg a a' ha' ha3 haU
       have hdb' := hsubdeg b b' hb' hb3 hbU
-      have hab' : a' = b' := _root_.RepresentationTheory.Matrix.BinaryAdjacencyClassification.Matrix.vertex_eq_of_values_eq_three hDsub a' b' hda' hdb'
+      have hab' : a' = b' := RepresentationTheory.Matrix.BinaryAdjacencyClassification.Matrix.vertex_eq_of_values_eq_three hDsub a' b' hda' hdb'
       rw [← ha', ← hb', hab']
     omega
   -- **Assemble** the disjunction from `S.card ∈ {1, 2}`.
@@ -2321,7 +2320,7 @@ lemma IsAffineDynkinMatrix.exists_leaf_adjacent_of_two_degree_three {n : ℕ} (a
   have hVD : ∀ (m : ℕ) (M : Matrix (Fin m) (Fin m) ℤ) (x : Fin m),
       RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree M x =
         RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount M x := fun _ _ _ => rfl
-  simp only [hVD] at hdeg3 hv hw ⊢
+  simp only [hVD] at hv hw ⊢
 
   have hsymm := hD.1
   have hdiag := hD.2.1
@@ -2422,7 +2421,7 @@ lemma IsAffineDynkinMatrix.exists_leaf_adjacent_of_two_degree_three {n : ℕ} (a
   obtain ⟨w', hw'⟩ := Fin.exists_succAbove_eq hwu
   have hdv' := hsubdeg v v' hv' hv hnv'
   have hdw' := hsubdeg w w' hw' hw hnw'
-  have hv'w' : v' = w' := _root_.RepresentationTheory.Matrix.BinaryAdjacencyClassification.Matrix.vertex_eq_of_values_eq_three hDsub v' w' hdv' hdw'
+  have hv'w' : v' = w' := RepresentationTheory.Matrix.BinaryAdjacencyClassification.Matrix.vertex_eq_of_values_eq_three hDsub v' w' hdv' hdw'
   exact hvw (by rw [← hv', ← hw', hv'w'])
 
 private lemma dtilde_shift_adj' {k : ℕ} (hk : 4 ≤ k)
@@ -3262,11 +3261,8 @@ lemma IsAffineDynkinMatrix.exists_two_distinct_leaf_neighbors_of_exactly_two_deg
     exact Iff.rfl
   have hVD : ∀ x, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj x
       = (univ.filter (fun j => adj x j = 1)).card := by
-    intro x
-    unfold RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree
-    congr 1
-    ext j
-    simp only [Finset.mem_filter]
+    intro x; unfold RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree; congr 1
+    ext j; simp only [Finset.mem_filter]
   have hVD' : ∀ x, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj x
       = (univ.filter (fun j => adj x j = 1)).card := by
     intro x; unfold RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount; congr 1
@@ -3845,7 +3841,7 @@ lemma IsAffineDynkinMatrix.exists_typeD_equiv_submatrix_erase_leaf {k : ℕ} (ad
     hleafDel ℓ₂ ℓ₂' hℓ2'eq hℓ2degE
       (fun c hc => by rw [degOneUniq ℓ₂ w hℓ2degE hℓ2w' c hc]; exact hwℓ)
   -- Classify the deletion: it has a branch vertex `w'`, so it is a finite Dynkin type.
-  obtain ⟨t, σ, hσ⟩ := _root_.RepresentationTheory.Matrix.BinaryAdjacencyClassification.Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three hDsub hk1 ⟨w', hw'deg⟩
+  obtain ⟨t, σ, hσ⟩ := RepresentationTheory.Matrix.BinaryAdjacencyClassification.Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three hDsub hk1 ⟨w', hw'deg⟩
   -- Degree/adjacency transport through the classifying isomorphism `σ`.
   have hxdegE : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount t.matrix (σ.symm w') = 3 := by
     have h := vertexDegree_map_equiv t.matrix (adj.submatrix ℓ.succAbove ℓ.succAbove) σ hσ (σ.symm w')
@@ -4845,9 +4841,11 @@ theorem isAffineDynkinMatrix_iff_exists_equiv (n : ℕ) (adj : Matrix (Fin n) (F
       exact ⟨AffineDynkinDiagram.Atilde n h3, σ, hσ⟩
     · -- Tree branch: graph-iso to `D̃ₙ/Ẽ₆/Ẽ₇/Ẽ₈`.
       exact IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card adj hn hD hacyc
-  · -- (⟸) Each extended type is an affine Dynkin diagram (`adjacency_isAffineDynkinMatrix`),
+  · -- (⟸) Each extended type is an affine Dynkin diagram
+    -- (`AffineDynkinDiagram.adjacency_isAffineDynkinMatrix`),
     -- transported along the graph isomorphism `σ`.
     rintro ⟨t, σ, hσ⟩
-    exact IsAffineDynkinMatrix.map_equiv σ hσ (adjacency_isAffineDynkinMatrix t)
+    exact IsAffineDynkinMatrix.map_equiv σ hσ
+      (AffineDynkinDiagram.adjacency_isAffineDynkinMatrix t)
 
 end RepresentationTheory.DynkinDiagram.AffineClassification
