@@ -637,6 +637,7 @@ import RepresentationTheory.Auxiliary
 import RepresentationTheory.IntegerZeroSumCoordinates
 import RepresentationTheory.HomologicalComplex.TensorHomology
 import RepresentationTheory.Partitions.GeneralLinear
+import RepresentationTheory.QuiverRepresentation.VertexCompositionSeries
 
 /-!
 # Representation theory formalization
