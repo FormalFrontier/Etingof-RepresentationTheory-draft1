@@ -170,7 +170,7 @@ theorem actionAddHom_smul (s : Q → k) (a : PathAlgebra k Q) (m : secondaryFunc
     actionAddHom M ((s : Q → k) • a) m = actionAddHom M a ((s : Q → k) • m) := by
   simp only [actionAddHom_apply_eq_flip]
   induction a using Finsupp.induction_linear with
-  | zero => rw [smul_zero, map_zero, map_zero]
+  | zero => rw [smul_eq_mul_image, zero_mul, map_zero, map_zero]
   | add f g hf hg => rw [smul_add, map_add, map_add, hf, hg]
   | single q c =>
       obtain ⟨a, c', p⟩ := q
