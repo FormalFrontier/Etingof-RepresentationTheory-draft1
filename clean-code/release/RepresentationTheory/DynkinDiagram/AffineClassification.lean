@@ -5,6 +5,7 @@ Authors: mathlib-initiative
 -/
 
 import Mathlib
+import RepresentationTheory.Alignment.Attribute
 import RepresentationTheory.AuxiliaryIntegerMatrixProperty
 import RepresentationTheory.FiniteIntegerMatrixModels
 import RepresentationTheory.DynkinDiagram.FiniteSimplyLaced
@@ -246,6 +247,8 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineDynkinDi
     norm_num
 
 /-- The mark vector is annihilated by two times the identity minus the adjacency matrix. -/
+@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := supporting),
+  source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
 theorem two_smul_one_sub_adjacency_mulVec_marks_eq_zero (t : AffineDynkinDiagram) :
     (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adjacency).mulVec t.marks = 0 := by
   cases t with
@@ -280,6 +283,8 @@ theorem two_smul_one_sub_adjacency_mulVec_marks_eq_zero (t : AffineDynkinDiagram
   | E8tilde => decide
 
 /-- The determinant of two times the identity minus an affine Dynkin adjacency matrix is zero. -/
+@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := primary),
+  source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
 theorem det_two_smul_one_sub_adjacency_eq_zero (t : AffineDynkinDiagram) :
     (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adjacency).det = 0 := by
   have hr : 0 < t.rank := by cases t <;> simp only [AffineDynkinDiagram.rank] <;> omega
@@ -607,6 +612,7 @@ theorem AffineDynkinDiagram.exists_adjacency_path (t : AffineDynkinDiagram) (i j
             (.head (b := ⟨5, by decide⟩) ?_ (.single ?_))))) <;> decide
 
 /-- The adjacency matrix attached to an indexed affine Dynkin diagram satisfies the affine Dynkin matrix predicate. -/
+@[source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
 theorem adjacency_isAffineDynkinMatrix (t : AffineDynkinDiagram) :
     IsAffineDynkinMatrix t.rank t.adjacency := by
   have hsymm : t.adjacency.IsSymm := AffineDynkinDiagram.adjacency_isSymm t
@@ -643,6 +649,7 @@ theorem adjacency_isAffineDynkinMatrix (t : AffineDynkinDiagram) :
 /-! ## Part (f): the classification of Dynkin diagrams -/
 
 /-- A nonempty integer matrix has finite Dynkin type exactly when it is equivalent to the adjacency matrix of an indexed finite Dynkin diagram. -/
+@[source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
 theorem isFiniteDynkinMatrix_iff_exists_equiv (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n) :
     RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj ↔
     ∃ t : RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel, ∃ σ : Fin t.rank ≃ Fin n, ∀ i j, adj (σ i) (σ j) = t.matrix i j :=
@@ -2139,7 +2146,7 @@ lemma exists_unique_or_pair_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n)
         RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3 ∧
         ∀ u, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u = 3 → u = v ∨ u = w) := by
   classical
-  
+
   have hsymm := hD.1
   have hdiag := hD.2.1
   have h01 := hD.2.2.1
@@ -2304,7 +2311,7 @@ lemma exists_leaf_adjacent_of_two_degree_three {n : ℕ} (adj : Matrix (Fin n) (
     ∃ ℓ, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj ℓ = 1 ∧
       (adj v ℓ = 1 ∨ adj w ℓ = 1) := by
   classical
-  
+
   have hsymm := hD.1
   have hdiag := hD.2.1
   have h01 := hD.2.2.1
@@ -4807,6 +4814,7 @@ lemma exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card {n : ℕ} (adj : Ma
     exact exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card_of_degree_le_three adj hn hD hacyc hdeg3
 
 /-- A nonempty integer matrix is affine Dynkin exactly when it is equivalent to the adjacency matrix of an indexed affine Dynkin diagram. -/
+@[source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
 theorem isAffineDynkinMatrix_iff_exists_equiv (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n) :
     IsAffineDynkinMatrix n adj ↔
     ∃ t : AffineDynkinDiagram, ∃ σ : Fin t.rank ≃ Fin n, ∀ i j, adj (σ i) (σ j) = t.adjacency i j := by
