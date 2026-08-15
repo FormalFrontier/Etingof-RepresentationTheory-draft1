@@ -178,7 +178,7 @@ end
 
 /-- The dimension of a simple complex representation of a finite group divides the order of the
 group. -/
-@[source_ref"Chapter2/Discussion_after_Theorem2.1.2"(role:=primary)]
+@[source_ref"Chapter2/Discussion_after_Theorem2.1.2/Derived4"(role:=primary)]
 theorem finrank_dvd_card {G : Type*} [Group G] [Fintype G]
     (V : FDRep ℂ G) [Simple V] : Module.finrank ℂ V ∣ Fintype.card G := by
   classical
