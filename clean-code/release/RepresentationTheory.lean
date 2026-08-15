@@ -711,6 +711,7 @@ import RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducib
 import RepresentationTheory.LinearAlgebra.TensorPower.PermutationTrace
 import RepresentationTheory.Auxiliary.TensorProductPairingMaps
 import RepresentationTheory.QuaternionFunctionSubmodule
+import RepresentationTheory.TraceAlgebra.Generation
 
 /-!
 # Representation theory formalization
