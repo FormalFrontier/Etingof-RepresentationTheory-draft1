@@ -583,6 +583,7 @@ import RepresentationTheory.Quiver.DimensionVectorClassification
 import RepresentationTheory.IntegerVectorPredicate
 import RepresentationTheory.Combinatorics.PartitionPermutation
 import RepresentationTheory.Permutation.PartitionIndexedAuxiliary
+import RepresentationTheory.Auxiliary.MembershipSubtypes
 
 /-!
 # Representation theory formalization
