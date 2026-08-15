@@ -699,6 +699,7 @@ import RepresentationTheory.GradedLieAlgebra.BracketRelations
 import RepresentationTheory.QuotientPermutationRepresentation
 import RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor
 import RepresentationTheory.QuantumTorus.FiniteOrderModules
+import RepresentationTheory.QuantumTorus.FiniteOrderModuleEquivalences
 import RepresentationTheory.ParameterizedAlgebra.ModelModules
 import RepresentationTheory.ShortExactDerived
 
