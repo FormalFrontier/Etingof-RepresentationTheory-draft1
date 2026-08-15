@@ -47,7 +47,7 @@ omit [IsAlgClosed k] [Fintype ι] [DecidableEq ι] [∀ i, Module k (X i)]
 /-- At an index and a map from the indexed module, the induced multiplicity map is composition with the original module homomorphism. -/
 @[simp,
   source_ref "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4" (role := supporting),
-  source_ref "Chapter3/Discussion_after_Lemma3.1.6" (role := supporting)]
+  source_ref "Chapter3/Discussion_after_Lemma3.1.6/Derived2" (role := supporting)]
 theorem homMultiplicityMap_apply_apply (f : V →ₗ[A] U) (i : ι) (g : X i →ₗ[A] V) :
     homMultiplicityMap k A X V U f i g = f ∘ₗ g := rfl
 
@@ -62,7 +62,7 @@ variable (hpair : ∀ i j, i ≠ j → IsEmpty (X i ≃ₗ[A] X j))
 include hpair hcV hcU
 
 /-- The restriction of scalars of a module map is reconstructed by decomposing the source, applying the induced multiplicity maps componentwise, and recombining the target. -/
-@[source_ref "Chapter3/Discussion_after_Lemma3.1.6" (role := supporting)]
+@[source_ref "Chapter3/Discussion_after_Lemma3.1.6/Derived2" (role := supporting)]
 theorem restrictScalars_eq_semisimpleDecomposition_comp (f : V →ₗ[A] U) :
     f.restrictScalars k =
       (isotypicDecompositionEquiv k A X U hpair hcU).toLinearMap ∘ₗ
@@ -86,7 +86,7 @@ theorem restrictScalars_eq_semisimpleDecomposition_comp (f : V →ₗ[A] U) :
   rw [← LinearMap.comp_assoc, LinearEquiv.eq_comp_toLinearMap_symm, H]
 
 /-- Under the semisimple direct-sum decomposition, a vector lies in the kernel exactly when every induced multiplicity-space map annihilates its corresponding component. -/
-@[source_ref "Chapter3/Discussion_after_Lemma3.1.6" (role := primary)]
+@[source_ref "Chapter3/Discussion_after_Lemma3.1.6/Derived3" (role := primary)]
 theorem mem_ker_iff_forall_multiplicityComponent_eq_zero (f : V →ₗ[A] U) (v : V) :
     v ∈ LinearMap.ker f ↔
       ∀ i, LinearMap.rTensor (X i) (homMultiplicityMap k A X V U f i)
