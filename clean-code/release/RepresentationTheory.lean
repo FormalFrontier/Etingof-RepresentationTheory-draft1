@@ -503,6 +503,7 @@ import RepresentationTheory.SymmetricGroup.SimpleModuleTrace
 import RepresentationTheory.Algebra.CategoryTheory.FreeModuleTensorProduct
 import RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex
 import RepresentationTheory.Algebra.Homology.Flatness
+import RepresentationTheory.Algebra.Homology.TensorBarResolution
 import RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators
 import RepresentationTheory.Algebra.Module.ExtensionCocycles
 import RepresentationTheory.Algebra.QuotientMatrixDecomposition
