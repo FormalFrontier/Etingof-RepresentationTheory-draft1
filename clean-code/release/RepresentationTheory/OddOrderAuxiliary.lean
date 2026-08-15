@@ -30,13 +30,13 @@ theorem oddCardinality_exists_auxiliarySimpleRepresentation
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
   let D := RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.default
     (k := ℂ) (G := G)
-  obtain ⟨j, g₀, hj⟩ : ∃ (j : Fin D.count) (g : G), D.coordinateRepresentation j g ≠ 1 := by
+  obtain ⟨j, g₀, hj⟩ : ∃ (j : Fin D.count) (g : G), (D.coordinateRepresentation j) g ≠ 1 := by
     by_contra h
     simp only [not_exists, not_ne_iff] at h
     obtain ⟨g₀, hg₀⟩ := exists_ne (1 : G)
     have hmat : ∀ j : Fin D.count, D.matrixBlockHom j (MonoidAlgebra.of ℂ G g₀) = 1 := by
       intro j
-      have hdef : D.coordinateRepresentation j g₀ =
+      have hdef : (D.coordinateRepresentation j) g₀ =
           Matrix.mulVecLin (D.matrixBlockHom j (MonoidAlgebra.of ℂ G g₀)) := rfl
       apply Matrix.toLin'.injective
       rw [Matrix.toLin'_apply', Matrix.toLin'_apply', Matrix.mulVecLin_one, ← hdef, h j g₀]
