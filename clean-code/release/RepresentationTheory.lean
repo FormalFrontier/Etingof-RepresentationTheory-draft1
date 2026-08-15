@@ -602,6 +602,7 @@ import RepresentationTheory.RingTheory.AuxiliaryTypeInvariants
 import RepresentationTheory.AuxiliaryPartitionLinearIndependence
 import RepresentationTheory.GroupTheory.ConjugacyClassCardinalityBounds
 import RepresentationTheory.AuxiliarySemisimpleDecomposition
+import RepresentationTheory.AuxiliarySimpleModuleData
 
 /-!
 # Representation theory formalization
