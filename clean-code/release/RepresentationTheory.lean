@@ -560,6 +560,7 @@ import RepresentationTheory.ConjugacyClassCharacterMatrix
 import RepresentationTheory.Quiver.AdjacencyQuadraticForm
 import RepresentationTheory.LinearAlgebra.SymmetricPower.BasisPairMaps
 import RepresentationTheory.SymmetricPower.LinearAction
+import RepresentationTheory.Quiver.Representation.DenseOrbit
 
 /-!
 # Representation theory formalization
