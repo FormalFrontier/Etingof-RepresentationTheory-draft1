@@ -43,13 +43,13 @@ open scoped BigOperators
 
 /-- The length of a row in a partition's Young diagram is the corresponding sorted part, with default value zero. -/
 theorem Partition.toYoungDiagram_rowLen_eq_getD {m : ℕ} (μ : Nat.Partition m) (i : ℕ) :
-    μ.auxiliaryYoungDiagramOfPartition.rowLen i = μ.auxiliaryPartitionNatList.getD i 0 := by
-  have key : ∀ j : ℕ, j < μ.auxiliaryYoungDiagramOfPartition.rowLen i ↔ j < μ.auxiliaryPartitionNatList.getD i 0 := by
+    (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition μ).rowLen i = (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList μ).getD i 0 := by
+  have key : ∀ j : ℕ, j < (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition μ).rowLen i ↔ j < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList μ).getD i 0 := by
     intro j
     rw [← YoungDiagram.mem_iff_lt_rowLen]
-    change (i, j) ∈ YoungDiagram.ofRowLens μ.auxiliaryPartitionNatList _ ↔ _
+    change (i, j) ∈ YoungDiagram.ofRowLens (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList μ) _ ↔ _
     rw [YoungDiagram.mem_ofRowLens]
-    by_cases hlen : i < μ.auxiliaryPartitionNatList.length
+    by_cases hlen : i < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList μ).length
     · rw [List.getD_eq_getElem _ _ hlen]
       constructor
       · rintro ⟨_, hj⟩; exact hj
@@ -58,14 +58,14 @@ theorem Partition.toYoungDiagram_rowLen_eq_getD {m : ℕ} (μ : Nat.Partition m)
       constructor
       · rintro ⟨h, -⟩; exact absurd h hlen
       · intro hj; exact absurd hj (Nat.not_lt_zero j)
-  have h1 := key (μ.auxiliaryYoungDiagramOfPartition.rowLen i)
-  have h2 := key (μ.auxiliaryPartitionNatList.getD i 0)
+  have h1 := key ((RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition μ).rowLen i)
+  have h2 := key ((RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList μ).getD i 0)
   omega
 
 
 /-- The sorted-parts list constructed from a family indexed by `Fin N` has length at most `N`. -/
 theorem toYoungDiagram_sortedParts_length_le (N : ℕ) (f : Fin N → ℕ) :
-    (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N f).auxiliaryPartitionNatList.length ≤ N := by
+    (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N f)).length ≤ N := by
   unfold RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple
   rw [Multiset.length_sort]
   calc Multiset.card (Multiset.filter (0 < ·) (Finset.univ.val.map f))
@@ -78,7 +78,7 @@ theorem toYoungDiagram_sortedParts_length_le (N : ℕ) (f : Fin N → ℕ) :
 
 /-- A row whose index is at least the size of the finite family has length zero. -/
 theorem toYoungDiagram_rowLen_eq_zero_of_bound (N : ℕ) (f : Fin N → ℕ) {x : ℕ} (hx : N ≤ x) :
-    (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N f).auxiliaryYoungDiagramOfPartition.rowLen x = 0 := by
+    (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N f)).rowLen x = 0 := by
   rw [Partition.toYoungDiagram_rowLen_eq_getD]
   exact List.getD_eq_default _ _ (le_trans (toYoungDiagram_sortedParts_length_le N f) hx)
 
@@ -86,7 +86,7 @@ theorem toYoungDiagram_rowLen_eq_zero_of_bound (N : ℕ) (f : Fin N → ℕ) {x 
 
 private theorem weightToPartition_sortedParts_getD (N : ℕ) (f : Fin N → ℕ) (hf : Antitone f)
     (i : Fin N) :
-    (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N f).auxiliaryPartitionNatList.getD i.val 0 = f i := by
+    (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N f)).getD i.val 0 = f i := by
   unfold RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple
   simp only [Fin.univ_val_map]
   have h_sorted : ((List.ofFn f).filter (0 < ·)).SortedGE := by
@@ -137,7 +137,7 @@ private theorem weightToPartition_sortedParts_getD (N : ℕ) (f : Fin N → ℕ)
 
 /-- At an index in the finite family, the corresponding Young-diagram row has length equal to that part. -/
 theorem toYoungDiagram_rowLen_eq_parts (N : ℕ) {n : ℕ} (lam : RepresentationTheory.SymmetricPolynomials.Alternant.FinPartition N n) (i : Fin N) :
-    (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.rowLen i = lam.parts i := by
+    (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts)).rowLen i = lam.parts i := by
   rw [Partition.toYoungDiagram_rowLen_eq_getD]
   exact weightToPartition_sortedParts_getD N lam.parts lam.parts_antitone i
 
@@ -145,9 +145,9 @@ theorem toYoungDiagram_rowLen_eq_parts (N : ℕ) {n : ℕ} (lam : Representation
 
 /-- A column length in the Young diagram is the number of indexed parts strictly exceeding the column index. -/
 theorem toYoungDiagram_colLen_eq_card_filter (N : ℕ) {n : ℕ} (lam : RepresentationTheory.SymmetricPolynomials.Alternant.FinPartition N n) (c : ℕ) :
-    (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.colLen c =
+    (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts)).colLen c =
       (Finset.univ.filter (fun i : Fin N => c < lam.parts i)).card := by
-  rw [← Finset.card_range ((RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.colLen c),
+  rw [← Finset.card_range ((RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts)).colLen c),
       ← Finset.card_image_of_injective
         (Finset.univ.filter (fun i : Fin N => c < lam.parts i)) Fin.val_injective]
   congr 1
@@ -155,7 +155,7 @@ theorem toYoungDiagram_colLen_eq_card_filter (N : ℕ) {n : ℕ} (lam : Represen
   simp only [Finset.mem_range, Finset.mem_image, Finset.mem_filter, Finset.mem_univ, true_and]
   constructor
   · intro hx
-    have hmem : ((x, c) : ℕ × ℕ) ∈ (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition :=
+    have hmem : ((x, c) : ℕ × ℕ) ∈ (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts)) :=
       YoungDiagram.mem_iff_lt_colLen.mpr hx
     have hxN : x < N := by
       by_contra h
@@ -175,7 +175,7 @@ theorem toYoungDiagram_colLen_eq_card_filter (N : ℕ) {n : ℕ} (lam : Represen
 /-- A hook length is the remaining length in its row plus the number of later rows extending beyond its column. -/
 theorem toYoungDiagram_hookLength_eq_row_remainder_add_card (N : ℕ) {n : ℕ} (lam : RepresentationTheory.SymmetricPolynomials.Alternant.FinPartition N n)
     (i : Fin N) {c : ℕ} (hc : c < lam.parts i) :
-    (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.auxiliaryCellStatistic i c =
+    (RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryCellStatistic (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts))) i c =
       lam.parts i - c +
         (Finset.univ.filter (fun r : Fin N => i < r ∧ c < lam.parts r)).card := by
   have hAcard : (Finset.univ.filter (fun r : Fin N => r ≤ i)).card = i.val + 1 := by
@@ -197,7 +197,7 @@ theorem toYoungDiagram_hookLength_eq_row_remainder_add_card (N : ℕ) {n : ℕ} 
     intro r hrA hrB
     simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hrA hrB
     exact absurd hrB.1 (not_lt.mpr hrA)
-  have hcol : (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.colLen c =
+  have hcol : (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts)).colLen c =
       (i.val + 1) + (Finset.univ.filter (fun r : Fin N => i < r ∧ c < lam.parts r)).card := by
     rw [toYoungDiagram_colLen_eq_card_filter N lam c]
     have hunion : (Finset.univ.filter (fun r : Fin N => c < lam.parts r)) =
@@ -220,11 +220,11 @@ theorem toYoungDiagram_hookLength_eq_row_remainder_add_card (N : ℕ) {n : ℕ} 
 
 /-- The hook-length product of the Young diagram is the iterated product of its hook lengths over the displayed rows and columns. -/
 theorem toYoungDiagram_hookLengthProduct_eq_prod (N : ℕ) {n : ℕ} (lam : RepresentationTheory.SymmetricPolynomials.Alternant.FinPartition N n) :
-    (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.auxiliaryDiagramStatistic =
+    (RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryDiagramStatistic (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts))) =
       ∏ i : Fin N, ∏ c ∈ Finset.range (lam.parts i),
-        (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.auxiliaryCellStatistic i c := by
+        (RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryCellStatistic (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts))) i c := by
   have hcell : ∀ p : ℕ × ℕ,
-      p ∈ (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.cells → p.1 < N := by
+      p ∈ (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts)).cells → p.1 < N := by
     intro p hp
     rw [YoungDiagram.mem_cells, YoungDiagram.mem_iff_lt_rowLen] at hp
     by_contra h
@@ -234,7 +234,7 @@ theorem toYoungDiagram_hookLengthProduct_eq_prod (N : ℕ) {n : ℕ} (lam : Repr
   unfold RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryDiagramStatistic
   rw [Finset.prod_sigma']
   refine Finset.prod_bij'
-    (fun (c : ℕ × ℕ) (hc : c ∈ (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.cells) =>
+    (fun (c : ℕ × ℕ) (hc : c ∈ (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts)).cells) =>
       (⟨⟨c.1, hcell c hc⟩, c.2⟩ : (_ : Fin N) × ℕ))
     (fun (p : (_ : Fin N) × ℕ) _ => (p.1.val, p.2))
     ?_ ?_ ?_ ?_ ?_
@@ -609,7 +609,7 @@ private theorem prod_range_sub_eq_factorial (k : ℕ) :
 
 
 private theorem hookLengthProduct_cast {a b : ℕ} (h : a = b) (p : Nat.Partition a) :
-    (h ▸ p).auxiliaryYoungDiagramOfPartition.auxiliaryDiagramStatistic = p.auxiliaryYoungDiagramOfPartition.auxiliaryDiagramStatistic := by
+    (RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryDiagramStatistic (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (h ▸ p))) = (RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryDiagramStatistic (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition p)) := by
   subst h; rfl
 
 
@@ -627,7 +627,7 @@ private theorem hookLengthProduct_cast {a b : ℕ} (h : a = b) (p : Nat.Partitio
 private theorem row_hook_gap_prod_eq_factorial (N : ℕ) {n : ℕ} (lam : RepresentationTheory.SymmetricPolynomials.Alternant.FinPartition N n)
     (i : Fin N) :
     (∏ c ∈ Finset.range (lam.parts i),
-        (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.auxiliaryCellStatistic i c) *
+        (RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryCellStatistic (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts))) i c) *
       (∏ k ∈ Finset.Ioi i,
         (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.parts i - RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.parts k)) =
       (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.parts i).factorial := by
@@ -718,7 +718,7 @@ private theorem row_hook_gap_prod_eq_factorial (N : ℕ) {n : ℕ} (lam : Repres
     rw [Finset.card_range, Finset.card_union_of_disjoint hdisj, hcardSA, hcardSB, hβi]
     omega
   have hkey : ∀ c, c < lam.parts i →
-      β i - g c = (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.auxiliaryCellStatistic i c := by
+      β i - g c = (RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryCellStatistic (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts))) i c := by
     intro c hc
     have hcompl : ((Finset.Ioi i).filter (fun r => c < lam.parts r)).card +
         ((Finset.Ioi i).filter (fun r => lam.parts r ≤ c)).card = N - 1 - (i : ℕ) := by
@@ -740,7 +740,7 @@ private theorem row_hook_gap_prod_eq_factorial (N : ℕ) {n : ℕ} (lam : Repres
     rw [hβi]
     omega
   have hhook : (∏ c ∈ Finset.range (lam.parts i),
-        (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.auxiliaryCellStatistic i c)
+        (RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryCellStatistic (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts))) i c)
       = ∏ c ∈ Finset.range (lam.parts i), (β i - g c) := by
     refine Finset.prod_congr rfl (fun c hc => ?_)
     rw [Finset.mem_range] at hc
@@ -763,7 +763,7 @@ theorem auxiliary_pairwiseDifference_mul_hookLengthProduct_eq_factorialProduct
     (N : ℕ) {n : ℕ} (lam : RepresentationTheory.SymmetricPolynomials.Alternant.FinPartition N n) :
     (∏ i, ∏ j ∈ Finset.Ioi i,
         (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.parts i - RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.parts j) : ℕ) *
-      (lam.sum_parts ▸ RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.auxiliaryDiagramStatistic =
+      (RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryDiagramStatistic (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (lam.sum_parts ▸ RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts))) =
       (∏ j, (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.parts j).factorial : ℕ) := by
   rw [hookLengthProduct_cast lam.sum_parts, toYoungDiagram_hookLengthProduct_eq_prod,
       ← Finset.prod_mul_distrib]
@@ -800,7 +800,7 @@ theorem auxiliary_partition_value_eq_factorial_div_hookLengthProduct
     (N : ℕ) {n : ℕ} (lam : RepresentationTheory.SymmetricPolynomials.Alternant.FinPartition N n) :
     RepresentationTheory.SymmetricPolynomials.Alternant.partitionExpansionCoeff N lam (RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary.partitionChoice n) =
       ((n.factorial /
-        (lam.sum_parts ▸ RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.auxiliaryDiagramStatistic
+        (RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryDiagramStatistic (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (lam.sum_parts ▸ RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts)))
           : ℕ) : ℚ) := by
   rw [auxiliary_partition_value_eq_pairwise_difference_formula N lam]
   have hVpos : 0 < (∏ i, ∏ j ∈ Finset.Ioi i,
@@ -819,9 +819,9 @@ theorem auxiliary_partition_value_eq_factorial_div_hookLengthProduct
         omega
       omega
     omega
-  have hHpos : 0 < (lam.sum_parts ▸ RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.auxiliaryDiagramStatistic :=
+  have hHpos : 0 < (RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryDiagramStatistic (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (lam.sum_parts ▸ RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts))) :=
     RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryDiagramStatistic_pos _
-  have hdvd : (lam.sum_parts ▸ RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts).auxiliaryYoungDiagramOfPartition.auxiliaryDiagramStatistic ∣
+  have hdvd : (RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryDiagramStatistic (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (lam.sum_parts ▸ RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts))) ∣
       n.factorial :=
     RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.Partition.hookLengthProduct_dvd_factorial n (lam.sum_parts ▸ RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple N lam.parts)
   exact frobeniusDetForm_eq_hookFormula_aux
@@ -940,29 +940,29 @@ private lemma ofFn_getD_filter_pos :
 theorem auxiliary_exists_preimage_for_partition (n : ℕ) (la : Nat.Partition n) :
     ∃ bp : RepresentationTheory.SymmetricPolynomials.Alternant.FinPartition n n,
       (bp.sum_parts ▸ RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple n bp.parts : Nat.Partition n) = la := by
-  have hpos : ∀ x ∈ la.auxiliaryPartitionNatList, 0 < x := by
+  have hpos : ∀ x ∈ (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la), 0 < x := by
     intro x hx
     refine la.parts_pos ?_
     have h := Multiset.sort_eq la.parts (· ≥ ·)
-    rw [show la.parts.sort (· ≥ ·) = la.auxiliaryPartitionNatList from rfl] at h
+    rw [show la.parts.sort (· ≥ ·) = (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) from rfl] at h
     exact h ▸ Multiset.mem_coe.mpr hx
-  have hlen : la.auxiliaryPartitionNatList.length ≤ n := by
-    have hsum : la.auxiliaryPartitionNatList.sum = n := RepresentationTheory.Partition.YoungDiagram.sum_sortedParts n la
-    have := list_length_le_sum_of_pos la.auxiliaryPartitionNatList hpos
+  have hlen : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).length ≤ n := by
+    have hsum : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum = n := RepresentationTheory.Partition.YoungDiagram.sum_sortedParts n la
+    have := list_length_le_sum_of_pos (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) hpos
     omega
-  refine ⟨{ parts := fun i : Fin n => la.auxiliaryPartitionNatList.getD i.val 0
-            parts_antitone := getD_antitone_of_pairwise la.auxiliaryPartitionNatList
-              (by rw [show la.auxiliaryPartitionNatList = la.parts.sort (· ≥ ·) from rfl]
+  refine ⟨{ parts := fun i : Fin n => (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).getD i.val 0
+            parts_antitone := getD_antitone_of_pairwise (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la)
+              (by rw [show (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) = la.parts.sort (· ≥ ·) from rfl]
                   exact Multiset.pairwise_sort _ _)
             sum_parts := by
-              rw [sum_getD_eq_sum la.auxiliaryPartitionNatList n hlen]; exact RepresentationTheory.Partition.YoungDiagram.sum_sortedParts n la }, ?_⟩
+              rw [sum_getD_eq_sum (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) n hlen]; exact RepresentationTheory.Partition.YoungDiagram.sum_sortedParts n la }, ?_⟩
   have hrec : ∀ (p q : ℕ) (h : p = q) (P : Nat.Partition p), (h ▸ P).parts = P.parts := by
     intro p q h P; subst h; rfl
   apply Nat.Partition.ext
-  rw [hrec _ _ _ (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple n (fun i : Fin n => la.auxiliaryPartitionNatList.getD i.val 0))]
-  change (Finset.univ.val.map (fun i : Fin n => la.auxiliaryPartitionNatList.getD i.val 0)).filter (0 < ·) =
+  rw [hrec _ _ _ (RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple n (fun i : Fin n => (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).getD i.val 0))]
+  change (Finset.univ.val.map (fun i : Fin n => (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).getD i.val 0)).filter (0 < ·) =
       la.parts
-  rw [Fin.univ_val_map, Multiset.filter_coe, ofFn_getD_filter_pos n la.auxiliaryPartitionNatList hpos hlen]
+  rw [Fin.univ_val_map, Multiset.filter_coe, ofFn_getD_filter_pos n (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) hpos hlen]
   exact Multiset.sort_eq _ _
 
 
