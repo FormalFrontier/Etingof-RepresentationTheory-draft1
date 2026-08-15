@@ -632,6 +632,7 @@ import RepresentationTheory.SymmetricAlgebra.ProjectiveResolution
 import RepresentationTheory.FiniteSetCardinality
 import RepresentationTheory.FiniteAssociatedSetCardinality
 import RepresentationTheory.Algebra.Module.KrullSchmidt
+import RepresentationTheory.AdjInputSetCardinalities
 
 /-!
 # Representation theory formalization
