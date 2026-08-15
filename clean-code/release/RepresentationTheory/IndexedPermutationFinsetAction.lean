@@ -70,8 +70,7 @@ lemma character_trivialRepresentation
     (g : RepresentationTheory.Group.PermutationSubgroupData.permutationSubgroupFin5) :
     trivialRepresentation.character g = 1 := by
   rw [trivialRepresentation,
-    RepresentationTheory.PermutationActionRepresentations.representationOfUnitsCharacter_character]
-  simp
+    RepresentationTheory.PermutationActionRepresentations.representationOfUnitsCharacter_character]; simp
 
 /-- The trivial representation is simple. -/
 lemma simple_trivialRepresentation : Simple trivialRepresentation :=
@@ -113,9 +112,7 @@ lemma simple_auxiliaryRepresentationOne : Simple auxiliaryRepresentationOne := b
     intro g
     rw [RepresentationTheory.PermutationActionRepresentations.reducedPermutationRepresentation_character_general,
       RepresentationTheory.PermutationActionRepresentations.reducedPermutationRepresentation_character_general,
-      RepresentationTheory.PermutationActionRepresentations.fixedPointCount_inv]
-    push_cast
-    ring
+      RepresentationTheory.PermutationActionRepresentations.fixedPointCount_inv]; push_cast; ring
   rw [Finset.sum_congr rfl (fun g _ => hterm g), ← Int.cast_sum]
   have hsum :
       ∑ g : RepresentationTheory.Group.PermutationSubgroupData.permutationSubgroupFin5,
@@ -136,8 +133,7 @@ lemma simple_auxiliaryRepresentationOne : Simple auxiliaryRepresentationOne := b
         sum_auxiliaryStatistic_eq_weightedIndexedSum (α := Fin 5)
           (fun n => ((n : ℤ) - 1) ^ 2)
       _ = 60 := by decide
-  rw [hsum, RepresentationTheory.Group.PermutationSubgroupData.card_permutationSubgroupFin5]
-  norm_num
+  rw [hsum, RepresentationTheory.Group.PermutationSubgroupData.card_permutationSubgroupFin5]; norm_num
 
 /-- An auxiliary permutation of five elements indexed by three five-valued arguments. -/
 def auxiliaryTriplePermutation (a b c : Fin 5) : Equiv.Perm (Fin 5) :=
@@ -162,16 +158,14 @@ def permutationActionMap
 
 /-- The identity group element induces the identity map on permutations. -/
 lemma permutationActionMap_one : permutationActionMap 1 = id := by
-  funext x
-  simp [permutationActionMap]
+  funext x; simp [permutationActionMap]
 
 /-- Successive permutation action maps agree with the action map of the product. -/
 lemma permutationActionMap_mul
     (g h : RepresentationTheory.Group.PermutationSubgroupData.permutationSubgroupFin5)
     (x : Equiv.Perm (Fin 5)) :
     permutationActionMap g (permutationActionMap h x) = permutationActionMap (g * h) x := by
-  simp only [permutationActionMap, Subgroup.coe_mul]
-  group
+  simp only [permutationActionMap, Subgroup.coe_mul]; group
 
 /-- The action of a group element on the six indices of the permutation-finset family. -/
 def permutationFinsetIndexAction
@@ -198,8 +192,7 @@ lemma indexedPermutationFinsets_action
     (i : Fin 6) :
     indexedPermutationFinsets (permutationFinsetIndexAction g i) =
       (indexedPermutationFinsets i).image (permutationActionMap g) := by
-  revert g i
-  decide
+  revert g i; decide
 
 /-- The multiplicative action on six indices induced by the permutation-finset action. -/
 instance permutationFinsetIndexMulAction :
@@ -211,8 +204,7 @@ instance permutationFinsetIndexMulAction :
   mul_smul g h i := indexedPermutationFinsets_injective (by
     have hcomp : permutationActionMap g ∘ permutationActionMap h =
         permutationActionMap (g * h) := by
-      funext x
-      exact permutationActionMap_mul g h x
+      funext x; exact permutationActionMap_mul g h x
     change indexedPermutationFinsets (permutationFinsetIndexAction (g * h) i) =
       indexedPermutationFinsets (permutationFinsetIndexAction g (permutationFinsetIndexAction h i))
     rw [indexedPermutationFinsets_action, indexedPermutationFinsets_action,
@@ -254,9 +246,7 @@ lemma simple_auxiliaryRepresentationTwo : Simple auxiliaryRepresentationTwo := b
     intro g
     rw [RepresentationTheory.PermutationActionRepresentations.reducedPermutationRepresentation_character_general,
       RepresentationTheory.PermutationActionRepresentations.reducedPermutationRepresentation_character_general,
-      RepresentationTheory.PermutationActionRepresentations.fixedPointCount_inv]
-    push_cast
-    ring
+      RepresentationTheory.PermutationActionRepresentations.fixedPointCount_inv]; push_cast; ring
   rw [Finset.sum_congr rfl (fun g _ => hterm g), ← Int.cast_sum]
   have hsum :
       ∑ g : RepresentationTheory.Group.PermutationSubgroupData.permutationSubgroupFin5,
@@ -277,8 +267,7 @@ lemma simple_auxiliaryRepresentationTwo : Simple auxiliaryRepresentationTwo := b
         sum_auxiliaryStatistic_eq_weightedIndexedSum (α := Fin 6)
           (fun n => ((n : ℤ) - 1) ^ 2)
       _ = 60 := by decide
-  rw [hsum, RepresentationTheory.Group.PermutationSubgroupData.card_permutationSubgroupFin5]
-  norm_num
+  rw [hsum, RepresentationTheory.Group.PermutationSubgroupData.card_permutationSubgroupFin5]; norm_num
 
 end
 
