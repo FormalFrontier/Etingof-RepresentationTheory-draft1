@@ -53,6 +53,8 @@ inductive AffineDynkinDiagram where
   | E7tilde
   | E8tilde
 
+open AffineDynkinDiagram
+
 /-- The number of vertices of an affine Dynkin diagram. -/
 def AffineDynkinDiagram.rank : AffineDynkinDiagram → ℕ
   | .Atilde n _ => n
@@ -97,7 +99,7 @@ def AffineDynkinDiagram.marks : (t : AffineDynkinDiagram) → (Fin t.rank → �
 /-! ## Part (e)/(g): the marks are the kernel vector, so `det A = 0` -/
 
 /-- Every mark of an affine Dynkin diagram is strictly positive. -/
-theorem marks_pos (t : AffineDynkinDiagram) (i : Fin t.rank) : 0 < t.marks i := by
+theorem AffineDynkinDiagram.marks_pos (t : AffineDynkinDiagram) (i : Fin t.rank) : 0 < t.marks i := by
   cases t with
   | Atilde n hn => simp [AffineDynkinDiagram.marks]
   | Dtilde n hn =>
@@ -249,7 +251,7 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineDynkinDi
 /-- The mark vector is annihilated by two times the identity minus the adjacency matrix. -/
 @[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := supporting),
   source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
-theorem two_smul_one_sub_adjacency_mulVec_marks_eq_zero (t : AffineDynkinDiagram) :
+theorem AffineDynkinDiagram.two_smul_one_sub_adjacency_mulVec_marks_eq_zero (t : AffineDynkinDiagram) :
     (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adjacency).mulVec t.marks = 0 := by
   cases t with
   | Atilde n hn =>
@@ -285,7 +287,7 @@ theorem two_smul_one_sub_adjacency_mulVec_marks_eq_zero (t : AffineDynkinDiagram
 /-- The determinant of two times the identity minus an affine Dynkin adjacency matrix is zero. -/
 @[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := primary),
   source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
-theorem det_two_smul_one_sub_adjacency_eq_zero (t : AffineDynkinDiagram) :
+theorem AffineDynkinDiagram.det_two_smul_one_sub_adjacency_eq_zero (t : AffineDynkinDiagram) :
     (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adjacency).det = 0 := by
   have hr : 0 < t.rank := by cases t <;> simp only [AffineDynkinDiagram.rank] <;> omega
   rw [← Matrix.exists_mulVec_eq_zero_iff]
@@ -613,7 +615,7 @@ theorem AffineDynkinDiagram.exists_adjacency_path (t : AffineDynkinDiagram) (i j
 
 /-- The adjacency matrix attached to an indexed affine Dynkin diagram satisfies the affine Dynkin matrix predicate. -/
 @[source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
-theorem adjacency_isAffineDynkinMatrix (t : AffineDynkinDiagram) :
+theorem AffineDynkinDiagram.adjacency_isAffineDynkinMatrix (t : AffineDynkinDiagram) :
     IsAffineDynkinMatrix t.rank t.adjacency := by
   have hsymm : t.adjacency.IsSymm := AffineDynkinDiagram.adjacency_isSymm t
   refine ⟨hsymm, AffineDynkinDiagram.adjacency_self t, AffineDynkinDiagram.adjacency_eq_zero_or_one t,
@@ -658,7 +660,7 @@ theorem isFiniteDynkinMatrix_iff_exists_equiv (n : ℕ) (adj : Matrix (Fin n) (F
 /-! ## Part (g): the classification of affine Dynkin diagrams -/
 
 /-- The affine Dynkin matrix property is preserved by relabeling vertices through an equivalence that preserves all matrix entries. -/
-lemma map_equiv {n m : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+lemma IsAffineDynkinMatrix.map_equiv {n m : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     {adj' : Matrix (Fin m) (Fin m) ℤ} (σ : Fin n ≃ Fin m)
     (hiso : ∀ i j, adj' (σ i) (σ j) = adj i j)
     (hD : IsAffineDynkinMatrix n adj) : IsAffineDynkinMatrix m adj' := by
@@ -715,7 +717,7 @@ lemma map_equiv {n m : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       rw [hxx]; exact hx0
 
 /-- A nonempty affine Dynkin matrix admits a strictly positive integral vector annihilated by two times the identity minus the adjacency matrix. -/
-lemma exists_pos_kernelVector {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
+lemma IsAffineDynkinMatrix.exists_pos_kernelVector {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
     (hD : IsAffineDynkinMatrix n adj) :
     ∃ w : Fin n → ℤ, (∀ i, 0 < w i) ∧
       (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec w = 0 := by
@@ -901,7 +903,7 @@ the kernel. Hence every proper connected induced subgraph is a finite Dynkin
 diagram, classified by `isFiniteDynkinMatrix_iff_exists_equiv`. -/
 
 /-- A vector with zero quadratic value for two times the identity minus an affine adjacency matrix lies in its kernel. -/
-lemma mulVec_eq_zero_of_quadraticForm_eq_zero {n : ℕ}
+lemma IsAffineDynkinMatrix.mulVec_eq_zero_of_quadraticForm_eq_zero {n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ) (hD : IsAffineDynkinMatrix n adj)
     {y : Fin n → ℤ}
     (hy : dotProduct y ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec y) = 0) :
@@ -974,7 +976,7 @@ lemma mulVec_eq_zero_of_quadraticForm_eq_zero {n : ℕ}
   simpa using hzero
 
 /-- A vector of zero affine quadratic value is zero if any one of its coordinates is zero. -/
-lemma eq_zero_of_quadraticForm_eq_zero_of_apply_eq_zero {n : ℕ}
+lemma IsAffineDynkinMatrix.eq_zero_of_quadraticForm_eq_zero_of_apply_eq_zero {n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     {y : Fin n → ℤ}
     (hy : dotProduct y ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec y) = 0)
@@ -1086,7 +1088,7 @@ lemma eq_zero_of_quadraticForm_eq_zero_of_apply_eq_zero {n : ℕ}
   · simpa using h
 
 /-- The quadratic form of two times the identity minus a proper injectively indexed induced submatrix is positive on every nonzero integral vector. -/
-lemma submatrix_quadraticForm_pos {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
+lemma IsAffineDynkinMatrix.submatrix_quadraticForm_pos {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
     (hD : IsAffineDynkinMatrix n adj) {m : ℕ} (e : Fin m → Fin n)
     (he : Function.Injective e) {v : Fin n} (hv : ∀ i, e i ≠ v) :
     ∀ x : Fin m → ℤ, x ≠ 0 →
@@ -1146,7 +1148,7 @@ lemma submatrix_quadraticForm_pos {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (
     exact hi (by rw [← hxe i, hxhat0]; rfl)
 
 /-- A connected injectively indexed induced submatrix that omits a vertex has finite Dynkin type. -/
-lemma principalSubmatrix_isFiniteDynkin_of_connected {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.principalSubmatrix_isFiniteDynkin_of_connected {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj) {m : ℕ} (e : Fin m → Fin n)
     (he : Function.Injective e) {v : Fin n} (hv : ∀ i, e i ≠ v)
     (hconn : ∀ i j : Fin m, ∃ path : List (Fin m),
@@ -1169,7 +1171,7 @@ lemma principalSubmatrix_isFiniteDynkin_of_connected {n : ℕ} (adj : Matrix (Fi
   · exact submatrix_quadraticForm_pos adj hn hD e he hv
 
 /-- A nonempty connected induced submatrix on injectively indexed vertices that omit a vertex is equivalent to the adjacency matrix of a finite Dynkin diagram. -/
-lemma exists_equiv_finiteDynkin_submatrix_of_connected {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_equiv_finiteDynkin_submatrix_of_connected {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj) {m : ℕ} (hm : 1 ≤ m)
     (e : Fin m → Fin n) (he : Function.Injective e) {v : Fin n} (hv : ∀ i, e i ≠ v)
     (hconn : ∀ i j : Fin m, ∃ path : List (Fin m),
@@ -1552,7 +1554,7 @@ lemma exists_equiv_cycle_of_connected_of_degree_eq_two {n : ℕ} (hn : 3 ≤ n)
     · exact absurd (hiff.mp h) hcond
 
 /-- Every vertex of an affine Dynkin matrix has degree at most four. -/
-lemma degree_le_four {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.degree_le_four {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hD : IsAffineDynkinMatrix n adj) (i : Fin n) :
     RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj i ≤ 4 := by
   by_contra hge; rw [not_le] at hge
@@ -1667,7 +1669,7 @@ private lemma star_hconn {m : ℕ} (sub : Matrix (Fin m) (Fin m) ℤ) (c : Fin m
       exact hc j hjc
 
 /-- Every nonempty affine Dynkin matrix is equivalent to the four-arm affine star or has all vertex degrees at most three. -/
-lemma exists_equiv_fourArmStar_or_degree_le_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_equiv_fourArmStar_or_degree_le_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj) :
     (∃ σ : Fin (AffineDynkinDiagram.Dtilde 4 (by norm_num)).rank ≃ Fin n,
         ∀ i j, adj (σ i) (σ j) = (AffineDynkinDiagram.Dtilde 4 (by norm_num)).adjacency i j)
@@ -1845,7 +1847,7 @@ lemma exists_equiv_fourArmStar_or_degree_le_three {n : ℕ} (adj : Matrix (Fin n
     omega
 
 /-- An affine Dynkin matrix whose entry sum is at least twice its size is equivalent to the cycle-family affine diagram on the same vertices. -/
-lemma exists_equiv_cycle_of_two_mul_card_le_entrySum {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
+lemma IsAffineDynkinMatrix.exists_equiv_cycle_of_two_mul_card_le_entrySum {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
     (hD : IsAffineDynkinMatrix n adj)
     (hcyc : 2 * (n : ℤ) ≤ ∑ i, ∑ j, adj i j) :
     ∃ (h3 : 3 ≤ n) (σ : Fin (AffineDynkinDiagram.Atilde n h3).rank ≃ Fin n),
@@ -1928,8 +1930,7 @@ degree-`4` dichotomy (`exists_equiv_fourArmStar_or_degree_le_three`, which peels
 
 What is left is an **acyclic** (tree: `∑ᵢ∑ⱼ adjᵢⱼ < 2n`, i.e. `n - 1` edges) connected
 affine Dynkin diagram in which every vertex has degree `≤ 3`. This is the degenerate-boundary
-analogue of the finite branch analysis in `Chapter6/Theorem_Dynkin_classification.lean`
-(`branch_classification`, `tree_branch_iso`, `arm_length_solutions`).
+analogue of the finite branching analysis.
 
 The analysis is organised exactly as in the finite case:
 
@@ -1938,20 +1939,20 @@ The analysis is organised exactly as in the finite case:
    the finite type `Aₙ` (positive *definite*), contradicting degeneracy. Three or more ⟹ a proper
    induced subgraph that is not finite Dynkin, contradicting `exists_equiv_finiteDynkin_submatrix_of_connected`.
 2. **Two branch vertices ⟹ D̃ₙ** (`exists_equiv_affineDiagram_of_exactly_two_degree_three`): a chain with a two-leaf fork at
-   each end; reindex onto `AffineDynkinDiagram.Dtilde`. Mirrors the finite `tree_branch_iso`.
+   each end; reindex onto `AffineDynkinDiagram.Dtilde`. This is the corresponding two-branch case.
 3. **One branch vertex ⟹ Ẽ₆/Ẽ₇/Ẽ₈** (`exists_equiv_affineDiagram_of_unique_degree_three`): three arms of lengths
    `(p, q, r)` meet at the branch vertex; the degeneracy forces the affine Diophantine identity
    `1/(p+1) + 1/(q+1) + 1/(r+1) = 1`, whose only solutions are `(2,2,2) → Ẽ₆`, `(1,3,3) → Ẽ₇`,
    `(1,2,5) → Ẽ₈` (arm lengths; equivalently marks `(3,3,3)/(2,4,4)/(2,3,6)`). Reindex onto the
-   corresponding `AffineDynkinDiagram.E6tilde/E7tilde/E8tilde`. Mirrors the finite `branch_classification`
-   together with a new *equality* analogue of `arm_length_solutions`.
+   corresponding `AffineDynkinDiagram.E6tilde/E7tilde/E8tilde`. This is the corresponding one-branch case,
+   with an equality constraint on the three arm lengths.
 
 The main lemma `exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card_of_degree_le_three` dispatches on the branch count. The three pieces
-below are each substantial (the finite `branch_classification` alone is ~700 lines) and are tracked
-as separate sub-issues; their statements are fixed here so downstream work has stable interfaces. -/
+below are each substantial and are tracked as separate sub-issues; their statements are fixed here so
+downstream work has stable interfaces. -/
 
 /-- A nonempty affine Dynkin matrix has positive integral vertex weights for which the weighted sum of degree minus two vanishes. -/
-lemma exists_pos_weighted_degreeBalance {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
+lemma IsAffineDynkinMatrix.exists_pos_weighted_degreeBalance {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
     (hD : IsAffineDynkinMatrix n adj) :
     ∃ w : Fin n → ℤ, (∀ i, 0 < w i) ∧
       ∑ j, ((RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj j : ℤ) - 2) * w j = 0 := by
@@ -1999,7 +2000,7 @@ lemma exists_pos_weighted_degreeBalance {n : ℕ} (adj : Matrix (Fin n) (Fin n) 
   linarith
 
 /-- Deleting a degree-one vertex from an affine Dynkin matrix produces an adjacency matrix of finite Dynkin type. -/
-lemma principalSubmatrix_isFiniteDynkin_of_degree_eq_one {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ)
+lemma IsAffineDynkinMatrix.principalSubmatrix_isFiniteDynkin_of_degree_eq_one {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ)
     (hD : IsAffineDynkinMatrix (k + 1) adj) (u : Fin (k + 1))
     (hu_deg : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u = 1) :
     RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix k (adj.submatrix u.succAbove u.succAbove) := by
@@ -2095,7 +2096,7 @@ lemma principalSubmatrix_isFiniteDynkin_of_degree_eq_one {k : ℕ} (adj : Matrix
         exact hedges_rest m' (by simp only [List.length_cons] at hm; omega)
 
 /-- If an affine Dynkin matrix has entry sum below twice its size and all degrees at most three, then some vertex has degree three. -/
-lemma exists_degree_eq_three_of_entrySum_lt_two_mul_card {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
+lemma IsAffineDynkinMatrix.exists_degree_eq_three_of_entrySum_lt_two_mul_card {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
     (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
     (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3) :
@@ -2135,7 +2136,7 @@ lemma exists_degree_eq_three_of_entrySum_lt_two_mul_card {n : ℕ} (adj : Matrix
   linarith [hacyc, hsumadj]
 
 /-- With entry sum below twice the size and all degrees at most three, the degree-three vertices consist of either one vertex or exactly two distinct vertices. -/
-lemma exists_unique_or_pair_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_unique_or_pair_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
     (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3) :
@@ -2301,7 +2302,7 @@ lemma exists_unique_or_pair_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n)
     rw [hSab, Finset.mem_insert, Finset.mem_singleton] at hwmem; exact hwmem
 
 /-- Two distinct degree-three vertices in a sparse affine diagram have a degree-one vertex adjacent to at least one of them. -/
-lemma exists_leaf_adjacent_of_two_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_leaf_adjacent_of_two_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
     (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
@@ -2708,7 +2709,7 @@ private lemma affine_two_branch_pinch
     exact_mod_cast this
 
 /-- A nonempty connected set of degree-at-most-two vertices, disjoint from and uniquely attached to another vertex, has a simple linear enumeration starting at its attachment. -/
-lemma exists_pathEnumeration_of_degree_le_two {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_pathEnumeration_of_degree_le_two {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (v : Fin n)
     (S : Finset (Fin n)) (hvS : v ∉ S) (hSne : S.Nonempty)
@@ -2889,7 +2890,7 @@ lemma exists_pathEnumeration_of_degree_le_two {n : ℕ} (adj : Matrix (Fin n) (F
         rw [hNsymm]; exact hedge
 
 /-- If all degrees are at most three, every degree-three vertex equals a chosen vertex, and a nonempty connected vertex set has a unique attachment to it, then the set has a simple linear enumeration starting at the attachment. -/
-lemma exists_pathEnumeration_of_degree_le_three_of_degree_eq_three_imp_eq {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_pathEnumeration_of_degree_le_three_of_degree_eq_three_imp_eq {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hdeg3 : ∀ w, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w ≤ 3)
     (v : Fin n) (huniq : ∀ w, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3 → w = v)
@@ -3011,7 +3012,8 @@ private lemma outer_arm_linear {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     rw [Matrix.transpose_apply] at hh; exact hh
   -- Walk the arm: `g 0 = nb` (root, `h`-neighbour) … `g (L-1)` (far tip).
   obtain ⟨L, g, hL1, hg0, hmemS, himg, hginj, hghub, hgedge⟩ :=
-    exists_pathEnumeration_of_degree_le_two adj hn hD h S hhS hSne hSconn nb hnbS hnbh hnb_uniq hSdeg
+    IsAffineDynkinMatrix.exists_pathEnumeration_of_degree_le_two
+      adj hn hD h S hhS hSne hSconn nb hnbS hnbh hnb_uniq hSdeg
   -- Every `S`-vertex is some `g m`.
   have hmemg : ∀ y, y ∈ S → ∃ m, m < L ∧ g m = y := by
     intro y hy; rw [himg, Finset.mem_image] at hy
@@ -3153,7 +3155,7 @@ private lemma outer_arm_linear {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     rw [hN, Finset.card_singleton]
 
 /-- When the degree-three vertices are exactly two distinct vertices, the second has two distinct degree-one neighbors. -/
-lemma exists_two_distinct_leaf_neighbors_of_exactly_two_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_two_distinct_leaf_neighbors_of_exactly_two_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
     (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
@@ -3736,7 +3738,7 @@ private lemma Dk_vertexDegree {k : ℕ} (hk : 4 ≤ k) (i : Fin k) :
     omega
 
 /-- Deleting a leaf adjacent to one of exactly two degree-three vertices yields a finite type-D diagram with that branch vertex in the distinguished position. -/
-lemma exists_typeD_equiv_submatrix_erase_leaf {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ)
+lemma IsAffineDynkinMatrix.exists_typeD_equiv_submatrix_erase_leaf {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ)
     (hD : IsAffineDynkinMatrix (k + 1) adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * ((k + 1 : ℕ) : ℤ))
     (hdeg3 : ∀ x, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj x ≤ 3)
@@ -3916,7 +3918,7 @@ lemma exists_typeD_equiv_submatrix_erase_leaf {k : ℕ} (adj : Matrix (Fin (k + 
   exact Fin.ext hAval
 
 /-- A sparse affine Dynkin matrix whose degree-three vertices are exactly two distinct vertices is equivalent to an indexed affine Dynkin diagram. -/
-lemma exists_equiv_affineDiagram_of_exactly_two_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_exactly_two_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
     (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
@@ -3970,7 +3972,7 @@ lemma exists_equiv_affineDiagram_of_exactly_two_degree_three {n : ℕ} (adj : Ma
     exact ⟨AffineDynkinDiagram.Dtilde k hk, σ, hσ⟩
 
 /-- Under the sparse-entry and degree bounds, the vertices away from a unique degree-three vertex can be enumerated as three disjoint nonempty linear arms. -/
-lemma exists_threeArmEnumeration_of_unique_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_threeArmEnumeration_of_unique_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
     (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
@@ -4289,7 +4291,7 @@ lemma exists_threeArmEnumeration_of_unique_degree_three {n : ℕ} (adj : Matrix 
       · rintro ⟨hts', _⟩; exact absurd hts' hts
 
 /-- Under the sparse-entry and degree bounds, an affine diagram with a unique degree-three vertex admits ordered three-arm lengths and a vertex equivalence realizing the corresponding adjacency relation. -/
-lemma exists_threeArmParameters_of_unique_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_threeArmParameters_of_unique_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
     (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
@@ -4507,7 +4509,7 @@ lemma exists_threeArmParameters_of_unique_degree_three {n : ℕ} (adj : Matrix (
   · intro i j; exact hb_adj i j
 
 /-- A sparse affine diagram with a unique degree-three vertex has ordered three-arm lengths satisfying the pairwise-product balance identity and realizing its adjacency matrix. -/
-lemma exists_threeArmParameters_with_balance_of_unique_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_threeArmParameters_with_balance_of_unique_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
     (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
@@ -4708,7 +4710,7 @@ lemma exists_threeArmParameters_with_balance_of_unique_degree_three {n : ℕ} (a
     (hw_pos v) hpa hqb hrc hsum
 
 /-- A sparse affine Dynkin matrix with degrees at most three and a unique degree-three vertex is equivalent to an indexed affine Dynkin diagram. -/
-lemma exists_equiv_affineDiagram_of_unique_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_unique_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
     (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
@@ -4790,7 +4792,7 @@ lemma exists_equiv_affineDiagram_of_unique_degree_three {n : ℕ} (adj : Matrix 
     revert i j; decide
 
 /-- An affine Dynkin matrix with sparse entry sum and degrees at most three is equivalent to an indexed affine Dynkin diagram. -/
-lemma exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card_of_degree_le_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card_of_degree_le_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
     (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3) :
@@ -4802,7 +4804,7 @@ lemma exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card_of_degree_le_three 
   · exact exists_equiv_affineDiagram_of_exactly_two_degree_three adj hn hD hacyc hdeg3 v w hvw hv hw huniq
 
 /-- A nonempty affine Dynkin matrix whose entry sum is below twice its size is equivalent to an indexed affine Dynkin diagram. -/
-lemma exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ)) :
     ∃ t : AffineDynkinDiagram, ∃ σ : Fin t.rank ≃ Fin n,
@@ -4828,13 +4830,14 @@ theorem isAffineDynkinMatrix_iff_exists_equiv (n : ℕ) (adj : Matrix (Fin n) (F
     intro hD
     rcases le_or_gt (2 * (n : ℤ)) (∑ i, ∑ j, adj i j) with hcyc | hacyc
     · -- Cyclic branch: graph-iso to the cycle `Ãₙ`.
-      obtain ⟨h3, σ, hσ⟩ := exists_equiv_cycle_of_two_mul_card_le_entrySum adj hn hD hcyc
+      obtain ⟨h3, σ, hσ⟩ :=
+        IsAffineDynkinMatrix.exists_equiv_cycle_of_two_mul_card_le_entrySum adj hn hD hcyc
       exact ⟨AffineDynkinDiagram.Atilde n h3, σ, hσ⟩
     · -- Tree branch: graph-iso to `D̃ₙ/Ẽ₆/Ẽ₇/Ẽ₈`.
-      exact exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card adj hn hD hacyc
+      exact IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card adj hn hD hacyc
   · -- (⟸) Each extended type is an affine Dynkin diagram (`adjacency_isAffineDynkinMatrix`),
     -- transported along the graph isomorphism `σ`.
     rintro ⟨t, σ, hσ⟩
-    exact map_equiv σ hσ (adjacency_isAffineDynkinMatrix t)
+    exact IsAffineDynkinMatrix.map_equiv σ hσ (adjacency_isAffineDynkinMatrix t)
 
 end RepresentationTheory.DynkinDiagram.AffineClassification
