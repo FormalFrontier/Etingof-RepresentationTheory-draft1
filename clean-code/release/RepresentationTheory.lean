@@ -569,6 +569,7 @@ import RepresentationTheory.LinearAlgebra.IntegerMatrixReflections
 import RepresentationTheory.GeneralLinearGroup.TensorLocalization
 import RepresentationTheory.QuiverRepresentationAuxiliaryFunctor
 import RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution
+import RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics
 
 /-!
 # Representation theory formalization
