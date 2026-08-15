@@ -552,6 +552,7 @@ import RepresentationTheory.OddOrderAuxiliary
 import RepresentationTheory.FiniteField.RepresentationConstruction
 import RepresentationTheory.Group.PermutationSubgroupData
 import RepresentationTheory.Quiver.AuxiliaryNatInt
+import RepresentationTheory.Quiver.GenericBaseChange
 
 /-!
 # Representation theory formalization
