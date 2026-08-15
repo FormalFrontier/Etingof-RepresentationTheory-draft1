@@ -52,6 +52,10 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.FDRep.Auxiliary.card_sq_eq_one_eq_sum_finrank_mul_auxiliaryInvariant}
+
+{Manual.docstring RepresentationTheory.FDRep.Auxiliary.card_sq_eq_one_eq_sum_representationInvariant_mul_finrank}
+
 {Manual.docstring RepresentationTheory.Representation.Character.AuxiliaryVanishing.auxiliaryStatement}
 
 {Manual.docstring RepresentationTheory.Representation.Character.AuxiliaryVanishing.auxiliaryValue_eq_zero_of_character_not_inversionInvariant}

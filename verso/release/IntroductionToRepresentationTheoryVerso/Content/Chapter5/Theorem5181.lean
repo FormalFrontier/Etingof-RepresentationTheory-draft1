@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -29,3 +30,23 @@ _where $`V_i` are all the irreducible representations of $`A` and $`W_i` are all
 
 **Proof.** Since $`A` is semisimple, we have a natural decomposition $`E = \bigoplus_{i \in I} V_i \otimes W_i`, where $`W_i := \operatorname{Hom}_A(V_i, E)` and $`A = \bigoplus_i \operatorname{End} V_i`. Note that $`W_i \neq 0`, since the action of $`A` on $`E` is faithful. Therefore, by
 Schur's lemma, $`B = \operatorname{End}_A(E)` is naturally identified with $`\bigoplus_i \operatorname{End}(W_i)`. This implies all the statements of the theorem. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.18.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.CentralizerDecomposition.centralizer_centralizer_eq}
+
+{Manual.docstring RepresentationTheory.CentralizerDecomposition.isSemisimpleRing_centralizer}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CentralizerDecomposition.AuxiliaryDecompositionData.ofEquiv}
+
+{Manual.docstring RepresentationTheory.CentralizerDecomposition.exists_auxiliary_decomposition_data}
+
+{Manual.docstring RepresentationTheory.CentralizerDecomposition.exists_auxiliary_evaluation_equiv}

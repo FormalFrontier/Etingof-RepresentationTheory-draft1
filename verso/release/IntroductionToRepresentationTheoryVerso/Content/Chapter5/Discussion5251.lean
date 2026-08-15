@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -79,3 +80,23 @@ for all
 $$`\lambda \in \mathbb{F}_{q^2}^\times,`
 
 so the number of such matrices is $`q^2 - 1`.
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_5.25.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteFieldUnitClassDecomposition.classPredicates_exactlyOne}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FiniteFieldUnitClassDecomposition.card_classPredicateAlpha}
+
+{Manual.docstring RepresentationTheory.FiniteFieldUnitClassDecomposition.card_classPredicateBeta}
+
+{Manual.docstring RepresentationTheory.FiniteFieldUnitClassDecomposition.card_classPredicateDelta}
+
+{Manual.docstring RepresentationTheory.FiniteFieldUnitClassDecomposition.card_classPredicateGamma}

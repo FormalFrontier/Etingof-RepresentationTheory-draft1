@@ -33,3 +33,9 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.PartitionAuxiliary.partitionSubmodule_isSimpleModule}
+
+{Manual.docstring RepresentationTheory.SimpleModule.SubtypeRepresentation.exists_linearEquiv_to_subtype}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.PartitionLinearEquivBoundsAndMonoidAlgebra.isEmpty_linearEquiv_of_ne_partition}

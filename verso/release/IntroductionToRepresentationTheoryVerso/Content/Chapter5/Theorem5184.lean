@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,21 @@ _(iii) We have a decomposition of $`(A \otimes B)`-modules_
 $$`V^{\otimes n} = \bigoplus_{\lambda} V_{\lambda} \otimes L_{\lambda},`
 
 _where the summation is taken over partitions of $`n`, $`V_{\lambda}` are Specht modules for $`S_n`, and $`L_{\lambda}` are some distinct irreducible representations of $`\mathfrak{gl}(V)` or zero._
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.18.4/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Auxiliary.MutualCentralizers.mutual_centralizer_algebras}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Auxiliary.MutualCentralizers.associatedSubalgebras_semisimple}
+
+{Manual.docstring RepresentationTheory.Auxiliary.MutualCentralizers.exists_auxiliarySpace_decomposition_with_compatibility}
+
+{Manual.docstring RepresentationTheory.Auxiliary.TensorDecomposition.existsAuxiliaryDirectSumTensorProductDecomposition}

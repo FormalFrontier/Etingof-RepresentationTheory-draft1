@@ -38,4 +38,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.AuxiliaryPredicates.Module.isSimpleModule_of_auxiliaryPredicate}
 
+{Manual.docstring RepresentationTheory.FiniteGroupSolvability.isSolvable_of_card_eq_prime_pow_mul_prime_pow}
+
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate.of_isSimpleModule}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.MonoidAlgebra.isSemisimpleRing_of_isUnit_card}

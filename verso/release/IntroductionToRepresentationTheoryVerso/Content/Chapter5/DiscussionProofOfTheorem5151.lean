@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,17 @@ number := false
 $$`\theta_\lambda = \sum_{\sigma \in S_N} (-1)^\sigma \chi_{U_{\lambda + \rho - \sigma(\rho)}},`
 
 where if the vector $`\lambda + \rho - \sigma(\rho)` has a negative entry, the corresponding term is dropped, and if it has nonnegative entries which fail to be nonincreasing, then the entries should be reordered in nonincreasing order, making a partition that we'll denote by $`\langle\lambda + \rho - \sigma(\rho)\rangle` (i.e., we
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_proof_of_Theorem5.15.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryResultA}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryResultC}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.natCast_auxiliary_eq_sum_auxiliary_mul_auxiliary}

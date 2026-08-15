@@ -34,3 +34,11 @@ number := false
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.mem_span_moduleDualElement_of_commutes_mul}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.ClassFunctions.FiniteGroup.ClassFunction.mem_span_simple_characters}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.ClassFunctions.FiniteGroup.auxiliarySubtypeValLinearIndependent}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.ClassFunctions.FiniteGroup.span_simple_characters_eq_auxiliarySubmodule}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.MonoidAlgebra.isSemisimpleRing_of_isUnit_card}

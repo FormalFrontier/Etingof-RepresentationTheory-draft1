@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -27,3 +28,17 @@ On the other hand, by the Schur-Weyl duality
 $$`\operatorname{Tr}_{V^{\otimes n}}(g^{\otimes n} s) = \sum_\lambda \chi_\lambda(C_\mathbf{i}) \operatorname{Tr}_{L_\lambda}(g).`
 
 Comparing this to Proposition 5.21.1 and using linear independence of columns of the character table of $`S_n`, we obtain
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_computing_characters_of_L_lambda/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.GeneralLinearGroup.WeightCharacter.schurRepresentation_weightCharacter}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Auxiliary.PermutationPolynomials.auxiliaryPermutationPolynomial_eq_auxiliaryPermutationPolynomial'}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,23 @@ Define the polynomials
 $$`S_\lambda(x) := \frac{D_\lambda(x)}{D_0(x)}`
 
 (clearly $`D_0(x)` is just $`\Delta(x)`). It is easy to see that these are indeed polynomials, as $`D_\lambda` is antisymmetric and therefore must be divisible by $`\Delta`. The polynomials $`S_\lambda` are called the *Schur polynomials*.
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_Schur_polynomials/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.SymmetricPolynomials.Alternant.partitionPolynomial_mul_det_staircase}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase}
+
+{Manual.docstring RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix}
+
+{Manual.docstring RepresentationTheory.SymmetricPolynomials.Alternant.partitionPolynomial}
+
+{Manual.docstring RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents}

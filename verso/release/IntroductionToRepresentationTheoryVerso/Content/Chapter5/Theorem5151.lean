@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -19,3 +20,17 @@ number := false
 *Theorem 5.15.1.* _Let $`N \geq p`. Then $`\chi_{V_\lambda}(C_\mathbf{i})` is the coefficient of $`x^{\lambda+\rho} := \prod x_j^{\lambda_j + N - j}` in the polynomial_
 
 $$`\Delta(x) \prod_{m \geq 1} H_m(x)^{i_m}.`
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.15.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.PartitionPolynomials.signedAuxiliaryValue_eq_coefficient}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliarySignSmul_eq_coefficient}

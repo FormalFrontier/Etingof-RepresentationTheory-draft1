@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,15 @@ Now let us compute the character of $`U_\lambda`. Let $`C_\mathbf{i}` be the con
 $$`H_m(x) = \sum_j x_j^m`
 
 be the power sum polynomials.
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_character_computation_setup/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.PermutationPolynomialAuxiliary.partitionPermutationValue}
+
+{Manual.docstring RepresentationTheory.PermutationPolynomialAuxiliary.permutationPolynomialAuxiliary}

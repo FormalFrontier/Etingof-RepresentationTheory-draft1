@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -17,3 +18,19 @@ number := false
 %%%
 
 *Proposition 5.14.1.* _We have $`\operatorname{Hom}(U_\lambda, V_\mu) = 0` for $`\mu < \lambda` and $`\dim \operatorname{Hom}(U_\lambda, V_\lambda) = 1`. Thus, $`U_\lambda = \bigoplus_{\mu \geq \lambda} K_{\mu\lambda} V_\mu`, where $`K_{\mu\lambda}` are nonnegative integers and $`K_{\lambda\lambda} = 1`._
+
+## Formalization
+%%%
+tag := "Chapter5/Proposition5.14.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.PartitionLinearMapVanishing.finrank_linearMap_to_mem_eq_one}
+
+{Manual.docstring RepresentationTheory.PartitionLinearMapVanishing.linearMap_to_mem_eq_zero_of_lexLt}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.PartitionLinearMapVanishing.linearMap_to_mem_eq_zero_of_not_partitionRelation}

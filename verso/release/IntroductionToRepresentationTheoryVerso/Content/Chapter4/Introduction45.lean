@@ -38,3 +38,5 @@ number := false
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterPairing.FiniteGroup.normalized_characterPairing_eq_finrank_hom}
 
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterPairing.FiniteGroup.normalized_characterPairing_of_simple}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.ClassFunctions.FiniteGroup.span_simple_characters_eq_auxiliarySubmodule}

@@ -40,3 +40,29 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.algebra_smul_surjective}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.isSemisimpleRing_tensorProduct}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_le_tensorProductJacobsonIdeal_of_isSemisimpleRing}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_tensorProduct_actionRange_eq}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_tensorProduct_eq}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.quotientJacobsonTensorProductAlgEquiv}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.quotientTensorProductJacobsonIdealAlgEquiv}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductJacobsonIdeal_isNilpotent}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductJacobsonIdeal_le_jacobson}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductRangeAction}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductRangeModule}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductJacobsonIdeal_eq_ker}
+
+{Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductRangeAction_tmul}

@@ -41,4 +41,10 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.FiniteGroup.exists_complete_simple_family_with_groupAlgebra_equiv}
+
 {Manual.docstring RepresentationTheory.SemisimpleGroupAlgebraCardinality.isUnit_card_of_isSemisimpleRing}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.FiniteGroup.exists_complete_simple_family_coordinateRepresentation}

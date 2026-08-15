@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -17,3 +18,13 @@ number := false
 %%%
 
 *Remark 5.26.2.* Statement (ii) of Theorem 5.26.1 is equivalent to the same statement with $`\mathbb{Q}`-span replaced by $`\mathbb{C}`-span. Indeed, consider the matrix whose columns consist of the coefficients of the decomposition of $`\operatorname{Ind}_H^G V` (for various $`H, V`) with respect to the irreducible representations of $`G`. Then both statements are equivalent to the condition that the rows of this matrix are linearly independent.
+
+## Formalization
+%%%
+tag := "Chapter5/Remark5.26.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Auxiliary.SubgroupRepresentationMatrices.simpleSubgroupRepresentationFamily_auxiliaryConditions}

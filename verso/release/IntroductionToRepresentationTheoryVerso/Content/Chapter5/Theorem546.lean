@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -29,3 +30,13 @@ We can divide $`\operatorname{Irr} G` into three parts:
 (2) $`D`, the set of irreducible representations whose dimension is divisible by $`p`, and
 
 (3) $`N`, the set of nontrivial irreducible representations whose dimension is not divisible by $`p`.
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.4.6/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroupNormalSubgroups.exists_nontrivial_proper_normalSubgroup_of_conjClassCard_eq_prime_pow}

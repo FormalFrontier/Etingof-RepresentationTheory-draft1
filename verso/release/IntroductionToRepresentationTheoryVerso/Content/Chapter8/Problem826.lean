@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -64,3 +65,17 @@ $$`
 $$`
 \to M_1 \otimes_A N \to M_2 \otimes_A N \to M_3 \otimes_A N \to 0.
 `
+
+## Formalization
+%%%
+tag := "Chapter8/Problem8.2.6/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.ShortExact.CategoryTheory.ShortComplex.ShortExact.middleProjectiveResolution}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.ShortExact.CategoryTheory.ShortComplex.ShortExact.resolutionShortComplex_shortExact}

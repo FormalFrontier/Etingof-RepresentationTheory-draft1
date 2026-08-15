@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -58,3 +59,19 @@ But this is exactly the coefficient of $`x^\lambda` in
 $$`\prod_{m \geq 1} (x_1^m + \cdots + x_N^m)^{i_m}`
 
 ($`r_{jm}` is the number of times we take $`x_j^m`). $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.14.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.PermutationPolynomialAuxiliary.partitionPermutationValue_eq_coefficient}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.PermutationPolynomialAuxiliary.partitionPermutationValue_eq_card_auxiliary}
+
+{Manual.docstring RepresentationTheory.PermutationPolynomialAuxiliary.partitionPolynomialCoeff_eq_card_auxiliary}

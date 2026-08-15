@@ -28,3 +28,9 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.FiniteGroupCharacterCoprimality.character_eq_zero_or_action_eq_smul_id_of_conjClassCard_coprime_finrank}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroup.PrimePowerConjugacyClass.exists_simple_representation_of_conj_class_card_prime_pow}
+
+{Manual.docstring RepresentationTheory.FiniteGroupNormalSubgroups.exists_nontrivial_proper_normalSubgroup_of_conjClassCard_eq_prime_pow}

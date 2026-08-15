@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -43,3 +44,25 @@ Thus,
 $$`R(x, y) = \frac{\prod_{i<j}(x_i - x_j)(y_i - y_j)}{\prod_{i,j}(1 - x_i y_j)}.`
 
 Now we need the following lemma.
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_proof_of_Frobenius_character_formula/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.PartitionPolynomials.signedAuxiliaryValue_eq_coefficient}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LexicographicPermutations.auxiliaryIndexValue_comp_perm_eq_iff}
+
+{Manual.docstring RepresentationTheory.LexicographicPermutations.auxiliaryIndexValue_comp_perm_le}
+
+{Manual.docstring RepresentationTheory.LexicographicPermutations.partitionAuxiliaryValue_eq_adjusted_perm_iff}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryResultA}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.sum_auxiliaryPartitionPermutationValue_mul_inv}

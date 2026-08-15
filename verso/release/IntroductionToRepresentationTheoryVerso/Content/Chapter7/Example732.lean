@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -23,3 +24,21 @@ number := false
 3. Let $`A` be an algebra over a field $`k`, and let $`F : A - \mathbf{mod} \to \mathbf{Vect}_k` be the forgetful functor. Then as follows from Problem 2.3.17, $`\operatorname{End} F = \operatorname{Hom}(F, F) = A`.
 
 4. The set of endomorphisms of the identity functor on the category $`A - \mathbf{mod}` is the center of $`A` (check it!).
+
+## Formalization
+%%%
+tag := "Chapter7/Example7.3.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Module.FunctorEndomorphisms.finitelyGeneratedModuleDoubleDualIso}
+
+{Manual.docstring RepresentationTheory.Module.FunctorEndomorphisms.isEmpty_iso_id_finitelyGeneratedModuleDualFunctor}
+
+{Manual.docstring RepresentationTheory.Module.FunctorEndomorphisms.moduleIdentityEndRingEquivCenter}
+
+{Manual.docstring RepresentationTheory.Module.FunctorEndomorphisms.nonempty_doubleDualLinearEquiv_iff_finiteDimensional}
+
+{Manual.docstring RepresentationTheory.Module.FunctorEndomorphisms.restrictionEndRingEquivAlgebra}

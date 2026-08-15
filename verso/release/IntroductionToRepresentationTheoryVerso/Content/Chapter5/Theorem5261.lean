@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,13 @@ number := false
 _(i) Any element of $`G` belongs to a subgroup $`H \in X`._
 
 _(ii) The character of any irreducible representation of $`G` belongs to the $`\mathbb{Q}`-span of characters of induced representations $`\operatorname{Ind}_H^G V`, where $`H \in X` and $`V` is an irreducible representation of $`H`._
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.26.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliarySubgroupFunctions.auxiliary_cover_iff_character_mem_span}

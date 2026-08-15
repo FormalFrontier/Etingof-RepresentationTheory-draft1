@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -40,3 +41,19 @@ $$`\rho_{V \otimes W}(g) = \rho_V(g) \otimes \rho_W(g).`
 Therefore, $`\chi_{V \otimes W}(g) = \chi_V(g)\chi_W(g)`.
 
 An interesting problem discussed below is decomposing $`V \otimes W` (for irreducible $`V, W`) into the direct sum of irreducible representations.
+
+## Formalization
+%%%
+tag := "Chapter4/Discussion_4.4/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Group.CharacterOperations.character_dual}
+
+{Manual.docstring RepresentationTheory.Group.CharacterOperations.character_inv_eq_conj}
+
+{Manual.docstring RepresentationTheory.Group.CharacterOperations.character_tensor}
+
+{Manual.docstring RepresentationTheory.Group.CharacterOperations.dual_iso_iff_character_star_eq}

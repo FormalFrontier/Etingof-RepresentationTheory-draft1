@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -33,3 +34,15 @@ $$`P(H_1(x), \ldots, H_n(x)) = x_1 \ldots x_n`
 $$`P(\Delta_n(a), \Delta_n(a^2), \ldots, \Delta_n(a^n)) = a \otimes \cdots \otimes a.`
 
 The rest follows from (i). $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Lemma5.18.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.PiTensorProduct.Constructions.piTensorSubalgebra_eq_alternate}
+
+{Manual.docstring RepresentationTheory.PiTensorProduct.Constructions.span_symmetricPowerSubset_eq_top}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -23,3 +24,13 @@ $$`\Delta_n(b) := b \otimes 1 \otimes \cdots \otimes 1 + 1 \otimes b \otimes \cd
 $`b \in \mathfrak{gl}(V)`.
 
 *Proof.* Clearly, the image of $`\mathcal{U}(\mathfrak{gl}(V))` is contained in $`B`, so we just need to show that any element of $`B` is contained in the image of $`\mathcal{U}(\mathfrak{gl}(V))`. By definition, $`B = S^n \operatorname{End} V`, so the result follows from part (ii) of the following lemma.
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.18.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryEndomorphismActions.centralizer_auxiliarySubalgebra_eq_range_universalEnvelopingAlgebraHom}

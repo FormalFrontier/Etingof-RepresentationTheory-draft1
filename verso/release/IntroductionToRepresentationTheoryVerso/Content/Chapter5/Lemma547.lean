@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -30,3 +31,13 @@ $$`0 = \chi_C(g) + \sum_{V \in D} \dim V \chi_V(g) + \sum_{V \in N} \dim V \chi_
 $$`= 1 + pa + \sum_{V \in N} \dim V \chi_V(g).`
 
 This means that the last summand is nonzero. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Lemma5.4.7/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroup.PrimePowerConjugacyClass.exists_simple_representation_of_conj_class_card_prime_pow}

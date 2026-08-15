@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -27,3 +28,39 @@ For every representation $`V` of $`A`, it is easy to see that $`1_i V` is a repr
 Hint: For every $`(i, j) \in \{1, 2, \ldots, d\}^2`, let $`E_{ij} \in \operatorname{Mat}_d(k)` be the matrix with $`1` in the $`i`th row of the $`j`th column and $`0`'s everywhere else. Let $`V` be a finite dimensional representation of $`\operatorname{Mat}_d(k)`. Show that $`V = E_{11}V \oplus E_{22}V \oplus \cdots \oplus E_{dd}V`, and that $`\Phi_i : E_{11}V \to E_{ii}V`, $`v \mapsto E_{i1}v` is an isomorphism for every $`i \in \{1, 2, \ldots, d\}`. For every $`v \in E_{11}V`, denote $`S(v) = \langle E_{11}v, E_{21}v, \ldots, E_{d1}v \rangle`. Prove that $`S(v)` is a subrepresentation of $`V` isomorphic to $`k^d` (as a representation of $`\operatorname{Mat}_d(k)`), and that $`v \in S(v)`. Conclude that $`V = S(v_1) \oplus S(v_2) \oplus \cdots \oplus S(v_k)`, where $`\{v_1, v_2, \ldots, v_k\}` is a basis of $`E_{11}V`.
 
 (c) Deduce Theorem 3.3.1.
+
+## Formalization
+%%%
+tag := "Chapter3/Problem3.3.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.auxiliaryRangeModule}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.exists_equiv_pi_standardModule}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.isSimpleModule_pi_iff_exists_simple_auxiliaryRange}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.isSimpleModule_standardMatrixModule}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.nonempty_equiv_standardModule_of_isSimpleModule}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.single_one_mul_single_one}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.sum_single_one}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.IndexedAuxiliaryType.componentLinearEquivOfLinearEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.IndexedAuxiliaryType.eq_index_of_linearEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.IndexedAuxiliaryType.isSimpleModule_iff}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.IndexedAuxiliaryType.linearEquivOfLinearEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.exists_equiv_indexedAuxiliaryType_auxiliaryRange}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.indexedAuxiliaryEndomorphism}

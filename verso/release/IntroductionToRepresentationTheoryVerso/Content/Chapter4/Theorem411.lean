@@ -52,3 +52,23 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Semisimplicity.FiniteDimensional.finiteDimensional_tfae}
+
+{Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryMap_apply_single}
+
+{Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.groupAlgebraEquivRepresentationEnd}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.FiniteGroup.exists_complete_simple_family_coordinateRepresentation}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.FiniteGroup.exists_complete_simple_family_with_groupAlgebra_equiv}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.FiniteGroup.exists_positive_dimensions_sum_sq_eq_card}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.MonoidAlgebra.isSemisimpleRing_of_isUnit_card}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryFDRepIsoAuxiliary}
+
+{Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryFDRepIsoAuxiliaryPrime}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.FiniteGroup.exists_complete_simple_family_endomorphismRepresentation}
