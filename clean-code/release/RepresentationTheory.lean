@@ -619,6 +619,7 @@ import RepresentationTheory.ModuleTensorPresentation
 import RepresentationTheory.Auxiliary.EquivariantMaps
 import RepresentationTheory.HomologicalAlgebra.TensorProductHomology
 import RepresentationTheory.Analysis.ContinuousMap.StableModuleEquivalence
+import RepresentationTheory.PartitionPolynomialEvaluation
 
 /-!
 # Representation theory formalization
