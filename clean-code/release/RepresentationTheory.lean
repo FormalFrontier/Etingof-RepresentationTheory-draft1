@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: Kim Morrison
 -/
 import RepresentationTheory.Alignment.Attribute
+import RepresentationTheory.AuxiliaryFiniteFieldRepresentations
 import RepresentationTheory.AuxiliaryFiniteSetMembership
 import RepresentationTheory.Analysis.Algebra.DerivationExponential
 import RepresentationTheory.Algebra.Algebraic.ConjRoot.FiniteSum
@@ -94,6 +95,7 @@ import RepresentationTheory.Group.SimpleCharacterCriterion
 import RepresentationTheory.Group.UnitaryRepresentations
 import RepresentationTheory.GroupAction.DenseOrbit
 import RepresentationTheory.IntegralVectorSign
+import RepresentationTheory.IntegerMatrices
 import RepresentationTheory.InvolutiveSquareZeroAlgebra
 import RepresentationTheory.CategoryTheory.LinearFunctors
 import RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
@@ -130,6 +132,7 @@ import RepresentationTheory.SimpleModule.ScalarEndomorphisms
 import RepresentationTheory.MvPolynomial.QuotientProperty
 import RepresentationTheory.Quiver.Arrows
 import RepresentationTheory.Quiver.DependentPropertiesAuxiliary
+import RepresentationTheory.Quiver.EndofunctorAdjunction
 import RepresentationTheory.Quiver.MatrixOrientation
 import RepresentationTheory.Quiver.PathAlgebra
 import RepresentationTheory.Quiver.PathAlgebra.VertexComponents
