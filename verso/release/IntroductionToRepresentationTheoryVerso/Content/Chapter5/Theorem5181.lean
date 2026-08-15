@@ -50,3 +50,11 @@ number := false
 {Manual.docstring RepresentationTheory.CentralizerDecomposition.exists_auxiliary_decomposition_data}
 
 {Manual.docstring RepresentationTheory.CentralizerDecomposition.exists_auxiliary_evaluation_equiv}
+
+{Manual.docstring RepresentationTheory.IsotypicCentralizer.existsIsSimpleModuleSubmoduleLinearMapEquiv}
+
+{Manual.docstring RepresentationTheory.IsotypicCentralizer.isotypicComponentsEquivCentralizer}
+
+{Manual.docstring RepresentationTheory.IsotypicCentralizer.linearEquivLinearMapPrecomp}
+
+{Manual.docstring RepresentationTheory.IsotypicCentralizer.linearEquivOfCentralizerLinearEquivLinearMap}

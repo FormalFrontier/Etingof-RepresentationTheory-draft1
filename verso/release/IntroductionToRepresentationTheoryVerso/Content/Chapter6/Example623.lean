@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -38,3 +39,21 @@ $$`
 `
 
 Note that this statement is just the Gauss elimination theorem for matrices.
+
+## Formalization
+%%%
+tag := "Chapter6/Example6.2.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearMapRepresentations.LinearMapRepresentation.existsUnique_equiv_standardModel_of_isIndecomposable}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearMapRepresentations.LinearMapRepresentation.standardModel}
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearMapRepresentations.LinearMapRepresentation.standardModel_isIndecomposable}
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearMapRepresentations.isIndecomposable_dimension_cases}
