@@ -635,6 +635,7 @@ import RepresentationTheory.Algebra.Module.KrullSchmidt
 import RepresentationTheory.AdjInputSetCardinalities
 import RepresentationTheory.Auxiliary
 import RepresentationTheory.IntegerZeroSumCoordinates
+import RepresentationTheory.HomologicalComplex.TensorHomology
 
 /-!
 # Representation theory formalization
