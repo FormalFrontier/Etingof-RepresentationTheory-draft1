@@ -26,11 +26,13 @@ noncomputable def quadraticForm (n : ℕ) : QuadraticForm ℂ (quadraticSpace n)
   QuadraticForm.dualProd ℂ (Fin n → ℂ)
 
 /-- A linear map from a finite complex function space to endomorphisms of the displayed spinor space. -/
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 noncomputable def vectorAction (n : ℕ) :
     (Fin n → ℂ) →ₗ[ℂ] Module.End ℂ (spinorSpace n) :=
   (Algebra.lmul ℂ (spinorSpace n)).toLinearMap.comp (ExteriorAlgebra.ι ℂ)
 
 /-- A linear map from the dual of a finite complex function space to endomorphisms of the displayed spinor space. -/
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 noncomputable def dualAction (n : ℕ) :
     Module.Dual ℂ (Fin n → ℂ) →ₗ[ℂ] Module.End ℂ (spinorSpace n) :=
   CliffordAlgebra.contractLeft (Q := (0 : QuadraticForm ℂ (Fin n → ℂ)))
@@ -94,6 +96,7 @@ theorem quadraticSpaceAction_sq (n : ℕ) (x : quadraticSpace n) :
   rw [map_add, map_add, ha, hc, zero_add, add_zero, dualAction_add_vectorAction]
 
 /-- An algebra homomorphism from the displayed Clifford algebra to endomorphisms of the spinor space. -/
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 noncomputable def cliffordRepresentation (n : ℕ) :
     CliffordAlgebra (quadraticForm n) →ₐ[ℂ] Module.End ℂ (spinorSpace n) :=
   CliffordAlgebra.lift _ ⟨quadraticSpaceAction n, quadraticSpaceAction_sq n⟩
@@ -269,6 +272,7 @@ private theorem finrank_hyperbolicClifford_eq_end (n : ℕ) :
   simp [pow_two]
 
 /-- The displayed Clifford algebra representation is bijective. -/
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 theorem cliffordRepresentation_bijective (n : ℕ) :
     Function.Bijective (cliffordRepresentation n) := by
   letI : IsSimpleRing (CliffordAlgebra (quadraticForm n)) :=
@@ -294,6 +298,7 @@ theorem cliffordRepresentation_bijective (n : ℕ) :
     (finrank_hyperbolicClifford_eq_end n)).mp hinj
 
 /-- The displayed spinor space is a simple module over its Clifford algebra. -/
+@[source_ref "Chapter3/Problem3.9.5" (role := primary)]
 theorem spinorSpace_isSimpleModule (n : ℕ) :
     @IsSimpleModule (CliffordAlgebra (quadraticForm n)) _ (spinorSpace n) _
       (Module.compHom (spinorSpace n) (cliffordRepresentation n).toRingHom) := by
