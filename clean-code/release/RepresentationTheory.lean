@@ -709,6 +709,7 @@ import RepresentationTheory.Quiver.AuxiliaryConstructions
 import RepresentationTheory.Quiver.AuxiliaryRepresentationProperties
 import RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles
 import RepresentationTheory.LinearAlgebra.TensorPower.PermutationTrace
+import RepresentationTheory.Auxiliary.TensorProductPairingMaps
 
 /-!
 # Representation theory formalization
