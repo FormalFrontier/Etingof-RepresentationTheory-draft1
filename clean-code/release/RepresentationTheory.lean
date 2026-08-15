@@ -630,6 +630,7 @@ import RepresentationTheory.Representation.PermutationGroupSpectrum
 import RepresentationTheory.Quiver.FiniteFreeInjectivity
 import RepresentationTheory.SymmetricAlgebra.ProjectiveResolution
 import RepresentationTheory.FiniteSetCardinality
+import RepresentationTheory.FiniteAssociatedSetCardinality
 
 /-!
 # Representation theory formalization
