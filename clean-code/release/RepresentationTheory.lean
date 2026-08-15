@@ -561,6 +561,7 @@ import RepresentationTheory.Quiver.AdjacencyQuadraticForm
 import RepresentationTheory.LinearAlgebra.SymmetricPower.BasisPairMaps
 import RepresentationTheory.SymmetricPower.LinearAction
 import RepresentationTheory.Quiver.Representation.DenseOrbit
+import RepresentationTheory.CharacterTwistIntertwiners
 
 /-!
 # Representation theory formalization
