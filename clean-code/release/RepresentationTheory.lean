@@ -663,6 +663,7 @@ import RepresentationTheory.GaloisFieldAuxiliary
 import RepresentationTheory.DynkinDiagram.FiniteSimplyLaced
 import RepresentationTheory.LinearAlgebra.Module.Projective
 import RepresentationTheory.FiniteField.CharacterSums
+import RepresentationTheory.DerivedFunctorExactness
 
 /-!
 # Representation theory formalization
