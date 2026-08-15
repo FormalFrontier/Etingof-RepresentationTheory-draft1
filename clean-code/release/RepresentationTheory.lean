@@ -636,6 +636,7 @@ import RepresentationTheory.AdjInputSetCardinalities
 import RepresentationTheory.Auxiliary
 import RepresentationTheory.IntegerZeroSumCoordinates
 import RepresentationTheory.HomologicalComplex.TensorHomology
+import RepresentationTheory.Partitions.GeneralLinear
 
 /-!
 # Representation theory formalization
