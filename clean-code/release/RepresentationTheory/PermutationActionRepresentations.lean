@@ -5,6 +5,7 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.QuaternionGroupTwo
+import RepresentationTheory.Alignment.Attribute
 
 
 
@@ -339,6 +340,7 @@ def selectedRepresentationFour : FDRep ℂ AuxiliaryType := reducedPermutationRe
 def selectedRepresentationTwo : FDRep ℂ AuxiliaryType := reducedPermutationRepresentation (G := AuxiliaryType) (α := Fin 3)
 
 /-- A selected finite-dimensional complex representation corresponding to row three. -/
+@[source_ref "Chapter4/Example4.8.1" (role := supporting)]
 def selectedRepresentationThree : FDRep ℂ AuxiliaryType := selectedRepresentationFour ⊗ selectedRepresentationOne
 
 
@@ -533,4 +535,3 @@ end
 
 
 end RepresentationTheory.PermutationActionRepresentations
-

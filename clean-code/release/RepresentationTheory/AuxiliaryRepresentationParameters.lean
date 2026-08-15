@@ -154,7 +154,8 @@ theorem auxiliaryRepresentation_not_linearEquiv_of_parameters_ne (n : ℕ) (k : 
   omega
 
 /-- Two displayed auxiliary representation modules are linearly equivalent exactly when their parameters are equal. -/
-@[source_ref "Chapter5/Discussion_after_Definition5.23.1" (role := primary)]
+@[source_ref "Chapter5/Discussion_after_Definition5.23.1" (role := primary),
+  source_ref "Chapter5/Discussion_after_Definition5.23.1/Derived01" (role := supporting)]
 theorem auxiliaryRepresentation_linearEquiv_iff_parameters_eq (n : ℕ) (k : Type) [Field k] [IsAlgClosed k]
     [CharZero k] {lam mu : RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex n} :
     Nonempty ((RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt n lam k).asModule ≃ₗ[MonoidAlgebra k

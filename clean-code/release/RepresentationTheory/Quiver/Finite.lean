@@ -7,6 +7,7 @@ Authors: mathlib-initiative
 import Mathlib
 import RepresentationTheory.QuiverRepresentation.Auxiliary
 import RepresentationTheory.Quiver.MatrixOrientation
+import RepresentationTheory.Alignment.Attribute
 
 section QuiverRepresentationIso
 
@@ -22,6 +23,7 @@ def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
 end QuiverRepresentationIso
 
 /-- A square integer matrix satisfies the adjacency conditions for a finite quiver. -/
+@[source_ref "Chapter6/Problem6.1.5" (role := supporting)]
 def RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) : Prop :=
   (∃ (Q : @Quiver.{0, 0} (Fin n)),
       (∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)) ∧
@@ -38,6 +40,7 @@ def RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix (n : ℕ) (adj : Matrix
               W.AuxiliaryCondition → ∃ V ∈ reps, W.Related V
 
 /-- A zero-one quiver adjacency matrix has every diagonal entry equal to zero. -/
+@[source_ref "Chapter6/Problem6.1.5_parts" (role := primary)]
 theorem RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix.diagonal_eq_zero_of_entries_eq_zero_or_one {n : ℕ}
     {adj : Matrix (Fin n) (Fin n) ℤ} (hft : RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix n adj)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1) : ∀ i, adj i i = 0 := by

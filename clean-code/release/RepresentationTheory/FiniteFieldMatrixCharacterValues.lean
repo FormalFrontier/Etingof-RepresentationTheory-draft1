@@ -354,7 +354,8 @@ lemma subgroupCharacter_eq_compositeCharacter_topLeft
 /-- A rational identity in a complex variable under the stated nonvanishing assumptions. -/
 lemma complex_rational_identity (q : ℂ) (hq : q ≠ 0) (hq1 : q - 1 ≠ 0)
     (hq_plus_1 : q + 1 ≠ 0) :
-    (q - 1) * ((q - 1) ^ 2 * q)⁻¹ * ((q ^ 2 - 1) * (q ^ 2 - q)) -
+    (q - 1) * ((q - 1) ^ 2 * /- field-cardinality factor -/ q)⁻¹ *
+      ((q ^ 2 - 1) * (q ^ 2 - q)) -
     (q ^ 2 - 1)⁻¹ * ((q ^ 2 - 1) * (q ^ 2 - q)) = q - 1 := by
   have hq2 : q ^ 2 - 1 ≠ 0 := by
     rw [show q ^ 2 - 1 = (q - 1) * (q + 1) from by ring]

@@ -5,6 +5,7 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.Algebra.SimpleModule.Endomorphisms
+import RepresentationTheory.Alignment.Attribute
 
 
 namespace RepresentationTheory.Algebra.Module.ExtensionCocycles
@@ -20,10 +21,12 @@ noncomputable abbrev algebraEndomorphismFamily (M : Type*) [AddCommGroup M] [Mod
   Algebra.lsmul k k M a
 
 /-- The predicate on a linear map that makes its associated action on the product multiplicative. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 def IsExtensionCocycle (f : A →ₗ[k] (W →ₗ[k] V)) : Prop :=
   ∀ a b : A, f (a * b) = (algebraEndomorphismFamily k A V a).comp (f b) + (f a).comp (algebraEndomorphismFamily k A W b)
 
 /-- The linear endomorphism of a product determined by an algebra element and an extension map. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 noncomputable def extensionAction (f : A →ₗ[k] (W →ₗ[k] V)) (a : A) : (V × W) →ₗ[k] (V × W) :=
   LinearMap.prod
     (LinearMap.coprod (algebraEndomorphismFamily k A V a) (f a))
@@ -35,6 +38,7 @@ theorem extensionAction_apply_mk (f : A →ₗ[k] (W →ₗ[k] V)) (a : A) (v : 
   simp [extensionAction, Algebra.lsmul_coe]
 
 /-- The extension action preserves multiplication exactly when the defining linear map is an extension cocycle. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
 theorem extensionAction_mul_iff (f : A →ₗ[k] (W →ₗ[k] V)) :
     (∀ a b : A, extensionAction k A V W f (a * b)
         = (extensionAction k A V W f a).comp (extensionAction k A V W f b))
@@ -58,6 +62,7 @@ theorem extensionAction_mul_iff (f : A →ₗ[k] (W →ₗ[k] V)) :
     · rw [mul_smul]
 
 /-- An auxiliary submodule of linear maps from the algebra to linear maps between the two modules. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
 def auxiliaryMapSubmodule : Submodule k (A →ₗ[k] (W →ₗ[k] V)) where
   carrier := {f | IsExtensionCocycle k A V W f}
   add_mem' {f g} hf hg := by
@@ -70,6 +75,7 @@ def auxiliaryMapSubmodule : Submodule k (A →ₗ[k] (W →ₗ[k] V)) where
     simp only [LinearMap.smul_apply, hf a b, LinearMap.comp_smul, LinearMap.smul_comp, smul_add]
 
 /-- The extension map measuring the difference between applying an algebra element before and after a linear map of modules. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 noncomputable def coboundary (X : W →ₗ[k] V) : A →ₗ[k] (W →ₗ[k] V) :=
   ((LinearMap.llcomp k W V V).flip X).comp (Algebra.lsmul k k V).toLinearMap
     - (LinearMap.llcomp k W W V X).comp (Algebra.lsmul k k W).toLinearMap
@@ -81,6 +87,7 @@ theorem coboundary_apply_apply (X : W →ₗ[k] V) (a : A) (w : W) :
     LinearMap.flip_apply, AlgHom.toLinearMap_apply, Algebra.lsmul_coe]
 
 /-- Every coboundary satisfies the extension cocycle condition. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
 theorem isExtensionCocycle_coboundary (X : W →ₗ[k] V) : IsExtensionCocycle k A V W (coboundary k A V W X) := by
   intro a b
   ext w
@@ -90,6 +97,8 @@ theorem isExtensionCocycle_coboundary (X : W →ₗ[k] V) : IsExtensionCocycle k
   abel
 
 /-- A coboundary vanishes exactly when the underlying linear map commutes with the algebra action. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := primary),
+  source_ref "Chapter3/Problem3.9.1/Derived7" (role := supporting)]
 theorem coboundary_eq_zero_iff (X : W →ₗ[k] V) :
     coboundary k A V W X = 0 ↔ ∀ (a : A) (w : W), X (a • w) = a • X w := by
   constructor
@@ -110,6 +119,7 @@ def coboundaries : Submodule k (A →ₗ[k] (W →ₗ[k] V)) :=
   Submodule.span k (Set.range (coboundary k A V W))
 
 /-- The linear map sending a linear map between modules to its associated coboundary. -/
+@[source_ref "Chapter3/Problem3.9.1/Derived7" (role := supporting)]
 noncomputable def coboundaryLinearMap : (W →ₗ[k] V) →ₗ[k] (A →ₗ[k] (W →ₗ[k] V)) where
   toFun := coboundary k A V W
   map_add' X Y := by
@@ -126,6 +136,7 @@ noncomputable def coboundaryLinearMap : (W →ₗ[k] V) →ₗ[k] (A →ₗ[k] (
     coboundaryLinearMap k A V W X = coboundary k A V W X := rfl
 
 /-- The submodule of coboundaries is the range of the coboundary linear map. -/
+@[source_ref "Chapter3/Problem3.9.1/Derived7" (role := supporting)]
 theorem coboundaries_eq_range :
     coboundaries k A V W = LinearMap.range (coboundaryLinearMap k A V W) := by
   apply le_antisymm
@@ -149,6 +160,7 @@ theorem coboundaries_le_auxiliaryMapSubmodule :
   exact isExtensionCocycle_coboundary k A V W X
 
 /-- An auxiliary type parameterized by two modules over an algebra. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 abbrev AuxiliaryData : Type _ :=
   Quotient (Submodule.quotientRel (R := k) (M := auxiliaryMapSubmodule k A V W)
     ((coboundaries k A V W).submoduleOf (auxiliaryMapSubmodule k A V W)))
@@ -160,6 +172,7 @@ def IsExtensionEquiv (f f' : A →ₗ[k] (W →ₗ[k] V)) (φ : (V × W) ≃ₗ[
     = (extensionAction k A V W f' a).comp φ.toLinearMap
 
 /-- A coboundary difference between two extension cocycles yields a compatible equivalence of their products. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 theorem exists_isExtensionEquiv_of_sub_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V))
     (hf : IsExtensionCocycle k A V W f) (hf' : IsExtensionCocycle k A V W f')
     (hsub : f - f' ∈ coboundaries k A V W) :
@@ -198,6 +211,7 @@ theorem exists_isExtensionEquiv_of_sub_mem_coboundaries (f f' : A →ₗ[k] (W �
   simp only [add_assoc, ← key]
 
 /-- A compatible product equivalence given by a linear shear forces the difference of its extension maps to be a coboundary. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 theorem sub_mem_coboundaries_of_shear_isExtensionEquiv
     (f f' : A →ₗ[k] (W →ₗ[k] V)) (_hf : IsExtensionCocycle k A V W f) (_hf' : IsExtensionCocycle k A V W f')
     (φ : (V × W) ≃ₗ[k] (V × W)) (X : W →ₗ[k] V)
@@ -260,6 +274,7 @@ theorem exists_isExtensionEquiv_of_sub_smul_mem_coboundaries (f f' : A →ₗ[k]
   · rw [smul_comm]
 
 /-- Over an algebraically closed field, under the stated simplicity and finite-dimensionality hypotheses, a compatible product equivalence exists exactly when the first extension map minus a nonzero scalar multiple of the second is a coboundary. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 theorem exists_isExtensionEquiv_iff_exists_sub_smul_mem_coboundaries [IsAlgClosed k]
     [FiniteDimensional k V] [FiniteDimensional k W]
     [IsSimpleModule A V] [IsSimpleModule A W]
@@ -432,6 +447,7 @@ theorem isExtensionCocycle_zero : IsExtensionCocycle k A V W (0 : A →ₗ[k] (W
   intro a b; simp
 
 /-- The module type on a product determined by an extension cocycle valued in linear maps between two modules. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 def ExtensionModule (f : A →ₗ[k] (W →ₗ[k] V)) (_hf : IsExtensionCocycle k A V W f) : Type _ := V × W
 
 namespace ExtensionModule
@@ -605,17 +621,20 @@ theorem range_inclusion_eq_ker_projection :
     exact ⟨u.toProd.1, ExtensionModule.toProd_injective (by simp [Prod.ext_iff, hu])⟩
 
 /-- The canonical inclusion and projection of an extension module form an exact pair. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
 theorem exact_inclusion_projection :
     Function.Exact (inclusion f hf) (projection f hf) :=
   LinearMap.exact_iff.mpr range_inclusion_eq_ker_projection.symm
 
 /-- The quotient of an extension module by the range of its canonical inclusion is linearly equivalent to the second module. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
 noncomputable def quotientRangeInclusionEquiv (g : A →ₗ[k] (W →ₗ[k] V)) (hg : IsExtensionCocycle k A V W g) :
     (ExtensionModule k A V W g hg ⧸ LinearMap.range (inclusion g hg)) ≃ₗ[A] W :=
   (Submodule.quotEquivOfEq _ _ range_inclusion_eq_ker_projection).trans
     ((projection g hg).quotKerEquivOfSurjective projection_surjective)
 
 /-- The extension module associated with the zero cocycle is linearly equivalent over the algebra to the product module. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
 noncomputable def zeroLinearEquivProd : ExtensionModule k A V W (0 : A →ₗ[k] (W →ₗ[k] V)) (isExtensionCocycle_zero k A V W)
     ≃ₗ[A] V × W where
   toFun := toProd
@@ -677,6 +696,7 @@ theorem nonempty_linearEquiv_iff_exists_isExtensionEquiv (hf : IsExtensionCocycl
    fun ⟨φ, hφ⟩ => ⟨linearEquivOfIsExtensionEquiv hf hf' φ hφ⟩⟩
 
 /-- A coboundary difference between two cocycles yields a linear equivalence of their extension modules. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
 theorem nonempty_linearEquiv_of_sub_mem_coboundaries (hf : IsExtensionCocycle k A V W f)
     (hf' : IsExtensionCocycle k A V W f') (hsub : f - f' ∈ coboundaries k A V W) :
     Nonempty (ExtensionModule k A V W f hf ≃ₗ[A] ExtensionModule k A V W f' hf') :=
@@ -684,6 +704,7 @@ theorem nonempty_linearEquiv_of_sub_mem_coboundaries (hf : IsExtensionCocycle k 
     (exists_isExtensionEquiv_of_sub_mem_coboundaries k A V W f f' hf hf' hsub)
 
 /-- If an equivalence of extension modules acts on the underlying product by a linear shear, then the difference of the cocycles is a coboundary. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
 theorem sub_mem_coboundaries_of_shear_linearEquiv (hf : IsExtensionCocycle k A V W f)
     (hf' : IsExtensionCocycle k A V W f') (ψ : ExtensionModule k A V W f hf ≃ₗ[A] ExtensionModule k A V W f' hf')
     (X : W →ₗ[k] V) (hψX : ∀ p : V × W, (ψ (ofProd f hf p)).toProd = (p.1 + X p.2, p.2)) :
@@ -692,6 +713,7 @@ theorem sub_mem_coboundaries_of_shear_linearEquiv (hf : IsExtensionCocycle k A V
     (underlyingLinearEquiv ψ) X hψX (isExtensionEquiv_underlyingLinearEquiv ψ)
 
 /-- For finite-dimensional simple modules over an algebraically closed field, two extension modules are equivalent exactly when the first cocycle minus a nonzero scalar multiple of the second is a coboundary. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
 theorem nonempty_linearEquiv_iff_exists_sub_smul_mem_coboundaries [IsAlgClosed k]
     [FiniteDimensional k V] [FiniteDimensional k W]
     [IsSimpleModule A V] [IsSimpleModule A W]
@@ -702,6 +724,7 @@ theorem nonempty_linearEquiv_iff_exists_sub_smul_mem_coboundaries [IsAlgClosed k
     (exists_isExtensionEquiv_iff_exists_sub_smul_mem_coboundaries k A V W f f' hf hf')
 
 /-- Under the stated simplicity and finite-dimensionality hypotheses, an extension module is equivalent to the product module exactly when its cocycle is a coboundary. -/
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 theorem nonempty_linearEquiv_prod_iff_mem_coboundaries [IsAlgClosed k]
     [FiniteDimensional k V] [FiniteDimensional k W]
     [IsSimpleModule A V] [IsSimpleModule A W] (hf : IsExtensionCocycle k A V W f) :

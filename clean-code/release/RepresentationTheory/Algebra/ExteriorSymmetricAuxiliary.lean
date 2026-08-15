@@ -6,6 +6,7 @@ Authors: mathlib-initiative
 
 import RepresentationTheory.Auxiliary.MutualCentralizers
 import RepresentationTheory.LinearAlgebra.ExteriorPower.InvariantSubmodules
+import RepresentationTheory.Alignment.Attribute
 
 open scoped TensorProduct
 open RepresentationTheory.Auxiliary.MutualCentralizers
@@ -334,6 +335,7 @@ lemma auxiliaryToExteriorPower_map (g : V →ₗ[k] V) (x : auxiliarySpace k V n
 end Equivariance
 
 /-- Constructs a linear equivalence from an auxiliary submodule to the nth symmetric power. -/
+@[source_ref "Chapter5/Example5.19.3" (role := supporting)]
 noncomputable def auxiliarySubmoduleEquivSymmetricPower
     {k : Type} [Field k] [CharZero k]
     {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
@@ -384,6 +386,7 @@ noncomputable def auxiliarySubmoduleMap'
   (PiTensorProduct.map (fun _ : Fin n => g)).restrict (fun _ hx => piTensorProductMap_mem_auxiliarySubmodule' g hx)
 
 /-- Shows that the symmetric-power equivalence commutes with induced linear maps. -/
+@[source_ref "Chapter5/Example5.19.3" (role := supporting)]
 theorem auxiliarySubmoduleEquivSymmetricPower_map
     {k : Type} [Field k] [CharZero k]
     {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
@@ -394,6 +397,7 @@ theorem auxiliarySubmoduleEquivSymmetricPower_map
     LinearMap.coe_restrict_apply]
 
 /-- Constructs a linear equivalence from an auxiliary submodule to the nth exterior power. -/
+@[source_ref "Chapter5/Example5.19.3" (role := primary)]
 noncomputable def auxiliarySubmoduleEquivExteriorPower
     {k : Type} [Field k] [CharZero k]
     {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
@@ -447,6 +451,7 @@ noncomputable def auxiliarySubmoduleMap
   (PiTensorProduct.map (fun _ : Fin n => g)).restrict (fun _ hx => piTensorProductMap_mem_auxiliarySubmodule g hx)
 
 /-- Shows that the exterior-power equivalence commutes with induced linear maps. -/
+@[source_ref "Chapter5/Example5.19.3" (role := primary)]
 theorem auxiliarySubmoduleEquivExteriorPower_map
     {k : Type} [Field k] [CharZero k]
     {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
@@ -457,6 +462,7 @@ theorem auxiliarySubmoduleEquivExteriorPower_map
   exact auxiliaryToExteriorPower_map g x.val
 
 /-- The nth exterior power is subsingleton when n exceeds the finrank. -/
+@[source_ref "Chapter5/Example5.19.3" (role := primary)]
 theorem exteriorPower_subsingleton_of_finrank_lt
     {k : Type} [Field k]
     {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
@@ -467,6 +473,8 @@ theorem exteriorPower_subsingleton_of_finrank_lt
   exact Module.finrank_zero_iff.mp h0
 
 /-- An invariant submodule of an exterior power is either bottom or top. -/
+@[source_ref "Chapter4/Problem4.12.3" (role := primary),
+  source_ref "Chapter5/Example5.19.3" (role := primary)]
 theorem exteriorPower_invariantSubmodule_eq_bot_or_top
     {k : Type} [Field k] [CharZero k] {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
     (n : ℕ) :

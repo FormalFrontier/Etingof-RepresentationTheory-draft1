@@ -7,6 +7,7 @@ Authors: mathlib-initiative
 import Mathlib
 import RepresentationTheory.FiniteGroupRepresentations.Auxiliary
 import RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar
+import RepresentationTheory.Alignment.Attribute
 
 
 open scoped MonoidAlgebra
@@ -732,6 +733,7 @@ private theorem even_finrank_of_nondegenerate_alternating
   exact hdet_ne (by linear_combination (1 / 2 : ℂ) * h1)
 
 /-- Under an auxiliary condition on a complex representation, its dimension is even. -/
+@[source_ref "Chapter5/Discussion_after_Definition5.1.1" (role := primary)]
 theorem even_finrank_of_auxiliary
     (ρ : Representation ℂ G V) (h : RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionOne ρ) :
     Even (Module.finrank ℂ V) := by

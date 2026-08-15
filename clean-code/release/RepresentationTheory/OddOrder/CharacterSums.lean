@@ -9,6 +9,7 @@ import RepresentationTheory.FiniteGroupRepresentations.Auxiliary
 import RepresentationTheory.Representation.Character.InversionAndInvariantForms
 import RepresentationTheory.FiniteGroupCharacterArithmetic
 import RepresentationTheory.SimpleRepresentationModules
+import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.OddOrder.CharacterSums
 
@@ -177,6 +178,7 @@ theorem auxiliary_not_of_odd_card_of_simple
   omega
 
 /-- Auxiliary consequence for a nontrivial simple representation of a finite group of odd cardinality. -/
+@[source_ref "Chapter5/Exercise5.3.3" (role := primary)]
 theorem auxiliary_of_odd_card_of_simple_of_nontrivial
     (hodd : Odd (Fintype.card G))
     (ρ : Representation ℂ G V)
