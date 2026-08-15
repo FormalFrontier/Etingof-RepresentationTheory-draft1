@@ -504,6 +504,7 @@ import RepresentationTheory.Algebra.CategoryTheory.FreeModuleTensorProduct
 import RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex
 import RepresentationTheory.Algebra.Homology.Flatness
 import RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators
+import RepresentationTheory.Algebra.Module.ExtensionCocycles
 import RepresentationTheory.Algebra.QuotientMatrixDecomposition
 import RepresentationTheory.AuxiliaryQuiverRepresentationTransform
 import RepresentationTheory.CategoryTheory.LinearAlgebra.Auxiliary
@@ -525,6 +526,7 @@ import RepresentationTheory.ModuleTensorAuxiliary
 import RepresentationTheory.Permutation.CentralizerCycleFacts
 import RepresentationTheory.Rat.MatrixTwo
 import RepresentationTheory.Representation.Character.InversionAndInvariantForms
+import RepresentationTheory.RingTheory.ElementProperties
 import RepresentationTheory.SimpleRepresentationModules
 import RepresentationTheory.TensorPolynomial.Contraction
 
