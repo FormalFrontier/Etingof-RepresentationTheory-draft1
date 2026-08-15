@@ -49,16 +49,38 @@ noncomputable def auxiliaryAutomorphism : (Module.End ℂ (Fin 2 → ℂ))ˣ whe
       rw [jordanOperator, one_smul, ← Module.End.one_eq_id]
     have : jordanOperator (1 : ℂ) 2 * (1 - jordanNilpotent 2) =
         1 - jordanNilpotent 2 ^ 2 := by
-      rw [hjb]
-      noncomm_ring
+      rw [hjb, pow_two]
+      simp only [sub_eq_add_neg, add_mul, mul_add, one_mul, mul_one]
+      have hneg :
+          (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) *
+              -(jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) =
+            -((jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) *
+              (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ))) := by
+        simpa using
+          (Algebra.mul_smul_comm (-1 : ℂ)
+            (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ))
+            (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)))
+      rw [hneg]
+      abel
     rw [this, auxiliaryEndomorphism_sq_eq_zero, sub_zero]
   inv_val := by
     have hjb : jordanOperator (1 : ℂ) 2 = 1 + jordanNilpotent 2 := by
       rw [jordanOperator, one_smul, ← Module.End.one_eq_id]
     have : (1 - jordanNilpotent 2) * jordanOperator (1 : ℂ) 2 =
         1 - jordanNilpotent 2 ^ 2 := by
-      rw [hjb]
-      noncomm_ring
+      rw [hjb, pow_two]
+      simp only [sub_eq_add_neg, add_mul, mul_add, one_mul, mul_one]
+      have hneg :
+          -(jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) *
+              (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) =
+            -((jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) *
+              (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ))) := by
+        simpa using
+          (Algebra.smul_mul_assoc (-1 : ℂ)
+            (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ))
+            (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)))
+      rw [hneg]
+      abel
     rw [this, auxiliaryEndomorphism_sq_eq_zero, sub_zero]
 
 /-- The linear endomorphism underlying the auxiliary automorphism equals the specified auxiliary endomorphism. -/
