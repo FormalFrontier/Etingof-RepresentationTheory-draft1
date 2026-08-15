@@ -139,7 +139,6 @@ abbrev LinearChainRepresentation.oneOneOneModel (k : Type*) [Field k] :
 
 namespace LinearChainRepresentation
 
-/-- Every submodule of a subsingleton module is trivial. -/
 private theorem submodule_eq_bot_of_subsingleton {k M : Type*} [Field k] [AddCommGroup M]
     [Module k M] [Subsingleton M] (p : Submodule k M) : p = ⊥ := by
   rw [eq_bot_iff]; intro x _; rw [Submodule.mem_bot]; exact Subsingleton.elim _ _
