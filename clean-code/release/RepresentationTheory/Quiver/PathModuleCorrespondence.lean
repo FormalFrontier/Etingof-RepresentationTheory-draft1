@@ -139,7 +139,7 @@ theorem vertexProjector_eq_self_of_mem {i : Q} {x : V} (hx : x ∈ (vertexSubmod
 theorem arrowElement_smul_mem_source {i j : Q} (e : i ⟶ j) (x : V) :
     (arrowElement e : PathAlgebra k Q) • x ∈ (vertexSubmodule i : Submodule k V) := by
   refine ⟨(arrowElement e : PathAlgebra k Q) • x, ?_⟩
-  rw [vertexProjector_apply, ← mul_smul, vertexIdempotent_mul_arrowElement]
+  rw [vertexProjector_apply, ← _root_.mul_smul, vertexIdempotent_mul_arrowElement]
 
 /-- An arrow induces a linear map from its target vertex part to its source vertex part. -/
 noncomputable def arrowMapOnOppositeVertexParts {i j : Q} (e : i ⟶ j) :
@@ -446,7 +446,7 @@ theorem pathElement_smul_vertex {a b : Q} (p : Quiver.Path a b) :
     exact vertexProjector_eq_self_of_mem y.2
   | cons p' e ih =>
     intro y
-    rw [pathElement_cons p' e, mul_smul, ← arrowMapOnOppositeVertexParts_apply e y, ih (arrowMapOnOppositeVertexParts e y), oppositePathLinearMap_cons,
+    rw [pathElement_cons p' e, _root_.mul_smul, ← arrowMapOnOppositeVertexParts_apply e y, ih (arrowMapOnOppositeVertexParts e y), oppositePathLinearMap_cons,
       LinearMap.comp_apply, oppositeRepresentation_arrowMap]
     rfl
 
@@ -502,7 +502,7 @@ theorem pathAction_onOppositeDirectSum (x : BundledPath Q)
                 (vertexSubmodule (k := k) (V := V) c : Submodule k V).subtype y
               = (vertexSubmodule (k := k) (V := V) c : Submodule k V).subtype y := by
             rw [← vertexProjector_apply]; exact vertexProjector_eq_self_of_mem y.2
-          rw [← hy, ← mul_smul, pathElement_mul_vertexIdempotent, if_neg (Ne.symm h), zero_smul]
+          rw [← hy, ← _root_.mul_smul, pathElement_mul_vertexIdempotent, if_neg (Ne.symm h), zero_smul]
   have := LinearMap.congr_fun key m
   simpa only [LinearMap.comp_apply, actionAlgHom_apply] using this
 
