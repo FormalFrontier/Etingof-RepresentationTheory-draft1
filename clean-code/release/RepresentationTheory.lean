@@ -594,6 +594,7 @@ import RepresentationTheory.AuxiliaryDecompositionData
 import RepresentationTheory.HomologicalAlgebra.CochainComplexComparison
 import RepresentationTheory.ComplexCharacterIdentities
 import RepresentationTheory.SymmetricPowerRepresentations
+import RepresentationTheory.AlternatingTensorSquare
 
 /-!
 # Representation theory formalization
