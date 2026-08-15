@@ -818,21 +818,23 @@ theorem auxiliary
 
   set Ω := MulAction.orbitRel.Quotient G (A →* ℂˣ) with hΩ
   set χω : Ω → (A →* ℂˣ) := fun ω => Quotient.out ω with hχω
-  let Dω : (ω : Ω) → IrrepDecomp ℂ ↥(stab (χω ω)) := fun ω => IrrepDecomp.mk'
-  set Wf : (Σ ω : Ω, Fin (Dω ω).n) → FDRep ℂ (A ⋊[φ] G) :=
-    fun j => V (χω j.1) ((Dω j.1).columnFDRep j.2) with hWf
+  let Dω : (ω : Ω) → RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData ℂ
+      ↥(stab (χω ω)) := fun ω =>
+    RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.default
+  set Wf : (Σ ω : Ω, Fin (Dω ω).count) → FDRep ℂ (A ⋊[φ] G) :=
+    fun j => V (χω j.1) ((Dω j.1).representation j.2) with hWf
 
   have hWf_simple : ∀ j, Simple (Wf j) := by
     intro j
-    exact hVsimple (χω j.1) ((Dω j.1).columnFDRep j.2) ((Dω j.1).columnFDRep_simple j.2)
+    exact hVsimple (χω j.1) ((Dω j.1).representation j.2) ((Dω j.1).simple_representation j.2)
 
   have hWf_inj : ∀ j j', Nonempty (Wf j ≅ Wf j') → j = j' := by
     rintro ⟨ω, i⟩ ⟨ω', i'⟩ hiso
     simp only [hWf] at hiso
 
     obtain ⟨g, hg, hiso2⟩ := hclassify (χω ω) (χω ω')
-      ((Dω ω).columnFDRep i) ((Dω ω').columnFDRep i')
-      ((Dω ω).columnFDRep_simple i) ((Dω ω').columnFDRep_simple i') hiso
+      ((Dω ω).representation i) ((Dω ω').representation i')
+      ((Dω ω).simple_representation i) ((Dω ω').simple_representation i') hiso
 
     have horbit : χω ω' ∈ MulAction.orbit G (χω ω) :=
       MulAction.mem_orbit_iff.mpr ⟨g, by rw [hsmul_eq]; exact hg⟩
@@ -847,24 +849,24 @@ theorem auxiliary
     have hg_mem : g ∈ stab (χω ω) := (_hstab (χω ω) g).mpr hg
     set ge : ↥(stab (χω ω)) := ⟨g, hg_mem⟩ with hge
     have hchar : ∀ s : ↥(stab (χω ω)),
-        (transport g (χω ω) (χω ω) hg ((Dω ω).columnFDRep i)).character s
-          = ((Dω ω).columnFDRep i).character s := by
+        (transport g (χω ω) (χω ω) hg ((Dω ω).representation i)).character s
+          = ((Dω ω).representation i).character s := by
       intro s
       have hs : g⁻¹ * (s : G) * g ∈ stab (χω ω) :=
         (stab (χω ω)).mul_mem ((stab (χω ω)).mul_mem ((stab (χω ω)).inv_mem hg_mem) s.2) hg_mem
-      rw [_htransport g (χω ω) (χω ω) hg ((Dω ω).columnFDRep i) s hs]
+      rw [_htransport g (χω ω) (χω ω) hg ((Dω ω).representation i) s hs]
       have hconj : (⟨g⁻¹ * (s : G) * g, hs⟩ : ↥(stab (χω ω))) = ge⁻¹ * s * ge := by
         apply Subtype.ext
         simp [hge]
       rw [hconj]
-      have := FDRep.char_conj ((Dω ω).columnFDRep i) (s : ↥(stab (χω ω))) ge⁻¹
+      have := FDRep.char_conj ((Dω ω).representation i) (s : ↥(stab (χω ω))) ge⁻¹
       rw [inv_inv] at this
       exact this
     have htiso : Nonempty
-        (transport g (χω ω) (χω ω) hg ((Dω ω).columnFDRep i) ≅ (Dω ω).columnFDRep i) :=
+        (transport g (χω ω) (χω ω) hg ((Dω ω).representation i) ≅ (Dω ω).representation i) :=
       RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_character_eq _ _ (funext hchar)
     have hii : i' = i :=
-      (Dω ω).columnFDRep_injective i' i ⟨hiso2.some ≪≫ htiso.some⟩
+      (Dω ω).representation_index_eq_of_iso i' i ⟨hiso2.some ≪≫ htiso.some⟩
     subst hii
     rfl
 
@@ -905,17 +907,17 @@ theorem auxiliary
       rw [hN, hlag]; ring
 
     have key : ∀ ω : Ω,
-        ∑ i : Fin (Dω ω).n, (Module.finrank ℂ (V (χω ω) ((Dω ω).columnFDRep i))) ^ 2
+        ∑ i : Fin (Dω ω).count, (Module.finrank ℂ (V (χω ω) ((Dω ω).representation i))) ^ 2
           = Nat.card (G ⧸ stab (χω ω)) * Fintype.card G := by
       intro ω
-      have hpt : ∀ i, (Module.finrank ℂ (V (χω ω) ((Dω ω).columnFDRep i))) ^ 2
+      have hpt : ∀ i, (Module.finrank ℂ (V (χω ω) ((Dω ω).representation i))) ^ 2
           = (Nat.card (G ⧸ stab (χω ω))) ^ 2 *
-              (Module.finrank ℂ ((Dω ω).columnFDRep i)) ^ 2 := by
+              (Module.finrank ℂ ((Dω ω).representation i)) ^ 2 := by
         intro i
-        rw [hdimM (χω ω) ((Dω ω).columnFDRep i) ((Dω ω).columnFDRep_simple i)]; ring
+        rw [hdimM (χω ω) ((Dω ω).representation i) ((Dω ω).simple_representation i)]; ring
       rw [Finset.sum_congr rfl (fun i _ => hpt i), ← Finset.mul_sum,
-        (Dω ω).sum_finrank_sq_eq_card (Dω ω).columnFDRep (Dω ω).columnFDRep_simple
-          (Dω ω).columnFDRep_injective]
+        (Dω ω).sum_finrank_sq_eq_card_of_simple_pairwise (Dω ω).representation
+          (Dω ω).simple_representation (Dω ω).representation_index_eq_of_iso]
       have hlagω : Fintype.card G
           = Nat.card (G ⧸ stab (χω ω)) * Fintype.card ↥(stab (χω ω)) := by
         have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (stab (χω ω))
@@ -939,8 +941,8 @@ theorem auxiliary
       exact Fintype.card_congr (SemidirectProduct.equivProd (φ := φ)).symm
 
     calc ∑ j, (Module.finrank ℂ (Wf j)) ^ 2
-        = ∑ ω : Ω, ∑ i : Fin (Dω ω).n,
-            (Module.finrank ℂ (V (χω ω) ((Dω ω).columnFDRep i))) ^ 2 := Fintype.sum_sigma _
+        = ∑ ω : Ω, ∑ i : Fin (Dω ω).count,
+            (Module.finrank ℂ (V (χω ω) ((Dω ω).representation i))) ^ 2 := Fintype.sum_sigma _
       _ = ∑ ω : Ω, Nat.card (G ⧸ stab (χω ω)) * Fintype.card G :=
             Finset.sum_congr rfl (fun ω _ => key ω)
       _ = (∑ ω : Ω, Nat.card (G ⧸ stab (χω ω))) * Fintype.card G := by rw [Finset.sum_mul]
@@ -949,7 +951,6 @@ theorem auxiliary
       _ = Fintype.card (A ⋊[φ] G) := hcardSemi
 
   obtain ⟨j, hj⟩ := RepresentationTheory.representation_theory.finite_group.simple_exhaustion.exists_iso_of_sum_finrank_sq_eq_card Wf hWf_simple hWf_inj hWf_sum W hW
-  exact ⟨χω j.1, (Dω j.1).columnFDRep j.2, (Dω j.1).columnFDRep_simple j.2, hj⟩
+  exact ⟨χω j.1, (Dω j.1).representation j.2, (Dω j.1).simple_representation j.2, hj⟩
 
 end RepresentationTheory.Auxiliary
-
