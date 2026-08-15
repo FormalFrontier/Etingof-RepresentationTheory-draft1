@@ -603,6 +603,7 @@ import RepresentationTheory.AuxiliaryPartitionLinearIndependence
 import RepresentationTheory.GroupTheory.ConjugacyClassCardinalityBounds
 import RepresentationTheory.AuxiliarySemisimpleDecomposition
 import RepresentationTheory.AuxiliarySimpleModuleData
+import RepresentationTheory.PartitionedDecomposition
 
 /-!
 # Representation theory formalization
