@@ -557,6 +557,7 @@ import RepresentationTheory.IndexedPermutationFinsetAction
 import RepresentationTheory.GeneralLinearGroup.CoordinatePolynomials
 import RepresentationTheory.ConjugacyClassCardinalityBounds
 import RepresentationTheory.Quiver.AdjacencyQuadraticForm
+import RepresentationTheory.LinearAlgebra.SymmetricPower.BasisPairMaps
 
 /-!
 # Representation theory formalization
