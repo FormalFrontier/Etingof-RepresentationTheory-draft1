@@ -549,6 +549,7 @@ import RepresentationTheory.MultiplicativeIntAuxiliaryExample
 import RepresentationTheory.InvolutionRankSum
 import RepresentationTheory.CategoryTheory.FullFunctorConsequences
 import RepresentationTheory.OddOrderAuxiliary
+import RepresentationTheory.FiniteField.RepresentationConstruction
 
 /-!
 # Representation theory formalization
