@@ -554,6 +554,7 @@ import RepresentationTheory.Group.PermutationSubgroupData
 import RepresentationTheory.Quiver.AuxiliaryNatInt
 import RepresentationTheory.Quiver.GenericBaseChange
 import RepresentationTheory.IndexedPermutationFinsetAction
+import RepresentationTheory.GeneralLinearGroup.CoordinatePolynomials
 
 /-!
 # Representation theory formalization
