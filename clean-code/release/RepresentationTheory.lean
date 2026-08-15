@@ -779,6 +779,7 @@ import RepresentationTheory.PolynomialQuotientZModAuxiliary
 import RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory
 import RepresentationTheory.SymmetricGroup.PartitionSubspaceAuxiliary
 import RepresentationTheory.AffineGroupRepresentations
+import RepresentationTheory.Algebra.Module.DirectSumData
 
 /-!
 # Representation theory formalization
