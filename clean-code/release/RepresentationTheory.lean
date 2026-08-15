@@ -670,6 +670,7 @@ import RepresentationTheory.CharacterCoefficientAlgebra
 import RepresentationTheory.Auxiliary.PartitionPermutationRelations
 import RepresentationTheory.Auxiliary.FDRepPartitions
 import RepresentationTheory.AuxiliaryEquivariantDecomposition
+import RepresentationTheory.PermutationPartitionActions
 
 /-!
 # Representation theory formalization
