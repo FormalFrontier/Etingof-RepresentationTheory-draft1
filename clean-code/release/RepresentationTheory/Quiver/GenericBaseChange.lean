@@ -7,8 +7,6 @@ Authors: mathlib-initiative
 import RepresentationTheory.Quiver.Representation.MatrixModel
 import Mathlib
 
-/-! # Generic base change -/
-
 open Matrix MvPolynomial
 
 namespace RepresentationTheory.Quiver.GenericBaseChange
