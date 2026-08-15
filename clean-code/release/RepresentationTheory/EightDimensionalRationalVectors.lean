@@ -187,14 +187,14 @@ theorem Auxiliary.integralBasisVector_property (i j : Fin 8) (h : i ≠ j) :
       | (simp [inner_eq, integralBasisVector, Auxiliary.rationalMatrixA, Pi.sub_apply, Pi.add_apply] <;> norm_num)
 
 private def gramMat : Matrix (Fin 8) (Fin 8) ℤ :=
-  !![0,1,0,0,0,0,0,0;
-     1,0,1,0,0,0,0,0;
-     0,1,0,1,0,0,0,0;
-     0,0,1,0,1,0,0,0;
-     0,0,0,1,0,1,1,0;
-     0,0,0,0,1,0,0,0;
-     0,0,0,0,1,0,0,1;
-     0,0,0,0,0,0,1,0]
+  !![(0 : ℤ),1,0,0,0,0,0,(0 : ℤ);
+     (1 : ℤ),0,1,0,0,0,0,(0 : ℤ);
+     (0 : ℤ),1,0,1,0,0,0,(0 : ℤ);
+     (0 : ℤ),0,1,0,1,0,0,(0 : ℤ);
+     (0 : ℤ),0,0,1,0,1,1,(0 : ℤ);
+     (0 : ℤ),0,0,0,1,0,0,(0 : ℤ);
+     (0 : ℤ),0,0,0,1,0,0,(1 : ℤ);
+     (0 : ℤ),0,0,0,0,0,1,(0 : ℤ)]
 
 private lemma gramAdj_eq : Auxiliary.integerMatrix = gramMat := by
   funext i j

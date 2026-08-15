@@ -284,8 +284,9 @@ theorem auxiliaryRealSubmoduleA_finrank : Module.finrank ℝ auxiliaryRealSubmod
 theorem auxiliaryRealSubmoduleB_finrank : Module.finrank ℝ auxiliaryRealSubmoduleB = 3 := by
   classical
   set v : Fin 3 → realMatrixSpace :=
-    ![!![0, 1, 0; -1, 0, 0; 0, 0, 0], !![0, 0, 1; 0, 0, 0; -1, 0, 0],
-      !![0, 0, 0; 0, 0, 1; 0, -1, 0]] with hv
+    ![!![(0 : ℝ), 1, 0; -1, 0, 0; 0, 0, (0 : ℝ)],
+      !![(0 : ℝ), 0, 1; 0, 0, 0; -1, 0, (0 : ℝ)],
+      !![(0 : ℝ), 0, 0; 0, 0, 1; 0, -1, (0 : ℝ)]] with hv
   have hindep : LinearIndependent ℝ v := by
     rw [Fintype.linearIndependent_iff]
     intro g hg
@@ -326,9 +327,11 @@ theorem auxiliaryRealSubmoduleB_finrank : Module.finrank ℝ auxiliaryRealSubmod
 theorem auxiliaryRealSubmoduleD_finrank : Module.finrank ℝ auxiliaryRealSubmoduleD = 5 := by
   classical
   set v : Fin 5 → realMatrixSpace :=
-    ![!![0, 1, 0; 1, 0, 0; 0, 0, 0], !![0, 0, 1; 0, 0, 0; 1, 0, 0],
-      !![0, 0, 0; 0, 0, 1; 0, 1, 0], !![1, 0, 0; 0, -1, 0; 0, 0, 0],
-      !![0, 0, 0; 0, 1, 0; 0, 0, -1]] with hv
+    ![!![(0 : ℝ), 1, 0; 1, 0, 0; 0, 0, (0 : ℝ)],
+      !![(0 : ℝ), 0, 1; 0, 0, 0; 1, 0, (0 : ℝ)],
+      !![(0 : ℝ), 0, 0; 0, 0, 1; 0, 1, (0 : ℝ)],
+      !![(1 : ℝ), 0, 0; 0, -1, 0; 0, 0, (0 : ℝ)],
+      !![(0 : ℝ), 0, 0; 0, 1, 0; 0, 0, (-1 : ℝ)]] with hv
   have hindep : LinearIndependent ℝ v := by
     rw [Fintype.linearIndependent_iff]
     intro g hg
@@ -491,8 +494,9 @@ theorem coordinateLinearEquiv_action (A : realMatrixSubmonoid) (v : Fin 3 → �
 
 /-- Defines a family of three elements of the displayed real matrix space. -/
 def threeMatrixFamily : Fin 3 → realMatrixSpace :=
-  ![!![0, 1, 0; -1, 0, 0; 0, 0, 0], !![0, 0, 1; 0, 0, 0; -1, 0, 0],
-    !![0, 0, 0; 0, 0, 1; 0, -1, 0]]
+  ![!![(0 : ℝ), 1, 0; -1, 0, 0; 0, 0, (0 : ℝ)],
+    !![(0 : ℝ), 0, 1; 0, 0, 0; -1, 0, (0 : ℝ)],
+    !![(0 : ℝ), 0, 0; 0, 0, 1; 0, -1, (0 : ℝ)]]
 
 /-- Each element of the displayed family belongs to the specified submodule. -/
 theorem threeMatrixFamily_mem_auxiliarySubmodule (i : Fin 3) : threeMatrixFamily i ∈ auxiliaryRealSubmoduleB := by
@@ -590,9 +594,11 @@ private theorem conjRep_Pc2 : realConjugationRepresentation matrixSubmonoidEleme
 
 /-- Defines a family of five elements of the displayed real matrix space. -/
 def fiveMatrixFamily : Fin 5 → realMatrixSpace :=
-  ![!![0, 1, 0; 1, 0, 0; 0, 0, 0], !![0, 0, 1; 0, 0, 0; 1, 0, 0],
-    !![0, 0, 0; 0, 0, 1; 0, 1, 0], !![1, 0, 0; 0, -1, 0; 0, 0, 0],
-    !![0, 0, 0; 0, 1, 0; 0, 0, -1]]
+  ![!![(0 : ℝ), 1, 0; 1, 0, 0; 0, 0, (0 : ℝ)],
+    !![(0 : ℝ), 0, 1; 0, 0, 0; 1, 0, (0 : ℝ)],
+    !![(0 : ℝ), 0, 0; 0, 0, 1; 0, 1, (0 : ℝ)],
+    !![(1 : ℝ), 0, 0; 0, -1, 0; 0, 0, (0 : ℝ)],
+    !![(0 : ℝ), 0, 0; 0, 1, 0; 0, 0, (-1 : ℝ)]]
 
 /-- Each element of the displayed family belongs to the specified submodule. -/
 theorem fiveMatrixFamily_mem_auxiliarySubmodule (i : Fin 5) : fiveMatrixFamily i ∈ auxiliaryRealSubmoduleD := by

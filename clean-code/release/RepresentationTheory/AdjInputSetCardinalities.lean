@@ -29,7 +29,7 @@ open Matrix Finset
 
 
 private lemma E6_sos (a b c d e f : ℤ) :
-    6 * (2*(a^2+b^2+c^2+d^2+e^2+f^2) -
+    6 * (2*((a : ℤ)^2+b^2+c^2+d^2+e^2+f^2) -
       2*(a*b+b*c+c*d+d*e+c*f)) =
     3*(2*a-b)^2 + 3*(2*e-d)^2 + 3*(2*f-c)^2 +
     (3*b-2*c)^2 + (3*d-2*c)^2 + c^2 := by ring
@@ -177,7 +177,7 @@ private lemma pair_count_bridge {G1 G2 : Type*} [Fintype G1] [Fintype G2]
 
 
 private lemma E7_sos (a b c d e f g : ℤ) :
-    12 * (2*(a^2+b^2+c^2+d^2+e^2+f^2+g^2) -
+    12 * (2*((a : ℤ)^2+b^2+c^2+d^2+e^2+f^2+g^2) -
       2*(a*b+b*c+c*d+d*e+e*f+c*g)) =
     6*(2*a-b)^2 + 6*(2*f-e)^2 + 6*(2*g-c)^2 +
     2*(3*b-2*c)^2 + 2*(3*e-2*d)^2 +
@@ -393,7 +393,7 @@ theorem set_from_adj_at_seven_finite_and_ncard_eq :
 
 
 private lemma E8_sos (a b c d e f g h : ℤ) :
-    60 * (2*(a^2+b^2+c^2+d^2+e^2+f^2+g^2+h^2) -
+    60 * (2*((a : ℤ)^2+b^2+c^2+d^2+e^2+f^2+g^2+h^2) -
       2*(a*b+b*c+c*d+d*e+e*f+f*g+c*h)) =
     30*(2*a-b)^2 + 30*(2*g-f)^2 + 30*(2*h-c)^2 +
     10*(3*b-2*c)^2 + 10*(3*f-2*e)^2 +
@@ -656,4 +656,3 @@ theorem set_from_adj_at_eight_finite_and_ncard_eq :
 end ETypeRootCounts
 
 end RepresentationTheory.AdjInputSetCardinalities
-

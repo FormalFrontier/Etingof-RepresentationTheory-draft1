@@ -82,12 +82,12 @@ noncomputable def FourVertexStarRepresentation.dimension {k : Type*} [Field k] (
 
 /-- A finite collection of nested four-tuples of natural numbers associated with the four-vertex setting. -/
 def fourVertexDimensionTuples : Finset (ℕ × ℕ × ℕ × ℕ) :=
-  {(0,1,0,0), (0,0,1,0), (0,0,0,1),
-   (1,0,0,0),
-   (1,1,0,0), (1,0,1,0), (1,0,0,1),
-   (1,1,1,0), (1,1,0,1), (1,0,1,1),
-   (1,1,1,1),
-   (2,1,1,1)}
+  {((0 : ℕ),1,0,0), ((0 : ℕ),0,1,0), ((0 : ℕ),0,0,1),
+   ((1 : ℕ),0,0,0),
+   ((1 : ℕ),1,0,0), ((1 : ℕ),0,1,0), ((1 : ℕ),0,0,1),
+   ((1 : ℕ),1,1,0), ((1 : ℕ),1,0,1), ((1 : ℕ),0,1,1),
+   ((1 : ℕ),1,1,1),
+   ((2 : ℕ),1,1,1)}
 
 /-- For an indecomposable star representation, the first leaf map is injective unless the center and the other two leaf spaces have dimension zero. -/
 lemma leafOne_ker_eq_bot_or_other_finrank_eq_zero {k : Type*} [Field k] (ρ : FourVertexStarRepresentation k)
