@@ -201,7 +201,8 @@ private lemma exists_scalar_of_invariant (V : FDRep ℂ G) [Simple V]
   have := congr_arg Subtype.val hc
   simpa using this.symm
 
-private lemma renormCharElt_mul_classFunction (V : FDRep ℂ G) [Simple V]
+private lemma representationAuxiliaryElement_mul_of_auxiliaryGroupFunctionPredicate
+    (V : FDRep ℂ G) [Simple V]
     (z : AuxiliaryGroupFunctionType G) (hz : auxiliaryGroupFunctionPredicate z) :
     ∃ σ : ℂ, representationAuxiliaryElement V * z = σ • representationAuxiliaryElement V := by
   set S : V →ₗ[ℂ] V := ∑ y : G, z y • V.ρ y⁻¹ with hSdef
@@ -269,7 +270,9 @@ theorem auxiliaryRingElementPredicate_representationSubalgebraElement_of_simple 
 
   have hclass : auxiliaryGroupFunctionPredicate (representationAuxiliaryElement V) :=
     (mem_auxiliaryComplexGroupSubalgebra_iff (representationAuxiliaryElement V)).mp (representationAuxiliaryElement_mem_auxiliarySubalgebra V)
-  obtain ⟨σ0, hσ0⟩ := renormCharElt_mul_classFunction V (representationAuxiliaryElement V) hclass
+  obtain ⟨σ0, hσ0⟩ :=
+    representationAuxiliaryElement_mul_of_auxiliaryGroupFunctionPredicate V
+      (representationAuxiliaryElement V) hclass
   have hval1 : (representationAuxiliaryElement V * representationAuxiliaryElement V) 1 = representationAuxiliaryElement V 1 := by
     rw [coeff_mul_eq_sum_coeff_mul_coeff_inv_mul]
     have hterm : ∀ x : G, representationAuxiliaryElement V x * representationAuxiliaryElement V (x⁻¹ * 1)
@@ -329,7 +332,9 @@ theorem auxiliaryRingElementPredicate_representationSubalgebraElement_of_simple 
   have hea : representationSubalgebraElement V * a = a := by rw [hEq, add_mul, ha, hba0, add_zero]
   have ha_class : auxiliaryGroupFunctionPredicate (a : AuxiliaryGroupFunctionType G) :=
     (mem_auxiliaryComplexGroupSubalgebra_iff (a : AuxiliaryGroupFunctionType G)).mp a.2
-  obtain ⟨σa, hσa⟩ := renormCharElt_mul_classFunction V (a : AuxiliaryGroupFunctionType G) ha_class
+  obtain ⟨σa, hσa⟩ :=
+    representationAuxiliaryElement_mul_of_auxiliaryGroupFunctionPredicate V
+      (a : AuxiliaryGroupFunctionType G) ha_class
   have hσa' : representationSubalgebraElement V * a = σa • representationSubalgebraElement V := by
     apply Subtype.ext; simp only [MulMemClass.coe_mul, SetLike.val_smul]; exact hσa
   have haσ : a = σa • representationSubalgebraElement V := hea ▸ hσa'
@@ -346,7 +351,9 @@ theorem auxiliaryRingElementPredicate_representationSubalgebraElement_of_simple 
   have heb : representationSubalgebraElement V * b = b := by rw [hEq, add_mul, hb, hab, zero_add]
   have hb_class : auxiliaryGroupFunctionPredicate (b : AuxiliaryGroupFunctionType G) :=
     (mem_auxiliaryComplexGroupSubalgebra_iff (b : AuxiliaryGroupFunctionType G)).mp b.2
-  obtain ⟨σb, hσb⟩ := renormCharElt_mul_classFunction V (b : AuxiliaryGroupFunctionType G) hb_class
+  obtain ⟨σb, hσb⟩ :=
+    representationAuxiliaryElement_mul_of_auxiliaryGroupFunctionPredicate V
+      (b : AuxiliaryGroupFunctionType G) hb_class
   have hσb' : representationSubalgebraElement V * b = σb • representationSubalgebraElement V := by
     apply Subtype.ext; simp only [MulMemClass.coe_mul, SetLike.val_smul]; exact hσb
   have hbσ : b = σb • representationSubalgebraElement V := heb ▸ hσb'
@@ -511,4 +518,3 @@ theorem auxiliaryRingElementPredicate_iff_exists_simple_representationElement (e
 end Classification
 
 end RepresentationTheory.CharacterCoefficientAlgebra
-
