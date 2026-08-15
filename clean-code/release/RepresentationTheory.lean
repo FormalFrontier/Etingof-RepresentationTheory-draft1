@@ -698,6 +698,7 @@ import RepresentationTheory.LieAlgebra.FiniteDimensionalModels
 import RepresentationTheory.GradedLieAlgebra.BracketRelations
 import RepresentationTheory.QuotientPermutationRepresentation
 import RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor
+import RepresentationTheory.QuantumTorus.FiniteOrderModules
 
 /-!
 # Representation theory formalization
