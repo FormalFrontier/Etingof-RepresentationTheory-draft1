@@ -724,6 +724,7 @@ import RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.LinearYoneda
 import RepresentationTheory.Combinatorics.Partition.RootOrderMatrices
 import RepresentationTheory.EightDimensionalRationalVectors
 import RepresentationTheory.Algebra.Matrix.ProductSemisimplicity
+import RepresentationTheory.WeylAlgebra.ModularSimpleModules
 
 /-!
 # Representation theory formalization
