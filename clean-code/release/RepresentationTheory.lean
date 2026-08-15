@@ -564,6 +564,7 @@ import RepresentationTheory.Quiver.Representation.DenseOrbit
 import RepresentationTheory.CharacterTwistIntertwiners
 import RepresentationTheory.AuxiliaryInvariantBilinearPairings
 import RepresentationTheory.Representation.Character.AuxiliaryProperties
+import RepresentationTheory.IndexedTensorAction
 
 /-!
 # Representation theory formalization
