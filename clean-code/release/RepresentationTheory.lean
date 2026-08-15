@@ -640,6 +640,7 @@ import RepresentationTheory.Partitions.GeneralLinear
 import RepresentationTheory.QuiverRepresentation.VertexCompositionSeries
 import RepresentationTheory.Quiver.Auxiliary
 import RepresentationTheory.Quiver.VertexOrder
+import RepresentationTheory.Quiver.PathAlgebra.LoopQuiver
 
 /-!
 # Representation theory formalization
