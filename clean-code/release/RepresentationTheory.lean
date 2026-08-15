@@ -652,6 +652,7 @@ import RepresentationTheory.Auxiliary.FiniteAlgebraCandidates
 import RepresentationTheory.AuxiliaryTensorProductRepresentations
 import RepresentationTheory.SymmetricGroupAlgebra.SignTwist
 import RepresentationTheory.CategoryTheory.LeftDerivedFunctor.ConnectingMorphisms
+import RepresentationTheory.CategoryTheory.Auxiliary.FGModuleCatEquivalence
 
 /-!
 # Representation theory formalization
