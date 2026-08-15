@@ -580,6 +580,7 @@ import RepresentationTheory.AuxiliaryQuiverConstructions
 import RepresentationTheory.AuxiliaryQuiverRepresentationDimensions
 import RepresentationTheory.AuxiliaryQuiverRepresentationRelations
 import RepresentationTheory.Quiver.DimensionVectorClassification
+import RepresentationTheory.IntegerVectorPredicate
 
 /-!
 # Representation theory formalization
