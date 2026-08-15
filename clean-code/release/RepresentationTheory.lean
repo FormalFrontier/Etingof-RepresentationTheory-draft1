@@ -766,6 +766,9 @@ import RepresentationTheory.Group.AlternatingGroupFin5Classification
 import RepresentationTheory.Algebra.Homology.TensorResolution
 import RepresentationTheory.HomologicalComplex.TensorExtension
 import RepresentationTheory.HomologicalAlgebra.TensorProduct
+import RepresentationTheory.HomologicalComplex.NatTensorHomology
+import RepresentationTheory.HomologicalAlgebra.TensorProductProjectiveResolution
+import RepresentationTheory.Algebra.Homology.SymmetricAlgebra.ProductResolution
 
 /-!
 # Representation theory formalization
