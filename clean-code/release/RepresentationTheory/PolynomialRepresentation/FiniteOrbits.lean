@@ -10,7 +10,7 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.PolynomialRepresentation.FiniteOrbits
 
-open MvPolynomial MulAction
+open _root_.MvPolynomial MulAction
 open RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
 
 variable {k : Type} [Field k]
