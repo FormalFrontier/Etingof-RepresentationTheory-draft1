@@ -664,6 +664,7 @@ import RepresentationTheory.DynkinDiagram.FiniteSimplyLaced
 import RepresentationTheory.LinearAlgebra.Module.Projective
 import RepresentationTheory.FiniteField.CharacterSums
 import RepresentationTheory.DerivedFunctorExactness
+import RepresentationTheory.LieModule.CentralAction
 
 /-!
 # Representation theory formalization
