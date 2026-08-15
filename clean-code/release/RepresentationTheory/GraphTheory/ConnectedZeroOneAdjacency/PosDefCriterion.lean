@@ -126,9 +126,7 @@ theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriteri
           W (g dW hdW_root) hWindec (hg_indec dW hdW_root) (fun _ => rfl)
           (hg_dim dW hdW_root)
       obtain ⟨iso⟩ := huniq
-      exact ⟨iso.linearEquivAt, fun {a b} f => by
-        ext x
-        simpa using iso.linearEquivAt_map f x⟩
+      exact ⟨iso.linearEquivAt, fun {a b} f => by ext x; simpa using iso.linearEquivAt_map f x⟩
 
 /-- Under the stated condition on a connected symmetric zero-one adjacency matrix, the quadratic form of twice the identity minus the adjacency matrix is positive on every nonzero rational vector. -/
 @[source_ref "Chapter6/Problem6.1.5_parts" (role := primary)]
