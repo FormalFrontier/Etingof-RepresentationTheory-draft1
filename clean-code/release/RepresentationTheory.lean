@@ -565,6 +565,7 @@ import RepresentationTheory.CharacterTwistIntertwiners
 import RepresentationTheory.AuxiliaryInvariantBilinearPairings
 import RepresentationTheory.Representation.Character.AuxiliaryProperties
 import RepresentationTheory.IndexedTensorAction
+import RepresentationTheory.LinearAlgebra.IntegerMatrixReflections
 
 /-!
 # Representation theory formalization
