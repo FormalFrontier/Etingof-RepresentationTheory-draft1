@@ -600,6 +600,7 @@ import RepresentationTheory.ModuleCat.FiniteFreeRetractEndomorphisms
 import RepresentationTheory.AuxiliaryPartitionPermutationAverages
 import RepresentationTheory.RingTheory.AuxiliaryTypeInvariants
 import RepresentationTheory.AuxiliaryPartitionLinearIndependence
+import RepresentationTheory.GroupTheory.ConjugacyClassCardinalityBounds
 
 /-!
 # Representation theory formalization
