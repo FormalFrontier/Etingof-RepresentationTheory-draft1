@@ -241,7 +241,8 @@ theorem mul_trace_eq_trace_of_auxiliaryProperty [Fact p.Prime]
 
 section Isomorphisms
 
-open CategoryTheory MonoidalCategory
+open CategoryTheory CategoryTheory.MonoidalCategory
+open scoped CategoryTheory.MonoidalCategory
 
 variable [Fact p.Prime]
 
