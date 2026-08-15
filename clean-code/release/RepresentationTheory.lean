@@ -543,6 +543,7 @@ import RepresentationTheory.SimpleRepresentationModules
 import RepresentationTheory.TensorCoordinateMaps
 import RepresentationTheory.TensorPolynomial.Contraction
 import RepresentationTheory.ThreeCoordinateGroupRepresentations
+import RepresentationTheory.AuxiliaryRepresentationParameters
 
 /-!
 # Representation theory formalization
