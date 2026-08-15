@@ -679,6 +679,7 @@ import RepresentationTheory.LinearAlgebra.NilpotentOperators
 import RepresentationTheory.LinearAlgebra.KernelDimensionProfiles
 import RepresentationTheory.Algebra.Lie.ComplexMatrixModuleClassification
 import RepresentationTheory.LieModule.TensorProductDecomposition
+import RepresentationTheory.LieModule.ActionFibers
 
 /-!
 # Representation theory formalization
