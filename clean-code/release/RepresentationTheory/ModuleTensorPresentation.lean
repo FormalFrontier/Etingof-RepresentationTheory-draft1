@@ -115,7 +115,7 @@ theorem auxiliaryTerm_smul (s : Q → k) (x : Quiver.BundledPath Q) (c : k) (m :
 
       rw [show ((s d * c) • ofPath (⟨a, _, p⟩ : Quiver.BundledPath Q) : PathAlgebra k Q)
             = (Function.const Q (s d) : Q → k) • (c • ofPath (⟨a, _, p⟩ : Quiver.BundledPath Q))
-            from by rw [mul_smul, ← smul_eq_const_smul]]
+            from by rw [SemigroupAction.mul_smul, ← smul_eq_const_smul]]
 
       rw [TensorProduct.smul_tmul]
       congr 1
@@ -178,7 +178,7 @@ theorem auxiliaryAction_mul_apply (a : PathAlgebra k Q) (v : FieldQuiverAuxiliar
 
             rw [show ((c * d) • ofPath (⟨a₀, b₀, p⟩ : Quiver.BundledPath Q) : PathAlgebra k Q)
                   = (Function.const Q d : Q → k) • (c • ofPath (⟨a₀, b₀, p⟩ : Quiver.BundledPath Q))
-                  from by rw [mul_comm, mul_smul, ← smul_eq_const_smul]]
+                  from by rw [mul_comm, SemigroupAction.mul_smul, ← smul_eq_const_smul]]
             rw [TensorProduct.smul_tmul]
             congr 1
             change (Function.const Q d : Q → k) • (_ : functionModuleObject M) = _
