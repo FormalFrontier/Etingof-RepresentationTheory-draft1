@@ -501,6 +501,7 @@ import RepresentationTheory.SymmetricGroup.AuxiliaryMonoidAlgebra
 import RepresentationTheory.SymmetricGroup.PartitionScalarAuxiliary
 import RepresentationTheory.SymmetricGroup.SimpleModuleTrace
 import RepresentationTheory.Algebra.CategoryTheory.FreeModuleTensorProduct
+import RepresentationTheory.Algebra.ExteriorSymmetricAuxiliary
 import RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex
 import RepresentationTheory.Algebra.Homology.Flatness
 import RepresentationTheory.Algebra.Homology.TensorBarResolution
