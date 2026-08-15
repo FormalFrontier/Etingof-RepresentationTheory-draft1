@@ -124,7 +124,7 @@ theorem GeneralLinearGroup.AuxiliaryDecomposition.auxiliaryGeneralLinearElement_
 theorem GeneralLinearGroup.AuxiliaryDecomposition.auxiliaryGeneralLinearElement_eq_noncommProd (t : kˣ) :
     RepresentationTheory.PolynomialMatrixCoefficients.RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary.unitToGeneralLinearGroup k N t
       = Finset.univ.noncommProd (fun i => RepresentationTheory.GeneralLinearGroup.WeightCharacter.diagonalUnit k N i t)
-          (fun i _ j _ _ => diagUnit_comm k N i t j t) := by
+          (fun i _ j _ _ => RepresentationTheory.GeneralLinearGroup.WeightCharacter.diagonalUnit_comm k N i t j t) := by
   apply Units.ext
   have gen : ∀ (s : Finset (Fin N))
       (comm : (↑s : Set (Fin N)).Pairwise
@@ -347,12 +347,12 @@ theorem Subrepresentation.isSemisimpleModule_of_toRepresentation_isSemisimple
   have hf : ∀ (g : G) (x : σ.toSubmodule),
       σ.toSubmodule.subtype (σ.toRepresentation g x) = ρ g (σ.toSubmodule.subtype x) :=
     fun _ _ => rfl
-  let F := Representation.asModuleHomOfIntertwiner (ρ := σ.toRepresentation) (σ := ρ)
+  let F := RepresentationTheory.AsModuleEquivalences.linearMapAsModule (ρ := σ.toRepresentation) (σ := ρ)
     σ.toSubmodule.subtype hf
   have hFinj : Function.Injective F := by
     intro a b hab
     refine Subtype.coe_injective ?_
-    simpa [F, Representation.asModuleHomOfIntertwiner_apply] using hab
+    simpa [F, RepresentationTheory.AsModuleEquivalences.linearMapAsModule_apply] using hab
   have hrange : LinearMap.range F = Subrepresentation.asSubmodule σ := by
     apply SetLike.ext
     intro y
