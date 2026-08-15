@@ -17,6 +17,7 @@ import RepresentationTheory.Quiver.LinearAlgebra.Auxiliary
 import RepresentationTheory.LinearAlgebra.IntegerMatrixReflections
 import RepresentationTheory.IntegerMatrix.ReflectionDynamics
 import Mathlib.LinearAlgebra.Dimension.Free
+import RepresentationTheory.Alignment.Attribute
 
 open scoped Matrix
 
@@ -386,6 +387,7 @@ end TitsFormBound
 set_option maxHeartbeats 800000 in
 
 /-- Under the displayed matrix and quiver hypotheses, two auxiliary representations with matching vertexwise dimensions admit an auxiliary relation. -/
+@[source_ref "Chapter6/Corollary6.8.3" (role := primary)]
 theorem RepresentationTheory.AuxiliaryQuiverRepresentationRelations.auxiliary_nonempty_of_finrank_eq
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hDynkin : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj)
