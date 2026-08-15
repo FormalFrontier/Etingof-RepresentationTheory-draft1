@@ -24,22 +24,22 @@ namespace RepresentationTheory.Group.AlternatingGroupFin5Classification
 
 /-- `|A₅| = 60` is invertible in `ℂ`, so Corollary 4.2.2 applies. -/
 private noncomputable instance : Invertible (Fintype.card (alternatingGroup (Fin 5)) : ℂ) :=
-  invertibleOfNonzero (by rw [_root_.RepresentationTheory.Group.SmallRepresentationData.card_alternatingGroup_fin5]; norm_num)
+  invertibleOfNonzero (by rw [RepresentationTheory.Group.SmallRepresentationData.card_alternatingGroup_fin5]; norm_num)
 
 /-- Every simple complex representation of the alternating group on five letters is isomorphic to a member of the displayed indexed family. -/
 theorem exists_iso_alternatingGroupFin5RepFamily (V : FDRep ℂ (alternatingGroup (Fin 5))) [Simple V] :
-    ∃ i : Fin 5, Nonempty (V ≅ _root_.RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations i) := by
+    ∃ i : Fin 5, Nonempty (V ≅ RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations i) := by
   obtain ⟨n, W, _hWsimp, _hWinj, hWsurj, hn⟩ :=
-    _root_.RepresentationTheory.Group.SimpleRepresentations.exists_simpleReps_card_eq_conjClasses (k := ℂ) (G := alternatingGroup (Fin 5))
-  rw [_root_.RepresentationTheory.Group.SmallRepresentationData.card_conjClasses_alternatingGroup_fin5] at hn
+    RepresentationTheory.Group.SimpleRepresentations.exists_simpleReps_card_eq_conjClasses (k := ℂ) (G := alternatingGroup (Fin 5))
+  rw [RepresentationTheory.Group.SmallRepresentationData.card_conjClasses_alternatingGroup_fin5] at hn
   subst hn
   -- Each `indexedSimpleRepresentations i` is isomorphic to some `W (c i)`.
-  choose c hc using fun i => hWsurj (_root_.RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations i) (_root_.RepresentationTheory.TensorSquareSpectralDecomposition.simple_indexedSimpleRepresentations i)
+  choose c hc using fun i => hWsurj (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations i) (RepresentationTheory.TensorSquareSpectralDecomposition.simple_indexedSimpleRepresentations i)
   -- `c` is injective: distinct `indexedSimpleRepresentations` are non-isomorphic, so land in distinct `W`.
   have hcinj : Function.Injective c := by
     intro i j hij
     by_contra hne
-    refine _root_.RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations_pairwise_nonisomorphic i j hne ?_
+    refine RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations_pairwise_nonisomorphic i j hne ?_
     obtain ⟨αi⟩ := hc i
     obtain ⟨αj⟩ := hc j
     exact ⟨αi ≪≫ eqToIso (congrArg W hij) ≪≫ αj.symm⟩
@@ -55,9 +55,9 @@ theorem exists_iso_alternatingGroupFin5RepFamily (V : FDRep ℂ (alternatingGrou
 
 /-- The character of every simple complex representation of the alternating group on five letters agrees with an indexed row of the displayed table. -/
 theorem exists_character_eq_indexedTableRow (V : FDRep ℂ (alternatingGroup (Fin 5))) [Simple V] :
-    ∃ i : Fin 5, ∀ g, V.character g = _root_.RepresentationTheory.QuaternionGroupTwo.auxiliaryTypeToComplex (_root_.RepresentationTheory.Group.PermutationSubgroupData.indexedTable i (_root_.RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)) := by
+    ∃ i : Fin 5, ∀ g, V.character g = RepresentationTheory.QuaternionGroupTwo.auxiliaryTypeToComplex (RepresentationTheory.Group.PermutationSubgroupData.indexedTable i (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)) := by
   obtain ⟨i, ⟨α⟩⟩ := exists_iso_alternatingGroupFin5RepFamily V
   refine ⟨i, fun g => ?_⟩
-  rw [FDRep.char_iso α, _root_.RepresentationTheory.RepresentationTensorDecompositions.firstFiveRepresentationFamily_character_formula i g]
+  rw [FDRep.char_iso α, RepresentationTheory.RepresentationTensorDecompositions.firstFiveRepresentationFamily_character_formula i g]
 
 end RepresentationTheory.Group.AlternatingGroupFin5Classification
