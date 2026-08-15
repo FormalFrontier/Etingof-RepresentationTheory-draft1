@@ -585,6 +585,7 @@ import RepresentationTheory.Combinatorics.PartitionPermutation
 import RepresentationTheory.Permutation.PartitionIndexedAuxiliary
 import RepresentationTheory.Auxiliary.MembershipSubtypes
 import RepresentationTheory.AuxiliaryPartitionSubmodules
+import RepresentationTheory.LinearAlgebra.IntegralRootSystem.WeylGroup
 
 /-!
 # Representation theory formalization
