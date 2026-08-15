@@ -707,6 +707,7 @@ import RepresentationTheory.VertexSimpleAuxiliary
 import RepresentationTheory.LieModule.WeightLadder
 import RepresentationTheory.Quiver.AuxiliaryConstructions
 import RepresentationTheory.Quiver.AuxiliaryRepresentationProperties
+import RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles
 
 /-!
 # Representation theory formalization
