@@ -673,6 +673,7 @@ import RepresentationTheory.AuxiliaryEquivariantDecomposition
 import RepresentationTheory.PermutationPartitionActions
 import RepresentationTheory.Quiver.FiniteTypeCriterion
 import RepresentationTheory.LieAlgebra.ModuleProducts
+import RepresentationTheory.AuxiliaryRepresentationDecompositions
 
 /-!
 # Representation theory formalization
