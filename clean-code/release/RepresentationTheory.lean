@@ -732,6 +732,9 @@ import RepresentationTheory.Quiver.PathModuleCorrespondence
 import RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules
 import RepresentationTheory.TensorSquareSpectralDecomposition
 import RepresentationTheory.Group.OuterAutomorphismTwist
+import RepresentationTheory.Group.SmallRepresentationData
+import RepresentationTheory.Algebra.HomologicalComplex.HomologyLinearity
+import RepresentationTheory.RationalVectorRootSystems
 
 /-!
 # Representation theory formalization
