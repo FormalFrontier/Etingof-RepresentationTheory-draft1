@@ -608,6 +608,7 @@ import RepresentationTheory.AuxiliaryPartitionIndexMaps
 import RepresentationTheory.PolynomialRepresentation.FiniteOrbits
 import RepresentationTheory.RepresentationPolynomialFunctions
 import RepresentationTheory.AuxiliaryPartitionOrder
+import RepresentationTheory.Quiver.PathAlgebra.UniversalProperties
 
 /-!
 # Representation theory formalization
