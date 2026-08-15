@@ -112,8 +112,8 @@ theorem permutationToAuxiliaryType_eq_iff_mul_inv_mem (σ₁ σ₂ : Equiv.Perm 
 /-- The displayed values for two permutations are equal exactly when the indicated coordinate values agree at every finite index. -/
 theorem permutationToAuxiliaryType_eq_iff_coordinate_eq (σ₁ σ₂ : Equiv.Perm (Fin n)) :
     permutationToAuxiliaryType n la σ₁ = permutationToAuxiliaryType n la σ₂ ↔
-      ∀ k : Fin n, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₁ k).val =
-                    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₂ k).val := by
+      ∀ k : Fin n, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₁ k).val =
+                    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₂ k).val := by
   rw [permutationToAuxiliaryType_eq_iff_mul_inv_mem]
   constructor
   · intro h k
@@ -122,7 +122,7 @@ theorem permutationToAuxiliaryType_eq_iff_coordinate_eq (σ₁ σ₂ : Equiv.Per
                Equiv.Perm.coe_inv, Equiv.symm_apply_apply] at hmem
     exact hmem
   · intro h k
-    show RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList ((σ₁ * σ₂⁻¹) k).val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList k.val
+    show RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) ((σ₁ * σ₂⁻¹) k).val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val
     simp only [Equiv.Perm.coe_mul, Function.comp_apply]
     rw [h (σ₂⁻¹ k)]
     congr 1
@@ -134,7 +134,7 @@ theorem permutationToAuxiliaryType_eq_iff_coordinate_eq (σ₁ σ₂ : Equiv.Per
 /-- Assigns a natural number to an auxiliary object and a finite index. -/
 def auxiliaryObjectIndex (n : ℕ) (la : Nat.Partition n) (T : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionSource n la)
     (k : Fin n) : ℕ :=
-  RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k).val
+  RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k).val
 
 
 /-- Maps an element of an auxiliary type to the partition-indexed auxiliary type. -/
@@ -146,10 +146,10 @@ def objectToAuxiliaryType (n : ℕ) (la : Nat.Partition n) (T : RepresentationTh
 
 
 private theorem syt_entry_lt_of_col_lt (T : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionSource n la) (k₁ k₂ : Fin n)
-    (hrow : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₁).val =
-            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₂).val)
-    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₁).val <
-            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₂).val) :
+    (hrow : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₁).val =
+            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₂).val)
+    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₁).val <
+            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₂).val) :
     k₁ < k₂ := by
   set e := Equiv.ofBijective T.val T.prop.1
 
@@ -189,11 +189,11 @@ theorem objectToAuxiliaryType_injective (n : ℕ) (la : Nat.Partition n) :
   induction m using Nat.strongRecOn with
   | ind m ih =>
     intro k hkm
-    have hsum : la.auxiliaryPartitionNatList.sum = n := RepresentationTheory.Partition.YoungDiagram.sum_sortedParts n la
+    have hsum : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum = n := RepresentationTheory.Partition.YoungDiagram.sum_sortedParts n la
 
-    suffices hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T₁ k).val =
-                    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T₂ k).val by
-      exact Fin.ext (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq la.auxiliaryPartitionNatList
+    suffices hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T₁ k).val =
+                    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T₂ k).val by
+      exact Fin.ext (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la)
         (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T₁ k).val (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T₂ k).val
         (by omega) (by omega) (h k) hcol)
 
@@ -235,15 +235,15 @@ theorem eq_one_of_mem_two_auxiliarySets (n : ℕ) (la : Nat.Partition n)
     (hcol : σ ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la) : σ = 1 := by
   ext k
   simp only [Equiv.Perm.one_apply]
-  have hr : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ k).val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList k.val := hrow k
-  have hc : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (σ k).val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList k.val := hcol k
-  have hsum : la.auxiliaryPartitionNatList.sum = n := by
+  have hr : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ k).val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val := hrow k
+  have hc : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ k).val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val := hcol k
+  have hsum : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum = n := by
     have h := Multiset.sort_eq la.parts (· ≥ ·)
-    have : (la.auxiliaryPartitionNatList : Multiset ℕ).sum = la.parts.sum := congrArg Multiset.sum h
+    have : ((RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) : Multiset ℕ).sum = la.parts.sum := congrArg Multiset.sum h
     rw [Multiset.sum_coe] at this; rw [this, la.parts_sum]
-  have hk : k.val < la.auxiliaryPartitionNatList.sum := by omega
-  have hsk : (σ k).val < la.auxiliaryPartitionNatList.sum := by omega
-  exact RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq la.auxiliaryPartitionNatList (σ k).val k.val hsk hk hr hc
+  have hk : k.val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by omega
+  have hsk : (σ k).val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by omega
+  exact RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ k).val k.val hsk hk hr hc
 
 
 
@@ -320,7 +320,7 @@ theorem permutationToAuxiliaryType_inv_mul_ne_objectValue (T : RepresentationThe
 def permutationToIndexedNatFunction (la : Nat.Partition n) (σ : Equiv.Perm (Fin n))
     (k : Fin n) (i : ℕ) : ℕ :=
   (Finset.univ.filter fun e : Fin n =>
-    e ≤ k ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ e).val < i).card
+    e ≤ k ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ e).val < i).card
 
 
 
@@ -397,10 +397,10 @@ theorem middle_auxiliaryValue_eq_of_rel_chain {σ₁ σ₂ σ₃ : Equiv.Perm (F
   intro k
   by_contra hne
 
-  have hlt : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₂ k).val <
-      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₃ k).val := by
-    rcases Nat.lt_or_ge (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₂ k).val)
-        (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₃ k).val) with h | h
+  have hlt : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₂ k).val <
+      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₃ k).val := by
+    rcases Nat.lt_or_ge (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₂ k).val)
+        (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₃ k).val) with h | h
     · exact h
     · rcases Nat.eq_or_lt_of_le h with heq' | hlt'
       · exact absurd heq'.symm hne
@@ -411,13 +411,13 @@ theorem middle_auxiliaryValue_eq_of_rel_chain {σ₁ σ₂ σ₃ : Equiv.Perm (F
         exfalso
 
 
-        set r' := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₂ k).val
+        set r' := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₂ k).val
         rcases k with ⟨_ | m', hk'⟩
         ·
           have : permutationToIndexedNatFunction la σ₃ ⟨0, hk'⟩ r' = 1 := by
             simp only [permutationToIndexedNatFunction]
             rw [show (Finset.univ.filter fun e : Fin n =>
-                e ≤ ⟨0, hk'⟩ ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₃ e).val < r') =
+                e ≤ ⟨0, hk'⟩ ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₃ e).val < r') =
               {⟨0, hk'⟩} from by
               ext ⟨e, he⟩
               simp only [Finset.mem_filter, Finset.mem_univ, true_and,
@@ -442,9 +442,9 @@ theorem middle_auxiliaryValue_eq_of_rel_chain {σ₁ σ₂ σ₃ : Equiv.Perm (F
               permutationToIndexedNatFunction la σ₃ ⟨m', hm'⟩ r' + 1 := by
             simp only [permutationToIndexedNatFunction]
             rw [show (Finset.univ.filter fun e : Fin n =>
-                e ≤ ⟨m' + 1, hk'⟩ ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₃ e).val < r') =
+                e ≤ ⟨m' + 1, hk'⟩ ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₃ e).val < r') =
               (Finset.univ.filter fun e : Fin n =>
-                e ≤ ⟨m', hm'⟩ ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₃ e).val < r') ∪
+                e ≤ ⟨m', hm'⟩ ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₃ e).val < r') ∪
               {⟨m' + 1, hk'⟩} from by
               ext ⟨e, he⟩
               simp only [Finset.mem_filter, Finset.mem_univ, true_and,
@@ -481,13 +481,13 @@ theorem middle_auxiliaryValue_eq_of_rel_chain {σ₁ σ₂ σ₃ : Equiv.Perm (F
             · intro ⟨hle, hrow⟩; exact ⟨by omega, hrow⟩
           linarith [hcount ⟨m' + 1, hk'⟩ r', hcount ⟨m', hm'⟩ r']
 
-  set r := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₃ k).val
+  set r := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₃ k).val
   rcases k with ⟨_ | m, hk⟩
   ·
     have h2 : permutationToIndexedNatFunction la σ₂ ⟨0, hk⟩ r = 1 := by
       simp only [permutationToIndexedNatFunction]
       rw [show (Finset.univ.filter fun e : Fin n =>
-          e ≤ ⟨0, hk⟩ ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₂ e).val < r) =
+          e ≤ ⟨0, hk⟩ ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₂ e).val < r) =
         {⟨0, hk⟩} from by
         ext ⟨e, he⟩
         simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_singleton,
@@ -513,9 +513,9 @@ theorem middle_auxiliaryValue_eq_of_rel_chain {σ₁ σ₂ σ₃ : Equiv.Perm (F
         permutationToIndexedNatFunction la σ₂ ⟨m, hm⟩ r + 1 := by
       simp only [permutationToIndexedNatFunction]
       rw [show (Finset.univ.filter fun e : Fin n =>
-          e ≤ ⟨m + 1, hk⟩ ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₂ e).val < r) =
+          e ≤ ⟨m + 1, hk⟩ ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₂ e).val < r) =
         (Finset.univ.filter fun e : Fin n =>
-          e ≤ ⟨m, hm⟩ ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ₂ e).val < r) ∪ {⟨m + 1, hk⟩} from by
+          e ≤ ⟨m, hm⟩ ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ₂ e).val < r) ∪ {⟨m + 1, hk⟩} from by
         ext ⟨e, he⟩
         simp only [Finset.mem_filter, Finset.mem_univ, true_and,
           Finset.mem_union, Finset.mem_singleton, Fin.mk_le_mk, Fin.ext_iff]
@@ -559,7 +559,7 @@ theorem middle_auxiliaryValue_eq_of_rel_chain {σ₁ σ₂ σ₃ : Equiv.Perm (F
 /-- Maps each permutation to a natural-valued function on `Fin n`, indexed by a partition. -/
 def permutationToNatFunction (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     Fin n → ℕ :=
-  fun k => RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ k).val
+  fun k => RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ k).val
 
 
 /-- Permutations with equal displayed auxiliary values have equal indicated natural-valued functions. -/
@@ -583,10 +583,10 @@ theorem permutationToAuxiliaryType_eq_of_natFunction_eq (σ₁ σ₂ : Equiv.Per
 
 
 private theorem syt_entry_lt_of_row_lt (T : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionSource n la) (k₁ k₂ : Fin n)
-    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₁).val =
-            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₂).val)
-    (hrow : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₁).val <
-            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₂).val) :
+    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₁).val =
+            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₂).val)
+    (hrow : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₁).val <
+            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k₂).val) :
     k₁ < k₂ := by
   set e := Equiv.ofBijective T.val T.prop.1
   have hcell : ∀ k : Fin n, e.symm k = (RepresentationTheory.Combinatorics.PartitionPermutation.finEquivPartitionIndex n la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T k) := by
@@ -610,17 +610,17 @@ private theorem syt_entry_lt_of_row_lt (T : RepresentationTheory.SymmetricGroup.
 
 private theorem syt_col_entry_le_of_row_le (T : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionSource n la)
     (e₁ e₂ : Fin n)
-    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₁).val =
-            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₂).val)
-    (hrow : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₁).val ≤
-            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₂).val) :
+    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₁).val =
+            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₂).val)
+    (hrow : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₁).val ≤
+            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₂).val) :
     e₁ ≤ e₂ := by
   rcases eq_or_lt_of_le hrow with hr | hr
   ·
-    have hsum : la.auxiliaryPartitionNatList.sum = n := RepresentationTheory.Partition.YoungDiagram.sum_sortedParts n la
-    have h₁ : (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₁).val < la.auxiliaryPartitionNatList.sum := by omega
-    have h₂ : (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₂).val < la.auxiliaryPartitionNatList.sum := by omega
-    have := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq la.auxiliaryPartitionNatList
+    have hsum : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum = n := RepresentationTheory.Partition.YoungDiagram.sum_sortedParts n la
+    have h₁ : (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₁).val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by omega
+    have h₂ : (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₂).val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by omega
+    have := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la)
       (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₁).val (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₂).val h₁ h₂ hr hcol
     have := (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T).injective (Fin.ext this)
     omega
@@ -639,11 +639,11 @@ private theorem card_filter_le_min {α : Type*}
 
 private theorem syt_row_le_of_entry_le (T : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionSource n la)
     (e₁ e₂ : Fin n)
-    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₁).val =
-            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₂).val)
+    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₁).val =
+            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₂).val)
     (hle : e₁ ≤ e₂) :
-    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₁).val ≤
-    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₂).val := by
+    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₁).val ≤
+    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₂).val := by
   by_contra h
   push Not at h
   have := syt_entry_lt_of_row_lt T e₂ e₁ hcol.symm h
@@ -653,8 +653,8 @@ private theorem syt_row_le_of_entry_le (T : RepresentationTheory.SymmetricGroup.
 
 
 private theorem swap_column_dominance (σ : Equiv.Perm (Fin n))
-    (p₁ p₂ : Fin n) (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₂.val)
-    (hrow_lt : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₁.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₂.val)
+    (p₁ p₂ : Fin n) (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val)
+    (hrow_lt : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val)
     (hentry : σ.symm p₁ < σ.symm p₂) :
     permutationRel la σ (Equiv.swap p₁ p₂ * σ) := by
   intro k i
@@ -678,8 +678,8 @@ private theorem swap_column_dominance (σ : Equiv.Perm (Fin n))
 
 
 
-  by_cases hi₁ : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₁.val < i
-  · by_cases hi₂ : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₂.val < i
+  by_cases hi₁ : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val < i
+  · by_cases hi₂ : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val < i
     ·
       apply Finset.card_le_card
       intro e
@@ -710,8 +710,8 @@ private theorem swap_column_dominance (σ : Equiv.Perm (Fin n))
 
 
       suffices h : ∀ e : Fin n, e ≠ e₁ → e ≠ e₂ →
-          (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (Equiv.swap p₁ p₂ (σ e)).val < i ↔
-           RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ e).val < i) by
+          (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (Equiv.swap p₁ p₂ (σ e)).val < i ↔
+           RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ e).val < i) by
 
         rw [← Finset.card_image_of_injective _ (Equiv.swap e₁ e₂).injective]
         apply Finset.card_le_card
@@ -757,17 +757,17 @@ theorem permutationRel_inv_mul_of_mem (T : RepresentationTheory.SymmetricGroup.P
     (q : Equiv.Perm (Fin n)) (hq : q ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la) :
     permutationRel la (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T) (q⁻¹ * RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T) := by
   set σ := RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T with hσ_def
-  have hq_inv : ∀ p : Fin n, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (q⁻¹ p).val =
-      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p.val := (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la).inv_mem hq
-  have hq_fwd : ∀ p : Fin n, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (q p).val =
-      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p.val := hq
+  have hq_inv : ∀ p : Fin n, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (q⁻¹ p).val =
+      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p.val := (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la).inv_mem hq
+  have hq_fwd : ∀ p : Fin n, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (q p).val =
+      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p.val := hq
   intro k i
   simp only [permutationToIndexedNatFunction, Equiv.Perm.coe_mul, Function.comp_apply]
   set A := Finset.univ.filter (fun e : Fin n =>
-    e ≤ k ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ e).val < i)
+    e ≤ k ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ e).val < i)
   set B := Finset.univ.filter (fun e : Fin n =>
-    e ≤ k ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (q⁻¹ (σ e)).val < i)
-  set ecol : Fin n → ℕ := fun e => RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (σ e).val
+    e ≤ k ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (q⁻¹ (σ e)).val < i)
+  set ecol : Fin n → ℕ := fun e => RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ e).val
 
   suffices hcol : ∀ c, (B.filter (fun e => ecol e = c)).card ≤
       (A.filter (fun e => ecol e = c)).card by
@@ -780,7 +780,7 @@ theorem permutationRel_inv_mul_of_mem (T : RepresentationTheory.SymmetricGroup.P
   intro c
 
   by_cases hall : ∀ e : Fin n, ecol e = c → e ≤ k →
-      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ e).val < i
+      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ e).val < i
   ·
 
     have hAeq : A.filter (fun e => ecol e = c) =
@@ -797,19 +797,19 @@ theorem permutationRel_inv_mul_of_mem (T : RepresentationTheory.SymmetricGroup.P
     push Not at hall
     obtain ⟨e₀, hecol₀, hle₀, hrow₀⟩ := hall
     have hrow_imp : ∀ e : Fin n, ecol e = c →
-        RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ e).val < i → e ≤ k := by
+        RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ e).val < i → e ≤ k := by
       intro e hec hri
       by_contra hgt; push Not at hgt
       have he₀_le : e₀ ≤ e := by omega
-      have hcol_eq : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₀).val =
-          RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e).val := by
+      have hcol_eq : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e₀).val =
+          RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n la T e).val := by
         change ecol e₀ = ecol e; rw [hecol₀, hec]
       have hrow_le := syt_row_le_of_entry_le T e₀ e hcol_eq he₀_le
       simp only [← hσ_def] at hrow_le; omega
 
     have hAeq : A.filter (fun e => ecol e = c) =
         Finset.univ.filter (fun e : Fin n =>
-          RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ e).val < i ∧ ecol e = c) := by
+          RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ e).val < i ∧ ecol e = c) := by
       ext e; simp only [Finset.mem_filter, Finset.mem_univ, true_and, A]
       exact ⟨fun ⟨⟨_, h2⟩, h3⟩ => ⟨h2, h3⟩,
              fun ⟨h1, h2⟩ => ⟨⟨hrow_imp e h2 h1, h1⟩, h2⟩⟩
@@ -817,12 +817,12 @@ theorem permutationRel_inv_mul_of_mem (T : RepresentationTheory.SymmetricGroup.P
 
     calc (B.filter (fun e => ecol e = c)).card
         ≤ (Finset.univ.filter (fun e : Fin n =>
-            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (q⁻¹ (σ e)).val < i ∧ ecol e = c)).card := by
+            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (q⁻¹ (σ e)).val < i ∧ ecol e = c)).card := by
           apply Finset.card_le_card
           intro e; simp only [Finset.mem_filter, Finset.mem_univ, true_and, B]
           exact fun ⟨⟨_, h2⟩, h3⟩ => ⟨h2, h3⟩
       _ = (Finset.univ.filter (fun e : Fin n =>
-            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (σ e).val < i ∧ ecol e = c)).card := by
+            RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ e).val < i ∧ ecol e = c)).card := by
 
 
           apply Finset.card_nbij'
@@ -845,7 +845,7 @@ theorem permutationRel_inv_mul_of_mem (T : RepresentationTheory.SymmetricGroup.P
             refine ⟨?_, ?_⟩
             ·
               rw [Equiv.apply_symm_apply]
-              change RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList (q.symm (q (σ e))).val < i
+              change RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (q.symm (q (σ e))).val < i
               rw [Equiv.symm_apply_apply]; exact he.1
             ·
               show ecol (σ.symm (q (σ e))) = c
