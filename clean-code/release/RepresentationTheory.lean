@@ -546,6 +546,7 @@ import RepresentationTheory.ThreeCoordinateGroupRepresentations
 import RepresentationTheory.AuxiliaryRepresentationParameters
 import RepresentationTheory.GeneralLinearGroup.WeightVectors
 import RepresentationTheory.MultiplicativeIntAuxiliaryExample
+import RepresentationTheory.InvolutionRankSum
 
 /-!
 # Representation theory formalization
