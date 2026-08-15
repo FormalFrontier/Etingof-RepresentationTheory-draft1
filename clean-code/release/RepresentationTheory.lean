@@ -666,6 +666,7 @@ import RepresentationTheory.FiniteField.CharacterSums
 import RepresentationTheory.DerivedFunctorExactness
 import RepresentationTheory.LieModule.CentralAction
 import RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion
+import RepresentationTheory.CharacterCoefficientAlgebra
 
 /-!
 # Representation theory formalization
