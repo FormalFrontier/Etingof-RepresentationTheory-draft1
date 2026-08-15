@@ -559,6 +559,7 @@ import RepresentationTheory.ConjugacyClassCardinalityBounds
 import RepresentationTheory.ConjugacyClassCharacterMatrix
 import RepresentationTheory.Quiver.AdjacencyQuadraticForm
 import RepresentationTheory.LinearAlgebra.SymmetricPower.BasisPairMaps
+import RepresentationTheory.SymmetricPower.LinearAction
 
 /-!
 # Representation theory formalization
