@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: mathlib-initiative
 -/
 
-import RepresentationTheory.TensorCoordinateMaps
+import RepresentationTheory.IndexedTensorAction
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 
@@ -212,10 +212,6 @@ theorem auxiliaryAddHom_apply_image (x : secondaryAuxiliaryModuleObject M) :
       | tmul v m => rw [multiplicationHom_tmul, auxiliaryAddHom_tmul, auxiliaryAction_mul_apply]
       | add y z hy hz => rw [TensorProduct.tmul_add, map_add, map_add, hy, hz]
   | add x z hx hz => rw [map_add, map_add, hx, hz]
-
-/-- The displayed module homomorphism from the target carrier to the source carrier is injective. -/
-theorem moduleHom_injective : Function.Injective (multiplicationHom M).hom :=
-  Function.LeftInverse.injective (auxiliaryAddHom_apply_image M)
 
 /-- The displayed module morphism is injective on underlying elements. -/
 theorem auxiliary_morphism_injective : Function.Injective (auxiliaryDifferential M).hom := by
