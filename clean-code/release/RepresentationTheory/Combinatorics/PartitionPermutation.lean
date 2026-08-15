@@ -61,15 +61,15 @@ noncomputable section
 
 /-- The type of indices associated with a partition of a natural number. -/
 abbrev PartitionIndex (n : ℕ) (la : Nat.Partition n) :=
-  { c : ℕ × ℕ // c.1 < la.auxiliaryPartitionNatList.length ∧ c.2 < la.auxiliaryPartitionNatList.getD c.1 0 }
+  { c : ℕ × ℕ // c.1 < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).length ∧ c.2 < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).getD c.1 0 }
 
 
 
 
 private theorem sortedParts_sum (n : ℕ) (la : Nat.Partition n) :
-    la.auxiliaryPartitionNatList.sum = n := by
+    (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum = n := by
   have h := Multiset.sort_eq la.parts (· ≥ ·)
-  have : (la.auxiliaryPartitionNatList : Multiset ℕ).sum = la.parts.sum := congrArg Multiset.sum h
+  have : ((RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) : Multiset ℕ).sum = la.parts.sum := congrArg Multiset.sum h
   rw [Multiset.sum_coe] at this; rw [this, la.parts_sum]
 
 
@@ -89,12 +89,12 @@ theorem selectedPartIndex_lt_length (parts : List ℕ) (k : ℕ) (hk : k < parts
 
 /-- The two list-derived coordinates of a finite partition index lie within their respective bounds. -/
 theorem partitionCoordinates_lt (n : ℕ) (la : Nat.Partition n) (k : Fin n) :
-    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList k.val < la.auxiliaryPartitionNatList.length ∧
-    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList k.val < la.auxiliaryPartitionNatList.getD (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList k.val) 0 := by
-  have hsum : la.auxiliaryPartitionNatList.sum = n := sortedParts_sum n la
-  have hk : k.val < la.auxiliaryPartitionNatList.sum := by omega
-  exact ⟨selectedPartIndex_lt_length la.auxiliaryPartitionNatList k.val hk,
-         RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn_lt_rowLength la.auxiliaryPartitionNatList k.val hk⟩
+    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).length ∧
+    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).getD (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val) 0 := by
+  have hsum : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum = n := sortedParts_sum n la
+  have hk : k.val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by omega
+  exact ⟨selectedPartIndex_lt_length (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val hk,
+         RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn_lt_rowLength (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val hk⟩
 
 
 
@@ -102,7 +102,7 @@ theorem partitionCoordinates_lt (n : ℕ) (la : Nat.Partition n) (k : Fin n) :
 
 /-- The partition index associated with a finite index. -/
 def partitionIndexOfFin (n : ℕ) (la : Nat.Partition n) : Fin n → PartitionIndex n la :=
-  fun k => ⟨(RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList k.val, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList k.val),
+  fun k => ⟨(RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val),
             partitionCoordinates_lt n la k⟩
 
 
@@ -111,9 +111,9 @@ theorem partitionIndexOfFin_injective (n : ℕ) (la : Nat.Partition n) :
     Function.Injective (partitionIndexOfFin n la) := by
   intro ⟨k₁, hk₁⟩ ⟨k₂, hk₂⟩ h
   simp only [partitionIndexOfFin, Subtype.mk.injEq, Prod.mk.injEq] at h
-  have hsum : la.auxiliaryPartitionNatList.sum = n := sortedParts_sum n la
+  have hsum : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum = n := sortedParts_sum n la
   apply Fin.ext
-  exact RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq la.auxiliaryPartitionNatList k₁ k₂
+  exact RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k₁ k₂
     (by omega) (by omega) h.1 h.2
 
 
@@ -121,8 +121,8 @@ theorem partitionIndexOfFin_injective (n : ℕ) (la : Nat.Partition n) :
 theorem partitionIndexOfFin_surjective (n : ℕ) (la : Nat.Partition n) :
     Function.Surjective (partitionIndexOfFin n la) := by
   intro ⟨⟨r, c⟩, hr, hc⟩
-  have hsum : la.auxiliaryPartitionNatList.sum = n := sortedParts_sum n la
-  obtain ⟨k, hk, hrow, hcol⟩ := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.exists_flatIndex_of_column_lt_rowLength la.auxiliaryPartitionNatList r c hc
+  have hsum : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum = n := sortedParts_sum n la
+  obtain ⟨k, hk, hrow, hcol⟩ := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.exists_flatIndex_of_column_lt_rowLength (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) r c hc
   exact ⟨⟨k, by omega⟩, Subtype.ext (Prod.ext hrow hcol)⟩
 
 
@@ -256,10 +256,10 @@ private theorem row_col_inter_trivial' (n : ℕ) (la : Nat.Partition n)
     σ = 1 := by
   ext k
   simp only [Equiv.Perm.one_apply]
-  have hsum : la.auxiliaryPartitionNatList.sum = n := sortedParts_sum n la
-  have hk : k.val < la.auxiliaryPartitionNatList.sum := by rw [hsum]; exact k.isLt
-  have hσk : (σ k).val < la.auxiliaryPartitionNatList.sum := by rw [hsum]; exact (σ k).isLt
-  exact RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq la.auxiliaryPartitionNatList
+  have hsum : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum = n := sortedParts_sum n la
+  have hk : k.val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by rw [hsum]; exact k.isLt
+  have hσk : (σ k).val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by rw [hsum]; exact (σ k).isLt
+  exact RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la)
     (σ k).val k.val hσk hk (hrow k) (hcol k)
 
 
@@ -580,8 +580,8 @@ private theorem youngSymmetrizer_mul_of_row' (n : ℕ) (la : Nat.Partition n)
 def partitionPermutationStatistic (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) : ℕ :=
   (Finset.univ.filter fun pp : Fin n × Fin n =>
-    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList pp.1.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList pp.2.val ∧
-    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList pp.1.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList pp.2.val ∧
+    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) pp.1.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) pp.2.val ∧
+    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) pp.1.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) pp.2.val ∧
     σ.symm pp.2 < σ.symm pp.1).card
 
 
@@ -589,8 +589,8 @@ def partitionPermutationStatistic (n : ℕ) (la : Nat.Partition n)
 def PermutationCondition (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) : Prop :=
   ∀ p₁ p₂ : Fin n,
-    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₂.val →
-    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₁.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₂.val →
+    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val →
+    RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val →
     σ.symm p₁ < σ.symm p₂
 
 
@@ -613,7 +613,7 @@ theorem exists_factorization_of_permutationCondition (n : ℕ) (la : Nat.Partiti
     ∃ T : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionSource n la,
       ∃ p ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la, σ = p * associatedPermutation n la T := by
   classical
-  set parts := la.auxiliaryPartitionNatList with parts_def
+  set parts := (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) with parts_def
   have hps : parts.sum = n := sortedParts_sum n la
 
   let rowPositions (r : ℕ) : Finset (Fin n) :=
@@ -886,8 +886,8 @@ theorem exists_factorization_of_permutationCondition (n : ℕ) (la : Nat.Partiti
 theorem exists_indices_of_not_permutationCondition (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (h : ¬ PermutationCondition n la σ) :
     ∃ p₁ p₂ : Fin n,
-      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₂.val ∧
-      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₁.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₂.val ∧
+      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val ∧
+      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val ∧
       σ.symm p₂ < σ.symm p₁ := by
   simp only [PermutationCondition, not_forall] at h
   obtain ⟨p₁, p₂, hcol, hrow, hinv⟩ := h
@@ -925,7 +925,7 @@ theorem exists_indices_of_not_permutationCondition (n : ℕ) (la : Nat.Partition
 
 private def garnirSet (n : ℕ) (la : Nat.Partition n)
     (p₁ p₂ : Fin n) : Finset (Fin n) :=
-  let parts := la.auxiliaryPartitionNatList
+  let parts := (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la)
   let r₁ := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts p₁.val
   let r₂ := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts p₂.val
   let j := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts p₁.val
@@ -949,12 +949,12 @@ private noncomputable def garnirElement (n : ℕ) (la : Nat.Partition n)
 
 private theorem garnirSet_has_row_pair (n : ℕ) (la : Nat.Partition n)
     (p₁ p₂ : Fin n)
-    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₂.val)
-    (_hrow : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₁.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₂.val)
-    (hwidth : 1 < la.auxiliaryPartitionNatList.getD (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₁.val) 0) :
+    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val)
+    (_hrow : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val)
+    (hwidth : 1 < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).getD (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val) 0) :
     ∃ a b : Fin n, a ≠ b ∧ a ∈ garnirSet n la p₁ p₂ ∧ b ∈ garnirSet n la p₁ p₂ ∧
-      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList a.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList b.val := by
-  set parts := la.auxiliaryPartitionNatList with hparts_def
+      RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) a.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) b.val := by
+  set parts := (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) with hparts_def
   set r₁ := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts p₁.val with hr₁_def
   set r₂ := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts p₂.val with hr₂_def
   set j := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts p₁.val with hj_def
@@ -1058,9 +1058,9 @@ private theorem left_transposition_negates_garnir (n : ℕ) (la : Nat.Partition 
 
 private theorem garnir_row_annihilates (n : ℕ) (la : Nat.Partition n)
     (p₁ p₂ : Fin n)
-    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₂.val)
-    (hrow : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₁.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₂.val)
-    (hwidth : 1 < la.auxiliaryPartitionNatList.getD (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₁.val) 0) :
+    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val)
+    (hrow : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val)
+    (hwidth : 1 < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).getD (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val) 0) :
     RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB n la * garnirElement n la p₁ p₂ = 0 := by
 
   obtain ⟨a, b, hab, ha_mem, hb_mem, hrow_eq⟩ :=
@@ -1124,7 +1124,7 @@ private theorem garnir_row_annihilates (n : ℕ) (la : Nat.Partition n)
 
 private theorem swap_mem_ColumnSubgroup' (n : ℕ) (la : Nat.Partition n)
     (p₁ p₂ : Fin n)
-    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₂.val) :
+    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val) :
     Equiv.swap p₁ p₂ ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la := by
   intro k
   simp only [Equiv.swap_apply_def]
@@ -1148,7 +1148,7 @@ private theorem of_col_mul_YoungSymmetrizer (n : ℕ) (la : Nat.Partition n)
 
 private theorem garnir_swap_identity (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (p₁ p₂ : Fin n)
-    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₂.val)
+    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val)
     (hne : p₁ ≠ p₂) :
     MonoidAlgebra.of ℂ _ σ * RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC n la =
       (-1 : ℂ) • (MonoidAlgebra.of ℂ _ (σ * Equiv.swap p₁ p₂) *
@@ -1171,8 +1171,8 @@ private theorem garnir_swap_identity (n : ℕ) (la : Nat.Partition n)
 private theorem columnInvCount'_pos_of_inv (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n))
     (p₁ p₂ : Fin n)
-    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList p₂.val)
-    (hrow : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₁.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow la.auxiliaryPartitionNatList p₂.val)
+    (hcol : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val)
+    (hrow : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₁.val < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) p₂.val)
     (hinv : σ.symm p₂ < σ.symm p₁) :
     0 < partitionPermutationStatistic n la σ := by
   unfold partitionPermutationStatistic
@@ -1183,7 +1183,7 @@ private theorem columnInvCount'_pos_of_inv (n : ℕ) (la : Nat.Partition n)
 
 private theorem single_column_garnir (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n))
-    (h_single : ∀ i, i < la.auxiliaryPartitionNatList.length → la.auxiliaryPartitionNatList.getD i 0 = 1) :
+    (h_single : ∀ i, i < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).length → (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).getD i 0 = 1) :
     MonoidAlgebra.of ℂ _ σ * RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC n la =
       ((↑(↑(Equiv.Perm.sign σ) : ℤ) : ℂ)) •
         (MonoidAlgebra.of ℂ _ (1 : Equiv.Perm (Fin n)) * RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC n la) := by
@@ -1191,34 +1191,34 @@ private theorem single_column_garnir (n : ℕ) (la : Nat.Partition n)
   have hσ_col : σ ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la := by
     intro k
     have hk := k.isLt
-    have hsum : la.auxiliaryPartitionNatList.sum = n := sortedParts_sum n la
-    have hksum : k.val < la.auxiliaryPartitionNatList.sum := by omega
+    have hsum : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum = n := sortedParts_sum n la
+    have hksum : k.val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by omega
 
-    have hk_col : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList k.val = 0 := by
-      have hrow := selectedPartIndex_lt_length la.auxiliaryPartitionNatList k.val hksum
+    have hk_col : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val = 0 := by
+      have hrow := selectedPartIndex_lt_length (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val hksum
       have hw := h_single _ hrow
-      have hcol := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn_lt_rowLength la.auxiliaryPartitionNatList k.val hksum
+      have hcol := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn_lt_rowLength (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val hksum
       rw [hw] at hcol; omega
-    have hσk_col : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (σ k).val = 0 := by
+    have hσk_col : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ k).val = 0 := by
       have hσk := (σ k).isLt
-      have hσksum : (σ k).val < la.auxiliaryPartitionNatList.sum := by omega
-      have hrow := selectedPartIndex_lt_length la.auxiliaryPartitionNatList (σ k).val hσksum
+      have hσksum : (σ k).val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by omega
+      have hrow := selectedPartIndex_lt_length (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ k).val hσksum
       have hw := h_single _ hrow
-      have hcol := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn_lt_rowLength la.auxiliaryPartitionNatList (σ k).val hσksum
+      have hcol := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn_lt_rowLength (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (σ k).val hσksum
       rw [hw] at hcol; omega
     rw [hk_col, hσk_col]
 
   have h_row_trivial : ∀ (p : Equiv.Perm (Fin n)), p ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la → p = 1 := by
     intro p hp; ext k : 1; simp only [Equiv.Perm.one_apply]
-    have hk_lt : k.val < la.auxiliaryPartitionNatList.sum := by rw [sortedParts_sum]; exact k.isLt
-    have hpk_lt : (p k).val < la.auxiliaryPartitionNatList.sum := by rw [sortedParts_sum]; exact (p k).isLt
-    have hcol_k : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList k.val = 0 := by
-      have hcol := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn_lt_rowLength la.auxiliaryPartitionNatList k.val hk_lt
-      rw [h_single _ (selectedPartIndex_lt_length la.auxiliaryPartitionNatList k.val hk_lt)] at hcol; omega
-    have hcol_pk : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn la.auxiliaryPartitionNatList (p k).val = 0 := by
-      have hcol := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn_lt_rowLength la.auxiliaryPartitionNatList (p k).val hpk_lt
-      rw [h_single _ (selectedPartIndex_lt_length la.auxiliaryPartitionNatList (p k).val hpk_lt)] at hcol; omega
-    exact Fin.ext (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq la.auxiliaryPartitionNatList (p k).val k.val
+    have hk_lt : k.val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by rw [sortedParts_sum]; exact k.isLt
+    have hpk_lt : (p k).val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by rw [sortedParts_sum]; exact (p k).isLt
+    have hcol_k : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val = 0 := by
+      have hcol := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn_lt_rowLength (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val hk_lt
+      rw [h_single _ (selectedPartIndex_lt_length (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) k.val hk_lt)] at hcol; omega
+    have hcol_pk : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (p k).val = 0 := by
+      have hcol := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn_lt_rowLength (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (p k).val hpk_lt
+      rw [h_single _ (selectedPartIndex_lt_length (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (p k).val hpk_lt)] at hcol; omega
+    exact Fin.ext (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (p k).val k.val
       hpk_lt hk_lt (hp k) (by rw [hcol_pk, hcol_k]))
 
 
@@ -1289,9 +1289,9 @@ private theorem columnInvCount'_one (n : ℕ) (la : Nat.Partition n) :
   intro ⟨a, b⟩ _
   simp only [not_and]
   intro _ hrow
-  have hsum : la.auxiliaryPartitionNatList.sum = n := sortedParts_sum n la
-  have hb : b.val < la.auxiliaryPartitionNatList.sum := by omega
-  exact Nat.not_lt.mpr (Nat.le_of_lt (lt_of_lt_rowOfPos la.auxiliaryPartitionNatList a.val b.val hb hrow))
+  have hsum : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum = n := sortedParts_sum n la
+  have hb : b.val < (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la).sum := by omega
+  exact Nat.not_lt.mpr (Nat.le_of_lt (lt_of_lt_rowOfPos (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) a.val b.val hb hrow))
 
 
 
