@@ -655,6 +655,7 @@ import RepresentationTheory.CategoryTheory.LeftDerivedFunctor.ConnectingMorphism
 import RepresentationTheory.CategoryTheory.Auxiliary.FGModuleCatEquivalence
 import RepresentationTheory.CategoryTheory.Indecomposable
 import RepresentationTheory.IntegerAdjacencyMatrixCombinatorics
+import RepresentationTheory.CategoryTheory.BiproductEndomorphismAuxiliary
 
 /-!
 # Representation theory formalization
