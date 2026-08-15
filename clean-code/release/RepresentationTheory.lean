@@ -703,6 +703,7 @@ import RepresentationTheory.QuantumTorus.FiniteOrderModules
 import RepresentationTheory.QuantumTorus.FiniteOrderModuleEquivalences
 import RepresentationTheory.ParameterizedAlgebra.ModelModules
 import RepresentationTheory.ShortExactDerived
+import RepresentationTheory.VertexSimpleAuxiliary
 
 /-!
 # Representation theory formalization
