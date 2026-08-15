@@ -588,6 +588,7 @@ import RepresentationTheory.AuxiliaryPartitionSubmodules
 import RepresentationTheory.LinearAlgebra.IntegralRootSystem.WeylGroup
 import RepresentationTheory.QuiverRepresentationQuotientFunctor
 import RepresentationTheory.AuxiliaryQuiverRepresentationOperations
+import RepresentationTheory.Quiver.FiniteOrbits
 
 /-!
 # Representation theory formalization
