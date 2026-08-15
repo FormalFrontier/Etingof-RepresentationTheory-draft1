@@ -747,6 +747,9 @@ import RepresentationTheory.RationalVectorRootSystems
 import RepresentationTheory.Representation.SubtypeCharacter
 import RepresentationTheory.Quiver.FinFourLinearData
 import RepresentationTheory.FiniteGroup.RationalForms
+import RepresentationTheory.Quiver.FourVertexStar
+import RepresentationTheory.ThreeArrowQuiver.LinearRangeConfiguration
+import RepresentationTheory.GaloisFieldCharacters
 
 /-!
 # Representation theory formalization
