@@ -615,6 +615,7 @@ import RepresentationTheory.GroupTheory.CardinalityBounds
 import RepresentationTheory.Auxiliary.GeneralLinearPolynomialSubrepresentations
 import RepresentationTheory.GradedAlgebra.HilbertSeries
 import RepresentationTheory.MatrixCoefficientOrthogonality
+import RepresentationTheory.ModuleTensorPresentation
 
 /-!
 # Representation theory formalization
