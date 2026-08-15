@@ -622,6 +622,7 @@ import RepresentationTheory.Analysis.ContinuousMap.StableModuleEquivalence
 import RepresentationTheory.PartitionPolynomialEvaluation
 import RepresentationTheory.Auxiliary.PartitionIndexedAlgebra
 import RepresentationTheory.Algebra.DualModules
+import RepresentationTheory.DihedralAuxiliary
 
 /-!
 # Representation theory formalization
