@@ -712,6 +712,7 @@ import RepresentationTheory.LinearAlgebra.TensorPower.PermutationTrace
 import RepresentationTheory.Auxiliary.TensorProductPairingMaps
 import RepresentationTheory.QuaternionFunctionSubmodule
 import RepresentationTheory.TraceAlgebra.Generation
+import RepresentationTheory.TensorProduct.RightLinearMap
 
 /-!
 # Representation theory formalization
