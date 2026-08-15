@@ -84,6 +84,7 @@ instance : DecidableEq (ThreeCoordinateGroup p) := (equivCoordinates p).decidabl
 instance instFintype [NeZero p] : Fintype (ThreeCoordinateGroup p) := Fintype.ofEquiv _ (equivCoordinates p).symm
 
 /-- The carrier has cardinality equal to the cube of the index. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem card_eq_cube [NeZero p] : Fintype.card (ThreeCoordinateGroup p) = p ^ 3 := by
   rw [Fintype.card_congr (equivCoordinates p)]
   simp only [Fintype.card_prod, ZMod.card]
@@ -124,6 +125,7 @@ theorem generator_relation [Fact p.Prime] :
   refine ThreeCoordinateGroup.ext ?_ ?_ ?_ <;> simp [firstGenerator, secondGenerator]
 
 /-- Expresses every group element in terms of the displayed powers. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem normalForm [NeZero p] (g : ThreeCoordinateGroup p) :
     g = firstGenerator p ^ g.firstCoordinate.val * secondGenerator p ^ g.secondCoordinate.val
           * (⟨0, 0, 1⟩ : ThreeCoordinateGroup p) ^ (g.thirdCoordinate - g.firstCoordinate * g.secondCoordinate).val := by
@@ -135,6 +137,7 @@ theorem normalForm [NeZero p] (g : ThreeCoordinateGroup p) :
   · simp only [mul_firstCoordinate, mul_thirdCoordinate, hc, mul_zero, add_zero, zero_add]; ring
 
 /-- The displayed two elements generate the whole group. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem closure_generators_eq_top [Fact p.Prime] :
     Submonoid.closure ({firstGenerator p, secondGenerator p} : Set (ThreeCoordinateGroup p)) = ⊤ := by
   haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
@@ -174,10 +177,12 @@ def shiftScaleAction (z : ℂ) (g : ThreeCoordinateGroup p) : (ZMod p → ℂ) �
     funext t; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; ring
 
 /-- Computes the shift-scale action on a function value. -/
-@[simp] theorem shiftScaleAction_apply (z : ℂ) (g : ThreeCoordinateGroup p) (f : ZMod p → ℂ) (t : ZMod p) :
+@[source_ref "Chapter4/Problem4.12.2" (role := primary), simp]
+theorem shiftScaleAction_apply (z : ℂ) (g : ThreeCoordinateGroup p) (f : ZMod p → ℂ) (t : ZMod p) :
     shiftScaleAction z g f t = z ^ (g.secondCoordinate * t - g.thirdCoordinate).val * f (t - g.firstCoordinate) := rfl
 
 /-- Defines a representation from a complex root of the displayed power equation. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 def shiftScaleRepresentation [NeZero p] (z : ℂ) (hz : z ^ p = 1) :
     Representation ℂ (ThreeCoordinateGroup p) (ZMod p → ℂ) where
   toFun := shiftScaleAction z
@@ -197,16 +202,19 @@ def shiftScaleRepresentation [NeZero p] (z : ℂ) (hz : z ^ p = 1) :
     shiftScaleRepresentation z hz g = shiftScaleAction z g := rfl
 
 /-- Computes the action of the first distinguished generator. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem shiftScaleRepresentation_firstGenerator_apply [NeZero p] (z : ℂ) (hz : z ^ p = 1) (f : ZMod p → ℂ) (t : ZMod p) :
     shiftScaleRepresentation z hz (firstGenerator p) f t = f (t - 1) := by
   simp [shiftScaleRepresentation_apply, shiftScaleAction_apply, firstGenerator]
 
 /-- Computes the action of the second distinguished generator. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem shiftScaleRepresentation_secondGenerator_apply [NeZero p] (z : ℂ) (hz : z ^ p = 1) (f : ZMod p → ℂ) (t : ZMod p) :
     shiftScaleRepresentation z hz (secondGenerator p) f t = z ^ t.val * f t := by
   simp [shiftScaleRepresentation_apply, shiftScaleAction_apply, secondGenerator]
 
 /-- There is a unique representation satisfying the displayed shift and scaling action formulas. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
 theorem existsUnique_shift_scale_representation [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1) :
     ∃! ρ : Representation ℂ (ThreeCoordinateGroup p) (ZMod p → ℂ),
       (∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (firstGenerator p) f) t = f (t - 1)) ∧
@@ -228,6 +236,7 @@ theorem existsUnique_shift_scale_representation [Fact p.Prime] (z : ℂ) (hz : z
   simp only [map_mul, map_pow, ex, ey, ez]
 
 /-- Characterizes simplicity of a representation satisfying the displayed action formulas. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
 theorem shiftScaleRepresentation_simple_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1)
     (ρ : Representation ℂ (ThreeCoordinateGroup p) (ZMod p → ℂ))
     (hx : ∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (firstGenerator p) f) t = f (t - 1))
@@ -424,6 +433,7 @@ theorem shiftScaleRepresentation_simple_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p
       exact Submodule.sum_mem _ (fun s _ => Submodule.smul_mem _ _ (hall s))
 
 /-- Maps a three-coordinate group to the multiplicative form of a pair of residue-ring coordinates. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 def coordinateQuotientHom (p : ℕ) : ThreeCoordinateGroup p →* Multiplicative (ZMod p × ZMod p) where
   toFun g := Multiplicative.ofAdd (g.firstCoordinate, g.secondCoordinate)
   map_one' := rfl
@@ -434,11 +444,13 @@ def coordinateQuotientHom (p : ℕ) : ThreeCoordinateGroup p →* Multiplicative
     coordinateQuotientHom p g = Multiplicative.ofAdd (g.firstCoordinate, g.secondCoordinate) := rfl
 
 /-- The coordinate quotient homomorphism is surjective. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem coordinateQuotientHom_surjective (p : ℕ) : Function.Surjective (coordinateQuotientHom p) := by
   intro y
   exact ⟨⟨(Multiplicative.toAdd y).1, (Multiplicative.toAdd y).2, 0⟩, rfl⟩
 
 /-- The displayed central element belongs to the commutator subgroup. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem centralGenerator_mem_commutator [Fact p.Prime] :
     (⟨0, 0, 1⟩ : ThreeCoordinateGroup p) ∈ commutator (ThreeCoordinateGroup p) := by
   have hcomm : (⟨0, 0, 1⟩ : ThreeCoordinateGroup p)
@@ -448,6 +460,7 @@ theorem centralGenerator_mem_commutator [Fact p.Prime] :
   exact Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
 
 /-- The kernel of the coordinate quotient map lies in the kernel of each displayed character. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem ker_coordinateQuotient_le_ker [Fact p.Prime] (ρ : ThreeCoordinateGroup p →* ℂˣ) :
     (coordinateQuotientHom p).ker ≤ ρ.ker := by
   haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
@@ -465,18 +478,20 @@ theorem ker_coordinateQuotient_le_ker [Fact p.Prime] (ρ : ThreeCoordinateGroup 
   exact pow_mem centralGenerator_mem_commutator _
 
 /-- Equates characters on the coordinate quotient with characters on the group. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
 noncomputable def characterPrecompositionEquiv (p : ℕ) [Fact p.Prime] :
     (Multiplicative (ZMod p × ZMod p) →* ℂˣ) ≃ (ThreeCoordinateGroup p →* ℂˣ) :=
   (MonoidHom.liftOfSurjective (coordinateQuotientHom p) (coordinateQuotientHom_surjective p)).symm.trans
     (Equiv.subtypeUnivEquiv (fun ρ => ker_coordinateQuotient_le_ker ρ))
 
 /-- Computes character transport along the coordinate quotient map. -/
-@[simp]
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting), simp]
 theorem characterPrecompositionEquiv_apply [Fact p.Prime]
     (χ : Multiplicative (ZMod p × ZMod p) →* ℂˣ) :
     characterPrecompositionEquiv p χ = χ.comp (coordinateQuotientHom p) := rfl
 
 /-- The displayed character space has cardinality equal to the square of the index. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem character_card_eq_square [Fact p.Prime] :
     Nat.card (ThreeCoordinateGroup p →* ℂˣ) = p ^ 2 := by
   haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
@@ -488,6 +503,7 @@ theorem character_card_eq_square [Fact p.Prime] :
   ring
 
 /-- Produces an invariant direct-sum decomposition into one-dimensional submodules under the stated action formulas. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
 theorem exists_invariant_line_decomposition [Fact p.Prime]
     (ρ : Representation ℂ (ThreeCoordinateGroup p) (ZMod p → ℂ))
     (hx : ∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (firstGenerator p) f) t = f (t - 1))
@@ -654,6 +670,7 @@ theorem auxiliaryRepresentationAssertion [NeZero p] (z : ℂ) (hz : z ^ p = 1) :
     Pi.smul_apply, smul_eq_mul]
 
 /-- Computes the dimension of the displayed shift-scale representation. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem shiftScaleRepresentation_finrank [NeZero p] (z : ℂ) (hz : z ^ p = 1) :
     Module.finrank ℂ (FDRep.of (shiftScaleRepresentation z hz)) = p := by
   change Module.finrank ℂ (ZMod p → ℂ) = p
@@ -703,6 +720,7 @@ theorem surjective_of_injective_sum_eq {n : ℕ} {ι : Type*} [Fintype ι]
   exact ⟨i, hi⟩
 
 /-- Every displayed simple representation is isomorphic to one of the two stated forms. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
 theorem simple_representation_iso_character_or_shiftScale [Fact p.Prime]
     (U : FDRep ℂ (ThreeCoordinateGroup p)) [hUsimple : Simple U] :
     (∃ χ : ThreeCoordinateGroup p →* ℂˣ,
@@ -843,6 +861,7 @@ theorem simple_representation_iso_character_or_shiftScale [Fact p.Prime]
   · exact Or.inr ⟨zof k, hzof_p k, hzof_ne1 k, hUEi⟩
 
 /-- Two displayed character representations are isomorphic exactly when their characters agree. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
 theorem character_iso_iff (χ χ' : ThreeCoordinateGroup p →* ℂˣ) :
     Nonempty (FDRep.of (RepresentationTheory.PermutationDegreeThree.representationOfUnitCharacter χ) ≅
         FDRep.of (RepresentationTheory.PermutationDegreeThree.representationOfUnitCharacter χ')) ↔ χ = χ' := by
@@ -855,6 +874,7 @@ theorem character_iso_iff (χ χ' : ThreeCoordinateGroup p →* ℂˣ) :
   · rintro rfl; exact ⟨Iso.refl _⟩
 
 /-- Two displayed shift-scale representations are isomorphic exactly when their parameters agree. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
 theorem shiftScaleRepresentation_iso_iff [Fact p.Prime] {z z' : ℂ} (hz : z ^ p = 1) (hz' : z' ^ p = 1) :
     Nonempty (FDRep.of (shiftScaleRepresentation z hz) ≅ FDRep.of (shiftScaleRepresentation z' hz')) ↔ z = z' := by
   haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
@@ -867,6 +887,7 @@ theorem shiftScaleRepresentation_iso_iff [Fact p.Prime] {z z' : ℂ} (hz : z ^ p
   · rintro rfl; exact ⟨Iso.refl _⟩
 
 /-- States nonisomorphism between the displayed character representation and an auxiliary representation. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
 theorem character_representation_not_iso_auxiliary [Fact p.Prime] (χ : ThreeCoordinateGroup p →* ℂˣ) {z : ℂ} (hz : z ^ p = 1) :
     ¬ Nonempty (FDRep.of (RepresentationTheory.PermutationDegreeThree.representationOfUnitCharacter χ) ≅ FDRep.of (shiftScaleRepresentation z hz)) := by
   haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
@@ -878,6 +899,7 @@ theorem character_representation_not_iso_auxiliary [Fact p.Prime] (χ : ThreeCoo
   omega
 
 /-- A simple representation has dimension one or the index under the stated hypotheses. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem simple_representation_finrank_eq_one_or_index [Fact p.Prime]
     {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
     (σ : Representation ℂ (ThreeCoordinateGroup p) W)
@@ -927,6 +949,7 @@ abbrev AuxiliaryTypeFamily (p : ℕ) : Type :=
   (ThreeCoordinateGroup p →* ℂˣ) ⊕ {z : ℂ // z ^ p = 1 ∧ z ≠ 1}
 
 /-- Computes the number of nonidentity roots satisfying the displayed power equation. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem nontrivialRoots_card [Fact p.Prime] :
     Nat.card {z : ℂ // z ^ p = 1 ∧ z ≠ 1} = p - 1 := by
   classical
@@ -954,6 +977,7 @@ instance finite_nontrivialRoots [Fact p.Prime] : Finite {z : ℂ // z ^ p = 1 �
   exact Subtype.ext (congrArg (fun s : (Polynomial.nthRootsFinset p (1 : ℂ)) => (s : ℂ)) h)
 
 /-- Asserts a nonempty equivalence between the displayed character type and an auxiliary family. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem characterType_nonempty_equiv_auxiliary [Fact p.Prime] :
     Nonempty (RepresentationTheory.FDRep.SimpleCharacters.SimpleCharacter ℂ (ThreeCoordinateGroup p) ≃ AuxiliaryTypeFamily p) := by
   classical
@@ -994,6 +1018,7 @@ theorem characterType_nonempty_equiv_auxiliary [Fact p.Prime] :
   exact ⟨(Equiv.ofBijective f hf).symm⟩
 
 /-- Computes the cardinality of the displayed character type. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem characterType_card [Fact p.Prime] :
     Nat.card (RepresentationTheory.FDRep.SimpleCharacters.SimpleCharacter ℂ (ThreeCoordinateGroup p)) = p ^ 2 + (p - 1) := by
   haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
@@ -1006,6 +1031,7 @@ theorem characterType_card [Fact p.Prime] :
   rw [Nat.card_sum, character_card_eq_square, nontrivialRoots_card]
 
 /-- Relates the carrier cardinality to the displayed character-count expression. -/
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem card_eq_character_count [Fact p.Prime] :
     p ^ 2 * 1 ^ 2 + (p - 1) * p ^ 2 = Fintype.card (ThreeCoordinateGroup p) := by
   haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
