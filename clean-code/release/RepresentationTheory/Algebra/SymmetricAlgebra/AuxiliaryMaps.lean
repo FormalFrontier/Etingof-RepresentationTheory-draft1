@@ -71,13 +71,13 @@ variable {κ : Type w} [DecidableEq κ]
 /-- Adjoin an absent element to a subset of fixed finite cardinality, producing a subset whose cardinality is one larger. -/
 def Set.PowersetCard.insert {i : ℕ} (s : Set.powersetCard κ i) {a : κ} (ha : a ∉ (s : Finset κ)) :
     Set.powersetCard κ (i + 1) :=
-  ⟨insert a (s : Finset κ), Set.powersetCard.mem_iff.mpr (by
+  ⟨Insert.insert a (s : Finset κ), Set.powersetCard.mem_iff.mpr (by
     rw [Finset.card_insert_of_notMem ha, Set.powersetCard.card_eq])⟩
 
 /-- The underlying set obtained by adjoining a fresh element to a fixed-cardinality subset is its set insertion. -/
 @[simp]
 theorem Set.PowersetCard.coe_insert {i : ℕ} (s : Set.powersetCard κ i) {a : κ} (ha : a ∉ (s : Finset κ)) :
-    (Set.PowersetCard.insert s ha : Finset κ) = insert a (s : Finset κ) := rfl
+    (Set.PowersetCard.insert s ha : Finset κ) = Insert.insert a (s : Finset κ) := rfl
 
 end Insert
 
@@ -403,7 +403,7 @@ theorem Module.Basis.composite_add_auxiliaryComposite_eq_id_zero_apply_auxiliary
     have hsupp : α.support.Nonempty := Finsupp.support_nonempty_iff.mpr hα
     have hp : Finsupp.IndexPredicate α (s : Finset κ) (α.support.min' hsupp) :=
       ⟨Finset.min'_mem _ _, fun m hm => Finset.min'_le _ _ hm, fun c hc => by
-        rw [hs] at hc; exact absurd hc (Finset.not_mem_empty c)⟩
+        rw [hs] at hc; exact absurd hc (Finset.notMem_empty c)⟩
     have haug : _root_.RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero.tensorToDegreeZero k V (_root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor k V b 0 (α, s)) = 0 := by
       apply (_root_.RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero.degreeZero.equivBaseRing k V).injective
       rw [_root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor_counit_apply, if_neg hα, map_zero]
