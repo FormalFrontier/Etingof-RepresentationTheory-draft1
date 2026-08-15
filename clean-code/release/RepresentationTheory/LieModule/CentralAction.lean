@@ -306,9 +306,9 @@ variable {M : Type*} [AddCommGroup M] [Module ℂ M] [FiniteDimensional ℂ M]
 
 
 /-- Every Lie submodule of a finite-dimensional module has a complementary Lie submodule. -/
-@[source_ref "Chapter2/Problem2.15.1/Derived10" (role := supporting)]
-@[source_ref "Chapter2/Problem2.15.1/Derived11" (role := supporting)]
-@[source_ref "Chapter2/Problem2.15.1/Derived12" (role := supporting)]
+@[source_ref "Chapter2/Problem2.15.1/Derived10" (role := supporting),
+  source_ref "Chapter2/Problem2.15.1/Derived11" (role := supporting),
+  source_ref "Chapter2/Problem2.15.1/Derived12" (role := supporting)]
 theorem exists_lieSubmodule_isCompl (N : LieSubmodule ℂ complexTwoByTwoMatrixLieSubalgebra M) :
     ∃ N' : LieSubmodule ℂ complexTwoByTwoMatrixLieSubalgebra M, IsCompl N N' :=
   haveI : ComplementedLattice (LieSubmodule ℂ complexTwoByTwoMatrixLieSubalgebra M) := lieSubmodule_complementedLattice M
@@ -367,4 +367,3 @@ theorem exists_integral_centralGeneralizedEigenspace_eq_top_of_auxiliaryPredicat
 end CompleteReducibility
 
 end RepresentationTheory.LieModule.CentralAction
-
