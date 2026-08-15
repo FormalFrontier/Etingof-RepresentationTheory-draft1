@@ -34,7 +34,7 @@ universe u
 
 namespace RepresentationTheory.HomologicalAlgebra.CochainComplexComparison
 
-open CategoryTheory TensorProduct PiTensorProduct CochainComplex.HomComplex
+open _root_.CategoryTheory TensorProduct PiTensorProduct CochainComplex.HomComplex
 open RepresentationTheory.Algebra.Homology.TensorBarResolution
 
 variable (k A W V : Type u) [Field k] [Ring A] [Algebra k A]
