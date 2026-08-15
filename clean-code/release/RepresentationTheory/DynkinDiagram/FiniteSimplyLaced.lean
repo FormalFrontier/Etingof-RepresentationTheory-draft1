@@ -403,7 +403,7 @@ theorem two_smul_one_sub_cycleAdjacencyMatrix_mulVec_one_eq_zero (n : ℕ) (hn :
   
   have h1 : ∑ j : Fin n, (2 • (1 : Matrix (Fin n) (Fin n) ℤ)) i j = (2 : ℤ) := by
     simp [Matrix.smul_apply, Matrix.one_apply, Finset.sum_ite_eq]
-  simp only [mulVec, dotProduct, mul_one, Matrix.sub_apply, Pi.zero_apply]
+  simp only [Matrix.mulVec, dotProduct, mul_one, Matrix.sub_apply, Pi.zero_apply]
   rw [Finset.sum_sub_distrib, h1, hdeg]
   norm_num
 
