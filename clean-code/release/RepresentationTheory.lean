@@ -685,6 +685,7 @@ import RepresentationTheory.PermutationDegreeFour
 import RepresentationTheory.LieAlgebra.ExplicitConstructions
 import RepresentationTheory.MatrixConjugationActions
 import RepresentationTheory.QuaternionRotationMaps
+import RepresentationTheory.LieAlgebra.FreeBigrading
 
 /-!
 # Representation theory formalization
