@@ -100,7 +100,7 @@ lemma quotientMkOne_ne_zero {n : ℕ} (a : Fin n → ℂ) :
 private noncomputable def VrepEquivC {n : ℕ} (a : Fin n → ℂ) : EvaluationModule a ≃ₗ[ℂ] ℂ := by
   refine (LinearEquiv.ofBijective
     (LinearMap.toSpanSingleton ℂ (EvaluationModule a) (Submodule.Quotient.mk 1)) ⟨?_, ?_⟩).symm
-  · 
+  ·
     intro c₁ c₂ h
     simp only [LinearMap.toSpanSingleton_apply] at h
     have hsub : (c₁ - c₂) • (Submodule.Quotient.mk 1 : EvaluationModule a) = 0 := by
@@ -108,7 +108,7 @@ private noncomputable def VrepEquivC {n : ℕ} (a : Fin n → ℂ) : EvaluationM
     rcases smul_eq_zero.mp hsub with hc | hc
     · exact sub_eq_zero.mp hc
     · exact absurd hc (quotientMkOne_ne_zero a)
-  · 
+  ·
     intro v
     induction v using Submodule.Quotient.induction_on with
     | H p =>
@@ -254,11 +254,11 @@ private lemma twisted_deriv_eq_zero {n : ℕ} {M : Type*} [AddCommGroup M] [Modu
 @[source_ref "Chapter3/Problem3.9.2" (role := primary)]
 theorem auxiliaryType_subsingleton_of_ne {n : ℕ} (a b : Fin n → ℂ) (hab : a ≠ b) :
     Subsingleton (RepresentationTheory.Algebra.Module.ExtensionCocycles.AuxiliaryData ℂ (PolynomialAlgebra n) (EvaluationModule b) (EvaluationModule a)) := by
-  
+
   rw [RepresentationTheory.Algebra.Module.ExtensionCocycles.AuxiliaryData, Submodule.Quotient.subsingleton_iff, Submodule.eq_top_iff']
   intro f
   rw [Submodule.submoduleOf, Submodule.mem_comap, RepresentationTheory.Algebra.Module.ExtensionCocycles.mem_coboundaries_iff]
-  
+
   set h : PolynomialAlgebra n →ₗ[ℂ] EvaluationModule b := f.val.flip (Submodule.Quotient.mk 1) with hh
   have h_apply : ∀ p, h p = f.val p (Submodule.Quotient.mk 1) := fun p => rfl
   have hL : ∀ p q, h (p * q) = aeval b p • h q + aeval a q • h p := by
@@ -267,7 +267,7 @@ theorem auxiliaryType_subsingleton_of_ne {n : ℕ} (a b : Fin n → ℂ) (hab : 
     simp only [LinearMap.add_apply, LinearMap.comp_apply, Algebra.lsmul_coe] at hc
     rw [h_apply, h_apply, h_apply, hc, smul_eq_aeval_smul b p (f.val q (Submodule.Quotient.mk 1)),
       smul_eq_aeval_smul a q (Submodule.Quotient.mk 1), map_smul (f.val p)]
-  
+
   have hcomm : ∀ i j, (b i - a i) • h (X j) = (b j - a j) • h (X i) := by
     intro i j
     have e1 := hL (X i) (X j)
@@ -276,18 +276,18 @@ theorem auxiliaryType_subsingleton_of_ne {n : ℕ} (a b : Fin n → ℂ) (hab : 
     have heq : b i • h (X j) + a j • h (X i) = b j • h (X i) + a i • h (X j) := by
       rw [← e1, ← e2, mul_comm]
     rw [sub_smul, sub_smul, sub_eq_sub_iff_add_eq_add]; exact heq
-  
+
   obtain ⟨jj, hjj⟩ : ∃ j, a j ≠ b j := by
     by_contra hcon; push Not at hcon; exact hab (funext hcon)
   have hbaj : (b jj - a jj) ≠ 0 := sub_ne_zero.mpr (Ne.symm hjj)
   set ξ : EvaluationModule b := (b jj - a jj)⁻¹ • h (X jj) with hξ
-  
+
   set cbMap : PolynomialAlgebra n →ₗ[ℂ] EvaluationModule b :=
     (LinearMap.toSpanSingleton ℂ (EvaluationModule b) ξ).comp ((aeval b).toLinearMap - (aeval a).toLinearMap)
     with hcbMap
   have cb_apply : ∀ p, cbMap p = (aeval b p - aeval a p) • ξ := by
     intro p; rw [hcbMap]; simp [LinearMap.toSpanSingleton_apply]
-  
+
   have he : h - cbMap = 0 := by
     refine twisted_deriv_eq_zero (aeval a) (aeval b) (h - cbMap) ?_ ?_
     · intro p q
@@ -304,7 +304,7 @@ theorem auxiliaryType_subsingleton_of_ne {n : ℕ} (a b : Fin n → ℂ) (hab : 
     simp only [LinearMap.sub_apply, LinearMap.zero_apply] at hz
     rw [h_apply, cb_apply, sub_eq_zero] at hz
     exact hz.symm
-  
+
   set X : EvaluationModule a →ₗ[ℂ] EvaluationModule b :=
     (LinearMap.toSpanSingleton ℂ (EvaluationModule b) ξ).comp (VrepEquivC a).toLinearMap with hX
   have X_apply : ∀ w, X w = VrepEquivC a w • ξ := by
@@ -437,6 +437,7 @@ lemma exists_common_eigenvector_of_finrank_two {n : ℕ} (U : Type)
     exact ⟨b, v₀, hv₀ne, hb⟩
 
 /-- A two-dimensional complex module over the polynomial algebra has a submodule equivalent to one evaluation module whose quotient is equivalent to another. -/
+@[source_ref "Chapter3/Problem3.9.2" (role := supporting)]
 theorem exists_evaluation_submodule_and_quotient_of_finrank_two {n : ℕ} (U : Type)
     [AddCommGroup U] [Module ℂ U] [Module (PolynomialAlgebra n) U] [IsScalarTower ℂ (PolynomialAlgebra n) U]
     [FiniteDimensional ℂ U] (hdim : Module.finrank ℂ U = 2) :
@@ -445,7 +446,7 @@ theorem exists_evaluation_submodule_and_quotient_of_finrank_two {n : ℕ} (U : T
   obtain ⟨b, v, hv, hb⟩ := exists_common_eigenvector_of_finrank_two (n := n) U hdim
   set S : Submodule (PolynomialAlgebra n) U := Submodule.span (PolynomialAlgebra n) {v} with hS
   have hvS : v ∈ S := by rw [hS]; exact Submodule.mem_span_singleton_self v
-  
+
   have hSspan : S.restrictScalars ℂ = Submodule.span ℂ {v} := by
     apply le_antisymm
     · rw [SetLike.le_def]
@@ -462,7 +463,7 @@ theorem exists_evaluation_submodule_and_quotient_of_finrank_two {n : ℕ} (U : T
   have hSfin : Module.finrank ℂ ↥S = 1 := hS'fin
   haveI : FiniteDimensional ℂ ↥S :=
     inferInstanceAs (FiniteDimensional ℂ ↥(S.restrictScalars ℂ))
-  
+
   have hSiso : Nonempty (↥S ≃ₗ[PolynomialAlgebra n] EvaluationModule b) := by
     refine ⟨linearEquivEvaluationModuleOfEigenvector b (⟨v, hvS⟩ : ↥S) ?_ hSfin ?_⟩
     · rw [Ne, Submodule.mk_eq_zero]; exact hv
@@ -470,13 +471,13 @@ theorem exists_evaluation_submodule_and_quotient_of_finrank_two {n : ℕ} (U : T
       apply Subtype.ext
       change (X i : PolynomialAlgebra n) • v = b i • v
       exact hb i
-  
+
   have hQfin : Module.finrank ℂ (U ⧸ S) = 1 := by
     have e := Submodule.Quotient.restrictScalarsEquiv ℂ S
     have hadd := Submodule.finrank_quotient_add_finrank (S.restrictScalars ℂ)
     rw [e.finrank_eq, hS'fin, hdim] at hadd
     omega
-  
+
   obtain ⟨a, m₀, hm₀, ha⟩ := oneDim_common_eigen (n := n) (M := U ⧸ S) hQfin
   exact ⟨a, b, S, hSiso, ⟨linearEquivEvaluationModuleOfEigenvector a m₀ hm₀ hQfin ha⟩⟩
 
@@ -604,20 +605,20 @@ theorem exists_pairwise_nonisomorphic_auxiliaryModules {n : ℕ} (hn : 1 < n) :
       (∀ k l, Nonempty ((M k) ≃ₗ[AuxiliaryAlgebra n] (M l)) → k = l) := by
   haveI : NeZero n := ⟨by omega⟩
   refine ⟨fun k => AuxiliaryModuleType n k, fun _ => inferInstance, fun _ => inferInstance, ?_, ?_⟩
-  · 
+  ·
     intro k
-    
+
     have csmul_mem : ∀ (c : ℂ) (x : AuxiliaryModuleType n k) (W : Submodule (AuxiliaryAlgebra n) (AuxiliaryModuleType n k)),
         x ∈ W → c • x ∈ W := by
       intro c x W hx
       have hc : c • x = (algebraMap ℂ (AuxiliaryAlgebra n) c) • x := (auxiliaryAlgebraRepresentation_algebraMap_apply n k c x).symm
       rw [hc]; exact W.smul_mem _ hx
-    
+
     have mem_of_ne_bot : ∀ W : Submodule (AuxiliaryAlgebra n) (AuxiliaryModuleType n k), W ≠ ⊥ → distinguishedVector n k ∈ W := by
       intro W hW
       obtain ⟨w, hwW, hw0⟩ := (Submodule.ne_bot_iff W).mp hW
       by_cases h0 : w 0 = 0
-      · 
+      ·
         set a : ℂ := w 1 with ha
         have hwv : w = a • distinguishedVector n k := by
           funext j; fin_cases j
@@ -629,7 +630,7 @@ theorem exists_pairwise_nonisomorphic_auxiliaryModules {n : ℕ} (hn : 1 < n) :
         have hv : distinguishedVector n k = a⁻¹ • w := by
           rw [hwv, smul_smul, inv_mul_cancel₀ hw1, one_smul]
         rw [hv]; exact csmul_mem _ _ _ hwW
-      · 
+      ·
         have hxw : (distinguishedAlgebraElement n (0 : Fin n)) • w ∈ W := W.smul_mem _ hwW
         have hact : (distinguishedAlgebraElement n (0 : Fin n)) • w = w 0 • distinguishedVector n k := by
           change auxiliaryAlgebraRepresentation n k (distinguishedAlgebraElement n 0) w = w 0 • distinguishedVector n k
@@ -646,25 +647,25 @@ theorem exists_pairwise_nonisomorphic_auxiliaryModules {n : ℕ} (hn : 1 < n) :
     have hv : distinguishedVector n k ∈ W₁ ⊓ W₂ := ⟨mem_of_ne_bot _ hW1, mem_of_ne_bot _ hW2⟩
     rw [disjoint_iff.mp hcompl.disjoint] at hv
     exact distinguishedVector_ne_zero n k ((Submodule.mem_bot _).mp hv)
-  · 
+  ·
     rintro k l ⟨φ⟩
-    
+
     have hmap : ∀ (r : AuxiliaryAlgebra n) (x : AuxiliaryModuleType n k), φ (auxiliaryAlgebraRepresentation n k r x) = auxiliaryAlgebraRepresentation n l r (φ x) :=
       fun r x => map_smul φ r x
-    
+
     have philin : ∀ (c : ℂ) (x : AuxiliaryModuleType n k), φ (c • x) = c • φ x := by
       intro c x
       have h := hmap (algebraMap ℂ (AuxiliaryAlgebra n) c) x
       rw [auxiliaryAlgebraRepresentation_algebraMap_apply, auxiliaryAlgebraRepresentation_algebraMap_apply] at h
       exact h
-    
+
     have hN : ∀ x, φ (coordinateEndomorphism n k x) = coordinateEndomorphism n l (φ x) := by
       intro x
       have h := hmap (distinguishedAlgebraElement n (0 : Fin n)) x
       rw [auxiliaryAlgebraRepresentation_distinguishedElement, auxiliaryAlgebraRepresentation_distinguishedElement, parameterCoefficients_zero, parameterCoefficients_zero, LinearMap.smul_apply, LinearMap.smul_apply,
         one_smul, one_smul] at h
       exact h
-    
+
     have hK : φ ((k : ℂ) • coordinateEndomorphism n k (auxiliaryElement n k)) = (l : ℂ) • coordinateEndomorphism n l (φ (auxiliaryElement n k)) := by
       have h := hmap (distinguishedAlgebraElement n (1 : Fin n)) (auxiliaryElement n k)
       rw [auxiliaryAlgebraRepresentation_distinguishedElement, auxiliaryAlgebraRepresentation_distinguishedElement, parameterCoefficients_one _ hn, parameterCoefficients_one _ hn, LinearMap.smul_apply,
@@ -674,7 +675,7 @@ theorem exists_pairwise_nonisomorphic_auxiliaryModules {n : ℕ} (hn : 1 < n) :
       simp [coordinateEndomorphism_apply, auxiliaryElement, auxiliaryFinTwoVector]
     rw [hNu, philin] at hK
     rw [← hN (auxiliaryElement n k), hNu] at hK
-    
+
     have hφv : φ (distinguishedVector n k) ≠ 0 :=
       fun h => distinguishedVector_ne_zero n k (φ.injective (by rw [map_zero]; exact h))
     have hkl : ((k : ℂ) - (l : ℂ)) • φ (distinguishedVector n k) = 0 := by rw [sub_smul, hK, sub_self]
