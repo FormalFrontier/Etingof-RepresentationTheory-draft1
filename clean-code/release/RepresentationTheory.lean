@@ -616,6 +616,7 @@ import RepresentationTheory.Auxiliary.GeneralLinearPolynomialSubrepresentations
 import RepresentationTheory.GradedAlgebra.HilbertSeries
 import RepresentationTheory.MatrixCoefficientOrthogonality
 import RepresentationTheory.ModuleTensorPresentation
+import RepresentationTheory.Auxiliary.EquivariantMaps
 
 /-!
 # Representation theory formalization
