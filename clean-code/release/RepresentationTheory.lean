@@ -761,6 +761,8 @@ import RepresentationTheory.RepresentationTensorDecompositions
 import RepresentationTheory.CategoryTheory.RepresentationAdjunctions
 import RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence
 import RepresentationTheory.HomologicalComplex.TensorProduct.Reindexing
+import RepresentationTheory.DihedralGroupComplexRepresentations
+import RepresentationTheory.Group.AlternatingGroupFin5Classification
 
 /-!
 # Representation theory formalization
