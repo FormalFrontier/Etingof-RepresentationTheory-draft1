@@ -72,7 +72,7 @@ lemma Matrix.vertex_eq_of_values_eq_three {n : ℕ} {adj : Matrix (Fin n) (Fin n
   
   have mulVec_eq : ∀ a, ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x) a =
       2 * x a - ∑ b, adj a b * x b := by
-    intro a; simp only [mulVec, dotProduct]
+    intro a; simp only [Matrix.mulVec, dotProduct]
     rw [show ∑ b, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) a b * x b =
         ∑ b, (2 * (1 : Matrix _ _ ℤ) a b * x b - adj a b * x b) from
       Finset.sum_congr rfl (fun b _ => by
@@ -946,7 +946,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
           rw [hx'_sa, Pi.zero_apply] at this; exact this
         have hB_eq : dotProduct x' ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x') =
             dotProduct x ((2 • (1 : Matrix _ _ ℤ) - adj').mulVec x) := by
-          simp only [dotProduct, mulVec]
+          simp only [dotProduct, Matrix.mulVec]
           conv_lhs => rw [Fin.sum_univ_succAbove _ u]
           simp only [hx'_u, zero_mul, zero_add]
           congr 1; ext i; rw [hx'_sa]; congr 1
@@ -992,7 +992,9 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
           omega
         linarith
     
-    obtain ⟨v₀', hv₀'_deg⟩ := dynkin_has_endpoint hD' hk1 hpath'
+    obtain ⟨v₀', hv₀'_deg⟩ :=
+      RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.exists_neighborCount_le_one
+        hD' hk1 hpath'
     obtain ⟨σ', hσ'0, hσ'_fwd, hσ'_only⟩ :=
       RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.exists_pathLabeling_from_endpoint hD' hk1 hpath' v₀' hv₀'_deg
     
@@ -1207,7 +1209,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
         have : (0 : ℤ) < ↑(k - b) := by omega
         have : (0 : ℤ) < ↑b + 1 := by omega
         nlinarith
-      suffices hB_eq : x ⬝ᵥ (2 • (1 : Matrix _ _ ℤ) - adj) *ᵥ x =
+      suffices hB_eq : dotProduct x ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x) =
           f b * (2 * (↑(b + 1) : ℤ) + 2 * (↑(k - b) : ℤ) -
                  (↑(b + 1) : ℤ) * ↑(k - b)) by
         rw [hB_eq] at hBpos
@@ -1226,7 +1228,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
       have hsmul_ite : ∀ (i j : Fin (k + 1)),
           (2 : ℕ) • (if i = j then (1 : ℤ) else 0) = if i = j then (2 : ℤ) else 0 := by
         intros; split_ifs <;> simp
-      simp only [dotProduct, mulVec, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
+      simp only [dotProduct, Matrix.mulVec, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         hsmul_ite]
       
       conv_lhs => rw [Fin.sum_univ_succAbove _ u]
