@@ -634,6 +634,7 @@ import RepresentationTheory.FiniteAssociatedSetCardinality
 import RepresentationTheory.Algebra.Module.KrullSchmidt
 import RepresentationTheory.AdjInputSetCardinalities
 import RepresentationTheory.Auxiliary
+import RepresentationTheory.IntegerZeroSumCoordinates
 
 /-!
 # Representation theory formalization
