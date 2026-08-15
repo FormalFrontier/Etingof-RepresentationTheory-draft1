@@ -537,6 +537,7 @@ import RepresentationTheory.Rat.MatrixTwo
 import RepresentationTheory.Representation.Character.InversionAndInvariantForms
 import RepresentationTheory.RingTheory.ElementProperties
 import RepresentationTheory.SimpleRepresentationModules
+import RepresentationTheory.TensorCoordinateMaps
 import RepresentationTheory.TensorPolynomial.Contraction
 
 /-!
