@@ -288,4 +288,3 @@ noncomputable def tensorProjectiveResolution
       exact isZero_homology_tensorProjectiveResolution_succ P₁ P₂ n
 
 end RepresentationTheory.Algebra.Homology.TensorResolution
-
