@@ -650,6 +650,7 @@ import RepresentationTheory.MoritaEquivalence
 import RepresentationTheory.Algebra.Module.TensorProductSimplicity
 import RepresentationTheory.Auxiliary.FiniteAlgebraCandidates
 import RepresentationTheory.AuxiliaryTensorProductRepresentations
+import RepresentationTheory.SymmetricGroupAlgebra.SignTwist
 
 /-!
 # Representation theory formalization
