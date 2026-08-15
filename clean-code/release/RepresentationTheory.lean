@@ -675,6 +675,7 @@ import RepresentationTheory.Quiver.FiniteTypeCriterion
 import RepresentationTheory.LieAlgebra.ModuleProducts
 import RepresentationTheory.AuxiliaryRepresentationDecompositions
 import RepresentationTheory.LieAlgebra.TensorProductDecomposition
+import RepresentationTheory.LinearAlgebra.NilpotentOperators
 
 /-!
 # Representation theory formalization
