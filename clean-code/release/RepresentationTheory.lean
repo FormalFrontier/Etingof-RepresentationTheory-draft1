@@ -595,6 +595,7 @@ import RepresentationTheory.HomologicalAlgebra.CochainComplexComparison
 import RepresentationTheory.ComplexCharacterIdentities
 import RepresentationTheory.SymmetricPowerRepresentations
 import RepresentationTheory.AlternatingTensorSquare
+import RepresentationTheory.Quiver.FiniteOrbitDimensionBounds
 
 /-!
 # Representation theory formalization
