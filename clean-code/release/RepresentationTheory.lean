@@ -593,6 +593,7 @@ import RepresentationTheory.GeneralLinearGroup.AuxiliaryDecomposition
 import RepresentationTheory.AuxiliaryDecompositionData
 import RepresentationTheory.HomologicalAlgebra.CochainComplexComparison
 import RepresentationTheory.ComplexCharacterIdentities
+import RepresentationTheory.SymmetricPowerRepresentations
 
 /-!
 # Representation theory formalization
