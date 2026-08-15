@@ -689,6 +689,7 @@ import RepresentationTheory.LieAlgebra.FreeBigrading
 import RepresentationTheory.LieAlgebra.AuxiliaryBracketCalculus
 import RepresentationTheory.LieAlgebra.PolynomialMatrixRealization
 import RepresentationTheory.LieAlgebra.GradedMatrixRealization
+import RepresentationTheory.LieAlgebra.BigradedComponents
 
 /-!
 # Representation theory formalization
