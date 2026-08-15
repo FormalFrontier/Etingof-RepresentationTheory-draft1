@@ -7,6 +7,7 @@ Authors: mathlib-initiative
 import RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction
 import RepresentationTheory.IntegerMatrix.ReflectionDynamics
 import RepresentationTheory.IntegerVectorPredicate
+import RepresentationTheory.Alignment.Attribute
 
 
 
@@ -90,6 +91,7 @@ lemma Matrix.dotProduct_mulVec_comm_of_isSymm (hA : A.IsSymm) (x y : Fin n → �
 
 
 /-- Reflection fixes a vector whose dot product with the matrix image of the reflecting vector is zero. -/
+@[source_ref "Chapter6/Remark6.4.11" (role := primary)]
 theorem IntegralRootSystem.reflection_eq_self_of_dotProduct_eq_zero (α v : Fin n → ℤ)
     (h : dotProduct v (A.mulVec α) = 0) :
     RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryVectorTransform n A α v = v := by
@@ -98,6 +100,7 @@ theorem IntegralRootSystem.reflection_eq_self_of_dotProduct_eq_zero (α v : Fin 
 
 
 /-- Reflection in a vector of self-pairing two sends that vector to its negation. -/
+@[source_ref "Chapter6/Remark6.4.11" (role := primary)]
 theorem IntegralRootSystem.reflection_self (α : Fin n → ℤ)
     (hα : dotProduct α (A.mulVec α) = 2) :
     RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryVectorTransform n A α α = -α := by
@@ -161,6 +164,7 @@ lemma IntegralRootSystem.reflectionEquiv_symm (α : Fin n → ℤ)
 
 
 /-- For a symmetric matrix, reflection in a vector of self-pairing two preserves the induced pairing. -/
+@[source_ref "Chapter6/Remark6.4.11" (role := primary)]
 theorem IntegralRootSystem.reflection_preserves_dotProduct_mulVec (hA : A.IsSymm) (α : Fin n → ℤ)
     (hα : dotProduct α (A.mulVec α) = 2) (v w : Fin n → ℤ) :
     dotProduct (RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryVectorTransform n A α v) (A.mulVec (RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryVectorTransform n A α w)) =
@@ -344,6 +348,7 @@ theorem IntegralRootSystem.linearEquiv_ext_on_simpleRoots (f g : (Fin n → ℤ)
 
 
 /-- The action of the reflection subgroup on the roots is faithful. -/
+@[source_ref "Chapter6/Remark6.4.11" (role := primary)]
 theorem IntegralRootSystem.weylGroupRootAction_injective (hDynkin : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj) :
     Function.Injective (IntegralRootSystem.weylGroupRootAction hDynkin) := by
   intro w₁ w₂ h
@@ -358,6 +363,7 @@ theorem IntegralRootSystem.weylGroupRootAction_injective (hDynkin : Representati
 
 
 /-- The reflection subgroup associated with a finite integral root system is finite. -/
+@[source_ref "Chapter6/Remark6.4.11" (role := primary)]
 theorem IntegralRootSystem.finite_weylGroup (hDynkin : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj) :
     Finite (IntegralRootSystem.weylGroup hDynkin) := by
   have hfin : Set.Finite {x : Fin n → ℤ | RepresentationTheory.AuxiliaryIntegerMatrixVectorProperty.IsAuxiliaryForMatrix n adj x} :=
