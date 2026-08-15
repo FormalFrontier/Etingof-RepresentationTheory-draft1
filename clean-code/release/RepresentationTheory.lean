@@ -687,6 +687,7 @@ import RepresentationTheory.MatrixConjugationActions
 import RepresentationTheory.QuaternionRotationMaps
 import RepresentationTheory.LieAlgebra.FreeBigrading
 import RepresentationTheory.LieAlgebra.AuxiliaryBracketCalculus
+import RepresentationTheory.LieAlgebra.PolynomialMatrixRealization
 
 /-!
 # Representation theory formalization
