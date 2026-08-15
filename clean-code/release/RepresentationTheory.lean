@@ -584,6 +584,7 @@ import RepresentationTheory.IntegerVectorPredicate
 import RepresentationTheory.Combinatorics.PartitionPermutation
 import RepresentationTheory.Permutation.PartitionIndexedAuxiliary
 import RepresentationTheory.Auxiliary.MembershipSubtypes
+import RepresentationTheory.AuxiliaryPartitionSubmodules
 
 /-!
 # Representation theory formalization
