@@ -24,7 +24,7 @@ namespace RepresentationTheory.SymmetricGroup.PartitionSubspaceAuxiliary
 /-! ## Computable hook-length formulas -/
 
 /-- A column length equals the number of sorted row lengths strictly exceeding the column index. -/
-theorem colLen_eq_card_filter_sortedParts {m : ℕ} (μ : Nat.Partition m) (c : ℕ) :
+theorem YoungDiagram.colLen_eq_card_filter_sortedParts {m : ℕ} (μ : Nat.Partition m) (c : ℕ) :
     (_root_.RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition μ).colLen c
       = ((Finset.range (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList μ).length).filter
           (fun i => c < (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList μ).getD i 0)).card := by
@@ -53,7 +53,7 @@ theorem hookLengthProduct_eq_prod_sortedParts {m : ℕ} (μ : Nat.Partition m) :
   unfold _root_.RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryDiagramStatistic
   refine Finset.prod_congr rfl (fun x _ => ?_)
   rw [_root_.RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryCellStatistic, _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.Partition.toYoungDiagram_rowLen_eq_getD,
-      colLen_eq_card_filter_sortedParts]
+      YoungDiagram.colLen_eq_card_filter_sortedParts]
 
 /-- A weakly decreasing list representing the parts of a partition is its sorted-parts list. -/
 theorem sortedParts_eq_of_parts_eq_of_pairwise_ge {m : ℕ} (μ : Nat.Partition m) (L : List ℕ)
@@ -240,11 +240,11 @@ theorem partitionFourAuxiliaryThree_auxiliaryMap_eq_partitionFourAuxiliaryOne : 
   change (↑((_root_.RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition partitionFourAuxiliaryThree).transpose.rowLens) : Multiset ℕ) = ({2, 1, 1} : Multiset ℕ)
   have hsp : (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList partitionFourAuxiliaryThree) = [3, 1] := sortedParts_eq_of_parts_eq_of_pairwise_ge _ [3, 1] rfl (by decide)
   have hc0 : (_root_.RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition partitionFourAuxiliaryThree).colLen 0 = 2 := by
-    rw [colLen_eq_card_filter_sortedParts, hsp]; decide
+    rw [YoungDiagram.colLen_eq_card_filter_sortedParts, hsp]; decide
   have hc1 : (_root_.RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition partitionFourAuxiliaryThree).colLen 1 = 1 := by
-    rw [colLen_eq_card_filter_sortedParts, hsp]; decide
+    rw [YoungDiagram.colLen_eq_card_filter_sortedParts, hsp]; decide
   have hc2 : (_root_.RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition partitionFourAuxiliaryThree).colLen 2 = 1 := by
-    rw [colLen_eq_card_filter_sortedParts, hsp]; decide
+    rw [YoungDiagram.colLen_eq_card_filter_sortedParts, hsp]; decide
   have hlen : (_root_.RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition partitionFourAuxiliaryThree).transpose.colLen 0 = 3 := by
     rw [YoungDiagram.colLen_transpose, _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.Partition.toYoungDiagram_rowLen_eq_getD, hsp]; rfl
   have hrl : (_root_.RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition partitionFourAuxiliaryThree).transpose.rowLens = [2, 1, 1] := by
