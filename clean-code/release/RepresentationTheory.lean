@@ -626,6 +626,7 @@ import RepresentationTheory.DihedralAuxiliary
 import RepresentationTheory.Algebra.Category.ModuleCat.EndomorphismEquivalences
 import RepresentationTheory.AlternatingGroupFourRepresentations
 import RepresentationTheory.Algebra.SymmetricAlgebra.AuxiliaryMaps
+import RepresentationTheory.Representation.PermutationGroupSpectrum
 
 /-!
 # Representation theory formalization
