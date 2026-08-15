@@ -545,6 +545,7 @@ import RepresentationTheory.TensorPolynomial.Contraction
 import RepresentationTheory.ThreeCoordinateGroupRepresentations
 import RepresentationTheory.AuxiliaryRepresentationParameters
 import RepresentationTheory.GeneralLinearGroup.WeightVectors
+import RepresentationTheory.MultiplicativeIntAuxiliaryExample
 
 /-!
 # Representation theory formalization
