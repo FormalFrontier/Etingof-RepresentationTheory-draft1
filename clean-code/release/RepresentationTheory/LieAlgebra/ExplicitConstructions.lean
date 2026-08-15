@@ -1899,7 +1899,7 @@ theorem mem_span_aux4 (k : Type*) [Field k] (h2 : (2 : k) ≠ 0)
   · rw [map_apply_aux3] at hconst
     obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hconst
     rw [← hc, map_smul]
-    refine Submodule.smul_mem _ _ (Submodule.subset_span ⟨LoopIdx.base, ?_⟩)
+    refine Submodule.smul_mem _ _ (Submodule.subset_span ⟨AuxiliaryIndex.base, ?_⟩)
     simp [matrix_aux13, AuxiliaryIndex.toNat, AuxiliaryIndex.toMatrix]
   · rcases Nat.even_or_odd n with he | ho
     · obtain ⟨r, hr⟩ := he
@@ -1913,7 +1913,7 @@ theorem mem_span_aux4 (k : Type*) [Field k] (h2 : (2 : k) ≠ 0)
       rw [Submodule.map_span, ← Set.range_comp] at himg
       refine Submodule.span_mono ?_ himg
       rintro _ ⟨i, rfl⟩
-      exact ⟨LoopIdx.even m i, by simp [matrix_aux13, AuxiliaryIndex.toNat, AuxiliaryIndex.toMatrix, hm]⟩
+      exact ⟨AuxiliaryIndex.even m i, by simp [matrix_aux13, AuxiliaryIndex.toNat, AuxiliaryIndex.toMatrix, hm]⟩
     · obtain ⟨m, hm⟩ := ho
       have hpow : (-1 : k) ^ n = -1 := by rw [hm, pow_succ, pow_mul]; simp
       have hneg : matrix_aux14 (matrix_aux9 k n P) = -matrix_aux9 k n P := by
@@ -1923,7 +1923,7 @@ theorem mem_span_aux4 (k : Type*) [Field k] (h2 : (2 : k) ≠ 0)
       rw [Submodule.map_span, ← Set.range_comp] at himg
       refine Submodule.span_mono ?_ himg
       rintro _ ⟨i, rfl⟩
-      exact ⟨LoopIdx.odd m i, by simp [matrix_aux13, AuxiliaryIndex.toNat, AuxiliaryIndex.toMatrix, hm]⟩
+      exact ⟨AuxiliaryIndex.odd m i, by simp [matrix_aux13, AuxiliaryIndex.toNat, AuxiliaryIndex.toMatrix, hm]⟩
 
 
 /-- The displayed submodules are equal. -/
@@ -1954,7 +1954,7 @@ noncomputable def distinguishedElement_aux2 (k : Type*) [Field k] (h2 : (2 : k) 
 
 
 /-- The two displayed expressions are equal. -/
-theorem displayed_eq_aux5 : (distinguishedElement_aux3 k LoopIdx.base : Matrix (Fin 3) (Fin 3) (Polynomial k)) = matrix_aux6 k := by
+theorem displayed_eq_aux5 : (distinguishedElement_aux3 k AuxiliaryIndex.base : Matrix (Fin 3) (Fin 3) (Polynomial k)) = matrix_aux6 k := by
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [distinguishedElement_aux3, matrix_aux13, AuxiliaryIndex.toNat, AuxiliaryIndex.toMatrix, matrix_aux11, matrix_aux6, Matrix.single,
