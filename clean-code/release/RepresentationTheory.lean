@@ -654,6 +654,7 @@ import RepresentationTheory.SymmetricGroupAlgebra.SignTwist
 import RepresentationTheory.CategoryTheory.LeftDerivedFunctor.ConnectingMorphisms
 import RepresentationTheory.CategoryTheory.Auxiliary.FGModuleCatEquivalence
 import RepresentationTheory.CategoryTheory.Indecomposable
+import RepresentationTheory.IntegerAdjacencyMatrixCombinatorics
 
 /-!
 # Representation theory formalization
