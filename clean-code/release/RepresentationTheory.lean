@@ -719,6 +719,7 @@ import RepresentationTheory.Algebra.Module.FormalDeformations
 import RepresentationTheory.ParameterizedAlgebra.SimpleModuleExistence
 import RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations
 import RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolutionComplexComparison
+import RepresentationTheory.Algebra.WeylAlgebra.PolynomialBimodule
 
 /-!
 # Representation theory formalization
