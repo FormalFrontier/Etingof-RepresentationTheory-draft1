@@ -37,8 +37,7 @@ instance instSMulAlgebra : SMul A (RightAlgebraDual k A) where
   smul a f := toModuleDual.symm ((toModuleDual f).comp (LinearMap.mulRight k a))
 
 /-- The algebra action on the right dual evaluates by right multiplication of the argument. -/
-@[source_ref "Chapter2/Problem2.5.2" (role := primary)]
-@[simp]
+@[source_ref "Chapter2/Problem2.5.2" (role := primary), simp]
 theorem toModuleDual_algebra_smul_apply (a : A) (f : RightAlgebraDual k A) (b : A) :
     toModuleDual (a • f) b = toModuleDual f (b * a) := rfl
 
@@ -404,7 +403,7 @@ theorem span_singleton_ne_top_squareZeroPlaneDual (f : SquareZeroPlaneDual) : Su
   omega
 
 /-- The square-zero plane dual is not a cyclic module over the square-zero plane algebra. -/
-theorem not_isCyclicModule_squareZeroPlaneDual : ¬ IsCyclicModule (SquareZeroPlaneAlgebra := SquareZeroPlaneAlgebra) SquareZeroPlaneDual := by
+theorem not_isCyclicModule_squareZeroPlaneDual : ¬ IsCyclicModule (A := SquareZeroPlaneAlgebra) SquareZeroPlaneDual := by
   rw [IsCyclicModule]
   rintro ⟨f, hf⟩
   exact span_singleton_ne_top_squareZeroPlaneDual f hf
@@ -447,7 +446,7 @@ theorem auxiliaryModuleProperty_squareZeroPlaneDual : _root_.RepresentationTheor
 /-- The square-zero plane dual satisfies the displayed auxiliary module property but is not cyclic. -/
 @[source_ref "Chapter2/Problem2.5.2" (role := supporting)]
 theorem auxiliaryModuleProperty_and_not_isCyclicModule :
-    _root_.RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate SquareZeroPlaneAlgebra SquareZeroPlaneDual ∧ ¬ IsCyclicModule (SquareZeroPlaneAlgebra := SquareZeroPlaneAlgebra) SquareZeroPlaneDual :=
+    _root_.RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate SquareZeroPlaneAlgebra SquareZeroPlaneDual ∧ ¬ IsCyclicModule (A := SquareZeroPlaneAlgebra) SquareZeroPlaneDual :=
   ⟨auxiliaryModuleProperty_squareZeroPlaneDual, not_isCyclicModule_squareZeroPlaneDual⟩
 
 example : Module.finrank ℂ SquareZeroPlaneDual = 3 := finrank_squareZeroPlaneDual
