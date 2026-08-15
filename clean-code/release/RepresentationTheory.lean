@@ -596,6 +596,7 @@ import RepresentationTheory.ComplexCharacterIdentities
 import RepresentationTheory.SymmetricPowerRepresentations
 import RepresentationTheory.AlternatingTensorSquare
 import RepresentationTheory.Quiver.FiniteOrbitDimensionBounds
+import RepresentationTheory.ModuleCat.FiniteFreeRetractEndomorphisms
 
 /-!
 # Representation theory formalization
