@@ -10,7 +10,7 @@ import RepresentationTheory.QuiverRepresentation.Auxiliary
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import RepresentationTheory.Alignment.Attribute
 
-/-- Takes the supplied parameter and a vertex of its quiver, and returns a natural number. -/
+/-- Takes a finite index type, a map into V, a distinguished element, an integer-valued function on V, and a target element, and returns an integer. -/
 def RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryInt
     {V : Type*} [DecidableEq V]
     {ι : Type*} [Fintype ι] (adj : ι → V)
