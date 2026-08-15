@@ -12,7 +12,9 @@ import RepresentationTheory.LinearAlgebra.EndomorphismCentralizer
 import RepresentationTheory.Auxiliary.LinearIndependence
 import RepresentationTheory.Algebra.Module.Simple
 
-namespace RepresentationTheory.Auxiliary.GeneralLinearGroupRepresentationDecomposition
+set_option linter.dupNamespace false
+
+namespace RepresentationTheory.Auxiliary.GeneralLinearGroupRepresentationDecomposition.Auxiliary.GeneralLinearGroupRepresentationDecomposition
 
 open scoped TensorProduct DirectSum
 open CategoryTheory
@@ -22,7 +24,7 @@ open RepresentationTheory.Auxiliary.MutualCentralizers
 open RepresentationTheory.GeneralLinearGroup.Auxiliary
 open RepresentationTheory.GeneralLinearGroup.WeightCharacter
 open RepresentationTheory.LinearAlgebra.EndomorphismCentralizer
-open RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary
+open RepresentationTheory.PolynomialMatrixCoefficients.RepresentationTheory.PolynomialMatrixCoefficients.Auxiliary
 open RepresentationTheory.TensorPower
 
 variable (k : Type) [Field k] (N : ℕ)
@@ -241,4 +243,4 @@ theorem existsLinearEquivFiniteDirectSum
     p, fun j => gκ (h j), ⟨?_⟩⟩
   exact eM.trans eM'
 
-end RepresentationTheory.Auxiliary.GeneralLinearGroupRepresentationDecomposition
+end RepresentationTheory.Auxiliary.GeneralLinearGroupRepresentationDecomposition.Auxiliary.GeneralLinearGroupRepresentationDecomposition

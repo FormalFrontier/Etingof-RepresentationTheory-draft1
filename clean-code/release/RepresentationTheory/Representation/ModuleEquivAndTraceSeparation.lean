@@ -10,6 +10,7 @@ import RepresentationTheory.UnitTupleActions
 import RepresentationTheory.Auxiliary.GeneralLinearGroupPolynomialEvaluation
 import RepresentationTheory.GeneralLinear.InvariantSubtype
 import RepresentationTheory.AuxiliaryGeneralLinearTrace
+import RepresentationTheory.Alignment.Attribute
 
 open CategoryTheory
 
@@ -63,6 +64,7 @@ theorem auxiliary_fdRep_value_of_representation_eq (N : ℕ)
 
 /-- The module underlying the finite-dimensional representation associated with an antitone
 natural-valued family is simple. -/
+@[source_ref"Chapter5/Discussion_after_Definition5.23.1/Derived01"(role:=supporting)]
 theorem isSimpleModule_fdRep_of_antitone (N : ℕ) (lam : Fin N → ℕ)
     (hlam : Antitone lam) :
     IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))

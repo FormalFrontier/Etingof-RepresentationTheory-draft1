@@ -10,7 +10,9 @@ import RepresentationTheory.MvPolynomial.Vanishing
 import RepresentationTheory.LinearAlgebra.MatrixAction
 import RepresentationTheory.GeneralLinearGroup.WeightCharacter
 
-namespace RepresentationTheory.PolynomialMatrixCoefficients
+set_option linter.dupNamespace false
+
+namespace RepresentationTheory.PolynomialMatrixCoefficients.RepresentationTheory.PolynomialMatrixCoefficients
 
 open scoped TensorProduct
 open MvPolynomial
@@ -900,4 +902,4 @@ theorem exists_injective_equivariant_tensorFamilyMap_of_auxiliarySubmodules
 
 end Auxiliary
 
-end RepresentationTheory.PolynomialMatrixCoefficients
+end RepresentationTheory.PolynomialMatrixCoefficients.RepresentationTheory.PolynomialMatrixCoefficients

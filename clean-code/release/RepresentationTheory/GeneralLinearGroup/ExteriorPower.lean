@@ -9,6 +9,7 @@ import RepresentationTheory.Auxiliary.GeneralLinearGroupPolynomialEvaluation
 import RepresentationTheory.MvPolynomial.UniformIndexShift
 import RepresentationTheory.GeneralLinear.AuxiliaryDecomposition
 import RepresentationTheory.GeneralLinearGroup.WeightCharacter
+import RepresentationTheory.Alignment.Attribute
 
 open CategoryTheory MonoidalCategory
 
@@ -105,6 +106,7 @@ lemma exteriorPowerLinearEquiv_apply (N : ℕ) (x : ⋀[k]^N (Fin N → k)) :
 
 omit [CharZero k] in
 /-- The exterior-power representation acts by scalar multiplication by the determinant. -/
+@[source_ref"Chapter5/Proposition5.22.2"(role:=primary)]
 lemma exteriorPowerRepresentation_apply (N : ℕ) (g : Matrix.GeneralLinearGroup (Fin N) k) :
     exteriorPowerRepresentation k N g =
       (↑(Matrix.GeneralLinearGroup.det g) : k) • LinearMap.id := by
@@ -135,6 +137,7 @@ theorem exteriorPowerLinearEquiv_intertwines (N : ℕ) (g : Matrix.GeneralLinear
   rw [Matrix.GeneralLinearGroup.val_det_apply]
 
 /-- An isomorphism between the two auxiliary finite-dimensional representations. -/
+@[source_ref"Chapter5/Proposition5.22.2"(role:=primary)]
 noncomputable def auxiliaryFiniteDimensionalRepresentationsIso (N : ℕ) :
     auxiliaryFiniteDimensionalRepresentationPrime k N ≅
       auxiliaryFiniteDimensionalRepresentation k N :=
@@ -472,6 +475,7 @@ theorem tensorAuxiliaryRepresentationIsoNonempty (N : ℕ) (lam : Fin N → ℕ)
 
 /-- The successor-indexed representation is isomorphic to the tensor product of the original
 representation and an auxiliary representation. -/
+@[source_ref"Chapter5/Proposition5.22.2"(role:=primary)]
 theorem shiftedAuxiliaryRepresentationTensorIsoNonempty
     (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
     Nonempty (schurRepresentation k N (fun i => lam i + 1) ≅
@@ -485,6 +489,7 @@ theorem shiftedAuxiliaryRepresentationTensorIsoNonempty
 
 /-- The representation indexed by the pointwise successor is isomorphic to the tensor product of
 the original representation with an auxiliary finite-dimensional representation. -/
+@[source_ref"Chapter5/Proposition5.22.2"(role:=primary)]
 theorem shiftedAuxiliaryRepresentationTensorAuxiliaryIsoNonempty
     (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
     Nonempty (schurRepresentation k N (fun i => lam i + 1) ≅
