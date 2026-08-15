@@ -731,6 +731,7 @@ import RepresentationTheory.Quiver.TwoDimensionalRepresentations
 import RepresentationTheory.Quiver.PathModuleCorrespondence
 import RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules
 import RepresentationTheory.TensorSquareSpectralDecomposition
+import RepresentationTheory.Group.OuterAutomorphismTwist
 
 /-!
 # Representation theory formalization
