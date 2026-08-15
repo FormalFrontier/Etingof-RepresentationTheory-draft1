@@ -695,6 +695,7 @@ import RepresentationTheory.LieAlgebra.BigradedCocycleLifts
 import RepresentationTheory.LieAlgebra.BigradedPairing
 import RepresentationTheory.LieAlgebra.BracketCoefficients
 import RepresentationTheory.LieAlgebra.FiniteDimensionalModels
+import RepresentationTheory.GradedLieAlgebra.BracketRelations
 
 /-!
 # Representation theory formalization
