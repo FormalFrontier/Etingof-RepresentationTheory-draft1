@@ -774,6 +774,7 @@ import RepresentationTheory.AuxiliaryRepresentationComputations
 import RepresentationTheory.Algebra.Homological.TensorActionComparison
 import RepresentationTheory.Auxiliary.TensorProductGradedComparisons
 import RepresentationTheory.FiniteGroupRepresentations.SubgroupInductionAuxiliary
+import RepresentationTheory.FiniteGroupRepresentation
 
 /-!
 # Representation theory formalization
