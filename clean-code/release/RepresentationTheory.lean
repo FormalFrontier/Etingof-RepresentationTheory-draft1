@@ -646,6 +646,7 @@ import RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic
 import RepresentationTheory.ParameterizedAlgebra.FiniteSimpleModules
 import RepresentationTheory.MvPolynomial.GroupIndexedFactorization
 import RepresentationTheory.RingTheory.OrderedMonomialBasis
+import RepresentationTheory.MoritaEquivalence
 
 /-!
 # Representation theory formalization
