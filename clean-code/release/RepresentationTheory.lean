@@ -726,6 +726,7 @@ import RepresentationTheory.EightDimensionalRationalVectors
 import RepresentationTheory.Algebra.Matrix.ProductSemisimplicity
 import RepresentationTheory.WeylAlgebra.ModularSimpleModules
 import RepresentationTheory.Algebra.Module.PolynomialEvaluationModules
+import RepresentationTheory.Algebra.Module.TwoDimensionalPolynomialModules
 
 /-!
 # Representation theory formalization
