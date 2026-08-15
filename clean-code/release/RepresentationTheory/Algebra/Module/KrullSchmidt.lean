@@ -608,7 +608,7 @@ private lemma krull_schmidt_uniqueness_aux_finiteLength
         by_contra hne
         push Not at hne
         obtain ⟨hP, hQ⟩ := hne
-        exact (hW_indec (succMap i)).not_exists_nontrivial_compl
+        exact (hW_indec (succMap i)).not_exists_complementarySubmodules
           ⟨P.map e.toLinearMap, Q.map e.toLinearMap,
            fun h => hP (by rwa [Submodule.map_eq_bot_iff] at h),
            fun h => hQ (by rwa [Submodule.map_eq_bot_iff] at h),
@@ -658,7 +658,7 @@ private lemma krull_schmidt_uniqueness_aux_finiteLength
         by_contra hne
         push Not at hne
         obtain ⟨hP, hQ⟩ := hne
-        exact (hW'_indec (skipJ₀ i)).not_exists_nontrivial_compl
+        exact (hW'_indec (skipJ₀ i)).not_exists_complementarySubmodules
           ⟨P.map e.toLinearMap, Q.map e.toLinearMap,
            fun h => hP (by rwa [Submodule.map_eq_bot_iff] at h),
            fun h => hQ (by rwa [Submodule.map_eq_bot_iff] at h),
@@ -711,7 +711,7 @@ private lemma krull_schmidt_uniqueness_aux_finiteLength
         by_contra hne
         push Not at hne
         obtain ⟨hP, hQ⟩ := hne
-        exact (hW'D_indec i).not_exists_nontrivial_compl
+        exact (hW'D_indec i).not_exists_complementarySubmodules
           ⟨P.map e.toLinearMap, Q.map e.toLinearMap,
            fun h => hP (by rwa [Submodule.map_eq_bot_iff] at h),
            fun h => hQ (by rwa [Submodule.map_eq_bot_iff] at h),
