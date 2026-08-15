@@ -680,6 +680,7 @@ import RepresentationTheory.LinearAlgebra.KernelDimensionProfiles
 import RepresentationTheory.Algebra.Lie.ComplexMatrixModuleClassification
 import RepresentationTheory.LieModule.TensorProductDecomposition
 import RepresentationTheory.LieModule.ActionFibers
+import RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification
 
 /-!
 # Representation theory formalization
