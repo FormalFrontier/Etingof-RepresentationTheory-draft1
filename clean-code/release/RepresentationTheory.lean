@@ -628,6 +628,7 @@ import RepresentationTheory.AlternatingGroupFourRepresentations
 import RepresentationTheory.Algebra.SymmetricAlgebra.AuxiliaryMaps
 import RepresentationTheory.Representation.PermutationGroupSpectrum
 import RepresentationTheory.Quiver.FiniteFreeInjectivity
+import RepresentationTheory.SymmetricAlgebra.ProjectiveResolution
 
 /-!
 # Representation theory formalization
