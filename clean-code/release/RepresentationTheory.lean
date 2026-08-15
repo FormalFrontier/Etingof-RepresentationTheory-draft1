@@ -692,6 +692,7 @@ import RepresentationTheory.LieAlgebra.GradedMatrixRealization
 import RepresentationTheory.LieAlgebra.BigradedComponents
 import RepresentationTheory.LinearMap.KernelDecomposition
 import RepresentationTheory.LieAlgebra.BigradedCocycleLifts
+import RepresentationTheory.LieAlgebra.BigradedPairing
 
 /-!
 # Representation theory formalization
