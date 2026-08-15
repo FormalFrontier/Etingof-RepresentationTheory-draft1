@@ -41,7 +41,7 @@ def endRingEquiv (e : X ≅ Y) : End X ≃+* End Y :=
 /-- The endomorphism ring equivalence induced by an isomorphism sends a morphism to its conjugate by that isomorphism. -/
 @[simp]
 theorem endRingEquiv_apply (e : X ≅ Y) (f : End X) :
-    e.endRingEquiv f = e.inv ≫ f ≫ e.hom := rfl
+    endRingEquiv e f = e.inv ≫ f ≫ e.hom := rfl
 
 end CategoryTheory.Iso
 
@@ -341,7 +341,7 @@ theorem existsAuxiliaryObjectRingEquivIffExistsAuxiliaryTypeRingEquiv
   · rintro ⟨Q, hQ, ⟨φ⟩⟩
     obtain ⟨n, hn, ⟨e⟩⟩ :=
       (_root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.iffExistsPositiveMultiplicities P hproj hindec hdistinct hcomplete Q).mp hQ
-    exact ⟨n, hn, ⟨φ.trans (RingEquiv.op e.endRingEquiv)⟩⟩
+    exact ⟨n, hn, ⟨φ.trans (RingEquiv.op (CategoryTheory.Iso.endRingEquiv e))⟩⟩
   · rintro ⟨n, hn, ⟨φ⟩⟩
     haveI : _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (_root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities P n) := _root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.ofPositiveMultiplicities P n hn
     exact ⟨_root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities P n, inferInstance, ⟨φ⟩⟩
