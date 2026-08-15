@@ -275,8 +275,7 @@ theorem auxiliaryConjunction :
     rw [smul_one_eq_zero_of_trace_eq_zero (auxiliaryRealMatrixResultF.mp htsym).2, zero_smul]
 
 /-- Computes the dimension of the displayed real submodule. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary),
-  source_ref "Chapter4/Problem4.12.11" (role := supporting)]
+@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
 theorem auxiliaryRealSubmoduleA_finrank : Module.finrank ℝ auxiliaryRealSubmoduleA = 1 := by
   rw [auxiliaryRealSubmoduleA, finrank_span_singleton (one_ne_zero)]
 
@@ -323,8 +322,7 @@ theorem auxiliaryRealSubmoduleB_finrank : Module.finrank ℝ auxiliaryRealSubmod
   rw [hspan, finrank_span_eq_card hindep, Fintype.card_fin]
 
 /-- The displayed real submodule has dimension five. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary),
-  source_ref "Chapter4/Problem4.12.11" (role := supporting)]
+@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
 theorem auxiliaryRealSubmoduleD_finrank : Module.finrank ℝ auxiliaryRealSubmoduleD = 5 := by
   classical
   set v : Fin 5 → realMatrixSpace :=
