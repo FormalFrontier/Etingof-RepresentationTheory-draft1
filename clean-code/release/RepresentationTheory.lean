@@ -727,6 +727,7 @@ import RepresentationTheory.Algebra.Matrix.ProductSemisimplicity
 import RepresentationTheory.WeylAlgebra.ModularSimpleModules
 import RepresentationTheory.Algebra.Module.PolynomialEvaluationModules
 import RepresentationTheory.Algebra.Module.TwoDimensionalPolynomialModules
+import RepresentationTheory.Quiver.TwoDimensionalRepresentations
 
 /-!
 # Representation theory formalization
