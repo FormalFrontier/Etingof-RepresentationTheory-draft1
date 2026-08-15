@@ -1,6 +1,6 @@
 import Mathlib
-import RepresentationTheory.HomologicalComplex.TensorHomology
 import RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex
+import RepresentationTheory.HomologicalComplex.TensorHomology
 
 
 set_option backward.isDefEq.respectTransparency false
