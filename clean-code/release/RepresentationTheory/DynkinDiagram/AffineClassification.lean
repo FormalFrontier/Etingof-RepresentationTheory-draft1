@@ -1556,7 +1556,7 @@ lemma exists_equiv_cycle_of_connected_of_degree_eq_two {n : ℕ} (hn : 3 ≤ n)
 /-- Every vertex of an affine Dynkin matrix has degree at most four. -/
 lemma IsAffineDynkinMatrix.degree_le_four {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hD : IsAffineDynkinMatrix n adj) (i : Fin n) :
-    RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj i ≤ 4 := by
+    RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj i ≤ 4 := by
   by_contra hge; rw [not_le] at hge
   obtain ⟨hsymm, hdiag, h01, _, hpos, _⟩ := hD
   -- Extract 5 neighbours of `i`.
@@ -1673,8 +1673,8 @@ lemma IsAffineDynkinMatrix.exists_equiv_fourArmStar_or_degree_le_three {n : ℕ}
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj) :
     (∃ σ : Fin (AffineDynkinDiagram.Dtilde 4 (by norm_num)).rank ≃ Fin n,
         ∀ i j, adj (σ i) (σ j) = (AffineDynkinDiagram.Dtilde 4 (by norm_num)).adjacency i j)
-    ∨ (∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3) := by
-  by_cases hex : ∃ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 4
+    ∨ (∀ v, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v ≤ 3) := by
+  by_cases hex : ∃ v, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v = 4
   · left
     obtain ⟨v, hv4⟩ := hex
     have hdiag : ∀ i, adj i i = 0 := hD.2.1
@@ -1843,7 +1843,7 @@ lemma IsAffineDynkinMatrix.exists_equiv_fourArmStar_or_degree_le_three {n : ℕ}
   · right
     intro v
     have hle := degree_le_four adj hD v
-    have hne : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≠ 4 := fun h => hex ⟨v, h⟩
+    have hne : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v ≠ 4 := fun h => hex ⟨v, h⟩
     omega
 
 /-- An affine Dynkin matrix whose entry sum is at least twice its size is equivalent to the cycle-family affine diagram on the same vertices. -/
@@ -2139,14 +2139,19 @@ lemma IsAffineDynkinMatrix.exists_degree_eq_three_of_entrySum_lt_two_mul_card {n
 lemma IsAffineDynkinMatrix.exists_unique_or_pair_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
-    (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3) :
-    (∃ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 3 ∧
-        ∀ w, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3 → w = v)
+    (hdeg3 : ∀ v, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v ≤ 3) :
+    (∃ v, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v = 3 ∧
+        ∀ w, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj w = 3 → w = v)
       ∨ (∃ v w, v ≠ w ∧
-        RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 3 ∧
-        RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3 ∧
-        ∀ u, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u = 3 → u = v ∨ u = w) := by
+        RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v = 3 ∧
+        RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj w = 3 ∧
+        ∀ u, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj u = 3 → u = v ∨ u = w) := by
   classical
+
+  have hVD : ∀ (m : ℕ) (M : Matrix (Fin m) (Fin m) ℤ) (v : Fin m),
+      RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree M v =
+        RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount M v := fun _ _ _ => rfl
+  simp only [hVD] at hdeg3 ⊢
 
   have hsymm := hD.1
   have hdiag := hD.2.1
@@ -2305,13 +2310,18 @@ lemma IsAffineDynkinMatrix.exists_unique_or_pair_degree_three {n : ℕ} (adj : M
 lemma IsAffineDynkinMatrix.exists_leaf_adjacent_of_two_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
-    (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
+    (hdeg3 : ∀ v, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v ≤ 3)
     (v w : Fin n) (hvw : v ≠ w)
-    (hv : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 3)
-    (hw : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3) :
-    ∃ ℓ, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj ℓ = 1 ∧
+    (hv : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v = 3)
+    (hw : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj w = 3) :
+    ∃ ℓ, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj ℓ = 1 ∧
       (adj v ℓ = 1 ∨ adj w ℓ = 1) := by
   classical
+
+  have hVD : ∀ (m : ℕ) (M : Matrix (Fin m) (Fin m) ℤ) (x : Fin m),
+      RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree M x =
+        RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount M x := fun _ _ _ => rfl
+  simp only [hVD] at hdeg3 hv hw ⊢
 
   have hsymm := hD.1
   have hdiag := hD.2.1
@@ -2544,18 +2554,18 @@ lemma exists_affineTypeD_equiv_of_erase_leaf_equiv_typeD {k : ℕ} (hk : 4 ≤ k
 /-- A finite Dynkin diagram containing a degree-three vertex adjacent to two distinct leaves belongs to the type-D family. -/
 lemma exists_eq_typeD_of_degree_three_with_two_leaf_neighbors (t : RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel)
     (x ℓ₁ ℓ₂ : Fin t.rank) (hℓ : ℓ₁ ≠ ℓ₂)
-    (hxdeg : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount t.matrix x = 3)
+    (hxdeg : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree t.matrix x = 3)
     (hx1 : t.matrix x ℓ₁ = 1) (hx2 : t.matrix x ℓ₂ = 1)
-    (hℓ1 : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount t.matrix ℓ₁ = 1)
-    (hℓ2 : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount t.matrix ℓ₂ = 1) :
+    (hℓ1 : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree t.matrix ℓ₁ = 1)
+    (hℓ2 : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree t.matrix ℓ₂ = 1) :
     ∃ (n : ℕ) (hn : 4 ≤ n), t = RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D n hn := by
   cases t with
   | A n hn =>
       exfalso
       -- A path has all degrees ≤ 2, contradicting `deg x = 3`: the neighbours of `x` inject (via
       -- `Fin.val`) into the two-element set `{x-1, x+1}`.
-      have hle : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.A n hn).matrix x ≤ 2 := by
-        unfold RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount
+      have hle : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.A n hn).matrix x ≤ 2 := by
+        unfold RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree
         rw [← Finset.card_image_of_injective
           (univ.filter (fun j => (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.A n hn).matrix x j = 1)) Fin.val_injective]
         refine le_trans (Finset.card_le_card ?_)
@@ -3158,15 +3168,15 @@ private lemma outer_arm_linear {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
 lemma IsAffineDynkinMatrix.exists_two_distinct_leaf_neighbors_of_exactly_two_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
-    (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
+    (hdeg3 : ∀ v, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v ≤ 3)
     (v w : Fin n) (hvw : v ≠ w)
-    (hv : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 3)
-    (hw : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3)
-    (huniq : ∀ u, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u = 3 → u = v ∨ u = w) :
+    (hv : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v = 3)
+    (hw : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj w = 3)
+    (huniq : ∀ u, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj u = 3 → u = v ∨ u = w) :
     ∃ ℓ₁ ℓ₂, ℓ₁ ≠ ℓ₂ ∧
       adj w ℓ₁ = 1 ∧ adj w ℓ₂ = 1 ∧
-      RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj ℓ₁ = 1 ∧
-      RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj ℓ₂ = 1 := by
+      RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj ℓ₁ = 1 ∧
+      RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj ℓ₂ = 1 := by
   classical
   have hdeg3' : ∀ u, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u ≤ 3 := fun u => hdeg3 u
   have huniq' : ∀ u, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u = 3 → u = v ∨ u = w := fun u => huniq u
@@ -3741,12 +3751,12 @@ private lemma Dk_vertexDegree {k : ℕ} (hk : 4 ≤ k) (i : Fin k) :
 lemma IsAffineDynkinMatrix.exists_typeD_equiv_submatrix_erase_leaf {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ)
     (hD : IsAffineDynkinMatrix (k + 1) adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * ((k + 1 : ℕ) : ℤ))
-    (hdeg3 : ∀ x, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj x ≤ 3)
+    (hdeg3 : ∀ x, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj x ≤ 3)
     (v w : Fin (k + 1)) (hvw : v ≠ w)
-    (hv : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 3)
-    (hw : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3)
-    (huniq : ∀ u, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u = 3 → u = v ∨ u = w)
-    (ℓ : Fin (k + 1)) (hℓdeg : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj ℓ = 1)
+    (hv : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v = 3)
+    (hw : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj w = 3)
+    (huniq : ∀ u, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj u = 3 → u = v ∨ u = w)
+    (ℓ : Fin (k + 1)) (hℓdeg : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj ℓ = 1)
     (hℓv : adj v ℓ = 1) :
     ∃ (hk : 4 ≤ k) (v' : Fin k), ℓ.succAbove v' = v ∧
       ∃ σ' : Fin (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D k hk).rank ≃ Fin k,
@@ -3754,7 +3764,7 @@ lemma IsAffineDynkinMatrix.exists_typeD_equiv_submatrix_erase_leaf {k : ℕ} (ad
                   = (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D k hk).matrix i j) ∧
         σ'.symm v' = ⟨1, by have h : (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D k hk).rank = k := rfl; omega⟩ := by
   classical
-  -- legacy-form copies of the degree hypotheses (definitionally equal `RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount`s).
+  -- Alternate-form copies of the degree hypotheses, using definitionally equal degree functions.
   have hℓdegE : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj ℓ = 1 := hℓdeg
   have hwE : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3 := hw
   have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
@@ -3921,11 +3931,11 @@ lemma IsAffineDynkinMatrix.exists_typeD_equiv_submatrix_erase_leaf {k : ℕ} (ad
 lemma IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_exactly_two_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
-    (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
+    (hdeg3 : ∀ v, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v ≤ 3)
     (v w : Fin n) (hvw : v ≠ w)
-    (hv : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 3)
-    (hw : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3)
-    (huniq : ∀ u, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u = 3 → u = v ∨ u = w) :
+    (hv : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v = 3)
+    (hw : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj w = 3)
+    (huniq : ∀ u, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj u = 3 → u = v ∨ u = w) :
     ∃ t : AffineDynkinDiagram, ∃ σ : Fin t.rank ≃ Fin n,
       ∀ i j, adj (σ i) (σ j) = t.adjacency i j := by
   classical
@@ -3975,9 +3985,9 @@ lemma IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_exactly_two_degree_thre
 lemma IsAffineDynkinMatrix.exists_threeArmEnumeration_of_unique_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
-    (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
-    (v : Fin n) (hv : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 3)
-    (huniq : ∀ w, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3 → w = v) :
+    (hdeg3 : ∀ v, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v ≤ 3)
+    (v : Fin n) (hv : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v = 3)
+    (huniq : ∀ w, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj w = 3 → w = v) :
     ∃ (L : Fin 3 → ℕ) (g : Fin 3 → ℕ → Fin n),
       (∀ t, 1 ≤ L t) ∧
       n = 1 + L 0 + L 1 + L 2 ∧
@@ -4294,9 +4304,9 @@ lemma IsAffineDynkinMatrix.exists_threeArmEnumeration_of_unique_degree_three {n 
 lemma IsAffineDynkinMatrix.exists_threeArmParameters_of_unique_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
-    (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
-    (v : Fin n) (hv : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 3)
-    (huniq : ∀ w, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3 → w = v) :
+    (hdeg3 : ∀ v, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v ≤ 3)
+    (v : Fin n) (hv : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v = 3)
+    (huniq : ∀ w, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj w = 3 → w = v) :
     ∃ (p q r : ℕ) (σ : Fin n ≃ Fin n),
       1 ≤ p ∧ p ≤ q ∧ q ≤ r ∧ n = 1 + p + q + r ∧
       (σ.symm v).val = p ∧
@@ -4512,9 +4522,9 @@ lemma IsAffineDynkinMatrix.exists_threeArmParameters_of_unique_degree_three {n :
 lemma IsAffineDynkinMatrix.exists_threeArmParameters_with_balance_of_unique_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
-    (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
-    (v : Fin n) (hv : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 3)
-    (huniq : ∀ w, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3 → w = v) :
+    (hdeg3 : ∀ v, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v ≤ 3)
+    (v : Fin n) (hv : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v = 3)
+    (huniq : ∀ w, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj w = 3 → w = v) :
     ∃ (p q r : ℕ) (σ : Fin n ≃ Fin n),
       1 ≤ p ∧ p ≤ q ∧ q ≤ r ∧ n = 1 + p + q + r ∧
       (q + 1) * (r + 1) + (p + 1) * (r + 1) + (p + 1) * (q + 1)
@@ -4713,9 +4723,9 @@ lemma IsAffineDynkinMatrix.exists_threeArmParameters_with_balance_of_unique_degr
 lemma IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_unique_degree_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
-    (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3)
-    (v : Fin n) (hv : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 3)
-    (huniq : ∀ w, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3 → w = v) :
+    (hdeg3 : ∀ v, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v ≤ 3)
+    (v : Fin n) (hv : RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v = 3)
+    (huniq : ∀ w, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj w = 3 → w = v) :
     ∃ t : AffineDynkinDiagram, ∃ σ : Fin t.rank ≃ Fin n,
       ∀ i j, adj (σ i) (σ j) = t.adjacency i j := by
   classical
@@ -4795,7 +4805,7 @@ lemma IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_unique_degree_three {n 
 lemma IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card_of_degree_le_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinMatrix n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
-    (hdeg3 : ∀ v, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ 3) :
+    (hdeg3 : ∀ v, RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree adj v ≤ 3) :
     ∃ t : AffineDynkinDiagram, ∃ σ : Fin t.rank ≃ Fin n,
       ∀ i j, adj (σ i) (σ j) = t.adjacency i j := by
   rcases exists_unique_or_pair_degree_three adj hn hD hacyc hdeg3 with
