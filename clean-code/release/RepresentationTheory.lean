@@ -547,6 +547,7 @@ import RepresentationTheory.AuxiliaryRepresentationParameters
 import RepresentationTheory.GeneralLinearGroup.WeightVectors
 import RepresentationTheory.MultiplicativeIntAuxiliaryExample
 import RepresentationTheory.InvolutionRankSum
+import RepresentationTheory.CategoryTheory.FullFunctorConsequences
 
 /-!
 # Representation theory formalization
