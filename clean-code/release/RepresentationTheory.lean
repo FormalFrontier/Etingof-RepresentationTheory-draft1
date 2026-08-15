@@ -753,6 +753,9 @@ import RepresentationTheory.GaloisFieldCharacters
 import RepresentationTheory.FourVertexStarRepresentationClassification
 import RepresentationTheory.FiniteGroups.GL2Conjugacy
 import RepresentationTheory.GeneralLinearGroup.SpecialLinearRestriction
+import RepresentationTheory.Auxiliary.SpecialLinearRepresentation
+import RepresentationTheory.GeneralLinearGroupTwoIrreps
+import RepresentationTheory.DynkinDiagram.AffineClassification
 
 /-!
 # Representation theory formalization
