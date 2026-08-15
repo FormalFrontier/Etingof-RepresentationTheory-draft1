@@ -705,6 +705,7 @@ import RepresentationTheory.ParameterizedAlgebra.ModelModules
 import RepresentationTheory.ShortExactDerived
 import RepresentationTheory.VertexSimpleAuxiliary
 import RepresentationTheory.LieModule.WeightLadder
+import RepresentationTheory.Quiver.AuxiliaryConstructions
 import RepresentationTheory.Quiver.AuxiliaryRepresentationProperties
 
 /-!
