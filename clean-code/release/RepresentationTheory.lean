@@ -661,6 +661,7 @@ import RepresentationTheory.FiniteGroup.CharacterArithmetic
 import RepresentationTheory.Matrix.BinaryAdjacencyClassification
 import RepresentationTheory.GaloisFieldAuxiliary
 import RepresentationTheory.DynkinDiagram.FiniteSimplyLaced
+import RepresentationTheory.LinearAlgebra.Module.Projective
 
 /-!
 # Representation theory formalization
