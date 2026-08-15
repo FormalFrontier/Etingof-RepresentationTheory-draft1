@@ -642,6 +642,7 @@ import RepresentationTheory.Quiver.Auxiliary
 import RepresentationTheory.Quiver.VertexOrder
 import RepresentationTheory.Quiver.PathAlgebra.LoopQuiver
 import RepresentationTheory.Auxiliary.RingAndCategoryProperties
+import RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic
 
 /-!
 # Representation theory formalization
