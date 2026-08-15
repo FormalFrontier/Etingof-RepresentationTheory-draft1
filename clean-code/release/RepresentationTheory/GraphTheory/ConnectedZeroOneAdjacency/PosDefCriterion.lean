@@ -17,7 +17,7 @@ import RepresentationTheory.Quiver.FiniteOrbitDimensionBounds
 import RepresentationTheory.Quiver.FiniteOrbits
 import RepresentationTheory.Alignment.Attribute
 
-open RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion in
+open _root_.RepresentationTheory in
 
 /-- For a symmetric zero-one adjacency matrix in which every pair of vertices is joined by a walk, the two specified matrix conditions are equivalent. -/
 @[source_ref "Chapter6/Problem6.1.5" (role := primary),
@@ -126,7 +126,8 @@ theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriteri
           W (g dW hdW_root) hWindec (hg_indec dW hdW_root) (fun _ => rfl)
           (hg_dim dW hdW_root)
       obtain ⟨iso⟩ := huniq
-      exact ⟨iso.linearEquivAt, fun {a b} f => by ext x;
+      exact ⟨iso.linearEquivAt, fun {a b} f => by
+        ext x
         simpa using iso.linearEquivAt_map f x⟩
 
 /-- Under the stated condition on a connected symmetric zero-one adjacency matrix, the quadratic form of twice the identity minus the adjacency matrix is positive on every nonzero rational vector. -/
