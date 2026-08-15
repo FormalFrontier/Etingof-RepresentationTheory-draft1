@@ -697,6 +697,7 @@ import RepresentationTheory.LieAlgebra.BracketCoefficients
 import RepresentationTheory.LieAlgebra.FiniteDimensionalModels
 import RepresentationTheory.GradedLieAlgebra.BracketRelations
 import RepresentationTheory.QuotientPermutationRepresentation
+import RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor
 
 /-!
 # Representation theory formalization
