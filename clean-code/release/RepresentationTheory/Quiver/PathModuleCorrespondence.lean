@@ -236,9 +236,9 @@ noncomputable def oppositeDirectSumLinearAction (R : QuiverLinearDiagram k Qᵒ�
 /-- The opposite direct-sum action of a scalar-supported path is the scalar multiple of its path endomorphism. -/
 theorem oppositeDirectSumLinearAction_single (R : QuiverLinearDiagram k Qᵒᵖ) (x : BundledPath Q)
     (c : k) : oppositeDirectSumLinearAction R (Finsupp.single x c) = c • oppositePathEndomorphism R x := by
-  
-  
-  
+
+
+
   change (Finsupp.lsum k fun x => (LinearMap.id : k →ₗ[k] k).smulRight (oppositePathEndomorphism R x))
       (Finsupp.single x c) = c • oppositePathEndomorphism R x
   simp only [Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_coe, id_eq]
@@ -337,7 +337,7 @@ theorem oppositeVertexParts_isInternal :
   classical
   rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top]
   refine ⟨?_, ?_⟩
-  · 
+  ·
     rw [iSupIndep_def]
     intro i
     rw [Submodule.disjoint_def]
@@ -350,7 +350,7 @@ theorem oppositeVertexParts_isInternal :
     have h0 : (vertexProjector i : Module.End k V) x = 0 := by
       rw [← LinearMap.mem_ker]; exact hker hxsup
     rw [← vertexProjector_eq_self_of_mem hx, h0]
-  · 
+  ·
     rw [eq_top_iff]
     intro v _
     have hsum : (∑ i : Q, (vertexProjector i : Module.End k V)) v = v := by
@@ -496,7 +496,7 @@ theorem pathAction_onOppositeDirectSum (x : BundledPath Q)
         _ = 0 := hzero
         _ = (ofPath ⟨a, b, p⟩ : PathAlgebra k Q) •
             (vertexSubmodule (k := k) (V := V) c : Submodule k V).subtype y := by
-          
+
           symm
           have hy : (vertexIdempotent c : PathAlgebra k Q) •
                 (vertexSubmodule (k := k) (V := V) c : Submodule k V).subtype y
@@ -720,19 +720,19 @@ variable (k : Type u) (Q : Type v) [Field k] [Quiver Q] [DecidableEq Q] [Fintype
 
 /-- An encoded module structure corresponding to a representation of the opposite quiver. -/
 structure OppositeModuleModel where
-  
+
   /-- The carrier type of an opposite-oriented module model. -/
   carrier : Type w
-  
+
   /-- The additive commutative group carried by an opposite-oriented module model. -/
   instAddCommGroup : AddCommGroup carrier
-  
+
   /-- The scalar-field module structure on the opposite-oriented model's carrier. -/
   instScalarModule : Module k carrier
-  
+
   /-- The reversed-composition algebra module structure on the carrier. -/
   instAlgebraModule : Module (PathAlgebra k Q) carrier
-  
+
   /-- The field, reversed-composition algebra, and carrier form a scalar tower. -/
   instIsScalarTower : IsScalarTower k (PathAlgebra k Q) carrier
 
@@ -993,19 +993,19 @@ variable (k : Type u) (Q : Type v) [Field k] [Quiver.{q} Q] [DecidableEq Q] [Fin
 
 /-- An encoded module structure over the quiver algebra. -/
 structure ModuleModel where
-  
+
   /-- The carrier type of an encoded module structure. -/
   carrier : Type w
-  
+
   /-- The additive commutative group carried by an encoded module structure. -/
   instAddCommGroup : AddCommGroup carrier
-  
+
   /-- The scalar-field module structure on the carrier. -/
   instScalarModule : Module k carrier
-  
+
   /-- The quiver-algebra module structure on the carrier. -/
   instAlgebraModule : Module (OppositePathAlgebra k Q) carrier
-  
+
   /-- The field, quiver algebra, and carrier form a scalar tower. -/
   instIsScalarTower : IsScalarTower k (OppositePathAlgebra k Q) carrier
 
