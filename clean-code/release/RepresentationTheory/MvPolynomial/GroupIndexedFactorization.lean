@@ -590,7 +590,7 @@ private lemma totalDegree_aeval_le_of_deg_le_one
     _ ≤ p.totalDegree := MvPolynomial.le_totalDegree hd
 
 /-- Each auxiliary polynomial in the finite indexed family is irreducible. -/
-@[source_ref "Chapter4/Discussion_proof_Theorem4.10.2/Derived2" (role := supporting)]
+@[source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := supporting)]
 lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryPolynomial_irreducible [NeZero (Nat.card G : k)]
     (D : RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData k G) (i : Fin D.count) :
     Irreducible (D.auxiliaryPolynomial i) := by
@@ -757,7 +757,7 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
 
 
 /-- Auxiliary polynomials at distinct indices are not associated. -/
-@[source_ref "Chapter4/Discussion_proof_Theorem4.10.2/Derived2" (role := supporting)]
+@[source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := supporting)]
 lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryPolynomial_not_associated [NeZero (Nat.card G : k)]
     (D : RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData k G) (i j : Fin D.count) (hij : i ≠ j) :
     ¬Associated (D.auxiliaryPolynomial i) (D.auxiliaryPolynomial j) := by
@@ -956,8 +956,7 @@ private lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.Decomposition
 
 
 /-- The auxiliary group-indexed polynomial factors into powers of pairwise nonassociated irreducible polynomials, with the number of factors equal to the number of conjugacy classes. -/
-@[source_ref "Chapter4/Discussion_proof_Theorem4.10.2/Derived3" (role := primary),
-  source_ref "Chapter4/Discussion_proof_Theorem4.10.2/Derived4" (role := supporting)]
+@[source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := primary)]
 theorem RepresentationTheory.MvPolynomial.GroupIndexedFactorization.exists_irreducible_factorization_of_auxiliaryGroupPolynomial
     (k : Type u) (G : Type u) [Field k] [IsAlgClosed k]
     [Group G] [Fintype G] [DecidableEq G]
