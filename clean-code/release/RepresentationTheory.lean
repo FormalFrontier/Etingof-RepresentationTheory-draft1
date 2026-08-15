@@ -683,6 +683,7 @@ import RepresentationTheory.LieModule.ActionFibers
 import RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification
 import RepresentationTheory.PermutationDegreeFour
 import RepresentationTheory.LieAlgebra.ExplicitConstructions
+import RepresentationTheory.MatrixConjugationActions
 
 /-!
 # Representation theory formalization
