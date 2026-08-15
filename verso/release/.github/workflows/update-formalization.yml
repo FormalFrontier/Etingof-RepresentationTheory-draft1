@@ -33,7 +33,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$branch"
-          git add lakefile.toml lake-manifest.json IntroductionToRepresentationTheoryVerso/Content
+          git add lakefile.toml IntroductionToRepresentationTheoryVerso/Content
           if git diff --cached --quiet; then
             echo "The requested formalization revision is already pinned."
             exit 0
@@ -46,7 +46,7 @@ jobs:
               --base main \
               --head "$branch" \
               --title "Update formalization to ${FORMALIZATION_SHA:0:12}" \
-              --body "Pins FormalFrontier/EtingofRepresentationTheory at \`${FORMALIZATION_SHA}\` (source ref: \`${SOURCE_REF}\`). The private Verso CI must build and render successfully before merge.")
+              --body "Pins mathlib-initiative/EtingofRepresentationTheory at \`${FORMALIZATION_SHA}\` (source ref: \`${SOURCE_REF}\`). The private Verso CI must build and render successfully before merge.")
           fi
           # Events emitted with GITHUB_TOKEN do not recursively trigger the
           # pull_request workflow, so explicitly dispatch CI on the PR head.

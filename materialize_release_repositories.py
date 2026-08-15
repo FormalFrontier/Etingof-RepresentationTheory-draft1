@@ -59,7 +59,7 @@ PROCESS_ROOTS = frozenset(
 DEFAULT_VERSO_GIT_URL = "https://github.com/leanprover/verso.git"
 DEFAULT_VERSO_GIT_REV = "e09d21a5f7f66c9fc985b73197708298569bf583"
 DEFAULT_CLEAN_GIT_URL = (
-    "https://github.com/FormalFrontier/EtingofRepresentationTheory.git"
+    "https://github.com/mathlib-initiative/EtingofRepresentationTheory.git"
 )
 
 

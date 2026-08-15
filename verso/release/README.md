@@ -10,7 +10,7 @@ This access-controlled repository contains the complete text of:
 
 The text is rendered as a section/subsection/item-structured Verso book and is
 aligned with the independent Lean formalization in
-[`FormalFrontier/EtingofRepresentationTheory`](https://github.com/FormalFrontier/EtingofRepresentationTheory).
+[`mathlib-initiative/EtingofRepresentationTheory`](https://github.com/mathlib-initiative/EtingofRepresentationTheory).
 The Lean repository is pinned as a Git dependency, so an approved dependency
 update refreshes the formalization displayed by this book.
 
@@ -31,9 +31,9 @@ CI rejects any panel set that is stale with respect to the pinned dependency.
 
 Copyright © 2026 American Mathematical Society. All rights reserved.
 
-FormalFrontier hosts this private repository on behalf of the American
+mathlib-initiative hosts this private repository on behalf of the American
 Mathematical Society and assisted with the technical preparation of the Verso
-alignment. FormalFrontier disclaims any copyright, ownership, or other
+alignment. mathlib-initiative disclaims any copyright, ownership, or other
 intellectual-property claim in the book, its text, and this aligned edition.
 See [LICENCE](LICENCE) for the repository's access and use terms.
 

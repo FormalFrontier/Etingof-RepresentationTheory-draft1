@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 
-PUBLIC_HEADER = "Copyright (c) 2026 FormalFrontier. All rights reserved."
+PUBLIC_HEADER = "Copyright (c) 2026 mathlib-initiative. All rights reserved."
 PRIVATE_HEADER = (
     "Copyright (c) 2026 American Mathematical Society. All rights reserved."
 )
@@ -54,7 +54,7 @@ def validate_public(root: Path, errors: list[str]) -> None:
         ),
         errors,
     )
-    require_text(notice, ("Copyright 2026 FormalFrontier", "Apache License"), errors)
+    require_text(notice, ("Copyright 2026 mathlib-initiative", "Apache License"), errors)
     public_ci = require_file(root, ".github/workflows/ci.yml", errors)
     notify = require_file(root, ".github/workflows/notify-verso.yml", errors)
     require_text(public_ci, ("leanprover/lean-action@v1", "test -f LICENCE"), errors)
@@ -63,7 +63,7 @@ def validate_public(root: Path, errors: list[str]) -> None:
         (
             "workflow_run:",
             "VERSO_REPO_DISPATCH_TOKEN",
-            "FormalFrontier/EtingofRepresentationTheory-verso/dispatches",
+            "mathlib-initiative/EtingofRepresentationTheory-verso/dispatches",
             "formalization-updated",
         ),
         errors,
@@ -73,7 +73,7 @@ def validate_public(root: Path, errors: list[str]) -> None:
             continue
         text = path.read_text(encoding="utf-8")
         if PUBLIC_HEADER not in text[:300]:
-            errors.append(f"{path}: missing FormalFrontier copyright header")
+            errors.append(f"{path}: missing mathlib-initiative copyright header")
         if "Copyright (c) 2026 Kim Morrison" in text:
             errors.append(f"{path}: retained superseded personal copyright header")
         if "file LICENSE" in text[:400]:
@@ -90,7 +90,7 @@ def validate_private(root: Path, errors: list[str]) -> None:
         (
             "Copyright © 2026 American Mathematical Society. All rights reserved.",
             "No permission is granted",
-            "FormalFrontier disclaims any copyright, ownership, or other",
+            "mathlib-initiative disclaims any copyright, ownership, or other",
         ),
         errors,
     )
@@ -98,9 +98,9 @@ def validate_private(root: Path, errors: list[str]) -> None:
         readme,
         (
             "Copyright © 2026 American Mathematical Society. All rights reserved.",
-            "FormalFrontier hosts this private repository on behalf of the American",
-            "FormalFrontier disclaims any copyright, ownership, or other",
-            "FormalFrontier/EtingofRepresentationTheory",
+            "mathlib-initiative hosts this private repository on behalf of the American",
+            "mathlib-initiative disclaims any copyright, ownership, or other",
+            "mathlib-initiative/EtingofRepresentationTheory",
             "does not deploy GitHub Pages",
         ),
         errors,
@@ -168,6 +168,10 @@ def validate_private(root: Path, errors: list[str]) -> None:
         ),
         errors,
     )
+    if updater.is_file() and "lake-manifest.json" in updater.read_text(encoding="utf-8"):
+        errors.append(
+            f"{updater}: must not stage excluded generated lake-manifest.json"
+        )
     workflow_text = "\n".join(
         path.read_text(encoding="utf-8")
         for path in sorted((root / ".github/workflows").glob("*.yml"))

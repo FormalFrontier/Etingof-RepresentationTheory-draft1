@@ -19,8 +19,9 @@ for copyright purposes.
 
 The American Mathematical Society has a corresponding access-controlled
 repository containing the complete book text together with a Verso rendering
-of the alignment to this formalization. FormalFrontier hosts that repository on
-the AMS's behalf. It is not publicly available at this time.
+of the alignment to this formalization. The mathlib-initiative organization
+hosts that repository on the AMS's behalf. It is not publicly available at
+this time.
 
 ## Building
 
@@ -34,7 +35,7 @@ lake build
 
 ## Licence
 
-Copyright 2026 FormalFrontier.
+Copyright 2026 mathlib-initiative.
 
 The Lean formalization in this repository is licensed under the
 [Apache License, Version 2.0](LICENCE). See [NOTICE](NOTICE).
