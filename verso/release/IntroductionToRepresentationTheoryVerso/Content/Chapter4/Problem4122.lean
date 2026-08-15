@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -30,3 +31,63 @@ $$`(\rho \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{pmatrix} f)(x)
 (c) Classify all 1-dimensional representations of $`G`. Show that $`R_1` decomposes into a direct sum of 1-dimensional representations, where each of them occurs exactly once.
 
 (d) Use (a)—(c) and the "sum of squares" formula to classify all irreducible representations of $`G`.
+
+## Formalization
+%%%
+tag := "Chapter4/Problem4.12.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.characterPrecompositionEquiv}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.character_iso_iff}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.character_representation_not_iso_auxiliary}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.existsUnique_shift_scale_representation}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.exists_invariant_line_decomposition}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleAction_apply}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation_iso_iff}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation_simple_iff}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.simple_representation_iso_character_or_shiftScale}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.ThreeCoordinateGroup.card_eq_cube}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.ThreeCoordinateGroup.closure_generators_eq_top}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.ThreeCoordinateGroup.normalForm}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.card_eq_character_count}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.characterPrecompositionEquiv_apply}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.characterType_card}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.characterType_nonempty_equiv_auxiliary}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.character_card_eq_square}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.coordinateQuotientHom}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.coordinateQuotientHom_surjective}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.ker_coordinateQuotient_le_ker}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.nontrivialRoots_card}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation_firstGenerator_apply}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation_secondGenerator_apply}
+
+{Manual.docstring RepresentationTheory.ThreeCoordinateGroupRepresentations.simple_representation_finrank_eq_one_or_index}

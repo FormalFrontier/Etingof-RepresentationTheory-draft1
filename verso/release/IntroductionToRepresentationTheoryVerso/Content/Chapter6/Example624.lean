@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -128,3 +129,17 @@ $$`
 $$`
 0 \longrightarrow 1 \longleftarrow 0, \quad 1 \longrightarrow 1 \longleftarrow 0, \quad 0 \longrightarrow 1 \longleftarrow 1.
 `
+
+## Formalization
+%%%
+tag := "Chapter6/Example6.2.4/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearChainRepresentations.LinearChainRepresentation.standardModel_isIndecomposable}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearChainRepresentations.LinearChainRepresentation.existsUnique_equiv_standardModel_of_isIndecomposable}

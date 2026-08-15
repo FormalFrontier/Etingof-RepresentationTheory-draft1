@@ -25,8 +25,16 @@ tag := "Chapter5/Discussion_after_Definition5.23.1/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryRepresentationParameters.auxiliaryRepresentation_linearEquiv_iff_parameters_eq}
+
+{Manual.docstring RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.auxiliaryGeneralLinearFDRep}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex}
+
+{Manual.docstring RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt}
 
 {Manual.docstring RepresentationTheory.Representation.ModuleEquivAndTraceSeparation.isSimpleModule_fdRep_of_antitone}

@@ -29,4 +29,10 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.Algebra.ExteriorSymmetricAuxiliary.exteriorPower_invariantSubmodule_eq_bot_or_top}
+
 {Manual.docstring RepresentationTheory.LinearAlgebra.ExteriorPower.InvariantSubmodules.eq_bot_or_eq_top_of_exteriorPower_invariant}
+
+{Manual.docstring RepresentationTheory.SymmetricPower.LinearAction.symmetricPower_submodule_bot_or_top_of_forall_linearEquiv_map_mem}
+
+{Manual.docstring RepresentationTheory.SymmetricPower.LinearAction.symmetricPower_submodule_eq_bot_or_eq_top_of_forall_linearEquiv_map_mem}

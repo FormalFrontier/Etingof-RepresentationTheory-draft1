@@ -58,6 +58,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate.of_isSimpleModule}
 
+{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.isIndecomposableModule_and_not_isSimpleModule_jordanBlock_two}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.actionAlgHom}

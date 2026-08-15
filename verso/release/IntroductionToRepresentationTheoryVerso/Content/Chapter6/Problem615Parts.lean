@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -29,3 +30,13 @@ Hint: It suffices to check the result for integers: $`x_i = m_i`. First assume t
 Hint: Use the fact that $`\mathbb{Q}` is dense in $`\mathbb{R}`.
 
 (c) Show that a quiver of finite type can have no self-loops. Then, using Problem 6.1.3, deduce the theorem.
+
+## Formalization
+%%%
+tag := "Chapter6/Problem6.1.5_parts/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix.diagonal_eq_zero_of_entries_eq_zero_or_one}

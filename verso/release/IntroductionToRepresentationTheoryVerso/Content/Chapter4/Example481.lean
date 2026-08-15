@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -192,3 +193,17 @@ The representation $`\mathbb{C}^4` is realized on the space of functions on the 
 
 The representation $`\mathbb{C}^5` is realized on the space of functions on pairs of opposite vertices of the icosahedron which has zero sum of
 values (check that it is irreducible!). The character of this representation is computed similarly to the character of $`\mathbb{C}^4`, or from the orthogonality formula.
+
+## Formalization
+%%%
+tag := "Chapter4/Example4.8.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne}
+
+{Manual.docstring RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo}
+
+{Manual.docstring RepresentationTheory.PermutationActionRepresentations.selectedRepresentationThree}

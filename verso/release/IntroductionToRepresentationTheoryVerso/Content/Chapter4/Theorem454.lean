@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -27,3 +28,13 @@ _where the summation is taken over all irreducible representations of $`G`._
 $$`\sum_V \chi_V(g)\chi_{V^*}(h) = \operatorname{Tr}|_{\bigoplus_V V \otimes V^*}(g \otimes (h^*)^{-1})`
 
 $$`= \operatorname{Tr}|_{\bigoplus_V \operatorname{End} V}(x \mapsto gxh^{-1}) = \operatorname{Tr}|_{\mathbb{C}[G]}(x \mapsto gxh^{-1}).`
+
+## Formalization
+%%%
+tag := "Chapter4/Theorem4.5.4/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroup.CharacterColumnOrthogonality.FiniteGroup.sum_complete_simple_characters_mul_inv}

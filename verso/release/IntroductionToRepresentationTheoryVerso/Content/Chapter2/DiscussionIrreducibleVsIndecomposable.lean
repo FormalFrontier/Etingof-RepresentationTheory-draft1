@@ -28,3 +28,7 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate.of_isSimpleModule}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.isIndecomposableModule_and_not_isSimpleModule_jordanBlock_two}

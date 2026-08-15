@@ -112,6 +112,8 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.FiniteGroup.CharacterColumnOrthogonality.FiniteGroup.sum_complete_simple_characters_mul_inv}
+
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterPairing.FiniteGroup.normalized_characterPairing_eq_finrank_hom}
 
 ### Supporting declarations

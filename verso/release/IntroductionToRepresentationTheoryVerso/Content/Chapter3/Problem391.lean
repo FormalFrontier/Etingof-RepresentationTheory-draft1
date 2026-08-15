@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -35,3 +36,55 @@ $$`\phi = \begin{pmatrix} 1_V & * \\ 0 & 1_W \end{pmatrix},`
 then $`f - f' \in B^1(V, W)`. Thus, the space $`\operatorname{Ext}^1(W, V)` "classifies" extensions of $`W` by $`V`.
 
 (d) Assume that $`W, V` are finite dimensional irreducible representations of $`A`. For any $`f \in \operatorname{Ext}^1(W, V)`, let $`U_f` be the corresponding extension. Show that $`U_f` is isomorphic to $`U_{f'}` as representations if and only if $`f` and $`f'` are proportional. Thus isomorphism classes (as representations) of nontrivial extensions of $`W` by $`V` (i.e., those not isomorphic to $`W \oplus V`) are parametrized by the projective space $`\mathbb{P}\operatorname{Ext}^1(W, V)`. In particular, every extension is trivial if and only if $`\operatorname{Ext}^1(W, V) = 0`.
+
+## Formalization
+%%%
+tag := "Chapter3/Problem3.9.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.exact_inclusion_projection}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.nonempty_linearEquiv_iff_exists_sub_smul_mem_coboundaries}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.nonempty_linearEquiv_of_sub_mem_coboundaries}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.quotientRangeInclusionEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.sub_mem_coboundaries_of_shear_linearEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.zeroLinearEquivProd}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.auxiliaryMapSubmodule}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.coboundary_eq_zero_iff}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.extensionAction_mul_iff}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.isExtensionCocycle_coboundary}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.AuxiliaryData}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.nonempty_linearEquiv_prod_iff_mem_coboundaries}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.IsExtensionCocycle}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.coboundaries_eq_range}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.coboundary}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.coboundaryLinearMap}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.exists_isExtensionEquiv_iff_exists_sub_smul_mem_coboundaries}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.exists_isExtensionEquiv_of_sub_mem_coboundaries}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.extensionAction}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.sub_mem_coboundaries_of_shear_isExtensionEquiv}

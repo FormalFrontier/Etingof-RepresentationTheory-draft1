@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -16,3 +17,13 @@ tag := "Chapter5/Corollary5.1.6"
 number := false
 %%%
 **Corollary 5.1.6.** _Assume that all representations of a finite group $`G` are defined over real numbers (i.e., all complex representations of $`G` are obtained by complexifying real representations). Then the sum of the dimensions of all the irreducible representations of $`G` equals the number of involutions in $`G`._
+
+## Formalization
+%%%
+tag := "Chapter5/Corollary5.1.6/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.InvolutionRankSum.complex_cast_card_sq_eq_one_eq_sum_finrank_of_auxiliary_condition}

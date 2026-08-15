@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -16,3 +17,13 @@ tag := "Chapter5/Exercise5.3.3"
 number := false
 %%%
 **Exercise 5.3.3.** Strengthen the result of Exercise 5.1.7: show that all nontrivial irreducible representations of a group of odd order are of complex type. (Use that any representation of quaternionic type is even-dimensional).
+
+## Formalization
+%%%
+tag := "Chapter5/Exercise5.3.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.OddOrder.CharacterSums.auxiliary_of_odd_card_of_simple_of_nontrivial}

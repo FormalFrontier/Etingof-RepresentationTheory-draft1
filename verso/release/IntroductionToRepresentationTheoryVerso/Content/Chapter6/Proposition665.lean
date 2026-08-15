@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -56,3 +57,15 @@ $$`
 which is impossible since $`V` was supposed to be indecomposable.
 
 (2) This follows similarly by splitting away the kernel of $`\psi`. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter6/Proposition6.6.5/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrInjective}
+
+{Manual.docstring RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrSurjective}

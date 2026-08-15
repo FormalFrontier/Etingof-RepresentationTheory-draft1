@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,31 @@ Now let $`f : V \to U` correspond to the tuple $`(f_X : V_X \to U_X)`. Then $`f`
 Now, suppose $`V = \bigoplus_{i \in I} V_i` with $`V_i` irreducible, and $`f : V \to U` is a surjective homomorphism.
 
 [^Chapter3/Discussion_alternative_proof_of_Proposition3.1.4/footnote-2]: We thank B. Poonen for this argument
+
+## Formalization
+%%%
+tag := "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Module.SemisimpleHomDecomposition.bijective_iff_forall_bijective_homMultiplicityMap}
+
+{Manual.docstring RepresentationTheory.Module.SemisimpleHomDecomposition.homEquivMultiplicityMaps}
+
+{Manual.docstring RepresentationTheory.Module.SemisimpleHomDecomposition.homEquivMultiplicityMaps_apply_apply}
+
+{Manual.docstring RepresentationTheory.Module.SemisimpleHomDecomposition.homMultiplicityMap_comp}
+
+{Manual.docstring RepresentationTheory.Module.SemisimpleHomDecomposition.homMultiplicityMap_id}
+
+{Manual.docstring RepresentationTheory.Module.SemisimpleHomDecomposition.injective_iff_forall_injective_homMultiplicityMap}
+
+{Manual.docstring RepresentationTheory.Module.SemisimpleHomDecomposition.surjective_iff_forall_surjective_homMultiplicityMap}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Module.SemisimpleHomDecomposition.homMultiplicityMap}
+
+{Manual.docstring RepresentationTheory.Module.SemisimpleHomDecomposition.homMultiplicityMap_apply_apply}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -44,3 +45,19 @@ H^i(C \otimes D) \cong \bigoplus_{j+m=i} H^j(C) \otimes H^m(D).
 `
 
 This is the *Künneth* formula.
+
+## Formalization
+%%%
+tag := "Chapter7/Problem7.8.7/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex.tensorProduct_acyclic_of_acyclic}
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex.tensorProduct_d_comp_d}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex.exists_biprod_inr_comp_iso_inv_homologyMap_isIso}
