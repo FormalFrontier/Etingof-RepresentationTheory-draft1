@@ -553,6 +553,7 @@ import RepresentationTheory.FiniteField.RepresentationConstruction
 import RepresentationTheory.Group.PermutationSubgroupData
 import RepresentationTheory.Quiver.AuxiliaryNatInt
 import RepresentationTheory.Quiver.GenericBaseChange
+import RepresentationTheory.IndexedPermutationFinsetAction
 
 /-!
 # Representation theory formalization
