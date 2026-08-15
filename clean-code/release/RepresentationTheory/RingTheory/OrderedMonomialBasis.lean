@@ -129,7 +129,6 @@ private theorem lex_add_lt_add_of_le_of_lt {a b c d : ℕ ×ₗ ℕ}
   exact lex_add_lt_add_of_lt_of_le hcd hab
 
 omit [Nontrivial k] in
-/-- The basic reordering identity `y x^n = x^n y + n x^(n-1)`. -/
 private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_mul_x_pow_succ (n : ℕ) :
     FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) =
       FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k +
