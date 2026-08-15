@@ -700,6 +700,7 @@ import RepresentationTheory.QuotientPermutationRepresentation
 import RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor
 import RepresentationTheory.QuantumTorus.FiniteOrderModules
 import RepresentationTheory.ParameterizedAlgebra.ModelModules
+import RepresentationTheory.ShortExactDerived
 
 /-!
 # Representation theory formalization
