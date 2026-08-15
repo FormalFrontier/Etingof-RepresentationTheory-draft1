@@ -162,8 +162,8 @@ theorem coboundaries_le_auxiliaryMapSubmodule :
 /-- An auxiliary type parameterized by two modules over an algebra. -/
 @[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 abbrev AuxiliaryData : Type _ :=
-  Quotient (Submodule.quotientRel (R := k) (M := auxiliaryMapSubmodule k A V W)
-    ((coboundaries k A V W).submoduleOf (auxiliaryMapSubmodule k A V W)))
+  (auxiliaryMapSubmodule k A V W) ⧸
+    (coboundaries k A V W).submoduleOf (auxiliaryMapSubmodule k A V W)
 
 
 /-- A compatibility predicate for a linear equivalence of products relative to two extension maps. -/
