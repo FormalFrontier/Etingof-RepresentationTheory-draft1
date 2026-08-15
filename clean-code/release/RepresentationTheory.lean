@@ -653,6 +653,7 @@ import RepresentationTheory.AuxiliaryTensorProductRepresentations
 import RepresentationTheory.SymmetricGroupAlgebra.SignTwist
 import RepresentationTheory.CategoryTheory.LeftDerivedFunctor.ConnectingMorphisms
 import RepresentationTheory.CategoryTheory.Auxiliary.FGModuleCatEquivalence
+import RepresentationTheory.CategoryTheory.Indecomposable
 
 /-!
 # Representation theory formalization
