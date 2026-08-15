@@ -550,6 +550,7 @@ import RepresentationTheory.InvolutionRankSum
 import RepresentationTheory.CategoryTheory.FullFunctorConsequences
 import RepresentationTheory.OddOrderAuxiliary
 import RepresentationTheory.FiniteField.RepresentationConstruction
+import RepresentationTheory.Group.PermutationSubgroupData
 
 /-!
 # Representation theory formalization
