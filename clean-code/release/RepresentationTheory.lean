@@ -575,6 +575,7 @@ import RepresentationTheory.PartitionFinrank
 import RepresentationTheory.AuxiliaryIntegralQuadraticFormMaps
 import RepresentationTheory.IntegerMatrix.ReflectionDynamics
 import RepresentationTheory.Quiver.AuxiliaryAtVertex
+import RepresentationTheory.Surjective
 
 /-!
 # Representation theory formalization
