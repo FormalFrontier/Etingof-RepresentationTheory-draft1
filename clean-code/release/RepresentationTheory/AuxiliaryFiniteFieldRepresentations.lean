@@ -101,7 +101,7 @@ def auxiliarySubmoduleRepresentation
     apply LinearMap.ext; intro ⟨f, _⟩
     exact Subtype.ext (funext fun g => congr_arg f (mul_assoc g a b).symm)
 
-private def Etingof.GL2.augmentation
+private def augmentation
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     (GL2 p n → ℂ) →ₗ[ℂ] ℂ where
   toFun f := ∑ g : GL2 p n,
@@ -112,18 +112,18 @@ private def Etingof.GL2.augmentation
     simp_rw [mul_assoc]
     rw [← Finset.mul_sum]
 
-private def Etingof.GL2.complementWSubmodule
+private def complementWSubmodule
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Submodule ℂ (GL2 p n → ℂ) :=
   auxiliarySubmodule p n mu mu ⊓
-    LinearMap.ker (Etingof.GL2.augmentation p n mu)
+    LinearMap.ker (augmentation p n mu)
 
-private lemma Etingof.GL2.complementW_mem_of_mul
+private lemma complementW_mem_of_mul
     (mu : (GaloisField p n)ˣ →* ℂˣ)
     (f : GL2 p n → ℂ)
-    (hf : f ∈ Etingof.GL2.complementWSubmodule p n mu)
+    (hf : f ∈ complementWSubmodule p n mu)
     (h : GL2 p n) :
-    (fun g => f (g * h)) ∈ Etingof.GL2.complementWSubmodule p n mu := by
+    (fun g => f (g * h)) ∈ complementWSubmodule p n mu := by
   constructor
   · -- Covariance preserved
     intro b g
@@ -131,9 +131,9 @@ private lemma Etingof.GL2.complementW_mem_of_mul
     rw [mul_assoc]; exact hf.1 b (g * h)
   · -- Augmentation = 0: ∑_g f(gh) · μ(det g)⁻¹ = 0
     have hker : ∑ g : GL2 p n, f g * ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ = 0 := by
-      have := hf.2; simp only [Etingof.GL2.augmentation,
+      have := hf.2; simp only [augmentation,
         LinearMap.coe_mk] at this; exact this
-    change (fun g => f (g * h)) ∈ LinearMap.ker (Etingof.GL2.augmentation p n mu)
+    change (fun g => f (g * h)) ∈ LinearMap.ker (augmentation p n mu)
     rw [LinearMap.mem_ker]
     change ∑ g : GL2 p n,
       f (g * h) * ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ = 0
@@ -149,12 +149,12 @@ private lemma Etingof.GL2.complementW_mem_of_mul
         ↑(mu (Matrix.GeneralLinearGroup.det h⁻¹))⁻¹ from fun g => by ring]
     rw [← Finset.sum_mul, hker, zero_mul]
 
-private def Etingof.GL2.complementWRep
+private def complementWRep
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    Representation ℂ (GL2 p n) (Etingof.GL2.complementWSubmodule p n mu) where
+    Representation ℂ (GL2 p n) (complementWSubmodule p n mu) where
   toFun h := {
     toFun := fun ⟨f, hf⟩ => ⟨fun g => f (g * h),
-      Etingof.GL2.complementW_mem_of_mul p n mu f hf h⟩
+      complementW_mem_of_mul p n mu f hf h⟩
     map_add' := fun ⟨_, _⟩ ⟨_, _⟩ => Subtype.ext rfl
     map_smul' := fun _ ⟨_, _⟩ => Subtype.ext rfl }
   map_one' := by
@@ -164,8 +164,7 @@ private def Etingof.GL2.complementWRep
     apply LinearMap.ext; intro ⟨f, _⟩
     exact Subtype.ext (funext fun g => congr_arg f (mul_assoc g a b).symm)
 
-/-- An auxiliary finite-dimensional representation associated with a pair of monoid homomorphisms.
--/
+/-- An auxiliary finite-dimensional representation associated with a pair of monoid homomorphisms. -/
 @[source_ref "Chapter5/Discussion_5.25.3" (role := supporting)]
 def auxiliaryPairedRepresentation
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) :
@@ -192,7 +191,7 @@ def auxiliaryOtherRepresentation
 def auxiliaryRepresentation
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     FDRep ℂ (GL2 p n) :=
-  FDRep.of (Etingof.GL2.complementWRep p n mu)
+  FDRep.of (complementWRep p n mu)
 
 private lemma sum_monoidHom_units_eq_zero
     {F : Type*} [CommGroup F] [Fintype F]
@@ -285,8 +284,7 @@ noncomputable def auxiliarySubgroupMap
       simp [Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
             Matrix.unitOfDetInvertible, bmat]⟩
 
-/-- Each displayed group element has the indicated decomposition using the auxiliary subgroup map.
--/
+/-- Each displayed group element has the indicated decomposition using the auxiliary subgroup map. -/
 lemma auxiliarySubgroupMap_decomposition
     (g : GL2 p n) :
     g = (auxiliarySubgroupMap p n g).val * auxiliaryElement p n (auxiliaryOptionMap p n g) := by
@@ -333,8 +331,7 @@ lemma auxiliary_exists_factor_decomposition
         simp [bmat, Matrix.det_fin_two] <;>
         (try ring) <;> (field_simp; ring)
 
-/-- The auxiliary optional value is unchanged after multiplication by an auxiliary subgroup
-factor. -/
+/-- The auxiliary optional value is unchanged after multiplication by an auxiliary subgroup factor. -/
 lemma auxiliaryOptionMap_mul
     (b : ↥(auxiliarySubgroup p n)) (g : GL2 p n) :
     auxiliaryOptionMap p n (b.val * g) = auxiliaryOptionMap p n g := by
@@ -488,8 +485,7 @@ lemma auxiliarySubgroupMap_auxiliaryElement
           Matrix.unitOfDetInvertible, Matrix.det_fin_two]
     fin_cases i <;> fin_cases j <;> simp
 
-/-- The auxiliary function on the group agrees with its input function on the displayed
-auxiliary elements. -/
+/-- The auxiliary function on the group agrees with its input function on the displayed auxiliary elements. -/
 lemma auxiliaryFunctionOnGroup_auxiliaryElement
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (c : Option (GaloisField p n) → ℂ)
@@ -516,68 +512,68 @@ lemma auxiliarySubmodule_ext
       hf (auxiliaryOptionMap p n g), mul_zero]
   simp
 
-private noncomputable def Etingof.GL2.translationElt
+private noncomputable def translationElt
     (s : GaloisField p n) : GL2 p n :=
   Matrix.GeneralLinearGroup.mkOfDetNeZero
     !![1, s; 0, 1] (by simp [Matrix.det_fin_two])
 
-private noncomputable def Etingof.GL2.diagElt
+private noncomputable def diagElt
     (c : (GaloisField p n)ˣ) : GL2 p n :=
   Matrix.GeneralLinearGroup.mkOfDetNeZero
     !![(c : GaloisField p n), 0; 0, 1]
     (by simp [Matrix.det_fin_two, Units.ne_zero])
 
-private lemma Etingof.GL2.cosetRep_mul_translation_some
+private lemma cosetRep_mul_translation_some
     (t s : GaloisField p n) :
-    auxiliaryElement p n (some t) * Etingof.GL2.translationElt p n s =
+    auxiliaryElement p n (some t) * translationElt p n s =
     auxiliaryElement p n (some (t + s)) := by
   apply Matrix.GeneralLinearGroup.ext; intro i j
   simp only [Matrix.GeneralLinearGroup.coe_mul,
-    auxiliaryElement, Etingof.GL2.translationElt,
+    auxiliaryElement, translationElt,
     Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
     Matrix.unitOfDetInvertible, Matrix.mul_apply, Fin.sum_univ_two]
   fin_cases i <;> fin_cases j <;> simp ; ring
 
-private lemma Etingof.GL2.action_translation_some
+private lemma action_translation_some
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (f : ↥(auxiliarySubmodule p n chi1 chi2))
     (s t : GaloisField p n) :
     (auxiliarySubmoduleRepresentation p n chi1 chi2
-      (Etingof.GL2.translationElt p n s) f).val
+      (translationElt p n s) f).val
       (auxiliaryElement p n (some t)) =
     f.val (auxiliaryElement p n (some (t + s))) := by
-  change f.val (auxiliaryElement p n (some t) * Etingof.GL2.translationElt p n s) = _
-  rw [Etingof.GL2.cosetRep_mul_translation_some]
+  change f.val (auxiliaryElement p n (some t) * translationElt p n s) = _
+  rw [cosetRep_mul_translation_some]
 
-private lemma Etingof.GL2.action_translation_none
+private lemma action_translation_none
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (f : ↥(auxiliarySubmodule p n chi1 chi2))
     (s : GaloisField p n) :
     (auxiliarySubmoduleRepresentation p n chi1 chi2
-      (Etingof.GL2.translationElt p n s) f).val
+      (translationElt p n s) f).val
       (auxiliaryElement p n none) =
     f.val (auxiliaryElement p n none) := by
-  change f.val (auxiliaryElement p n none * Etingof.GL2.translationElt p n s) = _
+  change f.val (auxiliaryElement p n none * translationElt p n s) = _
   simp only [auxiliaryElement, one_mul]
-  have hb_mem : (Etingof.GL2.translationElt p n s).val 1 0 = 0 := by
-    simp [Etingof.GL2.translationElt, Matrix.GeneralLinearGroup.mkOfDetNeZero,
+  have hb_mem : (translationElt p n s).val 1 0 = 0 := by
+    simp [translationElt, Matrix.GeneralLinearGroup.mkOfDetNeZero,
       Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible]
-  have hcov := f.prop ⟨Etingof.GL2.translationElt p n s, hb_mem⟩ 1
+  have hcov := f.prop ⟨translationElt p n s, hb_mem⟩ 1
   simp only [mul_one] at hcov
   rw [hcov]
-  simp [auxiliaryComplexFunction, Etingof.GL2.translationElt,
+  simp [auxiliaryComplexFunction, translationElt,
     Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
     Matrix.unitOfDetInvertible]
 
-private lemma Etingof.GL2.action_diagonal_some
+private lemma action_diagonal_some
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (f : ↥(auxiliarySubmodule p n chi1 chi2))
     (c : (GaloisField p n)ˣ) (t : GaloisField p n) :
     (auxiliarySubmoduleRepresentation p n chi1 chi2
-      (Etingof.GL2.diagElt p n c) f).val
+      (diagElt p n c) f).val
       (auxiliaryElement p n (some t)) =
     (chi2 c : ℂ) * f.val (auxiliaryElement p n (some (t * ↑c⁻¹))) := by
-  change f.val (auxiliaryElement p n (some t) * Etingof.GL2.diagElt p n c) = _
+  change f.val (auxiliaryElement p n (some t) * diagElt p n c) = _
   set bmat : Matrix (Fin 2) (Fin 2) (GaloisField p n) :=
     !![1, 0; 0, (c : GaloisField p n)]
   have hbdet : bmat.det ≠ 0 := by
@@ -586,11 +582,11 @@ private lemma Etingof.GL2.action_diagonal_some
   have hb_mem : b.val 1 0 = 0 := by
     simp [b, bmat, Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
       Matrix.unitOfDetInvertible]
-  have hprod : auxiliaryElement p n (some t) * Etingof.GL2.diagElt p n c =
+  have hprod : auxiliaryElement p n (some t) * diagElt p n c =
       b * auxiliaryElement p n (some (t * ↑c⁻¹)) := by
     apply Matrix.GeneralLinearGroup.ext; intro i j
     simp only [Matrix.GeneralLinearGroup.coe_mul,
-      auxiliaryElement, Etingof.GL2.diagElt, b, bmat,
+      auxiliaryElement, diagElt, b, bmat,
       Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
       Matrix.unitOfDetInvertible, Matrix.mul_apply, Fin.sum_univ_two]
     have hc_ne : (c : GaloisField p n) ≠ 0 := Units.ne_zero c
@@ -605,28 +601,28 @@ private lemma Etingof.GL2.action_diagonal_some
     Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
     Matrix.unitOfDetInvertible]
 
-private lemma Etingof.GL2.action_diagonal_none
+private lemma action_diagonal_none
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (f : ↥(auxiliarySubmodule p n chi1 chi2))
     (c : (GaloisField p n)ˣ) :
     (auxiliarySubmoduleRepresentation p n chi1 chi2
-      (Etingof.GL2.diagElt p n c) f).val
+      (diagElt p n c) f).val
       (auxiliaryElement p n none) =
     (chi1 c : ℂ) * f.val (auxiliaryElement p n none) := by
-  change f.val (auxiliaryElement p n none * Etingof.GL2.diagElt p n c) = _
+  change f.val (auxiliaryElement p n none * diagElt p n c) = _
   simp only [auxiliaryElement, one_mul]
-  have hb_mem : (Etingof.GL2.diagElt p n c).val 1 0 = 0 := by
-    simp [Etingof.GL2.diagElt, Matrix.GeneralLinearGroup.mkOfDetNeZero,
+  have hb_mem : (diagElt p n c).val 1 0 = 0 := by
+    simp [diagElt, Matrix.GeneralLinearGroup.mkOfDetNeZero,
       Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible]
-  have hcov := f.prop ⟨Etingof.GL2.diagElt p n c, hb_mem⟩ 1
+  have hcov := f.prop ⟨diagElt p n c, hb_mem⟩ 1
   simp only [mul_one] at hcov
   rw [hcov]
   congr 1
-  simp [auxiliaryComplexFunction, Etingof.GL2.diagElt,
+  simp [auxiliaryComplexFunction, diagElt,
     Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
     Matrix.unitOfDetInvertible]
 
-private lemma Etingof.GL2.action_weyl_none
+private lemma action_weyl_none
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (f : ↥(auxiliarySubmodule p n chi1 chi2)) :
     (auxiliarySubmoduleRepresentation p n chi1 chi2
@@ -636,7 +632,7 @@ private lemma Etingof.GL2.action_weyl_none
   change f.val (auxiliaryElement p n none * auxiliaryElement p n (some 0)) = _
   simp [auxiliaryElement]
 
-private lemma Etingof.GL2.principalSeries_nontrivial
+private lemma principalSeries_nontrivial
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) :
     Nontrivial (Subrepresentation (auxiliarySubmoduleRepresentation p n chi1 chi2)) := by
   set f : ↥(auxiliarySubmodule p n chi1 chi2) :=
@@ -657,7 +653,7 @@ private lemma Etingof.GL2.principalSeries_nontrivial
       rw [heq]; exact Submodule.mem_top
     exact (Submodule.mem_bot ℂ).mp hmem)
 
-private lemma Etingof.GL2.principalSeries_construct_delta_none
+private lemma principalSeries_construct_delta_none
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) (hne : chi1 ≠ chi2)
     (S : Subrepresentation (auxiliarySubmoduleRepresentation p n chi1 chi2))
     (f : ↥(auxiliarySubmodule p n chi1 chi2))
@@ -677,7 +673,7 @@ private lemma Etingof.GL2.principalSeries_construct_delta_none
           (fun i => match i with | none => hfnone | some t => hall t))
       obtain ⟨t₀, ht₀⟩ := hsome
       set f' := (auxiliarySubmoduleRepresentation p n chi1 chi2) (auxiliaryElement p n (some 0))
-        ((auxiliarySubmoduleRepresentation p n chi1 chi2) (Etingof.GL2.translationElt p n t₀) f)
+        ((auxiliarySubmoduleRepresentation p n chi1 chi2) (translationElt p n t₀) f)
       refine ⟨f', ?_, ?_⟩
       · -- f' ∈ S: S is G-stable
         exact S.apply_mem_toSubmodule _ (S.apply_mem_toSubmodule _ hfS)
@@ -685,41 +681,41 @@ private lemma Etingof.GL2.principalSeries_construct_delta_none
         rw [show f'.val = (auxiliarySubmoduleRepresentation p n chi1 chi2
           (auxiliaryElement p n (some 0))
           (auxiliarySubmoduleRepresentation p n chi1 chi2
-            (Etingof.GL2.translationElt p n t₀) f)).val from rfl]
-        rw [Etingof.GL2.action_weyl_none p n chi1 chi2
-          (auxiliarySubmoduleRepresentation p n chi1 chi2 (Etingof.GL2.translationElt p n t₀) f)]
-        rw [Etingof.GL2.action_translation_some p n chi1 chi2 f t₀ 0, zero_add]
+            (translationElt p n t₀) f)).val from rfl]
+        rw [action_weyl_none p n chi1 chi2
+          (auxiliarySubmoduleRepresentation p n chi1 chi2 (translationElt p n t₀) f)]
+        rw [action_translation_some p n chi1 chi2 f t₀ 0, zero_add]
         exact ht₀
   obtain ⟨f', hf'S, hf'none⟩ := hf'exists
   let ρ := auxiliarySubmoduleRepresentation p n chi1 chi2
-  set avg := ∑ s : GaloisField p n, ρ (Etingof.GL2.translationElt p n s) f' with avg_def
+  set avg := ∑ s : GaloisField p n, ρ (translationElt p n s) f' with avg_def
   have havgS : avg ∈ S.toSubmodule :=
     S.toSubmodule.sum_mem (fun s _ => S.apply_mem_toSubmodule _ hf'S)
   have hval : ∀ x, avg.val x =
-      ∑ s : GaloisField p n, (ρ (Etingof.GL2.translationElt p n s) f').val x := by
+      ∑ s : GaloisField p n, (ρ (translationElt p n s) f').val x := by
     intro x
     have : (Submodule.subtype _ avg) x =
-        ∑ s, (Submodule.subtype _ (ρ (Etingof.GL2.translationElt p n s) f')) x := by
+        ∑ s, (Submodule.subtype _ (ρ (translationElt p n s) f')) x := by
       rw [show Submodule.subtype _ avg = Submodule.subtype _
-        (∑ s, ρ (Etingof.GL2.translationElt p n s) f') from rfl, map_sum]
+        (∑ s, ρ (translationElt p n s) f') from rfl, map_sum]
       simp [Finset.sum_apply]
     exact this
   have havg_none : avg.val (auxiliaryElement p n none) =
       (Fintype.card (GaloisField p n) : ℂ) * f'.val (auxiliaryElement p n none) := by
     rw [hval]
     conv_lhs => arg 2; ext s
-                rw [Etingof.GL2.action_translation_none p n chi1 chi2 f' s]
+                rw [action_translation_none p n chi1 chi2 f' s]
     rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
   have havg_some_const : ∀ t : GaloisField p n,
       avg.val (auxiliaryElement p n (some t)) =
       ∑ u : GaloisField p n, f'.val (auxiliaryElement p n (some u)) := by
     intro t; rw [hval]
     conv_lhs => arg 2; ext s
-                rw [Etingof.GL2.action_translation_some p n chi1 chi2 f' s t]
+                rw [action_translation_some p n chi1 chi2 f' s t]
     exact Fintype.sum_equiv (Equiv.addLeft t) _ _ (fun s => rfl)
   have ⟨c, hc⟩ : ∃ c : (GaloisField p n)ˣ, chi1 c ≠ chi2 c := by
     by_contra h; push Not at h; exact hne (MonoidHom.ext h)
-  set g := ρ (Etingof.GL2.diagElt p n c) avg - (chi2 c : ℂ) • avg
+  set g := ρ (diagElt p n c) avg - (chi2 c : ℂ) • avg
   refine ⟨g, ?_, ?_, ?_⟩
   · -- g ∈ S
     exact S.toSubmodule.sub_mem (S.apply_mem_toSubmodule _ havgS)
@@ -729,11 +725,11 @@ private lemma Etingof.GL2.principalSeries_construct_delta_none
     have hgval : g.val (auxiliaryElement p n none) =
         ((chi1 c : ℂ) - (chi2 c : ℂ)) * ((Fintype.card (GaloisField p n) : ℂ) *
           f'.val (auxiliaryElement p n none)) := by
-      change (ρ (Etingof.GL2.diagElt p n c) avg - (chi2 c : ℂ) • avg).val
+      change (ρ (diagElt p n c) avg - (chi2 c : ℂ) • avg).val
         (auxiliaryElement p n none) = _
       simp only [Submodule.coe_sub, Submodule.coe_smul, Pi.sub_apply, Pi.smul_apply,
         smul_eq_mul]
-      rw [Etingof.GL2.action_diagonal_none p n chi1 chi2 avg c, havg_none]
+      rw [action_diagonal_none p n chi1 chi2 avg c, havg_none]
       ring
     rw [hgval] at heq
     rcases mul_eq_zero.mp heq with hsub | hprod
@@ -743,15 +739,15 @@ private lemma Etingof.GL2.principalSeries_construct_delta_none
       · exact hf'none hf
   · -- g(rep(some t)) = 0: diagonal and averaging cancel
     intro t
-    change (ρ (Etingof.GL2.diagElt p n c) avg - (chi2 c : ℂ) • avg).val
+    change (ρ (diagElt p n c) avg - (chi2 c : ℂ) • avg).val
       (auxiliaryElement p n (some t)) = 0
     simp only [Submodule.coe_sub, Submodule.coe_smul, Pi.sub_apply, Pi.smul_apply,
       smul_eq_mul]
-    rw [Etingof.GL2.action_diagonal_some p n chi1 chi2 avg c t,
+    rw [action_diagonal_some p n chi1 chi2 avg c t,
       havg_some_const (t * ↑c⁻¹), havg_some_const t]
     ring
 
-private lemma Etingof.GL2.action_weyl_some_zero
+private lemma action_weyl_some_zero
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (f : ↥(auxiliarySubmodule p n chi1 chi2)) :
     (auxiliarySubmoduleRepresentation p n chi1 chi2
@@ -759,7 +755,7 @@ private lemma Etingof.GL2.action_weyl_some_zero
       (auxiliaryElement p n (some 0)) =
     f.val (auxiliaryElement p n (some 0) * auxiliaryElement p n (some 0)) := rfl
 
-private lemma Etingof.GL2.cosetRep_some_mul_weyl_not_borel
+private lemma cosetRep_some_mul_weyl_not_borel
     (t : GaloisField p n) (ht : t ≠ 0) :
     ((auxiliaryElement p n (some t) *
       auxiliaryElement p n (some 0)).val :
@@ -769,7 +765,7 @@ private lemma Etingof.GL2.cosetRep_some_mul_weyl_not_borel
     Matrix.unitOfDetInvertible, Matrix.mul_apply, Fin.sum_univ_two]
   simp [ht]
 
-private lemma Etingof.GL2.action_weyl_some_ne_zero
+private lemma action_weyl_some_ne_zero
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (f : ↥(auxiliarySubmodule p n chi1 chi2))
     (hfsome : ∀ s, f.val (auxiliaryElement p n (some s)) = 0)
@@ -786,7 +782,7 @@ private lemma Etingof.GL2.action_weyl_some_ne_zero
   have hidx : ∃ s, auxiliaryOptionMap p n M = some s := by
     unfold auxiliaryOptionMap
     simp only [M]
-    have h10 := Etingof.GL2.cosetRep_some_mul_weyl_not_borel p n t ht
+    have h10 := cosetRep_some_mul_weyl_not_borel p n t ht
     rw [show (M : Matrix (Fin 2) (Fin 2) (GaloisField p n)) =
       (auxiliaryElement p n (some t)).val *
         (auxiliaryElement p n (some 0)).val from
@@ -795,7 +791,7 @@ private lemma Etingof.GL2.action_weyl_some_ne_zero
   obtain ⟨s, hs⟩ := hidx
   rw [hs, hfsome, mul_zero]
 
-private lemma Etingof.GL2.principalSeries_delta_spans_top
+private lemma principalSeries_delta_spans_top
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (S : Subrepresentation (auxiliarySubmoduleRepresentation p n chi1 chi2))
     (g : ↥(auxiliarySubmodule p n chi1 chi2))
@@ -818,10 +814,10 @@ private lemma Etingof.GL2.principalSeries_delta_spans_top
     (auxiliaryElement p n (some 0)) g' with wg'_def
   have hwg'S : wg' ∈ S.toSubmodule := S.apply_mem_toSubmodule _ hg'S
   have hwg'_none : wg'.val (auxiliaryElement p n none) = 0 := by
-    rw [Etingof.GL2.action_weyl_none]; exact hg'_some 0
+    rw [action_weyl_none]; exact hg'_some 0
   have hwg'_some_ne : ∀ t, t ≠ 0 →
       wg'.val (auxiliaryElement p n (some t)) = 0 :=
-    fun t ht => Etingof.GL2.action_weyl_some_ne_zero p n chi1 chi2 g'
+    fun t ht => action_weyl_some_ne_zero p n chi1 chi2 g'
       hg'_some t ht
   set α := wg'.val (auxiliaryElement p n (some 0))
   have hα_ne : α ≠ 0 := by
@@ -852,7 +848,7 @@ private lemma Etingof.GL2.principalSeries_delta_spans_top
     ∑ t : GaloisField p n,
       f.val (auxiliaryElement p n (some t)) •
         (α⁻¹ • auxiliarySubmoduleRepresentation p n chi1 chi2
-          (Etingof.GL2.translationElt p n (-t)) wg')
+          (translationElt p n (-t)) wg')
   have hrhs_S : rhs ∈ S.toSubmodule := by
     apply S.toSubmodule.add_mem (S.toSubmodule.smul_mem _ hg'S)
     apply S.toSubmodule.sum_mem; intro t _
@@ -867,18 +863,18 @@ private lemma Etingof.GL2.principalSeries_delta_spans_top
       ∑ t : GaloisField p n,
         f.val (auxiliaryElement p n (some t)) •
           (α⁻¹ • auxiliarySubmoduleRepresentation p n chi1 chi2
-            (Etingof.GL2.translationElt p n (-t)) wg')).val
+            (translationElt p n (-t)) wg')).val
       (auxiliaryElement p n i) = 0
   simp only [Submodule.coe_add, Submodule.coe_smul, Submodule.coe_sum,
     Pi.add_apply, Pi.smul_apply, Finset.sum_apply, smul_eq_mul]
   cases i with
   | none =>
     rw [hg'_none, mul_one]
-    simp_rw [Etingof.GL2.action_translation_none p n chi1 chi2 wg']
+    simp_rw [action_translation_none p n chi1 chi2 wg']
     simp [hwg'_none]
   | some s =>
     rw [hg'_some, mul_zero, zero_add]
-    simp_rw [Etingof.GL2.action_translation_some p n chi1 chi2
+    simp_rw [action_translation_some p n chi1 chi2
       wg' (-_) s]
     conv_lhs =>
       arg 2; arg 2; ext t; rw [show s + -t = s - t from by ring]
@@ -896,7 +892,7 @@ private lemma Etingof.GL2.principalSeries_delta_spans_top
       simp [sub_self]]
     rw [inv_mul_cancel₀ hα_ne, mul_one, sub_self]
 
-private lemma Etingof.GL2.principalSeries_simple_of_ne
+private lemma principalSeries_simple_of_ne
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) (hne : chi1 ≠ chi2) :
     Simple (auxiliaryPairedRepresentation p n chi1 chi2) := by
   haveI : NeZero (Nat.card (GL2 p n) : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
@@ -905,7 +901,7 @@ private lemma Etingof.GL2.principalSeries_simple_of_ne
     haveI := this; exact simple_of_isSimpleModule_FDRep ρ
   rw [← Representation.irreducible_iff_isSimpleModule_asModule]
   haveI : Nontrivial (Subrepresentation ρ) :=
-    Etingof.GL2.principalSeries_nontrivial p n chi1 chi2
+    principalSeries_nontrivial p n chi1 chi2
   exact IsSimpleOrder.mk fun S => by
     by_cases hS : S = ⊥
     · exact Or.inl hS
@@ -916,17 +912,17 @@ private lemma Etingof.GL2.principalSeries_simple_of_ne
       rw [ne_eq, Submodule.eq_bot_iff] at hSne; push Not at hSne
       obtain ⟨f, hfS, hfne⟩ := hSne
       obtain ⟨g, hgS, hgnone, hgsome⟩ :=
-        Etingof.GL2.principalSeries_construct_delta_none p n chi1 chi2 hne S f hfS hfne
-      exact Etingof.GL2.principalSeries_delta_spans_top p n chi1 chi2 S g hgS hgnone hgsome
+        principalSeries_construct_delta_none p n chi1 chi2 hne S f hfS hfne
+      exact principalSeries_delta_spans_top p n chi1 chi2 S g hgS hgnone hgsome
 
 /-- The auxiliary paired representation is simple when its two monoid homomorphisms differ. -/
-@[source_ref "Chapter5/Theorem5.25.2" (role := supporting)]
+@[source_ref "Chapter5/Theorem5.25.2" (role := primary)]
 theorem auxiliaryPairedRepresentation_simple_of_ne
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) (hne : chi1 ≠ chi2) :
     Simple (auxiliaryPairedRepresentation p n chi1 chi2) :=
-  Etingof.GL2.principalSeries_simple_of_ne p n chi1 chi2 hne
+  principalSeries_simple_of_ne p n chi1 chi2 hne
 
-private lemma Etingof.GL2.principalSeries_eval_surjective
+private lemma principalSeries_eval_surjective
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (c : Option (GaloisField p n) → ℂ) :
     ∃ f : ↥(auxiliarySubmodule p n chi1 chi2),
@@ -935,9 +931,9 @@ private lemma Etingof.GL2.principalSeries_eval_surjective
     auxiliaryFunctionOnGroup_mem p n chi1 chi2 c⟩,
    auxiliaryFunctionOnGroup_auxiliaryElement p n chi1 chi2 c⟩
 
-private lemma Etingof.GL2.complementW_eval_injective
+private lemma complementW_eval_injective
     (mu : (GaloisField p n)ˣ →* ℂˣ)
-    (f : ↥(Etingof.GL2.complementWSubmodule p n mu))
+    (f : ↥(complementWSubmodule p n mu))
     (hf : ∀ t : GaloisField p n,
       (f : GL2 p n → ℂ) (auxiliaryElement p n (some t)) = 0) :
     f = 0 := by
@@ -989,7 +985,7 @@ private lemma Etingof.GL2.complementW_eval_injective
     have hker_val : ∑ g : GL2 p n,
         f.val g * ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ = 0 := by
       have := hker
-      simp only [Etingof.GL2.augmentation,
+      simp only [augmentation,
         LinearMap.coe_mk] at this
       exact this
     have hterm : ∀ g : GL2 p n,
@@ -1011,10 +1007,10 @@ private lemma Etingof.GL2.complementW_eval_injective
       exact Finset.card_ne_zero.mpr ⟨1, Finset.mem_filter.mpr ⟨Finset.mem_univ _, by simp⟩⟩
     exact (mul_eq_zero.mp hker_val).resolve_left hB_ne
 
-private lemma Etingof.GL2.complementW_eval_surjective
+private lemma complementW_eval_surjective
     (mu : (GaloisField p n)ˣ →* ℂˣ)
     (c : GaloisField p n → ℂ) :
-    ∃ f : ↥(Etingof.GL2.complementWSubmodule p n mu),
+    ∃ f : ↥(complementWSubmodule p n mu),
       ∀ t, (f : GL2 p n → ℂ) (auxiliaryElement p n (some t)) = c t := by
   let v : Option (GaloisField p n) → ℂ := fun i =>
     match i with
@@ -1023,8 +1019,8 @@ private lemma Etingof.GL2.complementW_eval_surjective
   have hf_mem := auxiliaryFunctionOnGroup_mem p n mu mu v
   have hf_eval := auxiliaryFunctionOnGroup_auxiliaryElement p n mu mu v
   have hf_aug : auxiliaryFunctionOnGroup p n mu mu v ∈
-      LinearMap.ker (Etingof.GL2.augmentation p n mu) := by
-    simp only [LinearMap.mem_ker, Etingof.GL2.augmentation, LinearMap.coe_mk, AddHom.coe_mk]
+      LinearMap.ker (augmentation p n mu) := by
+    simp only [LinearMap.mem_ker, augmentation, LinearMap.coe_mk, AddHom.coe_mk]
     have hdet_rep : ∀ i : Option (GaloisField p n),
         Matrix.GeneralLinearGroup.det (auxiliaryElement p n i) = 1 := by
       intro i
@@ -1104,7 +1100,7 @@ private lemma Etingof.GL2.complementW_eval_surjective
   exact ⟨⟨auxiliaryFunctionOnGroup p n mu mu v, ⟨hf_mem, hf_aug⟩⟩,
     fun t => hf_eval (some t)⟩
 
-private lemma Etingof.GL2.principalSeriesSubmodule_finrank [NeZero n]
+private lemma principalSeriesSubmodule_finrank [NeZero n]
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) :
     Module.finrank ℂ ↥(auxiliarySubmodule p n chi1 chi2) = p ^ n + 1 := by
   let evalMap : ↥(auxiliarySubmodule p n chi1 chi2) →ₗ[ℂ]
@@ -1138,9 +1134,9 @@ theorem auxiliaryPairedRepresentation_finrank [NeZero n]
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) :
     Module.finrank ℂ (auxiliaryPairedRepresentation p n chi1 chi2).V = p ^ n + 1 := by
   change Module.finrank ℂ ↥(auxiliarySubmodule p n chi1 chi2) = p ^ n + 1
-  exact Etingof.GL2.principalSeriesSubmodule_finrank p n chi1 chi2
+  exact principalSeriesSubmodule_finrank p n chi1 chi2
 
-private lemma Etingof.GL2.detFun_mem_principalSeries
+private lemma detFun_mem_principalSeries
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     (fun g : GL2 p n => (mu (Matrix.GeneralLinearGroup.det g) : ℂ)) ∈
       auxiliarySubmodule p n mu mu := by
@@ -1161,11 +1157,11 @@ private lemma Etingof.GL2.detFun_mem_principalSeries
     ext; simp [hdet_eq]
   rw [this, map_mul, Units.val_mul]
 
-private lemma Etingof.GL2.augmentation_detFun_ne_zero
+private lemma augmentation_detFun_ne_zero
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    Etingof.GL2.augmentation p n mu
+    augmentation p n mu
       (fun g : GL2 p n => (mu (Matrix.GeneralLinearGroup.det g) : ℂ)) ≠ 0 := by
-  simp only [Etingof.GL2.augmentation, LinearMap.coe_mk, AddHom.coe_mk]
+  simp only [augmentation, LinearMap.coe_mk, AddHom.coe_mk]
   have hone : ∀ g : GL2 p n,
       (mu (Matrix.GeneralLinearGroup.det g) : ℂ) *
       ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ = 1 := fun g => by
@@ -1173,46 +1169,46 @@ private lemma Etingof.GL2.augmentation_detFun_ne_zero
   simp_rw [hone, Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one]
   exact Nat.cast_ne_zero.mpr Fintype.card_ne_zero
 
-private noncomputable def Etingof.GL2.augOnPrincipalSeries
+private noncomputable def augOnPrincipalSeries
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     ↥(auxiliarySubmodule p n mu mu) →ₗ[ℂ] ℂ :=
-  (Etingof.GL2.augmentation p n mu).comp (Submodule.subtype _)
+  (augmentation p n mu).comp (Submodule.subtype _)
 
-private lemma Etingof.GL2.ker_augOnPrincipalSeries_eq
+private lemma ker_augOnPrincipalSeries_eq
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    LinearMap.ker (Etingof.GL2.augOnPrincipalSeries p n mu) =
-      (Etingof.GL2.complementWSubmodule p n mu).comap
+    LinearMap.ker (augOnPrincipalSeries p n mu) =
+      (complementWSubmodule p n mu).comap
         (Submodule.subtype (auxiliarySubmodule p n mu mu)) := by
   ext ⟨f, hf⟩
   simp only [LinearMap.mem_ker, Submodule.mem_comap,
-    Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply,
-    Etingof.GL2.complementWSubmodule, Submodule.mem_inf, LinearMap.mem_ker]
+    augOnPrincipalSeries, LinearMap.comp_apply,
+    complementWSubmodule, Submodule.mem_inf, LinearMap.mem_ker]
   exact ⟨fun h => ⟨hf, h⟩, fun ⟨_, h⟩ => h⟩
 
-private lemma Etingof.GL2.augOnPrincipalSeries_surjective
+private lemma augOnPrincipalSeries_surjective
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    Function.Surjective (Etingof.GL2.augOnPrincipalSeries p n mu) := by
+    Function.Surjective (augOnPrincipalSeries p n mu) := by
   intro c
-  have hdetMem := Etingof.GL2.detFun_mem_principalSeries p n mu
+  have hdetMem := detFun_mem_principalSeries p n mu
   set detFn : ↥(auxiliarySubmodule p n mu mu) :=
     ⟨fun g => (mu (Matrix.GeneralLinearGroup.det g) : ℂ), hdetMem⟩
-  have haugNe := Etingof.GL2.augmentation_detFun_ne_zero p n mu
-  set a := Etingof.GL2.augOnPrincipalSeries p n mu detFn with ha_def
+  have haugNe := augmentation_detFun_ne_zero p n mu
+  set a := augOnPrincipalSeries p n mu detFn with ha_def
   refine ⟨(c / a) • detFn, ?_⟩
   simp only [map_smul, smul_eq_mul]
   have ha_ne : a ≠ 0 := haugNe
   exact div_mul_cancel₀ c ha_ne
 
-private lemma Etingof.GL2.augOnPrincipalSeries_equivariant
+private lemma augOnPrincipalSeries_equivariant
     (mu : (GaloisField p n)ˣ →* ℂˣ)
     (g : GL2 p n)
     (f : ↥(auxiliarySubmodule p n mu mu)) :
-    Etingof.GL2.augOnPrincipalSeries p n mu
+    augOnPrincipalSeries p n mu
       (auxiliarySubmoduleRepresentation p n mu mu g f) =
     ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) *
-      Etingof.GL2.augOnPrincipalSeries p n mu f := by
-  simp only [Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply,
-    Etingof.GL2.augmentation, LinearMap.coe_mk, AddHom.coe_mk,
+      augOnPrincipalSeries p n mu f := by
+  simp only [augOnPrincipalSeries, LinearMap.comp_apply,
+    augmentation, LinearMap.coe_mk, AddHom.coe_mk,
     Submodule.coe_subtype]
   change ∑ x : GL2 p n, f.val (x * g) * ↑(mu (Matrix.GeneralLinearGroup.det x))⁻¹ =
     ↑(mu (Matrix.GeneralLinearGroup.det g)) *
@@ -1232,20 +1228,20 @@ private lemma Etingof.GL2.augOnPrincipalSeries_equivariant
   congr 1
   rw [map_inv, map_inv, inv_inv]
 
-private noncomputable def Etingof.GL2.augMorphism
+private noncomputable def augMorphism
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     auxiliaryPairedRepresentation p n mu mu ⟶ auxiliaryOtherRepresentation p n mu where
-  hom := FGModuleCat.ofHom (Etingof.GL2.augOnPrincipalSeries p n mu)
+  hom := FGModuleCat.ofHom (augOnPrincipalSeries p n mu)
   comm g := by
     apply FGModuleCat.hom_ext
     ext ⟨f, hf⟩
-    change Etingof.GL2.augOnPrincipalSeries p n mu
+    change augOnPrincipalSeries p n mu
       (auxiliarySubmoduleRepresentation p n mu mu g ⟨f, hf⟩) =
       ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) *
-        Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩
-    exact Etingof.GL2.augOnPrincipalSeries_equivariant p n mu g ⟨f, hf⟩
+        augOnPrincipalSeries p n mu ⟨f, hf⟩
+    exact augOnPrincipalSeries_equivariant p n mu g ⟨f, hf⟩
 
-private noncomputable def Etingof.GL2.complementWInclusion
+private noncomputable def complementWInclusion
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     auxiliaryRepresentation p n mu ⟶ auxiliaryPairedRepresentation p n mu mu where
   hom := FGModuleCat.ofHom
@@ -1255,14 +1251,14 @@ private noncomputable def Etingof.GL2.complementWInclusion
   comm g := by
     ext ⟨f, hf⟩; rfl
 
-private noncomputable def Etingof.GL2.detCharEmbedding
+private noncomputable def detCharEmbedding
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     auxiliaryOtherRepresentation p n mu ⟶ auxiliaryPairedRepresentation p n mu mu where
   hom := FGModuleCat.ofHom
     { toFun := fun c =>
         ⟨fun g => c * (mu (Matrix.GeneralLinearGroup.det g) : ℂ),
          fun b g => by
-           have := Etingof.GL2.detFun_mem_principalSeries p n mu b g
+           have := detFun_mem_principalSeries p n mu b g
            simp only [auxiliaryComplexFunction] at this ⊢; rw [this]; ring⟩
       map_add' := fun _ _ => Subtype.ext (funext fun _ => by simp [add_mul])
       map_smul' := fun _ _ => Subtype.ext (funext fun _ => by simp [mul_assoc]) }
@@ -1274,7 +1270,7 @@ private noncomputable def Etingof.GL2.detCharEmbedding
       1 * ↑(mu (Matrix.GeneralLinearGroup.det (x * g)))
     simp only [smul_eq_mul, mul_one, one_mul, map_mul, Units.val_mul]; ring
 
-private def Etingof.GL2.detCharRep
+private def detCharRep
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Representation ℂ (GL2 p n) ℂ where
   toFun g := ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) • LinearMap.id
@@ -1286,9 +1282,9 @@ private def Etingof.GL2.detCharRep
       (((mu (Matrix.GeneralLinearGroup.det b) : ℂˣ) : ℂ) * x)
     rw [map_mul, map_mul, Units.val_mul, mul_assoc]
 
-private lemma Etingof.GL2.detChar_eq_of
+private lemma detChar_eq_of
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    auxiliaryOtherRepresentation p n mu = FDRep.of (Etingof.GL2.detCharRep p n mu) := rfl
+    auxiliaryOtherRepresentation p n mu = FDRep.of (detCharRep p n mu) := rfl
 
 /-- The second auxiliary representation is simple. -/
 theorem auxiliaryOtherRepresentation_simple
@@ -1296,8 +1292,8 @@ theorem auxiliaryOtherRepresentation_simple
     Simple (auxiliaryOtherRepresentation p n mu) := by
   haveI : NeZero (Nat.card (GL2 p n) : ℂ) :=
     ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
-  rw [Etingof.GL2.detChar_eq_of]
-  let ρ := Etingof.GL2.detCharRep p n mu
+  rw [detChar_eq_of]
+  let ρ := detCharRep p n mu
   haveI : IsSimpleModule (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule := by
     rw [isSimpleModule_iff]
     refine is_simple_module_of_finrank_eq_one (K := ℂ) (A := MonoidAlgebra ℂ (GL2 p n))
@@ -1316,23 +1312,23 @@ theorem auxiliaryOtherRepresentation_simple
   exact simple_of_full_faithful_preservesMono'
     (forget₂ (FDRep ℂ (GL2 p n)) (Rep ℂ (GL2 p n))) _
 
-private def Etingof.GL2.detCharEmbedding_linearMap
+private def detCharEmbedding_linearMap
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     ℂ →ₗ[ℂ] ↥(auxiliarySubmodule p n mu mu) where
   toFun c := ⟨fun g => c * (mu (Matrix.GeneralLinearGroup.det g) : ℂ),
     fun b g => by
-      have := Etingof.GL2.detFun_mem_principalSeries p n mu b g
+      have := detFun_mem_principalSeries p n mu b g
       simp only [auxiliaryComplexFunction] at this ⊢; rw [this]; ring⟩
   map_add' a b := Subtype.ext (funext fun _ => by simp [add_mul])
   map_smul' r c := Subtype.ext (funext fun _ => by simp [mul_assoc])
 
-private lemma Etingof.GL2.aug_comp_emb_eq
+private lemma aug_comp_emb_eq
     (mu : (GaloisField p n)ˣ →* ℂˣ) (c : ℂ) :
-    Etingof.GL2.augOnPrincipalSeries p n mu
-      (Etingof.GL2.detCharEmbedding_linearMap p n mu c) =
+    augOnPrincipalSeries p n mu
+      (detCharEmbedding_linearMap p n mu c) =
     c * (Fintype.card (GL2 p n) : ℂ) := by
-  simp only [Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply,
-    Etingof.GL2.augmentation, Etingof.GL2.detCharEmbedding_linearMap,
+  simp only [augOnPrincipalSeries, LinearMap.comp_apply,
+    augmentation, detCharEmbedding_linearMap,
     LinearMap.coe_mk, AddHom.coe_mk, Submodule.coe_subtype]
   simp_rw [show ∀ g : GL2 p n,
       c * ↑(mu (Matrix.GeneralLinearGroup.det g)) *
@@ -1340,166 +1336,166 @@ private lemma Etingof.GL2.aug_comp_emb_eq
     rw [mul_assoc, Units.val_inv_eq_inv_val, mul_inv_cancel₀ (Units.ne_zero _), mul_one]]
   simp [Finset.sum_const, Finset.card_univ, mul_comm]
 
-private lemma Etingof.GL2.detCharEmbedding_ne_zero
+private lemma detCharEmbedding_ne_zero
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    Etingof.GL2.detCharEmbedding p n mu ≠ 0 := by
+    detCharEmbedding p n mu ≠ 0 := by
   intro h
-  have h1 : (Etingof.GL2.detCharEmbedding_linearMap p n mu 1).val (1 : GL2 p n) = 0 := by
-    have hlin : Etingof.GL2.detCharEmbedding_linearMap p n mu = 0 := by
-      have hh : (Etingof.GL2.detCharEmbedding p n mu).hom = 0 := by
+  have h1 : (detCharEmbedding_linearMap p n mu 1).val (1 : GL2 p n) = 0 := by
+    have hlin : detCharEmbedding_linearMap p n mu = 0 := by
+      have hh : (detCharEmbedding p n mu).hom = 0 := by
         rw [h]; exact Action.zero_hom
       ext x
       have key : ∀ (c : ℂ) (g : GL2 p n),
-          (Etingof.GL2.detCharEmbedding_linearMap p n mu c).val g =
+          (detCharEmbedding_linearMap p n mu c).val g =
           (ConcreteCategory.hom
-            (Etingof.GL2.detCharEmbedding p n mu).hom.hom c :
+            (detCharEmbedding p n mu).hom.hom c :
             ↥(auxiliarySubmodule p n mu mu)).val g := by
         intro c g; rfl
       rw [key 1 x, hh]
       rfl
     simp [hlin]
-  simp [Etingof.GL2.detCharEmbedding_linearMap] at h1
+  simp [detCharEmbedding_linearMap] at h1
 
-private lemma Etingof.GL2.detCharEmbedding_mono
+private lemma detCharEmbedding_mono
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    Mono (Etingof.GL2.detCharEmbedding p n mu) := by
+    Mono (detCharEmbedding p n mu) := by
   haveI := auxiliaryOtherRepresentation_simple p n mu
-  exact mono_of_nonzero_from_simple (Etingof.GL2.detCharEmbedding_ne_zero p n mu)
+  exact mono_of_nonzero_from_simple (detCharEmbedding_ne_zero p n mu)
 
-private noncomputable def Etingof.GL2.complementWProjection_toAmbient
+private noncomputable def complementWProjection_toAmbient
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     auxiliarySubmodule p n mu mu →ₗ[ℂ] (GL2 p n → ℂ) where
   toFun := fun ⟨f, hf⟩ g =>
     f g - ((Fintype.card (GL2 p n) : ℂ)⁻¹ *
-      Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩) *
+      augOnPrincipalSeries p n mu ⟨f, hf⟩) *
       (mu (Matrix.GeneralLinearGroup.det g) : ℂ)
   map_add' := fun ⟨a, ha⟩ ⟨b, hb⟩ => by
     funext g
-    simp only [Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply,
+    simp only [augOnPrincipalSeries, LinearMap.comp_apply,
       Submodule.coe_subtype, Pi.add_apply, LinearMap.map_add]
     ring
   map_smul' := fun r ⟨a, ha⟩ => by
     funext g
-    simp only [smul_eq_mul, Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply,
+    simp only [smul_eq_mul, augOnPrincipalSeries, LinearMap.comp_apply,
       Submodule.coe_subtype, Submodule.coe_smul, Pi.smul_apply, RingHom.id_apply,
       LinearMap.map_smul]
     ring
 
-private lemma Etingof.GL2.complementWProjection_mem
+private lemma complementWProjection_mem
     (mu : (GaloisField p n)ˣ →* ℂˣ)
     (f : auxiliarySubmodule p n mu mu) :
-    Etingof.GL2.complementWProjection_toAmbient p n mu f ∈
-      Etingof.GL2.complementWSubmodule p n mu := by
+    complementWProjection_toAmbient p n mu f ∈
+      complementWSubmodule p n mu := by
   obtain ⟨f, hf⟩ := f
-  rw [Etingof.GL2.complementWSubmodule, Submodule.mem_inf]
-  simp only [Etingof.GL2.complementWProjection_toAmbient, LinearMap.coe_mk, AddHom.coe_mk]
+  rw [complementWSubmodule, Submodule.mem_inf]
+  simp only [complementWProjection_toAmbient, LinearMap.coe_mk, AddHom.coe_mk]
   refine ⟨?_, ?_⟩
   · -- Covariance: the projected function is still B-covariant with character λ.
     intro b g'
     have hcov := hf b g'
-    have hdet := Etingof.GL2.detFun_mem_principalSeries p n mu b g'
+    have hdet := detFun_mem_principalSeries p n mu b g'
     simp only [auxiliaryComplexFunction] at hcov hdet ⊢
     rw [hcov, hdet]; ring
   · -- Zero augmentation.
     rw [LinearMap.mem_ker]
-    simp only [Etingof.GL2.augmentation, LinearMap.coe_mk, AddHom.coe_mk]
+    simp only [augmentation, LinearMap.coe_mk, AddHom.coe_mk]
     simp_rw [sub_mul, Finset.sum_sub_distrib]
     simp_rw [show ∀ g : GL2 p n,
       (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-        Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩ *
+        augOnPrincipalSeries p n mu ⟨f, hf⟩ *
         ↑(mu (Matrix.GeneralLinearGroup.det g)) *
         ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ =
       (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-        Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩ from fun g => by
+        augOnPrincipalSeries p n mu ⟨f, hf⟩ from fun g => by
       rw [mul_assoc, mul_assoc, Units.val_inv_eq_inv_val,
         mul_inv_cancel₀ (Units.ne_zero _), mul_one]]
     rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul,
       ← mul_assoc, mul_inv_cancel₀ (Nat.cast_ne_zero.mpr Fintype.card_ne_zero),
       one_mul]
-    simp only [Etingof.GL2.augOnPrincipalSeries, Etingof.GL2.augmentation,
+    simp only [augOnPrincipalSeries, augmentation,
       LinearMap.comp_apply, Submodule.coe_subtype,
       LinearMap.coe_mk, AddHom.coe_mk, sub_self]
 
-private noncomputable def Etingof.GL2.complementWProjection_linearMap
+private noncomputable def complementWProjection_linearMap
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     auxiliarySubmodule p n mu mu →ₗ[ℂ]
-      Etingof.GL2.complementWSubmodule p n mu :=
-  (Etingof.GL2.complementWProjection_toAmbient p n mu).codRestrict _
-    (Etingof.GL2.complementWProjection_mem p n mu)
+      complementWSubmodule p n mu :=
+  (complementWProjection_toAmbient p n mu).codRestrict _
+    (complementWProjection_mem p n mu)
 
-private lemma Etingof.GL2.complementWProjection_comm
+private lemma complementWProjection_comm
     (mu : (GaloisField p n)ˣ →* ℂˣ) (g : GL2 p n) :
-    (Etingof.GL2.complementWProjection_linearMap p n mu).comp
+    (complementWProjection_linearMap p n mu).comp
         ((auxiliarySubmoduleRepresentation p n mu mu g)) =
-      (Etingof.GL2.complementWRep p n mu g).comp
-        (Etingof.GL2.complementWProjection_linearMap p n mu) := by
+      (complementWRep p n mu g).comp
+        (complementWProjection_linearMap p n mu) := by
   apply LinearMap.ext; intro ⟨f, hf⟩
   apply Subtype.ext; funext x
   change f (x * g) -
       (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-        Etingof.GL2.augOnPrincipalSeries p n mu
+        augOnPrincipalSeries p n mu
           (auxiliarySubmoduleRepresentation p n mu mu g ⟨f, hf⟩) *
         ↑(mu (Matrix.GeneralLinearGroup.det x)) =
     f (x * g) -
       (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-        Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩ *
+        augOnPrincipalSeries p n mu ⟨f, hf⟩ *
         ↑(mu (Matrix.GeneralLinearGroup.det (x * g)))
-  rw [Etingof.GL2.augOnPrincipalSeries_equivariant]
+  rw [augOnPrincipalSeries_equivariant]
   simp only [map_mul, Units.val_mul]
   ring
 
-private noncomputable def Etingof.GL2.complementWProjection
+private noncomputable def complementWProjection
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     auxiliaryPairedRepresentation p n mu mu ⟶ auxiliaryRepresentation p n mu where
-  hom := FGModuleCat.ofHom (Etingof.GL2.complementWProjection_linearMap p n mu)
+  hom := FGModuleCat.ofHom (complementWProjection_linearMap p n mu)
   comm g := by
     apply FGModuleCat.hom_ext
-    exact Etingof.GL2.complementWProjection_comm p n mu g
+    exact complementWProjection_comm p n mu g
 
-private noncomputable def Etingof.GL2.scaledAugMorphism
+private noncomputable def scaledAugMorphism
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     auxiliaryPairedRepresentation p n mu mu ⟶ auxiliaryOtherRepresentation p n mu where
   hom := FGModuleCat.ofHom
-    ((Fintype.card (GL2 p n) : ℂ)⁻¹ • Etingof.GL2.augOnPrincipalSeries p n mu)
+    ((Fintype.card (GL2 p n) : ℂ)⁻¹ • augOnPrincipalSeries p n mu)
   comm g := by
     apply FGModuleCat.hom_ext; ext ⟨f, hf⟩
     change (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-      Etingof.GL2.augOnPrincipalSeries p n mu
+      augOnPrincipalSeries p n mu
         (auxiliarySubmoduleRepresentation p n mu mu g ⟨f, hf⟩) =
       ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) *
         ((Fintype.card (GL2 p n) : ℂ)⁻¹ *
-          Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩)
-    rw [Etingof.GL2.augOnPrincipalSeries_equivariant]; ring
+          augOnPrincipalSeries p n mu ⟨f, hf⟩)
+    rw [augOnPrincipalSeries_equivariant]; ring
 
-private lemma Etingof.GL2.emb_comp_scaledAug_eq_id
+private lemma emb_comp_scaledAug_eq_id
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    Etingof.GL2.detCharEmbedding p n mu ≫
-      Etingof.GL2.scaledAugMorphism p n mu = 𝟙 _ := by
+    detCharEmbedding p n mu ≫
+      scaledAugMorphism p n mu = 𝟙 _ := by
   refine Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun c => ?_)))
   change (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-    Etingof.GL2.augOnPrincipalSeries p n mu
-      (Etingof.GL2.detCharEmbedding_linearMap p n mu c) = c
-  rw [Etingof.GL2.aug_comp_emb_eq]
+    augOnPrincipalSeries p n mu
+      (detCharEmbedding_linearMap p n mu c) = c
+  rw [aug_comp_emb_eq]
   field_simp
 
-private lemma Etingof.GL2.total_condition
+private lemma total_condition
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    Etingof.GL2.scaledAugMorphism p n mu ≫ Etingof.GL2.detCharEmbedding p n mu +
-      Etingof.GL2.complementWProjection p n mu ≫ Etingof.GL2.complementWInclusion p n mu =
+    scaledAugMorphism p n mu ≫ detCharEmbedding p n mu +
+      complementWProjection p n mu ≫ complementWInclusion p n mu =
       𝟙 _ := by
   refine Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun ⟨f, hf⟩ => ?_)))
   apply Subtype.ext; funext g
   change ((Fintype.card (GL2 p n) : ℂ)⁻¹ *
-    Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩) *
+    augOnPrincipalSeries p n mu ⟨f, hf⟩) *
     ↑(mu (Matrix.GeneralLinearGroup.det g)) +
     (f g - (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-      Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩ *
+      augOnPrincipalSeries p n mu ⟨f, hf⟩ *
       ↑(mu (Matrix.GeneralLinearGroup.det g))) = f g
   ring
 
-private lemma Etingof.GL2.emb_comp_proj_eq_zero
+private lemma emb_comp_proj_eq_zero
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    Etingof.GL2.detCharEmbedding p n mu ≫ Etingof.GL2.complementWProjection p n mu = 0 := by
+    detCharEmbedding p n mu ≫ complementWProjection p n mu = 0 := by
   apply Action.Hom.ext
   simp only [Action.comp_hom, Action.zero_hom]
   apply FGModuleCat.hom_ext
@@ -1507,38 +1503,37 @@ private lemma Etingof.GL2.emb_comp_proj_eq_zero
   apply Subtype.ext; funext g
   change (1 : ℂ) * ↑(mu (Matrix.GeneralLinearGroup.det g)) -
     (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-      Etingof.GL2.augOnPrincipalSeries p n mu
-        (Etingof.GL2.detCharEmbedding_linearMap p n mu (1 : ℂ)) *
+      augOnPrincipalSeries p n mu
+        (detCharEmbedding_linearMap p n mu (1 : ℂ)) *
       ↑(mu (Matrix.GeneralLinearGroup.det g)) = 0
-  rw [Etingof.GL2.aug_comp_emb_eq, one_mul, one_mul,
+  rw [aug_comp_emb_eq, one_mul, one_mul,
     inv_mul_cancel₀ (Nat.cast_ne_zero.mpr Fintype.card_ne_zero), one_mul, sub_self]
 
-private lemma Etingof.GL2.incl_comp_proj_eq_id
+private lemma incl_comp_proj_eq_id
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    Etingof.GL2.complementWInclusion p n mu ≫
-      Etingof.GL2.complementWProjection p n mu = 𝟙 _ := by
+    complementWInclusion p n mu ≫
+      complementWProjection p n mu = 𝟙 _ := by
   refine Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun ⟨f, hf⟩ => ?_)))
   apply Subtype.ext; funext g
   change f g - (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-    Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf.1⟩ *
+    augOnPrincipalSeries p n mu ⟨f, hf.1⟩ *
     ↑(mu (Matrix.GeneralLinearGroup.det g)) = f g
-  have hker : Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf.1⟩ = 0 := by
-    simp only [Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply, Submodule.coe_subtype]
+  have hker : augOnPrincipalSeries p n mu ⟨f, hf.1⟩ = 0 := by
+    simp only [augOnPrincipalSeries, LinearMap.comp_apply, Submodule.coe_subtype]
     exact hf.2
   rw [hker, mul_zero, zero_mul, sub_zero]
 
-/-- The diagonal auxiliary paired representation is isomorphic to a biproduct of two
-auxiliary representations. -/
+/-- The diagonal auxiliary paired representation is isomorphic to a biproduct of two auxiliary representations. -/
 lemma auxiliaryPairedRepresentation_iso_biprod
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Nonempty (auxiliaryPairedRepresentation p n mu mu ≅
       auxiliaryOtherRepresentation p n mu ⊞ auxiliaryRepresentation p n mu) := by
   haveI : Simple (auxiliaryOtherRepresentation p n mu) := auxiliaryOtherRepresentation_simple p n mu
-  have hne := Etingof.GL2.detCharEmbedding_ne_zero p n mu
-  set emb := Etingof.GL2.detCharEmbedding p n mu
-  set incl := Etingof.GL2.complementWInclusion p n mu
-  set proj := Etingof.GL2.complementWProjection p n mu
-  haveI : Mono emb := Etingof.GL2.detCharEmbedding_mono p n mu
+  have hne := detCharEmbedding_ne_zero p n mu
+  set emb := detCharEmbedding p n mu
+  set incl := complementWInclusion p n mu
+  set proj := complementWProjection p n mu
+  haveI : Mono emb := detCharEmbedding_mono p n mu
   haveI : NeZero (Nat.card (GL2 p n) : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   haveI : CategoryTheory.Injective (auxiliaryOtherRepresentation p n mu) := inferInstance
   haveI : IsSplitMono emb := IsSplitMono.mk'
@@ -1553,14 +1548,14 @@ lemma auxiliaryPairedRepresentation_iso_biprod
     auxiliaryOtherRepresentation p n mu ⊞ cokernel emb :=
     biprod.uniqueUpToIso _ _ hbl
   let ψ : cokernel emb ⟶ auxiliaryRepresentation p n mu :=
-    cokernel.desc emb proj (Etingof.GL2.emb_comp_proj_eq_zero p n mu)
+    cokernel.desc emb proj (emb_comp_proj_eq_zero p n mu)
   let φ : auxiliaryRepresentation p n mu ⟶ cokernel emb := incl ≫ cokernel.π emb
   have hφψ : φ ≫ ψ = 𝟙 _ := by
     simp only [φ, ψ, Category.assoc, cokernel.π_desc]
-    exact Etingof.GL2.incl_comp_proj_eq_id p n mu
+    exact incl_comp_proj_eq_id p n mu
   have hψφ : ψ ≫ φ = 𝟙 _ := by
-    set sAug := Etingof.GL2.scaledAugMorphism p n mu
-    have htotal := Etingof.GL2.total_condition p n mu
+    set sAug := scaledAugMorphism p n mu
+    have htotal := total_condition p n mu
     have hpi : proj ≫ incl = 𝟙 _ - sAug ≫ emb := by
       rw [eq_sub_iff_add_eq, add_comm]; exact htotal
     have hkey : proj ≫ (incl ≫ cokernel.π emb) = cokernel.π emb := by
@@ -1577,15 +1572,15 @@ lemma auxiliaryPairedRepresentation_iso_biprod
     ⟨ψ, φ, hψφ, hφψ⟩
   exact ⟨iso1.trans (biprod.mapIso (Iso.refl _) cokIso)⟩
 
-private lemma Etingof.GL2.complementW_none_eq_neg_sum
+private lemma complementW_none_eq_neg_sum
     (mu : (GaloisField p n)ˣ →* ℂˣ)
-    (f : ↥(Etingof.GL2.complementWSubmodule p n mu)) :
+    (f : ↥(complementWSubmodule p n mu)) :
     f.val (auxiliaryElement p n none) =
     -(∑ t : GaloisField p n, f.val (auxiliaryElement p n (some t))) := by
   have hcov := f.prop.1  -- covariance
-  have hker : f.val ∈ LinearMap.ker (Etingof.GL2.augmentation p n mu) := f.prop.2
+  have hker : f.val ∈ LinearMap.ker (augmentation p n mu) := f.prop.2
   rw [LinearMap.mem_ker] at hker
-  simp only [Etingof.GL2.augmentation, LinearMap.coe_mk, AddHom.coe_mk] at hker
+  simp only [augmentation, LinearMap.coe_mk, AddHom.coe_mk] at hker
   have hdet_rep : ∀ i : Option (GaloisField p n),
       Matrix.GeneralLinearGroup.det (auxiliaryElement p n i) = 1 := by
     intro i; cases i with
@@ -1662,19 +1657,19 @@ private lemma Etingof.GL2.complementW_none_eq_neg_sum
   rw [Fintype.sum_option] at hsum_zero
   linear_combination hsum_zero
 
-private lemma Etingof.GL2.complementW_weyl_const_ne
+private lemma complementW_weyl_const_ne
     (mu : (GaloisField p n)ˣ →* ℂˣ)
-    (f : ↥(Etingof.GL2.complementWSubmodule p n mu))
+    (f : ↥(complementWSubmodule p n mu))
     (σ : ℂ)
     (hconst : ∀ t : GaloisField p n,
       f.val (auxiliaryElement p n (some t)) = σ)
     (t : GaloisField p n) (ht : t ≠ 0) :
-    (Etingof.GL2.complementWRep p n mu (auxiliaryElement p n (some 0)) f).val
+    (complementWRep p n mu (auxiliaryElement p n (some 0)) f).val
       (auxiliaryElement p n (some t)) = σ := by
   change f.val (auxiliaryElement p n (some t) *
     auxiliaryElement p n (some 0)) = σ
   set M := auxiliaryElement p n (some t) * auxiliaryElement p n (some 0)
-  have h10 := Etingof.GL2.cosetRep_some_mul_weyl_not_borel p n t ht
+  have h10 := cosetRep_some_mul_weyl_not_borel p n t ht
   have hM10 : (M.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 ≠ 0 := by
     change ((auxiliaryElement p n (some t)).val *
       (auxiliaryElement p n (some 0)).val : Matrix _ _ _) 1 0 ≠ 0
@@ -1736,10 +1731,10 @@ private lemma Etingof.GL2.complementW_weyl_const_ne
   simp only [Units.val_mul, Units.val_one] at this
   convert this using 1
 
-private lemma Etingof.GL2.complementW_weyl_zero_eval
+private lemma complementW_weyl_zero_eval
     (mu : (GaloisField p n)ˣ →* ℂˣ)
-    (f : ↥(Etingof.GL2.complementWSubmodule p n mu)) :
-    (Etingof.GL2.complementWRep p n mu (auxiliaryElement p n (some 0)) f).val
+    (f : ↥(complementWSubmodule p n mu)) :
+    (complementWRep p n mu (auxiliaryElement p n (some 0)) f).val
       (auxiliaryElement p n (some 0)) =
     f.val (auxiliaryElement p n none) := by
   change f.val (auxiliaryElement p n (some 0) *
@@ -1788,16 +1783,16 @@ private lemma Etingof.GL2.complementW_weyl_zero_eval
     simp [← Units.val_mul, ← map_mul]
   rw [hbcv, one_mul]
 
-private lemma Etingof.GL2.complementW_simple
+private lemma complementW_simple
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Simple (auxiliaryRepresentation p n mu) := by
   haveI : NeZero (Nat.card (GL2 p n) : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
-  set ρ := Etingof.GL2.complementWRep p n mu
+  set ρ := complementWRep p n mu
   suffices IsSimpleModule (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule by
     haveI := this; exact simple_of_isSimpleModule_FDRep ρ
   rw [← Representation.irreducible_iff_isSimpleModule_asModule]
   haveI : Nontrivial (Subrepresentation ρ) := by
-    obtain ⟨f, hf⟩ := Etingof.GL2.complementW_eval_surjective p n mu
+    obtain ⟨f, hf⟩ := complementW_eval_surjective p n mu
       (fun t => if t = (0 : GaloisField p n) then 1 else 0)
     have hfne : f ≠ 0 := by
       intro h; rw [h] at hf; simp at hf
@@ -1815,14 +1810,14 @@ private lemma Etingof.GL2.complementW_simple
       obtain ⟨f, hfS, hfne⟩ := hSne
       have hsome : ∃ t₀, f.val (auxiliaryElement p n (some t₀)) ≠ 0 := by
         by_contra hall; push Not at hall
-        exact hfne (Etingof.GL2.complementW_eval_injective p n mu f hall)
+        exact hfne (complementW_eval_injective p n mu f hall)
       obtain ⟨t₀, ht₀⟩ := hsome
-      set f' := ρ (Etingof.GL2.translationElt p n t₀) f
+      set f' := ρ (translationElt p n t₀) f
       have hf'S : f' ∈ S.toSubmodule := S.apply_mem_toSubmodule _ hfS
       have hf'_eval0 : f'.val (auxiliaryElement p n (some 0)) ≠ 0 := by
         change f.val (auxiliaryElement p n (some 0) *
-          Etingof.GL2.translationElt p n t₀) ≠ 0
-        rw [Etingof.GL2.cosetRep_mul_translation_some, zero_add]
+          translationElt p n t₀) ≠ 0
+        rw [cosetRep_mul_translation_some, zero_add]
         exact ht₀
       set σ₀ := ∑ t : GaloisField p n, f'.val (auxiliaryElement p n (some t))
       obtain ⟨g, hgS, hg_sum_ne⟩ : ∃ g ∈ S.toSubmodule,
@@ -1831,37 +1826,37 @@ private lemma Etingof.GL2.complementW_simple
         · exact ⟨f', hf'S, hσ⟩
         · push Not at hσ
           have hf'_none : f'.val (auxiliaryElement p n none) = 0 := by
-            rw [Etingof.GL2.complementW_none_eq_neg_sum]
+            rw [complementW_none_eq_neg_sum]
             change -σ₀ = 0
             rw [hσ, neg_zero]
           set g := ρ (auxiliaryElement p n (some 0)) f'
           refine ⟨g, S.apply_mem_toSubmodule _ hf'S, ?_⟩
           rw [show ∑ t, g.val (auxiliaryElement p n (some t)) =
             -(g.val (auxiliaryElement p n none)) from by
-            rw [Etingof.GL2.complementW_none_eq_neg_sum]; ring]
+            rw [complementW_none_eq_neg_sum]; ring]
           change -(f'.val (auxiliaryElement p n none *
             auxiliaryElement p n (some 0))) ≠ 0
           rw [show auxiliaryElement p n none * auxiliaryElement p n (some 0) =
             auxiliaryElement p n (some 0) from by simp [auxiliaryElement]]
           exact neg_ne_zero.mpr hf'_eval0
       set σ := ∑ t : GaloisField p n, g.val (auxiliaryElement p n (some t))
-      set A := ∑ s : GaloisField p n, ρ (Etingof.GL2.translationElt p n s) g
+      set A := ∑ s : GaloisField p n, ρ (translationElt p n s) g
       have hAS : A ∈ S.toSubmodule :=
         S.toSubmodule.sum_mem (fun s _ => S.apply_mem_toSubmodule _ hgS)
       have hA_const : ∀ t : GaloisField p n,
           A.val (auxiliaryElement p n (some t)) = σ := by
         intro t
         simp only [A, Submodule.coe_sum, Finset.sum_apply]
-        simp_rw [show ∀ s, (ρ (Etingof.GL2.translationElt p n s) g).val
+        simp_rw [show ∀ s, (ρ (translationElt p n s) g).val
           (auxiliaryElement p n (some t)) =
           g.val (auxiliaryElement p n (some (t + s))) from
           fun s => by change g.val (auxiliaryElement p n (some t) *
-            Etingof.GL2.translationElt p n s) = _; rw [Etingof.GL2.cosetRep_mul_translation_some]]
+            translationElt p n s) = _; rw [cosetRep_mul_translation_some]]
         exact Fintype.sum_equiv (Equiv.addLeft t) _ _ (fun s => rfl)
       have hσ_ne : σ ≠ 0 := hg_sum_ne
       have hA_none : A.val (auxiliaryElement p n none) =
           -(Fintype.card (GaloisField p n) : ℂ) * σ := by
-        rw [Etingof.GL2.complementW_none_eq_neg_sum]
+        rw [complementW_none_eq_neg_sum]
         simp_rw [hA_const]
         rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul, neg_mul]
       set w := auxiliaryElement p n (some 0)
@@ -1869,10 +1864,10 @@ private lemma Etingof.GL2.complementW_simple
       have hwAS : wA ∈ S.toSubmodule := S.apply_mem_toSubmodule _ hAS
       have hwA_ne : ∀ t : GaloisField p n, t ≠ 0 →
           wA.val (auxiliaryElement p n (some t)) = σ :=
-        fun t ht => Etingof.GL2.complementW_weyl_const_ne p n mu A σ hA_const t ht
+        fun t ht => complementW_weyl_const_ne p n mu A σ hA_const t ht
       have hwA_zero : wA.val (auxiliaryElement p n (some 0)) =
           -(Fintype.card (GaloisField p n) : ℂ) * σ := by
-        rw [Etingof.GL2.complementW_weyl_zero_eval]; exact hA_none
+        rw [complementW_weyl_zero_eval]; exact hA_none
       set h := wA - A
       have hhS : h ∈ S.toSubmodule := S.toSubmodule.sub_mem hwAS hAS
       have hh_ne : ∀ t : GaloisField p n, t ≠ 0 →
@@ -1904,26 +1899,26 @@ private lemma Etingof.GL2.complementW_simple
       have hα_ne : α ≠ 0 := hh_zero_ne
       set rhs := ∑ u : GaloisField p n,
         (α⁻¹ * x.val (auxiliaryElement p n (some u))) •
-          ρ (Etingof.GL2.translationElt p n (-u)) h
+          ρ (translationElt p n (-u)) h
       have hrhs_S : rhs ∈ S.toSubmodule := by
         apply S.toSubmodule.sum_mem; intro u _
         exact S.toSubmodule.smul_mem _ (S.apply_mem_toSubmodule _ hhS)
       suffices heq : x = rhs by rw [heq]; exact hrhs_S
-      have hxrhs := Etingof.GL2.complementW_eval_injective p n mu (x - rhs)
+      have hxrhs := complementW_eval_injective p n mu (x - rhs)
       rw [sub_eq_zero] at hxrhs; apply hxrhs; intro t
       change x.val (auxiliaryElement p n (some t)) -
         (∑ u : GaloisField p n,
           (α⁻¹ * x.val (auxiliaryElement p n (some u))) •
-            ρ (Etingof.GL2.translationElt p n (-u)) h).val
+            ρ (translationElt p n (-u)) h).val
           (auxiliaryElement p n (some t)) = 0
       simp only [Submodule.coe_sum, Submodule.coe_smul, Finset.sum_apply,
         Pi.smul_apply, smul_eq_mul]
-      simp_rw [show ∀ u, (ρ (Etingof.GL2.translationElt p n (-u)) h).val
+      simp_rw [show ∀ u, (ρ (translationElt p n (-u)) h).val
         (auxiliaryElement p n (some t)) =
         h.val (auxiliaryElement p n (some (t + (-u)))) from fun u => by
         change h.val (auxiliaryElement p n (some t) *
-          Etingof.GL2.translationElt p n (-u)) = _
-        rw [Etingof.GL2.cosetRep_mul_translation_some]]
+          translationElt p n (-u)) = _
+        rw [cosetRep_mul_translation_some]]
       conv_lhs => arg 2; arg 2; ext u; rw [show t + -u = t - u from by ring]
       rw [show (∑ u : GaloisField p n,
           α⁻¹ * x.val (auxiliaryElement p n (some u)) *
@@ -1937,40 +1932,38 @@ private lemma Etingof.GL2.complementW_simple
       rw [show h.val (auxiliaryElement p n (some 0)) = α from rfl]
       rw [mul_comm (α⁻¹) _, mul_assoc, inv_mul_cancel₀ hα_ne, mul_one, sub_self]
 
-private noncomputable def Etingof.GL2.complementW_evalMap
+private noncomputable def complementW_evalMap
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    ↥(Etingof.GL2.complementWSubmodule p n mu) →ₗ[ℂ] (GaloisField p n → ℂ) where
+    ↥(complementWSubmodule p n mu) →ₗ[ℂ] (GaloisField p n → ℂ) where
   toFun f t := (f : GL2 p n → ℂ) (auxiliaryElement p n (some t))
   map_add' f g := by ext; simp
   map_smul' c f := by ext; simp [smul_eq_mul]
 
-private lemma Etingof.GL2.complementW_finrank
+private lemma complementW_finrank
     (hn : 0 < n)
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Module.finrank ℂ (auxiliaryRepresentation p n mu).V = p ^ n := by
-  have hinj : Function.Injective (Etingof.GL2.complementW_evalMap p n mu) := by
+  have hinj : Function.Injective (complementW_evalMap p n mu) := by
     intro f g heq
     have : f - g = 0 := by
-      apply Etingof.GL2.complementW_eval_injective
+      apply complementW_eval_injective
       intro t
       have := congr_fun heq t
-      simp [Etingof.GL2.complementW_evalMap] at this
+      simp [complementW_evalMap] at this
       simp [this]
     exact sub_eq_zero.mp this
-  have hsurj : Function.Surjective (Etingof.GL2.complementW_evalMap p n mu) := by
+  have hsurj : Function.Surjective (complementW_evalMap p n mu) := by
     intro c
-    obtain ⟨f, hf⟩ := Etingof.GL2.complementW_eval_surjective p n mu c
+    obtain ⟨f, hf⟩ := complementW_eval_surjective p n mu c
     exact ⟨f, funext hf⟩
-  have hequiv : ↥(Etingof.GL2.complementWSubmodule p n mu) ≃ₗ[ℂ]
-      (GaloisField p n → ℂ) :=
-    LinearEquiv.ofBijective (Etingof.GL2.complementW_evalMap p n mu) ⟨hinj, hsurj⟩
-  change Module.finrank ℂ ↥(Etingof.GL2.complementWSubmodule p n mu) = p ^ n
+  have hequiv : ↥(complementWSubmodule p n mu) ≃ₗ[ℂ] (GaloisField p n → ℂ) :=
+    LinearEquiv.ofBijective (complementW_evalMap p n mu) ⟨hinj, hsurj⟩
+  change Module.finrank ℂ ↥(complementWSubmodule p n mu) = p ^ n
   rw [hequiv.finrank_eq, Module.finrank_pi_fintype, Module.finrank_self]
   simp only [Finset.sum_const, smul_eq_mul, mul_one]
   rw [Finset.card_univ, Fintype.card_eq_nat_card, GaloisField.card p n (Nat.pos_iff_ne_zero.mp hn)]
 
-/-- A positive index gives the displayed decomposition, simplicity, and dimension properties
-for auxiliary representations. -/
+/-- A positive index gives the displayed decomposition, simplicity, and dimension properties for auxiliary representations. -/
 @[source_ref "Chapter5/Theorem5.25.2" (role := primary)]
 theorem auxiliary_representation_summary_of_pos
     (hn : 0 < n)
@@ -1980,17 +1973,17 @@ theorem auxiliary_representation_summary_of_pos
     Simple (auxiliaryRepresentation p n mu) ∧
     Module.finrank ℂ (auxiliaryRepresentation p n mu).V = p ^ n :=
   ⟨auxiliaryPairedRepresentation_iso_biprod p n mu,
-   Etingof.GL2.complementW_simple p n mu,
-   Etingof.GL2.complementW_finrank p n hn mu⟩
+   complementW_simple p n mu,
+   complementW_finrank p n hn mu⟩
 
-private lemma Etingof.GL2.complementW_action_diagonal_some
+private lemma complementW_action_diagonal_some
     (mu : (GaloisField p n)ˣ →* ℂˣ)
-    (f : ↥(Etingof.GL2.complementWSubmodule p n mu))
+    (f : ↥(complementWSubmodule p n mu))
     (c : (GaloisField p n)ˣ) (t : GaloisField p n) :
-    (Etingof.GL2.complementWRep p n mu (Etingof.GL2.diagElt p n c) f).val
+    (complementWRep p n mu (diagElt p n c) f).val
       (auxiliaryElement p n (some t)) =
     (mu c : ℂ) * f.val (auxiliaryElement p n (some (t * ↑c⁻¹))) := by
-  change f.val (auxiliaryElement p n (some t) * Etingof.GL2.diagElt p n c) = _
+  change f.val (auxiliaryElement p n (some t) * diagElt p n c) = _
   set bmat : Matrix (Fin 2) (Fin 2) (GaloisField p n) :=
     !![1, 0; 0, (c : GaloisField p n)]
   have hbdet : bmat.det ≠ 0 := by
@@ -1999,11 +1992,11 @@ private lemma Etingof.GL2.complementW_action_diagonal_some
   have hb_mem : b.val 1 0 = 0 := by
     simp [b, bmat, Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
       Matrix.unitOfDetInvertible]
-  have hprod : auxiliaryElement p n (some t) * Etingof.GL2.diagElt p n c =
+  have hprod : auxiliaryElement p n (some t) * diagElt p n c =
       b * auxiliaryElement p n (some (t * ↑c⁻¹)) := by
     apply Matrix.GeneralLinearGroup.ext; intro i j
     simp only [Matrix.GeneralLinearGroup.coe_mul,
-      auxiliaryElement, Etingof.GL2.diagElt, b, bmat,
+      auxiliaryElement, diagElt, b, bmat,
       Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
       Matrix.unitOfDetInvertible, Matrix.mul_apply, Fin.sum_univ_two]
     have hc_ne : (c : GaloisField p n) ≠ 0 := Units.ne_zero c
@@ -2017,7 +2010,7 @@ private lemma Etingof.GL2.complementW_action_diagonal_some
     Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
     Matrix.unitOfDetInvertible]
 
-private noncomputable def Etingof.GL2.permAction
+private noncomputable def permAction
     (c : (GaloisField p n)ˣ) :
     (GaloisField p n → ℂ) →ₗ[ℂ] (GaloisField p n → ℂ) where
   toFun f t := f (t * ↑c⁻¹)
@@ -2025,9 +2018,9 @@ private noncomputable def Etingof.GL2.permAction
   map_smul' r f := by ext t; simp [Pi.smul_apply, smul_eq_mul]
 
 set_option maxHeartbeats 800000 in
-private lemma Etingof.GL2.trace_permAction
+private lemma trace_permAction
     (c : (GaloisField p n)ˣ) (hc : c ≠ 1) :
-    LinearMap.trace ℂ (GaloisField p n → ℂ) (Etingof.GL2.permAction p n c) = 1 := by
+    LinearMap.trace ℂ (GaloisField p n → ℂ) (permAction p n c) = 1 := by
   rw [LinearMap.trace_eq_matrix_trace ℂ (Pi.basisFun ℂ (GaloisField p n))]
   simp only [Matrix.trace, Matrix.diag]
   have hcinv_ne_one : (↑c⁻¹ : GaloisField p n) ≠ 1 := by
@@ -2047,56 +2040,56 @@ private lemma Etingof.GL2.trace_permAction
     · intro h; rw [h, zero_mul]
   have hentry : ∀ i : GaloisField p n,
       (Pi.basisFun ℂ (GaloisField p n)).repr
-        (Etingof.GL2.permAction p n c ((Pi.basisFun ℂ (GaloisField p n)) i)) i =
+        (permAction p n c ((Pi.basisFun ℂ (GaloisField p n)) i)) i =
       if i = 0 then (1 : ℂ) else 0 := by
     intro i
-    simp only [Pi.basisFun_apply, Pi.basisFun_repr, Etingof.GL2.permAction,
+    simp only [Pi.basisFun_apply, Pi.basisFun_repr, permAction,
       LinearMap.coe_mk, AddHom.coe_mk, Pi.single_apply, hfixed]
   simp_rw [LinearMap.toMatrix_apply, hentry]
   simp [Finset.sum_ite_eq', Finset.mem_univ]
 
 set_option maxHeartbeats 800000 in
-private lemma Etingof.GL2.complementW_char_diagElt
+private lemma complementW_char_diagElt
     (mu : (GaloisField p n)ˣ →* ℂˣ)
     (c : (GaloisField p n)ˣ) (hc : c ≠ 1) :
     FDRep.character (auxiliaryRepresentation p n mu)
-      (Etingof.GL2.diagElt p n c) = (mu c : ℂ) := by
+      (diagElt p n c) = (mu c : ℂ) := by
   simp only [FDRep.character]
-  have hinj : Function.Injective (Etingof.GL2.complementW_evalMap p n mu) := by
+  have hinj : Function.Injective (complementW_evalMap p n mu) := by
     intro f g heq
     have : f - g = 0 := by
-      apply Etingof.GL2.complementW_eval_injective
+      apply complementW_eval_injective
       intro t
       have := congr_fun heq t
-      simp [Etingof.GL2.complementW_evalMap] at this
+      simp [complementW_evalMap] at this
       simp [this]
     exact sub_eq_zero.mp this
-  have hsurj : Function.Surjective (Etingof.GL2.complementW_evalMap p n mu) := by
+  have hsurj : Function.Surjective (complementW_evalMap p n mu) := by
     intro c
-    obtain ⟨f, hf⟩ := Etingof.GL2.complementW_eval_surjective p n mu c
+    obtain ⟨f, hf⟩ := complementW_eval_surjective p n mu c
     exact ⟨f, funext hf⟩
-  set e := LinearEquiv.ofBijective (Etingof.GL2.complementW_evalMap p n mu) ⟨hinj, hsurj⟩
+  set e := LinearEquiv.ofBijective (complementW_evalMap p n mu) ⟨hinj, hsurj⟩
   rw [show (LinearMap.trace ℂ _)
-      ((auxiliaryRepresentation p n mu).ρ (Etingof.GL2.diagElt p n c)) =
+      ((auxiliaryRepresentation p n mu).ρ (diagElt p n c)) =
     (LinearMap.trace ℂ _) (e.conj
-      ((auxiliaryRepresentation p n mu).ρ (Etingof.GL2.diagElt p n c))) from
+      ((auxiliaryRepresentation p n mu).ρ (diagElt p n c))) from
     (LinearMap.trace_conj' _ e).symm]
-  have hconj : e.conj ((auxiliaryRepresentation p n mu).ρ (Etingof.GL2.diagElt p n c)) =
-      (mu c : ℂ) • Etingof.GL2.permAction p n c := by
+  have hconj : e.conj ((auxiliaryRepresentation p n mu).ρ (diagElt p n c)) =
+      (mu c : ℂ) • permAction p n c := by
     apply LinearMap.ext; intro g
     apply funext; intro t
     simp only [LinearEquiv.conj_apply, LinearMap.comp_apply, LinearMap.smul_apply,
-      Etingof.GL2.permAction, LinearMap.coe_mk, AddHom.coe_mk, smul_eq_mul,
+      permAction, LinearMap.coe_mk, AddHom.coe_mk, smul_eq_mul,
       Pi.smul_apply]
-    have hact := Etingof.GL2.complementW_action_diagonal_some p n mu (e.symm g) c t
-    change (Etingof.GL2.complementWRep p n mu (Etingof.GL2.diagElt p n c) (e.symm g)).val
+    have hact := complementW_action_diagonal_some p n mu (e.symm g) c t
+    change (complementWRep p n mu (diagElt p n c) (e.symm g)).val
       (auxiliaryElement p n (some t)) = _
     rw [hact]
     congr 1
     exact congr_fun (e.apply_symm_apply g) (t * ↑c⁻¹)
-  rw [hconj, map_smul, Etingof.GL2.trace_permAction p n c hc, smul_eq_mul, mul_one]
+  rw [hconj, map_smul, trace_permAction p n c hc, smul_eq_mul, mul_one]
 
-private lemma Etingof.GL2.complementW_iso_implies_eq
+private lemma complementW_iso_implies_eq
     (mu nu : (GaloisField p n)ˣ →* ℂˣ)
     (iso : auxiliaryRepresentation p n mu ≅ auxiliaryRepresentation p n nu) :
     mu = nu := by
@@ -2105,26 +2098,25 @@ private lemma Etingof.GL2.complementW_iso_implies_eq
   ext c
   by_cases hc : c = 1
   · subst hc; simp
-  · have h1 := Etingof.GL2.complementW_char_diagElt p n mu c hc
-    have h2 := Etingof.GL2.complementW_char_diagElt p n nu c hc
-    have h3 := congr_fun hchar (Etingof.GL2.diagElt p n c)
+  · have h1 := complementW_char_diagElt p n mu c hc
+    have h2 := complementW_char_diagElt p n nu c hc
+    have h3 := congr_fun hchar (diagElt p n c)
     rw [h1, h2] at h3
     exact_mod_cast h3
 
-/-- Two auxiliary representations are isomorphic exactly when their associated monoid
-homomorphisms agree. -/
-@[source_ref "Chapter5/Theorem5.25.2" (role := supporting)]
+/-- Two auxiliary representations are isomorphic exactly when their associated monoid homomorphisms agree. -/
+@[source_ref "Chapter5/Theorem5.25.2" (role := primary)]
 theorem auxiliaryRepresentation_iso_iff
     (mu nu : (GaloisField p n)ˣ →* ℂˣ) :
     Nonempty (auxiliaryRepresentation p n mu ≅ auxiliaryRepresentation p n nu) ↔
     mu = nu := by
   constructor
   · rintro ⟨iso⟩
-    exact Etingof.GL2.complementW_iso_implies_eq p n mu nu iso
+    exact complementW_iso_implies_eq p n mu nu iso
   · rintro rfl
     exact ⟨Iso.refl _⟩
 
-private lemma Etingof.GL2.sum_nontrivial_char_eq_zero
+private lemma sum_nontrivial_char_eq_zero
     {G : Type*} [CommGroup G] [Fintype G]
     (χ : G →* ℂˣ) (hχ : χ ≠ 1) :
     ∑ g : G, (χ g : ℂ) = 0 := by
@@ -2142,7 +2134,7 @@ private lemma Etingof.GL2.sum_nontrivial_char_eq_zero
     rw [sub_mul, one_mul, sub_eq_zero]; exact key
   exact (mul_eq_zero.mp h1).resolve_left (sub_ne_zero.mpr hne)
 
-private lemma Etingof.GL2.cosetRep_some_mul_borel_factor
+private lemma cosetRep_some_mul_borel_factor
     (u : GaloisField p n) (b : ↥(auxiliarySubgroup p n)) :
     let bm := (b.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n))
     let a := bm 0 0
@@ -2200,7 +2192,7 @@ private lemma Etingof.GL2.cosetRep_some_mul_borel_factor
 
       Matrix.cons_val_one]; rfl
 
-private lemma Etingof.GL2.intertwining_sum_covariant
+private lemma intertwining_sum_covariant
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (f : ↥(auxiliarySubmodule p n chi1 chi2))
     (b : ↥(auxiliarySubgroup p n)) (g : GL2 p n) :
@@ -2221,7 +2213,7 @@ private lemma Etingof.GL2.intertwining_sum_covariant
         f.val (auxiliaryElement p n (some ((c + u * d) / a)) * g) := by
     intro u
     obtain ⟨b', hfact, hb'00, hb'11⟩ :=
-      Etingof.GL2.cosetRep_some_mul_borel_factor p n u b
+      cosetRep_some_mul_borel_factor p n u b
     rw [← mul_assoc, hfact, mul_assoc]
     have hcov := f.prop b' (auxiliaryElement p n (some ((c + u * d) / a)) * g)
     rw [hcov]
@@ -2238,15 +2230,15 @@ private lemma Etingof.GL2.intertwining_sum_covariant
         right_inv := fun v => by field_simp; ring })
   intro u; rfl
 
-private lemma Etingof.GL2.principalSeries_iso_swap
+private lemma principalSeries_iso_swap
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) :
     Nonempty (auxiliaryPairedRepresentation p n chi1 chi2 ≅
       auxiliaryPairedRepresentation p n chi2 chi1) := by
   by_cases heq : chi1 = chi2
   · subst heq; exact ⟨Iso.refl _⟩
   · -- Both representations are simple
-    have hSimple₁ := Etingof.GL2.principalSeries_simple_of_ne p n chi1 chi2 heq
-    have hSimple₂ := Etingof.GL2.principalSeries_simple_of_ne p n chi2 chi1 (Ne.symm heq)
+    have hSimple₁ := principalSeries_simple_of_ne p n chi1 chi2 heq
+    have hSimple₂ := principalSeries_simple_of_ne p n chi2 chi1 (Ne.symm heq)
     let evalMap₂ : ↥(auxiliarySubmodule p n chi2 chi1) →ₗ[ℂ]
         (Option (GaloisField p n) → ℂ) :=
       { toFun := fun f i => (f : GL2 p n → ℂ) (auxiliaryElement p n i)
@@ -2311,7 +2303,7 @@ private lemma Etingof.GL2.principalSeries_iso_swap
             (b.val * auxiliaryElement p n k)) := by
         intro u; rw [mul_assoc, hdecomp]
       simp_rw [hreassoc]
-      exact Etingof.GL2.intertwining_sum_covariant p n chi1 chi2 f b
+      exact intertwining_sum_covariant p n chi1 chi2 f b
         (auxiliaryElement p n k)
     have hT_ne : T ≠ 0 := by
       intro hT0
@@ -2363,11 +2355,11 @@ private lemma Etingof.GL2.principalSeries_iso_swap
     exact ⟨asIso Thom⟩
 
 set_option maxHeartbeats 1600000 in
-private lemma Etingof.GL2.principalSeries_char_diagElt
+private lemma principalSeries_char_diagElt
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (c : (GaloisField p n)ˣ) (hc : c ≠ 1) :
     FDRep.character (auxiliaryPairedRepresentation p n chi1 chi2)
-      (Etingof.GL2.diagElt p n c) = (chi1 c : ℂ) + (chi2 c : ℂ) := by
+      (diagElt p n c) = (chi1 c : ℂ) + (chi2 c : ℂ) := by
   simp only [FDRep.character]
   let evalMap : ↥(auxiliarySubmodule p n chi1 chi2) →ₗ[ℂ]
       (Option (GaloisField p n) → ℂ) :=
@@ -2385,9 +2377,9 @@ private lemma Etingof.GL2.principalSeries_char_diagElt
      funext fun i => auxiliaryFunctionOnGroup_auxiliaryElement p n chi1 chi2 c i⟩
   set e := LinearEquiv.ofBijective evalMap ⟨hinj, hsurj⟩
   rw [show (LinearMap.trace ℂ _)
-      ((auxiliaryPairedRepresentation p n chi1 chi2).ρ (Etingof.GL2.diagElt p n c)) =
+      ((auxiliaryPairedRepresentation p n chi1 chi2).ρ (diagElt p n c)) =
     (LinearMap.trace ℂ _) (e.conj
-      ((auxiliaryPairedRepresentation p n chi1 chi2).ρ (Etingof.GL2.diagElt p n c))) from
+      ((auxiliaryPairedRepresentation p n chi1 chi2).ρ (diagElt p n c))) from
     (LinearMap.trace_conj' _ e).symm]
   have hcinv_ne_one : (↑c⁻¹ : GaloisField p n) ≠ 1 := by
     intro h; apply hc; exact inv_eq_one.mp (Units.val_eq_one.mp h)
@@ -2401,7 +2393,7 @@ private lemma Etingof.GL2.principalSeries_char_diagElt
   have hentry : ∀ i : Option (GaloisField p n),
       (Pi.basisFun ℂ (Option (GaloisField p n))).repr
         (e.conj ((auxiliaryPairedRepresentation p n chi1 chi2).ρ
-          (Etingof.GL2.diagElt p n c))
+          (diagElt p n c))
           ((Pi.basisFun ℂ (Option (GaloisField p n))) i)) i =
       match i with
       | none => (chi1 c : ℂ)
@@ -2412,11 +2404,11 @@ private lemma Etingof.GL2.principalSeries_char_diagElt
     cases i with
     | none =>
       change (evalMap (auxiliarySubmoduleRepresentation p n chi1 chi2
-        (Etingof.GL2.diagElt p n c) (e.symm (Pi.single none 1)))) none = (chi1 c : ℂ)
+        (diagElt p n c) (e.symm (Pi.single none 1)))) none = (chi1 c : ℂ)
       change (auxiliarySubmoduleRepresentation p n chi1 chi2
-        (Etingof.GL2.diagElt p n c) (e.symm (Pi.single none 1))).val
+        (diagElt p n c) (e.symm (Pi.single none 1))).val
         (auxiliaryElement p n none) = (chi1 c : ℂ)
-      rw [Etingof.GL2.action_diagonal_none]
+      rw [action_diagonal_none]
       have h1 : (↑(e.symm (Pi.single none 1)) : GL2 p n → ℂ)
           (auxiliaryElement p n none) = 1 :=
         (congr_fun (e.apply_symm_apply (Pi.single none 1)) none).trans
@@ -2424,12 +2416,12 @@ private lemma Etingof.GL2.principalSeries_char_diagElt
       rw [h1, mul_one]
     | some t =>
       change (evalMap (auxiliarySubmoduleRepresentation p n chi1 chi2
-        (Etingof.GL2.diagElt p n c) (e.symm (Pi.single (some t) 1)))) (some t) =
+        (diagElt p n c) (e.symm (Pi.single (some t) 1)))) (some t) =
         if t = 0 then (chi2 c : ℂ) else 0
       change (auxiliarySubmoduleRepresentation p n chi1 chi2
-        (Etingof.GL2.diagElt p n c) (e.symm (Pi.single (some t) 1))).val
+        (diagElt p n c) (e.symm (Pi.single (some t) 1))).val
         (auxiliaryElement p n (some t)) = if t = 0 then (chi2 c : ℂ) else 0
-      rw [Etingof.GL2.action_diagonal_some]
+      rw [action_diagonal_some]
       have heval : (↑(e.symm (Pi.single (some t) 1)) : GL2 p n → ℂ)
           (auxiliaryElement p n (some (t * ↑c⁻¹))) =
           if t = 0 then 1 else 0 := by
@@ -2444,7 +2436,7 @@ private lemma Etingof.GL2.principalSeries_char_diagElt
   rw [Fintype.sum_option]
   simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
-private lemma Etingof.GL2.pair_eq_of_sum_eq
+private lemma pair_eq_of_sum_eq
     (chi1 chi2 chi1' chi2' : (GaloisField p n)ˣ →* ℂˣ)
     (_hne : chi1 ≠ chi2) (hne' : chi1' ≠ chi2')
     (hsum : ∀ c : (GaloisField p n)ˣ, (chi1 c : ℂ) + (chi2 c : ℂ) =
@@ -2500,8 +2492,8 @@ private lemma Etingof.GL2.pair_eq_of_sum_eq
           ((chi1 c : ℂ) + (chi2 c : ℂ)) * (↑(chi1' c)⁻¹ : ℂ) = 0 := by
         simp_rw [add_mul, hval_eq]
         rw [Finset.sum_add_distrib,
-            Etingof.GL2.sum_nontrivial_char_eq_zero μ₁ hμ₁_ne,
-            Etingof.GL2.sum_nontrivial_char_eq_zero μ₂ hμ₂_ne, add_zero]
+            sum_nontrivial_char_eq_zero μ₁ hμ₁_ne,
+            sum_nontrivial_char_eq_zero μ₂ hμ₂_ne, add_zero]
       have hrhs : ∑ c : (GaloisField p n)ˣ,
           ((chi1' c : ℂ) + (chi2' c : ℂ)) * (↑(chi1' c)⁻¹ : ℂ) =
           (Fintype.card (GaloisField p n)ˣ : ℂ) := by
@@ -2510,16 +2502,15 @@ private lemma Etingof.GL2.pair_eq_of_sum_eq
         have h1 : ∑ c : (GaloisField p n)ˣ, ((chi1' * chi1'⁻¹) c : ℂ) =
             Fintype.card (GaloisField p n)ˣ := by
           simp [mul_inv_cancel, Finset.card_univ]
-        rw [h1, Etingof.GL2.sum_nontrivial_char_eq_zero μ₂' hμ₂'_ne, add_zero]
+        rw [h1, sum_nontrivial_char_eq_zero μ₂' hμ₂'_ne, add_zero]
       have lhs_eq : ∑ c : (GaloisField p n)ˣ,
           ((chi1 c : ℂ) + (chi2 c : ℂ)) * (↑(chi1' c)⁻¹ : ℂ) =
         ∑ c, ((chi1' c : ℂ) + (chi2' c : ℂ)) * (↑(chi1' c)⁻¹ : ℂ) :=
         Finset.sum_congr rfl (fun c _ => by rw [hsum c])
       exact hcard_ne (hrhs.symm.trans (lhs_eq.symm.trans hlhs))
 
-/-- Under the stated inequalities, two auxiliary paired representations are isomorphic exactly
-when their unordered monoid-homomorphism pairs agree. -/
-@[source_ref "Chapter5/Theorem5.25.2" (role := supporting)]
+/-- Under the stated inequalities, two auxiliary paired representations are isomorphic exactly when their unordered monoid-homomorphism pairs agree. -/
+@[source_ref "Chapter5/Theorem5.25.2" (role := primary)]
 theorem auxiliaryPairedRepresentation_iso_iff [NeZero n]
     (chi1 chi2 chi1' chi2' : (GaloisField p n)ˣ →* ℂˣ)
     (hne : chi1 ≠ chi2) (hne' : chi1' ≠ chi2') :
@@ -2533,8 +2524,8 @@ theorem auxiliaryPairedRepresentation_iso_iff [NeZero n]
     have hsum : ∀ c : (GaloisField p n)ˣ, c ≠ 1 →
         (chi1 c : ℂ) + (chi2 c : ℂ) = (chi1' c : ℂ) + (chi2' c : ℂ) := by
       intro c hc
-      have h1 := Etingof.GL2.principalSeries_char_diagElt p n chi1 chi2 c hc
-      have h2 := Etingof.GL2.principalSeries_char_diagElt p n chi1' chi2' c hc
+      have h1 := principalSeries_char_diagElt p n chi1 chi2 c hc
+      have h2 := principalSeries_char_diagElt p n chi1' chi2' c hc
       rw [← h1, ← h2, congr_fun hchar]
     have hsum_all : ∀ c : (GaloisField p n)ˣ,
         (chi1 c : ℂ) + (chi2 c : ℂ) = (chi1' c : ℂ) + (chi2' c : ℂ) := by
@@ -2542,7 +2533,7 @@ theorem auxiliaryPairedRepresentation_iso_iff [NeZero n]
       by_cases hc : c = 1
       · subst hc; simp
       · exact hsum c hc
-    exact Etingof.GL2.pair_eq_of_sum_eq p n chi1 chi2 chi1' chi2' hne hne' hsum_all
+    exact pair_eq_of_sum_eq p n chi1 chi2 chi1' chi2' hne hne' hsum_all
   · -- Backward: set equality → iso
     intro heq
     rw [Set.pair_eq_pair_iff] at heq
@@ -2550,7 +2541,7 @@ theorem auxiliaryPairedRepresentation_iso_iff [NeZero n]
     · rw [h1, h2]
       exact ⟨Iso.refl _⟩
     · rw [h1, h2]
-      exact Etingof.GL2.principalSeries_iso_swap p n chi2' chi1'
+      exact principalSeries_iso_swap p n chi2' chi1'
 
 end
 
