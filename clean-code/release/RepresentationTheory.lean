@@ -577,6 +577,7 @@ import RepresentationTheory.IntegerMatrix.ReflectionDynamics
 import RepresentationTheory.Quiver.AuxiliaryAtVertex
 import RepresentationTheory.Surjective
 import RepresentationTheory.AuxiliaryQuiverConstructions
+import RepresentationTheory.AuxiliaryQuiverRepresentationDimensions
 
 /-!
 # Representation theory formalization
