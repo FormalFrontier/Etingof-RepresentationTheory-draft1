@@ -9,6 +9,7 @@ import RepresentationTheory.AuxiliaryIntegerMatrixTransform
 import RepresentationTheory.AuxiliaryIntegerVectorTransforms
 import RepresentationTheory.IntegerMatrixVectorCoordinateFunction
 import RepresentationTheory.AuxiliaryIntegralQuadraticFormMaps
+import RepresentationTheory.Alignment.Attribute
 
 /-- The adjacency-dependent update of an integer vector indexed by a finite coordinate set. -/
 def RepresentationTheory.IntegerMatrix.ReflectionDynamics.vectorStep (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
@@ -465,6 +466,7 @@ private lemma coxeterAction_fixed_zero
     exact hrefl_id j hAv_j
 
 /-- A nonzero coordinatewise nonnegative integer vector eventually has a negative coordinate under the adjacency-dependent iteration. -/
+@[source_ref "Chapter6/Lemma6.7.2" (role := primary)]
 theorem exists_iterate_apply_lt_zero
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hDynkin : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj)
