@@ -739,8 +739,7 @@ theorem simpleRepresentation_iso_linear_or_twoDimensional
     simpa using mul_ne_zero two_ne_zero hN
   -- The complete family of simples with `∑ dim² = |G| = 2N`.
   obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
-    RepresentationTheory.FDRep.GroupAlgebraDecomposition.exists_completeSimpleFamily_sum_finrank_sq_eq_card
-      ℂ (DihedralGroup N)
+    RepresentationTheory.FDRep.GroupAlgebraDecomposition.exists_completeSimpleFamily_sum_finrank_sq_eq_card ℂ (DihedralGroup N)
   -- Finiteness (and a `Fintype`) of the character group.
   haveI : Finite (DihedralGroup N →* ℂˣ) := by
     rcases Nat.even_or_odd N with h | h
