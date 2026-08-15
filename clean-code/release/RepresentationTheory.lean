@@ -590,6 +590,7 @@ import RepresentationTheory.QuiverRepresentationQuotientFunctor
 import RepresentationTheory.AuxiliaryQuiverRepresentationOperations
 import RepresentationTheory.Quiver.FiniteOrbits
 import RepresentationTheory.GeneralLinearGroup.AuxiliaryDecomposition
+import RepresentationTheory.AuxiliaryDecompositionData
 
 /-!
 # Representation theory formalization
