@@ -75,8 +75,6 @@ lemma eq_zero_of_finrank_eq_zero {k : Type*} [Field k]
   have hx : x ∈ (⊤ : Submodule k V) := Submodule.mem_top
   rwa [htop, Submodule.mem_bot] at hx
 
-/-- In a finite-dimensional vector space, if two subspaces are disjoint,
-there exists a complement of the first containing the second. -/
 private lemma exists_isCompl_containing {k : Type*} [Field k]
     {V : Type*} [AddCommGroup V] [Module k V] [FiniteDimensional k V]
     (A B : Submodule k V) (h : Disjoint A B) :
