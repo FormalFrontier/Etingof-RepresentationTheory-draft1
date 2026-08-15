@@ -567,6 +567,7 @@ import RepresentationTheory.Representation.Character.AuxiliaryProperties
 import RepresentationTheory.IndexedTensorAction
 import RepresentationTheory.LinearAlgebra.IntegerMatrixReflections
 import RepresentationTheory.GeneralLinearGroup.TensorLocalization
+import RepresentationTheory.QuiverRepresentationAuxiliaryFunctor
 
 /-!
 # Representation theory formalization
