@@ -23,8 +23,9 @@ theorem finrank_eq_card_auxiliaryType (n : ℕ) (la : Nat.Partition n) :
 theorem finrank_eq_factorial_div_hookLengthProduct (n : ℕ) (la : Nat.Partition n) :
     Module.finrank ℂ (RepresentationTheory.PartitionAuxiliary.partitionSubmodule n la) =
       n.factorial /
-        (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition
-          la).hookLengthProduct := by
+        RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.YoungDiagram.auxiliaryDiagramStatistic
+          (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition
+            la) := by
   rw [finrank_eq_card_auxiliaryType,
     RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.Partition.auxiliaryCard_eq_factorial_div_hookLengthProduct]
 
