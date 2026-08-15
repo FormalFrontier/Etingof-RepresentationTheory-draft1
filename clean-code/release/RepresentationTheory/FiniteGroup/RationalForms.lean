@@ -586,7 +586,7 @@ theorem FDRep.sum_character_mul_inv (V : FDRep ℂ G) [Simple V]
   rwa [← mul_assoc, mul_invOf_self, one_mul, mul_one] at h2
 
 /-- For a simple representation of dimension greater than one whose character never vanishes, the product of the squared character norms away from the identity lies strictly between zero and one. -/
-@[source_ref "Chapter5/Problem5.2.7" (role := supporting)]
+@[source_ref "Chapter5/Problem5.2.7/Derived01" (role := supporting)]
 theorem FDRep.normSqCharacterProduct_mem_Ioo (V : FDRep ℂ G) [Simple V] (h : 1 < Module.finrank ℂ V)
     (hne : ∀ g : G, V.character g ≠ 0) :
     0 < ∏ g ∈ univ.filter (· ≠ 1), Complex.normSq (V.character g) ∧
@@ -658,7 +658,8 @@ theorem FDRep.normSqCharacterProduct_mem_Ioo (V : FDRep ℂ G) [Simple V] (h : 1
   linarith
 
 /-- A simple finite-group representation of complex dimension greater than one has a group element at which its character vanishes. -/
-@[source_ref "Chapter5/Problem5.2.7" (role := primary)]
+@[source_ref "Chapter5/Problem5.2.7" (role := primary),
+  source_ref "Chapter5/Problem5.2.7/Derived01" (role := primary)]
 theorem FDRep.exists_character_eq_zero_of_simple (V : FDRep ℂ G) [Simple V]
     (h : 1 < Module.finrank ℂ V) : ∃ g : G, V.character g = 0 := by
   by_contra hcon
