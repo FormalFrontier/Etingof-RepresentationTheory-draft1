@@ -617,6 +617,7 @@ import RepresentationTheory.GradedAlgebra.HilbertSeries
 import RepresentationTheory.MatrixCoefficientOrthogonality
 import RepresentationTheory.ModuleTensorPresentation
 import RepresentationTheory.Auxiliary.EquivariantMaps
+import RepresentationTheory.HomologicalAlgebra.TensorProductHomology
 
 /-!
 # Representation theory formalization
