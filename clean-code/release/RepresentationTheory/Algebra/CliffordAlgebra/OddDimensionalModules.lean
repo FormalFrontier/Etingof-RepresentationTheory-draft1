@@ -24,7 +24,8 @@ abbrev AuxiliarySpace (n : ℕ) := quadraticSpace n × ℂ
 /-- The complex quadratic form on the auxiliary space. -/
 noncomputable def oddQuadraticForm (n : ℕ) :
     QuadraticForm ℂ (AuxiliarySpace n) :=
-  (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n).prod (QuadraticMap.sq : QuadraticForm ℂ ℂ)
+  (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n).prod
+    (QuadraticMap.sq : QuadraticForm ℂ ℂ)
 
 /-- The complex-linear map sending a scalar to an endomorphism of the standard carrier. -/
 noncomputable def scalarEndomorphismMap (n : ℕ) :
@@ -40,7 +41,8 @@ noncomputable def signedGeneratorAction (n : ℕ) (σ : ℂ) :
     AuxiliarySpace n →ₗ[ℂ] Module.End ℂ (spinorSpace n) :=
   LinearMap.coprod (quadraticSpaceAction n) (σ • scalarEndomorphismMap n)
 
-/-- When the scalar parameter squares to one, each signed generator action squares to the quadratic value times the identity. -/
+/-- When the scalar parameter squares to one, each signed generator action squares to the
+quadratic value times the identity. -/
 theorem signedGeneratorAction_sq (n : ℕ) (σ : ℂ) (hσ : σ * σ = 1)
     (x : AuxiliarySpace n) :
     signedGeneratorAction n σ x * signedGeneratorAction n σ x =
@@ -74,28 +76,33 @@ theorem signedGeneratorAction_sq (n : ℕ) (σ : ℂ) (hσ : σ * σ = 1)
         ((σ * z) • gradingInvolution n) * ((σ * z) • gradingInvolution n) := by
       rw [add_mul, mul_add, mul_add]
       ac_rfl
-    _ = _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n v • (1 : Module.End ℂ (spinorSpace n)) +
+    _ = _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n v •
+        (1 : Module.End ℂ (spinorSpace n)) +
         ((σ * z) * (σ * z)) • (1 : Module.End ℂ (spinorSpace n)) := by
       rw [quadraticSpaceAction_sq, hcross, hlast, add_zero]
-    _ = (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n v + z * z) •
+    _ = (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n v +
+          z * z) •
         (1 : Module.End ℂ (spinorSpace n)) := by
       rw [← add_smul]
       congr 1
       rw [mul_mul_mul_comm, hσ, one_mul]
 
-/-- The Clifford algebra representation whose distinguished extra generator acts by the positive auxiliary endomorphism. -/
+/-- The Clifford algebra representation whose distinguished extra generator acts by the positive
+auxiliary endomorphism. -/
 noncomputable def positiveSpinRepresentation (n : ℕ) :
     CliffordAlgebra (oddQuadraticForm n) →ₐ[ℂ] Module.End ℂ (spinorSpace n) :=
   CliffordAlgebra.lift _
     ⟨signedGeneratorAction n 1, signedGeneratorAction_sq n 1 (by simp)⟩
 
-/-- The Clifford algebra representation whose distinguished extra generator acts by the negative auxiliary endomorphism. -/
+/-- The Clifford algebra representation whose distinguished extra generator acts by the negative
+auxiliary endomorphism. -/
 noncomputable def negativeSpinRepresentation (n : ℕ) :
     CliffordAlgebra (oddQuadraticForm n) →ₐ[ℂ] Module.End ℂ (spinorSpace n) :=
   CliffordAlgebra.lift _
     ⟨signedGeneratorAction n (-1), signedGeneratorAction_sq n (-1) (by simp)⟩
 
-/-- The positive representation agrees with the prescribed action on generators in the first coordinate. -/
+/-- The positive representation agrees with the prescribed action on generators in the first
+coordinate. -/
 @[simp]
 theorem positiveSpinRepresentation_firstGenerator
     (n : ℕ) (x : quadraticSpace n) :
@@ -105,7 +112,8 @@ theorem positiveSpinRepresentation_firstGenerator
   rw [positiveSpinRepresentation, CliffordAlgebra.lift_ι_apply]
   simp [signedGeneratorAction]
 
-/-- The negative representation agrees with the prescribed action on generators in the first coordinate. -/
+/-- The negative representation agrees with the prescribed action on generators in the first
+coordinate. -/
 @[simp]
 theorem negativeSpinRepresentation_firstGenerator
     (n : ℕ) (x : quadraticSpace n) :
@@ -115,7 +123,8 @@ theorem negativeSpinRepresentation_firstGenerator
   rw [negativeSpinRepresentation, CliffordAlgebra.lift_ι_apply]
   simp [signedGeneratorAction]
 
-/-- The positive representation sends the generator in the second coordinate to the auxiliary endomorphism. -/
+/-- The positive representation sends the generator in the second coordinate to the auxiliary
+endomorphism. -/
 @[simp]
 theorem positiveSpinRepresentation_extraGenerator (n : ℕ) :
     positiveSpinRepresentation n
@@ -124,7 +133,8 @@ theorem positiveSpinRepresentation_extraGenerator (n : ℕ) :
   rw [positiveSpinRepresentation, CliffordAlgebra.lift_ι_apply]
   simp [signedGeneratorAction, scalarEndomorphismMap]
 
-/-- The negative representation sends the generator in the second coordinate to the negative auxiliary endomorphism. -/
+/-- The negative representation sends the generator in the second coordinate to the negative
+auxiliary endomorphism. -/
 @[simp]
 theorem negativeSpinRepresentation_extraGenerator (n : ℕ) :
     negativeSpinRepresentation n
@@ -133,23 +143,30 @@ theorem negativeSpinRepresentation_extraGenerator (n : ℕ) :
   rw [negativeSpinRepresentation, CliffordAlgebra.lift_ι_apply]
   simp [signedGeneratorAction, scalarEndomorphismMap]
 
-/-- The algebra homomorphism between the Clifford algebras induced by adjoining a zero second coordinate. -/
+/-- The algebra homomorphism between the Clifford algebras induced by adjoining a zero second
+coordinate. -/
 noncomputable def cliffordAlgHomToOddForm (n : ℕ) :
-    CliffordAlgebra (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) →ₐ[ℂ]
+    CliffordAlgebra
+        (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) →ₐ[ℂ]
       CliffordAlgebra (oddQuadraticForm n) :=
   CliffordAlgebra.map
-    (QuadraticMap.Isometry.inl (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n)
+    (QuadraticMap.Isometry.inl
+      (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n)
       (QuadraticMap.sq : QuadraticForm ℂ ℂ))
 
-/-- The Clifford algebra homomorphism sends a generator to the generator with zero second coordinate. -/
+/-- The Clifford algebra homomorphism sends a generator to the generator with zero second
+coordinate. -/
 @[simp]
 theorem cliffordAlgHomToOddForm_iota (n : ℕ) (x : quadraticSpace n) :
-    cliffordAlgHomToOddForm n (CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) x) =
+    cliffordAlgHomToOddForm n
+        (CliffordAlgebra.ι
+          (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) x) =
       CliffordAlgebra.ι (oddQuadraticForm n) (x, 0) := by
   rw [cliffordAlgHomToOddForm, CliffordAlgebra.map_apply_ι]
   rfl
 
-/-- Composing the positive representation with the auxiliary Clifford algebra homomorphism gives the prescribed representation. -/
+/-- Composing the positive representation with the auxiliary Clifford algebra homomorphism gives
+the prescribed representation. -/
 theorem positiveSpinRepresentation_comp_cliffordAlgHomToOddForm (n : ℕ) :
     (positiveSpinRepresentation n).comp (cliffordAlgHomToOddForm n) =
       cliffordRepresentation n := by
@@ -158,13 +175,17 @@ theorem positiveSpinRepresentation_comp_cliffordAlgHomToOddForm (n : ℕ) :
   intro x
   rw [LinearMap.comp_apply, LinearMap.comp_apply]
   change ((positiveSpinRepresentation n).comp (cliffordAlgHomToOddForm n))
-      (CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) x) =
-    cliffordRepresentation n (CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) x)
+      (CliffordAlgebra.ι
+        (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) x) =
+    cliffordRepresentation n
+      (CliffordAlgebra.ι
+        (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) x)
   rw [AlgHom.comp_apply, cliffordAlgHomToOddForm_iota,
     positiveSpinRepresentation_firstGenerator,
     cliffordRepresentation, CliffordAlgebra.lift_ι_apply]
 
-/-- Composing the negative representation with the auxiliary Clifford algebra homomorphism gives the prescribed representation. -/
+/-- Composing the negative representation with the auxiliary Clifford algebra homomorphism gives
+the prescribed representation. -/
 theorem negativeSpinRepresentation_comp_cliffordAlgHomToOddForm (n : ℕ) :
     (negativeSpinRepresentation n).comp (cliffordAlgHomToOddForm n) =
       cliffordRepresentation n := by
@@ -173,8 +194,11 @@ theorem negativeSpinRepresentation_comp_cliffordAlgHomToOddForm (n : ℕ) :
   intro x
   rw [LinearMap.comp_apply, LinearMap.comp_apply]
   change ((negativeSpinRepresentation n).comp (cliffordAlgHomToOddForm n))
-      (CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) x) =
-    cliffordRepresentation n (CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) x)
+      (CliffordAlgebra.ι
+        (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) x) =
+    cliffordRepresentation n
+      (CliffordAlgebra.ι
+        (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) x)
   rw [AlgHom.comp_apply, cliffordAlgHomToOddForm_iota,
     negativeSpinRepresentation_firstGenerator,
     cliffordRepresentation, CliffordAlgebra.lift_ι_apply]
@@ -195,7 +219,8 @@ theorem negativeSpinRepresentation_surjective (n : ℕ) :
   exact ⟨cliffordAlgHomToOddForm n c,
     AlgHom.congr_fun (negativeSpinRepresentation_comp_cliffordAlgHomToOddForm n) c⟩
 
-/-- The bilinear form associated to the auxiliary quadratic form separates points in its left argument. -/
+/-- The bilinear form associated to the auxiliary quadratic form separates points in its left
+argument. -/
 theorem oddQuadraticForm_associated_separatingLeft (n : ℕ) :
     (QuadraticMap.associated (R := ℂ) (oddQuadraticForm n)).SeparatingLeft := by
   intro x hx
@@ -210,13 +235,16 @@ theorem oddQuadraticForm_associated_separatingLeft (n : ℕ) :
 
 variable {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
 
-/-- An isometric equivalence from the quadratic form associated to the given bilinear form to the auxiliary odd-dimensional quadratic form. -/
+/-- An isometric equivalence from the quadratic form associated to the given bilinear form to the
+auxiliary odd-dimensional quadratic form. -/
 noncomputable def oddQuadraticFormIsometryEquiv
     (B : LinearMap.BilinForm ℂ V)
     (hsymm : ∀ x y, B x y = B y x)
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n + 1) :
-    (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B).IsometryEquiv (oddQuadraticForm n) := by
+    (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm
+      B).IsometryEquiv
+      (oddQuadraticForm n) := by
   let e₀ : V ≃ₗ[ℂ] AuxiliarySpace n :=
     LinearEquiv.ofFinrankEq V (AuxiliarySpace n) (by
       rw [hdim]
@@ -224,7 +252,10 @@ noncomputable def oddQuadraticFormIsometryEquiv
       omega)
   let Q₀ : QuadraticForm ℂ V :=
     (oddQuadraticForm n).comp e₀.toLinearMap
-  have hB : (QuadraticMap.associated (R := ℂ) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B)).SeparatingLeft := by
+  have hB :
+      (QuadraticMap.associated (R := ℂ)
+        (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm
+          B)).SeparatingLeft := by
     rw [QuadraticMap.associated_left_inverse ℂ hsymm]
     exact hnd.1
   have hQ₀ : (QuadraticMap.associated (R := ℂ) Q₀).SeparatingLeft := by
@@ -236,14 +267,20 @@ noncomputable def oddQuadraticFormIsometryEquiv
     obtain ⟨z, rfl⟩ := e₀.surjective y
     have := hx z
     simpa [Q₀, QuadraticMap.associated_comp] using this
-  let e₁ : (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B).IsometryEquiv Q₀ :=
+  let e₁ :
+      (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm
+        B).IsometryEquiv
+        Q₀ :=
     Classical.choice
-      (QuadraticForm.equivalent_of_isAlgClosed (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B) Q₀ hB hQ₀)
+      (QuadraticForm.equivalent_of_isAlgClosed
+        (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B)
+        Q₀ hB hQ₀)
   exact e₁.trans
     (QuadraticMap.isometryEquivOfCompLinearEquiv
       (oddQuadraticForm n) e₀).symm
 
-/-- The positive spin representation of the Clifford algebra of a nondegenerate symmetric bilinear form of odd dimension. -/
+/-- The positive spin representation of the Clifford algebra of a nondegenerate symmetric bilinear
+form of odd dimension. -/
 @[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 noncomputable def positiveSpinRepresentationOfBilin
     (B : LinearMap.BilinForm ℂ V)
@@ -255,7 +292,8 @@ noncomputable def positiveSpinRepresentationOfBilin
     (CliffordAlgebra.equivOfIsometry
       (oddQuadraticFormIsometryEquiv B hsymm hnd n hdim)).toAlgHom
 
-/-- The negative spin representation of the Clifford algebra of a nondegenerate symmetric bilinear form of odd dimension. -/
+/-- The negative spin representation of the Clifford algebra of a nondegenerate symmetric bilinear
+form of odd dimension. -/
 @[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 noncomputable def negativeSpinRepresentationOfBilin
     (B : LinearMap.BilinForm ℂ V)
@@ -267,7 +305,8 @@ noncomputable def negativeSpinRepresentationOfBilin
     (CliffordAlgebra.equivOfIsometry
       (oddQuadraticFormIsometryEquiv B hsymm hnd n hdim)).toAlgHom
 
-/-- The positive representation of a Clifford generator is the signed generator action after the quadratic-form isometry. -/
+/-- The positive representation of a Clifford generator is the signed generator action after the
+quadratic-form isometry. -/
 @[simp]
 theorem positiveSpinRepresentationOfBilin_iota
     (B : LinearMap.BilinForm ℂ V)
@@ -275,12 +314,16 @@ theorem positiveSpinRepresentationOfBilin_iota
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n + 1) (x : V) :
     positiveSpinRepresentationOfBilin B hsymm hnd n hdim
-        (CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B) x) =
+        (CliffordAlgebra.ι
+          (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm
+            B)
+          x) =
       signedGeneratorAction n 1
         (oddQuadraticFormIsometryEquiv B hsymm hnd n hdim x) := by
   simp [positiveSpinRepresentationOfBilin, positiveSpinRepresentation]
 
-/-- An auxiliary fact about the negative representation and the odd-dimensional quadratic-form equivalence. -/
+/-- An auxiliary fact about the negative representation and the odd-dimensional quadratic-form
+equivalence. -/
 @[simp]
 theorem auxiliary_fact1
     (B : LinearMap.BilinForm ℂ V)
@@ -288,7 +331,10 @@ theorem auxiliary_fact1
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n + 1) (x : V) :
     negativeSpinRepresentationOfBilin B hsymm hnd n hdim
-        (CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B) x) =
+        (CliffordAlgebra.ι
+          (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm
+            B)
+          x) =
       signedGeneratorAction n (-1)
         (oddQuadraticFormIsometryEquiv B hsymm hnd n hdim x) := by
   simp [negativeSpinRepresentationOfBilin, negativeSpinRepresentation]
@@ -301,7 +347,8 @@ noncomputable def distinguishedVector
     (hdim : Module.finrank ℂ V = 2 * n + 1) : V :=
   (oddQuadraticFormIsometryEquiv B hsymm hnd n hdim).symm (0, 1)
 
-/-- The positive representation sends the Clifford generator of the distinguished vector to the auxiliary endomorphism. -/
+/-- The positive representation sends the Clifford generator of the distinguished vector to the
+auxiliary endomorphism. -/
 @[simp]
 theorem positiveSpinRepresentationOfBilin_distinguishedVector
     (B : LinearMap.BilinForm ℂ V)
@@ -309,13 +356,16 @@ theorem positiveSpinRepresentationOfBilin_distinguishedVector
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n + 1) :
     positiveSpinRepresentationOfBilin B hsymm hnd n hdim
-        (CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B)
+        (CliffordAlgebra.ι
+          (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm
+            B)
           (distinguishedVector B hsymm hnd n hdim)) =
       gradingInvolution n := by
   rw [positiveSpinRepresentationOfBilin_iota]
   simp [distinguishedVector, signedGeneratorAction, scalarEndomorphismMap]
 
-/-- The negative representation sends the Clifford generator of the distinguished vector to the negative auxiliary endomorphism. -/
+/-- The negative representation sends the Clifford generator of the distinguished vector to the
+negative auxiliary endomorphism. -/
 @[simp]
 theorem negativeSpinRepresentationOfBilin_distinguishedVector
     (B : LinearMap.BilinForm ℂ V)
@@ -323,7 +373,9 @@ theorem negativeSpinRepresentationOfBilin_distinguishedVector
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n + 1) :
     negativeSpinRepresentationOfBilin B hsymm hnd n hdim
-        (CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B)
+        (CliffordAlgebra.ι
+          (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm
+            B)
           (distinguishedVector B hsymm hnd n hdim)) =
       -gradingInvolution n := by
   rw [auxiliary_fact1]
@@ -351,7 +403,8 @@ theorem negativeSpinRepresentationOfBilin_surjective
     (CliffordAlgebra.equivOfIsometry
       (oddQuadraticFormIsometryEquiv B hsymm hnd n hdim)).surjective
 
-/-- The standard carrier is a simple module for the Clifford algebra through the positive representation. -/
+/-- The standard carrier is a simple module for the Clifford algebra through the positive
+representation. -/
 @[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 theorem isSimpleModule_positiveSpinRepresentationOfBilin
     (B : LinearMap.BilinForm ℂ V)
@@ -375,7 +428,8 @@ theorem isSimpleModule_positiveSpinRepresentationOfBilin
   rw [e.isSimpleModule_iff_of_bijective Function.bijective_id]
   infer_instance
 
-/-- The standard carrier is a simple module for the Clifford algebra through the negative representation. -/
+/-- The standard carrier is a simple module for the Clifford algebra through the negative
+representation. -/
 @[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 theorem isSimpleModule_negativeSpinRepresentationOfBilin
     (B : LinearMap.BilinForm ℂ V)
@@ -399,7 +453,8 @@ theorem isSimpleModule_negativeSpinRepresentationOfBilin
   rw [e.isSimpleModule_iff_of_bijective Function.bijective_id]
   infer_instance
 
-/-- The second module carrier associated with a nondegenerate symmetric complex bilinear form of odd dimension. -/
+/-- The second module carrier associated with a nondegenerate symmetric complex bilinear form of
+odd dimension. -/
 def SecondOddCliffordModule
     (B : LinearMap.BilinForm ℂ V)
     (_hsymm : ∀ x y, B x y = B y x)
@@ -407,7 +462,8 @@ def SecondOddCliffordModule
     (_hdim : Module.finrank ℂ V = 2 * n + 1) :=
   spinorSpace n
 
-/-- The first module carrier associated with a nondegenerate symmetric complex bilinear form of odd dimension. -/
+/-- The first module carrier associated with a nondegenerate symmetric complex bilinear form of odd
+dimension. -/
 def FirstOddCliffordModule
     (B : LinearMap.BilinForm ℂ V)
     (_hsymm : ∀ x y, B x y = B y x)
@@ -451,7 +507,8 @@ instance firstOddCliffordModuleComplexModule
     Module ℂ (FirstOddCliffordModule B hsymm hnd n hdim) :=
   inferInstanceAs (Module ℂ (spinorSpace n))
 
-/-- A complex-linear equivalence from the standard carrier to the second odd-dimensional module carrier. -/
+/-- A complex-linear equivalence from the standard carrier to the second odd-dimensional module
+carrier. -/
 noncomputable def secondOddCliffordModuleLinearEquiv
     (B : LinearMap.BilinForm ℂ V)
     (hsymm : ∀ x y, B x y = B y x)
@@ -460,7 +517,8 @@ noncomputable def secondOddCliffordModuleLinearEquiv
     spinorSpace n ≃ₗ[ℂ] SecondOddCliffordModule B hsymm hnd n hdim :=
   LinearEquiv.refl ℂ (spinorSpace n)
 
-/-- A complex-linear equivalence from the standard carrier to the first odd-dimensional module carrier. -/
+/-- A complex-linear equivalence from the standard carrier to the first odd-dimensional module
+carrier. -/
 noncomputable def firstOddCliffordModuleLinearEquiv
     (B : LinearMap.BilinForm ℂ V)
     (hsymm : ∀ x y, B x y = B y x)
@@ -559,25 +617,30 @@ theorem firstOddCliffordModuleIsSimpleModule
   rw [e.isSimpleModule_iff_of_bijective Function.bijective_id]
   infer_instance
 
-/-- A map from the auxiliary Clifford algebra to that of a nondegenerate symmetric form of odd dimension. -/
+/-- A map from the auxiliary Clifford algebra to that of a nondegenerate symmetric form of odd
+dimension. -/
 noncomputable def cliffordMapFromAuxiliaryForm
     (B : LinearMap.BilinForm ℂ V)
     (hsymm : ∀ x y, B x y = B y x)
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n + 1)
-    (c : CliffordAlgebra (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n)) : BilinearCliffordAlgebra B :=
+    (c : CliffordAlgebra
+      (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n)) :
+    BilinearCliffordAlgebra B :=
   (CliffordAlgebra.equivOfIsometry
     (oddQuadraticFormIsometryEquiv B hsymm hnd n hdim)).symm
       (cliffordAlgHomToOddForm n c)
 
-/-- The positive representation agrees with the prescribed representation on the image of the auxiliary Clifford algebra. -/
+/-- The positive representation agrees with the prescribed representation on the image of the
+auxiliary Clifford algebra. -/
 @[simp]
 theorem positiveSpinRepresentationOfBilin_cliffordMap
     (B : LinearMap.BilinForm ℂ V)
     (hsymm : ∀ x y, B x y = B y x)
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n + 1)
-    (c : CliffordAlgebra (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n)) :
+    (c : CliffordAlgebra
+      (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n)) :
     positiveSpinRepresentationOfBilin B hsymm hnd n hdim
         (cliffordMapFromAuxiliaryForm B hsymm hnd n hdim c) =
       cliffordRepresentation n c := by
@@ -592,14 +655,16 @@ theorem positiveSpinRepresentationOfBilin_cliffordMap
   exact AlgHom.congr_fun
     (positiveSpinRepresentation_comp_cliffordAlgHomToOddForm n) c
 
-/-- The negative representation agrees with the prescribed representation on the image of the auxiliary Clifford algebra. -/
+/-- The negative representation agrees with the prescribed representation on the image of the
+auxiliary Clifford algebra. -/
 @[simp]
 theorem negativeSpinRepresentationOfBilin_cliffordMap
     (B : LinearMap.BilinForm ℂ V)
     (hsymm : ∀ x y, B x y = B y x)
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n + 1)
-    (c : CliffordAlgebra (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n)) :
+    (c : CliffordAlgebra
+      (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n)) :
     negativeSpinRepresentationOfBilin B hsymm hnd n hdim
         (cliffordMapFromAuxiliaryForm B hsymm hnd n hdim c) =
       cliffordRepresentation n c := by
@@ -614,7 +679,8 @@ theorem negativeSpinRepresentationOfBilin_cliffordMap
   exact AlgHom.congr_fun
     (negativeSpinRepresentation_comp_cliffordAlgHomToOddForm n) c
 
-/-- There is no Clifford-module linear equivalence from the second odd-dimensional carrier to the first. -/
+/-- There is no Clifford-module linear equivalence from the second odd-dimensional carrier to the
+first. -/
 @[source_ref "Chapter3/Problem3.9.5" (role := primary)]
 theorem isEmpty_linearEquiv_secondOddCliffordModule_firstOddCliffordModule
     (B : LinearMap.BilinForm ℂ V)
@@ -629,21 +695,25 @@ theorem isEmpty_linearEquiv_secondOddCliffordModule_firstOddCliffordModule
   obtain ⟨c, hc⟩ :=
     (cliffordRepresentation_bijective n).2 (gradingInvolution n)
   let a := cliffordMapFromAuxiliaryForm B hsymm hnd n hdim c
-  let z := CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B)
-    (distinguishedVector B hsymm hnd n hdim)
+  let z :=
+    CliffordAlgebra.ι
+      (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B)
+      (distinguishedVector B hsymm hnd n hdim)
   have hcomm (x : SecondOddCliffordModule B hsymm hnd n hdim) :
       e (gradingInvolution n x) = gradingInvolution n (e x) := by
     have h := e.map_smul a x
     change e ((positiveSpinRepresentationOfBilin B hsymm hnd n hdim a) x) =
       (negativeSpinRepresentationOfBilin B hsymm hnd n hdim a) (e x) at h
-    rw [positiveSpinRepresentationOfBilin_cliffordMap, negativeSpinRepresentationOfBilin_cliffordMap, hc] at h
+    rw [positiveSpinRepresentationOfBilin_cliffordMap,
+      negativeSpinRepresentationOfBilin_cliffordMap, hc] at h
     exact h
   have hanti (x : SecondOddCliffordModule B hsymm hnd n hdim) :
       e (gradingInvolution n x) = -gradingInvolution n (e x) := by
     have h := e.map_smul z x
     change e ((positiveSpinRepresentationOfBilin B hsymm hnd n hdim z) x) =
       (negativeSpinRepresentationOfBilin B hsymm hnd n hdim z) (e x) at h
-    rw [positiveSpinRepresentationOfBilin_distinguishedVector, negativeSpinRepresentationOfBilin_distinguishedVector] at h
+    rw [positiveSpinRepresentationOfBilin_distinguishedVector,
+      negativeSpinRepresentationOfBilin_distinguishedVector] at h
     exact h
   have hzero (x : SecondOddCliffordModule B hsymm hnd n hdim) :
       gradingInvolution n (e x) = 0 := by
@@ -664,7 +734,8 @@ theorem isEmpty_linearEquiv_secondOddCliffordModule_firstOddCliffordModule
   rw [e.apply_symm_apply, hp] at hz
   exact hy hz
 
-/-- Every finite-dimensional simple module for the odd-dimensional Clifford algebra is linearly equivalent to the first or second distinguished module. -/
+/-- Every finite-dimensional simple module for the odd-dimensional Clifford algebra is linearly
+equivalent to the first or second distinguished module. -/
 theorem finiteDimensional_simpleModule_equiv_first_or_second
     (B : LinearMap.BilinForm ℂ V)
     (hsymm : ∀ x y, B x y = B y x)
@@ -765,7 +836,9 @@ theorem finiteDimensional_simpleModule_equiv_first_or_second
             eA.symm (eA a) • f s at hmap
           rw [eA.symm_apply_apply] at hmap
           exact hmap }
-    exact (isEmpty_linearEquiv_secondOddCliffordModule_firstOddCliffordModule B hsymm hnd n hdim).false fA
+    exact
+      (isEmpty_linearEquiv_secondOddCliffordModule_firstOddCliffordModule
+        B hsymm hnd n hdim).false fA
   have hW : iW = iP ∨ iW = iM := by
     fin_cases iW <;> fin_cases iP <;> fin_cases iM <;> simp_all
   rcases hW with hW | hW
@@ -792,7 +865,8 @@ theorem finiteDimensional_simpleModule_equiv_first_or_second
           rw [eA.symm_apply_apply] at hmap
           exact hmap }⟩
 
-/-- Every simple module for the odd-dimensional Clifford algebra is linearly equivalent to the first or second distinguished module. -/
+/-- Every simple module for the odd-dimensional Clifford algebra is linearly equivalent to the
+first or second distinguished module. -/
 @[source_ref "Chapter3/Problem3.9.5" (role := primary)]
 theorem simpleModule_equiv_first_or_second
     (B : LinearMap.BilinForm ℂ V)
@@ -831,7 +905,9 @@ theorem simpleModule_equiv_first_or_second
       (Module.Basis.ExteriorAlgebra (Module.finBasis ℂ V))
   letI : Module.Finite ℂ (BilinearCliffordAlgebra B) :=
     Module.Finite.equiv
-      (CliffordAlgebra.equivExterior (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B)).symm
+      (CliffordAlgebra.equivExterior
+        (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm
+          B)).symm
   letI : FiniteDimensional ℂ W :=
     Module.Finite.trans (BilinearCliffordAlgebra B) W
   exact
