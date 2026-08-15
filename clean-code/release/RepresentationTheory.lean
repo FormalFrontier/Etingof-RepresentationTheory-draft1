@@ -551,6 +551,7 @@ import RepresentationTheory.CategoryTheory.FullFunctorConsequences
 import RepresentationTheory.OddOrderAuxiliary
 import RepresentationTheory.FiniteField.RepresentationConstruction
 import RepresentationTheory.Group.PermutationSubgroupData
+import RepresentationTheory.Quiver.AuxiliaryNatInt
 
 /-!
 # Representation theory formalization
