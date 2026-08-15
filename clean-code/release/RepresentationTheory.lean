@@ -598,6 +598,7 @@ import RepresentationTheory.AlternatingTensorSquare
 import RepresentationTheory.Quiver.FiniteOrbitDimensionBounds
 import RepresentationTheory.ModuleCat.FiniteFreeRetractEndomorphisms
 import RepresentationTheory.AuxiliaryPartitionPermutationAverages
+import RepresentationTheory.RingTheory.AuxiliaryTypeInvariants
 
 /-!
 # Representation theory formalization
