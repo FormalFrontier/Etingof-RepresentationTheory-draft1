@@ -611,6 +611,7 @@ import RepresentationTheory.AuxiliaryPartitionOrder
 import RepresentationTheory.Quiver.PathAlgebra.UniversalProperties
 import RepresentationTheory.AuxiliaryPartitionLinearIndependentFamily
 import RepresentationTheory.AuxiliaryPartitionLinearEquivalences
+import RepresentationTheory.GroupTheory.CardinalityBounds
 
 /-!
 # Representation theory formalization
