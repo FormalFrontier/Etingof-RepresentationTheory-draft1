@@ -613,6 +613,7 @@ import RepresentationTheory.AuxiliaryPartitionLinearIndependentFamily
 import RepresentationTheory.AuxiliaryPartitionLinearEquivalences
 import RepresentationTheory.GroupTheory.CardinalityBounds
 import RepresentationTheory.Auxiliary.GeneralLinearPolynomialSubrepresentations
+import RepresentationTheory.GradedAlgebra.HilbertSeries
 
 /-!
 # Representation theory formalization
