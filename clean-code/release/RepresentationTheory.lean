@@ -612,6 +612,7 @@ import RepresentationTheory.Quiver.PathAlgebra.UniversalProperties
 import RepresentationTheory.AuxiliaryPartitionLinearIndependentFamily
 import RepresentationTheory.AuxiliaryPartitionLinearEquivalences
 import RepresentationTheory.GroupTheory.CardinalityBounds
+import RepresentationTheory.Auxiliary.GeneralLinearPolynomialSubrepresentations
 
 /-!
 # Representation theory formalization
