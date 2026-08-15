@@ -744,6 +744,9 @@ import RepresentationTheory.Group.OuterAutomorphismTwist
 import RepresentationTheory.Group.SmallRepresentationData
 import RepresentationTheory.Algebra.HomologicalComplex.HomologyLinearity
 import RepresentationTheory.RationalVectorRootSystems
+import RepresentationTheory.Representation.SubtypeCharacter
+import RepresentationTheory.Quiver.FinFourLinearData
+import RepresentationTheory.FiniteGroup.RationalForms
 
 /-!
 # Representation theory formalization
