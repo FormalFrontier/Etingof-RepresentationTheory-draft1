@@ -704,6 +704,7 @@ import RepresentationTheory.QuantumTorus.FiniteOrderModuleEquivalences
 import RepresentationTheory.ParameterizedAlgebra.ModelModules
 import RepresentationTheory.ShortExactDerived
 import RepresentationTheory.VertexSimpleAuxiliary
+import RepresentationTheory.LieModule.WeightLadder
 
 /-!
 # Representation theory formalization
