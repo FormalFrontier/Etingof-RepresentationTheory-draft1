@@ -771,6 +771,8 @@ import RepresentationTheory.HomologicalAlgebra.TensorProductProjectiveResolution
 import RepresentationTheory.Algebra.Homology.SymmetricAlgebra.ProductResolution
 import RepresentationTheory.LinearYonedaTensorProductComparison
 import RepresentationTheory.AuxiliaryRepresentationComputations
+import RepresentationTheory.Algebra.Homological.TensorActionComparison
+import RepresentationTheory.Auxiliary.TensorProductGradedComparisons
 
 /-!
 # Representation theory formalization
