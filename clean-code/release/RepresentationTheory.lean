@@ -725,6 +725,7 @@ import RepresentationTheory.Combinatorics.Partition.RootOrderMatrices
 import RepresentationTheory.EightDimensionalRationalVectors
 import RepresentationTheory.Algebra.Matrix.ProductSemisimplicity
 import RepresentationTheory.WeylAlgebra.ModularSimpleModules
+import RepresentationTheory.Algebra.Module.PolynomialEvaluationModules
 
 /-!
 # Representation theory formalization
