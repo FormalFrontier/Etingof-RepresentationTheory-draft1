@@ -717,6 +717,7 @@ import RepresentationTheory.TensorProduct.RightModuleBifunctor
 import RepresentationTheory.ParameterizedAlgebra.SimpleModuleClassification
 import RepresentationTheory.Algebra.Module.FormalDeformations
 import RepresentationTheory.ParameterizedAlgebra.SimpleModuleExistence
+import RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations
 
 /-!
 # Representation theory formalization
