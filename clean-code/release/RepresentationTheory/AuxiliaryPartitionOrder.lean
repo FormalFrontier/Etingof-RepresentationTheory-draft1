@@ -113,13 +113,13 @@ private theorem cell_mem_toYoungDiagram {n : ℕ} {nu : Nat.Partition n}
   rwa [List.getD_eq_getElem _ _ c.2.1] at hc
 
 
-private noncomputable def KostkaTableau.rowProfile {n : ℕ}
+private noncomputable def _root_.RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.rowProfile {n : ℕ}
     {nu mu : Nat.Partition n} (T : RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily n nu mu) (a r : ℕ) : ℕ :=
   ((Finset.univ : Finset (RepresentationTheory.Combinatorics.PartitionPermutation.PartitionIndex n nu)).filter fun c =>
     T.1 c.1.1 c.1.2 < a ∧ c.1.1 = r).card
 
 
-private theorem KostkaTableau.cumulativeProfile_succ {n : ℕ}
+private theorem _root_.RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.cumulativeProfile_succ {n : ℕ}
     {nu mu : Nat.Partition n} (T : RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily n nu mu) (a r : ℕ) :
     T.auxiliaryNatFunction a (r + 1) =
       T.auxiliaryNatFunction a r + T.rowProfile a r := by
@@ -140,11 +140,11 @@ private theorem KostkaTableau.cumulativeProfile_succ {n : ℕ}
     intro c hcBelow hcRow
     simp only [below, atRow, Finset.mem_filter, Finset.mem_univ, true_and] at hcBelow hcRow
     omega
-  unfold RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.auxiliaryNatFunction KostkaTableau.rowProfile
+  unfold RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.auxiliaryNatFunction RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.rowProfile
   rw [hunion, Finset.card_union_of_disjoint hdisj]
 
 
-private theorem KostkaTableau.rowProfile_eq_of_cumulativeProfile_eq {n : ℕ}
+private theorem _root_.RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.rowProfile_eq_of_cumulativeProfile_eq {n : ℕ}
     {nu mu : Nat.Partition n} {T U : RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily n nu mu}
     (h : ∀ a i : ℕ, T.auxiliaryNatFunction a i = U.auxiliaryNatFunction a i)
     (a r : ℕ) : T.rowProfile a r = U.rowProfile a r := by
@@ -155,7 +155,7 @@ private theorem KostkaTableau.rowProfile_eq_of_cumulativeProfile_eq {n : ℕ}
 
 
 
-private theorem KostkaTableau.not_entry_lt_of_cumulativeProfile_eq {n : ℕ}
+private theorem _root_.RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.not_entry_lt_of_cumulativeProfile_eq {n : ℕ}
     {nu mu : Nat.Partition n} {T U : RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily n nu mu}
     (h : ∀ a i : ℕ, T.auxiliaryNatFunction a i = U.auxiliaryNatFunction a i)
     (c : RepresentationTheory.Combinatorics.PartitionPermutation.PartitionIndex n nu) : ¬ T.1 c.1.1 c.1.2 < U.1 c.1.1 c.1.2 := by
@@ -216,11 +216,11 @@ private theorem KostkaTableau.not_entry_lt_of_cumulativeProfile_eq {n : ℕ}
         have hrow₁ := (Finset.mem_filter.mp hd₁).2.2
         have hrow₂ := (Finset.mem_filter.mp hd₂).2.2
         exact Prod.ext (hrow₁.trans hrow₂.symm) heq
-    have hroweq := KostkaTableau.rowProfile_eq_of_cumulativeProfile_eq h a c.1.1
+    have hroweq := RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.rowProfile_eq_of_cumulativeProfile_eq h a c.1.1
     omega
 
 
-private theorem KostkaTableau.eq_of_cumulativeProfile_eq {n : ℕ}
+private theorem _root_.RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.eq_of_cumulativeProfile_eq {n : ℕ}
     {nu mu : Nat.Partition n} {T U : RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily n nu mu}
     (h : ∀ a i : ℕ, T.auxiliaryNatFunction a i = U.auxiliaryNatFunction a i) : T = U := by
   apply Subtype.ext
@@ -237,9 +237,9 @@ private theorem KostkaTableau.eq_of_cumulativeProfile_eq {n : ℕ}
     let c : RepresentationTheory.Combinatorics.PartitionPermutation.PartitionIndex n nu := ⟨(r, j), hc'.1, hcol'⟩
     change T.1 c.1.1 c.1.2 = U.1 c.1.1 c.1.2
     exact Nat.le_antisymm
-      (Nat.le_of_not_gt (KostkaTableau.not_entry_lt_of_cumulativeProfile_eq
+      (Nat.le_of_not_gt (RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.not_entry_lt_of_cumulativeProfile_eq
         (fun a i => (h a i).symm) c))
-      (Nat.le_of_not_gt (KostkaTableau.not_entry_lt_of_cumulativeProfile_eq h c))
+      (Nat.le_of_not_gt (RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.not_entry_lt_of_cumulativeProfile_eq h c))
   · rw [T.1.zeros hc, U.1.zeros hc]
 
 
@@ -247,7 +247,7 @@ private theorem KostkaTableau.eq_of_cumulativeProfile_eq {n : ℕ}
 theorem _root_.RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.auxiliaryRelation_antisymm {n : ℕ} {nu mu : Nat.Partition n}
     {T U : RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily n nu mu} (hTU : T.AuxiliaryRelation U)
     (hUT : U.AuxiliaryRelation T) : T = U := by
-  apply KostkaTableau.eq_of_cumulativeProfile_eq
+  apply RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.eq_of_cumulativeProfile_eq
   intro a i
   exact Nat.le_antisymm (hUT a i) (hTU a i)
 
@@ -261,7 +261,7 @@ instance _root_.RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFami
   le_refl T := T.auxiliaryRelation_refl
   le_trans T U V hTU hUV :=
     RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.auxiliaryRelation_trans hUV hTU
-  le_antisymm T U hTU hUT := auxiliaryRelation_antisymm hUT hTU
+  le_antisymm T U hTU hUT := RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.auxiliaryRelation_antisymm hUT hTU
 
 
 
