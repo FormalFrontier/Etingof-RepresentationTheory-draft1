@@ -152,17 +152,17 @@ private lemma exists_primitiveVector [Nontrivial V] :
   ·
     by_contra he_ne
     apply hμ2
-    have hmem : ⁅sl2_e, v⁆ ∈ (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V weightElement).eigenspace (μ + 2) := by
+    have hmem : ⁅raisingElement, v⁆ ∈ (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V weightElement).eigenspace (μ + 2) := by
       rw [Module.End.mem_eigenspace_iff]
-      change ⁅sl2_h, ⁅sl2_e, v⁆⁆ = (μ + 2) • ⁅sl2_e, v⁆
-      have hv_eq : ⁅sl2_h, v⁆ = μ • v := Module.End.mem_eigenspace_iff.mp hv.1
-      calc ⁅sl2_h, ⁅sl2_e, v⁆⁆
-          = ⁅⁅sl2_h, sl2_e⁆, v⁆ + ⁅sl2_e, ⁅sl2_h, v⁆⁆ := leibniz_lie ..
-        _ = ⁅(2 : ℕ) • raisingElement, v⁆ + ⁅sl2_e, μ • v⁆ := by
+      change ⁅weightElement, ⁅raisingElement, v⁆⁆ = (μ + 2) • ⁅raisingElement, v⁆
+      have hv_eq : ⁅weightElement, v⁆ = μ • v := Module.End.mem_eigenspace_iff.mp hv.1
+      calc ⁅weightElement, ⁅raisingElement, v⁆⁆
+          = ⁅⁅weightElement, raisingElement⁆, v⁆ + ⁅raisingElement, ⁅weightElement, v⁆⁆ := leibniz_lie ..
+        _ = ⁅(2 : ℕ) • raisingElement, v⁆ + ⁅raisingElement, μ • v⁆ := by
             rw [isSl2Triple_weight_raising_lowering.lie_h_e_nsmul, hv_eq]
-        _ = (2 : ℕ) • ⁅sl2_e, v⁆ + μ • ⁅sl2_e, v⁆ := by
+        _ = (2 : ℕ) • ⁅raisingElement, v⁆ + μ • ⁅raisingElement, v⁆ := by
             rw [nsmul_lie, lie_smul]
-        _ = (μ + 2) • ⁅sl2_e, v⁆ := by
+        _ = (μ + 2) • ⁅raisingElement, v⁆ := by
             rw [← Nat.cast_smul_eq_nsmul ℂ, ← add_smul, add_comm]; norm_cast
     exact Module.End.hasEigenvalue_of_hasEigenvector ⟨hmem, he_ne⟩
 
@@ -196,7 +196,7 @@ private lemma lie_primitiveOrbit_mem (m : V) (n : ℕ)
       rw [P.lie_e_pow_succ_toEnd_f k']
       exact S.smul_mem _ (Submodule.subset_span ⟨⟨k', by omega⟩, rfl⟩)
   ·
-    have : ⁅sl2_f, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) m⁆ =
+    have : ⁅loweringElement, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) m⁆ =
         ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 1)) m := by
       rw [pow_succ']; rfl
     rw [this]
@@ -316,48 +316,48 @@ private lemma eigenspace_eq_bot_of_not_weight
 omit [FiniteDimensional ℂ V] in
 
 private lemma h_comm_pow_f (k : ℕ) (u : V) :
-    ⁅sl2_h, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) u⁆ =
-    ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) ⁅sl2_h, u⁆ -
+    ⁅weightElement, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) u⁆ =
+    ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) ⁅weightElement, u⁆ -
     (2 * (k : ℂ)) • (((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) u) := by
   induction k with
   | zero => simp
   | succ k ih =>
 
-    have step1 : ⁅sl2_h, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 1)) u⁆ =
-        ⁅⁅sl2_h, sl2_f⁆, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) u⁆ +
-        ⁅sl2_f, ⁅sl2_h, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) u⁆⁆ := by
+    have step1 : ⁅weightElement, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 1)) u⁆ =
+        ⁅⁅weightElement, loweringElement⁆, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) u⁆ +
+        ⁅loweringElement, ⁅weightElement, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) u⁆⁆ := by
       rw [pow_succ', Module.End.mul_apply]; exact leibniz_lie ..
     rw [step1, isSl2Triple_weight_raising_lowering.lie_h_f_nsmul, ih, lie_sub, lie_smul, neg_lie, nsmul_lie]
     simp only [pow_succ', Module.End.mul_apply, ← Nat.cast_smul_eq_nsmul ℂ,
       Nat.cast_ofNat, Nat.cast_succ,
-      show ∀ x : V, ⁅sl2_f, x⁆ = (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) x from fun _ => rfl]
+      show ∀ x : V, ⁅loweringElement, x⁆ = (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) x from fun _ => rfl]
     rw [show (2 : ℂ) * ((k : ℂ) + 1) = 2 * (k : ℂ) + 2 from by ring, add_smul]
     abel
 
 omit [FiniteDimensional ℂ V] in
 
 private lemma e_f_pow_succ_comm (k : ℕ) (u : V) :
-    ⁅sl2_e, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 1)) u⁆ =
-    ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 1)) ⁅sl2_e, u⁆ +
-    ((k + 1 : ℂ)) • (((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) ⁅sl2_h, u⁆ -
+    ⁅raisingElement, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 1)) u⁆ =
+    ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 1)) ⁅raisingElement, u⁆ +
+    ((k + 1 : ℂ)) • (((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) ⁅weightElement, u⁆ -
     (k : ℂ) • (((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) u)) := by
   induction k with
   | zero =>
     simp only [pow_zero, pow_one, Nat.cast_zero, zero_add, one_smul, zero_smul, sub_zero]
 
-    change ⁅sl2_e, ⁅sl2_f, u⁆⁆ = ⁅sl2_f, ⁅sl2_e, u⁆⁆ + ⁅sl2_h, u⁆
-    rw [leibniz_lie, isSl2Triple_weight_raising_lowering.bracket_raising_lowering, add_comm]
+    change ⁅raisingElement, ⁅loweringElement, u⁆⁆ = ⁅loweringElement, ⁅raisingElement, u⁆⁆ + ⁅weightElement, u⁆
+    rw [leibniz_lie, isSl2Triple_weight_raising_lowering.lie_e_f, add_comm]
   | succ k ih =>
 
-    have step1 : ⁅sl2_e, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 2)) u⁆ =
-        ⁅⁅sl2_e, sl2_f⁆, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 1)) u⁆ +
-        ⁅sl2_f, ⁅sl2_e, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 1)) u⁆⁆ := by
+    have step1 : ⁅raisingElement, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 2)) u⁆ =
+        ⁅⁅raisingElement, loweringElement⁆, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 1)) u⁆ +
+        ⁅loweringElement, ⁅raisingElement, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 1)) u⁆⁆ := by
       rw [show (k + 2) = (k + 1) + 1 from by omega, pow_succ', Module.End.mul_apply]
       exact leibniz_lie ..
-    rw [step1, isSl2Triple_weight_raising_lowering.bracket_raising_lowering, ih, h_comm_pow_f (k + 1) u,
+    rw [step1, isSl2Triple_weight_raising_lowering.lie_e_f, ih, h_comm_pow_f (k + 1) u,
       lie_add, lie_smul, lie_sub, lie_smul]
     simp only [pow_succ', Module.End.mul_apply, Nat.cast_succ,
-      show ∀ x : V, ⁅sl2_f, x⁆ = (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) x from fun _ => rfl]
+      show ∀ x : V, ⁅loweringElement, x⁆ = (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) x from fun _ => rfl]
     module
 
 private noncomputable def sl2_irrep_equiv
@@ -371,7 +371,7 @@ private noncomputable def sl2_irrep_equiv
     (mV : V) (mW : W) (n : ℕ)
     (PV : isSl2Triple_weight_raising_lowering.HasPrimitiveVectorWith mV (n : ℂ))
     (PW : isSl2Triple_weight_raising_lowering.HasPrimitiveVectorWith mW (n : ℂ)) :
-    V ≃ₗ⁅ℂ, sl2⁆ W := by
+    V ≃ₗ⁅ℂ, RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra⁆ W := by
 
   let bV := primitiveOrbit_basis hirrV mV n PV
   let bW := primitiveOrbit_basis hirrW mW n PW
@@ -409,9 +409,9 @@ private noncomputable def sl2_irrep_equiv
             rw [PV.lie_e_pow_succ_toEnd_f k', PW.lie_e_pow_succ_toEnd_f k', map_smul,
                 hφ_pow k' (by omega)]
         ·
-          have hfV : ⁅sl2_f, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) mV⁆ =
+          have hfV : ⁅loweringElement, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) mV⁆ =
               ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (k + 1)) mV := by rw [pow_succ']; rfl
-          have hfW : ⁅sl2_f, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W loweringElement) ^ k) mW⁆ =
+          have hfW : ⁅loweringElement, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W loweringElement) ^ k) mW⁆ =
               ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W loweringElement) ^ (k + 1)) mW := by rw [pow_succ']; rfl
           rw [hfV, hfW]
           by_cases hk_last : k + 1 ≤ n
@@ -449,7 +449,7 @@ theorem existsUniqueIrreducibleOfFinrank (d : ℕ+) :
        [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W],
        Module.finrank ℂ V = d → LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V →
        Module.finrank ℂ W = d → LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W →
-       Nonempty (V ≃ₗ⁅ℂ, sl2⁆ W)) := by
+       Nonempty (V ≃ₗ⁅ℂ, RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra⁆ W)) := by
   constructor
   ·
     have hd : NeZero (d : ℕ) := ⟨PNat.ne_zero d⟩
@@ -494,7 +494,7 @@ theorem nonempty_equiv_of_irreducible_finrank_eq (d : ℕ+) :
       [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W],
       Module.finrank ℂ V = d → LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V →
       Module.finrank ℂ W = d → LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W →
-      Nonempty (V ≃ₗ⁅ℂ, sl2⁆ W) :=
+      Nonempty (V ≃ₗ⁅ℂ, RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra⁆ W) :=
   (existsUniqueIrreducibleOfFinrank d).2
 
 private noncomputable def binaryExponent (d : ℕ+) (i : Fin d) : Fin 2 →₀ ℕ :=
@@ -770,7 +770,7 @@ theorem nonempty_lieModuleEquiv_finFunction_of_irreducible (lam : ℕ)
     [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V]
     (hdimV : Module.finrank ℂ V = lam + 1)
     (hirrV : LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) :
-    Nonempty (V ≃ₗ⁅ℂ, sl2⁆ (Fin (lam + 1) → ℂ)) := by
+    Nonempty (V ≃ₗ⁅ℂ, RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra⁆ (Fin (lam + 1) → ℂ)) := by
 
   haveI : NeZero (lam + 1) := ⟨Nat.succ_ne_zero lam⟩
   have hirrW : LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra (Fin (lam + 1) → ℂ) :=
@@ -904,10 +904,10 @@ private lemma casimir_on_irreducible_scalar
   set c := (n * (n + 2) : ℂ)
 
   have hHm : H m = (n : ℂ) • m := by
-    change ⁅sl2_h, m⁆ = (n : ℂ) • m
+    change ⁅weightElement, m⁆ = (n : ℂ) • m
     exact P.lie_h
   have hEm : E m = 0 := by
-    change ⁅sl2_e, m⁆ = 0
+    change ⁅raisingElement, m⁆ = 0
     exact P.lie_e
 
   have hCm : distinguishedModuleEndomorphism (V := V) m = c • m := by
@@ -974,13 +974,13 @@ private lemma sl2_isPerfect : ∀ x : RepresentationTheory.Algebra.Lie.ComplexTw
     rw [← bracket_raising_lowering]
     exact hS ⟨(raisingElement, loweringElement), rfl⟩
   ·
-    have : raisingElement = (1/2 : ℂ) • ⁅sl2_h, sl2_e⁆ := by
+    have : raisingElement = (1/2 : ℂ) • ⁅weightElement, raisingElement⁆ := by
       rw [isSl2Triple_weight_raising_lowering.lie_h_e_nsmul, ← Nat.cast_smul_eq_nsmul ℂ]
       simp [smul_smul]
     rw [this]
     exact S.smul_mem _ (hS ⟨(weightElement, raisingElement), rfl⟩)
   ·
-    have : loweringElement = -(1/2 : ℂ) • ⁅sl2_h, sl2_f⁆ := by
+    have : loweringElement = -(1/2 : ℂ) • ⁅weightElement, loweringElement⁆ := by
       rw [isSl2Triple_weight_raising_lowering.lie_h_f_nsmul, ← Nat.cast_smul_eq_nsmul ℂ]
       simp [smul_smul, neg_smul, smul_neg]
     rw [this]
@@ -1011,14 +1011,14 @@ private lemma sl2_acts_trivially_of_quotient_and_sub
 
   rw [sl2_decomp x, add_lie, add_lie, smul_lie, smul_lie, smul_lie]
 
-  have hh : ⁅sl2_h, v⁆ = (0 : V) := by rw [← bracket_raising_lowering]; exact hbracket raisingElement loweringElement
+  have hh : ⁅weightElement, v⁆ = (0 : V) := by rw [← bracket_raising_lowering]; exact hbracket raisingElement loweringElement
 
-  have he : ⁅sl2_e, v⁆ = (0 : V) := by
+  have he : ⁅raisingElement, v⁆ = (0 : V) := by
     have h2e := hbracket weightElement raisingElement
     rw [isSl2Triple_weight_raising_lowering.lie_h_e_nsmul, nsmul_lie] at h2e
     rw [← Nat.cast_smul_eq_nsmul ℂ, smul_eq_zero] at h2e
     exact h2e.resolve_left (by exact_mod_cast (two_ne_zero : (2 : ℕ) ≠ 0))
-  have hf : ⁅sl2_f, v⁆ = (0 : V) := by
+  have hf : ⁅loweringElement, v⁆ = (0 : V) := by
     have h2f := hbracket weightElement loweringElement
     rw [isSl2Triple_weight_raising_lowering.lie_h_f_nsmul, neg_lie, nsmul_lie, neg_eq_zero] at h2f
     rw [← Nat.cast_smul_eq_nsmul ℂ, smul_eq_zero] at h2f
@@ -1063,10 +1063,10 @@ private lemma sl2_trivial_of_casimir_zero_aux (d : ℕ) :
           exact_mod_cast h4
       subst hn_zero
 
-      have hHm : ⁅sl2_h, m⁆ = (0 : W) := by
+      have hHm : ⁅weightElement, m⁆ = (0 : W) := by
         have := P.lie_h; simp only [Nat.cast_zero, zero_smul] at this; exact this
-      have hEm : ⁅sl2_e, m⁆ = (0 : W) := P.lie_e
-      have hFm : ⁅sl2_f, m⁆ = (0 : W) := by
+      have hEm : ⁅raisingElement, m⁆ = (0 : W) := P.lie_e
+      have hFm : ⁅loweringElement, m⁆ = (0 : W) := by
         have h1 := P.pow_toEnd_f_eq_zero_of_eq_nat (n := 0) rfl
         simpa [pow_succ, pow_zero] using h1
 
@@ -1416,17 +1416,17 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
       obtain ⟨mN, μN, PN⟩ := exists_primitiveVector (V := N)
       obtain ⟨nN, hnN⟩ := PN.exists_nat; rw [hnN] at PN
 
-      have hmN_h : ⁅sl2_h, (mN : V)⁆ = (nN : ℂ) • (mN : V) := by
+      have hmN_h : ⁅weightElement, (mN : V)⁆ = (nN : ℂ) • (mN : V) := by
         have := congrArg Subtype.val PN.lie_h
         simp only [LieSubmodule.coe_bracket, LieSubmodule.coe_smul] at this; exact this
-      have hmN_e : ⁅sl2_e, (mN : V)⁆ = 0 := by
+      have hmN_e : ⁅raisingElement, (mN : V)⁆ = 0 := by
         have := congrArg Subtype.val PN.lie_e
         simp only [LieSubmodule.coe_bracket, ZeroMemClass.coe_zero] at this; exact this
       have hCmN : distinguishedModuleEndomorphism (V := V) (mN : V) = ((nN : ℂ) * ((nN : ℂ) + 2)) • (mN : V) := by
         have hH' : (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V weightElement) (mN : V) = (nN : ℂ) • (mN : V) := by
-          change ⁅sl2_h, (mN : V)⁆ = _; exact hmN_h
+          change ⁅weightElement, (mN : V)⁆ = _; exact hmN_h
         have hE' : (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V raisingElement) (mN : V) = 0 := by
-          change ⁅sl2_e, (mN : V)⁆ = _; exact hmN_e
+          change ⁅raisingElement, (mN : V)⁆ = _; exact hmN_e
         rw [sl2_casimir_eq]
         simp only [LinearMap.add_apply, LinearMap.smul_apply, sq, Module.End.mul_apply,
           ← Nat.cast_smul_eq_nsmul ℂ, hE', map_zero, smul_zero, add_zero,
@@ -1451,11 +1451,11 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
       obtain ⟨v₁, hv₁⟩ := LieSubmodule.Quotient.surjective_mk' N m
 
       set π := LieSubmodule.Quotient.mk' N
-      have hw_mem : ⁅sl2_h, v₁⁆ - (n : ℂ) • v₁ ∈ N := by
+      have hw_mem : ⁅weightElement, v₁⁆ - (n : ℂ) • v₁ ∈ N := by
         rw [← LieSubmodule.Quotient.mk_eq_zero, map_sub, map_smul, π.map_lie, hv₁,
           sub_eq_zero]
         exact P.lie_h
-      set w := ⁅sl2_h, v₁⁆ - (n : ℂ) • v₁
+      set w := ⁅weightElement, v₁⁆ - (n : ℂ) • v₁
 
       have hfN_zero : ∀ u ∈ N.toSubmodule,
           ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (n + 1)) u = 0 := by
@@ -1490,7 +1490,7 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
 
       have hPN' := (hnN_eq ▸ PN : isSl2Triple_weight_raising_lowering.HasPrimitiveVectorWith mN (n : ℂ))
 
-      have weight_vanish : ∀ (u : V), u ∈ N → ∀ μ : ℂ, ⁅sl2_h, u⁆ = μ • u →
+      have weight_vanish : ∀ (u : V), u ∈ N → ∀ μ : ℂ, ⁅weightElement, u⁆ = μ • u →
           (∀ k : Fin (n + 1), μ ≠ (n : ℂ) - 2 * ↑k.val) → u = 0 := by
         intro u hu μ heigen hweights
         have h_mem : (⟨u, hu⟩ : N) ∈ (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra N weightElement).eigenspace μ := by
@@ -1499,7 +1499,7 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
         have h_bot := eigenspace_eq_bot_of_not_weight hN_irr mN n hPN' μ hweights
         rw [h_bot, Submodule.mem_bot] at h_mem; exact congr_arg Subtype.val h_mem
 
-      have hev₁ : ⁅sl2_e, v₁⁆ ∈ N := by
+      have hev₁ : ⁅raisingElement, v₁⁆ ∈ N := by
         rw [← LieSubmodule.Quotient.mk_eq_zero, π.map_lie, hv₁]; exact P.lie_e
 
       have hπ_f : ∀ (k : ℕ) (u : V), π (((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ k) u) =
@@ -1514,10 +1514,10 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
         rw [← LieSubmodule.Quotient.mk_eq_zero, hπ_f, hv₁]
         exact P.pow_toEnd_f_eq_zero_of_eq_nat (by norm_cast)
 
-      have hfn1_eigen : ⁅sl2_h, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (n + 1)) v₁⁆ =
+      have hfn1_eigen : ⁅weightElement, ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (n + 1)) v₁⁆ =
           (-(n : ℂ) - 2) • ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (n + 1)) v₁ := by
         rw [h_comm_pow_f (n + 1) v₁]
-        have hw_eq : ⁅sl2_h, v₁⁆ = w + (n : ℂ) • v₁ := by simp [w]
+        have hw_eq : ⁅weightElement, v₁⁆ = w + (n : ℂ) • v₁ := by simp [w]
         rw [hw_eq, map_add, map_smul, hfN_zero w hw_mem, zero_add]; module
 
       have hfn1v₁ : ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ (n + 1)) v₁ = 0 :=
@@ -1530,13 +1530,13 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
       have hfnw : ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) ^ n) w = 0 := by
         have h1 := e_f_pow_succ_comm n v₁
         rw [hfn1v₁, lie_zero, hfN_zero _ hev₁, zero_add] at h1
-        have hw_eq : ⁅sl2_h, v₁⁆ = w + (n : ℂ) • v₁ := by simp [w]
+        have hw_eq : ⁅weightElement, v₁⁆ = w + (n : ℂ) • v₁ := by simp [w]
         rw [hw_eq, map_add, map_smul, add_sub_cancel_right] at h1
         have hn1_ne : (n + 1 : ℂ) ≠ 0 := by exact_mod_cast Nat.succ_ne_zero n
         exact (smul_eq_zero.mp h1.symm).resolve_left hn1_ne
 
       obtain ⟨n₀, hn₀_mem, h_adj⟩ :
-          ∃ n₀ : V, n₀ ∈ N ∧ ⁅sl2_h, n₀⁆ - (n : ℂ) • n₀ = w := by
+          ∃ n₀ : V, n₀ ∈ N ∧ ⁅weightElement, n₀⁆ - (n : ℂ) • n₀ = w := by
 
         let bN := primitiveOrbit_basis hN_irr mN n hPN'
         set cw := bN.repr ⟨w, hw_mem⟩
@@ -1579,11 +1579,11 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
           (if (k : ℕ) = 0 then (0 : ℂ) else cw k / (-(2 * (k : ℂ)))) • bN k
         refine ⟨(n₀_N : V), n₀_N.property, ?_⟩
 
-        suffices h_N : ⁅sl2_h, n₀_N⁆ - (n : ℂ) • n₀_N = ⟨w, hw_mem⟩ from
+        suffices h_N : ⁅weightElement, n₀_N⁆ - (n : ℂ) • n₀_N = ⟨w, hw_mem⟩ from
           congrArg Subtype.val h_N
 
         have heigen : ∀ k : Fin (n + 1),
-            ⁅sl2_h, bN k⁆ - (n : ℂ) • bN k = (-(2 * (k : ℂ))) • bN k := by
+            ⁅weightElement, bN k⁆ - (n : ℂ) • bN k = (-(2 * (k : ℂ))) • bN k := by
           intro k; rw [hbN k, hPN'.lie_h_pow_toEnd_f]; module
 
         simp only [n₀_N, lie_sum, Finset.smul_sum, ← Finset.sum_sub_distrib]
@@ -1592,7 +1592,7 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
 
         set ck := (if (k : ℕ) = 0 then (0 : ℂ) else cw k / (-(2 * (k : ℂ)))) with hck_def
 
-        have h1 : ⁅sl2_h, bN k⁆ = (-(2 * (k : ℂ))) • bN k + (n : ℂ) • bN k := by
+        have h1 : ⁅weightElement, bN k⁆ = (-(2 * (k : ℂ))) • bN k + (n : ℂ) • bN k := by
           have := heigen k; rw [sub_eq_iff_eq_add] at this; exact this
         rw [lie_smul, h1, smul_add, smul_smul, smul_smul, smul_smul]
 
@@ -1615,18 +1615,18 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
 
       set v := v₁ - n₀ with hv_def
 
-      have hv_h : ⁅sl2_h, v⁆ = (n : ℂ) • v := by
+      have hv_h : ⁅weightElement, v⁆ = (n : ℂ) • v := by
         simp only [hv_def, lie_sub, smul_sub]
-        have : ⁅sl2_h, v₁⁆ = w + (n : ℂ) • v₁ := by simp [w]
+        have : ⁅weightElement, v₁⁆ = w + (n : ℂ) • v₁ := by simp [w]
         rw [this, ← h_adj]; abel
 
       have hπn₀ : π n₀ = 0 := (LieSubmodule.Quotient.mk_eq_zero (N := N)).mpr hn₀_mem
-      have hv_e : ⁅sl2_e, v⁆ = 0 := by
-        have hev_mem : ⁅sl2_e, v⁆ ∈ N := by
+      have hv_e : ⁅raisingElement, v⁆ = 0 := by
+        have hev_mem : ⁅raisingElement, v⁆ ∈ N := by
           rw [← LieSubmodule.Quotient.mk_eq_zero, π.map_lie, hv_def, map_sub, hπn₀, sub_zero,
             hv₁]
           exact P.lie_e
-        have hev_eigen : ⁅sl2_h, ⁅sl2_e, v⁆⁆ = ((n : ℂ) + 2) • ⁅sl2_e, v⁆ := by
+        have hev_eigen : ⁅weightElement, ⁅raisingElement, v⁆⁆ = ((n : ℂ) + 2) • ⁅raisingElement, v⁆ := by
           rw [leibniz_lie, isSl2Triple_weight_raising_lowering.lie_h_e_nsmul, hv_h, nsmul_lie, lie_smul,
             ← Nat.cast_smul_eq_nsmul ℂ (2 : ℕ), ← add_smul]
           ring_nf
