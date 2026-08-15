@@ -525,6 +525,7 @@ import RepresentationTheory.Module.SemisimpleHomDecomposition
 import RepresentationTheory.ModuleCategoryTensorFinsupp
 import RepresentationTheory.ModulePairing.Projective
 import RepresentationTheory.ModuleTensorAuxiliary
+import RepresentationTheory.OddOrder.CharacterSums
 import RepresentationTheory.Permutation.CentralizerCycleFacts
 import RepresentationTheory.PermutationActionRepresentations
 import RepresentationTheory.Quiver.Finite
