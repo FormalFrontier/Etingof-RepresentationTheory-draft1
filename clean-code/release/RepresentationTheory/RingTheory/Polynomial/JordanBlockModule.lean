@@ -13,6 +13,8 @@ import RepresentationTheory.LinearAlgebra.ModuleDecompositions
 
 /-! # Jordan block modules -/
 
+example (k : Type*) [Field k] : IsSimpleModule k k := inferInstance
+
 /-- A simple vector space over its scalar field is linearly equivalent to that field. -/
 @[source_ref "Chapter2/Example2.3.14" (role := primary)]
 theorem RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.equiv_field_of_isSimpleModule
@@ -313,7 +315,9 @@ theorem jordanBlockModule_not_isSimpleModule (lam : k) (n : ℕ) (hn : 2 ≤ n) 
   simp at this
 
 /-- The size-two Jordan block with parameter zero is indecomposable but not simple. -/
-@[source_ref "Chapter2/Example2.3.14" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived4" (role := primary),
+  source_ref "Chapter2/Discussion_irreducible_vs_indecomposable/Derived2" (role := supporting),
+  source_ref "Chapter2/Example2.3.14" (role := primary)]
 theorem isIndecomposableModule_and_not_isSimpleModule_jordanBlock_two :
     RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate (Polynomial k) (JordanBlockModule (0 : k) 2) ∧
       ¬ IsSimpleModule (Polynomial k) (JordanBlockModule (0 : k) 2) :=
