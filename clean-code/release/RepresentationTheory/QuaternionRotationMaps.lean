@@ -402,33 +402,24 @@ noncomputable def quaternionK : ℍ[ℝ] := ⟨0, 0, 0, 1⟩
 
 
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := supporting)]
-@[simp] lemma Auxiliary011514 : quaternionI * quaternionI = -1 := by ext <;> simp [quaternionI]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting), simp] lemma Auxiliary011514 : quaternionI * quaternionI = -1 := by ext <;> simp [quaternionI]
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := supporting)]
-@[simp] lemma Auxiliary011525 : quaternionJ * quaternionJ = -1 := by ext <;> simp [quaternionJ]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting), simp] lemma Auxiliary011525 : quaternionJ * quaternionJ = -1 := by ext <;> simp [quaternionJ]
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := supporting)]
-@[simp] lemma Auxiliary011536 : quaternionK * quaternionK = -1 := by ext <;> simp [quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting), simp] lemma Auxiliary011536 : quaternionK * quaternionK = -1 := by ext <;> simp [quaternionK]
 
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary)]
-@[simp] lemma valueFormula_011515 : quaternionI * quaternionJ = quaternionK := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := primary), simp] lemma valueFormula_011515 : quaternionI * quaternionJ = quaternionK := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary)]
-@[simp] lemma valueFormula_011524 : quaternionJ * quaternionI = -quaternionK := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := primary), simp] lemma valueFormula_011524 : quaternionJ * quaternionI = -quaternionK := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary)]
-@[simp] lemma valueFormula_011526 : quaternionJ * quaternionK = quaternionI := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := primary), simp] lemma valueFormula_011526 : quaternionJ * quaternionK = quaternionI := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary)]
-@[simp] lemma valueFormula_011535 : quaternionK * quaternionJ = -quaternionI := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := primary), simp] lemma valueFormula_011535 : quaternionK * quaternionJ = -quaternionI := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary)]
-@[simp] lemma valueFormula_011534 : quaternionK * quaternionI = quaternionJ := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := primary), simp] lemma valueFormula_011534 : quaternionK * quaternionI = quaternionJ := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary)]
-@[simp] lemma valueFormula_011516 : quaternionI * quaternionK = -quaternionJ := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := primary), simp] lemma valueFormula_011516 : quaternionI * quaternionK = -quaternionJ := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
 
 
 
