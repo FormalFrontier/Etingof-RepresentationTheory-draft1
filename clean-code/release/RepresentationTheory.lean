@@ -573,6 +573,7 @@ import RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics
 import RepresentationTheory.YoungDiagram.PartitionFormulas
 import RepresentationTheory.PartitionFinrank
 import RepresentationTheory.AuxiliaryIntegralQuadraticFormMaps
+import RepresentationTheory.IntegerMatrix.ReflectionDynamics
 
 /-!
 # Representation theory formalization
