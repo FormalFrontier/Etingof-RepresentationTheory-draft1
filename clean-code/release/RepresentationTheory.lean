@@ -579,6 +579,7 @@ import RepresentationTheory.Surjective
 import RepresentationTheory.AuxiliaryQuiverConstructions
 import RepresentationTheory.AuxiliaryQuiverRepresentationDimensions
 import RepresentationTheory.AuxiliaryQuiverRepresentationRelations
+import RepresentationTheory.Quiver.DimensionVectorClassification
 
 /-!
 # Representation theory formalization
