@@ -671,6 +671,7 @@ import RepresentationTheory.Auxiliary.PartitionPermutationRelations
 import RepresentationTheory.Auxiliary.FDRepPartitions
 import RepresentationTheory.AuxiliaryEquivariantDecomposition
 import RepresentationTheory.PermutationPartitionActions
+import RepresentationTheory.Quiver.FiniteTypeCriterion
 
 /-!
 # Representation theory formalization
