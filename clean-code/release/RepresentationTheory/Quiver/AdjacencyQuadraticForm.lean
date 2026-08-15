@@ -9,8 +9,6 @@ import RepresentationTheory.AdjacencyMatrixQuadraticForms
 import RepresentationTheory.Quiver.Representation.MatrixModel
 import RepresentationTheory.Quiver.MatrixOrientation
 
-/-! # Adjacency quadratic form -/
-
 namespace RepresentationTheory.Quiver.AdjacencyQuadraticForm
 
 open Matrix
