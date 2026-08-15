@@ -72,8 +72,8 @@ theorem property_preserved_by_representation_transformation {Y : Type} [AddCommG
   | zero =>
     have heq : twistByCharacter (generalLinearGroupToUnits k n ^ ((0 : ℕ) : ℤ)) ρ = ρ := by
       ext g v
-      simp only [twistByCharacter_apply, MonoidHom.zpow_apply, Nat.cast_zero, zpow_zero,
-        Units.val_one, one_smul]
+      change (((generalLinearGroupToUnits k n ^ (0 : ℤ)) g : kˣ) : k) • ρ g v = ρ g v
+      rw [MonoidHom.zpow_apply, zpow_zero, Units.val_one, one_smul]
     rw [heq]; exact h
   | succ m ih =>
     have hfun : (twistByCharacter (generalLinearGroupToUnits k n ^ (((m + 1 : ℕ)) : ℤ)) ρ :
