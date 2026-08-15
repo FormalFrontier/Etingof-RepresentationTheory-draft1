@@ -605,6 +605,7 @@ import RepresentationTheory.AuxiliarySemisimpleDecomposition
 import RepresentationTheory.AuxiliarySimpleModuleData
 import RepresentationTheory.PartitionedDecomposition
 import RepresentationTheory.AuxiliaryPartitionIndexMaps
+import RepresentationTheory.PolynomialRepresentation.FiniteOrbits
 
 /-!
 # Representation theory formalization
