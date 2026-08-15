@@ -562,6 +562,7 @@ import RepresentationTheory.LinearAlgebra.SymmetricPower.BasisPairMaps
 import RepresentationTheory.SymmetricPower.LinearAction
 import RepresentationTheory.Quiver.Representation.DenseOrbit
 import RepresentationTheory.CharacterTwistIntertwiners
+import RepresentationTheory.AuxiliaryInvariantBilinearPairings
 
 /-!
 # Representation theory formalization
