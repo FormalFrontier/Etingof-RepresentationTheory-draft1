@@ -1,5 +1,5 @@
 /-
-Copyright (c) 2026 FormalFrontier. All rights reserved.
+Copyright (c) 2026 mathlib-initiative. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENCE.
 Authors: Kim Morrison
 -/
@@ -500,6 +500,29 @@ import RepresentationTheory.SimpleModulesAndPartitionBounds
 import RepresentationTheory.SymmetricGroup.AuxiliaryMonoidAlgebra
 import RepresentationTheory.SymmetricGroup.PartitionScalarAuxiliary
 import RepresentationTheory.SymmetricGroup.SimpleModuleTrace
+import RepresentationTheory.Algebra.CategoryTheory.FreeModuleTensorProduct
+import RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex
+import RepresentationTheory.Algebra.Homology.Flatness
+import RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators
+import RepresentationTheory.Algebra.QuotientMatrixDecomposition
+import RepresentationTheory.CategoryTheory.LinearAlgebra.Auxiliary
+import RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition
+import RepresentationTheory.EndomorphismCommutant
+import RepresentationTheory.FiniteDimensionalLinearChainClassification
+import RepresentationTheory.FiniteDimensionalLinearChainRepresentations
+import RepresentationTheory.FiniteGroup.CharacterColumnOrthogonality
+import RepresentationTheory.FiniteIntegerMatrixModels
+import RepresentationTheory.GeneralLinear.AuxiliaryRepresentations
+import RepresentationTheory.Grading
+import RepresentationTheory.LinearEquivCompatibility
+import RepresentationTheory.Module.SemisimpleHomDecomposition
+import RepresentationTheory.ModuleCategoryTensorFinsupp
+import RepresentationTheory.ModulePairing.Projective
+import RepresentationTheory.ModuleTensorAuxiliary
+import RepresentationTheory.Permutation.CentralizerCycleFacts
+import RepresentationTheory.Rat.MatrixTwo
+import RepresentationTheory.SimpleRepresentationModules
+import RepresentationTheory.TensorPolynomial.Contraction
 
 /-!
 # Representation theory formalization
