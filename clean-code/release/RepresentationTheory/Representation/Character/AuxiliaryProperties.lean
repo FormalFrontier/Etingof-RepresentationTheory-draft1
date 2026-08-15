@@ -112,7 +112,7 @@ private theorem neZeroNatCardCast : NeZero (Nat.card G : ℂ) :=
 
 /-- For a simple complex representation, an auxiliary predicate is equivalent to an associated auxiliary value being one. -/
 @[source_ref "Chapter5/Definition5.1.4" (role := primary),
-  source_ref "Chapter5/Theorem5.1.5" (role := supporting)]
+  source_ref "Chapter5/Theorem5.1.5/Derived2" (role := supporting)]
 theorem auxiliaryPredicate_iff_auxiliaryValue_eq_one (ρ : Representation ℂ G V)
     (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule) :
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo ρ ↔
@@ -151,7 +151,7 @@ theorem auxiliaryStatement'''' (ρ : Representation ℂ G V)
 
 /-- Auxiliary declaration whose formal type could not be displayed. -/
 @[source_ref "Chapter5/Definition5.1.4" (role := supporting),
-  source_ref "Chapter5/Theorem5.1.5" (role := supporting)]
+  source_ref "Chapter5/Theorem5.1.5/Derived2" (role := supporting)]
 theorem auxiliaryStatement''' (ρ : Representation ℂ G V)
     (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule) :
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionOne ρ ↔
@@ -183,7 +183,7 @@ theorem auxiliaryStatement'' (ρ : Representation ℂ G V)
 
 /-- For a simple complex representation, an auxiliary predicate is equivalent to vanishing of an associated auxiliary value. -/
 @[source_ref "Chapter5/Definition5.1.4" (role := primary),
-  source_ref "Chapter5/Theorem5.1.5" (role := supporting)]
+  source_ref "Chapter5/Theorem5.1.5/Derived2" (role := supporting)]
 theorem auxiliaryPredicate_iff_auxiliaryValue_eq_zero (ρ : Representation ℂ G V)
     (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule) :
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationProperty ρ ↔
