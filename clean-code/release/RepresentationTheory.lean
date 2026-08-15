@@ -639,6 +639,7 @@ import RepresentationTheory.HomologicalComplex.TensorHomology
 import RepresentationTheory.Partitions.GeneralLinear
 import RepresentationTheory.QuiverRepresentation.VertexCompositionSeries
 import RepresentationTheory.Quiver.Auxiliary
+import RepresentationTheory.Quiver.VertexOrder
 
 /-!
 # Representation theory formalization
