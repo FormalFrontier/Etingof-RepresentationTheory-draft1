@@ -152,7 +152,10 @@ theorem auxiliaryPredicate_of_no_nontrivial_loops
     refine LinearMap.ext fun x => ?_
     have hx := hidem x
     rw [← hcP] at hx
-    simpa [mul_smul] using hx
+    have hx' : c • (c • x) = c • x := by
+      simpa only [LinearMap.smul_apply, LinearMap.id_apply] using hx
+    change (c * c) • x = c • x
+    exact (SemigroupAction.mul_smul c c x).trans hx'
   have hcc : c * c = c := by
     have h0 : (c * c - c) • (LinearMap.id :
         AuxiliaryVertexSpace k Q i →ₗ[PathAlgebra k Q] AuxiliaryVertexSpace k Q i) = 0 := by
@@ -324,7 +327,8 @@ theorem exists_linearEquiv_auxiliary
     { toFun := fun y => (y : PathAlgebra k Q) • m
       map_add' := fun y z => by rw [Submodule.coe_add, add_smul]
       map_smul' := fun a y => by
-        rw [RingHom.id_apply, Submodule.coe_smul, smul_eq_mul, mul_smul] } with hfdef
+        rw [RingHom.id_apply, Submodule.coe_smul, smul_eq_mul]
+        exact SemigroupAction.mul_smul a (y : PathAlgebra k Q) m } with hfdef
   have hfne : f (auxiliaryVertexElement k Q i) ≠ 0 := hi
   have hfsurj : Function.Surjective f := by
     rcases IsSimpleOrder.eq_bot_or_eq_top (LinearMap.range f) with h | h
