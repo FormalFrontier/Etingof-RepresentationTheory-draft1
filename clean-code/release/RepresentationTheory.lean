@@ -4,11 +4,13 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: Kim Morrison
 -/
 import RepresentationTheory.Alignment.Attribute
+import RepresentationTheory.AuxiliaryFiniteSetMembership
 import RepresentationTheory.Analysis.Algebra.DerivationExponential
 import RepresentationTheory.Algebra.Algebraic.ConjRoot.FiniteSum
 import RepresentationTheory.CauchyDeterminant
 import RepresentationTheory.CharacterIntegrality
 import RepresentationTheory.ComplexRepresentationAuxiliaryElements
+import RepresentationTheory.Complex.RealEndomorphismCentralizer
 import RepresentationTheory.Complex.RootsOfUnity.AverageIntegral
 import RepresentationTheory.ConjugationInvariantCharacters
 import RepresentationTheory.Algebra.BasisQuotientPresentations
@@ -131,6 +133,7 @@ import RepresentationTheory.Quiver.DependentPropertiesAuxiliary
 import RepresentationTheory.Quiver.MatrixOrientation
 import RepresentationTheory.Quiver.PathAlgebra
 import RepresentationTheory.Quiver.PathAlgebra.VertexComponents
+import RepresentationTheory.Quiver.Representation.Reflection
 import RepresentationTheory.QuiverAuxiliary
 import RepresentationTheory.FunctionRingHom
 import RepresentationTheory.Combinatorics.Quiver.FourVertices
