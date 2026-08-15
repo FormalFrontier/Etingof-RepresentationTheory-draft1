@@ -1,5 +1,6 @@
 import RepresentationTheory.CategoryTheory.QuiverLinearMaps
 import RepresentationTheory.Quiver.PathAlgebra
+import RepresentationTheory.Alignment.Attribute
 import Mathlib.Algebra.Algebra.RestrictScalars
 import Mathlib.RingTheory.Idempotents
 import Mathlib.Algebra.DirectSum.Module
@@ -152,6 +153,7 @@ noncomputable def arrowMapOnOppositeVertexParts {i j : Q} (e : i ⟶ j) :
   LinearMap.coe_restrict_apply _ _
 
 /-- Constructs a representation of the opposite quiver from a module over the reversed-composition algebra. -/
+@[source_ref "Chapter2/Discussion_after_Theorem2.1.1/Derived3" (role := supporting)]
 noncomputable def oppositeRepresentationOfModule : QuiverLinearDiagram k Qᵒᵖ where
   obj X := (vertexSubmodule (V := V) X.unop : Submodule k V)
   map {_X _Y} f := arrowMapOnOppositeVertexParts f.unop
@@ -305,7 +307,10 @@ theorem oppositeDirectSumActionAlgHom_path [Fintype Q] (R : QuiverLinearDiagram 
   rw [oppositeDirectSumActionAlgHom_eq_linearAction, oppositeDirectSumLinearAction_path]
 
 /-- The opposite representation direct sum as a module over the reversed-composition algebra. -/
-@[reducible] noncomputable def oppositeDirectSumAlgebraModule [Fintype Q] (R : QuiverLinearDiagram k Qᵒᵖ) :
+@[reducible, source_ref "Chapter2/Discussion_after_Theorem2.1.1/Derived3"
+  (role := supporting)]
+noncomputable def oppositeDirectSumAlgebraModule [Fintype Q]
+    (R : QuiverLinearDiagram k Qᵒᵖ) :
     Module (PathAlgebra k Q) (DirectSum Q (oppositeVertexFamily R)) :=
   Module.compHom _ (oppositeDirectSumActionAlgHom R).toRingHom
 
@@ -527,6 +532,7 @@ theorem algebraAction_onOppositeDirectSum (a : PathAlgebra k Q)
     exact hs_action.symm
 
 /-- The direct sum reconstructed from the opposite-quiver representation is linearly equivalent to the original module. -/
+@[source_ref "Chapter2/Discussion_after_Theorem2.1.1/Derived3" (role := supporting)]
 noncomputable def oppositeReconstructionLinearEquiv :
     DirectSum Q (oppositeVertexFamily (oppositeRepresentationOfModule (k := k) (V := V))) ≃ₗ[PathAlgebra k Q] V :=
   let e : DirectSum Q (oppositeVertexFamily (oppositeRepresentationOfModule (k := k) (V := V))) ≃ₗ[k] V :=
@@ -704,6 +710,7 @@ theorem oppositeVertexSpaceEquivVertexPart_naturality {X Y : Qᵒᵖ} (e : X ⟶
   rfl
 
 /-- An opposite representation is equivalent to the representation recovered from its direct-sum module. -/
+@[source_ref "Chapter2/Discussion_after_Theorem2.1.1/Derived3" (role := supporting)]
 noncomputable def toModuleOppositeRepresentationEquiv :
     QuiverLinearEquiv k Qᵒᵖ R
       (oppositeRepresentationOfModule (k := k) (V := DirectSum Q (oppositeVertexFamily R))) where
@@ -881,6 +888,7 @@ noncomputable def quotientMapToOppositeModules :
 set_option maxHeartbeats 800000 in
 
 /-- The opposite-module quotient is equivalent to the opposite-representation quotient. -/
+@[source_ref "Chapter2/Discussion_after_Theorem2.1.1/Derived3" (role := primary)]
 noncomputable def oppositeModuleRepresentationQuotientEquiv :
     OppositeModuleModelQuotient k Q ≃ OppositeRepresentationQuotient k Q where
   toFun := quotientMapToOppositeRepresentations k Q
@@ -954,6 +962,7 @@ noncomputable def vertexProjector (i : Q) : Module.End k V :=
   actionAlgHom (k := k) (V := V) (vertexElement (k := k) (Q := Q) i)
 
 /-- The submodule of vectors belonging to a specified vertex. -/
+@[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := primary)]
 noncomputable def vertexSubmodule (i : Q) : Submodule k V :=
   LinearMap.range (vertexProjector (k := k) (V := V) i)
 
@@ -975,12 +984,14 @@ theorem arrowElement_smul_mem_target {i j : Q} (e : i ⟶ j) (x : V) :
   rfl
 
 /-- The linear map between vertex submodules induced by a quiver arrow. -/
+@[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := primary)]
 noncomputable def arrowMapOnVertexParts {i j : Q} (e : i ⟶ j) :
     vertexSubmodule (k := k) (V := V) i →ₗ[k] vertexSubmodule (k := k) (V := V) j :=
   LinearMap.restrict (actionAlgHom (k := k) (V := V) (arrowElement (k := k) e))
     (fun x _ => arrowElement_smul_mem_target (k := k) e x)
 
 /-- Constructs a quiver representation from a module over the quiver algebra. -/
+@[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := primary)]
 noncomputable def representationOfModule : QuiverLinearDiagram k Q where
   obj i := vertexSubmodule (k := k) (V := V) i
   map e := arrowMapOnVertexParts (k := k) (V := V) e
@@ -1089,12 +1100,14 @@ noncomputable def ModuleModel.toRepresentation (M : ModuleModel k Q) :
   exact representationOfModule (k := k) (Q := Q) (V := M.carrier)
 
 /-- The scalar-linear map along a path in a representation. -/
+@[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := supporting)]
 noncomputable def pathLinearMap (R : QuiverLinearDiagram k Q) {i j : Q}
     (p : Quiver.Path i j) : R.obj i →ₗ[k] R.obj j :=
   Quiver.Path.rec (motive := fun j _ => R.obj i →ₗ[k] R.obj j)
     LinearMap.id (fun _ e ih => R.map e ∘ₗ ih) p
 
 /-- The endomorphism of a representation direct sum associated with a quiver path. -/
+@[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := supporting)]
 noncomputable def pathEndomorphism (R : QuiverLinearDiagram k Q) :
     BundledPath Q → Module.End k (DirectSum Q R.obj)
   | ⟨i, j, p⟩ => DirectSum.lof k Q R.obj j ∘ₗ pathLinearMap k Q R p ∘ₗ
@@ -1776,6 +1789,7 @@ noncomputable def moduleRepresentationQuotientEquiv :
     exact (representationSetoid k Q).iseqv.symm h
 
 /-- States that a representation and an encoded module structure correspond. -/
+@[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := supporting)]
 def RealizesRepresentation (R : QuiverLinearDiagram k Q) (M : ModuleModel k Q) : Prop :=
   letI := M.instAddCommGroup
   letI := M.instScalarModule
@@ -1787,6 +1801,8 @@ def RealizesRepresentation (R : QuiverLinearDiagram k Q) (M : ModuleModel k Q) :
         pathEndomorphism k Q R ⟨i, j, p⟩ (e x)
 
 /-- There is an equivalence between quotient classes of encoded modules and representations, compatible with both constructions. -/
+@[source_ref "Chapter2/Discussion_path_algebra_intro" (role := primary),
+  source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := primary)]
 theorem existsModuleRepresentationQuotientEquiv :
     ∃ e : ModuleModelQuotient.{u, v, q, max v w} k Q ≃
         RepresentationQuotient.{u, v, q, max v w} k Q,

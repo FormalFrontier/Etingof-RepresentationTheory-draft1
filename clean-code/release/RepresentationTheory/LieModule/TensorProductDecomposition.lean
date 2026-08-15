@@ -91,7 +91,7 @@ theorem tensorProductDecompositionEquiv_intertwines (lam mu : ℕ) :
   rw [_root_.RepresentationTheory.LieAlgebra.TensorProductDecomposition.bracket_eq_aux6, tensorProductDecompositionEquiv_apply_lof, tensorProductDecompositionEquiv_apply_lof, directSumEndomorphism_apply_lof, coordinateEquiv_bracket_eq]
 
 /-- There exists a linear equivalence intertwining the tensor-product endomorphism with the displayed direct-sum endomorphism. -/
-@[source_ref "Chapter2/Problem2.15.1/Derived16" (role := supporting)]
+@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 theorem exists_tensorProductEndomorphismEquiv (lam mu : ℕ) :
     ∃ Θ : ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) ≃ₗ[ℂ]
         (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ)),

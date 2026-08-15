@@ -211,8 +211,8 @@ theorem simpleModule_linearEquiv_standardModule (W : Type*) [AddCommGroup W] [Mo
 
 /-- The standard column modules over a finite product of nonzero-size matrix algebras are simple, exhaust the finite-dimensional simple modules, and every module over the product is semisimple. -/
 @[source_ref "Chapter3/Introduction_to_3.3" (role := supporting),
-  source_ref "Chapter3/Problem3.3.3" (role := supporting),
-  source_ref "Chapter3/Theorem3.6.2" (role := supporting)]
+  source_ref "Chapter3/Problem3.3.3/Derived17" (role := supporting),
+  source_ref "Chapter3/Theorem3.6.2/Derived12" (role := supporting)]
 theorem matrixProduct_simpleModule_classification :
     (∀ j, IsSimpleModule (MatrixProduct k d) (Fin (d j) → k)) ∧
     (∀ (W : Type*) [AddCommGroup W] [Module (MatrixProduct k d) W] [Module k W]
@@ -257,7 +257,7 @@ def componentLinearMap (i : Fin r) : MatrixProduct k d →ₗ[MatrixProduct k d]
 
 /-- A module-linear equivalence from a product of matrix algebras to the direct sum of the column spaces of its components. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary),
-  source_ref "Chapter3/Remark3.3.4" (role := primary)]
+  source_ref "Chapter3/Remark3.3.4/Derived6" (role := primary)]
 noncomputable def matrixProductLinearEquivDirectSumColumns :
     MatrixProduct k d ≃ₗ[MatrixProduct k d] (⨁ i, (Fin (d i) → (Fin (d i) → k))) :=
   (LinearEquiv.ofBijective (LinearMap.pi componentLinearMap)
@@ -287,7 +287,7 @@ omit [∀ i, NeZero (d i)] in
 
 /-- A module-linear equivalence from a finite family of matrix-product elements to the direct sum of their flattened standard-column families. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary),
-  source_ref "Chapter3/Remark3.3.4" (role := primary)]
+  source_ref "Chapter3/Remark3.3.4/Derived7" (role := primary)]
 noncomputable def piMatrixProductLinearEquivDirectSum (n : ℕ) :
     (Fin n → MatrixProduct k d) ≃ₗ[MatrixProduct k d] (⨁ i, (Fin (n * d i) → (Fin (d i) → k))) :=
   (LinearEquiv.ofBijective (LinearMap.pi fun i => flattenedColumnMap n i)
@@ -640,8 +640,8 @@ local instance decompositionStandardModule (j : Fin r) : Module (MatrixProduct k
 
 /-- Every finite-dimensional module over a product of nonzero-size matrix algebras is equivalent to a direct sum of finite multiplicities of the standard column modules. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary),
-  source_ref "Chapter3/Problem3.3.3" (role := supporting),
-  source_ref "Chapter3/Remark3.3.4" (role := primary),
+  source_ref "Chapter3/Problem3.3.3/Derived17" (role := supporting),
+  source_ref "Chapter3/Remark3.3.4/Derived8" (role := primary),
   source_ref "Chapter3/Theorem3.3.1" (role := primary)]
 theorem exists_linearEquiv_directSum_standardModules :
     ∃ m : Fin r → ℕ,

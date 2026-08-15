@@ -734,7 +734,7 @@ noncomputable def lieModuleEquiv :
 
 
 /-- There exists a Lie-module equivalence between the tensor product and the displayed direct sum. -/
-@[source_ref "Chapter2/Problem2.15.1/Derived15" (role := primary)]
+@[source_ref "Chapter2/Problem2.15.1" (role := primary)]
 theorem nonempty_lieModuleEquiv_directSum :
     Nonempty (((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) ≃ₗ⁅ℂ,_root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra⁆
       (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ))) :=
