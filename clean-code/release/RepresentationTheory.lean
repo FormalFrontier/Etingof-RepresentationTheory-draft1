@@ -649,6 +649,7 @@ import RepresentationTheory.RingTheory.OrderedMonomialBasis
 import RepresentationTheory.MoritaEquivalence
 import RepresentationTheory.Algebra.Module.TensorProductSimplicity
 import RepresentationTheory.Auxiliary.FiniteAlgebraCandidates
+import RepresentationTheory.AuxiliaryTensorProductRepresentations
 
 /-!
 # Representation theory formalization
