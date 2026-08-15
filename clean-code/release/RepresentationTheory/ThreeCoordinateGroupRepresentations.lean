@@ -450,7 +450,6 @@ theorem coordinateQuotientHom_surjective (p : ℕ) : Function.Surjective (coordi
   exact ⟨⟨(Multiplicative.toAdd y).1, (Multiplicative.toAdd y).2, 0⟩, rfl⟩
 
 /-- The displayed central element belongs to the commutator subgroup. -/
-@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem centralGenerator_mem_commutator [Fact p.Prime] :
     (⟨0, 0, 1⟩ : ThreeCoordinateGroup p) ∈ commutator (ThreeCoordinateGroup p) := by
   have hcomm : (⟨0, 0, 1⟩ : ThreeCoordinateGroup p)
@@ -670,7 +669,6 @@ theorem auxiliaryRepresentationAssertion [NeZero p] (z : ℂ) (hz : z ^ p = 1) :
     Pi.smul_apply, smul_eq_mul]
 
 /-- Computes the dimension of the displayed shift-scale representation. -/
-@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem shiftScaleRepresentation_finrank [NeZero p] (z : ℂ) (hz : z ^ p = 1) :
     Module.finrank ℂ (FDRep.of (shiftScaleRepresentation z hz)) = p := by
   change Module.finrank ℂ (ZMod p → ℂ) = p
