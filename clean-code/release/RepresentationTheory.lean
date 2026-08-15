@@ -729,6 +729,7 @@ import RepresentationTheory.Algebra.Module.PolynomialEvaluationModules
 import RepresentationTheory.Algebra.Module.TwoDimensionalPolynomialModules
 import RepresentationTheory.Quiver.TwoDimensionalRepresentations
 import RepresentationTheory.Quiver.PathModuleCorrespondence
+import RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules
 
 /-!
 # Representation theory formalization
