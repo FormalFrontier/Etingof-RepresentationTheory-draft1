@@ -1,6 +1,6 @@
 import Mathlib
 import RepresentationTheory.HomologicalComplex.TensorHomology
-import RepresentationTheory.Alignment.Attribute
+import RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex
 
 
 set_option backward.isDefEq.respectTransparency false
@@ -645,7 +645,7 @@ noncomputable def homologyTensorIsoSigma (C D : ChainComplex (ModuleCat.{u} k) �
   -- Step 3: Chapter 7's universe-general Künneth at degree `-i`, as the honest isomorphism
   -- inverse to the natural cross product `kunnethMap`.
   let α₃ := _root_.RepresentationTheory.HomologicalComplex.TensorHomology.homologyTensorToSigmaIso
-      (C := C.extend e) (D := D.extend e) (-(i : ℤ))
+      (C.extend e) (D.extend e) (-(i : ℤ))
   -- Step 4: reindex the `ℤ`-coproduct `⨁_{a+b=-i}` onto the `ℕ`-antidiagonal `⨁_{p+q=i}`;
   -- the summands with `a > 0` or `b > 0` vanish by `extendedHomology_isZero_of_pos`.
   let ι : {p : ℕ × ℕ // p.1 + p.2 = i} → {p : ℤ × ℤ // p.1 + p.2 = -(i : ℤ)} :=
