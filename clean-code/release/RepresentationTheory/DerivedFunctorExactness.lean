@@ -27,7 +27,7 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.DerivedFunctorExactness
 
-open CategoryTheory TensorProduct CochainComplex.HomComplex
+open _root_.CategoryTheory TensorProduct CochainComplex.HomComplex
 
 universe u
 
@@ -384,4 +384,3 @@ theorem AuxiliaryContravariantExactSequence
   exact RepresentationTheory.CategoryPair.AssociatedType.exists_connectingMorphism_exact (RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionFunctor A N) hS n₀ n₁ h
 
 end RepresentationTheory.DerivedFunctorExactness
-
