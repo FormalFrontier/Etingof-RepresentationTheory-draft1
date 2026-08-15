@@ -556,6 +556,7 @@ import RepresentationTheory.Quiver.GenericBaseChange
 import RepresentationTheory.IndexedPermutationFinsetAction
 import RepresentationTheory.GeneralLinearGroup.CoordinatePolynomials
 import RepresentationTheory.ConjugacyClassCardinalityBounds
+import RepresentationTheory.ConjugacyClassCharacterMatrix
 import RepresentationTheory.Quiver.AdjacencyQuadraticForm
 import RepresentationTheory.LinearAlgebra.SymmetricPower.BasisPairMaps
 
