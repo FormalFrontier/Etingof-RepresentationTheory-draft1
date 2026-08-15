@@ -524,6 +524,7 @@ import RepresentationTheory.ModuleCategoryTensorFinsupp
 import RepresentationTheory.ModulePairing.Projective
 import RepresentationTheory.ModuleTensorAuxiliary
 import RepresentationTheory.Permutation.CentralizerCycleFacts
+import RepresentationTheory.PermutationActionRepresentations
 import RepresentationTheory.Rat.MatrixTwo
 import RepresentationTheory.Representation.Character.InversionAndInvariantForms
 import RepresentationTheory.RingTheory.ElementProperties
