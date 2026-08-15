@@ -684,6 +684,7 @@ import RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification
 import RepresentationTheory.PermutationDegreeFour
 import RepresentationTheory.LieAlgebra.ExplicitConstructions
 import RepresentationTheory.MatrixConjugationActions
+import RepresentationTheory.QuaternionRotationMaps
 
 /-!
 # Representation theory formalization
