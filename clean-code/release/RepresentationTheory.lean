@@ -641,6 +641,7 @@ import RepresentationTheory.QuiverRepresentation.VertexCompositionSeries
 import RepresentationTheory.Quiver.Auxiliary
 import RepresentationTheory.Quiver.VertexOrder
 import RepresentationTheory.Quiver.PathAlgebra.LoopQuiver
+import RepresentationTheory.Auxiliary.RingAndCategoryProperties
 
 /-!
 # Representation theory formalization
