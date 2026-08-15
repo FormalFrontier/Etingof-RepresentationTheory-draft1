@@ -8,6 +8,7 @@ import RepresentationTheory.FiniteIntegerMatrixModels
 import RepresentationTheory.AuxiliaryFiniteSetMembership
 import RepresentationTheory.ThreeArrowQuiver.LinearRangeConfiguration
 import RepresentationTheory.Quiver.DimensionVectorClassification
+import RepresentationTheory.Alignment.Attribute
 
 /-!
 # Four-vertex star representation classification
@@ -341,6 +342,7 @@ noncomputable def canonicalDimensionRealization (k : Type u) [Field k] (d : Admi
   Classical.choice (canonicalData_nonempty k d)
 
 /-- The standard four-vertex quiver representation associated with an admissible dimension. -/
+@[source_ref "Chapter6/Example6.3.1" (role := supporting)]
 noncomputable abbrev standardRepresentation (k : Type u) [Field k] (d : AdmissibleDimension) :
     @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u, 0, u, 0} k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA :=
   (canonicalDimensionRealization k d).toRepresentation
@@ -356,6 +358,7 @@ noncomputable instance standardRepresentation_isVertexFinite (k : Type u) [Field
   (canonicalDimensionRealization k d).vertexFinite v
 
 /-- Every standard representation indexed by an admissible dimension is indecomposable. -/
+@[source_ref "Chapter6/Example6.3.1" (role := primary)]
 theorem standardRepresentation_isIndecomposable (k : Type u) [Field k]
     (d : AdmissibleDimension) : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
       (standardRepresentation k d) :=
@@ -417,6 +420,7 @@ private theorem canonical_index_eq_of_iso {k : Type} [Field k]
       (standardRepresentation_dimension_apply k e v).symm)
 
 /-- Standard representations attached to distinct admissible dimensions are not equivalent. -/
+@[source_ref "Chapter6/Example6.3.1" (role := primary)]
 theorem standardRepresentation_not_equiv_of_ne {k : Type} [Field k]
     {d e : AdmissibleDimension} (hde : d ≠ e) :
     ¬ Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
@@ -425,6 +429,8 @@ theorem standardRepresentation_not_equiv_of_ne {k : Type} [Field k]
   exact hde (canonical_index_eq_of_iso f)
 
 /-- Every indecomposable representation is equivalent to a standard representation for a unique admissible dimension. -/
+@[source_ref "Chapter6/Example6.3.1" (role := primary),
+  source_ref "Chapter6/Discussion_after_Example6.3.1" (role := supporting)]
 theorem existsUnique_equiv_standardRepresentation_of_isIndecomposable {k : Type} [Field k]
     (rho : RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation.{0, 0, 0, 0, 0} k) (h : rho.IsIndecomposable) :
     ∃! d : AdmissibleDimension,
@@ -448,6 +454,7 @@ theorem existsUnique_equiv_standardRepresentation_of_isIndecomposable {k : Type}
       (toQuiverRepresentation_dimension_apply rho v).symm)
 
 /-- There are exactly twelve admissible dimensions. -/
+@[source_ref "Chapter6/Example6.3.1" (role := supporting)]
 theorem card_admissibleDimension : Fintype.card AdmissibleDimension = 12 := by
   rw [Fintype.card_coe]
   exact RepresentationTheory.AuxiliaryFiniteSetMembership.auxiliary_finset_card_eq_twelve
