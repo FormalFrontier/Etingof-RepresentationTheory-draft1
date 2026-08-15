@@ -591,6 +591,7 @@ import RepresentationTheory.AuxiliaryQuiverRepresentationOperations
 import RepresentationTheory.Quiver.FiniteOrbits
 import RepresentationTheory.GeneralLinearGroup.AuxiliaryDecomposition
 import RepresentationTheory.AuxiliaryDecompositionData
+import RepresentationTheory.HomologicalAlgebra.CochainComplexComparison
 
 /-!
 # Representation theory formalization
