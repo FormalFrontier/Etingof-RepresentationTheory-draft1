@@ -542,6 +542,7 @@ import RepresentationTheory.RingTheory.Polynomial.JordanBlockModule
 import RepresentationTheory.SimpleRepresentationModules
 import RepresentationTheory.TensorCoordinateMaps
 import RepresentationTheory.TensorPolynomial.Contraction
+import RepresentationTheory.ThreeCoordinateGroupRepresentations
 
 /-!
 # Representation theory formalization
