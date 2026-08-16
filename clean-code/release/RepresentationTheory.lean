@@ -781,6 +781,7 @@ import RepresentationTheory.SymmetricGroup.PartitionSubspaceAuxiliary
 import RepresentationTheory.AffineGroupRepresentations
 import RepresentationTheory.Algebra.Module.DirectSumData
 import RepresentationTheory.CosetPermutationActions
+import RepresentationTheory.FiniteDimensionalLinearMapPair
 
 /-!
 # Representation theory formalization
