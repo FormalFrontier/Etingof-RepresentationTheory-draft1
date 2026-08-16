@@ -797,6 +797,7 @@ import RepresentationTheory.Auxiliary.PolynomialModuleIndexedTypes
 import RepresentationTheory.HomologicalAlgebra.SymmetricAlgebra.ProjectiveDimension
 import RepresentationTheory.Auxiliary.PolynomialModuleQuotientEquivalences
 import RepresentationTheory.Auxiliary.TensorResolution
+import RepresentationTheory.FieldCharacterAuxiliary
 
 /-!
 # Representation theory formalization
