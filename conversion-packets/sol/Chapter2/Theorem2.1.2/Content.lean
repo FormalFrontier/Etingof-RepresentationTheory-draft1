@@ -4,6 +4,9 @@ open Verso.Genre Manual
 
 set_option pp.rawOnError true
 
+-- The aligned inductive's constructors have no independent approved declaration docs.
+set_option verso.docstring.allowMissing true
+
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Theorem212
 
 #doc (Manual) "Gabriel's theorem: classification of quivers of finite type by Dynkin diagrams" =>

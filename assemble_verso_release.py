@@ -181,9 +181,18 @@ def main() -> None:
                 continue
             proposal = proposals.get(edge["old_fqn"])
             node = nodes.get(edge["source_node"])
-            if proposal is None or node is None or node.get("item_id") is None:
+            if proposal is None or node is None:
                 continue
-            key = (node["item_id"], proposal["new_fqn"])
+            item_id = (
+                node.get("parent_item_id")
+                if node.get("kind") == "derived"
+                else node.get("item_id")
+            )
+            if item_id not in item_by_id:
+                raise SystemExit(
+                    f"source node {edge['source_node']} does not resolve to a semantic item"
+                )
+            key = (item_id, proposal["new_fqn"])
             previous = combined.get(key)
             role = edge["role"]
             if previous is None or (previous["role"] == "supporting" and role == "primary"):
