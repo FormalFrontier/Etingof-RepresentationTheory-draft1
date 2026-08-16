@@ -793,6 +793,7 @@ import RepresentationTheory.Auxiliary.ComponentEquivalences
 import RepresentationTheory.Algebra.Homology.SymmetricAlgebraResolution
 import RepresentationTheory.Algebra.Homology.ProjectiveResolutionAuxiliary
 import RepresentationTheory.Algebra.Auxiliary.GcdZModEquivalences
+import RepresentationTheory.Auxiliary.PolynomialModuleIndexedTypes
 
 /-!
 # Representation theory formalization
