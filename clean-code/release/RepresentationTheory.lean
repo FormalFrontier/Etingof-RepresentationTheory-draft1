@@ -790,6 +790,7 @@ import RepresentationTheory.LieModule.IrreducibleParameterModules
 import RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID
 import RepresentationTheory.Auxiliary.IntegerModuleStructure
 import RepresentationTheory.Auxiliary.ComponentEquivalences
+import RepresentationTheory.Algebra.Homology.SymmetricAlgebraResolution
 
 /-!
 # Representation theory formalization
