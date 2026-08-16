@@ -799,6 +799,7 @@ import RepresentationTheory.Auxiliary.PolynomialModuleQuotientEquivalences
 import RepresentationTheory.Auxiliary.TensorResolution
 import RepresentationTheory.FieldCharacterAuxiliary
 import RepresentationTheory.FiniteGroupDegreeFiveCharacters
+import RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent
 
 /-!
 # Representation theory formalization
