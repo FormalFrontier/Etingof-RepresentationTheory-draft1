@@ -17,9 +17,9 @@ import RepresentationTheory.OddOrder.CharacterSums
 import RepresentationTheory.Group.SimpleRepresentations
 import RepresentationTheory.Alignment.Attribute
 
-/-!
-# Finite-group representation examples
--/
+
+
+
 
 namespace RepresentationTheory.FiniteGroupRepresentationExamples
 
@@ -34,13 +34,13 @@ theorem auxiliaryTheoremH
     (ρ : Representation ℂ G ℂ)
     (h : ∃ g : G, ρ g 1 ≠ 1 ∧ ρ g 1 ≠ -1) :
     ¬ RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo ρ := by
-  -- A `G`-invariant bilinear form `B` on a 1-dimensional character `χ` satisfies
-  -- `χ(g)² B(v,w) = B(v,w)`, forcing `χ(g)² = 1`, i.e. `χ(g) ∈ {1, -1}`, for all `g`
-  -- where `B` is nondegenerate. The hypothesis `h` exhibits a `g` violating this.
+
+
+
   rintro ⟨B, _hsym, hnondeg, hinv⟩
   obtain ⟨g, hg1, hg2⟩ := h
   set χ : ℂ := ρ g 1 with hχ
-  -- Every bilinear form on the 1-dimensional space `ℂ` is `B a b = a·b·(B 1 1)`.
+
   have key : ∀ a b : ℂ, B a b = a * b * B 1 1 := by
     intro a b
     have step : (B a) b = a • (b • B 1 1) := by
@@ -48,17 +48,17 @@ theorem auxiliaryTheoremH
       rw [h1, show B (a • (1:ℂ)) = a • B 1 from map_smul B a 1,
         LinearMap.smul_apply, show (B 1) (b • (1:ℂ)) = b • (B 1) 1 from map_smul (B 1) b 1]
     rw [step, smul_eq_mul, smul_eq_mul, mul_assoc]
-  -- Nondegeneracy forces the single coefficient `B 1 1` to be nonzero.
+
   have hc : B 1 1 ≠ 0 := by
     intro hc0
     have : (1 : ℂ) = 0 := hnondeg 1 (fun w => by rw [key, hc0, mul_zero])
     exact one_ne_zero this
-  -- `G`-invariance at `g` (with `v = w = 1`) gives `χ² · (B 1 1) = B 1 1`.
+
   have hinvg : χ * χ * B 1 1 = B 1 1 := by
     have := hinv g 1 1
     rw [← hχ, key] at this
     exact this
-  -- Cancelling the nonzero coefficient yields `χ² = 1`, hence `χ = ±1`, a contradiction.
+
   have hχχ : χ * χ = 1 := by
     have : χ * χ * B 1 1 = 1 * B 1 1 := by rw [one_mul]; exact hinvg
     exact mul_right_cancel₀ hc this
@@ -95,19 +95,19 @@ theorem auxiliaryTheoremG
     (ρ : Representation ℂ G ℂ)
     (h : ∀ g : G, ρ g 1 = 1 ∨ ρ g 1 = -1) :
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo ρ := by
-  -- `ρ g` is multiplication by the scalar `ρ g 1`.
+
   have hlin : ∀ (g : G) (a : ℂ), ρ g a = a * ρ g 1 := by
     intro g a
     have := (ρ g).map_smul a (1 : ℂ)
     simpa using this
   refine ⟨LinearMap.mul ℂ ℂ, ?_, ?_, ?_⟩
-  · -- symmetric
+  ·
     intro v w; rw [LinearMap.mul_apply', LinearMap.mul_apply', mul_comm]
-  · -- nondegenerate
+  ·
     intro v hv
     have := hv 1
     rwa [LinearMap.mul_apply', mul_one] at this
-  · -- G-invariant
+  ·
     intro g v w
     rw [LinearMap.mul_apply', LinearMap.mul_apply', hlin g v, hlin g w]
     rcases h g with hg | hg <;> rw [hg] <;> ring
@@ -145,7 +145,7 @@ theorem auxiliaryPropertyForTrivialCyclicCharacter {n : ℕ} [NeZero n] :
   change ((((1 : Multiplicative (ZMod n) →* ℂˣ) g : ℂˣ) : ℂ) • LinearMap.id) (1 : ℂ) = 1
   simp
 
-/-- A monoid element `u` with `u² = 1` has `u ^ a = u ^ (a % 2)`. -/
+
 private lemma pow_eq_pow_mod_two_of_sq_eq_one {M : Type*} [Monoid M] {u : M}
     (hu : u ^ 2 = 1) (a : ℕ) : u ^ a = u ^ (a % 2) := by
   conv_lhs => rw [← Nat.div_add_mod a 2]
@@ -202,8 +202,8 @@ theorem auxiliaryPropertyForEvenCyclicCharacter {n : ℕ} [NeZero n] (hn : 2 ∣
   · left; rw [he.neg_one_pow]
   · right; rw [ho.neg_one_pow]
 
-/-- Every element of the cyclic group `Multiplicative (ZMod n)` is the corresponding
-power of the class of `1`. -/
+
+
 private theorem zmod_eq_generator_pow_val {n : ℕ} [NeZero n]
     (g : Multiplicative (ZMod n)) :
     g = Multiplicative.ofAdd (1 : ZMod n) ^ ZMod.val (Multiplicative.toAdd g) := by
@@ -212,8 +212,8 @@ private theorem zmod_eq_generator_pow_val {n : ℕ} [NeZero n]
   rw [nsmul_eq_mul, mul_one]
   exact (ZMod.natCast_rightInverse _).symm
 
-/-- Two characters of `Multiplicative (ZMod n)` which agree on the class of `1`
-agree everywhere. -/
+
+
 private theorem zmodCharacter_ext {n : ℕ} [NeZero n]
     {ξ ψ : Multiplicative (ZMod n) →* ℂˣ}
     (h : ξ (Multiplicative.ofAdd (1 : ZMod n)) =
@@ -395,24 +395,24 @@ theorem auxiliaryPropertyOfSimpleSymmetricThreeRepresentation
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo ρ := by
   classical
   apply RepresentationTheory.Representation.Character.InversionAndInvariantForms.auxiliary_property_of_auxiliary_eq_one ρ hρ
-  -- It remains to show `frobeniusSchurIndicator ρ = 1`.
+
   have hSO : IsSimpleOrder ρ.invtSubmodule :=
     (Representation.mapSubmodule ρ).isSimpleOrder_iff.mpr hρ.toIsSimpleOrder
   haveI := hSO
   haveI : Nontrivial V := (Representation.invtSubmodule.nontrivial_iff ρ).mp inferInstance
-  -- The main character identity.
+
   have hkey : 4 * (Module.finrank ℂ V : ℂ)
       + LinearMap.trace ℂ V (ρ auxiliaryPermutationA)
       + LinearMap.trace ℂ V (ρ (auxiliaryPermutationA * auxiliaryPermutationA)) = 6 := by
-    -- `ρ σ * ρ τ = ρ τ * ρ σ * ρ σ` (the braid relation `στ = τσ²`).
+
     have hop : ρ auxiliaryPermutationA * ρ auxiliaryPermutationB
         = ρ auxiliaryPermutationB * ρ auxiliaryPermutationA * ρ auxiliaryPermutationA := by
       rw [← map_mul ρ, ← map_mul ρ, ← map_mul ρ, auxiliaryPermutationA_mul_auxiliaryPermutationB]
-    -- `χ(σ²) = χ(σ)` since `σ²` is conjugate to `σ`.
+
     have hconj : LinearMap.trace ℂ V (ρ (auxiliaryPermutationA * auxiliaryPermutationA))
         = LinearMap.trace ℂ V (ρ auxiliaryPermutationA) := by
       rw [auxiliaryPermutationA_sq_relation, map_mul, LinearMap.trace_mul_comm, ← map_mul, auxiliaryPermutationA_mul_inv_mul]
-    -- `E₁ = ker(ρσ - 1)` is `ρ`-invariant.
+
     have hE1inv : LinearMap.ker (ρ auxiliaryPermutationA - 1) ∈ ρ.invtSubmodule := by
       apply mem_invariantSubmodule_of_stable_under_auxiliaryPermutations
       · intro x hx
@@ -433,7 +433,7 @@ theorem auxiliaryPropertyOfSimpleSymmetricThreeRepresentation
                 rw [Module.End.mul_apply, Module.End.mul_apply]
           _ = ρ auxiliaryPermutationB x := by rw [hx', hx']
     rcases hSO.eq_bot_or_eq_top (⟨_, hE1inv⟩ : ρ.invtSubmodule) with hb | ht
-    · -- `E₁ = ⊥`: `ρσ` has no eigenvalue `1`, so `dim V = 2` and `χ(σ) = -1`.
+    ·
       have hE : LinearMap.ker (ρ auxiliaryPermutationA - 1) = ⊥ := by
         have := congrArg Subtype.val hb
         rwa [Representation.invtSubmodule.coe_bot] at this
@@ -456,7 +456,7 @@ theorem auxiliaryPropertyOfSimpleSymmetricThreeRepresentation
         have h := congrArg (LinearMap.trace ℂ V) hquad
         rw [map_add, map_add, LinearMap.trace_one, map_zero, hsq, hconj] at h
         exact h
-      -- An eigenvector `v` of `ρσ`, eigenvalue `μ ≠ 1`, plus `ρτ v` (eigenvalue `μ²`).
+
       obtain ⟨μ, hμev⟩ := Module.End.exists_eigenvalue (ρ auxiliaryPermutationA)
       obtain ⟨v, hv⟩ := hμev.exists_hasEigenvector
       have hv0 : v ≠ 0 := hv.2
@@ -553,7 +553,7 @@ theorem auxiliaryPropertyOfSimpleSymmetricThreeRepresentation
       rw [hconj, hcast]
       rw [hcast] at htr
       linear_combination htr
-    · -- `E₁ = ⊤`: `ρσ = 1`, so `dim V = 1` via the transposition's eigenvector.
+    ·
       have hE : LinearMap.ker (ρ auxiliaryPermutationA - 1) = ⊤ := by
         have := congrArg Subtype.val ht
         rwa [Representation.invtSubmodule.coe_top] at this
@@ -594,7 +594,7 @@ theorem auxiliaryPropertyOfSimpleSymmetricThreeRepresentation
       have hT2 : LinearMap.trace ℂ V (ρ (auxiliaryPermutationA * auxiliaryPermutationA)) = 1 := by
         rw [map_mul, hs1, mul_one, LinearMap.trace_one, hcast]
       rw [hT, hT2, hcast]; norm_num
-  -- Assemble: reduce the indicator to the character identity.
+
   unfold RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar
   have hsum : ∑ g : Equiv.Perm (Fin 3), LinearMap.trace ℂ V (ρ (g * g))
       = 4 * LinearMap.trace ℂ V (ρ 1) + LinearMap.trace ℂ V (ρ auxiliaryPermutationA)
@@ -618,20 +618,20 @@ theorem auxiliaryPropertyOfSimpleSymmetricThreeRepresentation
   rw [hsum, htr1, hkey, hcard]
   norm_num
 
-/-!
-## Group-algebra real form: the coordinate dot-product form
 
-For any finite group `G`, the group algebra `ℂ[G]` carries the symmetric bilinear
-form `Φ(x, y) = ∑_g (x g)(y g)` ("make the group basis orthonormal"). Left
-multiplication permutes the coordinates, so `Φ` is invariant under the left-regular
-action, and `Φ(c, c) = ∑_g (c g)² > 0` whenever `c ≠ 0` has real coefficients.
 
-Transporting `Φ` along a `ℂ[G]`-linear embedding `V ↪ ℂ[G]` of a simple
-representation onto the left ideal `ℂ[G]·c` (with `c` real and nonzero) produces a
-nonzero invariant symmetric form on `V`, hence (by simplicity) a nondegenerate one:
-`V` is of real type. This is the mechanism behind "every irreducible of `Sₙ` is of
-real type": the Specht module `V_λ = ℂ[Sₙ]·c_λ` is generated by the Young symmetrizer
-`c_λ`, which has integer coefficients. -/
+
+
+
+
+
+
+
+
+
+
+
+
 section GroupAlgebraRealForm
 
 open scoped MonoidAlgebra
@@ -731,32 +731,32 @@ theorem auxiliaryPropertyOfSimpleSymmetricFourRepresentation
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo ρ := by
   classical
   haveI := hρ
-  -- Embed `ρ.asModule` as a left ideal `I ⊆ ℂ[S₄]` (this lands in universe `0`),
-  -- then classify `I` as a Specht module via Theorem 5.12.2.
+
+
   obtain ⟨I, ⟨φ_M⟩⟩ :=
     IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule
       (MonoidAlgebra ℂ (Equiv.Perm (Fin 4))) ρ.asModule
   haveI : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin 4))) I :=
     IsSimpleModule.congr φ_M.symm
   obtain ⟨la, ⟨φ_I⟩⟩ := RepresentationTheory.SimpleModule.SubtypeRepresentation.exists_linearEquiv_to_subtype 4 I
-  -- `Ψ : ρ.asModule ≃ₗ[ℂ[S₄]] V_λ`.
+
   set Ψ := φ_M.trans φ_I with hΨ
   set c := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC 4 la with hc
   have hc_mem : c ∈ RepresentationTheory.PartitionAuxiliary.partitionSubmodule 4 la := Submodule.subset_span rfl
-  -- The intertwiner `ψ : V → ℂ[S₄]`, `v ↦ ↑(Ψ (asModuleEquiv⁻¹ v))`.
+
   set ψ : V →ₗ[ℂ] MonoidAlgebra ℂ (Equiv.Perm (Fin 4)) :=
     ((RepresentationTheory.PartitionAuxiliary.partitionSubmodule 4 la).subtype.restrictScalars ℂ).comp
       ((Ψ.restrictScalars ℂ).toLinearMap.comp ρ.asModuleEquiv.symm.toLinearMap) with hψdef
   have hψ_apply : ∀ v : V,
       ψ v = (Ψ (ρ.asModuleEquiv.symm v) : MonoidAlgebra ℂ (Equiv.Perm (Fin 4))) := by
     intro v; rfl
-  -- `ψ` intertwines the `ρ`-action with left multiplication.
+
   have hψ : ∀ (g : Equiv.Perm (Fin 4)) (v : V),
       ψ (ρ g v) = MonoidAlgebra.of ℂ (Equiv.Perm (Fin 4)) g * ψ v := by
     intro g v
     rw [hψ_apply, hψ_apply, ρ.asModuleEquiv_symm_map_rho, map_smul]
     simp only [Submodule.coe_smul, smul_eq_mul]
-  -- `c` is real and nonzero, and lies in the image of `ψ`.
+
   have hcne : c ≠ 0 := by
     intro h0
     rw [hc] at h0
@@ -790,7 +790,7 @@ lemma auxiliaryTheoremA
     (hsq : ∑ i, d i ^ 2 = 60)
     (hcount : ∑ i, ε i * d i = 16) :
     ∀ i, ε i = 1 := by
-  -- Cauchy-Schwarz: `(∑ d)² ≤ card · ∑ d² = 5 · 60 = 300`.
+
   have hcheb : (∑ i, d i) ^ 2 ≤ 5 * ∑ i, d i ^ 2 := by
     have h := sq_sum_le_card_mul_sum_sq (s := (Finset.univ : Finset (Fin 5))) (f := d)
     simpa using h
@@ -799,8 +799,8 @@ lemma auxiliaryTheoremA
   intro i
   by_contra hi
   have hneg : ε i = -1 := (hε i).resolve_left hi
-  -- The "defect" `d j - ε j · d j = (1 - ε j)·d j` is nonnegative everywhere, and is
-  -- `≥ 2` at the index `i` where the sign is `-1`.
+
+
   have hf_nonneg : ∀ j ∈ (Finset.univ : Finset (Fin 5)), (0 : ℤ) ≤ d j - ε j * d j := by
     intro j _
     rcases hε j with hj | hj
@@ -860,7 +860,7 @@ lemma auxiliaryInvariant_eq_of_character_eq
 
 variable {G : Type} [Group G] [Fintype G] [DecidableEq G]
 
-/-- A full faithful functor preserving monomorphisms reflects `Simple` objects. -/
+
 private lemma simple_of_full_faithful_preservesMono' {C D : Type*} [Category C] [Category D]
     [Limits.HasZeroMorphisms C] [Limits.HasZeroMorphisms D]
     (F : C ⥤ D) [F.Full] [F.Faithful] [F.PreservesMonomorphisms] (X : C)
@@ -877,8 +877,8 @@ private lemma simple_of_full_faithful_preservesMono' {C D : Type*} [Category C] 
         (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
 
-/-- The module-level simplicity `IsSimpleModule (ℂ[G]) ρ.asModule` upgrades to
-categorical `Simple (FDRep.of ρ)`, via the `Rep ≃ Module ℂ[G]` equivalence. -/
+
+
 private lemma simple_FDRep_of_isSimpleModule [NeZero (Nat.card G : ℂ)]
     {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     (ρ : Representation ℂ G V)
@@ -892,14 +892,14 @@ private lemma simple_FDRep_of_isSimpleModule [NeZero (Nat.card G : ℂ)]
     simple_of_full_faithful_preservesMono' E.functor _
   exact simple_of_full_faithful_preservesMono' (forget₂ (FDRep ℂ G) (Rep ℂ G)) _
 
-/-- **Frobenius-Schur type dichotomy.** For a simple complex `FDRep` `W` with a
-self-dual character (`χ(g⁻¹) = χ(g)`, supplied by an ambivalent group), the
-Frobenius-Schur indicator is `±1`. Equivalently: `W` is of real or quaternionic type,
-never complex type. This is the Frobenius-Schur trace identity
-`FS = dim(Sym²V)^G − dim(Λ²V)^G` together with self-duality forcing the total
-invariant-form dimension to `1`, proved as
-`RepresentationTheory.Representation.Character.AuxiliaryVanishing.auxiliaryStatement` in
-the imported trace identity. -/
+
+
+
+
+
+
+
+
 private lemma frobeniusSchurIndicator_pm_one_of_simple_selfDual
     [NeZero (Nat.card G : ℂ)] [Invertible (Fintype.card G : ℂ)]
     (W : FDRep ℂ G) (hW : IsSimpleModule (MonoidAlgebra ℂ G) (Representation.asModule W.ρ))
@@ -917,46 +917,46 @@ theorem auxiliaryPropertyOfEvenDimensionalSimpleAlternatingFiveRepresentation
     (heven : Even (Module.finrank ℂ V)) :
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo ρ := by
   classical
-  -- It suffices to show the Frobenius-Schur indicator of `ρ` is `1`.
+
   apply RepresentationTheory.Representation.Character.InversionAndInvariantForms.auxiliary_property_of_auxiliary_eq_one ρ hρ
-  -- Order facts about `A₅`.
+
   have hcard60 : Fintype.card (alternatingGroup (Fin 5)) = 60 := by
     rw [card_alternatingGroup, Fintype.card_fin]; rfl
   haveI hNZ : NeZero (Nat.card (alternatingGroup (Fin 5)) : ℂ) := by
     refine ⟨?_⟩; rw [Nat.card_eq_fintype_card, hcard60]; norm_num
   haveI hInv : Invertible (Fintype.card (alternatingGroup (Fin 5)) : ℂ) :=
     invertibleOfNonzero (by rw [hcard60]; norm_num)
-  -- The Wedderburn-Artin family of irreducibles of `ℂ[A₅]`.
+
   let D : RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData ℂ (alternatingGroup (Fin 5)) := RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.default
   let W : Fin D.count → FDRep ℂ (alternatingGroup (Fin 5)) := D.representation
   have hWs : ∀ i, Simple (W i) := D.simple_representation
   have hWi : ∀ i j, Nonempty ((W i) ≅ (W j)) → i = j := D.representation_index_eq_of_iso
-  -- (1) There are exactly five irreducibles.
+
   have h5 : Fintype.card (Fin D.count) = 5 := by
     rw [Fintype.card_fin, D.invariant_eq_card_conjClasses]
     exact card_conjClasses_alternatingGroupFive
-  -- (2) Sum of squared dimensions equals `|A₅| = 60`.
+
   have hsqN : ∑ i, (Module.finrank ℂ (W i)) ^ 2 = 60 := by
     rw [D.sum_finrank_sq_eq_card_of_simple_pairwise W hWs hWi, hcard60]
-  -- (3) Frobenius-Schur involution count: `16 = ∑ FS(Wᵢ)·dim Wᵢ`.
+
   have hcountC : ((Finset.univ.filter
         (fun g : alternatingGroup (Fin 5) => g * g = 1)).card : ℂ)
       = ∑ i, RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar (W i).ρ * (Module.finrank ℂ (W i) : ℂ) :=
     RepresentationTheory.FDRep.Auxiliary.card_sq_eq_one_eq_sum_representationInvariant_mul_finrank D W hWs hWi
   have hinv16 : (Finset.univ.filter
       (fun g : alternatingGroup (Fin 5) => g * g = 1)).card = 16 := by decide
-  -- (4) `A₅` is ambivalent, so every `Wᵢ` has a self-dual character.
+
   have hsdW : ∀ i, ∀ g, Representation.character (W i).ρ g⁻¹
       = Representation.character (W i).ρ g := by
     intro i g
     obtain ⟨c, hc⟩ := isConj_iff.mp (isConj_inv_in_alternatingGroupFive g)
     rw [← hc]; exact Representation.char_conj (W i).ρ g c
-  -- Hence each `FS(Wᵢ) ∈ {±1}`.
+
   have hFSmem : ∀ i, RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar (W i).ρ = 1
       ∨ RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar (W i).ρ = -1 :=
     fun i => frobeniusSchurIndicator_pm_one_of_simple_selfDual (W i)
       (D.isSimpleModule_coordinateRepresentation i) (hsdW i)
-  -- Package dimensions and indicators as integers for the endgame.
+
   set dd : Fin D.count → ℤ := fun i => (Module.finrank ℂ (W i) : ℤ) with hdd
   set ee : Fin D.count → ℤ :=
     fun i => if RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar (W i).ρ = 1 then (1 : ℤ) else -1 with hee
@@ -992,10 +992,10 @@ theorem auxiliaryPropertyOfEvenDimensionalSimpleAlternatingFiveRepresentation
       refine Finset.sum_congr rfl (fun i _ => ?_)
       rw [hεval i]
     exact_mod_cast hC3
-  -- The Cauchy-Schwarz step forces every indicator to be `+1`.
+
   have hall : ∀ i, ee i = 1 :=
     auxiliaryTheoremE h5 dd ee hd hε hsq hcount
-  -- The abstract `ρ` is isomorphic to some `Wᵢ₀`, so `FS(ρ) = FS(Wᵢ₀) = 1`.
+
   haveI := hρ
   haveI hsimp : Simple (FDRep.of ρ) := simple_FDRep_of_isSimpleModule ρ
   obtain ⟨i₀, ⟨iso⟩⟩ := D.exists_iso_representation_of_simple (FDRep.of ρ) hsimp
@@ -1013,7 +1013,7 @@ theorem auxiliaryPropertyOfSimpleAlternatingFiveRepresentation
     (ρ : Representation ℂ (alternatingGroup (Fin 5)) V)
     (hρ : IsSimpleModule (MonoidAlgebra ℂ (alternatingGroup (Fin 5))) ρ.asModule) :
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo ρ := by
-  -- Ambivalence ⟹ self-dual character.
+
   have hsd : ∀ g, Representation.character ρ g⁻¹ = Representation.character ρ g := by
     intro g
     obtain ⟨c, hc⟩ := isConj_iff.mp (isConj_inv_in_alternatingGroupFive g)
@@ -1134,7 +1134,7 @@ lemma quaternionGroupTwoDimensionalRepresentation_apply (g : QuaternionGroup 2) 
 /-- The specified two-dimensional complex representation of the quaternion group is simple. -/
 theorem quaternionGroupTwoDimensionalRepresentation_isSimple :
     IsSimpleModule (MonoidAlgebra ℂ (QuaternionGroup 2)) quaternionGroupTwoDimensionalRepresentation.asModule := by
-    -- Evaluate the two generators on an arbitrary vector.
+
     have hAv : ∀ v : Fin 2 → ℂ, quaternionGroupTwoDimensionalRepresentation (QuaternionGroup.a 1) v
         = ![Complex.I * v 0, -Complex.I * v 1] := by
       intro v
@@ -1152,7 +1152,7 @@ theorem quaternionGroupTwoDimensionalRepresentation_isSimple :
         mul_one]
       funext i; fin_cases i <;>
         simp [auxiliaryMatrixB, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
-    -- Reduce `IsSimpleModule` to `IsSimpleOrder` of the invariant-submodule lattice.
+
     suffices hSO : IsSimpleOrder (quaternionGroupTwoDimensionalRepresentation.invtSubmodule) by
       haveI := (Representation.mapSubmodule quaternionGroupTwoDimensionalRepresentation).isSimpleOrder_iff.mp hSO
       exact ⟨⟩
@@ -1168,12 +1168,12 @@ theorem quaternionGroupTwoDimensionalRepresentation_isSimple :
     · exact Or.inl (Subtype.ext (by rw [Representation.invtSubmodule.coe_bot]; exact hbot))
     · refine Or.inr (Subtype.ext ?_)
       rw [Representation.invtSubmodule.coe_top]
-      -- Extract a nonzero vector and show both basis vectors lie in `a`.
+
       obtain ⟨v, hv, hv0⟩ := (Submodule.ne_bot_iff _).mp hbot
       have he0 : (![1, 0] : Fin 2 → ℂ) ∈ (a : Submodule ℂ (Fin 2 → ℂ)) ∧
           (![0, 1] : Fin 2 → ℂ) ∈ (a : Submodule ℂ (Fin 2 → ℂ)) := by
         by_cases hv1 : v 1 = 0
-        · -- `v = (v₀, 0)` with `v₀ ≠ 0`: scale to `e₀`, then apply `X` for `e₁`.
+        ·
           have hv0' : v 0 ≠ 0 := by
             intro h; apply hv0; funext i; fin_cases i
             · simpa using h
@@ -1192,7 +1192,7 @@ theorem quaternionGroupTwoDimensionalRepresentation_isSimple :
             rw [this] at hx
             simpa using (a : Submodule ℂ (Fin 2 → ℂ)).neg_mem hx
           exact ⟨he0, he1⟩
-        · -- `v₁ ≠ 0`: form `I•v - A·v = (0, 2I v₁)`, scale to `e₁`, then apply `X` for `e₀`.
+        ·
           have hmem : (Complex.I • v - quaternionGroupTwoDimensionalRepresentation (QuaternionGroup.a 1) v)
               ∈ (a : Submodule ℂ (Fin 2 → ℂ)) :=
             (a : Submodule ℂ (Fin 2 → ℂ)).sub_mem
@@ -1217,7 +1217,7 @@ theorem quaternionGroupTwoDimensionalRepresentation_isSimple :
                 = (![1, 0] : Fin 2 → ℂ) := by funext i; fin_cases i <;> simp
             rwa [this] at hx
           exact ⟨he0, he1⟩
-      -- Two basis vectors span everything.
+
       rw [eq_top_iff]
       intro w _
       have hw : w = w 0 • (![1, 0] : Fin 2 → ℂ) + w 1 • ![0, 1] := by
@@ -1233,12 +1233,12 @@ theorem existsSimpleQuaternionRepresentationWithAuxiliaryProperty :
     ∃ ρ : Representation ℂ (QuaternionGroup 2) (Fin 2 → ℂ),
       IsSimpleModule (MonoidAlgebra ℂ (QuaternionGroup 2)) ρ.asModule ∧
       RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionOne ρ := by
-  -- The 2-dimensional irrep uses the Pauli-type matrices `ρ(i) = [[0,1],[-1,0]]`,
-  -- `ρ(j) = [[√-1,0],[0,-√-1]]`, `ρ(k) = [[0,-√-1],[-√-1,0]]`. Its FS indicator is
-  -- `-1`, witnessed by the invariant skew form `[[0,1],[-1,0]]`.
+
+
+
   refine ⟨quaternionGroupTwoDimensionalRepresentation, quaternionGroupTwoDimensionalRepresentation_isSimple, ?_⟩
-  · -- Quaternionic type: the wedge form `B v w = v₀w₁ - v₁w₀` is skew, nondegenerate, and
-    -- `Q₈`-invariant (every matrix lies in `SL₂`, so it preserves the determinant form).
+  ·
+
     set B : (Fin 2 → ℂ) →ₗ[ℂ] (Fin 2 → ℂ) →ₗ[ℂ] ℂ :=
       LinearMap.mk₂ ℂ (fun v w => v 0 * w 1 - v 1 * w 0)
         (fun v v' w => by simp only [Pi.add_apply]; ring)
@@ -1247,16 +1247,16 @@ theorem existsSimpleQuaternionRepresentationWithAuxiliaryProperty :
         (fun c v w => by simp only [Pi.smul_apply, smul_eq_mul]; ring) with hBdef
     have hB : ∀ v w : Fin 2 → ℂ, B v w = v 0 * w 1 - v 1 * w 0 := fun v w => rfl
     refine ⟨B, ?_, ?_, ?_⟩
-    · -- skew-symmetric
+    ·
       intro v w; rw [hB, hB]; ring
-    · -- nondegenerate
+    ·
       intro v hv
       have h0 : v 0 = 0 := by have := hv ![0, 1]; rw [hB] at this; simpa using this
       have h1 : v 1 = 0 := by have := hv ![1, 0]; rw [hB] at this; simpa using this
       funext i; fin_cases i
       · simpa using h0
       · simpa using h1
-    · -- Q₈-invariant
+    ·
       intro g v w
       have key : ∀ (N : Matrix (Fin 2) (Fin 2) ℂ) (x y : Fin 2 → ℂ),
           B (N.mulVec x) (N.mulVec y) = N.det * B x y := by
@@ -1279,7 +1279,7 @@ theorem auxiliaryPropertyForQuaternionRepresentationOnComplex
     (ρ : Representation ℂ (QuaternionGroup 2) ℂ) :
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo ρ := by
   apply auxiliaryTheoremG
-  -- The character `χ(g) = ρ g 1` is multiplicative.
+
   have hmul : ∀ a b : QuaternionGroup 2, ρ (a * b) 1 = ρ a 1 * ρ b 1 := by
     intro a b
     have hstep : ρ a (ρ b 1) = ρ b 1 * ρ a 1 := by
@@ -1287,12 +1287,12 @@ theorem auxiliaryPropertyForQuaternionRepresentationOnComplex
       simpa [smul_eq_mul] using h
     rw [map_mul, Module.End.mul_apply, hstep, mul_comm]
   have hone : ρ 1 1 = 1 := by simp
-  -- `Q₈` is ambivalent: each `g` is conjugate to `g⁻¹`.
+
   have hamb : ∀ g : QuaternionGroup 2, ∃ c : QuaternionGroup 2, c * g * c⁻¹ = g⁻¹ := by
     decide
   intro g
   obtain ⟨c, hc⟩ := hamb g
-  -- Conjugation-invariance of the character: `χ(g⁻¹) = χ(c g c⁻¹) = χ(g)`.
+
   have hcc : ρ c 1 * ρ c⁻¹ 1 = 1 := by rw [← hmul, mul_inv_cancel, hone]
   have hconj : ρ g⁻¹ 1 = ρ g 1 := by
     rw [← hc, hmul, hmul]
@@ -1300,7 +1300,7 @@ theorem auxiliaryPropertyForQuaternionRepresentationOnComplex
         = (ρ c 1 * ρ c⁻¹ 1) * ρ g 1 := by ring
       _ = 1 * ρ g 1 := by rw [hcc]
       _ = ρ g 1 := one_mul _
-  -- Hence `χ(g)² = χ(g⁻¹ g) = χ(1) = 1`.
+
   have hsq : ρ g 1 * ρ g 1 = 1 := by
     have h1 : ρ (g⁻¹ * g) 1 = 1 := by rw [inv_mul_cancel, hone]
     rw [hmul, hconj] at h1
@@ -1316,11 +1316,11 @@ theorem simpleQuaternionRepresentationOfFinrankTwoIso
     (hdim : Module.finrank ℂ V = 2) :
     Nonempty (FDRep.of σ ≅ FDRep.of quaternionGroupTwoDimensionalRepresentation) := by
   classical
-  -- `|Q₈| = 8` is nonzero in `ℂ`, so the Wedderburn enumeration applies.
+
   haveI hNe : NeZero (Nat.card (QuaternionGroup 2) : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := QuaternionGroup 2)).ne'⟩
-  -- The three players are simple `FDRep` objects.
+
   haveI := hσ
   haveI hσsimple : CategoryTheory.Simple (FDRep.of σ) :=
     RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule σ
@@ -1331,14 +1331,14 @@ theorem simpleQuaternionRepresentationOfFinrankTwoIso
   haveI htrivsimple :
       CategoryTheory.Simple (FDRep.of (Representation.trivial ℂ (QuaternionGroup 2) ℂ)) :=
     RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule _
-  -- The complete family of simples with `∑ dim² = |Q₈| = 8`.
+
   obtain ⟨n, W, _hWsimple, _hWinj, hWsurj, hWsum⟩ :=
     RepresentationTheory.FDRep.GroupAlgebraDecomposition.exists_completeSimpleFamily_sum_finrank_sq_eq_card ℂ (QuaternionGroup 2)
   obtain ⟨i, ⟨eσ⟩⟩ := hWsurj (FDRep.of σ) hσsimple
   obtain ⟨j, ⟨eρ⟩⟩ := hWsurj (FDRep.of quaternionGroupTwoDimensionalRepresentation) hrhosimple
   obtain ⟨l, ⟨etriv⟩⟩ :=
     hWsurj (FDRep.of (Representation.trivial ℂ (QuaternionGroup 2) ℂ)) htrivsimple
-  -- Dimensions of the matched Wedderburn members: `2`, `2`, `1`.
+
   have hfi : Module.finrank ℂ (W i) = 2 := by
     rw [← (FDRep.isoToLinearEquiv eσ).finrank_eq]; exact hdim
   have hfj : Module.finrank ℂ (W j) = 2 := by
@@ -1347,7 +1347,7 @@ theorem simpleQuaternionRepresentationOfFinrankTwoIso
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
   have hfl : Module.finrank ℂ (W l) = 1 := by
     rw [← (FDRep.isoToLinearEquiv etriv).finrank_eq]; exact Module.finrank_self ℂ
-  -- `i = j`: otherwise `i, j, l` are three distinct indices summing to `4 + 4 + 1 = 9 > 8`.
+
   have hij : i = j := by
     by_contra hij
     have hli : l ≠ i := fun h => by rw [h, hfi] at hfl; exact absurd hfl (by norm_num)
@@ -1367,7 +1367,7 @@ theorem simpleQuaternionRepresentationOfFinrankTwoIso
         _ = Fintype.card (QuaternionGroup 2) := hWsum
     rw [QuaternionGroup.card] at hle
     omega
-  -- Transport: `FDRep.of σ ≅ Wᵢ = Wⱼ ≅ FDRep.of rho`.
+
   exact ⟨(hij ▸ eσ) ≪≫ eρ.symm⟩
 
 end RepresentationTheory.FiniteGroupRepresentationExamples
