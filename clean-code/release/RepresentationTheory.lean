@@ -798,6 +798,7 @@ import RepresentationTheory.HomologicalAlgebra.SymmetricAlgebra.ProjectiveDimens
 import RepresentationTheory.Auxiliary.PolynomialModuleQuotientEquivalences
 import RepresentationTheory.Auxiliary.TensorResolution
 import RepresentationTheory.FieldCharacterAuxiliary
+import RepresentationTheory.FiniteGroupDegreeFiveCharacters
 
 /-!
 # Representation theory formalization
