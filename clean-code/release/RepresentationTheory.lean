@@ -785,6 +785,7 @@ import RepresentationTheory.FiniteDimensionalLinearMapPair
 import RepresentationTheory.FiniteGroupRepresentationExamples
 import RepresentationTheory.FiniteRotationGroups
 import RepresentationTheory.SimpleSymmetricGroupRepresentations
+import RepresentationTheory.SymmetricGroup.SimpleDimensions
 
 /-!
 # Representation theory formalization
