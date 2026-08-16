@@ -6,7 +6,6 @@ Authors: mathlib-initiative
 
 import Mathlib
 import RepresentationTheory.FiniteGroupRepresentationExamples
-import RepresentationTheory.Alignment.Attribute
 
 open MonoidAlgebra
 
@@ -38,8 +37,7 @@ theorem simpleSymmetricGroupRepresentation_property (n : ℕ)
       ((Ψ.restrictScalars ℂ).toLinearMap.comp ρ.asModuleEquiv.symm.toLinearMap) with hψdef
   have hψ_apply : ∀ v : V,
       ψ v = (Ψ (ρ.asModuleEquiv.symm v) : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) := by
-    intro v
-    rfl
+    intro v; rfl
   have hψ : ∀ (g : Equiv.Perm (Fin n)) (v : V),
       ψ (ρ g v) = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g * ψ v := by
     intro g v
