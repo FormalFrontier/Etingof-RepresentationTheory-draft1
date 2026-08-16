@@ -786,6 +786,7 @@ import RepresentationTheory.FiniteGroupRepresentationExamples
 import RepresentationTheory.FiniteRotationGroups
 import RepresentationTheory.SimpleSymmetricGroupRepresentations
 import RepresentationTheory.SymmetricGroup.SimpleDimensions
+import RepresentationTheory.LieModule.IrreducibleParameterModules
 
 /-!
 # Representation theory formalization
