@@ -41,7 +41,7 @@ SOURCE_NODES = ROOT / "manifests" / "alignment" / "source-nodes.jsonl"
 # path dependencies.  The materialized lakefile pins both public Git inputs,
 # and `lake update` produces the new lock file.
 EXCLUDED_DIRECTORIES = frozenset({".git", ".lake", ".verso", "_out", "__pycache__"})
-EXCLUDED_FILES = frozenset({"lake-manifest.json"})
+EXCLUDED_FILES = frozenset({"alignment-export.json", "lake-manifest.json"})
 EXCLUDED_SUFFIXES = frozenset({".olean", ".ilean"})
 EXCLUDED_SUBTREES = frozenset(
     {Path("IntroductionToRepresentationTheoryVerso/Spike")}
@@ -174,7 +174,14 @@ def write_verso_readme(destination: Path) -> None:
 def write_gitignore(destination: Path, *, verso: bool) -> None:
     lines = ["/.lake/", "/lake-manifest.json"]
     if verso:
-        lines.extend(["/_out/", "/.verso/", "/formalization-alignment.json"])
+        lines.extend(
+            [
+                "/_out/",
+                "/.verso/",
+                "/alignment-export.json",
+                "/formalization-alignment.json",
+            ]
+        )
     (destination / ".gitignore").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -493,6 +500,10 @@ def materialize(
 
 def self_test() -> dict[str, object]:
     """Exercise dry-run, safe destination handling, and deterministic materialization."""
+    if not is_excluded(Path("alignment-export.json")):
+        raise MaterializationError("self-test did not exclude the local alignment export")
+    if is_excluded(Path("AlignmentExport.lean")):
+        raise MaterializationError("self-test excluded the tracked alignment exporter")
     with tempfile.TemporaryDirectory(prefix="release-materialization-") as temp:
         root = Path(temp)
         lean_destination = root / "lean"
@@ -514,10 +525,24 @@ def self_test() -> dict[str, object]:
         report = materialize(lean_destination, verso_destination, dry_run=False, **kwargs)
         for destination, forbidden in (
             (lean_destination, (".lake", ".verso", "_out", "lake-manifest.json")),
-            (verso_destination, (".lake", ".verso", "_out", "lake-manifest.json")),
+            (
+                verso_destination,
+                (
+                    ".lake",
+                    ".verso",
+                    "_out",
+                    "alignment-export.json",
+                    "lake-manifest.json",
+                ),
+            ),
         ):
             if any((destination / name).exists() for name in forbidden):
                 raise MaterializationError("self-test retained an excluded artifact")
+        verso_gitignore = (verso_destination / ".gitignore").read_text(encoding="utf-8")
+        if "/alignment-export.json" not in verso_gitignore.splitlines():
+            raise MaterializationError("self-test omitted the private alignment-export ignore rule")
+        if not (verso_destination / "AlignmentExport.lean").is_file():
+            raise MaterializationError("self-test omitted the tracked alignment exporter")
         spike_trace = verso_destination / "IntroductionToRepresentationTheoryVerso" / "Spike"
         if spike_trace.exists():
             raise MaterializationError("self-test retained the excluded Spike process-trace directory")
