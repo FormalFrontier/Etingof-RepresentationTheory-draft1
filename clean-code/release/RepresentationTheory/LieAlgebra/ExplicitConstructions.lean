@@ -1748,8 +1748,11 @@ theorem auxiliary_fact_aux1 (n : ℕ) (A : Matrix (Fin 3) (Fin 3) k) (htr : Matr
 /-- An auxiliary indexing type. -/
 @[source_ref "Chapter2/Problem2.16.3" (role := supporting)]
 inductive AuxiliaryIndex where
+  /-- The distinguished base index. -/
   | base : AuxiliaryIndex
+  /-- An odd-degree index, with its natural-number and five-element coordinates. -/
   | odd (m : ℕ) (i : Fin 5) : AuxiliaryIndex
+  /-- An even-degree index, with its natural-number and three-element coordinates. -/
   | even (m : ℕ) (i : Fin 3) : AuxiliaryIndex
   deriving DecidableEq
 

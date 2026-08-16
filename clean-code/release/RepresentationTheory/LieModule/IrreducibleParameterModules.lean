@@ -26,8 +26,11 @@ variable (k : Type u) [Field k]
 /-- Auxiliary parameter data for a field and a natural-number characteristic index. -/
 @[source_ref "Chapter2/Problem2.16.4" (role := supporting)]
 inductive ModuleParameter (p : ℕ) where
+  /-- A restricted parameter determined by an index below the characteristic. -/
   | restricted (n : Fin p)
+  /-- A highest-weight parameter with its simplicity condition. -/
   | highest (β lam : k) (simple : β ≠ 0 ∨ lam ^ p ≠ lam)
+  /-- A cyclic parameter whose first scalar is nonzero. -/
   | cyclic (α lam q : k) (alpha_ne : α ≠ 0)
 
                                                                       
