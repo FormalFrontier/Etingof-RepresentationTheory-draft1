@@ -782,6 +782,7 @@ import RepresentationTheory.AffineGroupRepresentations
 import RepresentationTheory.Algebra.Module.DirectSumData
 import RepresentationTheory.CosetPermutationActions
 import RepresentationTheory.FiniteDimensionalLinearMapPair
+import RepresentationTheory.FiniteGroupRepresentationExamples
 
 /-!
 # Representation theory formalization
