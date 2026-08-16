@@ -791,6 +791,7 @@ import RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModules
 import RepresentationTheory.Auxiliary.IntegerModuleStructure
 import RepresentationTheory.Auxiliary.ComponentEquivalences
 import RepresentationTheory.Algebra.Homology.SymmetricAlgebraResolution
+import RepresentationTheory.Algebra.Homology.ProjectiveResolutionAuxiliary
 
 /-!
 # Representation theory formalization
