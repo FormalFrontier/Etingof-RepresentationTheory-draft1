@@ -1009,26 +1009,6 @@ private lemma FiniteDimensionalLinearMapPair.ker_B_sub_range_A (ρ : FiniteDimen
   exact ρ.decomp_of_ker_B_not_range_A hρ hV_pos w
     (fun h0 => by simp [h0] at h) (LinearMap.mem_ker.mp hw) h
 
-/-- The operator X(v,w) = (Bw, Av) on V × W has 1-dimensional kernel when ρ is indecomposable,
-AB is nilpotent, and both V and W are nontrivial.
-
-ker X = ker A × ker B (as sets), so dim(ker X) = dim(ker A) + dim(ker B).
-The claim dim(ker X) = 1 means the nilpotent operator X has a single Jordan block
-on V ⊕ W (the cyclic case). This is equivalent to the structure theorem for
-finitely generated modules over k[X]/(X^N): an indecomposable module is cyclic.
-
-The proof (following Problem 6.9.1(c) of Etingof):
-- X is nilpotent (proved in `combinedEndomorphism_isNilpotent_of_comp_isNilpotent`)
-- X admits a chain basis compatible with V ⊕ W (each chain generator ∈ V or ∈ W)
-- Indecomposability of ρ implies X has exactly one chain (single Jordan block)
-- Therefore dim(ker X) = 1
-
-The chain compatibility claim (generators can be chosen in V or W) uses the off-diagonal
-structure of X. The single-chain deduction uses: if X had ≥ 2 chains, the V and W
-components of each chain form sub-representations, giving a nontrivial decomposition.
-
-The compatible-chain construction and the ensuing normal-form equivalences
-are handled separately. -/
 private lemma ker_sum_ge_one (ρ : FiniteDimensionalLinearMapPair ℂ)
     (hAB : IsNilpotent (ρ.leftToRight.comp ρ.rightToLeft))
     (hV_pos : 0 < Module.finrank ℂ ρ.Left)

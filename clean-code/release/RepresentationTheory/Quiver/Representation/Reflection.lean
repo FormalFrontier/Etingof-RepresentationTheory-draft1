@@ -11,49 +11,6 @@ import RepresentationTheory.Quiver.LinearAlgebra.Auxiliary
 import RepresentationTheory.CategoryTheory.QuiverLinearMaps
 import RepresentationTheory.Algebra.Quiver.LinearRepresentationCategory
 
-/-!
-# Exercise 7.9.8: Reflection functors are adjoint (`F⁺ᵢ` right adjoint to `F⁻ᵢ`)
-
-**Exercise 7.9.8.** (a) Let `Q` be a quiver and let `i ∈ Q` be a source. Let `V` be a
-representation of `Q` and let `W` be a representation of `Q̄ᵢ` (the quiver obtained from
-`Q` by reversing arrows at the vertex `i`). Prove that there is a natural isomorphism
-between `Hom(F⁻ᵢ V, W)` and `Hom(V, F⁺ᵢ W)`. In other words, the functor `F⁺ᵢ` is right
-adjoint to `F⁻ᵢ`.
-
-(b) Deduce that the functor `F⁺ᵢ` is left exact and `F⁻ᵢ` is right exact.
-
-## Formalization
-
-The reflection functors are formalized in Chapter 6 as maps on
-`QuiverLinearDiagram` (Definition 6.6.3 for `F⁺`, requiring `i` a sink;
-Definition 6.6.4 for `F⁻`, requiring `i` a source). Morphisms are
-`QuiverLinearHom`.
-
-With `i` a source of `Q`,
-`F⁻ᵢ V := quotientTransformedRepresentation Q i hi V` is a representation
-of the reversed quiver `Q̄ᵢ := reverseAtVertex Q i`. In `Q̄ᵢ`, vertex `i` is a *sink*
-(`auxiliaryBackward`), so `F⁺ᵢ` applies to the representation `W`
-of `Q̄ᵢ` and yields a representation of the doubly-reversed quiver `(Q̄ᵢ)̄ᵢ`, which is the
-original quiver by `auxiliaryQuiver_eq`. We transport it back to `Q` with
-`QuiverLinearDiagram.auxiliaryAt`, so that
-`Hom(V, F⁺ᵢ W)` is a hom-set of representations of `Q`.
-
-Part (a), `reflectionHomEquiv_source_target_nonempty`, is the resulting bijection of
-hom-sets, the hom-set half of the adjunction `F⁻ᵢ ⊣ F⁺ᵢ`. (The full statement
-"`F⁺ᵢ` is right adjoint to `F⁻ᵢ`" would
-additionally package `F⁺ᵢ`/`F⁻ᵢ` as `CategoryTheory.Functor`s between the abelian
-categories `Rep(Q)` and `Rep(Q̄ᵢ)` and assert naturality of this bijection; the
-representation categories are not packaged as `CategoryTheory` categories in this project,
-so we record the core hom-set bijection.)
-
-Part (b) follows from (a) together with Exercise 7.9.7 (a left adjoint is right exact and a
-right adjoint is left exact): once `F⁻ᵢ ⊣ F⁺ᵢ` is realized as an adjunction of additive
-functors of abelian categories, `F⁻ᵢ` (the left adjoint) is right exact and `F⁺ᵢ` (the
-right adjoint) is left exact. As the categorical packaging of the reflection functors is
-out of scope here (see above), we do not restate (b) separately; it is `Exercise7_9_7`
-applied to the adjunction of (a).
--/
-
 open CategoryTheory
 open RepresentationTheory.AuxiliaryQuiverRepresentationTransform
 open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams

@@ -11,45 +11,6 @@ import RepresentationTheory.Group.CharacterAuxiliary
 import RepresentationTheory.FDRep.GroupAlgebraDecomposition
 import RepresentationTheory.Alignment.Attribute
 
-/-!
-# Problem 4.12.1: representations of the dihedral group (symmetries of a regular `N`-gon)
-
-**Problem 4.12.1.** Let `G` be the group of symmetries of a regular `N`-gon (it has `2N`
-elements).
-
-(a) Describe all irreducible complex representations of this group (consider the cases of odd
-and even `N`).
-
-(b) Let `V` be the 2-dimensional complex representation of `G` obtained by complexification of
-the standard representation on the real plane (the plane of the polygon). Find the
-decomposition of `V ⊗ V` in a direct sum of irreducible representations.
-
-## Formalization
-
-We model the symmetry group of the regular `N`-gon by Mathlib's `DihedralGroup N` (order `2N`;
-generators `r k` = rotations, `sr k` = reflections).
-
-* **(a)** The essential content of "describe all irreducibles" is the dimension dichotomy:
-  every irreducible complex representation of `DihedralGroup N` is `1`- or `2`-dimensional.
-  (The precise counts are: `2` one-dimensional and `(N-1)/2` two-dimensional for odd `N`; `4`
-  one-dimensional and `(N-2)/2` two-dimensional for even `N`.)
-
-  The proof follows the book: pick an eigenvector `v` of the rotation `ρ (r 1)` (a nonzero
-  endomorphism of a nonzero finite-dimensional space over `ℂ` always has one). Then the span of
-  `v` and `s • v` (with `s = ρ (sr 0)` a reflection) is stable under the whole group, hence a
-  subrepresentation of dimension `≤ 2`; irreducibility forces it to be everything, so
-  `dim W ∈ {1, 2}`.
-
-* **(b)** Over `ℂ` the complexified standard representation `V` diagonalizes on rotations with
-  eigenvalues `ζ^k, ζ^{-k}` (`ζ = exp(2πi/N)` a primitive `N`-th root of unity), and `V ⊗ V`
-  decomposes as `𝟙 ⊕ ε ⊕ V₂`, where `𝟙` is trivial, `ε` is the sign (rotations act by `1`,
-  reflections by `-1`), and `V₂` is the `2`-dimensional representation with rotation by
-  `4π/N`. We state this at the level of **characters**: with `χ_V`, `χ_ε`, `χ_{V₂}` the
-  class functions defined below, `χ_V(g)² = 1 + χ_ε(g) + χ_{V₂}(g)` for all `g`, which is
-  exactly `V ⊗ V ≅ 𝟙 ⊕ ε ⊕ V₂` since the character of a tensor product is the product of
-  characters.
--/
-
 open Real
 
 noncomputable section
@@ -878,17 +839,6 @@ theorem card_linearCharacters_add_card_auxiliaryParameter_of_even (heven : Even 
   rw [card_linearCharacters_of_even heven, card_auxiliaryParameter_of_even heven]
 
 end Classification
-
-/-! ## Part (b): the isomorphism-level decomposition `V ⊗ V ≅ 𝟙 ⊕ ε ⊕ V₂`
-
-The character identity `auxiliaryClassFunctionC_sq` becomes an actual isomorphism of representations
-by the fact that over `ℂ` a finite-dimensional representation of a finite group is determined by
-its character (`RepresentationTheory.Group.CharacterAuxiliary.iso_of_character_eq`). We identify the complexified standard representation `V`
-with `twoDimensionalRepresentation N 1` (rotation character `ζ^k + ζ^{-k} = χ_V`, by `trace_twoDimensionalRepresentation_rotation` at `j = 1`), the
-`2`-dimensional rotation-by-`4π/N` representation `V₂` with `twoDimensionalRepresentation N 2` (character
-`ζ^{2k} + ζ^{-2k} = χ_{V₂}`, by `trace_twoDimensionalRepresentation_rotation` at `j = 2`), the sign representation `ε` with the
-character `auxiliaryLinearCharacter`, and `𝟙` with the trivial character. The decomposition holds for every
-`N ≥ 1`; for `N ≥ 3` the three summands are the irreducible constituents. -/
 
 section Decomposition
 

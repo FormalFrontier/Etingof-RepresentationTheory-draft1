@@ -57,7 +57,6 @@ lemma CategoryTheory.hasProjectiveDimensionLT_biproduct {ι : Type*} [Finite ι]
 end ProjectiveDimension
 
 /-- Splits a dependent family of additive groups indexed by a sum into a pair of families. -/
-@[simps]
 def AddEquiv.pi_sum {α β : Type*} (f : α ⊕ β → Type*) [∀ j, AddCommGroup (f j)] :
     (∀ j, f j) ≃+ (∀ a, f (Sum.inl a)) × (∀ b, f (Sum.inr b)) where
   toFun g := (fun a => g (Sum.inl a), fun b => g (Sum.inr b))
@@ -67,10 +66,17 @@ def AddEquiv.pi_sum {α β : Type*} (f : α ⊕ β → Type*) [∀ j, AddCommGro
   map_add' _ _ := rfl
 
 /-- The forward sum-indexed family equivalence restricts a family to the two summands. -/
-add_decl_doc AddEquiv.pi_sum_apply
+@[simp]
+lemma AddEquiv.pi_sum_apply {α β : Type*} (f : α ⊕ β → Type*)
+    [∀ j, AddCommGroup (f j)] (g : ∀ j, f j) :
+    AddEquiv.pi_sum f g = (fun a => g (Sum.inl a), fun b => g (Sum.inr b)) := rfl
 
 /-- The inverse sum-indexed family equivalence selects the appropriate component of a pair. -/
-add_decl_doc AddEquiv.pi_sum_symm_apply
+@[simp]
+lemma AddEquiv.pi_sum_symm_apply {α β : Type*} (f : α ⊕ β → Type*)
+    [∀ j, AddCommGroup (f j)]
+    (p : (∀ a, f (Sum.inl a)) × (∀ b, f (Sum.inr b))) (t : α ⊕ β) :
+    (AddEquiv.pi_sum f).symm p t = Sum.rec p.1 p.2 t := rfl
 
 /-- A dependent function type is a subsingleton when each of its fibers is a subsingleton. -/
 lemma subsingleton_pi {α : Type*} (f : α → Type*) [∀ a, Subsingleton (f a)] :

@@ -242,11 +242,11 @@ private lemma simple_of_isSimpleModule_FDRep
     simple_of_full_faithful_preservesMono' E.functor _
   exact simple_of_full_faithful_preservesMono' (forget₂ (FDRep ℂ G) (Rep ℂ G)) _
 
-section Theorem5_25_2
+section AuxiliarySetup
 
 variable (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ) (hn : 0 < n)
 
-end Theorem5_25_2
+end AuxiliarySetup
 
 /-- Builds an auxiliary group element from an optional finite-field value. -/
 noncomputable def auxiliaryElement
@@ -1129,7 +1129,8 @@ private lemma principalSeriesSubmodule_finrank [NeZero n]
   rw [← Nat.card_eq_fintype_card, GaloisField.card p n (NeZero.ne n)]
 
 /-- The auxiliary paired representation has the displayed finite dimension. -/
-@[source_ref "Chapter5/Discussion_5.25.3" (role := primary)]
+@[source_ref "Chapter5/Discussion_5.25.3" (role := primary),
+  source_ref "Chapter5/Theorem5.25.2" (role := supporting)]
 theorem auxiliaryPairedRepresentation_finrank [NeZero n]
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) :
     Module.finrank ℂ (auxiliaryPairedRepresentation p n chi1 chi2).V = p ^ n + 1 := by
@@ -1287,6 +1288,7 @@ private lemma detChar_eq_of
     auxiliaryOtherRepresentation p n mu = FDRep.of (detCharRep p n mu) := rfl
 
 /-- The second auxiliary representation is simple. -/
+@[source_ref "Chapter5/Theorem5.25.2" (role := supporting)]
 theorem auxiliaryOtherRepresentation_simple
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Simple (auxiliaryOtherRepresentation p n mu) := by
