@@ -794,6 +794,7 @@ import RepresentationTheory.Algebra.Homology.SymmetricAlgebraResolution
 import RepresentationTheory.Algebra.Homology.ProjectiveResolutionAuxiliary
 import RepresentationTheory.Algebra.Auxiliary.GcdZModEquivalences
 import RepresentationTheory.Auxiliary.PolynomialModuleIndexedTypes
+import RepresentationTheory.HomologicalAlgebra.SymmetricAlgebra.ProjectiveDimension
 
 /-!
 # Representation theory formalization
