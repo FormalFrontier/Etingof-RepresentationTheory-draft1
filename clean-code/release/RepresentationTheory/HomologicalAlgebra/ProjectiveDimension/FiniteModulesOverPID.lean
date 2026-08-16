@@ -66,6 +66,12 @@ def AddEquiv.pi_sum {α β : Type*} (f : α ⊕ β → Type*) [∀ j, AddCommGro
   right_inv _ := rfl
   map_add' _ _ := rfl
 
+/-- The forward sum-indexed family equivalence restricts a family to the two summands. -/
+add_decl_doc AddEquiv.pi_sum_apply
+
+/-- The inverse sum-indexed family equivalence selects the appropriate component of a pair. -/
+add_decl_doc AddEquiv.pi_sum_symm_apply
+
 /-- A dependent function type is a subsingleton when each of its fibers is a subsingleton. -/
 lemma subsingleton_pi {α : Type*} (f : α → Type*) [∀ a, Subsingleton (f a)] :
     Subsingleton (∀ a, f a) :=
