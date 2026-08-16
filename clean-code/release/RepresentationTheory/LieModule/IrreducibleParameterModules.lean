@@ -8,8 +8,6 @@ import RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations
 import Mathlib.FieldTheory.Finite.Basic
 import RepresentationTheory.Alignment.Attribute
 
-/-! # Irreducible parameter modules -/
-
 namespace RepresentationTheory.LieModule.IrreducibleParameterModules
 
 open scoped Matrix
