@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -20,3 +21,13 @@ number := false
 %%%
 tag := "Chapter5/Introduction_5.6/heading-1"
 %%%
+
+## Formalization
+%%%
+tag := "Chapter5/Introduction_5.6/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryTensorProductRepresentations.auxiliary_tensorProduct_characterization}

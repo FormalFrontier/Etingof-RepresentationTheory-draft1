@@ -27,6 +27,10 @@ tag := "Chapter5/Problem5.24.2/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.TraceAlgebra.Generation.adjoin_range_eq_designated_subalgebra}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.MvPolynomial.WeightedComponents.NatPairIndexedType.complexSubalgebra}

@@ -61,9 +61,33 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.nonempty_lieModuleEquiv_finFunction_of_irreducible}
+
 {Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.quadraticGeneratorCombination_succ_eq_smul_id}
 
+{Manual.docstring RepresentationTheory.LieAlgebra.TensorProductDecomposition.nonempty_lieModuleEquiv_directSum}
+
+{Manual.docstring RepresentationTheory.LieModule.ActionFibers.exists_actionFiber_of_isNilpotent}
+
+{Manual.docstring RepresentationTheory.LieModule.CentralAction.centralEndomorphism_commutes_action}
+
+{Manual.docstring RepresentationTheory.LieModule.CentralAction.exists_integral_centralGeneralizedEigenspace_eq_top_of_auxiliaryPredicate}
+
+{Manual.docstring RepresentationTheory.LieModule.WeightLadder.eigenvalue_eq_pred_of_mem_maxGenEigenspace}
+
+{Manual.docstring RepresentationTheory.LieModule.WeightLadder.exists_auxiliaryIterate_eq_zero_of_mem_maxGenEigenspace}
+
+{Manual.docstring RepresentationTheory.LieModule.WeightLadder.firstAction_eq_zero_of_no_shifted_eigenvalue}
+
+{Manual.docstring RepresentationTheory.LieModule.WeightLadder.maxGenEigenspace_eq_eigenspace_of_no_shifted_eigenvalue}
+
+{Manual.docstring RepresentationTheory.LieModule.WeightLadder.natDegree_factorialRootPolynomial}
+
+{Manual.docstring RepresentationTheory.LieModule.WeightLadder.polynomialAction_after_iteratedOperator}
+
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ModuleProducts.nonempty_lieModuleEquiv_pi_of_finiteDimensional}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.bracket_lowering_coordinateVector}
 
@@ -86,5 +110,15 @@ number := false
 {Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple_apply_raising}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple_apply_weight}
+
+{Manual.docstring RepresentationTheory.LieModule.CentralAction.centralGeneralizedEigenspace_isInternal}
+
+{Manual.docstring RepresentationTheory.LieModule.CentralAction.exists_lieSubmodule_isCompl}
+
+{Manual.docstring RepresentationTheory.LieModule.TensorProductDecomposition.exists_tensorProductEndomorphismEquiv}
+
+{Manual.docstring RepresentationTheory.LieModule.WeightLadder.factorialRootPolynomial}
+
+{Manual.docstring RepresentationTheory.LieModule.WeightLadder.squarefree_factorialRootPolynomial}
 
 {Manual.docstring RepresentationTheory.Polynomial.Recurrences.mul_geometricSeriesPolynomial}

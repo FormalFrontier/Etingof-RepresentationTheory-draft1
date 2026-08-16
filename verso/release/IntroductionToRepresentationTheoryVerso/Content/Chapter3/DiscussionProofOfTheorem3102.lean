@@ -41,6 +41,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.algebra_smul_surjective}
 
+{Manual.docstring RepresentationTheory.Algebra.Module.TensorProductSimplicity.exists_tensorFactorization_of_simpleBimodule}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TensorProductSimplicity.nonempty_linearEquiv_factors_of_tensorEquiv}
+
 {Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.isSemisimpleRing_tensorProduct}
 
 {Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_le_tensorProductJacobsonIdeal_of_isSemisimpleRing}
@@ -62,6 +66,8 @@ number := false
 {Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductRangeModule}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TensorProductSimplicity.submodule_eq_bot_or_top_of_tensorActions}
 
 {Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductJacobsonIdeal_eq_ker}
 

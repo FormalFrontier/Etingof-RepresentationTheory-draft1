@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -39,3 +40,17 @@ Then find all possible $`m_i` and $`n` that can satisfy this equation and classi
 [^Chapter4/Problem4.12.8/footnote-2]: A regular 2-gon is just a line segment.
 
 (b) Using this classification, classify finite subgroups of $`SU(2)` (use the homomorphism $`SU(2) \to SO(3)`).
+
+## Formalization
+%%%
+tag := "Chapter4/Problem4.12.8/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteRotationGroups.finiteRotationGroupClassification_011800}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FiniteRotationGroups.Auxiliary011820}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -30,3 +31,21 @@ that $`M(G)` has no self-loops by using the fact that if $`G` is not cyclic, the
 (d) Which groups from Problem 4.12.8 correspond to which diagrams?
 
 (e) Using the McKay graph, find the dimensions of irreducible representations of all finite $`G \subset SU(2)` (namely, show that they are the numbers labeling the vertices of the affine Dynkin diagrams on our pictures). Compare with the results on subgroups of $`SO(3)` we obtained in Problem 4.12.8.
+
+## Formalization
+%%%
+tag := "Chapter6/Problem6.1.6/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.auxiliaryPairingClassification}
+
+{Manual.docstring RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.exists_positiveMultiplicity_path}
+
+{Manual.docstring RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.tensorMultiplicity_comm}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.weighted_auxiliaryRowSum_eq_zero}

@@ -200,10 +200,52 @@ tag := "Chapter4/Example4.8.1/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Group.OuterAutomorphismTwist.twistedRepresentation_iso}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.character_quaternionGroupRepFamily_apply}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.quaternionGroupRepFamily_not_iso_of_ne}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.simple_quaternionGroupRepFamily}
+
+{Manual.docstring RepresentationTheory.TensorSquareSpectralDecomposition.character_indexedSimpleRepresentations}
+
+{Manual.docstring RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations_pairwise_nonisomorphic}
+
+{Manual.docstring RepresentationTheory.TensorSquareSpectralDecomposition.simple_indexedSimpleRepresentations}
+
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Group.OuterAutomorphismTwist.conjugationMulAut_not_inner}
+
+{Manual.docstring RepresentationTheory.Group.OuterAutomorphismTwist.index_conjugationMulAut}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.alternatingGroupFin5RepFamily}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.card_conjClasses_alternatingGroup_fin5}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.card_conjClasses_perm_fin4}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.card_conjClasses_quaternionGroup_two}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.character_permFin4RepFamily_apply}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.permFin4RepFamily}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.permFin4RepFamily_not_iso_of_ne}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.quaternionGroupRepFamily}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.simple_permFin4RepFamily}
 
 {Manual.docstring RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne}
 
 {Manual.docstring RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo}
 
 {Manual.docstring RepresentationTheory.PermutationActionRepresentations.selectedRepresentationThree}
+
+{Manual.docstring RepresentationTheory.QuotientPermutationRepresentation.comparisonRepresentation_iso_source}
+
+{Manual.docstring RepresentationTheory.QuotientPermutationRepresentation.quotientEquivPermFinThree}

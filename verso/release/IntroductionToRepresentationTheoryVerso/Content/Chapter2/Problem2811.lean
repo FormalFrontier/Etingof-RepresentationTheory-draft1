@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -31,3 +32,45 @@ Find the Hilbert series of the following graded algebras:
 (d) $`A` is the path algebra $`P_Q` of a quiver $`Q` (the grading is defined by $`\deg(p_i) = 0`, $`\deg(a_h) = 1`).
 
 Hint: The closed answer is written in terms of the adjacency matrix $`M_Q` of $`Q`.
+
+## Formalization
+%%%
+tag := "Chapter2/Problem2.8.11/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.finrank_exteriorPower_finFunction}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.finrank_freeMonoidDegreeSubmodule}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.finrank_mvPolynomialHomogeneousSubmodule}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.hilbertSeries_coeff}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.one_sub_X_pow_mul_powerSeries_multichoose}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.one_sub_nat_smul_X_mul_powerSeries_pow}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.pathCountSeries_eq_ones_mul_matrixInverse_mul_ones}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.powerSeries_choose_eq_one_add_X_pow}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.LocallyFiniteGrading}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.card_paths_length_eq_adjacencyMatrix_pow}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.finrank_quiverDegreeSubmodule}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.freeAlgebraEquivMonoidAlgebraFreeMonoid}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.freeMonoidDegreeSubmodule}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.hilbertSeries}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.one_sub_X_smul_adjacency_inv}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.quiverDegreeSubmodule}

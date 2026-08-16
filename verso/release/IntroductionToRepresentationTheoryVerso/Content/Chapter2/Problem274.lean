@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -28,3 +29,35 @@ Hint: Show that $`x^p` and $`y^p` are central elements.
 (c) Find all irreducible finite dimensional representations of $`A`.
 
 Hint: Let $`V` be an irreducible finite dimensional representation of $`A`, and let $`v` be an eigenvector of $`y` in $`V`. Show that the collection of vectors $`\{v, xv, x^2 v, \ldots, x^{p-1} v\}` is a basis of $`V`.
+
+## Formalization
+%%%
+tag := "Chapter2/Problem2.7.4/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.center_eq_adjoin_powers}
+
+{Manual.docstring RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.finrank_eq_zero_of_charZero}
+
+{Manual.docstring RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.isSimpleRing_of_charZero}
+
+{Manual.docstring RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.power_firstGenerator_mem_center}
+
+{Manual.docstring RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.power_secondGenerator_mem_center}
+
+{Manual.docstring RepresentationTheory.WeylAlgebra.ModularSimpleModules.modelModule_isSimpleModule}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.exists_cyclic_basis_of_simpleModule}
+
+{Manual.docstring RepresentationTheory.WeylAlgebra.ModularSimpleModules.existsUnique_nonempty_moduleScalarParameterType}
+
+{Manual.docstring RepresentationTheory.WeylAlgebra.ModularSimpleModules.exists_nonempty_moduleScalarParameterType}
+
+{Manual.docstring RepresentationTheory.WeylAlgebra.ModularSimpleModules.finrank_finFunction}
+
+{Manual.docstring RepresentationTheory.WeylAlgebra.ModularSimpleModules.nonempty_fourScalarParameterType_iff}

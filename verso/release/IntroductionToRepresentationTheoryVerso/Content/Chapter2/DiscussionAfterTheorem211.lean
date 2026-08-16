@@ -27,8 +27,24 @@ tag := "Chapter2/Discussion_after_Theorem2.1.1/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.oppositeModuleRepresentationQuotientEquiv}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram}
 
 {Manual.docstring RepresentationTheory.Foundations.TypeFamilies.TypeIndexedFamily}
+
+{Manual.docstring RepresentationTheory.Quiver.FiniteTypeCriterion.FiniteQuiverRepresentation}
+
+{Manual.docstring RepresentationTheory.Quiver.FiniteTypeCriterion.QuiverRepresentationFiniteness}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.oppositeDirectSumAlgebraModule}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.oppositeReconstructionLinearEquiv}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.oppositeRepresentationOfModule}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.toModuleOppositeRepresentationEquiv}

@@ -29,6 +29,24 @@ tag := "Chapter2/Theorem2.1.1/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.exists_irreducible_of_finrank}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.exists_polynomialModel}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.isIrreducible_of_lieModuleCondition}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.lieHomEquivEnvelopingAlgHom}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.lieSubmodule_complementedLattice}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.nonempty_equiv_of_irreducible_finrank_eq}
+
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.intertwines_iff_enveloping_intertwines}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.invariant_iff_enveloping_invariant}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.isIrreducible_finFunction}

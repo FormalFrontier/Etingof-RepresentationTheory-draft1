@@ -27,6 +27,10 @@ tag := "Chapter6/Problem6.1.5/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.iff_of_symmetric_zeroOne_walkConnected}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix}

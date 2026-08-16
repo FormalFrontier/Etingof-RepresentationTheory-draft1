@@ -59,3 +59,11 @@ number := false
 {Manual.docstring RepresentationTheory.Representation.Character.AuxiliaryVanishing.auxiliaryStatement}
 
 {Manual.docstring RepresentationTheory.Representation.Character.AuxiliaryVanishing.auxiliaryValue_eq_zero_of_character_not_inversionInvariant}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Representation.Character.AuxiliaryProperties.auxiliaryPredicate_iff_auxiliaryValue_eq_one}
+
+{Manual.docstring RepresentationTheory.Representation.Character.AuxiliaryProperties.auxiliaryPredicate_iff_auxiliaryValue_eq_zero}
+
+{Manual.docstring RepresentationTheory.Representation.Character.AuxiliaryProperties.auxiliaryStatement'''}

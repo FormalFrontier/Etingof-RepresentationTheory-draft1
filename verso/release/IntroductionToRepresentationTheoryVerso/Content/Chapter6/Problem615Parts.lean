@@ -39,4 +39,10 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.iff_of_symmetric_zeroOne_walkConnected}
+
+{Manual.docstring RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.posDef_twoIdentity_sub_adjacency}
+
+{Manual.docstring RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.quadraticForm_twoIdentity_sub_adjacency_pos}
+
 {Manual.docstring RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix.diagonal_eq_zero_of_entries_eq_zero_or_one}

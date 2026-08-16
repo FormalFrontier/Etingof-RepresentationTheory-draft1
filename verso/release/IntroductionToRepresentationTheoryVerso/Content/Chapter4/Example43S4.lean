@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -22,3 +23,27 @@ We can consider $`S_4` as the group of rotations of a cube acting by permuting t
 
 The last 3-dimensional representation is $`\mathbb{C}^3_-`, the product of $`\mathbb{C}^3_+` with the sign representation. $`\mathbb{C}^3_+` and $`\mathbb{C}^3_-` are different, for if $`g` is a transposition, $`\det g|_{\mathbb{C}^3_+} = 1` while $`\det g|_{\mathbb{C}^3_-} = (-1)^3 = -1`. Note
 that another realization of $`\mathbb{C}^3_-` is by action of $`S_4` by symmetries (not necessarily rotations) of the regular tetrahedron. Yet another realization of this representation is the space of functions on the set of four elements (on which $`S_4` acts by permutations) with zero sum of values.
+
+## Formalization
+%%%
+tag := "Chapter4/Example4.3_S4/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroupRepresentations.SubgroupInductionAuxiliary.simple_iso_auxiliary_cases}
+
+{Manual.docstring RepresentationTheory.PermutationDegreeFour.card_conjClasses_perm_fin_four}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.PermutationDegreeFour.inducedPermutationHom}
+
+{Manual.docstring RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation}
+
+{Manual.docstring RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation}
+
+{Manual.docstring RepresentationTheory.PermutationDegreeFour.sum_dimension_squares_eq_card_perm_fin_four}
+
+{Manual.docstring RepresentationTheory.PermutationDegreeFour.twistRepresentationByCharacter}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -66,3 +67,37 @@ $$`\chi \begin{pmatrix} x & \varepsilon y \\ y & x \end{pmatrix} = -\nu \begin{p
 In all that follows, we will have $`\nu^q \neq \nu`.
 
 The following two lemmas will establish that the inner product of this character with itself is equal to 1 and that its value at 1 is positive. As we know from Lemma 5.7.2, these two properties imply that it is the character of an irreducible representation of $`G`.
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_5.25.4/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.auxiliaryIso_iff_eq_or_eq_characterCardPow}
+
+{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.eq_of_fdRepOfAuxiliaryIndex_iso}
+
+{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.exists_pairwise_nonisomorphic_simple_family}
+
+{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.simple_fdRepOfAuxiliaryIndex}
+
+{Manual.docstring RepresentationTheory.Representation.SubtypeCharacter.subtypeCharacterRepresentationOfPowerNonfixed_character_eq_auxiliary}
+
+{Manual.docstring RepresentationTheory.Representation.SubtypeCharacter.subtypeCharacterRepresentationOfPowerNonfixed_finrank_eq_pow_sub_one}
+
+{Manual.docstring RepresentationTheory.Representation.SubtypeCharacter.subtypeCharacterRepresentationOfPowerNonfixed_isSimple}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.auxiliaryIso_characterCardPow}
+
+{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.characterExponentEquiv}
+
+{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.fdRepOfAuxiliaryIndex}
+
+{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.natCard_auxiliaryIndex}
+
+{Manual.docstring RepresentationTheory.Representation.SubtypeCharacter.subtypeCharacterRepresentationOfPowerNonfixed}

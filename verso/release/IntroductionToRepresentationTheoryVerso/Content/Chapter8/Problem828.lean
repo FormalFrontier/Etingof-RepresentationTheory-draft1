@@ -35,4 +35,12 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.Auxiliary.TensorProductGradedComparisons.Auxiliary.nonempty_projectiveResolutionTensorProductObjectIsoSigma}
+
+{Manual.docstring RepresentationTheory.Auxiliary.TensorProductGradedComparisons.Auxiliary.nonempty_rightModuleTensorProductObjectIsoSigma}
+
 {Manual.docstring RepresentationTheory.FinsuppDualTensor.dualDistrib_finsuppNat_not_surjective}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Auxiliary.TensorProductGradedComparisons.Auxiliary.nonempty_tensorProductGradedPieceLinearEquivDirectSum}

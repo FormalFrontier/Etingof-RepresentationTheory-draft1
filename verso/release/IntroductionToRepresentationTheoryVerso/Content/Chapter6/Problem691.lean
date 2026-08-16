@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -36,3 +37,27 @@ Show that these are indecomposable and pairwise nonisomorphic.
 (d) (Harder!) Generalize this classification to the Kronecker quiver, which has two vertices 1 and 2 and two edges both going from 1 to 2.
 
 (e) (Still harder!) Can you generalize this classification to $`Q_n`, $`n > 2` with any orientation? (Easier version: consider only the cyclic orientation).
+
+## Formalization
+%%%
+tag := "Chapter6/Problem6.9.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearMapPair.AuxiliaryClass.eq_of_rep_equiv}
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearMapPair.AuxiliaryClass.rep_auxiliaryCondition}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.Auxiliary.eq_of_nonempty_rep_relations}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.exists_related_nonzero_scalar_of_not_isNilpotent}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.nonempty_nilpotentBlockDecomposition}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearMapPair.combinedEndomorphism_isNilpotent_of_comp_isNilpotent}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.Auxiliary.property_of_compatibility}

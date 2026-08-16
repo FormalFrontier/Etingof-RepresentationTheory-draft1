@@ -37,6 +37,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.Auxiliary.MutualCentralizers.mutual_centralizer_algebras}
 
+{Manual.docstring RepresentationTheory.PartitionedDecomposition.existsIndexedSimpleDecomposition}
+
+{Manual.docstring RepresentationTheory.PartitionedDecomposition.existsTensorProductDecomposition}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Auxiliary.MutualCentralizers.associatedSubalgebras_semisimple}

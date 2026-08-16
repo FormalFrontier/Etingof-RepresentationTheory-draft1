@@ -33,6 +33,8 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.AuxiliaryRepresentationComputations.simple_iso_one_of_three_auxiliary_representations}
+
 {Manual.docstring RepresentationTheory.PermutationDegreeThree.card_conjClasses_perm_fin_three}
 
 {Manual.docstring RepresentationTheory.PermutationDegreeThree.one_sq_add_one_sq_add_two_sq_eq_card_perm_fin_three}

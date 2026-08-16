@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -27,3 +28,13 @@ Since the $`s_i` preserve $`B`, we get
 $$`B(d(V), d(V)) = B(\alpha_p, \alpha_p) = 2.`
 
 $`\square`
+
+## Formalization
+%%%
+tag := "Chapter6/Corollary6.8.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryQuiverConstructions.auxiliary_property_finrank}

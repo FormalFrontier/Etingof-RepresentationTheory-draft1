@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -46,3 +47,13 @@ F_n^- F_{n-1}^- \ldots F_k^- V^i = \begin{cases} F_n^- F_{n-1}^- \ldots F_k^- F_
 `
 
 $`\square`
+
+## Formalization
+%%%
+tag := "Chapter6/Corollary6.8.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryQuiverRepresentationRelations.auxiliary_nonempty_of_finrank_eq}

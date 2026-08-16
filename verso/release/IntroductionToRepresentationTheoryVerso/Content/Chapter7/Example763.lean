@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,31 @@ number := false
 4. We have the functor $`GL_1 : \mathbf{Assoc}_k \to \mathbf{Groups}`, given by $`A \mapsto GL_1(A) = A^\times`. This functor has a left adjoint, which is the functor $`G \mapsto k[G]`, the group algebra of $`G`.
 
 5. The left adjoint to the forgetful functor $`\mathbf{Assoc}_k \to \mathbf{Vect}_k` is the functor of tensor algebra: $`V \mapsto TV`. Also, if we denote by $`\mathbf{Comm}_k` the category of commutative algebras, then the left adjoint to the forgetful functor $`\mathbf{Comm}_k \to \mathbf{Vect}_k` is the functor of the symmetric algebra: $`V \mapsto SV`.
+
+## Formalization
+%%%
+tag := "Chapter7/Example7.6.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.dualTensorAdjunction}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.inductionRestrictionAdjunction}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.monoidAlgebraAdjunction}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.restrictionInductionAdjunction}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.rightDualTensorLeftAdjunction}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.symmetricAlgebraAdjunction}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.tensorAlgebraAdjunction}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.tensorDualAdjunction}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.tensorLeftRightDualAdjunction}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.universalEnvelopingAlgebraAdjunction}

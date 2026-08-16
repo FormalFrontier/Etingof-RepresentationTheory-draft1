@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,27 @@ Let $`\mathbf{V}` be a representation of the path algebra $`P_Q`. From this repr
 Similarly, let $`(V_i, x_h)` be a representation of a quiver $`Q`. From this representation, we can construct a representation of the path algebra $`P_Q`: let $`\mathbf{V} = \bigoplus_i V_i`, let $`p_i : \mathbf{V} \to V_i \to \mathbf{V}` be the projection onto $`V_i`, and for any path $`p = h_1 \ldots h_m` let $`a_p = x_{h_1} \ldots x_{h_m} : V_{h'_m} \to V_{h''_1}` be the composition of the operators corresponding to the edges occurring in $`p` (and the action of this operator on the other $`V_i` is zero).
 
 It is clear that the above assignments $`\mathbf{V} \mapsto (p_i \mathbf{V})` and $`(V_i) \mapsto \bigoplus_i V_i` are inverses of each other. Thus, we have a bijection between isomorphism classes of representations of the algebra $`P_Q` and of the quiver $`Q`.
+
+## Formalization
+%%%
+tag := "Chapter2/Discussion_quiver_rep_bijection/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.arrowMapOnVertexParts}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.existsModuleRepresentationQuotientEquiv}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.representationOfModule}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.vertexSubmodule}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.RealizesRepresentation}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.pathEndomorphism}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.pathLinearMap}

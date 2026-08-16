@@ -24,6 +24,14 @@ tag := "Chapter5/Definition5.1.4/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Representation.Character.AuxiliaryProperties.auxiliaryPredicate_iff_auxiliaryValue_eq_one}
+
+{Manual.docstring RepresentationTheory.Representation.Character.AuxiliaryProperties.auxiliaryPredicate_iff_auxiliaryValue_eq_zero}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar}
+
+{Manual.docstring RepresentationTheory.Representation.Character.AuxiliaryProperties.auxiliaryStatement'''}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -37,3 +38,13 @@ $$`\circ \text{---} \circ \text{---} \circ \text{---} \circ \text{---} \circ`
 $$`\hspace{5em} |`
 
 $$`\hspace{5em} \circ`
+
+## Formalization
+%%%
+tag := "Chapter6/Theorem_Dynkin_classification/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Matrix.BinaryAdjacencyClassification.Matrix.exists_adjacency_reindexing_iff}

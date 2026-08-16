@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,33 @@ number := false
 (c) Show that the $`E_7` and $`E_6` lattices can be obtained as the sets of vectors in the $`E_8` lattice $`L` where the first two, respectively three, coordinates (in the basis $`e_i`) are equal.
 
 (d) Show that $`E_6`, $`E_7`, $`E_8` have 72, 126, and 240 roots, respectively (enumerate types of roots in terms of the presentations in the basis $`e_i`, and count the roots of each type).
+
+## Formalization
+%%%
+tag := "Chapter6/Problem6.9.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.ncard_setTransform_rationalVectorSetA}
+
+{Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.ncard_setTransform_rationalVectorSetB}
+
+{Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.ncard_setTransform_rationalVectorSetC}
+
+{Manual.docstring RepresentationTheory.RationalVectorRootSystems.eightRationalVectors_configuration}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.rationalVectorSetA}
+
+{Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.rationalVectorSetB}
+
+{Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.rationalVectorSetC_integerSpan_characterization}
+
+{Manual.docstring RepresentationTheory.RationalVectorRootSystems.eightVectorAuxiliarySet_isCrystallographicRootSet}
+
+{Manual.docstring RepresentationTheory.RationalVectorRootSystems.sevenRationalVectors_integerPairingMatrix_eq_adjacency}
+
+{Manual.docstring RepresentationTheory.RationalVectorRootSystems.sixRationalVectors_integerPairingMatrix_eq_adjacency}

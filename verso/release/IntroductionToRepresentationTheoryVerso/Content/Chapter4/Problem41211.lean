@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -34,3 +35,35 @@ Recall that the group $`SO(3)` of rotations acts on $`V`, so $`S^2V`, $`\operato
 (b) Show that $`V` and $`W` are irreducible, even after complexification. Deduce using Schur's lemma that $`S_P` is always symmetric, and for $`x \in \mathbb{R}, y \in W` one has $`f(x + y) = Kx + \mu y` for some real numbers $`K, \mu`.
 
 In fact, it is clear from physics that $`K, \mu` are positive. Physically, the compression modulus $`K` characterizes resistance of the material to compression or dilation, while the shearing modulus $`\mu` characterizes its resistance to changing the shape of the object without changing its volume. For instance, clay (used for sculpting) has a large compression modulus but a small shearing modulus.
+
+## Formalization
+%%%
+tag := "Chapter4/Problem4.12.11/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryComplexSubmoduleClassification}
+
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryComplexSubmoduleResult}
+
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryConjunction}
+
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryInternalDirectSum}
+
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryRealSubmoduleA_finrank}
+
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryRealSubmoduleB_finrank}
+
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryRealSubmoduleClassification}
+
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryRealSubmoduleD_finrank}
+
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryRealSubmoduleResult}
+
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryUniversalResultA}
+
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryUniversalResultB}
+
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryUniversalResultC}

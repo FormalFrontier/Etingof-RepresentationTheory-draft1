@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -19,3 +20,19 @@ number := false
 *Remark 5.23.3.* Since the Lie algebra $`\mathfrak{sl}(V)` of traceless operators on $`V` is a quotient of $`\mathfrak{gl}(V)` by scalars, the above results extend in a straightforward manner to representations of the Lie algebra $`\mathfrak{sl}(V)`. Similarly, the results for $`GL(V)` extend to the case of the group $`SL(V)` of operators with determinant 1. The only difference is that in this case the representations $`L_\lambda` and $`L_{\lambda + 1^m}` are isomorphic, so the irreducible representations are parametrized by integer sequences $`\lambda_1 \geq \cdots \geq \lambda_N` up to a simultaneous shift by a constant.
 
 In particular, one can show that any finite dimensional representation of $`\mathfrak{sl}(V)` is completely reducible and any irreducible representation is of the form $`L_\lambda` (we will not do this here). For $`\dim V = 2` one then recovers the representation theory of $`\mathfrak{sl}(2)` studied in Problem 2.15.1.
+
+## Formalization
+%%%
+tag := "Chapter5/Remark5.23.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Auxiliary.SpecialLinearRepresentation.SpecialLinearRepresentation.finiteProperty'_exists_equiv}
+
+{Manual.docstring RepresentationTheory.GeneralLinearGroup.SpecialLinearRestriction.auxiliaryQuotientEquiv}
+
+{Manual.docstring RepresentationTheory.GeneralLinearGroup.SpecialLinearRestriction.restrictToSpecialLinear_constShift_equiv}
+
+{Manual.docstring RepresentationTheory.GeneralLinearGroup.SpecialLinearRestriction.shiftEquiv_of_representationRelated}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -40,3 +41,23 @@ where $`y_{i,jk}` are new coordinates on $`\mathbb{C}[G]` related to $`x_g` by a
 $$`P_i(\mathbf{x}) = \det|_{V_i} L(\mathbf{x}) = \det(y_{i,jk}).`
 
 Hence, $`P_i` are irreducible (by Lemma 4.10.3) and not proportional to each other (as they depend on different collections of variables $`y_{i,jk}`). The theorem is proved. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter4/Discussion_proof_Theorem4.10.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.MvPolynomial.GroupIndexedFactorization.exists_irreducible_factorization_of_auxiliaryGroupPolynomial}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryGroupPolynomial_eq_sign_smul_prod_auxiliaryPolynomial_pow}
+
+{Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryPolynomial_irreducible}
+
+{Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryPolynomial_not_associated}
+
+{Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.totalDegree_auxiliaryPolynomial}

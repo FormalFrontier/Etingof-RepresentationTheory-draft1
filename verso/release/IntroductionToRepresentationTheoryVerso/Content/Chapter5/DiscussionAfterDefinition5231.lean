@@ -27,6 +27,10 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.AuxiliaryEquivariantDecomposition.auxiliary_isSimpleModule}
+
+{Manual.docstring RepresentationTheory.AuxiliaryRepresentationDecompositions.auxiliary_existsUnique_representationParameter_of_simple}
+
 {Manual.docstring RepresentationTheory.AuxiliaryRepresentationParameters.auxiliaryRepresentation_linearEquiv_iff_parameters_eq}
 
 {Manual.docstring RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.auxiliaryGeneralLinearFDRep}

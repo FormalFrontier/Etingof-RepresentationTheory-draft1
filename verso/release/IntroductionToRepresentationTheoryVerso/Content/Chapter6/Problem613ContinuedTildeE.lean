@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -49,3 +50,21 @@ _Hint for (c)-(e):_ What is the meaning of the numbers labeling the vertices of 
 (f) Deduce from (a)—(e) the classification theorem for Dynkin diagrams.
 
 (g) A (simply laced) *affine Dynkin diagram* is a connected graph without self-loops such that the quadratic form defined by $`A` is positive semidefinite but not positive definite. Classify affine Dynkin diagrams. (Show that they are exactly the forbidden diagrams from (c)—(e).)
+
+## Formalization
+%%%
+tag := "Chapter6/Problem6.1.3_continued_tildeE/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.AffineClassification.AffineDynkinDiagram.adjacency_isAffineDynkinMatrix}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.AffineClassification.AffineDynkinDiagram.det_two_smul_one_sub_adjacency_eq_zero}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.AffineClassification.AffineDynkinDiagram.two_smul_one_sub_adjacency_mulVec_marks_eq_zero}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.AffineClassification.isAffineDynkinMatrix_iff_exists_equiv}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.AffineClassification.isFiniteDynkinMatrix_iff_exists_equiv}

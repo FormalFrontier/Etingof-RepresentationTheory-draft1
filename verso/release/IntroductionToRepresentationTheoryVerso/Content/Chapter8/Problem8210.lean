@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -46,3 +47,43 @@ $$`
 
 (v) Compute $`\mathrm{Ext}^i_{SV}(k, k)` and $`\mathrm{Tor}_i^{SV}(k, k)`.
 \[Blank page\]
+
+## Formalization
+%%%
+tag := "Chapter8/Problem8.2.10/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.coefficientProjectiveResolution}
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.ProjectiveResolutionAuxiliary.basisIndexedDualExteriorPowerIsoAuxiliary}
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.ProjectiveResolutionAuxiliary.basisIndexedExteriorPowerIsoAuxiliary}
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.ProjectiveResolutionAuxiliary.basisProjectiveResolutionAuxiliary}
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.ProjectiveResolutionAuxiliary.finiteDimensionalProjectiveResolutionAuxiliary}
+
+{Manual.docstring RepresentationTheory.Auxiliary.TensorResolution.Auxiliary.projectiveResolution}
+
+{Manual.docstring RepresentationTheory.Auxiliary.TensorResolution.Auxiliary.projectiveResolution_isZeroAbove}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.SymmetricAlgebra.ProjectiveDimension.SymmetricAlgebra.auxiliary_homological_bounds_of_basis}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.coefficientProjectiveResolutionTermIso}
+
+{Manual.docstring RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.coefficientProjectiveResolution_quasiIso}
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.ProjectiveResolutionAuxiliary.basisProjectiveResolutionAuxiliary_free}
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.ProjectiveResolutionAuxiliary.finiteDimensionalProjectiveResolutionAuxiliary_componentIso}
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.ProjectiveResolutionAuxiliary.finiteDimensionalProjectiveResolutionAuxiliary_pi_quasiIso}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.SymmetricAlgebra.ProjectiveDimension.SymmetricAlgebra.auxiliary_bimodule_object_isZero_of_basis_of_lt}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.SymmetricAlgebra.ProjectiveDimension.SymmetricAlgebra.ext_subsingleton_of_basis_of_lt}

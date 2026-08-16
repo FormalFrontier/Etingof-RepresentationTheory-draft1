@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -81,3 +82,23 @@ Thus, $`A_n` has $`n(n+1)/2` positive roots.
 * $`E_6`: 36 roots,
 * $`E_7`: 63 roots,
 * $`E_8`: 120 roots.
+
+## Formalization
+%%%
+tag := "Chapter6/Example6.4.9/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AdjInputSetCardinalities.set_from_adj_at_eight_finite_and_ncard_eq}
+
+{Manual.docstring RepresentationTheory.AdjInputSetCardinalities.set_from_adj_at_seven_finite_and_ncard_eq}
+
+{Manual.docstring RepresentationTheory.AdjInputSetCardinalities.set_from_adj_at_six_finite_and_ncard_eq}
+
+{Manual.docstring RepresentationTheory.FiniteSetCardinality.finite_and_ncard_eq_mul_sub_one}
+
+{Manual.docstring RepresentationTheory.IntegerZeroSumCoordinates.auxiliary_set_ncard}
+
+{Manual.docstring RepresentationTheory.IntegerZeroSumCoordinates.mem_singleton_difference_set_iff}

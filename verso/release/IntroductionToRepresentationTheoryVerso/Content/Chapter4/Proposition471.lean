@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -46,3 +47,27 @@ This shows that
 $$`(P(v_i \otimes v^*_{i'}), v_j \otimes v^*_{j'}) = \frac{\delta_{ii'}\delta_{jj'}}{\dim V},`
 
 which finishes the proof of (i) and (ii). The last statement follows immediately from the sum of squares formula. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter4/Proposition4.7.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.functionSpaceBasis}
+
+{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.orthogonalitySum_eq_ite}
+
+{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.orthogonalitySum_eq_zero_of_not_iso}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryLinearMap}
+
+{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryLinearMap_mem_invariants}
+
+{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPairing_auxiliaryTheorem}
+
+{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPairing_auxiliaryTheorem'}

@@ -61,3 +61,7 @@ number := false
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex.exists_biprod_inr_comp_iso_inv_homologyMap_isIso}
+
+{Manual.docstring RepresentationTheory.HomologicalComplex.TensorHomology.homologyTensorToSigmaIso}
+
+{Manual.docstring RepresentationTheory.HomologicalComplex.TensorHomology.tensorHomologyFunctorIso}

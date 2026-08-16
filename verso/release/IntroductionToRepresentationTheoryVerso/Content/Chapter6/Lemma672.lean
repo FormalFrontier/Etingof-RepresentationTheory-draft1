@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -86,3 +87,13 @@ B(v, \alpha_i) = 0
 `
 
 for all $`i`, and since $`B` is nondegenerate, we get $`v = 0`. But this is a contradiction, since $`v` is an eigenvector. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter6/Lemma6.7.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.IntegerMatrix.ReflectionDynamics.exists_iterate_apply_lt_zero}

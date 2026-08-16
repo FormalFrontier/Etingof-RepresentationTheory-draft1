@@ -91,6 +91,44 @@ number := false
 
 {Manual.docstring RepresentationTheory.FiniteFieldUnitClassDecomposition.classPredicates_exactlyOne}
 
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.auxiliaryCountFour_eq}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.auxiliaryCountOne_eq}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.auxiliaryCountThree_eq}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.auxiliaryCountTwo_eq}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_centralizer_eq_fieldCard_mul_pred_of_auxiliaryTwo}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_centralizer_eq_fieldCard_pred_sq_of_auxiliaryFour}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_centralizer_eq_fieldCard_sq_sub_one_of_auxiliaryOne}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_centralizer_eq_generalLinearFactors_of_auxiliaryThree}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_conjClasses_eq_fieldCard_sq_sub_one}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_conjOrbit_eq_fieldCard_sq_add_self_of_auxiliaryFour}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_conjOrbit_eq_fieldCard_sq_sub_one_of_auxiliaryTwo}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_conjOrbit_eq_fieldCard_sq_sub_self_of_auxiliaryOne}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_conjOrbit_eq_one_of_auxiliaryThree}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_generalLinearGroup_fin_two}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_generalLinearGroup_fin_two_factored}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.exists_isConj_diagonalUnit_of_auxiliaryFour}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.exists_isConj_nonsquareExtensionUnit_of_auxiliaryOne}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.exists_isConj_scalarUnit_of_auxiliaryThree}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.exists_isConj_upperTriangularUnit_of_auxiliaryTwo}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FiniteFieldUnitClassDecomposition.card_classPredicateAlpha}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -134,3 +135,27 @@ number := false
   * {emptyTableCell}`_`
   * $`\mathbb{C} \oplus \mathbb{C}^3_+ \oplus \mathbb{C}^3_- \oplus 2\mathbb{C}^4 \oplus 2\mathbb{C}^5`
 :::
+
+## Formalization
+%%%
+tag := "Chapter4/Example4.9.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.RepresentationTensorDecompositions.firstFiveRepresentationFamily_tensor_iso_biproduct}
+
+{Manual.docstring RepresentationTheory.RepresentationTensorDecompositions.firstFiveRepresentationFamily_tensor_iso_multiplicitySum}
+
+{Manual.docstring RepresentationTheory.RepresentationTensorDecompositions.representationFamily_tensor_iso_biproduct}
+
+{Manual.docstring RepresentationTheory.RepresentationTensorDecompositions.representationFamily_tensor_iso_multiplicitySum}
+
+{Manual.docstring RepresentationTheory.RepresentationTensorDecompositions.secondFiveRepresentationFamily_tensor_iso_multiplicitySum}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.RepresentationTensorDecompositions.reducedPermutationRepresentation_tensor_sq_iso}
+
+{Manual.docstring RepresentationTheory.RepresentationTensorDecompositions.secondFiveRepresentationFamily_tensor_iso_biproduct}

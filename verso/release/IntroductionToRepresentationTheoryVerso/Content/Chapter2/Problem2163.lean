@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -19,3 +20,41 @@ number := false
 (a) Show that the Lie algebras $`\mathfrak{g}_1, \mathfrak{g}_2, \mathfrak{g}_3` are finite dimensional and find their dimensions.
 
 (b) (Harder!) Show that the Lie algebra $`\mathfrak{g}_4` has infinite dimension. Construct explicitly a basis of this algebra.
+
+## Formalization
+%%%
+tag := "Chapter2/Problem2.16.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ExplicitConstructions.finrank_eq}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ExplicitConstructions.finrank_eq_aux1}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ExplicitConstructions.finrank_eq_aux2}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ExplicitConstructions.not_moduleFinite}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModels.fourDimensionalBasis}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.AuxiliaryBracketCalculus.card_degree_two_mul_add_one}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.AuxiliaryBracketCalculus.card_degree_two_mul_add_two}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.AuxiliaryBracketCalculus.card_degree_zero}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.AuxiliaryBracketCalculus.indexedFamily}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryIndex}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryType}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ExplicitConstructions.displayed_eq_aux4}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ExplicitConstructions.indexedLieIdeal}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ExplicitConstructions.lieHom_aux5}

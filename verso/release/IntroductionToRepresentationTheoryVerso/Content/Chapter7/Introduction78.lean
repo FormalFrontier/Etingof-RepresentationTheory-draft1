@@ -33,3 +33,5 @@ number := false
 {Manual.docstring RepresentationTheory.CochainComplex.IntIndexed}
 
 {Manual.docstring RepresentationTheory.CochainComplex.IntIndexed.degreeObject}
+
+{Manual.docstring RepresentationTheory.HomologicalComplex.TensorHomology.tensorHomologyFunctorIso}

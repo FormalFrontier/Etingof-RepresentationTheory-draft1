@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -35,3 +36,15 @@ By Lemma 6.7.2 this cannot continue indefinitely, since $`d\left(V^{(i)}\right)`
 $$`d(V^{(i)}) = \alpha_p`
 
 for some $`p`. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter6/Theorem6.8.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryQuiverConstructions.auxiliary_exists_data_of_representation}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.IntegerMatrixReflections.exists_iteratedCoordinateReflection_eq_single_of_quadraticForm_eq_two}

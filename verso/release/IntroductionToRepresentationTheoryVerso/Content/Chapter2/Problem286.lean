@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -23,3 +24,29 @@ number := false
 (3) $`a_h p_{h'} = a_h`, $`a_h p_j = 0` for $`j \neq h'`,
 
 (4) $`p_{h''} a_h = a_h`, $`p_i a_h = 0` for $`i \neq h''`.
+
+## Formalization
+%%%
+tag := "Chapter2/Problem2.8.6/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.existsUnique_oppositePathAlgebraHom}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.oppositeArrow_mul_sourceVertex}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.oppositeArrow_mul_vertex_of_ne_source}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.oppositeVertexArrow_adjoin_eq_top}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.oppositeVertex_mul_oppositeVertex_of_ne}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.oppositeVertex_mul_self}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.sum_oppositeVertex_eq_one}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.targetVertex_mul_oppositeArrow}
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.vertex_mul_oppositeArrow_of_ne_target}

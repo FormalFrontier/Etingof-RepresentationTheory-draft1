@@ -26,6 +26,12 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.exists_linearEquiv_directSum_standardModules}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.matrixProductLinearEquivDirectSumColumns}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.piMatrixProductLinearEquivDirectSum}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.BasisExpansion.basisExpansion}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.BasisExpansion.basisExpansion_apply}

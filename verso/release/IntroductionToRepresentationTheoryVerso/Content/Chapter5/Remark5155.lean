@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,25 @@ number := false
 $$`\chi_\lambda = \sum_{\mu \succeq \lambda} \widetilde{K}_{\mu\lambda} \chi_{U_\mu},`
 
 where $`(\widetilde{K}_{\lambda\mu})` is the matrix inverse to the matrix of Kostka numbers $`(K_{\lambda\mu})`. This implies that the Kostka numbers $`K_{\mu\lambda}` vanish unless $`\mu \succeq \lambda`.
+
+## Formalization
+%%%
+tag := "Chapter5/Remark5.15.5/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.auxiliaryValue_eq_rootLe_matrix_sum}
+
+{Manual.docstring RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.rootOrder_iff_auxiliaryRelation}
+
+{Manual.docstring RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.rootOrder_isPartialOrder}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryPartitionLinearIndependentFamily.auxiliary_nat_values_eq}
+
+{Manual.docstring RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.auxiliaryCount_eq_zero_of_not_rootLe}
+
+{Manual.docstring RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.auxiliaryInverseMatrix_apply_eq_zero_of_not_rootLe}

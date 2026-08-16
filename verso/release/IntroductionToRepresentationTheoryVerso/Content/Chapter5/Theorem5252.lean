@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -114,3 +115,41 @@ To prove the third assertion of the theorem, we look at the characters on hyperb
 $$`\lambda_1(x)\lambda_2(y) + \lambda_1(y)\lambda_2(x)`
 
 determines $`\lambda_1, \lambda_2` up to permutation. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.25.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_iso_iff}
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_simple_of_ne}
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryRepresentation_iso_iff}
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliary_representation_summary_of_pos}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryOtherRepresentation_simple}
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_finrank}
+
+{Manual.docstring RepresentationTheory.FiniteField.AuxiliaryRepresentations.AuxiliaryRepresentation}
+
+{Manual.docstring RepresentationTheory.FiniteField.AuxiliaryRepresentations.card_auxiliaryRepresentationIndex}
+
+{Manual.docstring RepresentationTheory.FiniteField.AuxiliaryRepresentations.character_determinantRepresentation}
+
+{Manual.docstring RepresentationTheory.FiniteField.AuxiliaryRepresentations.determinantRepresentation_iso_iff}
+
+{Manual.docstring RepresentationTheory.FiniteField.AuxiliaryRepresentations.eq_of_auxiliaryRepresentation_iso}
+
+{Manual.docstring RepresentationTheory.FiniteField.AuxiliaryRepresentations.exists_simple_family_card_primePower}
+
+{Manual.docstring RepresentationTheory.FiniteField.AuxiliaryRepresentations.finrank_determinantRepresentation}
+
+{Manual.docstring RepresentationTheory.FiniteField.AuxiliaryRepresentations.simple_auxiliaryRepresentation}

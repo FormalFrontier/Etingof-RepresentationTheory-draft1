@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -84,3 +85,15 @@ K' = V_i.
 `
 
 $`\square`
+
+## Formalization
+%%%
+tag := "Chapter6/Proposition6.6.6/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Quiver.FiniteFreeInjectivity.nonemptyAuxiliaryOfInjective}
+
+{Manual.docstring RepresentationTheory.Surjective.nonempty_of_surjective}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -20,3 +21,25 @@ number := false
 (a) Decompose this representation in a direct sum of irreducible representations (i.e., find the multiplicities of occurrence of all irreducible representations).
 
 (b) Do the same for the representation of $`G` on the space of functions on the set of faces and the set of edges of the icosahedron.
+
+## Formalization
+%%%
+tag := "Chapter4/Problem4.12.5/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.CosetPermutationActions.cardinalityFormula_011043}
+
+{Manual.docstring RepresentationTheory.CosetPermutationActions.cardinalityFormula_011082}
+
+{Manual.docstring RepresentationTheory.CosetPermutationActions.cardinalityFormula_011198}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CosetPermutationActions.cardinalityFormula_011031}
+
+{Manual.docstring RepresentationTheory.CosetPermutationActions.cardinalityFormula_011070}
+
+{Manual.docstring RepresentationTheory.CosetPermutationActions.cardinalityFormula_011190}

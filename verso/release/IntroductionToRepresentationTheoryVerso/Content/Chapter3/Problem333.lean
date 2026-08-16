@@ -53,6 +53,10 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.exists_linearEquiv_directSum_standardModules}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.matrixProduct_simpleModule_classification}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.IndexedAuxiliaryType.componentLinearEquivOfLinearEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.IndexedAuxiliaryType.eq_index_of_linearEquiv}

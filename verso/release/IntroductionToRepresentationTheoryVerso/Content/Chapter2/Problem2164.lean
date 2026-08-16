@@ -23,6 +23,12 @@ tag := "Chapter2/Problem2.16.4/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.LieModule.IrreducibleParameterModules.exists_parameterModule_equiv}
+
+{Manual.docstring RepresentationTheory.LieModule.IrreducibleParameterModules.nonempty_parameterEquivWitness_iff}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.finrank_finFunction}
@@ -32,3 +38,11 @@ number := false
 {Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.isIrreducible_finFunction_of_le_characteristic}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.not_forall_finrank_lt_characteristic}
+
+{Manual.docstring RepresentationTheory.LieModule.IrreducibleParameterModules.ModuleParameter}
+
+{Manual.docstring RepresentationTheory.LieModule.IrreducibleParameterModules.isIrreducible_parameterModule}
+
+{Manual.docstring RepresentationTheory.LieModule.IrreducibleParameterModules.parameterModuleLieHom}
+
+{Manual.docstring RepresentationTheory.LieModule.IrreducibleParameterModules.parameterQuotientEquivModuleData}

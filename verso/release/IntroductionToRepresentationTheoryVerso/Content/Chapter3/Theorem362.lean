@@ -48,6 +48,8 @@ number := false
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.matrixProduct_simpleModule_classification}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.mem_span_moduleDualElement_of_commutes_mul}
 
 {Manual.docstring RepresentationTheory.Algebra.Trace.CommutatorQuotient.traceOnCommutatorQuotient}

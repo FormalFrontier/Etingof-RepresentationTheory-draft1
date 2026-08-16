@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -50,3 +51,15 @@ since $`\mathbb{F}_q^\times` is cyclic of order $`q - 1`. Therefore,
 $$`\langle \chi, \chi \rangle = \frac{1}{(q - 1)^2 q(q + 1)} \Big( (q - 1) \cdot (q - 1)^2 \cdot 1 + (q - 1) \cdot 1 \cdot (q^2 - 1) + \frac{q(q - 1)}{2} \cdot (2(q^2 - q) - 2(q - 1)) \Big) = 1.`
 
 $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Lemma5.25.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteField.CharacterSums.auxiliaryValue_one_eq_pow_sub_one_and_pos}
+
+{Manual.docstring RepresentationTheory.FiniteField.CharacterSums.normalized_sum_auxiliaryValue_mul_star_eq_one}

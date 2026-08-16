@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -23,3 +24,19 @@ _(ii) (The Peter-Weyl theorem for $`GL(V)`) Let $`R` be the algebra of polynomia
 $$`R = \bigoplus_\lambda L_\lambda^* \otimes L_\lambda,`
 
 _where the summation runs over all $`\lambda`._
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.23.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryEquivariantDecomposition.auxiliary_nonempty_representationRelation}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryRepresentationDecompositions.auxiliary_exists_directSum_representation_decomposition}
+
+{Manual.docstring RepresentationTheory.AuxiliarySemisimpleDecomposition.isSemisimpleModule_of_auxiliary}

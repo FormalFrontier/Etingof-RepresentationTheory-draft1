@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -32,3 +33,15 @@ This sequence is well defined because of the selected labeling: $`n` has to be a
 $$`V^{(n+1)} = F_n^+ V^{(n)}, \ldots`
 
 and continue the sequence to infinity.
+
+## Formalization
+%%%
+tag := "Chapter6/Section6.8_heading/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryQuiverConstructions.auxiliary_exists_list_property}
+
+{Manual.docstring RepresentationTheory.AuxiliaryQuiverConstructions.auxiliary_property_get_replicate_append_take}

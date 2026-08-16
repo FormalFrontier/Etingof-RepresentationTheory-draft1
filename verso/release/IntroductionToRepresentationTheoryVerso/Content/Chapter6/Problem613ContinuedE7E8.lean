@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -58,3 +59,41 @@ $$`\overset{1}{\bullet} \nearrow \hspace{1em} \nwarrow \overset{1}{\bullet}`
 
 
 [^sylvester]: The Sylvester criterion says that a symmetric bilinear form $`( \,,\, )` on $`\mathbb{R}^n` is positive definite if and only if for any $`k \leq n`, $`\det_{1 \leq i,j \leq k}(e_i, e_j) > 0`.
+
+## Formalization
+%%%
+tag := "Chapter6/Problem6.1.3_continued_E7_E8/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.AffineClassification.AffineDynkinDiagram.det_two_smul_one_sub_adjacency_eq_zero}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.det_cartanMatrix_typeA}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.det_cartanMatrix_typeD}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.det_cartanMatrix_typeE6}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.det_cartanMatrix_typeE7}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.det_cartanMatrix_typeE8}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree_le_three_of_isFiniteSimplyLaced}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.AffineClassification.AffineDynkinDiagram.two_smul_one_sub_adjacency_mulVec_marks_eq_zero}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.det_two_smul_one_sub_cycleAdjacencyMatrix_eq_zero}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.exceptionalTypes_areFiniteSimplyLaced}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.sum_adjacency_entries_eq_twice_rank_sub_two_of_isFiniteSimplyLaced}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.typeA_isFiniteSimplyLaced}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.typeD_isFiniteSimplyLaced}

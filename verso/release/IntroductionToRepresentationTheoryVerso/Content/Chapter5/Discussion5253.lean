@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -43,3 +44,21 @@ $$`V_{\lambda_1, \lambda_2} = \operatorname{Ind}_B^G \mathbb{C}_\lambda,`
 where $`\mathbb{C}_\lambda` is the 1-dimensional representation of $`B` in which $`B` acts by $`\lambda`. We have
 
 $$`\dim(V_{\lambda_1, \lambda_2}) = \frac{|G|}{|B|} = q + 1.`
+
+## Formalization
+%%%
+tag := "Chapter5/Discussion_5.25.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_finrank}
+
+{Manual.docstring RepresentationTheory.FiniteFieldMatrixCharacterFormulas.character_auxFamily_one}
+
+{Manual.docstring RepresentationTheory.FiniteFieldMatrixCharacterFormulas.character_auxTwoParameter_rightOne}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation}

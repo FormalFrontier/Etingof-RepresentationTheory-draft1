@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -364,3 +365,25 @@ $$`
 `
 
 Thus the quiver $`D_4` with the selected orientation has 12 indecomposable objects. If one were to explicitly decompose representations for the other possible orientations, one would also find 12 indecomposable objects.
+
+## Formalization
+%%%
+tag := "Chapter6/Example6.3.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation.existsUnique_equiv_standardRepresentation_of_isIndecomposable}
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation.standardRepresentation_isIndecomposable}
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation.standardRepresentation_not_equiv_of_ne}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteSetMembership.auxiliary_value_mem_finset_of_property}
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation.card_admissibleDimension}
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation.standardRepresentation}

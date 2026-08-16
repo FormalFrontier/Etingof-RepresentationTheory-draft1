@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -23,3 +24,21 @@ number := false
 (b) Use (a) to construct a field embedding $`k(x_1, \ldots, x_N) \to k(g_{pq})`. Then use Problem 6.1.1.
 
 (c) Generalize the result of this problem to the case when $`G = GL_{m_1}(k) \times \cdots \times GL_{m_n}(k)`.
+
+## Formalization
+%%%
+tag := "Chapter6/Problem6.1.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.PolynomialRepresentation.FiniteOrbits.exists_isPolynomiallyDense_orbit_of_finite_orbits}
+
+{Manual.docstring RepresentationTheory.PolynomialRepresentation.FiniteOrbits.finrank_le_sq_of_finite_representation_orbits}
+
+{Manual.docstring RepresentationTheory.PolynomialRepresentation.FiniteOrbits.finrank_le_sum_sq_of_finite_representation_orbits}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.PolynomialRepresentation.FiniteOrbits.exists_injective_localizedMatrixVectorSubstitutionAlgHom_of_finite_orbits}

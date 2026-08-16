@@ -31,6 +31,48 @@ tag := "Chapter3/Discussion_proof_of_Theorem3.3.1/formalization"
 number := false
 %%%
 
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.basisLinearCombination}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.basisLinearCombination_apply}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.basisLinearCombination_surjective}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.dualPiLinearEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.exists_linearEquiv_directSum_standardModules}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.matrixProductLinearEquivDirectSumColumns}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.moduleDualOfRingEquivOpposite}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.piMatrixProductLinearEquivDirectSum}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.standardModule_isSimpleModule}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.transposeRingEquivOpposite}
+
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.dualFreeEmbedding}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.dualFreeEmbedding_injective}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.dualPiLinearEquivPiDual}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.matrixAlgEquivOpposite}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.matrixProductLinearEquivDual}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.moduleDualMap}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.moduleDualMap_injective_of_surjective}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.moduleDualOfRingEquivOpposite_isScalarTower}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.piOppositeRingEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.toDoubleDualLinearEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_equiv_directSum_fin}

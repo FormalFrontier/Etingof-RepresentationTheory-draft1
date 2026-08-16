@@ -74,6 +74,12 @@ number := false
 
 {Manual.docstring RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix}
 
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryRepresentationProperties.auxiliaryGlobalQuiverProperty_iff_auxiliaryConditions}
+
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryRepresentationProperties.auxiliaryGlobalQuiverProperty_iff_explicitConditions}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel}
+
+{Manual.docstring RepresentationTheory.Matrix.BinaryAdjacencyClassification.Matrix.exists_adjacency_reindexing_iff}

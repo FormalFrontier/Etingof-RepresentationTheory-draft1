@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -17,3 +18,13 @@ number := false
 %%%
 
 *Corollary 5.19.2.* _As a representation of $`S_n \times GL(V)`, $`V^{\otimes n}` decomposes as $`\bigoplus_\lambda V_\lambda \otimes L_\lambda`, where $`L_\lambda = \operatorname{Hom}_{S_n}(V_\lambda, V^{\otimes n})` are distinct irreducible representations of $`GL(V)` or zero._
+
+## Formalization
+%%%
+tag := "Chapter5/Corollary5.19.2/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.AuxiliarySimpleModuleData.exists_auxiliary_simple_module_data}

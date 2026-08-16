@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -21,3 +22,15 @@ number := false
 (a) Show that $`\operatorname{Res}_{S_{n-1}}^{S_n} V_\mu = \bigoplus_{\lambda \in R(\mu)} V_\lambda`.
 
 (b) Show that $`\operatorname{Ind}_{S_{n-1}}^{S_n} V_\mu = \bigoplus_{\lambda \in A(\mu)} V_\lambda`.
+
+## Formalization
+%%%
+tag := "Chapter5/Problem5.16.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Auxiliary.FDRepPartitions.auxiliaryFDRepOfPartitionIso}
+
+{Manual.docstring RepresentationTheory.Auxiliary.FDRepPartitions.auxiliaryFDRepOfSuccessorPartitionIso}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -31,3 +32,37 @@ and show that it is surjective.
 $$`0 \to K \to P \otimes_B \operatorname{Hom}(P, X) \to X \to 0,`
 
 where the third map is $`\xi`. Apply the functor $`F` to this sequence and use (i) to conclude that $`K = 0` and hence $`\xi` is an isomorphism. Conclude that the functors $`G` and $`F` are quasi-inverse to each other and hence are equivalences of categories.
+
+## Formalization
+%%%
+tag := "Chapter9/Problem9.6.5/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.modulePresentationRelation}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.moduleThenPresentationHom}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.moduleThenPresentationHom_app_epi}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.moduleThenPresentationHom_isIso}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.presentationThenModuleIso}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.finiteCopowerHomEquiv}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.finiteModuleEquivalence}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.kernel_presentationEvaluation_isZero}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.modulePresentationFunctor}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.modulePresentationObject}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.oppositeEndEvaluation}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.tensorScalarAction}

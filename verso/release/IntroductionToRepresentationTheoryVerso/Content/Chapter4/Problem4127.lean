@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -34,3 +35,73 @@ The algebra $`\mathbb{H}` is called the **quaternion algebra**, and its elements
 (e) Let $`G` be the group of quaternions of norm 1. Show that this group is isomorphic to $`SU(2)`. (Thus geometrically $`SU(2)` is the 3-dimensional sphere.)
 
 (f) Consider the action of $`G` on the space $`V \subset \mathbb{H}` spanned by $`i, j, k`, by $`x \to qxq^{-1}`, $`q \in G`, $`x \in V`. Since this action preserves the norm on $`V`, we have a homomorphism $`h : SU(2) \to SO(3)`, where $`SO(3)` is the group of rotations of the 3-dimensional Euclidean space. Show that this homomorphism is surjective and that its kernel is $`\{1, -1\}`.
+
+## Formalization
+%%%
+tag := "Chapter4/Problem4.12.7/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.cardinalityFormula_011488}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.matrixAction_011500}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.matrixAction_011564}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.membershipCharacterization_011477}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.multiplicativeEquivalence_011606}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.quaternionBasis}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.quaternionNorm_011503}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.valueFormula_011515}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.valueFormula_011516}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.valueFormula_011524}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.valueFormula_011526}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.valueFormula_011534}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.valueFormula_011535}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.valueFormula_011596}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011486}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011514}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011525}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011536}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011577}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.cardinalityFormula_011489}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.equivariantEndomorphismAlgebra}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.injective_011546}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.membershipCharacterization_011460}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.membershipCharacterization_011463}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.membershipCharacterization_011466}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.realUnitQuaternions}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.surjective_011547}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.surjective_011572}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.unitQuaternionToRotation}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.unitQuaternionToSpecialUnitary}

@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,13 @@ by the rule
 $$`F_i^+(V)_k = V_k \quad \text{if } k \neq i,`
 
 $$`F_i^+(V)_i = \ker\left(\varphi : \bigoplus_{j \to i} V_j \to V_i\right).`
+
+## Formalization
+%%%
+tag := "Chapter6/Definition6.6.3/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.QuiverRepresentationAuxiliaryFunctor.auxiliaryRepresentationFunctor}

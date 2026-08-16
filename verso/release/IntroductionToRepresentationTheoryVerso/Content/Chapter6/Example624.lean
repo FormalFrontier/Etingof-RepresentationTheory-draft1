@@ -140,6 +140,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.FiniteDimensionalLinearChainRepresentations.LinearChainRepresentation.standardModel_isIndecomposable}
 
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearCospanRepresentations.LinearCospanRepresentation.standardModel_isIndecomposable}
+
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FiniteDimensionalLinearChainRepresentations.LinearChainRepresentation.existsUnique_equiv_standardModel_of_isIndecomposable}
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearCospanRepresentations.LinearCospanRepresentation.existsUnique_equiv_standardModel_of_isIndecomposable}

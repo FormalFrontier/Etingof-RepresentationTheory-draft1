@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -27,3 +28,65 @@ Hint: In the even case, pick a basis $`a_1, \ldots, a_n, b_1, \ldots, b_n` of $`
 Show that there is no other irreducible representations by finding a spanning set of $`\operatorname{Cl}(V)` with $`2^{\dim V}` elements.
 
 (ii) Show that $`\operatorname{Cl}(V)` is semisimple if and only if $`( \ , \ )` is nondegenerate. If $`( \ , \ )` is degenerate, what is $`\operatorname{Cl}(V)/\operatorname{Rad}(\operatorname{Cl}(V))`?
+
+## Formalization
+%%%
+tag := "Chapter3/Problem3.9.5/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.exists_algEquiv_end_of_finrank_even}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.exists_algEquiv_prod_end_of_finrank_odd}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.finrank_eq_two_pow}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.finsetMonomialBasis}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.isSemisimpleRing_iff_nondegenerate}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.isSemisimpleRing_of_nondegenerate}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.nonempty_algEquiv_exterior_of_zero}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.span_range_basisMonomial_eq_top}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace_isSimpleModule}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules.simpleModule_linearEquiv_evenCliffordModule}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules.standardCarrier_isSimpleModule}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules.standardCliffordRepresentation_bijective}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules.isEmpty_linearEquiv_secondOddCliffordModule_firstOddCliffordModule}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules.simpleModule_equiv_first_or_second}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.exists_surjective_algHom_nondegenerate_quotient_of_degenerate}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.cliffordRepresentation}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.cliffordRepresentation_bijective}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.dualAction}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.vectorAction}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules.standardCliffordRepresentation}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules.isSimpleModule_negativeSpinRepresentationOfBilin}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules.isSimpleModule_positiveSpinRepresentationOfBilin}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules.negativeSpinRepresentationOfBilin}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules.positiveSpinRepresentationOfBilin}

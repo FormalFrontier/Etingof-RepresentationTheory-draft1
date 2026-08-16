@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -25,3 +26,21 @@ This product turns $`F(G, \mathbb{C})` into an associative algebra, with unit $`
 $$`\chi_i(g) = \sqrt{\frac{|G|}{\tilde{\chi}_i(1)}} \tilde{\chi}_i(g)`
 
 (check it!). This is, essentially, how Frobenius defined characters (see \[**Cu**\], equation (7)). Note that Frobenius defined representations at approximately the same time, but for some time it was not clear that there is a simple relation between irreducible representations and characters (namely, that irreducible characters are simply traces of group elements in irreducible representations). Even today, many group theorists sometimes talk of irreducible characters of a finite group rather than irreducible representations.
+
+## Formalization
+%%%
+tag := "Chapter4/Remark4.5.3/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.CharacterCoefficientAlgebra.auxiliaryComplexGroupSubalgebra}
+
+{Manual.docstring RepresentationTheory.CharacterCoefficientAlgebra.auxiliaryRingElementPredicate_iff_exists_simple_representationElement}
+
+{Manual.docstring RepresentationTheory.CharacterCoefficientAlgebra.character_eq_card_div_finrank_mul_coefficient}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CharacterCoefficientAlgebra.coeff_mul_eq_sum_coeff_mul_coeff_inv_mul}

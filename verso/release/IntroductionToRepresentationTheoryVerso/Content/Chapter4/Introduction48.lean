@@ -112,11 +112,25 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.AlternatingGroupFourRepresentations.alternatingGroupFourRepresentations_character}
+
+{Manual.docstring RepresentationTheory.AlternatingGroupFourRepresentations.alternatingGroupFourRepresentations_simple}
+
+{Manual.docstring RepresentationTheory.AlternatingGroupFourRepresentations.card_conjugacyClassIndex_fiber}
+
+{Manual.docstring RepresentationTheory.AlternatingGroupFourRepresentations.simpleRepresentation_iso_alternatingGroupFourRepresentation}
+
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterColumnOrthogonality.FiniteGroup.sum_complete_simple_characters_mul_inv}
 
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterPairing.FiniteGroup.normalized_characterPairing_eq_finrank_hom}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AlternatingGroupFourRepresentations.alternatingGroupFourRepresentations_pairwise_nonisomorphic}
+
+{Manual.docstring RepresentationTheory.AlternatingGroupFourRepresentations.conjugacyQuotientHom_surjective_and_ker}
+
+{Manual.docstring RepresentationTheory.AuxiliaryRepresentationComputations.simple_iso_one_of_three_auxiliary_representations}
 
 {Manual.docstring RepresentationTheory.PermutationDegreeThree.auxiliaryRepresentationOne}
 
