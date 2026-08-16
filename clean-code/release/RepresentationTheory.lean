@@ -783,6 +783,7 @@ import RepresentationTheory.Algebra.Module.DirectSumData
 import RepresentationTheory.CosetPermutationActions
 import RepresentationTheory.FiniteDimensionalLinearMapPair
 import RepresentationTheory.FiniteGroupRepresentationExamples
+import RepresentationTheory.FiniteRotationGroups
 
 /-!
 # Representation theory formalization
