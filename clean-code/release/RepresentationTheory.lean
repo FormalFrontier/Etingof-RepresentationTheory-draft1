@@ -784,6 +784,7 @@ import RepresentationTheory.CosetPermutationActions
 import RepresentationTheory.FiniteDimensionalLinearMapPair
 import RepresentationTheory.FiniteGroupRepresentationExamples
 import RepresentationTheory.FiniteRotationGroups
+import RepresentationTheory.SimpleSymmetricGroupRepresentations
 
 /-!
 # Representation theory formalization
