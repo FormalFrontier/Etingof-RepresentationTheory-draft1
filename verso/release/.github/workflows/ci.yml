@@ -12,7 +12,17 @@ permissions:
 jobs:
   formalization:
     runs-on: ubuntu-latest
+    timeout-minutes: 240
     steps:
+      - name: Reclaim hosted-runner disk space
+        run: |
+          df -h /
+          sudo rm -rf -- /usr/local/lib/android
+          sudo rm -rf -- /usr/share/dotnet
+          sudo rm -rf -- /opt/ghc
+          sudo rm -rf -- /usr/local/.ghcup
+          sudo rm -rf -- /opt/hostedtoolcache/CodeQL
+          df -h /
       - uses: actions/checkout@v4
       - name: Bootstrap the generated Lake manifest
         run: |
@@ -48,12 +58,22 @@ jobs:
     if: ${{ always() }}
     needs: formalization
     runs-on: ubuntu-latest
+    timeout-minutes: 240
     steps:
       - name: Require the pinned formalization build
         if: ${{ needs.formalization.result != 'success' }}
         run: |
           echo "The pinned formalization job did not succeed." >&2
           exit 1
+      - name: Reclaim hosted-runner disk space
+        run: |
+          df -h /
+          sudo rm -rf -- /usr/local/lib/android
+          sudo rm -rf -- /usr/share/dotnet
+          sudo rm -rf -- /opt/ghc
+          sudo rm -rf -- /usr/local/.ghcup
+          sudo rm -rf -- /opt/hostedtoolcache/CodeQL
+          df -h /
       - uses: actions/checkout@v4
       - name: Bootstrap the generated Lake manifest
         run: |
