@@ -14,13 +14,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: leanprover/lean-action@v1
-      - name: Update the pinned public revision
+      - name: Update the pinned public revision and bootstrap Lake
         env:
           FORMALIZATION_SHA: ${{ github.event.client_payload.sha }}
         run: |
           python3 scripts/update_formalization_dependency.py "$FORMALIZATION_SHA"
-          lake update RepresentationTheoryFormalization
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
+            sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/lake" update
+      - name: Restore the updated formalization build
+        id: formalization-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/packages/RepresentationTheoryFormalization/.lake/build
+          key: formalization-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+      - name: Build the updated formalization
+        uses: leanprover/lean-action@v1
+        with:
+          build: true
+          test: false
+          lint: false
+          build-args: "@RepresentationTheoryFormalization"
+          use-mathlib-cache: true
+          use-github-cache: false
+      - name: Check the updated formalization build
+        run: test -f .lake/packages/RepresentationTheoryFormalization/.lake/build/lib/lean/RepresentationTheory.olean
+      - name: Save the updated formalization build
+        if: steps.formalization-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: .lake/packages/RepresentationTheoryFormalization/.lake/build
+          key: formalization-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+      - name: Synchronize formalization panels
+        run: |
           lake env lean --run AlignmentExport.lean > "$RUNNER_TEMP/formalization-alignment.json"
           python3 scripts/sync_formalization_panels.py "$RUNNER_TEMP/formalization-alignment.json"
       - name: Create or refresh dependency update pull request
@@ -30,6 +57,15 @@ jobs:
           SOURCE_REF: ${{ github.event.client_payload.ref }}
         run: |
           branch="automation/formalization-${FORMALIZATION_SHA:0:12}"
+          lease="refs/heads/$branch:"
+          remote_ref=$(git ls-remote --heads origin "refs/heads/$branch")
+          remote_sha=${remote_ref%%[[:space:]]*}
+          if [ -n "$remote_sha" ]; then
+            git fetch --no-tags origin \
+              "refs/heads/$branch:refs/remotes/origin/$branch"
+            remote_sha=$(git rev-parse "refs/remotes/origin/$branch")
+            lease="refs/heads/$branch:$remote_sha"
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$branch"
@@ -39,7 +75,7 @@ jobs:
             exit 0
           fi
           git commit -m "Update formalization to ${FORMALIZATION_SHA:0:12}"
-          git push --force-with-lease origin "$branch"
+          git push --force-with-lease="$lease" origin "HEAD:refs/heads/$branch"
           pr_url=$(gh pr list --head "$branch" --state open --json url --jq '.[0].url')
           if [ -z "$pr_url" ]; then
             pr_url=$(gh pr create \

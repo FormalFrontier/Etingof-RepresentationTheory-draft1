@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shlex
 from pathlib import Path
 
 
@@ -168,10 +169,30 @@ def validate_private(root: Path, errors: list[str]) -> None:
         ),
         errors,
     )
-    if updater.is_file() and "lake-manifest.json" in updater.read_text(encoding="utf-8"):
-        errors.append(
-            f"{updater}: must not stage excluded generated lake-manifest.json"
-        )
+    if updater.is_file():
+        updater_text = updater.read_text(encoding="utf-8")
+        logical_lines = updater_text.replace("\\\n", " ").splitlines()
+        staging_commands: list[list[str]] = []
+        for line in logical_lines:
+            try:
+                tokens = shlex.split(line.strip())
+            except ValueError:
+                if "git add" in line:
+                    staging_commands.append([])
+                continue
+            if tokens[:2] == ["git", "add"]:
+                staging_commands.append(tokens)
+        expected_staging = [[
+            "git",
+            "add",
+            "lakefile.toml",
+            "IntroductionToRepresentationTheoryVerso/Content",
+        ]]
+        if staging_commands != expected_staging:
+            errors.append(
+                f"{updater}: must stage only the dependency pin and generated panels; "
+                "lake-manifest.json is excluded"
+            )
     workflow_text = "\n".join(
         path.read_text(encoding="utf-8")
         for path in sorted((root / ".github/workflows").glob("*.yml"))
