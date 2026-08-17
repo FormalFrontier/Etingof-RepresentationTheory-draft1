@@ -2,7 +2,11 @@
 
 This repository must remain private and GitHub Pages must remain disabled.
 Configure branch protection on `main` so that `Private Verso CI / build` is a
-required check, and enable auto-merge for dependency-update pull requests.
+required check, and enable auto-merge for dependency-update pull requests. In
+**Settings → Actions → General → Workflow permissions**, allow read and write
+permissions and allow GitHub Actions to create and approve pull requests. The
+updater requests only the `actions: write`, `contents: write`, and
+`pull-requests: write` permissions it needs.
 
 The public repository sends `repository_dispatch` events containing its exact
 tested commit SHA. The `Update formalization dependency` workflow opens a pull
