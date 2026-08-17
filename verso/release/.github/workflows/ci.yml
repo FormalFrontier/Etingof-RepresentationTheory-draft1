@@ -45,9 +45,15 @@ jobs:
           key: formalization-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
 
   build:
+    if: ${{ always() }}
     needs: formalization
     runs-on: ubuntu-latest
     steps:
+      - name: Require the pinned formalization build
+        if: ${{ needs.formalization.result != 'success' }}
+        run: |
+          echo "The pinned formalization job did not succeed." >&2
+          exit 1
       - uses: actions/checkout@v4
       - name: Bootstrap the generated Lake manifest
         run: |
