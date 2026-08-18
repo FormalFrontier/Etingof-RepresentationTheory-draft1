@@ -99,7 +99,21 @@ jobs:
               --shard "$SHARD"
           )
           test "${#targets[@]}" -gt 0
-          lake build "${targets[@]}"
+          build_log="$RUNNER_TEMP/formalization-shard-$SHARD-build.log"
+          if lake build "${targets[@]}" >"$build_log" 2>&1; then
+            rm -- "$build_log"
+          else
+            tail -n 200 "$build_log" >&2
+            exit 1
+          fi
+      - name: Upload failed shard build diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: formalization-build-log-${{ github.run_id }}-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/formalization-shard-${{ matrix.shard }}-build.log
+          if-no-files-found: error
+          retention-days: 7
       - name: Extract the strong formalization shard payload
         env:
           SHARD: ${{ matrix.shard }}
