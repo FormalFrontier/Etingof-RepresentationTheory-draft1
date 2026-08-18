@@ -33,7 +33,7 @@ jobs:
           "$HOME/.elan/bin/lake" update
           python3 scripts/formalization_shards.py plan \
             --package-root "$FORMALIZATION_PACKAGE_ROOT" \
-            --shards 8 \
+            --shards 16 \
             --output "$RUNNER_TEMP/formalization-plan"
       - name: Probe the updated formalization build
         id: formalization-cache
@@ -49,9 +49,9 @@ jobs:
     needs: formalization_probe
     strategy:
       fail-fast: false
-      max-parallel: 8
+      max-parallel: 16
       matrix:
-        shard: [1, 2, 3, 4, 5, 6, 7, 8]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     runs-on: ubuntu-latest
     timeout-minutes: 165
     steps:
@@ -78,7 +78,7 @@ jobs:
           "$HOME/.elan/bin/lake" update
           python3 scripts/formalization_shards.py plan \
             --package-root "$FORMALIZATION_PACKAGE_ROOT" \
-            --shards 8 \
+            --shards 16 \
             --output "$RUNNER_TEMP/formalization-plan"
       - name: Restore Mathlib and install Lean
         uses: leanprover/lean-action@v1
@@ -163,7 +163,7 @@ jobs:
           "$HOME/.elan/bin/lake" update
           python3 scripts/formalization_shards.py plan \
             --package-root "$FORMALIZATION_PACKAGE_ROOT" \
-            --shards 8 \
+            --shards 16 \
             --output "$RUNNER_TEMP/formalization-plan"
       - name: Restore the complete formalization build
         id: formalization-cache
@@ -190,7 +190,7 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/formalization-payloads"
           payload_args=()
-          for shard in 1 2 3 4 5 6 7 8; do
+          for shard in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16; do
             archive="$RUNNER_TEMP/formalization-archives/formalization-${GITHUB_RUN_ID}-shard-$shard/formalization-shard-$shard.tar.gz"
             test -f "$archive"
             python3 - "$archive" "shard-$shard" <<'PY'
@@ -276,7 +276,7 @@ jobs:
           "$HOME/.elan/bin/lake" update
           python3 scripts/formalization_shards.py plan \
             --package-root "$FORMALIZATION_PACKAGE_ROOT" \
-            --shards 8 \
+            --shards 16 \
             --output "$RUNNER_TEMP/formalization-plan"
       - name: Restore the updated formalization build
         uses: actions/cache/restore@v5
