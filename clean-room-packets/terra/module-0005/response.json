@@ -1,10 +1,10 @@
 {
-  "module_name": "Algebra.Lie.TensorProduct",
+  "module_name": "Algebra.Lie.AuxiliaryTwoModuleType",
   "declarations": [
     {
       "temporary_id": "decl-005579",
-      "new_name": "LieModuleTensorProduct",
-      "docstring": "The tensor-product type for two modules of a Lie algebra."
+      "new_name": "AuxiliaryLieModuleType",
+      "docstring": "An auxiliary type depending on a Lie algebra and two of its modules."
     },
     {
       "temporary_id": "decl-005580",

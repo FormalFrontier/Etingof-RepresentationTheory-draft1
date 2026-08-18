@@ -1,15 +1,15 @@
 {
-  "module_name": "Algebra.DesignatedElements",
+  "module_name": "Algebra.AuxiliaryPredicates",
   "declarations": [
     {
       "temporary_id": "decl-000625",
-      "new_name": "DesignatedElement",
-      "docstring": "A predicate on elements of a vector space equipped with an associative bilinear multiplication structure."
+      "new_name": "auxiliaryPredicate",
+      "docstring": "An auxiliary predicate on elements of a module equipped with the referenced auxiliary structure."
     },
     {
       "temporary_id": "decl-000635",
-      "new_name": "DesignatedElement.eq",
-      "docstring": "Any two elements satisfying the designated-element predicate are equal."
+      "new_name": "auxiliaryPredicate_unique",
+      "docstring": "Two elements satisfying the auxiliary predicate are equal."
     }
   ]
 }

@@ -1,10 +1,10 @@
 {
-  "module_name": "Algebra.Module.TensorProduct",
+  "module_name": "Algebra.AuxiliaryTwoModuleType",
   "declarations": [
     {
       "temporary_id": "decl-016474",
-      "new_name": "ModuleTensorProduct",
-      "docstring": "The tensor-product type associated to two modules over a commutative ring."
+      "new_name": "AuxiliaryModuleType",
+      "docstring": "An auxiliary type depending on two modules over a commutative ring."
     }
   ]
 }
