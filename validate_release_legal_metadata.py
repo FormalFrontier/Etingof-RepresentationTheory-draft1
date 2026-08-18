@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import shlex
 from pathlib import Path
 
 
@@ -29,6 +28,20 @@ def require_text(path: Path, needles: tuple[str, ...], errors: list[str]) -> Non
     for needle in needles:
         if needle not in text:
             errors.append(f"{path}: missing required text {needle!r}")
+
+
+def require_nonpersisting_checkouts(path: Path, errors: list[str]) -> None:
+    if not path.is_file():
+        return
+    lines = path.read_text(encoding="utf-8").splitlines()
+    checkouts = [index for index, line in enumerate(lines) if line.strip() == "- uses: actions/checkout@v4"]
+    if not checkouts:
+        errors.append(f"{path}: contains no pinned checkout steps")
+        return
+    for index in checkouts:
+        following = "\n".join(lines[index + 1 : index + 4])
+        if "persist-credentials: false" not in following:
+            errors.append(f"{path}:{index + 1}: checkout must not persist repository credentials")
 
 
 def validate_public(root: Path, errors: list[str]) -> None:
@@ -155,6 +168,7 @@ def validate_private(root: Path, errors: list[str]) -> None:
         ),
         errors,
     )
+    require_nonpersisting_checkouts(private_ci, errors)
     require_text(
         updater,
         (
@@ -163,7 +177,25 @@ def validate_private(root: Path, errors: list[str]) -> None:
             "scripts/update_formalization_dependency.py",
             "AlignmentExport.lean",
             "scripts/sync_formalization_panels.py",
+            "permissions:\n  contents: read",
+            "persist-credentials: false",
+            "  prepare_update:",
+            "name: formalization-update-${{ github.run_id }}",
+            '["git", "diff", "--name-only", "-z"]',
+            '["git", "diff", "--cached", "--name-only", "-z"]',
+            "os.path.islink(path)",
+            '["git", "diff", "--check"]',
+            '["git", "diff", "--cached", "--check"]',
+            '["git", "diff", "--summary"]',
+            '["git", "diff", "--cached", "--summary"]',
+            "git diff --binary --full-index --",
+            "git apply --index --whitespace=error-all",
+            '["git", "show", "HEAD:lakefile.toml"]',
+            "staged lakefile is not the exact canonical dispatched-SHA update",
+            "gh auth setup-git --hostname github.com --force",
             "gh workflow run ci.yml",
+            '"repos/$GITHUB_REPOSITORY/actions/runs/$run_id"',
+            'if test "$conclusion" != success',
             "gh pr merge",
             "--auto",
         ),
@@ -171,27 +203,50 @@ def validate_private(root: Path, errors: list[str]) -> None:
     )
     if updater.is_file():
         updater_text = updater.read_text(encoding="utf-8")
-        logical_lines = updater_text.replace("\\\n", " ").splitlines()
-        staging_commands: list[list[str]] = []
-        for line in logical_lines:
-            try:
-                tokens = shlex.split(line.strip())
-            except ValueError:
-                if "git add" in line:
-                    staging_commands.append([])
-                continue
-            if tokens[:2] == ["git", "add"]:
-                staging_commands.append(tokens)
-        expected_staging = [[
-            "git",
-            "add",
-            "lakefile.toml",
-            "IntroductionToRepresentationTheoryVerso/Content",
-        ]]
-        if staging_commands != expected_staging:
+        require_nonpersisting_checkouts(updater, errors)
+        if "git add " in updater_text:
+            errors.append(f"{updater}: privileged updater must consume only the validated patch artifact")
+        patch_scope = (
+            "git diff --binary --full-index -- \\\n"
+            "            lakefile.toml \\\n"
+            "            IntroductionToRepresentationTheoryVerso/Content \\\n"
+            '            > "$RUNNER_TEMP/formalization-update.patch"'
+        )
+        if patch_scope not in updater_text:
             errors.append(
-                f"{updater}: must stage only the dependency pin and generated panels; "
-                "lake-manifest.json is excluded"
+                f"{updater}: validated patch must contain only the dependency pin and generated panels"
+            )
+        publisher_contract = (
+            "  update:\n"
+            "    if: ${{ always() }}\n"
+            "    needs: prepare_update\n"
+            "    permissions:\n"
+            "      actions: write\n"
+            "      contents: write\n"
+            "      pull-requests: write\n"
+            "    runs-on: ubuntu-latest\n"
+            "    timeout-minutes: 360"
+        )
+        if publisher_contract not in updater_text or any(
+            updater_text.count(permission) != 1
+            for permission in ("actions: write", "contents: write", "pull-requests: write")
+        ):
+            errors.append(f"{updater}: write permissions must be isolated to one publishing job")
+        ci_merge_order = (
+            "dispatch_started=$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            'gh workflow run ci.yml --ref "$branch"',
+            '--branch "$branch"',
+            "--event workflow_dispatch",
+            "--json databaseId,createdAt,headSha",
+            '.headSha == \\"$head_sha\\" and .createdAt >= \\"$dispatch_started\\"',
+            '"repos/$GITHUB_REPOSITORY/actions/runs/$run_id"',
+            'if test "$conclusion" != success',
+            'gh pr merge "$pr_url" --match-head-commit "$head_sha" --auto --squash',
+        )
+        positions = [updater_text.find(marker) for marker in ci_merge_order]
+        if any(position < 0 for position in positions) or positions != sorted(positions):
+            errors.append(
+                f"{updater}: must bind the dispatched head run and require its success before auto-merge"
             )
     workflow_text = "\n".join(
         path.read_text(encoding="utf-8")

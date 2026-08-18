@@ -9,10 +9,50 @@ on:
 permissions:
   contents: read
 
+env:
+  FORMALIZATION_PACKAGE_ROOT: .lake/packages/RepresentationTheoryFormalization
+  FORMALIZATION_BUILD_ROOT: .lake/packages/RepresentationTheoryFormalization/.lake/build
+
 jobs:
-  formalization:
+  formalization_probe:
+    name: formalization cache probe
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 30
+    outputs:
+      cache-hit: ${{ steps.formalization-cache.outputs.cache-hit }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Bootstrap Lake and validate the formalization shard plan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
+            sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/lake" update
+          python3 scripts/formalization_shards.py plan \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            --shards 8 \
+            --output "$RUNNER_TEMP/formalization-plan"
+      - name: Probe the pinned formalization build
+        id: formalization-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ env.FORMALIZATION_BUILD_ROOT }}
+          key: formalization-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+          lookup-only: true
+
+  formalization_shards:
+    name: formalization shard ${{ matrix.shard }}
+    if: ${{ needs.formalization_probe.outputs.cache-hit != 'true' }}
+    needs: formalization_probe
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8]
+    runs-on: ubuntu-latest
+    timeout-minutes: 165
     steps:
       - name: Reclaim hosted-runner disk space
         run: |
@@ -24,35 +64,176 @@ jobs:
           sudo rm -rf -- /opt/hostedtoolcache/CodeQL
           df -h /
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Bootstrap Lake and reproduce the formalization shard plan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
+            sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/lake" update
+          python3 scripts/formalization_shards.py plan \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            --shards 8 \
+            --output "$RUNNER_TEMP/formalization-plan"
+      - name: Restore Mathlib and install Lean
+        uses: leanprover/lean-action@v1
+        with:
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: false
+      - name: Build the owned formalization targets
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          mapfile -t targets < <(
+            python3 scripts/formalization_shards.py targets \
+              --plan "$RUNNER_TEMP/formalization-plan/plan.json" \
+              --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+              --shard "$SHARD"
+          )
+          test "${#targets[@]}" -gt 0
+          lake build "${targets[@]}"
+      - name: Extract the strong formalization shard payload
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          python3 scripts/formalization_shards.py extract \
+            --plan "$RUNNER_TEMP/formalization-plan/plan.json" \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            --shard "$SHARD" \
+            --build-root "$FORMALIZATION_BUILD_ROOT" \
+            --output "$RUNNER_TEMP/shard-$SHARD"
+          tar --gzip --create \
+            --file "$RUNNER_TEMP/formalization-shard-$SHARD.tar.gz" \
+            --directory "$RUNNER_TEMP" \
+            "shard-$SHARD"
+      - name: Upload the formalization shard
+        uses: actions/upload-artifact@v4
+        with:
+          name: formalization-${{ github.run_id }}-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/formalization-shard-${{ matrix.shard }}.tar.gz
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 1
+          overwrite: true
+
+  formalization:
+    if: ${{ always() }}
+    needs: [formalization_probe, formalization_shards]
+    runs-on: ubuntu-latest
+    timeout-minutes: 165
+    steps:
+      - name: Require successful formalization preparation
+        env:
+          PROBE_RESULT: ${{ needs.formalization_probe.result }}
+          CACHE_HIT: ${{ needs.formalization_probe.outputs.cache-hit }}
+          SHARDS_RESULT: ${{ needs.formalization_shards.result }}
+        run: |
+          test "$PROBE_RESULT" = success
+          if test "$CACHE_HIT" != true; then
+            test "$SHARDS_RESULT" = success
+          fi
+      - name: Reclaim hosted-runner disk space
+        run: |
+          df -h /
+          sudo rm -rf -- /usr/local/lib/android
+          sudo rm -rf -- /usr/share/dotnet
+          sudo rm -rf -- /opt/ghc
+          sudo rm -rf -- /usr/local/.ghcup
+          sudo rm -rf -- /opt/hostedtoolcache/CodeQL
+          df -h /
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Bootstrap the generated Lake manifest
         run: |
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
             sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
           "$HOME/.elan/bin/lake" update
-      - name: Restore the pinned formalization build
+          python3 scripts/formalization_shards.py plan \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            --shards 8 \
+            --output "$RUNNER_TEMP/formalization-plan"
+      - name: Restore the complete formalization build
         id: formalization-cache
         uses: actions/cache/restore@v5
         with:
-          path: .lake/packages/RepresentationTheoryFormalization/.lake/build
-          key: formalization-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
-      - name: Build the pinned formalization
+          path: ${{ env.FORMALIZATION_BUILD_ROOT }}
+          key: formalization-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+      - name: Restore Mathlib and install Lean
         uses: leanprover/lean-action@v1
         with:
-          build: true
+          build: false
           test: false
           lint: false
-          build-args: "@RepresentationTheoryFormalization"
           use-mathlib-cache: true
           use-github-cache: false
-      - name: Check the formalization build cache
-        run: test -f .lake/packages/RepresentationTheoryFormalization/.lake/build/lib/lean/RepresentationTheory.olean
-      - name: Save the pinned formalization build
-        if: steps.formalization-cache.outputs.cache-hit != 'true'
+      - name: Download the formalization shards
+        if: ${{ steps.formalization-cache.outputs.cache-hit != 'true' }}
+        uses: actions/download-artifact@v4
+        with:
+          pattern: formalization-${{ github.run_id }}-shard-*
+          path: ${{ runner.temp }}/formalization-archives
+      - name: Safely extract and strongly merge the formalization shards
+        if: ${{ steps.formalization-cache.outputs.cache-hit != 'true' }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/formalization-payloads"
+          payload_args=()
+          for shard in 1 2 3 4 5 6 7 8; do
+            archive="$RUNNER_TEMP/formalization-archives/formalization-${GITHUB_RUN_ID}-shard-$shard/formalization-shard-$shard.tar.gz"
+            test -f "$archive"
+            python3 - "$archive" "shard-$shard" <<'PY'
+          import sys
+          import tarfile
+          from pathlib import PurePosixPath
+
+          archive, expected = sys.argv[1:]
+          with tarfile.open(archive, "r:gz") as handle:
+              members = handle.getmembers()
+              if not members:
+                  raise SystemExit(f"empty shard archive: {archive}")
+              for member in members:
+                  path = PurePosixPath(member.name)
+                  if path.is_absolute() or ".." in path.parts or not path.parts or path.parts[0] != expected:
+                      raise SystemExit(f"unsafe shard archive member: {member.name!r}")
+                  if not (member.isdir() or member.isfile()):
+                      raise SystemExit(f"unsupported shard archive member type: {member.name!r}")
+          PY
+            tar --gzip --extract \
+              --file "$archive" \
+              --directory "$RUNNER_TEMP/formalization-payloads" \
+              --no-same-owner \
+              --no-same-permissions
+            payload_args+=(--payload "$RUNNER_TEMP/formalization-payloads/shard-$shard")
+          done
+          python3 scripts/formalization_shards.py merge \
+            --plan "$RUNNER_TEMP/formalization-plan/plan.json" \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            "${payload_args[@]}" \
+            --output "$RUNNER_TEMP/formalization-merged"
+          mkdir -p "$FORMALIZATION_BUILD_ROOT"
+          test -z "$(find "$FORMALIZATION_BUILD_ROOT" -mindepth 1 -print -quit)"
+          cp -a "$RUNNER_TEMP/formalization-merged/build/." "$FORMALIZATION_BUILD_ROOT/"
+      - name: Complete and strongly verify the formalization build
+        run: |
+          if test "${{ steps.formalization-cache.outputs.cache-hit }}" != true; then
+            lake build @RepresentationTheoryFormalization/+RepresentationTheory
+          fi
+          python3 scripts/formalization_shards.py verify \
+            --plan "$RUNNER_TEMP/formalization-plan/plan.json" \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            --build-root "$FORMALIZATION_BUILD_ROOT"
+          lake --no-build build @RepresentationTheoryFormalization
+      - name: Save the complete formalization build
+        if: ${{ steps.formalization-cache.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@v5
         with:
-          path: .lake/packages/RepresentationTheoryFormalization/.lake/build
-          key: formalization-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+          path: ${{ env.FORMALIZATION_BUILD_ROOT }}
+          key: formalization-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
 
   build:
     if: ${{ always() }}
@@ -75,6 +256,8 @@ jobs:
           sudo rm -rf -- /opt/hostedtoolcache/CodeQL
           df -h /
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Bootstrap the generated Lake manifest
         run: |
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
@@ -84,8 +267,8 @@ jobs:
       - name: Restore the pinned formalization build
         uses: actions/cache/restore@v5
         with:
-          path: .lake/packages/RepresentationTheoryFormalization/.lake/build
-          key: formalization-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+          path: ${{ env.FORMALIZATION_BUILD_ROOT }}
+          key: formalization-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
           fail-on-cache-miss: true
       - uses: leanprover/lean-action@v1
         with:

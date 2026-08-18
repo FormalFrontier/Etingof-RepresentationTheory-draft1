@@ -5,14 +5,55 @@ on:
     types: [formalization-updated]
 
 permissions:
-  actions: write
-  contents: write
-  pull-requests: write
+  contents: read
+
+env:
+  FORMALIZATION_PACKAGE_ROOT: .lake/packages/RepresentationTheoryFormalization
+  FORMALIZATION_BUILD_ROOT: .lake/packages/RepresentationTheoryFormalization/.lake/build
 
 jobs:
-  update:
+  formalization_probe:
+    name: updated formalization cache probe
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 30
+    outputs:
+      cache-hit: ${{ steps.formalization-cache.outputs.cache-hit }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Pin the public revision, bootstrap Lake, and validate the shard plan
+        env:
+          FORMALIZATION_SHA: ${{ github.event.client_payload.sha }}
+        run: |
+          python3 scripts/update_formalization_dependency.py "$FORMALIZATION_SHA"
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
+            sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/lake" update
+          python3 scripts/formalization_shards.py plan \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            --shards 8 \
+            --output "$RUNNER_TEMP/formalization-plan"
+      - name: Probe the updated formalization build
+        id: formalization-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ env.FORMALIZATION_BUILD_ROOT }}
+          key: formalization-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+          lookup-only: true
+
+  formalization_shards:
+    name: updated formalization shard ${{ matrix.shard }}
+    if: ${{ needs.formalization_probe.outputs.cache-hit != 'true' }}
+    needs: formalization_probe
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8]
+    runs-on: ubuntu-latest
+    timeout-minutes: 165
     steps:
       - name: Reclaim hosted-runner disk space
         run: |
@@ -24,6 +65,206 @@ jobs:
           sudo rm -rf -- /opt/hostedtoolcache/CodeQL
           df -h /
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Pin the public revision and reproduce the shard plan
+        env:
+          FORMALIZATION_SHA: ${{ github.event.client_payload.sha }}
+        run: |
+          python3 scripts/update_formalization_dependency.py "$FORMALIZATION_SHA"
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
+            sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/lake" update
+          python3 scripts/formalization_shards.py plan \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            --shards 8 \
+            --output "$RUNNER_TEMP/formalization-plan"
+      - name: Restore Mathlib and install Lean
+        uses: leanprover/lean-action@v1
+        with:
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: false
+      - name: Build the owned formalization targets
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          mapfile -t targets < <(
+            python3 scripts/formalization_shards.py targets \
+              --plan "$RUNNER_TEMP/formalization-plan/plan.json" \
+              --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+              --shard "$SHARD"
+          )
+          test "${#targets[@]}" -gt 0
+          lake build "${targets[@]}"
+      - name: Extract the strong formalization shard payload
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          python3 scripts/formalization_shards.py extract \
+            --plan "$RUNNER_TEMP/formalization-plan/plan.json" \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            --shard "$SHARD" \
+            --build-root "$FORMALIZATION_BUILD_ROOT" \
+            --output "$RUNNER_TEMP/shard-$SHARD"
+          tar --gzip --create \
+            --file "$RUNNER_TEMP/formalization-shard-$SHARD.tar.gz" \
+            --directory "$RUNNER_TEMP" \
+            "shard-$SHARD"
+      - name: Upload the formalization shard
+        uses: actions/upload-artifact@v4
+        with:
+          name: formalization-${{ github.run_id }}-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/formalization-shard-${{ matrix.shard }}.tar.gz
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 1
+          overwrite: true
+
+  formalization:
+    if: ${{ always() }}
+    needs: [formalization_probe, formalization_shards]
+    runs-on: ubuntu-latest
+    timeout-minutes: 165
+    steps:
+      - name: Require successful formalization preparation
+        env:
+          PROBE_RESULT: ${{ needs.formalization_probe.result }}
+          CACHE_HIT: ${{ needs.formalization_probe.outputs.cache-hit }}
+          SHARDS_RESULT: ${{ needs.formalization_shards.result }}
+        run: |
+          test "$PROBE_RESULT" = success
+          if test "$CACHE_HIT" != true; then
+            test "$SHARDS_RESULT" = success
+          fi
+      - name: Reclaim hosted-runner disk space
+        run: |
+          df -h /
+          sudo rm -rf -- /usr/local/lib/android
+          sudo rm -rf -- /usr/share/dotnet
+          sudo rm -rf -- /opt/ghc
+          sudo rm -rf -- /usr/local/.ghcup
+          sudo rm -rf -- /opt/hostedtoolcache/CodeQL
+          df -h /
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Pin the public revision and bootstrap Lake
+        env:
+          FORMALIZATION_SHA: ${{ github.event.client_payload.sha }}
+        run: |
+          python3 scripts/update_formalization_dependency.py "$FORMALIZATION_SHA"
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
+            sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/lake" update
+          python3 scripts/formalization_shards.py plan \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            --shards 8 \
+            --output "$RUNNER_TEMP/formalization-plan"
+      - name: Restore the complete formalization build
+        id: formalization-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ env.FORMALIZATION_BUILD_ROOT }}
+          key: formalization-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+      - name: Restore Mathlib and install Lean
+        uses: leanprover/lean-action@v1
+        with:
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: false
+      - name: Download the formalization shards
+        if: ${{ steps.formalization-cache.outputs.cache-hit != 'true' }}
+        uses: actions/download-artifact@v4
+        with:
+          pattern: formalization-${{ github.run_id }}-shard-*
+          path: ${{ runner.temp }}/formalization-archives
+      - name: Safely extract and strongly merge the formalization shards
+        if: ${{ steps.formalization-cache.outputs.cache-hit != 'true' }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/formalization-payloads"
+          payload_args=()
+          for shard in 1 2 3 4 5 6 7 8; do
+            archive="$RUNNER_TEMP/formalization-archives/formalization-${GITHUB_RUN_ID}-shard-$shard/formalization-shard-$shard.tar.gz"
+            test -f "$archive"
+            python3 - "$archive" "shard-$shard" <<'PY'
+          import sys
+          import tarfile
+          from pathlib import PurePosixPath
+
+          archive, expected = sys.argv[1:]
+          with tarfile.open(archive, "r:gz") as handle:
+              members = handle.getmembers()
+              if not members:
+                  raise SystemExit(f"empty shard archive: {archive}")
+              for member in members:
+                  path = PurePosixPath(member.name)
+                  if path.is_absolute() or ".." in path.parts or not path.parts or path.parts[0] != expected:
+                      raise SystemExit(f"unsafe shard archive member: {member.name!r}")
+                  if not (member.isdir() or member.isfile()):
+                      raise SystemExit(f"unsupported shard archive member type: {member.name!r}")
+          PY
+            tar --gzip --extract \
+              --file "$archive" \
+              --directory "$RUNNER_TEMP/formalization-payloads" \
+              --no-same-owner \
+              --no-same-permissions
+            payload_args+=(--payload "$RUNNER_TEMP/formalization-payloads/shard-$shard")
+          done
+          python3 scripts/formalization_shards.py merge \
+            --plan "$RUNNER_TEMP/formalization-plan/plan.json" \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            "${payload_args[@]}" \
+            --output "$RUNNER_TEMP/formalization-merged"
+          mkdir -p "$FORMALIZATION_BUILD_ROOT"
+          test -z "$(find "$FORMALIZATION_BUILD_ROOT" -mindepth 1 -print -quit)"
+          cp -a "$RUNNER_TEMP/formalization-merged/build/." "$FORMALIZATION_BUILD_ROOT/"
+      - name: Complete and strongly verify the formalization build
+        run: |
+          if test "${{ steps.formalization-cache.outputs.cache-hit }}" != true; then
+            lake build @RepresentationTheoryFormalization/+RepresentationTheory
+          fi
+          python3 scripts/formalization_shards.py verify \
+            --plan "$RUNNER_TEMP/formalization-plan/plan.json" \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            --build-root "$FORMALIZATION_BUILD_ROOT"
+          lake --no-build build @RepresentationTheoryFormalization
+      - name: Save the complete formalization build
+        if: ${{ steps.formalization-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ env.FORMALIZATION_BUILD_ROOT }}
+          key: formalization-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+
+  prepare_update:
+    if: ${{ always() }}
+    needs: formalization
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - name: Require the updated formalization build
+        if: ${{ needs.formalization.result != 'success' }}
+        run: |
+          echo "The updated formalization job did not succeed." >&2
+          exit 1
+      - name: Reclaim hosted-runner disk space
+        run: |
+          df -h /
+          sudo rm -rf -- /usr/local/lib/android
+          sudo rm -rf -- /usr/share/dotnet
+          sudo rm -rf -- /opt/ghc
+          sudo rm -rf -- /usr/local/.ghcup
+          sudo rm -rf -- /opt/hostedtoolcache/CodeQL
+          df -h /
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Update the pinned public revision and bootstrap Lake
         env:
           FORMALIZATION_SHA: ${{ github.event.client_payload.sha }}
@@ -33,39 +274,157 @@ jobs:
             sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
           "$HOME/.elan/bin/lake" update
+          python3 scripts/formalization_shards.py plan \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            --shards 8 \
+            --output "$RUNNER_TEMP/formalization-plan"
       - name: Restore the updated formalization build
-        id: formalization-cache
         uses: actions/cache/restore@v5
         with:
-          path: .lake/packages/RepresentationTheoryFormalization/.lake/build
-          key: formalization-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
-      - name: Build the updated formalization
+          path: ${{ env.FORMALIZATION_BUILD_ROOT }}
+          key: formalization-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+          fail-on-cache-miss: true
+      - name: Restore Mathlib and install Lean
         uses: leanprover/lean-action@v1
         with:
-          build: true
+          build: false
           test: false
           lint: false
-          build-args: "@RepresentationTheoryFormalization"
           use-mathlib-cache: true
           use-github-cache: false
-      - name: Check the updated formalization build
-        run: test -f .lake/packages/RepresentationTheoryFormalization/.lake/build/lib/lean/RepresentationTheory.olean
-      - name: Save the updated formalization build
-        if: steps.formalization-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v5
-        with:
-          path: .lake/packages/RepresentationTheoryFormalization/.lake/build
-          key: formalization-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+      - name: Strongly verify the updated formalization build
+        run: |
+          python3 scripts/formalization_shards.py verify \
+            --plan "$RUNNER_TEMP/formalization-plan/plan.json" \
+            --package-root "$FORMALIZATION_PACKAGE_ROOT" \
+            --build-root "$FORMALIZATION_BUILD_ROOT"
+          lake --no-build build @RepresentationTheoryFormalization
       - name: Synchronize formalization panels
         run: |
           lake env lean --run AlignmentExport.lean > "$RUNNER_TEMP/formalization-alignment.json"
           python3 scripts/sync_formalization_panels.py "$RUNNER_TEMP/formalization-alignment.json"
+      - name: Validate and package the dependency update
+        run: |
+          python3 - <<'PY'
+          import os
+          import subprocess
+
+          prefix = b"IntroductionToRepresentationTheoryVerso/Content/"
+          raw = subprocess.check_output(["git", "diff", "--name-only", "-z"])
+          paths = [path for path in raw.split(b"\0") if path]
+          unexpected = [
+              os.fsdecode(path)
+              for path in paths
+              if not (path == b"lakefile.toml" or (path.startswith(prefix) and path.endswith(b".lean")))
+          ]
+          if unexpected:
+              raise SystemExit(f"unexpected dependency-update paths: {unexpected}")
+          if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode:
+              raise SystemExit("dependency preparation unexpectedly changed the Git index")
+          for raw_path in paths:
+              path = os.fsdecode(raw_path)
+              if os.path.islink(path) or not os.path.isfile(path):
+                  raise SystemExit(f"dependency update is not a regular file modification: {path}")
+          subprocess.run(["git", "diff", "--check"], check=True)
+          summary = subprocess.check_output(["git", "diff", "--summary"])
+          if summary:
+              raise SystemExit("dependency update contains a create/delete/rename/mode change:\n" + summary.decode())
+          PY
+          git diff --binary --full-index -- \
+            lakefile.toml \
+            IntroductionToRepresentationTheoryVerso/Content \
+            > "$RUNNER_TEMP/formalization-update.patch"
+      - name: Upload the validated dependency update
+        uses: actions/upload-artifact@v4
+        with:
+          name: formalization-update-${{ github.run_id }}
+          path: ${{ runner.temp }}/formalization-update.patch
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 1
+
+  update:
+    if: ${{ always() }}
+    needs: prepare_update
+    permissions:
+      actions: write
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Require a validated dependency update
+        if: ${{ needs.prepare_update.result != 'success' }}
+        run: |
+          echo "The dependency update preparation job did not succeed." >&2
+          exit 1
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Download the validated dependency update
+        uses: actions/download-artifact@v4
+        with:
+          name: formalization-update-${{ github.run_id }}
+          path: ${{ runner.temp }}/formalization-update
+      - name: Apply and revalidate the dependency update
+        env:
+          FORMALIZATION_SHA: ${{ github.event.client_payload.sha }}
+        run: |
+          patch="$RUNNER_TEMP/formalization-update/formalization-update.patch"
+          test -f "$patch"
+          if test -s "$patch"; then
+            git apply --index --whitespace=error-all "$patch"
+          fi
+          python3 - <<'PY'
+          import os
+          import re
+          import subprocess
+          from pathlib import Path
+
+          prefix = b"IntroductionToRepresentationTheoryVerso/Content/"
+          raw = subprocess.check_output(["git", "diff", "--cached", "--name-only", "-z"])
+          paths = [path for path in raw.split(b"\0") if path]
+          unexpected = [
+              os.fsdecode(path)
+              for path in paths
+              if not (path == b"lakefile.toml" or (path.startswith(prefix) and path.endswith(b".lean")))
+          ]
+          if unexpected:
+              raise SystemExit(f"unexpected staged dependency-update paths: {unexpected}")
+          for raw_path in paths:
+              path = os.fsdecode(raw_path)
+              if os.path.islink(path) or not os.path.isfile(path):
+                  raise SystemExit(f"staged dependency update is not a regular file modification: {path}")
+          subprocess.run(["git", "diff", "--cached", "--check"], check=True)
+          summary = subprocess.check_output(["git", "diff", "--cached", "--summary"])
+          if summary:
+              raise SystemExit("staged update contains a create/delete/rename/mode change:\n" + summary.decode())
+
+          sha = os.environ["FORMALIZATION_SHA"]
+          if re.fullmatch(r"[0-9a-f]{40}", sha) is None:
+              raise SystemExit("dispatched formalization SHA is not canonical")
+          stanza = re.compile(
+              r'(\[\[require\]\]\nname = "RepresentationTheoryFormalization"\n'
+              r'git = "[^"\n]+"\nrev = ")[^"\n]+("\n)'
+          )
+          base = subprocess.check_output(["git", "show", "HEAD:lakefile.toml"]).decode("utf-8")
+          expected, count = stanza.subn(lambda match: match.group(1) + sha + match.group(2), base)
+          if count != 1:
+              raise SystemExit("base lakefile does not contain exactly one canonical formalization stanza")
+          if Path("lakefile.toml").read_text(encoding="utf-8") != expected:
+              raise SystemExit("staged lakefile is not the exact canonical dispatched-SHA update")
+          PY
       - name: Create or refresh dependency update pull request
         env:
           GH_TOKEN: ${{ github.token }}
           FORMALIZATION_SHA: ${{ github.event.client_payload.sha }}
           SOURCE_REF: ${{ github.event.client_payload.ref }}
         run: |
+          if git diff --cached --quiet; then
+            echo "The requested formalization revision is already pinned."
+            exit 0
+          fi
+          gh auth setup-git --hostname github.com --force
           branch="automation/formalization-${FORMALIZATION_SHA:0:12}"
           lease="refs/heads/$branch:"
           remote_ref=$(git ls-remote --heads origin "refs/heads/$branch")
@@ -79,12 +438,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$branch"
-          git add lakefile.toml IntroductionToRepresentationTheoryVerso/Content
-          if git diff --cached --quiet; then
-            echo "The requested formalization revision is already pinned."
-            exit 0
-          fi
           git commit -m "Update formalization to ${FORMALIZATION_SHA:0:12}"
+          head_sha=$(git rev-parse HEAD)
           git push --force-with-lease="$lease" origin "HEAD:refs/heads/$branch"
           pr_url=$(gh pr list --head "$branch" --state open --json url --jq '.[0].url')
           if [ -z "$pr_url" ]; then
@@ -96,5 +451,48 @@ jobs:
           fi
           # Events emitted with GITHUB_TOKEN do not recursively trigger the
           # pull_request workflow, so explicitly dispatch CI on the PR head.
+          dispatch_started=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           gh workflow run ci.yml --ref "$branch"
-          gh pr merge "$pr_url" --auto --squash
+          run_id=""
+          for attempt in {1..60}; do
+            run_id=$(gh run list \
+              --workflow ci.yml \
+              --branch "$branch" \
+              --event workflow_dispatch \
+              --limit 20 \
+              --json databaseId,createdAt,headSha \
+              --jq ".[] | select(.headSha == \"$head_sha\" and .createdAt >= \"$dispatch_started\") | .databaseId" |
+              head -n 1)
+            if test -n "$run_id"; then
+              break
+            fi
+            sleep 5
+          done
+          if test -z "$run_id"; then
+            echo "Could not locate the dispatched private CI run." >&2
+            exit 1
+          fi
+          while true; do
+            status=$(gh api \
+              "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" \
+              --jq .status)
+            if test "$status" = completed; then
+              conclusion=$(gh api \
+                "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" \
+                --jq .conclusion)
+              if test "$conclusion" != success; then
+                echo "Private CI run $run_id concluded with $conclusion." >&2
+                exit 1
+              fi
+              break
+            fi
+            case "$status" in
+              queued|in_progress|pending|requested|waiting) ;;
+              *)
+                echo "Private CI run $run_id has unexpected status $status." >&2
+                exit 1
+                ;;
+            esac
+            sleep 30
+          done
+          gh pr merge "$pr_url" --match-head-commit "$head_sha" --auto --squash
