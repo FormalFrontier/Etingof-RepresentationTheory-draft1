@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:63819edf5082216b7df5",
-      "rationale": "The formal type is an iff between simplicity over the product ring and existence of an index whose idempotent range is simple while every other range is bottom, directly stating the source criterion.",
-      "role": "primary"
+      "rationale": "The formal type gives a simplicity criterion in terms of ranges of the opaque maps idemProj, but it does not itself identify those ranges with the summands 1_i V and 1_j V in the source claim.",
+      "role": "supporting"
     }
   ]
 }
