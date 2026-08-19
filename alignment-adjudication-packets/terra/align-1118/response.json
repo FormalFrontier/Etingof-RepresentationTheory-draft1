@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:013b2b2b66ae3ca4fbf5",
-      "role": "primary",
-      "rationale": "The formal type explicitly says the induced composition map for a map Int to ZMod 2 is not surjective, directly supplying the stated failure of right exactness."
+      "role": "supporting",
+      "rationale": "The type supplies the stated failure of right exactness, but it does not itself state the left exactness of Hom(X,-) also asserted by the source claim."
     }
   ]
 }
