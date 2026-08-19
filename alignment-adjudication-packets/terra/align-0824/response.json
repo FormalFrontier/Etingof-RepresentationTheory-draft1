@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:57417773cd3d2b101d25",
-      "role": "primary",
-      "rationale": "It explicitly asserts a resolution P of every module whose complex terms are free modules."
+      "role": "supporting",
+      "rationale": "The type visibly gives an existential witness whose displayed ProjectiveResolution.complex terms are free, but the witness's own type is elided, so it does not directly display the complete free-projective-resolution claim."
     },
     {
       "association_id": "association:c86c60c49148bb7825e3",
