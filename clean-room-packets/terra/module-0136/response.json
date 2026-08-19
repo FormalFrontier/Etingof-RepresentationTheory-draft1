@@ -1,15 +1,15 @@
 {
-  "module_name": "LinearAlgebra.Trace.FunctionSpace",
+  "module_name": "LinearAlgebra.FunctionSpaceEndomorphism",
   "declarations": [
     {
       "temporary_id": "decl-017947",
-      "new_name": "representationTrace_finFun",
-      "docstring": "The trace-valued function of an action on a finite family of copies of a module is the family cardinality times its value on the module."
+      "new_name": "auxiliaryFunction_finFun",
+      "docstring": "For a finite family of copies of a module, the auxiliary function is the family cardinality times its value for the module."
     },
     {
       "temporary_id": "decl-017951",
-      "new_name": "representationTrace_finFun_eq_zero_of_char",
-      "docstring": "In characteristic p, the trace-valued function of an action on p copies of a module is zero."
+      "new_name": "auxiliaryFunction_finFun_eq_zero_of_char",
+      "docstring": "In characteristic p, the auxiliary function for p copies of a module is zero."
     },
     {
       "temporary_id": "decl-018360",

@@ -3,23 +3,23 @@
   "declarations": [
     {
       "temporary_id": "decl-005285",
-      "new_name": "FiniteAlgebraModuleSemisimple",
-      "docstring": "A module-theoretic semisimplicity condition for a finite-dimensional algebra over a field."
+      "new_name": "FiniteAlgebraSemisimpleCondition",
+      "docstring": "A semisimplicity condition for a finite-dimensional algebra over a field."
     },
     {
       "temporary_id": "decl-005287",
       "new_name": "isSemisimpleRing",
-      "docstring": "An algebra satisfying the finite-dimensional module semisimplicity condition is a semisimple ring."
+      "docstring": "An algebra satisfying the finite-dimensional semisimplicity condition is a semisimple ring."
     },
     {
       "temporary_id": "decl-020888",
-      "new_name": "finiteAlgebraModuleSemisimple_iff",
-      "docstring": "For a finite-dimensional algebra over a field, the module semisimplicity condition is equivalent to semisimplicity of the underlying ring."
+      "new_name": "finiteAlgebraSemisimpleCondition_iff",
+      "docstring": "For a finite-dimensional algebra over a field, the displayed condition is equivalent to semisimplicity of the underlying ring."
     },
     {
       "temporary_id": "decl-020889",
-      "new_name": "finiteAlgebraModuleSemisimple_of_isSemisimpleRing",
-      "docstring": "A finite-dimensional algebra whose underlying ring is semisimple satisfies the module semisimplicity condition."
+      "new_name": "finiteAlgebraSemisimpleCondition_of_isSemisimpleRing",
+      "docstring": "A finite-dimensional algebra whose underlying ring is semisimple satisfies the displayed condition."
     }
   ]
 }

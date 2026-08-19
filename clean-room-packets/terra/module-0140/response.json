@@ -1,10 +1,10 @@
 {
-  "module_name": "Module.RepresentationTraceAdditivity",
+  "module_name": "Module.SubmoduleQuotientAuxiliary",
   "declarations": [
     {
       "temporary_id": "decl-017944",
-      "new_name": "representationTrace_eq_submodule_add_quotient",
-      "docstring": "The trace-valued function of an action on a finite-dimensional module is the sum of its values on an invariant submodule and the corresponding quotient."
+      "new_name": "auxiliaryFunction_eq_submodule_add_quotient",
+      "docstring": "The auxiliary function for a finite-dimensional module is the sum of those for an invariant submodule and the corresponding quotient."
     },
     {
       "temporary_id": "decl-020610",
