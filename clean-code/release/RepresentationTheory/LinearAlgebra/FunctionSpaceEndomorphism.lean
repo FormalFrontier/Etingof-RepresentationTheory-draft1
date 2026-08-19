@@ -40,8 +40,8 @@ lemma trace_linearMapOnFunctions (n : ℕ) (f : V →ₗ[k] V) :
   | zero =>
     rw [zero_smul, Subsingleton.elim (linearMapOnFunctions k V f) 0, map_zero]
   | succ n ih =>
-    
-    
+
+
     set e := (Fin.consLinearEquiv k (fun _ : Fin (n + 1) => V)).symm with he
     have key : e.conj (linearMapOnFunctions k V f) = LinearMap.prodMap f (linearMapOnFunctions k V f) := by
       apply LinearMap.ext
@@ -75,8 +75,8 @@ variable (k : Type*) (A : Type*) (V : Type*)
 /-- For a finite family of copies of a module, the auxiliary function is the family cardinality times its value for the module. -/
 theorem auxiliaryFunction_finFun (n : ℕ) (a : A) :
     Etingof.character k A (Fin n → V) a = n • Etingof.character k A V a := by
-  
-  
+
+
   have h1 : (Algebra.lsmul k k (Fin n → V) : A →ₐ[k] Module.End k (Fin n → V)) a
       = linearMapOnFunctions k V ((Algebra.lsmul k k V : A →ₐ[k] Module.End k V) a) := by
     apply LinearMap.ext
