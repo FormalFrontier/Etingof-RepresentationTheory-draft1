@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:d4734c5e9131fe259b58",
-      "rationale": "The displayed equivalence characterizes a short exact complex by a mono first map, an epi second map, and an isomorphism induced from the cokernel, directly matching the source characterization.",
-      "role": "primary"
+      "rationale": "It gives the mono-epi-cokernel characterization, but does not display the source's four-term sequence with the two zero maps."
+      ,"role": "supporting"
     }
   ]
 }

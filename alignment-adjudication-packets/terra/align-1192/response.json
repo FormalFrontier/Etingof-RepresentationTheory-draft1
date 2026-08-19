@@ -2,8 +2,8 @@
   "associations": [
     {
       "association_id": "association:649b91360f367b5edd2d",
-      "rationale": "The formal type directly gives finrank k V = 1 from the simple-module and finite-dimensional hypotheses. Thus it states the dimension-one conclusion of this source proof step, with the required nonzeroness implicit in the simple-module structure.",
-      "role": "primary"
+      "rationale": "It gives the dimension-one conclusion under additional algebraic-closedness and commutativity hypotheses, but does not display the source's stated irreducibility-and-nonzeroness reasoning."
+      ,"role": "supporting"
     }
   ],
   "packet_id": "align-1192"
