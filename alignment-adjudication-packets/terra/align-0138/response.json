@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:cdb23e91d44632130fb9",
-      "role": "primary",
-      "rationale": "This declaration defines the submodule intended to consist of class functions."
+      "role": "supporting",
+      "rationale": "The type only gives an opaque Submodule value and does not expose conjugation invariance of its elements."
     },
     {
       "association_id": "association:7e9fce9b0ae5d61f8d6f",

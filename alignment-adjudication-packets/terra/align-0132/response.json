@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:baaca43f16702c29afb9",
-      "role": "primary",
-      "rationale": "This character inner-product formula directly supplies a row orthogonality relation for a character table."
+      "role": "supporting",
+      "rationale": "The type gives a general character inner product as a Hom-space dimension; row orthogonality additionally requires specializing to pairwise nonisomorphic irreducibles."
     },
     {
       "association_id": "association:36ee1d6083cd172f6eca",

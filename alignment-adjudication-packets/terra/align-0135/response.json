@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:30526117d4d9f3152a87",
-      "role": "primary",
-      "rationale": "This declaration defines the Cartan matrix from the adjacency matrix as stated."
+      "role": "supporting",
+      "rationale": "The type only gives a matrix-to-matrix function and does not display the formula 2I minus the adjacency matrix."
     }
   ]
 }
