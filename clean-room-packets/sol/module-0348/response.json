@@ -28,13 +28,13 @@
     },
     {
       "temporary_id": "decl-022058",
-      "new_name": "strictDominates_aux",
-      "docstring": "An auxiliary theorem involving the strict dominance relation; its formal statement could not be displayed in this packet."
+      "new_name": "auxiliaryUnavailableStatement022058",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
     },
     {
       "temporary_id": "decl-022059",
-      "new_name": "dominates_aux",
-      "docstring": "An auxiliary theorem involving the dominance relation; its formal statement could not be displayed in this packet."
+      "new_name": "auxiliaryUnavailableStatement022059",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
     },
     {
       "temporary_id": "decl-023604",
@@ -98,8 +98,8 @@
     },
     {
       "temporary_id": "decl-032715",
-      "new_name": "columnIndex_lt_rowLength",
-      "docstring": "The column coordinate of an index below the total sum is smaller than the entry at its row coordinate."
+      "new_name": "auxiliaryElidedStatement032715",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-032719",
