@@ -808,6 +808,12 @@ import RepresentationTheory.FieldCharacterAuxiliary
 import RepresentationTheory.FiniteGroupDegreeFiveCharacters
 import RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent
 
+import RepresentationTheory.Quiver.AuxiliaryFiniteProperties
+import RepresentationTheory.Quiver.AuxiliaryFiniteConstructions
+import RepresentationTheory.RingTheory.LexicographicIndexedBasis
+import RepresentationTheory.RingTheory.SimpleModuleSimultaneousAction
+import RepresentationTheory.ModuleTheory.AuxiliaryCondition
+
 /-!
 # Representation theory formalization
 
