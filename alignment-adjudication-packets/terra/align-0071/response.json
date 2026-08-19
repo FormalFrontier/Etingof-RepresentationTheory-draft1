@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:84b322190c92c17fab17",
-      "role": "primary",
-      "rationale": "This declaration defines the normalized Young projector named in the claim."
+      "role": "supporting",
+      "rationale": "The type only returns an element of the group algebra; it does not display normalization or the ordered product c_λ = a_λb_λ."
     },
     {
       "association_id": "association:66c0cf18923fb986a7ab",
-      "role": "primary",
-      "rationale": "This declaration defines the normalized column projector named in the claim."
+      "role": "supporting",
+      "rationale": "The type only returns an element of the group algebra and does not expose the column-projector formula or normalization."
     },
     {
       "association_id": "association:9f2560767b9c280315a0",
-      "role": "primary",
-      "rationale": "This declaration defines the normalized row projector named in the claim."
+      "role": "supporting",
+      "rationale": "The type only returns an element of the group algebra and does not expose the row-projector formula or normalization."
     }
   ]
 }

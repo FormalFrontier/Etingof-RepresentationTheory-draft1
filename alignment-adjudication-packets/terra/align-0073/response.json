@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:bc0e6941f39311b3f870",
-      "role": "primary",
-      "rationale": "This declaration defines the tensor-product type from the two Lie modules V and W, directly providing the representation whose underlying space is V ⊗ W."
+      "role": "supporting",
+      "rationale": "The displayed result is only an opaque Type; it does not identify the underlying space with TensorProduct k V W."
     }
   ]
 }

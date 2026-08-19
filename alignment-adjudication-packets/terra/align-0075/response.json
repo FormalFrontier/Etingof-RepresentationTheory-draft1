@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:a0f3865d931d60e930cb",
-      "role": "primary",
-      "rationale": "This basis-indexed FreeAlgebra-valued declaration defines the relator described by the source formula."
+      "role": "supporting",
+      "rationale": "The type only gives a basis-indexed FreeAlgebra-valued function and does not display the claimed commutator-minus-structure-constants formula."
     }
   ]
 }
