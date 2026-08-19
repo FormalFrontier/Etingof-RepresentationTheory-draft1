@@ -23,13 +23,13 @@
     },
     {
       "temporary_id": "decl-000662",
-      "new_name": "splitHead_aux",
-      "docstring": "A supporting result for the tensor-tail construction."
+      "new_name": "Auxiliary.statement000662",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
     },
     {
       "temporary_id": "decl-000664",
-      "new_name": "splitHead_aux_1",
-      "docstring": "A supporting result for the tensor-tail construction."
+      "new_name": "Auxiliary.statement000664",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
     },
     {
       "temporary_id": "decl-000665",
@@ -123,8 +123,8 @@
     },
     {
       "temporary_id": "decl-000713",
-      "new_name": "barBoundary_aux",
-      "docstring": "A supporting result for the tensor bar boundary."
+      "new_name": "Auxiliary.statement000713",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
     },
     {
       "temporary_id": "decl-000714",
@@ -133,8 +133,8 @@
     },
     {
       "temporary_id": "decl-000715",
-      "new_name": "barBoundary_aux_1",
-      "docstring": "A supporting result for the tensor bar boundary."
+      "new_name": "Auxiliary.statement000715",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
     },
     {
       "temporary_id": "decl-000716",
