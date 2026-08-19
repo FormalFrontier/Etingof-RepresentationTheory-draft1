@@ -84,7 +84,7 @@
     {
       "temporary_id": "decl-003720",
       "new_name": "isIndecomposable_dimension_cases",
-      "docstring": "An indecomposable linear-chain representation has dimension triple (1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 1, 0), (0, 1, 1), or (1, 1, 1), with the corresponding chain maps injective."
+      "docstring": "An indecomposable linear-chain representation has one of the six displayed dimension triples; the left-to-middle map is injective in the `(1, 1, 0)` case, the middle-to-right map is injective in the `(0, 1, 1)` case, and both are injective in the `(1, 1, 1)` case."
     },
     {
       "temporary_id": "decl-032677",

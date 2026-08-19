@@ -28,8 +28,8 @@
     },
     {
       "temporary_id": "decl-018491",
-      "new_name": "no_nodup_adjacencyCycle",
-      "docstring": "A matrix satisfying the structural condition has no duplicate-free adjacency cycle of length at least three."
+      "new_name": "Auxiliary.statement018491",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-018556",
@@ -38,8 +38,8 @@
     },
     {
       "temporary_id": "decl-021520",
-      "new_name": "reachable_of_list_path",
-      "docstring": "A list with specified endpoints and adjacent consecutive entries witnesses reachability between those endpoints."
+      "new_name": "Auxiliary.statement021520",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-021897",
@@ -48,8 +48,8 @@
     },
     {
       "temporary_id": "decl-021898",
-      "new_name": "exists_pathLabeling_from_endpoint",
-      "docstring": "For a nonempty matrix satisfying the structural condition whose neighbor counts are at most two, an index with at most one neighbor admits a labeling beginning there whose unit entries occur exactly between consecutive indices."
+      "new_name": "Auxiliary.statement021898",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-023454",

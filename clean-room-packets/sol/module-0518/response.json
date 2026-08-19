@@ -254,7 +254,7 @@
     {
       "temporary_id": "decl-003726",
       "new_name": "isIndecomposable_dimension_cases",
-      "docstring": "An indecomposable linear-cospan representation has one of six displayed zero-one dimension triples, with each nontrivial outer-to-center map bijective."
+      "docstring": "An indecomposable linear-cospan representation has one of six displayed zero-one dimension triples; whenever an outer space and the center are both one-dimensional, the corresponding outer-to-center map is bijective."
     },
     {
       "temporary_id": "decl-032902",
