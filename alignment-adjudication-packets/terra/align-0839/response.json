@@ -1,10 +1,1 @@
-{
-  "packet_id": "align-0839",
-  "associations": [
-    {
-      "association_id": "association:f60be9a68c7a25ea9a67",
-      "role": "primary",
-      "rationale": "It asserts a map whose composite with Q's augmentation equals P's augmentation, exactly the requested augmentation lift."
-    }
-  ]
-}
+{"packet_id":"align-0839","associations":[{"association_id":"association:f60be9a68c7a25ea9a67","role":"supporting","rationale":"The type asserts an augmentation-compatible witness f, but f's type is elided, so the displayed evidence does not directly expose the requested degree-zero lift."}]}

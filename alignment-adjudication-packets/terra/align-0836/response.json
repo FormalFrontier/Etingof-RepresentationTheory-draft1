@@ -1,15 +1,1 @@
-{
-  "packet_id": "align-0836",
-  "associations": [
-    {
-      "association_id": "association:b50aaf63f79c6ba5dd0d",
-      "role": "primary",
-      "rationale": "The type constructs a ProjectiveResolution for every displayed S-module M, directly formalizing the resulting module resolution."
-    },
-    {
-      "association_id": "association:2d86c2b2a3ccee037e4f",
-      "role": "primary",
-      "rationale": "The type explicitly states that terms of that resolution are zero above finrank V, directly formalizing the asserted dimension bound."
-    }
-  ]
-}
+{"packet_id":"align-0836","associations":[{"association_id":"association:b50aaf63f79c6ba5dd0d","role":"supporting","rationale":"The type constructs a projective resolution for every displayed module, but does not itself state that it is obtained by tensoring the bimodule resolution, is free, or vanishes above dim V."},{"association_id":"association:2d86c2b2a3ccee037e4f","role":"supporting","rationale":"The type states only that the constructed resolution vanishes above dim V; it does not also state its tensor construction or freeness."}]}

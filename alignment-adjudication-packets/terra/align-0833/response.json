@@ -1,15 +1,1 @@
-{
-  "packet_id": "align-0833",
-  "associations": [
-    {
-      "association_id": "association:3a8f46fcf1430f863245",
-      "role": "primary",
-      "rationale": "The type constructs a ProjectiveResolution of the Koszul augmentation module over the symmetric algebra, directly giving the claimed Koszul resolution."
-    },
-    {
-      "association_id": "association:54675cd8193caef05df7",
-      "role": "supporting",
-      "rationale": "This proves each term of the named resolution is free, supporting its freeness rather than constructing the resolution itself."
-    }
-  ]
-}
+{"packet_id":"align-0833","associations":[{"association_id":"association:3a8f46fcf1430f863245","role":"supporting","rationale":"The type constructs only a projective resolution of the opaque KoszulAugModule; it does not itself identify the target as k or state that the resolution is free."},{"association_id":"association:54675cd8193caef05df7","role":"supporting","rationale":"This proves each term of the named resolution is free, supporting its freeness rather than constructing the resolution itself."}]}

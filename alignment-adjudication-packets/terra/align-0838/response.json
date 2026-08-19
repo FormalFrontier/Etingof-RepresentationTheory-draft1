@@ -1,15 +1,1 @@
-{
-  "packet_id": "align-0838",
-  "associations": [
-    {
-      "association_id": "association:7a9dae8f7d95a44e5126",
-      "role": "primary",
-      "rationale": "The type directly gives Ext of the augmentation module with itself as the dual of the i-th exterior power."
-    },
-    {
-      "association_id": "association:a2922881d71fa0715a69",
-      "role": "primary",
-      "rationale": "The type directly gives the corresponding Tor object as the i-th exterior power."
-    }
-  ]
-}
+{"packet_id":"align-0838","associations":[{"association_id":"association:7a9dae8f7d95a44e5126","role":"supporting","rationale":"The type computes only the Ext half of the combined Tor-and-Ext source claim."},{"association_id":"association:a2922881d71fa0715a69","role":"supporting","rationale":"The type computes only the Tor half of the combined Tor-and-Ext source claim."}]}
