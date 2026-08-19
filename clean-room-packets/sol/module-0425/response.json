@@ -3,18 +3,18 @@
   "declarations": [
     {
       "temporary_id": "decl-018964",
-      "new_name": "existsSimpleSubmoduleWithPrescribedTraceComplex",
-      "docstring": "A decomposition into finite pairwise nonisomorphic simple complex submodules contains a summand with the prescribed traces of all permutation operators; every other summand has traces prescribed by a different partition."
+      "new_name": "Auxiliary.statement018964",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-018965",
-      "new_name": "existsSimpleSubmoduleWithPrescribedTrace",
-      "docstring": "Over an algebraically closed field of characteristic zero, a decomposition into finite pairwise nonisomorphic simple submodules contains a summand with the prescribed traces of all permutation operators; every other summand has traces prescribed by a different partition."
+      "new_name": "Auxiliary.statement018965",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-023208",
-      "new_name": "nonemptyLinearEquivOfTraceEqComplex",
-      "docstring": "Two simple complex submodules with equal prescribed traces for every restricted permutation operator are linearly equivalent."
+      "new_name": "Auxiliary.statement023208",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024674",

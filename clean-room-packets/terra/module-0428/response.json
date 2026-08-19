@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-023051",
-      "new_name": "auxiliary_eq_prod_variables_mul",
-      "docstring": "Auxiliary equality relating the value at the function obtained by adding one to each index with the product of all variables times the original value."
+      "new_name": "auxiliaryValue_add_one_eq_prod_X_mul",
+      "docstring": "Adding one pointwise to the index function multiplies the displayed value by the product of all polynomial variables."
     }
   ]
 }

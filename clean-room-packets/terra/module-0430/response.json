@@ -23,13 +23,13 @@
     },
     {
       "temporary_id": "decl-023057",
-      "new_name": "auxiliaryDefinition",
-      "docstring": "An auxiliary definition whose formal type is unavailable."
+      "new_name": "Auxiliary.statement023057",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-023063",
-      "new_name": "weightedAuxiliaryValue_sum_eq",
-      "docstring": "An equivariant direct-sum decomposition yields the displayed equality between weighted sums of auxiliary values."
+      "new_name": "Auxiliary.statement023063",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-023064",
