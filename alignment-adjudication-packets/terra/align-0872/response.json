@@ -2,8 +2,8 @@
   "associations": [
     {
       "association_id": "association:748412e31bb7469f2a1c",
-      "rationale": "This directly equates the path-algebra Cartan matrix with the path-count matrix under the displayed acyclicity and path-Hom equivalence hypotheses.",
-      "role": "primary"
+      "rationale": "The type gives the matrix equality only after assuming a family P with the displayed path-Hom equivalences; it does not itself state computation using the actual projective covers required by the source claim.",
+      "role": "supporting"
     }
   ],
   "packet_id": "align-0872"

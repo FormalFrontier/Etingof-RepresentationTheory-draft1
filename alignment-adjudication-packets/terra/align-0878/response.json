@@ -2,8 +2,8 @@
   "associations": [
     {
       "association_id": "association:491abb58bb4584d2a64e",
-      "rationale": "This directly constructs the displayed balancing morphism from the tensor expression to the finite copower.",
-      "role": "primary"
+      "rationale": "The type gives only the balancing-morphism component; it does not itself state the genuine balanced tensor/cokernel functor required by the complete source claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:953d2e29f4445a15f2a5",

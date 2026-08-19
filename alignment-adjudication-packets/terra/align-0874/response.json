@@ -7,8 +7,8 @@
     },
     {
       "association_id": "association:36c406dffa570233d1f6",
-      "rationale": "This directly gives the equivalence of finite-length subcategories for the corner algebra and the specified block.",
-      "role": "primary"
+      "rationale": "The type gives an equivalence of finite-length subcategories, but it does not directly display the finite-dimensional module categories specified by the source claim.",
+      "role": "supporting"
     }
   ],
   "packet_id": "align-0874"

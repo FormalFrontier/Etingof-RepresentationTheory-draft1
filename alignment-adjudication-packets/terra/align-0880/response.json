@@ -2,13 +2,13 @@
   "associations": [
     {
       "association_id": "association:e734bba46dc40756dc70",
-      "rationale": "This directly proves that every component of the displayed evaluation transformation is an epimorphism.",
-      "role": "primary"
+      "rationale": "The type gives only the epimorphism component for the named transformation; it does not itself construct the evaluation transformation required by the complete source claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:72e0585119025ee22a62",
-      "rationale": "This directly constructs the evaluation natural transformation from F composed with G to the identity.",
-      "role": "primary"
+      "rationale": "The type gives only the evaluation-transformation component; it does not itself state that every component is epi, as required by the complete source claim.",
+      "role": "supporting"
     }
   ],
   "packet_id": "align-0880"
