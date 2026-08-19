@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: Kim Morrison
 -/
 
-import RepresentationTheory.Algebra.DesignatedElements
+import RepresentationTheory.Algebra.AuxiliaryPredicates
 import RepresentationTheory.Alignment.Attribute
 
 /-! # Distinguished elements -/
@@ -15,13 +15,13 @@ namespace RepresentationTheory.Module.DistinguishedElement
 @[source_ref "Chapter2/Proposition2.2.3" (role := primary)]
 theorem distinguishedElement_unique (k : Type*) {A : Type*} [Field k] [AddCommGroup A]
     [Module k A]
-    [RepresentationTheory.Algebra.NonUnitalStructure.NonUnitalAlgebraStructure k A]
+    [RepresentationTheory.Algebra.AuxiliaryStructure.AuxiliaryStructure k A]
     {e e' : A}
-    (he : RepresentationTheory.Algebra.NonUnitalStructure.NonUnitalAlgebraStructure.DesignatedElement
+    (he : RepresentationTheory.Algebra.AuxiliaryStructure.AuxiliaryStructure.auxiliaryPredicate
       k e)
-    (he' : RepresentationTheory.Algebra.NonUnitalStructure.NonUnitalAlgebraStructure.DesignatedElement
+    (he' : RepresentationTheory.Algebra.AuxiliaryStructure.AuxiliaryStructure.auxiliaryPredicate
       k e') : e = e' :=
-  RepresentationTheory.Algebra.NonUnitalStructure.NonUnitalAlgebraStructure.DesignatedElement.eq
+  RepresentationTheory.Algebra.AuxiliaryStructure.AuxiliaryStructure.auxiliaryPredicate_unique
     k he he'
 
 end RepresentationTheory.Module.DistinguishedElement

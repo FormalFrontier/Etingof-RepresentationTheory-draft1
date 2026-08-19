@@ -14,11 +14,11 @@ Basic names for algebra structures on commutative rings over fields.
 
 set_option linter.style.whitespace false
 
-namespace RepresentationTheory.Algebra.FieldCommRing
+namespace RepresentationTheory.Algebra.AuxiliaryFieldCommRingType
 
-/-- A type constructed from a field and a commutative ring. -/
+/-- An auxiliary type depending on a field and a commutative ring. -/
 @[source_ref "Chapter2/Definition2.2.5" (role := primary)]
-abbrev FieldCommRingConstruction (k : Type*) (A : Type*) [Field k] [CommRing A] :=
+abbrev AuxiliaryFieldCommRingType (k : Type*) (A : Type*) [Field k] [CommRing A] :=
   Algebra k A
 
-end RepresentationTheory.Algebra.FieldCommRing
+end RepresentationTheory.Algebra.AuxiliaryFieldCommRingType

@@ -9,9 +9,9 @@ import RepresentationTheory.FreeAlgebra.RelationQuotient
 import RepresentationTheory.LinearAlgebra.SymmetricTensors
 import RepresentationTheory.Alignment.Attribute
 
-/-! # Basis quotient presentations -/
+/-! # Auxiliary Lie-module constructions -/
 
-namespace RepresentationTheory.Algebra.BasisQuotientPresentations
+namespace RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions
 
 open scoped DirectSum TensorProduct
 
@@ -23,21 +23,21 @@ variable {ι : Type w} (b : Module.Basis ι k L)
 
 attribute [local instance 100] LieRing.ofAssociativeRing
 
-/-- The carrier of a relation-based symmetric-algebra model associated with a module over a commutative ring. -/
+/-- An auxiliary type associated with a module over a commutative ring. -/
 @[source_ref "Chapter2/Definition2.12.1" (role := primary)]
-abbrev SymmetricAlgebra.RelationModel (k : Type*) (V : Type*) [CommRing k]
+abbrev SymmetricAlgebra.auxiliaryModel (k : Type*) (V : Type*) [CommRing k]
     [AddCommGroup V] [Module k V] :=
   SymmetricAlgebra k V
 
-/-- The carrier of a relation-based exterior-algebra model associated with a module over a commutative ring. -/
+/-- An auxiliary type associated with a module over a commutative ring. -/
 @[source_ref "Chapter2/Definition2.12.1" (role := supporting)]
-abbrev ExteriorAlgebra.RelationModel (k : Type*) (V : Type*) [CommRing k]
+abbrev ExteriorAlgebra.auxiliaryModel (k : Type*) (V : Type*) [CommRing k]
     [AddCommGroup V] [Module k V] :=
   ExteriorAlgebra k V
 
-/-- A basis-independent quotient model for the associative envelope of a Lie algebra over a commutative ring. -/
+/-- An auxiliary type depending on a Lie algebra over a commutative ring. -/
 @[source_ref "Chapter2/Definition2.12.1" (role := supporting)]
-abbrev UniversalEnvelopingAlgebra.QuotientModel (k : Type*) (L : Type*) [CommRing k]
+abbrev UniversalEnvelopingAlgebra.auxiliaryType (k : Type*) (L : Type*) [CommRing k]
     [LieRing L] [LieAlgebra k L] :=
   UniversalEnvelopingAlgebra k L
 
@@ -64,93 +64,93 @@ theorem UniversalEnvelopingAlgebra.generator_commutator (x y : L) :
       UniversalEnvelopingAlgebra.ι k ⁅x, y⁆ := by
   rw [← LieRing.of_associative_ring_bracket, ← LieHom.map_lie]
 
-/-- A chosen basis identifies the symmetric relation model with the multivariable polynomial algebra on the basis indices. -/
+/-- An algebra equivalence from an auxiliary type to multivariable polynomials on the basis indices. -/
 @[source_ref "Chapter2/Definition2.12.1" (role := primary)]
-noncomputable def SymmetricAlgebra.relationModelEquivMvPolynomial
+noncomputable def SymmetricAlgebra.auxiliaryModelEquivMvPolynomial
     (V : Type v) [AddCommGroup V] [Module k V]
     {ι : Type w} (b : Module.Basis ι k V) :
-    SymmetricAlgebra.RelationModel k V ≃ₐ[k] MvPolynomial ι k :=
+    SymmetricAlgebra.auxiliaryModel k V ≃ₐ[k] MvPolynomial ι k :=
   SymmetricAlgebra.equivMvPolynomial b
 
-/-- The polynomial equivalence sends the symmetric-algebra image of a basis vector to the corresponding indeterminate. -/
-@[simp] theorem SymmetricAlgebra.relationModelEquivMvPolynomial_apply_basis
+/-- Gives the value of the displayed algebra equivalence on the image of a basis vector. -/
+@[simp] theorem SymmetricAlgebra.auxiliaryModelEquivMvPolynomial_apply_basis
     (V : Type v) [AddCommGroup V] [Module k V]
     {ι : Type w} (b : Module.Basis ι k V) (i : ι) :
-    SymmetricAlgebra.relationModelEquivMvPolynomial k V b (SymmetricAlgebra.ι k V (b i)) =
+    SymmetricAlgebra.auxiliaryModelEquivMvPolynomial k V b (SymmetricAlgebra.ι k V (b i)) =
       MvPolynomial.X i :=
   SymmetricAlgebra.equivMvPolynomial_ι_apply b i
 
-/-- A chosen basis identifies the exterior relation model with the exterior algebra on finitely supported coordinates. -/
+/-- An algebra equivalence from an auxiliary type to an exterior algebra on finitely supported coordinates. -/
 @[source_ref "Chapter2/Definition2.12.1" (role := primary)]
-noncomputable def ExteriorAlgebra.relationModelEquivFinsupp
+noncomputable def ExteriorAlgebra.auxiliaryModelEquivFinsupp
     (V : Type v) [AddCommGroup V] [Module k V]
     {ι : Type w} (b : Module.Basis ι k V) :
-    ExteriorAlgebra.RelationModel k V ≃ₐ[k] ExteriorAlgebra k (ι →₀ k) :=
+    ExteriorAlgebra.auxiliaryModel k V ≃ₐ[k] ExteriorAlgebra k (ι →₀ k) :=
   CliffordAlgebra.equivOfIsometry
     ({ toLinearEquiv := b.repr, map_app' := fun _ => rfl } :
       QuadraticMap.IsometryEquiv (0 : QuadraticForm k V) (0 : QuadraticForm k (ι →₀ k)))
 
-/-- Under the coordinate equivalence, an exterior generator maps to the generator determined by its basis representation. -/
-@[simp] theorem ExteriorAlgebra.relationModelEquivFinsupp_apply
+/-- Gives the value of the displayed algebra equivalence on an exterior-algebra generator. -/
+@[simp] theorem ExteriorAlgebra.auxiliaryModelEquivFinsupp_apply
     (V : Type v) [AddCommGroup V] [Module k V]
     {ι : Type w} (b : Module.Basis ι k V) (x : V) :
-    ExteriorAlgebra.relationModelEquivFinsupp k V b (ExteriorAlgebra.ι k x) =
+    ExteriorAlgebra.auxiliaryModelEquivFinsupp k V b (ExteriorAlgebra.ι k x) =
       ExteriorAlgebra.ι k (b.repr x) := by
-  rw [ExteriorAlgebra.relationModelEquivFinsupp, CliffordAlgebra.equivOfIsometry_apply,
+  rw [ExteriorAlgebra.auxiliaryModelEquivFinsupp, CliffordAlgebra.equivOfIsometry_apply,
     CliffordAlgebra.map_apply_ι]
   rfl
 
 /-- An auxiliary construction whose formal type is unavailable in rendered form. -/
-noncomputable def Algebra.BasisQuotientPresentations.unrenderedAuxiliary (ι : Type w) :
+noncomputable def unrenderedAuxiliary (ι : Type w) :
     (ι →₀ ℕ) ≃ Σ n : ℕ, Sym ι n := by
   classical
   exact (Equiv.sigmaFiberEquiv (fun f : ι →₀ ℕ => f.sum fun _ m => m)).symm.trans
     (Equiv.sigmaCongrRight fun n => (Sym.equivNatSum ι n).symm)
 
-/-- A basis-dependent linear equivalence between the symmetric relation model and its degree-indexed direct sum. -/
+/-- A basis-dependent linear equivalence from an auxiliary type to the displayed Nat-indexed direct sum. -/
 @[source_ref "Chapter2/Definition2.12.1" (role := primary)]
-noncomputable def SymmetricAlgebra.relationModelGradedEquiv
+noncomputable def SymmetricAlgebra.auxiliaryModelDirectSumEquiv
     (V : Type v) [AddCommGroup V] [Module k V] {ι : Type w} (b : Module.Basis ι k V) :
-    SymmetricAlgebra.RelationModel k V ≃ₗ[k]
+    SymmetricAlgebra.auxiliaryModel k V ≃ₗ[k]
       ⨁ n : ℕ, RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n :=
   b.symmetricAlgebra.repr ≪≫ₗ
-    Finsupp.domLCongr (Algebra.BasisQuotientPresentations.unrenderedAuxiliary ι) ≪≫ₗ
+    Finsupp.domLCongr (unrenderedAuxiliary ι) ≪≫ₗ
     sigmaFinsuppLequivDFinsupp k ≪≫ₗ
     DFinsupp.mapRange.linearEquiv fun n =>
       (RepresentationTheory.LinearAlgebra.SymmetricTensors.distinguishedElement_aux1 b n).repr.symm
 
-/-- A linear equivalence between the exterior relation model and the direct sum of its degree-indexed components. -/
+/-- A linear equivalence from an auxiliary type to the displayed Nat-indexed direct sum. -/
 @[source_ref "Chapter2/Definition2.12.1" (role := primary)]
-noncomputable def ExteriorAlgebra.relationModelGradedEquiv
+noncomputable def ExteriorAlgebra.auxiliaryModelDirectSumEquiv
     (V : Type v) [AddCommGroup V] [Module k V] :
-    ExteriorAlgebra.RelationModel k V ≃ₗ[k]
+    ExteriorAlgebra.auxiliaryModel k V ≃ₗ[k]
       ⨁ n : ℕ, RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType k V n :=
   DirectSum.decomposeLinearEquiv (fun n : ℕ => ⋀[k]^n V) ≪≫ₗ
     DFinsupp.mapRange.linearEquiv fun n =>
       RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv n
 
-/-- The free-algebra relation assigned to a pair of basis indices for a Lie algebra. -/
+/-- An element of a free algebra associated with a basis and a pair of basis indices. -/
 @[source_ref "Chapter2/Definition2.9.9" (role := primary)]
-noncomputable def UniversalEnvelopingAlgebra.basisRelations (ij : ι × ι) : FreeAlgebra k ι :=
+noncomputable def UniversalEnvelopingAlgebra.auxiliaryBasisPairElement (ij : ι × ι) : FreeAlgebra k ι :=
   FreeAlgebra.ι k ij.1 * FreeAlgebra.ι k ij.2 -
     FreeAlgebra.ι k ij.2 * FreeAlgebra.ι k ij.1 -
       (b.repr ⁅b ij.1, b ij.2⁆).sum fun r a => a • FreeAlgebra.ι k r
 
-/-- A basis-indexed quotient model for the associative envelope of a Lie algebra over a field. -/
+/-- An auxiliary type depending on a Lie algebra over a field and a chosen basis. -/
 @[source_ref "Chapter2/Definition2.9.9/Derived2" (role := supporting)]
-abbrev UniversalEnvelopingAlgebra.BasisQuotientModel :=
+abbrev UniversalEnvelopingAlgebra.auxiliaryBasisType :=
   RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType k ι (ι × ι)
-    (UniversalEnvelopingAlgebra.basisRelations k L b)
+    (UniversalEnvelopingAlgebra.auxiliaryBasisPairElement k L b)
 
-/-- The canonical algebra homomorphism from the basis-indexed quotient model to the basis-independent enveloping model. -/
-noncomputable def UniversalEnvelopingAlgebra.basisQuotientToQuotientModel :
-    UniversalEnvelopingAlgebra.BasisQuotientModel k L b →ₐ[k]
-      UniversalEnvelopingAlgebra.QuotientModel k L :=
+/-- An algebra homomorphism between the two auxiliary types displayed in its type. -/
+noncomputable def UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom :
+    UniversalEnvelopingAlgebra.auxiliaryBasisType k L b →ₐ[k]
+      UniversalEnvelopingAlgebra.auxiliaryType k L :=
   RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType.lift
-    (UniversalEnvelopingAlgebra.basisRelations k L b)
+    (UniversalEnvelopingAlgebra.auxiliaryBasisPairElement k L b)
     (fun i => UniversalEnvelopingAlgebra.ι k (b i)) (by
       rintro ⟨i, j⟩
-      simp only [UniversalEnvelopingAlgebra.basisRelations, map_sub, map_mul,
+      simp only [UniversalEnvelopingAlgebra.auxiliaryBasisPairElement, map_sub, map_mul,
         FreeAlgebra.lift_ι_apply]
       simp only [Finsupp.sum, map_sum, map_smul, FreeAlgebra.lift_ι_apply]
       have hbexp : (b.repr ⁅b i, b j⁆).sum (fun r a => a • b r) = ⁅b i, b j⁆ := by
@@ -174,107 +174,107 @@ noncomputable def UniversalEnvelopingAlgebra.basisQuotientToQuotientModel :
                 UniversalEnvelopingAlgebra.ι k (b i) :=
           LieRing.of_associative_ring_bracket _ _)
 
-/-- The linear map underlying the canonical generator map into the basis-indexed quotient model. -/
-noncomputable def UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap : L →ₗ[k]
-    UniversalEnvelopingAlgebra.BasisQuotientModel k L b :=
+/-- A linear map from a Lie algebra to the auxiliary type determined by a basis. -/
+noncomputable def UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap : L →ₗ[k]
+    UniversalEnvelopingAlgebra.auxiliaryBasisType k L b :=
   (b.constr k)
     (RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType.of
-      (UniversalEnvelopingAlgebra.basisRelations k L b))
+      (UniversalEnvelopingAlgebra.auxiliaryBasisPairElement k L b))
 
-/-- The generator linear map sends a basis vector to the quotient element indexed by the same coordinate. -/
-@[simp] theorem UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap_apply_basis (i : ι) :
-    UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b (b i) =
+/-- States the value of the auxiliary linear map at a selected basis vector. -/
+@[simp] theorem UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap_apply_basis (i : ι) :
+    UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b (b i) =
       RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType.of
-        (UniversalEnvelopingAlgebra.basisRelations k L b) i :=
+        (UniversalEnvelopingAlgebra.auxiliaryBasisPairElement k L b) i :=
   Module.Basis.constr_basis b k _ i
 
-/-- The canonical Lie homomorphism from a Lie algebra into its basis-indexed quotient model. -/
-noncomputable def UniversalEnvelopingAlgebra.basisQuotientGeneratorLieHom : L →ₗ⁅k⁆
-    UniversalEnvelopingAlgebra.BasisQuotientModel k L b :=
-  { UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b with
+/-- A Lie homomorphism from a Lie algebra to the auxiliary type determined by a basis. -/
+noncomputable def UniversalEnvelopingAlgebra.auxiliaryBasisLieHom : L →ₗ⁅k⁆
+    UniversalEnvelopingAlgebra.auxiliaryBasisType k L b :=
+  { UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b with
     map_lie' := by
       intro x y
-      let lhs : L →ₗ[k] L →ₗ[k] UniversalEnvelopingAlgebra.BasisQuotientModel k L b :=
+      let lhs : L →ₗ[k] L →ₗ[k] UniversalEnvelopingAlgebra.auxiliaryBasisType k L b :=
         LinearMap.mk₂ k (fun x y =>
-          UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b ⁅x, y⁆)
+          UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b ⁅x, y⁆)
           (by simp) (by simp) (by simp) (by simp)
-      let rhs : L →ₗ[k] L →ₗ[k] UniversalEnvelopingAlgebra.BasisQuotientModel k L b :=
+      let rhs : L →ₗ[k] L →ₗ[k] UniversalEnvelopingAlgebra.auxiliaryBasisType k L b :=
         LinearMap.mk₂ k (fun x y =>
-          ⁅UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b x,
-            UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b y⁆)
+          ⁅UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b x,
+            UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b y⁆)
           (by simp) (by simp) (by simp)
           (by
             intro c x y
             rw [map_smul]
             exact lie_smul c
-              (UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b x)
-              (UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b y))
+              (UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b x)
+              (UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b y))
       have hbilin : lhs = rhs := by
         apply Module.Basis.ext b
         intro i
         apply Module.Basis.ext b
         intro j
-        change UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b ⁅b i, b j⁆ =
-          ⁅UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b (b i),
-            UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b (b j)⁆
-        rw [UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap_apply_basis,
-          UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap_apply_basis,
-          UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap, Module.Basis.constr_apply]
+        change UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b ⁅b i, b j⁆ =
+          ⁅UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b (b i),
+            UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b (b j)⁆
+        rw [UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap_apply_basis,
+          UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap_apply_basis,
+          UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap, Module.Basis.constr_apply]
         have hrel :=
           RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType.auxiliaryAlgHom_relation
-            (UniversalEnvelopingAlgebra.basisRelations k L b) (i, j)
-        simp only [UniversalEnvelopingAlgebra.basisRelations, map_sub, map_mul,
+            (UniversalEnvelopingAlgebra.auxiliaryBasisPairElement k L b) (i, j)
+        simp only [UniversalEnvelopingAlgebra.auxiliaryBasisPairElement, map_sub, map_mul,
           Finsupp.sum, map_sum, map_smul] at hrel
         rw [LieRing.of_associative_ring_bracket]
         exact (sub_eq_zero.mp hrel).symm
       exact congrArg (fun F => F x y) hbilin }
 
-/-- The canonical algebra homomorphism from the basis-independent enveloping model to the basis-indexed quotient model. -/
-noncomputable def UniversalEnvelopingAlgebra.quotientModelToBasisQuotient :
-    UniversalEnvelopingAlgebra.QuotientModel k L →ₐ[k]
-      UniversalEnvelopingAlgebra.BasisQuotientModel k L b :=
+/-- An algebra homomorphism between the two auxiliary types displayed in its type. -/
+noncomputable def UniversalEnvelopingAlgebra.auxiliaryAlgHom :
+    UniversalEnvelopingAlgebra.auxiliaryType k L →ₐ[k]
+      UniversalEnvelopingAlgebra.auxiliaryBasisType k L b :=
   UniversalEnvelopingAlgebra.lift k
-    (UniversalEnvelopingAlgebra.basisQuotientGeneratorLieHom k L b)
+    (UniversalEnvelopingAlgebra.auxiliaryBasisLieHom k L b)
 
-/-- The canonical reverse map sends an indexed quotient generator to the enveloping image of the associated basis vector. -/
-@[simp] theorem UniversalEnvelopingAlgebra.basisQuotientToQuotientModel_apply (i : ι) :
-    UniversalEnvelopingAlgebra.basisQuotientToQuotientModel k L b
+/-- Gives the value of the auxiliary algebra homomorphism on a displayed basis-indexed input. -/
+@[simp] theorem UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom_apply (i : ι) :
+    UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom k L b
         (RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType.of
-          (UniversalEnvelopingAlgebra.basisRelations k L b) i) =
+          (UniversalEnvelopingAlgebra.auxiliaryBasisPairElement k L b) i) =
       UniversalEnvelopingAlgebra.ι k (b i) := by
-  simp [UniversalEnvelopingAlgebra.basisQuotientToQuotientModel]
+  simp [UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom]
 
-/-- The canonical forward map carries each enveloping generator to its image under the basis-quotient generator map. -/
-theorem UniversalEnvelopingAlgebra.quotientModelToBasisQuotient_apply (x : L) :
-    UniversalEnvelopingAlgebra.quotientModelToBasisQuotient k L b
+/-- Gives the value of the auxiliary algebra homomorphism on a displayed input. -/
+theorem UniversalEnvelopingAlgebra.auxiliaryAlgHom_apply (x : L) :
+    UniversalEnvelopingAlgebra.auxiliaryAlgHom k L b
         (UniversalEnvelopingAlgebra.ι k x) =
-      UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b x := by
-  rw [UniversalEnvelopingAlgebra.quotientModelToBasisQuotient,
+      UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b x := by
+  rw [UniversalEnvelopingAlgebra.auxiliaryAlgHom,
     UniversalEnvelopingAlgebra.lift_ι_apply]
   rfl
 
-/-- A basis-dependent algebra equivalence from the indexed relation quotient to the corresponding enveloping algebra. -/
+/-- A basis-dependent algebra equivalence between the two auxiliary types displayed in its type. -/
 @[source_ref "Chapter2/Remark2.9.10" (role := primary),
   source_ref "Chapter2/Definition2.12.1" (role := primary),
   source_ref "Chapter2/Definition2.9.9/Derived2" (role := supporting)]
-noncomputable def UniversalEnvelopingAlgebra.basisQuotientEquivEnvelope :
-    UniversalEnvelopingAlgebra.BasisQuotientModel k L b ≃ₐ[k]
+noncomputable def UniversalEnvelopingAlgebra.auxiliaryBasisEquiv :
+    UniversalEnvelopingAlgebra.auxiliaryBasisType k L b ≃ₐ[k]
       RepresentationTheory.Algebra.Lie.AssociatedTypes.LieAlgebra.AuxiliaryType k L :=
   AlgEquiv.ofAlgHom
-    (UniversalEnvelopingAlgebra.basisQuotientToQuotientModel k L b)
-    (UniversalEnvelopingAlgebra.quotientModelToBasisQuotient k L b)
+    (UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom k L b)
+    (UniversalEnvelopingAlgebra.auxiliaryAlgHom k L b)
     (by
       apply UniversalEnvelopingAlgebra.hom_ext
       apply LieHom.ext
       intro x
       rw [LieHom.coe_comp, Function.comp_apply, AlgHom.coe_toLieHom, AlgHom.comp_apply,
-        UniversalEnvelopingAlgebra.quotientModelToBasisQuotient_apply]
-      change UniversalEnvelopingAlgebra.basisQuotientToQuotientModel k L b
-        (UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b x) = _
-      rw [UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap,
+        UniversalEnvelopingAlgebra.auxiliaryAlgHom_apply]
+      change UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom k L b
+        (UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b x) = _
+      rw [UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap,
         Module.Basis.constr_apply]
       simp only [Finsupp.sum, map_sum, map_smul,
-        UniversalEnvelopingAlgebra.basisQuotientToQuotientModel_apply]
+        UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom_apply]
       have hbexp : (b.repr x).sum (fun r a => a • b r) = x := by
         change Finsupp.linearCombination k b (b.repr x) = x
         rw [← Module.Basis.repr_symm_apply, b.repr.symm_apply_apply]
@@ -287,41 +287,41 @@ noncomputable def UniversalEnvelopingAlgebra.basisQuotientEquivEnvelope :
           congrArg (UniversalEnvelopingAlgebra.ι k) hbexp)
     (by
       apply RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType.algHom_ext
-        (UniversalEnvelopingAlgebra.basisRelations k L b)
+        (UniversalEnvelopingAlgebra.auxiliaryBasisPairElement k L b)
       intro i
       rw [AlgHom.comp_apply,
-        UniversalEnvelopingAlgebra.basisQuotientToQuotientModel_apply,
-        UniversalEnvelopingAlgebra.quotientModelToBasisQuotient_apply,
-        UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap_apply_basis]
+        UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom_apply,
+        UniversalEnvelopingAlgebra.auxiliaryAlgHom_apply,
+        UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap_apply_basis]
       rfl)
 
-/-- A map from the basis quotient to the enveloping algebra is canonical when it has the prescribed value on every indexed generator. -/
-theorem UniversalEnvelopingAlgebra.basisQuotientToEnvelope_unique
-    (F : UniversalEnvelopingAlgebra.BasisQuotientModel k L b →ₐ[k]
+/-- An algebra homomorphism is equal to the displayed auxiliary homomorphism when the stated values on every index agree. -/
+theorem UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom_unique
+    (F : UniversalEnvelopingAlgebra.auxiliaryBasisType k L b →ₐ[k]
       RepresentationTheory.Algebra.Lie.AssociatedTypes.LieAlgebra.AuxiliaryType k L)
     (hF : ∀ i, F
       (RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType.of
-        (UniversalEnvelopingAlgebra.basisRelations k L b) i) =
+        (UniversalEnvelopingAlgebra.auxiliaryBasisPairElement k L b) i) =
       UniversalEnvelopingAlgebra.ι k (b i)) :
-    F = UniversalEnvelopingAlgebra.basisQuotientToQuotientModel k L b := by
+    F = UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom k L b := by
   apply RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType.algHom_ext
-    (UniversalEnvelopingAlgebra.basisRelations k L b)
+    (UniversalEnvelopingAlgebra.auxiliaryBasisPairElement k L b)
   intro i
-  rw [hF, UniversalEnvelopingAlgebra.basisQuotientToQuotientModel_apply]
+  rw [hF, UniversalEnvelopingAlgebra.auxiliaryBasisAlgHom_apply]
 
-/-- An algebra homomorphism into the basis quotient is canonical if it agrees with the generator linear map on every Lie-algebra element. -/
-theorem UniversalEnvelopingAlgebra.quotientModelToBasisQuotient_unique
-    (F : UniversalEnvelopingAlgebra.QuotientModel k L →ₐ[k]
-      UniversalEnvelopingAlgebra.BasisQuotientModel k L b)
+/-- An algebra homomorphism is equal to the displayed auxiliary homomorphism when the stated pointwise condition holds. -/
+theorem UniversalEnvelopingAlgebra.auxiliaryAlgHom_unique
+    (F : UniversalEnvelopingAlgebra.auxiliaryType k L →ₐ[k]
+      UniversalEnvelopingAlgebra.auxiliaryBasisType k L b)
     (hF : ∀ x, F (UniversalEnvelopingAlgebra.ι k x) =
-      UniversalEnvelopingAlgebra.basisQuotientGeneratorLinearMap k L b x) :
-    F = UniversalEnvelopingAlgebra.quotientModelToBasisQuotient k L b := by
+      UniversalEnvelopingAlgebra.auxiliaryBasisLinearMap k L b x) :
+    F = UniversalEnvelopingAlgebra.auxiliaryAlgHom k L b := by
   apply UniversalEnvelopingAlgebra.hom_ext
   apply LieHom.ext
   intro x
   change F (UniversalEnvelopingAlgebra.ι k x) =
-    UniversalEnvelopingAlgebra.quotientModelToBasisQuotient k L b
+    UniversalEnvelopingAlgebra.auxiliaryAlgHom k L b
       (UniversalEnvelopingAlgebra.ι k x)
-  rw [hF, UniversalEnvelopingAlgebra.quotientModelToBasisQuotient_apply]
+  rw [hF, UniversalEnvelopingAlgebra.auxiliaryAlgHom_apply]
 
-end RepresentationTheory.Algebra.BasisQuotientPresentations
+end RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions

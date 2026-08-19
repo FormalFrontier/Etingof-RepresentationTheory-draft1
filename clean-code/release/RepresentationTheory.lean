@@ -14,9 +14,9 @@ import RepresentationTheory.ComplexRepresentationAuxiliaryElements
 import RepresentationTheory.Complex.RealEndomorphismCentralizer
 import RepresentationTheory.Complex.RootsOfUnity.AverageIntegral
 import RepresentationTheory.ConjugationInvariantCharacters
-import RepresentationTheory.Algebra.BasisQuotientPresentations
-import RepresentationTheory.Algebra.Lie.Dual
-import RepresentationTheory.Algebra.Lie.TensorProduct
+import RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions
+import RepresentationTheory.Algebra.Lie.AuxiliarySingleModuleType
+import RepresentationTheory.Algebra.Lie.AuxiliaryTwoModuleType
 import RepresentationTheory.Algebra.Lie.Basic
 import RepresentationTheory.Algebra.Lie.AssociatedTypes
 import RepresentationTheory.Algebra.Lie.Constructions
@@ -34,7 +34,7 @@ import RepresentationTheory.Algebra.TensorProduct.ScalarExtension
 import RepresentationTheory.Algebra.Quiver.LinearRepresentationCategory
 import RepresentationTheory.Algebra.Quiver.Representation.Constructions
 import RepresentationTheory.Algebra.CenterAction
-import RepresentationTheory.Algebra.FieldCommRing
+import RepresentationTheory.Algebra.AuxiliaryFieldCommRingType
 import RepresentationTheory.Algebra.FieldIndexedType
 import RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity
 import RepresentationTheory.Algebra.Module.BalancedTensorProduct
@@ -43,7 +43,7 @@ import RepresentationTheory.Algebra.Module.CommutativeOppositeScalars
 import RepresentationTheory.Algebra.Module.CompositionSeries
 import RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence
 import RepresentationTheory.Algebra.Module.Duality
-import RepresentationTheory.Algebra.Module.TensorProduct
+import RepresentationTheory.Algebra.AuxiliaryTwoModuleType
 import RepresentationTheory.Algebra.Module.EndomorphismDichotomy
 import RepresentationTheory.Algebra.Module.EquivalenceTransfers
 import RepresentationTheory.Algebra.Module.FiniteDecompositions
@@ -66,12 +66,12 @@ import RepresentationTheory.Algebra.Module.TensorEquivDescent
 import RepresentationTheory.Algebra.Module.TensorSplitDescent
 import RepresentationTheory.Algebra.Module.TwistedLatticeShifts
 import RepresentationTheory.Algebra.ModuleActions
-import RepresentationTheory.Algebra.DesignatedElements
-import RepresentationTheory.Algebra.ModulePair
+import RepresentationTheory.Algebra.AuxiliaryPredicates
+import RepresentationTheory.Algebra.AuxiliaryAlgebraPairType
 import RepresentationTheory.Algebra.MonoidAlgebra.Center
 import RepresentationTheory.Algebra.MvPolynomial.VariableCount
 import RepresentationTheory.Algebra.MvPolynomial.WeightedComponents
-import RepresentationTheory.Algebra.NonUnitalStructure
+import RepresentationTheory.Algebra.AuxiliaryStructure
 import RepresentationTheory.Algebra.Noncommutativity
 import RepresentationTheory.Algebra.Representation.Equivalences
 import RepresentationTheory.Algebra.Ring.ModuleStructures

@@ -16,11 +16,11 @@ set_option linter.style.whitespace false
 
 open scoped TensorProduct
 
-namespace RepresentationTheory.Algebra.Lie.TensorProduct
+namespace RepresentationTheory.Algebra.Lie.AuxiliaryTwoModuleType
 
-/-- The tensor-product type for two modules of a Lie algebra. -/
+/-- An auxiliary type depending on a Lie algebra and two of its modules. -/
 @[nolint unusedArguments, source_ref "Chapter2/Definition2.14.1" (role := primary)]
-abbrev LieModuleTensorProduct (k : Type*) (L : Type*) (V : Type*) (W : Type*)
+abbrev AuxiliaryLieModuleType (k : Type*) (L : Type*) (V : Type*) (W : Type*)
     [CommRing k] [LieRing L] [LieAlgebra k L]
     [AddCommGroup V] [Module k V] [LieRingModule L V] [LieModule k L V]
     [AddCommGroup W] [Module k W] [LieRingModule L W] [LieModule k L W] :=
@@ -33,9 +33,9 @@ variable {k L V W : Type*}
 
 /-- The Lie action on a pure tensor is the sum of the actions on its two factors. -/
 @[source_ref "Chapter2/Definition2.14.1" (role := primary)]
-theorem LieModuleTensorProduct.lie_bracket_tmul (x : L) (v : V) (w : W) :
-    ⁅x, (v ⊗ₜ[k] w : LieModuleTensorProduct k L V W)⁆ =
+theorem AuxiliaryLieModuleType.lie_bracket_tmul (x : L) (v : V) (w : W) :
+    ⁅x, (v ⊗ₜ[k] w : AuxiliaryLieModuleType k L V W)⁆ =
       ⁅x, v⁆ ⊗ₜ[k] w + v ⊗ₜ[k] ⁅x, w⁆ :=
   TensorProduct.LieModule.lie_tmul_right x v w
 
-end RepresentationTheory.Algebra.Lie.TensorProduct
+end RepresentationTheory.Algebra.Lie.AuxiliaryTwoModuleType

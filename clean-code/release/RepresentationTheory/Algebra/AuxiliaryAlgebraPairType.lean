@@ -14,12 +14,12 @@ Basic names for homomorphisms between two algebras over a common base ring.
 
 set_option linter.style.whitespace false
 
-namespace RepresentationTheory.Algebra.ModulePair
+namespace RepresentationTheory.Algebra.AuxiliaryAlgebraPairType
 
-/-- A type constructed from two algebras over a common commutative ring. -/
+/-- An auxiliary type depending on two algebras over a commutative ring. -/
 @[source_ref "Chapter2/Definition2.2.6" (role := primary)]
-abbrev AlgebraPairConstruction (k : Type*) (A B : Type*) [CommRing k] [Ring A] [Ring B]
+abbrev AuxiliaryAlgebraPairType (k : Type*) (A B : Type*) [CommRing k] [Ring A] [Ring B]
     [Algebra k A] [Algebra k B] :=
   A →ₐ[k] B
 
-end RepresentationTheory.Algebra.ModulePair
+end RepresentationTheory.Algebra.AuxiliaryAlgebraPairType

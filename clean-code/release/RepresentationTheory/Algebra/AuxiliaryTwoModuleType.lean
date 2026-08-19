@@ -16,12 +16,12 @@ set_option linter.style.whitespace false
 
 open scoped TensorProduct
 
-namespace RepresentationTheory.Algebra.Module.TensorProduct
+namespace RepresentationTheory.Algebra.AuxiliaryTwoModuleType
 
-/-- The tensor-product type associated to two modules over a commutative ring. -/
+/-- An auxiliary type depending on two modules over a commutative ring. -/
 @[source_ref "Chapter2/Definition2.11.1" (role := primary)]
-abbrev ModuleTensorProduct (k : Type*) (V W : Type*) [CommRing k]
+abbrev AuxiliaryModuleType (k : Type*) (V W : Type*) [CommRing k]
     [AddCommGroup V] [AddCommGroup W] [Module k V] [Module k W] :=
   V ⊗[k] W
 
-end RepresentationTheory.Algebra.Module.TensorProduct
+end RepresentationTheory.Algebra.AuxiliaryTwoModuleType
