@@ -9,22 +9,22 @@
     {
       "association_id": "association:c7c2965167117326f8bc",
       "rationale": "The type directly characterizes vanishing of Ext1 between simple vertex representations by absence of arrows from i to j.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:696d1b5ac534423ed8a7",
       "rationale": "The type directly computes the dimension of Ext1 between simple vertex representations as the number of arrows from i to j.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:114259465e7739563b89",
       "rationale": "Under the no-oriented-cycles hypothesis, the type directly states that every irreducible representation is isomorphic to a simple vertex representation.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:d76bf40ae8e1de21e7ac",
       "rationale": "The type directly states that each simple vertex representation is irreducible, supplying the other direction of the irreducible classification.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:7ec3f5bdfcb4ababfdca",
@@ -69,7 +69,7 @@
     {
       "association_id": "association:0e09da8d38a50709f064",
       "rationale": "The type directly places every two-dimensional representation into a zero-parameter split normal form or a nonzero-arrow twoRep normal form.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:a533983f3eacd115273d",

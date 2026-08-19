@@ -19,22 +19,22 @@
     {
       "association_id": "association:4f9bae05af36517d0da9",
       "rationale": "The bijective even spin representation directly identifies the Clifford algebra with the full endomorphism algebra, stating the even matrix-algebra conclusion.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:7f3f7cf51492fc498ee3",
       "rationale": "The type directly states irreducibility of the even spinor module for a nondegenerate form of dimension 2n.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:eb265b2dfa246c1e06ac",
       "rationale": "The type directly states that every irreducible module in even dimension is isomorphic to the spinor module, giving uniqueness.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:4a9671c012c72f332fd8",
       "rationale": "The type directly states that the even-dimensional Clifford algebra is a matrix algebra on a space of dimension 2^n.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:b6ef8b89fb8e371dfc4b",
@@ -54,12 +54,12 @@
     {
       "association_id": "association:d0bfefdcdbc55f38c4fc",
       "rationale": "The type directly states that the Clifford algebra is semisimple exactly when the symmetric bilinear form is nondegenerate.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:732474361c56db5fbaa3",
       "rationale": "The type directly states the requested nondegenerate-implies-semisimple assertion.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:825462b0205bb3c4a906",
@@ -84,17 +84,17 @@
     {
       "association_id": "association:c94d5ff73de6da38823f",
       "rationale": "The empty equivalence type directly states that the two odd spinor representations are nonisomorphic.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:27e12e099860b54f1047",
       "rationale": "The type directly states that every odd-dimensional irreducible is isomorphic to one of the two spinors.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:8c4377e03a310209fd2e",
       "rationale": "The type directly identifies the odd-dimensional Clifford algebra with a product of two matrix algebras on spaces of dimension 2^n.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:003c6eba7450ea9796c5",

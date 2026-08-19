@@ -4,17 +4,17 @@
     {
       "association_id": "association:3d32c5e2d11992b3e54d",
       "rationale": "For an indecomposable finite-dimensional module over an arbitrary field, the type directly gives the required invertible-or-nilpotent endomorphism alternative underlying Lemma 3.8.2.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:b859318bc9b3f435650a",
       "rationale": "The type directly asserts existence of a finite independent supremum decomposition into indecomposable submodules over an arbitrary field.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:a02c903d4f4896f22f1a",
       "rationale": "The type directly states Krull-Schmidt uniqueness: two indecomposable direct-sum decompositions have equal length and matching isomorphic summands.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:bab41bdfff6bdfc358c7",

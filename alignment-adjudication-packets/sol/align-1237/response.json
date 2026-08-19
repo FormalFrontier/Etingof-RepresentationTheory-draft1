@@ -4,32 +4,32 @@
     {
       "association_id": "association:a5408ca02206eac14098",
       "rationale": "The type directly computes the self-Ext1 of V_a as an n-dimensional complex vector space.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:fb9c801173d077f29e9a",
       "rationale": "For distinct parameters, the type directly makes Ext1(V_a,V_b) subsingleton, expressing its vanishing.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:c29a318571ddcfc839cd",
       "rationale": "For n greater than one, the type directly supplies an infinite pairwise nonisomorphic family of indecomposable B-modules.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:53cc522a1341952f1965",
       "rationale": "The type directly gives the Jrep-family isomorphism criterion: the base parameter agrees and the extension parameter differs by a nonzero scalar.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:bb12f013e8e6ee616979",
       "rationale": "The type directly classifies isomorphisms among split two-dimensional representations, up to exchanging the two one-dimensional factors.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:f4edcac6ae17a252f3af",
       "rationale": "For distinct characters, the type rules out an isomorphism between the displayed split representation and any Jrep, giving cross-family separation.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:b9be654a101455b51d9b",
@@ -39,7 +39,7 @@
     {
       "association_id": "association:55839f800b2315cee1df",
       "rationale": "The type directly puts every two-dimensional representation into either a split or Jrep normal form, stating the core classification.",
-      "role": "primary"
+      "role": "supporting"
     }
   ]
 }
