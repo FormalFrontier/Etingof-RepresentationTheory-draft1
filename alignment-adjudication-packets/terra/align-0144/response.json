@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:7d8989a5e84dc554878d",
-      "role": "primary",
-      "rationale": "Its block construction gives injective components with linearly independent rows for the inclusion."
+      "role": "supporting",
+      "rationale": "The type constructs endomorphism-valued block rows; it does not identify them as scalar-valued over an algebraically closed field."
     },
     {
       "association_id": "association:8f5f4814d85cc6423423",
-      "role": "primary",
-      "rationale": "Its matrix representation directly gives the stated blockwise inclusion with linearly independent rows."
+      "role": "supporting",
+      "rationale": "The type gives a blockwise expansion with rows over the opposite endomorphism ring, but not the source's scalar-valued matrices."
     },
     {
       "association_id": "association:51fe261651ce4c090561",
-      "role": "primary",
-      "rationale": "This product-coordinate form directly gives the same claimed block-matrix inclusion."
+      "role": "supporting",
+      "rationale": "This product-coordinate form still has endomorphism-valued rows and does not state the algebraically-closed scalar reduction."
     }
   ]
 }

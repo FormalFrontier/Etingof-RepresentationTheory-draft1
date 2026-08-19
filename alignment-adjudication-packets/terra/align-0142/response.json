@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:38a574f3bb899796b37a",
-      "role": "primary",
-      "rationale": "This objectwise isomorphism directly identifies induction with the stated coinduction/Hom construction."
+      "role": "supporting",
+      "rationale": "The type identifies induction with the opaque construction coind'; it does not display Hom_H(k[G],V)."
     },
     {
       "association_id": "association:597860a0ea558ca070ee",
-      "role": "primary",
-      "rationale": "This natural isomorphism directly states the functorial form of the induction identification."
+      "role": "supporting",
+      "rationale": "The type gives a natural isomorphism with the opaque coindFunctor' but does not expose the claimed Hom_H(k[G],-) functor."
     },
     {
       "association_id": "association:1cb12d3729aa55788107",

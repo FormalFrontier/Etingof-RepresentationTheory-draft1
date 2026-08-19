@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:55177566d7309d733056",
-      "role": "primary",
-      "rationale": "Under semisimplicity, this implication gives the converse from indecomposable to irreducible."
+      "role": "supporting",
+      "rationale": "The type proves the converse only from an IsSemisimpleModule assumption; it does not state that complex finite-group representations satisfy that assumption."
     }
   ]
 }

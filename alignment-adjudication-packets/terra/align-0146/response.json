@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:236526378bc7da5ba358",
-      "role": "primary",
-      "rationale": "This structure encodes filtrations with simple successive quotients as composition series."
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so the filtration and simple-quotient encoding cannot be verified directly."
     },
     {
       "association_id": "association:43499c0dd635935d9d14",

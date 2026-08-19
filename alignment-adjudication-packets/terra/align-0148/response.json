@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:63c700c698cc7d4261b0",
-      "role": "primary",
-      "rationale": "This quotient instance directly supplies the asserted A-module structure on the quotient."
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so the claimed quotient-module structure cannot be verified directly."
     }
   ]
 }
