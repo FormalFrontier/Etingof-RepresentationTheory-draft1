@@ -368,21 +368,21 @@
       "new_module": "RepresentationTheory.LinearAlgebra.NilpotentOperators",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_l",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Sl2Irrep": "RepresentationTheory.LieAlgebra.Sl2Representations"
+        "EtingofRepresentationTheory.Chapter2.Sl2Irrep": "RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary"
       }
     },
     {
       "new_module": "RepresentationTheory.LieModule.ActionAuxiliary",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_l_uniqueness",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Sl2JordanTypeIso": "RepresentationTheory.Algebra.Lie.ComplexMatrixModuleClassification"
+        "EtingofRepresentationTheory.Chapter2.Sl2JordanTypeIso": "RepresentationTheory.Algebra.Lie.AuxiliaryEndomorphismKernelProfiles"
       }
     },
     {
       "new_module": "RepresentationTheory.Polynomial.Recurrences",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Sl2Irrep": "RepresentationTheory.LieAlgebra.Sl2Representations"
+        "EtingofRepresentationTheory.Chapter2.Sl2Irrep": "RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary"
       }
     },
     {
@@ -676,21 +676,21 @@
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Algebra.Polynomial.OperatorSubalgebra",
+      "new_module": "RepresentationTheory.Algebra.Polynomial.EndomorphismAuxiliary",
       "old_module": "EtingofRepresentationTheory.Chapter2.Remark2_7_2",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Proposition2_7_1": "RepresentationTheory.FreeAlgebra.PolynomialOperators"
       }
     },
     {
-      "new_module": "RepresentationTheory.Algebra.Lie.UniversalEnveloping.BasisPresentation",
+      "new_module": "RepresentationTheory.Algebra.Lie.BasisAlgEquivAuxiliary",
       "old_module": "EtingofRepresentationTheory.Chapter2.Remark2_9_10",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Definition2_12_1": "RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions"
       }
     },
     {
-      "new_module": "RepresentationTheory.Algebra.Lie.FaithfulFiniteDimensionalRepresentation",
+      "new_module": "RepresentationTheory.Algebra.Lie.InjectivityExistenceAuxiliary",
       "old_module": "EtingofRepresentationTheory.Chapter2.Remark2_9_3",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Definition2_9_1": "RepresentationTheory.Algebra.Lie.Basic"
@@ -702,19 +702,19 @@
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices",
+      "new_module": "RepresentationTheory.Algebra.Lie.ComplexMatrixSubalgebraAuxiliary",
       "old_module": "EtingofRepresentationTheory.Chapter2.Sl2Defs",
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.LieAlgebra.Sl2Representations",
+      "new_module": "RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary",
       "old_module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Sl2Defs": "RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices"
+        "EtingofRepresentationTheory.Chapter2.Sl2Defs": "RepresentationTheory.Algebra.Lie.ComplexMatrixSubalgebraAuxiliary"
       }
     },
     {
-      "new_module": "RepresentationTheory.Algebra.Lie.ComplexMatrixModuleClassification",
+      "new_module": "RepresentationTheory.Algebra.Lie.AuxiliaryEndomorphismKernelProfiles",
       "old_module": "EtingofRepresentationTheory.Chapter2.Sl2JordanTypeIso",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Sl2NullitySequence": "RepresentationTheory.LinearAlgebra.KernelDimensionProfiles",
@@ -739,7 +739,7 @@
       "new_module": "RepresentationTheory.LieAlgebra.FiniteDimensionalModules",
       "old_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_1",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Sl2Irrep": "RepresentationTheory.LieAlgebra.Sl2Representations"
+        "EtingofRepresentationTheory.Chapter2.Sl2Irrep": "RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary"
       }
     },
     {
