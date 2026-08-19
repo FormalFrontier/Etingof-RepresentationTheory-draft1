@@ -54,7 +54,7 @@
     {
       "temporary_id": "decl-018455",
       "new_name": "dropFirstVariableHom_psum",
-      "docstring": "The variable homomorphism preserves a positive polynomial sum after lowering the ambient size."
+      "docstring": "The variable homomorphism preserves a positive power sum after lowering the ambient size."
     },
     {
       "temporary_id": "decl-018456",

@@ -38,8 +38,8 @@
     },
     {
       "temporary_id": "decl-018898",
-      "new_name": "exists_sameCycle_class_indexing",
-      "docstring": "Provides indices whose equality classes agree with `SameCycle` and have the prescribed sizes."
+      "new_name": "Auxiliary.statement018898",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-019488",

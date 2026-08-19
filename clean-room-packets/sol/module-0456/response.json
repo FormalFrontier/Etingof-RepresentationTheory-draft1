@@ -46,8 +46,8 @@
       "temporary_id": "decl-018257"
     },
     {
-      "docstring": "An auxiliary definition.",
-      "new_name": "Equiv.Perm.auxiliaryDefinition",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable.",
+      "new_name": "Auxiliary.statement018258",
       "temporary_id": "decl-018258"
     },
     {
@@ -146,8 +146,8 @@
       "temporary_id": "decl-023424"
     },
     {
-      "docstring": "An auxiliary equality.",
-      "new_name": "Equiv.Perm.auxiliaryEquality",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term.",
+      "new_name": "Auxiliary.statement023425",
       "temporary_id": "decl-023425"
     },
     {

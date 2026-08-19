@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-017213",
-      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryResultA",
-      "docstring": "An auxiliary assertion whose type was unavailable from the displayed formal output."
+      "new_name": "Auxiliary.statement017213",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-018025",
@@ -23,8 +23,8 @@
     },
     {
       "temporary_id": "decl-018034",
-      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryResultB",
-      "docstring": "An auxiliary assertion whose type was unavailable from the displayed formal output."
+      "new_name": "Auxiliary.statement018034",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-018275",
@@ -108,8 +108,8 @@
     },
     {
       "temporary_id": "decl-023280",
-      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryResultC",
-      "docstring": "An auxiliary assertion whose type was unavailable from the displayed formal output."
+      "new_name": "Auxiliary.statement023280",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-023290",
@@ -198,13 +198,13 @@
     },
     {
       "temporary_id": "decl-024295",
-      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryResultD",
-      "docstring": "An auxiliary assertion whose displayed formal type contains an elided expression."
+      "new_name": "Auxiliary.statement024295",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024296",
-      "new_name": "SymmetricGroup.PartitionCharacter.auxiliaryResultE",
-      "docstring": "An auxiliary assertion whose displayed formal type contains an elided expression."
+      "new_name": "Auxiliary.statement024296",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024473",

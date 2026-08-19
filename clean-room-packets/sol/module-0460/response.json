@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-000866",
       "new_name": "AuxiliaryDecompositionData",
-      "docstring": "Auxiliary decomposition data attached to a family of submodules of a representation."
+      "docstring": "Auxiliary decomposition data attached to a family of submodules of an ambient module."
     },
     {
       "temporary_id": "decl-000871",
@@ -24,12 +24,12 @@
     {
       "temporary_id": "decl-000897",
       "new_name": "equiv",
-      "docstring": "The linear equivalence from the representation to the direct sum of tensor products carried by the data."
+      "docstring": "The linear equivalence from the ambient module to the direct sum of tensor products carried by the data."
     },
     {
       "temporary_id": "decl-016535",
       "new_name": "exists_auxiliary_tensor_decomposition",
-      "docstring": "Provides auxiliary indexed data and a nonempty linear equivalence with a direct sum of tensor products."
+      "docstring": "Provides auxiliary indexed data and a linear equivalence with a direct sum of tensor products."
     },
     {
       "temporary_id": "decl-016537",
@@ -49,7 +49,7 @@
     {
       "temporary_id": "decl-016542",
       "new_name": "exists_directSum_tensorProduct_equiv",
-      "docstring": "A finite faithful semisimple representation admits a nonempty direct-sum tensor-product decomposition."
+      "docstring": "The finite module with its faithful semisimple algebra action is linearly equivalent to a direct sum of tensor products."
     },
     {
       "temporary_id": "decl-016543",
@@ -79,12 +79,12 @@
     {
       "temporary_id": "decl-017816",
       "new_name": "centralizerModuleHom",
-      "docstring": "The centralizer-module structure on linear maps from an algebra module into the representation."
+      "docstring": "The centralizer-module structure on linear maps from an algebra module into the ambient module."
     },
     {
       "temporary_id": "decl-017824",
       "new_name": "centralizerModuleSubmoduleHom",
-      "docstring": "The centralizer-module structure on maps from a submodule into the ambient representation."
+      "docstring": "The centralizer-module structure on maps from a submodule into the ambient module."
     },
     {
       "temporary_id": "decl-017839",
@@ -94,7 +94,7 @@
     {
       "temporary_id": "decl-017846",
       "new_name": "centralizerToModuleEnd",
-      "docstring": "The ring homomorphism sending a centralizing endomorphism to its module-linear action on the representation."
+      "docstring": "The ring homomorphism sending a centralizing endomorphism to its module-linear action on the ambient module."
     },
     {
       "temporary_id": "decl-018580",
@@ -129,7 +129,7 @@
     {
       "temporary_id": "decl-020906",
       "new_name": "isSimpleModule_linearMap",
-      "docstring": "Maps from a simple submodule into a semisimple representation form a simple module over the centralizer."
+      "docstring": "Maps from a simple submodule into a semisimple module form a simple module over the centralizer."
     },
     {
       "temporary_id": "decl-020982",
@@ -139,7 +139,7 @@
     {
       "temporary_id": "decl-022109",
       "new_name": "centralizerActionMonoidHom",
-      "docstring": "The centralizer acts by base-field-linear endomorphisms on the space of module maps into the representation."
+      "docstring": "The centralizer acts by base-field-linear endomorphisms on the space of module maps into the ambient module."
     },
     {
       "temporary_id": "decl-022120",
