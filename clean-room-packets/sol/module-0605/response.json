@@ -103,8 +103,8 @@
     },
     {
       "temporary_id": "decl-021417",
-      "new_name": "transformedTensorMap_eq",
-      "docstring": "Computes the indicated tensor map on transformed complexes using the homology isomorphisms."
+      "new_name": "Auxiliary.statement021417",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-021430",

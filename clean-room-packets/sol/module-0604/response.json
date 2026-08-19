@@ -18,8 +18,8 @@
     },
     {
       "temporary_id": "decl-016380",
-      "new_name": "tensorToExtendedTensorComponent_eq_inv_comp",
-      "docstring": "At a natural degree, the two inverse extension comparisons compose to the map from the original tensor component to the tensor of extensions."
+      "new_name": "Auxiliary.statement016380",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016381",
@@ -73,8 +73,8 @@
     },
     {
       "temporary_id": "decl-016413",
-      "new_name": "opaqueAuxiliary",
-      "docstring": "An auxiliary theorem whose proposition is unavailable in the packet."
+      "new_name": "Auxiliary.statement016413",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-016414",
@@ -88,8 +88,8 @@
     },
     {
       "temporary_id": "decl-016426",
-      "new_name": "extendedTensorSummandToTensorComponent_eq",
-      "docstring": "The summand map agrees with tensoring the extension component isomorphisms and then applying the natural-graded tensor summand map."
+      "new_name": "Auxiliary.statement016426",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016427",
@@ -128,13 +128,13 @@
     },
     {
       "temporary_id": "decl-016447",
-      "new_name": "extendTensorXIso_hom_app",
-      "docstring": "At a natural degree, the forward tensor-extension comparison followed by the extension component map is the canonical component map."
+      "new_name": "Auxiliary.statement016447",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016448",
-      "new_name": "extendTensorXIso_hom_app_assoc",
-      "docstring": "The forward component formula for the tensor-extension comparison remains valid after postcomposition."
+      "new_name": "Auxiliary.statement016448",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016449",
@@ -233,8 +233,8 @@
     },
     {
       "temporary_id": "decl-024725",
-      "new_name": "natTensorSigns_opaqueAuxiliary",
-      "docstring": "An auxiliary theorem depending on the tensor signs for natural cochain degrees whose proposition is unavailable in the packet."
+      "new_name": "Auxiliary.statement024725",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     }
   ]
 }

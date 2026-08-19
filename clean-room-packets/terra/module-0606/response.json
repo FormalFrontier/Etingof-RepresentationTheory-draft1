@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-005439",
-      "new_name": "NatDegreePair",
-      "docstring": "The pairs of natural-number degrees whose sum is the specified degree."
+      "new_name": "Auxiliary.natIndexedType",
+      "docstring": "An auxiliary type indexed by a natural number."
     },
     {
       "temporary_id": "decl-021331",

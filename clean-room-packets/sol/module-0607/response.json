@@ -78,13 +78,13 @@
     },
     {
       "temporary_id": "decl-020807",
-      "new_name": "tensorLeft_homologyCokernel_isColimit",
-      "docstring": "Tensoring on the left carries the cokernel presentation of a homology object to a colimit cokernel cofork."
+      "new_name": "Auxiliary.statement020807",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-020810",
-      "new_name": "tensorRight_homologyCokernel_isColimit",
-      "docstring": "Tensoring on the right preserves the colimit witness for the cokernel defining a homology object."
+      "new_name": "Auxiliary.statement020810",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-021303",
@@ -153,18 +153,18 @@
     },
     {
       "temporary_id": "decl-024740",
-      "new_name": "sigmaInclusion_comp_totalHomologyTensorToTensorHomology",
-      "docstring": "On each summand, the total-degree homology map agrees with the pairwise map followed by degree transport."
+      "new_name": "Auxiliary.statement024740",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024741",
-      "new_name": "sigmaInclusion_comp_totalHomologyTensorToTensorHomology_assoc",
-      "docstring": "The description of the total-degree map on a summand remains valid after postcomposition."
+      "new_name": "Auxiliary.statement024741",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024742",
-      "new_name": "sigmaInclusion_pair_comp_totalHomologyTensorToTensorHomology",
-      "docstring": "The summand indexed by a chosen degree pair is sent by the total map through the corresponding pairwise homology morphism."
+      "new_name": "Auxiliary.statement024742",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024743",

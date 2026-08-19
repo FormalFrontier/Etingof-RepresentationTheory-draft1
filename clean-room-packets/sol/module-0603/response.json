@@ -18,8 +18,8 @@
     },
     {
       "temporary_id": "decl-016276",
-      "new_name": "auxiliaryTensorComponentComparisonEq",
-      "docstring": "The displayed tensor-component map is the composite of two inverse comparison maps."
+      "new_name": "Auxiliary.statement016276",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016277",
@@ -73,8 +73,8 @@
     },
     {
       "temporary_id": "decl-016313",
-      "new_name": "auxiliaryAssertion",
-      "docstring": "An auxiliary assertion whose formal type was unavailable in the packet."
+      "new_name": "Auxiliary.statement016313",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-016314",
@@ -88,8 +88,8 @@
     },
     {
       "temporary_id": "decl-016326",
-      "new_name": "auxiliaryExtendedTensorSummandMapEq",
-      "docstring": "The displayed summand map factors through two extension-component maps and a tensor-summand map."
+      "new_name": "Auxiliary.statement016326",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016327",
@@ -133,13 +133,13 @@
     },
     {
       "temporary_id": "decl-016350",
-      "new_name": "auxiliaryExtendedTensorComponentComparisonEq",
-      "docstring": "The displayed component-isomorphism composite agrees with the forward tensor comparison at a negative degree."
+      "new_name": "Auxiliary.statement016350",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016351",
-      "new_name": "auxiliaryExtendedTensorComponentComparisonEq_assoc",
-      "docstring": "The displayed component-isomorphism identity remains valid after postcomposition."
+      "new_name": "Auxiliary.statement016351",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016352",

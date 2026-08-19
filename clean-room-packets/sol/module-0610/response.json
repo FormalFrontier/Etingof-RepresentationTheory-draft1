@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-013193",
-      "new_name": "shortExact_homologySequence_exact",
-      "docstring": "Establishes exactness at three consecutive homology objects associated with a short exact complex and adjacent integer degrees."
+      "new_name": "Auxiliary.statement013193",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-013194",
@@ -33,8 +33,8 @@
     },
     {
       "temporary_id": "decl-013213",
-      "new_name": "connectingHom_eq_delta",
-      "docstring": "Identifies the explicitly constructed connecting morphism with the canonical connecting morphism of the associated short exact complex."
+      "new_name": "Auxiliary.statement013213",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-013214",
@@ -113,8 +113,8 @@
     },
     {
       "temporary_id": "decl-013257",
-      "new_name": "subcomplex_homologySequence_exact",
-      "docstring": "Establishes exactness of the three consecutive parts of the homology sequence built from a subcomplex and its quotient."
+      "new_name": "Auxiliary.statement013257",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     }
   ]
 }
