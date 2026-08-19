@@ -2,8 +2,8 @@
   "associations": [
     {
       "association_id": "association:a68c2483f60e085fc3a9",
-      "rationale": "This example-level declaration has type `Quiver (Fin 4)`, matching the source's four-vertex quiver as the primary formal object.",
-      "role": "primary"
+      "rationale": "Its type supplies a quiver on four vertices, but does not display that the three listed arrows are exactly all arrows.",
+      "role": "supporting"
     },
     {
       "association_id": "association:45fc15204a36ff51d3c1",

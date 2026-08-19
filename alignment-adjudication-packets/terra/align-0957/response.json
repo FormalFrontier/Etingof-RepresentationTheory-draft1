@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:a8ea35f9c15b30685297",
-      "role": "primary",
-      "rationale": "`density_theorem_part1` directly states surjectivity of the algebra action onto endomorphisms for a simple finite-dimensional module."
+      "role": "supporting",
+      "rationale": "It gives surjectivity for one algebra-module action, one component of the stated A-and-B conclusion."
     }
   ]
 }

@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:0f9285945789f1a25042",
-      "role": "primary",
-      "rationale": "Its composition-series existence statement directly supplies a filtration with irreducible successive quotients."
+      "role": "supporting",
+      "rationale": "Its formal type is unavailable, so the displayed evidence cannot directly establish the filtration claim."
     }
   ]
 }

@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:9995586b45160c9cecdb",
-      "role": "primary",
-      "rationale": "`Etingof.Equivalence` is the definition encoding a quasi-inverse and the two identity natural isomorphisms."
+      "role": "supporting",
+      "rationale": "The displayed type only shows an opaque type family, not the quasi-inverse and two natural isomorphisms."
     }
   ]
 }

@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:66eff63cdac550cf6043",
-      "role": "primary",
-      "rationale": "The equivariant theorem directly supplies the stated GL_N × GL_N-equivariant Peter--Weyl decomposition."
+      "role": "supporting",
+      "rationale": "It asserts an equivariant equivalence to an opaque named right-hand side, without displaying the stated direct-sum decomposition."
     }
   ]
 }

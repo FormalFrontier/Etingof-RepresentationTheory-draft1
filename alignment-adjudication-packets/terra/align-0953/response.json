@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:cff3c42db51bf1df8fdd",
-      "role": "primary",
-      "rationale": "`Theorem5_9_1` formalizes the source's induced-action trace computation."
+      "role": "supporting",
+      "rationale": "The displayed formal type failed to pretty print, so it cannot directly verify the full trace computation."
     },
     {
       "association_id": "association:292329865f4e0cfab398",
