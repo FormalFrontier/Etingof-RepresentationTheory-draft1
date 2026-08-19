@@ -1,10 +1,1 @@
-{
-  "packet_id": "align-0948",
-  "associations": [
-    {
-      "association_id": "association:bcbcdf984866d919e061",
-      "role": "primary",
-      "rationale": "It assumes irreducibility and produces factor representations and tensor-product data, directly stating the classification."
-    }
-  ]
-}
+{"packet_id":"align-0948","associations":[{"association_id":"association:bcbcdf984866d919e061","role":"supporting","rationale":"The formal type contains many elided existential types and ends with a truncated And expression, so it does not directly display irreducible factor representations and an equivariant tensor-product isomorphism."}]}

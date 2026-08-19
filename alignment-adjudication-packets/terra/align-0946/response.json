@@ -1,10 +1,1 @@
-{
-  "packet_id": "align-0946",
-  "associations": [
-    {
-      "association_id": "association:8231a42f3a952fe99406",
-      "role": "primary",
-      "rationale": "It defines BookPathAlgebra for a field and quiver, directly providing the declared path algebra construction."
-    }
-  ]
-}
+{"packet_id":"align-0946","associations":[{"association_id":"association:8231a42f3a952fe99406","role":"supporting","rationale":"The displayed type only constructs BookPathAlgebra as a type from a field and quiver; it does not expose the path-algebra operations or property asserted by the source."}]}

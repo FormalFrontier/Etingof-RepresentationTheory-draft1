@@ -1,10 +1,1 @@
-{
-  "packet_id": "align-0947",
-  "associations": [
-    {
-      "association_id": "association:ad70eddffc65b650bc66",
-      "role": "primary",
-      "rationale": "It defines Etingof.Functor between categories, the declaration for the object and morphism maps with functor laws."
-    }
-  ]
-}
+{"packet_id":"align-0947","associations":[{"association_id":"association:ad70eddffc65b650bc66","role":"supporting","rationale":"The displayed type only introduces Functor as a type between categories; it does not expose object and morphism maps or preservation of identities and composition."}]}
