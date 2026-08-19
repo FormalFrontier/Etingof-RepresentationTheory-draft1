@@ -8,7 +8,7 @@
     },
     {
       "temporary_id": "decl-015512",
-      "new_name": "auxiliary_action_mem",
+      "new_name": "localizationElementSubmodule_action_mem",
       "docstring": "Membership in the submodule associated to an element is preserved by the matrix action."
     },
     {
@@ -33,22 +33,22 @@
     },
     {
       "temporary_id": "decl-015525",
-      "new_name": "Auxiliary",
+      "new_name": "localizationElementSubmodule",
       "docstring": "The submodule of the localization associated to a chosen element."
     },
     {
       "temporary_id": "decl-015527",
-      "new_name": "Auxiliary.subrepresentation",
+      "new_name": "localizationElementSubrepresentation",
       "docstring": "The subrepresentation associated to a chosen element of the localization."
     },
     {
       "temporary_id": "decl-015528",
-      "new_name": "Auxiliary.finiteDimensional",
+      "new_name": "localizationElementSubmodule_finiteDimensional",
       "docstring": "The submodule associated to an element is finite dimensional over the base field."
     },
     {
       "temporary_id": "decl-015531",
-      "new_name": "Auxiliary.self_mem",
+      "new_name": "self_mem_localizationElementSubmodule",
       "docstring": "The chosen localization element belongs to its associated submodule."
     }
   ]

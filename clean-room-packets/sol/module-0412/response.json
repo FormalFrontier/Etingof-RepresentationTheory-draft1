@@ -129,7 +129,7 @@
     {
       "temporary_id": "decl-022972",
       "new_name": "scalarMatrix_action_auxiliarySubtype",
-      "docstring": "A scalar matrix acts on the auxiliary subtype by the scalar raised to the sum of the indices."
+      "docstring": "A scalar matrix acts on the auxiliary subtype by the scalar raised to the sum of the indexed weights."
     },
     {
       "temporary_id": "decl-023008",

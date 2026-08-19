@@ -118,13 +118,13 @@
     },
     {
       "temporary_id": "decl-025210",
-      "new_name": "Partition.auxiliaryPartAt",
-      "docstring": "An auxiliary natural-valued part accessor for a partition."
+      "new_name": "Partition.auxiliaryIndexedNatValue",
+      "docstring": "An auxiliary natural-valued function of a partition and a natural-number index."
     },
     {
       "temporary_id": "decl-025212",
-      "new_name": "Partition.auxiliaryPartAt_eq_zero_of_length_le",
-      "docstring": "The auxiliary part accessor is zero at indices at least the size of the partition."
+      "new_name": "Partition.partAt_eq_zero_of_length_le",
+      "docstring": "A partition's indexed part is zero at indices at least its size."
     },
     {
       "temporary_id": "decl-025219",
