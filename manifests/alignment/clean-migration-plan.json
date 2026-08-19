@@ -341,7 +341,7 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.OpaqueFormalStatement",
+      "new_module": "RepresentationTheory.Auxiliary.UnavailableFormalExpression",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_13_1",
       "renamed_imports": {}
     },
@@ -372,7 +372,7 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.LieModule.ActionFibers",
+      "new_module": "RepresentationTheory.LieModule.ActionAuxiliary",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_l_uniqueness",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Sl2JordanTypeIso": "RepresentationTheory.Algebra.Lie.ComplexMatrixModuleClassification"
@@ -453,7 +453,7 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.LieAlgebra.FiniteDimensionalModels",
+      "new_module": "RepresentationTheory.LieAlgebra.ParameterFourConstructions",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleVanishing",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleRecurrence": "RepresentationTheory.LieAlgebra.BracketCoefficients"
@@ -500,7 +500,7 @@
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.QuantumGroup.SL2Representations",
+      "new_module": "RepresentationTheory.Algebra.ParameterizedComplexRelations",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_5",
       "renamed_imports": {}
     },
@@ -554,7 +554,7 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.WeylAlgebra.ModularSimpleModules",
+      "new_module": "RepresentationTheory.Algebra.PrimeCharacteristicCyclicModels",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_4_Family",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Problem2_7_4": "RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic"
@@ -579,11 +579,11 @@
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Problem2_7_5_FamilySimple": "RepresentationTheory.ParameterizedAlgebra.ModelModules",
-        "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Iso": "RepresentationTheory.QuantumTorus.FiniteOrderModuleEquivalences"
+        "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Iso": "RepresentationTheory.Algebra.FiniteOrderShiftWeightEquivalences"
       }
     },
     {
-      "new_module": "RepresentationTheory.QuantumTorus.FiniteOrderModules",
+      "new_module": "RepresentationTheory.Algebra.FiniteOrderShiftWeightModules",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Problem2_7_5": "RepresentationTheory.ParameterizedAlgebra.FiniteSimpleModules"
@@ -593,14 +593,14 @@
       "new_module": "RepresentationTheory.ParameterizedAlgebra.ModelModules",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_FamilySimple",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family": "RepresentationTheory.QuantumTorus.FiniteOrderModules"
+        "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family": "RepresentationTheory.Algebra.FiniteOrderShiftWeightModules"
       }
     },
     {
-      "new_module": "RepresentationTheory.QuantumTorus.FiniteOrderModuleEquivalences",
+      "new_module": "RepresentationTheory.Algebra.FiniteOrderShiftWeightEquivalences",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Iso",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family": "RepresentationTheory.QuantumTorus.FiniteOrderModules"
+        "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family": "RepresentationTheory.Algebra.FiniteOrderShiftWeightModules"
       }
     },
     {
@@ -618,7 +618,7 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.Module.DistinguishedElement",
+      "new_module": "RepresentationTheory.Module.Auxiliary",
       "old_module": "EtingofRepresentationTheory.Chapter2.Proposition2_2_3",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Definition2_2_2": "RepresentationTheory.Algebra.AuxiliaryPredicates"
