@@ -7,11 +7,8 @@ Authors: mathlib-initiative
 import RepresentationTheory.Algebra.Module.Dual.SimpleFamilies
 import RepresentationTheory.Alignment.Attribute
 
-import RepresentationTheory.Algebra.Module.Dual.SimpleFamilies
-
-
-
 open Module
+open RepresentationTheory.Algebra.Module.Dual.SimpleFamilies
 
 variable (k : Type*) (A : Type*) (V : Type*)
   [CommRing k] [Ring A] [Algebra k A]
@@ -23,8 +20,8 @@ namespace RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap
 
 /-- The displayed auxiliary linear map takes the same value on x times y and y times x. -/
 theorem auxiliaryLinearMap_mul_comm (x y : A) :
-    character k A V (x * y) = character k A V (y * x) := by
-  simp only [character, LinearMap.comp_apply, AlgHom.toLinearMap_apply, map_mul]
+    moduleDualElement k A V (x * y) = moduleDualElement k A V (y * x) := by
+  simp only [moduleDualElement, LinearMap.comp_apply, AlgHom.toLinearMap_apply, map_mul]
   exact LinearMap.trace_mul_comm k _ _
 
 
@@ -35,7 +32,7 @@ def auxiliarySubmodule : Submodule k A :=
 
 /-- The displayed auxiliary submodule is contained in the kernel of the displayed auxiliary linear map. -/
 theorem auxiliarySubmodule_le_ker :
-    auxiliarySubmodule k A ≤ LinearMap.ker (character k A V) := by
+    auxiliarySubmodule k A ≤ LinearMap.ker (moduleDualElement k A V) := by
   rw [auxiliarySubmodule, Submodule.span_le]
   rintro z ⟨x, y, rfl⟩
   simp only [SetLike.mem_coe, LinearMap.mem_ker, map_sub]
@@ -44,12 +41,13 @@ theorem auxiliarySubmodule_le_ker :
 
 /-- A linear map from the quotient of an algebra by the displayed auxiliary submodule to the base ring. -/
 noncomputable def linearMapOnAuxiliaryQuotient : (A ⧸ auxiliarySubmodule k A) →ₗ[k] k :=
-  Submodule.liftQ _ (character k A V) (auxiliarySubmodule_le_ker k A V)
+  Submodule.liftQ _ (moduleDualElement k A V) (auxiliarySubmodule_le_ker k A V)
 
 
 /-- The displayed linear map on the auxiliary quotient agrees on a quotient class with the displayed auxiliary linear map. -/
 theorem linearMapOnAuxiliaryQuotient_mk (a : A) :
-    linearMapOnAuxiliaryQuotient k A V (Submodule.Quotient.mk a) = character k A V a :=
+    linearMapOnAuxiliaryQuotient k A V (Submodule.Quotient.mk a) =
+      moduleDualElement k A V a :=
   rfl
 
 end RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap
