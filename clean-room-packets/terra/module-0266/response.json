@@ -108,8 +108,8 @@
     },
     {
       "temporary_id": "decl-024293",
-      "new_name": "auxiliary_trace_restrict_permutationEndomorphism_eq_count_mul_value",
-      "docstring": "The trace of a permutation endomorphism restricted to an auxiliary partition submodule is the auxiliary count times the associated complex value."
+      "new_name": "auxiliaryElidedStatement024293",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     }
   ]
 }

@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-017880",
-      "new_name": "auxiliary_partition_value_eq_card",
-      "docstring": "An auxiliary value at the displayed partition is the cardinality of the displayed associated type."
+      "new_name": "auxiliaryElidedStatement017880",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-017881",
@@ -23,8 +23,8 @@
     },
     {
       "temporary_id": "decl-017884",
-      "new_name": "auxiliary_partition_value_eq_factorial_div_hookLengthProduct",
-      "docstring": "An auxiliary value at the displayed partition is the factorial divided by the Young-diagram hook-length product."
+      "new_name": "auxiliaryElidedStatement017884",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-018320",
@@ -33,8 +33,8 @@
     },
     {
       "temporary_id": "decl-018768",
-      "new_name": "auxiliary_exists_preimage_for_partition",
-      "docstring": "Every partition has an auxiliary preimage whose parts reconstruct it after the displayed dependent transport."
+      "new_name": "auxiliaryElidedStatement018768",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-019458",
@@ -43,18 +43,18 @@
     },
     {
       "temporary_id": "decl-019459",
-      "new_name": "auxiliary_finrank_eq_card",
-      "docstring": "After transporting the partition obtained from a finite family, the auxiliary subtype's complex finrank equals an associated cardinality."
+      "new_name": "auxiliaryElidedStatement019459",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-019460",
-      "new_name": "auxiliary_finrank_eq_pairwise_difference_formula",
-      "docstring": "The transported auxiliary subtype's complex finrank is given by a factorial and pairwise-difference product formula."
+      "new_name": "auxiliaryElidedStatement019460",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-019461",
-      "new_name": "auxiliary_finrank_eq_power_determinant_formula",
-      "docstring": "The transported auxiliary subtype's complex finrank is expressed by displayed factorials and a determinant of powers of displayed values."
+      "new_name": "auxiliaryElidedStatement019461",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-020291",
@@ -63,8 +63,8 @@
     },
     {
       "temporary_id": "decl-020292",
-      "new_name": "auxiliary_pairwiseDifference_mul_hookLengthProduct_eq_factorialProduct",
-      "docstring": "An auxiliary pairwise-difference product times the displayed hook-length product equals the product of the displayed factorials."
+      "new_name": "auxiliaryElidedStatement020292",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-020293",
