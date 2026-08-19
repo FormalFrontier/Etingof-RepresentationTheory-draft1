@@ -16,7 +16,7 @@
     {"temporary_id":"decl-015407","new_name":"complexValue_eq_signed_coeff","docstring":"Equates a displayed complex-valued function application with a signed multivariate-polynomial coefficient."},
     {"temporary_id":"decl-017499","new_name":"indexedPolynomial","docstring":"A complex multivariate polynomial for each natural-number index."},
     {"temporary_id":"decl-017501","new_name":"indexedPolynomial_eq_sign_smul","docstring":"The indexed polynomial is a scalar multiple, by the displayed permutation sign, of another polynomial."},
-    {"temporary_id":"decl-017758","new_name":"opaqueTheoremA","docstring":"A theorem whose formal statement is unavailable because it could not be pretty printed."},
+    {"temporary_id":"decl-017758","new_name":"Auxiliary.statement017758","docstring":"An auxiliary statement whose displayed formal type is unavailable."},
     {"temporary_id":"decl-018033","new_name":"complexValue_polynomialMap_eq_coeff","docstring":"Applying the complex-valued function after the displayed polynomial map equals the corresponding polynomial coefficient."},
     {"temporary_id":"decl-018972","new_name":"natExponentToInt","docstring":"An additive monoid homomorphism from natural-valued to integer-valued finitely supported functions."},
     {"temporary_id":"decl-018974","new_name":"natExponentToInt_apply","docstring":"The exponent homomorphism acts pointwise by casting each natural value to an integer."},
@@ -25,7 +25,7 @@
     {"temporary_id":"decl-021637","new_name":"integralExponentElement_eq_prod_indexedElement","docstring":"The displayed exponent element equals an iterated finite product of indexed elements."},
     {"temporary_id":"decl-022783","new_name":"mappedExponent_eq_sum","docstring":"The displayed mapped exponent equals a finite sum of singleton finitely supported functions weighted by upper-index cardinalities."},
     {"temporary_id":"decl-022786","new_name":"integralExponentElement_mul_indexedTargetElement","docstring":"Multiplying the displayed exponent element by the indexed target element equals the image of the indexed polynomial under the displayed map."},
-    {"temporary_id":"decl-023150","new_name":"opaqueTheoremB","docstring":"A theorem whose formal statement is unavailable because it could not be pretty printed."},
+    {"temporary_id":"decl-023150","new_name":"Auxiliary.statement023150","docstring":"An auxiliary statement whose displayed formal type is unavailable."},
     {"temporary_id":"decl-024143","new_name":"polynomialToTarget","docstring":"A ring homomorphism from complex multivariate polynomials to the indexed target."},
     {"temporary_id":"decl-024144","new_name":"polynomialToTarget_X","docstring":"The ring homomorphism sends a polynomial variable to the corresponding indexed element."},
     {"temporary_id":"decl-024145","new_name":"polynomialToTarget_injective","docstring":"The displayed ring homomorphism is injective."}

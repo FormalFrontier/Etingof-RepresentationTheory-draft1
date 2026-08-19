@@ -31,18 +31,18 @@
       "temporary_id": "decl-025266"
     },
     {
-      "docstring": "Computes the commutator expression involving a nonzero parameter and a scalar-indexed auxiliary element.",
-      "new_name": "auxiliaryElement_commutator_eq",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term.",
+      "new_name": "Auxiliary.statement025267",
       "temporary_id": "decl-025267"
     },
     {
-      "docstring": "Computes the corresponding commutator expression for the second scalar-indexed auxiliary element.",
-      "new_name": "auxiliaryElement'_commutator_eq",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term.",
+      "new_name": "Auxiliary.statement025275",
       "temporary_id": "decl-025275"
     },
     {
-      "docstring": "Evaluates the commutator expression of a parameterized auxiliary element with the fixed auxiliary element.",
-      "new_name": "auxiliaryElement_commutator_constant_eq",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term.",
+      "new_name": "Auxiliary.statement025283",
       "temporary_id": "decl-025283"
     },
     {
@@ -56,8 +56,8 @@
       "temporary_id": "decl-025285"
     },
     {
-      "docstring": "The auxiliary element formed from a nonzero scalar and its inverse belongs to the commutator subgroup.",
-      "new_name": "auxiliaryElementOfNonzero_mem_commutator",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term.",
+      "new_name": "Auxiliary.statement025289",
       "temporary_id": "decl-025289"
     },
     {
