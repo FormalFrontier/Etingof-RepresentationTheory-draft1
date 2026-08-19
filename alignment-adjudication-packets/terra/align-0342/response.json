@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:754ae6142a72ba9239f4",
-      "rationale": "The formal type directly states that the Specht module associated to every partition is a simple module over the symmetric-group algebra.",
-      "role": "primary"
+      "rationale": "The formal type proves simplicity of an opaque SpechtModule, but it does not identify that module with the source claim's module C[S_n]c_lambda.",
+      "role": "supporting"
     }
   ]
 }

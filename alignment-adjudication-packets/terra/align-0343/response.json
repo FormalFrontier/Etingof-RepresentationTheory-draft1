@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:b16832656c8145dd0ed0",
-      "rationale": "The formal type directly supplies a Lie-algebra representation on the trivial Lie module associated to every displayed vector space.",
-      "role": "primary"
+      "rationale": "The formal type supplies the representation structure, but it does not state that the Lie algebra acts by zero.",
+      "role": "supporting"
     },
     {
       "association_id": "association:a6b3c77fcd7247559aa4",
-      "rationale": "The formal type directly states that the Lie action on every vector of the trivial module is zero.",
-      "role": "primary"
+      "rationale": "The formal type states that the Lie action is zero, but it does not by itself supply the complete representation claim.",
+      "role": "supporting"
     }
   ]
 }
