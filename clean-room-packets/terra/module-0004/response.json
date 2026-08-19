@@ -93,7 +93,7 @@
     },
     {
       "temporary_id": "decl-023721",
-      "new_name": "Algebra.AuxiliaryConstructions.unrenderedAuxiliary",
+      "new_name": "unrenderedAuxiliary",
       "docstring": "An auxiliary construction whose formal type is unavailable in rendered form."
     },
     {
