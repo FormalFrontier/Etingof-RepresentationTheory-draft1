@@ -1,11 +1,11 @@
 {
   "packet_id": "align-0161",
   "associations": [
-    {
-      "association_id": "association:518712beb484ea8af563",
-      "role": "primary",
-      "rationale": "This predicate defines the injective-object notion named in the claim."
-    },
+      {
+        "association_id": "association:518712beb484ea8af563",
+        "role": "supporting",
+        "rationale": "The displayed type is only an opaque predicate C → Prop; it does not expose the claimed characterization by exactness of Hom(-, I)."
+      },
     {
       "association_id": "association:a30c517e886e7d48ab00",
       "role": "primary",
