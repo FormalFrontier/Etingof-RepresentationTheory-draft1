@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:dcd4e2bbcf0496a982f5",
-      "rationale": "The type directly states that two parameterized family modules are isomorphic exactly when SameInvariant holds, which is the claimed isomorphism classification criterion.",
-      "role": "primary"
+      "rationale": "The type reduces isomorphism of the parameterized family to the opaque predicate SameInvariant, but it does not display what invariant condition determines isomorphism, so it does not directly state the complete classification criterion.",
+      "role": "supporting"
     }
   ]
 }
