@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:dc1fa7681613ba0439a2",
-      "role": "primary",
-      "rationale": "The theorem directly states that the character of the dual representation at g equals the original character at the inverse of g."
+      "role": "supporting",
+      "rationale": "The theorem states that the character of the dual representation at g equals the original character at g inverse, but it does not itself state the source claim's formula for the dual action."
     },
     {
       "association_id": "association:74f41eb7041d10067e4c",
