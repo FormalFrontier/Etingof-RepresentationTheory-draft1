@@ -36,7 +36,7 @@
       "temporary_id": "decl-022704"
     },
     {
-      "docstring": "Every simple finite-dimensional complex representation of `Perm (Fin n)` has a nonempty type of isomorphisms to an auxiliary representation at some formally elided index.",
+      "docstring": "Every simple finite-dimensional complex representation of `Perm (Fin n)` is isomorphic to an auxiliary representation indexed by some value.",
       "new_name": "exists_auxiliaryFDRepOfSimple",
       "temporary_id": "decl-023214"
     },

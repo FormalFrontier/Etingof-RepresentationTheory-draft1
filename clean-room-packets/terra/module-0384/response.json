@@ -28,8 +28,8 @@
     },
     {
       "temporary_id": "decl-017516",
-      "new_name": "Auxiliary.parts_eq_converted_partition_row_len",
-      "docstring": "Each part of an auxiliary object agrees with the corresponding row length after its parts are converted to a partition."
+      "new_name": "Auxiliary.statement017516",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-017684",
@@ -73,8 +73,8 @@
     },
     {
       "temporary_id": "decl-022649",
-      "new_name": "Auxiliary.coeff_eq_sum_partition_finset_pred",
-      "docstring": "The displayed coefficient of the nested product determinant * ((sum of all variables) * partial power-sum expression) equals the sum of auxiliary values over the predecessor partition finset."
+      "new_name": "Auxiliary.statement022649",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-022678",
@@ -98,8 +98,8 @@
     },
     {
       "temporary_id": "decl-024504",
-      "new_name": "Auxiliary.convert_construct_from_partition",
-      "docstring": "Converting the parts of the auxiliary object constructed from a partition recovers the original partition."
+      "new_name": "Auxiliary.statement024504",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024557",
