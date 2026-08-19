@@ -9,6 +9,9 @@ from pathlib import Path
 
 
 PUBLIC_HEADER = "Copyright (c) 2026 mathlib-initiative. All rights reserved."
+PUBLIC_LICENCE_LINE = (
+    "Released under Apache 2.0 license as described in the file LICENSE."
+)
 PRIVATE_HEADER = (
     "Copyright (c) 2026 American Mathematical Society. All rights reserved."
 )
@@ -69,9 +72,14 @@ def validate_public(root: Path, errors: list[str]) -> None:
         errors,
     )
     require_text(notice, ("Copyright 2026 mathlib-initiative", "Apache License"), errors)
+    require_text(readme, ("[Apache License, Version 2.0](LICENSE)",), errors)
     public_ci = require_file(root, ".github/workflows/ci.yml", errors)
     notify = require_file(root, ".github/workflows/notify-verso.yml", errors)
-    require_text(public_ci, ("leanprover/lean-action@v1", "test -f LICENSE"), errors)
+    require_text(
+        public_ci,
+        ("leanprover/lean-action@v1", "test -f LICENSE", "test ! -e LICENCE"),
+        errors,
+    )
     require_text(
         notify,
         (
@@ -92,6 +100,8 @@ def validate_public(root: Path, errors: list[str]) -> None:
             errors.append(f"{path}: retained superseded personal copyright header")
         if "file LICENCE" in text[:400]:
             errors.append(f"{path}: header names LICENCE instead of LICENSE")
+        elif PUBLIC_LICENCE_LINE not in text[:400]:
+            errors.append(f"{path}: header is missing the Apache 2.0 LICENSE line")
 
 
 def validate_private(root: Path, errors: list[str]) -> None:
@@ -116,6 +126,7 @@ def validate_private(root: Path, errors: list[str]) -> None:
             "mathlib-initiative disclaims any copyright, ownership, or other",
             "mathlib-initiative/EtingofRepresentationTheory",
             "does not deploy GitHub Pages",
+            "[LICENSE](LICENSE)",
         ),
         errors,
     )
@@ -165,6 +176,8 @@ def validate_private(root: Path, errors: list[str]) -> None:
             "_out/html-multi",
             "AlignmentExport.lean",
             "sync_formalization_panels.py --check",
+            "test -f LICENSE",
+            "test ! -e LICENCE",
         ),
         errors,
     )
