@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:ed7b7343f38bf9440096",
-      "rationale": "The formal type directly gives an A-linear equivalence from ExtMod for the zero map to V × W, matching the claim that the zero block yields V direct-summed with W.",
-      "role": "primary"
+      "rationale": "The formal type gives an A-linear equivalence from ExtMod for the zero map to V × W, but it does not itself display the general block-triangular action with off-diagonal block f, so it covers only one component of the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:c5e769852dbc3bf0d397",

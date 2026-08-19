@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:5d9e0df657d03700915f",
-      "rationale": "The formal type directly asserts IsCocycle for coboundaryOf X for every linear map X:W→V, stating that each such coboundary is a 1-cocycle.",
-      "role": "primary"
+      "rationale": "The formal type asserts the opaque predicate IsCocycle for the opaque construction coboundaryOf X, but it does not itself display the stated formula dX(a)=ρ_V(a)X-Xρ_W(a).",
+      "role": "supporting"
     }
   ]
 }

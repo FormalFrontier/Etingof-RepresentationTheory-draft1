@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:3331ab2647eaba993cfe",
-      "rationale": "The formal type directly asserts Function.Exact for the canonical ExtMod inclusion and projection, stating the exactness component of the claimed sequence.",
-      "role": "primary"
+      "rationale": "The formal type asserts exactness of the canonical inclusion and projection, but it does not itself state the quotient isomorphism U_f/V ≃ W, so it covers only one component of the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:a8f8415f0d5e223085a8",
-      "rationale": "The formal type directly gives an A-linear equivalence between ExtMod modulo the range of its inclusion and W, matching U_f/V being isomorphic to W.",
-      "role": "primary"
+      "rationale": "The formal type gives an A-linear equivalence between ExtMod modulo the inclusion range and W, but it does not itself state exactness of the canonical sequence, so it covers only one component of the complete claim.",
+      "role": "supporting"
     }
   ]
 }
