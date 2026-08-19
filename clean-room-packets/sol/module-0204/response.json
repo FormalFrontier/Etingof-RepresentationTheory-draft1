@@ -39,7 +39,7 @@
     {"temporary_id":"decl-003013","new_name":"auxiliaryTypeToComplex_zero","docstring":"The auxiliary map sends zero to zero."},
     {"temporary_id":"decl-003014","new_name":"firstMatrix","docstring":"A fixed two-by-two complex matrix."},
     {"temporary_id":"decl-003016","new_name":"firstMatrix_mul_secondMatrix","docstring":"Multiplying the two fixed matrices in one order equals the reversed product with a third power."},
-    {"temporary_id":"decl-003017","new_name":"firstMatrix_pow_eq_of_cast_eq","docstring":"Equal complex casts of natural exponents give equal powers of the first matrix."},
+    {"temporary_id":"decl-003017","new_name":"firstMatrix_pow_eq_of_cast_eq","docstring":"Equality of the displayed casts of natural exponents gives equal powers of the first matrix."},
     {"temporary_id":"decl-003018","new_name":"firstMatrix_pow_four","docstring":"The fourth power of the first fixed matrix is the identity."},
     {"temporary_id":"decl-003019","new_name":"firstMatrix_pow_mul_secondMatrix","docstring":"Moving the second matrix past a power of the first multiplies the exponent by three."},
     {"temporary_id":"decl-003022","new_name":"auxiliaryResultThree","docstring":"An auxiliary result with an unavailable displayed type."},
