@@ -27,7 +27,7 @@ theorem punitTrivialModuleProperty :
 
 omit [CommRing k] [LieRing L] [LieAlgebra k L] in
 /-- The singleton trivial Lie module is a subsingleton. -/
-@[source_ref "Chapter2/Example2.9.8" (role := primary)]
+@[source_ref "Chapter2/Example2.9.8" (role := supporting)]
 theorem punitTrivialModule_subsingleton :
     Subsingleton (TrivialLieModule k L PUnit) := inferInstanceAs (Subsingleton PUnit)
 
