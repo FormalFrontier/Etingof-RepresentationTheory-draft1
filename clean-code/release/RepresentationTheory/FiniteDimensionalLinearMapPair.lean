@@ -1694,7 +1694,7 @@ lemma linearIndependent_iterates_of_last_ne_zero (n : ℕ) (hn : 0 < n)
       let row : Fin n := ⟨n - 1 - j, by omega⟩
       have heval := congrFun hc row
       simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Pi.zero_apply,
-        RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.jordanNilpotent_boundary_formula] at heval
+        RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.auxiliaryFact_aux2] at heval
       rw [Finset.sum_eq_single ⟨j, hj⟩] at heval
       · simp only [row] at heval
         rw [dif_pos (by omega)] at heval

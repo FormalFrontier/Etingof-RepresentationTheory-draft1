@@ -522,7 +522,7 @@ theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSyst
     intro hlast
     apply hqmax
     funext i
-    rw [RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.jordanNilpotent_boundary_formula]
+    rw [RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.auxiliaryFact_aux2]
     split_ifs with hi
     · have hval : (i : ℕ) + (n - 1) = n - 1 := by omega
       have hidx : (⟨(i : ℕ) + (n - 1), hi⟩ : Fin n) =
@@ -1196,7 +1196,7 @@ private lemma reverseEuclidean_intertwines (lam : ℂ) (n : ℕ) (hn : 0 < n)
       (RepresentationTheory.FiniteDimensionalLinearMapPair.auxiliaryEigenvalueModel n hn lam).leftToRight (reverseEuclidean n x) := by
   apply WithLp.ofLp_injective
   funext i
-  simp only [reverseEuclidean_apply, RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.jordanOperator_coordinate_formula,
+  simp only [reverseEuclidean_apply, RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.auxiliaryFact,
     RepresentationTheory.FiniteDimensionalLinearMapPair.auxiliaryEigenvalueModel, Matrix.ofLp_toLpLin, Matrix.toLin'_apply, Matrix.mulVec,
     dotProduct, Matrix.of_apply]
   have hentry (j : Fin n) :

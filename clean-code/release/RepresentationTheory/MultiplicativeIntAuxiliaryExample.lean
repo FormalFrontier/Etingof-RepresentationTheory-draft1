@@ -23,14 +23,14 @@ def auxiliaryRepresentationProperty {k G V : Type*} [Field k] [Monoid G] [AddCom
 lemma auxiliaryEndomorphism_sq_eq_zero :
     (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) ^ 2 = 0 := by
   apply LinearMap.ext; intro v; funext i
-  rw [jordanNilpotent_boundary_formula, dif_neg (by omega)]
+  rw [auxiliaryFact_aux2, dif_neg (by omega)]
   simp
 
 /-- The specified auxiliary endomorphism sends the distinguished auxiliary vector to zero. -/
 lemma auxiliaryEndomorphism_apply_auxiliaryVector_eq_zero :
     jordanNilpotent 2 (jordanEigenvector 2 : Fin 2 → ℂ) = 0 := by
   funext i
-  simp only [jordanNilpotent_coordinate_formula, Pi.zero_apply]
+  simp only [auxiliaryFact_aux1, Pi.zero_apply]
   split
   · apply Pi.single_eq_of_ne
     intro hh; rw [Fin.ext_iff] at hh; simp at hh
