@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-018869",
-      "new_name": "oddCardinality_exists_auxiliarySimpleRepresentation",
-      "docstring": "Establishes the existence of a simple complex representation of a nontrivial finite odd-order group with nontrivial action and an auxiliary condition."
+      "new_name": "oddCardinality_exists_simpleRepresentation_not_auxiliaryProperty",
+      "docstring": "A nontrivial finite group of odd cardinality has a simple complex representation with nontrivial action that does not satisfy the displayed auxiliary property."
     }
   ]
 }
