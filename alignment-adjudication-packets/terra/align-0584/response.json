@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:e52ec284572684005408",
-      "rationale": "IsCoatom is the order-theoretic notion expressing a proper element whose only strictly larger element is the top element, exactly the stated maximal-ideal condition.",
-      "role": "primary"
+      "rationale": "No formal type is displayed, so the candidate does not directly state either the properness condition or the characterization of strictly larger ideals required by the source claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:10754a6046821f1eac60",

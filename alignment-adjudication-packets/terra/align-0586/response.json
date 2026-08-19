@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:b41d97f1706fc8f19ff6",
-      "rationale": "The declaration directly asserts that every nontrivial ring has a right ideal represented by a coatom, i.e. a maximal right ideal.",
-      "role": "primary"
+      "rationale": "The displayed existential elides the type of I and states only the opaque predicate IsCoatom, so it does not directly expose that I is a maximal right ideal.",
+      "role": "supporting"
     }
   ]
 }

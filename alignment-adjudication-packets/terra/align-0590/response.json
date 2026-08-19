@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:2593f79b493cf52a5973",
-      "rationale": "The declaration defines the cyclic-vector predicate on a module vector, directly formalizing the source definition Av = V.",
-      "role": "primary"
+      "rationale": "The displayed type only gives the opaque predicate signature IsCyclicVector : V → Prop and does not expose the defining equivalence with Av = V.",
+      "role": "supporting"
     }
   ]
 }
