@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:db4e759209237fae5865",
-      "role": "primary",
-      "rationale": "The formal type directly asserts that the algebraic closure of ZMod p has characteristic p."
+      "role": "supporting",
+      "rationale": "The formal type asserts characteristic p for the algebraic closure of ZMod p, but it does not itself assert algebraic closedness, so it states only one part of the source claim."
     },
     {
       "association_id": "association:d7497e010417ffe97d7e",
-      "role": "primary",
-      "rationale": "The formal type directly asserts that the algebraic closure of ZMod p is algebraically closed."
+      "role": "supporting",
+      "rationale": "The formal type asserts that the algebraic closure of ZMod p is algebraically closed, but it does not itself assert characteristic p, so it states only the other part of the source claim."
     }
   ]
 }
