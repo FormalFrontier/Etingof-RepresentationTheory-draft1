@@ -26,7 +26,7 @@ theorem exists_relSeries_bot_top (k : Type*) (A : Type*) (V : Type*)
   exact exists_compositionSeries_of_isNoetherian_isArtinian A V
 
 /-- A finite-dimensional module admits a filtration whose displayed successive quotients are simple modules. -/
-@[source_ref "Chapter3/Lemma3.4.2" (role := primary),
+@[source_ref "Chapter3/Lemma3.4.2" (role := supporting),
   source_ref "Chapter3/Introduction_to_3.4" (role := supporting)]
 theorem exists_filtration_simple_quotients
     (k : Type*) (A : Type*) (V : Type*)
