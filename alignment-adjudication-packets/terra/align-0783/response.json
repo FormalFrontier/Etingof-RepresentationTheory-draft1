@@ -1,15 +1,1 @@
-{
-  "packet_id": "align-0783",
-  "associations": [
-    {
-      "association_id": "association:95239c218afcb22c592e",
-      "role": "primary",
-      "rationale": "The type directly states that each displayed AffineType has Cartan determinant zero, matching the determinant-zero verification claim."
-    },
-    {
-      "association_id": "association:ed55faebcd9fb81e7f89",
-      "role": "supporting",
-      "rationale": "The type gives a zero matrix-vector product using marks; it supports, rather than states, the source's determinant-zero verification."
-    }
-  ]
-}
+{"packet_id":"align-0783","associations":[{"association_id":"association:95239c218afcb22c592e","role":"supporting","rationale":"The type proves determinant zero only for the opaque AffineType family, so the displayed evidence does not identify it with all remaining forbidden graphs."},{"association_id":"association:ed55faebcd9fb81e7f89","role":"supporting","rationale":"The type gives a zero matrix-vector product using marks; it supports, rather than states, the source's determinant-zero verification."}]}

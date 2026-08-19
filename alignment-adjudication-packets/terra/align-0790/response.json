@@ -1,15 +1,1 @@
-{
-  "packet_id": "align-0790",
-  "associations": [
-    {
-      "association_id": "association:623f6556321b0821eb46",
-      "role": "primary",
-      "rationale": "The type directly states that finite type forces every diagonal adjacency entry to be zero, matching exclusion of loops."
-    },
-    {
-      "association_id": "association:83a31f368c44300319a5",
-      "role": "primary",
-      "rationale": "Under the displayed graph hypotheses, the type directly states finite type iff IsDynkinDiagram, matching the Dynkin conclusion."
-    }
-  ]
-}
+{"packet_id":"align-0790","associations":[{"association_id":"association:623f6556321b0821eb46","role":"supporting","rationale":"The type states only exclusion of diagonal loops; it does not also conclude that the quiver is Dynkin."},{"association_id":"association:83a31f368c44300319a5","role":"supporting","rationale":"The type states the finite-type iff Dynkin component under graph hypotheses, but it does not itself state the loop-exclusion part of the complete source claim."}]}

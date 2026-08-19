@@ -1,10 +1,1 @@
-{
-  "packet_id": "align-0786",
-  "associations": [
-    {
-      "association_id": "association:55e2d95ac49e102d2e52",
-      "role": "primary",
-      "rationale": "The type is an iff characterizing IsAffineDynkinDiagram by equality, up to relabeling, with an affine type, directly giving the affine classification claim."
-    }
-  ]
-}
+{"packet_id":"align-0786","associations":[{"association_id":"association:55e2d95ac49e102d2e52","role":"supporting","rationale":"Although the type gives an iff up to relabeling, the existential affine type t is elided, so the displayed evidence does not expose an exhaustive simply-laced affine classification."}]}
