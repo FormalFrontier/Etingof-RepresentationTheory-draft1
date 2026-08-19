@@ -8,18 +8,18 @@
     },
     {
       "association_id": "association:57d931d8fc3352c88e17",
-      "rationale": "The formal type directly states that the bracket of x with c is zero, giving one half of the centrality assertion for c.",
-      "role": "primary"
+      "rationale": "The formal type states only the relation [x,c] = 0, which is partial evidence for the compound basis, bracket, and centrality claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:a5aab3cdc79307142ae3",
-      "rationale": "The formal type directly states that the bracket of y with c is zero, giving the other displayed centrality relation for c.",
-      "role": "primary"
+      "rationale": "The formal type states only the relation [y,c] = 0, which is partial evidence for the compound basis, bracket, and centrality claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:8d8812454fdda9b41cf6",
-      "rationale": "The formal type directly states the defining bracket relation [y,x] = c.",
-      "role": "primary"
+      "rationale": "The formal type states [y,x] = c, but this is only one part of the source's compound basis, bracket, and centrality claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:2d2db74fceb019b098f8",
