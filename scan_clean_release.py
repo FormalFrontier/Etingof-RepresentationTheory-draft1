@@ -35,6 +35,15 @@ def ngrams(value: str, size: int) -> set[tuple[str, ...]]:
     return {tuple(tokens[i : i + size]) for i in range(len(tokens) - size + 1)}
 
 
+def prose_ngrams(value: str, size: int) -> set[tuple[str, ...]]:
+    """Return candidate prose n-grams, excluding pure formal-variable runs."""
+    return {
+        gram
+        for gram in ngrams(value, size)
+        if any(len(token) > 1 for token in gram)
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("release", type=Path)
@@ -44,7 +53,7 @@ def main() -> None:
 
     book_ngrams: set[tuple[str, ...]] = set()
     for path in args.book_blobs.rglob("*.md"):
-        book_ngrams |= ngrams(path.read_text(encoding="utf-8"), 8)
+        book_ngrams |= prose_ngrams(path.read_text(encoding="utf-8"), 8)
 
     errors: list[str] = []
     lean_files = sorted(
@@ -69,7 +78,7 @@ def main() -> None:
             if BANNED_IDENTIFIER.search(match.group()) and "source_ref" not in match.group():
                 errors.append(f"{relative}: source-derived identifier {match.group()!r}")
         source_ref_count += len(SOURCE_REF.findall(text))
-        overlap = ngrams(text, 8) & book_ngrams
+        overlap = prose_ngrams(text, 8) & book_ngrams
         if overlap:
             errors.append(f"{relative}: repeats book prose: {' '.join(sorted(overlap)[0])!r}")
 
