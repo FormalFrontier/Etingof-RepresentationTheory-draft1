@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:46f7abe25cfee5bc9358",
-      "rationale": "The formal type directly states that every algebraic simple special-linear representation is equivalent to one arising from a dominant-weight parameter, which is the exhaustion clause of the source assertion.",
-      "role": "primary"
+      "rationale": "The formal type states only the exhaustion direction for algebraic simple special-linear representations; it does not itself state the source claim's uniqueness or parametrization modulo constant shift.",
+      "role": "supporting"
     },
     {
       "association_id": "association:2b88403480c522f3fb86",
-      "rationale": "The formal type is an equivalence between special-linear weight parameters and representation isomorphism classes modulo the stated setoid, directly expressing the parametrization and uniqueness clause.",
-      "role": "primary"
+      "rationale": "The displayed type gives an equivalence involving the opaque names SLWeightParam and slIsoSetoid, but it does not expose that these are dominant weights modulo constant shift and algebraic simple representation classes, so the source claim is not directly stated packet-only.",
+      "role": "supporting"
     }
   ]
 }

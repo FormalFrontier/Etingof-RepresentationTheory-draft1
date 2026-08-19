@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:32eb5cdb49ffc144ccfd",
-      "role": "primary",
-      "rationale": "The theorem directly states the more general tensor-product result: two finite-dimensional semisimple algebras over an algebraically closed field have semisimple tensor product, specializing to the two radical quotients."
+      "role": "supporting",
+      "rationale": "The theorem states semisimplicity of the tensor product of arbitrary finite-dimensional semisimple algebras, but the displayed type does not mention or identify the two radical quotients; applying it to those quotients is specialization-level support."
     }
   ]
 }
