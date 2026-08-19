@@ -68,8 +68,8 @@
     },
     {
       "temporary_id": "decl-018733",
-      "new_name": "apply_idempotent_mem_sandwichSubmodule",
-      "docstring": "Applying an endomorphism of the principal submodule to the idempotent gives an element of the sandwich submodule."
+      "new_name": "Auxiliary.statement018733",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-019425",

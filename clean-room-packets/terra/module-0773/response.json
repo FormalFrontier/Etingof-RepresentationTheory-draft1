@@ -3,12 +3,12 @@
   "declarations": [
     {
       "temporary_id": "decl-032688",
-      "new_name": "biprodCarrierLinearEquiv",
+      "new_name": "biprodCarrierComplexLinearEquiv",
       "docstring": "A linear equivalence from the underlying module of a binary biproduct representation to the product of the underlying modules of its summands."
     },
     {
       "temporary_id": "decl-032712",
-      "new_name": "character_biprod",
+      "new_name": "character_biprod_complex",
       "docstring": "The character of a binary biproduct representation is the pointwise sum of the characters of its summands."
     },
     {
