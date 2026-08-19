@@ -1,5 +1,5 @@
 {
-  "module_name": "WeylAlgebra.ModularSimpleModules",
+  "module_name": "Algebra.PrimeCharacteristicCyclicModels",
   "declarations": [
     {
       "temporary_id": "decl-008933",
@@ -119,7 +119,7 @@
     {
       "temporary_id": "decl-008981",
       "new_name": "derivativeAddScalarEnd_mul_cyclicPositionEnd",
-      "docstring": "The derivative-plus-scalar and cyclic position endomorphisms satisfy the Weyl commutation relation."
+      "docstring": "The derivative-plus-scalar and cyclic position endomorphisms satisfy the displayed commutation relation."
     },
     {
       "temporary_id": "decl-008982",

@@ -1,5 +1,5 @@
 {
-  "module_name": "QuantumTorus.FiniteOrderModuleEquivalences",
+  "module_name": "Algebra.FiniteOrderShiftWeightEquivalences",
   "declarations": [
     {
       "temporary_id": "decl-009014",
@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-009027",
       "new_name": "cyclicShiftEnd_pow_mul_diagonalWeightEnd",
-      "docstring": "A power of the cyclic shift intertwines diagonal weight endomorphisms whose weight parameters differ by the corresponding power of the quantum parameter."
+      "docstring": "A power of the cyclic shift intertwines diagonal weight endomorphisms whose weight parameters differ by the corresponding power of the first unit parameter."
     },
     {
       "temporary_id": "decl-009032",
@@ -19,7 +19,7 @@
     {
       "temporary_id": "decl-009033",
       "new_name": "cyclicShiftUnit_pow_mul_diagonalWeightUnit",
-      "docstring": "A power of the cyclic shift unit intertwines diagonal weight units whose weight parameters differ by the corresponding power of the quantum parameter."
+      "docstring": "A power of the cyclic shift unit intertwines diagonal weight units whose weight parameters differ by the corresponding power of the first unit parameter."
     },
     {
       "temporary_id": "decl-009057",
@@ -64,7 +64,7 @@
     {
       "temporary_id": "decl-009100",
       "new_name": "firstGenerator_orderExponent_smul_threeUnitParameterType",
-      "docstring": "The distinguished element with first exponent equal to the quantum-parameter order acts by the shift parameter."
+      "docstring": "The distinguished element with first exponent equal to the first unit parameter order acts by the shift parameter."
     },
     {
       "temporary_id": "decl-009101",
@@ -74,7 +74,7 @@
     {
       "temporary_id": "decl-009102",
       "new_name": "secondGenerator_orderExponent_smul_threeUnitParameterType",
-      "docstring": "The distinguished element with second exponent equal to the quantum-parameter order acts by the corresponding power of the weight parameter."
+      "docstring": "The distinguished element with second exponent equal to the first unit parameter order acts by the corresponding power of the weight parameter."
     },
     {
       "temporary_id": "decl-009105",
@@ -129,7 +129,7 @@
     {
       "temporary_id": "decl-009171",
       "new_name": "diagonalWeightCoeff_sub_nsmul_eq",
-      "docstring": "Shifting the index of a diagonal weight coefficient matches changing the weight parameter by the corresponding quantum-parameter power."
+      "docstring": "Shifting the index of a diagonal weight coefficient matches changing the weight parameter by the corresponding first-unit-parameter power."
     },
     {
       "temporary_id": "decl-014816",
@@ -139,7 +139,7 @@
     {
       "temporary_id": "decl-014850",
       "new_name": "representation_apply_eq_conj_of_intertwines_generators",
-      "docstring": "If a unit intertwines each of two pairs of generators satisfying the same quantum commutation relation, then it conjugates the associated representations on every algebra element."
+      "docstring": "If a unit intertwines each of two pairs of generators satisfying the same displayed commutation relation, then it conjugates the associated representations on every algebra element."
     }
   ]
 }

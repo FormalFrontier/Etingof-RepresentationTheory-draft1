@@ -1,5 +1,5 @@
 {
-  "module_name": "QuantumTorus.FiniteOrderModules",
+  "module_name": "Algebra.FiniteOrderShiftWeightModules",
   "declarations": [
     {
       "temporary_id": "decl-009015",
