@@ -18,7 +18,7 @@
     },
     {
       "temporary_id": "decl-005152",
-      "new_name": "Auxiliary.fintype",
+      "new_name": "fintype",
       "docstring": "The opaque auxiliary type is finite."
     },
     {
@@ -28,12 +28,12 @@
     },
     {
       "temporary_id": "decl-005162",
-      "new_name": "Auxiliary.object",
+      "new_name": "object",
       "docstring": "The object of the category associated to an auxiliary index."
     },
     {
       "temporary_id": "decl-005163",
-      "new_name": "Auxiliary.simple_object",
+      "new_name": "simple_object",
       "docstring": "The object associated to an auxiliary index is simple."
     },
     {
