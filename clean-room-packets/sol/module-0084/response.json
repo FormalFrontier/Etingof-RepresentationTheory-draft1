@@ -1,5 +1,5 @@
 {
-  "module_name": "QuantumGroup.SL2Representations",
+  "module_name": "Algebra.ParameterizedComplexRelations",
   "declarations": [
     {
       "temporary_id": "decl-008693",
@@ -143,8 +143,8 @@
     },
     {
       "temporary_id": "decl-008732",
-      "new_name": "QuantumSL2",
-      "docstring": "The complex algebra determined by the displayed parameter-dependent rank-one relations."
+      "new_name": "ParameterizedAlgebra",
+      "docstring": "The complex algebra determined by the displayed parameter-dependent relations."
     },
     {
       "temporary_id": "decl-008733",
@@ -383,7 +383,7 @@
     },
     {
       "temporary_id": "decl-008811",
-      "new_name": "quantumSL2_nontrivial",
+      "new_name": "parameterizedAlgebra_nontrivial",
       "docstring": "The parameterized algebra is nontrivial."
     },
     {
