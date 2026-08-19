@@ -8,13 +8,13 @@
     },
     {
       "association_id": "association:a85ff4a980c6c1037ac5",
-      "role": "primary",
-      "rationale": "The theorem directly states that every representation on the one-dimensional complex space is of real type."
+      "role": "supporting",
+      "rationale": "The theorem states the real-type assertion for representations on the one-dimensional complex space, but it does not itself state uniqueness or quaternionic type of the two-dimensional irreducible, so it covers only one part of the source claim."
     },
     {
       "association_id": "association:d064d7cadb444e8d4d04",
-      "role": "primary",
-      "rationale": "The theorem directly identifies every simple two-dimensional representation with the distinguished representation, giving the stated uniqueness component."
+      "role": "supporting",
+      "rationale": "The theorem gives the uniqueness component for simple two-dimensional representations, but it does not itself state that the distinguished representation is quaternionic type or that the one-dimensional irreducibles are real type."
     }
   ]
 }
