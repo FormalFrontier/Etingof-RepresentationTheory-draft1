@@ -3,23 +3,23 @@
   "associations": [
     {
       "association_id": "association:5a8b689eb3d340fa4c30",
-      "role": "primary",
-      "rationale": "The displayed type directly makes the minus reflection construction a functor on quiver representations."
+      "role": "supporting",
+      "rationale": "It establishes one reflection construction as a functor, one component of the all-nine-constructions claim."
     },
     {
       "association_id": "association:47235e39dc9fd682ed00",
-      "role": "primary",
-      "rationale": "The displayed type directly makes the plus reflection construction a functor on quiver representations."
+      "role": "supporting",
+      "rationale": "It establishes one reflection construction as a functor, one component of the all-nine-constructions claim."
     },
     {
       "association_id": "association:18f22292a856174c1516",
-      "role": "primary",
-      "rationale": "The declaration directly assigns the Schur construction a ModuleCat-to-ModuleCat functor type."
+      "role": "supporting",
+      "rationale": "It establishes a Schur construction as a functor, one component of the all-nine-constructions claim."
     },
     {
       "association_id": "association:5215eeca55f69d1e932c",
-      "role": "primary",
-      "rationale": "The declaration directly assigns each symmetric-power construction a ModuleCat-to-ModuleCat functor type."
+      "role": "supporting",
+      "rationale": "It establishes a symmetric-power construction as a functor, one component of the all-nine-constructions claim."
     }
   ]
 }
