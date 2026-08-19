@@ -32,7 +32,7 @@ def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModu
   Module.finrank k (ρ.obj i) = 1 ∧ ∀ j, j ≠ i → Module.finrank k (ρ.obj j) = 0
 
 /-- Given the displayed auxiliary hypothesis, the auxiliary condition implies either the auxiliary vertex condition or surjectivity of the associated map. -/
-@[source_ref "Chapter6/Proposition6.6.5" (role := primary)]
+@[source_ref "Chapter6/Proposition6.6.5" (role := supporting)]
 theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrSurjective
     {k : Type*} [Field k] {Q : Type*} [DecidableEq Q] [Quiver Q]
     {ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q} {i : Q}
@@ -132,7 +132,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
       exact absurd (LinearMap.range_eq_top.mp (eq_top_of_isCompl_bot (hW_bot ▸ hW))) hsurj
 
 /-- Given the displayed auxiliary hypothesis, the auxiliary condition implies either the auxiliary vertex condition or injectivity of the associated map. -/
-@[source_ref "Chapter6/Proposition6.6.5" (role := primary)]
+@[source_ref "Chapter6/Proposition6.6.5" (role := supporting)]
 theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrInjective
     {k : Type*} [Field k] {Q : Type*} [DecidableEq Q] [Quiver Q]
     {ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q} {i : Q}

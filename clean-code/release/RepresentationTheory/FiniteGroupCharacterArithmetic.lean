@@ -18,7 +18,7 @@ namespace RepresentationTheory.FiniteGroupCharacterArithmetic
 set_option linter.unusedFintypeInType false in
 open CategoryTheory Polynomial Matrix in
 /-- Every value of a finite-group complex character is integral over the integers. -/
-@[source_ref "Chapter5/Discussion_proof_of_Theorem5.3.1" (role := primary)]
+@[source_ref "Chapter5/Discussion_proof_of_Theorem5.3.1" (role := supporting)]
 theorem character_isIntegral
     {G : Type*} [Group G] [Fintype G]
     (V : FDRep ℂ G) (g : G) :

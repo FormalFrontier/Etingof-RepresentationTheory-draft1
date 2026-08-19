@@ -19,7 +19,7 @@ namespace RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition
 /-- The group algebra of a finite group over a field is semisimple when the group order is a unit in the field. -/
 @[source_ref "Chapter2/Discussion_after_Theorem2.1.2/Derived2" (role := supporting),
   source_ref "Chapter4/Discussion_after_Theorem4.6.3" (role := supporting),
-  source_ref "Chapter4/Theorem4.1.1" (role := primary),
+  source_ref "Chapter4/Theorem4.1.1" (role := supporting),
   source_ref "Chapter4/Theorem4.2.1/Derived2" (role := supporting)]
 theorem MonoidAlgebra.isSemisimpleRing_of_isUnit_card
     (k : Type*) (G : Type*) [Field k] [Group G] [Fintype G]
