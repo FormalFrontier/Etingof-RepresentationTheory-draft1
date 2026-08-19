@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:22c20e8ef795d44faaab",
-      "role": "primary",
-      "rationale": "This Subalgebra declaration directly packages the algebraic integers as a ring-like substructure of the complex numbers."
+      "role": "supporting",
+      "rationale": "The displayed type is only an opaque Subalgebra value and does not show that its carrier is exactly the integral complex numbers."
     }
   ]
 }

@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:076e7f0c1f4f91488403",
-      "role": "primary",
-      "rationale": "This declaration installs the algebra structure on the quotient by a two-sided ideal asserted by the claim."
+      "role": "supporting",
+      "rationale": "The type installs an Algebra instance on the opaque type QuotientAlgebra A I, but does not display the quotient or establish that its multiplication is well defined."
     }
   ]
 }

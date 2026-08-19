@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:3dcfa1a5205f0cd2f589",
-      "role": "primary",
-      "rationale": "This linear equivalence directly gives the claimed identification of the one-column factor with an exterior power."
+      "role": "supporting",
+      "rationale": "The type gives an equivalence from the opaque subspace symAntisymmetric to an exterior power, but does not identify that subspace as the source's one-column factor."
     },
     {
       "association_id": "association:fad81b141fc26bcd5a95",
-      "role": "primary",
-      "rationale": "Its equality directly states equivariance of that exterior-power identification."
+      "role": "supporting",
+      "rationale": "The equality proves naturality of the displayed equivalence, but the type still does not identify its symAntisymmetric source as the one-column factor."
     }
   ]
 }

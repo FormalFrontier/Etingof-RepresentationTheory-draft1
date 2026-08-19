@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:783ce59b1c487fdfd10a",
-      "role": "primary",
-      "rationale": "This construction assigns a finite-dimensional general-linear-group representation to each dominant weight, as claimed."
+      "role": "supporting",
+      "rationale": "The type assigns an FDRep to each dominant weight, but does not state irreducibility, algebraicity, the natural-weight shift, or the determinant twist."
     },
     {
       "association_id": "association:d46b65947c3574702dbd",
