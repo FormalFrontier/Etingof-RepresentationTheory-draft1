@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:fcbf5547df50d9c199fa",
-      "rationale": "The formal type directly states that split A-linear maps exhibiting the base change of V as a direct summand of the base change of W yield split A-linear maps exhibiting V as a direct summand of W.",
-      "role": "primary"
+      "rationale": "The displayed implication uses existential witnesses i and p whose types are elided in both premise and conclusion, so it does not directly expose the split A-linear maps needed to state the direct-summand claim.",
+      "role": "supporting"
     }
   ]
 }
