@@ -160,7 +160,7 @@ noncomputable def arrowMapOnOppositeVertexParts {i j : Q} (e : i ⟶ j) :
 
 /-- Constructs a representation of the opposite quiver from a module over the reversed-composition algebra. -/
 @[source_ref "Chapter2/Discussion_after_Theorem2.1.1/Derived3" (role := supporting)]
-noncomputable def oppositeRepresentationOfModule : QuiverLinearDiagram k Qᵒᵖ where
+noncomputable def oppositeRepresentationOfModule : AuxiliaryQuiverModuleData k Qᵒᵖ where
   obj X := (vertexSubmodule (V := V) X.unop : Submodule k V)
   map {_X _Y} f := arrowMapOnOppositeVertexParts f.unop
 
@@ -177,30 +177,30 @@ end ModuleDecomposition
 section ReverseDirection
 
 /-- The family of vector spaces indexed by original vertices underlying an opposite-quiver representation. -/
-abbrev oppositeVertexFamily (R : QuiverLinearDiagram k Qᵒᵖ) (i : Q) : Type _ :=
+abbrev oppositeVertexFamily (R : AuxiliaryQuiverModuleData k Qᵒᵖ) (i : Q) : Type _ :=
   R.obj (Opposite.op i)
 
 /-- The scalar-linear map in the reverse direction along a path for an opposite-quiver representation. -/
-noncomputable def oppositePathLinearMap (R : QuiverLinearDiagram k Qᵒᵖ) {a b : Q}
+noncomputable def oppositePathLinearMap (R : AuxiliaryQuiverModuleData k Qᵒᵖ) {a b : Q}
     (p : Quiver.Path a b) : oppositeVertexFamily R b →ₗ[k] oppositeVertexFamily R a :=
   Quiver.Path.rec (motive := fun b _ => oppositeVertexFamily R b →ₗ[k] oppositeVertexFamily R a)
     LinearMap.id (fun _ e ih => ih ∘ₗ R.map e.op) p
 
 omit [DecidableEq Q] in
 /-- The reverse map along an empty path is the identity. -/
-@[simp] theorem oppositePathLinearMap_nil (R : QuiverLinearDiagram k Qᵒᵖ) (a : Q) :
+@[simp] theorem oppositePathLinearMap_nil (R : AuxiliaryQuiverModuleData k Qᵒᵖ) (a : Q) :
     oppositePathLinearMap R (Quiver.Path.nil : Quiver.Path a a) = LinearMap.id := rfl
 
 omit [DecidableEq Q] in
 /-- The reverse map along a path extended by an arrow composes with the opposite arrow map. -/
-@[simp] theorem oppositePathLinearMap_cons (R : QuiverLinearDiagram k Qᵒᵖ) {a b c : Q}
+@[simp] theorem oppositePathLinearMap_cons (R : AuxiliaryQuiverModuleData k Qᵒᵖ) {a b c : Q}
     (p : Quiver.Path a b) (e : b ⟶ c) :
     oppositePathLinearMap R (p.cons e) = oppositePathLinearMap R p ∘ₗ R.map e.op := rfl
 
 omit [DecidableEq Q] in
 
 /-- The reverse map along a composite path is the corresponding composite of reverse path maps. -/
-theorem oppositePathLinearMap_comp (R : QuiverLinearDiagram k Qᵒᵖ) {a b d : Q}
+theorem oppositePathLinearMap_comp (R : AuxiliaryQuiverModuleData k Qᵒᵖ) {a b d : Q}
     (p : Quiver.Path a b) (q : Quiver.Path b d) :
     oppositePathLinearMap R (p.comp q) = oppositePathLinearMap R p ∘ₗ oppositePathLinearMap R q := by
   induction q with
@@ -208,20 +208,20 @@ theorem oppositePathLinearMap_comp (R : QuiverLinearDiagram k Qᵒᵖ) {a b d : 
   | cons q' e ih => simp only [Quiver.Path.comp_cons, oppositePathLinearMap_cons, ih, LinearMap.comp_assoc]
 
 /-- The endomorphism of an opposite-representation direct sum associated with a path. -/
-noncomputable def oppositePathEndomorphism (R : QuiverLinearDiagram k Qᵒᵖ) :
+noncomputable def oppositePathEndomorphism (R : AuxiliaryQuiverModuleData k Qᵒᵖ) :
     BundledPath Q → Module.End k (DirectSum Q (oppositeVertexFamily R))
   | ⟨a, b, p⟩ =>
       DirectSum.lof k Q (oppositeVertexFamily R) a ∘ₗ oppositePathLinearMap R p ∘ₗ DirectSum.component k Q (oppositeVertexFamily R) b
 
 /-- An opposite path endomorphism is source inclusion after the reversed path map and target projection. -/
-theorem oppositePathEndomorphism_eq_inclusion_comp (R : QuiverLinearDiagram k Qᵒᵖ) {a b : Q} (p : Quiver.Path a b) :
+theorem oppositePathEndomorphism_eq_inclusion_comp (R : AuxiliaryQuiverModuleData k Qᵒᵖ) {a b : Q} (p : Quiver.Path a b) :
     oppositePathEndomorphism R ⟨a, b, p⟩ =
       DirectSum.lof k Q (oppositeVertexFamily R) a ∘ₗ oppositePathLinearMap R p ∘ₗ
         DirectSum.component k Q (oppositeVertexFamily R) b :=
   rfl
 
 /-- Composable paths give the product of their opposite direct-sum endomorphisms. -/
-theorem oppositePathEndomorphism_comp (R : QuiverLinearDiagram k Qᵒᵖ) {a b d : Q}
+theorem oppositePathEndomorphism_comp (R : AuxiliaryQuiverModuleData k Qᵒᵖ) {a b d : Q}
     (p : Quiver.Path a b) (q : Quiver.Path b d) :
     oppositePathEndomorphism R ⟨a, b, p⟩ * oppositePathEndomorphism R ⟨b, d, q⟩ = oppositePathEndomorphism R ⟨a, d, p.comp q⟩ := by
   ext m
@@ -229,7 +229,7 @@ theorem oppositePathEndomorphism_comp (R : QuiverLinearDiagram k Qᵒᵖ) {a b d
     DirectSum.component.lof_self, oppositePathLinearMap_comp]
 
 /-- Opposite direct-sum path endomorphisms with mismatched intermediate vertices multiply to zero. -/
-theorem oppositePathEndomorphism_mul_eq_zero (R : QuiverLinearDiagram k Qᵒᵖ) {a b c d : Q}
+theorem oppositePathEndomorphism_mul_eq_zero (R : AuxiliaryQuiverModuleData k Qᵒᵖ) {a b c d : Q}
     (p : Quiver.Path a b) (q : Quiver.Path c d) (h : b ≠ c) :
     oppositePathEndomorphism R ⟨a, b, p⟩ * oppositePathEndomorphism R ⟨c, d, q⟩ = 0 := by
   ext m
@@ -237,12 +237,12 @@ theorem oppositePathEndomorphism_mul_eq_zero (R : QuiverLinearDiagram k Qᵒᵖ)
   rw [DirectSum.component.of, dif_neg (Ne.symm h), map_zero, map_zero]
 
 /-- The scalar-linear map sending reversed-composition algebra elements to endomorphisms of the opposite direct sum. -/
-noncomputable def oppositeDirectSumLinearAction (R : QuiverLinearDiagram k Qᵒᵖ) :
+noncomputable def oppositeDirectSumLinearAction (R : AuxiliaryQuiverModuleData k Qᵒᵖ) :
     PathAlgebra k Q →ₗ[k] Module.End k (DirectSum Q (oppositeVertexFamily R)) :=
   Finsupp.lsum k fun x => (LinearMap.id : k →ₗ[k] k).smulRight (oppositePathEndomorphism R x)
 
 /-- The opposite direct-sum action of a scalar-supported path is the scalar multiple of its path endomorphism. -/
-theorem oppositeDirectSumLinearAction_single (R : QuiverLinearDiagram k Qᵒᵖ) (x : BundledPath Q)
+theorem oppositeDirectSumLinearAction_single (R : AuxiliaryQuiverModuleData k Qᵒᵖ) (x : BundledPath Q)
     (c : k) : oppositeDirectSumLinearAction R (Finsupp.single x c) = c • oppositePathEndomorphism R x := by
 
 
@@ -252,12 +252,12 @@ theorem oppositeDirectSumLinearAction_single (R : QuiverLinearDiagram k Qᵒᵖ)
   simp only [Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_coe, id_eq]
 
 /-- The opposite direct-sum linear action of a path element is its path endomorphism. -/
-theorem oppositeDirectSumLinearAction_path (R : QuiverLinearDiagram k Qᵒᵖ) (x : BundledPath Q) :
+theorem oppositeDirectSumLinearAction_path (R : AuxiliaryQuiverModuleData k Qᵒᵖ) (x : BundledPath Q) :
     oppositeDirectSumLinearAction R (ofPath x) = oppositePathEndomorphism R x := by
   rw [ofPath, oppositeDirectSumLinearAction_single, one_smul]
 
 /-- The opposite direct-sum linear action sends a path product to the product of path endomorphisms. -/
-theorem oppositeDirectSumLinearAction_pathProduct (R : QuiverLinearDiagram k Qᵒᵖ)
+theorem oppositeDirectSumLinearAction_pathProduct (R : AuxiliaryQuiverModuleData k Qᵒᵖ)
     (x y : BundledPath Q) :
     oppositeDirectSumLinearAction R (mulPath x y) = oppositePathEndomorphism R x * oppositePathEndomorphism R y := by
   obtain ⟨a, b, p⟩ := x
@@ -268,7 +268,7 @@ theorem oppositeDirectSumLinearAction_pathProduct (R : QuiverLinearDiagram k Q�
   · rw [mulPath_of_not_composable _ _ h, map_zero, oppositePathEndomorphism_mul_eq_zero R p q h]
 
 /-- The opposite direct-sum linear action preserves multiplication. -/
-theorem oppositeDirectSumLinearAction_mul (R : QuiverLinearDiagram k Qᵒᵖ) (f g : PathAlgebra k Q) :
+theorem oppositeDirectSumLinearAction_mul (R : AuxiliaryQuiverModuleData k Qᵒᵖ) (f g : PathAlgebra k Q) :
     oppositeDirectSumLinearAction R (f * g) = oppositeDirectSumLinearAction R f * oppositeDirectSumLinearAction R g := by
   induction f using PathAlgebra.induction_on with
   | zero => simp
@@ -282,7 +282,7 @@ theorem oppositeDirectSumLinearAction_mul (R : QuiverLinearDiagram k Qᵒᵖ) (f
         smul_mul_smul_comm]
 
 /-- The sum of opposite-vertex component projections followed by inclusions is the identity. -/
-theorem sum_oppositeInclusion_component_eq_id [Fintype Q] (R : QuiverLinearDiagram k Qᵒᵖ) :
+theorem sum_oppositeInclusion_component_eq_id [Fintype Q] (R : AuxiliaryQuiverModuleData k Qᵒᵖ) :
     (∑ i : Q, DirectSum.lof k Q (oppositeVertexFamily R) i ∘ₗ DirectSum.component k Q (oppositeVertexFamily R) i)
       = LinearMap.id := by
   refine LinearMap.ext fun m => ?_
@@ -292,23 +292,23 @@ theorem sum_oppositeInclusion_component_eq_id [Fintype Q] (R : QuiverLinearDiagr
     rw [DirectSum.lof_eq_of, ← DirectSum.apply_eq_component]
 
 /-- The opposite direct-sum linear action sends one to the identity endomorphism. -/
-theorem oppositeDirectSumLinearAction_one [Fintype Q] (R : QuiverLinearDiagram k Qᵒᵖ) :
+theorem oppositeDirectSumLinearAction_one [Fintype Q] (R : AuxiliaryQuiverModuleData k Qᵒᵖ) :
     oppositeDirectSumLinearAction R 1 = 1 := by
   rw [one_eq_sum_ofPath_vertexPath, map_sum, Module.End.one_eq_id, ← sum_oppositeInclusion_component_eq_id R]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [oppositeDirectSumLinearAction_path, oppositePathEndomorphism_eq_inclusion_comp, oppositePathLinearMap_nil, LinearMap.id_comp]
 
 /-- The reversed-composition algebra action on an opposite-representation direct sum as an algebra homomorphism. -/
-noncomputable def oppositeDirectSumActionAlgHom [Fintype Q] (R : QuiverLinearDiagram k Qᵒᵖ) :
+noncomputable def oppositeDirectSumActionAlgHom [Fintype Q] (R : AuxiliaryQuiverModuleData k Qᵒᵖ) :
     PathAlgebra k Q →ₐ[k] Module.End k (DirectSum Q (oppositeVertexFamily R)) :=
   AlgHom.ofLinearMap (oppositeDirectSumLinearAction R) (oppositeDirectSumLinearAction_one R) (oppositeDirectSumLinearAction_mul R)
 
 /-- The opposite direct-sum action homomorphism agrees pointwise with its linear construction. -/
-@[simp] theorem oppositeDirectSumActionAlgHom_eq_linearAction [Fintype Q] (R : QuiverLinearDiagram k Qᵒᵖ)
+@[simp] theorem oppositeDirectSumActionAlgHom_eq_linearAction [Fintype Q] (R : AuxiliaryQuiverModuleData k Qᵒᵖ)
     (a : PathAlgebra k Q) : oppositeDirectSumActionAlgHom R a = oppositeDirectSumLinearAction R a := rfl
 
 /-- The opposite direct-sum action homomorphism sends a path element to its endomorphism. -/
-theorem oppositeDirectSumActionAlgHom_path [Fintype Q] (R : QuiverLinearDiagram k Qᵒᵖ)
+theorem oppositeDirectSumActionAlgHom_path [Fintype Q] (R : AuxiliaryQuiverModuleData k Qᵒᵖ)
     (x : BundledPath Q) : oppositeDirectSumActionAlgHom R (ofPath x) = oppositePathEndomorphism R x := by
   rw [oppositeDirectSumActionAlgHom_eq_linearAction, oppositeDirectSumLinearAction_path]
 
@@ -316,17 +316,17 @@ theorem oppositeDirectSumActionAlgHom_path [Fintype Q] (R : QuiverLinearDiagram 
 @[reducible, source_ref "Chapter2/Discussion_after_Theorem2.1.1/Derived3"
   (role := supporting)]
 noncomputable def oppositeDirectSumAlgebraModule [Fintype Q]
-    (R : QuiverLinearDiagram k Qᵒᵖ) :
+    (R : AuxiliaryQuiverModuleData k Qᵒᵖ) :
     Module (PathAlgebra k Q) (DirectSum Q (oppositeVertexFamily R)) :=
   Module.compHom _ (oppositeDirectSumActionAlgHom R).toRingHom
 
 /-- Algebra scalar multiplication on the opposite direct sum is evaluation of its action homomorphism. -/
-theorem oppositeDirectSumAlgebraModule_smul [Fintype Q] (R : QuiverLinearDiagram k Qᵒᵖ)
+theorem oppositeDirectSumAlgebraModule_smul [Fintype Q] (R : AuxiliaryQuiverModuleData k Qᵒᵖ)
     (a : PathAlgebra k Q) (m : DirectSum Q (oppositeVertexFamily R)) :
     (letI := oppositeDirectSumAlgebraModule R; a • m) = oppositeDirectSumActionAlgHom R a m := rfl
 
 /-- The opposite direct-sum module is compatible with field scalars. -/
-theorem oppositeDirectSumAlgebraModule_scalarTower [Fintype Q] (R : QuiverLinearDiagram k Qᵒᵖ) :
+theorem oppositeDirectSumAlgebraModule_scalarTower [Fintype Q] (R : AuxiliaryQuiverModuleData k Qᵒᵖ) :
     letI := oppositeDirectSumAlgebraModule R
     IsScalarTower k (PathAlgebra k Q) (DirectSum Q (oppositeVertexFamily R)) := by
   letI := oppositeDirectSumAlgebraModule R
@@ -391,7 +391,7 @@ theorem pathElement_cons {a c b : Q} (p : Quiver.Path a c) (e : c ⟶ b) :
 omit [DecidableEq Q] in
 
 /-- The reverse path map of one arrow is the associated opposite-quiver arrow map. -/
-@[simp] theorem oppositePathLinearMap_singleArrow (R : QuiverLinearDiagram k Qᵒᵖ) {a b : Q} (e : a ⟶ b) :
+@[simp] theorem oppositePathLinearMap_singleArrow (R : AuxiliaryQuiverModuleData k Qᵒᵖ) {a b : Q} (e : a ⟶ b) :
     oppositePathLinearMap R e.toPath = R.map e.op := by
   rw [Quiver.Hom.toPath, oppositePathLinearMap_cons, oppositePathLinearMap_nil, LinearMap.id_comp]
 
@@ -407,7 +407,7 @@ variable {V : Type*} [AddCommGroup V] [Module k V]
 noncomputable def oppositeRepresentationEquivOfModuleEquiv {W : Type*} [AddCommGroup W] [Module k W]
     [Module (PathAlgebra k Q) W] [IsScalarTower k (PathAlgebra k Q) W]
     (e : V ≃ₗ[PathAlgebra k Q] W) :
-    QuiverLinearEquiv k Qᵒᵖ
+    AuxiliaryQuiverEquivData k Qᵒᵖ
       (oppositeRepresentationOfModule (k := k) (V := V)) (oppositeRepresentationOfModule (k := k) (V := W)) where
   app v := LinearEquiv.ofLinear
     (LinearMap.codRestrict _
@@ -555,7 +555,7 @@ end ModuleRoundTrip
 section RepRoundTrip
 
 variable {k : Type*} {Q : Type*} [Field k] [Quiver Q] [DecidableEq Q] [Fintype Q]
-variable (R : QuiverLinearDiagram k Qᵒᵖ)
+variable (R : AuxiliaryQuiverModuleData k Qᵒᵖ)
 
 attribute [local instance] oppositeDirectSumAlgebraModule
 
@@ -567,8 +567,8 @@ local instance oppositeDirectSumScalarTower :
 omit [DecidableEq Q] [Fintype Q] in
 
 /-- An equivalence of opposite-quiver representations commutes with their reverse path maps. -/
-theorem oppositeRepresentationEquiv_commutes_path {S : QuiverLinearDiagram k Qᵒᵖ}
-    (e : QuiverLinearEquiv k Qᵒᵖ R S) {a b : Q}
+theorem oppositeRepresentationEquiv_commutes_path {S : AuxiliaryQuiverModuleData k Qᵒᵖ}
+    (e : AuxiliaryQuiverEquivData k Qᵒᵖ R S) {a b : Q}
     (p : Quiver.Path a b) (x : R.obj (Opposite.op b)) :
     e.app (Opposite.op a) (oppositePathLinearMap R p x) =
       oppositePathLinearMap S p (e.app (Opposite.op b) x) := by
@@ -579,16 +579,16 @@ theorem oppositeRepresentationEquiv_commutes_path {S : QuiverLinearDiagram k Q�
     rw [ih, e.naturality f.op]
 
 /-- An opposite-representation equivalence induces a scalar-linear equivalence of the corresponding direct sums. -/
-noncomputable def oppositeDirectSumLinearEquiv {S : QuiverLinearDiagram k Qᵒᵖ}
-    (e : QuiverLinearEquiv k Qᵒᵖ R S) :
+noncomputable def oppositeDirectSumLinearEquiv {S : AuxiliaryQuiverModuleData k Qᵒᵖ}
+    (e : AuxiliaryQuiverEquivData k Qᵒᵖ R S) :
     DirectSum Q (oppositeVertexFamily R) ≃ₗ[k] DirectSum Q (oppositeVertexFamily S) :=
   DirectSum.congrLinearEquiv fun i => e.app (Opposite.op i)
 
 omit [Fintype Q] in
 
 /-- The induced opposite direct-sum equivalence intertwines every path endomorphism. -/
-theorem oppositeDirectSumLinearEquiv_intertwinesPath {S : QuiverLinearDiagram k Qᵒᵖ}
-    (e : QuiverLinearEquiv k Qᵒᵖ R S)
+theorem oppositeDirectSumLinearEquiv_intertwinesPath {S : AuxiliaryQuiverModuleData k Qᵒᵖ}
+    (e : AuxiliaryQuiverEquivData k Qᵒᵖ R S)
     (x : BundledPath Q) (m : DirectSum Q (oppositeVertexFamily R)) :
     oppositeDirectSumLinearEquiv R e (oppositePathEndomorphism R x m) =
       oppositePathEndomorphism S x (oppositeDirectSumLinearEquiv R e m) := by
@@ -615,8 +615,8 @@ theorem oppositeDirectSumLinearEquiv_intertwinesPath {S : QuiverLinearDiagram k 
         DirectSum.lmap_lof, DirectSum.component.of, dif_neg h, map_zero]
 
 /-- The induced opposite direct-sum equivalence intertwines the algebra actions. -/
-theorem oppositeDirectSumLinearEquiv_intertwinesAlgebra {S : QuiverLinearDiagram k Qᵒᵖ}
-    (e : QuiverLinearEquiv k Qᵒᵖ R S)
+theorem oppositeDirectSumLinearEquiv_intertwinesAlgebra {S : AuxiliaryQuiverModuleData k Qᵒᵖ}
+    (e : AuxiliaryQuiverEquivData k Qᵒᵖ R S)
     (a : PathAlgebra k Q) (m : DirectSum Q (oppositeVertexFamily R)) :
     oppositeDirectSumLinearEquiv R e (oppositeDirectSumActionAlgHom R a m) =
       oppositeDirectSumActionAlgHom S a (oppositeDirectSumLinearEquiv R e m) := by
@@ -632,8 +632,8 @@ theorem oppositeDirectSumLinearEquiv_intertwinesAlgebra {S : QuiverLinearDiagram
       oppositeDirectSumLinearAction_single, LinearMap.smul_apply, oppositeDirectSumLinearEquiv_intertwinesPath]
 
 /-- An opposite-representation equivalence induces an algebra-linear equivalence of direct sums. -/
-noncomputable def oppositeDirectSumAlgebraLinearEquiv {S : QuiverLinearDiagram k Qᵒᵖ}
-    (e : QuiverLinearEquiv k Qᵒᵖ R S) :
+noncomputable def oppositeDirectSumAlgebraLinearEquiv {S : AuxiliaryQuiverModuleData k Qᵒᵖ}
+    (e : AuxiliaryQuiverEquivData k Qᵒᵖ R S) :
     letI := oppositeDirectSumAlgebraModule R
     letI := oppositeDirectSumAlgebraModule S
     DirectSum Q (oppositeVertexFamily R) ≃ₗ[PathAlgebra k Q] DirectSum Q (oppositeVertexFamily S) := by
@@ -718,7 +718,7 @@ theorem oppositeVertexSpaceEquivVertexPart_naturality {X Y : Qᵒᵖ} (e : X ⟶
 /-- An opposite representation is equivalent to the representation recovered from its direct-sum module. -/
 @[source_ref "Chapter2/Discussion_after_Theorem2.1.1/Derived3" (role := supporting)]
 noncomputable def toModuleOppositeRepresentationEquiv :
-    QuiverLinearEquiv k Qᵒᵖ R
+    AuxiliaryQuiverEquivData k Qᵒᵖ R
       (oppositeRepresentationOfModule (k := k) (V := DirectSum Q (oppositeVertexFamily R))) where
   app v := oppositeVertexSpaceEquivVertexPart R v.unop
   naturality e x := oppositeVertexSpaceEquivVertexPart_naturality R e x
@@ -804,8 +804,8 @@ def oppositeModuleModelSetoid : Setoid (OppositeModuleModel k Q) where
 
 /-- The setoid identifying equivalent representations of the opposite quiver. -/
 def oppositeRepresentationSetoid :
-    Setoid (QuiverLinearDiagram k Qᵒᵖ) where
-  r R S := Nonempty (QuiverLinearEquiv k Qᵒᵖ R S)
+    Setoid (AuxiliaryQuiverModuleData k Qᵒᵖ) where
+  r R S := Nonempty (AuxiliaryQuiverEquivData k Qᵒᵖ R S)
   iseqv := {
     refl := fun R => ⟨{
       app := fun i => LinearEquiv.refl k (R.obj i)
@@ -828,7 +828,7 @@ abbrev OppositeRepresentationQuotient := Quotient (oppositeRepresentationSetoid 
 
 /-- Extracts a representation of the opposite quiver from an encoded module structure. -/
 noncomputable def OppositeModuleModel.toOppositeRepresentation (M : OppositeModuleModel k Q) :
-    QuiverLinearDiagram k Qᵒᵖ := by
+    AuxiliaryQuiverModuleData k Qᵒᵖ := by
   letI := M.instAddCommGroup
   letI := M.instScalarModule
   letI := M.instAlgebraModule
@@ -837,7 +837,7 @@ noncomputable def OppositeModuleModel.toOppositeRepresentation (M : OppositeModu
 
 /-- Builds an opposite-oriented module model from a representation of the opposite quiver. -/
 noncomputable def OppositeModuleModel.ofOppositeRepresentation
-    (R : QuiverLinearDiagram k Qᵒᵖ) : OppositeModuleModel k Q where
+    (R : AuxiliaryQuiverModuleData k Qᵒᵖ) : OppositeModuleModel k Q where
   carrier := DirectSum Q (oppositeVertexFamily R)
   instAddCommGroup := Module.addCommMonoidToAddCommGroup k
   instScalarModule := inferInstance
@@ -863,7 +863,7 @@ theorem OppositeModuleModel.toOppositeRepresentation_respects {M N : OppositeMod
 
 /-- Equivalent opposite-quiver representations yield related module models. -/
 theorem OppositeModuleModel.ofOppositeRepresentation_respects
-    {R S : QuiverLinearDiagram k Qᵒᵖ}
+    {R S : AuxiliaryQuiverModuleData k Qᵒᵖ}
     (h : (oppositeRepresentationSetoid k Q).r R S) :
     (oppositeModuleModelSetoid k Q).r
       (OppositeModuleModel.ofOppositeRepresentation k Q R)
@@ -907,7 +907,7 @@ noncomputable def oppositeModuleRepresentationQuotientEquiv :
     letI := M.instScalarModule
     letI := M.instAlgebraModule
     letI := M.instIsScalarTower
-    let FR : QuiverLinearDiagram k Qᵒᵖ :=
+    let FR : AuxiliaryQuiverModuleData k Qᵒᵖ :=
       oppositeRepresentationOfModule (k := k) (V := M.carrier)
     letI : AddCommGroup (DirectSum Q (oppositeVertexFamily FR)) :=
       Module.addCommMonoidToAddCommGroup k
@@ -929,7 +929,7 @@ noncomputable def oppositeModuleRepresentationQuotientEquiv :
       (OppositeModuleModel.toOppositeRepresentation k Q (OppositeModuleModel.ofOppositeRepresentation k Q R)) R
     refine ⟨?_⟩
     let e := toModuleOppositeRepresentationEquiv R
-    let esymm : QuiverLinearEquiv k Qᵒᵖ
+    let esymm : AuxiliaryQuiverEquivData k Qᵒᵖ
         (oppositeRepresentationOfModule (k := k) (V := DirectSum Q (oppositeVertexFamily R))) R := {
       app := fun i => (e.app i).symm
       naturality := fun f x => by
@@ -998,7 +998,7 @@ noncomputable def arrowMapOnVertexParts {i j : Q} (e : i ⟶ j) :
 
 /-- Constructs a quiver representation from a module over the quiver algebra. -/
 @[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := primary)]
-noncomputable def representationOfModule : QuiverLinearDiagram k Q where
+noncomputable def representationOfModule : AuxiliaryQuiverModuleData k Q where
   obj i := vertexSubmodule (k := k) (V := V) i
   map e := arrowMapOnVertexParts (k := k) (V := V) e
 
@@ -1074,8 +1074,8 @@ def moduleModelSetoid : Setoid (ModuleModel k Q) where
       exact ⟨hMN.some.trans hNR.some⟩ }
 
 /-- The setoid used to identify equivalent quiver representations. -/
-def representationSetoid : Setoid (QuiverLinearDiagram k Q) where
-  r R S := Nonempty (QuiverLinearEquiv k Q R S)
+def representationSetoid : Setoid (AuxiliaryQuiverModuleData k Q) where
+  r R S := Nonempty (AuxiliaryQuiverEquivData k Q R S)
   iseqv := {
     refl := fun R => ⟨{
       app := fun i => LinearEquiv.refl k (R.obj i)
@@ -1098,7 +1098,7 @@ abbrev RepresentationQuotient := Quotient (representationSetoid k Q)
 
 /-- Extracts a quiver representation from an encoded module structure. -/
 noncomputable def ModuleModel.toRepresentation (M : ModuleModel k Q) :
-    QuiverLinearDiagram k Q := by
+    AuxiliaryQuiverModuleData k Q := by
   letI := M.instAddCommGroup
   letI := M.instScalarModule
   letI := M.instAlgebraModule
@@ -1107,27 +1107,27 @@ noncomputable def ModuleModel.toRepresentation (M : ModuleModel k Q) :
 
 /-- The scalar-linear map along a path in a representation. -/
 @[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := supporting)]
-noncomputable def pathLinearMap (R : QuiverLinearDiagram k Q) {i j : Q}
+noncomputable def pathLinearMap (R : AuxiliaryQuiverModuleData k Q) {i j : Q}
     (p : Quiver.Path i j) : R.obj i →ₗ[k] R.obj j :=
   Quiver.Path.rec (motive := fun j _ => R.obj i →ₗ[k] R.obj j)
     LinearMap.id (fun _ e ih => R.map e ∘ₗ ih) p
 
 /-- The endomorphism of a representation direct sum associated with a quiver path. -/
 @[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := supporting)]
-noncomputable def pathEndomorphism (R : QuiverLinearDiagram k Q) :
+noncomputable def pathEndomorphism (R : AuxiliaryQuiverModuleData k Q) :
     BundledPath Q → Module.End k (DirectSum Q R.obj)
   | ⟨i, j, p⟩ => DirectSum.lof k Q R.obj j ∘ₗ pathLinearMap k Q R p ∘ₗ
       DirectSum.component k Q R.obj i
 
 omit [DecidableEq Q] [Fintype Q] in
 /-- The map along an empty path is the identity linear map. -/
-@[simp] theorem pathLinearMap_nil (R : QuiverLinearDiagram k Q) (i : Q) :
+@[simp] theorem pathLinearMap_nil (R : AuxiliaryQuiverModuleData k Q) (i : Q) :
     pathLinearMap k Q R (Quiver.Path.nil : Quiver.Path i i) = LinearMap.id :=
   rfl
 
 omit [DecidableEq Q] [Fintype Q] in
 /-- The map along a path extended by an arrow is arrow action composed with the path map. -/
-@[simp] theorem pathLinearMap_cons (R : QuiverLinearDiagram k Q) {i j l : Q}
+@[simp] theorem pathLinearMap_cons (R : AuxiliaryQuiverModuleData k Q) {i j l : Q}
     (p : Quiver.Path i j) (a : j ⟶ l) :
     pathLinearMap k Q R (p.cons a) = R.map a ∘ₗ pathLinearMap k Q R p :=
   rfl
@@ -1135,7 +1135,7 @@ omit [DecidableEq Q] [Fintype Q] in
 omit [DecidableEq Q] [Fintype Q] in
 
 /-- The map along a composite path is the composite of the two path maps. -/
-theorem pathLinearMap_comp (R : QuiverLinearDiagram k Q) {i j l : Q}
+theorem pathLinearMap_comp (R : AuxiliaryQuiverModuleData k Q) {i j l : Q}
     (p : Quiver.Path i j) (q : Quiver.Path j l) :
     pathLinearMap k Q R (p.comp q) = pathLinearMap k Q R q ∘ₗ pathLinearMap k Q R p := by
   induction q with
@@ -1144,13 +1144,13 @@ theorem pathLinearMap_comp (R : QuiverLinearDiagram k Q) {i j l : Q}
 
 omit [DecidableEq Q] [Fintype Q] in
 /-- The path map of a single arrow is the representation's arrow map. -/
-@[simp] theorem pathLinearMap_singleArrow (R : QuiverLinearDiagram k Q) {i j : Q} (a : i ⟶ j) :
+@[simp] theorem pathLinearMap_singleArrow (R : AuxiliaryQuiverModuleData k Q) {i j : Q} (a : i ⟶ j) :
     pathLinearMap k Q R a.toPath = R.map a := by
   rw [Quiver.Hom.toPath, pathLinearMap_cons, pathLinearMap_nil, LinearMap.comp_id]
 
 omit [Fintype Q] in
 /-- A path endomorphism is the target inclusion after the path map and source projection. -/
-theorem pathEndomorphism_eq_inclusion_comp (R : QuiverLinearDiagram k Q) {i j : Q} (p : Quiver.Path i j) :
+theorem pathEndomorphism_eq_inclusion_comp (R : AuxiliaryQuiverModuleData k Q) {i j : Q} (p : Quiver.Path i j) :
     pathEndomorphism k Q R ⟨i, j, p⟩ =
       DirectSum.lof k Q R.obj j ∘ₗ pathLinearMap k Q R p ∘ₗ
         DirectSum.component k Q R.obj i :=
@@ -1159,7 +1159,7 @@ theorem pathEndomorphism_eq_inclusion_comp (R : QuiverLinearDiagram k Q) {i j : 
 omit [Fintype Q] in
 
 /-- Composable paths give the product of their direct-sum endomorphisms. -/
-theorem pathEndomorphism_comp (R : QuiverLinearDiagram k Q) {i j l : Q}
+theorem pathEndomorphism_comp (R : AuxiliaryQuiverModuleData k Q) {i j l : Q}
     (p : Quiver.Path i j) (q : Quiver.Path j l) :
     pathEndomorphism k Q R ⟨j, l, q⟩ * pathEndomorphism k Q R ⟨i, j, p⟩ =
       pathEndomorphism k Q R ⟨i, l, p.comp q⟩ := by
@@ -1169,7 +1169,7 @@ theorem pathEndomorphism_comp (R : QuiverLinearDiagram k Q) {i j l : Q}
 
 omit [Fintype Q] in
 /-- Direct-sum endomorphisms of paths with mismatched intermediate vertices multiply to zero. -/
-theorem pathEndomorphism_mul_eq_zero (R : QuiverLinearDiagram k Q) {i j l m : Q}
+theorem pathEndomorphism_mul_eq_zero (R : AuxiliaryQuiverModuleData k Q) {i j l m : Q}
     (p : Quiver.Path i j) (q : Quiver.Path l m) (h : j ≠ l) :
     pathEndomorphism k Q R ⟨l, m, q⟩ * pathEndomorphism k Q R ⟨i, j, p⟩ = 0 := by
   ext x
@@ -1177,24 +1177,24 @@ theorem pathEndomorphism_mul_eq_zero (R : QuiverLinearDiagram k Q) {i j l m : Q}
   rw [DirectSum.component.of, dif_neg h, map_zero, map_zero]
 
 /-- A linear action of the opposite path-composition algebra on the representation direct sum. -/
-noncomputable def oppositeLinearAction (R : QuiverLinearDiagram k Q) :
+noncomputable def oppositeLinearAction (R : AuxiliaryQuiverModuleData k Q) :
     PathAlgebra k Q →ₗ[k] Module.End k (DirectSum Q R.obj) :=
   Finsupp.lsum k fun x => (LinearMap.id : k →ₗ[k] k).smulRight (pathEndomorphism k Q R x)
 
 /-- The opposite linear action of a scalar-supported path is scalar multiplication of its path endomorphism. -/
-theorem oppositeLinearAction_single (R : QuiverLinearDiagram k Q) (x : BundledPath Q) (c : k) :
+theorem oppositeLinearAction_single (R : AuxiliaryQuiverModuleData k Q) (x : BundledPath Q) (c : k) :
     oppositeLinearAction k Q R (Finsupp.single x c) = c • pathEndomorphism k Q R x := by
   change (Finsupp.lsum k fun x => (LinearMap.id : k →ₗ[k] k).smulRight (pathEndomorphism k Q R x))
       (Finsupp.single x c) = c • pathEndomorphism k Q R x
   simp only [Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_coe, id_eq]
 
 /-- The opposite linear action of a path basis element is its path endomorphism. -/
-theorem oppositeLinearAction_path (R : QuiverLinearDiagram k Q) (x : BundledPath Q) :
+theorem oppositeLinearAction_path (R : AuxiliaryQuiverModuleData k Q) (x : BundledPath Q) :
     oppositeLinearAction k Q R (PathAlgebra.ofPath (k := k) x) = pathEndomorphism k Q R x := by
   rw [PathAlgebra.ofPath, oppositeLinearAction_single, one_smul]
 
 /-- The opposite linear action sends a product of paths to the reversed product of endomorphisms. -/
-theorem oppositeLinearAction_pathProduct (R : QuiverLinearDiagram k Q)
+theorem oppositeLinearAction_pathProduct (R : AuxiliaryQuiverModuleData k Q)
     (x y : BundledPath Q) :
     oppositeLinearAction k Q R (PathAlgebra.mulPath x y) =
       pathEndomorphism k Q R y * pathEndomorphism k Q R x := by
@@ -1206,7 +1206,7 @@ theorem oppositeLinearAction_pathProduct (R : QuiverLinearDiagram k Q)
   · rw [PathAlgebra.mulPath_of_not_composable _ _ h, map_zero, pathEndomorphism_mul_eq_zero k Q R p q h]
 
 /-- The opposite linear action reverses multiplication. -/
-theorem oppositeLinearAction_mul (R : QuiverLinearDiagram k Q) (f g : PathAlgebra k Q) :
+theorem oppositeLinearAction_mul (R : AuxiliaryQuiverModuleData k Q) (f g : PathAlgebra k Q) :
     oppositeLinearAction k Q R (f * g) = oppositeLinearAction k Q R g * oppositeLinearAction k Q R f := by
   induction f using PathAlgebra.induction_on with
   | zero => simp
@@ -1221,19 +1221,19 @@ theorem oppositeLinearAction_mul (R : QuiverLinearDiagram k Q) (f g : PathAlgebr
       ac_rfl
 
 /-- The scalar-linear map sending algebra elements to endomorphisms of the representation direct sum. -/
-noncomputable def directSumLinearAction (R : QuiverLinearDiagram k Q) :
+noncomputable def directSumLinearAction (R : AuxiliaryQuiverModuleData k Q) :
     OppositePathAlgebra k Q →ₗ[k] Module.End k (DirectSum Q R.obj) where
   toFun a := oppositeLinearAction k Q R a.unop
   map_add' a b := by rw [MulOpposite.unop_add, map_add]
   map_smul' c a := by simp
 
 /-- The direct-sum linear action of a path element is its path endomorphism. -/
-@[simp] theorem directSumLinearAction_path (R : QuiverLinearDiagram k Q) (x : BundledPath Q) :
+@[simp] theorem directSumLinearAction_path (R : AuxiliaryQuiverModuleData k Q) (x : BundledPath Q) :
     directSumLinearAction k Q R (opOfPath (k := k) x) = pathEndomorphism k Q R x :=
   oppositeLinearAction_path k Q R x
 
 /-- The sum of all component projections followed by inclusions is the identity on the direct sum. -/
-theorem sum_inclusion_component_eq_id (R : QuiverLinearDiagram k Q) :
+theorem sum_inclusion_component_eq_id (R : AuxiliaryQuiverModuleData k Q) :
     (∑ i : Q, DirectSum.lof k Q R.obj i ∘ₗ DirectSum.component k Q R.obj i) =
       LinearMap.id := by
   refine LinearMap.ext fun x => ?_
@@ -1243,7 +1243,7 @@ theorem sum_inclusion_component_eq_id (R : QuiverLinearDiagram k Q) :
     rw [DirectSum.lof_eq_of, ← DirectSum.apply_eq_component]
 
 /-- The direct-sum linear action sends one to the identity endomorphism. -/
-theorem directSumLinearAction_one (R : QuiverLinearDiagram k Q) : directSumLinearAction k Q R 1 = 1 := by
+theorem directSumLinearAction_one (R : AuxiliaryQuiverModuleData k Q) : directSumLinearAction k Q R 1 = 1 := by
   change oppositeLinearAction k Q R 1 = 1
   rw [PathAlgebra.one_eq_sum_ofPath_vertexPath, map_sum, Module.End.one_eq_id,
     ← sum_inclusion_component_eq_id k Q R]
@@ -1251,40 +1251,40 @@ theorem directSumLinearAction_one (R : QuiverLinearDiagram k Q) : directSumLinea
   rw [oppositeLinearAction_path, pathEndomorphism_eq_inclusion_comp, pathLinearMap_nil, LinearMap.id_comp]
 
 /-- The direct-sum linear action preserves multiplication. -/
-theorem directSumLinearAction_mul (R : QuiverLinearDiagram k Q) (a b : OppositePathAlgebra k Q) :
+theorem directSumLinearAction_mul (R : AuxiliaryQuiverModuleData k Q) (a b : OppositePathAlgebra k Q) :
     directSumLinearAction k Q R (a * b) = directSumLinearAction k Q R a * directSumLinearAction k Q R b := by
   change oppositeLinearAction k Q R (b.unop * a.unop) =
     oppositeLinearAction k Q R a.unop * oppositeLinearAction k Q R b.unop
   exact oppositeLinearAction_mul k Q R b.unop a.unop
 
 /-- The quiver-algebra action on a representation direct sum as an algebra homomorphism. -/
-noncomputable def directSumActionAlgHom (R : QuiverLinearDiagram k Q) :
+noncomputable def directSumActionAlgHom (R : AuxiliaryQuiverModuleData k Q) :
     OppositePathAlgebra k Q →ₐ[k] Module.End k (DirectSum Q R.obj) :=
   AlgHom.ofLinearMap (directSumLinearAction k Q R) (directSumLinearAction_one k Q R) (directSumLinearAction_mul k Q R)
 
 /-- The direct-sum action algebra homomorphism agrees pointwise with its underlying linear construction. -/
-@[simp] theorem directSumActionAlgHom_eq_linearAction (R : QuiverLinearDiagram k Q) (a : OppositePathAlgebra k Q) :
+@[simp] theorem directSumActionAlgHom_eq_linearAction (R : AuxiliaryQuiverModuleData k Q) (a : OppositePathAlgebra k Q) :
     directSumActionAlgHom k Q R a = directSumLinearAction k Q R a :=
   rfl
 
 /-- The action algebra homomorphism sends a path element to its direct-sum endomorphism. -/
-theorem directSumActionAlgHom_path (R : QuiverLinearDiagram k Q) (x : BundledPath Q) :
+theorem directSumActionAlgHom_path (R : AuxiliaryQuiverModuleData k Q) (x : BundledPath Q) :
     directSumActionAlgHom k Q R (opOfPath (k := k) x) = pathEndomorphism k Q R x := by
   rw [directSumActionAlgHom_eq_linearAction, directSumLinearAction_path]
 
 /-- The representation direct sum as a module over the quiver algebra. -/
-@[reducible] noncomputable def directSumAlgebraModule (R : QuiverLinearDiagram k Q) :
+@[reducible] noncomputable def directSumAlgebraModule (R : AuxiliaryQuiverModuleData k Q) :
     Module (OppositePathAlgebra k Q) (DirectSum Q R.obj) :=
   Module.compHom _ (directSumActionAlgHom k Q R).toRingHom
 
 /-- Algebra scalar multiplication on the direct sum is evaluation of the action homomorphism. -/
-theorem directSumAlgebraModule_smul (R : QuiverLinearDiagram k Q) (a : OppositePathAlgebra k Q)
+theorem directSumAlgebraModule_smul (R : AuxiliaryQuiverModuleData k Q) (a : OppositePathAlgebra k Q)
     (x : DirectSum Q R.obj) :
     (letI := directSumAlgebraModule k Q R; a • x) = directSumActionAlgHom k Q R a x :=
   rfl
 
 /-- The direct-sum algebra-module structure is compatible with field scalars. -/
-theorem directSumAlgebraModule_scalarTower (R : QuiverLinearDiagram k Q) :
+theorem directSumAlgebraModule_scalarTower (R : AuxiliaryQuiverModuleData k Q) :
     letI := directSumAlgebraModule k Q R
     IsScalarTower k (OppositePathAlgebra k Q) (DirectSum Q R.obj) := by
   letI := directSumAlgebraModule k Q R
@@ -1369,7 +1369,7 @@ noncomputable def representationEquivOfModuleEquiv {V W : Type*}
     [AddCommGroup W] [Module k W] [Module (OppositePathAlgebra k Q) W]
     [IsScalarTower k (OppositePathAlgebra k Q) W]
     (e : V ≃ₗ[OppositePathAlgebra k Q] W) :
-    QuiverLinearEquiv k Q (representationOfModule (k := k) (Q := Q) (V := V))
+    AuxiliaryQuiverEquivData k Q (representationOfModule (k := k) (Q := Q) (V := V))
       (representationOfModule (k := k) (Q := Q) (V := W)) where
   app i := LinearEquiv.ofLinear
     (LinearMap.codRestrict _
@@ -1544,8 +1544,8 @@ noncomputable def reconstructionLinearEquiv {V : Type*} [AddCommGroup V] [Module
 omit [DecidableEq Q] [Fintype Q] in
 
 /-- A representation equivalence commutes with the linear maps assigned to paths. -/
-theorem representationEquiv_commutes_path {R S : QuiverLinearDiagram k Q}
-    (e : QuiverLinearEquiv k Q R S) {i j : Q} (p : Quiver.Path i j)
+theorem representationEquiv_commutes_path {R S : AuxiliaryQuiverModuleData k Q}
+    (e : AuxiliaryQuiverEquivData k Q R S) {i j : Q} (p : Quiver.Path i j)
     (x : R.obj i) :
     e.app j (pathLinearMap k Q R p x) = pathLinearMap k Q S p (e.app i x) := by
   induction p with
@@ -1555,15 +1555,15 @@ theorem representationEquiv_commutes_path {R S : QuiverLinearDiagram k Q}
       rw [e.naturality a, ih]
 
 /-- A representation equivalence induces a scalar-linear equivalence of the corresponding direct sums. -/
-noncomputable def directSumLinearEquiv {R S : QuiverLinearDiagram k Q}
-    (e : QuiverLinearEquiv k Q R S) :
+noncomputable def directSumLinearEquiv {R S : AuxiliaryQuiverModuleData k Q}
+    (e : AuxiliaryQuiverEquivData k Q R S) :
     DirectSum Q R.obj ≃ₗ[k] DirectSum Q S.obj :=
   DirectSum.congrLinearEquiv fun i => e.app i
 
 omit [Fintype Q] in
 /-- The induced direct-sum equivalence intertwines every path endomorphism. -/
-theorem directSumLinearEquiv_intertwinesPath {R S : QuiverLinearDiagram k Q}
-    (e : QuiverLinearEquiv k Q R S) (x : BundledPath Q)
+theorem directSumLinearEquiv_intertwinesPath {R S : AuxiliaryQuiverModuleData k Q}
+    (e : AuxiliaryQuiverEquivData k Q R S) (x : BundledPath Q)
     (m : DirectSum Q R.obj) :
     directSumLinearEquiv k Q e (pathEndomorphism k Q R x m) =
       pathEndomorphism k Q S x (directSumLinearEquiv k Q e m) := by
@@ -1588,8 +1588,8 @@ theorem directSumLinearEquiv_intertwinesPath {R S : QuiverLinearDiagram k Q}
           DirectSum.component.of, dif_neg h, map_zero]
 
 /-- The induced direct-sum equivalence intertwines the quiver-algebra actions. -/
-theorem directSumLinearEquiv_intertwinesAlgebra {R S : QuiverLinearDiagram k Q}
-    (e : QuiverLinearEquiv k Q R S) (a : OppositePathAlgebra k Q)
+theorem directSumLinearEquiv_intertwinesAlgebra {R S : AuxiliaryQuiverModuleData k Q}
+    (e : AuxiliaryQuiverEquivData k Q R S) (a : OppositePathAlgebra k Q)
     (m : DirectSum Q R.obj) :
     directSumLinearEquiv k Q e (directSumActionAlgHom k Q R a m) =
       directSumActionAlgHom k Q S a (directSumLinearEquiv k Q e m) := by
@@ -1608,8 +1608,8 @@ theorem directSumLinearEquiv_intertwinesAlgebra {R S : QuiverLinearDiagram k Q}
         LinearMap.smul_apply, directSumLinearEquiv_intertwinesPath]
 
 /-- A representation equivalence induces an algebra-linear equivalence of direct sums. -/
-noncomputable def directSumAlgebraLinearEquiv {R S : QuiverLinearDiagram k Q}
-    (e : QuiverLinearEquiv k Q R S) :
+noncomputable def directSumAlgebraLinearEquiv {R S : AuxiliaryQuiverModuleData k Q}
+    (e : AuxiliaryQuiverEquivData k Q R S) :
     letI := directSumAlgebraModule k Q R
     letI := directSumAlgebraModule k Q S
     DirectSum Q R.obj ≃ₗ[OppositePathAlgebra k Q] DirectSum Q S.obj := by
@@ -1625,17 +1625,17 @@ noncomputable def directSumAlgebraLinearEquiv {R S : QuiverLinearDiagram k Q}
     right_inv := ek.right_inv }
 
 /-- The direct sum of the vertex spaces has an additive commutative group structure. -/
-local instance directSumAddCommGroup (R : QuiverLinearDiagram k Q) :
+local instance directSumAddCommGroup (R : AuxiliaryQuiverModuleData k Q) :
     AddCommGroup (DirectSum Q R.obj) :=
   Module.addCommMonoidToAddCommGroup k
 
 /-- The field, quiver algebra, and representation direct sum form a scalar tower. -/
-local instance directSumScalarTower (R : QuiverLinearDiagram k Q) :
+local instance directSumScalarTower (R : AuxiliaryQuiverModuleData k Q) :
     IsScalarTower k (OppositePathAlgebra k Q) (DirectSum Q R.obj) :=
   directSumAlgebraModule_scalarTower k Q R
 
 /-- On a representation direct sum, a vertex projector is inclusion after component projection. -/
-theorem vertexProjector_onDirectSum (R : QuiverLinearDiagram k Q) (i : Q)
+theorem vertexProjector_onDirectSum (R : AuxiliaryQuiverModuleData k Q) (i : Q)
     (m : DirectSum Q R.obj) :
     (vertexProjector (k := k) (V := DirectSum Q R.obj) i) m =
       DirectSum.lof k Q R.obj i (DirectSum.component k Q R.obj i m) := by
@@ -1643,7 +1643,7 @@ theorem vertexProjector_onDirectSum (R : QuiverLinearDiagram k Q) (i : Q)
   simp only [LinearMap.comp_apply, pathLinearMap_nil, LinearMap.id_coe, id_eq]
 
 /-- For a representation direct sum, the vertex submodule is the range of its summand inclusion. -/
-theorem vertexSubmodule_eq_range_inclusion (R : QuiverLinearDiagram k Q) (i : Q) :
+theorem vertexSubmodule_eq_range_inclusion (R : AuxiliaryQuiverModuleData k Q) (i : Q) :
     vertexSubmodule (k := k) (V := DirectSum Q R.obj) i =
       LinearMap.range (DirectSum.lof k Q R.obj i) := by
   apply le_antisymm
@@ -1656,7 +1656,7 @@ theorem vertexSubmodule_eq_range_inclusion (R : QuiverLinearDiagram k Q) (i : Q)
     exact ⟨_, by rw [vertexProjector_onDirectSum, DirectSum.component.lof_self]⟩
 
 /-- Including the component of an element in its vertex summand recovers that element. -/
-theorem vertexInclusion_component (R : QuiverLinearDiagram k Q) (i : Q)
+theorem vertexInclusion_component (R : AuxiliaryQuiverModuleData k Q) (i : Q)
     (y : vertexSubmodule (k := k) (V := DirectSum Q R.obj) i) :
     DirectSum.lof k Q R.obj i (DirectSum.component k Q R.obj i (y : DirectSum Q R.obj)) =
       (y : DirectSum Q R.obj) := by
@@ -1664,7 +1664,7 @@ theorem vertexInclusion_component (R : QuiverLinearDiagram k Q) (i : Q)
   exact vertexProjector_eq_self_of_mem k Q y.2
 
 /-- A representation's vertex space is linearly equivalent to its corresponding subspace in the reconstructed direct sum. -/
-noncomputable def vertexSpaceEquivVertexPart (R : QuiverLinearDiagram k Q) (i : Q) :
+noncomputable def vertexSpaceEquivVertexPart (R : AuxiliaryQuiverModuleData k Q) (i : Q) :
     R.obj i ≃ₗ[k] vertexSubmodule (k := k) (V := DirectSum Q R.obj) i :=
   LinearEquiv.ofLinear
     (LinearMap.codRestrict _ (DirectSum.lof k Q R.obj i)
@@ -1683,13 +1683,13 @@ noncomputable def vertexSpaceEquivVertexPart (R : QuiverLinearDiagram k Q) (i : 
         DirectSum.component.lof_self, LinearMap.id_coe, id_eq])
 
 /-- The vertex-space equivalence includes a vector into its direct-sum summand. -/
-@[simp] theorem vertexSpaceEquivVertexPart_coe (R : QuiverLinearDiagram k Q) (i : Q) (x : R.obj i) :
+@[simp] theorem vertexSpaceEquivVertexPart_coe (R : AuxiliaryQuiverModuleData k Q) (i : Q) (x : R.obj i) :
     ((vertexSpaceEquivVertexPart k Q R i x : vertexSubmodule (k := k) (V := DirectSum Q R.obj) i) :
       DirectSum Q R.obj) = DirectSum.lof k Q R.obj i x :=
   rfl
 
 /-- The vertex-space equivalences commute with the maps assigned to arrows. -/
-theorem vertexSpaceEquivVertexPart_naturality (R : QuiverLinearDiagram k Q) {i j : Q}
+theorem vertexSpaceEquivVertexPart_naturality (R : AuxiliaryQuiverModuleData k Q) {i j : Q}
     (a : i ⟶ j) (x : R.obj i) :
     vertexSpaceEquivVertexPart k Q R j (R.map a x) =
       (representationOfModule (k := k) (Q := Q) (V := DirectSum Q R.obj)).map a
@@ -1701,14 +1701,14 @@ theorem vertexSpaceEquivVertexPart_naturality (R : QuiverLinearDiagram k Q) {i j
   simp only [LinearMap.comp_apply, DirectSum.component.lof_self, pathLinearMap_singleArrow]
 
 /-- A representation is equivalent to the representation recovered from its direct-sum module. -/
-noncomputable def toModuleRepresentationEquiv (R : QuiverLinearDiagram k Q) :
-    QuiverLinearEquiv k Q R
+noncomputable def toModuleRepresentationEquiv (R : AuxiliaryQuiverModuleData k Q) :
+    AuxiliaryQuiverEquivData k Q R
       (representationOfModule (k := k) (Q := Q) (V := DirectSum Q R.obj)) where
   app i := vertexSpaceEquivVertexPart k Q R i
   naturality a x := vertexSpaceEquivVertexPart_naturality k Q R a x
 
 /-- Builds an encoded module structure from a quiver representation. -/
-noncomputable def ModuleModel.ofRepresentation (R : QuiverLinearDiagram k Q) :
+noncomputable def ModuleModel.ofRepresentation (R : AuxiliaryQuiverModuleData k Q) :
     ModuleModel k Q where
   carrier := DirectSum Q R.obj
   instAddCommGroup := Module.addCommMonoidToAddCommGroup k
@@ -1733,7 +1733,7 @@ theorem ModuleModel.toRepresentation_respects {M N : ModuleModel k Q}
   exact ⟨representationEquivOfModuleEquiv k Q h.some⟩
 
 /-- Equivalent representations yield related encoded module structures. -/
-theorem ModuleModel.ofRepresentation_respects {R S : QuiverLinearDiagram k Q}
+theorem ModuleModel.ofRepresentation_respects {R S : AuxiliaryQuiverModuleData k Q}
     (h : (representationSetoid k Q).r R S) :
     (moduleModelSetoid k Q).r
       (ModuleModel.ofRepresentation k Q R)
@@ -1796,7 +1796,7 @@ noncomputable def moduleRepresentationQuotientEquiv :
 
 /-- States that a representation and an encoded module structure correspond. -/
 @[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := supporting)]
-def RealizesRepresentation (R : QuiverLinearDiagram k Q) (M : ModuleModel k Q) : Prop :=
+def RealizesRepresentation (R : AuxiliaryQuiverModuleData k Q) (M : ModuleModel k Q) : Prop :=
   letI := M.instAddCommGroup
   letI := M.instScalarModule
   letI := M.instAlgebraModule
@@ -1814,7 +1814,7 @@ theorem existsModuleRepresentationQuotientEquiv :
         RepresentationQuotient.{u, v, q, max v w} k Q,
       (∀ M : ModuleModel.{u, v, max v w, q} k Q,
         e (Quotient.mk _ M) = Quotient.mk _ (M.toRepresentation k Q)) ∧
-      (∀ R : QuiverLinearDiagram.{u, v, max v w, q} k Q,
+      (∀ R : AuxiliaryQuiverModuleData.{u, v, max v w, q} k Q,
         ∃ M : ModuleModel.{u, v, max v w, q} k Q,
         RealizesRepresentation k Q R M ∧
           e.symm (Quotient.mk _ R) = Quotient.mk _ M) := by

@@ -32,7 +32,7 @@ import Mathlib
 
 
 
-namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
+namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData
 
 
 
@@ -45,19 +45,19 @@ variable {k : Type*} [Field k] {n : ℕ} [Q : Quiver (Fin n)]
 
 
 /-- At each vertex, an auxiliary product representation has the product of the component vertex spaces. -/
-@[simp] theorem auxiliaryProduct_obj (V₁ V₂ : QuiverLinearDiagram k (Fin n)) (v : Fin n) :
+@[simp] theorem auxiliaryProduct_obj (V₁ V₂ : AuxiliaryQuiverModuleData k (Fin n)) (v : Fin n) :
     (binaryConstruction k (Fin n) V₁ V₂).obj v = (V₁.obj v × V₂.obj v) := rfl
 
 
 
 /-- The arrow map of an auxiliary product representation is the product of the component arrow maps. -/
-@[simp] theorem auxiliaryProduct_map (V₁ V₂ : QuiverLinearDiagram k (Fin n))
+@[simp] theorem auxiliaryProduct_map (V₁ V₂ : AuxiliaryQuiverModuleData k (Fin n))
     {a b : Fin n} (f : a ⟶ b) :
     (binaryConstruction k (Fin n) V₁ V₂).map f = (V₁.map f).prodMap (V₂.map f) := rfl
 
 
 /-- A vertexwise linear equivalence commuting with every quiver arrow also commutes after evaluation on a vector. -/
-theorem Related.commutes_apply {V W : QuiverLinearDiagram k (Fin n)}
+theorem Related.commutes_apply {V W : AuxiliaryQuiverModuleData k (Fin n)}
     {e : ∀ v, V.obj v ≃ₗ[k] W.obj v}
     (he : ∀ {a b : Fin n} (f : a ⟶ b),
       (e b).toLinearMap ∘ₗ V.map f = W.map f ∘ₗ (e a).toLinearMap)
@@ -68,14 +68,14 @@ theorem Related.commutes_apply {V W : QuiverLinearDiagram k (Fin n)}
 
 /-- Every auxiliary quiver representation is related to itself. -/
 @[refl]
-theorem Related.refl (V : QuiverLinearDiagram k (Fin n)) : V.Related V :=
+theorem Related.refl (V : AuxiliaryQuiverModuleData k (Fin n)) : V.Related V :=
   ⟨fun v => LinearEquiv.refl k (V.obj v), by
     intro a b f
     ext x
     simp⟩
 
 /-- Auxiliary relations between quiver representations compose transitively. -/
-theorem Related.trans {U V W : QuiverLinearDiagram k (Fin n)}
+theorem Related.trans {U V W : AuxiliaryQuiverModuleData k (Fin n)}
     (h₁ : U.Related V) (h₂ : V.Related W) : U.Related W := by
   obtain ⟨e, he⟩ := h₁
   obtain ⟨e', he'⟩ := h₂
@@ -86,7 +86,7 @@ theorem Related.trans {U V W : QuiverLinearDiagram k (Fin n)}
   rw [Related.commutes_apply he f x, Related.commutes_apply he' f (e a x)]
 
 /-- An auxiliary relation between quiver representations can be reversed. -/
-theorem Related.symm {V W : QuiverLinearDiagram k (Fin n)}
+theorem Related.symm {V W : AuxiliaryQuiverModuleData k (Fin n)}
     (h : V.Related W) : W.Related V := by
   obtain ⟨e, he⟩ := h
   refine ⟨fun v => (e v).symm, ?_⟩
@@ -98,7 +98,7 @@ theorem Related.symm {V W : QuiverLinearDiagram k (Fin n)}
 
 
 /-- Auxiliary relations between two pairs of quiver representations induce a relation between their products. -/
-theorem Related.prod {V₁ V₂ W₁ W₂ : QuiverLinearDiagram k (Fin n)}
+theorem Related.prod {V₁ V₂ W₁ W₂ : AuxiliaryQuiverModuleData k (Fin n)}
     (h₁ : V₁.Related W₁) (h₂ : V₂.Related W₂) :
     (binaryConstruction k (Fin n) V₁ V₂).Related (binaryConstruction k (Fin n) W₁ W₂) := by
   obtain ⟨e₁, he₁⟩ := h₁
@@ -118,13 +118,13 @@ variable {k : Type*} [Field k] {n : ℕ} [Q : Quiver (Fin n)]
 
 
 /-- The auxiliary zero quiver representation over a field. -/
-def auxiliaryZero : QuiverLinearDiagram k (Fin n) where
+def auxiliaryZero : AuxiliaryQuiverModuleData k (Fin n) where
   obj := fun _ => PUnit.{1}
   map := fun _ => 0
 
 
 /-- A representation with subsingleton vertex spaces is related to the auxiliary zero representation. -/
-theorem auxiliaryRelation_zero_of_subsingleton (V : QuiverLinearDiagram k (Fin n))
+theorem auxiliaryRelation_zero_of_subsingleton (V : AuxiliaryQuiverModuleData k (Fin n))
     (h : ∀ v, Subsingleton (V.obj v)) : V.Related auxiliaryZero := by
   refine ⟨fun v => ?_, ?_⟩
   · haveI := h v
@@ -135,29 +135,29 @@ theorem auxiliaryRelation_zero_of_subsingleton (V : QuiverLinearDiagram k (Fin n
              left_inv := fun x => Subsingleton.elim _ _
              right_inv := fun x => Subsingleton.elim _ _ } : V.obj v ≃ₗ[k] PUnit.{1})
   · intro a b f
-    haveI : Subsingleton ((auxiliaryZero : QuiverLinearDiagram k (Fin n)).obj b) :=
+    haveI : Subsingleton ((auxiliaryZero : AuxiliaryQuiverModuleData k (Fin n)).obj b) :=
       (inferInstance : Subsingleton PUnit)
     ext x
     exact Subsingleton.elim _ _
 
 
 /-- Combines a list of auxiliary quiver representations into one representation. -/
-noncomputable def auxiliaryListProduct (L : List (QuiverLinearDiagram k (Fin n))) :
-    QuiverLinearDiagram k (Fin n) :=
+noncomputable def auxiliaryListProduct (L : List (AuxiliaryQuiverModuleData k (Fin n))) :
+    AuxiliaryQuiverModuleData k (Fin n) :=
   L.foldr (binaryConstruction k (Fin n)) auxiliaryZero
 
 /-- The auxiliary product of the empty list is the auxiliary zero representation. -/
 @[simp] theorem auxiliaryListProduct_nil :
-    auxiliaryListProduct ([] : List (QuiverLinearDiagram k (Fin n))) = auxiliaryZero := rfl
+    auxiliaryListProduct ([] : List (AuxiliaryQuiverModuleData k (Fin n))) = auxiliaryZero := rfl
 
 /-- The auxiliary product of a nonempty list is the product of its head with the product of its tail. -/
-@[simp] theorem auxiliaryListProduct_cons (a : QuiverLinearDiagram k (Fin n))
-    (L : List (QuiverLinearDiagram k (Fin n))) :
+@[simp] theorem auxiliaryListProduct_cons (a : AuxiliaryQuiverModuleData k (Fin n))
+    (L : List (AuxiliaryQuiverModuleData k (Fin n))) :
     auxiliaryListProduct (a :: L) = binaryConstruction k (Fin n) a (auxiliaryListProduct L) := rfl
 
 
 /-- An auxiliary representation is related to its product with the auxiliary zero representation on the right. -/
-theorem auxiliaryProduct_zero_right (V : QuiverLinearDiagram k (Fin n)) :
+theorem auxiliaryProduct_zero_right (V : AuxiliaryQuiverModuleData k (Fin n)) :
     V.Related (binaryConstruction k (Fin n) V auxiliaryZero) := by
   refine ⟨fun v => (LinearEquiv.prodUnique (R := k) (M := V.obj v) (M₂ := PUnit)).symm, ?_⟩
   intro a b f
@@ -165,7 +165,7 @@ theorem auxiliaryProduct_zero_right (V : QuiverLinearDiagram k (Fin n)) :
 
 
 /-- The product of the auxiliary zero representation with a representation is related to that representation. -/
-theorem auxiliaryProduct_zero_left (V : QuiverLinearDiagram k (Fin n)) :
+theorem auxiliaryProduct_zero_left (V : AuxiliaryQuiverModuleData k (Fin n)) :
     (binaryConstruction k (Fin n) auxiliaryZero V).Related V := by
   refine ⟨fun v => LinearEquiv.uniqueProd (R := k) (M := V.obj v) (M₂ := PUnit), ?_⟩
   intro a b f
@@ -173,7 +173,7 @@ theorem auxiliaryProduct_zero_left (V : QuiverLinearDiagram k (Fin n)) :
 
 
 /-- The two parenthesizations of a triple auxiliary product are related. -/
-theorem auxiliaryProduct_assoc (A B C : QuiverLinearDiagram k (Fin n)) :
+theorem auxiliaryProduct_assoc (A B C : AuxiliaryQuiverModuleData k (Fin n)) :
     (binaryConstruction k (Fin n) (binaryConstruction k (Fin n) A B) C).Related
       (binaryConstruction k (Fin n) A (binaryConstruction k (Fin n) B C)) := by
   refine ⟨fun v => LinearEquiv.prodAssoc k (A.obj v) (B.obj v) (C.obj v), ?_⟩
@@ -183,7 +183,7 @@ theorem auxiliaryProduct_assoc (A B C : QuiverLinearDiagram k (Fin n)) :
 
 /-- The product of the auxiliary list products is related to the auxiliary product of the appended lists. -/
 theorem auxiliaryListProduct_append
-    (LA LB : List (QuiverLinearDiagram k (Fin n))) :
+    (LA LB : List (AuxiliaryQuiverModuleData k (Fin n))) :
     (binaryConstruction k (Fin n) (auxiliaryListProduct LA) (auxiliaryListProduct LB)).Related
       (auxiliaryListProduct (LA ++ LB)) := by
   induction LA with
@@ -206,20 +206,20 @@ variable {k : Type*} [Field k] {n : ℕ} [Q : Quiver (Fin n)]
 
 
 /-- Builds an auxiliary quiver representation from a vertexwise family of submodules preserved by every arrow map. -/
-def auxiliarySubobject (V : QuiverLinearDiagram k (Fin n)) (W : ∀ v, Submodule k (V.obj v))
+def auxiliarySubobject (V : AuxiliaryQuiverModuleData k (Fin n)) (W : ∀ v, Submodule k (V.obj v))
     (hW : ∀ {a b : Fin n} (e : a ⟶ b), ∀ x ∈ W a, V.map e x ∈ W b) :
-    QuiverLinearDiagram k (Fin n) where
+    AuxiliaryQuiverModuleData k (Fin n) where
   obj := fun v => W v
   map := fun {_a _b} e => (V.map e).restrict (hW e)
 
 /-- The vertex space of the auxiliary subobject is the corresponding submodule subtype. -/
-@[simp] theorem auxiliarySubobject_obj (V : QuiverLinearDiagram k (Fin n)) (W) (hW) (v : Fin n) :
+@[simp] theorem auxiliarySubobject_obj (V : AuxiliaryQuiverModuleData k (Fin n)) (W) (hW) (v : Fin n) :
     (auxiliarySubobject V W hW).obj v = W v := rfl
 
 
 
 /-- Pointwise complementary invariant submodules give an auxiliary relation between a representation and the product of the associated subobjects. -/
-theorem auxiliaryProduct_subobjects_of_isCompl (V : QuiverLinearDiagram k (Fin n))
+theorem auxiliaryProduct_subobjects_of_isCompl (V : AuxiliaryQuiverModuleData k (Fin n))
     (W₁ W₂ : ∀ v, Submodule k (V.obj v))
     (hW₁ : ∀ {a b : Fin n} (e : a ⟶ b), ∀ x ∈ W₁ a, V.map e x ∈ W₁ b)
     (hW₂ : ∀ {a b : Fin n} (e : a ⟶ b), ∀ x ∈ W₂ a, V.map e x ∈ W₂ b)
@@ -283,15 +283,15 @@ theorem finrank_pos_of_ne_bot {k M : Type*} [Field k] [AddCommGroup M] [Module k
 
 /-- A representation with finite vertex modules is related to the auxiliary product of a list whose members satisfy the displayed property. -/
 theorem auxiliary_exists_list_of_property {k : Type uk} [Field k] {n : ℕ} [Quiver.{uh} (Fin n)]
-    (V : QuiverLinearDiagram.{uk, 0, 0, uh} k (Fin n))
+    (V : AuxiliaryQuiverModuleData.{uk, 0, 0, uh} k (Fin n))
     [∀ v, Module.Finite k (V.obj v)] :
-    ∃ L : List (QuiverLinearDiagram.{uk, 0, 0, uh} k (Fin n)),
+    ∃ L : List (AuxiliaryQuiverModuleData.{uk, 0, 0, uh} k (Fin n)),
       (∀ W ∈ L, W.AuxiliaryCondition) ∧ V.Related (auxiliaryListProduct L) := by
 
-  suffices H : ∀ N, ∀ (V : QuiverLinearDiagram.{uk, 0, 0, uh} k (Fin n))
+  suffices H : ∀ N, ∀ (V : AuxiliaryQuiverModuleData.{uk, 0, 0, uh} k (Fin n))
       [∀ v, Module.Finite k (V.obj v)],
       (∑ v, Module.finrank k (V.obj v)) = N →
-      ∃ L : List (QuiverLinearDiagram.{uk, 0, 0, uh} k (Fin n)),
+      ∃ L : List (AuxiliaryQuiverModuleData.{uk, 0, 0, uh} k (Fin n)),
         (∀ W ∈ L, W.AuxiliaryCondition) ∧ V.Related (auxiliaryListProduct L) by
     exact H _ V rfl
   intro N
@@ -366,4 +366,4 @@ theorem auxiliary_exists_list_of_property {k : Type uk} [Field k] {n : ℕ} [Qui
 
 end Existence
 
-end RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
+end RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData

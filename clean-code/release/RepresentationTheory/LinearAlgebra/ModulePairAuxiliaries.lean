@@ -10,24 +10,24 @@ import RepresentationTheory.Alignment.Attribute
 # Data relating pairs of modules
 -/
 
-namespace RepresentationTheory.LinearAlgebra.ModulePairData
+namespace RepresentationTheory.LinearAlgebra.ModulePairAuxiliaries
 
-/-- Data parameterized by an ordered pair of modules over one ring. -/
+/-- An auxiliary type associated with two modules over a common ring. -/
 @[source_ref "Chapter2/Definition2.3.6" (role := supporting)]
-abbrev ModulePairDatum (A : Type*) (V₁ V₂ : Type*) [Ring A]
+abbrev ModulePairAuxiliary (A : Type*) (V₁ V₂ : Type*) [Ring A]
     [AddCommGroup V₁] [AddCommGroup V₂] [Module A V₁] [Module A V₂] :=
   V₁ ≃ₗ[A] V₂
 
-/-- A further type of data attached to two modules with the same scalars. -/
+/-- A second auxiliary type associated with two modules over a common ring. -/
 @[source_ref "Chapter2/Definition2.3.6" (role := supporting)]
-abbrev ModulePairWitness (A : Type*) (V₁ V₂ : Type*) [Ring A]
+abbrev ModulePairAuxiliary' (A : Type*) (V₁ V₂ : Type*) [Ring A]
     [AddCommGroup V₁] [AddCommGroup V₂] [Module A V₁] [Module A V₂] :=
   V₁ →ₗ[A] V₂
 
-/-- A relation between two modules over a common ring. -/
+/-- An auxiliary predicate on two modules over a common ring. -/
 @[source_ref "Chapter2/Definition2.3.6" (role := supporting)]
-abbrev ModulePairRelation (A : Type*) (V₁ V₂ : Type*) [Ring A]
+abbrev AuxiliaryModulePairPredicate (A : Type*) (V₁ V₂ : Type*) [Ring A]
     [AddCommGroup V₁] [AddCommGroup V₂] [Module A V₁] [Module A V₂] : Prop :=
-  Nonempty (ModulePairDatum A V₁ V₂)
+  Nonempty (ModulePairAuxiliary A V₁ V₂)
 
-end RepresentationTheory.LinearAlgebra.ModulePairData
+end RepresentationTheory.LinearAlgebra.ModulePairAuxiliaries

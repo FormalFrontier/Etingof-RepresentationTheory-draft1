@@ -13,8 +13,8 @@ import RepresentationTheory.Alignment.Attribute
 Normal forms and auxiliary classification results for two-dimensional representations of finite acyclic quivers.
 -/
 
-open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams (QuiverLinearDiagram)
-open RepresentationTheory.CategoryTheory.QuiverLinearMaps (QuiverLinearEquiv)
+open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams (AuxiliaryQuiverModuleData)
+open RepresentationTheory.CategoryTheory.QuiverLinearMaps (AuxiliaryQuiverEquivData)
 open RepresentationTheory.Quiver.Auxiliary (auxiliaryObjectAtVertex auxiliaryVertexValue)
 open RepresentationTheory.Quiver.AuxiliaryConstructions (HasAuxiliaryQuiverProperty)
 
@@ -22,23 +22,23 @@ open Module (finrank)
 
 variable {k Q : Type*} [Field k] [Quiver Q]
 
-namespace RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearEquiv
+namespace RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverEquivData
 
-variable {ρ σ τ : QuiverLinearDiagram k Q}
+variable {ρ σ τ : AuxiliaryQuiverModuleData k Q}
 
 /-- The reflexive displayed equivalence of a quiver representation with itself. -/
-def refl (ρ : QuiverLinearDiagram k Q) : QuiverLinearEquiv k Q ρ ρ where
+def refl (ρ : AuxiliaryQuiverModuleData k Q) : AuxiliaryQuiverEquivData k Q ρ ρ where
   app _ := LinearEquiv.refl k _
   naturality _ _ := rfl
 
 /-- Equivalent quiver representations have equal displayed dimensions at every vertex. -/
-theorem dimension_eq (φ : QuiverLinearEquiv k Q ρ σ) (v : Q) :
+theorem dimension_eq (φ : AuxiliaryQuiverEquivData k Q ρ σ) (v : Q) :
     auxiliaryVertexValue ρ v = auxiliaryVertexValue σ v := by
   letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
   letI : AddCommGroup (σ.obj v) := Module.addCommMonoidToAddCommGroup k
   exact (φ.app v).finrank_eq
 
-end RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearEquiv
+end RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverEquivData
 
 namespace RepresentationTheory.Quiver.TwoDimensionalRepresentations
 
@@ -138,7 +138,7 @@ variable {k Q : Type*} [Field k] [Quiver Q]
 /-- A quiver representation determined by two vertices and scalar coefficient data on arrows. -/
 @[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 noncomputable def twoVertexRepresentation [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
-    QuiverLinearDiagram k Q where
+    AuxiliaryQuiverModuleData k Q where
   obj v := (Fin (if v = i then 1 else 0) → k) × (Fin (if v = j then 1 else 0) → k)
   map {a b} e :=
     (LinearMap.inr k _ _).comp
@@ -212,8 +212,8 @@ theorem twoVertexRepresentation_zero_arrowMap [DecidableEq Q] (i j : Q) {a b : Q
 /-- Displayed equivalence data between the zero-coefficient two-vertex representation and an auxiliary construction on its two vertices. -/
 @[source_ref "Chapter3/Problem3.9.3" (role := primary)]
 noncomputable def zeroTwoVertexAuxiliaryEquiv [DecidableEq Q] (i j : Q) :
-    QuiverLinearEquiv k Q (twoVertexRepresentation i j (0 : (Σ a b : Q, (a ⟶ b)) → k))
-      (QuiverLinearDiagram.binaryConstruction k Q (auxiliaryObjectAtVertex i) (auxiliaryObjectAtVertex j)) where
+    AuxiliaryQuiverEquivData k Q (twoVertexRepresentation i j (0 : (Σ a b : Q, (a ⟶ b)) → k))
+      (AuxiliaryQuiverModuleData.binaryConstruction k Q (auxiliaryObjectAtVertex i) (auxiliaryObjectAtVertex j)) where
   app _ := LinearEquiv.refl k _
   naturality e x := by
     have h1 : ((twoVertexRepresentation (k := k) i j (0 : (Σ a b : Q, (a ⟶ b)) → k)).map e) x = 0 := by
@@ -388,16 +388,16 @@ theorem not_auxiliaryProperty_twoVertexRepresentation_zero [DecidableEq Q] (i j 
       exact this _ (LinearMap.mem_range_self _ _))
 
 /-- Transports a linear equivalence between two representation spaces along an equality of vertices. -/
-def linearEquivOfVertexEq {ρ σ : QuiverLinearDiagram k Q} {v w : Q} (h : v = w)
+def linearEquivOfVertexEq {ρ σ : AuxiliaryQuiverModuleData k Q} {v w : Q} (h : v = w)
     (φ : ρ.obj w ≃ₗ[k] σ.obj w) : ρ.obj v ≃ₗ[k] σ.obj v := by
   subst h; exact φ
 
 /-- Transporting a vertex-space linear equivalence along reflexivity leaves it unchanged. -/
-@[simp] theorem linearEquivOfVertexEq_rfl {ρ σ : QuiverLinearDiagram k Q} {v : Q}
+@[simp] theorem linearEquivOfVertexEq_rfl {ρ σ : AuxiliaryQuiverModuleData k Q} {v : Q}
     (φ : ρ.obj v ≃ₗ[k] σ.obj v) : linearEquivOfVertexEq (rfl : v = v) φ = φ := rfl
 
 /-- The scalar coefficient of an arrow map after choosing linear equivalences from its source and target vertex spaces to the field. -/
-noncomputable def arrowCoefficient [DecidableEq Q] {ρ : QuiverLinearDiagram k Q} {i j : Q}
+noncomputable def arrowCoefficient [DecidableEq Q] {ρ : AuxiliaryQuiverModuleData k Q} {i j : Q}
     (α : ρ.obj i ≃ₗ[k] k) (β : ρ.obj j ≃ₗ[k] k) : (Σ a b : Q, (a ⟶ b)) → k :=
   fun p =>
     if h : p.1 = i then
@@ -405,13 +405,13 @@ noncomputable def arrowCoefficient [DecidableEq Q] {ρ : QuiverLinearDiagram k Q
     else 0
 
 /-- The coefficient of an arrow is obtained by applying its target equivalence to the arrow map evaluated at the inverse image of one under its source equivalence. -/
-theorem arrowCoefficient_apply [DecidableEq Q] {ρ : QuiverLinearDiagram k Q} {i j : Q}
+theorem arrowCoefficient_apply [DecidableEq Q] {ρ : AuxiliaryQuiverModuleData k Q} {i j : Q}
     (α : ρ.obj i ≃ₗ[k] k) (β : ρ.obj j ≃ₗ[k] k) (e : i ⟶ j) :
     arrowCoefficient α β ⟨i, j, e⟩ = β (ρ.map e (α.symm 1)) := by
   simp [arrowCoefficient]
 
 /-- Auxiliary coefficient data associated with a quiver representation and a displayed two-vertex representation. -/
-noncomputable def auxiliaryCoefficientData [DecidableEq Q] {ρ : QuiverLinearDiagram k Q} {i j : Q}
+noncomputable def auxiliaryCoefficientData [DecidableEq Q] {ρ : AuxiliaryQuiverModuleData k Q} {i j : Q}
     (hij : i ≠ j) (α : ρ.obj i ≃ₗ[k] k) (β : ρ.obj j ≃ₗ[k] k)
     (htriv : ∀ v, v ≠ i → v ≠ j → Subsingleton (ρ.obj v))
     (c : (Σ a b : Q, (a ⟶ b)) → k) (v : Q) :
@@ -426,7 +426,7 @@ noncomputable def auxiliaryCoefficientData [DecidableEq Q] {ρ : QuiverLinearDia
 
 section NormalFormEquivAt
 
-variable [DecidableEq Q] {ρ : QuiverLinearDiagram k Q} {i j : Q} (hij : i ≠ j)
+variable [DecidableEq Q] {ρ : AuxiliaryQuiverModuleData k Q} {i j : Q} (hij : i ≠ j)
   (α : ρ.obj i ≃ₗ[k] k) (β : ρ.obj j ≃ₗ[k] k)
   (htriv : ∀ v, v ≠ i → v ≠ j → Subsingleton (ρ.obj v)) (c : (Σ a b : Q, (a ⟶ b)) → k)
 
@@ -445,11 +445,11 @@ theorem auxiliary_fact9 (y : ρ.obj j) :
 end NormalFormEquivAt
 
 /-- A representation supported on two distinct one-dimensional vertex spaces, with all other relevant arrow maps zero, is equivalent to the associated two-vertex representation. -/
-theorem nonempty_equiv_twoVertexRepresentation_of_support [DecidableEq Q] {ρ : QuiverLinearDiagram k Q} {i j : Q}
+theorem nonempty_equiv_twoVertexRepresentation_of_support [DecidableEq Q] {ρ : AuxiliaryQuiverModuleData k Q} {i j : Q}
     (hij : i ≠ j) (α : ρ.obj i ≃ₗ[k] k) (β : ρ.obj j ≃ₗ[k] k)
     (htriv : ∀ v, v ≠ i → v ≠ j → Subsingleton (ρ.obj v))
     (hzero : ∀ {a b : Q} (e : a ⟶ b), a ≠ i ∨ b ≠ j → ρ.map e = 0) :
-    Nonempty (QuiverLinearEquiv k Q ρ (twoVertexRepresentation i j (arrowCoefficient α β))) := by
+    Nonempty (AuxiliaryQuiverEquivData k Q ρ (twoVertexRepresentation i j (arrowCoefficient α β))) := by
   refine ⟨⟨auxiliaryCoefficientData hij α β htriv (arrowCoefficient α β), ?_⟩⟩
   intro a b e x
   by_cases ha : a = i
@@ -488,13 +488,13 @@ theorem nonempty_equiv_twoVertexRepresentation_of_support [DecidableEq Q] {ρ : 
     rfl
 
 /-- Two finite free quiver representations with zero arrow maps and equal vertex dimensions admit the displayed representation equivalence. -/
-theorem nonempty_equiv_of_arrowMap_eq_zero_of_dimension_eq (ρ σ : QuiverLinearDiagram k Q)
+theorem nonempty_equiv_of_arrowMap_eq_zero_of_dimension_eq (ρ σ : AuxiliaryQuiverModuleData k Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     [∀ v, Module.Free k (σ.obj v)] [∀ v, Module.Finite k (σ.obj v)]
     (hρ : ∀ {a b : Q} (e : a ⟶ b), ρ.map e = 0)
     (hσ : ∀ {a b : Q} (e : a ⟶ b), σ.map e = 0)
     (hdim : ∀ v, auxiliaryVertexValue ρ v = auxiliaryVertexValue σ v) :
-    Nonempty (QuiverLinearEquiv k Q ρ σ) := by
+    Nonempty (AuxiliaryQuiverEquivData k Q ρ σ) := by
   have hE : ∀ v, Nonempty (ρ.obj v ≃ₗ[k] σ.obj v) := by
     intro v
     letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
@@ -505,7 +505,7 @@ theorem nonempty_equiv_of_arrowMap_eq_zero_of_dimension_eq (ρ σ : QuiverLinear
   rw [hρ e, LinearMap.zero_apply, map_zero, hσ e, LinearMap.zero_apply]
 
 /-- A finite free vertex space whose displayed dimension is zero is a subsingleton. -/
-theorem vertexSpace_subsingleton_of_dimension_eq_zero {ρ : QuiverLinearDiagram k Q}
+theorem vertexSpace_subsingleton_of_dimension_eq_zero {ρ : AuxiliaryQuiverModuleData k Q}
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)] {v : Q}
     (h : auxiliaryVertexValue ρ v = 0) : Subsingleton (ρ.obj v) := by
   letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
@@ -516,7 +516,7 @@ theorem vertexSpace_subsingleton_of_dimension_eq_zero {ρ : QuiverLinearDiagram 
   omega
 
 /-- A finite free vertex space of dimension one is nonempty linearly equivalent to the base field. -/
-theorem nonempty_linearEquiv_finrank_one {ρ : QuiverLinearDiagram k Q}
+theorem nonempty_linearEquiv_finrank_one {ρ : AuxiliaryQuiverModuleData k Q}
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)] {v : Q}
     (h : auxiliaryVertexValue ρ v = 1) : Nonempty (ρ.obj v ≃ₗ[k] k) := by
   letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
@@ -564,14 +564,14 @@ theorem support_of_sum_eq_two {Q : Type*} [Fintype Q] (d : Q → ℕ) (h2 : ∑ 
 /-- Under the displayed quiver hypothesis, a representation of total dimension two is equivalent to a two-vertex representation, either with zero coefficients or with a specified nonzero arrow coefficient. -/
 @[source_ref "Chapter3/Problem3.9.3" (role := primary)]
 theorem exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two [DecidableEq Q] [Fintype Q]
-    (hQ : HasAuxiliaryQuiverProperty Q) (ρ : QuiverLinearDiagram k Q)
+    (hQ : HasAuxiliaryQuiverProperty Q) (ρ : AuxiliaryQuiverModuleData k Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     (h2 : ∑ v, auxiliaryVertexValue ρ v = 2) :
-    (∃ i j : Q, Nonempty (QuiverLinearEquiv k Q ρ
+    (∃ i j : Q, Nonempty (AuxiliaryQuiverEquivData k Q ρ
         (twoVertexRepresentation i j (0 : (Σ a b : Q, (a ⟶ b)) → k))))
       ∨ (∃ (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) (e₀ : i ⟶ j),
           i ≠ j ∧ c ⟨i, j, e₀⟩ ≠ 0 ∧
-            Nonempty (QuiverLinearEquiv k Q ρ (twoVertexRepresentation i j c))) := by
+            Nonempty (AuxiliaryQuiverEquivData k Q ρ (twoVertexRepresentation i j c))) := by
   classical
 
   have hnoloop : ∀ v : Q, IsEmpty (v ⟶ v) := by
@@ -591,7 +591,7 @@ theorem exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two [Decidable
       (∀ v, v ≠ u → v ≠ w → auxiliaryVertexValue ρ v = 0) → ∀ e₀ : u ⟶ w, ρ.map e₀ ≠ 0 →
       (∃ (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) (e : i ⟶ j),
         i ≠ j ∧ c ⟨i, j, e⟩ ≠ 0 ∧
-          Nonempty (QuiverLinearEquiv k Q ρ (twoVertexRepresentation i j c))) := by
+          Nonempty (AuxiliaryQuiverEquivData k Q ρ (twoVertexRepresentation i j c))) := by
     intro u w huw hu1 hw1 h0 e₀ hne0
     have htriv : ∀ v, v ≠ u → v ≠ w → Subsingleton (ρ.obj v) :=
       fun v h1 h2 => vertexSpace_subsingleton_of_dimension_eq_zero (h0 v h1 h2)
@@ -708,7 +708,7 @@ theorem exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two [Decidable
 @[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 noncomputable def auxiliaryTwoVertexEquiv [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k)
     {t : k} (ht : t ≠ 0) :
-    QuiverLinearEquiv k Q (twoVertexRepresentation i j c) (twoVertexRepresentation i j fun p => t * c p) where
+    AuxiliaryQuiverEquivData k Q (twoVertexRepresentation i j c) (twoVertexRepresentation i j fun p => t * c p) where
   app v := (LinearEquiv.refl k (Fin (if v = i then 1 else 0) → k)).prodCongr
     (LinearEquiv.smulOfNeZero k (Fin (if v = j then 1 else 0) → k) t ht)
   naturality e x := by
@@ -721,7 +721,7 @@ noncomputable def auxiliaryTwoVertexEquiv [DecidableEq Q] (i j : Q) (c : (Σ a b
 @[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 theorem auxiliary_fact3 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c c' : (Σ a b : Q, (a ⟶ b)) → k)
-    (φ : QuiverLinearEquiv k Q (twoVertexRepresentation i j c) (twoVertexRepresentation i j c')) :
+    (φ : AuxiliaryQuiverEquivData k Q (twoVertexRepresentation i j c) (twoVertexRepresentation i j c')) :
     ∃ t : k, t ≠ 0 ∧ ∀ e : i ⟶ j, c' ⟨i, j, e⟩ = t * c ⟨i, j, e⟩ := by
   haveI hsub_i : Subsingleton (Fin (if i = j then 1 else 0) → k) :=
     finFunction_subsingleton_of_eq_zero (if_neg hij)
@@ -773,7 +773,7 @@ theorem auxiliary_fact3 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
 @[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 theorem auxiliary_fact20 [DecidableEq Q] {i j i' j' : Q}
     (c c' : (Σ a b : Q, (a ⟶ b)) → k)
-    (φ : QuiverLinearEquiv k Q (twoVertexRepresentation i j c) (twoVertexRepresentation i' j' c')) :
+    (φ : AuxiliaryQuiverEquivData k Q (twoVertexRepresentation i j c) (twoVertexRepresentation i' j' c')) :
     (i = i' ∧ j = j') ∨ (i = j' ∧ j = i') := by
   have hd : ∀ v : Q, (if v = i then 1 else 0) + (if v = j then 1 else 0)
       = (if v = i' then 1 else 0) + (if v = j' then 1 else 0) := by
@@ -817,8 +817,8 @@ theorem auxiliary_fact20 [DecidableEq Q] {i j i' j' : Q}
       exact hij.symm.trans hij'
 
 /-- The displayed predicate on quiver representations is preserved by the displayed representation equivalence. -/
-theorem auxiliaryProperty_of_equiv {ρ σ : QuiverLinearDiagram k Q}
-    (φ : QuiverLinearEquiv k Q ρ σ) (h : ρ.AuxiliaryCondition) : σ.AuxiliaryCondition := by
+theorem auxiliaryProperty_of_equiv {ρ σ : AuxiliaryQuiverModuleData k Q}
+    (φ : AuxiliaryQuiverEquivData k Q ρ σ) (h : ρ.AuxiliaryCondition) : σ.AuxiliaryCondition := by
   obtain ⟨⟨v₀, hv₀⟩, hdec⟩ := h
   refine ⟨⟨v₀, ?_⟩, ?_⟩
   · obtain ⟨x, y, hxy⟩ := hv₀
@@ -873,7 +873,7 @@ theorem auxiliary_fact17 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
 /-- Under the displayed quiver hypothesis, a representation of total dimension two either fails the displayed predicate or has a bijective arrow map between distinct vertices. -/
 @[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 theorem not_auxiliaryProperty_or_exists_bijectiveArrow_of_totalDimension_eq_two [Fintype Q]
-    (hQ : HasAuxiliaryQuiverProperty Q) (ρ : QuiverLinearDiagram k Q)
+    (hQ : HasAuxiliaryQuiverProperty Q) (ρ : AuxiliaryQuiverModuleData k Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     (h2 : ∑ v, auxiliaryVertexValue ρ v = 2) :
     (¬ ρ.AuxiliaryCondition)

@@ -15,18 +15,18 @@ Constructions relating module structures to algebra homomorphisms into linear en
 
 namespace RepresentationTheory.Algebra.ModuleActions
 
-/-- A type of action structures for a ring on an additive commutative group. -/
+/-- An auxiliary type associated with a ring and an additive commutative group. -/
 @[source_ref "Chapter2/Example2.3.3/Derived4" (role := supporting),
   source_ref "Chapter2/Discussion_2.1_overview/Derived5" (role := supporting)]
-abbrev RingActionStructure (A : Type*) (V : Type*) [Ring A] [AddCommGroup V] :=
+abbrev RingAddCommGroupAuxiliary (A : Type*) (V : Type*) [Ring A] [AddCommGroup V] :=
   Module A V
 
-/-- An auxiliary type of action structures for a ring on an additive commutative group. -/
+/-- A second auxiliary type associated with a ring and an additive commutative group. -/
 @[source_ref "Chapter2/Definition2.3.1" (role := supporting)]
-abbrev RingActionStructureAux (A : Type*) (V : Type*) [Ring A] [AddCommGroup V] :=
+abbrev RingAddCommGroupAuxiliary' (A : Type*) (V : Type*) [Ring A] [AddCommGroup V] :=
   Module Aᵐᵒᵖ V
 
-namespace RingActionStructure
+namespace RingAddCommGroupAuxiliary
 
 section Associativity
 
@@ -138,6 +138,6 @@ theorem oppositeActionAlgHom_apply (a : A) (v : V) :
 
 end OppositeActionAlgHom
 
-end RingActionStructure
+end RingAddCommGroupAuxiliary
 
 end RepresentationTheory.Algebra.ModuleActions

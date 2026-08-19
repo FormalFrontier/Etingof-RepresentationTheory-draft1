@@ -14,8 +14,8 @@ section QuiverRepresentationIso
 variable {k : Type*} [Field k] {n : ℕ} {Q : Quiver (Fin n)}
 
 /-- The binary relation between two objects over the same finite quiver and base field. -/
-def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.Related
-    (V W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k (Fin n) _ Q) : Prop :=
+def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.Related
+    (V W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k (Fin n) _ Q) : Prop :=
   ∃ (e : ∀ v, V.obj v ≃ₗ[k] W.obj v),
     ∀ {a b : Fin n} (f : a ⟶ b),
       (e b).toLinearMap ∘ₗ V.map f = W.map f ∘ₗ (e a).toLinearMap
@@ -32,10 +32,10 @@ def RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix (n : ℕ) (adj : Matrix
       (Q : @Quiver.{0, 0} (Fin n))
       [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)],
       @RepresentationTheory.Quiver.MatrixOrientation.IsMatrixOrientation n Q adj →
-        ∃ reps : Set (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{0, 0, 0, 0} k (Fin n)),
+        ∃ reps : Set (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{0, 0, 0, 0} k (Fin n)),
           reps.Finite ∧
           (∀ V ∈ reps, V.AuxiliaryCondition) ∧
-          ∀ (W : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{0, 0, 0, 0} k (Fin n)),
+          ∀ (W : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{0, 0, 0, 0} k (Fin n)),
             (∀ v, Module.Free k (W.obj v)) → (∀ v, Module.Finite k (W.obj v)) →
               W.AuxiliaryCondition → ∃ V ∈ reps, W.Related V
 

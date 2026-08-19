@@ -143,33 +143,33 @@ theorem finFourQuiverD_hasAuxPropertyAtThree : @RepresentationTheory.QuiverVerte
         omega
 
 /-- An auxiliary complex-valued construction indexed by the vertices of `finFourQuiverA`. -/
-noncomputable abbrev finFourDiagramA : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ (Fin 4) _ finFourQuiverA :=
+noncomputable abbrev finFourDiagramA : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ (Fin 4) _ finFourQuiverA :=
   RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliaryRepresentation ℂ 3
 
 /-- An auxiliary complex-valued construction associated with `finFourQuiverB`. -/
-noncomputable abbrev finFourDiagramB : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ (Fin 4) _ finFourQuiverB :=
+noncomputable abbrev finFourDiagramB : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ (Fin 4) _ finFourQuiverB :=
   @RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation ℂ _ (Fin 4) _ finFourQuiverA 0 source₀ finFourDiagramA finFourQuiverA_auxFintypeAtZero
 
 /-- An auxiliary complex-valued construction associated with `finFourQuiverC`. -/
-noncomputable abbrev finFourDiagramC : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ (Fin 4) _ finFourQuiverC :=
+noncomputable abbrev finFourDiagramC : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ (Fin 4) _ finFourQuiverC :=
   @RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation ℂ _ (Fin 4) _ finFourQuiverB 1 source₁ finFourDiagramB finFourQuiverB_auxFintypeAtOne
 
 /-- An auxiliary complex-valued construction associated with `finFourQuiverD`. -/
-noncomputable abbrev finFourDiagramD : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ (Fin 4) _ finFourQuiverD :=
+noncomputable abbrev finFourDiagramD : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ (Fin 4) _ finFourQuiverD :=
   @RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation ℂ _ (Fin 4) _ finFourQuiverC 2 source₂ finFourDiagramC finFourQuiverC_auxFintypeAtTwo
 
 /-- An auxiliary complex-valued construction based on `finFourQuiverACopy`. -/
-noncomputable abbrev finFourDiagramACopy : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ (Fin 4) _ finFourQuiverACopy :=
+noncomputable abbrev finFourDiagramACopy : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ (Fin 4) _ finFourQuiverACopy :=
   @RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation ℂ _ (Fin 4) _ finFourQuiverD 3 finFourQuiverD_hasAuxPropertyAtThree finFourDiagramD finFourQuiverD_auxFintypeAtThree
 
 private lemma reflected_free_ne
     {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ Q)
     [∀ v, Module.Free ℂ (ρ.obj v)]
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     (v : Q) (hv : v ≠ i) :
-    Module.Free ℂ (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ Q _
+    Module.Free ℂ (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ Q _
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ) v) :=
   Module.Free.of_equiv (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe hi ρ v hv).symm
@@ -177,11 +177,11 @@ private lemma reflected_free_ne
 private lemma reflected_finite_ne
     {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ Q)
     [∀ v, Module.Finite ℂ (ρ.obj v)]
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     (v : Q) (hv : v ≠ i) :
-    Module.Finite ℂ (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ Q _
+    Module.Finite ℂ (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ Q _
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ) v) :=
   Module.Finite.equiv (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe hi ρ v hv).symm
@@ -190,10 +190,10 @@ set_option linter.unusedFintypeInType false in
 private lemma reflected_free_eq
     {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ Q)
     [∀ v, Module.Free ℂ (ρ.obj v)] [∀ v, Module.Finite ℂ (ρ.obj v)]
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] :
-    Module.Free ℂ (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ Q _
+    Module.Free ℂ (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ Q _
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ) i) := by
   letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
@@ -204,10 +204,10 @@ set_option linter.unusedFintypeInType false in
 private lemma reflected_finite_eq
     {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ Q)
     [∀ v, Module.Free ℂ (ρ.obj v)] [∀ v, Module.Finite ℂ (ρ.obj v)]
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] :
-    Module.Finite ℂ (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ Q _
+    Module.Finite ℂ (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ Q _
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ) i) := by
   letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
@@ -216,7 +216,7 @@ private lemma reflected_finite_eq
 
 /-- The complex module attached to each vertex of `finFourDiagramB` is free. -/
 noncomputable local instance finFourDiagramB_free (v : Fin 4) : Module.Free ℂ
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverB finFourDiagramB v) := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverB finFourDiagramB v) := by
   by_cases hv : v = 0
   · subst v
     exact @reflected_free_eq (Fin 4) _ finFourQuiverA 0 source₀ finFourDiagramA
@@ -226,7 +226,7 @@ noncomputable local instance finFourDiagramB_free (v : Fin 4) : Module.Free ℂ
 
 /-- Every vertex object of `finFourDiagramB` is finite as a complex module. -/
 noncomputable local instance finFourDiagramB_finite (v : Fin 4) : Module.Finite ℂ
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverB finFourDiagramB v) := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverB finFourDiagramB v) := by
   by_cases hv : v = 0
   · subst v
     exact @reflected_finite_eq (Fin 4) _ finFourQuiverA 0 source₀ finFourDiagramA
@@ -236,7 +236,7 @@ noncomputable local instance finFourDiagramB_finite (v : Fin 4) : Module.Finite 
 
 /-- At every vertex, `finFourDiagramC` supplies a free module over the complex numbers. -/
 noncomputable local instance finFourDiagramC_free (v : Fin 4) : Module.Free ℂ
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverC finFourDiagramC v) := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverC finFourDiagramC v) := by
   by_cases hv : v = 1
   · subst v
     exact @reflected_free_eq (Fin 4) _ finFourQuiverB 1 source₁ finFourDiagramB
@@ -246,7 +246,7 @@ noncomputable local instance finFourDiagramC_free (v : Fin 4) : Module.Free ℂ
 
 /-- Each vertex object belonging to `finFourDiagramC` is a finite complex module. -/
 noncomputable local instance finFourDiagramC_finite (v : Fin 4) : Module.Finite ℂ
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverC finFourDiagramC v) := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverC finFourDiagramC v) := by
   by_cases hv : v = 1
   · subst v
     exact @reflected_finite_eq (Fin 4) _ finFourQuiverB 1 source₁ finFourDiagramB
@@ -256,7 +256,7 @@ noncomputable local instance finFourDiagramC_finite (v : Fin 4) : Module.Finite 
 
 /-- Every complex module occurring at a vertex of `finFourDiagramD` is free. -/
 noncomputable instance finFourDiagramD_free (v : Fin 4) : Module.Free ℂ
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD v) := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD v) := by
   by_cases hv : v = 2
   · subst v
     exact @reflected_free_eq (Fin 4) _ finFourQuiverC 2 source₂ finFourDiagramC
@@ -266,7 +266,7 @@ noncomputable instance finFourDiagramD_free (v : Fin 4) : Module.Free ℂ
 
 /-- All vertex objects of `finFourDiagramD` are finite as modules over the complex numbers. -/
 noncomputable instance finFourDiagramD_finite (v : Fin 4) : Module.Finite ℂ
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD v) := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD v) := by
   by_cases hv : v = 2
   · subst v
     exact @reflected_finite_eq (Fin 4) _ finFourQuiverC 2 source₂ finFourDiagramC
@@ -276,7 +276,7 @@ noncomputable instance finFourDiagramD_finite (v : Fin 4) : Module.Finite ℂ
 
 /-- The complex modules at the vertices of `finFourDiagramACopy` are free. -/
 noncomputable local instance finFourDiagramACopy_free (v : Fin 4) : Module.Free ℂ
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverACopy finFourDiagramACopy v) := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverACopy finFourDiagramACopy v) := by
   by_cases hv : v = 3
   · subst v
     exact @reflected_free_eq (Fin 4) _ finFourQuiverD 3 finFourQuiverD_hasAuxPropertyAtThree finFourDiagramD
@@ -286,7 +286,7 @@ noncomputable local instance finFourDiagramACopy_free (v : Fin 4) : Module.Free 
 
 /-- Each vertex object of `finFourDiagramACopy` is finite over the complex numbers. -/
 noncomputable local instance finFourDiagramACopy_finite (v : Fin 4) : Module.Finite ℂ
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverACopy finFourDiagramACopy v) := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverACopy finFourDiagramACopy v) := by
   by_cases hv : v = 3
   · subst v
     exact @reflected_finite_eq (Fin 4) _ finFourQuiverD 3 finFourQuiverD_hasAuxPropertyAtThree finFourDiagramD
@@ -387,37 +387,37 @@ theorem finFourQuiverD_hasAuxProperty : RepresentationTheory.Quiver.MatrixOrient
   RepresentationTheory.Quiver.MatrixOrientation.isMatrixOrientation_vertexReorientation adj_symm adj_diag orient₂ 2
 
 private theorem sourceMap₀_injective : Function.Injective
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.outgoingDirectSumMap ℂ _ (Fin 4) finFourQuiverA finFourDiagramA 0 finFourQuiverA_auxFintypeAtZero) := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.outgoingDirectSumMap ℂ _ (Fin 4) finFourQuiverA finFourDiagramA 0 finFourQuiverA_auxFintypeAtZero) := by
   intro x y _
   change (Fin 0 → ℂ) at x y
   exact funext fun z => z.elim0
 
 private theorem sourceMap₁_injective : Function.Injective
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.outgoingDirectSumMap ℂ _ (Fin 4) finFourQuiverB finFourDiagramB 1 finFourQuiverB_auxFintypeAtOne) := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.outgoingDirectSumMap ℂ _ (Fin 4) finFourQuiverB finFourDiagramB 1 finFourQuiverB_auxFintypeAtOne) := by
   intro x y _
   apply (@RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe ℂ _ (Fin 4) _ finFourQuiverA 0 source₀ finFourDiagramA
     finFourQuiverA_auxFintypeAtZero 1 (by decide)).injective
   have hsub : Subsingleton
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 1) := by
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 1) := by
     change Subsingleton (Fin 0 → ℂ)
     infer_instance
   exact hsub.elim _ _
 
 private theorem sourceMap₂_injective : Function.Injective
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.outgoingDirectSumMap ℂ _ (Fin 4) finFourQuiverC finFourDiagramC 2 finFourQuiverC_auxFintypeAtTwo) := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.outgoingDirectSumMap ℂ _ (Fin 4) finFourQuiverC finFourDiagramC 2 finFourQuiverC_auxFintypeAtTwo) := by
   intro x y _
   apply (@RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe ℂ _ (Fin 4) _ finFourQuiverB 1 source₁ finFourDiagramB
     finFourQuiverB_auxFintypeAtOne 2 (by decide)).injective
   apply (@RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe ℂ _ (Fin 4) _ finFourQuiverA 0 source₀ finFourDiagramA
     finFourQuiverA_auxFintypeAtZero 2 (by decide)).injective
   have hsub : Subsingleton
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 2) := by
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 2) := by
     change Subsingleton (Fin 0 → ℂ)
     infer_instance
   exact hsub.elim _ _
 
 private theorem V₀_dimensionVector (v : Fin 4) :
-    (Module.finrank ℂ (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA v) : ℤ) =
+    (Module.finrank ℂ (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA v) : ℤ) =
       RepresentationTheory.IntegerMatrices.integerVector v := by
   change (Module.finrank ℂ (Fin (if v = 3 then 1 else 0) → ℂ) : ℤ) = _
   rw [Module.finrank_pi_fintype]
@@ -428,13 +428,13 @@ private theorem V₀_dimensionVector (v : Fin 4) :
 
 /-- The vertexwise numerical invariant of `finFourDiagramB` has values one, zero, zero, and one. -/
 theorem finFourDiagramB_invariant_eq (v : Fin 4) :
-    ((@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat ℂ _ (Fin 4) finFourQuiverB finFourDiagramB v : ℕ) : ℤ) =
+    ((@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat ℂ _ (Fin 4) finFourQuiverB finFourDiagramB v : ℕ) : ℤ) =
       ![1, 0, 0, 1] v := by
   have h := @RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_injective ℂ _ (Fin 4) _ finFourQuiverA 0 source₀ finFourDiagramA
     (fun w => inferInstance) (fun w => inferInstance) finFourQuiverA_auxFintypeAtZero sourceMap₀_injective v
   rw [reflectionDim_eq_cartan adj_symm adj_zero_one orient₀ 0 source₀] at h
   have hd : (fun w => (Module.finrank ℂ
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA w) : ℤ)) = RepresentationTheory.IntegerMatrices.integerVector := by
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA w) : ℤ)) = RepresentationTheory.IntegerMatrices.integerVector := by
     ext w
     exact V₀_dimensionVector w
   rw [hd] at h
@@ -446,13 +446,13 @@ theorem finFourDiagramB_invariant_eq (v : Fin 4) :
 
 /-- The vertexwise numerical invariant of `finFourDiagramC` has values one, one, zero, and one. -/
 theorem finFourDiagramC_invariant_eq (v : Fin 4) :
-    ((@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat ℂ _ (Fin 4) finFourQuiverC finFourDiagramC v : ℕ) : ℤ) =
+    ((@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat ℂ _ (Fin 4) finFourQuiverC finFourDiagramC v : ℕ) : ℤ) =
       ![1, 1, 0, 1] v := by
   have h := @RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_injective ℂ _ (Fin 4) _ finFourQuiverB 1 source₁ finFourDiagramB
     (fun w => finFourDiagramB_free w) (fun w => finFourDiagramB_finite w) finFourQuiverB_auxFintypeAtOne sourceMap₁_injective v
   rw [reflectionDim_eq_cartan adj_symm adj_zero_one orient₁ 1 source₁] at h
   have hd : (fun w => (Module.finrank ℂ
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverB finFourDiagramB w) : ℤ)) = ![1, 0, 0, 1] := by
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverB finFourDiagramB w) : ℤ)) = ![1, 0, 0, 1] := by
     ext w
     exact finFourDiagramB_invariant_eq w
   rw [hd] at h
@@ -464,13 +464,13 @@ theorem finFourDiagramC_invariant_eq (v : Fin 4) :
 
 /-- The numerical invariant of `finFourDiagramD` is one at each of its four vertices. -/
 theorem finFourDiagramD_invariant_eq (v : Fin 4) :
-    ((@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat ℂ _ (Fin 4) finFourQuiverD finFourDiagramD v : ℕ) : ℤ) =
+    ((@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat ℂ _ (Fin 4) finFourQuiverD finFourDiagramD v : ℕ) : ℤ) =
       ![1, 1, 1, 1] v := by
   have h := @RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_injective ℂ _ (Fin 4) _ finFourQuiverC 2 source₂ finFourDiagramC
     (fun w => finFourDiagramC_free w) (fun w => finFourDiagramC_finite w) finFourQuiverC_auxFintypeAtTwo sourceMap₂_injective v
   rw [reflectionDim_eq_cartan adj_symm adj_zero_one orient₂ 2 source₂] at h
   have hd : (fun w => (Module.finrank ℂ
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverC finFourDiagramC w) : ℤ)) = ![1, 1, 0, 1] := by
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverC finFourDiagramC w) : ℤ)) = ![1, 1, 0, 1] := by
     ext w
     exact finFourDiagramC_invariant_eq w
   rw [hd] at h
@@ -526,12 +526,12 @@ private theorem simpleRepresentation_indecomposable_local
       · exact (hbot v hv).2
 
 private theorem V₀_indecomposable :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition ℂ _ (Fin 4) finFourQuiverA finFourDiagramA :=
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition ℂ _ (Fin 4) finFourQuiverA finFourDiagramA :=
   simpleRepresentation_indecomposable_local ℂ 3
 
 /-- The construction `finFourDiagramB` satisfies its designated auxiliary predicate. -/
 theorem finFourDiagramB_hasProperty :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition ℂ _ (Fin 4) finFourQuiverB finFourDiagramB := by
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition ℂ _ (Fin 4) finFourQuiverB finFourDiagramB := by
   rcases @RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary_of_fintype ℂ _ (Fin 4) _ finFourQuiverA 0 source₀ finFourDiagramA
       (fun w => inferInstance) (fun w => inferInstance) finFourQuiverA_auxFintypeAtZero V₀_indecomposable with h | hz
   · exact h
@@ -540,17 +540,17 @@ theorem finFourDiagramB_hasProperty :
     let e := @RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe ℂ _ (Fin 4) _ finFourQuiverA 0 source₀ finFourDiagramA
       finFourQuiverA_auxFintypeAtZero 3 (by decide)
     have hsub₀ : Subsingleton
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 3) :=
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 3) :=
       ⟨fun x y => e.symm.injective (hsub₁.elim _ _)⟩
-    letI : Nontrivial (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 3) := by
+    letI : Nontrivial (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 3) := by
       change Nontrivial (Fin 1 → ℂ)
       infer_instance
-    obtain ⟨x, hx⟩ := exists_ne (0 : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 3)
+    obtain ⟨x, hx⟩ := exists_ne (0 : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 3)
     exact hx (hsub₀.elim x 0)
 
 /-- The auxiliary predicate for `finFourDiagramC` is satisfied. -/
 theorem finFourDiagramC_hasProperty :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition ℂ _ (Fin 4) finFourQuiverC finFourDiagramC := by
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition ℂ _ (Fin 4) finFourQuiverC finFourDiagramC := by
   rcases @RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary_of_fintype ℂ _ (Fin 4) _ finFourQuiverB 1 source₁ finFourDiagramB
       (fun w => finFourDiagramB_free w) (fun w => finFourDiagramB_finite w) finFourQuiverB_auxFintypeAtOne finFourDiagramB_hasProperty with h | hz
   · exact h
@@ -561,60 +561,60 @@ theorem finFourDiagramC_hasProperty :
     let e₀ := @RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe ℂ _ (Fin 4) _ finFourQuiverA 0 source₀ finFourDiagramA
       finFourQuiverA_auxFintypeAtZero 3 (by decide)
     have hsub₀ : Subsingleton
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 3) :=
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 3) :=
       ⟨fun x y => e₀.symm.injective (e₁.symm.injective (hsub₂.elim _ _))⟩
-    letI : Nontrivial (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 3) := by
+    letI : Nontrivial (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 3) := by
       change Nontrivial (Fin 1 → ℂ)
       infer_instance
-    obtain ⟨x, hx⟩ := exists_ne (0 : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 3)
+    obtain ⟨x, hx⟩ := exists_ne (0 : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramA 3)
     exact hx (hsub₀.elim x 0)
 
 /-- The designated auxiliary predicate holds for `finFourDiagramD`. -/
 theorem finFourDiagramD_hasProperty :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition ℂ _ (Fin 4) finFourQuiverD finFourDiagramD := by
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition ℂ _ (Fin 4) finFourQuiverD finFourDiagramD := by
   rcases @RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary_of_fintype ℂ _ (Fin 4) _ finFourQuiverC 2 source₂ finFourDiagramC
       (fun w => finFourDiagramC_free w) (fun w => finFourDiagramC_finite w) finFourQuiverC_auxFintypeAtTwo finFourDiagramC_hasProperty with h | hz
   · exact h
   · exfalso
     have hdim := finFourDiagramD_invariant_eq 3
     letI : Subsingleton
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3) := hz 3
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3) := hz 3
     have hzero : Module.finrank ℂ
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3) = 0 :=
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3) = 0 :=
       Module.finrank_zero_of_subsingleton
-    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat at hdim
+    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat at hdim
     have hone : Module.finrank ℂ
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3) = 1 := by
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3) = 1 := by
       have hdim' : (Module.finrank ℂ
-          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3) : ℤ) = 1 := by
+          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3) : ℤ) = 1 := by
         simpa using hdim
       exact_mod_cast hdim'
     omega
 
 private theorem sourceMap₃_injective : Function.Injective
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.outgoingDirectSumMap ℂ _ (Fin 4) finFourQuiverD finFourDiagramD 3 finFourQuiverD_auxFintypeAtThree) := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.outgoingDirectSumMap ℂ _ (Fin 4) finFourQuiverD finFourDiagramD 3 finFourQuiverD_auxFintypeAtThree) := by
   rcases @RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrInjective ℂ _ (Fin 4) _ finFourQuiverD finFourDiagramD 3
       (fun w => finFourDiagramD_free w) (fun w => finFourDiagramD_finite w) finFourQuiverD_auxFintypeAtThree finFourQuiverD_hasAuxPropertyAtThree finFourDiagramD_hasProperty with
     hsimple | hinj
   · have hzero := hsimple.2 0 (by decide)
     have hone := finFourDiagramD_invariant_eq 0
-    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat at hone
+    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat at hone
     norm_num at hone
     have hone' : Module.finrank ℂ
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 0) = 1 := by
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 0) = 1 := by
       exact_mod_cast hone
     omega
   · exact hinj
 
 /-- The vertexwise numerical invariant of `finFourDiagramACopy` has values one, one, one, and two. -/
 theorem finFourDiagramACopy_invariant_eq (v : Fin 4) :
-    ((@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat ℂ _ (Fin 4) finFourQuiverACopy finFourDiagramACopy v : ℕ) : ℤ) =
+    ((@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat ℂ _ (Fin 4) finFourQuiverACopy finFourDiagramACopy v : ℕ) : ℤ) =
       ![1, 1, 1, 2] v := by
   have h := @RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_injective ℂ _ (Fin 4) _ finFourQuiverD 3 finFourQuiverD_hasAuxPropertyAtThree finFourDiagramD
     (fun w => finFourDiagramD_free w) (fun w => finFourDiagramD_finite w) finFourQuiverD_auxFintypeAtThree sourceMap₃_injective v
   rw [reflectionDim_eq_cartan adj_symm adj_zero_one finFourQuiverD_hasAuxProperty 3 finFourQuiverD_hasAuxPropertyAtThree] at h
   have hd : (fun w => (Module.finrank ℂ
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD w) : ℤ)) = ![1, 1, 1, 1] := by
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD w) : ℤ)) = ![1, 1, 1, 1] := by
     ext w
     exact finFourDiagramD_invariant_eq w
   rw [hd] at h
@@ -626,22 +626,22 @@ theorem finFourDiagramACopy_invariant_eq (v : Fin 4) :
 
 /-- The construction `finFourDiagramACopy` fulfills its associated auxiliary predicate. -/
 theorem finFourDiagramACopy_hasProperty :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition ℂ _ (Fin 4) finFourQuiverACopy finFourDiagramACopy := by
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition ℂ _ (Fin 4) finFourQuiverACopy finFourDiagramACopy := by
   rcases @RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary_of_fintype ℂ _ (Fin 4) _ finFourQuiverD 3 finFourQuiverD_hasAuxPropertyAtThree finFourDiagramD
       (fun w => finFourDiagramD_free w) (fun w => finFourDiagramD_finite w) finFourQuiverD_auxFintypeAtThree finFourDiagramD_hasProperty with h | hz
   · exact h
   · exfalso
     have hdim := finFourDiagramACopy_invariant_eq 3
     letI : Subsingleton
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverACopy finFourDiagramACopy 3) := hz 3
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverACopy finFourDiagramACopy 3) := hz 3
     have hzero : Module.finrank ℂ
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverACopy finFourDiagramACopy 3) = 0 :=
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverACopy finFourDiagramACopy 3) = 0 :=
       Module.finrank_zero_of_subsingleton
-    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat at hdim
+    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat at hdim
     have htwo : Module.finrank ℂ
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverACopy finFourDiagramACopy 3) = 2 := by
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverACopy finFourDiagramACopy 3) = 2 := by
       have hdim' : (Module.finrank ℂ
-          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverACopy finFourDiagramACopy 3) : ℤ) = 2 := by
+          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverACopy finFourDiagramACopy 3) : ℤ) = 2 := by
         simpa using hdim
       exact_mod_cast hdim'
     omega
@@ -654,67 +654,67 @@ theorem finFourQuiverACopy_eq : finFourQuiverACopy = finFourQuiverA := by
 
 private theorem transport_finrank
     {inst₁ inst₂ : Quiver (Fin 4)} (h : inst₁ = inst₂)
-    (X : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ (Fin 4) _ inst₁) (v : Fin 4) :
+    (X : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ (Fin 4) _ inst₁) (v : Fin 4) :
     Module.finrank ℂ
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ inst₂ (h ▸ X) v) =
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ inst₂ (h ▸ X) v) =
       Module.finrank ℂ
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ inst₁ X v) := by
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ inst₁ X v) := by
   cases h
   rfl
 
 private theorem transport_free
     {inst₁ inst₂ : Quiver (Fin 4)} (h : inst₁ = inst₂)
-    (X : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ (Fin 4) _ inst₁)
+    (X : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ (Fin 4) _ inst₁)
     (hfree : ∀ v, Module.Free ℂ
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ inst₁ X v)) (v : Fin 4) :
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ inst₁ X v)) (v : Fin 4) :
     Module.Free ℂ
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ inst₂ (h ▸ X) v) := by
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ inst₂ (h ▸ X) v) := by
   cases h
   exact hfree v
 
 private theorem transport_finite
     {inst₁ inst₂ : Quiver (Fin 4)} (h : inst₁ = inst₂)
-    (X : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ (Fin 4) _ inst₁)
+    (X : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ (Fin 4) _ inst₁)
     (hfinite : ∀ v, Module.Finite ℂ
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ inst₁ X v)) (v : Fin 4) :
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ inst₁ X v)) (v : Fin 4) :
     Module.Finite ℂ
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ inst₂ (h ▸ X) v) := by
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ inst₂ (h ▸ X) v) := by
   cases h
   exact hfinite v
 
 private theorem transport_indecomposable
     {inst₁ inst₂ : Quiver (Fin 4)} (h : inst₁ = inst₂)
-    (X : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ (Fin 4) _ inst₁)
-    (hind : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition ℂ _ (Fin 4) inst₁ X) :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition ℂ _ (Fin 4) inst₂ (h ▸ X) := by
+    (X : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ (Fin 4) _ inst₁)
+    (hind : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition ℂ _ (Fin 4) inst₁ X) :
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition ℂ _ (Fin 4) inst₂ (h ▸ X) := by
   cases h
   exact hind
 
 /-- Another auxiliary complex-valued construction associated with `finFourQuiverA`. -/
 noncomputable abbrev finFourDiagramAAlt :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ (Fin 4) _ finFourQuiverA := finFourQuiverACopy_eq ▸ finFourDiagramACopy
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ (Fin 4) _ finFourQuiverA := finFourQuiverACopy_eq ▸ finFourDiagramACopy
 
 /-- Each vertex object in `finFourDiagramAAlt` is free as a module over the complex numbers. -/
 noncomputable instance finFourDiagramAAlt_free (v : Fin 4) : Module.Free ℂ
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramAAlt v) :=
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramAAlt v) :=
   transport_free finFourQuiverACopy_eq finFourDiagramACopy (fun w => finFourDiagramACopy_free w) v
 
 /-- Every vertex object in `finFourDiagramAAlt` is a finite complex module. -/
 noncomputable instance finFourDiagramAAlt_finite (v : Fin 4) : Module.Finite ℂ
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramAAlt v) :=
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramAAlt v) :=
   transport_finite finFourQuiverACopy_eq finFourDiagramACopy (fun w => finFourDiagramACopy_finite w) v
 
 /-- The complex finranks of `finFourDiagramAAlt` at its vertices are one, one, one, and two. -/
 theorem finFourDiagramAAlt_finrank_eq (v : Fin 4) :
     (Module.finrank ℂ
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramAAlt v) : ℤ) =
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverA finFourDiagramAAlt v) : ℤ) =
       ![1, 1, 1, 2] v := by
   rw [transport_finrank finFourQuiverACopy_eq finFourDiagramACopy v]
   exact finFourDiagramACopy_invariant_eq v
 
 /-- The auxiliary predicate associated with `finFourDiagramAAlt` holds. -/
 theorem finFourDiagramAAlt_hasProperty :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition ℂ _ (Fin 4) finFourQuiverA
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition ℂ _ (Fin 4) finFourQuiverA
       finFourDiagramAAlt := by
   exact transport_indecomposable finFourQuiverACopy_eq finFourDiagramACopy finFourDiagramACopy_hasProperty
 

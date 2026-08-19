@@ -16,21 +16,21 @@ noncomputable section
 
 open CategoryTheory
 
-namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
+namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData
 
 /-- Transport a morphism between representations along an equality of quiver structures. -/
 def quiverEqHom
     {k Q : Type*} [CommSemiring k] {I₁ I₂ : Quiver Q} (h : I₁ = I₂)
-    {X Y : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ I₁}
-    (f : @RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q _ I₁ X Y) :
-    @RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q _ I₂ (h ▸ X) (h ▸ Y) := by
+    {X Y : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ I₁}
+    (f : @RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q _ I₁ X Y) :
+    @RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q _ I₂ (h ▸ X) (h ▸ Y) := by
   subst h
   exact f
 
 /-- The endofunctor on representations induced by an equality of quiver structures. -/
 def quiverEqFunctor
     {k Q : Type*} [CommSemiring k] {I₁ I₂ : Quiver Q} (h : I₁ = I₂) :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ I₁ ⥤ @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ I₂ where
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ I₁ ⥤ @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ I₂ where
   obj X := h ▸ X
   map f := quiverEqHom h f
   map_id X := by subst h; rfl
@@ -40,7 +40,7 @@ def quiverEqFunctor
 @[simp]
 theorem quiverEqFunctor_obj
     {k Q : Type*} [CommSemiring k] {I₁ I₂ : Quiver Q} (h : I₁ = I₂)
-    (X : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ I₁) :
+    (X : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ I₁) :
     (quiverEqFunctor h).obj X = h ▸ X := by
   subst h
   rfl
@@ -48,10 +48,10 @@ theorem quiverEqFunctor_obj
 /-- Transporting a mapped morphism along equality of quiver structures agrees pointwise with mapping the transported morphism. -/
 theorem quiverEqFunctor_map_apply
     {k Q : Type*} [CommSemiring k] {I₁ I₂ : Quiver Q} (h : I₁ = I₂)
-    {X Y : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ I₁} (f : X ⟶ Y) (v : Q)
-    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ I₂ ((quiverEqFunctor h).obj X) v) :
+    {X Y : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ I₁} (f : X ⟶ Y) (v : Q)
+    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ I₂ ((quiverEqFunctor h).obj X) v) :
     reindex h Y v (((quiverEqFunctor h).map f).app v x) =
-      @RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ I₁ X Y f v
+      @RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ I₁ X Y f v
         (reindex h X v x) := by
   subst h
   rfl
@@ -59,21 +59,21 @@ theorem quiverEqFunctor_map_apply
 /-- The representation endofunctor determined by a selected vertex. -/
 def vertexEndofunctor
     {k Q : Type*} [CommSemiring k] [DecidableEq Q] [Quiver Q] (i : Q) :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _
         (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i) ⥤
-      RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q :=
+      RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q :=
   quiverEqFunctor (RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryQuiver_eq Q i)
 
 /-- The selected-vertex endofunctor has the specified action on objects. -/
 @[simp]
 theorem vertexEndofunctor_obj
     {k Q : Type*} [CommSemiring k] [DecidableEq Q] [Quiver Q] (i : Q)
-    (X : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _
+    (X : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _
       (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i)) :
     (vertexEndofunctor i).obj X = auxiliaryAt X :=
   quiverEqFunctor_obj (RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryQuiver_eq Q i) X
 
-end RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
+end RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData
 
 namespace RepresentationTheory.Quiver.EndofunctorAdjunction
 
@@ -82,26 +82,26 @@ variable {k Q : Type*} [CommRing k] [DecidableEq Q] [instQ : Quiver Q]
 
 /-- The representation endofunctor determined by the selected vertex and a finite associated indexing type. -/
 abbrev leftEndofunctor :
-    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q ⥤
-      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) :=
+    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q ⥤
+      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) :=
   RepresentationTheory.QuiverRepresentationQuotientFunctor.quotientRepresentationFunctor k Q i hi
 
 /-- The representation endofunctor determined by the selected vertex. -/
 abbrev rightEndofunctor :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) ⥤
-      RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q :=
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) ⥤
+      RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q :=
   (@RepresentationTheory.QuiverRepresentationAuxiliaryFunctor.auxiliaryRepresentationFunctor k _ Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i
       (RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryBackward hi)) ⋙
-    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.vertexEndofunctor i
+    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.vertexEndofunctor i
 
 /-- Away from the selected vertex, evaluation of the right endofunctor is linearly equivalent to evaluation of the original representation. -/
 def rightEndofunctorComponentEquiv
-    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
+    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
     (v : Q) (hv : v ≠ i) :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instQ
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instQ
         ((rightEndofunctor hi).obj W) v ≃ₗ[k]
-      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) W v :=
-  (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.reflectAt_reindex
+      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) W v :=
+  (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.reflectAt_reindex
       (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i
         (RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryBackward hi) W) v).trans
     (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe k _ Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i
@@ -109,8 +109,8 @@ def rightEndofunctorComponentEquiv
 
 /-- The hom-set equivalence between maps out of the left endofunctor and maps into the right endofunctor. -/
 def homEquiv
-    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
-    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)) :
+    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
+    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)) :
     ((leftEndofunctor hi).obj V ⟶ W) ≃
       (V ⟶ (rightEndofunctor hi).obj W) :=
   (RepresentationTheory.Quiver.Representation.Reflection.reflectionHomEquiv hi V W).trans
@@ -119,12 +119,12 @@ def homEquiv
 /-- Away from the selected vertex, the first auxiliary morphism equivalence has the displayed componentwise composite. -/
 @[simp]
 theorem auxiliaryLeftHomEquiv_apply_component_of_ne
-    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
-    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
+    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
+    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
     (f : (leftEndofunctor hi).obj V ⟶ W)
     (v : Q) (hv : v ≠ i) :
     ((RepresentationTheory.Quiver.Representation.Reflection.reflectionHomEquiv hi V W) f).map v hv =
-      (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+      (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
           _ _ f v).comp
         (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe hi V v hv).symm.toLinearMap := by
   rfl
@@ -132,10 +132,10 @@ theorem auxiliaryLeftHomEquiv_apply_component_of_ne
 /-- Away from the selected vertex, the inverse of the first auxiliary morphism equivalence has the displayed componentwise composite. -/
 @[simp]
 theorem auxiliaryLeftHomEquiv_symm_apply_component_of_ne
-    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
-    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
+    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
+    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
     (r : RepresentationTheory.Quiver.Representation.Reflection.ReflectionHom hi V W) (v : Q) (hv : v ≠ i) :
-    (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) _ _
+    (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) _ _
         ((RepresentationTheory.Quiver.Representation.Reflection.reflectionHomEquiv hi V W).symm r) v) =
       (r.map v hv).comp (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe hi V v hv).toLinearMap := by
   ext x
@@ -144,8 +144,8 @@ theorem auxiliaryLeftHomEquiv_symm_apply_component_of_ne
 /-- Away from the selected vertex, the second auxiliary morphism equivalence has the displayed componentwise composite. -/
 @[simp]
 theorem auxiliaryRightHomEquiv_apply_component_of_ne
-    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
-    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
+    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
+    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
     (g : V ⟶ (rightEndofunctor hi).obj W)
     (v : Q) (hv : v ≠ i) :
     ((RepresentationTheory.Quiver.Representation.Reflection.reflectionHomEquiv_dual hi V W) g).map v hv =
@@ -155,8 +155,8 @@ theorem auxiliaryRightHomEquiv_apply_component_of_ne
 /-- Away from the selected vertex, the inverse of the second auxiliary morphism equivalence has the displayed componentwise composite. -/
 @[simp]
 theorem auxiliaryRightHomEquiv_symm_apply_component_of_ne
-    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
-    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
+    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
+    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
     (r : RepresentationTheory.Quiver.Representation.Reflection.ReflectionHom hi V W) (v : Q) (hv : v ≠ i) :
     (((RepresentationTheory.Quiver.Representation.Reflection.reflectionHomEquiv_dual hi V W).symm r).app v) =
       (rightEndofunctorComponentEquiv hi W v hv).symm.toLinearMap.comp (r.map v hv) := by
@@ -170,42 +170,42 @@ theorem auxiliaryRightHomEquiv_symm_apply_component_of_ne
 omit [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] in
 /-- Away from the selected vertex, the right endofunctor maps a morphism compatibly with the component linear equivalences. -/
 theorem rightEndofunctor_map_apply_of_ne
-    {W W' : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)}
+    {W W' : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)}
     (g : W ⟶ W') (v : Q) (hv : v ≠ i)
-    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instQ
+    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instQ
       ((rightEndofunctor hi).obj W) v) :
     rightEndofunctorComponentEquiv hi W' v hv
         (((rightEndofunctor hi).map g).app v x) =
-      (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+      (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
         W W' g v) (rightEndofunctorComponentEquiv hi W v hv x) := by
   let hi' := RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryBackward hi
   let h := RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryQuiver_eq Q i
   change (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe k _ Q _
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i hi' W' v hv)
-      (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.reindex h _ v
-        ((@RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ instQ _ _
-          ((RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.quiverEqFunctor h).map
+      (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.reindex h _ v
+        ((@RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ instQ _ _
+          ((RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.quiverEqFunctor h).map
             (@RepresentationTheory.QuiverRepresentationAuxiliaryFunctor.auxiliaryRepresentationMap k _ Q _
               (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i hi' W W' g)) v) x)) =
-    (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+    (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       W W' g v)
       ((@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe k _ Q _
         (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i hi' W v hv)
-        (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.reindex h _ v x))
-  rw [RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.quiverEqFunctor_map_apply]
+        (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.reindex h _ v x))
+  rw [RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.quiverEqFunctor_map_apply]
   exact @RepresentationTheory.QuiverRepresentationAuxiliaryFunctor.auxiliaryRepresentationMap_of_ne k _ Q _
     (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i
     (RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryBackward hi) W W' g v hv _
 
 /-- Away from the selected vertex, the hom-set equivalence acts pointwise through the two displayed component equivalences. -/
 theorem homEquiv_apply_component_of_ne
-    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
-    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
+    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
+    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
     (f : (leftEndofunctor hi).obj V ⟶ W)
     (v : Q) (hv : v ≠ i) (x : V.obj v) :
     rightEndofunctorComponentEquiv hi W v hv
         ((homEquiv hi V W f).app v x) =
-      (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+      (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
         _ _ f v) ((RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe hi V v hv).symm x) := by
   change rightEndofunctorComponentEquiv hi W v hv
       (((RepresentationTheory.Quiver.Representation.Reflection.reflectionHomEquiv_dual hi V W).symm
@@ -214,23 +214,23 @@ theorem homEquiv_apply_component_of_ne
   rw [auxiliaryLeftHomEquiv_apply_component_of_ne]
   change rightEndofunctorComponentEquiv hi W v hv
       ((rightEndofunctorComponentEquiv hi W v hv).symm
-        ((@RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+        ((@RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
           _ _ f v) ((RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe hi V v hv).symm x))) = _
   rw [LinearEquiv.apply_symm_apply]
 
 /-- Away from the selected vertex, the inverse hom-set equivalence acts pointwise through the two displayed component equivalences. -/
 theorem homEquiv_symm_apply_component_of_ne
-    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
-    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
+    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
+    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
     (g : V ⟶ (rightEndofunctor hi).obj W)
     (v : Q) (hv : v ≠ i)
-    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi V) v) :
-    (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) _ _
+    (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) _ _
       ((homEquiv hi V W).symm g) v) x =
       rightEndofunctorComponentEquiv hi W v hv
         (g.app v (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe hi V v hv x)) := by
-  change (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+  change (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       _ _ ((RepresentationTheory.Quiver.Representation.Reflection.reflectionHomEquiv hi V W).symm
         ((RepresentationTheory.Quiver.Representation.Reflection.reflectionHomEquiv_dual hi V W) g)) v) x = _
   rw [auxiliaryLeftHomEquiv_symm_apply_component_of_ne hi V W _ v hv]
@@ -239,20 +239,20 @@ theorem homEquiv_symm_apply_component_of_ne
 
 /-- Away from the selected vertex, the left endofunctor maps a morphism compatibly with the displayed component linear equivalences. -/
 theorem leftEndofunctor_map_apply_of_ne
-    {V' V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q} (f : V' ⟶ V)
+    {V' V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q} (f : V' ⟶ V)
     (v : Q) (hv : v ≠ i)
-    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       ((leftEndofunctor hi).obj V') v) :
     RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe hi V v hv
-        ((@RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) _ _
+        ((@RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) _ _
           ((leftEndofunctor hi).map f) v) x) =
       f.app v (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe hi V' v hv x) :=
   RepresentationTheory.QuiverRepresentationQuotientFunctor.quotientRepresentationMap_of_ne hi f v hv x
 
 /-- The inverse hom-set equivalence sends precomposition to composition with the image under the left endofunctor. -/
 theorem homEquiv_symm_comp_left
-    {V' V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q}
-    {W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)}
+    {V' V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
+    {W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)}
     (f : V' ⟶ V) (g : V ⟶ (rightEndofunctor hi).obj W) :
     (homEquiv hi V' W).symm (f ≫ g) =
       (leftEndofunctor hi).map f ≫
@@ -266,7 +266,7 @@ theorem homEquiv_symm_comp_left
   rw [auxiliaryLeftHomEquiv_apply_component_of_ne hi V' W _ v hv,
     auxiliaryLeftHomEquiv_apply_component_of_ne hi V' W _ v hv]
   simp only [LinearMap.comp_apply,
-    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.comp_component]
+    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.comp_component]
   rw [homEquiv_symm_apply_component_of_ne hi V' W (f ≫ g) v hv,
     homEquiv_symm_apply_component_of_ne hi V W g v hv]
   rw [leftEndofunctor_map_apply_of_ne]
@@ -274,8 +274,8 @@ theorem homEquiv_symm_comp_left
 
 /-- The hom-set equivalence sends postcomposition to composition with the image under the right endofunctor. -/
 theorem homEquiv_comp_right
-    {V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q}
-    {W W' : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)}
+    {V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
+    {W W' : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)}
     (f : (leftEndofunctor hi).obj V ⟶ W) (g : W ⟶ W') :
     homEquiv hi V W' (f ≫ g) =
       homEquiv hi V W f ≫
@@ -289,7 +289,7 @@ theorem homEquiv_comp_right
   rw [auxiliaryRightHomEquiv_apply_component_of_ne,
     auxiliaryRightHomEquiv_apply_component_of_ne]
   simp only [LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
-    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.comp_component]
+    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.comp_component]
   rw [homEquiv_apply_component_of_ne,
     rightEndofunctor_map_apply_of_ne,
     homEquiv_apply_component_of_ne]
@@ -317,8 +317,8 @@ def adjunction :
 /-- The hom-set equivalence of the endofunctor adjunction is the explicitly defined equivalence. -/
 @[simp]
 theorem adjunction_homEquiv
-    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
-    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)) :
+    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
+    (W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)) :
     (adjunction (k := k) (Q := Q) hi).homEquiv V W =
       homEquiv (k := k) hi V W := by
   rw [adjunction, CategoryTheory.Adjunction.mkOfHomEquiv_homEquiv]

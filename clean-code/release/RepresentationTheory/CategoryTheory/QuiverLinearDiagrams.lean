@@ -12,21 +12,21 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 
-/-- A quiver-indexed system of modules and linear maps. -/
+/-- An auxiliary inductive type associated with a quiver over a commutative semiring. -/
 @[source_ref "Chapter2/Definition2.8.3" (role := supporting),
   source_ref "Chapter2/Discussion_after_Theorem2.1.1/Derived2" (role := supporting)]
-structure QuiverLinearDiagram (k : Type*) (Q : Type*) [CommSemiring k]
+structure AuxiliaryQuiverModuleData (k : Type*) (Q : Type*) [CommSemiring k]
     [Quiver Q] where
-  /-- Returns the type assigned by a diagram to a vertex. -/
+  /-- Returns the type associated with a vertex. -/
   obj : Q → Type*
-  /-- Supplies the additive commutative monoid at a vertex of a diagram. -/
+  /-- Supplies the additive commutative monoid structure on the type at a vertex. -/
   {addCommMonoid : ∀ v, AddCommMonoid (obj v)}
-  /-- Supplies the scalar module structure at a vertex of a diagram. -/
+  /-- Supplies the scalar module structure on the type at a vertex. -/
   {moduleInstance : ∀ v, Module k (obj v)}
-  /-- Returns the linear map assigned to a quiver arrow. -/
+  /-- Returns the linear map associated with a quiver arrow. -/
   map : ∀ {v w : Q}, (v ⟶ w) → obj v →ₗ[k] obj w
 
-attribute [instance] QuiverLinearDiagram.addCommMonoid
-attribute [instance] QuiverLinearDiagram.moduleInstance
+attribute [instance] AuxiliaryQuiverModuleData.addCommMonoid
+attribute [instance] AuxiliaryQuiverModuleData.moduleInstance
 
 end RepresentationTheory.CategoryTheory.QuiverLinearDiagrams

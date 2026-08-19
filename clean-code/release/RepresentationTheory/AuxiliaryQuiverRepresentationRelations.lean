@@ -37,34 +37,34 @@ end Helpers
 section IsoComposition
 
 /-- Reverses an auxiliary relation between two quiver representations. -/
-noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.symm
+noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.symm
     {k : Type*} [CommSemiring k] {Q : Type*} [Quiver Q]
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₂) :
-    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₂ ρ₁ :=
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₂) :
+    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₂ ρ₁ :=
   ⟨fun v => (f.linearEquivAt v).symm,
    fun e x => by
      apply (f.linearEquivAt _).injective
      rw [LinearEquiv.apply_symm_apply, f.linearEquivAt_map, LinearEquiv.apply_symm_apply]⟩
 
 /-- Composes two auxiliary relations between quiver representations. -/
-noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.trans
+noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.trans
     {k : Type*} [CommSemiring k] {Q : Type*} [Quiver Q]
-    {ρ₁ ρ₂ ρ₃ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₂)
-    (g : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₂ ρ₃) :
-    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₃ :=
+    {ρ₁ ρ₂ ρ₃ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₂)
+    (g : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₂ ρ₃) :
+    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₃ :=
   ⟨fun v => (f.linearEquivAt v).trans (g.linearEquivAt v),
    fun e x => by
      simp only [LinearEquiv.trans_apply, f.linearEquivAt_map, g.linearEquivAt_map]⟩
 
 /-- Transports an auxiliary relation across an equality of quiver structures. -/
-noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.castQuiver
+noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.castQuiver
     {k : Type*} [CommSemiring k] {Q : Type} [DecidableEq Q]
     {inst₁ inst₂ : @Quiver.{0, 0} Q} (h : inst₁ = inst₂)
-    {ρ₁ ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ inst₁}
-    (f : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ Q inst₁ ρ₁ ρ₂) :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ Q inst₂ (h ▸ ρ₁) (h ▸ ρ₂) := by
+    {ρ₁ ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ inst₁}
+    (f : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ Q inst₁ ρ₁ ρ₂) :
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ Q inst₂ (h ▸ ρ₁) (h ▸ ρ₂) := by
   subst h; exact f
 
 end IsoComposition
@@ -74,14 +74,14 @@ section SimpleAtIso
 private lemma RepresentationTheory.AuxiliaryQuiverRepresentationRelations.simpleAt_iso
     {k : Type*} [Field k]
     {Q : Type*} [DecidableEq Q] [inst : Quiver Q]
-    (ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
+    (ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     [∀ v, Module.Free k (ρ₁.obj v)] [∀ v, Module.Finite k (ρ₁.obj v)]
     [∀ v, Module.Free k (ρ₂.obj v)] [∀ v, Module.Finite k (ρ₂.obj v)]
     (p : Q)
     (hNoSelfLoop : IsEmpty (p ⟶ p))
     (h₁ : ρ₁.AuxiliaryVertexCondition p)
     (h₂ : ρ₂.AuxiliaryVertexCondition p) :
-    Nonempty (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₂) := by
+    Nonempty (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₂) := by
   have hdim : ∀ v, Module.finrank k (ρ₁.obj v) = Module.finrank k (ρ₂.obj v) := by
     intro v
     by_cases hv : v = p
@@ -114,13 +114,13 @@ private lemma RepresentationTheory.AuxiliaryQuiverRepresentationRelations.indeco
     {k : Type*} [Field k]
     {Q : Quiver (Fin n)}
     (hOrient : @RepresentationTheory.Quiver.MatrixOrientation.IsMatrixOrientation n Q adj)
-    (ρ₁ ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k (Fin n) _ Q)
+    (ρ₁ ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k (Fin n) _ Q)
     [∀ v, Module.Free k (ρ₁.obj v)] [∀ v, Module.Finite k (ρ₁.obj v)]
     [∀ v, Module.Free k (ρ₂.obj v)] [∀ v, Module.Finite k (ρ₂.obj v)]
     (p : Fin n)
     (hd₁ : ∀ v, (Module.finrank k (ρ₁.obj v) : ℤ) = RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction.auxiliaryValue n p v)
     (hd₂ : ∀ v, (Module.finrank k (ρ₂.obj v) : ℤ) = RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction.auxiliaryValue n p v) :
-    Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ (Fin n) Q ρ₁ ρ₂) := by
+    Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ (Fin n) Q ρ₁ ρ₂) := by
   have hNoSelfLoop := RepresentationTheory.AuxiliaryQuiverRepresentationRelations.noSelfLoop_of_dynkin_orientation hDynkin hOrient p
   have h₁s : ρ₁.AuxiliaryVertexCondition p := by
     refine ⟨?_, fun j hj => ?_⟩
@@ -148,18 +148,18 @@ private lemma RepresentationTheory.AuxiliaryQuiverRepresentationRelations.parall
         @RepresentationTheory.QuiverVertexPredicates.vertexProperty (Fin n)
           (@RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryListMap _ _ Q_cur (remaining.take m))
           (remaining.get ⟨m, hm⟩))
-    (ρ₁ ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k (Fin n) _ Q_cur)
+    (ρ₁ ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k (Fin n) _ Q_cur)
     [∀ v, Module.Free k (ρ₁.obj v)] [∀ v, Module.Finite k (ρ₁.obj v)]
     [∀ v, Module.Free k (ρ₂.obj v)] [∀ v, Module.Finite k (ρ₂.obj v)]
-    (h₁ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition k _ _ Q_cur ρ₁)
-    (h₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition k _ _ Q_cur ρ₂)
+    (h₁ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition k _ _ Q_cur ρ₁)
+    (h₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition k _ _ Q_cur ρ₂)
     (d_cur : Fin n → ℤ)
     (hDim₁ : ∀ v, (Module.finrank k (ρ₁.obj v) : ℤ) = d_cur v)
     (hDim₂ : ∀ v, (Module.finrank k (ρ₂.obj v) : ℤ) = d_cur v)
     (p : Fin n)
     (hreflect : RepresentationTheory.LinearAlgebra.IntegerMatrixReflections.iteratedCoordinateReflection n (RepresentationTheory.AuxiliaryIntegerMatrixTransform.auxiliaryTransform n adj) remaining
         d_cur = RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction.auxiliaryValue n p) :
-    Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ (Fin n) Q_cur ρ₁ ρ₂) := by
+    Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ (Fin n) Q_cur ρ₁ ρ₂) := by
   induction remaining generalizing Q_cur d_cur with
   | nil =>
     simp only [RepresentationTheory.LinearAlgebra.IntegerMatrixReflections.iteratedCoordinateReflection, List.foldl_nil] at hreflect
@@ -260,13 +260,13 @@ private lemma RepresentationTheory.AuxiliaryQuiverRepresentationRelations.parall
           · rw [hv]; exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_finite_at k _ (Fin n) _ Q_cur i hi_sink ρ₂ _ _ _
           · exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_finite_of_ne k _ (Fin n) _ Q_cur i hi_sink ρ₂ _ v hv
 
-        have h₁_ind : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition k _ _ Q_rev ρ₁_plus := by
+        have h₁_ind : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition k _ _ Q_rev ρ₁_plus := by
           rcases @RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary k _ _ _ Q_cur i hi_sink ρ₁ _ _ h₁ with h | h_zero
           · exact h
           · exfalso
             obtain ⟨⟨v, hv⟩, _⟩ := h₁
             suffices hs : ∀ j, Subsingleton
-                (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin n) _ Q_cur ρ₁ j) from
+                (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin n) _ Q_cur ρ₁ j) from
               absurd (hs v) (not_subsingleton_iff_nontrivial.mpr hv)
             intro j
             by_cases hj : j = i
@@ -277,7 +277,7 @@ private lemma RepresentationTheory.AuxiliaryQuiverRepresentationRelations.parall
                 Q_cur i hi_sink ρ₁ j hj).toEquiv.subsingleton_congr.mp
                 (h_zero j)
         have h₂_ind :
-            @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition
+            @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition
               k _ _ Q_rev ρ₂_plus := by
           rcases @RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary k _ _ _
             Q_cur i hi_sink ρ₂ _ _ h₂ with h | h_zero
@@ -285,7 +285,7 @@ private lemma RepresentationTheory.AuxiliaryQuiverRepresentationRelations.parall
           · exfalso
             obtain ⟨⟨v, hv⟩, _⟩ := h₂
             suffices hs : ∀ j, Subsingleton
-                (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin n)
+                (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin n)
                   _ Q_cur ρ₂ j) from
               absurd (hs v)
                 (not_subsingleton_iff_nontrivial.mpr hv)
@@ -359,9 +359,9 @@ private lemma RepresentationTheory.AuxiliaryQuiverRepresentationRelations.parall
         obtain ⟨iso_rt₂⟩ := @RepresentationTheory.Surjective.nonempty_of_surjective
           k _ (Fin n) _ Q_cur i hi_sink ρ₂ _ _ _ h₂_surj
 
-        exact ⟨@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.trans k _ (Fin n) Q_cur _ _ _
-          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.symm k _ (Fin n) Q_cur _ _ iso_rt₁)
-          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.trans k _ (Fin n) Q_cur _ _ _
+        exact ⟨@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.trans k _ (Fin n) Q_cur _ _ _
+          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.symm k _ (Fin n) Q_cur _ _ iso_rt₁)
+          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.trans k _ (Fin n) Q_cur _ _ _
             iso_transported iso_rt₂)⟩
 
 end ReflectionFunctorChain
@@ -375,7 +375,7 @@ private lemma RepresentationTheory.AuxiliaryQuiverRepresentationRelations.indeco
     {Q : @Quiver.{0, 0} (Fin n)}
     (hOrient : RepresentationTheory.Quiver.MatrixOrientation.IsMatrixOrientation Q adj)
     [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
-    (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{_, 0, 0, 0} k (Fin n) _ Q)
+    (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{_, 0, 0, 0} k (Fin n) _ Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     (hρ : ρ.AuxiliaryCondition) :
     dotProduct (fun v => (Module.finrank k (ρ.obj v) : ℤ))
@@ -395,13 +395,13 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationRelations.auxiliary_no
     {Q : @Quiver.{0, 0} (Fin n)}
     (hOrient : RepresentationTheory.Quiver.MatrixOrientation.IsMatrixOrientation Q adj)
     [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
-    (ρ₁ ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{_, 0, 0, 0} k (Fin n) _ Q)
+    (ρ₁ ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{_, 0, 0, 0} k (Fin n) _ Q)
     [∀ v, Module.Free k (ρ₁.obj v)] [∀ v, Module.Finite k (ρ₁.obj v)]
     [∀ v, Module.Free k (ρ₂.obj v)] [∀ v, Module.Finite k (ρ₂.obj v)]
     (h₁ : ρ₁.AuxiliaryCondition)
     (h₂ : ρ₂.AuxiliaryCondition)
     (hdim : ∀ v, Module.finrank k (ρ₁.obj v) = Module.finrank k (ρ₂.obj v)) :
-    Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ (Fin n) Q ρ₁ ρ₂) := by
+    Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ (Fin n) Q ρ₁ ρ₂) := by
 
   obtain ⟨σ, hσ⟩ := RepresentationTheory.AuxiliaryQuiverConstructions.auxiliary_exists_list_property hDynkin hOrient
   set A := RepresentationTheory.AuxiliaryIntegerMatrixTransform.auxiliaryTransform n adj
@@ -419,9 +419,9 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationRelations.auxiliary_no
   obtain ⟨N, i₀, hNeg⟩ := RepresentationTheory.AuxiliaryQuiverConstructions.auxiliary_iterate_exists_apply_neg hDynkin σ hσ.perm_finRange d hd_nonneg hd_nonzero
 
   suffices ∀ (M : ℕ),
-      Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ (Fin n) Q ρ₁ ρ₂) ∨
+      Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ (Fin n) Q ρ₁ ρ₂) ∨
       ((∀ j, 0 ≤ c^[M] d j) ∧
-       ∃ (ρ_M : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{_, 0, 0, 0} k (Fin n) _ Q),
+       ∃ (ρ_M : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{_, 0, 0, 0} k (Fin n) _ Q),
          (∀ v, Module.Free k (ρ_M.obj v)) ∧
          (∀ v, Module.Finite k (ρ_M.obj v)) ∧
          ρ_M.AuxiliaryCondition ∧

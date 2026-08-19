@@ -21,7 +21,7 @@ open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 open RepresentationTheory.CategoryTheory.QuiverLinearMaps
 open RepresentationTheory.CategoryTheory.QuiverSubdiagrams
 
-variable {k Q : Type*} [Field k] [Quiver Q] {ρ : QuiverLinearDiagram k Q}
+variable {k Q : Type*} [Field k] [Quiver Q] {ρ : AuxiliaryQuiverModuleData k Q}
 
 namespace RepresentationTheory.CategoryTheory.QuiverSubdiagrams.QuiverSubdiagram
 
@@ -72,7 +72,7 @@ instance orderTop : OrderTop (QuiverSubdiagram k Q ρ) where
     (⊤ : QuiverSubdiagram k Q ρ).carrier v = ⊤ := rfl
 
 /-- The quiver representation carried by a subrepresentation. -/
-@[reducible] def toRepresentation (W : QuiverSubdiagram k Q ρ) : QuiverLinearDiagram k Q where
+@[reducible] def toRepresentation (W : QuiverSubdiagram k Q ρ) : AuxiliaryQuiverModuleData k Q where
   obj v := W.carrier v
   map e := (ρ.map e).restrict (fun x hx => W.map_mem e x hx)
 
@@ -99,7 +99,7 @@ end RepresentationTheory.CategoryTheory.QuiverSubdiagrams.QuiverSubdiagram
 namespace RepresentationTheory.QuiverRepresentation.VertexCompositionSeries
 
 /-- A quiver representation associated with a selected vertex. -/
-def representationAtVertex [DecidableEq Q] (i : Q) : QuiverLinearDiagram k Q where
+def representationAtVertex [DecidableEq Q] (i : Q) : AuxiliaryQuiverModuleData k Q where
   obj v := Fin (if v = i then 1 else 0) → k
   map _ := 0
 
@@ -126,7 +126,7 @@ theorem representationAtVertex_space_subsingleton_of_ne [DecidableEq Q] {u i : Q
 /-- A designated elementary-extension relation between two subrepresentations at a vertex. -/
 @[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
 def IsElementaryExtensionAt [DecidableEq Q] (W W' : QuiverSubdiagram k Q ρ) (i : Q) : Prop :=
-  W ≤ W' ∧ ∃ π : QuiverLinearHom k Q W'.toRepresentation (representationAtVertex i),
+  W ≤ W' ∧ ∃ π : AuxiliaryQuiverLinearMapData k Q W'.toRepresentation (representationAtVertex i),
     (∀ v, Function.Surjective (π.app v)) ∧
     ∀ v, LinearMap.ker (π.app v) = W.componentIntersection W' v
 
@@ -293,7 +293,7 @@ end IsElementaryExtensionAt
 
 /-- Data for a finite chain of subrepresentations whose successive steps are indexed by vertices. -/
 @[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
-structure VertexCompositionSeries [DecidableEq Q] (ρ : QuiverLinearDiagram k Q) where
+structure VertexCompositionSeries [DecidableEq Q] (ρ : AuxiliaryQuiverModuleData k Q) where
   /-- The number of steps in the vertex composition series. -/
   length : ℕ
   /-- The subrepresentation at a natural-number stage of the composition series. -/
@@ -338,7 +338,7 @@ theorem exists_prefixSum_le_lt {f : ℕ → ℕ} {n m : ℕ} (hm : m < ∑ l ∈
 
 /-- For a finite vertex ordering that decreases along arrows and chosen vertex-space bases, there exists a series whose length is the sum of dimensions and whose vertex multiplicities are those dimensions. -/
 @[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
-theorem exists_vertexCompositionSeries_with_multiplicity [DecidableEq Q] (ρ : QuiverLinearDiagram k Q)
+theorem exists_vertexCompositionSeries_with_multiplicity [DecidableEq Q] (ρ : AuxiliaryQuiverModuleData k Q)
     (n : ℕ) (e : Q ≃ Fin n) (hcompat : ∀ {v w : Q}, (v ⟶ w) → (e w : ℕ) < (e v : ℕ))
     (d : Q → ℕ) (b : ∀ v, Basis (Fin (d v)) k (ρ.obj v)) :
     ∃ s : VertexCompositionSeries ρ,

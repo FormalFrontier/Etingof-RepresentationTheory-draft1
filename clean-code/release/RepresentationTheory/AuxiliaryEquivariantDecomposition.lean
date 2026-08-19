@@ -514,10 +514,10 @@ theorem auxiliary_submodule_le_iSup
     exact auxiliary_iSupRange_mem_action n k g x hx
   set T_KG : Submodule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction.generalLinearGroupLocalizationRepresentation k n).asModule :=
-    RepresentationTheory.Algebra.ModuleActions.RingActionStructure.invariantSubmodule (RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction.generalLinearGroupLocalizationRepresentation k n) T hT_stable with hTKG
+    RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.invariantSubmodule (RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction.generalLinearGroupLocalizationRepresentation k n) T hT_stable with hTKG
   have hTKG_restrict : T_KG.restrictScalars k = T := by
     apply SetLike.ext; intro x
-    rw [Submodule.restrictScalars_mem, hTKG, RepresentationTheory.Algebra.ModuleActions.RingActionStructure.mem_invariantSubmodule_iff]
+    rw [Submodule.restrictScalars_mem, hTKG, RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.mem_invariantSubmodule_iff]
 
   set H : Subrepresentation (RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction.generalLinearGroupLocalizationRepresentation k n) := RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.subrepresentation φ with hH
   haveI hfin : FiniteDimensional k (RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary φ) :=

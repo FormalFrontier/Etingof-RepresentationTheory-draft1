@@ -77,7 +77,7 @@ theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriteri
         hDynkin
     have hex : ∀ α : Fin n → ℤ,
         RepresentationTheory.IntegerMatrixVectorPredicates.integerMatrixVectorCondition n adj α →
-        ∃ ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{0, 0, 0, 0}
+        ∃ ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{0, 0, 0, 0}
             k (Fin n) _ Q,
           (∀ v, Module.Free k (ρ.obj v)) ∧ (∀ v, Module.Finite k (ρ.obj v)) ∧
             ρ.AuxiliaryCondition ∧ ∀ v, α v = (Module.finrank k (ρ.obj v) : ℤ) := by

@@ -60,7 +60,7 @@ theorem exists_witness_with_prescribed_values
     [Q : Quiver.{0, 0} (Fin n)]
     (hQ : RepresentationTheory.Quiver.MatrixOrientation.IsMatrixOrientation Q adj)
     [∀ a b : Fin n, Subsingleton (a ⟶ b)] :
-    ∃ Vα : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u, 0, u, 0}
+    ∃ Vα : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u, 0, u, 0}
         k (Fin n),
       Vα.AuxiliaryCondition ∧
       (∀ v, (RepresentationTheory.Quiver.Auxiliary.auxiliaryVertexValue Vα v : ℤ) = α v) ∧

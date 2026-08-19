@@ -641,7 +641,7 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
         by_contra hne
         push Not at hne
         obtain ⟨hP, hQ⟩ := hne
-        exact (hW_indec (succMap i)).not_exists_complementarySubmodules
+        exact (hW_indec (succMap i)).not_exists_auxiliary_pair
           ⟨P.map e.toLinearMap, Q.map e.toLinearMap,
            fun h => hP (by rwa [Submodule.map_eq_bot_iff] at h),
            fun h => hQ (by rwa [Submodule.map_eq_bot_iff] at h),
@@ -696,7 +696,7 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
         by_contra hne
         push Not at hne
         obtain ⟨hP, hQ⟩ := hne
-        exact (hW'_indec (skipJ₀ i)).not_exists_complementarySubmodules
+        exact (hW'_indec (skipJ₀ i)).not_exists_auxiliary_pair
           ⟨P.map e.toLinearMap, Q.map e.toLinearMap,
            fun h => hP (by rwa [Submodule.map_eq_bot_iff] at h),
            fun h => hQ (by rwa [Submodule.map_eq_bot_iff] at h),
@@ -752,7 +752,7 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
         by_contra hne
         push Not at hne
         obtain ⟨hP, hQ⟩ := hne
-        exact (hW'D_indec i).not_exists_complementarySubmodules
+        exact (hW'D_indec i).not_exists_auxiliary_pair
           ⟨P.map e.toLinearMap, Q.map e.toLinearMap,
            fun h => hP (by rwa [Submodule.map_eq_bot_iff] at h),
            fun h => hQ (by rwa [Submodule.map_eq_bot_iff] at h),

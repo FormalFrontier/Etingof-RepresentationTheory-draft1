@@ -93,17 +93,17 @@ private theorem injective_of_isSimpleModule_of_ne_zero
     rw [LinearMap.mem_ker] at hx ⊢
     rw [show ρ.asModuleEquiv x = x from rfl, hf, hx, map_zero]
   rcases hsimp.eq_bot_or_eq_top
-      (_root_.RepresentationTheory.Algebra.ModuleActions.RingActionStructure.invariantSubmodule ρ (LinearMap.ker f) hstable) with h | h
+      (_root_.RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.invariantSubmodule ρ (LinearMap.ker f) hstable) with h | h
   · rw [← LinearMap.ker_eq_bot, eq_bot_iff]
     intro x hx
     rw [Submodule.eq_bot_iff] at h
-    exact h x ((_root_.RepresentationTheory.Algebra.ModuleActions.RingActionStructure.mem_invariantSubmodule_iff ρ _ hstable x).mpr hx)
+    exact h x ((_root_.RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.mem_invariantSubmodule_iff ρ _ hstable x).mpr hx)
   · exfalso
     apply hne
     ext x
     rw [Submodule.eq_top_iff'] at h
     exact (LinearMap.mem_ker).mp
-      ((_root_.RepresentationTheory.Algebra.ModuleActions.RingActionStructure.mem_invariantSubmodule_iff ρ _ hstable x).mp (h x))
+      ((_root_.RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.mem_invariantSubmodule_iff ρ _ hstable x).mp (h x))
 
 /-- A simple finite-dimensional general linear group representation satisfying the displayed auxiliary condition is equivalent to a displayed representation for some parameter. -/
 theorem auxiliary_exists_representationParameter_of_simple

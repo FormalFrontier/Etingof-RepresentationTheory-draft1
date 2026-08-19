@@ -27,7 +27,7 @@ open RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation
 
 /-! ## Invariant submodules -/
 
-namespace RepresentationTheory.Algebra.ModuleActions.RingActionStructure
+namespace RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary
 
 section StableSubmodule
 
@@ -64,7 +64,7 @@ def invariantSubmodule (rho : Representation k G V)
 
 end StableSubmodule
 
-end RepresentationTheory.Algebra.ModuleActions.RingActionStructure
+end RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary
 
 /-! ## Character twists -/
 
@@ -102,19 +102,19 @@ theorem isSimpleModule_auxiliaryRepresentationConstruction
     rw [hmemP, heq]
     exact (W.restrictScalars k).smul_mem _ (W.smul_mem _ hx)
   rcases hsimp.eq_bot_or_eq_top
-      (RepresentationTheory.Algebra.ModuleActions.RingActionStructure.invariantSubmodule
+      (RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.invariantSubmodule
         rho P hP) with h | h
   · left
     rw [Submodule.eq_bot_iff] at h ⊢
     intro x hx
     exact h x
-      ((RepresentationTheory.Algebra.ModuleActions.RingActionStructure.mem_invariantSubmodule_iff
+      ((RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.mem_invariantSubmodule_iff
         rho P hP x).mpr ((hmemP x).mpr hx))
   · right
     rw [Submodule.eq_top_iff'] at h ⊢
     intro x
     exact (hmemP x).mp
-      ((RepresentationTheory.Algebra.ModuleActions.RingActionStructure.mem_invariantSubmodule_iff
+      ((RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.mem_invariantSubmodule_iff
         rho P hP x).mp (h x))
 
 /-- The auxiliary representation construction from a unit-valued monoid homomorphism preserves semisimplicity. -/
@@ -147,22 +147,22 @@ theorem isSemisimpleModule_auxiliaryRepresentationConstruction
   let toRho : Submodule (MonoidAlgebra k G) (twistByCharacter c rho).asModule →
       Submodule (MonoidAlgebra k G) rho.asModule :=
     fun W =>
-      RepresentationTheory.Algebra.ModuleActions.RingActionStructure.invariantSubmodule
+      RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.invariantSubmodule
         rho (W.restrictScalars k) (hPrho W)
   let toChi : Submodule (MonoidAlgebra k G) rho.asModule →
       Submodule (MonoidAlgebra k G) (twistByCharacter c rho).asModule :=
     fun V' =>
-      RepresentationTheory.Algebra.ModuleActions.RingActionStructure.invariantSubmodule
+      RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.invariantSubmodule
         (twistByCharacter c rho) (V'.restrictScalars k) (hPchi V')
   have mem_toRho : ∀ (W : Submodule (MonoidAlgebra k G) (twistByCharacter c rho).asModule)
       (x : rho.asModule), x ∈ toRho W ↔ x ∈ W :=
     fun W x =>
-      RepresentationTheory.Algebra.ModuleActions.RingActionStructure.mem_invariantSubmodule_iff
+      RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.mem_invariantSubmodule_iff
         rho _ (hPrho W) x
   have mem_toChi : ∀ (V' : Submodule (MonoidAlgebra k G) rho.asModule)
       (x : (twistByCharacter c rho).asModule), x ∈ toChi V' ↔ x ∈ V' :=
     fun V' x =>
-      RepresentationTheory.Algebra.ModuleActions.RingActionStructure.mem_invariantSubmodule_iff
+      RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.mem_invariantSubmodule_iff
         (twistByCharacter c rho) _ (hPchi V') x
   let e : Submodule (MonoidAlgebra k G) (twistByCharacter c rho).asModule ≃o
       Submodule (MonoidAlgebra k G) rho.asModule :=

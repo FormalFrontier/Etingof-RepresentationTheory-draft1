@@ -46,9 +46,9 @@ end Reversal
 section Iso
 
 /-- Auxiliary data parametrized by two values of the displayed type. -/
-structure RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData
+structure RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData
     {k : Type*} [CommSemiring k] {Q : Type*} [Quiver Q]
-    (ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q) : Type _ where
+    (ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) : Type _ where
 
   /-- The linear equivalence at a vertex supplied by auxiliary data. -/
   linearEquivAt : ∀ v : Q, ρ₁.obj v ≃ₗ[k] ρ₂.obj v
@@ -97,29 +97,29 @@ theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryQuiv
       exact RepresentationTheory.QuiverVertexReversal.reversedAtHom_eq_of_ne_ne ha hb
 
 /-- An auxiliary endomap of the displayed type parametrized by a vertex. -/
-noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryAt
+noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryAt
     {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q}
-    (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _
+    (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _
       (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i)) :
-    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q :=
+    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q :=
   RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryQuiver_eq Q i ▸ ρ
 
 /-- A compatible family of vertexwise linear equivalences yields nonempty auxiliary data after the displayed transport. -/
-noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.nonempty_auxiliaryData_ofLinearEquivAt
+noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.nonempty_auxiliaryData_ofLinearEquivAt
     {k : Type*} [CommSemiring k] {Q : Type*}
     {inst₁ inst₂ : Quiver Q} (h : inst₁ = inst₂)
-    {ρ₁ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ inst₁}
-    {ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ inst₂}
+    {ρ₁ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ inst₁}
+    {ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ inst₂}
     (linearEquivAt : ∀ v : Q,
-      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ inst₁ ρ₁ v ≃ₗ[k]
-      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ inst₂ ρ₂ v)
+      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst₁ ρ₁ v ≃ₗ[k]
+      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst₂ ρ₂ v)
     (linearEquivAt_map : ∀ {a b : Q} (e : @Quiver.Hom Q inst₂ a b)
-      (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ inst₁ ρ₁ a),
+      (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst₁ ρ₁ a),
       (linearEquivAt b)
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k Q _ inst₁ ρ₁ a b (h.symm ▸ e) x) =
-      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k Q _ inst₂ ρ₂ a b e ((linearEquivAt a) x)) :
-    Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ Q inst₂ (h ▸ ρ₁) ρ₂) := by
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k Q _ inst₁ ρ₁ a b (h.symm ▸ e) x) =
+      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k Q _ inst₂ ρ₂ a b e ((linearEquivAt a) x)) :
+    Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ Q inst₂ (h ▸ ρ₁) ρ₂) := by
   subst h; exact ⟨⟨linearEquivAt, linearEquivAt_map⟩⟩
 
 end Iso
@@ -159,8 +159,8 @@ theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.DirectSum.auxiliaryL
 theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.DirectSum.auxiliaryMapRangeEq
     {k : Type*} [CommRing k] {Q : Type*} [Quiver Q]
     {i : Q}
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q}
-    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₂)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
+    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₂)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] [DecidableEq (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     (ψ₁ : ρ₁.obj i →ₗ[k] DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₁.obj a.fst))
     (hψ₁ : ψ₁ = ∑ a : RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i,
@@ -199,8 +199,8 @@ set_option maxHeartbeats 1600000 in
 noncomputable def RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryLinearEquiv
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q}
-    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₂)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
+    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₂)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] (d : Decidable (i = i)) :
     letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid ρ₁ i i d
     letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid ρ₂ i i d
@@ -238,14 +238,14 @@ set_option maxHeartbeats 1600000 in
 private noncomputable def RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryDataLinearEquivAt
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q}
-    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₂)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
+    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₂)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     (v : Q) :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₁) v ≃ₗ[k]
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₂) v := by
   by_cases hv : v = i
@@ -257,7 +257,7 @@ private noncomputable def RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Qu
 private theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.transformedVertexEquivQuotient_transformedQuotientMap
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     (d : DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :
     letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
@@ -295,8 +295,8 @@ set_option maxHeartbeats 1600000 in
 private theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryLinearEquiv_factor
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q}
-    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₂)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
+    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₂)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     (d : DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₁.obj a.1)) :
     letI : ∀ v, AddCommGroup (ρ₁.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
@@ -413,8 +413,8 @@ set_option maxHeartbeats 1600000 in
 private theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryLinearEquiv_transformedQuotientMap
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q}
-    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₂)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
+    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₂)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     (d : DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₁.obj a.1)) :
     RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryDataLinearEquivAt hi σ i
@@ -438,18 +438,18 @@ set_option maxHeartbeats 3200000 in
 private theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryDataLinearEquivAt_map
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q}
-    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₂)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
+    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₂)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     {a b : Q} (e : @Quiver.Hom Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) a b)
-    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _
+    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₁) a) :
     RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryDataLinearEquivAt hi σ b
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k Q _
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k Q _
         (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
         (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₁) a b e x) =
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k Q _
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k Q _
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₂) a b e
       (RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryDataLinearEquivAt hi σ a x) := by
@@ -488,14 +488,14 @@ private theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxil
 noncomputable def RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryDataNonemptyAfterOperation
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [instQ : Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q}
-    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₂)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
+    (σ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₂)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] :
-    Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k (inferInstanceAs (CommSemiring k))
+    Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k (inferInstanceAs (CommSemiring k))
       Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₁)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₂)) :=
-  ⟨@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.mk k _ Q
+  ⟨@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.mk k _ Q
     (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
     (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₁)
     (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₂)
@@ -609,7 +609,7 @@ def RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryEquiv
 theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.LinearMap.surjective_of_auxiliaryPreimages
     {k : Type*} [Field k] {Q : Type*} [DecidableEq Q] [inst : Quiver Q]
     {i : Q} (_hi : RepresentationTheory.QuiverVertexPredicates.vertexProperty Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     [Finite (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i)]
     (hsurj : Function.Surjective (ρ.auxiliaryDirectSumMap i))
     {M : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i → Type*}
@@ -635,7 +635,7 @@ theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.LinearMap.surjective
 
     rw [hz]
 
-    delta RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryDirectSumMap
+    delta RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryDirectSumMap
     erw [DirectSum.toModule_lof]
   | add x₁ x₂ ih₁ ih₂ =>
     rw [map_add]
@@ -649,17 +649,17 @@ set_option maxHeartbeats 3200000 in
 theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliarySum_eq_zero
     {k : Type*} [Field k] {Q : Type*} [DecidableEq Q] [inst : Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexProperty Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     [Fintype (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i)]
-    (w : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _
+    (w : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation Q i hi ρ) i) :
     ∑ x : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i,
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k Q _ inst ρ x.fst i
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k Q _ inst ρ x.fst i
         (@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryHom Q _ inst i hi x))
       ((@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe k _ Q _ inst i hi ρ x.fst
         (@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryFst_ne Q _ inst i hi x))
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k Q _
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k Q _
         (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
         (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation Q i hi ρ) i x.fst x.snd w)) = 0 := by
 
@@ -691,7 +691,7 @@ theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliarySum_
       ρ.map b.2 (DirectSum.component k (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i)
         (fun a => ρ.obj a.1) b y) = (ρ.auxiliaryDirectSumMap i) y from by
     symm
-    delta RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryDirectSumMap
+    delta RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryDirectSumMap
     change (DirectSum.toModule k (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) (ρ.obj i)
       (fun a => ρ.map a.2)) y = _
     induction y using DirectSum.induction_on with

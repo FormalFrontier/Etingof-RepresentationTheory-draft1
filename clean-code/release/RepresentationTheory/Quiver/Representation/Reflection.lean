@@ -14,20 +14,20 @@ import RepresentationTheory.Algebra.Quiver.LinearRepresentationCategory
 open CategoryTheory
 open RepresentationTheory.AuxiliaryQuiverRepresentationTransform
 open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
-open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
+open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData
 open RepresentationTheory.CategoryTheory.QuiverLinearMaps
 open RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver
 open RepresentationTheory.QuiverRepresentationQuotientTransform
 open RepresentationTheory.QuiverVertexPredicates
 open RepresentationTheory.QuiverVertexReversal
 
-namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
+namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData
 
 /-! ## Transport accessors for `auxiliaryAt`
 
 `auxiliaryAt X` moves a representation of the double-reversed quiver `(Q̄ᵢ)̄ᵢ`
 back to `Q` along the instance equality `auxiliaryQuiver_eq Q i : (Q̄ᵢ)̄ᵢ = Q`. Since
-the `obj` field of `QuiverLinearDiagram` does not mention the `Quiver` instance, transport
+the `obj` field of `AuxiliaryQuiverModuleData` does not mention the `Quiver` instance, transport
 leaves the vertex spaces unchanged; the `mapLinear` field does mention it (through the arrow
 type `v ⟶ w`), so it is transported through the arrow identification.
 
@@ -39,41 +39,41 @@ instances (where `subst` discharges everything) and then specialized. -/
 /-- The object assigned to each vertex is unchanged by quiver reindexing. -/
 theorem reindex_object {k : Type*} [CommSemiring k] {Q : Type*}
     {I₁ I₂ : Quiver Q} (h : I₁ = I₂)
-    (X : @QuiverLinearDiagram k Q _ I₁) (v : Q) :
-    @QuiverLinearDiagram.obj k Q _ I₂ (h ▸ X) v =
-    @QuiverLinearDiagram.obj k Q _ I₁ X v := by
+    (X : @AuxiliaryQuiverModuleData k Q _ I₁) (v : Q) :
+    @AuxiliaryQuiverModuleData.obj k Q _ I₂ (h ▸ X) v =
+    @AuxiliaryQuiverModuleData.obj k Q _ I₁ X v := by
   subst h; rfl
 
 /-- Arrow maps agree heterogeneously after transporting the quiver structure. -/
 theorem hom_heq_of_quiver_eq {k : Type*} [CommSemiring k] {Q : Type*}
     {I₁ I₂ : Quiver Q} (h : I₁ = I₂)
-    (X : @QuiverLinearDiagram k Q _ I₁) (a b : Q) (e : @Quiver.Hom Q I₂ a b) :
+    (X : @AuxiliaryQuiverModuleData k Q _ I₁) (a b : Q) (e : @Quiver.Hom Q I₂ a b) :
     HEq
-      (@QuiverLinearDiagram.map k Q _ I₂ (h ▸ X) a b e)
-      (@QuiverLinearDiagram.map k Q _ I₁ X a b (h.symm ▸ e)) := by
+      (@AuxiliaryQuiverModuleData.map k Q _ I₂ (h ▸ X) a b e)
+      (@AuxiliaryQuiverModuleData.map k Q _ I₁ X a b (h.symm ▸ e)) := by
   subst h; rfl
 
 variable {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [inst : Quiver Q] {i : Q}
 
 /-- The reflected and original vertex objects are equal after reindexing. -/
 theorem reflectAt_reindex_object
-    (X : @QuiverLinearDiagram k Q _
+    (X : @AuxiliaryQuiverModuleData k Q _
       (@reverseAtVertex Q _ (reverseAtVertex Q i) i)) (v : Q) :
-    @QuiverLinearDiagram.obj k Q _ inst
-      (QuiverLinearDiagram.auxiliaryAt X) v =
-    @QuiverLinearDiagram.obj k Q _
+    @AuxiliaryQuiverModuleData.obj k Q _ inst
+      (AuxiliaryQuiverModuleData.auxiliaryAt X) v =
+    @AuxiliaryQuiverModuleData.obj k Q _
       (@reverseAtVertex Q _ (reverseAtVertex Q i) i) X v :=
   reindex_object (auxiliaryQuiver_eq Q i) X v
 
 /-- The reflected arrow maps coincide heterogeneously after the indexing transport. -/
 theorem reflectAt_reindex_hom_heq
-    (X : @QuiverLinearDiagram k Q _
+    (X : @AuxiliaryQuiverModuleData k Q _
       (@reverseAtVertex Q _ (reverseAtVertex Q i) i))
     (a b : Q) (e : @Quiver.Hom Q inst a b) :
     HEq
-      (@QuiverLinearDiagram.map k Q _ inst
-        (QuiverLinearDiagram.auxiliaryAt X) a b e)
-      (@QuiverLinearDiagram.map k Q _
+      (@AuxiliaryQuiverModuleData.map k Q _ inst
+        (AuxiliaryQuiverModuleData.auxiliaryAt X) a b e)
+      (@AuxiliaryQuiverModuleData.map k Q _
         (@reverseAtVertex Q _ (reverseAtVertex Q i) i) X a b
         ((auxiliaryQuiver_eq Q i).symm ▸ e)) :=
   hom_heq_of_quiver_eq (auxiliaryQuiver_eq Q i) X a b e
@@ -90,51 +90,51 @@ Both are proved by `subst`, after which the transport is literally the identity.
 quivers. -/
 noncomputable def reindex {k : Type*} [CommSemiring k] {Q : Type*}
     {I₁ I₂ : Quiver Q} (h : I₁ = I₂)
-    (X : @QuiverLinearDiagram k Q _ I₁) (v : Q) :
-    @QuiverLinearDiagram.obj k Q _ I₂ (h ▸ X) v ≃ₗ[k]
-    @QuiverLinearDiagram.obj k Q _ I₁ X v :=
+    (X : @AuxiliaryQuiverModuleData k Q _ I₁) (v : Q) :
+    @AuxiliaryQuiverModuleData.obj k Q _ I₂ (h ▸ X) v ≃ₗ[k]
+    @AuxiliaryQuiverModuleData.obj k Q _ I₁ X v :=
   match I₂, h with
   | _, rfl => LinearEquiv.refl k _
 
 /-- The reindexing equivalences intertwine the transported arrow maps. -/
 theorem reindex_naturality {k : Type*} [CommSemiring k] {Q : Type*}
     {I₁ I₂ : Quiver Q} (h : I₁ = I₂)
-    (X : @QuiverLinearDiagram k Q _ I₁) (a b : Q) (e : @Quiver.Hom Q I₂ a b)
-    (x : @QuiverLinearDiagram.obj k Q _ I₂ (h ▸ X) a) :
+    (X : @AuxiliaryQuiverModuleData k Q _ I₁) (a b : Q) (e : @Quiver.Hom Q I₂ a b)
+    (x : @AuxiliaryQuiverModuleData.obj k Q _ I₂ (h ▸ X) a) :
     reindex h X b
-        (@QuiverLinearDiagram.map k Q _ I₂ (h ▸ X) a b e x) =
-      @QuiverLinearDiagram.map k Q _ I₁ X a b (h.symm ▸ e)
+        (@AuxiliaryQuiverModuleData.map k Q _ I₂ (h ▸ X) a b e x) =
+      @AuxiliaryQuiverModuleData.map k Q _ I₁ X a b (h.symm ▸ e)
         (reindex h X a x) := by
   subst h; rfl
 
 /-- Gives the vertexwise equivalence between a reflected representation and its original
 indexing. -/
 noncomputable def reflectAt_reindex
-    (X : @QuiverLinearDiagram k Q _
+    (X : @AuxiliaryQuiverModuleData k Q _
       (@reverseAtVertex Q _ (reverseAtVertex Q i) i)) (v : Q) :
-    @QuiverLinearDiagram.obj k Q _ inst
-      (QuiverLinearDiagram.auxiliaryAt X) v ≃ₗ[k]
-    @QuiverLinearDiagram.obj k Q _
+    @AuxiliaryQuiverModuleData.obj k Q _ inst
+      (AuxiliaryQuiverModuleData.auxiliaryAt X) v ≃ₗ[k]
+    @AuxiliaryQuiverModuleData.obj k Q _
       (@reverseAtVertex Q _ (reverseAtVertex Q i) i) X v :=
   reindex (auxiliaryQuiver_eq Q i) X v
 
 /-- The reflection reindexing equivalences commute with the corresponding arrow maps. -/
 theorem reflectAt_reindex_naturality
-    (X : @QuiverLinearDiagram k Q _
+    (X : @AuxiliaryQuiverModuleData k Q _
       (@reverseAtVertex Q _ (reverseAtVertex Q i) i))
     (a b : Q) (e : @Quiver.Hom Q inst a b)
-    (x : @QuiverLinearDiagram.obj k Q _ inst
-      (QuiverLinearDiagram.auxiliaryAt X) a) :
+    (x : @AuxiliaryQuiverModuleData.obj k Q _ inst
+      (AuxiliaryQuiverModuleData.auxiliaryAt X) a) :
     reflectAt_reindex X b
-        (@QuiverLinearDiagram.map k Q _ inst
-          (QuiverLinearDiagram.auxiliaryAt X) a b e x) =
-      @QuiverLinearDiagram.map k Q _
+        (@AuxiliaryQuiverModuleData.map k Q _ inst
+          (AuxiliaryQuiverModuleData.auxiliaryAt X) a b e x) =
+      @AuxiliaryQuiverModuleData.map k Q _
         (@reverseAtVertex Q _ (reverseAtVertex Q i) i) X a b
         ((auxiliaryQuiver_eq Q i).symm ▸ e)
         (reflectAt_reindex X a x) :=
   reindex_naturality (auxiliaryQuiver_eq Q i) X a b e x
 
-end RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
+end RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData
 
 namespace RepresentationTheory.Quiver.Representation.Reflection
 
@@ -173,7 +173,7 @@ reindexing `auxiliaryTypeAt (Q̄ᵢ) i ≃ OutgoingArrow Q i` via `outgoingIncom
 
 **Assembly.** Define `toFun`, `invFun` by extracting the reduced family and rebuilding on the
 other side (kernel corestriction via `LinearMap.codRestrict` + (C); cokernel factoring via
-`Submodule.liftQ` + (C)). Prove `left_inv`/`right_inv` by `QuiverLinearHom`
+`Submodule.liftQ` + (C)). Prove `left_inv`/`right_inv` by `AuxiliaryQuiverLinearMapData`
 extensionality: at `v ≠ i` both sides are `hᵥ` transported; at `v = i` use uniqueness of the
 cokernel map out of `mkQ` / the kernel `subtype` being injective. Reusable ingredients:
 `outgoingIncomingIndexEquiv`, `surjective_of_auxiliaryPreimages`, `auxiliarySum_eq_zero`,
@@ -215,21 +215,21 @@ noncomputable def arrowTo
 structure ReflectionHom
     {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} (hi : vertexCondition Q i) [Fintype (OutgoingArrow Q i)]
-    (V : QuiverLinearDiagram k Q)
-    (W : @QuiverLinearDiagram k Q _ (reverseAtVertex Q i)) where
+    (V : AuxiliaryQuiverModuleData k Q)
+    (W : @AuxiliaryQuiverModuleData k Q _ (reverseAtVertex Q i)) where
   /-- Returns the linear component of a reflection morphism at a non-distinguished vertex. -/
   map : ∀ v, v ≠ i → (V.obj v →ₗ[k]
-    @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W v)
+    @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W v)
   /-- The component maps commute with arrows away from the distinguished vertex. -/
   comm : ∀ {a b : Q} (ha : a ≠ i) (hb : b ≠ i)
       (e : @Quiver.Hom Q (reverseAtVertex Q i) a b) (x : V.obj a),
-      @QuiverLinearDiagram.map k Q _ (reverseAtVertex Q i) W a b e
+      @AuxiliaryQuiverModuleData.map k Q _ (reverseAtVertex Q i) W a b e
           (map a ha x) =
         map b hb (V.map (auxiliaryPreserveHom ha hb e) x)
   /-- The sum of the reflected component contributions vanishes at the distinguished vertex. -/
   sum_apply_eq_zero : ∀ (x : V.obj i),
       ∑ a : OutgoingArrow Q i,
-        @QuiverLinearDiagram.map k Q _ (reverseAtVertex Q i) W a.fst i
+        @AuxiliaryQuiverModuleData.map k Q _ (reverseAtVertex Q i) W a.fst i
           (arrowTo hi a)
           (map a.fst (outgoingIndex_ne hi a) (V.map a.snd x)) = 0
 
@@ -238,12 +238,12 @@ vertex. -/
 @[ext] theorem ReflectionHom.ext
     {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} {hi : vertexCondition Q i} [Fintype (OutgoingArrow Q i)]
-    {V : QuiverLinearDiagram k Q}
-    {W : @QuiverLinearDiagram k Q _ (reverseAtVertex Q i)}
+    {V : AuxiliaryQuiverModuleData k Q}
+    {W : @AuxiliaryQuiverModuleData k Q _ (reverseAtVertex Q i)}
     {r₁ r₂ : ReflectionHom hi V W} (h : r₁.map = r₂.map) : r₁ = r₂ := by
   cases r₁; cases r₂; cases h; rfl
 
--- `QuiverLinearHom.ext` now lives in
+-- `AuxiliaryQuiverLinearMapData.ext` now lives in
 -- `RepresentationTheory.Algebra.Quiver.LinearRepresentationCategory`, alongside the `Rep Q`
 -- category instance.
 
@@ -280,12 +280,12 @@ open Classical in
 /-- Describes the reflected arrow map on a single direct-sum summand. -/
 theorem reflectionMap_lof
     {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
-    {i : Q} (hi : vertexCondition Q i) (V : QuiverLinearDiagram k Q)
+    {i : Q} (hi : vertexCondition Q i) (V : AuxiliaryQuiverModuleData k Q)
     [Fintype (OutgoingArrow Q i)]
     (a : OutgoingArrow Q i) (u : V.obj a.fst) :
     transformedQuotientMap hi V
         (DirectSum.lof k (OutgoingArrow Q i) (fun a => V.obj a.1) a u) =
-      @QuiverLinearDiagram.map k Q _ (reverseAtVertex Q i)
+      @AuxiliaryQuiverModuleData.map k Q _ (reverseAtVertex Q i)
         (quotientTransformedRepresentation Q i hi V) a.fst i (arrowTo hi a)
         ((transformedVertexEquivOfNe hi V a.fst
           (outgoingIndex_ne hi a)).symm u) := by
@@ -304,9 +304,9 @@ morphisms. -/
 noncomputable def reflectionHomEquiv
     {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} (hi : vertexCondition Q i) [Fintype (OutgoingArrow Q i)]
-    (V : QuiverLinearDiagram k Q)
-    (W : @QuiverLinearDiagram k Q _ (reverseAtVertex Q i)) :
-    (@QuiverLinearHom k Q _ (reverseAtVertex Q i)
+    (V : AuxiliaryQuiverModuleData k Q)
+    (W : @AuxiliaryQuiverModuleData k Q _ (reverseAtVertex Q i)) :
+    (@AuxiliaryQuiverLinearMapData k Q _ (reverseAtVertex Q i)
         (quotientTransformedRepresentation Q i hi V) W)
       ≃ ReflectionHom hi V W := by
   classical
@@ -317,10 +317,10 @@ noncomputable def reflectionHomEquiv
   -- is `W(arrowTo a) ∘ r.map a.fst`.  Its factorisation through the cokernel is `f.app i`.
   let g : ReflectionHom hi V W →
       (DirectSum (OutgoingArrow Q i) (fun a => V.obj a.1) →ₗ[k]
-        @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W i) :=
+        @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W i) :=
     fun r => DirectSum.toModule k (OutgoingArrow Q i)
-      (@QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W i)
-      (fun a => (@QuiverLinearDiagram.map k Q _ (reverseAtVertex Q i) W
+      (@AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W i)
+      (fun a => (@AuxiliaryQuiverModuleData.map k Q _ (reverseAtVertex Q i) W
           a.fst i (arrowTo hi a)).comp
         (r.map a.fst (outgoingIndex_ne hi a)))
   -- `g r` kills the source-map image (that is exactly constraint (C)).
@@ -332,7 +332,7 @@ noncomputable def reflectionHomEquiv
     simp only [LinearMap.comp_apply, LinearMap.zero_apply]
     have hs : V.outgoingDirectSumMap i x = ∑ a : OutgoingArrow Q i,
         DirectSum.lof k (OutgoingArrow Q i) (fun a => V.obj a.1) a (V.map a.snd x) := by
-      simp only [QuiverLinearDiagram.outgoingDirectSumMap, LinearMap.sum_apply,
+      simp only [AuxiliaryQuiverModuleData.outgoingDirectSumMap, LinearMap.sum_apply,
         LinearMap.comp_apply]
     rw [hs, map_sum]
     simp only [g, DirectSum.toModule_lof, LinearMap.comp_apply]
@@ -341,34 +341,34 @@ noncomputable def reflectionHomEquiv
   let liftG : ReflectionHom hi V W →
       ((DirectSum (OutgoingArrow Q i) (fun a => V.obj a.1) ⧸
           LinearMap.range (V.outgoingDirectSumMap i)) →ₗ[k]
-        @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W i) :=
+        @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W i) :=
     fun r =>
-      letI grp_Wi : AddCommGroup (@QuiverLinearDiagram.obj k Q _
+      letI grp_Wi : AddCommGroup (@AuxiliaryQuiverModuleData.obj k Q _
         (reverseAtVertex Q i) W i) := moduleAddCommGroupOfCommRing (k := k)
       (LinearMap.range (V.outgoingDirectSumMap i)).liftQ
         (g r : DirectSum (OutgoingArrow Q i) (fun a => V.obj a.1) →ₗ[k]
-          @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W i) (hg r)
+          @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W i) (hg r)
   -- `appAtI r : F⁻ᵢ(V).obj i →ₗ W.obj i` is `liftG r ∘ equivAt_eq`.
   let appAtI : ReflectionHom hi V W →
-      (@QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i)
+      (@AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i)
           (quotientTransformedRepresentation Q i hi V) i →ₗ[k]
-        @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W i) :=
+        @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W i) :=
     fun r => (liftG r).comp (transformedVertexEquivQuotient hi V).toLinearMap
   -- The forward map `f ↦ (v ↦ f.app v ∘ equivAt_ne⁻¹)`.
-  let toFun : (@QuiverLinearHom k Q _ (reverseAtVertex Q i)
+  let toFun : (@AuxiliaryQuiverLinearMapData k Q _ (reverseAtVertex Q i)
         (quotientTransformedRepresentation Q i hi V) W) → ReflectionHom hi V W :=
     fun f => {
       map := fun v hv =>
-        ((@QuiverLinearHom.app k Q _ (reverseAtVertex Q i)
+        ((@AuxiliaryQuiverLinearMapData.app k Q _ (reverseAtVertex Q i)
               (quotientTransformedRepresentation Q i hi V) W f v).comp
             (transformedVertexEquivOfNe hi V v hv).symm.toLinearMap :
           V.obj v →ₗ[k]
-            @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W v)
+            @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W v)
       comm := by
         intro a b ha hb e x
         rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
           LinearEquiv.coe_toLinearMap]
-        rw [← @QuiverLinearHom.naturality k Q _ (reverseAtVertex Q i)
+        rw [← @AuxiliaryQuiverLinearMapData.naturality k Q _ (reverseAtVertex Q i)
           (quotientTransformedRepresentation Q i hi V) W f a b e
           ((transformedVertexEquivOfNe hi V a ha).symm x)]
         congr 1
@@ -379,14 +379,14 @@ noncomputable def reflectionHomEquiv
       sum_apply_eq_zero := by
         intro x
         have step : ∀ a : OutgoingArrow Q i,
-            (@QuiverLinearDiagram.map k Q _ (reverseAtVertex Q i) W
+            (@AuxiliaryQuiverModuleData.map k Q _ (reverseAtVertex Q i) W
                 a.fst i (arrowTo hi a))
-              (((@QuiverLinearHom.app k Q _ (reverseAtVertex Q i)
+              (((@AuxiliaryQuiverLinearMapData.app k Q _ (reverseAtVertex Q i)
                   (quotientTransformedRepresentation Q i hi V) W f a.fst).comp
                   (transformedVertexEquivOfNe hi V a.fst
                     (outgoingIndex_ne hi a)).symm.toLinearMap)
                 (V.map a.snd x)) =
-              (@QuiverLinearHom.app k Q _ (reverseAtVertex Q i)
+              (@AuxiliaryQuiverLinearMapData.app k Q _ (reverseAtVertex Q i)
                   (quotientTransformedRepresentation Q i hi V) W f i)
                 (transformedQuotientMap hi V
                 (DirectSum.lof k (OutgoingArrow Q i) (fun a => V.obj a.1) a
@@ -394,16 +394,16 @@ noncomputable def reflectionHomEquiv
           intro a
           rw [LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
             reflectionMap_lof hi V a (V.map a.snd x)]
-          exact (@QuiverLinearHom.naturality k Q _ (reverseAtVertex Q i)
+          exact (@AuxiliaryQuiverLinearMapData.naturality k Q _ (reverseAtVertex Q i)
             (quotientTransformedRepresentation Q i hi V) W f a.fst i (arrowTo hi a) _).symm
         rw [Finset.sum_congr rfl (fun a _ => step a), ← map_sum, ← map_sum,
           transformedQuotientMap_sum_eq_zero hi V x, map_zero] }
   -- The inverse map: `r ↦ (v ↦ r.map v ∘ equivAt_ne)` off `i`, and `appAtI r` at `i`.
   let invFun : ReflectionHom hi V W →
-      (@QuiverLinearHom k Q _ (reverseAtVertex Q i)
+      (@AuxiliaryQuiverLinearMapData k Q _ (reverseAtVertex Q i)
         (quotientTransformedRepresentation Q i hi V) W) :=
     fun r =>
-      @QuiverLinearHom.mk k Q _ (reverseAtVertex Q i)
+      @AuxiliaryQuiverLinearMapData.mk k Q _ (reverseAtVertex Q i)
         (quotientTransformedRepresentation Q i hi V) W
         (fun v => if hv : v = i then hv ▸ appAtI r
           else (r.map v hv).comp (transformedVertexEquivOfNe hi V v hv).toLinearMap)
@@ -453,19 +453,19 @@ noncomputable def reflectionHomEquiv
   refine ⟨toFun, invFun, ?_, ?_⟩
   · -- left_inv: `invFun (toFun f) = f`
     intro f
-    refine @QuiverLinearHom.ext k Q _ (reverseAtVertex Q i)
+    refine @AuxiliaryQuiverLinearMapData.ext k Q _ (reverseAtVertex Q i)
       (quotientTransformedRepresentation Q i hi V) W _ _ (fun v => ?_)
     by_cases hv : v = i
     · subst v
       -- at `i`, `(invFun (toFun f)).app i = appAtI (toFun f)`; agree with `f.app i` on
       -- `mkQ`-generators, then conclude by surjectivity of `mkQ`.
-      have happ : (@QuiverLinearHom.app k Q _ (reverseAtVertex Q i)
+      have happ : (@AuxiliaryQuiverLinearMapData.app k Q _ (reverseAtVertex Q i)
           (quotientTransformedRepresentation Q i hi V) W (invFun (toFun f)) i) =
           appAtI (toFun f) :=
         LinearMap.ext fun z => by
-          change (@QuiverLinearHom.app k Q _ (reverseAtVertex Q i)
+          change (@AuxiliaryQuiverLinearMapData.app k Q _ (reverseAtVertex Q i)
               (quotientTransformedRepresentation Q i hi V) W
-              (@QuiverLinearHom.mk k Q _ (reverseAtVertex Q i)
+              (@AuxiliaryQuiverLinearMapData.mk k Q _ (reverseAtVertex Q i)
                 (quotientTransformedRepresentation Q i hi V) W _ _) i) z = appAtI (toFun f) z
           simp only [reduceDIte]
       refine happ.trans (LinearMap.ext fun z => ?_)
@@ -477,7 +477,7 @@ noncomputable def reflectionHomEquiv
         -- `DirectSum.of` is definitionally `DirectSum.lof`; restate in `lof` form.
         change appAtI (toFun f) (transformedQuotientMap hi V
               (DirectSum.lof k (OutgoingArrow Q i) (fun a => V.obj a.1) a u)) =
-            (@QuiverLinearHom.app k Q _ (reverseAtVertex Q i)
+            (@AuxiliaryQuiverLinearMapData.app k Q _ (reverseAtVertex Q i)
               (quotientTransformedRepresentation Q i hi V) W f i)
               (transformedQuotientMap hi V
                 (DirectSum.lof k (OutgoingArrow Q i) (fun a => V.obj a.1) a u))
@@ -490,7 +490,7 @@ noncomputable def reflectionHomEquiv
           rw [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply]
         have hLHS : appAtI (toFun f) (transformedQuotientMap hi V
               (DirectSum.lof k (OutgoingArrow Q i) (fun a => V.obj a.1) a u)) =
-            (@QuiverLinearDiagram.map k Q _ (reverseAtVertex Q i) W
+            (@AuxiliaryQuiverModuleData.map k Q _ (reverseAtVertex Q i) W
                 a.fst i (arrowTo hi a))
               ((toFun f).map a.fst (outgoingIndex_ne hi a) u) := by
           change (liftG (toFun f)) ((transformedVertexEquivQuotient hi V) _) = _
@@ -500,7 +500,7 @@ noncomputable def reflectionHomEquiv
           change (DirectSum.toModule k (OutgoingArrow Q i) _ _) _ = _
           rw [DirectSum.toModule_lof, LinearMap.comp_apply]
         rw [hLHS, reflectionMap_lof hi V a u,
-          @QuiverLinearHom.naturality k Q _ (reverseAtVertex Q i)
+          @AuxiliaryQuiverLinearMapData.naturality k Q _ (reverseAtVertex Q i)
             (quotientTransformedRepresentation Q i hi V) W f a.fst i (arrowTo hi a)
             ((transformedVertexEquivOfNe hi V a.fst
               (outgoingIndex_ne hi a)).symm u)]
@@ -508,12 +508,12 @@ noncomputable def reflectionHomEquiv
     · -- at `v ≠ i`, `(invFun (toFun f)).app v = (toFun f).map v hv ∘ equivAt_ne`, and
       -- `(toFun f).map v hv = f.app v ∘ equivAt_ne⁻¹`, so the equivalences cancel.
       refine LinearMap.ext fun x => ?_
-      change (@QuiverLinearHom.app k Q _ (reverseAtVertex Q i)
+      change (@AuxiliaryQuiverLinearMapData.app k Q _ (reverseAtVertex Q i)
           (quotientTransformedRepresentation Q i hi V) W
-          (@QuiverLinearHom.mk k Q _ (reverseAtVertex Q i)
+          (@AuxiliaryQuiverLinearMapData.mk k Q _ (reverseAtVertex Q i)
             (quotientTransformedRepresentation Q i hi V) W _ _) v) x = _
       simp only [dif_neg hv]
-      change (((@QuiverLinearHom.app k Q _ (reverseAtVertex Q i)
+      change (((@AuxiliaryQuiverLinearMapData.app k Q _ (reverseAtVertex Q i)
           (quotientTransformedRepresentation Q i hi V) W f v).comp
           (transformedVertexEquivOfNe hi V v hv).symm.toLinearMap).comp
           (transformedVertexEquivOfNe hi V v hv).toLinearMap) x = _
@@ -522,9 +522,9 @@ noncomputable def reflectionHomEquiv
   · -- right_inv: `toFun (invFun r) = r`
     intro r
     ext v hv x
-    change ((@QuiverLinearHom.app k Q _ (reverseAtVertex Q i)
+    change ((@AuxiliaryQuiverLinearMapData.app k Q _ (reverseAtVertex Q i)
         (quotientTransformedRepresentation Q i hi V) W
-        (@QuiverLinearHom.mk k Q _ (reverseAtVertex Q i)
+        (@AuxiliaryQuiverLinearMapData.mk k Q _ (reverseAtVertex Q i)
           (quotientTransformedRepresentation Q i hi V) W _ _) v).comp
         (transformedVertexEquivOfNe hi V v hv).symm.toLinearMap) x = r.map v hv x
     simp only [dif_neg hv]
@@ -538,10 +538,10 @@ type. -/
 theorem reflectionHomEquiv_nonempty
     {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} (hi : vertexCondition Q i) [Fintype (OutgoingArrow Q i)]
-    (V : QuiverLinearDiagram k Q)
-    (W : @QuiverLinearDiagram k Q _ (reverseAtVertex Q i)) :
+    (V : AuxiliaryQuiverModuleData k Q)
+    (W : @AuxiliaryQuiverModuleData k Q _ (reverseAtVertex Q i)) :
     Nonempty
-      ((@QuiverLinearHom k Q _ (reverseAtVertex Q i)
+      ((@AuxiliaryQuiverLinearMapData k Q _ (reverseAtVertex Q i)
           (quotientTransformedRepresentation Q i hi V) W)
         ≃ ReflectionHom hi V W) :=
   ⟨reflectionHomEquiv hi V W⟩
@@ -637,13 +637,13 @@ noncomputable def outgoingIncomingIndexEquiv
 /-- Applying the map from the direct sum equals the sum of its arrow-map components. -/
 theorem mapFromDirectSum_eq_sum
     {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
-    (ρ : QuiverLinearDiagram k Q) (i : Q) [Fintype (auxiliaryTypeAt Q i)]
+    (ρ : AuxiliaryQuiverModuleData k Q) (i : Q) [Fintype (auxiliaryTypeAt Q i)]
     (y : DirectSum (auxiliaryTypeAt Q i) (fun a => ρ.obj a.1)) :
     ρ.auxiliaryDirectSumMap i y =
       ∑ b : auxiliaryTypeAt Q i, ρ.map b.2
         (DirectSum.component k (auxiliaryTypeAt Q i) (fun a => ρ.obj a.1) b y) := by
   classical
-  delta QuiverLinearDiagram.auxiliaryDirectSumMap
+  delta AuxiliaryQuiverModuleData.auxiliaryDirectSumMap
   change (DirectSum.toModule k (auxiliaryTypeAt Q i) (ρ.obj i)
     (fun a => ρ.map a.2)) y = _
   induction y using DirectSum.induction_on with
@@ -661,7 +661,7 @@ theorem mapFromDirectSum_eq_sum
 /-- Applying the map from the direct sum to one summand is its associated arrow map. -/
 theorem mapFromDirectSum_lof
     {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
-    (ρ : QuiverLinearDiagram k Q) (i : Q)
+    (ρ : AuxiliaryQuiverModuleData k Q) (i : Q)
     [Fintype (auxiliaryTypeAt Q i)] [DecidableEq (auxiliaryTypeAt Q i)]
     (b : auxiliaryTypeAt Q i) (v : ρ.obj b.1) :
     ρ.auxiliaryDirectSumMap i (DirectSum.lof k (auxiliaryTypeAt Q i) (fun a => ρ.obj a.1) b v) =
@@ -678,10 +678,10 @@ theorem mapFromDirectSum_lof
 noncomputable def reflectionHomEquiv_dual
     {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} (hi : vertexCondition Q i) [Fintype (OutgoingArrow Q i)]
-    (V : QuiverLinearDiagram k Q)
-    (W : @QuiverLinearDiagram k Q _ (reverseAtVertex Q i)) :
-    QuiverLinearHom k Q V
-        (QuiverLinearDiagram.auxiliaryAt
+    (V : AuxiliaryQuiverModuleData k Q)
+    (W : @AuxiliaryQuiverModuleData k Q _ (reverseAtVertex Q i)) :
+    AuxiliaryQuiverLinearMapData k Q V
+        (AuxiliaryQuiverModuleData.auxiliaryAt
           (@auxiliaryRepresentation k _ Q _ (reverseAtVertex Q i) i
             (auxiliaryBackward hi) W))
       ≃ ReflectionHom hi V W := by
@@ -690,11 +690,11 @@ noncomputable def reflectionHomEquiv_dual
   set hi' := auxiliaryBackward hi with hi'_def
   set Fplus := @auxiliaryRepresentation k _ Q _ (reverseAtVertex Q i) i hi' W
     with Fplus_def
-  set T := QuiverLinearDiagram.auxiliaryAt Fplus with T_def
+  set T := AuxiliaryQuiverModuleData.auxiliaryAt Fplus with T_def
   -- Vertex identifications: `T.obj v ≃ W.obj v` for `v ≠ i`, and
   -- `T.obj i ≃ ker(W.auxiliaryDirectSumMap i)`.
   let τ : ∀ v, v ≠ i → (T.obj v ≃ₗ[k]
-      @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W v) :=
+      @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W v) :=
     fun v hv => (reflectAt_reindex Fplus v).trans
       (@auxiliaryRepresentationLinearEquivOfNe k _ Q _ (reverseAtVertex Q i) i hi' W v hv)
   let κ :=
@@ -704,25 +704,25 @@ noncomputable def reflectionHomEquiv_dual
   haveI hFI : Fintype (@auxiliaryTypeAt Q (reverseAtVertex Q i) i) :=
     Fintype.ofEquiv _ (outgoingIncomingIndexEquiv hi)
   letI acmW : ∀ b : @auxiliaryTypeAt Q (reverseAtVertex Q i) i,
-      AddCommMonoid (@QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W b.fst) :=
-    fun b => @QuiverLinearDiagram.addCommMonoid k Q _ (reverseAtVertex Q i) W b.fst
+      AddCommMonoid (@AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W b.fst) :=
+    fun b => @AuxiliaryQuiverModuleData.addCommMonoid k Q _ (reverseAtVertex Q i) W b.fst
   letI modW : ∀ b : @auxiliaryTypeAt Q (reverseAtVertex Q i) i,
-      Module k (@QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W b.fst) :=
-    fun b => @QuiverLinearDiagram.moduleInstance k Q _ (reverseAtVertex Q i) W b.fst
+      Module k (@AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W b.fst) :=
+    fun b => @AuxiliaryQuiverModuleData.moduleInstance k Q _ (reverseAtVertex Q i) W b.fst
   -- The direct-sum-valued map assembled from the reduced family: the `reindex a`-component is
   -- `r.map a.fst _ ∘ V.map a.snd`.
   let sumMap : ReflectionHom hi V W → (V.obj i →ₗ[k]
       DirectSum (@auxiliaryTypeAt Q (reverseAtVertex Q i) i)
-        (fun b => @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W b.1)) :=
+        (fun b => @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W b.1)) :=
     fun r => ∑ a : OutgoingArrow Q i,
       (DirectSum.lof k (@auxiliaryTypeAt Q (reverseAtVertex Q i) i)
-        (fun b => @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W b.1)
+        (fun b => @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W b.1)
         (outgoingIncomingIndexEquiv hi a)).comp
         ((r.map a.fst (outgoingIndex_ne hi a)).comp (V.map a.snd))
   -- `sumMap r x` lies in the kernel of `W.auxiliaryDirectSumMap i` (this is exactly
   -- constraint (C)).
   have hker : ∀ (r : ReflectionHom hi V W) (x : V.obj i),
-      sumMap r x ∈ LinearMap.ker (@QuiverLinearDiagram.auxiliaryDirectSumMap k _ Q
+      sumMap r x ∈ LinearMap.ker (@AuxiliaryQuiverModuleData.auxiliaryDirectSumMap k _ Q
         (reverseAtVertex Q i) W i) := by
     intro r x
     rw [LinearMap.mem_ker, LinearMap.sum_apply, map_sum]
@@ -735,7 +735,7 @@ noncomputable def reflectionHomEquiv_dual
   -- `ker(W.auxiliaryDirectSumMap i)` then transported by `κ.symm`.
   let appAtI : ReflectionHom hi V W → (V.obj i →ₗ[k] T.obj i) :=
     fun r => κ.symm.toLinearMap ∘ₗ
-      LinearMap.codRestrict (LinearMap.ker (@QuiverLinearDiagram.auxiliaryDirectSumMap k _ Q
+      LinearMap.codRestrict (LinearMap.ker (@AuxiliaryQuiverModuleData.auxiliaryDirectSumMap k _ Q
         (reverseAtVertex Q i) W i)) (sumMap r) (hker r)
   -- `κ (appAtI r x)` is the kernel element with underlying direct-sum vector `sumMap r x`.
   have hκ_appAtI : ∀ (r : ReflectionHom hi V W) (x : V.obj i),
@@ -747,18 +747,18 @@ noncomputable def reflectionHomEquiv_dual
   -- Reading off the `reindex a₀`-component of `sumMap r x`.
   have hsumComp : ∀ (r : ReflectionHom hi V W) (x : V.obj i) (a₀ : OutgoingArrow Q i),
       DirectSum.component k (@auxiliaryTypeAt Q (reverseAtVertex Q i) i)
-        (fun b => @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W b.1)
+        (fun b => @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W b.1)
         (outgoingIncomingIndexEquiv hi a₀) (sumMap r x) =
         r.map a₀.fst (outgoingIndex_ne hi a₀) (V.map a₀.snd x) := by
     intro r x a₀
     have hexp : sumMap r x = ∑ a : OutgoingArrow Q i,
         DirectSum.lof k (@auxiliaryTypeAt Q (reverseAtVertex Q i) i)
-          (fun b => @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W b.1)
+          (fun b => @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W b.1)
           (outgoingIncomingIndexEquiv hi a)
           (r.map a.fst (outgoingIndex_ne hi a) (V.map a.snd x)) := by
       change (∑ a : OutgoingArrow Q i,
           (DirectSum.lof k (@auxiliaryTypeAt Q (reverseAtVertex Q i) i)
-            (fun b => @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W b.1)
+            (fun b => @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W b.1)
             (outgoingIncomingIndexEquiv hi a)).comp
             ((r.map a.fst (outgoingIndex_ne hi a)).comp (V.map a.snd))) x = _
       rw [LinearMap.sum_apply]
@@ -807,11 +807,11 @@ noncomputable def reflectionHomEquiv_dual
     -- `auxiliaryDirectSumMap z = 0`.
     set z := (κ (g.app i x)).1 with hz
     letI acmW : ∀ b : @auxiliaryTypeAt Q (reverseAtVertex Q i) i,
-        AddCommMonoid (@QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W b.fst) :=
-      fun b => @QuiverLinearDiagram.addCommMonoid k Q _ (reverseAtVertex Q i) W b.fst
+        AddCommMonoid (@AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W b.fst) :=
+      fun b => @AuxiliaryQuiverModuleData.addCommMonoid k Q _ (reverseAtVertex Q i) W b.fst
     letI modW : ∀ b : @auxiliaryTypeAt Q (reverseAtVertex Q i) i,
-        Module k (@QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W b.fst) :=
-      fun b => @QuiverLinearDiagram.moduleInstance k Q _ (reverseAtVertex Q i) W b.fst
+        Module k (@AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W b.fst) :=
+      fun b => @AuxiliaryQuiverModuleData.moduleInstance k Q _ (reverseAtVertex Q i) W b.fst
     have hker := (κ (g.app i x)).property
     rw [LinearMap.mem_ker] at hker
     refine Eq.trans ?_ hker
@@ -869,7 +869,7 @@ noncomputable def reflectionHomEquiv_dual
         rw [show (@auxiliaryRepresentationLinearEquivAt k _ Q _ (reverseAtVertex Q i) i hi' W)
             (reflectAt_reindex Fplus i (appAtI r x))
             = κ (appAtI r x) from rfl, hκ_appAtI r x]
-        rw [show ((@QuiverLinearDiagram.auxiliaryDirectSumMap k _ Q
+        rw [show ((@AuxiliaryQuiverModuleData.auxiliaryDirectSumMap k _ Q
             (reverseAtVertex Q i) W i).ker.subtype
             ⟨sumMap r x, hker r x⟩ : _) = sumMap r x from rfl]
         -- Match the index second-component (keeping `fst = w` fixed so the motive is well-typed).
@@ -910,7 +910,7 @@ noncomputable def reflectionHomEquiv_dual
   case li =>
     -- `invFun (toFun g) = g`.
     intro g
-    refine @QuiverLinearHom.ext k Q _ _ V T _ _ (fun v => ?_)
+    refine @AuxiliaryQuiverLinearMapData.ext k Q _ _ V T _ _ (fun v => ?_)
     by_cases hv : v = i
     · subst v
       refine LinearMap.ext fun x => ?_
@@ -924,7 +924,7 @@ noncomputable def reflectionHomEquiv_dual
           (τ a.fst (outgoingIndex_ne hi a))
               (g.app a.fst (V.map a.snd x)) =
             DirectSum.component k (@auxiliaryTypeAt Q (reverseAtVertex Q i) i)
-              (fun b => @QuiverLinearDiagram.obj k Q _ (reverseAtVertex Q i) W b.1)
+              (fun b => @AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W b.1)
               (outgoingIncomingIndexEquiv hi a) (κ (g.app i x)).1 := by
         intro a
         have hb := outgoingIndex_ne hi a
@@ -942,7 +942,7 @@ noncomputable def reflectionHomEquiv_dual
         rw [show (@auxiliaryRepresentationLinearEquivAt k _ Q _ (reverseAtVertex Q i) i hi' W)
             (reflectAt_reindex Fplus i (g.app i x))
             = κ (g.app i x) from rfl]
-        rw [show ((@QuiverLinearDiagram.auxiliaryDirectSumMap k _ Q
+        rw [show ((@AuxiliaryQuiverModuleData.auxiliaryDirectSumMap k _ Q
             (reverseAtVertex Q i) W i).ker.subtype
             (κ (g.app i x)) : _) = (κ (g.app i x)).1 from rfl]
         rw [← arrowTo_eq hi a]
@@ -965,11 +965,11 @@ noncomputable def reflectionHomEquiv_dual
 theorem reflectionHomEquiv_dual_nonempty
     {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} (hi : vertexCondition Q i) [Fintype (OutgoingArrow Q i)]
-    (V : QuiverLinearDiagram k Q)
-    (W : @QuiverLinearDiagram k Q _ (reverseAtVertex Q i)) :
+    (V : AuxiliaryQuiverModuleData k Q)
+    (W : @AuxiliaryQuiverModuleData k Q _ (reverseAtVertex Q i)) :
     Nonempty
-      (QuiverLinearHom k Q V
-          (QuiverLinearDiagram.auxiliaryAt
+      (AuxiliaryQuiverLinearMapData k Q V
+          (AuxiliaryQuiverModuleData.auxiliaryAt
             (@auxiliaryRepresentation k _ Q _ (reverseAtVertex Q i) i
               (auxiliaryBackward hi) W))
         ≃ ReflectionHom hi V W) :=
@@ -979,14 +979,14 @@ theorem reflectionHomEquiv_dual_nonempty
 theorem reflectionHomEquiv_source_target_nonempty
     {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q]
     [Quiver Q] (i : Q) (hi : vertexCondition Q i) [Fintype (OutgoingArrow Q i)]
-    (V : QuiverLinearDiagram k Q)
-    (W : @QuiverLinearDiagram k Q _ (reverseAtVertex Q i)) :
+    (V : AuxiliaryQuiverModuleData k Q)
+    (W : @AuxiliaryQuiverModuleData k Q _ (reverseAtVertex Q i)) :
     Nonempty
-      ((@QuiverLinearHom k Q _ (reverseAtVertex Q i)
+      ((@AuxiliaryQuiverLinearMapData k Q _ (reverseAtVertex Q i)
           (quotientTransformedRepresentation Q i hi V) W)
         ≃
-        QuiverLinearHom k Q V
-          (QuiverLinearDiagram.auxiliaryAt
+        AuxiliaryQuiverLinearMapData k Q V
+          (AuxiliaryQuiverModuleData.auxiliaryAt
             (@auxiliaryRepresentation k _ Q _ (reverseAtVertex Q i) i
               (auxiliaryBackward hi) W))) := by
   obtain ⟨eL⟩ := reflectionHomEquiv_nonempty hi V W

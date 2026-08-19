@@ -56,7 +56,7 @@ end traceNondegenerate
 
 end RepresentationTheory.Representation.AlgebraDensity
 
-namespace RepresentationTheory.Algebra.ModuleActions.RingActionStructure
+namespace RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary
 
 section burnside
 
@@ -107,7 +107,7 @@ theorem span_range_eq_top (ρ : Representation k G V)
   rw [Submodule.eq_top_iff']
   intro T
   obtain ⟨a, rfl⟩ :=
-    RepresentationTheory.Algebra.ModuleActions.RingActionStructure.asAlgebraHom_surjective ρ T
+    RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.asAlgebraHom_surjective ρ T
   induction a using MonoidAlgebra.induction_on with
   | hM g => rw [Representation.asAlgebraHom_of]; exact Submodule.subset_span ⟨g, rfl⟩
   | hadd f₁ f₂ h₁ h₂ => rw [map_add]; exact Submodule.add_mem _ h₁ h₂
@@ -115,7 +115,7 @@ theorem span_range_eq_top (ρ : Representation k G V)
 
 end burnside
 
-end RepresentationTheory.Algebra.ModuleActions.RingActionStructure
+end RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary
 
 namespace RepresentationTheory.Representation.AlgebraDensity
 
@@ -138,7 +138,7 @@ theorem eq_zero_of_contractLeft_representation_map_eq_zero (ρ : Representation 
     rw [hS]; exact this
   have hall : ∀ T : V →ₗ[k] V, LinearMap.trace k V (T ∘ₗ S) = 0 := by
     have hspan :=
-      RepresentationTheory.Algebra.ModuleActions.RingActionStructure.span_range_eq_top ρ
+      RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.span_range_eq_top ρ
     intro T
     have hT : T ∈ Submodule.span k (Set.range (fun g => (ρ g : V →ₗ[k] V))) := by
       rw [hspan]; trivial

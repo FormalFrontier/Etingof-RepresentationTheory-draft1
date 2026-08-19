@@ -34,13 +34,13 @@ noncomputable def arrowToTwo : @Quiver.Hom (Fin 4) finFourQuiverD 3 2 :=
 
 /-- The complex-linear map from the carrier at vertex 3 to the carrier at vertex 0. -/
 noncomputable abbrev linearMapToZero :=
-  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3 0 arrowToZero
+  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3 0 arrowToZero
 /-- The complex-linear map from the carrier at vertex 3 to the carrier at vertex 1. -/
 noncomputable abbrev linearMapToOne :=
-  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3 1 arrowToOne
+  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3 1 arrowToOne
 /-- The complex-linear map from the carrier at vertex 3 to the carrier at vertex 2. -/
 noncomputable abbrev linearMapToTwo :=
-  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3 2 arrowToTwo
+  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3 2 arrowToTwo
 
 private theorem finFourQuiverD_arrow_cases {a b : Fin 4} (e : @Quiver.Hom (Fin 4) finFourQuiverD a b) :
     (a = 3 ∧ b = 0 ∧ HEq e arrowToZero) ∨
@@ -63,28 +63,28 @@ private theorem finFourQuiverD_arrow_cases {a b : Fin 4} (e : @Quiver.Hom (Fin 4
 
 /-- The additive commutative group structure on the carrier at each of the four vertices. -/
 noncomputable local instance vertexAddCommGroup (v : Fin 4) : AddCommGroup
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD v) :=
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD v) :=
   RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := ℂ)
 
 private theorem finFourDiagramD_finrank (v : Fin 4) : Module.finrank ℂ
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD v) = 1 := by
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD v) = 1 := by
   have h := finFourDiagramD_invariant_eq v
-  unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat at h
+  unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat at h
   fin_cases v <;> simp_all
 
 private theorem linearMap_surjective {j : Fin 4} (hj : j ≠ 3)
     (e : @Quiver.Hom (Fin 4) finFourQuiverD 3 j) : Function.Surjective
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3 j e) := by
-  let A := @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3 j e
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3 j e) := by
+  let A := @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3 j e
   obtain ⟨S, hRS⟩ := Submodule.exists_isCompl (LinearMap.range A)
   let P : ∀ v, Submodule ℂ
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD v) :=
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD v) :=
     fun v => if h : v = j then h ▸ LinearMap.range A else ⊤
   let R : ∀ v, Submodule ℂ
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD v) :=
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD v) :=
     fun v => if h : v = j then h ▸ S else ⊥
   have hP : ∀ {a b : Fin 4} (f : @Quiver.Hom (Fin 4) finFourQuiverD a b), ∀ x ∈ P a,
-      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD a b f x ∈ P b := by
+      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD a b f x ∈ P b := by
     intro a b f x hx
     by_cases hb : b = j
     · subst b
@@ -109,7 +109,7 @@ private theorem linearMap_surjective {j : Fin 4} (hj : j ≠ 3)
             linearMapToTwo x ∈ LinearMap.range linearMapToTwo)
     · simp [P, hb]
   have hR : ∀ {a b : Fin 4} (f : @Quiver.Hom (Fin 4) finFourQuiverD a b), ∀ x ∈ R a,
-      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD a b f x ∈ R b := by
+      @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map ℂ (Fin 4) _ finFourQuiverD finFourDiagramD a b f x ∈ R b := by
     intro a b f x hx
     rcases finFourQuiverD_arrow_cases f with ⟨rfl, rfl, _⟩ | ⟨rfl, rfl, _⟩ | ⟨rfl, rfl, _⟩
     all_goals
@@ -127,10 +127,10 @@ private theorem linearMap_surjective {j : Fin 4} (hj : j ≠ 3)
   · exfalso
     have h3j : (3 : Fin 4) ≠ j := Ne.symm hj
     have htop : (⊤ : Submodule ℂ
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3)) = ⊥ := by
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3)) = ⊥ := by
       simpa [P, h3j] using hbot 3
     have hrank := congrArg (fun U : Submodule ℂ
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3) =>
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3) =>
           Module.finrank ℂ U) htop
     simp [finFourDiagramD_finrank 3] at hrank
   · have hS : S = ⊥ := by simpa [R] using hbot j
@@ -155,21 +155,21 @@ theorem linearMaps_bijective :
 
 /-- A complex-valued model on the four vertices of the star quiver. -/
 noncomputable def complexModel :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram ℂ (Fin 4) _ finFourQuiverD :=
-  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.mk ℂ (Fin 4) _ finFourQuiverD
-    (fun _ => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3)
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData ℂ (Fin 4) _ finFourQuiverD :=
+  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.mk ℂ (Fin 4) _ finFourQuiverD
+    (fun _ => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj ℂ (Fin 4) _ finFourQuiverD finFourDiagramD 3)
     (fun _ => inferInstance) (fun _ => inferInstance)
     (fun {_ _} (_ : @Quiver.Hom (Fin 4) finFourQuiverD _ _) => LinearMap.id)
 
 /-- The comparison between the four-vertex object and its complex-valued model. -/
 noncomputable def comparisonWithComplexModel :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ℂ _ (Fin 4) finFourQuiverD
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ℂ _ (Fin 4) finFourQuiverD
       finFourDiagramD complexModel := by
   obtain ⟨hb₁, hb₂, hb₃⟩ := linearMaps_bijective
   let e₁ := LinearEquiv.ofBijective linearMapToZero hb₁
   let e₂ := LinearEquiv.ofBijective linearMapToOne hb₂
   let e₃ := LinearEquiv.ofBijective linearMapToTwo hb₃
-  refine @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.mk ℂ _ (Fin 4) finFourQuiverD finFourDiagramD
+  refine @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.mk ℂ _ (Fin 4) finFourQuiverD finFourDiagramD
     complexModel (fun v => match v with
       | 0 => e₁.symm
       | 1 => e₂.symm

@@ -72,7 +72,7 @@ end PiEnd
 
 end RepresentationTheory.Representation.FiniteProducts
 
-namespace RepresentationTheory.Algebra.ModuleActions.RingActionStructure
+namespace RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary
 
 variable {k : Type} [Field k] {G : Type} [Monoid G]
 variable {ι : Type}
@@ -94,7 +94,7 @@ def piRepresentation (ρ : ∀ i, _root_.Representation k G (M i)) :
 theorem piRepresentation_apply (ρ : ∀ i, _root_.Representation k G (M i)) (g : G)
     (x : ∀ i, M i) (i : ι) : piRepresentation ρ g x i = ρ i g (x i) := rfl
 
-end RepresentationTheory.Algebra.ModuleActions.RingActionStructure
+end RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary
 
 namespace RepresentationTheory.Representation.FiniteProducts
 
@@ -116,7 +116,7 @@ theorem homOfEquivariantLinearMap_apply (V W : FDRep k G)
 /-- The finite-dimensional representation formed by the coordinatewise product of a finite
 family. -/
 noncomputable def finiteProduct [Fintype ι] (V : ι → FDRep k G) : FDRep k G :=
-  FDRep.of (RingActionStructure.piRepresentation fun i => (V i).ρ)
+  FDRep.of (RingAddCommGroupAuxiliary.piRepresentation fun i => (V i).ρ)
 
 /-- The action on a finite product representation is evaluated coordinatewise. -/
 @[simp]

@@ -14,19 +14,19 @@ namespace RepresentationTheory.CategoryTheory.QuiverLinearMaps
 
 open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 
-/-- A vertexwise linear map between two quiver-indexed module systems. -/
+/-- A second auxiliary data type associated with two objects over a quiver and a commutative semiring. -/
 @[source_ref "Chapter2/Definition2.8.10" (role := supporting)]
-structure QuiverLinearHom (k : Type*) (Q : Type*) [CommSemiring k]
-    [Quiver Q] (ρ₁ ρ₂ : QuiverLinearDiagram k Q) where
+structure AuxiliaryQuiverLinearMapData (k : Type*) (Q : Type*) [CommSemiring k]
+    [Quiver Q] (ρ₁ ρ₂ : AuxiliaryQuiverModuleData k Q) where
   /-- Returns the linear map at a specified vertex. -/
   app : ∀ v, ρ₁.obj v →ₗ[k] ρ₂.obj v
   /-- The component maps of a quiver linear map commute with each arrow. -/
   naturality : ∀ {v w : Q} (e : v ⟶ w) (x : ρ₁.obj v),
     app w (ρ₁.map e x) = ρ₂.map e (app v x)
 
-/-- A vertexwise linear equivalence between two quiver-indexed module systems. -/
-structure QuiverLinearEquiv (k : Type*) (Q : Type*) [CommSemiring k]
-    [Quiver Q] (ρ₁ ρ₂ : QuiverLinearDiagram k Q) where
+/-- Auxiliary data associated with two objects over a quiver and a commutative semiring. -/
+structure AuxiliaryQuiverEquivData (k : Type*) (Q : Type*) [CommSemiring k]
+    [Quiver Q] (ρ₁ ρ₂ : AuxiliaryQuiverModuleData k Q) where
   /-- Returns the linear equivalence at a chosen vertex. -/
   app : ∀ v, ρ₁.obj v ≃ₗ[k] ρ₂.obj v
   /-- The component linear equivalences commute with each quiver arrow. -/

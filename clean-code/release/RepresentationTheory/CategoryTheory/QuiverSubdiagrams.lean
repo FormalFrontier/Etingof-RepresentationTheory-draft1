@@ -17,7 +17,7 @@ open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 /-- A family of submodules of a quiver linear diagram compatible with its arrow maps. -/
 @[source_ref "Chapter2/Definition2.8.8" (role := primary)]
 structure QuiverSubdiagram (k : Type*) (Q : Type*) [CommSemiring k]
-    [Quiver Q] (ρ : QuiverLinearDiagram k Q) where
+    [Quiver Q] (ρ : AuxiliaryQuiverModuleData k Q) where
   /-- Returns the submodule selected at a vertex. -/
   carrier : ∀ v, Submodule k (ρ.obj v)
   /-- An arrow map sends an element of the source submodule into the target submodule. -/
@@ -27,12 +27,12 @@ structure QuiverSubdiagram (k : Type*) (Q : Type*) [CommSemiring k]
 namespace QuiverSubdiagram
 
 variable {k Q : Type*} [CommSemiring k] [Quiver Q]
-variable {ρ : QuiverLinearDiagram k Q}
+variable {ρ : AuxiliaryQuiverModuleData k Q}
 
 /-- Converts a quiver subdiagram into a quiver linear diagram. -/
 @[source_ref "Chapter2/Definition2.8.8" (role := primary)]
 noncomputable def toDiagram (S : QuiverSubdiagram k Q ρ) :
-    QuiverLinearDiagram k Q where
+    AuxiliaryQuiverModuleData k Q where
   obj i := S.carrier i
   map e := LinearMap.restrict (ρ.map e) (fun x hx => S.map_mem e x hx)
 

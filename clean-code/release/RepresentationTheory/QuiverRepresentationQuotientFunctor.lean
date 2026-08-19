@@ -40,8 +40,8 @@ variable {k : Type u_k} [CommRing k] {Q : Type u_V} [Quiver.{u_hom} Q]
 /-- The linear map between outgoing direct sums obtained by applying a representation morphism on every summand. -/
 
 noncomputable def outgoingDirectSumMapOfHom
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂) (i : Q) :
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂) (i : Q) :
     DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₁.obj a.1) →ₗ[k]
       DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₂.obj a.1) := by
   letI : DecidableEq (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) := Classical.decEq _
@@ -52,8 +52,8 @@ noncomputable def outgoingDirectSumMapOfHom
 /-- On an element inserted into one outgoing summand, the componentwise direct-sum map applies the matching morphism component and reinserts it. -/
 
 theorem outgoingDirectSumMapOfHom_lof_apply
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂) (i : Q)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂) (i : Q)
     (d : DecidableEq (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i))
     (a : RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (x : ρ₁.obj a.1) :
     outgoingDirectSumMapOfHom f i
@@ -68,9 +68,9 @@ theorem outgoingDirectSumMapOfHom_lof_apply
 
 /-- The outgoing direct-sum map induced by an identity morphism fixes each element. -/
 theorem outgoingDirectSumMapOfHom_id_apply
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q) (i : Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q) (i : Q)
     (y : DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :
-    outgoingDirectSumMapOfHom (RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.id ρ) i y = y := by
+    outgoingDirectSumMapOfHom (RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.id ρ) i y = y := by
   letI : DecidableEq (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) := Classical.decEq _
   induction y using DirectSum.induction_on with
   | zero => simp only [map_zero]
@@ -83,9 +83,9 @@ theorem outgoingDirectSumMapOfHom_id_apply
 
 /-- The outgoing direct-sum map for a composite morphism acts by the two componentwise maps in succession. -/
 theorem outgoingDirectSumMapOfHom_comp_apply
-    {ρ₁ ρ₂ ρ₃ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂)
-    (g : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₂ ρ₃) (i : Q)
+    {ρ₁ ρ₂ ρ₃ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂)
+    (g : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₂ ρ₃) (i : Q)
     (y : DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₁.obj a.1)) :
     outgoingDirectSumMapOfHom (f.comp g) i y =
       outgoingDirectSumMapOfHom g i (outgoingDirectSumMapOfHom f i y) := by
@@ -102,11 +102,11 @@ theorem outgoingDirectSumMapOfHom_comp_apply
 /-- The componentwise outgoing direct-sum map commutes with the structural maps from the distinguished vertex. -/
 
 theorem outgoingDirectSumMapOfHom_structural
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂) (i : Q)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂) (i : Q)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] (x : ρ₁.obj i) :
     outgoingDirectSumMapOfHom f i (ρ₁.outgoingDirectSumMap i x) = ρ₂.outgoingDirectSumMap i (f.app i x) := by
-  delta RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.outgoingDirectSumMap
+  delta RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.outgoingDirectSumMap
   simp only [LinearMap.sum_apply, LinearMap.coe_comp, Function.comp_apply, map_sum]
   refine Finset.sum_congr rfl (fun a _ => ?_)
   rw [outgoingDirectSumMapOfHom_lof_apply f i _ a (ρ₁.map a.2 x), f.naturality a.2 x]
@@ -117,8 +117,8 @@ theorem outgoingDirectSumMapOfHom_structural
 
 
 noncomputable def outgoingQuotientMap
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂) (i : Q)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂) (i : Q)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] :
     letI : ∀ v, AddCommGroup (ρ₁.obj v) := fun _ => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
     letI : ∀ v, AddCommGroup (ρ₂.obj v) := fun _ => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
@@ -143,8 +143,8 @@ noncomputable def outgoingQuotientMap
 /-- The induced map on outgoing quotients sends the class of a direct-sum element to the class of its componentwise image. -/
 
 theorem outgoingQuotientMap_mk
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂) (i : Q)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂) (i : Q)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     (y : DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₁.obj a.1)) :
     letI : ∀ v, AddCommGroup (ρ₁.obj v) := fun _ => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
@@ -163,8 +163,8 @@ theorem outgoingQuotientMap_mk
 
 
 noncomputable def quotientAuxiliaryVertexMap
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂) (i v : Q)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂) (i v : Q)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] (d : Decidable (v = i)) :
     letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid.{u_k, u_V, u_obj, u_hom} ρ₁ i v d
     letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid.{u_k, u_V, u_obj, u_hom} ρ₂ i v d
@@ -186,10 +186,10 @@ noncomputable def quotientAuxiliaryVertexMap
 
 /-- The quotient-based auxiliary vertex map induced by an identity morphism fixes every element. -/
 theorem quotientAuxiliaryVertexMap_id_apply
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q) (i v : Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q) (i v : Q)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] (d : Decidable (v = i))
     (x : RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex.{u_k, u_V, u_obj, u_hom} ρ i v d) :
-    quotientAuxiliaryVertexMap (RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.id ρ) i v d x = x := by
+    quotientAuxiliaryVertexMap (RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.id ρ) i v d x = x := by
   cases d with
   | isFalse h => rfl
   | isTrue h =>
@@ -205,9 +205,9 @@ theorem quotientAuxiliaryVertexMap_id_apply
 /-- The auxiliary vertex map associated to a composite acts as the successive auxiliary vertex maps. -/
 
 theorem quotientAuxiliaryVertexMap_comp_apply
-    {ρ₁ ρ₂ ρ₃ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂)
-    (g : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₂ ρ₃) (i v : Q)
+    {ρ₁ ρ₂ ρ₃ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂)
+    (g : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₂ ρ₃) (i v : Q)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] (d : Decidable (v = i))
     (x : RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex.{u_k, u_V, u_obj, u_hom} ρ₁ i v d) :
     quotientAuxiliaryVertexMap (f.comp g) i v d x =
@@ -234,8 +234,8 @@ theorem quotientAuxiliaryVertexMap_comp_apply
 /-- The auxiliary vertex maps commute with the linear transition maps determined by a comparison datum. -/
 
 theorem quotientAuxiliaryVertexMap_transition
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂) {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂) {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     (a b : Q) (da : Decidable (a = i)) (db : Decidable (b = i))
     (e : RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryHomType i a b da db)
@@ -264,8 +264,8 @@ theorem quotientAuxiliaryVertexMap_transition
 /-- Away from the distinguished vertex, the auxiliary vertex map agrees with the original component morphism under the comparison equivalences. -/
 
 theorem quotientAuxiliaryVertexMap_ne_compat
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂) {i : Q}
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂) {i : Q}
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] (v : Q) (hv : v ≠ i)
     (d : Decidable (v = i))
     (x : RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex.{u_k, u_V, u_obj, u_hom} ρ₁ i v d) :
@@ -280,8 +280,8 @@ theorem quotientAuxiliaryVertexMap_ne_compat
 
 
 theorem quotientAuxiliaryVertexMap_self_compat
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂) {i : Q}
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂) {i : Q}
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] (d : Decidable (i = i))
     (x : RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex.{u_k, u_V, u_obj, u_hom} ρ₁ i i d) :
     RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexEquivQuotient.{u_k, u_V, u_obj, u_hom} ρ₂ d
@@ -297,11 +297,11 @@ theorem quotientAuxiliaryVertexMap_self_compat
 noncomputable def quotientRepresentationMap
     {k : Type u_k} [CommRing k] {Q : Type u_V} [inst : DecidableEq Q] [Quiver.{u_hom} Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i) [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂) :
-    @RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂) :
+    @RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₁) (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₂) :=
-  @RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.mk k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) _ _
+  @RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.mk k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) _ _
     (fun v => quotientAuxiliaryVertexMap f i v (inst v i))
     (fun {a b} e x =>
       quotientAuxiliaryVertexMap_transition f hi a b (inst a i) (inst b i) e x)
@@ -315,19 +315,19 @@ noncomputable def quotientRepresentationFunctor
     (k : Type u_k) [CommRing k] (Q : Type u_V) [inst : DecidableEq Q] [Quiver.{u_hom} Q]
     (i : Q) (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i) [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] :
     @CategoryTheory.Functor
-      (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q)
-      RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.category
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q _
+      (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q)
+      RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.category
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q _
         (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i))
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.category k _ Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)) where
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.category k _ Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)) where
   obj ρ := RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ
   map f := quotientRepresentationMap hi f
   map_id ρ := by
-    refine @RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.ext k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+    refine @RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.ext k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       _ _ _ _ (fun v => LinearMap.ext (fun x => ?_))
     exact quotientAuxiliaryVertexMap_id_apply ρ i v (inst v i) x
   map_comp f g := by
-    refine @RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.ext k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+    refine @RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.ext k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       _ _ _ _ (fun v => LinearMap.ext (fun x => ?_))
     exact quotientAuxiliaryVertexMap_comp_apply f g i v (inst v i) x
 
@@ -335,7 +335,7 @@ noncomputable def quotientRepresentationFunctor
 @[simp] theorem quotientRepresentationFunctor_obj
     {k : Type u_k} [CommRing k] {Q : Type u_V} [DecidableEq Q] [Quiver.{u_hom} Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i) [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q) :
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q) :
     (quotientRepresentationFunctor.{u_k, u_V, u_obj, u_hom} k Q i hi).obj ρ =
       RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ :=
   rfl
@@ -344,7 +344,7 @@ noncomputable def quotientRepresentationFunctor
 @[simp] theorem quotientRepresentationFunctor_map
     {k : Type u_k} [CommRing k] {Q : Type u_V} [DecidableEq Q] [Quiver.{u_hom} Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i) [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
     (f : ρ₁ ⟶ ρ₂) :
     (quotientRepresentationFunctor.{u_k, u_V, u_obj, u_hom} k Q i hi).map f =
       quotientRepresentationMap hi f :=
@@ -355,12 +355,12 @@ noncomputable def quotientRepresentationFunctor
 theorem quotientRepresentationMap_of_ne
     {k : Type u_k} [CommRing k] {Q : Type u_V} [inst : DecidableEq Q] [Quiver.{u_hom} Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i) [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂) (v : Q) (hv : v ≠ i)
-    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂) (v : Q) (hv : v ≠ i)
+    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₁) v) :
     RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe.{u_k, u_V, u_hom, u_obj} hi ρ₂ v hv
-        (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+        (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
           _ _ (quotientRepresentationMap hi f) v x) =
       f.app v (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe.{u_k, u_V, u_hom, u_obj} hi ρ₁ v hv x) :=
   quotientAuxiliaryVertexMap_ne_compat f v hv (inst v i) x
@@ -370,12 +370,12 @@ theorem quotientRepresentationMap_of_ne
 theorem quotientRepresentationMap_self
     {k : Type u_k} [CommRing k] {Q : Type u_V} [inst : DecidableEq Q] [Quiver.{u_hom} Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i) [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom k Q ρ₁ ρ₂)
-    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q}
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂)
+    (x : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ₁) i) :
     RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivQuotient.{u_k, u_V, u_hom, u_obj} hi ρ₂
-        (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
+        (@RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.app k Q _ (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
           _ _ (quotientRepresentationMap hi f) i x) =
       outgoingQuotientMap f i
         (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivQuotient.{u_k, u_V, u_hom, u_obj} hi ρ₁ x) :=

@@ -26,18 +26,18 @@ set_option maxHeartbeats 800000 in
 private theorem RepresentationTheory.Surjective.reflFunctorPlus_finiteDim_i
     {k : Type*} [Field k] {Q : Type*} [DecidableEq Q] [inst : Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexProperty Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     [Fintype (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i)] :
     @Module.Finite k
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _
         (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q _ inst i)
         (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ Q _ inst i hi ρ) i)
       (inferInstanceAs (Semiring k))
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.addCommMonoid k Q _
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.addCommMonoid k Q _
         (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q _ inst i)
         (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ Q _ inst i hi ρ) i)
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.moduleInstance k Q _
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.moduleInstance k Q _
         (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q _ inst i)
         (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ Q _ inst i hi ρ) i) := by
   letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
@@ -52,19 +52,19 @@ set_option maxHeartbeats 800000 in
 private theorem RepresentationTheory.Surjective.reflFunctorPlus_finiteDim_ne
     {k : Type*} [Field k] {Q : Type*} [DecidableEq Q] [inst : Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexProperty Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     [Fintype (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i)]
     (a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i) :
     @Module.Finite k
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _
         (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q _ inst i)
         (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ Q _ inst i hi ρ) a.fst)
       (inferInstanceAs (Semiring k))
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.addCommMonoid k Q _
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.addCommMonoid k Q _
         (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q _ inst i)
         (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ Q _ inst i hi ρ) a.fst)
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.moduleInstance k Q _
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.moduleInstance k Q _
         (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q _ inst i)
         (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ Q _ inst i hi ρ) a.fst) :=
   Module.Finite.equiv
@@ -81,17 +81,17 @@ set_option maxHeartbeats 800000 in
 private noncomputable def RepresentationTheory.Surjective.equivAt_eq_sink
     {k : Type*} [Field k] {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexProperty Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     [Fintype (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i)]
     (hsurj : Function.Surjective (ρ.auxiliaryDirectSumMap i)) :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _
       (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q _ (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q _ inst i) i)
       (@RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation k _ Q _
         (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q _ inst i) i
         (@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryForward Q _ inst i hi)
         (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ Q _ inst i hi ρ) _) i ≃ₗ[k]
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ inst ρ i := by
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst ρ i := by
 
   letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
 
@@ -106,19 +106,19 @@ private noncomputable def RepresentationTheory.Surjective.equivAt_eq_sink
     let ρ' := @RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ Q _ inst i hi ρ
 
     let Φ_component : ∀ a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i,
-        @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst →ₗ[k]
-        @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ inst ρ i :=
-      fun a => (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k Q _ inst ρ a.fst i
+        @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst →ₗ[k]
+        @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst ρ i :=
+      fun a => (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k Q _ inst ρ a.fst i
         (@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryHom Q _ inst i hi a)).comp
         (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe k _ Q _ inst i hi ρ a.fst
           (@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryFst_ne Q _ inst i hi a)).toLinearMap
     let Φ := DirectSum.toModule k _ _ Φ_component
 
     letI acg_comp : ∀ a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i,
-        AddCommGroup (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst) :=
+        AddCommGroup (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst) :=
       fun a => @RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing k _ _ (ρ'.addCommMonoid a.fst) (ρ'.moduleInstance a.fst)
     letI acg_ds : AddCommGroup (DirectSum (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i)
-        (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst)) :=
+        (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst)) :=
       @RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing k _ _ _ _
 
 
@@ -130,7 +130,7 @@ private noncomputable def RepresentationTheory.Surjective.equivAt_eq_sink
 
     have hΦsurj : Function.Surjective Φ :=
       @RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.LinearMap.surjective_of_auxiliaryPreimages k _ Q _ inst i hi ρ _ hsurj
-        (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst)
+        (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst)
         (fun a => ρ'.addCommMonoid a.fst) (fun a => ρ'.moduleInstance a.fst) Φ
         (fun b v => by
 
@@ -150,14 +150,14 @@ private noncomputable def RepresentationTheory.Surjective.equivAt_eq_sink
             rw [show ∀ h, (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe k _ Q _ inst i hi ρ a.fst h)
                 ((@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe k _ Q _ inst i hi ρ a.fst hne).symm v) = v
               from fun h => by exact LinearEquiv.apply_symm_apply _ v]
-          exact congrArg (fun e => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k Q _ inst ρ _ i e v)
+          exact congrArg (fun e => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k Q _ inst ρ _ i e v)
             (@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryHom_auxiliaryMap Q _ inst i hi b))
 
 
     let ψ := ∑ a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i,
         (DirectSum.lof k (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i)
-          (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst) a).comp
-          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k Q _ instR ρ' i a.fst a.snd)
+          (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst) a).comp
+          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k Q _ instR ρ' i a.fst a.snd)
     have hker : ψ.range = LinearMap.ker Φ := by
       apply le_antisymm
       ·
@@ -179,32 +179,32 @@ private noncomputable def RepresentationTheory.Surjective.equivAt_eq_sink
           exact @RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliarySum_eq_zero k _ Q _ inst i hi ρ _ w
 
         letI acg_rho'_i : AddCommGroup
-            (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' i) :=
+            (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' i) :=
           @RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing k _ _
             (ρ'.addCommMonoid i) (ρ'.moduleInstance i)
         haveI fd_i :
             @Module.Finite k
-              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' i)
+              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' i)
               (inferInstanceAs (Semiring k))
-              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.addCommMonoid k Q _
+              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.addCommMonoid k Q _
                 instR ρ' i)
-              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.moduleInstance k Q _
+              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.moduleInstance k Q _
                 instR ρ' i) :=
           @RepresentationTheory.Surjective.reflFunctorPlus_finiteDim_i k _ Q _ inst i hi ρ _ _ _
         haveI fd_ne : ∀ a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i,
             @Module.Finite k
-              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst)
+              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst)
               (inferInstanceAs (Semiring k))
-              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.addCommMonoid k Q _
+              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.addCommMonoid k Q _
                 instR ρ' a.fst)
-              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.moduleInstance k Q _
+              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.moduleInstance k Q _
                 instR ρ' a.fst) :=
           fun a => @RepresentationTheory.Surjective.reflFunctorPlus_finiteDim_ne k _ Q _ inst i hi ρ _ _ _ a
         haveI : FiniteDimensional k (DirectSum (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i)
-            (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst)) :=
+            (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst)) :=
           @Module.Finite.instDirectSum k (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i) _
             inferInstance
-            (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst)
+            (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst)
             (fun a => (acg_comp a).toAddCommMonoid)
             (fun a => ρ'.moduleInstance a.fst)
             (fun a => fd_ne a)
@@ -225,7 +225,7 @@ private noncomputable def RepresentationTheory.Surjective.equivAt_eq_sink
           have hψ_zero : ψ w = 0 := by rw [map_sub, sub_eq_zero.mpr heq]
 
           have hcomp : ∀ a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i,
-              @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k Q _ instR ρ' i a.fst a.snd w = 0 := by
+              @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k Q _ instR ρ' i a.fst a.snd w = 0 := by
             intro a
 
             have h₀ : (ψ w) a = 0 := by
@@ -234,14 +234,14 @@ private noncomputable def RepresentationTheory.Surjective.equivAt_eq_sink
               exact this
 
             suffices hψa : (ψ w) a =
-                @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k Q _ instR ρ' i a.fst a.snd w by
+                @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k Q _ instR ρ' i a.fst a.snd w by
               rw [← hψa]; exact h₀
 
 
             have hψ_rfl : ψ = ∑ b : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i,
                 (DirectSum.lof k (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i)
-                  (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst) b).comp
-                  (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k Q _ instR ρ' i b.fst b.snd) := rfl
+                  (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst) b).comp
+                  (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k Q _ instR ρ' i b.fst b.snd) := rfl
             rw [hψ_rfl, LinearMap.sum_apply]
             simp only [LinearMap.comp_apply]
             rw [DFinsupp.finsetSum_apply,
@@ -255,7 +255,7 @@ private noncomputable def RepresentationTheory.Surjective.equivAt_eq_sink
 
           set ew := (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivAt k _ Q _ inst i hi ρ) w
           have hval_zero : (ew : DirectSum (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q inst i)
-              (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ inst ρ a.fst)) = 0 := by
+              (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst ρ a.fst)) = 0 := by
             apply DFinsupp.ext; intro b
             let a := (@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryEquiv Q _ inst i hi).symm b
             have hne := @RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryFst_ne Q _ inst i hi a
@@ -277,40 +277,40 @@ private noncomputable def RepresentationTheory.Surjective.equivAt_eq_sink
           Fintype.ofEquiv _ (@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryEquiv Q _ inst i hi)
 
         haveI : ∀ a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i,
-            Module.Free k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst) :=
+            Module.Free k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst) :=
           fun a => Module.Free.of_equiv
             (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe k _ Q _ inst i hi ρ a.fst
               (@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryFst_ne Q _ inst i hi a)).symm
-        haveI : Module.Free k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' i) := by
+        haveI : Module.Free k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' i) := by
 
 
           haveI : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q inst i) :=
             Fintype.ofEquiv _ (@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryEquiv Q _ inst i hi)
           exact inferInstance
         have hdim : Module.finrank k
-              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' i) +
-            Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ inst ρ i) =
+              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' i) +
+            Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst ρ i) =
             Module.finrank k (DirectSum (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i)
-              (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst)) := by
+              (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst)) := by
 
-          set d1 := Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' i)
-          set d2 := Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ inst ρ i)
+          set d1 := Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' i)
+          set d2 := Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst ρ i)
           set d3 := Module.finrank k (DirectSum (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i)
-            (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst))
+            (fun a => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst))
 
           have heq3a : d3 = ∑ a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i,
-              Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst) :=
+              Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst) :=
             Module.finrank_directSum (R := k) _
 
           have heq3b : ∀ a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i,
-              Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ instR ρ' a.fst) =
-              Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ inst ρ a.fst) :=
+              Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ instR ρ' a.fst) =
+              Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst ρ a.fst) :=
             fun a => LinearEquiv.finrank_eq
               (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe k _ Q _ inst i hi ρ a.fst
                 (@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryFst_ne Q _ inst i hi a))
 
           have heq3 : d3 = ∑ a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q instR i,
-              Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ inst ρ a.fst) := by
+              Module.finrank k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst ρ a.fst) := by
             rw [heq3a]; exact Finset.sum_congr rfl (fun a _ => heq3b a)
 
           letI : Quiver Q := inst
@@ -349,7 +349,7 @@ private noncomputable def RepresentationTheory.Surjective.equivAt_eq_sink
 private theorem RepresentationTheory.Surjective.reflFunctorMinus_equivAt_eq_mkQ'
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     (d : DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :
     letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
@@ -376,7 +376,7 @@ private theorem RepresentationTheory.Surjective.reflFunctorMinus_equivAt_eq_mkQ'
 private theorem RepresentationTheory.Surjective.equivAt_eq_sink_charts_mkQ
     {k : Type*} [Field k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     {W : Type*} [AddCommGroup W] [Module k W]
     (Φ : (letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
@@ -421,12 +421,12 @@ theorem RepresentationTheory.Surjective.nonempty_of_surjective
     {k : Type*} [Field k]
     {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexProperty Q i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     [Fintype (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i)]
     (hsurj : Function.Surjective (ρ.auxiliaryDirectSumMap i)) :
-    Nonempty (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData
-      (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryAt
+    Nonempty (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData
+      (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryAt
         (@RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation k _ Q _
           (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i
           (RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryForward hi)
@@ -439,7 +439,7 @@ theorem RepresentationTheory.Surjective.nonempty_of_surjective
   let ρ_plus := @RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ Q _ inst i hi ρ
   let hi' := @RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryForward Q _ inst i hi
   let ρ_dr := @RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation k _ Q _ instR i hi' ρ_plus _
-  exact RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.nonempty_auxiliaryData_ofLinearEquivAt
+  exact RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.nonempty_auxiliaryData_ofLinearEquivAt
     (@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryQuiver_eq Q _ inst i)
     (fun v => by
       by_cases hv : v = i
@@ -474,10 +474,10 @@ theorem RepresentationTheory.Surjective.nonempty_of_surjective
 
 
 
-          letI : AddCommGroup (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k Q _ inst ρ i) :=
+          letI : AddCommGroup (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst ρ i) :=
             @RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing k _ _
-              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.addCommMonoid k Q _ inst ρ i)
-              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.moduleInstance k Q _ inst ρ i)
+              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.addCommMonoid k Q _ inst ρ i)
+              (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.moduleInstance k Q _ inst ρ i)
           unfold RepresentationTheory.Surjective.equivAt_eq_sink
           simp only []
           erw [@RepresentationTheory.Surjective.equivAt_eq_sink_charts_mkQ k _ Q inst_dec instR i hi' ρ_plus _ _ _ _ _ _ _]

@@ -12,10 +12,10 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.LinearAlgebra.ModuleConditions
 
-/-- A predicate on a module over a ring. -/
+/-- An auxiliary predicate on a module over a ring. -/
 @[source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable" (role := primary),
   source_ref "Chapter2/Definition2.3.5" (role := supporting)]
-abbrev ModuleCondition (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
+abbrev AuxiliaryModuleCondition (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] :=
   IsSimpleModule A V
 

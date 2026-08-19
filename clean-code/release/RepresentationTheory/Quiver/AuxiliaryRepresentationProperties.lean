@@ -19,19 +19,19 @@ open RepresentationTheory.Quiver.MatrixOrientation
 
 section EquivGroupoid
 
-variable {k Q : Type*} [CommSemiring k] [Quiver Q] {ρ₁ ρ₂ ρ₃ : QuiverLinearDiagram k Q}
+variable {k Q : Type*} [CommSemiring k] [Quiver Q] {ρ₁ ρ₂ ρ₃ : AuxiliaryQuiverModuleData k Q}
 
 /-- The equivalence obtained by reversing the source and target representations. -/
-def _root_.RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearEquiv.symm (e : QuiverLinearEquiv k Q ρ₁ ρ₂) :
-    QuiverLinearEquiv k Q ρ₂ ρ₁ where
+def _root_.RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverEquivData.symm (e : AuxiliaryQuiverEquivData k Q ρ₁ ρ₂) :
+    AuxiliaryQuiverEquivData k Q ρ₂ ρ₁ where
   app v := (e.app v).symm
   naturality {v w} f x := by
     rw [LinearEquiv.symm_apply_eq, e.naturality f, LinearEquiv.apply_symm_apply]
 
 /-- The composite of equivalences between three quiver representations. -/
-def _root_.RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearEquiv.trans (e₁ : QuiverLinearEquiv k Q ρ₁ ρ₂)
-    (e₂ : QuiverLinearEquiv k Q ρ₂ ρ₃) :
-    QuiverLinearEquiv k Q ρ₁ ρ₃ where
+def _root_.RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverEquivData.trans (e₁ : AuxiliaryQuiverEquivData k Q ρ₁ ρ₂)
+    (e₂ : AuxiliaryQuiverEquivData k Q ρ₂ ρ₃) :
+    AuxiliaryQuiverEquivData k Q ρ₁ ρ₃ where
   app v := (e₁.app v).trans (e₂.app v)
   naturality {v w} f x := by
     simp only [LinearEquiv.trans_apply]
@@ -224,12 +224,12 @@ lemma auxiliaryRepresentationProperty_thinRepresentation_of_support_pair (c : �
 variable {c c' : ∀ a b : Fin n, (a ⟶ b) → k}
 
 /-- The field scalar induced at a supported vertex by an equivalence between two thin representations. -/
-def componentScalar (φ : QuiverLinearEquiv k (Fin n) (thinRepresentation k S c) (thinRepresentation k S c'))
+def componentScalar (φ : AuxiliaryQuiverEquivData k (Fin n) (thinRepresentation k S c) (thinRepresentation k S c'))
     {j : Fin n} (hj : S j) : k :=
   supportedVertexLinearEquiv k S hj (φ.app j ((supportedVertexLinearEquiv k S hj).symm 1))
 
 /-- After identifying a supported vertex space with the field, the component of a representation equivalence is multiplication by its component scalar. -/
-lemma componentMap_eq_componentScalar_mul (φ : QuiverLinearEquiv k (Fin n) (thinRepresentation k S c) (thinRepresentation k S c'))
+lemma componentMap_eq_componentScalar_mul (φ : AuxiliaryQuiverEquivData k (Fin n) (thinRepresentation k S c) (thinRepresentation k S c'))
     {j : Fin n} (hj : S j) (t : k) :
     supportedVertexLinearEquiv k S hj (φ.app j ((supportedVertexLinearEquiv k S hj).symm t))
       = componentScalar k φ hj * t := by
@@ -239,7 +239,7 @@ lemma componentMap_eq_componentScalar_mul (φ : QuiverLinearEquiv k (Fin n) (thi
 
 /-- The component scalar of an equivalence at a supported vertex is nonzero. -/
 lemma componentScalar_ne_zero
-    (φ : QuiverLinearEquiv k (Fin n) (thinRepresentation k S c) (thinRepresentation k S c'))
+    (φ : AuxiliaryQuiverEquivData k (Fin n) (thinRepresentation k S c) (thinRepresentation k S c'))
     {j : Fin n} (hj : S j) : componentScalar k φ hj ≠ 0 := by
   intro h
   rw [componentScalar] at h
@@ -254,7 +254,7 @@ lemma componentScalar_ne_zero
 
 /-- Component scalars of an equivalence intertwine the arrow scalars of the two thin representations. -/
 lemma componentScalar_mul_arrowScalar
-    (φ : QuiverLinearEquiv k (Fin n) (thinRepresentation k S c) (thinRepresentation k S c'))
+    (φ : AuxiliaryQuiverEquivData k (Fin n) (thinRepresentation k S c) (thinRepresentation k S c'))
     {a b : Fin n} (ha : S a) (hb : S b) (e : a ⟶ b) :
     componentScalar k φ hb * c a b e = c' a b e * componentScalar k φ ha := by
   have h1 : (thinRepresentation k S c).map e ((supportedVertexLinearEquiv k S ha).symm 1)
@@ -278,7 +278,7 @@ lemma not_auxiliaryGlobalQuiverProperty_of_parameterizedFamily
     (hfin : ∀ lam v, Module.Finite k ((R lam).obj v))
     (hindec : ∀ lam, (R lam).AuxiliaryCondition)
     (hsep : ∀ lam mu : k,
-      Nonempty (QuiverLinearEquiv k (Fin n) (R lam) (R mu)) → lam = mu) :
+      Nonempty (AuxiliaryQuiverEquivData k (Fin n) (R lam) (R mu)) → lam = mu) :
     ¬ QuiverRepresentationFiniteness k n := by
   rintro ⟨m, reps, -, -, hcover⟩
   choose F hF using fun lam => hcover (R lam) (hfin lam) (hindec lam)
@@ -287,7 +287,7 @@ lemma not_auxiliaryGlobalQuiverProperty_of_parameterizedFamily
     refine hsep lam mu ?_
     obtain ⟨e₁⟩ := hF lam
     obtain ⟨e₂⟩ := hF mu
-    have e₂' : QuiverLinearEquiv k (Fin n) (R mu) (reps (F lam)) := by
+    have e₂' : AuxiliaryQuiverEquivData k (Fin n) (R mu) (reps (F lam)) := by
       rw [hlm]; exact e₂
     exact ⟨e₁.trans e₂'.symm⟩
   haveI : Finite k := Finite.of_injective F hinj

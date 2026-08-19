@@ -13,8 +13,8 @@ import RepresentationTheory.Quiver.FiniteTypeCriterion
 
 namespace RepresentationTheory.Quiver.AuxiliaryConstructions
 
-open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams (QuiverLinearDiagram)
-open RepresentationTheory.CategoryTheory.QuiverLinearMaps (QuiverLinearEquiv)
+open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams (AuxiliaryQuiverModuleData)
+open RepresentationTheory.CategoryTheory.QuiverLinearMaps (AuxiliaryQuiverEquivData)
 open RepresentationTheory.Quiver.Auxiliary
   (auxiliaryObjectAtVertex auxiliaryRelation auxiliaryVertexValue)
 
@@ -25,7 +25,7 @@ def HasAuxiliaryQuiverProperty (Q : Type*) [Quiver Q] : Prop :=
   ∀ (i : Q) (p : Quiver.Path i i), p = Quiver.Path.nil
 
 /-- An auxiliary predicate on a quiver representation. -/
-def HasAuxiliaryProperty (ρ : QuiverLinearDiagram k Q) : Prop :=
+def HasAuxiliaryProperty (ρ : AuxiliaryQuiverModuleData k Q) : Prop :=
   (∃ v, Nontrivial (ρ.obj v)) ∧
   ∀ (W : ∀ v, Submodule k (ρ.obj v)),
     (∀ {a b : Q} (e : a ⟶ b), ∀ x ∈ W a, ρ.map e x ∈ W b) →
@@ -101,9 +101,9 @@ private theorem subsingleton_of_bot_eq_top {M : Type*} [AddCommMonoid M] [Module
 /-- Under the displayed finiteness and auxiliary predicates, some vertex has a nonempty associated auxiliary object. -/
 @[source_ref "Chapter3/Problem3.9.3" (role := primary)]
 theorem exists_vertex_nonempty_auxiliaryObject [DecidableEq Q] [Finite Q]
-    (hQ : HasAuxiliaryQuiverProperty Q) (ρ : QuiverLinearDiagram k Q)
+    (hQ : HasAuxiliaryQuiverProperty Q) (ρ : AuxiliaryQuiverModuleData k Q)
     (hρ : HasAuxiliaryProperty ρ) :
-    ∃ i : Q, Nonempty (QuiverLinearEquiv k Q ρ (auxiliaryObjectAtVertex i)) := by
+    ∃ i : Q, Nonempty (AuxiliaryQuiverEquivData k Q ρ (auxiliaryObjectAtVertex i)) := by
   -- Each carrier is an `AddCommGroup` (over a field), needed for `finrank`/simple-module API.
   -- The group structure is supplied per carrier as a class-headed local instance where needed
   -- (a `∀ v`-typed `letI` is not class-headed and so is ignored by instance synthesis).
@@ -313,7 +313,7 @@ theorem auxiliaryRelation_iff_isEmpty_hom [DecidableEq Q] (i j : Q) :
 
 
 /-- An auxiliary construction associated to a pair of quiver representations. -/
-noncomputable def auxiliaryPairing (V W : QuiverLinearDiagram k Q) :
+noncomputable def auxiliaryPairing (V W : AuxiliaryQuiverModuleData k Q) :
     (∀ i, V.obj i →ₗ[k] W.obj i) →ₗ[k]
       (∀ p : (Σ i j, (i ⟶ j)), V.obj p.1 →ₗ[k] W.obj p.2.1) where
   -- The subtraction needs `AddCommGroup (W.obj p.2.1)` on the shared codomain. Supply it per `p`
@@ -397,7 +397,7 @@ theorem finrank_homObject [DecidableEq Q] [Fintype Q] [∀ a b : Q, Fintype (a �
 /-- Under the displayed quiver and dimension hypotheses, either the auxiliary predicate fails or a displayed map is bijective. -/
 @[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 theorem not_auxiliaryProperty_or_exists_bijective_map [DecidableEq Q] [Fintype Q]
-    (hQ : HasAuxiliaryQuiverProperty Q) (ρ : QuiverLinearDiagram k Q)
+    (hQ : HasAuxiliaryQuiverProperty Q) (ρ : AuxiliaryQuiverModuleData k Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     (h2 : ∑ v, auxiliaryVertexValue ρ v = 2) :
     (¬ ρ.AuxiliaryCondition)

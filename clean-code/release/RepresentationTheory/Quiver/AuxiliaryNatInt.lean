@@ -18,9 +18,9 @@ def RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryInt
   fun v => if v = i then -d i + ∑ a, d (adj a) else d v
 
 /-- Takes the supplied parameter and a vertex of its quiver, and returns a natural number. -/
-noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat
+noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat
     (k : Type*) [CommSemiring k] {Q : Type*} {inst : Quiver Q}
-    (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q _ inst)
+    (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ inst)
     (v : Q) : ℕ :=
   @Module.finrank k (ρ.obj v) _ (ρ.addCommMonoid v) (ρ.moduleInstance v)
 
@@ -30,7 +30,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNa
     {k : Type*} [Field k]
     {V : Type*} [DecidableEq V] [Quiver V]
     {i : V} (hi : RepresentationTheory.QuiverVertexPredicates.vertexProperty V i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k V)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k V)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     [Fintype (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt V i)]
     (hsurj : Function.Surjective (ρ.auxiliaryDirectSumMap i)) :
@@ -44,7 +44,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNa
   by_cases hv : v = i
   · subst hv
     simp only [ite_true]
-    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat
+    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat
     rw [(RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivAt
       hi ρ).finrank_eq]
     · change (Module.finrank k ↥(ρ.auxiliaryDirectSumMap v).ker : ℤ) =
@@ -83,7 +83,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNa
         exact_mod_cast hrn
       linarith
   · simp only [hv, ite_false]
-    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat
+    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat
     rw [(RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe
       hi ρ v hv).finrank_eq]
 
@@ -93,7 +93,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNa
     {k : Type*} [Field k]
     {V : Type*} [DecidableEq V] [Quiver V]
     {i : V} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition V i)
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k V)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k V)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow V i)]
     (hinj : Function.Injective (ρ.outgoingDirectSumMap i)) :
@@ -116,7 +116,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNa
       RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
     letI : AddCommGroup (ρ.obj v) :=
       RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat
+    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat
     rw [(RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivQuotient
       hi ρ).finrank_eq]
     · change
@@ -159,6 +159,6 @@ theorem RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNa
         exact_mod_cast hrn
       linarith
   · simp only [hv, ite_false]
-    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryNat
+    unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat
     rw [(RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe
       hi ρ v hv).finrank_eq]

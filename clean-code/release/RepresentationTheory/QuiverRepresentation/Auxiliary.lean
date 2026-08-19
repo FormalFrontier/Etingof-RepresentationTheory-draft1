@@ -14,9 +14,9 @@ import Mathlib.LinearAlgebra.Basis.VectorSpace
 import RepresentationTheory.Alignment.Attribute
 
 /-- An auxiliary predicate for the displayed quiver-indexed object over a commutative semiring. -/
-def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition
+def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition
     {k : Type*} [CommSemiring k] {Q : Type*} [Quiver Q]
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q) : Prop :=
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) : Prop :=
   (∃ v, Nontrivial (ρ.obj v)) ∧
   ∀ (W₁ W₂ : ∀ v, Submodule k (ρ.obj v)),
     (∀ {a b : Q} (e : a ⟶ b), ∀ x ∈ W₁ a, ρ.map e x ∈ W₁ b) →
@@ -25,9 +25,9 @@ def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
     (∀ v, W₁ v = ⊥) ∨ (∀ v, W₂ v = ⊥)
 
 /-- An auxiliary predicate at a vertex for a quiver-indexed object with finite free component modules. -/
-def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryVertexCondition
+def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryVertexCondition
     {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
-    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q) (i : Q)
+    (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) (i : Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)] : Prop :=
   Module.finrank k (ρ.obj i) = 1 ∧ ∀ j, j ≠ i → Module.finrank k (ρ.obj j) = 0
 
@@ -35,7 +35,7 @@ def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
 @[source_ref "Chapter6/Proposition6.6.5" (role := primary)]
 theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrSurjective
     {k : Type*} [Field k] {Q : Type*} [DecidableEq Q] [Quiver Q]
-    {ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q} {i : Q}
+    {ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q} {i : Q}
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     (hi : RepresentationTheory.QuiverVertexPredicates.vertexProperty Q i)
     (hρ : ρ.AuxiliaryCondition) :
@@ -68,7 +68,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
             from by subst hb; rfl]
         refine ⟨DirectSum.lof k (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q b)
           (fun j => ρ.obj j.1) ⟨a, e⟩ x, ?_⟩
-        simp [RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.auxiliaryDirectSumMap]
+        simp [RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryDirectSumMap]
       · simp only [W₁, hb, dite_false]; exact Submodule.mem_top
     
     have hW₂_sub : ∀ {a b : Q} (e : a ⟶ b), ∀ x ∈ W₂ a, ρ.map e x ∈ W₂ b := by
@@ -135,7 +135,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
 @[source_ref "Chapter6/Proposition6.6.5" (role := primary)]
 theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrInjective
     {k : Type*} [Field k] {Q : Type*} [DecidableEq Q] [Quiver Q]
-    {ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q} {i : Q}
+    {ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q} {i : Q}
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)]
     (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
@@ -182,7 +182,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
         
         change (DirectSum.component k (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)
           (fun s => ρ.obj s.1) ⟨b, e'⟩) (ρ.outgoingDirectSumMap i x') = ρ.map e' x'
-        unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.outgoingDirectSumMap
+        unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.outgoingDirectSumMap
         simp only [LinearMap.sum_apply, LinearMap.coe_comp, Function.comp_apply,
           map_sum, DirectSum.component.of, Finset.sum_dite_eq', Finset.mem_univ, ite_true]
       · 

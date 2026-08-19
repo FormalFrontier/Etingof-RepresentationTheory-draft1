@@ -27,7 +27,7 @@ noncomputable def addCommGroupOfModule {M : Type*} [inst : AddCommMonoid M] [Mod
 
 /-- Maps a vertex to an opaque value parameterized by a field and a quiver. -/
 abbrev auxiliaryObjectAtVertex [DecidableEq Q] (i : Q) :
-    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q :=
+    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q :=
   RepresentationTheory.QuiverRepresentation.VertexCompositionSeries.representationAtVertex i
 
 /-- The second auxiliary predicate on a vertex of a quiver. -/
@@ -38,7 +38,7 @@ def auxiliaryVertexPropertyOne (i : Q) : Prop := ∀ j, IsEmpty (i ⟶ j)
 
 /-- An auxiliary construction whose elaborated type is unavailable in this interface. -/
 noncomputable def auxiliaryElidedDefinition
-    (V W : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q) :
+    (V W : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) :
     (∀ i, V.obj i →ₗ[k] W.obj i) →
       (∀ p : (Σ i j, (i ⟶ j)), V.obj p.1 →ₗ[k] W.obj p.2.1) :=
   fun f p =>
@@ -47,14 +47,14 @@ noncomputable def auxiliaryElidedDefinition
 
 /-- A binary proposition on two opaque values parameterized by a field and a quiver. -/
 def auxiliaryRelation
-    (V W : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q) : Prop :=
+    (V W : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) : Prop :=
   Function.Surjective (auxiliaryElidedDefinition V W)
 
 /-- At a vertex satisfying the second distinguished property, every linear object is related to its associated auxiliary object. -/
 @[source_ref "Chapter6/Problem6.9.3" (role := primary)]
 theorem any_relates_to_auxiliaryObjectAtVertex [DecidableEq Q]
     (i : Q) (hi : auxiliaryVertexPropertyTwo i)
-    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q) :
+    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) :
     auxiliaryRelation V (auxiliaryObjectAtVertex i) := by
   intro g
   refine ⟨0, funext fun p => ?_⟩
@@ -71,7 +71,7 @@ theorem any_relates_to_auxiliaryObjectAtVertex [DecidableEq Q]
 @[source_ref "Chapter6/Problem6.9.3" (role := primary)]
 theorem auxiliaryObjectAtVertex_relates_to_any [DecidableEq Q]
     (i : Q) (hi : auxiliaryVertexPropertyOne i)
-    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q) :
+    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) :
     auxiliaryRelation (auxiliaryObjectAtVertex i) V := by
   intro g
   refine ⟨0, funext fun p => ?_⟩
@@ -86,13 +86,13 @@ theorem auxiliaryObjectAtVertex_relates_to_any [DecidableEq Q]
 
 /-- A natural-number-valued function on the vertices associated with an opaque value. -/
 noncomputable def auxiliaryVertexValue
-    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
+    (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     (i : Q) : ℕ :=
   finrank k (V.obj i)
 
 /-- Under the displayed finite-basis hypothesis, the auxiliary value at a vertex equals the supplied natural number. -/
 theorem auxiliaryVertexValue_eq_of_fin_basis
-    {Vα : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q}
+    {Vα : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
     {α : Q → ℕ} (basis : ∀ v, Basis (Fin (α v)) k (Vα.obj v)) (v : Q) :
     auxiliaryVertexValue Vα v = α v := by
   rw [auxiliaryVertexValue, Module.finrank_eq_card_basis (basis v), Fintype.card_fin]
@@ -101,7 +101,7 @@ theorem auxiliaryVertexValue_eq_of_fin_basis
 @[source_ref "Chapter6/Problem6.9.3" (role := primary),
   source_ref "Chapter6/Section6.9_heading" (role := supporting)]
 theorem existsAuxiliaryDataWithVertexValues [DecidableEq Q]
-    (Vα : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k Q)
+    (Vα : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     (n : ℕ) (order : Q ≃ Fin n)
     (horder : ∀ {v w : Q}, (v ⟶ w) → (order w : ℕ) < (order v : ℕ))
     (α : Q → ℕ) (basis : ∀ v, Basis (Fin (α v)) k (Vα.obj v)) :

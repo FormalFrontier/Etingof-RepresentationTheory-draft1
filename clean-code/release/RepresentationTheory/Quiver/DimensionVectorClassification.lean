@@ -223,17 +223,17 @@ theorem Quiver.exists_finrankVector_and_related_of_vectorPredicate
     [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
     (α : Fin n → ℤ) (hα : RepresentationTheory.IntegerMatrixVectorPredicates.integerMatrixVectorCondition n adj α) :
 
-    (∃ (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u, 0, u, _} k (Fin n) _ Q)
+    (∃ (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u, 0, u, _} k (Fin n) _ Q)
       (_ : ∀ v, Module.Free k (ρ.obj v)) (_ : ∀ v, Module.Finite k (ρ.obj v)),
       ρ.AuxiliaryCondition ∧ ∀ v, (α v : ℤ) = ↑(Module.finrank k (ρ.obj v))) ∧
 
-    (∀ (ρ₁ ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u, 0, 0, 0} k (Fin n) _ Q)
+    (∀ (ρ₁ ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u, 0, 0, 0} k (Fin n) _ Q)
       [∀ v, Module.Free k (ρ₁.obj v)] [∀ v, Module.Finite k (ρ₁.obj v)]
       [∀ v, Module.Free k (ρ₂.obj v)] [∀ v, Module.Finite k (ρ₂.obj v)],
       ρ₁.AuxiliaryCondition → ρ₂.AuxiliaryCondition →
       (∀ v, (α v : ℤ) = ↑(Module.finrank k (ρ₁.obj v))) →
       (∀ v, (α v : ℤ) = ↑(Module.finrank k (ρ₂.obj v))) →
-      Nonempty (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₂)) := by
+      Nonempty (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₂)) := by
   constructor
   ·
     exact RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_exists_representation_finrank_eq hDynkin α hα k hQ
@@ -275,22 +275,22 @@ theorem Quiver.finite_and_finrankVector_classification
 
     (Set.Finite {d : Fin n → ℤ | RepresentationTheory.IntegerMatrixVectorPredicates.integerMatrixVectorCondition n adj d}) ∧
 
-    (∀ (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u, 0, 0, 0} k (Fin n) _ Q)
+    (∀ (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u, 0, 0, 0} k (Fin n) _ Q)
       [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)],
       ρ.AuxiliaryCondition →
       RepresentationTheory.IntegerMatrixVectorPredicates.integerMatrixVectorCondition n adj (fun v => (Module.finrank k (ρ.obj v) : ℤ))) ∧
 
     (∀ (α : Fin n → ℤ), RepresentationTheory.IntegerMatrixVectorPredicates.integerMatrixVectorCondition n adj α →
-      (∃ (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u, 0, u, _} k (Fin n) _ Q)
+      (∃ (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u, 0, u, _} k (Fin n) _ Q)
         (_ : ∀ v, Module.Free k (ρ.obj v)) (_ : ∀ v, Module.Finite k (ρ.obj v)),
         ρ.AuxiliaryCondition ∧ ∀ v, (α v : ℤ) = ↑(Module.finrank k (ρ.obj v))) ∧
-      (∀ (ρ₁ ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u, 0, 0, 0} k (Fin n) _ Q)
+      (∀ (ρ₁ ρ₂ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u, 0, 0, 0} k (Fin n) _ Q)
         [∀ v, Module.Free k (ρ₁.obj v)] [∀ v, Module.Finite k (ρ₁.obj v)]
         [∀ v, Module.Free k (ρ₂.obj v)] [∀ v, Module.Finite k (ρ₂.obj v)],
         ρ₁.AuxiliaryCondition → ρ₂.AuxiliaryCondition →
         (∀ v, (α v : ℤ) = ↑(Module.finrank k (ρ₁.obj v))) →
         (∀ v, (α v : ℤ) = ↑(Module.finrank k (ρ₂.obj v))) →
-        Nonempty (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData ρ₁ ρ₂))) := by
+        Nonempty (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData ρ₁ ρ₂))) := by
   refine ⟨finite_setOf_vectorPredicate hDynkin, ?_, ?_⟩
   ·
     intro ρ _ _ hρ

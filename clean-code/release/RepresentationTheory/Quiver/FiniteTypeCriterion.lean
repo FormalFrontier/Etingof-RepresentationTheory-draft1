@@ -22,7 +22,7 @@ namespace RepresentationTheory.Quiver.FiniteTypeCriterion
 /-- The type of finite-dimensional representations of a quiver on a finite vertex type over a commutative semiring. -/
 @[source_ref "Chapter2/Discussion_after_Theorem2.1.1" (role := supporting)]
 abbrev FiniteQuiverRepresentation (k : Type) [CommSemiring k] (n : ℕ) [Quiver.{0} (Fin n)] :=
-  RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{0, 0, 0, 0}
+  RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{0, 0, 0, 0}
     k (Fin n)
 
 /-- A finiteness property for representations of a quiver over a field. -/
@@ -36,7 +36,7 @@ def QuiverRepresentationFiniteness (k : Type) [Field k] (n : ℕ)
       (∀ v, Module.Finite k (ρ.obj v)) →
       ρ.AuxiliaryCondition →
       ∃ i, Nonempty
-        (RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearEquiv
+        (RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverEquivData
           k (Fin n) ρ (reps i)))
 
 /-- The integer adjacency matrix associated with a finite quiver when existence of arrows is decidable. -/
@@ -98,13 +98,13 @@ lemma QuiverRepresentationFiniteness.finite_dimensionVectors (k : Type) [Field k
   linarith
 
 /-- Converts a morphism of quiver representations into the corresponding bundled family of linear maps. -/
-noncomputable def _root_.RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.toLinearMap
+noncomputable def _root_.RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.toLinearMap
     {k : Type*} [CommSemiring k] {Q : Quiver (Fin n)}
-    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
+    {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData
       k (Fin n)}
-    (f : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData
+    (f : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData
       ρ₁ ρ₂) :
-    RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearEquiv
+    RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverEquivData
       k (Fin n) ρ₁ ρ₂ where
   app := f.linearEquivAt
   naturality e x := f.linearEquivAt_map e x
@@ -128,7 +128,7 @@ private lemma not_representationFiniteness_of_not_posDef
     else @Fintype.ofIsEmpty _ (not_nonempty_iff.mp h)
   obtain ⟨_m, reps, _hrfin, _hrindec, hrcover⟩ := hfrt
   have hcover : ∀ (W :
-      RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{0, 0, 0, 0}
+      RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{0, 0, 0, 0}
         k (Fin n)),
       (∀ v, Module.Free k (W.obj v)) → (∀ v, Module.Finite k (W.obj v)) →
       W.AuxiliaryCondition → ∃ V ∈ Set.range reps, W.Related V := by
@@ -234,7 +234,7 @@ private lemma representationFiniteness_of_matrixCondition_aux
     hRep_dim root
   obtain ⟨iso⟩ := h_unique ρ (rep root) hρ_indec (hRep_indec root) hρ_dimv hrep_dimv
   exact ⟨by
-    change RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearEquiv
+    change RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverEquivData
       k (Fin n) ρ (rep (rootEnum.symm (rootEnum root)))
     rw [hrw]; exact iso.toLinearMap⟩
 

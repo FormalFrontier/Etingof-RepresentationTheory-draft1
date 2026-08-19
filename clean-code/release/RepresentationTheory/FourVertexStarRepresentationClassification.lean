@@ -31,8 +31,8 @@ private theorem falseOfImpossibleArrow {a b : Fin 4}
 
 /-- Converts a star-shaped four-space representation into a representation of the fixed quiver. -/
 noncomputable abbrev toQuiverRepresentation {k : Type*} [Field k] (rho : RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation k) :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA :=
-  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.mk k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA (vertexSpace rho)
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA :=
+  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.mk k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA (vertexSpace rho)
     (fun v => match v with
       | 0 => rho.leafOneAddCommGroup.toAddCommMonoid
       | 1 => rho.leafTwoAddCommGroup.toAddCommMonoid
@@ -64,30 +64,30 @@ noncomputable abbrev toQuiverRepresentation {k : Type*} [Field k] (rho : Represe
 /-- The additive commutative monoid structure on a vertex space of the associated quiver representation. -/
 noncomputable instance vertexAddCommMonoid {k : Type*} [Field k]
     (rho : RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation k) (v : Fin 4) : AddCommMonoid
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
         rho.toQuiverRepresentation v) :=
-  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.addCommMonoid k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.addCommMonoid k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
     rho.toQuiverRepresentation v
 
 /-- The scalar module structure on a vertex space of the associated quiver representation. -/
 noncomputable instance vertexModule {k : Type*} [Field k]
     (rho : RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation k) (v : Fin 4) : Module k
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
         rho.toQuiverRepresentation v) :=
-  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.moduleInstance k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+  @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.moduleInstance k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
     rho.toQuiverRepresentation v
 
 /-- Each vertex space of the associated quiver representation is a free module. -/
 noncomputable instance vertexModuleFree {k : Type*} [Field k]
     (rho : RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation k) (v : Fin 4) : Module.Free k
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
         rho.toQuiverRepresentation v) := by
   fin_cases v <;> infer_instance
 
 /-- Each vertex space of the associated quiver representation is a finite module. -/
 noncomputable instance vertexModuleFinite {k : Type*} [Field k]
     (rho : RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation k) (v : Fin 4) : Module.Finite k
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
         rho.toQuiverRepresentation v) := by
   fin_cases v <;> infer_instance
 
@@ -110,23 +110,23 @@ structure Equiv {k : Type*} [Field k] (rho sigma : RepresentationTheory.FiniteDi
 
 /-- An equivalence between the associated quiver representations induces an equivalence of the original star-shaped representations. -/
 noncomputable def equivOfQuiverRepresentationEquiv {k : Type*} [Field k] {rho sigma : RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation k}
-    (f : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+    (f : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
       rho.toQuiverRepresentation sigma.toQuiverRepresentation) : Equiv rho sigma where
-  centerLinearEquiv := @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.linearEquivAt k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f 3
-  leafOneLinearEquiv := @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.linearEquivAt k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f 0
-  leafTwoLinearEquiv := @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.linearEquivAt k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f 1
-  leafThreeLinearEquiv := @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.linearEquivAt k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f 2
-  leafOne_comm_apply := fun x => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.linearEquivAt_map k _ (Fin 4)
+  centerLinearEquiv := @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.linearEquivAt k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f 3
+  leafOneLinearEquiv := @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.linearEquivAt k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f 0
+  leafTwoLinearEquiv := @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.linearEquivAt k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f 1
+  leafThreeLinearEquiv := @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.linearEquivAt k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f 2
+  leafOne_comm_apply := fun x => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.linearEquivAt_map k _ (Fin 4)
     RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f 0 3 RepresentationTheory.ThreeArrowQuiver.LinearRangeConfiguration.zeroToSink x
-  leafTwo_comm_apply := fun x => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.linearEquivAt_map k _ (Fin 4)
+  leafTwo_comm_apply := fun x => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.linearEquivAt_map k _ (Fin 4)
     RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f 1 3 RepresentationTheory.ThreeArrowQuiver.LinearRangeConfiguration.oneToSink x
-  leafThree_comm_apply := fun x => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.linearEquivAt_map k _ (Fin 4)
+  leafThree_comm_apply := fun x => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.linearEquivAt_map k _ (Fin 4)
     RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f 2 3 RepresentationTheory.ThreeArrowQuiver.LinearRangeConfiguration.twoToSink x
 
 /-- An indecomposable star-shaped representation yields an indecomposable associated quiver representation. -/
 theorem toQuiverRepresentation_isIndecomposable {k : Type*} [Field k]
     {rho : RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation k} (h : rho.IsIndecomposable) :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
       rho.toQuiverRepresentation := by
   constructor
   · rcases h.1 with hV | h₁ | h₂ | h₃
@@ -163,7 +163,7 @@ theorem toQuiverRepresentation_isIndecomposable {k : Type*} [Field k]
 /-- Indecomposability of the associated quiver representation implies indecomposability of the original star-shaped representation. -/
 theorem isIndecomposable_of_toQuiverRepresentation {k : Type*} [Field k]
     {rho : RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation k}
-    (h : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+    (h : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
       rho.toQuiverRepresentation) : rho.IsIndecomposable := by
   constructor
   · obtain ⟨v, hv⟩ := h.1
@@ -175,21 +175,21 @@ theorem isIndecomposable_of_toQuiverRepresentation {k : Type*} [Field k]
   · intro p q p₁ q₁ p₂ q₂ p₃ q₃ hpq hpq₁ hpq₂ hpq₃
       hp₁ hq₁ hp₂ hq₂ hp₃ hq₃
     let W₁ : ∀ v, Submodule k
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
           rho.toQuiverRepresentation v) := fun v => match v with
       | 0 => p₁
       | 1 => p₂
       | 2 => p₃
       | 3 => p
     let W₂ : ∀ v, Submodule k
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
           rho.toQuiverRepresentation v) := fun v => match v with
       | 0 => q₁
       | 1 => q₂
       | 2 => q₃
       | 3 => q
     have hW₁ : ∀ {a b : Fin 4} (e : @Quiver.Hom (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA a b), ∀ x ∈ W₁ a,
-        @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+        @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
           rho.toQuiverRepresentation a b e x ∈ W₁ b := by
       intro a b e x hx
       rcases RepresentationTheory.ThreeArrowQuiver.LinearRangeConfiguration.hom_eq_zeroToSink_or_oneToSink_or_twoToSink e with
@@ -201,7 +201,7 @@ theorem isIndecomposable_of_toQuiverRepresentation {k : Type*} [Field k]
       · cases he
         exact hp₃ x hx
     have hW₂ : ∀ {a b : Fin 4} (e : @Quiver.Hom (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA a b), ∀ x ∈ W₂ a,
-        @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.map k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+        @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.map k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
           rho.toQuiverRepresentation a b e x ∈ W₂ b := by
       intro a b e x hx
       rcases RepresentationTheory.ThreeArrowQuiver.LinearRangeConfiguration.hom_eq_zeroToSink_or_oneToSink_or_twoToSink e with
@@ -290,35 +290,35 @@ universe u
 
 /-- The predicate that a quiver representation satisfies the designated freeness condition at a vertex. -/
 abbrev IsVertexFree {k : Type u} [Field k]
-    (rho : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u, 0, u, 0} k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA)
+    (rho : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u, 0, u, 0} k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA)
     (v : Fin 4) : Prop :=
-  @Module.Free k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho v) _
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.addCommMonoid k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho v)
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.moduleInstance k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho v)
+  @Module.Free k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho v) _
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.addCommMonoid k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho v)
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.moduleInstance k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho v)
 
 /-- The predicate that a quiver representation satisfies the designated finiteness condition at a vertex. -/
 abbrev IsVertexFinite {k : Type u} [Field k]
-    (rho : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u, 0, u, 0} k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA)
+    (rho : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u, 0, u, 0} k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA)
     (v : Fin 4) : Prop :=
-  @Module.Finite k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho v) _
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.addCommMonoid k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho v)
-    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.moduleInstance k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho v)
+  @Module.Finite k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho v) _
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.addCommMonoid k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho v)
+    (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.moduleInstance k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho v)
 
 /-- Data realizing an admissible four-coordinate dimension by a representation over a field. -/
 structure DimensionRealization (k : Type u) [Field k] (d : AdmissibleDimension) where
   /-- The four-vertex quiver representation determined by a dimension realization. -/
-  toRepresentation : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u, 0, u, 0} k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+  toRepresentation : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u, 0, u, 0} k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
   /-- Every vertex of the representation associated with a dimension realization satisfies the free-vertex condition. -/
   [vertexFree : ∀ v, IsVertexFree toRepresentation v]
   /-- Every vertex of the representation associated with a dimension realization satisfies the finite-vertex condition. -/
   [vertexFinite : ∀ v, IsVertexFinite toRepresentation v]
   /-- The representation associated with a dimension realization is indecomposable. -/
-  isIndecomposable : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+  isIndecomposable : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
     toRepresentation
   /-- The dimension of the realized representation at each vertex agrees with the corresponding coordinate of the prescribed dimension data. -/
   dimension_apply : ∀ v, tupleToDimensionVector d.1 v =
     (Module.finrank k
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA toRepresentation v) : ℤ)
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA toRepresentation v) : ℤ)
 
 attribute [instance] DimensionRealization.vertexFree DimensionRealization.vertexFinite
 
@@ -344,7 +344,7 @@ noncomputable def canonicalDimensionRealization (k : Type u) [Field k] (d : Admi
 /-- The standard four-vertex quiver representation associated with an admissible dimension. -/
 @[source_ref "Chapter6/Example6.3.1" (role := supporting)]
 noncomputable abbrev standardRepresentation (k : Type u) [Field k] (d : AdmissibleDimension) :
-    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.{u, 0, u, 0} k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA :=
+    @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u, 0, u, 0} k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA :=
   (canonicalDimensionRealization k d).toRepresentation
 
 /-- The standard representation satisfies the free-vertex condition at every vertex. -/
@@ -360,7 +360,7 @@ noncomputable instance standardRepresentation_isVertexFinite (k : Type u) [Field
 /-- Every standard representation indexed by an admissible dimension is indecomposable. -/
 @[source_ref "Chapter6/Example6.3.1" (role := primary)]
 theorem standardRepresentation_isIndecomposable (k : Type u) [Field k]
-    (d : AdmissibleDimension) : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryCondition k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+    (d : AdmissibleDimension) : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
       (standardRepresentation k d) :=
   (canonicalDimensionRealization k d).isIndecomposable
 
@@ -369,7 +369,7 @@ theorem standardRepresentation_dimension_apply (k : Type u) [Field k]
     (d : AdmissibleDimension) (v : Fin 4) :
     tupleToDimensionVector d.1 v =
       (Module.finrank k
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA (standardRepresentation k d) v) : ℤ) :=
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA (standardRepresentation k d) v) : ℤ) :=
   (canonicalDimensionRealization k d).dimension_apply v
 
 /-- The converted dimension tuple of a representation agrees vertexwise with the dimension of its associated quiver representation. -/
@@ -377,7 +377,7 @@ theorem toQuiverRepresentation_dimension_apply {k : Type} [Field k]
     (rho : RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation.{0, 0, 0, 0, 0} k) (v : Fin 4) :
     tupleToDimensionVector rho.dimension v =
       (Module.finrank k
-        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho.toQuiverRepresentation v) : ℤ) := by
+        (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho.toQuiverRepresentation v) : ℤ) := by
   fin_cases v <;>
     simp [tupleToDimensionVector, RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation.dimension, toQuiverRepresentation, vertexSpace]
 
@@ -389,7 +389,7 @@ noncomputable def classificationIndex {k : Type} [Field k]
 /-- An indecomposable representation is equivalent to the standard representation indexed by its classification dimension. -/
 theorem equiv_standardRepresentation_classificationIndex {k : Type} [Field k]
     (rho : RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation.{0, 0, 0, 0, 0} k) (h : rho.IsIndecomposable) :
-    Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+    Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
       rho.toQuiverRepresentation (standardRepresentation k (classificationIndex rho h))) := by
   let d := classificationIndex rho h
   apply (RepresentationTheory.Quiver.DimensionVectorClassification.Quiver.exists_finrankVector_and_related_of_vectorPredicate adjacencyMatrix_satisfies_condition k adjacencyMatrix_isCompatible
@@ -403,18 +403,18 @@ theorem equiv_standardRepresentation_classificationIndex {k : Type} [Field k]
 
 private theorem canonical_index_eq_of_iso {k : Type} [Field k]
     {d e : AdmissibleDimension}
-    (f : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+    (f : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
       (standardRepresentation k d) (standardRepresentation k e)) : d = e := by
   apply Subtype.ext
   apply tupleToDimensionVector_injective
   funext v
   have hfin :
       Module.finrank k
-          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA (standardRepresentation k d) v) =
+          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA (standardRepresentation k d) v) =
         Module.finrank k
-          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA (standardRepresentation k e) v) := by
+          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA (standardRepresentation k e) v) := by
     exact LinearEquiv.finrank_eq
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.linearEquivAt k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f v)
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.linearEquivAt k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f v)
   exact (standardRepresentation_dimension_apply k d v).trans
     ((congr_arg (fun n : ℕ => (n : ℤ)) hfin).trans
       (standardRepresentation_dimension_apply k e v).symm)
@@ -423,7 +423,7 @@ private theorem canonical_index_eq_of_iso {k : Type} [Field k]
 @[source_ref "Chapter6/Example6.3.1" (role := primary)]
 theorem standardRepresentation_not_equiv_of_ne {k : Type} [Field k]
     {d e : AdmissibleDimension} (hde : d ≠ e) :
-    ¬ Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+    ¬ Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
       (standardRepresentation k d) (standardRepresentation k e)) := by
   rintro ⟨f⟩
   exact hde (canonical_index_eq_of_iso f)
@@ -434,7 +434,7 @@ theorem standardRepresentation_not_equiv_of_ne {k : Type} [Field k]
 theorem existsUnique_equiv_standardRepresentation_of_isIndecomposable {k : Type} [Field k]
     (rho : RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation.{0, 0, 0, 0, 0} k) (h : rho.IsIndecomposable) :
     ∃! d : AdmissibleDimension,
-      Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
+      Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
         rho.toQuiverRepresentation (standardRepresentation k d)) := by
   refine ⟨classificationIndex rho h, equiv_standardRepresentation_classificationIndex rho h, ?_⟩
   intro e he
@@ -444,11 +444,11 @@ theorem existsUnique_equiv_standardRepresentation_of_isIndecomposable {k : Type}
   funext v
   have hfin :
       Module.finrank k
-          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho.toQuiverRepresentation v) =
+          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA rho.toQuiverRepresentation v) =
         Module.finrank k
-          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA (standardRepresentation k e) v) := by
+          (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA (standardRepresentation k e) v) := by
     exact LinearEquiv.finrank_eq
-      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram.AuxiliaryData.linearEquivAt k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f v)
+      (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData.linearEquivAt k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA _ _ f v)
   exact (standardRepresentation_dimension_apply k e v).trans
     ((congr_arg (fun n : ℕ => (n : ℤ)) hfin).symm.trans
       (toQuiverRepresentation_dimension_apply rho v).symm)

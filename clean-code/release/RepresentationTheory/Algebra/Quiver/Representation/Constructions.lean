@@ -10,14 +10,14 @@ import Mathlib.LinearAlgebra.Prod
 
 /-! # Quiver linear diagram constructions -/
 
-namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
+namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData
 
 /-- Combines two quiver-indexed objects over a commutative semiring into one object. -/
 @[source_ref "Chapter2/Definition2.8.9" (role := supporting)]
 noncomputable def binaryConstruction (k : Type*) (Q : Type*)
     [CommSemiring k] [Quiver Q]
-    (ρ₁ ρ₂ : QuiverLinearDiagram k Q) : QuiverLinearDiagram k Q where
+    (ρ₁ ρ₂ : AuxiliaryQuiverModuleData k Q) : AuxiliaryQuiverModuleData k Q where
   obj := fun v => ρ₁.obj v × ρ₂.obj v
   map := fun h => (ρ₁.map h).prodMap (ρ₂.map h)
 
-end RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram
+end RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData

@@ -80,7 +80,7 @@ instance baseChangeMulAction (m : Fin n → ℕ) :
 
 /-- The quiver representation on coordinate spaces determined by a collection of arrow matrices. -/
 noncomputable def matrixDataToRepresentation (m : Fin n → ℕ) (x : MatrixData (k := k) m) :
-    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram k (Fin n) where
+    RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k (Fin n) where
   obj := fun i => Fin (m i) → k
   map := fun {i j} e => Matrix.toLin' (x i j e)
 

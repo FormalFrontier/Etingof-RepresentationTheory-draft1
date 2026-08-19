@@ -11,11 +11,11 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.Foundations.TypeFamilies
 
-/-- A universe-polymorphic family of types indexed by a type. -/
-abbrev TypeIndexedFamily (V : Type*) := Quiver V
+/-- An auxiliary universe-polymorphic family of types indexed by a type. -/
+abbrev AuxiliaryTypeFamily (V : Type*) := Quiver V
 
 attribute [source_ref "Chapter2/Discussion_after_Theorem2.1.1" (role := supporting)]
-  TypeIndexedFamily
-attribute [source_ref "Chapter2/Definition2.8.1" (role := supporting)] TypeIndexedFamily
+  AuxiliaryTypeFamily
+attribute [source_ref "Chapter2/Definition2.8.1" (role := supporting)] AuxiliaryTypeFamily
 
 end RepresentationTheory.Foundations.TypeFamilies
