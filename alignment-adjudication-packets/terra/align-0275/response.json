@@ -1,1 +1,1 @@
-{"packet_id":"align-0275","associations":[{"association_id":"association:cfacd261dc2a3f91c398","role":"primary","rationale":"The formal theorem directly states the displayed Jordan--Holder factor result."}]}
+{"packet_id":"align-0275","associations":[{"association_id":"association:cfacd261dc2a3f91c398","role":"supporting","rationale":"The formal theorem matches composition factors up to a permutation, from which equality of each irreducible's multiplicity follows, but its displayed type does not itself state the multiplicity claim."}]}

@@ -1,1 +1,1 @@
-{"packet_id":"align-0276","associations":[{"association_id":"association:9e9bca41e1c58c1060bd","role":"primary","rationale":"The formal theorem directly states the associated source result."}]}
+{"packet_id":"align-0276","associations":[{"association_id":"association:9e9bca41e1c58c1060bd","role":"supporting","rationale":"The formal equivalence includes the implication from rational spanning to coverage, but it does not state the displayed vanishing-at-an-uncovered-element argument; it is only partial evidence for the proof-discussion claim."}]}

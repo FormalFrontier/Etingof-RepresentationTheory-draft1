@@ -18,13 +18,13 @@
     },
     {
       "association_id": "association:01097c5fed00307086b2",
-      "role": "primary",
-      "rationale": "mem_center_iff directly identifies the center of Q8 as the two elements 1 and a^2, i.e. {±1}."
+      "role": "supporting",
+      "rationale": "mem_center_iff directly identifies the center of Q8 as two specified elements, but that is only the center clause of the displayed composite claim; it does not state the relations, conjugacy-class count, or irreducible dimensions."
     },
     {
       "association_id": "association:318ebd04568d92224fbe",
-      "role": "primary",
-      "rationale": "The equality directly states that Q8 has five conjugacy classes."
+      "role": "supporting",
+      "rationale": "The equality directly states that Q8 has five conjugacy classes, but that is only one clause of the displayed composite claim and does not state its relations, center, or irreducible dimensions."
     }
   ]
 }
