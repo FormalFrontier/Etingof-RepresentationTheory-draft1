@@ -70,7 +70,7 @@ private noncomputable def weylRepFree :
   FreeAlgebra.lift k (distinguishedEndomorphism k)
 
 private lemma weylRep_rel :
-    ∀ ⦃a b⦄, freeAlgebraRelation k a b → weylRepFree k a = weylRepFree k b := by
+    ∀ ⦃a b⦄, auxiliaryRelation k a b → weylRepFree k a = weylRepFree k b := by
   intro a b ⟨ha, hb⟩
   subst ha; subst hb
   simp only [weylRepFree, map_mul, map_add, map_one, FreeAlgebra.lift_ι_apply,
@@ -80,22 +80,22 @@ private lemma weylRep_rel :
 /-- The algebra homomorphism realizing algebra elements as endomorphisms of the integer-indexed polynomial module. -/
 @[source_ref "Chapter2/Proposition2.7.1" (role := supporting)]
 noncomputable def operatorRepresentation :
-    OperatorAlgebra k →ₐ[k] Module.End k (IntegerIndexedPolynomialModule k) :=
+    AuxiliaryAlgebra k →ₐ[k] Module.End k (IntegerIndexedPolynomialModule k) :=
   RingQuot.liftAlgHom k ⟨weylRepFree k, weylRep_rel k⟩
 
 /-- The representation sends the designated shift generator to the index-shift endomorphism. -/
 @[simp, source_ref "Chapter2/Proposition2.7.1" (role := supporting)]
 lemma operatorRepresentation_indexShiftGenerator :
-    operatorRepresentation k (OperatorAlgebra.firstOperator k) = indexShift k := by
-  simp [operatorRepresentation, OperatorAlgebra.firstOperator, OperatorAlgebra.fromFreeAlgebra,
+    operatorRepresentation k (AuxiliaryAlgebra.firstOperator k) = indexShift k := by
+  simp [operatorRepresentation, AuxiliaryAlgebra.firstOperator, AuxiliaryAlgebra.fromFreeAlgebra,
     RingQuot.liftAlgHom_mkAlgHom_apply, weylRepFree, FreeAlgebra.lift_ι_apply,
     distinguishedEndomorphism]
 
 /-- The representation sends the designated lowering generator to the weighted index-lowering endomorphism. -/
 @[simp, source_ref "Chapter2/Proposition2.7.1" (role := supporting)]
 lemma operatorRepresentation_weightedLoweringGenerator :
-    operatorRepresentation k (OperatorAlgebra.secondOperator k) = weightedIndexLowering k := by
-  simp [operatorRepresentation, OperatorAlgebra.secondOperator, OperatorAlgebra.fromFreeAlgebra,
+    operatorRepresentation k (AuxiliaryAlgebra.secondOperator k) = weightedIndexLowering k := by
+  simp [operatorRepresentation, AuxiliaryAlgebra.secondOperator, AuxiliaryAlgebra.fromFreeAlgebra,
     RingQuot.liftAlgHom_mkAlgHom_apply, weylRepFree, FreeAlgebra.lift_ι_apply,
     distinguishedEndomorphism]
 
@@ -164,9 +164,9 @@ lemma weightedIndexLowering_pow_single_zero (j : ℕ) :
 omit [Nontrivial k] in
 /-- Applying the represented `(i,j)` operator monomial to the unit singleton gives a singleton at `i - j` valued in the `j`-th falling-factorial polynomial. -/
 theorem operatorRepresentation_monomial_apply_single (i j : ℕ) :
-    operatorRepresentation k (OperatorAlgebra.monomialOperator k i j) (Finsupp.single 0 1) =
+    operatorRepresentation k (AuxiliaryAlgebra.indexedElement k i j) (Finsupp.single 0 1) =
       Finsupp.single ((i : ℤ) - j) (fallingFactorialPolynomial k j) := by
-  simp only [OperatorAlgebra.monomialOperator, map_mul, map_pow,
+  simp only [AuxiliaryAlgebra.indexedElement, map_mul, map_pow,
     operatorRepresentation_indexShiftGenerator, operatorRepresentation_weightedLoweringGenerator,
     Module.End.mul_apply]
   rw [weightedIndexLowering_pow_single_zero, indexShift_pow_single]
@@ -228,7 +228,7 @@ theorem single_fallingFactorialPolynomial_linearIndependent :
 theorem operatorRepresentation_monomials_linearIndependent :
     LinearIndependent k
       (fun p : ℕ × ℕ =>
-        operatorRepresentation k (OperatorAlgebra.monomialOperator k p.1 p.2)) := by
+        operatorRepresentation k (AuxiliaryAlgebra.indexedElement k p.1 p.2)) := by
   have hΦ := single_fallingFactorialPolynomial_linearIndependent k
   refine LinearIndependent.of_comp
     (LinearMap.applyₗ (Finsupp.single (0 : ℤ) (1 : Polynomial k))) ?_
@@ -242,11 +242,11 @@ theorem operatorRepresentation_monomials_linearIndependent :
   source_ref "Chapter2/Proposition2.7.1" (role := supporting)]
 theorem operatorRepresentation_injective : Function.Injective (operatorRepresentation k) := by
   classical
-  set mono : ℕ × ℕ → OperatorAlgebra k :=
-    fun p => OperatorAlgebra.monomialOperator k p.1 p.2 with hmono
+  set mono : ℕ × ℕ → AuxiliaryAlgebra k :=
+    fun p => AuxiliaryAlgebra.indexedElement k p.1 p.2 with hmono
   have hsurj : Function.Surjective (Finsupp.linearCombination k mono) := by
     rw [← LinearMap.range_eq_top, Finsupp.range_linearCombination]
-    exact top_le_iff.mp (OperatorAlgebra.span_monomialOperator k)
+    exact top_le_iff.mp (AuxiliaryAlgebra.span_range_indexedElement k)
   have hli : LinearIndependent k (fun p : ℕ × ℕ => operatorRepresentation k (mono p)) := by
     simpa only [hmono] using operatorRepresentation_monomials_linearIndependent k
   rw [injective_iff_map_eq_zero (operatorRepresentation k)]
@@ -267,18 +267,18 @@ end RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators
 namespace RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra
 
 open RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators
-open RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra
+open RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra
 
 variable (k : Type*) [CommRing k] [Nontrivial k]
 
 /-- The family of operator monomials indexed by pairs of natural numbers is linearly independent. -/
 theorem operatorMonomials_linearIndependent :
-    LinearIndependent k (fun p : ℕ × ℕ => monomialOperator k p.1 p.2) :=
+    LinearIndependent k (fun p : ℕ × ℕ => indexedElement k p.1 p.2) :=
   (operatorRepresentation_monomials_linearIndependent k).of_comp
     (operatorRepresentation k).toLinearMap
 
 /-- Every operator monomial indexed by a pair of natural numbers is nonzero over a nontrivial commutative ring. -/
-theorem operatorMonomial_ne_zero (i j : ℕ) : monomialOperator k i j ≠ 0 :=
+theorem operatorMonomial_ne_zero (i j : ℕ) : indexedElement k i j ≠ 0 :=
   (operatorMonomials_linearIndependent k).ne_zero (i, j)
 
 /-- In prime positive characteristic, the comparison map from the algebra is not injective. -/
@@ -287,8 +287,8 @@ theorem comparisonMap_not_injective_of_charP (p : ℕ) [Fact p.Prime] [CharP k p
     ¬ Function.Injective (toPolynomialEnd k) := by
   intro hinj
   have hy : secondOperator k ^ p ≠ 0 := by
-    rw [show secondOperator k ^ p = monomialOperator k 0 p by
-      rw [monomialOperator, pow_zero, one_mul]]
+    rw [show secondOperator k ^ p = indexedElement k 0 p by
+      rw [indexedElement, pow_zero, one_mul]]
     exact operatorMonomial_ne_zero k 0 p
   exact hy (hinj ((toPolynomialEnd_power_second_eq_zero k p).trans
     (map_zero (toPolynomialEnd k)).symm))
@@ -312,10 +312,10 @@ theorem operatorRepresentation_injective_and_comparisonMap_not_injective
 /-- The doubly indexed operator monomials are linearly independent and their range spans the whole algebra. -/
 @[source_ref "Chapter2/Proposition2.7.1" (role := primary)]
 theorem operatorMonomials_linearIndependent_and_span :
-    LinearIndependent k (fun p : ℕ × ℕ => OperatorAlgebra.monomialOperator k p.1 p.2) ∧
+    LinearIndependent k (fun p : ℕ × ℕ => AuxiliaryAlgebra.indexedElement k p.1 p.2) ∧
     ⊤ ≤ Submodule.span k
-      (Set.range (fun p : ℕ × ℕ => OperatorAlgebra.monomialOperator k p.1 p.2)) :=
+      (Set.range (fun p : ℕ × ℕ => AuxiliaryAlgebra.indexedElement k p.1 p.2)) :=
   ⟨AuxiliaryAlgebra.operatorMonomials_linearIndependent k,
-    OperatorAlgebra.span_monomialOperator k⟩
+    AuxiliaryAlgebra.span_range_indexedElement k⟩
 
 end RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators

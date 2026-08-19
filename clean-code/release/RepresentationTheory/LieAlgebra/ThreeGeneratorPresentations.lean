@@ -371,8 +371,8 @@ theorem map_apply_aux14 (k : Type*) [CommRing k] :
 
 /-- A linear map between the displayed modules. -/
 noncomputable def linearMap (k : Type*) [CommRing k] :
-    AuxiliaryType k →ₗ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k where
-  toFun u := u.1 • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k + u.2.1 • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k + u.2.2 • 1
+    AuxiliaryType k →ₗ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k where
+  toFun u := u.1 • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k + u.2.1 • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k + u.2.2 • 1
   map_add' u v := by
     simp only [fst_add, snd_fst_add, snd_snd_add, add_smul]; abel
   map_smul' t u := by
@@ -381,45 +381,45 @@ noncomputable def linearMap (k : Type*) [CommRing k] :
 /-- The linear map sends a coordinate triple to the corresponding linear combination of the two displayed elements and one. -/
 @[simp] theorem linearMap_apply (k : Type*) [CommRing k] (u : AuxiliaryType k) :
     linearMap k u =
-      u.1 • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k + u.2.1 • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k + u.2.2 • 1 := rfl
+      u.1 • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k + u.2.1 • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k + u.2.2 • 1 := rfl
 
 section OperatorBrackets
 
 variable (k : Type*) [CommRing k]
 
 private theorem second_first_bracket :
-    ⁅RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k⁆ = (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) := by
-  rw [LieRing.of_associative_ring_bracket, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator_mul_firstOperator]; abel
+    ⁅RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k⁆ = (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) := by
+  rw [LieRing.of_associative_ring_bracket, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator_mul_firstOperator]; abel
 
 private theorem first_second_bracket :
-    ⁅RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k⁆ = (-1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) := by
-  rw [LieRing.of_associative_ring_bracket, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator_mul_firstOperator]; abel
+    ⁅RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k⁆ = (-1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) := by
+  rw [LieRing.of_associative_ring_bracket, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator_mul_firstOperator]; abel
 
 private theorem first_one_bracket :
-    ⁅RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k, (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)⁆ = 0 := by
+    ⁅RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k, (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k)⁆ = 0 := by
   rw [LieRing.of_associative_ring_bracket, mul_one, one_mul, sub_self]
 
 private theorem one_first_bracket :
-    ⁅(1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k), RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k⁆ = 0 := by
+    ⁅(1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k), RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k⁆ = 0 := by
   rw [LieRing.of_associative_ring_bracket, mul_one, one_mul, sub_self]
 
 private theorem second_one_bracket :
-    ⁅RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k, (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)⁆ = 0 := by
+    ⁅RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k, (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k)⁆ = 0 := by
   rw [LieRing.of_associative_ring_bracket, mul_one, one_mul, sub_self]
 
 private theorem one_second_bracket :
-    ⁅(1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k), RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k⁆ = 0 := by
+    ⁅(1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k), RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k⁆ = 0 := by
   rw [LieRing.of_associative_ring_bracket, mul_one, one_mul, sub_self]
 
 private theorem one_one_bracket :
-    ⁅(1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k), (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)⁆ = 0 := by
+    ⁅(1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k), (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k)⁆ = 0 := by
   rw [LieRing.of_associative_ring_bracket, mul_one, sub_self]
 
 end OperatorBrackets
 
 /-- A Lie algebra homomorphism between the displayed Lie algebras. -/
 noncomputable def lieHom_aux2 (k : Type*) [CommRing k] :
-    AuxiliaryType k →ₗ⁅k⁆ RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k :=
+    AuxiliaryType k →ₗ⁅k⁆ RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k :=
   { linearMap k with
     map_lie' := fun {u v} => by
       change linearMap k ⁅u, v⁆ =
@@ -427,17 +427,17 @@ noncomputable def lieHom_aux2 (k : Type*) [CommRing k] :
       rw [LieRing.of_associative_ring_bracket]
       simp only [linearMap_apply, bracket_eq,
         mul_add, add_mul, smul_mul_assoc, mul_smul_comm, smul_smul, mul_one, one_mul,
-        RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator_mul_firstOperator, smul_add, zero_smul, add_zero, zero_add]
+        RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator_mul_firstOperator, smul_add, zero_smul, add_zero, zero_add]
       module }
 
 /-- The Lie homomorphism sends a coordinate triple to the corresponding linear combination of the two displayed elements and one. -/
 @[simp] theorem lieHom_apply_aux1 (k : Type*) [CommRing k] (u : AuxiliaryType k) :
     lieHom_aux2 k u =
-      u.1 • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k + u.2.1 • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k + u.2.2 • 1 := rfl
+      u.1 • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k + u.2.1 • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k + u.2.2 • 1 := rfl
 
 /-- An algebra homomorphism between the displayed algebras. -/
 noncomputable def algHom (k : Type*) [CommRing k] :
-    UniversalEnvelopingAlgebra k (AuxiliaryType k) →ₐ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k :=
+    UniversalEnvelopingAlgebra k (AuxiliaryType k) →ₐ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k :=
   UniversalEnvelopingAlgebra.lift k (lieHom_aux2 k)
 
 /-- The displayed map sends the specified input to the stated value. -/
@@ -466,7 +466,7 @@ theorem ringCon_le_ker (k : Type*) [CommRing k] :
 
 /-- An algebra homomorphism between the displayed algebras. -/
 noncomputable def algHom_aux6 (k : Type*) [CommRing k] :
-    AuxiliaryType_aux2 k →ₐ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k :=
+    AuxiliaryType_aux2 k →ₐ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k :=
   (ringCon k).liftₐ (algHom k) (ringCon_le_ker k)
 
 /-- The displayed map sends the specified input to the stated value. -/
@@ -502,7 +502,7 @@ noncomputable def distinguishedElement_aux4 (k : Type*) [CommRing k] : Represent
 
 /-- An algebra homomorphism between the displayed algebras. -/
 noncomputable def algHom_aux5 (k : Type*) [CommRing k] :
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k →ₐ[k] AuxiliaryType_aux2 k :=
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k →ₐ[k] AuxiliaryType_aux2 k :=
   RingQuot.liftAlgHom k
     ⟨FreeAlgebra.lift k (distinguishedElement_aux4 k), by
       rintro a b ⟨rfl, rfl⟩
@@ -512,42 +512,42 @@ noncomputable def algHom_aux5 (k : Type*) [CommRing k] :
 
 /-- The displayed map sends the specified input to the stated value. -/
 @[simp] theorem map_apply_aux9 (k : Type*) [CommRing k] :
-    algHom_aux5 k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k) = distinguishedElement k := by
-  rw [algHom_aux5, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.fromFreeAlgebra, RingQuot.liftAlgHom_mkAlgHom_apply,
+    algHom_aux5 k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k) = distinguishedElement k := by
+  rw [algHom_aux5, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.fromFreeAlgebra, RingQuot.liftAlgHom_mkAlgHom_apply,
     RepresentationTheory.FreeAlgebra.PolynomialOperators.freeAlgebraGeneratorLeft, FreeAlgebra.lift_ι_apply]
   simp [distinguishedElement_aux4]
 
 /-- The displayed map sends the specified input to the stated value. -/
 @[simp] theorem map_apply_aux10 (k : Type*) [CommRing k] :
-    algHom_aux5 k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k) = distinguishedElement_aux1 k := by
-  rw [algHom_aux5, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.fromFreeAlgebra, RingQuot.liftAlgHom_mkAlgHom_apply,
+    algHom_aux5 k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k) = distinguishedElement_aux1 k := by
+  rw [algHom_aux5, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.fromFreeAlgebra, RingQuot.liftAlgHom_mkAlgHom_apply,
     RepresentationTheory.FreeAlgebra.PolynomialOperators.freeAlgebraGeneratorRight, FreeAlgebra.lift_ι_apply]
   simp [distinguishedElement_aux4]
 
 /-- The displayed map sends the specified input to the stated value. -/
 @[simp] theorem map_apply_aux11 (k : Type*) [CommRing k] :
-    algHom_aux6 k (distinguishedElement k) = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k := by
+    algHom_aux6 k (distinguishedElement k) = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k := by
   rw [distinguishedElement, map_apply_aux13, algHom, UniversalEnvelopingAlgebra.lift_ι_apply, lieHom_apply_aux1,
     distinguishedElement_aux5]
   simp
 
 /-- The displayed map sends the specified input to the stated value. -/
 @[simp] theorem map_apply_aux12 (k : Type*) [CommRing k] :
-    algHom_aux6 k (distinguishedElement_aux1 k) = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k := by
+    algHom_aux6 k (distinguishedElement_aux1 k) = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k := by
   rw [distinguishedElement_aux1, map_apply_aux13, algHom, UniversalEnvelopingAlgebra.lift_ι_apply, lieHom_apply_aux1,
     distinguishedElement_aux6]
   simp
 
 /-- The composite of the displayed algebra homomorphisms is the stated map. -/
 theorem algHom_comp_eq_aux3 (k : Type*) [CommRing k] :
-    (algHom_aux6 k).comp (algHom_aux5 k) = AlgHom.id k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) := by
+    (algHom_aux6 k).comp (algHom_aux5 k) = AlgHom.id k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) := by
   apply RingQuot.ringQuot_ext'
   apply FreeAlgebra.hom_ext
   funext i
   fin_cases i
-  · change algHom_aux6 k (algHom_aux5 k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k)) = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k
+  · change algHom_aux6 k (algHom_aux5 k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k)) = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k
     rw [map_apply_aux9, map_apply_aux11]
-  · change algHom_aux6 k (algHom_aux5 k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k)) = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k
+  · change algHom_aux6 k (algHom_aux5 k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k)) = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k
     rw [map_apply_aux10, map_apply_aux12]
 
 /-- The composite of the displayed algebra homomorphisms is the stated map. -/
@@ -578,23 +578,23 @@ theorem algHom_comp_eq_aux2 (k : Type*) [CommRing k] :
 /-- An algebra equivalence between the displayed algebras. -/
 @[source_ref "Chapter2/Example2.9.13" (role := supporting)]
 noncomputable def algEquiv_aux1 (k : Type*) [CommRing k] :
-    AuxiliaryType_aux2 k ≃ₐ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k :=
+    AuxiliaryType_aux2 k ≃ₐ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k :=
   AlgEquiv.ofAlgHom (algHom_aux6 k) (algHom_aux5 k) (algHom_comp_eq_aux3 k) (algHom_comp_eq_aux2 k)
 
 /-- The displayed map sends the specified input to the stated value. -/
 @[simp] theorem map_apply_aux5 (k : Type*) [CommRing k] :
-    algEquiv_aux1 k (distinguishedElement k) = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k := map_apply_aux11 k
+    algEquiv_aux1 k (distinguishedElement k) = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k := map_apply_aux11 k
 
 /-- The displayed map sends the specified input to the stated value. -/
 @[simp] theorem map_apply_aux6 (k : Type*) [CommRing k] :
-    algEquiv_aux1 k (distinguishedElement_aux1 k) = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k := map_apply_aux12 k
+    algEquiv_aux1 k (distinguishedElement_aux1 k) = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k := map_apply_aux12 k
 
 /-- The displayed map sends the specified input to the stated value. -/
 @[simp] theorem map_apply_aux7 (k : Type*) [CommRing k] :
-    (algEquiv_aux1 k).symm (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k) = distinguishedElement k := map_apply_aux9 k
+    (algEquiv_aux1 k).symm (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k) = distinguishedElement k := map_apply_aux9 k
 
 /-- The displayed map sends the specified input to the stated value. -/
 @[simp] theorem map_apply_aux8 (k : Type*) [CommRing k] :
-    (algEquiv_aux1 k).symm (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k) = distinguishedElement_aux1 k := map_apply_aux10 k
+    (algEquiv_aux1 k).symm (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k) = distinguishedElement_aux1 k := map_apply_aux10 k
 
 end RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations

@@ -221,7 +221,7 @@ noncomputable def monomial (p : ℤ × ℤ) : twistedLatticeShiftSubalgebra k q 
 /-- The underlying value of a quantum-torus monomial is the corresponding displayed ambient element. -/
 @[simp] theorem monomial_val (p : ℤ × ℤ) :
     ((monomial q p : twistedLatticeShiftSubalgebra k q) :
-        Module.End k (TwistedLatticeShiftSpace k)) = twistedLatticeShift k q p := rfl
+        Module.End k (Auxiliary k)) = twistedLatticeShift k q p := rfl
 
 /-- The quantum-torus monomial with both exponents zero is one. -/
 theorem monomial_zero_zero : monomial q (0, 0) = 1 := by
@@ -271,7 +271,7 @@ theorem monomial_linearIndependent : LinearIndependent k (monomial q) := by
 /-- The span of the quantum-torus monomials contains the whole algebra. -/
 theorem top_le_span_range_monomial : ⊤ ≤ Submodule.span k (Set.range (monomial q)) := by
   rintro a -
-  have h1 : (a : Module.End k (TwistedLatticeShiftSpace k)) ∈
+  have h1 : (a : Module.End k (Auxiliary k)) ∈
       Submodule.span k (Set.range (twistedLatticeShift k q)) := by
     rw [← twistedLatticeShiftSubalgebra_toSubmodule, Subalgebra.mem_toSubmodule]
     exact a.2

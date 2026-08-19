@@ -29,7 +29,7 @@ private theorem linearCombination_qMono_apply_zero (c : (ℤ × ℤ) →₀ ℂ)
   exact Finsupp.sum_single c
 
 
-private theorem mem_qWeyl_eq_linearCombination {f : Module.End ℂ (TwistedLatticeShiftSpace ℂ)}
+private theorem mem_qWeyl_eq_linearCombination {f : Module.End ℂ (Auxiliary ℂ)}
     (hf : f ∈ twistedLatticeShiftSubalgebra ℂ q) :
     f = Finsupp.linearCombination ℂ (twistedLatticeShift ℂ q) (f (single (0, 0) 1)) := by
   rw [← Subalgebra.mem_toSubmodule, twistedLatticeShiftSubalgebra_toSubmodule,
@@ -73,7 +73,7 @@ theorem center_eq_bot_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
     set X : twistedLatticeShiftSubalgebra ℂ q := ⟨twistedLatticeShift ℂ q (1, 0), twistedLatticeShift_mem_generatedSubalgebra ℂ q _⟩ with hX
     set Y : twistedLatticeShiftSubalgebra ℂ q := ⟨twistedLatticeShift ℂ q (0, 1), twistedLatticeShift_mem_generatedSubalgebra ℂ q _⟩ with hY
 
-    set f : Module.End ℂ (TwistedLatticeShiftSpace ℂ) := z.val with hf
+    set f : Module.End ℂ (Auxiliary ℂ) := z.val with hf
     set c : (ℤ × ℤ) →₀ ℂ := f (single (0, 0) 1) with hc
     have hfc : f = Finsupp.linearCombination ℂ (twistedLatticeShift ℂ q) c := mem_qWeyl_eq_linearCombination q z.2
 
@@ -83,7 +83,7 @@ theorem center_eq_bot_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
         exact congrArg Subtype.val this.symm
       intro p
 
-      have hval := congrArg (fun g : Module.End ℂ (TwistedLatticeShiftSpace ℂ) => g (single (0, 0) 1)) hop
+      have hval := congrArg (fun g : Module.End ℂ (Auxiliary ℂ) => g (single (0, 0) 1)) hop
       simp only [Module.End.mul_apply] at hval
       rw [show twistedLatticeShift ℂ q (1, 0) (single (0, 0) 1) = single (1, 0) 1 by rw [twistedLatticeShift_apply_single]; simp,
         ← hc] at hval
@@ -112,7 +112,7 @@ theorem center_eq_bot_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
         have := hz Y
         exact congrArg Subtype.val this.symm
       intro p
-      have hval := congrArg (fun g : Module.End ℂ (TwistedLatticeShiftSpace ℂ) => g (single (0, 0) 1)) hop
+      have hval := congrArg (fun g : Module.End ℂ (Auxiliary ℂ) => g (single (0, 0) 1)) hop
       simp only [Module.End.mul_apply] at hval
       rw [show twistedLatticeShift ℂ q (0, 1) (single (0, 0) 1) = single (0, 1) 1 by rw [twistedLatticeShift_apply_single]; simp,
         ← hc] at hval
@@ -165,7 +165,7 @@ theorem center_eq_bot_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
       by_cases hp : p = (0, 0)
       · subst hp; simp
       · rw [hsupp p hp, Finsupp.single_apply, if_neg (by simpa [eq_comm] using hp)]
-    have hfscalar : f = (c (0, 0)) • (1 : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) := by
+    have hfscalar : f = (c (0, 0)) • (1 : Module.End ℂ (Auxiliary ℂ)) := by
       rw [hfc]
       conv_lhs => rw [hcsingle]
       rw [Finsupp.linearCombination_single, twistedLatticeShift_zero_zero]
@@ -195,25 +195,25 @@ private noncomputable def gY' : twistedLatticeShiftSubalgebra ℂ q := ⟨twiste
 private noncomputable def gMono (p : ℤ × ℤ) : twistedLatticeShiftSubalgebra ℂ q := ⟨twistedLatticeShift ℂ q p, twistedLatticeShift_mem_generatedSubalgebra ℂ q p⟩
 
 @[simp] private theorem coe_gX :
-    ((gX q : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) = twistedLatticeShift ℂ q (1, 0) := rfl
+    ((gX q : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (Auxiliary ℂ)) = twistedLatticeShift ℂ q (1, 0) := rfl
 @[simp] private theorem coe_gX' :
-    ((gX' q : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) = twistedLatticeShift ℂ q (-1, 0) := rfl
+    ((gX' q : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (Auxiliary ℂ)) = twistedLatticeShift ℂ q (-1, 0) := rfl
 @[simp] private theorem coe_gY :
-    ((gY q : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) = twistedLatticeShift ℂ q (0, 1) := rfl
+    ((gY q : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (Auxiliary ℂ)) = twistedLatticeShift ℂ q (0, 1) := rfl
 @[simp] private theorem coe_gY' :
-    ((gY' q : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) = twistedLatticeShift ℂ q (0, -1) := rfl
+    ((gY' q : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (Auxiliary ℂ)) = twistedLatticeShift ℂ q (0, -1) := rfl
 @[simp] private theorem coe_gMono (p : ℤ × ℤ) :
-    ((gMono q p : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) = twistedLatticeShift ℂ q p := rfl
+    ((gMono q p : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (Auxiliary ℂ)) = twistedLatticeShift ℂ q p := rfl
 
 
-private noncomputable def kappa (a : twistedLatticeShiftSubalgebra ℂ q) : TwistedLatticeShiftSpace ℂ :=
-  (a : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) (single (0, 0) 1)
+private noncomputable def kappa (a : twistedLatticeShiftSubalgebra ℂ q) : Auxiliary ℂ :=
+  (a : Module.End ℂ (Auxiliary ℂ)) (single (0, 0) 1)
 
 
 private theorem kappa_eq_zero_iff (a : twistedLatticeShiftSubalgebra ℂ q) : kappa q a = 0 ↔ a = 0 := by
   constructor
   · intro h
-    have hval : (a : Module.End ℂ (TwistedLatticeShiftSpace ℂ))
+    have hval : (a : Module.End ℂ (Auxiliary ℂ))
         = Finsupp.linearCombination ℂ (twistedLatticeShift ℂ q) (kappa q a) :=
       mem_qWeyl_eq_linearCombination q a.2
     rw [h, map_zero] at hval
@@ -224,28 +224,28 @@ private theorem kappa_eq_zero_iff (a : twistedLatticeShiftSubalgebra ℂ q) : ka
 
 private theorem kappa_sub (a b : twistedLatticeShiftSubalgebra ℂ q) :
     kappa q (a - b) = kappa q a - kappa q b := by
-  change ((a - b : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) (single (0, 0) 1) = _
+  change ((a - b : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (Auxiliary ℂ)) (single (0, 0) 1) = _
   rw [AddSubgroupClass.coe_sub, LinearMap.sub_apply]
   rfl
 
 
 private theorem kappa_smul (s : ℂ) (a : twistedLatticeShiftSubalgebra ℂ q) :
     kappa q (s • a) = s • kappa q a := by
-  change ((s • a : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) (single (0, 0) 1) = _
-  rw [show ((s • a : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (TwistedLatticeShiftSpace ℂ))
-      = s • (a : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) from map_smul (Subalgebra.val _) s a,
+  change ((s • a : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (Auxiliary ℂ)) (single (0, 0) 1) = _
+  rw [show ((s • a : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (Auxiliary ℂ))
+      = s • (a : Module.End ℂ (Auxiliary ℂ)) from map_smul (Subalgebra.val _) s a,
     LinearMap.smul_apply]
   rfl
 
 
 private theorem kappa_conjX (a : twistedLatticeShiftSubalgebra ℂ q) (r : ℤ × ℤ) :
     kappa q (gX q * a * gX' q) r = ↑(q ^ (-r.2)) * kappa q a r := by
-  have hval : (a : Module.End ℂ (TwistedLatticeShiftSpace ℂ))
+  have hval : (a : Module.End ℂ (Auxiliary ℂ))
       = Finsupp.linearCombination ℂ (twistedLatticeShift ℂ q) (kappa q a) :=
     mem_qWeyl_eq_linearCombination q a.2
   have key : kappa q (gX q * a * gX' q)
       = (kappa q a).sum fun p aa => single p (aa * ↑(q ^ (-p.2))) := by
-    change ((gX q * a * gX' q : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) (single (0, 0) 1)
+    change ((gX q * a * gX' q : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (Auxiliary ℂ)) (single (0, 0) 1)
       = _
     rw [MulMemClass.coe_mul, MulMemClass.coe_mul, coe_gX, coe_gX',
       Module.End.mul_apply, Module.End.mul_apply,
@@ -264,12 +264,12 @@ private theorem kappa_conjX (a : twistedLatticeShiftSubalgebra ℂ q) (r : ℤ �
 
 private theorem kappa_conjY (a : twistedLatticeShiftSubalgebra ℂ q) (r : ℤ × ℤ) :
     kappa q (gY q * a * gY' q) r = ↑(q ^ r.1) * kappa q a r := by
-  have hval : (a : Module.End ℂ (TwistedLatticeShiftSpace ℂ))
+  have hval : (a : Module.End ℂ (Auxiliary ℂ))
       = Finsupp.linearCombination ℂ (twistedLatticeShift ℂ q) (kappa q a) :=
     mem_qWeyl_eq_linearCombination q a.2
   have key : kappa q (gY q * a * gY' q)
       = (kappa q a).sum fun p aa => single p (↑(q ^ p.1) * aa) := by
-    change ((gY q * a * gY' q : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) (single (0, 0) 1)
+    change ((gY q * a * gY' q : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (Auxiliary ℂ)) (single (0, 0) 1)
       = _
     rw [MulMemClass.coe_mul, MulMemClass.coe_mul, coe_gY, coe_gY',
       Module.End.mul_apply, Module.End.mul_apply,
@@ -291,7 +291,7 @@ theorem isSimpleRing_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
     IsSimpleRing (twistedLatticeShiftSubalgebra ℂ q) := by
 
   haveI : Nontrivial (twistedLatticeShiftSubalgebra ℂ q) := by
-    refine ⟨1, 0, fun h => one_ne_zero (α := Module.End ℂ (TwistedLatticeShiftSpace ℂ)) ?_⟩
+    refine ⟨1, 0, fun h => one_ne_zero (α := Module.End ℂ (Auxiliary ℂ)) ?_⟩
     simpa using congrArg Subtype.val h
 
   have hpow_ne : ∀ m n : ℤ, m ≠ n → (↑(q ^ m) : ℂ) ≠ ↑(q ^ n) := by
@@ -318,17 +318,17 @@ theorem isSimpleRing_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
       have hn1 : n = 1 := by omega
       obtain ⟨p₀, hsupp⟩ := Finset.card_eq_one.mp (by rw [hcard, hn1])
       obtain ⟨hκ0, hκeq⟩ := Finsupp.support_eq_singleton.mp hsupp
-      have hval : (a : Module.End ℂ (TwistedLatticeShiftSpace ℂ))
+      have hval : (a : Module.End ℂ (Auxiliary ℂ))
           = Finsupp.linearCombination ℂ (twistedLatticeShift ℂ q) (kappa q a) :=
         mem_qWeyl_eq_linearCombination q a.2
-      have haval : (a : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) = kappa q a p₀ • twistedLatticeShift ℂ q p₀ := by
+      have haval : (a : Module.End ℂ (Auxiliary ℂ)) = kappa q a p₀ • twistedLatticeShift ℂ q p₀ := by
         conv_lhs => rw [hval, hκeq]
         rw [Finsupp.linearCombination_single]
       set κ := kappa q a p₀ with hκ
       set w : ℂ := ↑(q ^ ((-p₀).2 * p₀.1)) with hw
       have hwne : w ≠ 0 := by rw [hw]; exact Units.ne_zero _
       have hinv : ((κ⁻¹ * w⁻¹) • twistedLatticeShift ℂ q (-p₀)) * (κ • twistedLatticeShift ℂ q p₀)
-          = (1 : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) := by
+          = (1 : Module.End ℂ (Auxiliary ℂ)) := by
         rw [smul_mul_smul_comm, twistedLatticeShift_mul, smul_smul,
           show ((-p₀).1 + p₀.1, (-p₀).2 + p₀.2) = ((0 : ℤ), (0 : ℤ)) by
             obtain ⟨a, b⟩ := p₀; simp only [Prod.neg_mk, Prod.mk.injEq]; omega,
@@ -340,7 +340,7 @@ theorem isSimpleRing_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
       have hva : ((κ⁻¹ * w⁻¹) • gMono q (-p₀)) * a = 1 := by
         apply Subtype.ext
         rw [MulMemClass.coe_mul, OneMemClass.coe_one,
-          show (((κ⁻¹ * w⁻¹) • gMono q (-p₀) : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (TwistedLatticeShiftSpace ℂ))
+          show (((κ⁻¹ * w⁻¹) • gMono q (-p₀) : twistedLatticeShiftSubalgebra ℂ q) : Module.End ℂ (Auxiliary ℂ))
             = (κ⁻¹ * w⁻¹) • twistedLatticeShift ℂ q (-p₀) from Subalgebra.coe_smul _ _ _,
           haval]
         exact hinv
@@ -476,15 +476,15 @@ private theorem gMono_mul' (p r : ℤ × ℤ) :
 
 
 private theorem mem_center_of_comm_qMono (a : twistedLatticeShiftSubalgebra ℂ q)
-    (h : ∀ p : ℤ × ℤ, (a : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) * twistedLatticeShift ℂ q p
-        = twistedLatticeShift ℂ q p * (a : Module.End ℂ (TwistedLatticeShiftSpace ℂ))) :
+    (h : ∀ p : ℤ × ℤ, (a : Module.End ℂ (Auxiliary ℂ)) * twistedLatticeShift ℂ q p
+        = twistedLatticeShift ℂ q p * (a : Module.End ℂ (Auxiliary ℂ))) :
     a ∈ Subalgebra.center ℂ (twistedLatticeShiftSubalgebra ℂ q) := by
   rw [Subalgebra.mem_center_iff]
   intro b
   apply Subtype.ext
   rw [MulMemClass.coe_mul, MulMemClass.coe_mul]
-  set f := (a : Module.End ℂ (TwistedLatticeShiftSpace ℂ)) with hf
-  have hb : (b : Module.End ℂ (TwistedLatticeShiftSpace ℂ))
+  set f := (a : Module.End ℂ (Auxiliary ℂ)) with hf
+  have hb : (b : Module.End ℂ (Auxiliary ℂ))
       = Finsupp.linearCombination ℂ (twistedLatticeShift ℂ q) (kappa q b) :=
     mem_qWeyl_eq_linearCombination q b.2
   rw [hb, Finsupp.linearCombination_apply, Finsupp.sum_mul, Finsupp.mul_sum]
@@ -534,7 +534,7 @@ private theorem gMono_natpow_y (m : ℤ) (k : ℕ) :
 private theorem eq_finsupp_sum_gMono (a : twistedLatticeShiftSubalgebra ℂ q) :
     a = (kappa q a).sum (fun p c => c • gMono q p) := by
   apply Subtype.ext
-  have hval : (a : Module.End ℂ (TwistedLatticeShiftSpace ℂ))
+  have hval : (a : Module.End ℂ (Auxiliary ℂ))
       = Finsupp.linearCombination ℂ (twistedLatticeShift ℂ q) (kappa q a) :=
     mem_qWeyl_eq_linearCombination q a.2
   rw [hval, Finsupp.linearCombination_apply]

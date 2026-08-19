@@ -128,6 +128,7 @@ import RepresentationTheory.Module.EndomorphismEvaluation
 import RepresentationTheory.Module.FinrankOneSimple
 import RepresentationTheory.Module.FunctorEndomorphisms
 import RepresentationTheory.ModuleFamilyNatMatrix
+import RepresentationTheory.Module.Auxiliary
 import RepresentationTheory.Module.SimpleLinearMaps
 import RepresentationTheory.Module.SimpleSubmodule
 import RepresentationTheory.ModuleObjectProperties
