@@ -423,6 +423,16 @@ add_decl_doc tensorRight_homologyProjection_comp_homologyTensorCyclesToTensorHom
 /-- The description of the total-degree map on a summand remains valid after postcomposition. -/
 add_decl_doc sigmaInclusion_comp_totalHomologyTensorToTensorHomology_assoc
 
+namespace Auxiliary
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias statement024740 := sigmaInclusion_comp_totalHomologyTensorToTensorHomology
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias statement024741 := sigmaInclusion_comp_totalHomologyTensorToTensorHomology_assoc
+
+end Auxiliary
+
 /-- Naturality of a total-degree summand inclusion is preserved under subsequent composition. -/
 add_decl_doc sigmaInclusion_naturality_assoc
 

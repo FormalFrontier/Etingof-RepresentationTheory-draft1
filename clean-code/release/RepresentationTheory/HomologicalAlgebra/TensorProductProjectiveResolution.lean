@@ -146,6 +146,16 @@ theorem TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne (i j m j
 /-- A second auxiliary theorem whose formal type was unavailable for inspection. -/
 add_decl_doc TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne_assoc
 
+namespace Auxiliary
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias statement023397 := TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias statement023398 := TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne_assoc
+
+end Auxiliary
+
 /-- The finite type of pairs of natural numbers whose sum is a prescribed degree. -/
 noncomputable instance TensorProductProjectiveResolution.fintypeDegreePairs (i : ℕ) : Fintype {p : ℕ × ℕ // p.1 + p.2 = i} := by
   apply Fintype.ofInjective (β := Fin (i + 1)) (fun q => ⟨q.1.1, by have := q.2; omega⟩)

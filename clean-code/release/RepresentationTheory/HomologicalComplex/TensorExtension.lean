@@ -476,6 +476,16 @@ attribute [reassoc] extendTensorXIso_hom_app
 /-- The forward component formula for the tensor-extension comparison remains valid after postcomposition. -/
 add_decl_doc extendTensorXIso_hom_app_assoc
 
+namespace Auxiliary
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias statement016447 := extendTensorXIso_hom_app
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias statement016448 := extendTensorXIso_hom_app_assoc
+
+end Auxiliary
+
 
 /-- The tensor-extension isomorphism is natural in simultaneous maps of both complexes. -/
 theorem extendTensorIso_naturality (f : C₁ ⟶ C₂) (g : D₁ ⟶ D₂) :

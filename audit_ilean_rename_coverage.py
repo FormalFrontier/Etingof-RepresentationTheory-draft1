@@ -40,6 +40,244 @@ def module_path(root: Path, module: str, suffix: str) -> Path:
     return root / (module.replace(".", "/") + suffix)
 
 
+def position_offsets(source: str, position: list) -> tuple[int, int]:
+    """Convert an ilean line/column range to absolute source offsets."""
+    start_line, start_col, end_line, end_col = position[:4]
+    lines = source.splitlines(keepends=True)
+    if not (0 <= start_line < len(lines) and 0 <= end_line < len(lines)):
+        raise ValueError(f"line out of bounds: {position[:4]}")
+    if not (0 <= start_col <= len(lines[start_line])):
+        raise ValueError(f"start column out of bounds: {position[:4]}")
+    if not (0 <= end_col <= len(lines[end_line])):
+        raise ValueError(f"end column out of bounds: {position[:4]}")
+    starts: list[int] = []
+    offset = 0
+    for line in lines:
+        starts.append(offset)
+        offset += len(line)
+    return starts[start_line] + start_col, starts[end_line] + end_col
+
+
+def mask_lean_comments_and_strings(source: str) -> str:
+    """Hide Lean comments and strings without changing source offsets."""
+    visible = list(source)
+    index = 0
+    block_depth = 0
+    in_string = False
+    escaped = False
+    while index < len(source):
+        if block_depth:
+            if source.startswith("/-", index):
+                visible[index : index + 2] = "  "
+                block_depth += 1
+                index += 2
+            elif source.startswith("-/", index):
+                visible[index : index + 2] = "  "
+                block_depth -= 1
+                index += 2
+            else:
+                if source[index] != "\n":
+                    visible[index] = " "
+                index += 1
+        elif in_string:
+            if source[index] != "\n":
+                visible[index] = " "
+            if escaped:
+                escaped = False
+            elif source[index] == "\\":
+                escaped = True
+            elif source[index] == '"':
+                in_string = False
+            index += 1
+        elif source.startswith("--", index):
+            end = source.find("\n", index)
+            if end < 0:
+                end = len(source)
+            visible[index:end] = " " * (end - index)
+            index = end
+        elif source.startswith("/-", index):
+            visible[index : index + 2] = "  "
+            block_depth = 1
+            index += 2
+        elif source[index] == '"':
+            visible[index] = " "
+            in_string = True
+            index += 1
+        else:
+            index += 1
+    return "".join(visible)
+
+
+LEAN_IDENTIFIER = re.compile(
+    r"(?:[^\W\d][\w']*|«[^»\r\n]+»)(?:\.(?:[^\W\d][\w']*|«[^»\r\n]+»))*"
+)
+
+# These tokens terminate an ``attribute`` target list rather than naming a
+# declaration. Quoted identifiers remain valid targets even when their content
+# happens to be a command keyword.
+LEAN_COMMAND_KEYWORDS = {
+    "abbrev",
+    "attribute",
+    "axiom",
+    "class",
+    "def",
+    "deriving",
+    "elab",
+    "end",
+    "example",
+    "export",
+    "include",
+    "inductive",
+    "infix",
+    "infixl",
+    "infixr",
+    "instance",
+    "lemma",
+    "local",
+    "macro",
+    "namespace",
+    "noncomputable",
+    "notation",
+    "omit",
+    "open",
+    "opaque",
+    "private",
+    "protected",
+    "section",
+    "set_option",
+    "structure",
+    "syntax",
+    "theorem",
+    "universe",
+    "unsafe",
+    "variable",
+}
+
+
+def attached_reassoc_parent(
+    source: str, visible_source: str, spelling: str, position: list
+) -> bool:
+    """Check ``@[reassoc]`` immediately attached to the indexed parent token."""
+    try:
+        start, end = position_offsets(source, position)
+    except ValueError:
+        return False
+    if source[start:end] != spelling:
+        return False
+    match = re.search(
+        r"(?P<attributes>(?:@\[[^\]]*\]\s*)+)"
+        r"(?:(?:private|protected|noncomputable|unsafe)\s+)*"
+        rf"(?:lemma|theorem)\s+{re.escape(spelling)}$",
+        visible_source[:end],
+        flags=re.DOTALL,
+    )
+    if match is None:
+        return False
+    return any(
+        re.search(r"(?<![\w'])reassoc(?![\w'])", attributes) is not None
+        for attributes in re.findall(r"@\[([^\]]*)\]", match.group("attributes"))
+    )
+
+
+def reassoc_attribute_target_ranges(visible_source: str) -> set[tuple[int, int]]:
+    """Return identifier tokens targeted by exact ``attribute [reassoc]`` commands."""
+    command = re.compile(
+        r"(?m)^[ \t]*attribute[ \t]+\[[ \t]*reassoc[ \t]*\]"
+        r"(?P<targets>[^\r\n]*)$"
+    )
+    targets: set[tuple[int, int]] = set()
+    for match in command.finditer(visible_source):
+        cursor = match.start("targets")
+        command_targets: set[tuple[int, int]] = set()
+        valid_command = True
+        while cursor < match.end("targets"):
+            whitespace = re.match(r"[ \t]+", visible_source[cursor:])
+            if whitespace is None:
+                valid_command = False
+                break
+            cursor += whitespace.end()
+            if cursor == match.end("targets"):
+                break
+            identifier = LEAN_IDENTIFIER.match(visible_source, cursor)
+            if identifier is None:
+                valid_command = False
+                break
+            spelling = identifier.group(0)
+            if (
+                "." not in spelling
+                and not spelling.startswith("«")
+                and spelling in LEAN_COMMAND_KEYWORDS
+            ):
+                valid_command = False
+                break
+            command_targets.add(identifier.span())
+            cursor = identifier.end()
+        if valid_command and command_targets:
+            targets.update(command_targets)
+    return targets
+
+
+def proposal_identity(proposal: dict) -> str:
+    """Return a stable identity for every field of one aggregate proposal row."""
+    return json.dumps(
+        proposal, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    )
+
+
+def independently_reviewed_proposal_identities(
+    proposals: list[dict], proposals_path: Path
+) -> set[str]:
+    """Return complete proposal-row identities matching their reviewed response.
+
+    The proposal aggregate is authoritative only after independent packet review. For
+    generated declarations whose approved name deliberately differs from Lean's
+    generator suffix, retain that provenance by checking the referenced response
+    directly: the declaration ID, proposed name, docstring, and module must all agree.
+    """
+    cleanroom_root = proposals_path.resolve().parents[2] / "clean-room-packets"
+    response_cache: dict[Path, dict] = {}
+    reviewed: set[str] = set()
+    for proposal in proposals:
+        temporary_id = proposal.get("temporary_id")
+        response = proposal.get("response")
+        if (
+            not temporary_id
+            or not response
+            or proposal.get("name_resolution_status") != "resolved"
+        ):
+            continue
+        response_path = (cleanroom_root / response).resolve()
+        if not response_path.is_relative_to(cleanroom_root) or not response_path.is_file():
+            continue
+        try:
+            if response_path not in response_cache:
+                response_cache[response_path] = json.loads(
+                    response_path.read_text(encoding="utf-8")
+                )
+            response_payload = response_cache[response_path]
+        except (OSError, json.JSONDecodeError):
+            continue
+        declarations = [
+            declaration
+            for declaration in response_payload.get("declarations", [])
+            if declaration.get("temporary_id") == temporary_id
+        ]
+        if len(declarations) != 1:
+            continue
+        declaration = declarations[0]
+        response_module = f"RepresentationTheory.{response_payload.get('module_name')}"
+        if (
+            declaration.get("new_name") != proposal.get("proposed_name")
+            or declaration.get("docstring") != proposal.get("cleanroom_docstring")
+            or proposal.get("new_module") != response_module
+            or proposal.get("new_fqn")
+            != f"{response_module}.{declaration.get('new_name')}"
+        ):
+            continue
+        reviewed.add(proposal_identity(proposal))
+    return reviewed
+
+
 def simps_generated_origin(
     old_fqn: str,
     module: str,
@@ -86,15 +324,28 @@ def reassoc_generated_origin(
     source: str,
     ilean: dict,
     proposals_by_old: dict[str, dict],
-) -> tuple[str, list] | None:
+    old_fqn_counts: Counter[str],
+    new_fqn_counts: Counter[str],
+    temporary_id_counts: Counter[str],
+    independently_reviewed_identities: set[str],
+) -> tuple[str, list, dict] | None:
     """Find the indexed ``@[reassoc]`` lemma that generated ``old_fqn``.
 
-    A reassociation theorem has no source token of its own.  Accept that case
-    only when both the old and new names are exact ``_assoc`` extensions, the
-    child is absent from the provider index or has a null definition, and the
-    indexed parent lemma has an attached ``@[reassoc]``, ``@[simp, reassoc]``,
-    or ``@[reassoc (attr := simp)]`` attribute.  A later explicit attribute
-    additionally requires an indexed null child.
+    A reassociation theorem has no source token of its own. Accept that case
+    only when the old name is the exact ``_assoc`` extension of an indexed
+    parent in the same old and new modules, the generated child has no
+    definition range, and the source parent genuinely carries an attached or
+    later explicit ``reassoc`` attribute. An attached attribute may leave an
+    unused child absent from the provider index; a later explicit attribute is
+    accepted only when the generated child is indexed with an explicitly null
+    definition range.
+
+    Lean normally gives the migrated child the migrated parent name plus
+    ``_assoc``. When independent clean-room review instead approved a distinct
+    child name, accept it only as a unique proposal whose aggregate row exactly
+    matches its reviewed response. The public migration must then export that
+    approved child as a documented alias; the release export validator checks
+    that other half of the end-to-end contract.
     """
     if not old_fqn.endswith("_assoc"):
         return None
@@ -107,7 +358,20 @@ def reassoc_generated_origin(
         child.get("old_module") != module
         or parent.get("old_module") != module
         or child.get("new_module") != parent.get("new_module")
-        or child.get("new_fqn") != f"{parent.get('new_fqn')}_assoc"
+    ):
+        return None
+    generated_suffix_name = f"{parent.get('new_fqn')}_assoc"
+    independently_named = child.get("new_fqn") != generated_suffix_name
+    if independently_named and (
+        old_fqn_counts[old_fqn] != 1
+        or old_fqn_counts[parent_fqn] != 1
+        or new_fqn_counts[child.get("new_fqn")] != 1
+        or new_fqn_counts[parent.get("new_fqn")] != 1
+        or child.get("temporary_id") == parent.get("temporary_id")
+        or temporary_id_counts[child.get("temporary_id")] != 1
+        or temporary_id_counts[parent.get("temporary_id")] != 1
+        or proposal_identity(child) not in independently_reviewed_identities
+        or proposal_identity(parent) not in independently_reviewed_identities
     ):
         return None
 
@@ -140,26 +404,37 @@ def reassoc_generated_origin(
     if parent_fqn.rsplit(".", 1)[-1] != spelling:
         return None
 
-    source_lines = source.splitlines(keepends=True)
-    start_line = position[0]
-    attached_context = "".join(source_lines[max(0, start_line - 2) : start_line + 1])
-    attached = re.search(
-        r"@\[\s*(?:simp\s*,\s*)?reassoc"
-        r"(?:\s*\(\s*attr\s*:=\s*simp\s*\))?\s*\]"
-        r"\s*(?:lemma|theorem)\s+",
-        attached_context,
-    )
-    explicit = re.search(
-        rf"(?m)^\s*attribute\s+\[\s*reassoc\s*\]\s+{re.escape(spelling)}\s*$",
-        source,
-    )
-    if attached is None:
-        if child_ref is None or explicit is None:
+    visible_source = mask_lean_comments_and_strings(source)
+    attached = attached_reassoc_parent(source, visible_source, spelling, position)
+    if not attached:
+        if child_ref is None or child_ref.get("definition") is not None:
             return None
-        explicit_line = source.count("\n", 0, explicit.start())
-        if explicit_line <= start_line:
+        try:
+            _, definition_end = position_offsets(source, position)
+        except ValueError:
             return None
-    return parent_fqn, position
+        target_ranges = reassoc_attribute_target_ranges(visible_source)
+        explicit = False
+        for usage in parent_ref.get("usages", []):
+            try:
+                usage_range = position_offsets(source, usage)
+            except ValueError:
+                continue
+            if usage_range[0] > definition_end and usage_range in target_ranges:
+                explicit = True
+                break
+        if not explicit:
+            return None
+    provenance = {}
+    if independently_named:
+        provenance = {
+            "default_reassoc_child_fqn": generated_suffix_name,
+            "new_name_strategy": "independently_reviewed_documented_alias",
+            "parent_proposal_response": parent["response"],
+            "proposal_response": child["response"],
+            "reviewed_parent_fqn": parent["new_fqn"],
+        }
+    return parent_fqn, position, provenance
 
 
 def extends_projection_generated_origin(
@@ -350,12 +625,28 @@ def main() -> None:
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
 
-    proposals = [row for row in read_jsonl(args.proposals) if row.get("new_fqn")]
+    all_proposals = read_jsonl(args.proposals)
+    proposals = [row for row in all_proposals if row.get("new_fqn")]
+    old_fqn_counts = Counter(row["old_fqn"] for row in proposals)
+    new_fqn_counts = Counter(row["new_fqn"] for row in proposals)
+    temporary_id_counts = Counter(
+        row.get("temporary_id") for row in all_proposals if row.get("temporary_id")
+    )
+    independently_reviewed_identities = independently_reviewed_proposal_identities(
+        proposals, args.proposals
+    )
     by_old = {row["old_fqn"]: row for row in proposals}
     definition_audit: list[dict] = []
     usage_counts: Counter[str] = Counter()
     usage_spellings: dict[str, Counter[str]] = defaultdict(Counter)
     errors: list[str] = []
+    duplicate_temporary_ids = sorted(
+        temporary_id
+        for temporary_id, count in temporary_id_counts.items()
+        if count != 1
+    )
+    if duplicate_temporary_ids:
+        errors.append(f"duplicate proposal temporary IDs: {duplicate_temporary_ids}")
 
     source_cache: dict[str, str] = {}
     ilean_cache: dict[str, dict] = {}
@@ -389,10 +680,24 @@ def main() -> None:
         )
         position = ref.get("definition") if ref else None
         if position is None:
+            generated_metadata: dict = {}
             generated = simps_generated_origin(old_fqn, module, source, ilean, by_old)
             generated_by = "simps"
             if generated is None:
-                generated = reassoc_generated_origin(old_fqn, module, source, ilean, by_old)
+                reassoc_generated = reassoc_generated_origin(
+                    old_fqn,
+                    module,
+                    source,
+                    ilean,
+                    by_old,
+                    old_fqn_counts,
+                    new_fqn_counts,
+                    temporary_id_counts,
+                    independently_reviewed_identities,
+                )
+                if reassoc_generated is not None:
+                    parent_fqn, parent_position, generated_metadata = reassoc_generated
+                    generated = (parent_fqn, parent_position)
                 generated_by = "reassoc"
             if generated is None:
                 generated = extends_projection_generated_origin(
@@ -417,7 +722,7 @@ def main() -> None:
                 })
                 continue
             parent_fqn, parent_position = generated
-            definition_audit.append({
+            generated_record = {
                 "temporary_id": proposal["temporary_id"],
                 "old_fqn": old_fqn,
                 "new_fqn": proposal["new_fqn"],
@@ -428,7 +733,9 @@ def main() -> None:
                 "generated_by": generated_by,
                 "generated_from": parent_fqn,
                 "generator_definition_range": parent_position[:4],
-            })
+            }
+            generated_record.update(generated_metadata)
+            definition_audit.append(generated_record)
             continue
         try:
             spelling = source_slice(source, position)

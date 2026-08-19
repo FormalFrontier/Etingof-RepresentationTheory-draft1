@@ -452,6 +452,16 @@ attribute [reassoc] auxiliaryExtendedTensorComponentComparisonEq
 /-- The displayed component-isomorphism identity remains valid after postcomposition. -/
 add_decl_doc auxiliaryExtendedTensorComponentComparisonEq_assoc
 
+namespace Auxiliary
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias statement016350 := auxiliaryExtendedTensorComponentComparisonEq
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias statement016351 := auxiliaryExtendedTensorComponentComparisonEq_assoc
+
+end Auxiliary
+
 /-- The tensor-extension isomorphism is natural in morphisms of both chain complexes. -/
 theorem tensorExtendIsoExtendTensor_naturality (f : C₁ ⟶ C₂) (g : D₁ ⟶ D₂) :
     HomologicalComplex.tensorHom (HomologicalComplex.extendMap f negDegreeEmbedding)
