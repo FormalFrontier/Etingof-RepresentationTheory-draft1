@@ -23,8 +23,8 @@
     },
     {
       "association_id": "association:c73f5772a803f678018e",
-      "role": "primary",
-      "rationale": "The declaration directly packages the algebraic numbers as an intermediate field between the rationals and complex numbers."
+      "role": "supporting",
+      "rationale": "The declaration packages the algebraic numbers as an intermediate field between the rationals and complex numbers, but it does not itself state that this field is an algebraic closure of the rationals."
     }
   ]
 }
