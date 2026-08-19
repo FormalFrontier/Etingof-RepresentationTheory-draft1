@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:adb9f45383f52127d6e6",
-      "rationale": "The type directly says Fam q alpha beta and Fam q alpha' beta' are linearly equivalent iff alpha equals alpha' and beta^orderOf(q) equals beta'^orderOf(q).",
-      "role": "primary"
+      "rationale": "The type states the pairwise equivalence criterion for family members, but it does not itself state that the central character gives the complete classification, so it covers only part of the full claim.",
+      "role": "supporting"
     }
   ]
 }

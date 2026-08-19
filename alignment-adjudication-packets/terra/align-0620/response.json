@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:15b93a40fad289fbf931",
-      "rationale": "The type directly states that the sum of all vertex idempotents is 1.",
-      "role": "primary"
+      "rationale": "The type states that the vertex generators sum to 1, but it does not itself state pairwise orthogonality or idempotence, so it covers only one component of the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:2d68600ac161d0aea392",
-      "rationale": "The type directly states that distinct vertex idempotents multiply to zero, which is pairwise orthogonality.",
-      "role": "primary"
+      "rationale": "The type states pairwise orthogonality for distinct vertex generators, but it does not itself state their sum or idempotence, so it covers only one component of the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:fe44be40eb4d43782b16",
-      "rationale": "The type directly states that each vertex generator squares to itself, which is idempotence.",
-      "role": "primary"
+      "rationale": "The type states idempotence of each vertex generator, but it does not itself state their sum or pairwise orthogonality, so it covers only one component of the complete claim.",
+      "role": "supporting"
     }
   ]
 }

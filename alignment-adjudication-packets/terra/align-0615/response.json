@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:5e84e2f62bfff7b1ca61",
-      "rationale": "The type directly states that the degree-n homogeneous polynomial subspace in m variables has finrank C(n+m-1,n).",
-      "role": "primary"
+      "rationale": "The type states the degree-n dimension formula, but it does not itself state the Hilbert-series formula, so it covers only one component of the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:ec15faa8b7f4469c0f16",
-      "rationale": "The type directly states that (1-X)^m times the power series with coefficients C(n+m-1,n) is 1, equivalently the claimed Hilbert-series formula.",
-      "role": "primary"
+      "rationale": "The type states the Hilbert-series identity, but it does not itself state the dimension of each graded piece, so it covers only one component of the complete claim.",
+      "role": "supporting"
     }
   ]
 }

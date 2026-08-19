@@ -13,8 +13,8 @@
     },
     {
       "association_id": "association:e2a17d394229d21f56e2",
-      "rationale": "The type directly identifies the path-counting power series with the all-ones contraction of (I-XM_Q)^-1, matching the claimed Hilbert-series formula.",
-      "role": "primary"
+      "rationale": "The type states the resolvent Hilbert-series formula, but it does not itself exhibit length-n paths as a basis of the degree-n piece, so it covers only one component of the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:e4482f62d861a121cdb4",

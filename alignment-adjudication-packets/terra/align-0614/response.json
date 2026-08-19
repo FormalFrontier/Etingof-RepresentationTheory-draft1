@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:4d55fc661317f0e487c4",
-      "rationale": "The type directly identifies the nth coefficient of the Hilbert series with the finrank of the nth graded piece, which is the coefficientwise form of the stated sum.",
-      "role": "primary"
+      "rationale": "The type identifies the nth Hilbert-series coefficient with the finrank of the nth piece, but it does not itself expose the direct-sum grading or multiplication condition required by the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:6f416fa8f1f17c275b8b",

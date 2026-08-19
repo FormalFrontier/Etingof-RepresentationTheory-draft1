@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:c3fe6ca58bfe6ae1f316",
-      "rationale": "The type directly states that the nth exterior-power piece on m generators has finrank C(m,n).",
-      "role": "primary"
+      "rationale": "The type states the nth exterior-power dimension formula, but it does not itself state the Hilbert-series formula, so it covers only one component of the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:1ececb19f8d6214e266e",
-      "rationale": "The type directly equates the power series with coefficients C(m,n) to (1+X)^m, exactly the stated Hilbert series.",
-      "role": "primary"
+      "rationale": "The type states the exterior-algebra Hilbert series, but it does not itself state the graded-piece dimension formula, so it covers only one component of the complete claim.",
+      "role": "supporting"
     }
   ]
 }

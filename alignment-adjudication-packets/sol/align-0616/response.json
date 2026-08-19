@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:b2e247ff09468a288c4b",
-      "rationale": "The type directly states that the degree-n piece of the free algebra on m generators has finrank m^n.",
-      "role": "primary"
+      "rationale": "The type states that the degree-n piece has finrank m^n, but it does not itself state the Hilbert-series formula, so it covers only one component of the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:2336f5b7e2010001b1ea",
@@ -18,8 +18,8 @@
     },
     {
       "association_id": "association:15bc318fc1de34cefef8",
-      "rationale": "The type directly states that (1-mX) times the power series with coefficients m^n is 1, equivalently the claimed free-algebra Hilbert series.",
-      "role": "primary"
+      "rationale": "The type states the free-algebra Hilbert-series identity, but it does not itself state the degree-piece dimension formula, so it covers only one component of the complete claim.",
+      "role": "supporting"
     }
   ]
 }
