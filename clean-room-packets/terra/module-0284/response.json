@@ -18,8 +18,8 @@
     },
     {
       "temporary_id": "decl-015471",
-      "new_name": "AuxiliaryLabel",
-      "docstring": "An auxiliary type of labels."
+      "new_name": "AuxiliaryType015471",
+      "docstring": "An auxiliary type whose internal description is not exposed by the displayed formal type."
     },
     {
       "temporary_id": "decl-018829",
