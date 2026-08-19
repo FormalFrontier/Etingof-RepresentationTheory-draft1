@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:1dbb9f2bfa18bafbb44a",
-      "role": "primary",
-      "rationale": "This membership statement directly records the claimed maximal-root dimension vector (2,1,1,1)."
+      "role": "supporting",
+      "rationale": "The type only places (2,1,1,1) in the opaque set D₄_indecomposable_dimVectors; it states neither maximal-root status nor the three-line geometry."
     }
   ]
 }
