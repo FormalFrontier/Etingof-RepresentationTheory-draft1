@@ -53,13 +53,13 @@
     },
     {
       "temporary_id": "decl-025317",
-      "new_name": "auxiliary",
-      "docstring": "Auxiliary data attached to a nilpotent block decomposition."
+      "new_name": "Auxiliary.statement025317",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-025318",
-      "new_name": "auxiliary_spec",
-      "docstring": "The auxiliary data of a nilpotent block decomposition satisfies its defining property."
+      "new_name": "Auxiliary.statement025318",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-025321",

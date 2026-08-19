@@ -108,8 +108,8 @@
     },
     {
       "temporary_id": "decl-023113",
-      "new_name": "linearIndependent_iterates_of_last_ne_zero",
-      "docstring": "The indexed iterates of a vector are linearly independent when its final coordinate is nonzero."
+      "new_name": "Auxiliary.statement023113",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-025310",

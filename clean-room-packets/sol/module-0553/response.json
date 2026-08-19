@@ -83,8 +83,8 @@
     },
     {
       "temporary_id": "decl-012911",
-      "new_name": "auxiliaryTheoremOne",
-      "docstring": "An auxiliary theorem."
+      "new_name": "Auxiliary.statement012911",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-012912",
@@ -168,8 +168,8 @@
     },
     {
       "temporary_id": "decl-012934",
-      "new_name": "exists_positiveMultiplicity_path",
-      "docstring": "Any two indices in a complete simple family are joined by a path of positive multiplicities."
+      "new_name": "Auxiliary.statement012934",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-012940",
@@ -223,8 +223,8 @@
     },
     {
       "temporary_id": "decl-012959",
-      "new_name": "auxiliaryTheoremTwo",
-      "docstring": "An auxiliary theorem."
+      "new_name": "Auxiliary.statement012959",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-012960",

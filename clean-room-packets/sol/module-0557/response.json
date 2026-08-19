@@ -58,8 +58,8 @@
     },
     {
       "temporary_id": "decl-013072",
-      "new_name": "auxiliary",
-      "docstring": "An auxiliary consequence of the crystallographic root-set predicate."
+      "new_name": "Auxiliary.statement013072",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-013073",
@@ -168,8 +168,8 @@
     },
     {
       "temporary_id": "decl-013142",
-      "new_name": "rationalPairing_auxiliary",
-      "docstring": "An auxiliary property of the rational-valued pairing."
+      "new_name": "Auxiliary.statement013142",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-013144",

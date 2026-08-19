@@ -3,28 +3,28 @@
   "declarations": [
     {
       "temporary_id": "decl-016733",
-      "new_name": "iff_of_symmetric_zeroOne_walkConnected",
-      "docstring": "For a symmetric zero-one adjacency matrix in which every pair of vertices is joined by a walk, the two specified matrix conditions are equivalent."
+      "new_name": "Auxiliary.statement016733",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-021720",
-      "new_name": "not_of_no_adjacencyPreservingMap",
-      "docstring": "A nonempty connected symmetric zero-one adjacency matrix admitting no map that preserves the displayed adjacency entries of the indicated rank-indexed structure fails the specified condition."
+      "new_name": "Auxiliary.statement021720",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-021721",
-      "new_name": "not_of_not_related_condition",
-      "docstring": "For a connected symmetric zero-one adjacency matrix, failure of the first specified condition forces failure of the second."
+      "new_name": "Auxiliary.statement021721",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024130",
-      "new_name": "quadraticForm_twoIdentity_sub_adjacency_pos",
-      "docstring": "Under the stated condition on a connected symmetric zero-one adjacency matrix, the quadratic form of twice the identity minus the adjacency matrix is positive on every nonzero rational vector."
+      "new_name": "Auxiliary.statement024130",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024139",
-      "new_name": "posDef_twoIdentity_sub_adjacency",
-      "docstring": "Under the stated condition on a connected symmetric zero-one adjacency matrix, twice the identity minus the real adjacency matrix is positive definite."
+      "new_name": "Auxiliary.statement024139",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     }
   ]
 }

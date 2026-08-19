@@ -39,17 +39,17 @@
     {
       "temporary_id": "decl-013182",
       "new_name": "auxiliaryObjectAtVertex_relates_to_any",
-      "docstring": "At a vertex satisfying the first distinguished property, its associated auxiliary object is related to every linear object."
+      "docstring": "At a vertex satisfying the first distinguished property, its associated auxiliary object is related to every value of the displayed quiver-indexed type."
     },
     {
       "temporary_id": "decl-013183",
       "new_name": "any_relates_to_auxiliaryObjectAtVertex",
-      "docstring": "At a vertex satisfying the second distinguished property, every linear object is related to its associated auxiliary object."
+      "docstring": "At a vertex satisfying the second distinguished property, every value of the displayed quiver-indexed type is related to its associated auxiliary object."
     },
     {
       "temporary_id": "decl-013184",
-      "new_name": "auxiliaryElidedDefinition",
-      "docstring": "An auxiliary construction whose elaborated type is unavailable in this interface."
+      "new_name": "Auxiliary.statement013184",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-013187",

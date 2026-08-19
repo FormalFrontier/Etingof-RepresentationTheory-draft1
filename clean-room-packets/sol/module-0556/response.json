@@ -73,13 +73,13 @@
     },
     {
       "temporary_id": "decl-013079",
-      "new_name": "Auxiliary.twoCoordinateIntegerVector_propertyA",
-      "docstring": "An auxiliary property of the two-coordinate integer vector construction."
+      "new_name": "Auxiliary.statement013079",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-013080",
-      "new_name": "Auxiliary.twoCoordinateIntegerVector_propertyB",
-      "docstring": "A second auxiliary property of the two-coordinate integer vector construction."
+      "new_name": "Auxiliary.statement013080",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-013081",
@@ -203,8 +203,8 @@
     },
     {
       "temporary_id": "decl-013143",
-      "new_name": "Auxiliary.rationalVector_property",
-      "docstring": "An auxiliary fact concerning rational vectors."
+      "new_name": "Auxiliary.statement013143",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-013146",
@@ -228,8 +228,8 @@
     },
     {
       "temporary_id": "decl-013162",
-      "new_name": "Auxiliary.integralBasisVector_property",
-      "docstring": "An auxiliary property of the indexed rational vectors and their pairing."
+      "new_name": "Auxiliary.statement013162",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-013163",

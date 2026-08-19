@@ -13,13 +13,13 @@
     },
     {
       "temporary_id": "decl-020829",
-      "new_name": "is_simply_laced_dynkin_of_arrow_sum_lt_square_sum",
-      "docstring": "Let a symmetric loopless zero-one adjacency matrix be connected by edges of weight one and compatible with a quiver. If every nonzero natural dimension vector has arrow-weighted product sum strictly smaller than its coordinate square sum, then the adjacency matrix is of simply laced Dynkin type."
+      "new_name": "Auxiliary.statement020829",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-020831",
-      "new_name": "is_simply_laced_dynkin_of_representation_finrank_lt_vertex_endomorphism_finrank",
-      "docstring": "Let a symmetric loopless zero-one adjacency matrix be connected by edges of weight one and compatible with a quiver. If, over a field, the quiver representation space has smaller finite dimension than the product of the vertex endomorphism spaces for every nonzero dimension vector, then the adjacency matrix is of simply laced Dynkin type."
+      "new_name": "Auxiliary.statement020831",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024128",
