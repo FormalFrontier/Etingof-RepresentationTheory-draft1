@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:1e1e855cc7e068836215",
-      "rationale": "The formal type directly gives a real Lie equivalence from three-dimensional real coordinate space to so(3).",
-      "role": "primary"
+      "rationale": "The formal type gives a real Lie equivalence from three-dimensional coordinate space to so(3), but it does not expose that the Lie bracket on the coordinate space is the cross product.",
+      "role": "supporting"
     },
     {
       "association_id": "association:d1e6006d6237fb71cc72",
-      "rationale": "The formal type directly asserts the existence of a real Lie equivalence from so(3) to three-dimensional real coordinate space.",
-      "role": "primary"
+      "rationale": "The formal type asserts a real Lie equivalence from so(3) to three-dimensional coordinate space, but it does not expose that the latter carries the cross-product bracket required by the source claim.",
+      "role": "supporting"
     }
   ]
 }

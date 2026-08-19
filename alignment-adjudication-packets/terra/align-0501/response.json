@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:de46a1dd271c3dd0337d",
-      "rationale": "The formal type directly gives an equivalence between Lie homomorphisms from L to End(V) and algebra homomorphisms from the universal enveloping algebra to End(V).",
-      "role": "primary"
+      "rationale": "The formal type gives an equivalence between Lie homomorphisms from L to End(V) and algebra homomorphisms from the universal enveloping algebra to End(V), but it does not itself state the claimed naturality of this equivalence.",
+      "role": "supporting"
     }
   ]
 }
