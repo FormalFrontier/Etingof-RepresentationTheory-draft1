@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:ea4d079230be55b56b3b",
-      "role": "primary",
-      "rationale": "The formal type states that the Weyl monomials span the whole Weyl algebra, directly giving the source claim's stated conclusion."
+      "role": "supporting",
+      "rationale": "It states the spanning conclusion, but does not display the repeated use of the relation yx = xy + 1 in the source claim."
     }
   ]
 }

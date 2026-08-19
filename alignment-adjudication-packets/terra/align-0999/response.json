@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:1ef8da0dad0a8c23f9c4",
-      "role": "primary",
-      "rationale": "It states that every simple finite-dimensional representation of Z/n is isomorphic to a character representation, directly giving the classification of irreducibles as characters."
+      "role": "supporting",
+      "rationale": "It gives the character classification, one component of the combined classification and type claim."
     },
     {
       "association_id": "association:12710f1a4ee2d62bd7db",
-      "role": "primary",
-      "rationale": "It characterizes complex type exactly as a character that is neither trivial nor an available sign character, directly stating the every-other-character complex-type classification."
+      "role": "supporting",
+      "rationale": "It gives the complex-type classification, one component of the combined claim."
     },
     {
       "association_id": "association:530764ecdbaad9d3ca07",
-      "role": "primary",
-      "rationale": "It characterizes real type exactly as the trivial character or a sign character, directly matching the stated real-type classification."
+      "role": "supporting",
+      "rationale": "It gives the real-type classification, one component of the combined claim."
     }
   ]
 }

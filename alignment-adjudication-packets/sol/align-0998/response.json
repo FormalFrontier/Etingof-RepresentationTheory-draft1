@@ -2,23 +2,23 @@
   "associations": [
     {
       "association_id": "association:c9951fda897cacc48acf",
-      "rationale": "The formal type directly states that the D_n positive-root set is finite and has cardinality n(n - 1), which is the standard D_n positive-root count asserted by the source claim.",
-      "role": "primary"
+      "rationale": "It gives the D_n count, one component of the combined D_n, E6, E7, and E8 claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:55232950d2094885bc79",
-      "rationale": "The formal type directly states that the E6 positive-root set is finite and has cardinality 36, giving the standard E6 count named in the source claim.",
-      "role": "primary"
+      "rationale": "It gives the E6 count, one component of the combined D_n, E6, E7, and E8 claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:8128c0cd311a5347eedb",
-      "rationale": "The formal type directly states that the E7 positive-root set is finite and has cardinality 63, giving the standard E7 count named in the source claim.",
-      "role": "primary"
+      "rationale": "It gives the E7 count, one component of the combined D_n, E6, E7, and E8 claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:7bbcb3436e6810a16b63",
-      "rationale": "The formal type directly states that the E8 positive-root set is finite and has cardinality 120, giving the standard E8 count named in the source claim.",
-      "role": "primary"
+      "rationale": "It gives the E8 count, one component of the combined D_n, E6, E7, and E8 claim.",
+      "role": "supporting"
     }
   ],
   "packet_id": "align-0998"
