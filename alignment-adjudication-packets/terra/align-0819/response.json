@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:119d2996fbf5467bbcd0",
-      "role": "primary",
-      "rationale": "For the displayed tensor complex, the formal type directly states that two successive differentials compose to zero, matching the required d-squared-zero assertion."
+      "role": "supporting",
+      "rationale": "The formal type states only the d-squared-zero component for an already named tensorComplex; it does not itself construct the tensor-product complex required by the complete source claim."
     }
   ]
 }
