@@ -812,7 +812,7 @@
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Module.CompositionData",
+      "new_module": "RepresentationTheory.Module.RelSeriesAuxiliary",
       "old_module": "EtingofRepresentationTheory.Chapter3.Definition3_4_1",
       "renamed_imports": {}
     },
@@ -841,7 +841,7 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.LinearAlgebra.Trace.FunctionSpace",
+      "new_module": "RepresentationTheory.LinearAlgebra.FunctionSpaceEndomorphism",
       "old_module": "EtingofRepresentationTheory.Chapter3.Discussion_footnote_3_7_1",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter3.Theorem3_6_2": "RepresentationTheory.Algebra.Module.Dual.SimpleFamilies"
@@ -863,7 +863,7 @@
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Module.RepresentationTraceAdditivity",
+      "new_module": "RepresentationTheory.Module.SubmoduleQuotientAuxiliary",
       "old_module": "EtingofRepresentationTheory.Chapter3.Exercise3_6_1",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter3.Theorem3_6_2": "RepresentationTheory.Algebra.Module.Dual.SimpleFamilies"
@@ -885,7 +885,7 @@
       "new_module": "RepresentationTheory.Algebra.Module.Filtrations",
       "old_module": "EtingofRepresentationTheory.Chapter3.Lemma3_4_2",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter3.Definition3_4_1": "RepresentationTheory.Module.CompositionData"
+        "EtingofRepresentationTheory.Chapter3.Definition3_4_1": "RepresentationTheory.Module.RelSeriesAuxiliary"
       }
     },
     {
