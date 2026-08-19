@@ -14,11 +14,11 @@ namespace RepresentationTheory.Algebra.Module.CommutativeOppositeScalars
 
 variable (A M : Type*) [CommRing A] [AddCommGroup M]
 
-/-- The canonical ring homomorphism from the opposite of a commutative ring back to the ring. -/
+/-- A ring homomorphism from the opposite of a commutative ring back to the ring. -/
 def fromMulOppositeRingHom : Aᵐᵒᵖ →+* A :=
   (RingHom.id A).fromOpposite fun x y => mul_comm x y
 
-/-- The canonical ring homomorphism from a commutative ring to its opposite ring. -/
+/-- A ring homomorphism from a commutative ring to its opposite ring. -/
 def toMulOppositeRingHom : A →+* Aᵐᵒᵖ :=
   (RingHom.id A).toOpposite fun x y => mul_comm x y
 
@@ -27,7 +27,7 @@ def toMulOppositeRingHom : A →+* Aᵐᵒᵖ :=
 abbrev moduleOverMulOpposite [Module A M] : Module Aᵐᵒᵖ M :=
   Module.compHom M (fromMulOppositeRingHom A)
 
-/-- The induced opposite-ring scalar action agrees with the original scalar action. -/
+/-- The induced opposite-ring scalar action agrees with the given scalar action. -/
 @[source_ref "Chapter2/Remark2.3.2" (role := supporting)]
 theorem op_smul_eq_smul [Module A M] (a : A) (m : M) :
     letI := moduleOverMulOpposite A M
@@ -38,7 +38,7 @@ theorem op_smul_eq_smul [Module A M] (a : A) (m : M) :
 abbrev moduleOfMulOpposite [Module Aᵐᵒᵖ M] : Module A M :=
   Module.compHom M (toMulOppositeRingHom A)
 
-/-- The induced scalar action agrees with the original action of the corresponding opposite-ring element. -/
+/-- The induced scalar action agrees with the given action of the corresponding opposite-ring element. -/
 @[source_ref "Chapter2/Remark2.3.2" (role := primary)]
 theorem smul_eq_op_smul [Module Aᵐᵒᵖ M] (a : A) (m : M) :
     letI := moduleOfMulOpposite A M

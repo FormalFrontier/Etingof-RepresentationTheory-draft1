@@ -203,8 +203,8 @@ def fintypeValueMultiset {ι : Type*} [Fintype ι] (n : ι → ℕ) : Multiset �
 
 /-- The natural-number invariant associated to a finite multiset of module parameters is a sum of truncated parameter successors. -/
 theorem valueMultisetInvariant_eq_sum_min {ι : Type*} [Fintype ι] (n : ι → ℕ) (k : ℕ) :
-    _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.multisetSumMin (fintypeValueMultiset n) k = ∑ i, min k (n i + 1) := by
-  simp only [_root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.multisetSumMin, fintypeValueMultiset, Multiset.map_map, Function.comp]
+    _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction2 (fintypeValueMultiset n) k = ∑ i, min k (n i + 1) := by
+  simp only [_root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction2, fintypeValueMultiset, Multiset.map_map, Function.comp]
   rfl
 
 /-- Zero does not occur in the value multiset of the specified natural-number parameter family. -/
@@ -226,14 +226,14 @@ theorem nonempty_equiv_of_distinguishedAction_kernelProfile_eq
   obtain ⟨mV, nV, ⟨eV⟩⟩ := _root_.RepresentationTheory.LieAlgebra.ModuleProducts.nonempty_lieModuleEquiv_pi_of_finiteDimensional V
   obtain ⟨mW, nW, ⟨eW⟩⟩ := _root_.RepresentationTheory.LieAlgebra.ModuleProducts.nonempty_lieModuleEquiv_pi_of_finiteDimensional W
 
-  have hnull : ∀ k, _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.multisetSumMin (fintypeValueMultiset nV) k
-      = _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.multisetSumMin (fintypeValueMultiset nW) k := by
+  have hnull : ∀ k, _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction2 (fintypeValueMultiset nV) k
+      = _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction2 (fintypeValueMultiset nW) k := by
     intro k
     rw [valueMultisetInvariant_eq_sum_min, valueMultisetInvariant_eq_sum_min, ← finrank_ker_distinguishedAction_standardPi_pow, ← finrank_ker_distinguishedAction_standardPi_pow,
       ← finrank_ker_distinguishedAction_pow_eq_of_equiv eV, ← finrank_ker_distinguishedAction_pow_eq_of_equiv eW, h]
 
   have hmulti : fintypeValueMultiset nV = fintypeValueMultiset nW :=
-    _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.multiset_eq_of_sumMin_eq (zero_not_mem_fintypeValueMultiset nV) (zero_not_mem_fintypeValueMultiset nW) hnull
+    _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.multiset_eq_of_auxiliaryMultisetFunction2_eq (zero_not_mem_fintypeValueMultiset nV) (zero_not_mem_fintypeValueMultiset nW) hnull
 
   obtain ⟨σ, hσ⟩ := exists_equiv_matching_values_of_valueMultiset_eq (fun i => nV i + 1) (fun j => nW j + 1) hmulti
   have hσ' : ∀ i, nV i = nW (σ i) := fun i => by have := hσ i; omega

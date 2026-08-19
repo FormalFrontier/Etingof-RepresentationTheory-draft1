@@ -202,8 +202,8 @@ def auxiliaryNatMultiset {ι : Type*} [Fintype ι] (n : ι → ℕ) : Multiset �
 
 /-- The displayed function of the auxiliary multiset equals the sum of `min k (n i + 1)` over the finite index type. -/
 theorem auxiliaryNatMultiset_function_eq_sum_min {ι : Type*} [Fintype ι] (n : ι → ℕ) (k : ℕ) :
-    _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.multisetSumMin (auxiliaryNatMultiset n) k = ∑ i, min k (n i + 1) := by
-  simp only [_root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.multisetSumMin, auxiliaryNatMultiset, Multiset.map_map, Function.comp]
+    _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction2 (auxiliaryNatMultiset n) k = ∑ i, min k (n i + 1) := by
+  simp only [_root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction2, auxiliaryNatMultiset, Multiset.map_map, Function.comp]
   rfl
 
 /-- Zero does not belong to the auxiliary multiset associated with the displayed natural-number-valued function. -/
@@ -225,14 +225,14 @@ theorem nonempty_equiv_of_auxiliaryEndomorphism_kernelProfile_eq
   obtain ⟨mV, nV, ⟨eV⟩⟩ := _root_.RepresentationTheory.LieAlgebra.ModuleProducts.nonempty_lieModuleEquiv_pi_of_finiteDimensional V
   obtain ⟨mW, nW, ⟨eW⟩⟩ := _root_.RepresentationTheory.LieAlgebra.ModuleProducts.nonempty_lieModuleEquiv_pi_of_finiteDimensional W
 
-  have hnull : ∀ k, _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.multisetSumMin (auxiliaryNatMultiset nV) k
-      = _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.multisetSumMin (auxiliaryNatMultiset nW) k := by
+  have hnull : ∀ k, _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction2 (auxiliaryNatMultiset nV) k
+      = _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction2 (auxiliaryNatMultiset nW) k := by
     intro k
     rw [auxiliaryNatMultiset_function_eq_sum_min, auxiliaryNatMultiset_function_eq_sum_min, ← finrank_ker_auxiliaryEndomorphism_finSuccPi_pow, ← finrank_ker_auxiliaryEndomorphism_finSuccPi_pow,
       ← finrank_ker_auxiliaryEndomorphism_pow_eq_of_equiv eV, ← finrank_ker_auxiliaryEndomorphism_pow_eq_of_equiv eW, h]
 
   have hmulti : auxiliaryNatMultiset nV = auxiliaryNatMultiset nW :=
-    _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.multiset_eq_of_sumMin_eq (zero_not_mem_auxiliaryNatMultiset nV) (zero_not_mem_auxiliaryNatMultiset nW) hnull
+    _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.multiset_eq_of_auxiliaryMultisetFunction2_eq (zero_not_mem_auxiliaryNatMultiset nV) (zero_not_mem_auxiliaryNatMultiset nW) hnull
 
   obtain ⟨σ, hσ⟩ := exists_equiv_matching_values_of_valueMultiset_eq (fun i => nV i + 1) (fun j => nW j + 1) hmulti
   have hσ' : ∀ i, nV i = nW (σ i) := fun i => by have := hσ i; omega

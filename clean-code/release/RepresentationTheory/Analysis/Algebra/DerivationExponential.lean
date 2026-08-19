@@ -79,8 +79,7 @@ theorem exp_smul_comp_apply (s t : ℝ) (a : A) :
 @[source_ref "Chapter2/Remark2.9.4" (role := supporting)]
 theorem exp_add_smul (s t : ℝ) : exp ((s + t) • D) = exp (s • D) * exp (t • D) :=
   ContinuousLinearMap.ext fun a => by
-    rw [mul_apply_eq_comp]
-    exact (exp_smul_comp_apply D s t a).symm
+    rw [mul_apply_eq_comp]; exact (exp_smul_comp_apply D s t a).symm
 
 variable (hD : ∀ x y : A, D (x * y) = D x * y + x * D y)
 

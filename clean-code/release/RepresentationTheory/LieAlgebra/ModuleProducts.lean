@@ -150,8 +150,8 @@ variable {V : Type*} [AddCommGroup V] [Module ℂ V]
 
 omit [LieModule ℂ _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] in
 
-/-- Every nontrivial finite-dimensional module over the specified Lie algebra has an atomic Lie submodule. -/
-theorem exists_atom_submodule [FiniteDimensional ℂ V] [Nontrivial V] :
+/-- Under the displayed nontrivial finite-dimensional module hypotheses, there exists an object satisfying `IsAtom`. -/
+theorem auxiliary_exists_isAtom [FiniteDimensional ℂ V] [Nontrivial V] :
     ∃ W : LieSubmodule ℂ _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V, IsAtom W := by
   have : (⊤ : LieSubmodule ℂ _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) ≠ ⊥ := by
     intro h
@@ -221,7 +221,7 @@ private theorem nonempty_lieModuleEquiv_pi_of_finrank (d : ℕ) :
   ·
     haveI hnt : Nontrivial V := by
       rw [← finrank_pos_iff (R := ℂ)]; omega
-    obtain ⟨S, hS⟩ := exists_atom_submodule (V := V)
+    obtain ⟨S, hS⟩ := auxiliary_exists_isAtom (V := V)
     have hirr : LieModule.IsIrreducible ℂ _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra ↥S := isIrreducible_of_isAtom hS
     haveI : Nontrivial ↥S := (LieSubmodule.nontrivial_iff_ne_bot ℂ _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra (M := V)).mpr hS.1
 
@@ -243,7 +243,7 @@ private theorem nonempty_lieModuleEquiv_pi_of_finrank (d : ℕ) :
       ((prodCongrLieModuleEquiv eS eC).trans (consPiLieModuleEquiv n₀ n))
 
 
-/-- A finite-dimensional module over the specified Lie algebra is nonemptily equivalent to a finite dependent product of standard modules. -/
+/-- A finite-dimensional module over the displayed Lie algebra admits a Lie-module equivalence to a finite dependent product of complex coordinate-function spaces. -/
 @[source_ref "Chapter2/Problem2.15.1/Derived10" (role := supporting),
   source_ref "Chapter2/Problem2.15.1/Derived11" (role := supporting),
   source_ref "Chapter2/Problem2.15.1/Derived12" (role := supporting)]

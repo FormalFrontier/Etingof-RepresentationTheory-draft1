@@ -66,8 +66,8 @@ theorem finrank_piMap_pow_kernel [Fintype ι] [∀ i, FiniteDimensional ℂ (W i
 
 end PiMap
 
-/-- For the displayed component family, the kernel rank of a power is the sum of the truncated component sizes. -/
-theorem finrank_piMap_component_pow_kernel {ι : Type*} [Fintype ι]
+/-- For the displayed auxiliary component family, the kernel rank of a power is the sum of `min k (n i)` over the finite index type. -/
+theorem finrank_piMap_auxiliary_pow_kernel {ι : Type*} [Fintype ι]
     (n : ι → ℕ) (k : ℕ) :
     Module.finrank ℂ
         (LinearMap.ker
@@ -79,57 +79,73 @@ theorem finrank_piMap_component_pow_kernel {ι : Type*} [Fintype ι]
   exact Finset.sum_congr rfl fun i _ =>
     RepresentationTheory.LinearAlgebra.NilpotentOperators.finrank_ker_pow (n i) k
 
-/-- Counts entries of a multiset of natural numbers that are at least a given threshold. -/
-def multisetCountGE (s : Multiset ℕ) (k : ℕ) : ℕ :=
+namespace AuxiliaryMultisetFunctions
+
+/-- A first auxiliary natural-valued function of a multiset and a natural number. -/
+def _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction1
+    (s : Multiset ℕ) (k : ℕ) : ℕ :=
   (s.filter (fun a => k ≤ a)).card
 
-/-- Sums the minimum of a fixed natural number and each entry of a multiset. -/
-def multisetSumMin (s : Multiset ℕ) (k : ℕ) : ℕ :=
+/-- A second auxiliary natural-valued function of a multiset and a natural number. -/
+def _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction2
+    (s : Multiset ℕ) (k : ℕ) : ℕ :=
   (s.map (fun a => min k a)).sum
 
-/-- The truncated sum on a cons is the truncated head plus the truncated sum on the tail. -/
-theorem multisetSumMin_cons (a : ℕ) (s : Multiset ℕ) (m : ℕ) :
-    multisetSumMin (a ::ₘ s) m = min m a + multisetSumMin s m := by
-  simp only [multisetSumMin, Multiset.map_cons, Multiset.sum_cons]
+/-- On a cons, the second auxiliary function adds the minimum of the parameter and the new entry. -/
+theorem _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction2_cons
+    (a : ℕ) (s : Multiset ℕ) (m : ℕ) :
+    auxiliaryMultisetFunction2 (a ::ₘ s) m = min m a + auxiliaryMultisetFunction2 s m := by
+  simp only [auxiliaryMultisetFunction2, Multiset.map_cons, Multiset.sum_cons]
 
-/-- Adjoining an entry increases the threshold count exactly when the threshold is at most that entry. -/
-theorem multisetCountGE_cons (a : ℕ) (s : Multiset ℕ) (k : ℕ) :
-    multisetCountGE (a ::ₘ s) k =
-      (if k ≤ a then 1 else 0) + multisetCountGE s k := by
-  simp only [multisetCountGE, Multiset.filter_cons, Multiset.card_add]
+/-- On a cons, the first auxiliary function adds one exactly when the parameter is at most the new entry. -/
+theorem _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction1_cons
+    (a : ℕ) (s : Multiset ℕ) (k : ℕ) :
+    auxiliaryMultisetFunction1 (a ::ₘ s) k =
+      (if k ≤ a then 1 else 0) + auxiliaryMultisetFunction1 s k := by
+  simp only [auxiliaryMultisetFunction1, Multiset.filter_cons, Multiset.card_add]
   congr 1
   by_cases h : k ≤ a <;> simp [h]
 
-/-- Increasing the truncation bound by one adds the number of entries at least the new bound. -/
-theorem multisetSumMin_succ (s : Multiset ℕ) (k : ℕ) :
-    multisetSumMin s (k + 1) = multisetSumMin s k + multisetCountGE s (k + 1) := by
+/-- At a successor, the second auxiliary function adds the first auxiliary function at that successor. -/
+theorem _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction2_succ
+    (s : Multiset ℕ) (k : ℕ) :
+    auxiliaryMultisetFunction2 s (k + 1) =
+      auxiliaryMultisetFunction2 s k + auxiliaryMultisetFunction1 s (k + 1) := by
   induction s using Multiset.induction_on with
-  | empty => simp [multisetSumMin, multisetCountGE]
+  | empty => simp [auxiliaryMultisetFunction2, auxiliaryMultisetFunction1]
   | cons a s ih =>
-    rw [multisetSumMin_cons, multisetSumMin_cons, multisetCountGE_cons, ih]
+    rw [auxiliaryMultisetFunction2_cons, auxiliaryMultisetFunction2_cons,
+      auxiliaryMultisetFunction1_cons, ih]
     have hmin : min (k + 1) a = min k a + (if k + 1 ≤ a then 1 else 0) := by
       split <;> omega
     rw [hmin]; ring
 
-/-- The number of entries at least a value is the multiplicity of that value plus the number at least its successor. -/
-theorem multisetCountGE_eq_count_add_succ (s : Multiset ℕ) (v : ℕ) :
-    multisetCountGE s v = Multiset.count v s + multisetCountGE s (v + 1) := by
+/-- The first auxiliary function at a value equals its multiplicity plus the function at the successor. -/
+theorem _root_.RepresentationTheory.LinearAlgebra.KernelDimensionProfiles.auxiliaryMultisetFunction1_eq_count_add_succ
+    (s : Multiset ℕ) (v : ℕ) :
+    auxiliaryMultisetFunction1 s v =
+      Multiset.count v s + auxiliaryMultisetFunction1 s (v + 1) := by
   induction s using Multiset.induction_on with
-  | empty => simp [multisetCountGE]
+  | empty => simp [auxiliaryMultisetFunction1]
   | cons a s ih =>
-    rw [multisetCountGE_cons, multisetCountGE_cons, Multiset.count_cons, ih]
+    rw [auxiliaryMultisetFunction1_cons, auxiliaryMultisetFunction1_cons,
+      Multiset.count_cons, ih]
     have hsplit : (if v ≤ a then (1 : ℕ) else 0)
         = (if v = a then 1 else 0) + (if v + 1 ≤ a then 1 else 0) := by
       split_ifs <;> omega
     rw [hsplit]; ring
 
-/-- Multisets of positive natural numbers agree when all of their truncated sums agree. -/
-theorem multiset_eq_of_sumMin_eq {s t : Multiset ℕ} (hs : 0 ∉ s) (ht : 0 ∉ t)
-    (h : ∀ k, multisetSumMin s k = multisetSumMin t k) : s = t := by
-  have hge : ∀ j, multisetCountGE s (j + 1) = multisetCountGE t (j + 1) := by
+end AuxiliaryMultisetFunctions
+
+/-- Two multisets not containing zero are equal when the second auxiliary function agrees at every natural number. -/
+theorem multiset_eq_of_auxiliaryMultisetFunction2_eq {s t : Multiset ℕ}
+    (hs : 0 ∉ s) (ht : 0 ∉ t)
+    (h : ∀ k, auxiliaryMultisetFunction2 s k = auxiliaryMultisetFunction2 t k) : s = t := by
+  have hge : ∀ j, auxiliaryMultisetFunction1 s (j + 1) =
+      auxiliaryMultisetFunction1 t (j + 1) := by
     intro j
-    have hs' := multisetSumMin_succ s j
-    have ht' := multisetSumMin_succ t j
+    have hs' := auxiliaryMultisetFunction2_succ s j
+    have ht' := auxiliaryMultisetFunction2_succ t j
     rw [h j, h (j + 1)] at hs'
     rw [ht'] at hs'
     exact (Nat.add_left_cancel hs').symm
@@ -137,8 +153,8 @@ theorem multiset_eq_of_sumMin_eq {s t : Multiset ℕ} (hs : 0 ∉ s) (ht : 0 ∉
   rcases Nat.eq_zero_or_pos v with rfl | hv
   · rw [Multiset.count_eq_zero.mpr hs, Multiset.count_eq_zero.mpr ht]
   · obtain ⟨w, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : v ≠ 0)
-    have e1 := multisetCountGE_eq_count_add_succ s (w + 1)
-    have e2 := multisetCountGE_eq_count_add_succ t (w + 1)
+    have e1 := auxiliaryMultisetFunction1_eq_count_add_succ s (w + 1)
+    have e2 := auxiliaryMultisetFunction1_eq_count_add_succ t (w + 1)
     rw [hge w, hge (w + 1), e2] at e1
     exact (Nat.add_right_cancel e1).symm
 
