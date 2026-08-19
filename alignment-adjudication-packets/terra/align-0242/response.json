@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:347a36409f599d524d57",
-      "role": "primary",
-      "rationale": "It directly states the defining square-zero relation for every degree-one generator."
+      "role": "supporting",
+      "rationale": "It states the square-zero relation for the image of every generator, but does not state that the exterior algebra is the tensor-algebra quotient imposing exactly those relations."
     }
   ]
 }

@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:a577feb9f0c24fca49a8",
-      "role": "primary",
-      "rationale": "This declaration defines the IsUnit predicate on an element of a possibly non-unital associative algebra, directly representing the source definition."
+      "role": "supporting",
+      "rationale": "The displayed type only presents IsUnit as an opaque predicate from A to Prop; it does not expose the asserted left- and right-identity conditions."
     }
   ]
 }
