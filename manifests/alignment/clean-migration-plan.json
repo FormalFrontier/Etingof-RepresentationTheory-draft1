@@ -1856,7 +1856,7 @@
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.AuxiliarySimpleModuleData",
+      "new_module": "RepresentationTheory.AuxiliaryElidedStatement",
       "old_module": "EtingofRepresentationTheory.Chapter5.Corollary5_19_2",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter5.SchurWeylPartition": "RepresentationTheory.PartitionedDecomposition"
