@@ -234,14 +234,14 @@ theorem tensorProductIdeal_aux2_isNilpotent [FiniteDimensional k B] :
   rw [show Ring.jacobson B ^ n = ⊥ from hn, Ideal.map_bot]
 
 /-- For finite-dimensional factor algebras, the distinguished tensor-product ideal is contained in the Jacobson radical of the tensor product. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary)]
+@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)]
 theorem tensorProductJacobsonIdeal_le_jacobson [FiniteDimensional k A] [FiniteDimensional k B] :
     tensorProductJacobsonIdeal k A B ≤ Ring.jacobson (A ⊗[k] B) :=
   sup_le (le_jacobson_of_isNilpotent tensorProductIdeal_aux1_isNilpotent)
     (le_jacobson_of_isNilpotent tensorProductIdeal_aux2_isNilpotent)
 
 /-- The distinguished Jacobson ideal in the tensor product of two finite-dimensional algebras is nilpotent. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary)]
+@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)]
 theorem tensorProductJacobsonIdeal_isNilpotent [FiniteDimensional k A] [FiniteDimensional k B] :
     IsNilpotent (tensorProductJacobsonIdeal k A B) := by
   haveI : IsArtinianRing (A ⊗[k] B) := IsArtinianRing.of_finite k (A ⊗[k] B)

@@ -318,7 +318,7 @@ theorem card_auxiliaryIndex_eq_finrank (hV : ∀ i, Simple (V i))
   exact Finset.sum_congr rfl fun i _ => by rw [finrank_eq_dimension b i, sq]
 
 /-- A basis of the function space on a finite group indexed by the auxiliary index type, constructed from a complete pairwise nonisomorphic family of simple representations with chosen bases. -/
-@[source_ref "Chapter4/Proposition4.7.1" (role := primary)]
+@[source_ref "Chapter4/Proposition4.7.1" (role := supporting)]
 noncomputable def functionSpaceBasis (hV : ∀ i, Simple (V i))
     (hinj : ∀ i j, Nonempty ((V i) ≅ (V j)) → i = j)
     (hsurj : ∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (W ≅ V i))
