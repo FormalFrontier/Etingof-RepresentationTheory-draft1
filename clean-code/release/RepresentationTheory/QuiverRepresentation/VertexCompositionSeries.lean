@@ -6,7 +6,7 @@ Authors: mathlib-initiative
 
 import Mathlib
 import RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
-import RepresentationTheory.CategoryTheory.QuiverSubdiagrams
+import RepresentationTheory.CategoryTheory.QuiverAuxiliary
 import RepresentationTheory.CategoryTheory.QuiverLinearMaps
 import RepresentationTheory.Alignment.Attribute
 
@@ -19,15 +19,15 @@ This module develops vertex-indexed composition series for quiver linear diagram
 open Module
 open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 open RepresentationTheory.CategoryTheory.QuiverLinearMaps
-open RepresentationTheory.CategoryTheory.QuiverSubdiagrams
+open RepresentationTheory.CategoryTheory.QuiverAuxiliary
 
 variable {k Q : Type*} [Field k] [Quiver Q] {ρ : AuxiliaryQuiverModuleData k Q}
 
-namespace RepresentationTheory.CategoryTheory.QuiverSubdiagrams.QuiverSubdiagram
+namespace RepresentationTheory.CategoryTheory.QuiverAuxiliary.AuxiliaryType
 
 /-- Two subrepresentations with equal components at every vertex are equal. -/
 @[ext]
-theorem ext {W W' : QuiverSubdiagram k Q ρ}
+theorem ext {W W' : AuxiliaryType k Q ρ}
     (h : ∀ v, W.carrier v = W'.carrier v) : W = W' := by
   obtain ⟨c, hc⟩ := W
   obtain ⟨c', hc'⟩ := W'
@@ -36,18 +36,18 @@ theorem ext {W W' : QuiverSubdiagram k Q ρ}
   rfl
 
 /-- The partial-order structure on subrepresentations of a quiver representation. -/
-instance partialOrder : PartialOrder (QuiverSubdiagram k Q ρ) where
+instance partialOrder : PartialOrder (AuxiliaryType k Q ρ) where
   le W W' := ∀ v, W.carrier v ≤ W'.carrier v
   le_refl _ _ := le_rfl
   le_trans _ _ _ h₁ h₂ v := (h₁ v).trans (h₂ v)
   le_antisymm _ _ h₁ h₂ := ext fun v => le_antisymm (h₁ v) (h₂ v)
 
 /-- One subrepresentation is below another exactly when this holds for every vertex component. -/
-theorem le_iff_componentwise {W W' : QuiverSubdiagram k Q ρ} :
+theorem le_iff_componentwise {W W' : AuxiliaryType k Q ρ} :
     W ≤ W' ↔ ∀ v, W.carrier v ≤ W'.carrier v := Iff.rfl
 
 /-- The order-bottom structure on subrepresentations of a quiver representation. -/
-instance orderBot : OrderBot (QuiverSubdiagram k Q ρ) where
+instance orderBot : OrderBot (AuxiliaryType k Q ρ) where
   bot :=
     { carrier := fun _ => ⊥
       map_mem := by
@@ -57,7 +57,7 @@ instance orderBot : OrderBot (QuiverSubdiagram k Q ρ) where
   bot_le _ _ := bot_le
 
 /-- The order-top structure on subrepresentations of a quiver representation. -/
-instance orderTop : OrderTop (QuiverSubdiagram k Q ρ) where
+instance orderTop : OrderTop (AuxiliaryType k Q ρ) where
   top :=
     { carrier := fun _ => ⊤
       map_mem := fun _ _ _ => Submodule.mem_top }
@@ -65,27 +65,27 @@ instance orderTop : OrderTop (QuiverSubdiagram k Q ρ) where
 
 /-- Every component of the bottom subrepresentation is the bottom submodule. -/
 @[simp] theorem bot_component (v : Q) :
-    (⊥ : QuiverSubdiagram k Q ρ).carrier v = ⊥ := rfl
+    (⊥ : AuxiliaryType k Q ρ).carrier v = ⊥ := rfl
 
 /-- Every component of the top subrepresentation is the top submodule. -/
 @[simp] theorem top_component (v : Q) :
-    (⊤ : QuiverSubdiagram k Q ρ).carrier v = ⊤ := rfl
+    (⊤ : AuxiliaryType k Q ρ).carrier v = ⊤ := rfl
 
 /-- The quiver representation carried by a subrepresentation. -/
-@[reducible] def toRepresentation (W : QuiverSubdiagram k Q ρ) : AuxiliaryQuiverModuleData k Q where
+@[reducible] def toRepresentation (W : AuxiliaryType k Q ρ) : AuxiliaryQuiverModuleData k Q where
   obj v := W.carrier v
   map e := (ρ.map e).restrict (fun x hx => W.map_mem e x hx)
 
 /-- The component of one subrepresentation viewed as a submodule inside the component of another. -/
-def componentIntersection (W W' : QuiverSubdiagram k Q ρ) (v : Q) : Submodule k (W'.carrier v) :=
+def componentIntersection (W W' : AuxiliaryType k Q ρ) (v : Q) : Submodule k (W'.carrier v) :=
   (W.carrier v).comap (W'.carrier v).subtype
 
 /-- An element of the upper component belongs to the component intersection exactly when its value lies in the lower component. -/
-theorem mem_componentIntersection_iff {W W' : QuiverSubdiagram k Q ρ} {v : Q} {x : W'.carrier v} :
+theorem mem_componentIntersection_iff {W W' : AuxiliaryType k Q ρ} {v : Q} {x : W'.carrier v} :
     x ∈ W.componentIntersection W' v ↔ (x : ρ.obj v) ∈ W.carrier v := Iff.rfl
 
 /-- The component intersection is top exactly when the second component is contained in the first. -/
-theorem componentIntersection_eq_top_iff {W W' : QuiverSubdiagram k Q ρ} {v : Q} :
+theorem componentIntersection_eq_top_iff {W W' : AuxiliaryType k Q ρ} {v : Q} :
     W.componentIntersection W' v = ⊤ ↔ W'.carrier v ≤ W.carrier v := by
   rw [eq_top_iff]
   constructor
@@ -94,7 +94,7 @@ theorem componentIntersection_eq_top_iff {W W' : QuiverSubdiagram k Q ρ} {v : Q
   · intro h x _
     exact h x.2
 
-end RepresentationTheory.CategoryTheory.QuiverSubdiagrams.QuiverSubdiagram
+end RepresentationTheory.CategoryTheory.QuiverAuxiliary.AuxiliaryType
 
 namespace RepresentationTheory.QuiverRepresentation.VertexCompositionSeries
 
@@ -125,7 +125,7 @@ theorem representationAtVertex_space_subsingleton_of_ne [DecidableEq Q] {u i : Q
 
 /-- A designated elementary-extension relation between two subrepresentations at a vertex. -/
 @[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
-def IsElementaryExtensionAt [DecidableEq Q] (W W' : QuiverSubdiagram k Q ρ) (i : Q) : Prop :=
+def IsElementaryExtensionAt [DecidableEq Q] (W W' : AuxiliaryType k Q ρ) (i : Q) : Prop :=
   W ≤ W' ∧ ∃ π : AuxiliaryQuiverLinearMapData k Q W'.toRepresentation (representationAtVertex i),
     (∀ v, Function.Surjective (π.app v)) ∧
     ∀ v, LinearMap.ker (π.app v) = W.componentIntersection W' v
@@ -138,7 +138,7 @@ theorem auxiliary_theorem {M : Type*} [AddCommMonoid M] [Module k M] (x y : M) :
   rw [← add_smul, neg_add_cancel, zero_smul, add_zero]
 
 /-- Componentwise containment, a surjective functional with the specified kernel, and arrow compatibility imply an elementary extension at the selected vertex. -/
-theorem isElementaryExtensionAt_of_linearMap [DecidableEq Q] {W W' : QuiverSubdiagram k Q ρ} {i : Q}
+theorem isElementaryExtensionAt_of_linearMap [DecidableEq Q] {W W' : AuxiliaryType k Q ρ} {i : Q}
     (hle : W ≤ W')
     (heq : ∀ u, u ≠ i → W'.carrier u ≤ W.carrier u)
     (φ : W'.carrier i →ₗ[k] k)
@@ -191,12 +191,12 @@ theorem isElementaryExtensionAt_of_linearMap [DecidableEq Q] {W W' : QuiverSubdi
         funext l
         exact h
     · rw [happ_other u hu, LinearMap.ker_zero]
-      exact (QuiverSubdiagram.componentIntersection_eq_top_iff.2 (heq u hu)).symm
+      exact (AuxiliaryType.componentIntersection_eq_top_iff.2 (heq u hu)).symm
   exact ⟨hle, ⟨{ app := app, naturality := hnaturality }, hsurj', hker'⟩⟩
 
 namespace IsElementaryExtensionAt
 
-variable [DecidableEq Q] {W W' : QuiverSubdiagram k Q ρ} {i : Q}
+variable [DecidableEq Q] {W W' : AuxiliaryType k Q ρ} {i : Q}
 
 /-- The lower endpoint of an elementary extension is below its upper endpoint. -/
 theorem le (h : IsElementaryExtensionAt W W' i) : W ≤ W' := h.1
@@ -229,7 +229,7 @@ theorem component_eq_of_ne (h : IsElementaryExtensionAt W W' i) {u : Q} (hu : u 
   obtain ⟨hle, π, _, hker⟩ := h
   haveI := representationAtVertex_space_subsingleton_of_ne (k := k) (i := i) hu
   refine le_antisymm (hle u) ?_
-  rw [← QuiverSubdiagram.componentIntersection_eq_top_iff, ← hker u]
+  rw [← AuxiliaryType.componentIntersection_eq_top_iff, ← hker u]
   exact eq_top_iff.2 fun x _ => by
     simp only [LinearMap.mem_ker]
     exact Subsingleton.elim _ _
@@ -241,12 +241,12 @@ theorem ne (h : IsElementaryExtensionAt W W' i) : W ≠ W' := by
   obtain ⟨x, hx⟩ := hsurj 1
   have hmem : x ∈ LinearMap.ker ψ := by
     rw [hker]
-    exact (QuiverSubdiagram.mem_componentIntersection_iff (W := W) (W' := W)).2 x.2
+    exact (AuxiliaryType.mem_componentIntersection_iff (W := W) (W' := W)).2 x.2
   rw [LinearMap.mem_ker, hx] at hmem
   exact one_ne_zero hmem
 
 /-- Every subrepresentation between the endpoints of an elementary extension equals one of the endpoints. -/
-theorem eq_or_eq_of_le (h : IsElementaryExtensionAt W W' i) (U : QuiverSubdiagram k Q ρ)
+theorem eq_or_eq_of_le (h : IsElementaryExtensionAt W W' i) (U : AuxiliaryType k Q ρ)
     (h₁ : W ≤ U) (h₂ : U ≤ W') : U = W ∨ U = W' := by
   classical
   obtain ⟨ψ, hsurj, hker⟩ := h.exists_surjective_linearMap_ker_componentIntersection
@@ -297,7 +297,7 @@ structure VertexCompositionSeries [DecidableEq Q] (ρ : AuxiliaryQuiverModuleDat
   /-- The number of steps in the vertex composition series. -/
   length : ℕ
   /-- The subrepresentation at a natural-number stage of the composition series. -/
-  step : ℕ → QuiverSubdiagram k Q ρ
+  step : ℕ → AuxiliaryType k Q ρ
   /-- The vertex associated with a step of the composition series. -/
   vertex : Fin length → Q
   /-- The initial step of the series is the bottom subrepresentation. -/
@@ -393,16 +393,16 @@ theorem exists_vertexCompositionSeries_with_multiplicity [DecidableEq Q] (ρ : A
     · have hle := hcum_le (hcompat arr)
       rw [htop m w (by omega)]
       exact Submodule.mem_top
-  set sub : ℕ → QuiverSubdiagram k Q ρ := fun m =>
+  set sub : ℕ → AuxiliaryType k Q ρ := fun m =>
     ⟨flag m, fun arr x hx => hinv m arr x hx⟩ with hsub_def
   have hsub_carrier : ∀ m v, (sub m).carrier v = flag m v := fun _ _ => rfl
 
   have hsub_zero : sub 0 = ⊥ := by
-    refine QuiverSubdiagram.ext fun v => eq_bot_iff.2 fun x hx => ?_
+    refine AuxiliaryType.ext fun v => eq_bot_iff.2 fun x hx => ?_
     rw [Submodule.mem_bot]
     exact hzero 0 v x (Nat.zero_le _) hx
   have hsub_N : sub N = ⊤ := by
-    exact QuiverSubdiagram.ext fun v => htop N v (hcum_top v)
+    exact AuxiliaryType.ext fun v => htop N v (hcum_top v)
 
   have hblock : ∀ m : Fin N, ∃ v : Q, cum v ≤ (m : ℕ) ∧ (m : ℕ) < cum v + d v := by
     intro m
@@ -449,7 +449,7 @@ theorem exists_vertexCompositionSeries_with_multiplicity [DecidableEq Q] (ρ : A
     ·
       ext x
       simp only [LinearMap.mem_ker, LinearMap.comp_apply, Submodule.coe_subtype,
-        QuiverSubdiagram.mem_componentIntersection_iff, hsub_carrier]
+        AuxiliaryType.mem_componentIntersection_iff, hsub_carrier]
       constructor
       · intro h
         refine (hmem (m : ℕ) i (x : ρ.obj i)).2 fun l hl => ?_

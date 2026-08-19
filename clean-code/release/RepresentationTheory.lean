@@ -32,7 +32,7 @@ import RepresentationTheory.Algebra.TensorProduct.OppositeModule
 import RepresentationTheory.Algebra.TensorProduct.Quotient
 import RepresentationTheory.Algebra.TensorProduct.ScalarExtension
 import RepresentationTheory.Algebra.Quiver.LinearRepresentationCategory
-import RepresentationTheory.Algebra.Quiver.Representation.Constructions
+import RepresentationTheory.Algebra.Quiver.AuxiliaryConstructions
 import RepresentationTheory.Algebra.CenterAction
 import RepresentationTheory.Algebra.AuxiliaryFieldCommRingType
 import RepresentationTheory.Algebra.FieldIndexedType
@@ -102,7 +102,7 @@ import RepresentationTheory.InvolutiveSquareZeroAlgebra
 import RepresentationTheory.CategoryTheory.LinearFunctors
 import RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 import RepresentationTheory.CategoryTheory.QuiverLinearMaps
-import RepresentationTheory.CategoryTheory.QuiverSubdiagrams
+import RepresentationTheory.CategoryTheory.QuiverAuxiliary
 import RepresentationTheory.LinearAlgebra.ProductModules
 import RepresentationTheory.LinearAlgebra.ModuleDecompositions
 import RepresentationTheory.LinearAlgebra.ModulePredicates
@@ -136,7 +136,7 @@ import RepresentationTheory.Quiver.Arrows
 import RepresentationTheory.Quiver.DependentPropertiesAuxiliary
 import RepresentationTheory.Quiver.EndofunctorAdjunction
 import RepresentationTheory.Quiver.MatrixOrientation
-import RepresentationTheory.Quiver.PathAlgebra
+import RepresentationTheory.Quiver.AuxiliaryPathStructures
 import RepresentationTheory.Quiver.PathAlgebra.VertexComponents
 import RepresentationTheory.Quiver.Representation.Reflection
 import RepresentationTheory.QuiverAuxiliary

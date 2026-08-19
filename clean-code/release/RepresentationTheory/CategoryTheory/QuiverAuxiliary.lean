@@ -8,39 +8,39 @@ import RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 import RepresentationTheory.Alignment.Attribute
 import Mathlib.Algebra.Module.Submodule.LinearMap
 
-/-! # Quiver subdiagrams -/
+/-! # Auxiliary quiver-indexed types -/
 
-namespace RepresentationTheory.CategoryTheory.QuiverSubdiagrams
+namespace RepresentationTheory.CategoryTheory.QuiverAuxiliary
 
 open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 
-/-- A family of submodules of a quiver linear diagram compatible with its arrow maps. -/
+/-- An auxiliary type associated with a commutative semiring and a quiver. -/
 @[source_ref "Chapter2/Definition2.8.8" (role := supporting)]
-structure QuiverSubdiagram (k : Type*) (Q : Type*) [CommSemiring k]
+structure AuxiliaryType (k : Type*) (Q : Type*) [CommSemiring k]
     [Quiver Q] (ρ : AuxiliaryQuiverModuleData k Q) where
-  /-- Returns the submodule selected at a vertex. -/
+  /-- Returns the submodule associated with a vertex of the auxiliary type. -/
   carrier : ∀ v, Submodule k (ρ.obj v)
-  /-- An arrow map sends an element of the source submodule into the target submodule. -/
+  /-- An arrow map sends an element of the source submodule into the target submodule associated with the auxiliary type. -/
   map_mem : ∀ {v w : Q} (e : v ⟶ w) (x : ρ.obj v),
     x ∈ carrier v → ρ.map e x ∈ carrier w
 
-namespace QuiverSubdiagram
+namespace AuxiliaryType
 
 variable {k Q : Type*} [CommSemiring k] [Quiver Q]
 variable {ρ : AuxiliaryQuiverModuleData k Q}
 
-/-- Converts a quiver subdiagram into a quiver linear diagram. -/
+/-- Converts the auxiliary type into its associated quiver-indexed object. -/
 @[source_ref "Chapter2/Definition2.8.8" (role := supporting)]
-noncomputable def toDiagram (S : QuiverSubdiagram k Q ρ) :
+noncomputable def toDiagram (S : AuxiliaryType k Q ρ) :
     AuxiliaryQuiverModuleData k Q where
   obj i := S.carrier i
   map e := LinearMap.restrict (ρ.map e) (fun x hx => S.map_mem e x hx)
 
-/-- The vertex type of the converted diagram is the subtype of the corresponding carrier submodule. -/
-@[simp] theorem obj_toDiagram (S : QuiverSubdiagram k Q ρ) (i : Q) :
+/-- At each vertex, the converted auxiliary object's type is the subtype of the corresponding carrier submodule. -/
+@[simp] theorem obj_toAuxiliaryObject (S : AuxiliaryType k Q ρ) (i : Q) :
     S.toDiagram.obj i = S.carrier i :=
   rfl
 
-end QuiverSubdiagram
+end AuxiliaryType
 
-end RepresentationTheory.CategoryTheory.QuiverSubdiagrams
+end RepresentationTheory.CategoryTheory.QuiverAuxiliary

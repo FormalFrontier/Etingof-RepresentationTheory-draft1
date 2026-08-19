@@ -8,7 +8,7 @@ import RepresentationTheory.PathDegreeDecomposition
 
 universe u
 
-namespace RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+namespace RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
 
 set_option linter.dupNamespace false
 
@@ -42,8 +42,8 @@ an edge. -/
 theorem exists_factorization_of_length_succ {a c : Q} (q : Quiver.Path a c) {n : ℕ}
     (hq : q.length = n + 1) :
     ∃ (b : Q) (p : Quiver.Path a b) (e : b ⟶ c),
-      (ofPath (⟨a, c, q⟩ : Quiver.BundledPath Q) : Quiver.PathAlgebra k Q) =
-          (ofPath (⟨a, b, p⟩ : Quiver.BundledPath Q) : Quiver.PathAlgebra k Q) *
+      (auxiliaryOfPath (⟨a, c, q⟩ : Quiver.AuxiliaryBundledPathType Q) : Quiver.AuxiliaryPathType k Q) =
+          (auxiliaryOfPath (⟨a, b, p⟩ : Quiver.AuxiliaryBundledPathType Q) : Quiver.AuxiliaryPathType k Q) *
             ofEdge ⟨b, c, e⟩ ∧
         p.length = n := by
   obtain ⟨b, p, e, hcomp, hlen⟩ := exists_comp_toPath_of_length_succ q hq
@@ -54,15 +54,15 @@ theorem exists_factorization_of_length_succ {a c : Q} (q : Quiver.Path a c) {n :
 intermediate vertex. -/
 theorem mul_factorization_injective {a c b₁ b₂ : Q}
     (p₁ : Quiver.Path a b₁) (e₁ : b₁ ⟶ c) (p₂ : Quiver.Path a b₂) (e₂ : b₂ ⟶ c)
-    (h : (ofPath (⟨a, b₁, p₁⟩ : Quiver.BundledPath Q) : Quiver.PathAlgebra k Q) *
+    (h : (auxiliaryOfPath (⟨a, b₁, p₁⟩ : Quiver.AuxiliaryBundledPathType Q) : Quiver.AuxiliaryPathType k Q) *
           ofEdge ⟨b₁, c, e₁⟩ =
-        (ofPath (⟨a, b₂, p₂⟩ : Quiver.BundledPath Q) : Quiver.PathAlgebra k Q) *
+        (auxiliaryOfPath (⟨a, b₂, p₂⟩ : Quiver.AuxiliaryBundledPathType Q) : Quiver.AuxiliaryPathType k Q) *
           ofEdge ⟨b₂, c, e₂⟩) :
     b₁ = b₂ ∧ HEq p₁ p₂ ∧ HEq e₁ e₂ := by
   set_option backward.isDefEq.respectTransparency false in
-    rw [path_mul_arrow_eq_comp, path_mul_arrow_eq_comp, ofPath, ofPath,
+    rw [path_mul_arrow_eq_comp, path_mul_arrow_eq_comp, auxiliaryOfPath, auxiliaryOfPath,
       Finsupp.single_left_inj (one_ne_zero)] at h
   simp only [Sigma.mk.injEq, heq_eq_eq, true_and] at h
   exact comp_toPath_injective p₁ e₁ p₂ e₂ h
 
-end RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+end RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType

@@ -8,13 +8,13 @@ import RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
 import RepresentationTheory.Alignment.Attribute
 import Mathlib.LinearAlgebra.Prod
 
-/-! # Quiver linear diagram constructions -/
+/-! # Auxiliary quiver-indexed constructions -/
 
 namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData
 
-/-- Combines two quiver-indexed objects over a commutative semiring into one object. -/
+/-- Combines two auxiliary quiver-indexed objects over a commutative semiring into one auxiliary object. -/
 @[source_ref "Chapter2/Definition2.8.9" (role := supporting)]
-noncomputable def binaryConstruction (k : Type*) (Q : Type*)
+noncomputable def auxiliaryBinaryConstruction (k : Type*) (Q : Type*)
     [CommSemiring k] [Quiver Q]
     (ρ₁ ρ₂ : AuxiliaryQuiverModuleData k Q) : AuxiliaryQuiverModuleData k Q where
   obj := fun v => ρ₁.obj v × ρ₂.obj v

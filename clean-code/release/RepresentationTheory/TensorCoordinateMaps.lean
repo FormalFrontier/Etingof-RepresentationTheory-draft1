@@ -14,25 +14,25 @@ universe u
 open CategoryTheory TensorProduct
 open ModuleCat (restrictScalars)
 
-namespace RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+namespace RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
 
 variable {k Q : Type u} [Field k] [Quiver.{u + 1} Q] [DecidableEq Q]
 
 /-- Computes a component of the product of two specified generators, with support at the successor of the first generator's index. -/
-theorem component_mul_generators (m : ℕ) (x : Quiver.BundledPath Q) (y : Edge Q) :
-    degreeProjection k Q m ((ofPath x : PathAlgebra k Q) * ofEdge y)
-      = if pathDegree x + 1 = m then (ofPath x : PathAlgebra k Q) * ofEdge y else 0 := by
+theorem component_mul_generators (m : ℕ) (x : Quiver.AuxiliaryBundledPathType Q) (y : Edge Q) :
+    degreeProjection k Q m ((auxiliaryOfPath x : AuxiliaryPathType k Q) * ofEdge y)
+      = if pathDegree x + 1 = m then (auxiliaryOfPath x : AuxiliaryPathType k Q) * ofEdge y else 0 := by
   obtain ⟨a, b, p⟩ := x
   obtain ⟨c, d, e⟩ := y
   rw [ofEdge, Edge.toPath, pathElement_mul_pathElement]
   by_cases hbc : b = c
   · subst hbc
-    rw [mulPath_of_composable, degreeProjection_single, pathDegree_eq_length, Quiver.Path.length_comp,
+    rw [auxiliaryProduct_of_composable, degreeProjection_single, pathDegree_eq_length, Quiver.Path.length_comp,
       Quiver.Path.length_toPath, pathDegree_eq_length]
-  · rw [mulPath_of_not_composable _ _ hbc, map_zero, ite_self]
+  · rw [auxiliaryProduct_of_not_composable _ _ hbc, map_zero, ite_self]
 
 /-- A successor component of a product with an embedded finitely supported element equals the preceding component times that element. -/
-theorem component_succ_mul (n : ℕ) (a : PathAlgebra k Q) (v : Edge Q →₀ k) :
+theorem component_succ_mul (n : ℕ) (a : AuxiliaryPathType k Q) (v : Edge Q →₀ k) :
     degreeProjection k Q (n + 1) (a * edgeLinearMap v) = degreeProjection k Q n a * edgeLinearMap v := by
   induction v using Finsupp.induction_linear with
   | zero => simp
@@ -43,21 +43,21 @@ theorem component_succ_mul (n : ℕ) (a : PathAlgebra k Q) (v : Edge Q →₀ k)
     | zero => simp
     | add f g hf hg => rw [add_mul, map_add, map_add, add_mul, hf, hg]
     | single x c =>
-      have hsx : (Finsupp.single x c : PathAlgebra k Q) = c • ofPath x := by
-        rw [ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
-      rw [hsx, smul_mul, RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.mul_smul,
+      have hsx : (Finsupp.single x c : AuxiliaryPathType k Q) = c • auxiliaryOfPath x := by
+        rw [auxiliaryOfPath, Finsupp.smul_single, smul_eq_mul, mul_one]
+      rw [hsx, smul_mul, RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.mul_smul,
         map_smul, map_smul,
         component_mul_generators]
       simp only [add_left_inj]
-      rw [map_smul, show (degreeProjection k Q n) (ofPath x)
-          = if pathDegree x = n then (ofPath x : PathAlgebra k Q) else 0 from by
-            rw [ofPath, degreeProjection_single]]
+      rw [map_smul, show (degreeProjection k Q n) (auxiliaryOfPath x)
+          = if pathDegree x = n then (auxiliaryOfPath x : AuxiliaryPathType k Q) else 0 from by
+            rw [auxiliaryOfPath, degreeProjection_single]]
       split_ifs with h
-      · rw [smul_mul, RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.mul_smul]
+      · rw [smul_mul, RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.mul_smul]
       · simp
 
 /-- The zeroth component of a product with an embedded finitely supported element vanishes. -/
-theorem component_zero_mul (a : PathAlgebra k Q) (v : Edge Q →₀ k) :
+theorem component_zero_mul (a : AuxiliaryPathType k Q) (v : Edge Q →₀ k) :
     degreeProjection k Q 0 (a * edgeLinearMap v) = 0 := by
   induction v using Finsupp.induction_linear with
   | zero => simp
@@ -68,9 +68,9 @@ theorem component_zero_mul (a : PathAlgebra k Q) (v : Edge Q →₀ k) :
     | zero => simp
     | add f g hf hg => rw [add_mul, map_add, hf, hg, add_zero]
     | single x c =>
-      have hsx : (Finsupp.single x c : PathAlgebra k Q) = c • ofPath x := by
-        rw [ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
-      rw [hsx, smul_mul, RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.mul_smul,
+      have hsx : (Finsupp.single x c : AuxiliaryPathType k Q) = c • auxiliaryOfPath x := by
+        rw [auxiliaryOfPath, Finsupp.smul_single, smul_eq_mul, mul_one]
+      rw [hsx, smul_mul, RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.mul_smul,
         map_smul, map_smul, component_mul_generators,
         if_neg (Nat.succ_ne_zero _), smul_zero, smul_zero]
 
@@ -82,14 +82,14 @@ variable (N : ModuleCat.{u + 1} (Q → k))
 
 /-- The linear map from a tensor product to finitely supported tensor-valued sequences. -/
 noncomputable def tensorToFinsupp :
-    TensorProduct (Q → k) (PathAlgebra k Q) N →ₗ[Q → k]
-      (ℕ →₀ TensorProduct (Q → k) (PathAlgebra k Q) N) :=
-  (TensorProduct.finsuppLeft (Q → k) (Q → k) (PathAlgebra k Q) N ℕ).toLinearMap.comp
+    TensorProduct (Q → k) (AuxiliaryPathType k Q) N →ₗ[Q → k]
+      (ℕ →₀ TensorProduct (Q → k) (AuxiliaryPathType k Q) N) :=
+  (TensorProduct.finsuppLeft (Q → k) (Q → k) (AuxiliaryPathType k Q) N ℕ).toLinearMap.comp
     (TensorProduct.map (degreeData k Q) LinearMap.id)
 
 /-- Evaluating the image of a pure tensor at an index applies the corresponding component map to
 its first factor. -/
-@[simp] theorem tensorToFinsupp_tmul_apply (a : PathAlgebra k Q) (m : N) (n : ℕ) :
+@[simp] theorem tensorToFinsupp_tmul_apply (a : AuxiliaryPathType k Q) (m : N) (n : ℕ) :
     tensorToFinsupp N (a ⊗ₜ[Q → k] m) n = (degreeProjection k Q n a) ⊗ₜ[Q → k] m := by
   simp only [tensorToFinsupp, LinearMap.comp_apply, LinearEquiv.coe_coe, TensorProduct.map_tmul,
     LinearMap.id_coe, id_eq, degreeData_eq_comparisonMap, TensorProduct.finsuppLeft_apply_tmul_apply,
@@ -97,7 +97,7 @@ its first factor. -/
 
 /-- The tensor-to-finitely-supported-sequence map is injective. -/
 theorem tensorToFinsupp_injective : Function.Injective (tensorToFinsupp N) := by
-  have hleft : ∀ x : TensorProduct (Q → k) (PathAlgebra k Q) N,
+  have hleft : ∀ x : TensorProduct (Q → k) (AuxiliaryPathType k Q) N,
       (TensorProduct.map (ofDegreeData k Q) (LinearMap.id (R := Q → k) (M := N)))
         (TensorProduct.map (degreeData k Q) LinearMap.id x) = x := by
     intro x
@@ -105,12 +105,12 @@ theorem tensorToFinsupp_injective : Function.Injective (tensorToFinsupp N) := by
       LinearMap.id_comp, TensorProduct.map_id, LinearMap.id_apply]
   intro x y hxy
   refine Function.LeftInverse.injective hleft ?_
-  exact (TensorProduct.finsuppLeft (Q → k) (Q → k) (PathAlgebra k Q) N ℕ).injective hxy
+  exact (TensorProduct.finsuppLeft (Q → k) (Q → k) (AuxiliaryPathType k Q) N ℕ).injective hxy
 
-variable (M : ModuleCat.{u + 1} (PathAlgebra k Q))
+variable (M : ModuleCat.{u + 1} (AuxiliaryPathType k Q))
 
 /-- Computes a successor difference coordinate on a nested pure tensor as a difference of two pure tensors. -/
-theorem difference_tmul_succ_apply (a : PathAlgebra k Q) (v : FieldQuiverAuxiliary k Q)
+theorem difference_tmul_succ_apply (a : AuxiliaryPathType k Q) (v : FieldQuiverAuxiliary k Q)
     (m : secondaryFunctionModuleObject M) (n : ℕ) :
     componentData M ((auxiliaryDifferential M).hom (a ⊗ₜ[Q → k] (v ⊗ₜ[Q → k] m : functionModuleObject M))) (n + 1)
       = (degreeProjection k Q n a * edgeLinearMap v) ⊗ₜ[Q → k] (m : M)
@@ -120,7 +120,7 @@ theorem difference_tmul_succ_apply (a : PathAlgebra k Q) (v : FieldQuiverAuxilia
     component_succ_mul]
 
 /-- Computes the zeroth difference coordinate on a nested pure tensor as a negated pure tensor. -/
-theorem difference_tmul_zero_apply (a : PathAlgebra k Q) (v : FieldQuiverAuxiliary k Q)
+theorem difference_tmul_zero_apply (a : AuxiliaryPathType k Q) (v : FieldQuiverAuxiliary k Q)
     (m : secondaryFunctionModuleObject M) :
     componentData M ((auxiliaryDifferential M).hom (a ⊗ₜ[Q → k] (v ⊗ₜ[Q → k] m : functionModuleObject M))) 0
       = - (degreeProjection k Q 0 a) ⊗ₜ[Q → k] (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M) := by
@@ -198,7 +198,7 @@ noncomputable def actionRestrictedBilinear :
       (auxiliaryModuleObject M) where
   toFun v :=
     { toFun := fun m =>
-        (1 : PathAlgebra k Q) ⊗ₜ[Q → k] (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M)
+        (1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k] (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M)
       map_zero' := by simp
       map_add' := fun m m' => by simp only [smul_add, TensorProduct.tmul_add] }
   map_zero' := by ext m; simp
@@ -211,7 +211,7 @@ noncomputable def actionRestrictedBilinear :
 theorem actionRestrictedBilinear_apply (v : FieldQuiverAuxiliary k Q)
     (m : secondaryFunctionModuleObject M) :
     actionRestrictedBilinear M v m
-      = (1 : PathAlgebra k Q) ⊗ₜ[Q → k] (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M) := rfl
+      = (1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k] (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M) := rfl
 
 /-- Scaling the first input of the curried action map agrees with scaling its second input. -/
 theorem actionRestrictedBilinear_smul (s : Q → k) (v : FieldQuiverAuxiliary k Q)
@@ -235,7 +235,7 @@ element. -/
 @[simp] theorem actionRestrictedAddHom_tmul (v : FieldQuiverAuxiliary k Q)
     (m : secondaryFunctionModuleObject M) :
     actionRestrictedAddHom M (v ⊗ₜ[Q → k] m)
-      = (1 : PathAlgebra k Q) ⊗ₜ[Q → k] (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M) := rfl
+      = (1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k] (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M) := rfl
 
 /-- A quiver morphism into the restricted-scalar target using the first input's action on the module factor. -/
 noncomputable def actionRestrictedHom :
@@ -262,7 +262,7 @@ factor. -/
 @[simp] theorem actionRestrictedHom_tmul (v : FieldQuiverAuxiliary k Q)
     (m : secondaryFunctionModuleObject M) :
     (actionRestrictedHom M).hom (v ⊗ₜ[Q → k] m)
-      = (1 : PathAlgebra k Q) ⊗ₜ[Q → k] (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M) := by
+      = (1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k] (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M) := by
   change actionRestrictedAddHom M (v ⊗ₜ[Q → k] m) = _
   rw [actionRestrictedAddHom_tmul]
 
@@ -272,7 +272,7 @@ noncomputable def multiplicationHom : secondaryAuxiliaryModuleObject M ⟶ auxil
 
 /-- The multiplication morphism sends a nested pure tensor to the pure tensor obtained by
 multiplying its first two factors. -/
-@[simp] theorem multiplicationHom_tmul (a : PathAlgebra k Q) (v : FieldQuiverAuxiliary k Q)
+@[simp] theorem multiplicationHom_tmul (a : AuxiliaryPathType k Q) (v : FieldQuiverAuxiliary k Q)
     (m : secondaryFunctionModuleObject M) :
     (multiplicationHom M).hom (a ⊗ₜ[Q → k] (v ⊗ₜ[Q → k] m : functionModuleObject M))
       = (a * edgeLinearMap v) ⊗ₜ[Q → k] (m : M) := by
@@ -284,7 +284,7 @@ noncomputable def actionHom : secondaryAuxiliaryModuleObject M ⟶ auxiliaryModu
 
 /-- The action morphism sends a nested pure tensor to the pure tensor obtained by acting on its
 module factor. -/
-@[simp] theorem actionHom_tmul (a : PathAlgebra k Q) (v : FieldQuiverAuxiliary k Q)
+@[simp] theorem actionHom_tmul (a : AuxiliaryPathType k Q) (v : FieldQuiverAuxiliary k Q)
     (m : secondaryFunctionModuleObject M) :
     (actionHom M).hom (a ⊗ₜ[Q → k] (v ⊗ₜ[Q → k] m : functionModuleObject M))
       = a ⊗ₜ[Q → k] (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M) := by
@@ -338,33 +338,33 @@ theorem difference_zero_apply (s : secondaryAuxiliaryModuleObject M) :
       simp only [map_add, Finsupp.add_apply, hs, ht]; abel
 
 /-- Constructs a sequence supported at one index whose image is the tensor of a single vertex coefficient with a module element. -/
-theorem exists_supported_preimage_single (x : Quiver.BundledPath Q) (c : k) {n : ℕ}
+theorem exists_supported_preimage_single (x : Quiver.AuxiliaryBundledPathType Q) (c : k) {n : ℕ}
     (hx : pathDegree x = n + 1) (m : secondaryFunctionModuleObject M) :
     ∃ η : secondaryAuxiliaryModuleObject M,
       tensorToFinsupp (functionModuleObject M) η n = η ∧
       (∀ j, j ≠ n → tensorToFinsupp (functionModuleObject M) η j = 0) ∧
       (multiplicationHom M).hom η
-        = ((Finsupp.single x c : PathAlgebra k Q) ⊗ₜ[Q → k] (m : M) : componentType M) := by
+        = ((Finsupp.single x c : AuxiliaryPathType k Q) ⊗ₜ[Q → k] (m : M) : componentType M) := by
   obtain ⟨a, cc, q⟩ := x
   rw [pathDegree_eq_length] at hx
   obtain ⟨b, p, e, hcomp, hlen⟩ := exists_factorization_of_length_succ (k := k) q hx
-  have hlp : degreeProjection k Q n (ofPath (⟨a, b, p⟩ : Quiver.BundledPath Q))
-      = ofPath (⟨a, b, p⟩ : Quiver.BundledPath Q) := by
-    rw [ofPath, degreeProjection_single, pathDegree_eq_length, hlen, if_pos rfl]
+  have hlp : degreeProjection k Q n (auxiliaryOfPath (⟨a, b, p⟩ : Quiver.AuxiliaryBundledPathType Q))
+      = auxiliaryOfPath (⟨a, b, p⟩ : Quiver.AuxiliaryBundledPathType Q) := by
+    rw [auxiliaryOfPath, degreeProjection_single, pathDegree_eq_length, hlen, if_pos rfl]
   have hlp0 : ∀ j, j ≠ n →
-      degreeProjection k Q j (ofPath (⟨a, b, p⟩ : Quiver.BundledPath Q)) = 0 := by
+      degreeProjection k Q j (auxiliaryOfPath (⟨a, b, p⟩ : Quiver.AuxiliaryBundledPathType Q)) = 0 := by
     intro j hj
-    rw [ofPath, degreeProjection_single, pathDegree_eq_length, hlen, if_neg (fun h => hj h.symm)]
-  refine ⟨(c • ofPath (⟨a, b, p⟩ : Quiver.BundledPath Q)) ⊗ₜ[Q → k]
+    rw [auxiliaryOfPath, degreeProjection_single, pathDegree_eq_length, hlen, if_neg (fun h => hj h.symm)]
+  refine ⟨(c • auxiliaryOfPath (⟨a, b, p⟩ : Quiver.AuxiliaryBundledPathType Q)) ⊗ₜ[Q → k]
       ((Finsupp.single (⟨b, cc, e⟩ : Edge Q) 1 : FieldQuiverAuxiliary k Q)
         ⊗ₜ[Q → k] m : functionModuleObject M), ?_, ?_, ?_⟩
   · rw [tensorToFinsupp_tmul_apply, map_smul, hlp]
   · intro j hj
     rw [tensorToFinsupp_tmul_apply, map_smul, hlp0 j hj, smul_zero, TensorProduct.zero_tmul]
-  · have hmul : (c • ofPath (⟨a, b, p⟩ : Quiver.BundledPath Q))
+  · have hmul : (c • auxiliaryOfPath (⟨a, b, p⟩ : Quiver.AuxiliaryBundledPathType Q))
         * edgeLinearMap (Finsupp.single (⟨b, cc, e⟩ : Edge Q) 1 : FieldQuiverAuxiliary k Q)
-        = (Finsupp.single (⟨a, cc, q⟩ : Quiver.BundledPath Q) c : PathAlgebra k Q) := by
-      rw [edgeLinearMap_single, one_smul, smul_mul_assoc, ← hcomp, ofPath, Finsupp.smul_single,
+        = (Finsupp.single (⟨a, cc, q⟩ : Quiver.AuxiliaryBundledPathType Q) c : AuxiliaryPathType k Q) := by
+      rw [edgeLinearMap_single, one_smul, smul_mul_assoc, ← hcomp, auxiliaryOfPath, Finsupp.smul_single,
         smul_eq_mul, mul_one]
     rw [multiplicationHom_tmul, hmul]
 
@@ -386,7 +386,7 @@ theorem exists_supported_preimage_succ (y : auxiliaryModuleObject M) (n : ℕ) :
     · rw [map_add, Finsupp.add_apply, h1n, h2n]
     · intro j hj; rw [map_add, Finsupp.add_apply, h1j j hj, h2j j hj, add_zero]
     · rw [map_add, h1, h2]
-  suffices H : ∀ (a : PathAlgebra k Q) (m : secondaryFunctionModuleObject M),
+  suffices H : ∀ (a : AuxiliaryPathType k Q) (m : secondaryFunctionModuleObject M),
       G (degreeProjection k Q (n + 1) a ⊗ₜ[Q → k] (m : M)) by
     induction y using TensorProduct.induction_on with
     | zero =>
@@ -410,4 +410,4 @@ theorem exists_supported_preimage_succ (y : auxiliaryModuleObject M) (n : ℕ) :
 
 end Induced
 
-end RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+end RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType

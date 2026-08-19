@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: mathlib-initiative
 -/
 
-import RepresentationTheory.Quiver.PathAlgebra
+import RepresentationTheory.Quiver.AuxiliaryPathStructures
 import RepresentationTheory.Auxiliary.RingData
 import Mathlib.Algebra.Module.Projective
 import Mathlib.Algebra.Category.ModuleCat.Projective
@@ -27,20 +27,20 @@ universe u
 
 open CategoryTheory
 
-namespace RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+namespace RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
 
 variable {k : Type u} {Q : Type u} [Field k] [Quiver.{u + 1} Q] [DecidableEq Q]
 
 /-- The displayed optional operation returns the nil path at an element of the quiver exactly when
 both inputs are that nil path. -/
-theorem auxiliary_eq_some_nil_iff (x y : Quiver.BundledPath Q) (b : Q) :
+theorem auxiliary_eq_some_nil_iff (x y : Quiver.AuxiliaryBundledPathType Q) (b : Q) :
     x.compose y = some ⟨b, b, Quiver.Path.nil⟩ ↔
       x = ⟨b, b, Quiver.Path.nil⟩ ∧ y = ⟨b, b, Quiver.Path.nil⟩ := by
   obtain ⟨xa, xb, xp⟩ := x
   obtain ⟨ya, yb, yq⟩ := y
   constructor
   · intro h
-    rw [Quiver.BundledPath.compose] at h
+    rw [Quiver.AuxiliaryBundledPathType.compose] at h
     split at h
     · rename_i hbc
       subst hbc
@@ -60,18 +60,18 @@ theorem auxiliary_eq_some_nil_iff (x y : Quiver.BundledPath Q) (b : Q) :
     · exact absurd h (by simp)
   · rintro ⟨hx, hy⟩
     rw [hx, hy,
-      _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.BundledPath.compose_eq_some,
+      _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryBundledPathType.compose_eq_some,
       Quiver.Path.nil_comp]
 
 /-- The displayed optional operation on two indices returns the first index exactly when the second
 is the nil path at the displayed endpoint of the first. -/
-theorem auxiliary_eq_some_left_iff (p z : Quiver.BundledPath Q) :
+theorem auxiliary_eq_some_left_iff (p z : Quiver.AuxiliaryBundledPathType Q) :
     p.compose z = some p ↔ z = ⟨p.2.1, p.2.1, Quiver.Path.nil⟩ := by
   obtain ⟨pa, pb, pp⟩ := p
   obtain ⟨za, zb, zq⟩ := z
   constructor
   · intro h
-    rw [Quiver.BundledPath.compose] at h
+    rw [Quiver.AuxiliaryBundledPathType.compose] at h
     split at h
     · rename_i hbc
       subst hbc
@@ -87,33 +87,33 @@ theorem auxiliary_eq_some_left_iff (p z : Quiver.BundledPath Q) :
     · exact absurd h (by simp)
   · intro hz
     rw [hz,
-      _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.BundledPath.compose_eq_some,
+      _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryBundledPathType.compose_eq_some,
       Quiver.Path.comp_nil]
 
 /-- An auxiliary family of linear maps to the field. -/
-noncomputable def auxiliaryLinearMap (x : Quiver.BundledPath Q) : PathAlgebra k Q →ₗ[k] k :=
+noncomputable def auxiliaryLinearMap (x : Quiver.AuxiliaryBundledPathType Q) : AuxiliaryPathType k Q →ₗ[k] k :=
   Finsupp.lapply x
 
 open Classical in
 /-- The auxiliary linear map applied to a finitely supported singleton is its scalar at the
 matching index and zero otherwise. -/
-theorem auxiliaryLinearMap_single (x y : Quiver.BundledPath Q) (c : k) :
+theorem auxiliaryLinearMap_single (x y : Quiver.AuxiliaryBundledPathType Q) (c : k) :
     auxiliaryLinearMap x (Finsupp.single y c) = if y = x then c else 0 :=
   Finsupp.single_apply
 
 open Classical in
 /-- The auxiliary linear map applied to the displayed binary construction is one when the displayed
 optional value equals its index and zero otherwise. -/
-theorem auxiliaryLinearMap_apply_auxiliary (x y z : Quiver.BundledPath Q) :
-    auxiliaryLinearMap z (mulPath x y : PathAlgebra k Q) =
+theorem auxiliaryLinearMap_apply_auxiliary (x y z : Quiver.AuxiliaryBundledPathType Q) :
+    auxiliaryLinearMap z (auxiliaryProduct x y : AuxiliaryPathType k Q) =
       if x.compose y = some z then (1 : k) else 0 := by
-  rw [mulPath]
+  rw [auxiliaryProduct]
   cases h : x.compose y with
   | none => simp
   | some w => rw [Option.elim_some, auxiliaryLinearMap_single]; simp
 
 /-- An auxiliary ring homomorphism to the field indexed by an element of the quiver. -/
-noncomputable def auxiliaryRingHom [Fintype Q] (b : Q) : PathAlgebra k Q →+* k where
+noncomputable def auxiliaryRingHom [Fintype Q] (b : Q) : AuxiliaryPathType k Q →+* k where
   toFun a := auxiliaryLinearMap ⟨b, b, Quiver.Path.nil⟩ a
   map_one' := by
     rw [one_eq_sum_single_vertexPath, map_sum, Finset.sum_eq_single b]
@@ -134,21 +134,21 @@ noncomputable def auxiliaryRingHom [Fintype Q] (b : Q) : PathAlgebra k Q →+* k
       | single y d =>
         rw [single_mul_single, map_smul, auxiliaryLinearMap_apply_auxiliary,
           auxiliaryLinearMap_single, auxiliaryLinearMap_single, smul_eq_mul]
-        by_cases hx : x = (⟨b, b, Quiver.Path.nil⟩ : Quiver.BundledPath Q) <;>
-          by_cases hy : y = (⟨b, b, Quiver.Path.nil⟩ : Quiver.BundledPath Q) <;>
+        by_cases hx : x = (⟨b, b, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q) <;>
+          by_cases hy : y = (⟨b, b, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q) <;>
           simp [hx, hy, auxiliary_eq_some_nil_iff]
   map_zero' := by simp
   map_add' a a' := by simp
 
 /-- The auxiliary ring homomorphism agrees with the displayed linear map indexed by the nil path. -/
-@[simp] theorem auxiliaryRingHom_apply [Fintype Q] (b : Q) (a : PathAlgebra k Q) :
+@[simp] theorem auxiliaryRingHom_apply [Fintype Q] (b : Q) (a : AuxiliaryPathType k Q) :
     auxiliaryRingHom b a = auxiliaryLinearMap ⟨b, b, Quiver.Path.nil⟩ a := rfl
 
 /-- The auxiliary ring homomorphism sends the displayed element associated with a quiver
 homomorphism to zero. -/
 theorem auxiliaryRingHom_apply_eq_zero [Fintype Q] {a b : Q} (e : a ⟶ b) :
-    auxiliaryRingHom b (ofPath (⟨a, b, e.toPath⟩ : Quiver.BundledPath Q)) = (0 : k) := by
-  rw [auxiliaryRingHom_apply, ofPath, auxiliaryLinearMap_single]
+    auxiliaryRingHom b (auxiliaryOfPath (⟨a, b, e.toPath⟩ : Quiver.AuxiliaryBundledPathType Q)) = (0 : k) := by
+  rw [auxiliaryRingHom_apply, auxiliaryOfPath, auxiliaryLinearMap_single]
   apply if_neg
   intro hcon
   have : (e.toPath).length = (Quiver.Path.nil : Quiver.Path b b).length :=
@@ -158,17 +158,17 @@ theorem auxiliaryRingHom_apply_eq_zero [Fintype Q] {a b : Q} (e : a ⟶ b) :
 
 /-- Applying the first displayed linear map to the displayed product agrees with applying the
 second displayed linear map to the remaining factor. -/
-theorem auxiliary_apply_mul {a b : Q} (e : a ⟶ b) (w : PathAlgebra k Q) :
-    auxiliaryLinearMap (⟨a, b, e.toPath⟩ : Quiver.BundledPath Q)
-        (ofPath ⟨a, b, e.toPath⟩ * w) =
-      auxiliaryLinearMap (⟨b, b, Quiver.Path.nil⟩ : Quiver.BundledPath Q) w := by
+theorem auxiliary_apply_mul {a b : Q} (e : a ⟶ b) (w : AuxiliaryPathType k Q) :
+    auxiliaryLinearMap (⟨a, b, e.toPath⟩ : Quiver.AuxiliaryBundledPathType Q)
+        (auxiliaryOfPath ⟨a, b, e.toPath⟩ * w) =
+      auxiliaryLinearMap (⟨b, b, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q) w := by
   induction w using induction_on with
   | zero => simp
   | add f g hf hg => rw [mul_add, map_add, map_add, hf, hg]
   | single z c =>
-    rw [ofPath, single_mul_single, one_mul, map_smul, auxiliaryLinearMap_apply_auxiliary,
+    rw [auxiliaryOfPath, single_mul_single, one_mul, map_smul, auxiliaryLinearMap_apply_auxiliary,
       auxiliaryLinearMap_single, smul_eq_mul]
-    by_cases hz : z = (⟨b, b, Quiver.Path.nil⟩ : Quiver.BundledPath Q) <;>
+    by_cases hz : z = (⟨b, b, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q) <;>
       simp [hz, auxiliary_eq_some_left_iff]
 
 /-- An auxiliary family of types indexed by a finite quiver. -/
@@ -186,17 +186,17 @@ noncomputable instance instModuleAuxiliary [Fintype Q] (b : Q) : Module k (Auxil
 
 /-- The module structure on the auxiliary type over the surrounding scalar type. -/
 noncomputable instance instModuleAuxiliarySelf [Fintype Q] (b : Q) :
-    Module (PathAlgebra k Q) (Auxiliary k Q b) :=
+    Module (AuxiliaryPathType k Q) (Auxiliary k Q b) :=
   Module.compHom (Auxiliary k Q b) (auxiliaryRingHom b)
 
 /-- The displayed action agrees with scalar multiplication through the auxiliary ring
 homomorphism. -/
-theorem auxiliary_smul_eq_smul [Fintype Q] (b : Q) (a : PathAlgebra k Q)
+theorem auxiliary_smul_eq_smul [Fintype Q] (b : Q) (a : AuxiliaryPathType k Q)
     (v : Auxiliary k Q b) : a • v = auxiliaryRingHom b a • v := rfl
 
 /-- The value underlying the displayed action is the auxiliary ring homomorphism applied to the
 scalar times the value underlying the element. -/
-theorem auxiliary_smul_down [Fintype Q] (b : Q) (a : PathAlgebra k Q) (v : Auxiliary k Q b) :
+theorem auxiliary_smul_down [Fintype Q] (b : Q) (a : AuxiliaryPathType k Q) (v : Auxiliary k Q b) :
     (a • v).down = auxiliaryRingHom b a * v.down := by
   rw [auxiliary_smul_eq_smul]; rfl
 
@@ -210,16 +210,16 @@ def auxiliary [Fintype Q] (b : Q) : Auxiliary k Q b := ULift.up (1 : k)
 /-- The displayed scalar associated with a quiver homomorphism acts as zero on the auxiliary
 type. -/
 theorem auxiliary_smul_eq_zero [Fintype Q] {a b : Q} (e : a ⟶ b) (v : Auxiliary k Q b) :
-    (ofPath ⟨a, b, e.toPath⟩ : PathAlgebra k Q) • v = 0 := by
+    (auxiliaryOfPath ⟨a, b, e.toPath⟩ : AuxiliaryPathType k Q) • v = 0 := by
   apply ULift.ext
   rw [auxiliary_smul_down, auxiliaryRingHom_apply_eq_zero e, zero_mul]
   rfl
 
-end RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+end RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
 
 namespace RepresentationTheory.QuiverAuxiliary
 
-open _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+open _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
 
 variable {k : Type u} {Q : Type u} [Field k] [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q]
 
@@ -228,20 +228,20 @@ associated algebra. -/
 theorem not_auxiliary_zero_of_exists_hom
     (hQ : ∃ a b : Q, Nonempty (a ⟶ b)) :
     ¬ _root_.RepresentationTheory.Auxiliary.RingData.auxiliaryRingNatProperty
-      (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q) 0 := by
+      (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q) 0 := by
   intro hall
   obtain ⟨a, b, ⟨e⟩⟩ := hQ
   let MA := ModuleCat.of
-    (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q) (Auxiliary k Q b)
+    (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q) (Auxiliary k Q b)
   have hpd : CategoryTheory.HasProjectiveDimensionLE MA 0 := hall MA
   haveI hproj : CategoryTheory.Projective MA :=
     projective_iff_hasProjectiveDimensionLT_one.mpr hpd
   haveI hmod : Module.Projective
-      (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q)
+      (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q)
       (Auxiliary k Q b) :=
     (IsProjective.iff_projective (Auxiliary k Q b)).mpr hproj
   let surj := LinearMap.toSpanSingleton
-    (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q)
+    (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q)
     (Auxiliary k Q b) (auxiliary b)
   have hsurj : Function.Surjective surj := by
     intro v
@@ -250,7 +250,7 @@ theorem not_auxiliary_zero_of_exists_hom
     simp only [surj, LinearMap.toSpanSingleton_apply, auxiliary_smul_down, auxiliaryRingHom_apply,
       auxiliaryLinearMap_single, if_pos, auxiliary_down, mul_one]
   obtain ⟨s, hs⟩ := Module.projective_lifting_property surj LinearMap.id hsurj
-  set w : _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q :=
+  set w : _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q :=
     s (auxiliary b) with hw_def
   have hsection : auxiliaryRingHom b w = 1 := by
     have hcf := LinearMap.congr_fun hs (auxiliary b)
@@ -260,18 +260,18 @@ theorem not_auxiliary_zero_of_exists_hom
       mul_one] at hdown
     exact hdown
   have hzero :
-      (ofPath ⟨a, b, e.toPath⟩ :
-        _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q) * w = 0 := by
+      (auxiliaryOfPath ⟨a, b, e.toPath⟩ :
+        _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q) * w = 0 := by
     have h1 := s.map_smul
-      (ofPath (⟨a, b, e.toPath⟩ :
-        _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.BundledPath Q)) (auxiliary b)
+      (auxiliaryOfPath (⟨a, b, e.toPath⟩ :
+        _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryBundledPathType Q)) (auxiliary b)
     rw [auxiliary_smul_eq_zero e (auxiliary b), map_zero] at h1
     rw [← smul_eq_mul]
     exact h1.symm
   have hne : auxiliaryLinearMap
       (⟨a, b, e.toPath⟩ :
-        _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.BundledPath Q)
-      (ofPath ⟨a, b, e.toPath⟩ * w) = 1 := by
+        _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryBundledPathType Q)
+      (auxiliaryOfPath ⟨a, b, e.toPath⟩ * w) = 1 := by
     rw [auxiliary_apply_mul e w, ← auxiliaryRingHom_apply]; exact hsection
   rw [hzero, map_zero] at hne
   exact one_ne_zero hne.symm

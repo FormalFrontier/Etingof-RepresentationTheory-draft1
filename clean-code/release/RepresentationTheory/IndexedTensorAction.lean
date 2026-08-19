@@ -13,28 +13,28 @@ universe u
 open CategoryTheory TensorProduct
 open ModuleCat (restrictScalars)
 
-namespace RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+namespace RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
 
 variable {k Q : Type u} [Field k] [Quiver.{u + 1} Q] [DecidableEq Q] [Fintype Q]
 
-variable (M : ModuleCat.{u + 1} (PathAlgebra k Q))
+variable (M : ModuleCat.{u + 1} (AuxiliaryPathType k Q))
 
 /-- A single-support function is the scalar multiple of its canonical indexed element. -/
-theorem single_eq_smul_index (q : Quiver.BundledPath Q) (c : k) :
-    (Finsupp.single q c : PathAlgebra k Q) = c • ofPath q := by
-  rw [ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
+theorem single_eq_smul_index (q : Quiver.AuxiliaryBundledPathType Q) (c : k) :
+    (Finsupp.single q c : AuxiliaryPathType k Q) = c • auxiliaryOfPath q := by
+  rw [auxiliaryOfPath, Finsupp.smul_single, smul_eq_mul, mul_one]
 
 /-- Moves a scalar from the first factor of an iterated pure tensor into the coefficient of a single-support function. -/
 theorem smul_tmul_single_eq_tmul_single_mul {a d c : Q} (p : Quiver.Path a d) (e : d ⟶ c) (ca cv : k)
     (m : secondaryFunctionModuleObject M) :
-    ((ca • ofPath (⟨a, d, p⟩ : Quiver.BundledPath Q) : PathAlgebra k Q) ⊗ₜ[Q → k]
+    ((ca • auxiliaryOfPath (⟨a, d, p⟩ : Quiver.AuxiliaryBundledPathType Q) : AuxiliaryPathType k Q) ⊗ₜ[Q → k]
         ((Finsupp.single (⟨d, c, e⟩ : Edge Q) cv : FieldQuiverAuxiliary k Q)
           ⊗ₜ[Q → k] m : functionModuleObject M) : secondaryAuxiliaryModuleObject M)
-      = ((ofPath (⟨a, d, p⟩ : Quiver.BundledPath Q) : PathAlgebra k Q) ⊗ₜ[Q → k]
+      = ((auxiliaryOfPath (⟨a, d, p⟩ : Quiver.AuxiliaryBundledPathType Q) : AuxiliaryPathType k Q) ⊗ₜ[Q → k]
           ((Finsupp.single (⟨d, c, e⟩ : Edge Q) (ca * cv) : FieldQuiverAuxiliary k Q)
             ⊗ₜ[Q → k] m : functionModuleObject M) : secondaryAuxiliaryModuleObject M) := by
-  have hpath : (ca • ofPath (⟨a, d, p⟩ : Quiver.BundledPath Q) : PathAlgebra k Q)
-      = (Pi.single d ca : Q → k) • (ofPath (⟨a, d, p⟩ : Quiver.BundledPath Q) : PathAlgebra k Q) := by
+  have hpath : (ca • auxiliaryOfPath (⟨a, d, p⟩ : Quiver.AuxiliaryBundledPathType Q) : AuxiliaryPathType k Q)
+      = (Pi.single d ca : Q → k) • (auxiliaryOfPath (⟨a, d, p⟩ : Quiver.AuxiliaryBundledPathType Q) : AuxiliaryPathType k Q) := by
     rw [smul_eq_mul_image, indexedElement_mul_vertexFunction]
     simp only [Pi.single_eq_same]
   rw [hpath, TensorProduct.smul_tmul]
@@ -45,12 +45,12 @@ theorem smul_tmul_single_eq_tmul_single_mul {a d c : Q} (p : Quiver.Path a d) (e
 /-- An iterated pure tensor with incompatible intermediate vertices is zero. -/
 theorem smul_tmul_single_eq_zero_of_ne {a d b c : Q} (p : Quiver.Path a d) (e : b ⟶ c) (ca cv : k)
     (hbd : b ≠ d) (m : secondaryFunctionModuleObject M) :
-    ((ca • ofPath (⟨a, d, p⟩ : Quiver.BundledPath Q) : PathAlgebra k Q) ⊗ₜ[Q → k]
+    ((ca • auxiliaryOfPath (⟨a, d, p⟩ : Quiver.AuxiliaryBundledPathType Q) : AuxiliaryPathType k Q) ⊗ₜ[Q → k]
         ((Finsupp.single (⟨b, c, e⟩ : Edge Q) cv : FieldQuiverAuxiliary k Q)
           ⊗ₜ[Q → k] m : functionModuleObject M) : secondaryAuxiliaryModuleObject M) = 0 := by
-  have hpath : (ca • ofPath (⟨a, d, p⟩ : Quiver.BundledPath Q) : PathAlgebra k Q)
+  have hpath : (ca • auxiliaryOfPath (⟨a, d, p⟩ : Quiver.AuxiliaryBundledPathType Q) : AuxiliaryPathType k Q)
       = (Pi.single d (1 : k) : Q → k)
-          • (ca • ofPath (⟨a, d, p⟩ : Quiver.BundledPath Q) : PathAlgebra k Q) := by
+          • (ca • auxiliaryOfPath (⟨a, d, p⟩ : Quiver.AuxiliaryBundledPathType Q) : AuxiliaryPathType k Q) := by
     rw [smul_eq_mul_image, smul_mul_assoc, indexedElement_mul_vertexFunction]
     simp only [Pi.single_eq_same, one_smul]
   rw [hpath, TensorProduct.smul_tmul, moduleAuxiliary_smul_eq_tensorMap, tensorMap_functionAction_tmul, functionAction_apply, auxiliaryAction_single]
@@ -58,29 +58,29 @@ theorem smul_tmul_single_eq_zero_of_ne {a d b c : Q} (p : Quiver.Path a d) (e : 
     TensorProduct.zero_tmul, TensorProduct.tmul_zero]
 
 /-- Combines an index, a scalar, and an auxiliary carrier element in the target carrier. -/
-noncomputable def indexedTerm (q : Quiver.BundledPath Q) (c : k) (m : secondaryFunctionModuleObject M) :
+noncomputable def indexedTerm (q : Quiver.AuxiliaryBundledPathType Q) (c : k) (m : secondaryFunctionModuleObject M) :
     secondaryAuxiliaryModuleObject M :=
   match q with
   | ⟨_, _, Quiver.Path.nil⟩ => 0
   | ⟨a, c', Quiver.Path.cons (b := b) p e⟩ =>
-      (ofPath (⟨a, b, p⟩ : Quiver.BundledPath Q) : PathAlgebra k Q) ⊗ₜ[Q → k]
+      (auxiliaryOfPath (⟨a, b, p⟩ : Quiver.AuxiliaryBundledPathType Q) : AuxiliaryPathType k Q) ⊗ₜ[Q → k]
         (((Finsupp.single (⟨b, c', e⟩ : Edge Q) c : FieldQuiverAuxiliary k Q)
           ⊗ₜ[Q → k] m : functionModuleObject M))
 
 /-- The indexed term associated with an empty path vanishes. -/
 @[simp] theorem indexedTerm_nil (a : Q) (c : k) (m : secondaryFunctionModuleObject M) :
-    indexedTerm M (⟨a, a, Quiver.Path.nil⟩ : Quiver.BundledPath Q) c m = 0 := rfl
+    indexedTerm M (⟨a, a, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q) c m = 0 := rfl
 
 /-- Expands an indexed term for a path extended by one arrow as an iterated pure tensor. -/
 @[simp] theorem indexedTerm_cons {a b c' : Q} (p : Quiver.Path a b) (e : b ⟶ c') (c : k)
     (m : secondaryFunctionModuleObject M) :
-    indexedTerm M (⟨a, c', Quiver.Path.cons p e⟩ : Quiver.BundledPath Q) c m
-      = ((ofPath (⟨a, b, p⟩ : Quiver.BundledPath Q) : PathAlgebra k Q) ⊗ₜ[Q → k]
+    indexedTerm M (⟨a, c', Quiver.Path.cons p e⟩ : Quiver.AuxiliaryBundledPathType Q) c m
+      = ((auxiliaryOfPath (⟨a, b, p⟩ : Quiver.AuxiliaryBundledPathType Q) : AuxiliaryPathType k Q) ⊗ₜ[Q → k]
           ((Finsupp.single (⟨b, c', e⟩ : Edge Q) c : FieldQuiverAuxiliary k Q)
             ⊗ₜ[Q → k] m : functionModuleObject M) : secondaryAuxiliaryModuleObject M) := rfl
 
 /-- An indexed term with zero scalar is zero. -/
-theorem indexedTerm_zero_scalar (q : Quiver.BundledPath Q) (m : secondaryFunctionModuleObject M) :
+theorem indexedTerm_zero_scalar (q : Quiver.AuxiliaryBundledPathType Q) (m : secondaryFunctionModuleObject M) :
     indexedTerm M q (0 : k) m = 0 := by
   obtain ⟨a, c', p⟩ := q
   cases p with
@@ -89,7 +89,7 @@ theorem indexedTerm_zero_scalar (q : Quiver.BundledPath Q) (m : secondaryFunctio
       TensorProduct.tmul_zero]
 
 /-- An indexed term is additive in its scalar argument. -/
-theorem indexedTerm_add_scalar (q : Quiver.BundledPath Q) (c c' : k) (m : secondaryFunctionModuleObject M) :
+theorem indexedTerm_add_scalar (q : Quiver.AuxiliaryBundledPathType Q) (c c' : k) (m : secondaryFunctionModuleObject M) :
     indexedTerm M q (c + c') m = indexedTerm M q c m + indexedTerm M q c' m := by
   obtain ⟨a, cc, p⟩ := q
   cases p with
@@ -99,7 +99,7 @@ theorem indexedTerm_add_scalar (q : Quiver.BundledPath Q) (c c' : k) (m : second
         TensorProduct.tmul_add]
 
 /-- An indexed term applied to zero in the auxiliary carrier is zero. -/
-theorem indexedTerm_zero_input (q : Quiver.BundledPath Q) (c : k) :
+theorem indexedTerm_zero_input (q : Quiver.AuxiliaryBundledPathType Q) (c : k) :
     indexedTerm M q c (0 : secondaryFunctionModuleObject M) = 0 := by
   obtain ⟨a, cc, p⟩ := q
   cases p with
@@ -107,7 +107,7 @@ theorem indexedTerm_zero_input (q : Quiver.BundledPath Q) (c : k) :
   | cons p e => rw [indexedTerm_cons]; simp only [TensorProduct.tmul_zero]
 
 /-- An indexed term is additive in its auxiliary carrier argument. -/
-theorem indexedTerm_add_input (q : Quiver.BundledPath Q) (c : k) (m m' : secondaryFunctionModuleObject M) :
+theorem indexedTerm_add_input (q : Quiver.AuxiliaryBundledPathType Q) (c : k) (m m' : secondaryFunctionModuleObject M) :
     indexedTerm M q c (m + m') = indexedTerm M q c m + indexedTerm M q c m' := by
   obtain ⟨a, cc, p⟩ := q
   cases p with
@@ -115,7 +115,7 @@ theorem indexedTerm_add_input (q : Quiver.BundledPath Q) (c : k) (m m' : seconda
   | cons p e => simp only [indexedTerm_cons, TensorProduct.tmul_add]
 
 /-- The scalar dependence of an indexed term, packaged as an additive homomorphism. -/
-noncomputable def indexedTermHom (q : Quiver.BundledPath Q) (m : secondaryFunctionModuleObject M) :
+noncomputable def indexedTermHom (q : Quiver.AuxiliaryBundledPathType Q) (m : secondaryFunctionModuleObject M) :
     k →+ secondaryAuxiliaryModuleObject M where
   toFun c := indexedTerm M q c m
   map_zero' := indexedTerm_zero_scalar M q m
@@ -123,18 +123,18 @@ noncomputable def indexedTermHom (q : Quiver.BundledPath Q) (m : secondaryFuncti
 
 /-- The action with a fixed auxiliary carrier element, packaged as an additive homomorphism. -/
 noncomputable def flipActionAddHom (m : secondaryFunctionModuleObject M) :
-    PathAlgebra k Q →+ secondaryAuxiliaryModuleObject M :=
+    AuxiliaryPathType k Q →+ secondaryAuxiliaryModuleObject M :=
   Finsupp.liftAddHom (fun q => indexedTermHom M q m)
 
 /-- The flipped action on a single-support element is the corresponding indexed term. -/
-@[simp] theorem flipActionAddHom_single (m : secondaryFunctionModuleObject M) (q : Quiver.BundledPath Q) (c : k) :
+@[simp] theorem flipActionAddHom_single (m : secondaryFunctionModuleObject M) (q : Quiver.AuxiliaryBundledPathType Q) (c : k) :
     flipActionAddHom M m (Finsupp.single q c) = indexedTerm M q c m := by
   change Finsupp.liftAddHom (fun q => indexedTermHom M q m) (Finsupp.single q c) = _
   rw [Finsupp.liftAddHom_apply_single]
   rfl
 
 /-- The flipped action associated with the zero auxiliary carrier element vanishes. -/
-theorem flipActionAddHom_zero (a : PathAlgebra k Q) :
+theorem flipActionAddHom_zero (a : AuxiliaryPathType k Q) :
     flipActionAddHom M (0 : secondaryFunctionModuleObject M) a = 0 := by
   induction a using Finsupp.induction_linear with
   | zero => rw [map_zero]
@@ -142,7 +142,7 @@ theorem flipActionAddHom_zero (a : PathAlgebra k Q) :
   | single q c => rw [flipActionAddHom_single, indexedTerm_zero_input]
 
 /-- The flipped action homomorphism is additive in its fixed auxiliary carrier argument. -/
-theorem flipActionAddHom_add (a : PathAlgebra k Q) (m m' : secondaryFunctionModuleObject M) :
+theorem flipActionAddHom_add (a : AuxiliaryPathType k Q) (m m' : secondaryFunctionModuleObject M) :
     flipActionAddHom M (m + m') a = flipActionAddHom M m a + flipActionAddHom M m' a := by
   induction a using Finsupp.induction_linear with
   | zero => rw [map_zero, map_zero, map_zero, add_zero]
@@ -152,7 +152,7 @@ theorem flipActionAddHom_add (a : PathAlgebra k Q) (m m' : secondaryFunctionModu
 
 /-- The additive map assigning to each owner element its additive action on the auxiliary carrier. -/
 noncomputable def actionAddHom :
-    PathAlgebra k Q →+ secondaryFunctionModuleObject M →+
+    AuxiliaryPathType k Q →+ secondaryFunctionModuleObject M →+
       secondaryAuxiliaryModuleObject M where
   toFun a :=
     { toFun := fun m => flipActionAddHom M m a
@@ -162,11 +162,11 @@ noncomputable def actionAddHom :
   map_add' a a' := by ext m; exact (flipActionAddHom M m).map_add a a'
 
 /-- Evaluating the action map agrees with evaluating its argument-flipped form. -/
-@[simp] theorem actionAddHom_apply_eq_flip (a : PathAlgebra k Q) (m : secondaryFunctionModuleObject M) :
+@[simp] theorem actionAddHom_apply_eq_flip (a : AuxiliaryPathType k Q) (m : secondaryFunctionModuleObject M) :
     actionAddHom M a m = flipActionAddHom M m a := rfl
 
 /-- Scalar multiplication in the acting argument may be transferred to the auxiliary carrier argument. -/
-theorem actionAddHom_smul (s : Q → k) (a : PathAlgebra k Q) (m : secondaryFunctionModuleObject M) :
+theorem actionAddHom_smul (s : Q → k) (a : AuxiliaryPathType k Q) (m : secondaryFunctionModuleObject M) :
     actionAddHom M ((s : Q → k) • a) m = actionAddHom M a ((s : Q → k) • m) := by
   simp only [actionAddHom_apply_eq_flip]
   induction a using Finsupp.induction_linear with
@@ -197,7 +197,7 @@ noncomputable def retractionAddHom :
   TensorProduct.liftAddHom (actionAddHom M) (actionAddHom_smul M)
 
 /-- The retraction of a pure tensor agrees with the flipped action evaluation. -/
-@[simp] theorem retractionAddHom_tmul (a : PathAlgebra k Q) (m : secondaryFunctionModuleObject M) :
+@[simp] theorem retractionAddHom_tmul (a : AuxiliaryPathType k Q) (m : secondaryFunctionModuleObject M) :
     retractionAddHom M (a ⊗ₜ[Q → k] m) = flipActionAddHom M m a := by
   change TensorProduct.liftAddHom (actionAddHom M) (actionAddHom_smul M) (a ⊗ₜ[Q → k] m) = _
   rw [TensorProduct.liftAddHom_tmul, actionAddHom_apply_eq_flip]
@@ -228,13 +228,13 @@ theorem retractionAddHom_leftInverse : Function.LeftInverse (retractionAddHom M)
                     mul_smul_comm, smul_smul, pathElement_mul_pathElement]
                   by_cases hdb : d = b'
                   · subst hdb
-                    rw [mulPath_of_composable, Finsupp.smul_single, smul_eq_mul, mul_one, retractionAddHom_tmul,
+                    rw [auxiliaryProduct_of_composable, Finsupp.smul_single, smul_eq_mul, mul_one, retractionAddHom_tmul,
                       flipActionAddHom_single,
-                      show (⟨a₀, c', path.comp e.toPath⟩ : Quiver.BundledPath Q)
+                      show (⟨a₀, c', path.comp e.toPath⟩ : Quiver.AuxiliaryBundledPathType Q)
                         = ⟨a₀, c', Quiver.Path.cons path e⟩ from by
                           rw [Quiver.Path.comp_toPath_eq_cons], indexedTerm_cons,
                       smul_tmul_single_eq_tmul_single_mul]
-                  · rw [mulPath_of_not_composable _ _ hdb, smul_zero, TensorProduct.zero_tmul, map_zero]
+                  · rw [auxiliaryProduct_of_not_composable _ _ hdb, smul_zero, TensorProduct.zero_tmul, map_zero]
                     exact (smul_tmul_single_eq_zero_of_ne M path e ca cv (fun h => hdb h.symm) m).symm
       | add y z hy hz => rw [TensorProduct.tmul_add, map_add, map_add, hy, hz]
   | add η ζ hη hζ => rw [map_add, map_add, hη, hζ]
@@ -243,4 +243,4 @@ theorem retractionAddHom_leftInverse : Function.LeftInverse (retractionAddHom M)
 theorem moduleHom_injective : Function.Injective (multiplicationHom M).hom :=
   (retractionAddHom_leftInverse M).injective
 
-end RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+end RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType

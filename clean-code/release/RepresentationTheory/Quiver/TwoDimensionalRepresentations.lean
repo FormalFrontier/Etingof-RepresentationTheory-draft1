@@ -213,7 +213,7 @@ theorem twoVertexRepresentation_zero_arrowMap [DecidableEq Q] (i j : Q) {a b : Q
 @[source_ref "Chapter3/Problem3.9.3" (role := primary)]
 noncomputable def zeroTwoVertexAuxiliaryEquiv [DecidableEq Q] (i j : Q) :
     AuxiliaryQuiverEquivData k Q (twoVertexRepresentation i j (0 : (Σ a b : Q, (a ⟶ b)) → k))
-      (AuxiliaryQuiverModuleData.binaryConstruction k Q (auxiliaryObjectAtVertex i) (auxiliaryObjectAtVertex j)) where
+      (AuxiliaryQuiverModuleData.auxiliaryBinaryConstruction k Q (auxiliaryObjectAtVertex i) (auxiliaryObjectAtVertex j)) where
   app _ := LinearEquiv.refl k _
   naturality e x := by
     have h1 : ((twoVertexRepresentation (k := k) i j (0 : (Σ a b : Q, (a ⟶ b)) → k)).map e) x = 0 := by

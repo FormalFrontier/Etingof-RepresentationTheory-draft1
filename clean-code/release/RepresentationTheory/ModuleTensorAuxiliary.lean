@@ -21,7 +21,7 @@ universe u
 open CategoryTheory TensorProduct
 open ModuleCat (restrictScalars)
 
-namespace RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+namespace RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
 
 variable {k Q : Type u} [Field k] [Quiver.{u + 1} Q] [DecidableEq Q] [Fintype Q]
 
@@ -158,7 +158,7 @@ theorem functionAction_zero : functionAction (0 : Q → k) = 0 := by
 
 /-! ## A module-associated auxiliary tensor type -/
 
-variable (M : ModuleCat.{u + 1} (PathAlgebra k Q))
+variable (M : ModuleCat.{u + 1} (AuxiliaryPathType k Q))
 
 /-- A second module object over the function ring associated to an object of the original module category. -/
 noncomputable abbrev secondaryFunctionModuleObject : ModuleCat.{u + 1} (Q → k) :=
@@ -221,12 +221,12 @@ noncomputable def functionModuleObject : ModuleCat.{u + 1} (Q → k) :=
 /-! ## An auxiliary morphism to the original object -/
 
 /-- An auxiliary module-category object associated to a given module-category object. -/
-noncomputable abbrev auxiliaryModuleObject : ModuleCat.{u + 1} (PathAlgebra k Q) :=
+noncomputable abbrev auxiliaryModuleObject : ModuleCat.{u + 1} (AuxiliaryPathType k Q) :=
   functor.obj (secondaryFunctionModuleObject M)
 
 /-- A second auxiliary module-category object associated to a given module-category object. -/
 noncomputable abbrev secondaryAuxiliaryModuleObject :
-    ModuleCat.{u + 1} (PathAlgebra k Q) :=
+    ModuleCat.{u + 1} (AuxiliaryPathType k Q) :=
   functor.obj (functionModuleObject M)
 
 /-- A morphism from the auxiliary associated module object to the original object. -/
@@ -241,7 +241,7 @@ theorem auxiliaryModuleToObject_eq_counitApp :
   rfl
 
 /-- The auxiliary morphism sends a pure tensor to the scalar action of its first factor on the second. -/
-theorem auxiliaryModuleToObject_tmul (a : PathAlgebra k Q)
+theorem auxiliaryModuleToObject_tmul (a : AuxiliaryPathType k Q)
     (m : secondaryFunctionModuleObject M) :
     (auxiliaryModuleToObject M).hom (a ⊗ₜ[Q → k] m) = a • (m : M) := by
   rw [auxiliaryModuleToObject, tensorHomOfHom_tmul]
@@ -255,7 +255,7 @@ noncomputable def auxiliaryBiadditiveMap :
       (restrictScalars (functionRingHom k Q)).obj (auxiliaryModuleObject M) where
   toFun v :=
     { toFun := fun m => edgeLinearMap v ⊗ₜ[Q → k] m -
-        (1 : PathAlgebra k Q) ⊗ₜ[Q → k]
+        (1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k]
           (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M)
       map_zero' := by simp
       map_add' := fun m m' => by
@@ -272,7 +272,7 @@ noncomputable def auxiliaryBiadditiveMap :
 theorem auxiliaryBiadditiveMap_apply (v : FieldQuiverAuxiliary k Q)
     (m : secondaryFunctionModuleObject M) :
     auxiliaryBiadditiveMap M v m = edgeLinearMap v ⊗ₜ[Q → k] m -
-      (1 : PathAlgebra k Q) ⊗ₜ[Q → k]
+      (1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k]
         (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M) := rfl
 
 /-- Moving a function scalar between the two arguments of the auxiliary biadditive map does not change its value. -/
@@ -305,17 +305,17 @@ noncomputable def auxiliaryComparisonAddHom :
     (m : secondaryFunctionModuleObject M) :
     auxiliaryComparisonAddHom M (v ⊗ₜ[Q → k] m) =
       edgeLinearMap v ⊗ₜ[Q → k] m -
-        (1 : PathAlgebra k Q) ⊗ₜ[Q → k]
+        (1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k]
           (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M) :=
   rfl
 
 /-- Tensoring one with the action of the displayed image of a function equals tensoring that image with the same element. -/
 theorem one_tmul_smul_eq_tmul (s : Q → k) (y : secondaryFunctionModuleObject M) :
-    (1 : PathAlgebra k Q) ⊗ₜ[Q → k]
+    (1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k]
         ((functionRingHom k Q s • (y : M)) : secondaryFunctionModuleObject M) =
       functionRingHom k Q s ⊗ₜ[Q → k] y := by
   conv_rhs => rw [show functionRingHom k Q s =
-    (s : Q → k) • (1 : PathAlgebra k Q) by
+    (s : Q → k) • (1 : AuxiliaryPathType k Q) by
       rw [smul_eq_mul_image, one_mul]]
   rw [TensorProduct.smul_tmul]
   rfl
@@ -352,7 +352,7 @@ noncomputable def auxiliaryComparisonHom :
     (m : secondaryFunctionModuleObject M) :
     (auxiliaryComparisonHom M).hom (v ⊗ₜ[Q → k] m) =
       edgeLinearMap v ⊗ₜ[Q → k] m -
-        (1 : PathAlgebra k Q) ⊗ₜ[Q → k]
+        (1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k]
           (edgeLinearMap v • (m : M) : secondaryFunctionModuleObject M) := by
   change auxiliaryComparisonAddHom M (v ⊗ₜ[Q → k] m) = _
   rw [auxiliaryComparisonAddHom_tmul]
@@ -363,7 +363,7 @@ noncomputable def auxiliaryDifferential :
   tensorHomOfHom (auxiliaryComparisonHom M)
 
 /-- The auxiliary differential on a nested pure tensor is the difference of the displayed multiplication and action tensors. -/
-@[simp] theorem auxiliaryDifferential_tmul (a : PathAlgebra k Q)
+@[simp] theorem auxiliaryDifferential_tmul (a : AuxiliaryPathType k Q)
     (v : FieldQuiverAuxiliary k Q) (m : secondaryFunctionModuleObject M) :
     (auxiliaryDifferential M).hom
         (a ⊗ₜ[Q → k] (v ⊗ₜ[Q → k] m : functionModuleObject M)) =
@@ -399,14 +399,14 @@ theorem auxiliaryDifferential_comp_toObject :
 theorem auxiliaryModuleToObject_epi : Epi (auxiliaryModuleToObject M) := by
   rw [ModuleCat.epi_iff_surjective]
   intro m
-  refine ⟨(1 : PathAlgebra k Q) ⊗ₜ[Q → k]
+  refine ⟨(1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k]
     (m : secondaryFunctionModuleObject M), ?_⟩
   rw [auxiliaryModuleToObject_tmul, one_smul]
 
 /-- An auxiliary short complex associated to a module-category object. -/
 noncomputable def auxiliaryShortComplex :
-    ShortComplex (ModuleCat.{u + 1} (PathAlgebra k Q)) :=
+    ShortComplex (ModuleCat.{u + 1} (AuxiliaryPathType k Q)) :=
   ShortComplex.mk (auxiliaryDifferential M) (auxiliaryModuleToObject M)
     (auxiliaryDifferential_comp_toObject M)
 
-end RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+end RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType

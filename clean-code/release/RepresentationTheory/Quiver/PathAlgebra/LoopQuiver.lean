@@ -10,7 +10,7 @@ import Mathlib.Combinatorics.Quiver.Path
 import Mathlib.Data.Fintype.Card
 import Mathlib.Data.Finite.Sigma
 import Mathlib.LinearAlgebra.Dimension.Constructions
-import RepresentationTheory.Quiver.PathAlgebra
+import RepresentationTheory.Quiver.AuxiliaryPathStructures
 import RepresentationTheory.Quiver.PathAlgebra.UniversalProperties
 
 import RepresentationTheory.ModuleFamilyNatMatrix
@@ -155,18 +155,18 @@ end AcyclicFinite
 theorem quiverAssociatedAlgebra_condition_at_one
     {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q] :
     RepresentationTheory.Auxiliary.RingData.auxiliaryRingNatProperty
-      (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q) 1 := by
+      (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q) 1 := by
   intro M
   have hSES :=
-    _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.auxiliaryShortComplex_shortExact M
+    _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.auxiliaryShortComplex_shortExact M
   haveI hP1 : Projective
-      (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.auxiliaryShortComplex M).X₁ :=
-    _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.projective_obj
-      (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.functionModuleObject M)
+      (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.auxiliaryShortComplex M).X₁ :=
+    _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.projective_obj
+      (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.functionModuleObject M)
   haveI hP2 : Projective
-      (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.auxiliaryShortComplex M).X₂ :=
-    _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.projective_obj
-      (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.secondaryFunctionModuleObject M)
+      (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.auxiliaryShortComplex M).X₂ :=
+    _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.projective_obj
+      (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.secondaryFunctionModuleObject M)
   exact hSES.hasProjectiveDimensionLT_X₃ 1
     (projective_iff_hasProjectiveDimensionLT_one.mp hP1)
     (hasProjectiveDimensionLT_of_ge _ 1 2 (by omega))
@@ -177,7 +177,7 @@ theorem quiverAssociatedAlgebra_associatedValue_eq_one_of_exists_arrow
     {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q]
     (hQ : ∃ a b : Q, Nonempty (a ⟶ b)) :
     RepresentationTheory.Auxiliary.RingData.auxiliaryRingENatInvariant
-      (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q) = 1 :=
+      (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q) = 1 :=
   RepresentationTheory.RingPredicateBounds.eq_one_of_predicate_one_and_not_predicate_zero
     quiverAssociatedAlgebra_condition_at_one
     (RepresentationTheory.QuiverAuxiliary.not_auxiliary_zero_of_exists_hom hQ)
@@ -210,7 +210,7 @@ def loopQuiverArrow (n : ℕ) (m : Fin n) : (LoopQuiver.vertex n ⟶ LoopQuiver.
 /-- An algebra homomorphism from a free algebra on a finite type to the displayed associated algebra. -/
 noncomputable def freeAlgebraToLoopQuiverAssociatedAlgebra (k : Type u) [Field k] (n : ℕ) :
     FreeAlgebra k (Fin n) →ₐ[k]
-      _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k (LoopQuiver.{u} n) :=
+      _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k (LoopQuiver.{u} n) :=
   FreeAlgebra.lift k fun m =>
     arrow k (LoopQuiver n) (i := LoopQuiver.vertex n) (j := LoopQuiver.vertex n)
       (loopQuiverArrow n m)
@@ -226,7 +226,7 @@ theorem freeAlgebraToLoopQuiverAssociatedAlgebra_apply_generator
 
 /-- There is a unique displayed map satisfying the stated values on vertex and arrow expressions. -/
 theorem existsUnique_associatedAlgebraToFreeAlgebra (k : Type u) [Field k] (n : ℕ) :
-    ∃! φ : _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+    ∃! φ : _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
         k (LoopQuiver.{u} n) →ₐ[k] FreeAlgebra k (Fin n),
       (∀ i, φ (vertex k (LoopQuiver n) i) = (1 : FreeAlgebra k (Fin n))) ∧
         (∀ (i j : LoopQuiver n) (e : i ⟶ j),
@@ -243,7 +243,7 @@ theorem existsUnique_associatedAlgebraToFreeAlgebra (k : Type u) [Field k] (n : 
 
 /-- An algebra homomorphism from the displayed associated algebra to a free algebra on a finite type. -/
 noncomputable def loopQuiverAssociatedAlgebraToFreeAlgebra (k : Type u) [Field k] (n : ℕ) :
-    _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+    _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
       k (LoopQuiver.{u} n) →ₐ[k] FreeAlgebra k (Fin n) :=
   (existsUnique_associatedAlgebraToFreeAlgebra k n).choose
 
@@ -286,9 +286,9 @@ theorem freeAlgebraToAssociatedAlgebra_comp_associatedAlgebraToFreeAlgebra_apply
     (k : Type u) [Field k] (n : ℕ) {a b : LoopQuiver.{u} n} (p : Quiver.Path a b) :
     freeAlgebraToLoopQuiverAssociatedAlgebra k n
         (loopQuiverAssociatedAlgebraToFreeAlgebra k n
-          (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.ofPath
+          (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.auxiliaryOfPath
             (k := k) ⟨a, b, p⟩)) =
-      _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.ofPath
+      _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.auxiliaryOfPath
         (k := k) ⟨a, b, p⟩ := by
   induction p with
   | nil =>
@@ -307,7 +307,7 @@ theorem freeAlgebraToAssociatedAlgebra_comp_associatedAlgebraToFreeAlgebra
     (freeAlgebraToLoopQuiverAssociatedAlgebra k n).comp
         (loopQuiverAssociatedAlgebraToFreeAlgebra k n) =
       AlgHom.id k
-        (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k (LoopQuiver.{u} n)) := by
+        (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k (LoopQuiver.{u} n)) := by
   ext f
   simp only [AlgHom.coe_comp, Function.comp_apply, AlgHom.coe_id, id_eq]
   induction f using Finsupp.induction_linear with
@@ -318,14 +318,14 @@ theorem freeAlgebraToAssociatedAlgebra_comp_associatedAlgebraToFreeAlgebra
     have hsc :
         (Finsupp.single
             (⟨a, b, p⟩ :
-              _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.BundledPath (LoopQuiver n)) c :
-          _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k (LoopQuiver n)) =
+              _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryBundledPathType (LoopQuiver n)) c :
+          _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k (LoopQuiver n)) =
         c •
-          _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.ofPath
+          _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.auxiliaryOfPath
             (k := k)
             (⟨a, b, p⟩ :
-              _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.BundledPath (LoopQuiver n)) := by
-      rw [_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.ofPath,
+              _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryBundledPathType (LoopQuiver n)) := by
+      rw [_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.auxiliaryOfPath,
         Finsupp.smul_single, smul_eq_mul, mul_one]
     rw [hsc, map_smul, map_smul,
       freeAlgebraToAssociatedAlgebra_comp_associatedAlgebraToFreeAlgebra_apply_path]
@@ -349,7 +349,7 @@ theorem associatedAlgebraToFreeAlgebra_comp_freeAlgebraToAssociatedAlgebra
 noncomputable def freeAlgebraEquivLoopQuiverAssociatedAlgebra
     (k : Type u) [Field k] (n : ℕ) :
     FreeAlgebra k (Fin n) ≃ₐ[k]
-      _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k (LoopQuiver.{u} n) :=
+      _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k (LoopQuiver.{u} n) :=
   AlgEquiv.ofAlgHom (freeAlgebraToLoopQuiverAssociatedAlgebra k n)
     (loopQuiverAssociatedAlgebraToFreeAlgebra k n)
     (freeAlgebraToAssociatedAlgebra_comp_associatedAlgebraToFreeAlgebra k n)
@@ -418,7 +418,7 @@ theorem freeAlgebra_associatedValue_eq_one
   have hQ : ∃ a b : LoopQuiver.{u} n, Nonempty (a ⟶ b) :=
     ⟨LoopQuiver.vertex n, LoopQuiver.vertex n, ⟨loopQuiverArrow n ⟨0, hn⟩⟩⟩
   let eRing : ULift.{u + 1} (FreeAlgebra k (Fin n)) ≃+*
-      _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+      _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
         k (LoopQuiver.{u} n) :=
     (ULift.ringEquiv).trans (freeAlgebraEquivLoopQuiverAssociatedAlgebra k n).toRingEquiv
   have h1 : RepresentationTheory.Auxiliary.RingData.auxiliaryRingNatProperty
@@ -446,17 +446,17 @@ theorem associatedMatrix_eq_quiverNatMatrix_of_pathIndexedLinearEquiv
     (hacyclic : ∀ (i : Q) (p : Quiver.Path i i), p = Quiver.Path.nil)
     [∀ i j : Q, Finite (i ⟶ j)]
     (P : Q → Type*) [∀ i, AddCommGroup (P i)]
-    [∀ i, Module (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q) (P i)]
+    [∀ i, Module (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q) (P i)]
     [∀ i, Module k (P i)]
     [∀ i, SMulCommClass
-      (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q) k (P i)]
+      (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q) k (P i)]
     (hcover : ∀ i j : Q,
       Nonempty
-        ((P i →ₗ[_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q] P j) ≃ₗ[k]
+        ((P i →ₗ[_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q] P j) ≃ₗ[k]
           (Quiver.Path i j →₀ k))) :
     RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix
         (k := k)
-        (A := _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q) P =
+        (A := _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q) P =
       quiverNatMatrix Q := by
   haveI : ∀ i j : Q, Finite (Quiver.Path i j) :=
     fun i j => finite_paths_between_of_no_nontrivial_cycles hacyclic i j
@@ -474,14 +474,14 @@ theorem specializedAssociatedMatrix_eq_quiverNatMatrix
     [∀ i j : Q, Finite (i ⟶ j)] :
     RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix
         (k := k)
-        (A := _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q)
-        (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.AuxiliaryVertexSpace
+        (A := _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q)
+        (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.AuxiliaryVertexSpace
           k Q) =
       quiverNatMatrix Q :=
   associatedMatrix_eq_quiverNatMatrix_of_pathIndexedLinearEquiv hacyclic
-    (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.AuxiliaryVertexSpace k Q)
+    (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.AuxiliaryVertexSpace k Q)
     (fun i j =>
-      ⟨_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.linearMapEquivPathFinsupp
+      ⟨_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.linearMapEquivPathFinsupp
         k Q i j⟩)
 
 end RepresentationTheory.Quiver.PathAlgebra.LoopQuiver

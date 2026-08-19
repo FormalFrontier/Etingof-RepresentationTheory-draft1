@@ -15,7 +15,7 @@ set_option linter.style.whitespace false
 
 namespace RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate
 
-/-- The enclosing module predicate holds for every simple module. -/
+/-- The enclosing auxiliary predicate holds for every simple module. -/
 @[source_ref "Chapter2/Discussion_after_Theorem2.1.2" (role := primary),
   source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable" (role := primary),
   source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived01" (role := primary),

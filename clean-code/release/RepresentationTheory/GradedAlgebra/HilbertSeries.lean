@@ -9,7 +9,7 @@ import Mathlib.RingTheory.MvPolynomial.Basic
 import Mathlib.LinearAlgebra.ExteriorPower.Basis
 import Mathlib.RingTheory.PowerSeries.WellKnown
 import Mathlib.Algebra.Order.Antidiag.FinsuppEquiv
-import RepresentationTheory.Quiver.PathAlgebra
+import RepresentationTheory.Quiver.AuxiliaryPathStructures
 import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.GradedAlgebra.HilbertSeries
@@ -179,8 +179,8 @@ theorem powerSeries_choose_eq_one_add_X_pow (k : Type*) [Field k] (m : ℕ) :
 /-- A natural-number-indexed submodule associated with a quiver over a field. -/
 @[source_ref "Chapter2/Problem2.8.11" (role := supporting)]
 noncomputable def quiverDegreeSubmodule (k : Type*) [Field k] (Q : Type*) [Quiver Q]
-    [DecidableEq Q] (n : ℕ) : Submodule k (_root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra k Q) :=
-  Finsupp.supported k k {p : _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.BundledPath Q | p.2.2.length = n}
+    [DecidableEq Q] (n : ℕ) : Submodule k (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q) :=
+  Finsupp.supported k k {p : _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryBundledPathType Q | p.2.2.length = n}
 
 /-- The natural-number adjacency matrix of a quiver with finitely many arrows between each pair of vertices. -/
 def adjacencyMatrix (Q : Type*) [Quiver Q] [∀ i j : Q, Fintype (i ⟶ j)] :
@@ -267,19 +267,19 @@ theorem finrank_quiverDegreeSubmodule (k : Type*) [Field k]
     Module.finrank k (quiverDegreeSubmodule k Q n) =
       ∑ i : Q, ∑ j : Q, Nat.card {p : Quiver.Path i j // p.length = n} := by
   let T := Σ i : Q, Σ j : Q, {p : Quiver.Path i j // p.length = n}
-  let e : {p : _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.BundledPath Q // p.2.2.length = n} ≃ T := {
+  let e : {p : _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryBundledPathType Q // p.2.2.length = n} ≃ T := {
     toFun p := ⟨p.1.1, p.1.2.1, ⟨p.1.2.2, p.2⟩⟩
     invFun p := ⟨⟨p.1, p.2.1, p.2.2.1⟩, p.2.2.2⟩
     left_inv p := by rcases p with ⟨⟨i, j, p⟩, hp⟩; rfl
     right_inv p := by rcases p with ⟨i, j, p, hp⟩; rfl }
-  let b : Module.Basis {p : _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.BundledPath Q // p.2.2.length = n} k
+  let b : Module.Basis {p : _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryBundledPathType Q // p.2.2.length = n} k
       (quiverDegreeSubmodule k Q n) :=
     Finsupp.basisSingleOne.map
       (Finsupp.supportedEquivFinsupp (R := k)
-        {p : _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.BundledPath Q | p.2.2.length = n}).symm
+        {p : _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryBundledPathType Q | p.2.2.length = n}).symm
   calc
     Module.finrank k (quiverDegreeSubmodule k Q n) =
-        Nat.card {p : _root_.RepresentationTheory.Quiver.PathAlgebra.Quiver.BundledPath Q // p.2.2.length = n} :=
+        Nat.card {p : _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryBundledPathType Q // p.2.2.length = n} :=
       Module.finrank_eq_nat_card_basis b
     _ = Nat.card T := Nat.card_congr e
     _ = ∑ i : Q, ∑ j : Q, Nat.card {p : Quiver.Path i j // p.length = n} := by

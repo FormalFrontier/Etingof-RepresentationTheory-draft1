@@ -5,7 +5,7 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
-import RepresentationTheory.Algebra.Quiver.Representation.Constructions
+import RepresentationTheory.Algebra.Quiver.AuxiliaryConstructions
 import RepresentationTheory.QuiverRepresentation.Auxiliary
 import RepresentationTheory.QuiverRepresentationQuotientTransform
 import RepresentationTheory.Quiver.Finite
@@ -46,14 +46,14 @@ variable {k : Type*} [Field k] {n : ℕ} [Q : Quiver (Fin n)]
 
 /-- At each vertex, an auxiliary product representation has the product of the component vertex spaces. -/
 @[simp] theorem auxiliaryProduct_obj (V₁ V₂ : AuxiliaryQuiverModuleData k (Fin n)) (v : Fin n) :
-    (binaryConstruction k (Fin n) V₁ V₂).obj v = (V₁.obj v × V₂.obj v) := rfl
+    (auxiliaryBinaryConstruction k (Fin n) V₁ V₂).obj v = (V₁.obj v × V₂.obj v) := rfl
 
 
 
 /-- The arrow map of an auxiliary product representation is the product of the component arrow maps. -/
 @[simp] theorem auxiliaryProduct_map (V₁ V₂ : AuxiliaryQuiverModuleData k (Fin n))
     {a b : Fin n} (f : a ⟶ b) :
-    (binaryConstruction k (Fin n) V₁ V₂).map f = (V₁.map f).prodMap (V₂.map f) := rfl
+    (auxiliaryBinaryConstruction k (Fin n) V₁ V₂).map f = (V₁.map f).prodMap (V₂.map f) := rfl
 
 
 /-- A vertexwise linear equivalence commuting with every quiver arrow also commutes after evaluation on a vector. -/
@@ -100,7 +100,7 @@ theorem Related.symm {V W : AuxiliaryQuiverModuleData k (Fin n)}
 /-- Auxiliary relations between two pairs of quiver representations induce a relation between their products. -/
 theorem Related.prod {V₁ V₂ W₁ W₂ : AuxiliaryQuiverModuleData k (Fin n)}
     (h₁ : V₁.Related W₁) (h₂ : V₂.Related W₂) :
-    (binaryConstruction k (Fin n) V₁ V₂).Related (binaryConstruction k (Fin n) W₁ W₂) := by
+    (auxiliaryBinaryConstruction k (Fin n) V₁ V₂).Related (auxiliaryBinaryConstruction k (Fin n) W₁ W₂) := by
   obtain ⟨e₁, he₁⟩ := h₁
   obtain ⟨e₂, he₂⟩ := h₂
   refine ⟨fun v => (e₁ v).prodCongr (e₂ v), ?_⟩
@@ -144,7 +144,7 @@ theorem auxiliaryRelation_zero_of_subsingleton (V : AuxiliaryQuiverModuleData k 
 /-- Combines a list of auxiliary quiver representations into one representation. -/
 noncomputable def auxiliaryListProduct (L : List (AuxiliaryQuiverModuleData k (Fin n))) :
     AuxiliaryQuiverModuleData k (Fin n) :=
-  L.foldr (binaryConstruction k (Fin n)) auxiliaryZero
+  L.foldr (auxiliaryBinaryConstruction k (Fin n)) auxiliaryZero
 
 /-- The auxiliary product of the empty list is the auxiliary zero representation. -/
 @[simp] theorem auxiliaryListProduct_nil :
@@ -153,12 +153,12 @@ noncomputable def auxiliaryListProduct (L : List (AuxiliaryQuiverModuleData k (F
 /-- The auxiliary product of a nonempty list is the product of its head with the product of its tail. -/
 @[simp] theorem auxiliaryListProduct_cons (a : AuxiliaryQuiverModuleData k (Fin n))
     (L : List (AuxiliaryQuiverModuleData k (Fin n))) :
-    auxiliaryListProduct (a :: L) = binaryConstruction k (Fin n) a (auxiliaryListProduct L) := rfl
+    auxiliaryListProduct (a :: L) = auxiliaryBinaryConstruction k (Fin n) a (auxiliaryListProduct L) := rfl
 
 
 /-- An auxiliary representation is related to its product with the auxiliary zero representation on the right. -/
 theorem auxiliaryProduct_zero_right (V : AuxiliaryQuiverModuleData k (Fin n)) :
-    V.Related (binaryConstruction k (Fin n) V auxiliaryZero) := by
+    V.Related (auxiliaryBinaryConstruction k (Fin n) V auxiliaryZero) := by
   refine ⟨fun v => (LinearEquiv.prodUnique (R := k) (M := V.obj v) (M₂ := PUnit)).symm, ?_⟩
   intro a b f
   ext x ; rfl
@@ -166,7 +166,7 @@ theorem auxiliaryProduct_zero_right (V : AuxiliaryQuiverModuleData k (Fin n)) :
 
 /-- The product of the auxiliary zero representation with a representation is related to that representation. -/
 theorem auxiliaryProduct_zero_left (V : AuxiliaryQuiverModuleData k (Fin n)) :
-    (binaryConstruction k (Fin n) auxiliaryZero V).Related V := by
+    (auxiliaryBinaryConstruction k (Fin n) auxiliaryZero V).Related V := by
   refine ⟨fun v => LinearEquiv.uniqueProd (R := k) (M := V.obj v) (M₂ := PUnit), ?_⟩
   intro a b f
   ext x ; rfl
@@ -174,8 +174,8 @@ theorem auxiliaryProduct_zero_left (V : AuxiliaryQuiverModuleData k (Fin n)) :
 
 /-- The two parenthesizations of a triple auxiliary product are related. -/
 theorem auxiliaryProduct_assoc (A B C : AuxiliaryQuiverModuleData k (Fin n)) :
-    (binaryConstruction k (Fin n) (binaryConstruction k (Fin n) A B) C).Related
-      (binaryConstruction k (Fin n) A (binaryConstruction k (Fin n) B C)) := by
+    (auxiliaryBinaryConstruction k (Fin n) (auxiliaryBinaryConstruction k (Fin n) A B) C).Related
+      (auxiliaryBinaryConstruction k (Fin n) A (auxiliaryBinaryConstruction k (Fin n) B C)) := by
   refine ⟨fun v => LinearEquiv.prodAssoc k (A.obj v) (B.obj v) (C.obj v), ?_⟩
   intro a b f
   ext x ; rfl
@@ -184,7 +184,7 @@ theorem auxiliaryProduct_assoc (A B C : AuxiliaryQuiverModuleData k (Fin n)) :
 /-- The product of the auxiliary list products is related to the auxiliary product of the appended lists. -/
 theorem auxiliaryListProduct_append
     (LA LB : List (AuxiliaryQuiverModuleData k (Fin n))) :
-    (binaryConstruction k (Fin n) (auxiliaryListProduct LA) (auxiliaryListProduct LB)).Related
+    (auxiliaryBinaryConstruction k (Fin n) (auxiliaryListProduct LA) (auxiliaryListProduct LB)).Related
       (auxiliaryListProduct (LA ++ LB)) := by
   induction LA with
   | nil =>
@@ -224,7 +224,7 @@ theorem auxiliaryProduct_subobjects_of_isCompl (V : AuxiliaryQuiverModuleData k 
     (hW₁ : ∀ {a b : Fin n} (e : a ⟶ b), ∀ x ∈ W₁ a, V.map e x ∈ W₁ b)
     (hW₂ : ∀ {a b : Fin n} (e : a ⟶ b), ∀ x ∈ W₂ a, V.map e x ∈ W₂ b)
     (hc : ∀ v, IsCompl (W₁ v) (W₂ v)) :
-    V.Related (binaryConstruction k (Fin n) (auxiliarySubobject V W₁ hW₁) (auxiliarySubobject V W₂ hW₂)) := by
+    V.Related (auxiliaryBinaryConstruction k (Fin n) (auxiliarySubobject V W₁ hW₁) (auxiliarySubobject V W₂ hW₂)) := by
   letI acg : ∀ v, AddCommGroup (V.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
 
 
@@ -241,7 +241,7 @@ theorem auxiliaryProduct_subobjects_of_isCompl (V : AuxiliaryQuiverModuleData k 
   have hpe_apply : ∀ v (y : ↥(W₁ v) × ↥(W₂ v)), pe v y = sc v y := fun v y => rfl
 
   have hnat : ∀ {a b : Fin n} (f : a ⟶ b) (y : ↥(W₁ a) × ↥(W₂ a)),
-      sc b ((binaryConstruction k (Fin n) (auxiliarySubobject V W₁ hW₁) (auxiliarySubobject V W₂ hW₂)).map f y)
+      sc b ((auxiliaryBinaryConstruction k (Fin n) (auxiliarySubobject V W₁ hW₁) (auxiliarySubobject V W₂ hW₂)).map f y)
         = V.map f (sc a y) := by
     intro a b f y
     simp only [sc]

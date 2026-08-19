@@ -17,7 +17,7 @@ set_option backward.isDefEq.respectTransparency false
 
 This module constructs a tensor functor from modules over the function ring to modules over the
 path algebra, proves its adjunction with scalar restriction along
-`RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.functionRingHom`, and shows that its
+`RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.functionRingHom`, and shows that its
 objects are projective.
 -/
 
@@ -25,7 +25,7 @@ universe u
 
 open CategoryTheory TensorProduct
 
-namespace RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+namespace RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
 
 variable {k : Type u} {Q : Type u} [Field k] [Quiver.{u + 1} Q] [DecidableEq Q] [Fintype Q]
 
@@ -37,20 +37,20 @@ theorem scalarImages_commute (s t : Q → k) :
   rw [← map_mul, ← map_mul, mul_comm]
 
 /-- The ring homomorphism from the function ring into the opposite target algebra. -/
-noncomputable def toOppositeRingHom : (Q → k) →+* (PathAlgebra k Q)ᵐᵒᵖ :=
+noncomputable def toOppositeRingHom : (Q → k) →+* (AuxiliaryPathType k Q)ᵐᵒᵖ :=
   (functionRingHom k Q).toOpposite scalarImages_commute
 
 /-- The module structure of the target algebra over the function ring. -/
-noncomputable instance moduleStructure : Module (Q → k) (PathAlgebra k Q) :=
-  Module.compHom (PathAlgebra k Q) (toOppositeRingHom (k := k) (Q := Q))
+noncomputable instance moduleStructure : Module (Q → k) (AuxiliaryPathType k Q) :=
+  Module.compHom (AuxiliaryPathType k Q) (toOppositeRingHom (k := k) (Q := Q))
 
 /-- Function scalar multiplication on the algebra equals right multiplication by the corresponding
 image. -/
-theorem smul_eq_mul_image (s : Q → k) (a : PathAlgebra k Q) :
+theorem smul_eq_mul_image (s : Q → k) (a : AuxiliaryPathType k Q) :
     s • a = a * functionRingHom k Q s := rfl
 
 /-- Scalar multiplication by functions commutes with multiplication in the target algebra. -/
-instance smulCommClass : SMulCommClass (Q → k) (PathAlgebra k Q) (PathAlgebra k Q) where
+instance smulCommClass : SMulCommClass (Q → k) (AuxiliaryPathType k Q) (AuxiliaryPathType k Q) where
   smul_comm s a b := by
     simp only [smul_eq_mul_image, smul_eq_mul, mul_assoc]
 
@@ -58,8 +58,8 @@ variable (k Q)
 
 /-- Forms the target-algebra module associated with a module over the function ring. -/
 noncomputable def obj (M : ModuleCat.{u + 1} (Q → k)) :
-    ModuleCat.{u + 1} (PathAlgebra k Q) :=
-  ModuleCat.of (PathAlgebra k Q) (TensorProduct (Q → k) (PathAlgebra k Q) (M : Type (u + 1)))
+    ModuleCat.{u + 1} (AuxiliaryPathType k Q) :=
+  ModuleCat.of (AuxiliaryPathType k Q) (TensorProduct (Q → k) (AuxiliaryPathType k Q) (M : Type (u + 1)))
 
 variable {k Q}
 
@@ -67,10 +67,10 @@ variable {k Q}
 noncomputable def map {M M' : ModuleCat.{u + 1} (Q → k)} (l : M ⟶ M') :
     obj k Q M ⟶ obj k Q M' :=
   ModuleCat.ofHom
-    { __ := TensorProduct.map (LinearMap.id (R := Q → k) (M := PathAlgebra k Q)) l.hom
+    { __ := TensorProduct.map (LinearMap.id (R := Q → k) (M := AuxiliaryPathType k Q)) l.hom
       map_smul' := fun a x => by
-        change TensorProduct.map (LinearMap.id (R := Q → k) (M := PathAlgebra k Q)) l.hom (a • x)
-          = a • TensorProduct.map (LinearMap.id (R := Q → k) (M := PathAlgebra k Q)) l.hom x
+        change TensorProduct.map (LinearMap.id (R := Q → k) (M := AuxiliaryPathType k Q)) l.hom (a • x)
+          = a • TensorProduct.map (LinearMap.id (R := Q → k) (M := AuxiliaryPathType k Q)) l.hom x
         induction x with
         | zero => simp
         | tmul b m =>
@@ -79,12 +79,12 @@ noncomputable def map {M M' : ModuleCat.{u + 1} (Q → k)} (l : M ⟶ M') :
 
 /-- The induced map sends a pure tensor by applying the original morphism to its second factor. -/
 @[simp]
-theorem map_tmul {M M' : ModuleCat.{u + 1} (Q → k)} (l : M ⟶ M') (a : PathAlgebra k Q)
+theorem map_tmul {M M' : ModuleCat.{u + 1} (Q → k)} (l : M ⟶ M') (a : AuxiliaryPathType k Q)
     (m : M) : (map l).hom (a ⊗ₜ[Q → k] m) = a ⊗ₜ[Q → k] l.hom m := rfl
 
 /-- The functor from modules over the function ring to modules over the target algebra. -/
 noncomputable def functor :
-    ModuleCat.{u + 1} (Q → k) ⥤ ModuleCat.{u + 1} (PathAlgebra k Q) where
+    ModuleCat.{u + 1} (Q → k) ⥤ ModuleCat.{u + 1} (AuxiliaryPathType k Q) where
   obj := obj k Q
   map := map
   map_id M := by
@@ -104,7 +104,7 @@ noncomputable def functor :
 
 section Adjunction
 
-variable {M M' : ModuleCat.{u + 1} (Q → k)} {N N' : ModuleCat.{u + 1} (PathAlgebra k Q)}
+variable {M M' : ModuleCat.{u + 1} (Q → k)} {N N' : ModuleCat.{u + 1} (AuxiliaryPathType k Q)}
 
 open ModuleCat (restrictScalars)
 
@@ -121,8 +121,8 @@ noncomputable def homOfTensorHom (g : functor.obj M ⟶ N) :
     { toFun := fun m => g.hom (1 ⊗ₜ[Q → k] m)
       map_add' := fun m m' => by rw [tmul_add, map_add]
       map_smul' := fun s m => by
-        have key : (1 : PathAlgebra k Q) ⊗ₜ[Q → k] (s • (m : M))
-            = functionRingHom k Q s • ((1 : PathAlgebra k Q) ⊗ₜ[Q → k] (m : M)) := by
+        have key : (1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k] (s • (m : M))
+            = functionRingHom k Q s • ((1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k] (m : M)) := by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one, ← TensorProduct.smul_tmul,
             smul_eq_mul_image, one_mul]
         change (g.hom (1 ⊗ₜ[Q → k] (s • m)) : N)
@@ -132,7 +132,7 @@ noncomputable def homOfTensorHom (g : functor.obj M ⟶ N) :
 /-- Packages a scalar-restricted morphism as an additive map from algebra elements to maps of
 carriers. -/
 noncomputable def actionMap (h : M ⟶ (restrictScalars (functionRingHom k Q)).obj N) :
-    PathAlgebra k Q →+ (M →+ N) where
+    AuxiliaryPathType k Q →+ (M →+ N) where
   toFun a :=
     { toFun := fun m => a • (h.hom m : N)
       map_zero' := by simp
@@ -144,11 +144,11 @@ noncomputable def actionMap (h : M ⟶ (restrictScalars (functionRingHom k Q)).o
 /-- The packaged map sends an algebra element and a module element to the scalar action on the
 morphism value. -/
 theorem actionMap_apply (h : M ⟶ (restrictScalars (functionRingHom k Q)).obj N)
-    (a : PathAlgebra k Q) (m : M) : actionMap h a m = a • (h.hom m : N) := rfl
+    (a : AuxiliaryPathType k Q) (m : M) : actionMap h a m = a • (h.hom m : N) := rfl
 
 /-- The packaged action map is balanced with respect to function scalars. -/
 theorem actionMap_smul (h : M ⟶ (restrictScalars (functionRingHom k Q)).obj N)
-    (s : Q → k) (a : PathAlgebra k Q) (m : M) :
+    (s : Q → k) (a : AuxiliaryPathType k Q) (m : M) :
     actionMap h (s • a) m = actionMap h a (s • m) := by
   rw [actionMap_apply, actionMap_apply, hom_apply_smul, smul_eq_mul_image,
     SemigroupAction.mul_smul]
@@ -173,7 +173,7 @@ noncomputable def tensorHomOfHom (h : M ⟶ (restrictScalars (functionRingHom k 
 /-- Describes the constructed morphism on pure tensors. -/
 @[simp]
 theorem tensorHomOfHom_tmul (h : M ⟶ (restrictScalars (functionRingHom k Q)).obj N)
-    (a : PathAlgebra k Q) (m : M) :
+    (a : AuxiliaryPathType k Q) (m : M) :
     (tensorHomOfHom h).hom (a ⊗ₜ[Q → k] m) = a • (h.hom m : N) := rfl
 
 /-- Evaluates the constructed morphism at an element of the source module. -/
@@ -230,4 +230,4 @@ theorem projective_obj (M : ModuleCat.{u + 1} (Q → k)) :
 
 end Adjunction
 
-end RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+end RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType

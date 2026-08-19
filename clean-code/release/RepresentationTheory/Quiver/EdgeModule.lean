@@ -18,7 +18,7 @@ functions and relates them to multiplication in the path algebra.
 
 universe u
 
-namespace RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+namespace RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
 
 variable {k : Type u} {Q : Type u} [Field k] [Quiver.{u + 1} Q] [DecidableEq Q]
 
@@ -34,7 +34,7 @@ def source (x : Edge Q) : Q := x.1
 def target (x : Edge Q) : Q := x.2.1
 
 /-- Converts an edge to the corresponding path datum. -/
-def toPath (x : Edge Q) : Quiver.BundledPath Q := ⟨x.1, x.2.1, x.2.2.toPath⟩
+def toPath (x : Edge Q) : Quiver.AuxiliaryBundledPathType Q := ⟨x.1, x.2.1, x.2.2.toPath⟩
 
 omit [DecidableEq Q] in
 /-- The source of a constructed edge is its first vertex. -/
@@ -49,10 +49,10 @@ omit [DecidableEq Q] in
 end Edge
 
 /-- Maps an edge into the ambient algebra. -/
-noncomputable def ofEdge (x : Edge Q) : Quiver.PathAlgebra k Q := ofPath x.toPath
+noncomputable def ofEdge (x : Edge Q) : Quiver.AuxiliaryPathType k Q := auxiliaryOfPath x.toPath
 
 /-- The linear map induced by sending each edge to its algebra element. -/
-noncomputable def edgeLinearMap : (Edge Q →₀ k) →ₗ[k] Quiver.PathAlgebra k Q :=
+noncomputable def edgeLinearMap : (Edge Q →₀ k) →ₗ[k] Quiver.AuxiliaryPathType k Q :=
   Finsupp.linearCombination k ofEdge
 
 /-- The edge linear map sends a singleton to the corresponding scalar multiple. -/
@@ -61,9 +61,9 @@ noncomputable def edgeLinearMap : (Edge Q →₀ k) →ₗ[k] Quiver.PathAlgebra
   rw [edgeLinearMap, Finsupp.linearCombination_single]
 
 /-- Multiplication of two path elements agrees with their prescribed product. -/
-theorem pathElement_mul_pathElement (p q : Quiver.BundledPath Q) :
-    (ofPath p : Quiver.PathAlgebra k Q) * ofPath q = mulPath p q := by
-  rw [ofPath, ofPath, single_mul_single, one_mul, one_smul]
+theorem pathElement_mul_pathElement (p q : Quiver.AuxiliaryBundledPathType Q) :
+    (auxiliaryOfPath p : Quiver.AuxiliaryPathType k Q) * auxiliaryOfPath q = auxiliaryProduct p q := by
+  rw [auxiliaryOfPath, auxiliaryOfPath, single_mul_single, one_mul, one_smul]
 
 variable (k Q) in
 /-- Scales each edge coefficient by a function evaluated at its weight. -/
@@ -129,20 +129,20 @@ theorem source_target_scale_commute (s t : Q → k) (v : Edge Q →₀ k) :
 
 /-- Left multiplication by a vertex idempotent selects edges with that source. -/
 theorem sourceIdempotent_mul (i : Q) (x : Edge Q) :
-    (ofPath (⟨i, i, Quiver.Path.nil⟩ : Quiver.BundledPath Q) : Quiver.PathAlgebra k Q) *
+    (auxiliaryOfPath (⟨i, i, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q) : Quiver.AuxiliaryPathType k Q) *
         ofEdge x =
       if i = x.source then ofEdge x else 0 := by
   obtain ⟨a, b, e⟩ := x
-  rw [ofEdge, Edge.toPath, pathElement_mul_pathElement, mulPath_vertexPath]
+  rw [ofEdge, Edge.toPath, pathElement_mul_pathElement, auxiliaryProduct_vertexPath]
   rfl
 
 /-- Right multiplication by a vertex idempotent selects edges with that target. -/
 theorem mul_targetIdempotent (i : Q) (x : Edge Q) :
     ofEdge x *
-        (ofPath (⟨i, i, Quiver.Path.nil⟩ : Quiver.BundledPath Q) : Quiver.PathAlgebra k Q) =
+        (auxiliaryOfPath (⟨i, i, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q) : Quiver.AuxiliaryPathType k Q) =
       if x.target = i then ofEdge x else 0 := by
   obtain ⟨a, b, e⟩ := x
-  rw [ofEdge, Edge.toPath, pathElement_mul_pathElement, mulPath_pathVertex]
+  rw [ofEdge, Edge.toPath, pathElement_mul_pathElement, auxiliaryProduct_pathVertex]
   rfl
 
 variable [Fintype Q]
@@ -151,13 +151,13 @@ variable [Fintype Q]
 theorem vertexFunction_mul (s : Q → k) (x : Edge Q) :
     functionRingHom k Q s * ofEdge x = s x.source • ofEdge (k := k) x := by
   have hsingle : ∀ i : Q,
-      (Finsupp.single (⟨i, i, Quiver.Path.nil⟩ : Quiver.BundledPath Q) (s i) :
-          Quiver.PathAlgebra k Q) =
-        s i • (ofPath (⟨i, i, Quiver.Path.nil⟩ : Quiver.BundledPath Q)) := by
-    intro i; rw [ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
+      (Finsupp.single (⟨i, i, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q) (s i) :
+          Quiver.AuxiliaryPathType k Q) =
+        s i • (auxiliaryOfPath (⟨i, i, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q)) := by
+    intro i; rw [auxiliaryOfPath, Finsupp.smul_single, smul_eq_mul, mul_one]
   rw [functionRingHom_apply, Finset.sum_congr rfl fun i _ => hsingle i, Finset.sum_mul]
   have hterm : ∀ i : Q,
-      (s i • ofPath (⟨i, i, Quiver.Path.nil⟩ : Quiver.BundledPath Q)) * ofEdge x =
+      (s i • auxiliaryOfPath (⟨i, i, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q)) * ofEdge x =
         if i = x.source then s i • ofEdge (k := k) x else 0 := by
     intro i
     rw [smul_mul, sourceIdempotent_mul]
@@ -169,13 +169,13 @@ theorem vertexFunction_mul (s : Q → k) (x : Edge Q) :
 theorem mul_vertexFunction (s : Q → k) (x : Edge Q) :
     ofEdge x * functionRingHom k Q s = s x.target • ofEdge (k := k) x := by
   have hsingle : ∀ i : Q,
-      (Finsupp.single (⟨i, i, Quiver.Path.nil⟩ : Quiver.BundledPath Q) (s i) :
-          Quiver.PathAlgebra k Q) =
-        s i • (ofPath (⟨i, i, Quiver.Path.nil⟩ : Quiver.BundledPath Q)) := by
-    intro i; rw [ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
+      (Finsupp.single (⟨i, i, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q) (s i) :
+          Quiver.AuxiliaryPathType k Q) =
+        s i • (auxiliaryOfPath (⟨i, i, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q)) := by
+    intro i; rw [auxiliaryOfPath, Finsupp.smul_single, smul_eq_mul, mul_one]
   rw [functionRingHom_apply, Finset.sum_congr rfl fun i _ => hsingle i, Finset.mul_sum]
   have hterm : ∀ i : Q,
-      ofEdge x * (s i • ofPath (⟨i, i, Quiver.Path.nil⟩ : Quiver.BundledPath Q)) =
+      ofEdge x * (s i • auxiliaryOfPath (⟨i, i, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q)) =
         if x.target = i then s i • ofEdge (k := k) x else 0 := by
     intro i
     rw [mul_smul, mul_targetIdempotent]
@@ -183,4 +183,4 @@ theorem mul_vertexFunction (s : Q → k) (x : Edge Q) :
   rw [Finset.sum_congr rfl fun i _ => hterm i, Finset.sum_ite_eq Finset.univ x.target,
     if_pos (Finset.mem_univ _)]
 
-end RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra
+end RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType
