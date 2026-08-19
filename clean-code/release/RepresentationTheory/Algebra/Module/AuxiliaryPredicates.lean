@@ -10,9 +10,6 @@ import RepresentationTheory.LinearAlgebra.ModuleDecompositions
 
 /-! # Auxiliary module predicates -/
 
-set_option linter.dupNamespace false
-set_option linter.style.whitespace false
-
 namespace RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate
 
 /-- The enclosing auxiliary predicate holds for every simple module. -/

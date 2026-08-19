@@ -12,8 +12,6 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.LinearAlgebra.TensorAlgebra.AuxiliaryTypes
 
-set_option linter.dupNamespace false
-
 open scoped DirectSum TensorProduct
 
 universe u v w
