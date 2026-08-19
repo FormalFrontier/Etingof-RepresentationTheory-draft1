@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:c8e4d6239fb06712f5e9",
-      "role": "primary",
-      "rationale": "The displayed type states that every root has all coordinates nonnegative or all nonpositive."
+      "role": "supporting",
+      "rationale": "It proves the coordinate dichotomy under an explicit Dynkin-diagram hypothesis absent from the displayed source claim."
     }
   ]
 }
