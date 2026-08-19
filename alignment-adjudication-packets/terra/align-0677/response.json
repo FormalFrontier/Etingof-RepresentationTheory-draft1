@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:9cc6cb6c4896e5e70510",
-      "rationale": "The formal type directly states that Ext1Vanishes for simpleRep i and simpleRep j is equivalent to the arrow type Hom i j being empty, matching the vanishing clause.",
-      "role": "primary"
+      "rationale": "The formal type states the vanishing criterion, but it does not itself state the Ext¹ dimension formula, so it covers only one component of the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:fabdf01a1c40503b5030",
-      "rationale": "The formal type directly equates the finrank of Ext1Simple i j with the cardinality of Hom i j, matching the dimension-equals-number-of-arrows clause.",
-      "role": "primary"
+      "rationale": "The formal type states the Ext¹ dimension formula, but it does not itself state the iff vanishing criterion, so it covers only one component of the complete claim.",
+      "role": "supporting"
     }
   ]
 }

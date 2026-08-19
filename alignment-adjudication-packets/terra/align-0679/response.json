@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:2a801ac68914a6206de4",
-      "rationale": "The formal type directly gives an equivalence from twoRep i j 0 to the direct sum of simpleRep i and simpleRep j, exactly stating the zero-coefficient splitting clause.",
-      "role": "primary"
+      "rationale": "The formal type states the zero-coefficient splitting clause, but it does not itself state indecomposability for a nonzero arrow coefficient between distinct vertices, so it covers only one component of the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:f191bae81e3f8e83242f",

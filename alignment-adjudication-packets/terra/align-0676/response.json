@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:f31cd36282678feb91b8",
-      "rationale": "Under finiteness of Q and NoOrientedCycles Q, the formal type directly states that every irreducible quiver representation ρ is equivalent to simpleRep i for some vertex i.",
-      "role": "primary"
+      "rationale": "Under finiteness and NoOrientedCycles, the formal type classifies irreducible quiver representations, but it does not itself identify these with finite-dimensional representations of the path algebra as stated in the source claim.",
+      "role": "supporting"
     }
   ]
 }
