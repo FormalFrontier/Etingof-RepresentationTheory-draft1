@@ -11,7 +11,7 @@ open Module
 
 namespace RepresentationTheory.Module.SubmoduleQuotientAuxiliary
 
-section Exercise361
+section
 
 variable (k : Type*) (A : Type*) (V : Type*)
   [Field k] [Ring A] [Algebra k A]
@@ -112,6 +112,6 @@ theorem auxiliaryFunction_eq_submodule_add_quotient :
 attribute [source_ref "Chapter3/Theorem3.7.1/Derived6" (role := supporting)]
   auxiliaryFunction_eq_submodule_add_quotient
 
-end Exercise361
+end
 
 end RepresentationTheory.Module.SubmoduleQuotientAuxiliary
