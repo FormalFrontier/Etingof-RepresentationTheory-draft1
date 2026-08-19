@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:8a9bf2e4f44c639577c7",
-      "role": "primary",
-      "rationale": "Directly equates the Schur module's dimension with `weylDimension`, the Weyl product formula."
+      "role": "supporting",
+      "rationale": "It equates the dimension with an opaque named `weylDimension` expression, rather than displaying the product formula."
     }
   ]
 }
