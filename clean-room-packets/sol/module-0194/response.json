@@ -19,7 +19,7 @@
     {
       "temporary_id": "decl-002381",
       "new_name": "auxiliary_fact1",
-      "docstring": "An auxiliary proposition depending on the displayed finite-dimensional complex representation."
+      "docstring": "An auxiliary statement whose formal type was unavailable."
     },
     {
       "temporary_id": "decl-002382",
@@ -324,7 +324,7 @@
     {
       "temporary_id": "decl-002471",
       "new_name": "auxiliary_fact2",
-      "docstring": "An auxiliary proposition depending on the displayed matrix-valued monoid homomorphism."
+      "docstring": "An auxiliary statement whose formal type was unavailable."
     },
     {
       "temporary_id": "decl-002472",
@@ -379,7 +379,7 @@
     {
       "temporary_id": "decl-002484",
       "new_name": "auxiliary_fact3",
-      "docstring": "An auxiliary proposition depending on the displayed two-by-two complex matrix."
+      "docstring": "An auxiliary statement whose formal type was unavailable."
     },
     {
       "temporary_id": "decl-002485",
@@ -394,7 +394,7 @@
     {
       "temporary_id": "decl-002488",
       "new_name": "auxiliary_fact4",
-      "docstring": "An auxiliary proposition depending on the displayed two-by-two complex matrix."
+      "docstring": "An auxiliary statement whose formal type was unavailable."
     },
     {
       "temporary_id": "decl-002489",
@@ -409,7 +409,7 @@
     {
       "temporary_id": "decl-002492",
       "new_name": "auxiliary_fact5",
-      "docstring": "An auxiliary proposition depending on the displayed two-by-two complex matrix."
+      "docstring": "An auxiliary statement whose formal type was unavailable."
     },
     {
       "temporary_id": "decl-002493",
