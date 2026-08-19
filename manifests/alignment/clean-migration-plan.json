@@ -110,19 +110,19 @@
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Quiver.PathAlgebra",
+      "new_module": "RepresentationTheory.Quiver.AuxiliaryPathStructures",
       "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_4",
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.CategoryTheory.QuiverSubdiagrams",
+      "new_module": "RepresentationTheory.CategoryTheory.QuiverAuxiliary",
       "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_8",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Definition2_8_3": "RepresentationTheory.CategoryTheory.QuiverLinearDiagrams"
       }
     },
     {
-      "new_module": "RepresentationTheory.Algebra.Quiver.Representation.Constructions",
+      "new_module": "RepresentationTheory.Algebra.Quiver.AuxiliaryConstructions",
       "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_8_9",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Definition2_8_3": "RepresentationTheory.CategoryTheory.QuiverLinearDiagrams"
@@ -218,8 +218,8 @@
       "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_irreducible_indecomposable",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Definition2_8_10": "RepresentationTheory.CategoryTheory.QuiverLinearMaps",
-        "EtingofRepresentationTheory.Chapter2.Definition2_8_8": "RepresentationTheory.CategoryTheory.QuiverSubdiagrams",
-        "EtingofRepresentationTheory.Chapter2.Definition2_8_9": "RepresentationTheory.Algebra.Quiver.Representation.Constructions"
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_8": "RepresentationTheory.CategoryTheory.QuiverAuxiliary",
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_9": "RepresentationTheory.Algebra.Quiver.AuxiliaryConstructions"
       }
     },
     {
@@ -232,7 +232,7 @@
       "old_module": "EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Definition2_8_10": "RepresentationTheory.CategoryTheory.QuiverLinearMaps",
-        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.PathAlgebra"
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.AuxiliaryPathStructures"
       }
     },
     {
@@ -607,14 +607,14 @@
       "new_module": "RepresentationTheory.GradedAlgebra.HilbertSeries",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_11",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.PathAlgebra"
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.AuxiliaryPathStructures"
       }
     },
     {
       "new_module": "RepresentationTheory.Quiver.PathAlgebra.UniversalProperties",
       "old_module": "EtingofRepresentationTheory.Chapter2.Problem2_8_6",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.PathAlgebra"
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.AuxiliaryPathStructures"
       }
     },
     {
@@ -3627,7 +3627,7 @@
       "old_module": "EtingofRepresentationTheory.Chapter6.DecompositionExistence",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Definition2_8_3": "RepresentationTheory.CategoryTheory.QuiverLinearDiagrams",
-        "EtingofRepresentationTheory.Chapter2.Definition2_8_9": "RepresentationTheory.Algebra.Quiver.Representation.Constructions",
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_9": "RepresentationTheory.Algebra.Quiver.AuxiliaryConstructions",
         "EtingofRepresentationTheory.Chapter6.Definition6_6_4": "RepresentationTheory.QuiverRepresentationQuotientTransform",
         "EtingofRepresentationTheory.Chapter6.FiniteTypeDefs": "RepresentationTheory.Quiver.Finite",
         "EtingofRepresentationTheory.Chapter6.Proposition6_6_5": "RepresentationTheory.QuiverRepresentation.Auxiliary"
@@ -5401,7 +5401,7 @@
       "new_module": "RepresentationTheory.QuiverAuxiliary",
       "old_module": "EtingofRepresentationTheory.Chapter9.PathAlgebraLowerBound",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.PathAlgebra",
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.AuxiliaryPathStructures",
         "EtingofRepresentationTheory.Chapter9.Definition9_4_3": "RepresentationTheory.Auxiliary.RingData"
       }
     },
@@ -5409,7 +5409,7 @@
       "new_module": "RepresentationTheory.Quiver.PathAlgebra.VertexComponents",
       "old_module": "EtingofRepresentationTheory.Chapter9.PathAlgebraProjectiveCover",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.PathAlgebra",
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.AuxiliaryPathStructures",
         "EtingofRepresentationTheory.Chapter9.PathAlgebraVertexSubalgebra": "RepresentationTheory.FunctionRingHom"
       }
     },
@@ -5442,7 +5442,7 @@
       "new_module": "RepresentationTheory.FunctionRingHom",
       "old_module": "EtingofRepresentationTheory.Chapter9.PathAlgebraVertexSubalgebra",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.PathAlgebra"
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.AuxiliaryPathStructures"
       }
     },
     {
@@ -5483,7 +5483,7 @@
       "new_module": "RepresentationTheory.Quiver.PathAlgebra.LoopQuiver",
       "old_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.PathAlgebra",
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_4": "RepresentationTheory.Quiver.AuxiliaryPathStructures",
         "EtingofRepresentationTheory.Chapter2.Problem2_8_6": "RepresentationTheory.Quiver.PathAlgebra.UniversalProperties",
         "EtingofRepresentationTheory.Chapter9.Definition9_3_1": "RepresentationTheory.ModuleFamilyNatMatrix",
         "EtingofRepresentationTheory.Chapter9.Definition9_4_3": "RepresentationTheory.Auxiliary.RingData",
@@ -5781,7 +5781,7 @@
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Definition2_8_10": "RepresentationTheory.CategoryTheory.QuiverLinearMaps",
         "EtingofRepresentationTheory.Chapter2.Definition2_8_3": "RepresentationTheory.CategoryTheory.QuiverLinearDiagrams",
-        "EtingofRepresentationTheory.Chapter2.Definition2_8_8": "RepresentationTheory.CategoryTheory.QuiverSubdiagrams"
+        "EtingofRepresentationTheory.Chapter2.Definition2_8_8": "RepresentationTheory.CategoryTheory.QuiverAuxiliary"
       }
     },
     {
