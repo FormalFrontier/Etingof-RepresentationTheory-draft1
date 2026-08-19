@@ -73,7 +73,7 @@
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.LinearAlgebra.ModulePairData",
+      "new_module": "RepresentationTheory.LinearAlgebra.ModulePairAuxiliaries",
       "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_3_6",
       "renamed_imports": {}
     },
