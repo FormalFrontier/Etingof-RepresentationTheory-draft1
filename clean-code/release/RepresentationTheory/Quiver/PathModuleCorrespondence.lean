@@ -4,8 +4,8 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: mathlib-initiative
 -/
 
-import RepresentationTheory.CategoryTheory.QuiverLinearMaps
 import RepresentationTheory.Quiver.AuxiliaryPathStructures
+import RepresentationTheory.CategoryTheory.QuiverLinearMaps
 import RepresentationTheory.Alignment.Attribute
 import Mathlib.Algebra.Algebra.RestrictScalars
 import Mathlib.RingTheory.Idempotents

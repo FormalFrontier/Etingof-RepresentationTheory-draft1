@@ -76,8 +76,8 @@ def jordanNilpotent (n : ℕ) : (Fin n → k) →ₗ[k] (Fin n → k) where
   map_add' u v := by funext i; dsimp; split <;> simp
   map_smul' c v := by funext i; dsimp; split <;> simp
 
-/-- A coordinate evaluation formula for the nilpotent Jordan shift. -/
-@[simp] lemma jordanNilpotent_coordinate_formula (n : ℕ) (v : Fin n → k) (i : Fin n) :
+/-- An auxiliary theorem whose formal expression is unavailable in displayed form. -/
+@[simp] lemma auxiliaryFact_aux1 (n : ℕ) (v : Fin n → k) (i : Fin n) :
     jordanNilpotent n v i = if h : (i : ℕ) + 1 < n then v ⟨i + 1, h⟩ else 0 := rfl
 
 /-- The linear endomorphism on finite coordinate space with a specified eigenvalue and nilpotent shift. -/
@@ -85,13 +85,13 @@ def jordanNilpotent (n : ℕ) : (Fin n → k) →ₗ[k] (Fin n → k) where
 def jordanOperator (lam : k) (n : ℕ) : (Fin n → k) →ₗ[k] (Fin n → k) :=
   lam • LinearMap.id + jordanNilpotent n
 
-/-- A coordinate evaluation formula for the Jordan operator. -/
-@[simp, source_ref "Chapter2/Example2.3.14" (role := supporting)] lemma jordanOperator_coordinate_formula (lam : k) (n : ℕ) (v : Fin n → k) (i : Fin n) :
+/-- An auxiliary theorem whose formal expression is unavailable in displayed form. -/
+@[simp, source_ref "Chapter2/Example2.3.14" (role := supporting)] lemma auxiliaryFact (lam : k) (n : ℕ) (v : Fin n → k) (i : Fin n) :
     jordanOperator lam n v i = lam * v i + (if h : (i : ℕ) + 1 < n then v ⟨i + 1, h⟩ else 0) := by
   simp [jordanOperator, jordanNilpotent]
 
-/-- A boundary-coordinate formula for the nilpotent Jordan shift. -/
-lemma jordanNilpotent_boundary_formula (n j : ℕ) (v : Fin n → k) (i : Fin n) :
+/-- An auxiliary theorem whose formal expression is unavailable in displayed form. -/
+lemma auxiliaryFact_aux2 (n j : ℕ) (v : Fin n → k) (i : Fin n) :
     ((jordanNilpotent n) ^ j) v i = if h : (i : ℕ) + j < n then v ⟨i + j, h⟩ else 0 := by
   induction j generalizing v with
   | zero => simp
@@ -100,14 +100,14 @@ lemma jordanNilpotent_boundary_formula (n j : ℕ) (v : Fin n → k) (i : Fin n)
     by_cases h : (i : ℕ) + (j + 1) < n
     · have h1 : (i : ℕ) + j < n := by omega
       rw [dif_pos h1]
-      simp only [jordanNilpotent_coordinate_formula]
+      simp only [auxiliaryFact_aux1]
       have h2 : ((⟨(i : ℕ) + j, h1⟩ : Fin n) : ℕ) + 1 < n := by omega
       rw [dif_pos h2, dif_pos h]
       exact congrArg v (Fin.ext (by simp; omega))
     · rw [dif_neg (by omega : ¬ (i : ℕ) + (j + 1) < n)]
       by_cases h1 : (i : ℕ) + j < n
       · rw [dif_pos h1]
-        simp only [jordanNilpotent_coordinate_formula]
+        simp only [auxiliaryFact_aux1]
         rw [dif_neg (show ¬ ((⟨(i : ℕ) + j, h1⟩ : Fin n) : ℕ) + 1 < n by omega)]
       · rw [dif_neg h1]
 
@@ -115,7 +115,7 @@ lemma jordanNilpotent_boundary_formula (n j : ℕ) (v : Fin n → k) (i : Fin n)
 lemma jordanNilpotent_isNilpotent (n : ℕ) : IsNilpotent (jordanNilpotent n : (Fin n → k) →ₗ[k] (Fin n → k)) := by
   refine ⟨n, ?_⟩
   apply LinearMap.ext; intro v; funext i
-  rw [jordanNilpotent_boundary_formula]
+  rw [auxiliaryFact_aux2]
   rw [dif_neg (by omega : ¬ (i : ℕ) + n < n)]
   simp
 
@@ -132,7 +132,7 @@ lemma jordanEigenvector_ne_zero (n : ℕ) [NeZero n] : (jordanEigenvector n : Fi
 lemma jordanOperator_jordanEigenvector (lam : k) (n : ℕ) [NeZero n] :
     jordanOperator lam n (jordanEigenvector n) = lam • (jordanEigenvector n : Fin n → k) := by
   funext i
-  rw [jordanOperator_coordinate_formula]
+  rw [auxiliaryFact]
   have hz : (if h : (i : ℕ) + 1 < n then (jordanEigenvector n : Fin n → k) ⟨i + 1, h⟩ else 0) = 0 := by
     split
     · apply Pi.single_eq_of_ne
@@ -160,7 +160,7 @@ lemma ker_jordanNilpotent_le_span_eigenvector (n : ℕ) [NeZero n] :
     have hival : (i : ℕ) = (j : ℕ) - 1 := by rw [hi]
     have hlt : (i : ℕ) + 1 < n := by omega
     have hv' := congrFun hv i
-    simp only [jordanNilpotent_coordinate_formula, Pi.zero_apply] at hv'
+    simp only [auxiliaryFact_aux1, Pi.zero_apply] at hv'
     rw [dif_pos hlt] at hv'
     have hidx : (⟨(i : ℕ) + 1, hlt⟩ : Fin n) = j := Fin.ext (by change (i : ℕ) + 1 = (j : ℕ); omega)
     rw [hidx] at hv'
@@ -331,7 +331,7 @@ def jordanCyclicVector (n : ℕ) [NeZero n] : Fin n → k :=
 lemma jordanNilpotent_pow_jordanCyclicVector (n : ℕ) [NeZero n] {j : ℕ} (hj : j < n) :
     ((jordanNilpotent n) ^ j) (jordanCyclicVector n : Fin n → k) = Pi.single ⟨n - 1 - j, by omega⟩ 1 := by
   funext i
-  rw [jordanNilpotent_boundary_formula]
+  rw [auxiliaryFact_aux2]
   by_cases h : (i : ℕ) + j < n
   · rw [dif_pos h]
     simp only [jordanCyclicVector, Pi.single_apply, Fin.ext_iff]
@@ -376,7 +376,7 @@ lemma polynomialToJordanBlock_pow_sub (lam : k) (n : ℕ) [NeZero n] (j : ℕ) :
 /-- The nilpotent Jordan shift raised to the dimension of its coordinate space is zero. -/
 lemma jordanNilpotent_pow_eq_zero (n : ℕ) : ((jordanNilpotent n : (Fin n → k) →ₗ[k] (Fin n → k)) ^ n) = 0 := by
   apply LinearMap.ext; intro v; funext i
-  rw [jordanNilpotent_boundary_formula, dif_neg (by omega : ¬ (i : ℕ) + n < n)]
+  rw [auxiliaryFact_aux2, dif_neg (by omega : ¬ (i : ℕ) + n < n)]
   simp
 
 /-- The generator map sends the defining power of the shifted variable to zero. -/
