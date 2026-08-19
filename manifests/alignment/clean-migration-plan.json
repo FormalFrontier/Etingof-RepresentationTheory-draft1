@@ -1030,7 +1030,7 @@
       "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Odd",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport": "RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules",
-        "EtingofRepresentationTheory.Chapter3.Theorem3_3_1": "RepresentationTheory.Algebra.Matrix.ProductSemisimplicity"
+        "EtingofRepresentationTheory.Chapter3.Theorem3_3_1": "RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity"
       }
     },
     {
@@ -1092,7 +1092,7 @@
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Algebra.Module.KrullSchmidt",
+      "new_module": "RepresentationTheory.Algebra.Module.InternalFamilyDecomposition",
       "old_module": "EtingofRepresentationTheory.Chapter3.Remark3_8_6",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Definition2_3_8": "RepresentationTheory.LinearAlgebra.ModuleDecompositions"
@@ -1116,7 +1116,7 @@
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Algebra.Matrix.ProductSemisimplicity",
+      "new_module": "RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity",
       "old_module": "EtingofRepresentationTheory.Chapter3.Theorem3_3_1",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter3.Proposition3_1_4": "RepresentationTheory.Algebra.Module.IsotypicDecomposition"
