@@ -34,7 +34,7 @@ theorem op_smul_eq_smul [Module A M] (a : A) (m : M) :
     (MulOpposite.op a) • m = a • m := rfl
 
 /-- A module over a commutative ring obtained from a module over its opposite ring. -/
-@[source_ref "Chapter2/Remark2.3.2" (role := primary)]
+@[source_ref "Chapter2/Remark2.3.2" (role := supporting)]
 abbrev moduleOfMulOpposite [Module Aᵐᵒᵖ M] : Module A M :=
   Module.compHom M (toMulOppositeRingHom A)
 

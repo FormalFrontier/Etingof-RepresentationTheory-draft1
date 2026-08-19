@@ -52,7 +52,7 @@ theorem toMatrixAux_mem_matrixLieSubalgebraAux (u : AuxiliaryType k) :
   ⟨u.1, u.2.1, u.2.2, rfl⟩
 
 /-- An auxiliary Lie equivalence from the displayed Lie algebra to the selected matrix Lie subalgebra. -/
-@[source_ref "Chapter2/Discussion_concrete_Lie_examples" (role := primary)]
+@[source_ref "Chapter2/Discussion_concrete_Lie_examples" (role := supporting)]
 noncomputable def matrixLieEquivAux :
     AuxiliaryType k ≃ₗ⁅k⁆ matrixLieSubalgebraAux k where
   toFun u := ⟨toMatrixAux k u, toMatrixAux_mem_matrixLieSubalgebraAux k u⟩
