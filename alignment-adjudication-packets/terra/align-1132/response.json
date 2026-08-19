@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:00c14282a86dc6238eb5",
-      "role": "primary",
-      "rationale": "The formal type gives a multiplicative equivalence from a finite commutative group G to the character group of its character group, directly expressing the double-dual isomorphism."
+      "role": "supporting",
+      "rationale": "The type gives the double-dual equivalence, but it does not itself state the evaluation formula or the noncanonical equivalence with the single dual also included in the source claim."
     },
     {
       "association_id": "association:e07f9fd1f0588e5f6e18",
-      "role": "primary",
-      "rationale": "The equality says that the image of g in the double dual sends every character χ to χ(g), precisely the evaluation formula in the source claim."
+      "role": "supporting",
+      "rationale": "The type states the evaluation formula for the double-dual map, but it does not itself assert either of the dual equivalences in the full source claim."
     },
     {
       "association_id": "association:b5dab8264e042b5d4dda",
-      "role": "primary",
-      "rationale": "The Nonempty MulEquiv type asserts existence of an equivalence between a finite commutative group and its character group, directly capturing the noncanonical dual isomorphism."
+      "role": "supporting",
+      "rationale": "The type states the noncanonical equivalence with the single dual, but it does not itself state the canonical double-dual equivalence by evaluation."
     }
   ]
 }

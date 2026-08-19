@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:46618082150f8d4a232e",
-      "role": "primary",
-      "rationale": "The formal equality says that the character of V tensor W at g is the product of the characters of V and W at g, directly stating the multiplicative-character part of the source claim."
+      "role": "supporting",
+      "rationale": "The type states multiplicativity of the tensor-product character, but it does not itself display the tensor action also asserted by the source claim."
     },
     {
       "association_id": "association:64a552e8f1f5123c0f64",
