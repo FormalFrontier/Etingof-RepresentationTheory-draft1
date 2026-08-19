@@ -56,6 +56,9 @@ import RepresentationTheory.Algebra.Module.Filtrations
 import RepresentationTheory.Algebra.Module.IndependentSpanningFamilies
 import RepresentationTheory.Algebra.Module.FinitelyGeneratedSubalgebraDescent
 import RepresentationTheory.Algebra.Module.AuxiliaryPredicates
+import RepresentationTheory.Algebra.Module.AuxiliaryRepresentations
+import RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity
+import RepresentationTheory.Algebra.Module.InternalFamilyDecomposition
 import RepresentationTheory.Algebra.Module.Pi.SimpleModules
 import RepresentationTheory.Algebra.Module.Simple
 import RepresentationTheory.Algebra.Module.Simple.FiniteDimensional
