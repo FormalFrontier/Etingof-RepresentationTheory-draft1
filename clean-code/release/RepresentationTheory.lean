@@ -34,6 +34,7 @@ import RepresentationTheory.Algebra.TensorProduct.ScalarExtension
 import RepresentationTheory.Algebra.Quiver.LinearRepresentationCategory
 import RepresentationTheory.Algebra.Quiver.AuxiliaryConstructions
 import RepresentationTheory.Algebra.CenterAction
+import RepresentationTheory.Algebra.ParameterizedComplexRelations
 import RepresentationTheory.Algebra.AuxiliaryFieldCommRingType
 import RepresentationTheory.Algebra.FieldIndexedType
 import RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity
