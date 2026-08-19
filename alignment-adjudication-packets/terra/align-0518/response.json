@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:c0b9f92f0a8ef88b44ec",
-      "rationale": "The displayed equality directly states det(A comp B) = det(A) * det(B).",
-      "role": "primary"
+      "rationale": "The displayed equality states det(A comp B) = det(A) times det(B), but it does not itself state that this identity is obtained from functoriality of the top exterior power.",
+      "role": "supporting"
     }
   ]
 }

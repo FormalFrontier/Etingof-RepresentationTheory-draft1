@@ -3,28 +3,28 @@
   "associations": [
     {
       "association_id": "association:1ff591982880aa19c716",
-      "rationale": "The type directly assigns every linear map an induced linear map on exterior powers.",
-      "role": "primary"
+      "rationale": "The type assigns every linear map an induced map on exterior powers, but it does not state the tensor- and symmetric-power constructions or functoriality under composition.",
+      "role": "supporting"
     },
     {
       "association_id": "association:e1c6827ba9f8cd12abba",
-      "rationale": "The formal equality directly states preservation of composition by the induced exterior-power maps.",
-      "role": "primary"
+      "rationale": "The equality states preservation of composition by exterior-power maps, but it does not state the three induced-map constructions or composition laws for the other powers.",
+      "role": "supporting"
     },
     {
       "association_id": "association:f311a4378f1f94e61c0a",
-      "rationale": "The type directly assigns every linear map an induced linear map on symmetric powers.",
-      "role": "primary"
+      "rationale": "The type assigns every linear map an induced map on symmetric powers, but it does not state the tensor- and exterior-power constructions or functoriality under composition.",
+      "role": "supporting"
     },
     {
       "association_id": "association:8fe010d1277d1d47c4cc",
-      "rationale": "The formal equality directly states preservation of composition by the induced symmetric-power maps.",
-      "role": "primary"
+      "rationale": "The equality states preservation of composition by symmetric-power maps, but it does not state the three induced-map constructions or composition laws for the other powers.",
+      "role": "supporting"
     },
     {
       "association_id": "association:4ba7e900db4ede25bc84",
-      "rationale": "The type directly assigns every linear map an induced linear map on tensor powers.",
-      "role": "primary"
+      "rationale": "The type assigns every linear map an induced map on tensor powers, but it does not state the symmetric- and exterior-power constructions or functoriality under composition.",
+      "role": "supporting"
     }
   ]
 }
