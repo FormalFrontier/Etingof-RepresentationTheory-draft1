@@ -253,8 +253,8 @@
     },
     {
       "temporary_id": "decl-014084",
-      "new_name": "unitsToAuxiliaryAlgebra_property",
-      "docstring": "A property of the units-to-auxiliary-algebra homomorphism in characteristic two."
+      "new_name": "Auxiliary.statement014084",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-014085",

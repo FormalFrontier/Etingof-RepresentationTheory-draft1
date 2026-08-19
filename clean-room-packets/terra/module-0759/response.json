@@ -13,8 +13,8 @@
     },
     {
       "temporary_id": "decl-014592",
-      "new_name": "exact",
-      "docstring": "The short complex formed by the displayed differential and attached morphism is exact."
+      "new_name": "Auxiliary.statement014592",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-014601",
