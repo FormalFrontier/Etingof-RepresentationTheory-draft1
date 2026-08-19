@@ -7,8 +7,8 @@
     },
     {
       "association_id": "association:63a9be318192047922c6",
-      "rationale": "For every finite-dimensional q-Weyl module, the formal type directly states q raised to finrank V equals one, exactly the stated determinant obstruction.",
-      "role": "primary"
+      "rationale": "For every finite-dimensional q-Weyl module, the formal type states q raised to finrank V equals one, but it gives only the determinant obstruction and not the complete existence equivalence.",
+      "role": "supporting"
     }
   ],
   "packet_id": "align-0609"

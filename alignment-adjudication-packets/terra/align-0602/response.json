@@ -2,13 +2,13 @@
   "associations": [
     {
       "association_id": "association:dfbd1a7798be8a647b47",
-      "rationale": "Under CharP k p, the formal type places x^p in the center, directly stating the x^p part of the source claim.",
-      "role": "primary"
+      "rationale": "Under CharP k p, the formal type places x^p in the center, but it does not itself state centrality of y^p, so it covers only one component of the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:654d692d7d744422ea9c",
-      "rationale": "Under CharP k p, the formal type places y^p in the center, directly stating the y^p part of the source claim.",
-      "role": "primary"
+      "rationale": "Under CharP k p, the formal type places y^p in the center, but it does not itself state centrality of x^p, so it covers only one component of the complete claim.",
+      "role": "supporting"
     }
   ],
   "packet_id": "align-0602"

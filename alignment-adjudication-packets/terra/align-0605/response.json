@@ -12,8 +12,8 @@
     },
     {
       "association_id": "association:d760626dd1c6a4dbfafb",
-      "rationale": "The formal type directly asserts IsSimpleModule for the parameterized family on Fin p to k, matching its irreducibility.",
-      "role": "primary"
+      "rationale": "The formal type asserts irreducibility of the parameterized family, but it does not itself state its p-dimensionality or the classification of all finite-dimensional irreducibles, so it covers only one component of the complete claim.",
+      "role": "supporting"
     }
   ],
   "packet_id": "align-0605"
