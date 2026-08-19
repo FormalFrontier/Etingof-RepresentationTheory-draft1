@@ -49,7 +49,7 @@
     {
       "temporary_id": "decl-018946",
       "new_name": "auxiliary_exists_ordering_no_hom_of_le",
-      "docstring": "There exists a duplicate-free ordering of all vertices with no quiver morphism from an earlier vertex to a later one."
+      "docstring": "There exists a duplicate-free ordering of all vertices with no quiver morphism from a position to any weakly later position."
     },
     {
       "temporary_id": "decl-019483",

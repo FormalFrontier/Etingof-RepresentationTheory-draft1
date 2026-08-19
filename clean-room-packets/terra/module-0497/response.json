@@ -43,8 +43,8 @@
     },
     {
       "temporary_id": "decl-014959",
-      "new_name": "auxiliaryProduct_subobjects_of_isCompl",
-      "docstring": "Pointwise complementary invariant submodules give an auxiliary relation between a representation and the product of the associated subobjects."
+      "new_name": "Auxiliary.statement014959",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-014960",
