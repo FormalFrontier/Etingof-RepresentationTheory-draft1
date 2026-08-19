@@ -1,5 +1,5 @@
 {
-  "module_name": "RingTheory.SimpleModuleDensity",
+  "module_name": "RingTheory.SimpleModuleSimultaneousAction",
   "declarations": [
     {"temporary_id": "decl-020762", "new_name": "exists_smul_eq_on_linearIndependent", "docstring": "On a simple finite-dimensional module over an algebraically closed field, any prescribed images of a finite linearly independent family are simultaneously realized by one algebra element."}
   ]

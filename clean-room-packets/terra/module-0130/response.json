@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-001860",
-      "new_name": "ParameterizedModuleType",
-      "docstring": "A type-valued construction parameterized by a commutative ring, an auxiliary type, and a module over that ring."
+      "new_name": "AuxiliaryModuleType",
+      "docstring": "An auxiliary type-valued construction depending on a commutative ring, another type, and a module over the ring."
     },
     {
       "temporary_id": "decl-018457",

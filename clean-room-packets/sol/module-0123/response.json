@@ -1,30 +1,30 @@
 {
-  "module_name": "Quiver.AuxiliaryRepresentationProperties",
+  "module_name": "Quiver.AuxiliaryFiniteConstructions",
   "declarations": [
     {
       "temporary_id": "decl-015047",
       "new_name": "symm",
-      "docstring": "The equivalence obtained by reversing the source and target representations."
+      "docstring": "Reverses the source and target parameters of the displayed auxiliary relation."
     },
     {
       "temporary_id": "decl-015050",
       "new_name": "trans",
-      "docstring": "The composite of equivalences between three quiver representations."
+      "docstring": "Composes two instances of the displayed auxiliary relation."
     },
     {
       "temporary_id": "decl-016731",
-      "new_name": "auxiliaryGlobalQuiverProperty_iff_explicitConditions",
-      "docstring": "Under the displayed natural-number hypothesis, the unavailable global quiver property is equivalent to having no loops, no arrows in both directions, subsingleton arrow types, and the displayed auxiliary graph property."
+      "new_name": "auxiliaryQuiverProperty_iff_explicitConditions",
+      "docstring": "Under the auxiliary quiver condition, the auxiliary quiver property is equivalent to having no loops, no arrows in both directions, subsingleton arrow types, and the displayed auxiliary matrix property."
     },
     {
       "temporary_id": "decl-016732",
-      "new_name": "auxiliaryGlobalQuiverProperty_iff_auxiliaryConditions",
-      "docstring": "Under the displayed natural-number hypothesis, the unavailable global quiver property is equivalent to the displayed orientation property, subsingleton arrow types, and the displayed graph property."
+      "new_name": "auxiliaryQuiverProperty_iff_auxiliaryConditions",
+      "docstring": "Under the auxiliary quiver condition, the auxiliary quiver property is equivalent to the two displayed auxiliary properties together with subsingleton arrow types."
     },
     {
       "temporary_id": "decl-019378",
       "new_name": "finOneLinearEquiv",
-      "docstring": "The linear equivalence from field-valued functions on `Fin p` to the field when `p = 1`."
+      "docstring": "The linear equivalence from semiring-valued functions on `Fin p` to the coefficient semiring when `p = 1`."
     },
     {
       "temporary_id": "decl-019386",
@@ -44,12 +44,12 @@
     {
       "temporary_id": "decl-020596",
       "new_name": "auxiliaryVertexPredicateDecidable",
-      "docstring": "A decision procedure for the displayed unavailable predicate associated with a finite vertex."
+      "docstring": "A decision procedure for the auxiliary predicate associated with a finite vertex."
     },
     {
       "temporary_id": "decl-020598",
       "new_name": "auxiliaryVertexPairPredicateDecidable",
-      "docstring": "A decision procedure for the displayed unavailable predicate associated with a pair of finite vertices."
+      "docstring": "A decision procedure for the auxiliary predicate associated with a pair of finite vertices."
     },
     {
       "temporary_id": "decl-020817",
@@ -59,7 +59,7 @@
     {
       "temporary_id": "decl-020866",
       "new_name": "auxiliaryQuiverProperty_iff_no_loops_no_twoCycles",
-      "docstring": "The displayed unavailable quiver property is equivalent to having no loops and no pair of arrows in opposite directions."
+      "docstring": "The auxiliary quiver property is equivalent to having no loops and no pair of arrows in opposite directions."
     },
     {
       "temporary_id": "decl-021737",
@@ -68,28 +68,28 @@
     },
     {
       "temporary_id": "decl-021766",
-      "new_name": "not_auxiliaryGlobalQuiverProperty_of_parameterizedFamily",
-      "docstring": "A field-indexed family with finite displayed vertex components, satisfying the auxiliary property and related only at equal parameters, contradicts the unavailable global quiver property."
+      "new_name": "not_auxiliaryQuiverProperty_of_parameterizedFamily",
+      "docstring": "A field-indexed family with finite displayed vertex components, satisfying the auxiliary predicate and related only at equal parameters, contradicts the auxiliary quiver property."
     },
     {
       "temporary_id": "decl-021767",
-      "new_name": "not_auxiliaryGlobalQuiverProperty_of_loop",
-      "docstring": "For a quiver over an algebraically closed field, a loop contradicts the unavailable global quiver property."
+      "new_name": "not_auxiliaryQuiverProperty_of_loop",
+      "docstring": "For a quiver over an algebraically closed field, a loop contradicts the auxiliary quiver property."
     },
     {
       "temporary_id": "decl-021768",
-      "new_name": "not_auxiliaryGlobalQuiverProperty_of_oppositeArrows",
-      "docstring": "For a quiver over an algebraically closed field, arrows in both directions between distinct vertices contradict the unavailable global quiver property."
+      "new_name": "not_auxiliaryQuiverProperty_of_oppositeArrows",
+      "docstring": "For a quiver over an algebraically closed field, arrows in both directions between distinct vertices contradict the auxiliary quiver property."
     },
     {
       "temporary_id": "decl-021769",
-      "new_name": "not_auxiliaryGlobalQuiverProperty_of_parallelArrows",
-      "docstring": "For a quiver over an algebraically closed field, two distinct parallel arrows contradict the unavailable global quiver property."
+      "new_name": "not_auxiliaryQuiverProperty_of_parallelArrows",
+      "docstring": "For a quiver over an algebraically closed field, two distinct parallel arrows contradict the auxiliary quiver property."
     },
     {
       "temporary_id": "decl-021770",
-      "new_name": "auxiliaryUnprintableGlobalQuiverPropertyStatement",
-      "docstring": "An auxiliary result about the displayed unavailable formal statement."
+      "new_name": "auxiliaryStatement",
+      "docstring": "An auxiliary statement."
     },
     {
       "temporary_id": "decl-023466",
@@ -103,78 +103,78 @@
     },
     {
       "temporary_id": "decl-023583",
-      "new_name": "thinRepresentation",
-      "docstring": "The quiver representation supported on a decidable vertex predicate with arrow maps specified by field scalars."
+      "new_name": "auxiliaryQuiverConstruction",
+      "docstring": "An auxiliary quiver object built from a decidable vertex predicate and a scalar assigned to each arrow."
     },
     {
       "temporary_id": "decl-023585",
-      "new_name": "thinRepresentation_vertex_moduleFinite",
-      "docstring": "Every vertex space of a thin representation is finite as a module over the field."
+      "new_name": "auxiliaryQuiverConstruction_vertex_moduleFinite",
+      "docstring": "Every displayed vertex module of the auxiliary quiver construction is finite over the field."
     },
     {
       "temporary_id": "decl-023586",
-      "new_name": "auxiliaryRepresentationProperty_thinRepresentation_of_support_pair",
-      "docstring": "A thin representation supported on two specified vertices and having a nonzero distinguished arrow scalar satisfies the displayed unavailable representation property."
+      "new_name": "auxiliaryProperty_auxiliaryQuiverConstruction_of_support_pair",
+      "docstring": "The auxiliary quiver construction satisfies the auxiliary predicate when its support is the specified pair of vertices and the selected arrow scalar is nonzero."
     },
     {
       "temporary_id": "decl-023587",
-      "new_name": "auxiliaryRepresentationProperty_thinRepresentation_of_support_singleton",
-      "docstring": "A thin representation supported on one specified vertex satisfies the displayed unavailable representation property."
+      "new_name": "auxiliaryProperty_auxiliaryQuiverConstruction_of_support_singleton",
+      "docstring": "The auxiliary quiver construction satisfies the auxiliary predicate when its support is a specified singleton vertex."
     },
     {
       "temporary_id": "decl-023588",
       "new_name": "supportedVertexLinearEquiv_arrowMap",
-      "docstring": "After identifying supported vertex spaces with the field, a thin-representation arrow map is multiplication by its assigned scalar."
+      "docstring": "After the displayed identifications at supported vertices, the auxiliary arrow map is multiplication by its assigned scalar."
     },
     {
       "temporary_id": "decl-023589",
-      "new_name": "thinRepresentation_arrowMap_surjective",
-      "docstring": "An arrow map between supported vertices of a thin representation is surjective when its assigned scalar is nonzero."
+      "new_name": "auxiliaryQuiverConstruction_arrowMap_surjective",
+      "docstring": "The displayed arrow map between supported vertices is surjective when its assigned scalar is nonzero."
     },
     {
       "temporary_id": "decl-023590",
-      "new_name": "thinRepresentation_vertex_subsingleton_of_not_support",
-      "docstring": "The vertex space of a thin representation is subsingleton outside its support."
+      "new_name": "auxiliaryQuiverConstruction_vertex_subsingleton_of_not_support",
+      "docstring": "The displayed vertex type of the auxiliary quiver construction is subsingleton outside the support."
     },
     {
       "temporary_id": "decl-023592",
-      "new_name": "componentScalar",
-      "docstring": "The field scalar induced at a supported vertex by an equivalence between two thin representations."
+      "new_name": "auxiliaryComponentScalar",
+      "docstring": "The field scalar associated at a supported vertex with the displayed auxiliary map."
     },
     {
       "temporary_id": "decl-023596",
-      "new_name": "componentMap_eq_componentScalar_mul",
-      "docstring": "After identifying a supported vertex space with the field, the component of a representation equivalence is multiplication by its component scalar."
+      "new_name": "componentMap_eq_auxiliaryComponentScalar_mul",
+      "docstring": "After the displayed identification at a supported vertex, the component of the auxiliary map is multiplication by its component scalar."
     },
     {
       "temporary_id": "decl-023597",
-      "new_name": "componentScalar_ne_zero",
-      "docstring": "The component scalar of an equivalence at a supported vertex is nonzero."
+      "new_name": "auxiliaryComponentScalar_ne_zero",
+      "docstring": "The component scalar of the displayed auxiliary map at a supported vertex is nonzero."
     },
     {
       "temporary_id": "decl-023598",
-      "new_name": "componentScalar_mul_arrowScalar",
-      "docstring": "Component scalars of an equivalence intertwine the arrow scalars of the two thin representations."
+      "new_name": "auxiliaryComponentScalar_mul_arrowScalar",
+      "docstring": "The component scalars of the auxiliary map satisfy the displayed identity with the two arrow-scalar assignments."
     },
     {
       "temporary_id": "decl-024351",
       "new_name": "auxiliaryFinFunctionLinearMap",
-      "docstring": "An auxiliary linear map between two finite field-valued function spaces."
+      "docstring": "An auxiliary linear map between two finite semiring-valued function spaces."
     },
     {
       "temporary_id": "decl-024368",
-      "new_name": "auxiliaryUnprintableDefinition",
-      "docstring": "An auxiliary definition whose formal type is unavailable in this packet."
+      "new_name": "auxiliaryDefinition",
+      "docstring": "An auxiliary definition."
     },
     {
       "temporary_id": "decl-024370",
-      "new_name": "auxiliaryUnprintableDefinition_propertyOne",
-      "docstring": "A first auxiliary property of the definition whose formal type is unavailable."
+      "new_name": "auxiliaryStatementOne",
+      "docstring": "An auxiliary statement."
     },
     {
       "temporary_id": "decl-024371",
-      "new_name": "auxiliaryUnprintableDefinition_propertyTwo",
-      "docstring": "A second auxiliary property of the definition whose formal type is unavailable."
+      "new_name": "auxiliaryStatementTwo",
+      "docstring": "An auxiliary statement."
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "module_name": "LinearAlgebra.MatrixTraceKernels",
   "declarations": [
-    {"temporary_id": "decl-018118", "new_name": "matrixSubmodule_eq_traceKernel", "docstring": "For square matrices indexed by a finite type, the specified submodule is the kernel of the trace map."},
-    {"temporary_id": "decl-018121", "new_name": "finMatrixSubmodule_eq_traceKernel", "docstring": "For finite square matrices, the specified submodule is the kernel of the trace map."}
+    {"temporary_id": "decl-018118", "new_name": "auxiliaryMatrixSubmodule_eq_traceKernel", "docstring": "For square matrices indexed by a finite type, the auxiliary submodule is the kernel of the trace linear map."},
+    {"temporary_id": "decl-018121", "new_name": "auxiliaryFinMatrixSubmodule_eq_traceKernel", "docstring": "For square matrices indexed by `Fin d`, the auxiliary submodule is the kernel of the trace linear map."}
   ]
 }

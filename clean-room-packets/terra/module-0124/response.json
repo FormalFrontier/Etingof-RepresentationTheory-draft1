@@ -1,13 +1,13 @@
 {
-  "module_name": "RingTheory.OrderedMonomialBasis",
+  "module_name": "RingTheory.LexicographicIndexedBasis",
   "declarations": [
-    {"temporary_id": "decl-016907", "new_name": "mul_ne_zero", "docstring": "The product of two nonzero elements is nonzero when the coefficient ring has no zero divisors."},
-    {"temporary_id": "decl-016908", "new_name": "monomialBasis", "docstring": "The lexicographically indexed monomials form a basis over the coefficient ring."},
-    {"temporary_id": "decl-016913", "new_name": "monomialBasis_apply", "docstring": "Evaluating the monomial basis at an index gives the monomial with the two corresponding exponents."},
-    {"temporary_id": "decl-016914", "new_name": "monomialCoeff", "docstring": "The linear functional extracting the coefficient of a lexicographically indexed monomial."},
-    {"temporary_id": "decl-016918", "new_name": "monomialCoeff_basis", "docstring": "A monomial coefficient functional evaluates on a basis monomial as the corresponding Kronecker delta."},
-    {"temporary_id": "decl-016920", "new_name": "monomialCoeff_mul", "docstring": "For elements in prescribed filtration pieces, the coefficient at the sum of their indices is the product of the leading coefficients."},
-    {"temporary_id": "decl-016921", "new_name": "degreeFiltration", "docstring": "The submodule spanned up to a lexicographic monomial index."},
-    {"temporary_id": "decl-020653", "new_name": "noZeroDivisors", "docstring": "The monomial algebra has no zero divisors when its coefficient ring does."}
+    {"temporary_id": "decl-016907", "new_name": "mul_ne_zero", "docstring": "The product of two nonzero elements of the associated algebra is nonzero when the coefficient ring has no zero divisors."},
+    {"temporary_id": "decl-016908", "new_name": "indexedBasis", "docstring": "A basis of the associated algebra indexed lexicographically by pairs of natural numbers."},
+    {"temporary_id": "decl-016913", "new_name": "indexedBasis_apply", "docstring": "Evaluating the indexed basis at a lexicographic pair gives the displayed auxiliary element at its two coordinates."},
+    {"temporary_id": "decl-016914", "new_name": "coordinate", "docstring": "A linear functional on the associated algebra for each lexicographic pair of natural numbers."},
+    {"temporary_id": "decl-016918", "new_name": "coordinate_indexedBasis", "docstring": "The coordinate functional evaluates on an indexed basis element as one when the indices agree and zero otherwise."},
+    {"temporary_id": "decl-016920", "new_name": "coordinate_mul", "docstring": "For elements in the displayed indexed submodules, the coordinate of their product at the sum index is the product of the corresponding coordinates."},
+    {"temporary_id": "decl-016921", "new_name": "auxiliaryIndexedSubmodule", "docstring": "An auxiliary submodule of the associated algebra for each lexicographic pair of natural numbers."},
+    {"temporary_id": "decl-020653", "new_name": "noZeroDivisors", "docstring": "The associated algebra has no zero divisors when its coefficient ring does."}
   ]
 }
