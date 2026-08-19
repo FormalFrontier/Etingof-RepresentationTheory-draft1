@@ -9,7 +9,7 @@
     {
       "association_id": "association:f2fbbf3957196f12d430",
       "rationale": "The formal type directly gives an isomorphism after transporting a stabilizer representation between orbit-related characters, matching the source's independence of the chosen basepoint x.",
-      "role": "primary"
+      "role": "supporting"
     }
   ]
 }

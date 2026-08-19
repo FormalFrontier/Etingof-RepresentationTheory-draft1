@@ -9,12 +9,12 @@
     {
       "association_id": "association:143ab419252832096682",
       "rationale": "The named Young-projector definition directly formalizes the source's equation c_lambda = a_lambda b_lambda, so it is primary.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:56b210b22eebd35f2531",
       "rationale": "The named youngProjectorCol declaration directly formalizes the source's column-projector construction b_lambda, so it is primary.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:e63503a31c8bf04c38f9",
@@ -24,7 +24,7 @@
     {
       "association_id": "association:0d2cea82ab644b82df7e",
       "rationale": "The named youngProjectorRow declaration directly formalizes the source's row-projector construction a_lambda, so it is primary.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:b19938ebad6d68a29f4e",
@@ -34,7 +34,7 @@
     {
       "association_id": "association:f8436010d8c4bf0e3370",
       "rationale": "The formal type directly states that the Young projector is nonzero for every partition, matching the source's final conclusion that c_lambda is nonzero.",
-      "role": "primary"
+      "role": "supporting"
     }
   ]
 }

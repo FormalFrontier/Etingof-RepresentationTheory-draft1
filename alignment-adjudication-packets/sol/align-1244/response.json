@@ -19,12 +19,12 @@
     {
       "association_id": "association:b2193553f5a2d94ab81a",
       "rationale": "The implication from isomorphism of two family members to equality of their indices directly states the source's distinctness claim up to the chosen parameter identification.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:93e92c6633aa2f500dcc",
       "rationale": "The formal type directly says every member of the complementary family is simple, matching the source's assertion that the resulting representations are irreducible.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:0d98dd08148231ce3742",
@@ -44,17 +44,17 @@
     {
       "association_id": "association:88b5f85bdcd0527064ad",
       "rationale": "The stated iff says two complementary representations are isomorphic exactly when their parameters agree or differ by Frobenius, directly matching the source's parameter identification.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:8558bb3f41e46bf30cec",
       "rationale": "The formal conclusion directly asserts simplicity of the complementary-series representation under the displayed non-Frobenius-fixed hypothesis, matching irreducibility in the source.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:c87a3e02cc69d2ce1d5d",
       "rationale": "This type directly packages a family of simple pairwise nonisomorphic representations whose index has cardinality q(q-1)/2, which is the source's representation-family and count claim rather than a bare cardinality consequence.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:c77746e91422d9219559",

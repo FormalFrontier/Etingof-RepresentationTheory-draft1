@@ -9,12 +9,12 @@
     {
       "association_id": "association:e07016d4a6dd99c6ed4a",
       "rationale": "The type directly states that averaged matrix-coefficient products for nonisomorphic irreducibles are zero, which is part (i).",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:9e3c01232c6b19f13a01",
       "rationale": "The type directly gives the same-representation matrix-coefficient orthogonality value, with the Kronecker conditions and inverse dimension from part (ii).",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:29e11c2029ba9c7b1f73",

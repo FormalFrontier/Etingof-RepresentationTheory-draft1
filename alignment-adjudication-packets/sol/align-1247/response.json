@@ -14,7 +14,7 @@
     {
       "association_id": "association:ac8b79caaaf56f1ae15a",
       "rationale": "Nat.Partition.LexLt is the named strict lexicographic relation introduced by the source, so this declaration directly formalizes that definition and is primary.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:474cce3c4471e81b42af",

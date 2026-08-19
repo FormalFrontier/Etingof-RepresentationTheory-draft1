@@ -14,7 +14,7 @@
     {
       "association_id": "association:7200a6e5ca2ee784537d",
       "rationale": "The formal equality directly identifies the displayed total of the three constructed-family counts with the number of conjugacy classes, exactly the comparison made in the source.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:12f385228279103395ae",
@@ -24,12 +24,12 @@
     {
       "association_id": "association:88047e24f2ac3b76a4a8",
       "rationale": "The implication from isomorphism to equality of indices directly asserts that the constructed representations are pairwise distinct, as required by the source's count.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:de8fefd4a70582e6a3f3",
       "rationale": "The formal conclusion directly asserts that every constructed family member is simple, matching the source's treatment of the constructed representations as irreducible.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:26ea96179aa40c051df1",
@@ -44,7 +44,7 @@
     {
       "association_id": "association:c87d5630a6fcfcc57103",
       "rationale": "The formal type directly says every simple representation is isomorphic to a unique member of the constructed family, exactly the source's conclusion that all irreducibles have been found.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:369b46a6400d9757445a",
@@ -54,7 +54,7 @@
     {
       "association_id": "association:24165ae118e86be541e8",
       "rationale": "The type directly gives a pairwise nonisomorphic exhaustive family of simple representations with q^2-1 members, matching the source's complete irreducible count.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:cdcc4dd571552108116e",

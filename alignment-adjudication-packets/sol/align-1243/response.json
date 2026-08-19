@@ -29,7 +29,7 @@
     {
       "association_id": "association:d634aaf02dad707bd245",
       "rationale": "The type directly gives the elliptic centralizer size q^2-1 stated in the detailed explanation below the table.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:e7195224a232e3ff86c8",
@@ -49,67 +49,67 @@
     {
       "association_id": "association:457c3759c7562519f44f",
       "rationale": "The type directly states that each elliptic conjugacy class has q^2-q elements, as in the table.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:2559a5968c5d56063352",
       "rationale": "The type directly states that each parabolic conjugacy class has q^2-1 elements, as in the table.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:3457f30b7999eaf54d8a",
       "rationale": "The type directly states that a scalar conjugacy class has one element, matching the table.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:06d8e49dd6f2696ef5c7",
       "rationale": "The type directly states that each split semisimple conjugacy class has q^2+q elements, the table's hyperbolic row.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:0eb2e426031f4b340675",
       "rationale": "The type directly partitions every GL2 element into exactly one of the scalar, parabolic, split semisimple, or elliptic types listed in the table.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:bb973f46d5511a3fdf37",
       "rationale": "The type directly states that every elliptic element is conjugate to the displayed elliptic representative form.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:213a2175c0cec8eb2a42",
       "rationale": "The type directly states that every parabolic element is conjugate to a Jordan representative of the form shown in the table.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:18950213c8968fcde7ea",
       "rationale": "The type directly states that every scalar element is conjugate to a scalar representative from the table.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:e7023bad6546c22a047b",
       "rationale": "The type directly states that every split semisimple element is conjugate to a diagonal representative with distinct eigenvalues.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:d7650b89e9f956470b01",
       "rationale": "The type directly gives q(q-1)/2 elliptic classes, matching the third column of the table.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:fe3f369ee84cedb13f70",
       "rationale": "The type directly gives q-1 parabolic classes, matching the table.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:5f5c6f2e2687dd6c23b7",
       "rationale": "The type directly gives q-1 scalar classes, matching the table.",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:53a9f23809a771c61cfc",
       "rationale": "The type directly gives (q-1)(q-2)/2 split semisimple classes, matching the hyperbolic row.",
-      "role": "primary"
+      "role": "supporting"
     }
   ]
 }
