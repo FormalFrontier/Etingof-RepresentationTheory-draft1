@@ -1,8 +1,8 @@
 {
-  "module_name": "LinearAlgebra.ModulePairData",
+  "module_name": "LinearAlgebra.ModulePairAuxiliaries",
   "declarations": [
-    {"temporary_id": "decl-005304", "new_name": "ModulePairRelation", "docstring": "A relation between two modules over a common ring."},
-    {"temporary_id": "decl-015468", "new_name": "ModulePairDatum", "docstring": "Data parameterized by an ordered pair of modules over one ring."},
-    {"temporary_id": "decl-015470", "new_name": "ModulePairWitness", "docstring": "A further type of data attached to two modules with the same scalars."}
+    {"temporary_id": "decl-005304", "new_name": "AuxiliaryModulePairPredicate", "docstring": "An auxiliary predicate on two modules over a common ring."},
+    {"temporary_id": "decl-015468", "new_name": "ModulePairAuxiliary", "docstring": "An auxiliary type associated with two modules over a common ring."},
+    {"temporary_id": "decl-015470", "new_name": "ModulePairAuxiliary'", "docstring": "A second auxiliary type associated with two modules over a common ring."}
   ]
 }

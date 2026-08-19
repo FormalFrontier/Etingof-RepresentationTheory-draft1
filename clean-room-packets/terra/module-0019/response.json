@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-015026",
-      "new_name": "QuiverLinearEquiv",
-      "docstring": "A vertexwise linear equivalence between two quiver-indexed module systems."
+      "new_name": "AuxiliaryQuiverEquivData",
+      "docstring": "Auxiliary data associated with two objects over a quiver and a commutative semiring."
     },
     {
       "temporary_id": "decl-015030",
@@ -18,8 +18,8 @@
     },
     {
       "temporary_id": "decl-015053",
-      "new_name": "QuiverLinearHom",
-      "docstring": "A vertexwise linear map between two quiver-indexed module systems."
+      "new_name": "AuxiliaryQuiverLinearMapData",
+      "docstring": "A second auxiliary data type associated with two objects over a quiver and a commutative semiring."
     },
     {
       "temporary_id": "decl-015056",

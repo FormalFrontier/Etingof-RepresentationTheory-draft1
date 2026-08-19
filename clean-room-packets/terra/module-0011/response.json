@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-015440",
-      "new_name": "RingActionStructure",
-      "docstring": "A type of action structures for a ring on an additive commutative group."
+      "new_name": "RingAddCommGroupAuxiliary",
+      "docstring": "An auxiliary type associated with a ring and an additive commutative group."
     },
     {
       "temporary_id": "decl-015444",
@@ -63,8 +63,8 @@
     },
     {
       "temporary_id": "decl-015498",
-      "new_name": "RingActionStructureAux",
-      "docstring": "An auxiliary type of action structures for a ring on an additive commutative group."
+      "new_name": "RingAddCommGroupAuxiliary'",
+      "docstring": "A second auxiliary type associated with a ring and an additive commutative group."
     }
   ]
 }

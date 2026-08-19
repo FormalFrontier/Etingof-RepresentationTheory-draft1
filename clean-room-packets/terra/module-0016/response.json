@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-005196",
-      "new_name": "not_exists_complementarySubmodules",
-      "docstring": "Under the stated module condition, no two nonzero subobjects have join equal to top and meet equal to bottom."
+      "new_name": "not_exists_auxiliary_pair",
+      "docstring": "The auxiliary predicate excludes two nonbottom objects whose supremum is top and infimum is bottom."
     },
     {
       "temporary_id": "decl-005199",
@@ -18,53 +18,53 @@
     },
     {
       "temporary_id": "decl-005725",
-      "new_name": "ModuleBinaryDecomposition",
-      "docstring": "A type of binary decomposition data for a module."
+      "new_name": "AuxiliaryModuleData",
+      "docstring": "An auxiliary inductive type associated with a module over a ring."
     },
     {
       "temporary_id": "decl-005726",
-      "new_name": "leftType",
-      "docstring": "The left component type of a binary module decomposition."
+      "new_name": "firstAuxiliaryType",
+      "docstring": "The first auxiliary type associated with the module data."
     },
     {
       "temporary_id": "decl-005727",
-      "new_name": "rightType",
-      "docstring": "The right component type of a binary module decomposition."
+      "new_name": "secondAuxiliaryType",
+      "docstring": "The second auxiliary type associated with the module data."
     },
     {
       "temporary_id": "decl-005730",
-      "new_name": "leftAddCommGroup",
-      "docstring": "Gives the additive commutative group structure on the left component."
+      "new_name": "firstAddCommGroup",
+      "docstring": "Gives the additive commutative group structure on the first auxiliary type."
     },
     {
       "temporary_id": "decl-005731",
-      "new_name": "rightAddCommGroup",
-      "docstring": "Gives the additive commutative group structure on the right component."
+      "new_name": "secondAddCommGroup",
+      "docstring": "Gives the additive commutative group structure on the second auxiliary type."
     },
     {
       "temporary_id": "decl-005734",
       "new_name": "linearEquivProd",
-      "docstring": "Identifies the ambient module linearly with the product of its two component types."
+      "docstring": "Identifies the ambient module linearly with the product of the two auxiliary types."
     },
     {
       "temporary_id": "decl-005741",
-      "new_name": "leftModule",
-      "docstring": "Supplies the module structure on the left component."
+      "new_name": "firstModule",
+      "docstring": "Supplies the module structure on the first auxiliary type."
     },
     {
       "temporary_id": "decl-005742",
-      "new_name": "rightModule",
-      "docstring": "Supplies the module structure on the right component."
+      "new_name": "secondModule",
+      "docstring": "Supplies the module structure on the second auxiliary type."
     },
     {
       "temporary_id": "decl-005745",
-      "new_name": "leftNontrivial",
-      "docstring": "The left component of a binary decomposition is nontrivial."
+      "new_name": "firstNontrivial",
+      "docstring": "The first auxiliary type is nontrivial."
     },
     {
       "temporary_id": "decl-005746",
-      "new_name": "rightNontrivial",
-      "docstring": "The right component of a binary decomposition is nontrivial."
+      "new_name": "secondNontrivial",
+      "docstring": "The second auxiliary type is nontrivial."
     },
     {
       "temporary_id": "decl-020843",

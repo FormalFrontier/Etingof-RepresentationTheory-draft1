@@ -1,7 +1,7 @@
 {
   "module_name": "LinearAlgebra.ProductModules",
   "declarations": [
-    {"temporary_id": "decl-001636", "new_name": "BinaryTypeConstructor", "docstring": "A type constructor taking two type arguments."},
+    {"temporary_id": "decl-001636", "new_name": "AuxiliaryBinaryTypeConstructor", "docstring": "An auxiliary type constructor taking two type arguments."},
     {"temporary_id": "decl-001637", "new_name": "smul_prod_mk", "docstring": "Scalar multiplication on a pair acts componentwise."}
   ]
 }

@@ -3,28 +3,28 @@
   "declarations": [
     {
       "temporary_id": "decl-014909",
-      "new_name": "QuiverLinearDiagram",
-      "docstring": "A quiver-indexed system of modules and linear maps."
+      "new_name": "AuxiliaryQuiverModuleData",
+      "docstring": "An auxiliary inductive type associated with a quiver over a commutative semiring."
     },
     {
       "temporary_id": "decl-014980",
       "new_name": "addCommMonoid",
-      "docstring": "Supplies the additive commutative monoid at a vertex of a diagram."
+      "docstring": "Supplies the additive commutative monoid structure on the type at a vertex."
     },
     {
       "temporary_id": "decl-014985",
       "new_name": "moduleInstance",
-      "docstring": "Supplies the scalar module structure at a vertex of a diagram."
+      "docstring": "Supplies the scalar module structure on the type at a vertex."
     },
     {
       "temporary_id": "decl-014986",
       "new_name": "map",
-      "docstring": "Returns the linear map assigned to a quiver arrow."
+      "docstring": "Returns the linear map associated with a quiver arrow."
     },
     {
       "temporary_id": "decl-014996",
       "new_name": "obj",
-      "docstring": "Returns the type assigned by a diagram to a vertex."
+      "docstring": "Returns the type associated with a vertex."
     }
   ]
 }
