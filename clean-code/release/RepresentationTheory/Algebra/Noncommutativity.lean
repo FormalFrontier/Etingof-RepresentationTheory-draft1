@@ -16,8 +16,6 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.Algebra.Noncommutativity
 
-set_option linter.style.whitespace false
-
 open Matrix
 
 /-- All elements of a monoid algebra commute exactly when all elements of its indexing monoid
