@@ -23,8 +23,8 @@
     },
     {
       "temporary_id": "decl-006766",
-      "new_name": "homogeneousToAuxiliary_commutes",
-      "docstring": "The homogeneous-polynomial linear map commutes with the displayed matrix-induced maps."
+      "new_name": "auxiliaryElidedStatement006766",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-006767",

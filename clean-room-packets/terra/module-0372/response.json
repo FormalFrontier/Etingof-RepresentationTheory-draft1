@@ -108,8 +108,8 @@
     },
     {
       "temporary_id": "decl-006716",
-      "new_name": "GeneralLinearGroup.AuxiliaryDecomposition.auxiliaryGeneralLinearElement_eq_noncommProd",
-      "docstring": "The displayed auxiliary general linear element is the ordered noncommutative product of its indexed factors."
+      "new_name": "auxiliaryElidedStatement006716",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-006718",
