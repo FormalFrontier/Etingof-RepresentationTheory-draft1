@@ -39,17 +39,17 @@
     {
       "association_id": "association:c1e511c1437d6df84109",
       "rationale": "The displayed functor isomorphism states that composing balanced tensor with the Hom(P,-) functor is naturally isomorphic to the identity on finite B-modules, directly matching part (i).",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:c2311c590c77ea404d2b",
       "rationale": "For every object Y, this directly asserts that the component of the natural transformation xi is an epimorphism, formalizing the requested surjectivity in part (ii).",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:0f3f78ee821d5346f4f4",
       "rationale": "The formal type directly states that the natural transformation xi from G composed with F to the identity is an isomorphism, which is the conclusion of part (iii).",
-      "role": "primary"
+      "role": "supporting"
     },
     {
       "association_id": "association:2e8dd773212de5cafd8d",
@@ -59,7 +59,7 @@
     {
       "association_id": "association:26df21cc40cc33f43ed4",
       "rationale": "This directly constructs the natural morphism xi from the composite of the Hom and balanced-tensor functors to the identity functor, matching the construction requested in part (ii).",
-      "role": "primary"
+      "role": "supporting"
     }
   ]
 }

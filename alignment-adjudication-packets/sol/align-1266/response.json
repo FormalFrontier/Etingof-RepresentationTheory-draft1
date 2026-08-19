@@ -19,7 +19,7 @@
     {
       "association_id": "association:5d5b34aa53ec2e0201cb",
       "rationale": "For every positive root, the formal type directly gives an indecomposable representation with that dimension vector and proves uniqueness up to isomorphism, exactly the existence-and-uniqueness clause of Gabriel's theorem.",
-      "role": "primary"
+      "role": "supporting"
     }
   ]
 }
