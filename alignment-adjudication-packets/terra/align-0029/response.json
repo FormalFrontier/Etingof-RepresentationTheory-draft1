@@ -1,6 +1,6 @@
 {
   "packet_id": "align-0029",
   "associations": [
-    {"association_id": "association:9c8a96b258ce2d57594d", "role": "primary", "rationale": "FaithfulRepresentation is the declaration defining faithfulness of a representation in terms of injectivity."}
+    {"association_id": "association:9c8a96b258ce2d57594d", "role": "supporting", "rationale": "The displayed type only shows an opaque proposition on a ring and module; it does not expose the claimed equivalence with injectivity."}
   ]
 }
