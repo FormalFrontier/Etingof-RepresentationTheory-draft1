@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:d494e70001db6f77427f",
-      "role": "primary",
-      "rationale": "Given orthogonality to α, the formal equality rootReflection α v = v directly states that the orthogonal hyperplane is fixed."
+      "role": "supporting",
+      "rationale": "It establishes fixation of the orthogonal hyperplane, one component of the combined reflection claim."
     },
     {
       "association_id": "association:7f9d38d895e68202c3c2",
-      "role": "primary",
-      "rationale": "Under the displayed norm-two condition, the type states rootReflection α α = -α, directly matching negation of the root."
+      "role": "supporting",
+      "rationale": "It establishes negation of the root, one component of the combined reflection claim."
     },
     {
       "association_id": "association:c7d253ebbe0bfbff2233",
-      "role": "primary",
-      "rationale": "The formal equality preserves dotProduct with the Cartan matrix for reflected v and w, directly stating preservation of the Cartan form."
+      "role": "supporting",
+      "rationale": "It establishes preservation of the Cartan form, one component of the combined reflection claim."
     }
   ]
 }
