@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:f5b1c3bafb7e065d5c56",
-      "role": "primary",
-      "rationale": "The equality gives the finite dimension of the displayed Specht module as n! times the product of shifted-exponent differences divided by their factorial product, directly matching the stated Vandermonde formula."
+      "role": "supporting",
+      "rationale": "It gives the stated dimension formula, but does not display the Vandermonde-determinant derivation in the source claim."
     }
   ]
 }

@@ -18,8 +18,8 @@
     },
     {
       "association_id": "association:8e58409b12d583779fb2",
-      "role": "primary",
-      "rationale": "The declaration directly introduces the Frobenius–Schur indicator as a complex-valued function on complex representations of a finite group, though its displayed type does not impose the source's irreducibility restriction."
+      "role": "supporting",
+      "rationale": "It introduces the indicator on representations, but does not state the full finite-group and irreducible-representation setup in the source claim."
     }
   ]
 }

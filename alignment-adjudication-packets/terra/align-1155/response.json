@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:0555bcd03f2e054ed040",
-      "role": "primary",
-      "rationale": "The displayed equality directly identifies the commutator subgroup of GL₂ over the finite field with the range of SL₂ in GL₂, subject to the stated field-size hypotheses."
+      "role": "supporting",
+      "rationale": "It identifies the two subgroups only under explicit positivity and field-size hypotheses absent from the displayed source claim."
     }
   ]
 }

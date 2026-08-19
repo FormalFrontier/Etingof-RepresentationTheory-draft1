@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:c264883b623bc5d000a5",
-      "role": "primary",
-      "rationale": "For every nonzero coefficientwise-nonnegative β, the formal type directly asserts an iterate of the Coxeter action with a negative coefficient."
+      "role": "supporting",
+      "rationale": "It proves the stated iteration property under an explicit Dynkin-diagram hypothesis absent from the displayed source claim."
     }
   ]
 }
