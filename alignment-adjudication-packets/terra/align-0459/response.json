@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:213683c38e1c177dd48d",
-      "role": "primary",
-      "rationale": "Assuming invariance of the inner product, the displayed equality says exactly that the conjugate-to-dual equivalence intertwines the conjugate and dual group actions."
+      "role": "supporting",
+      "rationale": "Assuming invariance of the inner product, the displayed equality states that the named conjugate-to-dual map intertwines the two group actions, but it does not itself display that map as the required linear isomorphism."
     },
     {
       "association_id": "association:5f5ab3e82051fa0e7c66",

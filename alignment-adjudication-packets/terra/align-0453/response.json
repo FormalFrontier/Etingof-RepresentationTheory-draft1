@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:db1548ec37ae25ac10c6",
-      "role": "primary",
-      "rationale": "The theorem directly classifies every simple complex symmetric-group module by a Specht module and supplies a simple rational Specht form with compatible complexified action."
+      "role": "supporting",
+      "rationale": "The theorem classifies every simple complex symmetric-group module by a Specht module and supplies a rational Specht form with compatible complexified action, but it does not itself state the existence of a basis in which all representation matrices have rational entries."
     },
     {
       "association_id": "association:5e85d45a26ddba7597c6",

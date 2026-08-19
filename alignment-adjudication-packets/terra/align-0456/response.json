@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:f0d48b01141f4f01b961",
-      "role": "primary",
-      "rationale": "The IsEmpty type directly states the source claim's assertion that no natural isomorphism exists between the identity and contragredient functors; it does not cover the separate objectwise-isomorphism clause."
+      "role": "supporting",
+      "rationale": "The IsEmpty type states that no natural isomorphism exists between the identity and contragredient functors, but it does not state the source claim's separate objectwise-isomorphism assertion."
     }
   ]
 }
