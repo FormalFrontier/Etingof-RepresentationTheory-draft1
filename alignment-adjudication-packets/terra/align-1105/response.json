@@ -3,17 +3,17 @@
   "associations": [
     {
       "association_id": "association:c57c6b24a24ef4195cbd",
-      "role": "primary",
+      "role": "supporting",
       "rationale": "The formal type directly gives the induced sign representation as isomorphic to the biproduct of signRep and rotRep, one of the three claimed decompositions."
     },
     {
       "association_id": "association:46837924873c07e8c9c6",
-      "role": "primary",
+      "role": "supporting",
       "rationale": "The formal type directly gives the induced trivial representation as isomorphic to the biproduct of trivRep and stdRep, one of the three claimed decompositions."
     },
     {
       "association_id": "association:58a4b6019f869f887a9d",
-      "role": "primary",
+      "role": "supporting",
       "rationale": "The formal type directly gives the induced standard representation as isomorphic to twoDimRep plus stdRep and rotRep, the third claimed decomposition."
     }
   ]
