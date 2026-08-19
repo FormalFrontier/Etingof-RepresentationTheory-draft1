@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:242ac0fc4441b8363478",
-      "role": "primary",
-      "rationale": "The equality directly states the character value of each displayed representation on every displayed conjugacy-class representative."
+      "role": "supporting",
+      "rationale": "The equality states the displayed character values, but it does not itself state simplicity, pairwise nonisomorphism, genuineness, or completeness of the five representations, so it covers only one part of the source claim."
     },
     {
       "association_id": "association:dd2e89057a2339397180",
@@ -18,13 +18,13 @@
     },
     {
       "association_id": "association:44a2fccf560053421406",
-      "role": "primary",
-      "rationale": "The formal type directly states that representations at distinct indices in the displayed family are nonisomorphic."
+      "role": "supporting",
+      "rationale": "The formal type states pairwise nonisomorphism within the displayed family, but it does not itself state simplicity, the character values, genuineness, or completeness, so it is partial evidence."
     },
     {
       "association_id": "association:e4c48dd9388aa51c2b41",
-      "role": "primary",
-      "rationale": "The formal type directly states that every representation in the displayed five-member family is simple."
+      "role": "supporting",
+      "rationale": "The formal type states simplicity of each displayed representation, but it does not itself state pairwise nonisomorphism, the character values, genuineness, or completeness, so it is partial evidence."
     }
   ]
 }
