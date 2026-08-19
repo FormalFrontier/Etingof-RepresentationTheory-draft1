@@ -1,1 +1,270 @@
-{"module_name":"HomologicalAlgebra.ProjectiveResolution.ShortExact","declarations":[{"temporary_id":"decl-020304","new_name":"CategoryTheory.ShortComplex.ShortExact.exists_projectiveResolution","docstring":"A short exact complex admits compatible projective resolutions once resolutions of its outer objects are fixed."},{"temporary_id":"decl-020365","new_name":"CategoryTheory.ShortComplex.ShortExact.middleComplex","docstring":"The chain complex associated to a short exact complex and projective resolutions of its outer objects."},{"temporary_id":"decl-020367","new_name":"CategoryTheory.ShortComplex.ShortExact.middleComplex_projective","docstring":"Every object of the associated middle chain complex is projective."},{"temporary_id":"decl-020368","new_name":"CategoryTheory.ShortComplex.ShortExact.middleDifferential","docstring":"The differential between consecutive biproducts of the two outer projective resolutions."},{"temporary_id":"decl-020373","new_name":"CategoryTheory.ShortComplex.ShortExact.middleDifferential_d_squared","docstring":"Two consecutive middle differentials compose to zero."},{"temporary_id":"decl-020374","new_name":"CategoryTheory.ShortComplex.ShortExact.middleDifferential_comp_fst","docstring":"Composing the middle differential with the first projection gives the indicated biproduct map."},{"temporary_id":"decl-020375","new_name":"CategoryTheory.ShortComplex.ShortExact.middleDifferential_comp_fst_assoc","docstring":"The first-projection formula for the middle differential remains valid after postcomposition."},{"temporary_id":"decl-020376","new_name":"CategoryTheory.ShortComplex.ShortExact.inl_comp_middleDifferential","docstring":"Precomposing the middle differential with the first inclusion gives the first outer differential and zero."},{"temporary_id":"decl-020377","new_name":"CategoryTheory.ShortComplex.ShortExact.inl_comp_middleDifferential_assoc","docstring":"The first-inclusion formula for the middle differential remains valid after postcomposition."},{"temporary_id":"decl-020378","new_name":"CategoryTheory.ShortComplex.ShortExact.inr_comp_middleDifferential","docstring":"Precomposing the middle differential with the second inclusion gives the connecting map and the second outer differential."},{"temporary_id":"decl-020379","new_name":"CategoryTheory.ShortComplex.ShortExact.inr_comp_middleDifferential_assoc","docstring":"The second-inclusion formula for the middle differential remains valid after postcomposition."},{"temporary_id":"decl-020380","new_name":"CategoryTheory.ShortComplex.ShortExact.middleDifferential_comp_snd","docstring":"Composing the middle differential with the second projection gives zero and the second outer differential."},{"temporary_id":"decl-020381","new_name":"CategoryTheory.ShortComplex.ShortExact.middleDifferential_comp_snd_assoc","docstring":"The second-projection formula for the middle differential remains valid after postcomposition."},{"temporary_id":"decl-020382","new_name":"CategoryTheory.ShortComplex.ShortExact.middleDifferential_zero_comp_middleAugmentationZero","docstring":"The degree-zero middle differential vanishes after the middle augmentation map."},{"temporary_id":"decl-020383","new_name":"CategoryTheory.ShortComplex.ShortExact.resolutionShortComplexToSingle","docstring":"A morphism from the short complex of resolutions to the corresponding concentrated short complex."},{"temporary_id":"decl-020386","new_name":"CategoryTheory.ProjectiveResolution.exact_d_one_augmentation","docstring":"The degree-one differential followed by the degree-zero augmentation forms an exact short complex."},{"temporary_id":"decl-020387","new_name":"CategoryTheory.ShortComplex.ShortExact.middleProjectiveResolution","docstring":"A projective resolution of the middle object obtained from resolutions of the outer objects."},{"temporary_id":"decl-020393","new_name":"CategoryTheory.ShortComplex.ShortExact.degreeOneToLeft","docstring":"A morphism from degree one of the right projective resolution to the left object."},{"temporary_id":"decl-020399","new_name":"CategoryTheory.ShortComplex.ShortExact.d_comp_degreeOneToLeft","docstring":"The degree-two differential vanishes after the morphism from degree one to the left object."},{"temporary_id":"decl-020400","new_name":"CategoryTheory.ShortComplex.ShortExact.degreeOneToLeft_comp_f","docstring":"The degree-one-to-left morphism followed by the first map of the short complex equals the stated negative composite."},{"temporary_id":"decl-020401","new_name":"CategoryTheory.ShortComplex.ShortExact.degreeOneToLeft_comp_f_assoc","docstring":"The formula for the degree-one-to-left morphism followed by the first map persists after postcomposition."},{"temporary_id":"decl-020402","new_name":"CategoryTheory.ShortComplex.ShortExact.resolutionShortComplex","docstring":"The short complex of chain complexes built from the two outer projective resolutions and their associated middle complex."},{"temporary_id":"decl-020404","new_name":"CategoryTheory.ShortComplex.ShortExact.resolutionShortComplex_shortExact","docstring":"The short complex of projective-resolution chain complexes is short exact."},{"temporary_id":"decl-020405","new_name":"CategoryTheory.ShortComplex.singleShortComplex","docstring":"The short complex of chain complexes concentrated in degree zero associated to a short complex."},{"temporary_id":"decl-020408","new_name":"CategoryTheory.ShortComplex.singleShortComplex_shortExact","docstring":"Degree-zero concentration preserves short exactness of a short complex."},{"temporary_id":"decl-020409","new_name":"CategoryTheory.ShortComplex.ShortExact.resolutionShortComplex_splitting","docstring":"A splitting of the short complex of resolutions after evaluation in any degree."},{"temporary_id":"decl-020410","new_name":"CategoryTheory.ShortComplex.ShortExact.connecting","docstring":"The connecting morphism from degree one higher in the right resolution to the current degree in the left resolution."},{"temporary_id":"decl-020412","new_name":"CategoryTheory.ShortComplex.ShortExact.connectingAux","docstring":"Auxiliary dependent data used in the construction of connecting morphisms."},{"temporary_id":"decl-020428","new_name":"CategoryTheory.ShortComplex.ShortExact.connectingZero","docstring":"The connecting morphism from degree one of the right resolution to degree zero of the left resolution."},{"temporary_id":"decl-020432","new_name":"CategoryTheory.ShortComplex.ShortExact.connectingZero_comp_augmentation","docstring":"The degree-zero connecting morphism followed by the left augmentation equals the morphism to the left object."},{"temporary_id":"decl-020433","new_name":"CategoryTheory.ShortComplex.ShortExact.connectingZero_comp_augmentation_assoc","docstring":"The degree-zero connecting and augmentation identity remains valid after postcomposition."},{"temporary_id":"decl-020434","new_name":"CategoryTheory.ShortComplex.ShortExact.connecting_succ_comp_d","docstring":"A connecting morphism followed by the left differential equals the negative right differential followed by the preceding connecting morphism."},{"temporary_id":"decl-020435","new_name":"CategoryTheory.ShortComplex.ShortExact.connecting_succ_comp_d_assoc","docstring":"The connecting-differential identity remains valid after postcomposition."},{"temporary_id":"decl-020436","new_name":"CategoryTheory.ShortComplex.ShortExact.connecting_succ_eq_connectingAux","docstring":"The connecting morphism at a successor index is the first component of the auxiliary dependent data."},{"temporary_id":"decl-020437","new_name":"CategoryTheory.ShortComplex.ShortExact.connecting_zero_eq","docstring":"The connecting morphism at index zero is the designated degree-zero connecting morphism."},{"temporary_id":"decl-020438","new_name":"CategoryTheory.ShortComplex.ShortExact.connecting_zero_comp_augmentation_comp_f","docstring":"The degree-zero connecting morphism followed by the left augmentation and first short-complex map equals the stated negative composite."},{"temporary_id":"decl-020439","new_name":"CategoryTheory.ShortComplex.ShortExact.connecting_zero_comp_augmentation_comp_f_assoc","docstring":"The degree-zero connecting, augmentation, and first-map identity persists after postcomposition."},{"temporary_id":"decl-020440","new_name":"CategoryTheory.ShortComplex.ShortExact.inlToMiddleComplex","docstring":"The chain morphism from the left projective resolution into the associated middle complex."},{"temporary_id":"decl-020443","new_name":"CategoryTheory.ShortComplex.ShortExact.inlToMiddleComplex_comp_sndFromMiddleComplex","docstring":"The inclusion into the middle complex followed by its projection to the right resolution is zero."},{"temporary_id":"decl-020444","new_name":"CategoryTheory.ShortComplex.ShortExact.inlToMiddleComplex_f","docstring":"Each component of the chain morphism into the middle complex is the first biproduct inclusion."},{"temporary_id":"decl-020445","new_name":"CategoryTheory.ShortComplex.ShortExact.sndFromMiddleComplex","docstring":"The chain morphism from the associated middle complex to the right projective resolution."},{"temporary_id":"decl-020447","new_name":"CategoryTheory.ShortComplex.ShortExact.sndFromMiddleComplex_f","docstring":"Each component of the chain morphism from the middle complex is the second biproduct projection."},{"temporary_id":"decl-020448","new_name":"CategoryTheory.ShortComplex.ShortExact.middleAugmentation","docstring":"The chain morphism from the associated middle complex to the middle object concentrated in degree zero."},{"temporary_id":"decl-020451","new_name":"CategoryTheory.ShortComplex.ShortExact.middleAugmentationZero","docstring":"The degree-zero augmentation from the biproduct of the outer resolutions to the middle object."},{"temporary_id":"decl-020458","new_name":"CategoryTheory.ShortComplex.ShortExact.middleAugmentationZero_comp_g","docstring":"The middle augmentation followed by the second short-complex map is the right projection followed by the right augmentation."},{"temporary_id":"decl-020459","new_name":"CategoryTheory.ShortComplex.ShortExact.middleAugmentationZero_comp_g_assoc","docstring":"The middle-augmentation formula for the second short-complex map remains valid after postcomposition."},{"temporary_id":"decl-020460","new_name":"CategoryTheory.ShortComplex.ShortExact.inl_comp_middleAugmentationZero","docstring":"The first biproduct inclusion followed by the middle augmentation is the left augmentation followed by the first short-complex map."},{"temporary_id":"decl-020461","new_name":"CategoryTheory.ShortComplex.ShortExact.inl_comp_middleAugmentationZero_assoc","docstring":"The first-inclusion formula for the middle augmentation persists after postcomposition."},{"temporary_id":"decl-020462","new_name":"CategoryTheory.ShortComplex.ShortExact.inr_comp_middleAugmentationZero_comp_g","docstring":"The second inclusion followed by the middle augmentation and the second short-complex map equals the right augmentation."},{"temporary_id":"decl-020463","new_name":"CategoryTheory.ShortComplex.ShortExact.inr_comp_middleAugmentationZero_comp_g_assoc","docstring":"The second-inclusion formula for the middle augmentation and second map persists after postcomposition."},{"temporary_id":"decl-020464","new_name":"CategoryTheory.ShortComplex.ShortExact.middleAugmentation_f_succ","docstring":"Every positive-degree component of the middle augmentation chain morphism is zero."},{"temporary_id":"decl-020465","new_name":"CategoryTheory.ShortComplex.ShortExact.middleAugmentation_f_zero","docstring":"The degree-zero component of the middle augmentation chain morphism is the degree-zero augmentation."},{"temporary_id":"decl-020466","new_name":"CategoryTheory.ShortComplex.ShortExact.middleAugmentation_quasiIso","docstring":"The middle augmentation chain morphism is a quasi-isomorphism."}]}
+{
+  "module_name": "HomologicalAlgebra.ProjectiveResolution.ShortExact",
+  "declarations": [
+    {
+      "temporary_id": "decl-020304",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.exists_projectiveResolution",
+      "docstring": "A short exact complex admits compatible projective resolutions once resolutions of its outer objects are fixed."
+    },
+    {
+      "temporary_id": "decl-020365",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleComplex",
+      "docstring": "The chain complex associated to a short exact complex and projective resolutions of its outer objects."
+    },
+    {
+      "temporary_id": "decl-020367",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleComplex_projective",
+      "docstring": "Every object of the associated middle chain complex is projective."
+    },
+    {
+      "temporary_id": "decl-020368",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleDifferential",
+      "docstring": "The differential between consecutive biproducts of the two outer projective resolutions."
+    },
+    {
+      "temporary_id": "decl-020373",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleDifferential_d_squared",
+      "docstring": "Two consecutive middle differentials compose to zero."
+    },
+    {
+      "temporary_id": "decl-020374",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleDifferential_comp_fst",
+      "docstring": "Composing the middle differential with the first projection gives the indicated biproduct map."
+    },
+    {
+      "temporary_id": "decl-020375",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleDifferential_comp_fst_assoc",
+      "docstring": "The first-projection formula for the middle differential remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-020376",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.inl_comp_middleDifferential",
+      "docstring": "Precomposing the middle differential with the first inclusion gives the first outer differential and zero."
+    },
+    {
+      "temporary_id": "decl-020377",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.inl_comp_middleDifferential_assoc",
+      "docstring": "The first-inclusion formula for the middle differential remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-020378",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.inr_comp_middleDifferential",
+      "docstring": "Precomposing the middle differential with the second inclusion gives the connecting map and the second outer differential."
+    },
+    {
+      "temporary_id": "decl-020379",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.inr_comp_middleDifferential_assoc",
+      "docstring": "The second-inclusion formula for the middle differential remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-020380",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleDifferential_comp_snd",
+      "docstring": "Composing the middle differential with the second projection gives zero and the second outer differential."
+    },
+    {
+      "temporary_id": "decl-020381",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleDifferential_comp_snd_assoc",
+      "docstring": "The second-projection formula for the middle differential remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-020382",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleDifferential_zero_comp_middleAugmentationZero",
+      "docstring": "The degree-zero middle differential vanishes after the middle augmentation map."
+    },
+    {
+      "temporary_id": "decl-020383",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.resolutionShortComplexToSingle",
+      "docstring": "A morphism from the short complex of resolutions to the corresponding concentrated short complex."
+    },
+    {
+      "temporary_id": "decl-020386",
+      "new_name": "Auxiliary.statement020386",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-020387",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleProjectiveResolution",
+      "docstring": "A projective resolution of the middle object obtained from resolutions of the outer objects."
+    },
+    {
+      "temporary_id": "decl-020393",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.degreeOneToLeft",
+      "docstring": "A morphism from degree one of the right projective resolution to the left object."
+    },
+    {
+      "temporary_id": "decl-020399",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.d_comp_degreeOneToLeft",
+      "docstring": "The degree-two differential vanishes after the morphism from degree one to the left object."
+    },
+    {
+      "temporary_id": "decl-020400",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.degreeOneToLeft_comp_f",
+      "docstring": "The degree-one-to-left morphism followed by the first map of the short complex equals the stated negative composite."
+    },
+    {
+      "temporary_id": "decl-020401",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.degreeOneToLeft_comp_f_assoc",
+      "docstring": "The formula for the degree-one-to-left morphism followed by the first map persists after postcomposition."
+    },
+    {
+      "temporary_id": "decl-020402",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.resolutionShortComplex",
+      "docstring": "The short complex of chain complexes built from the two outer projective resolutions and their associated middle complex."
+    },
+    {
+      "temporary_id": "decl-020404",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.resolutionShortComplex_shortExact",
+      "docstring": "The short complex of projective-resolution chain complexes is short exact."
+    },
+    {
+      "temporary_id": "decl-020405",
+      "new_name": "CategoryTheory.ShortComplex.singleShortComplex",
+      "docstring": "The short complex of chain complexes concentrated in degree zero associated to a short complex."
+    },
+    {
+      "temporary_id": "decl-020408",
+      "new_name": "CategoryTheory.ShortComplex.singleShortComplex_shortExact",
+      "docstring": "Degree-zero concentration preserves short exactness of a short complex."
+    },
+    {
+      "temporary_id": "decl-020409",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.resolutionShortComplex_splitting",
+      "docstring": "A splitting of the short complex of resolutions after evaluation in any degree."
+    },
+    {
+      "temporary_id": "decl-020410",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.connecting",
+      "docstring": "The connecting morphism from degree one higher in the right resolution to the current degree in the left resolution."
+    },
+    {
+      "temporary_id": "decl-020412",
+      "new_name": "Auxiliary.statement020412",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-020428",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.connectingZero",
+      "docstring": "The connecting morphism from degree one of the right resolution to degree zero of the left resolution."
+    },
+    {
+      "temporary_id": "decl-020432",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.connectingZero_comp_augmentation",
+      "docstring": "The degree-zero connecting morphism followed by the left augmentation equals the morphism to the left object."
+    },
+    {
+      "temporary_id": "decl-020433",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.connectingZero_comp_augmentation_assoc",
+      "docstring": "The degree-zero connecting and augmentation identity remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-020434",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.connecting_succ_comp_d",
+      "docstring": "A connecting morphism followed by the left differential equals the negative right differential followed by the preceding connecting morphism."
+    },
+    {
+      "temporary_id": "decl-020435",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.connecting_succ_comp_d_assoc",
+      "docstring": "The connecting-differential identity remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-020436",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.connecting_succ_eq_connectingAux",
+      "docstring": "The connecting morphism at a successor index is the first component of the auxiliary dependent data."
+    },
+    {
+      "temporary_id": "decl-020437",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.connecting_zero_eq",
+      "docstring": "The connecting morphism at index zero is the designated degree-zero connecting morphism."
+    },
+    {
+      "temporary_id": "decl-020438",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.connecting_zero_comp_augmentation_comp_f",
+      "docstring": "The degree-zero connecting morphism followed by the left augmentation and first short-complex map equals the stated negative composite."
+    },
+    {
+      "temporary_id": "decl-020439",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.connecting_zero_comp_augmentation_comp_f_assoc",
+      "docstring": "The degree-zero connecting, augmentation, and first-map identity persists after postcomposition."
+    },
+    {
+      "temporary_id": "decl-020440",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.inlToMiddleComplex",
+      "docstring": "The chain morphism from the left projective resolution into the associated middle complex."
+    },
+    {
+      "temporary_id": "decl-020443",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.inlToMiddleComplex_comp_sndFromMiddleComplex",
+      "docstring": "The inclusion into the middle complex followed by its projection to the right resolution is zero."
+    },
+    {
+      "temporary_id": "decl-020444",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.inlToMiddleComplex_f",
+      "docstring": "Each component of the chain morphism into the middle complex is the first biproduct inclusion."
+    },
+    {
+      "temporary_id": "decl-020445",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.sndFromMiddleComplex",
+      "docstring": "The chain morphism from the associated middle complex to the right projective resolution."
+    },
+    {
+      "temporary_id": "decl-020447",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.sndFromMiddleComplex_f",
+      "docstring": "Each component of the chain morphism from the middle complex is the second biproduct projection."
+    },
+    {
+      "temporary_id": "decl-020448",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleAugmentation",
+      "docstring": "The chain morphism from the associated middle complex to the middle object concentrated in degree zero."
+    },
+    {
+      "temporary_id": "decl-020451",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleAugmentationZero",
+      "docstring": "The degree-zero augmentation from the biproduct of the outer resolutions to the middle object."
+    },
+    {
+      "temporary_id": "decl-020458",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleAugmentationZero_comp_g",
+      "docstring": "The middle augmentation followed by the second short-complex map is the right projection followed by the right augmentation."
+    },
+    {
+      "temporary_id": "decl-020459",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleAugmentationZero_comp_g_assoc",
+      "docstring": "The middle-augmentation formula for the second short-complex map remains valid after postcomposition."
+    },
+    {
+      "temporary_id": "decl-020460",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.inl_comp_middleAugmentationZero",
+      "docstring": "The first biproduct inclusion followed by the middle augmentation is the left augmentation followed by the first short-complex map."
+    },
+    {
+      "temporary_id": "decl-020461",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.inl_comp_middleAugmentationZero_assoc",
+      "docstring": "The first-inclusion formula for the middle augmentation persists after postcomposition."
+    },
+    {
+      "temporary_id": "decl-020462",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.inr_comp_middleAugmentationZero_comp_g",
+      "docstring": "The second inclusion followed by the middle augmentation and the second short-complex map equals the right augmentation."
+    },
+    {
+      "temporary_id": "decl-020463",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.inr_comp_middleAugmentationZero_comp_g_assoc",
+      "docstring": "The second-inclusion formula for the middle augmentation and second map persists after postcomposition."
+    },
+    {
+      "temporary_id": "decl-020464",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleAugmentation_f_succ",
+      "docstring": "Every positive-degree component of the middle augmentation chain morphism is zero."
+    },
+    {
+      "temporary_id": "decl-020465",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleAugmentation_f_zero",
+      "docstring": "The degree-zero component of the middle augmentation chain morphism is the degree-zero augmentation."
+    },
+    {
+      "temporary_id": "decl-020466",
+      "new_name": "CategoryTheory.ShortComplex.ShortExact.middleAugmentation_quasiIso",
+      "docstring": "The middle augmentation chain morphism is a quasi-isomorphism."
+    }
+  ]
+}

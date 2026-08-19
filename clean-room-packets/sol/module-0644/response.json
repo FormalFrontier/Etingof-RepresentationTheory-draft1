@@ -1,1 +1,205 @@
-{"module_name":"HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison","declarations":[{"temporary_id":"decl-004246","new_name":"ModuleCat.forgetToAddCommGrp","docstring":"The functor sending a module over a field to its underlying additive commutative group."},{"temporary_id":"decl-004247","new_name":"ModuleCat.forgetToAddCommGrp_map_smul_id_apply","docstring":"Forgetting the scalar multiple of an identity morphism sends an element to its scalar multiple."},{"temporary_id":"decl-017985","new_name":"CategoryTheory.ProjectiveResolution.homCocycleMap_coboundaries_le_ker","docstring":"Coboundaries lie in the kernel of the composite from cochains to target cohomology classes."},{"temporary_id":"decl-017988","new_name":"CategoryTheory.ProjectiveResolution.homCochainMap","docstring":"The additive map on Hom-complex cochains induced by postcomposition with a module morphism."},{"temporary_id":"decl-017992","new_name":"CategoryTheory.ProjectiveResolution.homCocycleMap","docstring":"The additive map on Hom-complex cocycles induced by a morphism of coefficient modules."},{"temporary_id":"decl-017995","new_name":"CategoryTheory.ProjectiveResolution.homCocycleMap_apply","docstring":"The induced cocycle map is postcomposition by the image of the coefficient morphism in the single complex."},{"temporary_id":"decl-018043","new_name":"CategoryTheory.ProjectiveResolution.homCohomologyClassMap","docstring":"The additive map on Hom-complex cohomology classes induced by a coefficient-module morphism."},{"temporary_id":"decl-018044","new_name":"CategoryTheory.ProjectiveResolution.homCohomologyClassMap_mk","docstring":"The induced cohomology-class map sends a represented cocycle to the class of its postcomposition."},{"temporary_id":"decl-019971","new_name":"CategoryTheory.ProjectiveResolution.homCochainComplex","docstring":"The additive cochain complex of morphisms from a projective resolution to a module concentrated in degree zero."},{"temporary_id":"decl-019973","new_name":"CategoryTheory.ProjectiveResolution.homCochainComplexMap","docstring":"A coefficient-module morphism induces a morphism between the associated additive Hom cochain complexes."},{"temporary_id":"decl-019975","new_name":"CategoryTheory.ProjectiveResolution.homCochainComplexMap_f_apply","docstring":"A component of the induced Hom-complex morphism acts by composing a cochain with the coefficient morphism in the single complex."},{"temporary_id":"decl-019976","new_name":"CategoryTheory.ProjectiveResolution.homCochainComplexHomologyAddEquiv","docstring":"Homology of the additive Hom cochain complex is additively equivalent to the underlying homology of the linear Yoneda complex."},{"temporary_id":"decl-019977","new_name":"CategoryTheory.ProjectiveResolution.homCochainComplexHomologyAddEquiv_map_smul","docstring":"The homology additive equivalence intertwines scalar multiplication maps on the two Hom complexes."},{"temporary_id":"decl-020001","new_name":"CategoryTheory.ProjectiveResolution.homCochainEquiv","docstring":"Cochains in nonnegative degree are additively equivalent to morphisms from the corresponding resolution object to the coefficient module."},{"temporary_id":"decl-020005","new_name":"CategoryTheory.ProjectiveResolution.homCochainEquiv_apply","docstring":"The cochain equivalence is computed using the inverse of the projective-resolution component isomorphism and the single-complex equivalence."},{"temporary_id":"decl-020006","new_name":"CategoryTheory.ProjectiveResolution.homCochainEquiv_map_apply","docstring":"The cochain equivalence carries the induced coefficient map to postcomposition by that coefficient morphism."},{"temporary_id":"decl-020007","new_name":"CategoryTheory.ProjectiveResolution.homCochainEquiv_delta","docstring":"Under the cochain equivalence, the coboundary is the signed composite with the differential of the projective resolution."},{"temporary_id":"decl-020087","new_name":"CategoryTheory.ProjectiveResolution.homCochainComplexHomologyIso","docstring":"Homology of the additive Hom cochain complex is isomorphic to the underlying additive group of linear Yoneda homology."},{"temporary_id":"decl-020187","new_name":"CategoryTheory.ProjectiveResolution.homComplex_homologyAddEquiv_eq_homologyIso_hom","docstring":"The Hom-complex homology additive equivalence agrees pointwise with the morphism of its left-homology isomorphism."},{"temporary_id":"decl-020188","new_name":"CategoryTheory.ProjectiveResolution.homComplex_homologyAddEquiv_naturality","docstring":"The Hom-complex homology equivalence commutes with the maps induced by a coefficient-module morphism."},{"temporary_id":"decl-020189","new_name":"CategoryTheory.ProjectiveResolution.homComplex_homologyAddEquiv_symm_mk_naturality","docstring":"The inverse homology equivalence carries the class of a postcomposed cocycle to the homology map of the original class."},{"temporary_id":"decl-020190","new_name":"CategoryTheory.ProjectiveResolution.homCochainComplexSuccHomologyIso","docstring":"Positive-degree Hom-complex homology is isomorphic to the underlying additive group of the corresponding linear Yoneda homology."},{"temporary_id":"decl-020205","new_name":"CategoryTheory.ProjectiveResolution.homCochainComplexSuccHomologyIso_naturality_smul","docstring":"The positive-degree homology comparison isomorphism commutes with scalar multiplication maps."},{"temporary_id":"decl-020213","new_name":"CategoryTheory.ProjectiveResolution.homCochainComplexZeroHomologyIso","docstring":"Degree-zero Hom-complex homology is isomorphic to the underlying additive group of degree-zero linear Yoneda homology."},{"temporary_id":"decl-020229","new_name":"CategoryTheory.ProjectiveResolution.homCochainComplexZeroHomologyIso_naturality_smul","docstring":"The degree-zero homology comparison isomorphism commutes with scalar multiplication maps."},{"temporary_id":"decl-020230","new_name":"HomologicalComplex.homologyMapIso_naturality","docstring":"The canonical comparison between homology of a complex and homology of its associated short complex is natural for endomorphisms."},{"temporary_id":"decl-020928","new_name":"CategoryTheory.ProjectiveResolution.homCochainComplex_homology_aux","docstring":"A theorem whose formal expression could not be rendered."},{"temporary_id":"decl-021436","new_name":"CategoryTheory.ProjectiveResolution.homLeftHomologyMapData","docstring":"Left-homology map data for the short-complex map induced by a morphism of coefficient modules."},{"temporary_id":"decl-021442","new_name":"CategoryTheory.ProjectiveResolution.homLeftHomologyMapData_phiH","docstring":"The homology morphism in the induced left-homology map data is the additive-group morphism of the cohomology-class map."},{"temporary_id":"decl-022894","new_name":"CategoryTheory.ProjectiveResolution.signedHomCochainEquiv","docstring":"A unit of the integers parametrizes an additive equivalence from Hom-complex cochains to morphisms out of a resolution object."},{"temporary_id":"decl-022895","new_name":"CategoryTheory.ProjectiveResolution.signedHomCochainIso","docstring":"A signed isomorphism compares each object of the additive Hom complex with the underlying object of the linear Yoneda complex."},{"temporary_id":"decl-022897","new_name":"CategoryTheory.ProjectiveResolution.signedHomCochainIso_hom_apply","docstring":"The forward signed comparison sends an element to its cochain-equivalence image multiplied by the chosen integer unit."},{"temporary_id":"decl-022898","new_name":"CategoryTheory.ProjectiveResolution.signedHomCochainIso_hom_map_smul_apply","docstring":"The forward signed comparison intertwines scalar multiplication on the additive and linear Yoneda Hom complexes pointwise."},{"temporary_id":"decl-022899","new_name":"CategoryTheory.ProjectiveResolution.signedHomCochainIso_hom_naturality_smul","docstring":"The forward signed comparison is natural with respect to scalar multiplication endomorphisms."},{"temporary_id":"decl-022900","new_name":"CategoryTheory.ProjectiveResolution.signedHomCochainIso_inv_naturality_smul","docstring":"The inverse signed comparison is natural with respect to scalar multiplication endomorphisms."},{"temporary_id":"decl-022905","new_name":"CategoryTheory.ProjectiveResolution.signedHomologyComparison","docstring":"A definition whose formal expression could not be rendered."},{"temporary_id":"decl-022909","new_name":"CategoryTheory.ProjectiveResolution.signedHomologyComparison_naturality_smul","docstring":"A theorem whose formal expression could not be rendered."},{"temporary_id":"decl-022910","new_name":"CategoryTheory.ProjectiveResolution.homShortComplexIso","docstring":"The three consecutive terms of the additive Hom complex are isomorphic to the image under forgetting of the corresponding linear Yoneda short complex."},{"temporary_id":"decl-022914","new_name":"CategoryTheory.ProjectiveResolution.homShortComplexIso_naturality_smul","docstring":"The short-complex comparison isomorphism commutes with the maps induced by scalar multiplication."},{"temporary_id":"decl-023389","new_name":"CategoryTheory.ProjectiveResolution.signedHomCochainIso_d","docstring":"Signed comparison isomorphisms intertwine consecutive differentials after twisting the target sign by the parity of the next degree."}]}
+{
+  "module_name": "HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison",
+  "declarations": [
+    {
+      "temporary_id": "decl-004246",
+      "new_name": "ModuleCat.forgetToAddCommGrp",
+      "docstring": "The functor sending a module over a field to its underlying additive commutative group."
+    },
+    {
+      "temporary_id": "decl-004247",
+      "new_name": "ModuleCat.forgetToAddCommGrp_map_smul_id_apply",
+      "docstring": "Forgetting the scalar multiple of an identity morphism sends an element to its scalar multiple."
+    },
+    {
+      "temporary_id": "decl-017985",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCocycleMap_coboundaries_le_ker",
+      "docstring": "Coboundaries lie in the kernel of the composite from cochains to target cohomology classes."
+    },
+    {
+      "temporary_id": "decl-017988",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainMap",
+      "docstring": "The additive map on Hom-complex cochains induced by postcomposition with a module morphism."
+    },
+    {
+      "temporary_id": "decl-017992",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCocycleMap",
+      "docstring": "The additive map on Hom-complex cocycles induced by a morphism of coefficient modules."
+    },
+    {
+      "temporary_id": "decl-017995",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCocycleMap_apply",
+      "docstring": "The induced cocycle map is postcomposition by the image of the coefficient morphism in the single complex."
+    },
+    {
+      "temporary_id": "decl-018043",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCohomologyClassMap",
+      "docstring": "The additive map on Hom-complex cohomology classes induced by a coefficient-module morphism."
+    },
+    {
+      "temporary_id": "decl-018044",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCohomologyClassMap_mk",
+      "docstring": "The induced cohomology-class map sends a represented cocycle to the class of its postcomposition."
+    },
+    {
+      "temporary_id": "decl-019971",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainComplex",
+      "docstring": "The additive cochain complex of morphisms from a projective resolution to a module concentrated in degree zero."
+    },
+    {
+      "temporary_id": "decl-019973",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainComplexMap",
+      "docstring": "A coefficient-module morphism induces a morphism between the associated additive Hom cochain complexes."
+    },
+    {
+      "temporary_id": "decl-019975",
+      "new_name": "Auxiliary.statement019975",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-019976",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainComplexHomologyAddEquiv",
+      "docstring": "Homology of the additive Hom cochain complex is additively equivalent to the underlying homology of the linear Yoneda complex."
+    },
+    {
+      "temporary_id": "decl-019977",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainComplexHomologyAddEquiv_map_smul",
+      "docstring": "The homology additive equivalence intertwines scalar multiplication maps on the two Hom complexes."
+    },
+    {
+      "temporary_id": "decl-020001",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainEquiv",
+      "docstring": "Cochains in nonnegative degree are additively equivalent to morphisms from the corresponding resolution object to the coefficient module."
+    },
+    {
+      "temporary_id": "decl-020005",
+      "new_name": "Auxiliary.statement020005",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+    },
+    {
+      "temporary_id": "decl-020006",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainEquiv_map_apply",
+      "docstring": "The cochain equivalence carries the induced coefficient map to postcomposition by that coefficient morphism."
+    },
+    {
+      "temporary_id": "decl-020007",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainEquiv_delta",
+      "docstring": "Under the cochain equivalence, the coboundary is the signed composite with the differential of the projective resolution."
+    },
+    {
+      "temporary_id": "decl-020087",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainComplexHomologyIso",
+      "docstring": "Homology of the additive Hom cochain complex is isomorphic to the underlying additive group of linear Yoneda homology."
+    },
+    {
+      "temporary_id": "decl-020187",
+      "new_name": "CategoryTheory.ProjectiveResolution.homComplex_homologyAddEquiv_eq_homologyIso_hom",
+      "docstring": "The Hom-complex homology additive equivalence agrees pointwise with the morphism of its left-homology isomorphism."
+    },
+    {
+      "temporary_id": "decl-020188",
+      "new_name": "CategoryTheory.ProjectiveResolution.homComplex_homologyAddEquiv_naturality",
+      "docstring": "The Hom-complex homology equivalence commutes with the maps induced by a coefficient-module morphism."
+    },
+    {
+      "temporary_id": "decl-020189",
+      "new_name": "CategoryTheory.ProjectiveResolution.homComplex_homologyAddEquiv_symm_mk_naturality",
+      "docstring": "The inverse homology equivalence carries the class of a postcomposed cocycle to the homology map of the original class."
+    },
+    {
+      "temporary_id": "decl-020190",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainComplexSuccHomologyIso",
+      "docstring": "Positive-degree Hom-complex homology is isomorphic to the underlying additive group of the corresponding linear Yoneda homology."
+    },
+    {
+      "temporary_id": "decl-020205",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainComplexSuccHomologyIso_naturality_smul",
+      "docstring": "The positive-degree homology comparison isomorphism commutes with scalar multiplication maps."
+    },
+    {
+      "temporary_id": "decl-020213",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainComplexZeroHomologyIso",
+      "docstring": "Degree-zero Hom-complex homology is isomorphic to the underlying additive group of degree-zero linear Yoneda homology."
+    },
+    {
+      "temporary_id": "decl-020229",
+      "new_name": "CategoryTheory.ProjectiveResolution.homCochainComplexZeroHomologyIso_naturality_smul",
+      "docstring": "The degree-zero homology comparison isomorphism commutes with scalar multiplication maps."
+    },
+    {
+      "temporary_id": "decl-020230",
+      "new_name": "HomologicalComplex.homologyMapIso_naturality",
+      "docstring": "The canonical comparison between homology of a complex and homology of its associated short complex is natural for endomorphisms."
+    },
+    {
+      "temporary_id": "decl-020928",
+      "new_name": "Auxiliary.statement020928",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-021436",
+      "new_name": "CategoryTheory.ProjectiveResolution.homLeftHomologyMapData",
+      "docstring": "Left-homology map data for the short-complex map induced by a morphism of coefficient modules."
+    },
+    {
+      "temporary_id": "decl-021442",
+      "new_name": "CategoryTheory.ProjectiveResolution.homLeftHomologyMapData_phiH",
+      "docstring": "The homology morphism in the induced left-homology map data is the additive-group morphism of the cohomology-class map."
+    },
+    {
+      "temporary_id": "decl-022894",
+      "new_name": "CategoryTheory.ProjectiveResolution.signedHomCochainEquiv",
+      "docstring": "A unit of the integers parametrizes an additive equivalence from Hom-complex cochains to morphisms out of a resolution object."
+    },
+    {
+      "temporary_id": "decl-022895",
+      "new_name": "CategoryTheory.ProjectiveResolution.signedHomCochainIso",
+      "docstring": "A signed isomorphism compares each object of the additive Hom complex with the underlying object of the linear Yoneda complex."
+    },
+    {
+      "temporary_id": "decl-022897",
+      "new_name": "CategoryTheory.ProjectiveResolution.signedHomCochainIso_hom_apply",
+      "docstring": "The forward signed comparison sends an element to its cochain-equivalence image multiplied by the chosen integer unit."
+    },
+    {
+      "temporary_id": "decl-022898",
+      "new_name": "CategoryTheory.ProjectiveResolution.signedHomCochainIso_hom_map_smul_apply",
+      "docstring": "The forward signed comparison intertwines scalar multiplication on the additive and linear Yoneda Hom complexes pointwise."
+    },
+    {
+      "temporary_id": "decl-022899",
+      "new_name": "CategoryTheory.ProjectiveResolution.signedHomCochainIso_hom_naturality_smul",
+      "docstring": "The forward signed comparison is natural with respect to scalar multiplication endomorphisms."
+    },
+    {
+      "temporary_id": "decl-022900",
+      "new_name": "CategoryTheory.ProjectiveResolution.signedHomCochainIso_inv_naturality_smul",
+      "docstring": "The inverse signed comparison is natural with respect to scalar multiplication endomorphisms."
+    },
+    {
+      "temporary_id": "decl-022905",
+      "new_name": "Auxiliary.statement022905",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-022909",
+      "new_name": "Auxiliary.statement022909",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+    },
+    {
+      "temporary_id": "decl-022910",
+      "new_name": "CategoryTheory.ProjectiveResolution.homShortComplexIso",
+      "docstring": "The three consecutive terms of the additive Hom complex are isomorphic to the image under forgetting of the corresponding linear Yoneda short complex."
+    },
+    {
+      "temporary_id": "decl-022914",
+      "new_name": "CategoryTheory.ProjectiveResolution.homShortComplexIso_naturality_smul",
+      "docstring": "The short-complex comparison isomorphism commutes with the maps induced by scalar multiplication."
+    },
+    {
+      "temporary_id": "decl-023389",
+      "new_name": "CategoryTheory.ProjectiveResolution.signedHomCochainIso_d",
+      "docstring": "Signed comparison isomorphisms intertwine consecutive differentials after twisting the target sign by the parity of the next degree."
+    }
+  ]
+}
