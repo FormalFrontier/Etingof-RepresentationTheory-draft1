@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:413ed1c9813aea5e074a",
-      "role": "primary",
-      "rationale": "Its type directly gives the claimed algebra equivalence between the quotient by the radical tensor sum and the tensor product of the two Jacobson-radical quotients."
+      "role": "supporting",
+      "rationale": "The type gives the quotient equivalence for the named ideal radTensorSum, but the isolated source claim does not identify its J with that opaque ideal."
     }
   ]
 }

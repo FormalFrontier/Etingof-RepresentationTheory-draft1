@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:65e7160a74546acccc09",
-      "role": "primary",
-      "rationale": "Its type directly supplies the tensor-product isomorphism to the multiplicity sum for every pair of the three irreducibles."
+      "role": "supporting",
+      "rationale": "The type gives an isomorphism to multSum using the opaque table nS3, so the displayed evidence does not identify its multiplicities with the source's displayed table."
     },
     {
       "association_id": "association:0eade5e00dd72a3f27f1",
-      "role": "primary",
-      "rationale": "Its type directly supplies the same table entries as tensor-product isomorphisms to explicit biproducts of irreducibles."
+      "role": "supporting",
+      "rationale": "The type gives an isomorphism to an inferred biproduct, but does not display the indexing multiplicities needed to identify it with each source-table entry."
     }
   ]
 }
