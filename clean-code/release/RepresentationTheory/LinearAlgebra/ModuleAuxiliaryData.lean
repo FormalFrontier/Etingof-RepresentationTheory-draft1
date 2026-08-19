@@ -10,8 +10,6 @@ import RepresentationTheory.Alignment.Attribute
 # Auxiliary data for modules
 -/
 
-set_option linter.dupNamespace false
-
 namespace RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData
 
 /-- An auxiliary type associated with a module over a ring. -/
@@ -21,16 +19,16 @@ abbrev ModuleAuxiliaryData (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] :=
   Submodule A V
 
-/-- An auxiliary value associated with a module over a ring. -/
-@[source_ref "Chapter2/Definition2.3.4" (role := supporting)]
-abbrev moduleAuxiliaryData (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
-    [Module A V] : ModuleAuxiliaryData A V :=
-  ⊤
-
 /-- A second auxiliary value associated with a module over a ring. -/
 @[source_ref "Chapter2/Definition2.3.4" (role := supporting)]
 abbrev moduleAuxiliaryData' (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] : ModuleAuxiliaryData A V :=
   ⊥
+
+/-- An auxiliary value associated with a module over a ring. -/
+@[source_ref "Chapter2/Definition2.3.4" (role := supporting)]
+abbrev moduleAuxiliaryData (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
+    [Module A V] : ModuleAuxiliaryData A V :=
+  ⊤
 
 end RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData

@@ -12,12 +12,11 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.CategoryTheory.QuiverLinearMaps
 
-open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
-
 /-- A second auxiliary data type associated with two objects over a quiver and a commutative semiring. -/
 @[source_ref "Chapter2/Definition2.8.10" (role := supporting)]
 structure AuxiliaryQuiverLinearMapData (k : Type*) (Q : Type*) [CommSemiring k]
-    [Quiver Q] (ρ₁ ρ₂ : AuxiliaryQuiverModuleData k Q) where
+    [Quiver Q]
+    (ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) where
   /-- Returns the linear map at a specified vertex. -/
   app : ∀ v, ρ₁.obj v →ₗ[k] ρ₂.obj v
   /-- The component maps of a quiver linear map commute with each arrow. -/
@@ -26,7 +25,8 @@ structure AuxiliaryQuiverLinearMapData (k : Type*) (Q : Type*) [CommSemiring k]
 
 /-- Auxiliary data associated with two objects over a quiver and a commutative semiring. -/
 structure AuxiliaryQuiverEquivData (k : Type*) (Q : Type*) [CommSemiring k]
-    [Quiver Q] (ρ₁ ρ₂ : AuxiliaryQuiverModuleData k Q) where
+    [Quiver Q]
+    (ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) where
   /-- Returns the linear equivalence at a chosen vertex. -/
   app : ∀ v, ρ₁.obj v ≃ₗ[k] ρ₂.obj v
   /-- The component linear equivalences commute with each quiver arrow. -/

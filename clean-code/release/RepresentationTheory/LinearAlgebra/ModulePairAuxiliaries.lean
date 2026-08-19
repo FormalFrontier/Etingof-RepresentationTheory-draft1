@@ -12,17 +12,17 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.LinearAlgebra.ModulePairAuxiliaries
 
-/-- An auxiliary type associated with two modules over a common ring. -/
-@[source_ref "Chapter2/Definition2.3.6" (role := supporting)]
-abbrev ModulePairAuxiliary (A : Type*) (V₁ V₂ : Type*) [Ring A]
-    [AddCommGroup V₁] [AddCommGroup V₂] [Module A V₁] [Module A V₂] :=
-  V₁ ≃ₗ[A] V₂
-
 /-- A second auxiliary type associated with two modules over a common ring. -/
 @[source_ref "Chapter2/Definition2.3.6" (role := supporting)]
 abbrev ModulePairAuxiliary' (A : Type*) (V₁ V₂ : Type*) [Ring A]
     [AddCommGroup V₁] [AddCommGroup V₂] [Module A V₁] [Module A V₂] :=
   V₁ →ₗ[A] V₂
+
+/-- An auxiliary type associated with two modules over a common ring. -/
+@[source_ref "Chapter2/Definition2.3.6" (role := supporting)]
+abbrev ModulePairAuxiliary (A : Type*) (V₁ V₂ : Type*) [Ring A]
+    [AddCommGroup V₁] [AddCommGroup V₂] [Module A V₁] [Module A V₂] :=
+  V₁ ≃ₗ[A] V₂
 
 /-- An auxiliary predicate on two modules over a common ring. -/
 @[source_ref "Chapter2/Definition2.3.6" (role := supporting)]

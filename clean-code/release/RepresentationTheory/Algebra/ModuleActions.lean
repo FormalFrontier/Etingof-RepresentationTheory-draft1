@@ -47,7 +47,7 @@ theorem op_mul_smul [Module Aᵐᵒᵖ V] (a b : A) (v : V) :
 
 end Associativity
 
-section ActionAlgHom
+section ToAlgHom
 
 variable (k A V : Type*) [CommRing k] [Ring A] [Algebra k A]
   [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
@@ -63,9 +63,9 @@ def actionAlgHom : A →ₐ[k] Module.End k V :=
 @[simp]
 theorem actionAlgHom_apply (a : A) (v : V) : actionAlgHom k A V a v = a • v := rfl
 
-end ActionAlgHom
+end ToAlgHom
 
-section ModuleOfAlgHom
+section OfAlgHom
 
 variable (k A V : Type*) [CommRing k] [Ring A] [Algebra k A]
   [AddCommGroup V] [Module k V]
@@ -104,7 +104,7 @@ theorem actionAlgHom_eq (ρ : A →ₐ[k] Module.End k V) :
   ext a v
   exact (actionAlgHom_apply k A V a v).trans (moduleOfAlgHom_smul_apply k A V ρ a v)
 
-end ModuleOfAlgHom
+end OfAlgHom
 
 section RoundTrip
 
@@ -120,7 +120,7 @@ theorem moduleOfAlgHom_actionAlgHom :
 
 end RoundTrip
 
-section OppositeActionAlgHom
+section RightToAlgHom
 
 variable (k A V : Type*) [CommRing k] [Ring A] [Algebra k A]
   [AddCommGroup V] [Module k V] [Module Aᵐᵒᵖ V] [IsScalarTower k Aᵐᵒᵖ V]
@@ -136,7 +136,7 @@ theorem oppositeActionAlgHom_apply (a : A) (v : V) :
     oppositeActionAlgHom k A V (MulOpposite.op a) v = MulOpposite.op a • v :=
   rfl
 
-end OppositeActionAlgHom
+end RightToAlgHom
 
 end RingAddCommGroupAuxiliary
 
