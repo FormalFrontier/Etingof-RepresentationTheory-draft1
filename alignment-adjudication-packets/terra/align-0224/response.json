@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:6219e4cd65269e8f482a",
-      "role": "primary",
-      "rationale": "It directly states linear independence of the characters of the displayed pairwise nonisomorphic simple modules."
+      "role": "supporting",
+      "rationale": "The type states the resulting linear independence of the characters, but it does not display the component-trace variation or the coefficient-vanishing argument described by the source claim."
     }
   ]
 }

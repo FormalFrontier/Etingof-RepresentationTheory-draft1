@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:1516df5f41d228bf72f0",
-      "role": "primary",
-      "rationale": "It directly identifies the character of the displayed complement representation with its formula function."
+      "role": "supporting",
+      "rationale": "The type equates the character with the opaque named function charW₁, but it does not display that function's conjugacy-class formula from the book."
     },
     {
       "association_id": "association:35a83091d7fdc482a493",
-      "role": "primary",
-      "rationale": "It directly identifies the character of the displayed principal-series representation with its formula function."
+      "role": "supporting",
+      "rationale": "The type equates the character with the opaque named function charVα₁, but it does not display that function's conjugacy-class formula from the book."
     }
   ]
 }

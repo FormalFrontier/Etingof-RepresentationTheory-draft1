@@ -2,8 +2,8 @@
   "associations": [
     {
       "association_id": "association:f792acb4d1c877320490",
-      "rationale": "TensorProductDef is the declaration that defines the tensor-product type from k-modules V and W, so it is the definition-level declaration corresponding to the source construction of V ⊗ W.",
-      "role": "primary"
+      "rationale": "The displayed type only returns a type from the two modules; it does not expose the quotient of the free vector space or any of the stated defining relations.",
+      "role": "supporting"
     },
     {
       "association_id": "association:7481441c9dded14a1870",
