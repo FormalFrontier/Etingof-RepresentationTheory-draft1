@@ -11,7 +11,6 @@ import Mathlib.RingTheory.Derivation.Lie
 import Mathlib.RingTheory.MvPolynomial
 import RepresentationTheory.RingTheory.EndomorphismRelationAction
 import RepresentationTheory.RingTheory.OrderedMonomialBasis
-import RepresentationTheory.Alignment.Attribute
 
 /-!
 # Polynomial bimodules for Weyl-type algebras
@@ -54,7 +53,6 @@ private lemma f_X : f (RatFunc.X : RatFunc ℂ) = RatFunc.X + 1 := by
   simpa [f, φ, RatFunc.algebraMap_X] using h
 
 /-- The tensor product over the complex numbers of the rational-function field with itself is not a field. -/
-@[source_ref "Chapter3/Remark3.10.3" (role := supporting)]
 theorem not_isField_tensorProduct_ratFunc_self :
     ¬ IsField (RatFunc ℂ ⊗[ℂ] RatFunc ℂ) := by
   intro hF
@@ -274,7 +272,6 @@ private lemma pderiv_zero_bivariate_C (p : ℂ[X]) :
   simpa using Polynomial.Bivariate.pderiv_zero_equivMvPolynomial (R := ℂ) (Polynomial.C p)
 
 /-- The polynomial carrier is simple as a module over the tensor product algebra. -/
-@[source_ref "Chapter3/Remark3.10.3" (role := supporting)]
 theorem polynomialTensorProductModule_isSimpleModule :
     letI := polynomialTensorProductModule
     IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ)
@@ -564,7 +561,6 @@ theorem regularSubmodule_not_isSimpleModule
     hy mul_secondDistinguishedElement_ne_one I
 
 /-- The polynomial tensor-product-algebra module cannot be obtained from the stated equivariant tensor product of two modules when the first is simple and the second is nontrivial. -/
-@[source_ref "Chapter3/Remark3.10.3" (role := primary)]
 theorem not_equivariant_tensorProductFactorization
     (V W : Type*)
     [AddCommGroup V] [Module ℂ V]

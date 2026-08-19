@@ -1472,3 +1472,9 @@ theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSyst
   obtain ⟨ec⟩ := ec
   obtain ⟨ed⟩ := ed
   exact RepresentationTheory.FiniteDimensionalLinearMapPair.AuxiliaryClass.eq_of_rep_equiv (ec.symm.trans ed)
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair.NilpotentBlockDecomposition.Auxiliary.statement025317 := _root_.RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair.NilpotentBlockDecomposition.auxiliary
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair.NilpotentBlockDecomposition.Auxiliary.statement025318 := _root_.RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair.NilpotentBlockDecomposition.auxiliary_spec

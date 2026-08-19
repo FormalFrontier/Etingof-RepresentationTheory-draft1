@@ -17,7 +17,6 @@ section
 variable (G : Type*) [Group G] [Fintype G] [Nontrivial G]
 
 /-- Establishes the existence of a simple complex representation of a nontrivial finite odd-order group with nontrivial action and an auxiliary condition. -/
-@[source_ref "Chapter5/Exercise5.1.7" (role := primary)]
 theorem oddCardinality_exists_auxiliarySimpleRepresentation
     (hodd : Odd (Fintype.card G)) :
     ∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V) (_ : Module.Finite ℂ V)
@@ -61,3 +60,11 @@ theorem oddCardinality_exists_auxiliarySimpleRepresentation
 end
 
 end RepresentationTheory.OddOrderAuxiliary
+
+/--
+A nontrivial finite group of odd cardinality has a simple complex representation with nontrivial
+action that does not satisfy the displayed auxiliary property.
+-/
+alias _root_.RepresentationTheory.OddOrderAuxiliary.oddCardinality_exists_simpleRepresentation_not_auxiliaryProperty := _root_.RepresentationTheory.OddOrderAuxiliary.oddCardinality_exists_auxiliarySimpleRepresentation
+
+attribute [source_ref "Chapter5/Exercise5.1.7" (role := primary)] _root_.RepresentationTheory.OddOrderAuxiliary.oddCardinality_exists_simpleRepresentation_not_auxiliaryProperty

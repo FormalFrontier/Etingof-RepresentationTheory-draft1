@@ -107,3 +107,6 @@ lemma stage_short_complex_short_exact (n : ℕ) : (stage_short_complex P n).Shor
   exact (inferInstance : Mono (kernel.ι (stage_data P n).to_target))
 
 end RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData.StageData.Auxiliary.statement014592 := _root_.RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData.StageData.exact

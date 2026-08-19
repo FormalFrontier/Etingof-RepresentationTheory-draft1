@@ -367,3 +367,6 @@ theorem auxiliary_exists_list_of_property {k : Type uk} [Field k] {n : ℕ} [Qui
 end Existence
 
 end RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.Auxiliary.statement014959 := _root_.RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryProduct_subobjects_of_isCompl

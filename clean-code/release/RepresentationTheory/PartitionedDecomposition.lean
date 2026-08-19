@@ -383,7 +383,6 @@ set_option synthInstance.maxHeartbeats 1800000 in
 
 
 /-- There exist indexed simple submodules, labels, and compatible equivariant maps. -/
-@[source_ref "Chapter5/Theorem5.18.4" (role := primary), source_ref "Chapter5/Discussion_after_Theorem5.22.1" (role := supporting)]
 theorem existsIndexedSimpleDecomposition
     [IsAlgClosed k] [CharZero k] :
     ∃ (iota : Type) (_ : Fintype iota) (_ : DecidableEq iota)
@@ -559,3 +558,13 @@ theorem existsTensorProductDecomposition
         (DirectSum.tensorProductLinearEquivOfSubsingleton (fun j : Fib p => S j.1) (fun j : Fib p => L j.1)).symm)
 
 end RepresentationTheory.PartitionedDecomposition
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.PartitionedDecomposition.Auxiliary.statement016580 := _root_.RepresentationTheory.PartitionedDecomposition.existsIndexedSimpleDecomposition
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.PartitionedDecomposition.Auxiliary.statement018409 := _root_.RepresentationTheory.PartitionedDecomposition.auxiliary
+
+attribute [source_ref "Chapter5/Discussion_after_Theorem5.22.1" (role := supporting)] _root_.RepresentationTheory.PartitionedDecomposition.Auxiliary.statement016580
+
+attribute [source_ref "Chapter5/Theorem5.18.4" (role := primary)] _root_.RepresentationTheory.PartitionedDecomposition.Auxiliary.statement016580

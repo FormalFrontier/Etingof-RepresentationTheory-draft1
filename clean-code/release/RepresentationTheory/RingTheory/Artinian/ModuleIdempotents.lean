@@ -165,7 +165,10 @@ lemma pi_single_one_mul_comm {n : ℕ} {S : Fin n → Type*}
 
 end CentralAction
 
-/-- For a pairwise nonisomorphic exhaustive family of simple modules, there are pairwise orthogonal idempotents whose associated submodules have Kronecker-delta dimensions. -/
+/--
+For a finite pairwise nonisomorphic family of simple modules, there are pairwise orthogonal
+idempotents whose associated submodules have Kronecker-delta dimensions.
+-/
 lemma exists_orthogonal_idempotents_with_finrank
     [IsAlgClosed k] [IsArtinianRing A]
     {ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -2209,3 +2212,9 @@ theorem RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_linear
 
   exact ⟨j₀, RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.nonempty_linearEquiv_of_nonzero_maps_to_simple (k := k) hQ_indec
     (hP_indec j₀) φ hφ ψ hψ⟩
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.Auxiliary.statement016667 := _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_result
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.Auxiliary.statement016753 := _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_projective_family_with_finrank_hom

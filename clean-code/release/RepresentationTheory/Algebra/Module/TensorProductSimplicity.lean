@@ -185,9 +185,6 @@ end Part2Helpers
 open TensorProduct in
 
 /-- Under the displayed simplicity hypothesis, the formal signature provides the stated factorization data. -/
-@[source_ref "Chapter3/Theorem3.10.2" (role := supporting),
-  source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary),
-  source_ref "Chapter5/Theorem5.6.1" (role := supporting)]
 theorem exists_tensorFactorization_of_simpleBimodule.{u}
     (k : Type*) (A B : Type*)
     (M : Type u)
@@ -684,3 +681,12 @@ example : True := by
 end InfiniteDimensionalRegression
 
 end RepresentationTheory.Algebra.Module.TensorProductSimplicity
+
+/-- An auxiliary result under the displayed hypotheses. -/
+alias _root_.RepresentationTheory.Algebra.Module.TensorProductSimplicity.auxiliary := _root_.RepresentationTheory.Algebra.Module.TensorProductSimplicity.exists_tensorFactorization_of_simpleBimodule
+
+attribute [source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.TensorProductSimplicity.auxiliary
+
+attribute [source_ref "Chapter3/Theorem3.10.2" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.TensorProductSimplicity.auxiliary
+
+attribute [source_ref "Chapter5/Theorem5.6.1" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.TensorProductSimplicity.auxiliary

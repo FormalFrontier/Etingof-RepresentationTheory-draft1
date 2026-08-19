@@ -51,3 +51,15 @@ theorem linearMapOnAuxiliaryQuotient_mk (a : A) :
   rfl
 
 end RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap
+
+attribute [source_ref "Chapter3/Introduction_to_3.6" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.auxiliaryLinearMap_mul_comm
+
+attribute [source_ref "Chapter3/Introduction_to_3.6" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.auxiliarySubmodule
+
+attribute [source_ref "Chapter3/Introduction_to_3.6" (role := primary)] _root_.RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.auxiliarySubmodule_le_ker
+
+attribute [source_ref "Chapter3/Introduction_to_3.6" (role := primary)] _root_.RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.linearMapOnAuxiliaryQuotient
+
+attribute [source_ref "Chapter3/Theorem3.6.2" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.linearMapOnAuxiliaryQuotient
+
+attribute [source_ref "Chapter3/Introduction_to_3.6" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.linearMapOnAuxiliaryQuotient_mk

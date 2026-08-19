@@ -443,3 +443,9 @@ theorem CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.toAuxil
 end ProgeneratorMorita
 
 end RepresentationTheory
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.Auxiliary.statement005220 := _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.auxiliarySubalgebraEquivEnd
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.Auxiliary.statement005222 := _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.auxiliarySubringEquivEnd

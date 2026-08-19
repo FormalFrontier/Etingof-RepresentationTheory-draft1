@@ -177,3 +177,9 @@ theorem is_simply_laced_dynkin_of_representation_finrank_lt_vertex_endomorphism_
     RepresentationTheory.Quiver.Representation.MatrixModel.finrank_vertexMatrixFamily (k := k)] at h
 
 end RepresentationTheory.Quiver.AdjacencyQuadraticForm
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Quiver.AdjacencyQuadraticForm.Auxiliary.statement020829 := _root_.RepresentationTheory.Quiver.AdjacencyQuadraticForm.is_simply_laced_dynkin_of_arrow_sum_lt_square_sum
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Quiver.AdjacencyQuadraticForm.Auxiliary.statement020831 := _root_.RepresentationTheory.Quiver.AdjacencyQuadraticForm.is_simply_laced_dynkin_of_representation_finrank_lt_vertex_endomorphism_finrank

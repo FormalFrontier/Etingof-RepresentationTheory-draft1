@@ -554,7 +554,10 @@ theorem auxiliaryListMap_eq_self_of_perm
 
 
 
-/-- There exists a duplicate-free ordering of all vertices with no quiver morphism from an earlier vertex to a later one. -/
+/--
+There exists a duplicate-free ordering of all vertices with no quiver morphism from a position
+to any weakly later position.
+-/
 theorem auxiliary_exists_ordering_no_hom_of_le
     (hDynkin : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj)
     {Q : Quiver (Fin n)} (hOrient : RepresentationTheory.Quiver.MatrixOrientation.IsMatrixOrientation Q adj) :

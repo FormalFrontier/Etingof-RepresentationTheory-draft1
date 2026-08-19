@@ -1861,3 +1861,9 @@ lemma subgroupCharacterMatrixFunction_eq_zero_of_auxiliaryProperty
 end CharacterValues
 
 end RepresentationTheory.FiniteFieldMatrixCharacterValues
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.FiniteFieldMatrixCharacterValues.auxiliaryElidedStatement017910 := _root_.RepresentationTheory.FiniteFieldMatrixCharacterValues.multiplicativeCharacterMatrixFunction_eq_character_topLeft
+
+/-- An auxiliary statement whose formal type was unavailable. -/
+alias _root_.RepresentationTheory.FiniteFieldMatrixCharacterValues.auxiliaryUnavailableStatement017919 := _root_.RepresentationTheory.FiniteFieldMatrixCharacterValues.distinguishedMatrixUnitFunction_auxiliaryProperty

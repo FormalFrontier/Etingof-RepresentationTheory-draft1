@@ -14,7 +14,6 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity
 
 /-- A module-theoretic semisimplicity condition for a finite-dimensional algebra over a field. -/
-@[source_ref "Chapter3/Definition3.5.7" (role := supporting)]
 abbrev FiniteAlgebraModuleSemisimple (k A : Type*) [Field k] [Ring A] [Algebra k A]
     [FiniteDimensional k A] :=
   RepresentationTheory.RingTheory.SimpleModuleAnnihilator.simpleModuleAnnihilator A = ⊥
@@ -39,7 +38,6 @@ theorem FiniteAlgebraModuleSemisimple.isSemisimpleRing {k A : Type*} [Field k] [
   exact h
 
 /-- For a finite-dimensional algebra over a field, the module semisimplicity condition is equivalent to semisimplicity of the underlying ring. -/
-@[source_ref "Chapter3/Definition3.5.7" (role := supporting)]
 theorem finiteAlgebraModuleSemisimple_iff (k A : Type*) [Field k] [Ring A]
     [Algebra k A] [FiniteDimensional k A] :
     FiniteAlgebraModuleSemisimple k A ↔ IsSemisimpleRing A :=
@@ -47,3 +45,25 @@ theorem finiteAlgebraModuleSemisimple_iff (k A : Type*) [Field k] [Ring A]
     finiteAlgebraModuleSemisimple_of_isSemisimpleRing k A⟩
 
 end RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity
+
+/-- A semisimplicity condition for a finite-dimensional algebra over a field. -/
+alias _root_.RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.FiniteAlgebraSemisimpleCondition := _root_.RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.FiniteAlgebraModuleSemisimple
+
+/--
+For a finite-dimensional algebra over a field, the displayed condition is equivalent to
+semisimplicity of the underlying ring.
+-/
+alias _root_.RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.finiteAlgebraSemisimpleCondition_iff := _root_.RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.finiteAlgebraModuleSemisimple_iff
+
+/--
+A finite-dimensional algebra whose underlying ring is semisimple satisfies the displayed
+condition.
+-/
+alias _root_.RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.finiteAlgebraSemisimpleCondition_of_isSemisimpleRing := _root_.RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.finiteAlgebraModuleSemisimple_of_isSemisimpleRing
+
+/-- An algebra satisfying the finite-dimensional semisimplicity condition is a semisimple ring. -/
+alias _root_.RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.FiniteAlgebraSemisimpleCondition.isSemisimpleRing := _root_.RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.FiniteAlgebraModuleSemisimple.isSemisimpleRing
+
+attribute [source_ref "Chapter3/Definition3.5.7" (role := supporting)] _root_.RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.FiniteAlgebraSemisimpleCondition
+
+attribute [source_ref "Chapter3/Definition3.5.7" (role := supporting)] _root_.RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.finiteAlgebraSemisimpleCondition_iff

@@ -565,7 +565,6 @@ theorem auxiliary_partition_value_eq_pairwise_difference_formula
 
 
 /-- The transported auxiliary subtype's complex finrank is expressed by displayed factorials and a determinant of powers of displayed values. -/
-@[source_ref "Chapter5/Discussion_hook_length_derivation" (role := supporting)]
 theorem auxiliary_finrank_eq_power_determinant_formula
     (N : ℕ) {n : ℕ} (lam : RepresentationTheory.SymmetricPolynomials.Alternant.FinPartition N n) :
     (Module.finrank ℂ
@@ -585,7 +584,6 @@ theorem auxiliary_finrank_eq_power_determinant_formula
 
 
 /-- The transported auxiliary subtype's complex finrank is given by a factorial and pairwise-difference product formula. -/
-@[source_ref "Chapter5/Discussion_hook_length_derivation" (role := primary)]
 theorem auxiliary_finrank_eq_pairwise_difference_formula
     (N : ℕ) {n : ℕ} (lam : RepresentationTheory.SymmetricPolynomials.Alternant.FinPartition N n) :
     (Module.finrank ℂ
@@ -978,3 +976,28 @@ theorem finrank_auxiliary_subtype_eq_card (n : ℕ) (la : Nat.Partition n) :
 
 end
 end RepresentationTheory.YoungDiagram.PartitionFormulas
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliaryElidedStatement017880 := _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliary_partition_value_eq_card
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliaryElidedStatement017884 := _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliary_partition_value_eq_factorial_div_hookLengthProduct
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliaryElidedStatement018768 := _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliary_exists_preimage_for_partition
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliaryElidedStatement019459 := _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliary_finrank_eq_card
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliaryElidedStatement019460 := _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliary_finrank_eq_pairwise_difference_formula
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliaryElidedStatement019461 := _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliary_finrank_eq_power_determinant_formula
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliaryElidedStatement020292 := _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliary_pairwiseDifference_mul_hookLengthProduct_eq_factorialProduct
+
+attribute [source_ref "Chapter5/Discussion_hook_length_derivation" (role := supporting)] _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliaryElidedStatement019460
+
+attribute [source_ref "Chapter5/Discussion_hook_length_derivation" (role := supporting)] _root_.RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliaryElidedStatement019461

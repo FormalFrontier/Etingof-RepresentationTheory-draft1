@@ -413,7 +413,6 @@ private theorem homClassVector_eq_mulVec_of_projectiveDimensionLE
 
 
 /-- The formal statement of this theorem was not rendered in the packet. -/
-@[source_ref "Chapter9/Problem9.4.5" (role := supporting)]
 theorem unrenderedMatrixTheorem
     {k : Type*} [Field k] {A : Type u} [Ring A] [Algebra k A] [FiniteDimensional k A]
     {ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -518,3 +517,17 @@ theorem designatedRing_value_eq_top :
   exact he (Abelian.Ext.eq_zero_of_hasProjectiveDimensionLT e (d + 1) (by omega))
 
 end RepresentationTheory.LinearAlgebra.Module.Projective
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.LinearAlgebra.Module.Projective.Auxiliary.statement013909 := _root_.RepresentationTheory.LinearAlgebra.Module.Projective.unrenderedMatrixTheorem
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.LinearAlgebra.Module.Projective.Auxiliary.statement013910 := _root_.RepresentationTheory.LinearAlgebra.Module.Projective.unrenderedTheorem
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.LinearAlgebra.Module.Projective.Auxiliary.statement013918 := _root_.RepresentationTheory.LinearAlgebra.Module.Projective.linearMapFinranks_matrixAuxiliary
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.LinearAlgebra.Module.Projective.Auxiliary.statement013919 := _root_.RepresentationTheory.LinearAlgebra.Module.Projective.linearMapFinranks_matrixAuxiliaryTwo
+
+attribute [source_ref "Chapter9/Problem9.4.5" (role := supporting)] _root_.RepresentationTheory.LinearAlgebra.Module.Projective.Auxiliary.statement013909

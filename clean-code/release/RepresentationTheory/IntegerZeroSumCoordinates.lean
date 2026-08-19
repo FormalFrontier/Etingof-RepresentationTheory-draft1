@@ -469,3 +469,6 @@ theorem auxiliary_set_ncard : Set.ncard (auxiliary_set n) = n * (n + 1) / 2 := b
     (by simpa using (mem_filter.mp hq).2) he
 
 end RepresentationTheory.IntegerZeroSumCoordinates
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias _root_.RepresentationTheory.IntegerZeroSumCoordinates.Auxiliary.statement000593 := _root_.RepresentationTheory.IntegerZeroSumCoordinates.auxiliary_theorem

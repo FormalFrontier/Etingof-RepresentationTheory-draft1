@@ -1038,3 +1038,12 @@ theorem card_eq_character_count [Fact p.Prime] :
   rw [← Nat.succ_mul, Nat.succ_eq_add_one, Nat.sub_add_cancel hp1]; ring
 
 end RepresentationTheory.ThreeCoordinateGroupRepresentations
+
+/-- An auxiliary statement whose formal type was unavailable. -/
+alias _root_.RepresentationTheory.ThreeCoordinateGroupRepresentations.auxiliaryUnavailableStatementOne := _root_.RepresentationTheory.ThreeCoordinateGroupRepresentations.auxiliaryCharacterAssertion
+
+/-- An auxiliary statement whose formal type was unavailable. -/
+alias _root_.RepresentationTheory.ThreeCoordinateGroupRepresentations.auxiliaryUnavailableStatementThree := _root_.RepresentationTheory.ThreeCoordinateGroupRepresentations.auxiliaryRepresentationAssertion
+
+/-- An auxiliary statement whose formal type was unavailable. -/
+alias _root_.RepresentationTheory.ThreeCoordinateGroupRepresentations.auxiliaryUnavailableStatementTwo := _root_.RepresentationTheory.ThreeCoordinateGroupRepresentations.auxiliaryRootAssertion

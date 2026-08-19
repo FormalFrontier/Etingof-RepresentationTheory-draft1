@@ -502,3 +502,6 @@ theorem exists_vertexCompositionSeries_with_multiplicity [DecidableEq Q] (ρ : A
       simp
 
 end RepresentationTheory.QuiverRepresentation.VertexCompositionSeries
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.QuiverRepresentation.VertexCompositionSeries.Auxiliary.statement017130 := _root_.RepresentationTheory.QuiverRepresentation.VertexCompositionSeries.auxiliary_theorem

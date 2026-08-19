@@ -15,18 +15,15 @@ import RepresentationTheory.AuxiliaryQuiverConstructions
 import RepresentationTheory.Quiver.FiniteOrbits
 import RepresentationTheory.Quiver.FiniteOrbitDimensionBounds
 import RepresentationTheory.Quiver.AdjacencyQuadraticForm
-import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.Quiver.FiniteTypeCriterion
 
 /-- The type of finite-dimensional representations of a quiver on a finite vertex type over a commutative semiring. -/
-@[source_ref "Chapter2/Discussion_after_Theorem2.1.1" (role := supporting)]
 abbrev FiniteQuiverRepresentation (k : Type) [CommSemiring k] (n : ℕ) [Quiver.{0} (Fin n)] :=
   RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{0, 0, 0, 0}
     k (Fin n)
 
 /-- A finiteness property for representations of a quiver over a field. -/
-@[source_ref "Chapter2/Discussion_after_Theorem2.1.1/Derived4" (role := supporting)]
 def QuiverRepresentationFiniteness (k : Type) [Field k] (n : ℕ)
     [Quiver.{0} (Fin n)] : Prop :=
   ∃ (m : ℕ) (reps : Fin m → FiniteQuiverRepresentation k n),

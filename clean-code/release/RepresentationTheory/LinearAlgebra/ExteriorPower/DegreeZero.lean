@@ -247,3 +247,6 @@ theorem basisIndependentMap_eq
   simp
 
 end RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero.Auxiliary.statement021169 := _root_.RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero.basisIndexedMap_unrendered

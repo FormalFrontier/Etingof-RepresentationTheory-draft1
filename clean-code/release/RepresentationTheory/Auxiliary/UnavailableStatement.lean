@@ -19,7 +19,6 @@ open Representation
 open scoped TensorProduct
 
 /-- Auxiliary theorem. -/
-@[source_ref "Chapter5/Remark5.9.2" (role := supporting)]
 theorem RepresentationTheory.Auxiliary.UnavailableStatement.auxiliary
     {G : Type*} [Group G] [Fintype G]
     (H : Subgroup G) [DecidablePred (· ∈ H)]
@@ -34,3 +33,8 @@ theorem RepresentationTheory.Auxiliary.UnavailableStatement.auxiliary
               LinearMap.trace ℂ V (ρ ⟨x * g * x⁻¹, h⟩)
             else 0 :=
   RepresentationTheory.AuxiliaryUnavailableStatement.auxiliary_theorem H ρ g
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.Auxiliary.UnavailableStatement.Auxiliary.statement015437 := _root_.RepresentationTheory.Auxiliary.UnavailableStatement.auxiliary
+
+attribute [source_ref "Chapter5/Remark5.9.2" (role := supporting)] _root_.RepresentationTheory.Auxiliary.UnavailableStatement.Auxiliary.statement015437

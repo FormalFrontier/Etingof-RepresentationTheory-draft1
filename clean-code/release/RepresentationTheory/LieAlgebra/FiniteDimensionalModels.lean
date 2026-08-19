@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.LieAlgebra.BracketCoefficients
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Finite-Dimensional Models -/
 
@@ -444,7 +443,6 @@ theorem span_range_modelMap_eq_top :
   _root_.RepresentationTheory.LieAlgebra.AuxiliaryBracketCalculus.span_range_indexedFamily_eq_top_of_auxiliaryCentralFamily_eq_zero (by norm_num) (by norm_num) (by norm_num) specifiedScalar_eq_zero
 
 /-- A basis for the displayed vector space indexed by a finite four-element type. -/
-@[source_ref "Chapter2/Problem2.16.3" (role := primary)]
 noncomputable def fourDimensionalBasis : Module.Basis _root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryIndex k (_root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryType k 4) :=
   Module.Basis.mk (_root_.RepresentationTheory.LieAlgebra.GradedMatrixRealization.linearIndependent_indexedFamily (by norm_num) (by norm_num))
     span_range_modelMap_eq_top.ge

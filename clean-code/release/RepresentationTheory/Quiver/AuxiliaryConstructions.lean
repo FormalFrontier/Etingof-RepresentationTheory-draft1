@@ -501,3 +501,9 @@ theorem not_auxiliaryProperty_or_exists_bijective_map [DecidableEq Q] [Fintype Q
     omega
 
 end RepresentationTheory.Quiver.AuxiliaryConstructions
+
+/-- An auxiliary definition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.AuxiliaryConstructions.auxiliaryDefinition := _root_.RepresentationTheory.Quiver.AuxiliaryConstructions.auxiliaryPairing
+
+/-- The auxiliary definition evaluates to zero on the displayed pair of vertex-associated objects. -/
+alias _root_.RepresentationTheory.Quiver.AuxiliaryConstructions.auxiliaryDefinition_vertex_eq_zero := _root_.RepresentationTheory.Quiver.AuxiliaryConstructions.auxiliaryPairing_vertex

@@ -6,7 +6,6 @@ Authors: Kim Morrison
 
 import Mathlib.Order.RelSeries
 import Mathlib.Algebra.Module.Submodule.Lattice
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Module composition data -/
 
@@ -22,8 +21,5 @@ structure ModuleCompositionData (A : Type*) (V : Type*)
   /-- The last submodule in the relational series determined by module composition data is the top submodule. -/
   toRelSeries_last : toRelSeries.last = ⊤
 
-attribute [source_ref "Chapter3/Definition3.4.1" (role := primary)]
-  ModuleCompositionData.toRelSeries ModuleCompositionData.toRelSeries_head
-  ModuleCompositionData.toRelSeries_last
 
 end RepresentationTheory.Module.CompositionData

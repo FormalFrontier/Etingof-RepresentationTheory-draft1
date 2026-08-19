@@ -386,3 +386,6 @@ theorem finrank_representationFromSubgroupCharacter :
   rw [hfin, hm, Nat.mul_div_cancel_left m hpos]
 
 end RepresentationTheory.FDRep.SubgroupCharacterFunctions
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.FDRep.SubgroupCharacterFunctions.Auxiliary.statement004835 := _root_.RepresentationTheory.FDRep.SubgroupCharacterFunctions.auxiliary_representationFromSubgroupCharacter

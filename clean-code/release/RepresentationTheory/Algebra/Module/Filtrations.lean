@@ -26,8 +26,6 @@ theorem exists_relSeries_bot_top (k : Type*) (A : Type*) (V : Type*)
   exact exists_compositionSeries_of_isNoetherian_isArtinian A V
 
 /-- A finite-dimensional module admits a filtration whose displayed successive quotients are simple modules. -/
-@[source_ref "Chapter3/Lemma3.4.2" (role := supporting),
-  source_ref "Chapter3/Introduction_to_3.4" (role := supporting)]
 theorem exists_filtration_simple_quotients
     (k : Type*) (A : Type*) (V : Type*)
     [Field k] [Ring A] [Algebra k A]
@@ -53,3 +51,13 @@ theorem exists_filtration_simple_quotients
   exact (covBy_iff_quot_is_simple (le_of_lt (s.lt_succ i))).mp (s.step i)
 
 end RepresentationTheory.Algebra.Module.Filtrations
+
+/--
+There exists auxiliary data whose associated relation series has simple displayed successive
+quotients.
+-/
+alias _root_.RepresentationTheory.Algebra.Module.Filtrations.exists_auxiliaryData_simple_quotients := _root_.RepresentationTheory.Algebra.Module.Filtrations.exists_filtration_simple_quotients
+
+attribute [source_ref "Chapter3/Introduction_to_3.4" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.Filtrations.exists_auxiliaryData_simple_quotients
+
+attribute [source_ref "Chapter3/Lemma3.4.2" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.Filtrations.exists_auxiliaryData_simple_quotients

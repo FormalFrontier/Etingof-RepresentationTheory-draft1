@@ -221,7 +221,11 @@ private lemma V₂_dim_one_of_outer_zero (ρ : LinearCospanRepresentation k) (hi
   · exact Or.inl hp
   · exact Or.inr hq
 
-/-- An indecomposable linear-cospan representation has one of six displayed zero-one dimension triples, with each nontrivial outer-to-center map bijective. -/
+/--
+An indecomposable linear-cospan representation has one of six displayed zero-one dimension
+triples; whenever an outer space and the center are both one-dimensional, the corresponding
+outer-to-center map is bijective.
+-/
 theorem _root_.RepresentationTheory.FiniteDimensionalLinearCospanRepresentations.isIndecomposable_dimension_cases (k : Type*) [Field k] (ρ : LinearCospanRepresentation k)
     (hind : ρ.IsIndecomposable) :
     (Module.finrank k ρ.left = 1 ∧ Module.finrank k ρ.center = 0 ∧

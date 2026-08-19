@@ -3428,3 +3428,24 @@ end ClassificationAPI
 attribute [-instance] lieRingModule_parameterModule lieModule_parameterModule
 
 end RepresentationTheory.LieModule.IrreducibleParameterModules
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.Auxiliary.statement008421 := _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.cyclicForwardEndomorphism_apply_last
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.Auxiliary.statement008428 := _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.cyclicForwardEndomorphism_apply_lt_last
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.Auxiliary.statement008439 := _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.weightedBackwardEndomorphism_apply_pos
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.Auxiliary.statement008446 := _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.weightedBackwardEndomorphism_apply_zero
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.Auxiliary.statement008534 := _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.standardBackwardEndomorphism_apply_pos
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.Auxiliary.statement008552 := _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.standardCyclicForwardEndomorphism_apply_last
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.Auxiliary.statement008558 := _root_.RepresentationTheory.LieModule.IrreducibleParameterModules.standardCyclicForwardEndomorphism_apply_lt_last

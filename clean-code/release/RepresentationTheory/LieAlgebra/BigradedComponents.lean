@@ -6,7 +6,6 @@ Authors: mathlib-initiative
 
 import RepresentationTheory.LieAlgebra.FreeBigrading
 import RepresentationTheory.LieAlgebra.GradedMatrixRealization
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Bigraded Components -/
 

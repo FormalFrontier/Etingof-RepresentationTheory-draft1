@@ -707,3 +707,12 @@ theorem nonempty_homologyTensorIsoSigma (C D : ChainComplex (ModuleCat.{u} k) �
   ⟨homologyTensorIsoSigma C D i⟩
 
 end RepresentationTheory.HomologicalComplex.TensorProduct.Reindexing
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.HomologicalComplex.TensorProduct.Reindexing.Auxiliary.statement016276 := _root_.RepresentationTheory.HomologicalComplex.TensorProduct.Reindexing.auxiliaryTensorComponentComparisonEq
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.HomologicalComplex.TensorProduct.Reindexing.Auxiliary.statement016313 := _root_.RepresentationTheory.HomologicalComplex.TensorProduct.Reindexing.auxiliaryAssertion
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.HomologicalComplex.TensorProduct.Reindexing.Auxiliary.statement016326 := _root_.RepresentationTheory.HomologicalComplex.TensorProduct.Reindexing.auxiliaryExtendedTensorSummandMapEq

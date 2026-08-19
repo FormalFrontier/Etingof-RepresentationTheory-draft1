@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.QuantumTorus.FiniteOrderModules
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Finite-Order Module Equivalences -/
 
@@ -337,7 +336,6 @@ theorem parameters_eq_of_moduleLinearEquiv
     · exact absurd h hev
 
 /-- Two instances are module-linearly equivalent exactly when their second unit parameters agree and the order-th powers of their third unit parameters agree. -/
-@[source_ref "Chapter2/Problem2.7.5" (role := primary)]
 theorem nonempty_moduleLinearEquiv_iff :
     Nonempty (ThreeUnitParameterType q α β ≃ₗ[twistedLatticeShiftSubalgebra ℂ q]
       ThreeUnitParameterType q α' β') ↔

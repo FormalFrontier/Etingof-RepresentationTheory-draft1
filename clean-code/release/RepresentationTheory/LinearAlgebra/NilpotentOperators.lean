@@ -6,7 +6,6 @@ Authors: mathlib-initiative
 
 import Mathlib.Algebra.Module.PID
 import RepresentationTheory.LieAlgebra.Sl2Representations
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Nilpotent operators -/
 

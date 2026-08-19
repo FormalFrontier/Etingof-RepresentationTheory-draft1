@@ -634,7 +634,6 @@ noncomputable def quotientRangeInclusionEquiv (g : A →ₗ[k] (W →ₗ[k] V)) 
     ((projection g hg).quotKerEquivOfSurjective projection_surjective)
 
 /-- The extension module associated with the zero cocycle is linearly equivalent over the algebra to the product module. -/
-@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
 noncomputable def zeroLinearEquivProd : ExtensionModule k A V W (0 : A →ₗ[k] (W →ₗ[k] V)) (isExtensionCocycle_zero k A V W)
     ≃ₗ[A] V × W where
   toFun := toProd
@@ -744,3 +743,8 @@ theorem nonempty_linearEquiv_prod_iff_mem_coboundaries [IsAlgClosed k]
 end ExtensionModule
 
 end RepresentationTheory.Algebra.Module.ExtensionCocycles
+
+/-- An auxiliary definition whose formal type is partially elided. -/
+alias _root_.RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.auxiliaryDefinition := _root_.RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.zeroLinearEquivProd
+
+attribute [source_ref "Chapter3/Problem3.9.1" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.auxiliaryDefinition

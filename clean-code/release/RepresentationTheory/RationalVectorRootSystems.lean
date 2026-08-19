@@ -488,3 +488,9 @@ theorem sixRationalVectors_configuration :
     hAdj.symm ▸ matrix_satisfies_condition .E6⟩
 
 end RepresentationTheory.RationalVectorRootSystems
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.RationalVectorRootSystems.Auxiliary.statement013142 := _root_.RepresentationTheory.RationalVectorRootSystems.rationalPairing_auxiliary
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.RationalVectorRootSystems.IsCrystallographicRootSet.Auxiliary.statement013072 := _root_.RepresentationTheory.RationalVectorRootSystems.IsCrystallographicRootSet.auxiliary

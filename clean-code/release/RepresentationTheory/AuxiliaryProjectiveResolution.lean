@@ -236,3 +236,12 @@ theorem exists_finite_projectiveResolution (M : ModuleCat.{u} R) [Module.Finite 
   infer_instance
 
 end RepresentationTheory.AuxiliaryProjectiveResolution
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.AuxiliaryProjectiveResolution.Auxiliary.statement004279 := _root_.RepresentationTheory.AuxiliaryProjectiveResolution.auxiliaryResolutionDifferential_exact
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.AuxiliaryProjectiveResolution.Auxiliary.statement004291 := _root_.RepresentationTheory.AuxiliaryProjectiveResolution.auxiliaryResolutionShortComplex_exact
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.AuxiliaryProjectiveResolution.Auxiliary.statement004300 := _root_.RepresentationTheory.AuxiliaryProjectiveResolution.auxiliaryOpaqueDefinition

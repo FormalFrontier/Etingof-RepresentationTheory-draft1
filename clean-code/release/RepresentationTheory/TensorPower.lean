@@ -894,3 +894,12 @@ theorem exists_tensorProduct_decomposition_with_action
   rfl
 
 end RepresentationTheory.TensorPower
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.TensorPower.Auxiliary.statement020909 := _root_.RepresentationTheory.TensorPower.isSimpleModule_of_auxiliary_piTensorProduct_action
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.TensorPower.Auxiliary.statement023467 := _root_.RepresentationTheory.TensorPower.eq_bot_or_eq_top_of_auxiliary_unit_invariant
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.TensorPower.Auxiliary.statement023468 := _root_.RepresentationTheory.TensorPower.auxiliary_smul_mem_of_unit_invariant

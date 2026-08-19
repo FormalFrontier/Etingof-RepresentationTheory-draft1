@@ -46,7 +46,10 @@ noncomputable def auxiliaryRepresentationModuleLinearEquivSubtype (n : ℕ)
   { (RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.partitionSubspaceRepresentation n la).asModuleEquiv with
     map_smul' := fun a v => partitionSubspaceRepresentation_asModule_smul n la a v }
 
-/-- Every simple finite-dimensional complex representation of `Perm (Fin n)` has a nonempty type of isomorphisms to an auxiliary representation at some formally elided index. -/
+/--
+Every simple finite-dimensional complex representation of `Perm (Fin n)` is isomorphic to an
+auxiliary representation indexed by some value.
+-/
 theorem exists_auxiliaryFDRepOfSimple (n : ℕ)
     (S : FDRep ℂ (Equiv.Perm (Fin n))) [Simple S] :
     ∃ la : Nat.Partition n,

@@ -182,3 +182,6 @@ end GeneralLinearRepresentation
 end RepresentationTheory.GeneralLinearRepresentation.SubrepresentationQuotient
 
 end
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.Auxiliary.HasAuxiliaryMapProperty.auxiliaryElidedStatement005115 := _root_.RepresentationTheory.GeneralLinearGroup.Auxiliary.HasAuxiliaryMapProperty.auxiliaryQuotient

@@ -322,7 +322,10 @@ set_option linter.unusedFintypeInType false in
                                                                                          
                                                                                      
                            
-/-- A submodule of the displayed function module admits linearly independent coordinate data after an equivalence. -/
+/--
+A submodule of the displayed function module admits bounded multiplicities and linearly
+independent coordinate data satisfying the stated expansion formula.
+-/
 @[source_ref "Chapter3/Corollary3.2.1/Derived2" (role := supporting), source_ref "Chapter3/Proposition3.1.4" (role := supporting)]
 theorem exists_linearIndependent_coordinates_pi (n : ι → ℕ)
     (hd : ∀ ⦃i j⦄, Nonempty (V i ≃ₗ[A] V j) → i = j)
@@ -428,7 +431,10 @@ set_option linter.unusedFintypeInType false in
                                                                                         
                                                                                         
                                   
-/-- A submodule of the displayed direct sum admits linearly independent coordinate data after an equivalence. -/
+/--
+A submodule of the displayed direct sum admits bounded multiplicities and linearly independent
+coordinate data satisfying the stated expansion formula.
+-/
 @[source_ref "Chapter3/Discussion_after_Lemma3.1.6/Derived4" (role := supporting), source_ref "Chapter3/Proposition3.1.4" (role := supporting)]
 theorem exists_linearIndependent_coordinates_directSum (n : ι → ℕ)
     (hd : ∀ ⦃i j⦄, Nonempty (V i ≃ₗ[A] V j) → i = j)

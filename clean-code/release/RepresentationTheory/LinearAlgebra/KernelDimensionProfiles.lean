@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.LinearAlgebra.NilpotentOperators
-import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.LinearAlgebra.KernelDimensionProfiles
 

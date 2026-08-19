@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.PartitionedDecomposition
-import RepresentationTheory.Alignment.Attribute
 
 open scoped TensorProduct
 open RepresentationTheory.Auxiliary.MutualCentralizers RepresentationTheory.MonoidAlgebra.PartitionSubmoduleSandwich RepresentationTheory.PartitionedDecomposition
@@ -13,7 +12,6 @@ open RepresentationTheory.Auxiliary.MutualCentralizers RepresentationTheory.Mono
 universe u v
 
 /-- There exist auxiliary data satisfying the displayed subsingleton-fiber, simple-module, uniqueness, equivariance, and compatibility conditions. -/
-@[source_ref "Chapter5/Corollary5.19.2" (role := primary)]
 theorem RepresentationTheory.AuxiliarySimpleModuleData.exists_auxiliary_simple_module_data
     {k : Type u} [Field k] [IsAlgClosed k] [CharZero k]
     {V : Type v} [AddCommGroup V] [Module k V] [Module.Finite k V]

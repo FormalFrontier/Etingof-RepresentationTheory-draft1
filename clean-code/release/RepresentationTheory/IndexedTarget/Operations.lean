@@ -275,3 +275,9 @@ theorem partitionPermutation_eq_complexValue (n : ℕ) (la : Nat.Partition n)
 end
 
 end RepresentationTheory.IndexedTarget.Operations
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.IndexedTarget.Operations.Auxiliary.statement017758 := _root_.RepresentationTheory.IndexedTarget.Operations.opaqueTheoremA
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.IndexedTarget.Operations.Auxiliary.statement023150 := _root_.RepresentationTheory.IndexedTarget.Operations.opaqueTheoremB

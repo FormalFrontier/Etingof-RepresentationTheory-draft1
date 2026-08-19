@@ -795,3 +795,6 @@ theorem _root_.RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamil
 end
 
 end RepresentationTheory.AuxiliaryPartitionIndexMaps
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.Auxiliary.statement005406 := _root_.RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily.auxiliary_roundTrip

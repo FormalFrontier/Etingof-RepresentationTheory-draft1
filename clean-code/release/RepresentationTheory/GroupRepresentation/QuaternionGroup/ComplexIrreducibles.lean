@@ -39,17 +39,17 @@ noncomputable def thirdDistinguishedMatrix : Matrix (Fin 2) (Fin 2) ℂ := !![0,
 
 
 
-/-- An auxiliary proposition depending on the displayed two-by-two complex matrix. -/
+/-- An auxiliary statement whose formal type was unavailable. -/
 theorem auxiliary_fact3 : firstGeneratorMatrix ^ 2 = -1 := by
   simp only [pow_two, firstGeneratorMatrix, Matrix.mul_fin_two]
   ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.one_fin_two]
 
-/-- An auxiliary proposition depending on the displayed two-by-two complex matrix. -/
+/-- An auxiliary statement whose formal type was unavailable. -/
 theorem auxiliary_fact4 : secondGeneratorMatrix ^ 2 = -1 := by
   simp only [pow_two, secondGeneratorMatrix, Matrix.mul_fin_two]
   ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.one_fin_two, Complex.I_mul_I]
 
-/-- An auxiliary proposition depending on the displayed two-by-two complex matrix. -/
+/-- An auxiliary statement whose formal type was unavailable. -/
 theorem auxiliary_fact5 : thirdDistinguishedMatrix ^ 2 = -1 := by
   simp only [pow_two, thirdDistinguishedMatrix, Matrix.mul_fin_two]
   ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.one_fin_two, Complex.I_mul_I]
@@ -167,7 +167,7 @@ theorem standardMatrixRepresentation_xa_three : standardMatrixRepresentation (xa
   rw [standardMatrixRepresentation_xa, show ((3 : ZMod (2 * 2)).val) = 3 from rfl, firstGeneratorMatrix_pow_three, mul_neg,
     ← firstGeneratorMatrix_mul_secondGeneratorMatrix_eq_neg, firstGeneratorMatrix_mul_secondGeneratorMatrix]
 
-/-- An auxiliary proposition depending on the displayed matrix-valued monoid homomorphism. -/
+/-- An auxiliary statement whose formal type was unavailable. -/
 theorem auxiliary_fact2 : standardMatrixRepresentation (a 2) = -1 := by
   rw [standardMatrixRepresentation_a, show ((2 : ZMod (2 * 2)).val) = 2 from rfl]; exact auxiliary_fact3
 
@@ -331,7 +331,7 @@ lemma standardRepresentation_character_a_one : standardRepresentation.character 
   rw [standardRepresentation_character_eq_trace, standardMatrixRepresentation_a, show (1 : ZMod (2 * 2)).val = 1 from rfl, pow_one]
   simp [firstGeneratorMatrix, Matrix.trace_fin_two]
 
-/-- An auxiliary proposition depending on the displayed finite-dimensional complex representation. -/
+/-- An auxiliary statement whose formal type was unavailable. -/
 lemma auxiliary_fact1 : standardRepresentation.character (a 2) = -2 := by
   rw [standardRepresentation_character_eq_trace, standardMatrixRepresentation_a, show (2 : ZMod (2 * 2)).val = 2 from rfl, auxiliary_fact3]
   simp

@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.LieAlgebra.BigradedComponents
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Bracket Relations -/
 

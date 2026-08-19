@@ -137,3 +137,18 @@ theorem Auxiliary.finiteDimensional
     rw [map_smul, localizationDenominatorPower_apply, hQ, action_map_mul_invSelf_pow]
 
 end RepresentationTheory.GeneralLinearGroup.Localization
+
+/-- The submodule of the localization associated to a chosen element. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.Localization.localizationElementSubmodule := _root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary
+
+/-- Membership in the submodule associated to an element is preserved by the matrix action. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.Localization.localizationElementSubmodule_action_mem := _root_.RepresentationTheory.GeneralLinearGroup.Localization.auxiliary_action_mem
+
+/-- The submodule associated to an element is finite dimensional over the base field. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.Localization.localizationElementSubmodule_finiteDimensional := _root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.finiteDimensional
+
+/-- The subrepresentation associated to a chosen element of the localization. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.Localization.localizationElementSubrepresentation := _root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.subrepresentation
+
+/-- The chosen localization element belongs to its associated submodule. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.Localization.self_mem_localizationElementSubmodule := _root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.self_mem

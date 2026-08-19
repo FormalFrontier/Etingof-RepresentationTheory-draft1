@@ -964,3 +964,5 @@ end Normalizer
 
 end RepresentationTheory.GaloisFieldAuxiliary
 
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GaloisFieldAuxiliary.auxiliaryElidedStatement004580 := _root_.RepresentationTheory.GaloisFieldAuxiliary.conjugate_auxiliaryFunctionValue_eq_auxiliaryFunctionValue_cardPowerUnit

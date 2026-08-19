@@ -845,3 +845,12 @@ lemma ordered_triple_cases_of_pairwise_sum_gt_product (p q r : ℕ) (hp : 1 ≤ 
     · right; right; exact ⟨rfl, rfl, rfl⟩
 
 end RepresentationTheory.IntegerAdjacencyMatrixCombinatorics
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.Auxiliary.statement018491 := _root_.RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.no_nodup_adjacencyCycle
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.Auxiliary.statement021520 := _root_.RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.reachable_of_list_path
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.Auxiliary.statement021898 := _root_.RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.exists_pathLabeling_from_endpoint

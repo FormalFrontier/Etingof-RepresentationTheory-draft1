@@ -2027,3 +2027,9 @@ theorem Partition.auxiliaryCard_eq_factorial_div_hookLengthProduct (n : ℕ) (la
 end
 
 end RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.auxiliaryElidedStatement020303 := _root_.RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.Partition.auxiliaryCornerSum_mul_hookLengthProduct_eq_factorial
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.auxiliaryElidedStatement023751 := _root_.RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.Partition.auxiliaryCard_eq_sum_removeOuterCorner

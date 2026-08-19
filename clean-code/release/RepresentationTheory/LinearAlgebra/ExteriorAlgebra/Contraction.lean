@@ -142,3 +142,9 @@ theorem exteriorPowerContraction_anticommute (u u' : Module.Dual R M) (n : ℕ)
 end Graded
 
 end RepresentationTheory.LinearAlgebra.ExteriorAlgebra.Contraction
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias _root_.RepresentationTheory.LinearAlgebra.ExteriorAlgebra.Contraction.Auxiliary.statement018207 := _root_.RepresentationTheory.LinearAlgebra.ExteriorAlgebra.Contraction.unrenderedTheorem
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias _root_.RepresentationTheory.LinearAlgebra.ExteriorAlgebra.Contraction.Auxiliary.statement019272 := _root_.RepresentationTheory.LinearAlgebra.ExteriorAlgebra.Contraction.exteriorPowerContraction_unrenderedAux

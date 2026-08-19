@@ -77,3 +77,12 @@ instance finiteDimensionalOrder_subobject {C : Type u} [Category.{v} C]
 end SubobjectFiniteDimensional
 
 end RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional
+
+/-- The opaque auxiliary type is finite. -/
+alias _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.fintype := _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary.fintype
+
+/-- The object of the category associated to an auxiliary index. -/
+alias _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.object := _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary.object
+
+/-- The object associated to an auxiliary index is simple. -/
+alias _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.simple_object := _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary.simple_object

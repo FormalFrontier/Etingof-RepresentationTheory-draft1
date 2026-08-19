@@ -95,3 +95,6 @@ theorem not_auxiliaryRepresentationProperty_of_conditionOne
   exact fun hc => hc (exists_intertwiner_to_dual_of_nondegenerate_invariant_form ρ B hnd hinv)
 
 end RepresentationTheory.FiniteGroupRepresentations.Auxiliary
+
+/-- An auxiliary type whose internal description is not exposed by the displayed formal type. -/
+alias _root_.RepresentationTheory.FiniteGroupRepresentations.Auxiliary.AuxiliaryType015471 := _root_.RepresentationTheory.FiniteGroupRepresentations.Auxiliary.AuxiliaryLabel

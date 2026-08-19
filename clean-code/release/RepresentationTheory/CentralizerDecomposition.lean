@@ -264,7 +264,10 @@ theorem isSemisimpleRing_centralizer
 set_option maxHeartbeats 400000 in
 set_option synthInstance.maxHeartbeats 200000 in
 
-/-- A finite faithful semisimple representation admits a nonempty direct-sum tensor-product decomposition. -/
+/--
+The finite module with its faithful semisimple algebra action is linearly equivalent to a direct
+sum of tensor products.
+-/
 theorem exists_directSum_tensorProduct_equiv
     (A : Subalgebra k (Module.End k E))
     [IsSemisimpleRing A]
@@ -291,7 +294,10 @@ theorem exists_directSum_tensorProduct_equiv
     ⟨(e.restrictScalars k).trans
       (DFinsupp.mapRange.linearEquiv (fun i => (TensorProduct.rid k ↥(S i)).symm))⟩⟩
 
-/-- The ring homomorphism sending a centralizing endomorphism to its module-linear action on the representation. -/
+/--
+The ring homomorphism sending a centralizing endomorphism to its module-linear action on the
+ambient module.
+-/
 noncomputable def centralizerToModuleEnd
     (A : Subalgebra k (Module.End k E)) :
     (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) →+*
@@ -314,7 +320,7 @@ noncomputable def centralizerToModuleEnd
 
 set_option synthInstance.maxHeartbeats 400000 in
 
-/-- The centralizer-module structure on linear maps from an algebra module into the representation. -/
+/-- The centralizer-module structure on linear maps from an algebra module into the ambient module. -/
 noncomputable instance centralizerModuleHom
     {A : Subalgebra k (Module.End k E)}
     {V : Type*} [AddCommGroup V] [Module k V]
@@ -369,7 +375,10 @@ instance centralizerSMulCommClass
 
 set_option synthInstance.maxHeartbeats 400000 in
 
-/-- The centralizer acts by base-field-linear endomorphisms on the space of module maps into the representation. -/
+/--
+The centralizer acts by base-field-linear endomorphisms on the space of module maps into the
+ambient module.
+-/
 noncomputable def centralizerActionMonoidHom
     (A : Subalgebra k (Module.End k E))
     (V : Type*) [AddCommGroup V] [Module k V]
@@ -414,7 +423,7 @@ theorem centralizerActionMonoidHom_apply
 noncomputable local instance (priority := high) subalgebraCarrierRing
     (A : Subalgebra k (Module.End k E)) : Ring A := A.toRing
 
-/-- The centralizer-module structure on maps from a submodule into the ambient representation. -/
+/-- The centralizer-module structure on maps from a submodule into the ambient module. -/
 noncomputable local instance (priority := high) centralizerModuleSubmoduleHom
     (A : Subalgebra k (Module.End k E)) (V : Submodule A E) :
     Module (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
@@ -477,7 +486,7 @@ set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 800000 in
 omit [Module.Finite k E] in
 
-/-- Maps from a simple submodule into a semisimple representation form a simple module over the centralizer. -/
+/-- Maps from a simple submodule into a semisimple module form a simple module over the centralizer. -/
 theorem isSimpleModule_linearMap
     (A : Subalgebra k (Module.End k E))
     [IsSemisimpleModule A E]
@@ -533,7 +542,7 @@ set_option maxHeartbeats 3200000 in
 
 set_option synthInstance.maxHeartbeats 1000000 in
 
-/-- Provides auxiliary indexed data and a nonempty linear equivalence with a direct sum of tensor products. -/
+/-- Provides auxiliary indexed data and a linear equivalence with a direct sum of tensor products. -/
 theorem exists_auxiliary_tensor_decomposition
     [IsAlgClosed k]
     (A : Subalgebra k (Module.End k E))
@@ -898,7 +907,7 @@ theorem centralizerActionOnTensorDirectSum_apply_tmul
     TensorProduct.map_tmul, LinearMap.id_apply]
   rfl
 
-/-- Auxiliary decomposition data attached to a family of submodules of a representation. -/
+/-- Auxiliary decomposition data attached to a family of submodules of an ambient module. -/
 structure AuxiliaryDecompositionData
     {ι : Type*} {A : Subalgebra k (Module.End k E)}
     (V : ι → Submodule A E) where
@@ -1004,3 +1013,9 @@ theorem exists_auxiliary_decomposition_data
     AuxiliaryDecompositionData.ofEquiv (k := k) (E := E) (A := A) V e he, he⟩
 
 end RepresentationTheory.CentralizerDecomposition
+
+/--
+The linear equivalence from the ambient module to the direct sum of tensor products carried by
+the data.
+-/
+add_decl_doc _root_.RepresentationTheory.CentralizerDecomposition.AuxiliaryDecompositionData.equiv

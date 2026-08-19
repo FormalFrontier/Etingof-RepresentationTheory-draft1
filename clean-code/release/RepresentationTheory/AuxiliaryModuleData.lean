@@ -145,3 +145,6 @@ theorem auxiliary_ne_bot_of_antitone (N : ℕ) (lam : Fin N → ℕ) (hlam : Ant
   exact hne hchar
 
 end RepresentationTheory.AuxiliaryModuleData
+
+/-- The Schur submodule indexed by an antitone finite sequence is nontrivial. -/
+alias _root_.RepresentationTheory.AuxiliaryModuleData.schurSubmodule_ne_bot_of_antitone := _root_.RepresentationTheory.AuxiliaryModuleData.auxiliary_ne_bot_of_antitone

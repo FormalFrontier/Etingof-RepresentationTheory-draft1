@@ -6,7 +6,6 @@ Authors: mathlib-initiative
 
 import RepresentationTheory.Algebra.TranscendenceDegree.PolynomialFractionFields
 import Mathlib
-import RepresentationTheory.Alignment.Attribute
 
 /-!
 # Polynomial scaling

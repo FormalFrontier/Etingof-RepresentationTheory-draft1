@@ -564,3 +564,9 @@ theorem Partition.auxiliaryValue_eq_rootLe_matrix_sum (la : Nat.Partition n)
 end Kostka
 
 end RepresentationTheory.Combinatorics.Partition.RootOrderMatrices
+
+/-- An auxiliary natural-valued function of a partition and a natural-number index. -/
+alias _root_.RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.auxiliaryIndexedNatValue := _root_.RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.auxiliaryPartAt
+
+/-- A partition's indexed part is zero at indices at least its size. -/
+alias _root_.RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.partAt_eq_zero_of_length_le := _root_.RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.auxiliaryPartAt_eq_zero_of_length_le

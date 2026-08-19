@@ -7,7 +7,6 @@ Authors: Kim Morrison
 import Mathlib.Algebra.Lie.Semisimple.Defs
 import Mathlib.Algebra.Lie.Sl2
 import RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Representations of a complex two-by-two matrix Lie algebra -/
 
@@ -92,7 +91,6 @@ private theorem val_smul (r : ℂ) (X : complexTwoByTwoMatrixLieSubalgebra) (i j
     (r • X).val i j = r * X.val i j := rfl
 
 /-- Every element of the displayed special-linear Lie algebra is the stated linear combination of the weight, raising, and lowering elements using its matrix entries. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 theorem eq_linearCombination_weight_raising_lowering (X : complexTwoByTwoMatrixLieSubalgebra) :
     X = X.val 0 0 • weightElement + X.val 0 1 • raisingElement + X.val 1 0 • loweringElement := by
   apply Subtype.ext
@@ -104,7 +102,6 @@ theorem eq_linearCombination_weight_raising_lowering (X : complexTwoByTwoMatrixL
     simp [Matrix.add_apply, Matrix.single, entry_one_one_eq_neg_entry_zero_zero X]
 
 /-- The Lie homomorphism to endomorphisms determined by three endomorphisms satisfying the displayed `sl₂` bracket relations. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 noncomputable def lieHomOfSl2Triple {V : Type*} [AddCommGroup V] [Module ℂ V]
     (E F H : Module.End ℂ V)
     (hEF : ⁅E, F⁆ = H) (hHE : ⁅H, E⁆ = (2 : ℂ) • E)
@@ -147,7 +144,7 @@ noncomputable def lieHomOfSl2Triple {V : Type*} [AddCommGroup V] [Module ℂ V]
     module
 
 /-- The Lie homomorphism associated with an `sl₂` triple sends the raising element to the specified endomorphism `E`. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := supporting), simp]
+@[simp]
 theorem lieHomOfSl2Triple_apply_raising {V : Type*} [AddCommGroup V] [Module ℂ V]
     (E F H : Module.End ℂ V) (hEF : ⁅E, F⁆ = H) (hHE : ⁅H, E⁆ = (2 : ℂ) • E)
     (hHF : ⁅H, F⁆ = -((2 : ℂ) • F)) :
@@ -155,7 +152,7 @@ theorem lieHomOfSl2Triple_apply_raising {V : Type*} [AddCommGroup V] [Module ℂ
   simp [lieHomOfSl2Triple, raisingElement, LieAlgebra.SpecialLinear.val_single, Matrix.single]
 
 /-- The Lie homomorphism associated with an `sl₂` triple sends the lowering element to the specified endomorphism `F`. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := supporting), simp]
+@[simp]
 theorem lieHomOfSl2Triple_apply_lowering {V : Type*} [AddCommGroup V] [Module ℂ V]
     (E F H : Module.End ℂ V) (hEF : ⁅E, F⁆ = H) (hHE : ⁅H, E⁆ = (2 : ℂ) • E)
     (hHF : ⁅H, F⁆ = -((2 : ℂ) • F)) :
@@ -163,7 +160,7 @@ theorem lieHomOfSl2Triple_apply_lowering {V : Type*} [AddCommGroup V] [Module �
   simp [lieHomOfSl2Triple, loweringElement, LieAlgebra.SpecialLinear.val_single, Matrix.single]
 
 /-- The Lie homomorphism associated with an `sl₂` triple sends the weight element to the specified endomorphism `H`. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := supporting), simp]
+@[simp]
 theorem lieHomOfSl2Triple_apply_weight {V : Type*} [AddCommGroup V] [Module ℂ V]
     (E F H : Module.End ℂ V) (hEF : ⁅E, F⁆ = H) (hHE : ⁅H, E⁆ = (2 : ℂ) • E)
     (hHF : ⁅H, F⁆ = -((2 : ℂ) • F)) :
@@ -304,7 +301,6 @@ noncomputable instance lieModule_finFunction (d : ℕ) :
   LieModule.compLieHom (Fin d → ℂ) (finFunctionRepresentation d)
 
 /-- For nonzero `d`, the complex vector space of functions on `Fin d` has finrank `d`. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 theorem finrank_finFunction (d : ℕ) [NeZero d] :
     Module.finrank ℂ (Fin d → ℂ) = d := by
   simp
@@ -362,7 +358,6 @@ theorem bracket_eq_representation_apply (d : ℕ) (x : complexTwoByTwoMatrixLieS
     ⁅x, v⁆ = finFunctionRepresentation d x v := rfl
 
 /-- The weight element acts on the coordinate vector at `i` by the scalar `d - 1 - 2 * i`. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 theorem bracket_weight_coordinateVector (d : ℕ) (i : Fin d) :
     ⁅weightElement, coordinateVector d i⁆ = ((d : ℂ) - 1 - 2 * (i : ℕ)) • coordinateVector d i := by
   rw [bracket_eq_representation_apply, finFunctionRepresentation_apply_weight]
@@ -374,7 +369,6 @@ theorem bracket_weight_coordinateVector (d : ℕ) (i : Fin d) :
   · simp [hk]
 
 /-- The raising element sends the coordinate vector at `i` to `i` times the coordinate vector at `i - 1`. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 theorem bracket_raising_coordinateVector (d : ℕ) (i : ℕ) (hi : i < d) :
     ⁅raisingElement, coordinateVector d ⟨i, hi⟩⁆ = (i : ℂ) • coordinateVector d ⟨i - 1, by omega⟩ := by
   rw [bracket_eq_representation_apply, finFunctionRepresentation_apply_raising]
@@ -396,7 +390,6 @@ theorem bracket_raising_coordinateVector (d : ℕ) (i : ℕ) (hi : i < d) :
     · rw [if_neg (by omega : ¬ (k : ℕ) = i - 1)]; ring
 
 /-- When `i + 1 < d`, the lowering element sends the coordinate vector at `i` to `(d - 1 - i)` times the coordinate vector at `i + 1`. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 theorem bracket_lowering_coordinateVector (d : ℕ) (i : ℕ) (hi : i + 1 < d) :
     ⁅loweringElement, coordinateVector d ⟨i, by omega⟩⁆ = ((d : ℂ) - 1 - (i : ℕ)) • coordinateVector d ⟨i + 1, hi⟩ := by
   rw [bracket_eq_representation_apply, finFunctionRepresentation_apply_lowering]
@@ -418,7 +411,6 @@ theorem bracket_lowering_coordinateVector (d : ℕ) (i : ℕ) (hi : i + 1 < d) :
     rw [if_neg (by omega : ¬ (k : ℕ) = i + 1)]; ring
 
 /-- The lowering element sends the final coordinate vector to zero. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 theorem bracket_lowering_coordinateVector_eq_zero (d : ℕ) (i : ℕ) (hi : i < d) (htop : i + 1 = d) :
     ⁅loweringElement, coordinateVector d ⟨i, hi⟩⁆ = 0 := by
   rw [bracket_eq_representation_apply, finFunctionRepresentation_apply_lowering]
@@ -432,8 +424,6 @@ theorem bracket_lowering_coordinateVector_eq_zero (d : ℕ) (i : ℕ) (hi : i < 
   · simp only [hk, dite_false, mul_zero]
 
 /-- For nonzero `d`, the displayed Lie-module structure on complex-valued functions on `Fin d` is irreducible. -/
-@[source_ref "Chapter2/Theorem2.1.1" (role := supporting),
-  source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 theorem isIrreducible_finFunction (d : ℕ) [NeZero d] :
     letI := lieRingModule_finFunction d
     letI := lieModule_finFunction d
@@ -674,7 +664,6 @@ theorem quadraticGeneratorCombination_eq_smul_id (d : ℕ) :
   rw [finFunctionRepresentation_apply_raising, finFunctionRepresentation_apply_lowering, finFunctionRepresentation_apply_weight, quadraticGeneratorCombination_ends]
 
 /-- In the representation indexed by `lam + 1`, the displayed symmetric quadratic combination is `(lam * (lam + 2) / 2)` times the identity. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := primary)]
 theorem quadraticGeneratorCombination_succ_eq_smul_id (lam : ℕ) :
     finFunctionRepresentation (lam + 1) raisingElement * finFunctionRepresentation (lam + 1) loweringElement
         + finFunctionRepresentation (lam + 1) loweringElement * finFunctionRepresentation (lam + 1) raisingElement

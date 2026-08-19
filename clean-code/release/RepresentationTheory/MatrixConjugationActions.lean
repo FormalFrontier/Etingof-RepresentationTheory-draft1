@@ -1762,3 +1762,18 @@ theorem auxiliaryUniversalResultC (f : auxiliaryRealSubmoduleC →ₗ[ℝ] realM
   rw [hdxy, map_add, hK _ hx, hμ _ hy]
 
 end RepresentationTheory.MatrixConjugationActions
+
+/-- An auxiliary type whose internal description is not exposed by the displayed formal type. -/
+alias _root_.RepresentationTheory.MatrixConjugationActions.AuxiliaryType010680 := _root_.RepresentationTheory.MatrixConjugationActions.realMatrixSpace
+
+/-- An auxiliary type whose internal description is not exposed by the displayed formal type. -/
+alias _root_.RepresentationTheory.MatrixConjugationActions.AuxiliaryType010681 := _root_.RepresentationTheory.MatrixConjugationActions.complexMatrixSpace
+
+/-- An auxiliary statement whose formal type was unavailable. -/
+alias _root_.RepresentationTheory.MatrixConjugationActions.auxiliaryUnavailableStatementOne := _root_.RepresentationTheory.MatrixConjugationActions.auxiliaryMatrixAssertionA
+
+/-- An auxiliary statement whose formal type was unavailable. -/
+alias _root_.RepresentationTheory.MatrixConjugationActions.auxiliaryUnavailableStatementThree := _root_.RepresentationTheory.MatrixConjugationActions.auxiliaryMatrixAssertionC
+
+/-- An auxiliary statement whose formal type was unavailable. -/
+alias _root_.RepresentationTheory.MatrixConjugationActions.auxiliaryUnavailableStatementTwo := _root_.RepresentationTheory.MatrixConjugationActions.auxiliaryMatrixAssertionB

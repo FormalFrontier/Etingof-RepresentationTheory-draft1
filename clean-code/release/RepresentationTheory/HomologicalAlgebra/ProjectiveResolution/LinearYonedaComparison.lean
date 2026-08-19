@@ -613,3 +613,18 @@ lemma CategoryTheory.ProjectiveResolution.homCochainComplexHomologyAddEquiv_map_
   exact key
 
 end RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison.Auxiliary.statement019975 := _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison.CategoryTheory.ProjectiveResolution.homCochainComplexMap_f_apply
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison.Auxiliary.statement020005 := _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison.CategoryTheory.ProjectiveResolution.homCochainEquiv_apply
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison.Auxiliary.statement020928 := _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison.CategoryTheory.ProjectiveResolution.homCochainComplex_homology_aux
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison.Auxiliary.statement022905 := _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison.CategoryTheory.ProjectiveResolution.signedHomologyComparison
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison.Auxiliary.statement022909 := _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.LinearYonedaComparison.CategoryTheory.ProjectiveResolution.signedHomologyComparison_naturality_smul

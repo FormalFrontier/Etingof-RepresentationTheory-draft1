@@ -40,7 +40,6 @@ open RepresentationTheory.FreeAlgebra.PolynomialOperators
 variable (k : Type*) [CommRing k]
 
 /-- A subalgebra of linear endomorphisms of the polynomial module over a commutative ring. -/
-@[source_ref "Chapter2/Remark2.7.2" (role := supporting)]
 noncomputable def polynomialOperatorSubalgebra : Subalgebra k (Module.End k (Polynomial k)) :=
   Algebra.adjoin k {polynomialMulX k, (Polynomial.derivative : Module.End k (Polynomial k))}
 
@@ -54,7 +53,6 @@ open RepresentationTheory.Algebra.Polynomial.OperatorSubalgebra
 variable (k : Type*) [CommRing k]
 
 /-- The range of the polynomial endomorphism map is the designated operator subalgebra. -/
-@[source_ref "Chapter2/Remark2.7.2" (role := supporting)]
 theorem AuxiliaryAlgebra.operatorMap_range :
     (toPolynomialEnd k).range = polynomialOperatorSubalgebra k := by
   rw [polynomialOperatorSubalgebra, ← Algebra.map_top,
@@ -65,7 +63,6 @@ theorem AuxiliaryAlgebra.operatorMap_range :
 
 /-- An algebra equivalence from the ambient algebra to the range subalgebra of its polynomial
 endomorphism action. -/
-@[source_ref "Chapter2/Remark2.7.2" (role := supporting)]
 noncomputable def AuxiliaryAlgebra.equivOperatorRange [CharZero k] [NoZeroDivisors k] :
     AuxiliaryAlgebra k ≃ₐ[k] polynomialOperatorSubalgebra k :=
   (AlgEquiv.ofInjective (toPolynomialEnd k) (AuxiliaryAlgebra.toPolynomialEnd_injective k)).trans

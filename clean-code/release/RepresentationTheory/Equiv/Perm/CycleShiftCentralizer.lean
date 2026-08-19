@@ -360,3 +360,9 @@ theorem coe_centralizerDataEquiv (w : CentralizerData β) :
 end Centralizer
 
 end RepresentationTheory.Equiv.Perm.CycleShiftCentralizer
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Equiv.Perm.CycleShiftCentralizer.Auxiliary.statement016951 := _root_.RepresentationTheory.Equiv.Perm.CycleShiftCentralizer.cycleParameter_fst_leftInverse
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Equiv.Perm.CycleShiftCentralizer.Auxiliary.statement016952 := _root_.RepresentationTheory.Equiv.Perm.CycleShiftCentralizer.cycleParameter_fst_rightInverse

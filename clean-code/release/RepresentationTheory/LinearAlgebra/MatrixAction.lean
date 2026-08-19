@@ -586,3 +586,6 @@ theorem homogeneousToAuxiliary_commutes (g : Matrix (Fin N) (Fin N) k)
   exact polynomialToAuxiliary_commutes (k := k) (N := N) (n := n) g p.property
 
 end RepresentationTheory.LinearAlgebra.MatrixAction
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.LinearAlgebra.MatrixAction.auxiliaryElidedStatement006766 := _root_.RepresentationTheory.LinearAlgebra.MatrixAction.homogeneousToAuxiliary_commutes

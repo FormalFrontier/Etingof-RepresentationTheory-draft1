@@ -608,3 +608,6 @@ lemma cochainComplexTensorHomologyIso_app
       RepresentationTheory.HomologicalComplex.TensorExtension.homologyTensorIsoSigma C D i := rfl
 
 end RepresentationTheory.HomologicalComplex.NatTensorHomology
+
+/-- An auxiliary type indexed by a natural number. -/
+alias _root_.RepresentationTheory.HomologicalComplex.NatTensorHomology.Auxiliary.natIndexedType := _root_.RepresentationTheory.HomologicalComplex.NatTensorHomology.NatDegreePair

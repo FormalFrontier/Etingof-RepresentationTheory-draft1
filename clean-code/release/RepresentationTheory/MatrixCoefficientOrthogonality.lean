@@ -341,7 +341,6 @@ end Basis
 end RepresentationTheory.MatrixCoefficientOrthogonality
 
 /-- An additional auxiliary theorem involving the scalar-valued pairing on functions from a finite group. -/
-@[source_ref "Chapter4/Proposition4.7.1" (role := supporting)]
 theorem _root_.RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPairing_auxiliaryTheorem'
     {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [Invertible (Fintype.card G : k)]
@@ -371,7 +370,6 @@ theorem _root_.RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPair
         RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPairing_auxiliaryFunction_eq_zero_of_ne hV hinj hii p' q' p q]
 
 /-- An auxiliary theorem involving the scalar-valued pairing on functions from a finite group. -/
-@[source_ref "Chapter4/Proposition4.7.1" (role := supporting)]
 theorem _root_.RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPairing_auxiliaryTheorem
     (k G : Type u) [Field k] [IsAlgClosed k] [CharZero k] [Group G] [Fintype G] :
     ∃ (n : ℕ) (V : Fin n → FDRep k G) (d : Fin n → ℕ)
@@ -402,3 +400,13 @@ theorem _root_.RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPair
       D.simple_representation D.representation_index_eq_of_iso D.exists_iso_representation_of_simple hd
   exact ⟨D.count, D.representation, D.dimension, b, B, D.simple_representation, D.representation_index_eq_of_iso,
     D.exists_iso_representation_of_simple, hB, horth⟩
+
+/-- An auxiliary statement whose formal type was unavailable. -/
+alias _root_.RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryUnavailableStatementOne := _root_.RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPairing_auxiliaryTheorem
+
+/-- An auxiliary statement whose formal type was unavailable. -/
+alias _root_.RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryUnavailableStatementTwo := _root_.RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPairing_auxiliaryTheorem'
+
+attribute [source_ref "Chapter4/Proposition4.7.1" (role := supporting)] _root_.RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryUnavailableStatementOne
+
+attribute [source_ref "Chapter4/Proposition4.7.1" (role := supporting)] _root_.RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryUnavailableStatementTwo

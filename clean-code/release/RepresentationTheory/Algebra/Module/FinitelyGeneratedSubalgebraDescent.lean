@@ -100,8 +100,10 @@ set_option maxHeartbeats 800000 in
 
 
 
-/-- A tensor-product-module equivalence descends to an equivalence over a finitely generated
-subalgebra. -/
+/--
+Given the displayed tensor-product-module equivalence, there exists a finitely generated
+subalgebra over which an equivalence exists.
+-/
 @[source_ref "Chapter3/Problem3.8.4" (role := supporting)]
 theorem exists_fgSubalgebra_equiv
     [FiniteDimensional K V] [FiniteDimensional K W]
@@ -303,8 +305,10 @@ set_option maxHeartbeats 1600000 in
 
 
 
-/-- A tensor-product-module retraction descends to a retraction over a finitely generated
-subalgebra. -/
+/--
+Given the displayed tensor-product-module retraction, there exists a finitely generated
+subalgebra over which a retraction exists.
+-/
 @[source_ref "Chapter3/Problem3.8.4/Derived6" (role := supporting)]
 theorem exists_fgSubalgebra_retract
     [FiniteDimensional K V] [FiniteDimensional K W]

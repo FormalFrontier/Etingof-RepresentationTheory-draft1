@@ -347,3 +347,9 @@ theorem filtration_to_polynomial_quotient_equivariant
     Submodule.Quotient.mk_smul]
 
 end RepresentationTheory.Auxiliary.GeneralLinearLocalizationFiltration
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Auxiliary.GeneralLinearLocalizationFiltration.auxiliaryElidedStatement001572 := _root_.RepresentationTheory.Auxiliary.GeneralLinearLocalizationFiltration.filtration_to_polynomial_quotient_equivariant
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Auxiliary.GeneralLinearLocalizationFiltration.auxiliaryElidedStatement001573 := _root_.RepresentationTheory.Auxiliary.GeneralLinearLocalizationFiltration.filtration_to_polynomial_quotient_map_denominator_embedding

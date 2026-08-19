@@ -2230,8 +2230,6 @@ private theorem alternating_kostka_eq_zero_of_strict_dom {n : ℕ}
   exact sq_eq_zero_iff.mp hnu_sq
 
 /-- An auxiliary assertion whose type was unavailable from the displayed formal output. -/
-@[source_ref "Chapter5/Discussion_proof_of_Frobenius_character_formula" (role := supporting),
-  source_ref "Chapter5/Discussion_proof_of_Theorem5.15.1" (role := supporting)]
 theorem auxiliaryResultA {n : ℕ} (la nu : Nat.Partition n) :
     (∑ π : Equiv.Perm (Fin n),
       (Equiv.Perm.sign π : ℤ) •
@@ -2377,7 +2375,6 @@ private theorem smul_dite_mul {α : Prop} [Decidable α]
   · simp only [dif_neg hα, smul_zero, zero_mul]
 
 /-- An auxiliary assertion whose type was unavailable from the displayed formal output. -/
-@[source_ref "Chapter5/Discussion_proof_of_Theorem5.15.1" (role := supporting)]
 theorem auxiliaryResultC
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     (Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) • auxiliaryPartitionPermutationValue n la σ =
@@ -2441,3 +2438,24 @@ theorem auxiliarySignSmul_eq_coefficient
       auxiliaryResultB]
 
 end RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.Auxiliary.statement017213 := _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryResultA
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.Auxiliary.statement018034 := _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryResultB
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.Auxiliary.statement023280 := _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryResultC
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.Auxiliary.statement024295 := _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryResultD
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.Auxiliary.statement024296 := _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryResultE
+
+attribute [source_ref "Chapter5/Discussion_proof_of_Frobenius_character_formula" (role := supporting)] _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.Auxiliary.statement017213
+
+attribute [source_ref "Chapter5/Discussion_proof_of_Theorem5.15.1" (role := supporting)] _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.Auxiliary.statement017213
+
+attribute [source_ref "Chapter5/Discussion_proof_of_Theorem5.15.1" (role := supporting)] _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.Auxiliary.statement023280

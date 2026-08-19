@@ -714,3 +714,6 @@ theorem partitionPermutationValue_eq_coefficient
       MvPolynomial.coeff (partitionNatFinsupp la) (permutationPolynomialAuxiliary n σ) := by
   rw [partitionPolynomialCoeff_eq_card_auxiliary, ← partitionPermutationValue_eq_card_auxiliary]
 end RepresentationTheory.PermutationPolynomialAuxiliary
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.PermutationPolynomialAuxiliary.Auxiliary.statement018898 := _root_.RepresentationTheory.PermutationPolynomialAuxiliary.exists_sameCycle_class_indexing

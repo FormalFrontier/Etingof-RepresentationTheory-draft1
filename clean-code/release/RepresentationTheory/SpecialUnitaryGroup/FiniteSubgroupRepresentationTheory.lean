@@ -400,10 +400,6 @@ lemma eq_one_of_character_tautological_eq_two (g : G) (htr : (tautologicalFDRep 
   exact Subtype.ext hval1
 
 /-- Any two indices in a complete simple family are joined by a path of positive multiplicities. -/
-@[source_ref "Chapter6/Problem6.1.6" (role := primary),
-  source_ref "Chapter6/Problem6.1.6/Derived4" (role := supporting),
-  source_ref "Chapter6/Problem6.1.6/Derived5" (role := supporting),
-  source_ref "Chapter6/Problem6.1.6/Derived7" (role := supporting)]
 theorem exists_positiveMultiplicity_path (hW : IsCompleteSimpleFamily W) (i j : Fin m) :
     ∃ path : List (Fin m), path.head? = some i ∧ path.getLast? = some j ∧
       ∀ k, (h : k + 1 < path.length) →
@@ -1457,3 +1453,20 @@ theorem weighted_auxiliaryRowSum_eq_zero (hW : IsCompleteSimpleFamily W) (i : Fi
   weighted_auxiliaryRowSum_eq_zero_alternate W hW i
 
 end RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.Auxiliary.statement012911 := _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.auxiliaryTheoremOne
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.Auxiliary.statement012934 := _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.exists_positiveMultiplicity_path
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.Auxiliary.statement012959 := _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.auxiliaryTheoremTwo
+
+attribute [source_ref "Chapter6/Problem6.1.6" (role := primary)] _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.Auxiliary.statement012934
+
+attribute [source_ref "Chapter6/Problem6.1.6/Derived4" (role := supporting)] _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.Auxiliary.statement012934
+
+attribute [source_ref "Chapter6/Problem6.1.6/Derived5" (role := supporting)] _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.Auxiliary.statement012934
+
+attribute [source_ref "Chapter6/Problem6.1.6/Derived7" (role := supporting)] _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.Auxiliary.statement012934

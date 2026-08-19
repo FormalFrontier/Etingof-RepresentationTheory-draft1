@@ -40,7 +40,6 @@ noncomputable def auxiliaryEndomorphismSubalgebra : Subalgebra k (Module.End k (
   Algebra.adjoin k {polynomialMulX k, (Polynomial.derivative : Module.End k (Polynomial k))}
 
 /-- The range of the displayed algebra homomorphism equals the displayed subalgebra. -/
-@[source_ref "Chapter2/Remark2.7.2" (role := supporting)]
 theorem auxiliaryMap_range :
     (toPolynomialEnd k).range = auxiliaryEndomorphismSubalgebra k := by
   rw [auxiliaryEndomorphismSubalgebra, ← Algebra.map_top, ← auxiliary_adjoin_pair_eq_top k,
@@ -50,7 +49,6 @@ theorem auxiliaryMap_range :
     toPolynomialEnd_secondOperator]
 
 /-- An auxiliary algebra equivalence to the subtype of the displayed subalgebra. -/
-@[source_ref "Chapter2/Remark2.7.2" (role := supporting)]
 noncomputable def auxiliaryAlgEquiv [CharZero k] [NoZeroDivisors k] :
     AuxiliaryAlgebra k ≃ₐ[k] auxiliaryEndomorphismSubalgebra k :=
   (AlgEquiv.ofInjective (toPolynomialEnd k) (AuxiliaryAlgebra.toPolynomialEnd_injective k)).trans
@@ -62,3 +60,19 @@ noncomputable def auxiliaryAlgEquiv [CharZero k] [NoZeroDivisors k] :
     (auxiliaryAlgEquiv k w : Module.End k (Polynomial k)) = toPolynomialEnd k w := rfl
 
 end RepresentationTheory.Algebra.Polynomial.EndomorphismAuxiliary
+
+/-- An auxiliary algebra equivalence to the subtype of the displayed subalgebra. -/
+alias _root_.RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.auxiliaryAlgEquiv := _root_.RepresentationTheory.Algebra.Polynomial.EndomorphismAuxiliary.auxiliaryAlgEquiv
+
+/-- The value underlying the auxiliary algebra equivalence agrees with the displayed map. -/
+alias _root_.RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.auxiliaryAlgEquiv_apply := _root_.RepresentationTheory.Algebra.Polynomial.EndomorphismAuxiliary.auxiliaryAlgEquiv_apply
+
+/-- The range of the displayed algebra homomorphism equals the displayed subalgebra. -/
+alias _root_.RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.auxiliaryMap_range := _root_.RepresentationTheory.Algebra.Polynomial.EndomorphismAuxiliary.auxiliaryMap_range
+
+/-- Adjoining the two displayed elements gives the top subalgebra. -/
+alias _root_.RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.auxiliary_adjoin_pair_eq_top := _root_.RepresentationTheory.Algebra.Polynomial.EndomorphismAuxiliary.auxiliary_adjoin_pair_eq_top
+
+attribute [source_ref "Chapter2/Remark2.7.2" (role := supporting)] _root_.RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.auxiliaryAlgEquiv
+
+attribute [source_ref "Chapter2/Remark2.7.2" (role := supporting)] _root_.RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.auxiliaryMap_range

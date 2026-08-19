@@ -3221,3 +3221,6 @@ theorem finrank_ker_combinedEndomorphism_eq_one (ρ : FiniteDimensionalLinearMap
   exact ker_sum_eq_one ρ hρ hAB hV hW
 
 end RepresentationTheory.FiniteDimensionalLinearMapPair
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.FiniteDimensionalLinearMapPair.Auxiliary.statement023113 := _root_.RepresentationTheory.FiniteDimensionalLinearMapPair.linearIndependent_iterates_of_last_ne_zero

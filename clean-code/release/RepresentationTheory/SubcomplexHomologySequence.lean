@@ -5,6 +5,7 @@ Authors: mathlib-initiative
 -/
 import RepresentationTheory.HomologicalComplexShortExactHomology
 import Mathlib
+import RepresentationTheory.Alignment.Attribute
 
 set_option backward.isDefEq.respectTransparency false
 
@@ -248,7 +249,6 @@ theorem boundaryHomologyClass_eq_of_quotientMap_eq (i j : ℤ)
 
 /-- Identifies the explicitly constructed connecting morphism with the canonical connecting
 morphism of the associated short exact complex. -/
-@[source_ref "Chapter7/Problem7.8.5" (role := supporting)]
 theorem connectingHom_eq_delta (i j : ℤ)
     (hij : (ComplexShape.up ℤ).Rel i j) :
     C.connectingHom i j hij = C.subcomplexQuotientSequence_shortExact.δ i j hij :=
@@ -266,7 +266,6 @@ noncomputable def connectingHom
 
 /-- Establishes exactness at three consecutive homology objects associated with a short exact
 complex and adjacent integer degrees. -/
-@[source_ref "Chapter7/Problem7.8.5" (role := primary)]
 theorem shortExact_homologySequence_exact
     {S : ShortComplex IntCochainComplex}
     (hS : S.ShortExact) (i j : ℤ) (hij : (ComplexShape.up ℤ).Rel i j) :
@@ -280,7 +279,6 @@ theorem shortExact_homologySequence_exact
 
 /-- Establishes exactness of the three consecutive parts of the homology sequence built from a
 subcomplex and its quotient. -/
-@[source_ref "Chapter7/Problem7.8.5" (role := primary)]
 theorem subcomplex_homologySequence_exact
     {D : IntCochainComplex} (C : Subcomplex D)
     (i j : ℤ) (hij : (ComplexShape.up ℤ).Rel i j) :
@@ -301,3 +299,18 @@ theorem subcomplex_homologySequence_exact
     shortExact_homologySequence_exact C.subcomplexQuotientSequence_shortExact i j hij
 
 end RepresentationTheory.SubcomplexHomologySequence
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SubcomplexHomologySequence.Auxiliary.statement013193 := _root_.RepresentationTheory.SubcomplexHomologySequence.shortExact_homologySequence_exact
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SubcomplexHomologySequence.Auxiliary.statement013257 := _root_.RepresentationTheory.SubcomplexHomologySequence.subcomplex_homologySequence_exact
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SubcomplexHomologySequence.Subcomplex.Auxiliary.statement013213 := _root_.RepresentationTheory.SubcomplexHomologySequence.Subcomplex.connectingHom_eq_delta
+
+attribute [source_ref "Chapter7/Problem7.8.5" (role := primary)] _root_.RepresentationTheory.SubcomplexHomologySequence.Auxiliary.statement013193
+
+attribute [source_ref "Chapter7/Problem7.8.5" (role := primary)] _root_.RepresentationTheory.SubcomplexHomologySequence.Auxiliary.statement013257
+
+attribute [source_ref "Chapter7/Problem7.8.5" (role := supporting)] _root_.RepresentationTheory.SubcomplexHomologySequence.Subcomplex.Auxiliary.statement013213

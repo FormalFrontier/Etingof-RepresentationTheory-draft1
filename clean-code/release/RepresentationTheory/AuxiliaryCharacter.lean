@@ -871,3 +871,9 @@ theorem auxiliaryRepresentation_polynomial_eq_sum_auxiliaryFinrank_smul (N n : â
   rw [auxiliaryRepresentation_polynomial_eq_sum_X_pow, RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary.sum_variables_pow_eq_sum_finrank_smul]
 
 end RepresentationTheory.AuxiliaryCharacter
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.AuxiliaryCharacter.auxiliaryElidedStatement019429 := _root_.RepresentationTheory.AuxiliaryCharacter.finrank_eq_sum_finrank_auxiliaryWeightSpace
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.AuxiliaryCharacter.auxiliaryElidedStatement019534 := _root_.RepresentationTheory.AuxiliaryCharacter.auxiliaryRepresentation_polynomial_eq_sum_auxiliaryFinrank_smul

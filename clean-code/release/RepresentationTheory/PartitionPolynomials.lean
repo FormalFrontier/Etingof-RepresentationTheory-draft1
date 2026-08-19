@@ -60,8 +60,7 @@ lemma dropFirstVariableHom_X_succ (N : ℕ) (i : Fin N) :
     dropFirstVariableHom N (MvPolynomial.X i.succ) = MvPolynomial.X i := by
   simp [dropFirstVariableHom, MvPolynomial.finSuccEquiv_X_succ]
 
-/-- The variable homomorphism preserves a positive polynomial sum after lowering the ambient
-size. -/
+/-- The variable homomorphism preserves a positive power sum after lowering the ambient size. -/
 lemma dropFirstVariableHom_psum (N m : ℕ) (hm : 0 < m) :
     dropFirstVariableHom N (MvPolynomial.psum (Fin (N + 1)) ℂ m) =
       MvPolynomial.psum (Fin N) ℂ m := by

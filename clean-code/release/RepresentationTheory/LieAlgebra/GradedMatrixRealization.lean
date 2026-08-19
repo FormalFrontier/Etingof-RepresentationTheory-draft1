@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.LieAlgebra.PolynomialMatrixRealization
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Graded matrix realization -/
 

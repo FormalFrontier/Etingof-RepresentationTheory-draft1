@@ -647,3 +647,15 @@ theorem ncard_setTransform_rationalVectorSetA : (Auxiliary.rationalVectorSetTran
   decide
 
 end RepresentationTheory.EightDimensionalRationalVectors
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.statement013079 := _root_.RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.twoCoordinateIntegerVector_propertyA
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.statement013080 := _root_.RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.twoCoordinateIntegerVector_propertyB
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.statement013143 := _root_.RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.rationalVector_property
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.statement013162 := _root_.RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.integralBasisVector_property

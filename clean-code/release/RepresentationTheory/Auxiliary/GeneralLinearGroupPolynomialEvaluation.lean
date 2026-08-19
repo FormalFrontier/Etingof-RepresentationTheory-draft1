@@ -348,3 +348,6 @@ theorem auxiliaryFDRep_property_two {k : Type*} [Field k] [IsAlgClosed k]
   (auxiliaryFDRep_property N lam).impliesRepresentationProperty
 
 end RepresentationTheory.Auxiliary.GeneralLinearGroupPolynomialEvaluation
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.Auxiliary.HasAuxiliaryMapProperty.auxiliaryElidedStatement005116 := _root_.RepresentationTheory.GeneralLinearGroup.Auxiliary.HasAuxiliaryMapProperty.auxiliary_restrict

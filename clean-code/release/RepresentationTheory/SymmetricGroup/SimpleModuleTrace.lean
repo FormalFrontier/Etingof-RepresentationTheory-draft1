@@ -342,3 +342,12 @@ end General
 end RepresentationTheory.SymmetricGroup.SimpleModuleTrace
 
 end
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SymmetricGroup.SimpleModuleTrace.Auxiliary.statement018964 := _root_.RepresentationTheory.SymmetricGroup.SimpleModuleTrace.existsSimpleSubmoduleWithPrescribedTraceComplex
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SymmetricGroup.SimpleModuleTrace.Auxiliary.statement018965 := _root_.RepresentationTheory.SymmetricGroup.SimpleModuleTrace.existsSimpleSubmoduleWithPrescribedTrace
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SymmetricGroup.SimpleModuleTrace.Auxiliary.statement023208 := _root_.RepresentationTheory.SymmetricGroup.SimpleModuleTrace.nonemptyLinearEquivOfTraceEqComplex

@@ -265,7 +265,7 @@ lemma firstMatrix_mul_secondMatrix : firstMatrix * secondMatrix = secondMatrix *
   rw [h3]; ext i j; fin_cases i <;> fin_cases j <;>
     simp [firstMatrix, secondMatrix, Matrix.mul_apply, Fin.sum_univ_two]
 
-/-- Equal complex casts of natural exponents give equal powers of the first matrix. -/
+/-- Equality of the displayed casts of natural exponents gives equal powers of the first matrix. -/
 lemma firstMatrix_pow_eq_of_cast_eq {a b : ℕ} (h : (a : ZMod 4) = (b : ZMod 4)) : firstMatrix ^ a = firstMatrix ^ b := by
   have e : a % 4 = b % 4 := (ZMod.natCast_eq_natCast_iff a b 4).mp h
   conv_lhs => rw [← Nat.div_add_mod a 4]

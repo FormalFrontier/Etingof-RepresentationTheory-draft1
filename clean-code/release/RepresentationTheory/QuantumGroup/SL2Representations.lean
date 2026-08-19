@@ -15,7 +15,6 @@ import Mathlib.Order.CompletePartialOrder
 import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 import Mathlib.RingTheory.Flat.TorsionFree
 import Mathlib.RingTheory.SimpleRing.Principal
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Representations of a rank-one quantum algebra -/
 
@@ -1540,24 +1539,7 @@ theorem finrank_le_orderOf (q : ℂˣ) (hq : IsOfFinOrder q)
 
 end RepresentationTheory.QuantumGroup.SL2Representations
 
-attribute [source_ref "Chapter2/Problem2.16.5" (role := supporting)]
-  RepresentationTheory.QuantumGroup.SL2Representations.QuantumSL2
-  RepresentationTheory.QuantumGroup.SL2Representations.Relations
-  RepresentationTheory.QuantumGroup.SL2Representations.complexCharacter_surjective
-  RepresentationTheory.QuantumGroup.SL2Representations.finrank_le_orderOf
-  RepresentationTheory.QuantumGroup.SL2Representations.inverseWeightElement_mul_weightElement
-  RepresentationTheory.QuantumGroup.SL2Representations.loweringElement_order_pow_smul_eq_scalar
-  RepresentationTheory.QuantumGroup.SL2Representations.parameterDifference_smul_commutator
-  RepresentationTheory.QuantumGroup.SL2Representations.raisingElement_order_pow_smul_eq_scalar
-  RepresentationTheory.QuantumGroup.SL2Representations.weightActionEnd_structure_of_finiteOrder
-  RepresentationTheory.QuantumGroup.SL2Representations.weightElement_mul_inverseWeightElement
-  RepresentationTheory.QuantumGroup.SL2Representations.weightElement_mul_loweringElement
-  RepresentationTheory.QuantumGroup.SL2Representations.weightElement_mul_raisingElement
-  RepresentationTheory.QuantumGroup.SL2Representations.weightElement_order_pow_smul_eq_scalar
 
-attribute [source_ref "Chapter2/Problem2.16.5" (role := primary)]
-  RepresentationTheory.QuantumGroup.SL2Representations.exists_highestWeightVector_eigenvalue_eq_sign_mul_pow
-  RepresentationTheory.QuantumGroup.SL2Representations.exists_ne_zero_raising_annihilated_weightEigenvector
 
 attribute [nolint defsWithUnderscore]
   RepresentationTheory.QuantumGroup.SL2Representations.Generator

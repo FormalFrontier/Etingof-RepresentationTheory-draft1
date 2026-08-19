@@ -20,9 +20,6 @@ import RepresentationTheory.Alignment.Attribute
 open _root_.RepresentationTheory in
 
 /-- For a symmetric zero-one adjacency matrix in which every pair of vertices is joined by a walk, the two specified matrix conditions are equivalent. -/
-@[source_ref "Chapter6/Problem6.1.5" (role := supporting),
-  source_ref "Chapter6/Problem6.1.5_theorem" (role := primary),
-  source_ref "Chapter6/Problem6.1.5_parts" (role := supporting)]
 theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.iff_of_symmetric_zeroOne_walkConnected
     (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)
@@ -129,7 +126,6 @@ theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriteri
       exact ⟨iso.linearEquivAt, fun {a b} f => by ext x; simpa using iso.linearEquivAt_map f x⟩
 
 /-- Under the stated condition on a connected symmetric zero-one adjacency matrix, the quadratic form of twice the identity minus the adjacency matrix is positive on every nonzero rational vector. -/
-@[source_ref "Chapter6/Problem6.1.5_parts" (role := primary)]
 theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.quadraticForm_twoIdentity_sub_adjacency_pos
     {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hsymm : adj.IsSymm)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
@@ -148,7 +144,6 @@ theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriteri
       n adj hsymm h01 hconn).mp hft).2.2.2.2
 
 /-- Under the stated condition on a connected symmetric zero-one adjacency matrix, twice the identity minus the real adjacency matrix is positive definite. -/
-@[source_ref "Chapter6/Problem6.1.5_parts" (role := primary)]
 theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.posDef_twoIdentity_sub_adjacency
     {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hsymm : adj.IsSymm)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
@@ -201,3 +196,28 @@ theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriteri
   exact h_not_ade
     ((RepresentationTheory.Matrix.BinaryAdjacencyClassification.Matrix.exists_adjacency_reindexing_iff
       n adj hn).mp hD)
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement016733 := _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.iff_of_symmetric_zeroOne_walkConnected
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement021720 := _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.not_of_no_adjacencyPreservingMap
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement021721 := _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.not_of_not_related_condition
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement024130 := _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.quadraticForm_twoIdentity_sub_adjacency_pos
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement024139 := _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.posDef_twoIdentity_sub_adjacency
+
+attribute [source_ref "Chapter6/Problem6.1.5" (role := supporting)] _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement016733
+
+attribute [source_ref "Chapter6/Problem6.1.5_parts" (role := supporting)] _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement016733
+
+attribute [source_ref "Chapter6/Problem6.1.5_theorem" (role := primary)] _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement016733
+
+attribute [source_ref "Chapter6/Problem6.1.5_parts" (role := primary)] _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement024130
+
+attribute [source_ref "Chapter6/Problem6.1.5_parts" (role := primary)] _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement024139

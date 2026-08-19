@@ -393,3 +393,9 @@ add_decl_doc CategoryTheory.ShortComplex.ShortExact.inl_comp_middleAugmentationZ
 add_decl_doc CategoryTheory.ShortComplex.ShortExact.inr_comp_middleAugmentationZero_comp_g_assoc
 
 end RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.ShortExact
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.ShortExact.Auxiliary.statement020386 := _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.ShortExact.CategoryTheory.ProjectiveResolution.exact_d_one_augmentation
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.ShortExact.Auxiliary.statement020412 := _root_.RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.ShortExact.CategoryTheory.ShortComplex.ShortExact.connectingAux

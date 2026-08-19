@@ -298,7 +298,11 @@ private lemma a3_gf_injective {k : Type*} [Field k] (ρ : LinearChainRepresentat
   · exact hker hK_bot
   · rw [← finrank_top (R := k) (M := ρ.right), htop, finrank_bot] at h₃; omega
 
-/-- An indecomposable linear-chain representation has dimension triple (1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 1, 0), (0, 1, 1), or (1, 1, 1), with the corresponding chain maps injective. -/
+/--
+An indecomposable linear-chain representation has one of the six displayed dimension triples;
+the left-to-middle map is injective in the `(1, 1, 0)` case, the middle-to-right map is
+injective in the `(0, 1, 1)` case, and both are injective in the `(1, 1, 1)` case.
+-/
 theorem isIndecomposable_dimension_cases (k : Type*) [Field k]
     (ρ : LinearChainRepresentation k) (hind : ρ.IsIndecomposable) :
     (Module.finrank k ρ.left = 1 ∧ Module.finrank k ρ.middle = 0 ∧

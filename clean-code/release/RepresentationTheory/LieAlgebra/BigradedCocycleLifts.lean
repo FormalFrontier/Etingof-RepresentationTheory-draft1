@@ -6,7 +6,6 @@ Authors: mathlib-initiative
 
 import RepresentationTheory.LinearMap.KernelDecomposition
 import Mathlib.LinearAlgebra.Dual.Lemmas
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Bigraded cocycle lifts -/
 

@@ -520,3 +520,12 @@ theorem Auxiliary.complex_function_operation_eq_indicator_le (n : ℕ) (μ : Nat
   simp only [Finset.sum_ite_eq, Auxiliary.partition_finset_pred, Finset.mem_filter, Finset.mem_univ, true_and]
 
 end RepresentationTheory.Auxiliary.PartitionPermutationRelations
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.statement017516 := _root_.RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.parts_eq_converted_partition_row_len
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.statement022649 := _root_.RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.coeff_eq_sum_partition_finset_pred
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.statement024504 := _root_.RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.convert_construct_from_partition

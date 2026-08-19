@@ -136,7 +136,6 @@ end Prod
 variable {k Q : Type*} [Field k] [Quiver Q]
 
 /-- A quiver representation determined by two vertices and scalar coefficient data on arrows. -/
-@[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 noncomputable def twoVertexRepresentation [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
     AuxiliaryQuiverModuleData k Q where
   obj v := (Fin (if v = i then 1 else 0) → k) × (Fin (if v = j then 1 else 0) → k)
@@ -195,7 +194,6 @@ theorem auxiliary_fact1 [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) �
     Fintype.card_fin]
 
 /-- An auxiliary dimension statement for the displayed two-vertex representation. -/
-@[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 theorem auxiliary_fact10 [DecidableEq Q] [Fintype Q] (i j : Q)
     (c : (Σ a b : Q, (a ⟶ b)) → k) : ∑ v, auxiliaryVertexValue (twoVertexRepresentation i j c) v = 2 := by
   simp only [auxiliary_fact1, Finset.sum_add_distrib, Finset.sum_ite_eq' Finset.univ,
@@ -210,7 +208,6 @@ theorem twoVertexRepresentation_zero_arrowMap [DecidableEq Q] (i j : Q) {a b : Q
   rfl
 
 /-- Displayed equivalence data between the zero-coefficient two-vertex representation and an auxiliary construction on its two vertices. -/
-@[source_ref "Chapter3/Problem3.9.3" (role := primary)]
 noncomputable def zeroTwoVertexAuxiliaryEquiv [DecidableEq Q] (i j : Q) :
     AuxiliaryQuiverEquivData k Q (twoVertexRepresentation i j (0 : (Σ a b : Q, (a ⟶ b)) → k))
       (AuxiliaryQuiverModuleData.auxiliaryBinaryConstruction k Q (auxiliaryObjectAtVertex i) (auxiliaryObjectAtVertex j)) where
@@ -293,7 +290,6 @@ theorem auxiliary_fact5 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
   exact h
 
 /-- An auxiliary statement relating the zero-coefficient two-vertex representation to the displayed predicate. -/
-@[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 theorem auxiliary_fact13 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c : (Σ a b : Q, (a ⟶ b)) → k) {e₀ : i ⟶ j} (hc : c ⟨i, j, e₀⟩ ≠ 0) :
     (twoVertexRepresentation i j c).AuxiliaryCondition := by
@@ -339,7 +335,6 @@ theorem auxiliary_fact13 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
       exact auxiliary_fact2 W₂ hvi hvj
 
 /-- The zero-coefficient two-vertex representation does not satisfy the displayed predicate. -/
-@[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 theorem not_auxiliaryProperty_twoVertexRepresentation_zero [DecidableEq Q] (i j : Q) :
     ¬ (twoVertexRepresentation (k := k) i j (0 : (Σ a b : Q, (a ⟶ b)) → k)).AuxiliaryCondition := by
   intro hIndec
@@ -562,7 +557,6 @@ theorem support_of_sum_eq_two {Q : Type*} [Fintype Q] (d : Q → ℕ) (h2 : ∑ 
     exact hout v (by rw [hS2]; simp [hvi, hvj])
 
 /-- Under the displayed quiver hypothesis, a representation of total dimension two is equivalent to a two-vertex representation, either with zero coefficients or with a specified nonzero arrow coefficient. -/
-@[source_ref "Chapter3/Problem3.9.3" (role := primary)]
 theorem exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two [DecidableEq Q] [Fintype Q]
     (hQ : HasAuxiliaryQuiverProperty Q) (ρ : AuxiliaryQuiverModuleData k Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
@@ -705,7 +699,6 @@ theorem exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two [Decidable
         · exact absurd hbj.symm hab
 
 /-- Auxiliary equivalence data between displayed two-vertex representations. -/
-@[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 noncomputable def auxiliaryTwoVertexEquiv [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k)
     {t : k} (ht : t ≠ 0) :
     AuxiliaryQuiverEquivData k Q (twoVertexRepresentation i j c) (twoVertexRepresentation i j fun p => t * c p) where
@@ -718,7 +711,6 @@ noncomputable def auxiliaryTwoVertexEquiv [DecidableEq Q] (i j : Q) (c : (Σ a b
     rfl
 
 /-- An auxiliary statement involving a displayed quiver representation and representation-equivalence data. -/
-@[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 theorem auxiliary_fact3 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c c' : (Σ a b : Q, (a ⟶ b)) → k)
     (φ : AuxiliaryQuiverEquivData k Q (twoVertexRepresentation i j c) (twoVertexRepresentation i j c')) :
@@ -770,7 +762,6 @@ theorem auxiliary_fact3 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     _ = gj * gi⁻¹ * c ⟨i, j, e⟩ := by ring
 
 /-- An auxiliary statement involving two-vertex representations and displayed representation-equivalence data. -/
-@[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 theorem auxiliary_fact20 [DecidableEq Q] {i j i' j' : Q}
     (c c' : (Σ a b : Q, (a ⟶ b)) → k)
     (φ : AuxiliaryQuiverEquivData k Q (twoVertexRepresentation i j c) (twoVertexRepresentation i' j' c')) :
@@ -896,3 +887,139 @@ theorem not_auxiliaryProperty_or_exists_bijectiveArrow_of_totalDimension_eq_two 
       exact ⟨x, by rw [hcomp, hx, hz, LinearEquiv.symm_apply_apply]⟩
 
 end RepresentationTheory.Quiver.TwoDimensionalRepresentations
+
+/-- An auxiliary definition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition1 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.arrowCoefficient
+
+/--
+The first auxiliary definition is evaluated by applying the target equivalence to the displayed
+arrow map at the inverse image of one under the source equivalence.
+-/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition1_apply := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.arrowCoefficient_apply
+
+/-- An auxiliary definition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition2 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryLeftVertexEquiv
+
+/-- An auxiliary definition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition3 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryRightVertexEquiv
+
+/-- An auxiliary definition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition4 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryCoefficientData
+
+/-- An auxiliary definition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition5 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.twoVertexRepresentation
+
+/-- Every displayed arrow-indexed map of the fifth auxiliary definition at zero is zero. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition5_zero_map := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.twoVertexRepresentation_zero_arrowMap
+
+/-- An auxiliary definition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition6 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryTwoVertexEquiv
+
+/-- An auxiliary definition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition7 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryVertexEquiv
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact1 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact1
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact10 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact10
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact11 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFinFunctionLinearMap_apply
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact12 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact11
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact13 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact12
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact14 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact13
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact15 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact14
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact16 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact15
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact17 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact16
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact18 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact17
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact19 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact18
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact2 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact2
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact20 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact19
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact21 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact20
+
+/-- An auxiliary proposition whose formal type is partially elided. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact22 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.linearEquivOfVertexEq_rfl
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact3 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact3
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact4 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact4
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact5 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact5
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact6 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact6
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact7 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact7
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact8 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact8
+
+/-- An auxiliary proposition whose formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact9 := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact9
+
+/--
+Under the displayed quiver hypothesis, a representation of total dimension two admits the
+displayed equivalence to the fifth auxiliary definition, either at zero or at data nonzero on a
+displayed arrow.
+-/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.exists_equiv_auxiliaryDefinition5_of_totalDimension_eq_two := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two
+
+/--
+Under the displayed two-vertex support and zero-map hypotheses, the representation admits the
+displayed equivalence to the fifth auxiliary definition.
+-/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.nonempty_equiv_auxiliaryDefinition5_of_support := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.nonempty_equiv_twoVertexRepresentation_of_support
+
+/-- The fifth auxiliary definition at zero does not satisfy the displayed predicate. -/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.not_auxiliaryProperty_auxiliaryDefinition5_zero := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.not_auxiliaryProperty_twoVertexRepresentation_zero
+
+/--
+Displayed equivalence data between the fifth auxiliary definition at zero and the displayed
+construction on its two vertices.
+-/
+alias _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.zeroAuxiliaryEquivalenceData := _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.zeroTwoVertexAuxiliaryEquiv
+
+attribute [source_ref "Chapter3/Problem3.9.3" (role := supporting)] _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition5
+
+attribute [source_ref "Chapter3/Problem3.9.3" (role := supporting)] _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition6
+
+attribute [source_ref "Chapter3/Problem3.9.3" (role := supporting)] _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact10
+
+attribute [source_ref "Chapter3/Problem3.9.3" (role := supporting)] _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact14
+
+attribute [source_ref "Chapter3/Problem3.9.3" (role := supporting)] _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact21
+
+attribute [source_ref "Chapter3/Problem3.9.3" (role := supporting)] _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact3
+
+attribute [source_ref "Chapter3/Problem3.9.3" (role := primary)] _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.exists_equiv_auxiliaryDefinition5_of_totalDimension_eq_two
+
+attribute [source_ref "Chapter3/Problem3.9.3" (role := supporting)] _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.not_auxiliaryProperty_auxiliaryDefinition5_zero
+
+attribute [source_ref "Chapter3/Problem3.9.3" (role := supporting)] _root_.RepresentationTheory.Quiver.TwoDimensionalRepresentations.zeroAuxiliaryEquivalenceData

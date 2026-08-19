@@ -49,7 +49,6 @@ namespace RepresentationTheory.Algebra.Module.FiniteDecompositions
 
 
 /-- Under the displayed module property, every endomorphism is either bijective or nilpotent. -/
-@[source_ref "Chapter3/Problem3.8.3" (role := primary)]
 theorem bijective_or_nilpotent (k : Type*) (A : Type*) (W : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
@@ -62,7 +61,6 @@ theorem bijective_or_nilpotent (k : Type*) (A : Type*) (W : Type*)
 
 
 /-- Under the displayed module property, a finite sum of nilpotent endomorphisms is nilpotent. -/
-@[source_ref "Chapter3/Problem3.8.3" (role := supporting)]
 theorem sum_nilpotent (k : Type*) (A : Type*) (W : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
@@ -76,7 +74,6 @@ theorem sum_nilpotent (k : Type*) (A : Type*) (W : Type*)
 
 
 /-- A finite-dimensional module has a finite internal family of submodules satisfying the displayed module property. -/
-@[source_ref "Chapter3/Problem3.8.3" (role := primary)]
 theorem exists_internal_family (k : Type*) (A : Type*) (V : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
@@ -92,7 +89,6 @@ theorem exists_internal_family (k : Type*) (A : Type*) (V : Type*)
 
 
 /-- Two finite internal spanning families of nonzero submodules satisfying the displayed property have equal lengths and matching equivalent members. -/
-@[source_ref "Chapter3/Problem3.8.3" (role := primary)]
 theorem internal_family_unique_up_to_permutation (k : Type*) (A : Type*) (V : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
@@ -108,3 +104,29 @@ theorem internal_family_unique_up_to_permutation (k : Type*) (A : Type*) (V : Ty
     hW_indec hW'_indec hW_ne hW'_ne hW_sup hW_ind hW'_sup hW'_ind
 
 end RepresentationTheory.Algebra.Module.FiniteDecompositions
+
+/-- Under the displayed module property, every endomorphism is either bijective or nilpotent. -/
+alias _root_.RepresentationTheory.Algebra.Module.FiniteDecompositions.bijective_or_nilpotent_of_auxiliaryProperty := _root_.RepresentationTheory.Algebra.Module.FiniteDecompositions.bijective_or_nilpotent
+
+/--
+A finite-dimensional module has a finite internal family of submodules satisfying the displayed
+module property.
+-/
+alias _root_.RepresentationTheory.Algebra.Module.FiniteDecompositions.exists_internal_family_satisfying_auxiliaryProperty := _root_.RepresentationTheory.Algebra.Module.FiniteDecompositions.exists_internal_family
+
+/--
+Two finite internal spanning families of nonzero submodules satisfying the displayed auxiliary
+property have equal lengths and a displayed correspondence between equivalent members.
+-/
+alias _root_.RepresentationTheory.Algebra.Module.FiniteDecompositions.internal_families_equal_length_and_corresponding_equiv := _root_.RepresentationTheory.Algebra.Module.FiniteDecompositions.internal_family_unique_up_to_permutation
+
+/-- Under the displayed module property, a finite sum of nilpotent endomorphisms is nilpotent. -/
+alias _root_.RepresentationTheory.Algebra.Module.FiniteDecompositions.sum_nilpotent_of_auxiliaryProperty := _root_.RepresentationTheory.Algebra.Module.FiniteDecompositions.sum_nilpotent
+
+attribute [source_ref "Chapter3/Problem3.8.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteDecompositions.bijective_or_nilpotent_of_auxiliaryProperty
+
+attribute [source_ref "Chapter3/Problem3.8.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteDecompositions.exists_internal_family_satisfying_auxiliaryProperty
+
+attribute [source_ref "Chapter3/Problem3.8.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteDecompositions.internal_families_equal_length_and_corresponding_equiv
+
+attribute [source_ref "Chapter3/Problem3.8.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteDecompositions.sum_nilpotent_of_auxiliaryProperty

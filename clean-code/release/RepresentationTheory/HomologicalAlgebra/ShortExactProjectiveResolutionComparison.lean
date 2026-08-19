@@ -351,3 +351,6 @@ add_decl_doc component_snd_assoc
 
 end ShortExactProjectiveResolutionComparison
 end RepresentationTheory.HomologicalAlgebra.ShortExactProjectiveResolutionComparison
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.HomologicalAlgebra.ShortExactProjectiveResolutionComparison.Auxiliary.statement020309 := _root_.RepresentationTheory.HomologicalAlgebra.ShortExactProjectiveResolutionComparison.ShortExactProjectiveResolutionComparison.auxiliaryConstruction

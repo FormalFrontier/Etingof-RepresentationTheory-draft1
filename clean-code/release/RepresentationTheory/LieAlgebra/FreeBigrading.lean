@@ -7,7 +7,6 @@ Authors: mathlib-initiative
 import RepresentationTheory.LieAlgebra.ExplicitConstructions
 import Mathlib.Algebra.Lie.BaseChange
 import Mathlib.Algebra.DirectSum.Decomposition
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Free bigrading -/
 

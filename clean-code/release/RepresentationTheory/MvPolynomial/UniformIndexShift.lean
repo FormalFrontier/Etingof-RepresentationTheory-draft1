@@ -49,3 +49,9 @@ theorem auxiliary_eq_prod_variables_mul (N : ℕ) (lam : Fin N → ℕ) :
     ← alternant_det_shift, addStaircase_shift]
 
 end RepresentationTheory.MvPolynomial.UniformIndexShift
+
+/--
+Adding one pointwise to the index function multiplies the displayed value by the product of all
+polynomial variables.
+-/
+alias _root_.RepresentationTheory.MvPolynomial.UniformIndexShift.auxiliaryValue_add_one_eq_prod_X_mul := _root_.RepresentationTheory.MvPolynomial.UniformIndexShift.auxiliary_eq_prod_variables_mul

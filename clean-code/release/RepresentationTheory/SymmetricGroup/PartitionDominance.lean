@@ -612,7 +612,6 @@ theorem sandwich_eq_zero_of_strictDominates
 
 
 /-- An auxiliary theorem involving the dominance relation; its formal statement could not be displayed in this packet. -/
-@[source_ref "Chapter5/Lemma5.13.2" (role := supporting)]
 theorem dominates_aux (n : ℕ) (la mu : Nat.Partition n)
     (h : ¬ Partition.Dominates mu la) (σ : Equiv.Perm (Fin n)) :
     ∃ (t : Equiv.Perm (Fin n)),
@@ -709,3 +708,14 @@ theorem Partition.Dominates.antisymm {n : ℕ} {la mu : Nat.Partition n}
   partition_eq_of_partial_sums la mu (fun k => le_antisymm (h2 k) (h1 k))
 
 end RepresentationTheory.SymmetricGroup.PartitionDominance
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SymmetricGroup.PartitionDominance.auxiliaryElidedStatement032715 := _root_.RepresentationTheory.SymmetricGroup.PartitionDominance.columnIndex_lt_rowLength
+
+/-- An auxiliary statement whose formal type was unavailable. -/
+alias _root_.RepresentationTheory.SymmetricGroup.PartitionDominance.auxiliaryUnavailableStatement022058 := _root_.RepresentationTheory.SymmetricGroup.PartitionDominance.strictDominates_aux
+
+/-- An auxiliary statement whose formal type was unavailable. -/
+alias _root_.RepresentationTheory.SymmetricGroup.PartitionDominance.auxiliaryUnavailableStatement022059 := _root_.RepresentationTheory.SymmetricGroup.PartitionDominance.dominates_aux
+
+attribute [source_ref "Chapter5/Lemma5.13.2" (role := supporting)] _root_.RepresentationTheory.SymmetricGroup.PartitionDominance.auxiliaryUnavailableStatement022059

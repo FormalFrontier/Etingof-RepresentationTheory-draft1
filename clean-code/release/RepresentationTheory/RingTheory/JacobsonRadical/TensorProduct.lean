@@ -64,7 +64,6 @@ theorem tensorProductQuotientMap_surjective : Function.Surjective (tensorProduct
     Ideal.Quotient.mk_surjective
 
 /-- The distinguished tensor-product ideal is the kernel of the map to the tensor product of the Jacobson-radical quotients. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)]
 theorem tensorProductJacobsonIdeal_eq_ker :
     tensorProductJacobsonIdeal k A B = RingHom.ker (tensorProductQuotientMap k A B) := by
   have hA : RingHom.ker (Ideal.Quotient.mkₐ k (Ring.jacobson A)) = Ring.jacobson A :=
@@ -80,7 +79,6 @@ instance tensorProductJacobsonIdeal_isTwoSided : (tensorProductJacobsonIdeal k A
   rw [tensorProductJacobsonIdeal_eq_ker]; infer_instance
 
 /-- The quotient by the distinguished tensor-product ideal is algebra-equivalent to the tensor product of the factor algebras modulo their Jacobson radicals. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary)]
 noncomputable def quotientTensorProductJacobsonIdealAlgEquiv :
     ((A ⊗[k] B) ⧸ tensorProductJacobsonIdeal k A B) ≃ₐ[k]
       (A ⧸ Ring.jacobson A) ⊗[k] (B ⧸ Ring.jacobson B) :=
@@ -234,14 +232,12 @@ theorem tensorProductIdeal_aux2_isNilpotent [FiniteDimensional k B] :
   rw [show Ring.jacobson B ^ n = ⊥ from hn, Ideal.map_bot]
 
 /-- For finite-dimensional factor algebras, the distinguished tensor-product ideal is contained in the Jacobson radical of the tensor product. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)]
 theorem tensorProductJacobsonIdeal_le_jacobson [FiniteDimensional k A] [FiniteDimensional k B] :
     tensorProductJacobsonIdeal k A B ≤ Ring.jacobson (A ⊗[k] B) :=
   sup_le (le_jacobson_of_isNilpotent tensorProductIdeal_aux1_isNilpotent)
     (le_jacobson_of_isNilpotent tensorProductIdeal_aux2_isNilpotent)
 
 /-- The distinguished Jacobson ideal in the tensor product of two finite-dimensional algebras is nilpotent. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)]
 theorem tensorProductJacobsonIdeal_isNilpotent [FiniteDimensional k A] [FiniteDimensional k B] :
     IsNilpotent (tensorProductJacobsonIdeal k A B) := by
   haveI : IsArtinianRing (A ⊗[k] B) := IsArtinianRing.of_finite k (A ⊗[k] B)
@@ -257,7 +253,6 @@ section Semisimple
 variable {k A B : Type*} [Field k] [Ring A] [Ring B] [Algebra k A] [Algebra k B]
 
 /-- If the tensor product of the semisimple quotients is semisimple, the Jacobson radical of the tensor product is contained in the distinguished tensor-product ideal. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary)]
 theorem jacobson_le_tensorProductJacobsonIdeal_of_isSemisimpleRing
     (h : IsSemisimpleRing ((A ⧸ Ring.jacobson A) ⊗[k] (B ⧸ Ring.jacobson B))) :
     Ring.jacobson (A ⊗[k] B) ≤ tensorProductJacobsonIdeal k A B := by
@@ -320,7 +315,6 @@ variable [Ring A] [Ring B] [Algebra k A] [Algebra k B]
 variable [FiniteDimensional k A] [FiniteDimensional k B]
 
 /-- For finite-dimensional algebras over an algebraically closed field, the Jacobson radical of their tensor product equals the distinguished tensor-product ideal. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary)]
 theorem jacobson_tensorProduct_eq :
     Ring.jacobson (A ⊗[k] B) = tensorProductJacobsonIdeal k A B := by
   haveI : IsArtinianRing A := IsArtinianRing.of_finite k A
@@ -387,7 +381,6 @@ variable [AddCommGroup M] [Module k M] [FiniteDimensional k M]
 variable [Module A M] [IsScalarTower k A M] [Module B M] [IsScalarTower k B M]
 
 /-- For two algebra actions on a finite-dimensional vector space over an algebraically closed field, the Jacobson radical of the tensor product of their ranges is the corresponding distinguished ideal. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary)]
 theorem jacobson_tensorProduct_actionRange_eq :
     Ring.jacobson
         (↥(Algebra.lsmul k k M : A →ₐ[k] Module.End k M).range ⊗[k]
@@ -398,3 +391,66 @@ theorem jacobson_tensorProduct_actionRange_eq :
 end ImageAlgebras
 
 end RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct
+
+/--
+If the tensor product of the Jacobson-radical quotients is semisimple, the Jacobson radical of
+the tensor product is contained in the third auxiliary ideal.
+-/
+alias _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_le_tensorProductIdeal_aux3_of_isSemisimpleRing := _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_le_tensorProductJacobsonIdeal_of_isSemisimpleRing
+
+/--
+For two algebra actions on a finite-dimensional vector space over an algebraically closed field,
+the Jacobson radical of the tensor product of their ranges equals the corresponding third
+auxiliary ideal.
+-/
+alias _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_tensorProduct_actionRange_eq_aux3 := _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_tensorProduct_actionRange_eq
+
+/--
+For finite-dimensional algebras over an algebraically closed field, the Jacobson radical of
+their tensor product equals the third auxiliary ideal.
+-/
+alias _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_tensorProduct_eq_aux3 := _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_tensorProduct_eq
+
+/--
+The quotient by the third auxiliary tensor-product ideal is algebra-equivalent to the tensor
+product of the factor algebras modulo their Jacobson radicals.
+-/
+alias _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.quotientTensorProductIdealAux3AlgEquiv := _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.quotientTensorProductJacobsonIdealAlgEquiv
+
+/-- A third auxiliary ideal of a tensor-product algebra. -/
+alias _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductIdeal_aux3 := _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductJacobsonIdeal
+
+/--
+The third auxiliary tensor-product ideal is the kernel of the map to the tensor product of the
+Jacobson-radical quotients.
+-/
+alias _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductIdeal_aux3_eq_ker := _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductJacobsonIdeal_eq_ker
+
+/--
+The third auxiliary ideal of the tensor product is nilpotent when both factors are
+finite-dimensional.
+-/
+alias _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductIdeal_aux3_isNilpotent := _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductJacobsonIdeal_isNilpotent
+
+/-- The third auxiliary ideal of the tensor product is two-sided. -/
+alias _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductIdeal_aux3_isTwoSided := _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductJacobsonIdeal_isTwoSided
+
+/--
+For finite-dimensional factor algebras, the third auxiliary tensor-product ideal is contained in
+the Jacobson radical of the tensor product.
+-/
+alias _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductIdeal_aux3_le_jacobson := _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductJacobsonIdeal_le_jacobson
+
+attribute [source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary)] _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_le_tensorProductIdeal_aux3_of_isSemisimpleRing
+
+attribute [source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary)] _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_tensorProduct_actionRange_eq_aux3
+
+attribute [source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary)] _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.jacobson_tensorProduct_eq_aux3
+
+attribute [source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)] _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.quotientTensorProductIdealAux3AlgEquiv
+
+attribute [source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)] _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductIdeal_aux3_eq_ker
+
+attribute [source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)] _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductIdeal_aux3_isNilpotent
+
+attribute [source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)] _root_.RepresentationTheory.RingTheory.JacobsonRadical.TensorProduct.tensorProductIdeal_aux3_le_jacobson

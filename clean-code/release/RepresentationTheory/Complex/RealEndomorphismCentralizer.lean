@@ -1145,3 +1145,15 @@ theorem Representation.auxiliaryCondition_iff_exists_invariantRealSubmodule
 end RealCentralizerAuxiliary
 
 end RepresentationTheory.Complex.RealEndomorphismCentralizer
+
+/-- An auxiliary definition whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.Complex.RealEndomorphismCentralizer.Auxiliary.definition021558 := _root_.RepresentationTheory.Complex.RealEndomorphismCentralizer.Representation.auxiliaryConstruction
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.Complex.RealEndomorphismCentralizer.Auxiliary.statement018896 := _root_.RepresentationTheory.Complex.RealEndomorphismCentralizer.Representation.auxiliaryCentralizerTheorem
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.Complex.RealEndomorphismCentralizer.Auxiliary.statement021564 := _root_.RepresentationTheory.Complex.RealEndomorphismCentralizer.Representation.auxiliaryConstruction_spec
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.Complex.RealEndomorphismCentralizer.Auxiliary.statement022312 := _root_.RepresentationTheory.Complex.RealEndomorphismCentralizer.Representation.auxiliaryRealCentralizerComplexStructureTheorem

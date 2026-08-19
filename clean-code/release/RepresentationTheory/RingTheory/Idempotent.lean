@@ -302,3 +302,6 @@ noncomputable def moduleEndRingEquivOpposite :
 end EndLeftIdeal
 
 end RepresentationTheory.RingTheory.Idempotent
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.RingTheory.Idempotent.Auxiliary.statement018733 := _root_.RepresentationTheory.RingTheory.Idempotent.apply_idempotent_mem_sandwichSubmodule

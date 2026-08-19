@@ -686,3 +686,9 @@ theorem FDRep.exists_character_eq_zero_of_simple (V : FDRep ℂ G) [Simple V]
   exact RepresentationTheory.FiniteGroup.CharacterArithmetic.character_pairing_product_not_rat_between_zero_one V (hs_def ▸ hq) hq0 hq1
 
 end RepresentationTheory.FiniteGroup.RationalForms
+
+/--
+A complex representation is algebraic exactly when it is defined over the algebraic closure of
+the rationals inside the complexes.
+-/
+alias _root_.RepresentationTheory.FiniteGroup.RationalForms.FDRep.isAlgebraic_iff_isDefinedOver_algebraicClosure := _root_.RepresentationTheory.FiniteGroup.RationalForms.FDRep.isAlgebraic_iff_isDefinedOver_auxiliaryScalarType

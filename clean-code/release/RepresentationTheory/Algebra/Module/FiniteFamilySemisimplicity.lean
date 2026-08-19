@@ -232,9 +232,7 @@ theorem simpleModule_linearEquiv_columnModule (W : Type*) [AddCommGroup W] [Modu
 
 
 /-- The displayed coordinate modules over the auxiliary algebra are simple, exhaust its finite-dimensional simple modules, and every module over it is semisimple. -/
-@[source_ref "Chapter3/Introduction_to_3.3" (role := supporting),
-  source_ref "Chapter3/Problem3.3.3" (role := supporting),
-  source_ref "Chapter3/Theorem3.6.2" (role := supporting)]
+@[source_ref "Chapter3/Introduction_to_3.3" (role := supporting)]
 theorem auxiliaryAlgebra_simpleModule_classification :
     (∀ j, IsSimpleModule (Auxiliary k d) (Fin (d j) → k)) ∧
     (∀ (W : Type*) [AddCommGroup W] [Module (Auxiliary k d) W] [Module k W]
@@ -283,8 +281,7 @@ def toMatrixLinearMap (i : Fin r) : Auxiliary k d →ₗ[Auxiliary k d] (Fin (d 
 
 
 /-- A module-linear equivalence from the displayed auxiliary algebra to the indicated direct sum of coordinate-vector spaces. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary),
-  source_ref "Chapter3/Remark3.3.4" (role := supporting)]
+@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary)]
 noncomputable def auxiliaryLinearEquivDirectSumColumns :
     Auxiliary k d ≃ₗ[Auxiliary k d] (⨁ i, (Fin (d i) → (Fin (d i) → k))) :=
   (LinearEquiv.ofBijective (LinearMap.pi toMatrixLinearMap)
@@ -320,8 +317,7 @@ theorem toIndexedScalarsLinearMap_apply (n : ℕ) (i : Fin r) (M : Fin n → Aux
 
 
 /-- A module-linear equivalence from a finite family over the displayed algebra to the indicated direct sum of coordinate-vector families. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary),
-  source_ref "Chapter3/Remark3.3.4" (role := primary)]
+@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary)]
 noncomputable def piAuxiliaryLinearEquivDirectSum (n : ℕ) :
     (Fin n → Auxiliary k d) ≃ₗ[Auxiliary k d] (⨁ i, (Fin (n * d i) → (Fin (d i) → k))) :=
   (LinearEquiv.ofBijective (LinearMap.pi fun i => toIndexedScalarsLinearMap n i)
@@ -715,9 +711,7 @@ instance columnModule_aux2 (j : Fin r) : Module (Auxiliary k d) (Fin (d j) → k
 
 /-- Every finite-dimensional module over the displayed algebra is equivalent to a direct sum of finite families of coordinate-vector modules. -/
 @[source_ref "Chapter3/Theorem3.3.1" (role := primary),
-  source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary),
-  source_ref "Chapter3/Problem3.3.3" (role := supporting),
-  source_ref "Chapter3/Remark3.3.4" (role := primary)]
+  source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary)]
 theorem exists_linearEquiv_directSum_columnModules :
     ∃ m : Fin r → ℕ,
       Nonempty (X ≃ₗ[Auxiliary k d] ⨁ i, (Fin (m i) → (Fin (d i) → k))) := by
@@ -738,3 +732,15 @@ theorem exists_linearEquiv_directSum_columnModules :
 end DualRoute
 
 end RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity
+
+attribute [source_ref "Chapter3/Problem3.3.3/Derived17" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryAlgebra_simpleModule_classification
+
+attribute [source_ref "Chapter3/Theorem3.6.2/Derived12" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryAlgebra_simpleModule_classification
+
+attribute [source_ref "Chapter3/Remark3.3.4/Derived6" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryLinearEquivDirectSumColumns
+
+attribute [source_ref "Chapter3/Problem3.3.3/Derived17" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.exists_linearEquiv_directSum_columnModules
+
+attribute [source_ref "Chapter3/Remark3.3.4/Derived8" (role := primary)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.exists_linearEquiv_directSum_columnModules
+
+attribute [source_ref "Chapter3/Remark3.3.4/Derived7" (role := primary)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.piAuxiliaryLinearEquivDirectSum

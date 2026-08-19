@@ -7,7 +7,6 @@ Authors: mathlib-initiative
 import RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic
 import Mathlib.Algebra.CharP.Algebra
 import Mathlib.Data.Nat.Factorial.BigOperators
-import RepresentationTheory.Alignment.Attribute
 
 /-!
 # Simple modules over Weyl algebras in positive characteristic
@@ -156,7 +155,6 @@ theorem modelModule_isScalarTower (α c : k) :
 omit [Fact (Nat.Prime p)] [CharP k p] in
 
 /-- The field-valued functions on `Fin p` have finrank `p`. -/
-@[source_ref "Chapter2/Problem2.7.4" (role := supporting)]
 theorem finrank_finFunction : Module.finrank k (Fin p → k) = p := by simp
 
 omit [CharP k p] in
@@ -367,7 +365,6 @@ theorem modelModule_smulCommClass (α c : k) :
   rw [map_smul]
 
 /-- The finite-function model is a simple module over the displayed algebra. -/
-@[source_ref "Chapter2/Problem2.7.4" (role := primary)]
 theorem modelModule_isSimpleModule (α c : k) :
     letI := modelModule k p α c
     IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) (Fin p → k) := by
@@ -455,7 +452,6 @@ theorem fourScalarParameterMap_map_smul {α c α' c' : k} (e : FourScalarParamet
 variable (k p)
 
 /-- The four-scalar auxiliary type is nonempty exactly when the first pair of parameters equals the second pair componentwise. -/
-@[source_ref "Chapter2/Problem2.7.4" (role := supporting)]
 theorem nonempty_fourScalarParameterType_iff (α c α' c' : k) :
     Nonempty (FourScalarParameterType k p α c α' c') ↔ α = α' ∧ c = c' := by
   constructor
@@ -518,7 +514,6 @@ abbrev ModuleScalarParameterType (V : Type*) [AddCommGroup V] [Module (Represent
     V (Fin p → k) _ _ inferInstance (modelModule k p α c)
 
 /-- For every finite-dimensional simple module over the displayed algebra, the associated auxiliary type is nonempty for some pair of field elements. -/
-@[source_ref "Chapter2/Problem2.7.4" (role := supporting)]
 theorem exists_nonempty_moduleScalarParameterType [IsAlgClosed k] (V : Type*) [AddCommGroup V] [Module k V]
     [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] [FiniteDimensional k V]
     [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] :
@@ -594,7 +589,6 @@ noncomputable def moduleScalarParameterTypeToLinearEquiv {V : Type*} [AddCommGro
     right_inv := e.right_inv }
 
 /-- For every finite-dimensional simple module over the displayed algebra, there is a unique pair of field elements for which the associated auxiliary type is nonempty. -/
-@[source_ref "Chapter2/Problem2.7.4" (role := supporting)]
 theorem existsUnique_nonempty_moduleScalarParameterType [IsAlgClosed k] (V : Type*) [AddCommGroup V] [Module k V]
     [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] [FiniteDimensional k V]
     [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] :

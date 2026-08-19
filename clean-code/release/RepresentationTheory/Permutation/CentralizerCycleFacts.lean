@@ -387,3 +387,9 @@ end CycleType
 end Equiv.Perm
 
 end RepresentationTheory.Permutation.CentralizerCycleFacts
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.Permutation.CentralizerCycleFacts.Auxiliary.statement018258 := _root_.RepresentationTheory.Permutation.CentralizerCycleFacts.Equiv.Perm.auxiliaryDefinition
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Permutation.CentralizerCycleFacts.Auxiliary.statement023425 := _root_.RepresentationTheory.Permutation.CentralizerCycleFacts.Equiv.Perm.auxiliaryEquality

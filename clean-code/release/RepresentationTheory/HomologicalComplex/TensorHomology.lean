@@ -360,3 +360,6 @@ lemma isZero_homologyTensorFunctor_of_acyclic (i : ℤ) (h : C.Acyclic ∨ D.Acy
 end API
 
 end RepresentationTheory.HomologicalComplex.TensorHomology
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.HomologicalComplex.TensorHomology.Auxiliary.statement021417 := _root_.RepresentationTheory.HomologicalComplex.TensorHomology.transformedTensorMap_eq

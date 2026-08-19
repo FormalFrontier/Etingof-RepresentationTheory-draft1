@@ -561,3 +561,6 @@ theorem exists_simpleModule_with_condition_of_indecomposable [Small.{v} R]
     (condition_of_indecomposable_of_auxiliaryConditions R hM hfl hS hT)
 
 end RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions.Auxiliary.statement014176 := _root_.RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions.centerScalar_ext_comp

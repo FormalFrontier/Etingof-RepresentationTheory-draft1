@@ -1655,3 +1655,6 @@ theorem card_auxiliaryType_le_finrank :
 end
 
 end RepresentationTheory.Permutation.PartitionIndexedAuxiliary
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.Permutation.PartitionIndexedAuxiliary.Auxiliary.statement019782 := _root_.RepresentationTheory.Permutation.PartitionIndexedAuxiliary.opaqueAuxiliaryTheorem

@@ -637,3 +637,6 @@ end Family
 end RepresentationTheory.GaloisFieldCharacters
 
 end
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GaloisFieldCharacters.auxiliaryElidedStatement004485 := _root_.RepresentationTheory.GaloisFieldCharacters.GaloisField.auxiliaryCharacter_eq_characterCardPow

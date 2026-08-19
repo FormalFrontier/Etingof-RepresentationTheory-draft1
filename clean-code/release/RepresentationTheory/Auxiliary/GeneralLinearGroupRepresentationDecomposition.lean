@@ -244,3 +244,6 @@ theorem existsLinearEquivFiniteDirectSum
   exact eM.trans eM'
 
 end RepresentationTheory.Auxiliary.GeneralLinearGroupRepresentationDecomposition.Auxiliary.GeneralLinearGroupRepresentationDecomposition
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Auxiliary.GeneralLinearGroupRepresentationDecomposition.auxiliaryElidedStatement006690 := _root_.RepresentationTheory.Auxiliary.GeneralLinearGroupRepresentationDecomposition.Auxiliary.GeneralLinearGroupRepresentationDecomposition.existsElidedData

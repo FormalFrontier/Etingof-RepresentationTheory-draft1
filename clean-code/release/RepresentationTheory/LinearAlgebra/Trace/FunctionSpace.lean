@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.Algebra.Module.Dual.SimpleFamilies
-import RepresentationTheory.Alignment.Attribute
 
 /-!
 # Trace computations on function spaces
@@ -71,8 +70,6 @@ variable (k : Type*) (A : Type*) (V : Type*)
   [Module.Free k V] [Module.Finite k V]
 
 /-- The trace-valued function of an action on a finite family of copies of a module is the family cardinality times its value on the module. -/
-@[source_ref "Chapter3/Theorem3.7.1/Derived6" (role := supporting),
-  source_ref "Chapter3/Theorem3.7.1/Derived9" (role := supporting)]
 theorem representationTrace_finFun (n : ℕ) (a : A) :
     RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A (Fin n → V) a =
       n • RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A V a := by
@@ -87,8 +84,6 @@ theorem representationTrace_finFun (n : ℕ) (a : A) :
   exact trace_linearMapOnFunctions k V n _
 
 /-- In characteristic p, the trace-valued function of an action on p copies of a module is zero. -/
-@[source_ref "Chapter3/Theorem3.7.1/Derived9" (role := supporting),
-  source_ref "Chapter3/Theorem3.7.1" (role := primary)]
 theorem representationTrace_finFun_eq_zero_of_char (p : ℕ) [CharP k p] :
     RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A (Fin p → V) = 0 := by
   ext a

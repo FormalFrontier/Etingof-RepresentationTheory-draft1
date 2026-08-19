@@ -182,3 +182,9 @@ theorem value_one (c : SimpleCharacter k G) : value c 1 = (dimension c : k) := b
 end SimpleCharacter
 
 end RepresentationTheory.FDRep.SimpleCharacters
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.FDRep.SimpleCharacters.SimpleCharacter.Auxiliary.statement005090 := _root_.RepresentationTheory.FDRep.SimpleCharacters.SimpleCharacter.ofSimple_representation
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.FDRep.SimpleCharacters.SimpleCharacter.Auxiliary.statement005092 := _root_.RepresentationTheory.FDRep.SimpleCharacters.SimpleCharacter.ofSimple_surjective_fromSimpleObjects

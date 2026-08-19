@@ -663,7 +663,7 @@ theorem symmetrizerEndomorphism_apply_of_mem (k : Type*) [Field k] (N : ℕ) (la
 
 
 
-/-- The symmetrizer endomorphism bundled as an element commuting with the symmetric-group action. -/
+/-- The symmetrizer endomorphism bundled as an element of the permutation-action algebra. -/
 def symmetrizerEndomorphismMem (k : Type*) [Field k] (N : ℕ) (lam : Fin N → ℕ) :
     ↥(RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k (Fin N → k) (∑ i, lam i)) :=
   ⟨symmetrizerEndomorphism k N lam, by
@@ -685,7 +685,10 @@ set_option maxHeartbeats 2400000 in
 set_option linter.style.maxHeartbeats false in
 set_option synthInstance.maxHeartbeats 1000000 in
 
-/-- Under an isotypic direct-sum decomposition, the symmetrizer endomorphism acts on a pure tensor through its first factor. -/
+/--
+Under the given direct-sum tensor-product equivalence, the symmetrizer endomorphism acts on a
+pure tensor through its first factor.
+-/
 theorem map_symmetrizerEndomorphism_tmul
     (k : Type*) [Field k]
     (N : ℕ) (lam : Fin N → ℕ)
@@ -3940,3 +3943,33 @@ theorem finrank_schurRepresentation_eq (N : ℕ) (lam : Fin N → ℕ) (hlam : A
 end RepresentationTheory.GeneralLinearGroup.WeightCharacter
 
 end
+
+/-- The permutation-action algebra of a finite module carries its induced ring structure. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.permutationActionAlgebraRingOfFinite := _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.symmetricEndomorphismRing
+
+/-- A submodule over the permutation-action algebra is closed under the action of each permutation. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.permutationAction_mem_of_mem := _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.mem_of_mem_symmetricInvariantSubmodule
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.statement017875 := _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.cast_characterValue_eq
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.statement018734 := _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.eval_one_eq_weightMultiplicitySum
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.statement023204 := _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.nonempty_linearEquiv_of_simple_character_eq
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.statement024301 := _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.exists_partition_character_eq_of_simple
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.statement024303 := _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.trace_symmetrizerEndomorphism_restrict
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.statement024678 := _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.restrict_symmetrizerEndomorphism_sq
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.statement024681 := _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.exists_rankOneProjection_of_character_eq
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.statement024683 := _root_.RepresentationTheory.GeneralLinearGroup.WeightCharacter.Auxiliary.restrict_symmetrizerEndomorphism_eq_zero_of_character_ne

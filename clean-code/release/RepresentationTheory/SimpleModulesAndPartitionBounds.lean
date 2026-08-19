@@ -513,8 +513,10 @@ private noncomputable def spechtEvalMap (n : ℕ) (la : Nat.Partition n)
     change (a * (v : A' k n)) • m₀ = a • ((v : A' k n) • m₀)
     exact mul_smul a (v : A' k n) m₀
 
-/-- Every simple module over the auxiliary scalar type is nonempty linearly equivalent to one of
-the specified membership subtypes. -/
+/--
+Every simple module over the auxiliary scalar type is linearly equivalent to one of the
+specified membership subtypes.
+-/
 theorem exists_linear_equiv_membership_subtype_over_auxiliary_scalars
     (n : ℕ) (M : Type w) [AddCommGroup M] [Module (A' k n) M]
     [IsSimpleModule (A' k n) M] :
@@ -533,8 +535,10 @@ theorem exists_linear_equiv_membership_subtype_over_auxiliary_scalars
   have hf_bij := LinearMap.bijective_of_ne_zero hf_ne
   exact ⟨la, ⟨(LinearEquiv.ofBijective f hf_bij).symm⟩⟩
 
-/-- Every simple module over the monoid algebra of permutations of `Fin n` is nonempty linearly
-equivalent to one of the specified membership subtypes. -/
+/--
+Every simple module over the monoid algebra of permutations of `Fin n` is linearly equivalent to
+one of the specified membership subtypes.
+-/
 theorem exists_linear_equiv_membership_subtype_over_permutation_monoid_algebra
     (n : ℕ) (M : Type w) [AddCommGroup M]
     [Module (MonoidAlgebra k (Equiv.Perm (Fin n))) M]

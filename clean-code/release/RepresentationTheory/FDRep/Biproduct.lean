@@ -87,3 +87,15 @@ lemma character_biprod {G : Type} [Group G] (X Y : FDRep ℂ G) (g : G) :
     _ = X.character g + Y.character g := LinearMap.trace_prodMap' _ _
 
 end RepresentationTheory.FDRep.Biproduct
+
+/--
+A linear equivalence from the underlying module of a binary biproduct representation to the
+product of the underlying modules of its summands.
+-/
+alias _root_.RepresentationTheory.FDRep.Biproduct.biprodCarrierComplexLinearEquiv := _root_.RepresentationTheory.FDRep.Biproduct.biprodCarrierLinearEquiv
+
+/--
+The character of a binary biproduct representation is the pointwise sum of the characters of its
+summands.
+-/
+alias _root_.RepresentationTheory.FDRep.Biproduct.character_biprod_complex := _root_.RepresentationTheory.FDRep.Biproduct.character_biprod

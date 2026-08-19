@@ -64,3 +64,6 @@ theorem tuple2111_mem :
   decide
 
 end RepresentationTheory.IntegerMatrices
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias _root_.RepresentationTheory.IntegerMatrices.Auxiliary.statement001910 := _root_.RepresentationTheory.IntegerMatrices.integerMatrixB_property

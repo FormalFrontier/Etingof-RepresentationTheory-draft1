@@ -437,3 +437,6 @@ theorem auxiliaryRepresentationPartitionCount_eq_of_trace_eq
         ← representation_trace_eq_auxiliaryPermutationTrace n ρ', h σ]) ν
 
 end RepresentationTheory.Module.PartitionComponentsAndTraces
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Module.PartitionComponentsAndTraces.auxiliaryElidedStatement024293 := _root_.RepresentationTheory.Module.PartitionComponentsAndTraces.auxiliary_trace_restrict_permutationEndomorphism_eq_count_mul_value

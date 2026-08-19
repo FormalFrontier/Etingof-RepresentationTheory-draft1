@@ -670,3 +670,15 @@ theorem nonempty_homologyTensorIsoSigma (C D : CochainComplex (ModuleCat.{u} k) 
   ⟨homologyTensorIsoSigma C D i⟩
 
 end RepresentationTheory.HomologicalComplex.TensorExtension
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.HomologicalComplex.TensorExtension.Auxiliary.statement016380 := _root_.RepresentationTheory.HomologicalComplex.TensorExtension.tensorToExtendedTensorComponent_eq_inv_comp
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.HomologicalComplex.TensorExtension.Auxiliary.statement016413 := _root_.RepresentationTheory.HomologicalComplex.TensorExtension.opaqueAuxiliary
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.HomologicalComplex.TensorExtension.Auxiliary.statement016426 := _root_.RepresentationTheory.HomologicalComplex.TensorExtension.extendedTensorSummandToTensorComponent_eq
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.HomologicalComplex.TensorExtension.Auxiliary.statement024725 := _root_.RepresentationTheory.HomologicalComplex.TensorExtension.natTensorSigns_opaqueAuxiliary

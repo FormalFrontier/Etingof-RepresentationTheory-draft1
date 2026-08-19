@@ -99,3 +99,6 @@ theorem RingAuxiliary'.exists_isProjectiveSeparator_of_finiteAlgebras
   exact h.exists_isProjectiveSeparator_of_isNoetherianRing
 
 end RepresentationTheory.RingAuxiliary
+
+/-- A ring regarded as a finitely generated module over itself is a separator. -/
+alias _root_.RepresentationTheory.FGModuleCat.ProjectiveSeparators.FGModuleCat.isSeparator_regularModule := _root_.RepresentationTheory.FGModuleCat.ProjectiveSeparators.isSeparator_regularModule

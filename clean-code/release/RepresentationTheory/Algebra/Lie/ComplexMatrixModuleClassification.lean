@@ -6,7 +6,6 @@ Authors: mathlib-initiative
 
 import RepresentationTheory.LieAlgebra.ModuleProducts
 import RepresentationTheory.LinearAlgebra.KernelDimensionProfiles
-import RepresentationTheory.Alignment.Attribute
 
 open LieModule Module
 

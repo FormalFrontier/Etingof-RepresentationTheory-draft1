@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import Mathlib
-import RepresentationTheory.Alignment.Attribute
 
 /-!
 # Dense orbits under group actions

@@ -8,7 +8,6 @@ import Mathlib.LinearAlgebra.Matrix.Module
 import Mathlib.LinearAlgebra.Dual.Lemmas
 import Mathlib.LinearAlgebra.Matrix.Trace
 import RepresentationTheory.Algebra.Module.IsotypicDecomposition
-import RepresentationTheory.Alignment.Attribute
 
 
 open Matrix.Module Finset
@@ -81,7 +80,6 @@ private theorem matrix_simpleModule_iso_std (k : Type*) [Field k]
 
 
 /-- The type of a finite product of square matrix algebras with prescribed sizes. -/
-@[source_ref "Chapter3/Introduction_to_3.3" (role := supporting)]
 abbrev MatrixProduct (k : Type*) {r : ℕ} (d : Fin r → ℕ) : Type _ :=
   ∀ i, Matrix (Fin (d i)) (Fin (d i)) k
 
@@ -106,8 +104,6 @@ instance standardModule_isScalarTower (j : Fin r) : IsScalarTower k (MatrixProdu
     rw [Pi.smul_apply, smul_assoc]
 
 /-- Each standard column module over a product of nonzero-size matrix algebras is simple. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary),
-  source_ref "Chapter3/Theorem3.3.1" (role := primary)]
 theorem standardModule_isSimpleModule (j : Fin r) :
     IsSimpleModule (MatrixProduct k d) (Fin (d j) → k) := by
   haveI : IsSimpleModule (Matrix (Fin (d j)) (Fin (d j)) k) (Fin (d j) → k) :=
@@ -127,7 +123,6 @@ theorem isSemisimpleModule_matrixProduct (X : Type*) [AddCommGroup X]
   inferInstance
 
 /-- Every finite-dimensional simple module over a product of nonzero-size matrix algebras is equivalent to one of its standard column modules. -/
-@[source_ref "Chapter3/Theorem3.3.1" (role := primary)]
 theorem simpleModule_linearEquiv_standardModule (W : Type*) [AddCommGroup W] [Module (MatrixProduct k d) W]
     [Module k W] [IsScalarTower k (MatrixProduct k d) W] [FiniteDimensional k W]
     [IsSimpleModule (MatrixProduct k d) W] :
@@ -210,9 +205,6 @@ theorem simpleModule_linearEquiv_standardModule (W : Type*) [AddCommGroup W] [Mo
       exact eW.map_smul (a i) w }⟩⟩
 
 /-- The standard column modules over a finite product of nonzero-size matrix algebras are simple, exhaust the finite-dimensional simple modules, and every module over the product is semisimple. -/
-@[source_ref "Chapter3/Introduction_to_3.3" (role := supporting),
-  source_ref "Chapter3/Problem3.3.3/Derived17" (role := supporting),
-  source_ref "Chapter3/Theorem3.6.2/Derived12" (role := supporting)]
 theorem matrixProduct_simpleModule_classification :
     (∀ j, IsSimpleModule (MatrixProduct k d) (Fin (d j) → k)) ∧
     (∀ (W : Type*) [AddCommGroup W] [Module (MatrixProduct k d) W] [Module k W]
@@ -223,7 +215,6 @@ theorem matrixProduct_simpleModule_classification :
     isSemisimpleModule_matrixProduct⟩
 
 /-- Equivalent standard column modules of nonzero-size components have equal component indices. -/
-@[source_ref "Chapter3/Theorem3.3.1" (role := primary)]
 theorem standardModule_equiv_imp_eq {i j : Fin r}
     (h : Nonempty ((Fin (d i) → k) ≃ₗ[MatrixProduct k d] (Fin (d j) → k))) : i = j := by
   obtain ⟨φ⟩ := h
@@ -256,8 +247,6 @@ def componentLinearMap (i : Fin r) : MatrixProduct k d →ₗ[MatrixProduct k d]
   LinearMap.pi fun c => columnLinearMap i c
 
 /-- A module-linear equivalence from a product of matrix algebras to the direct sum of the column spaces of its components. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary),
-  source_ref "Chapter3/Remark3.3.4/Derived6" (role := primary)]
 noncomputable def matrixProductLinearEquivDirectSumColumns :
     MatrixProduct k d ≃ₗ[MatrixProduct k d] (⨁ i, (Fin (d i) → (Fin (d i) → k))) :=
   (LinearEquiv.ofBijective (LinearMap.pi componentLinearMap)
@@ -286,8 +275,6 @@ omit [∀ i, NeZero (d i)] in
       M (finProdFinEquiv.symm m).1 i j (finProdFinEquiv.symm m).2 := rfl
 
 /-- A module-linear equivalence from a finite family of matrix-product elements to the direct sum of their flattened standard-column families. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary),
-  source_ref "Chapter3/Remark3.3.4/Derived7" (role := primary)]
 noncomputable def piMatrixProductLinearEquivDirectSum (n : ℕ) :
     (Fin n → MatrixProduct k d) ≃ₗ[MatrixProduct k d] (⨁ i, (Fin (n * d i) → (Fin (d i) → k))) :=
   (LinearEquiv.ofBijective (LinearMap.pi fun i => flattenedColumnMap n i)
@@ -312,13 +299,11 @@ section Duality
 variable {k : Type*} [Field k]
 
 /-- An algebra equivalence from a square matrix algebra to its opposite algebra. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 abbrev matrixAlgEquivOpposite (k : Type*) [Field k] (D : ℕ) :
     Matrix (Fin D) (Fin D) k ≃ₐ[k] (Matrix (Fin D) (Fin D) k)ᵐᵒᵖ :=
   Matrix.transposeAlgEquiv (Fin D) k k
 
 /-- The ring equivalence between a family of opposite semirings and the opposite of the corresponding product semiring. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 def piOppositeRingEquiv {ι : Type*} (R : ι → Type*) [∀ i, Semiring (R i)] :
     (∀ i, (R i)ᵐᵒᵖ) ≃+* (∀ i, R i)ᵐᵒᵖ where
   toFun f := MulOpposite.op fun i => (f i).unop
@@ -329,7 +314,6 @@ def piOppositeRingEquiv {ι : Type*} (R : ι → Type*) [∀ i, Semiring (R i)] 
   map_add' f g := MulOpposite.unop_injective <| funext fun i => by simp
 
 /-- The ring equivalence from a product of matrix algebras to its opposite ring given componentwise by transpose. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary)]
 def transposeRingEquivOpposite {r : ℕ} (d : Fin r → ℕ) :
     MatrixProduct k d ≃+* (MatrixProduct k d)ᵐᵒᵖ :=
   (RingEquiv.piCongrRight fun i => Matrix.transposeRingEquiv (Fin (d i)) k).trans
@@ -362,7 +346,7 @@ def algebraSmulLinearMap (b : A) (X : Type*) [AddCommGroup X] [Module k X] [Modu
 variable (e : A ≃+* Aᵐᵒᵖ)
 
 /-- A module structure on a base-field dual induced by a ring equivalence from the acting algebra to its opposite. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary), reducible]
+@[reducible]
 def moduleDualOfRingEquivOpposite (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
     [IsScalarTower k A X] : Module A (Module.Dual k X) where
   smul a f := f ∘ₗ algebraSmulLinearMap (e a).unop X
@@ -392,7 +376,6 @@ def moduleDualOfRingEquivOpposite (X : Type*) [AddCommGroup X] [Module k X] [Mod
     (a • f) x = f ((e a).unop • x) := rfl
 
 /-- A scalar-compatible equivalence to the opposite ring makes the base-field and induced dual actions into a scalar tower. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 theorem moduleDualOfRingEquivOpposite_isScalarTower (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
     [IsScalarTower k A X]
     (he : ∀ (c : k) (a : A), (e (c • a)).unop = c • (e a).unop) :
@@ -496,13 +479,11 @@ theorem traceDualLinearMap_bijective : Function.Bijective (traceDualLinearMap (k
   simpa [LinearMap.coe_restrictScalars] using hsurj
 
 /-- A module-linear equivalence between a matrix product and its base-field dual. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 noncomputable def matrixProductLinearEquivDual :
     MatrixProduct k d ≃ₗ[MatrixProduct k d] Module.Dual k (MatrixProduct k d) :=
   LinearEquiv.ofBijective traceDualLinearMap traceDualLinearMap_bijective
 
 /-- The module-linear map sending a family of matrix-product coefficients to the corresponding linear combination of a basis of the dual module. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary)]
 noncomputable def basisLinearCombination {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X)) :
     (Fin n → MatrixProduct k d) →ₗ[MatrixProduct k d] Module.Dual k X where
   toFun a := ∑ l, a l • yb l
@@ -511,12 +492,11 @@ noncomputable def basisLinearCombination {n : ℕ} (yb : Module.Basis (Fin n) k 
     simp only [RingHom.id_apply, Pi.smul_apply, smul_eq_mul, mul_smul, Finset.smul_sum]
 
 /-- The basis linear-combination map evaluates as the finite sum of each coefficient acting on its corresponding basis vector. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary), simp]
+@[simp]
 theorem basisLinearCombination_apply {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X))
     (a : Fin n → MatrixProduct k d) : basisLinearCombination yb a = ∑ l, a l • yb l := rfl
 
 /-- The module-linear map forming combinations of a basis of the dual module is surjective. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary)]
 theorem basisLinearCombination_surjective {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X)) :
     Function.Surjective (basisLinearCombination (d := d) yb) := by
   intro f
@@ -538,7 +518,6 @@ variable {M N : Type*}
   [AddCommGroup N] [Module k N] [Module (MatrixProduct k d) N] [IsScalarTower k (MatrixProduct k d) N]
 
 /-- The module-linear dual map associated with a module-linear map between matrix-product modules. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 noncomputable def moduleDualMap (f : M →ₗ[MatrixProduct k d] N) :
     Module.Dual k N →ₗ[MatrixProduct k d] Module.Dual k M where
   toFun g := (f.restrictScalars k).dualMap g
@@ -550,7 +529,6 @@ noncomputable def moduleDualMap (f : M →ₗ[MatrixProduct k d] N) :
     rw [map_smul f]
 
 /-- The module-linear dual map of a surjective module homomorphism is injective. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 theorem moduleDualMap_injective_of_surjective {f : M →ₗ[MatrixProduct k d] N} (hf : Function.Surjective f) :
     Function.Injective (moduleDualMap f) := by
   have hf' : Function.Surjective (f.restrictScalars k) := by
@@ -560,7 +538,6 @@ theorem moduleDualMap_injective_of_surjective {f : M →ₗ[MatrixProduct k d] N
 end DualMap
 
 /-- The module-linear equivalence from a finite-dimensional matrix-product module to its base-field double dual. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 noncomputable def toDoubleDualLinearEquiv (X : Type*)
     [AddCommGroup X] [Module k X] [Module (MatrixProduct k d) X] [IsScalarTower k (MatrixProduct k d) X]
     [FiniteDimensional k X] :
@@ -575,7 +552,6 @@ noncomputable def toDoubleDualLinearEquiv (X : Type*)
 variable (X) [FiniteDimensional k X]
 
 /-- A module-linear map embedding a finite-dimensional module into the dual of a finite free module over the matrix-product algebra. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 noncomputable def dualFreeEmbedding :
     X →ₗ[MatrixProduct k d]
       Module.Dual k (Fin (Module.finrank k (Module.Dual k X)) → MatrixProduct k d) :=
@@ -583,14 +559,12 @@ noncomputable def dualFreeEmbedding :
     (toDoubleDualLinearEquiv X).toLinearMap
 
 /-- The map from a finite-dimensional module into the dual of the associated finite free module is injective. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 theorem dualFreeEmbedding_injective : Function.Injective (dualFreeEmbedding (k := k) (d := d) X) := by
   rw [dualFreeEmbedding, LinearMap.coe_comp]
   exact (moduleDualMap_injective_of_surjective (basisLinearCombination_surjective _)).comp (toDoubleDualLinearEquiv X).injective
 
 
 /-- The module-linear equivalence between the dual of a finite family of matrix-product elements and the corresponding family of duals. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 noncomputable def dualPiLinearEquivPiDual (n : ℕ) :
     Module.Dual k (Fin n → MatrixProduct k d) ≃ₗ[MatrixProduct k d]
       (Fin n → Module.Dual k (MatrixProduct k d)) where
@@ -626,7 +600,6 @@ noncomputable def dualPiLinearEquivPiDual (n : ℕ) :
     · intro h; exact absurd (Finset.mem_univ l) h
 
 /-- The module-linear equivalence from the dual of a finite family of matrix-product elements to a finite family of matrix-product elements. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary)]
 noncomputable def dualPiLinearEquiv (n : ℕ) :
     Module.Dual k (Fin n → MatrixProduct k d) ≃ₗ[MatrixProduct k d] (Fin n → MatrixProduct k d) :=
   (dualPiLinearEquivPiDual n).trans
@@ -639,10 +612,6 @@ local instance decompositionStandardModule (j : Fin r) : Module (MatrixProduct k
   Module.compHom _ (Pi.evalRingHom (fun i => Matrix (Fin (d i)) (Fin (d i)) k) j)
 
 /-- Every finite-dimensional module over a product of nonzero-size matrix algebras is equivalent to a direct sum of finite multiplicities of the standard column modules. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary),
-  source_ref "Chapter3/Problem3.3.3/Derived17" (role := supporting),
-  source_ref "Chapter3/Remark3.3.4/Derived8" (role := primary),
-  source_ref "Chapter3/Theorem3.3.1" (role := primary)]
 theorem exists_linearEquiv_directSum_standardModules :
     ∃ m : Fin r → ℕ,
       Nonempty (X ≃ₗ[MatrixProduct k d] ⨁ i, (Fin (m i) → (Fin (d i) → k))) := by

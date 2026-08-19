@@ -17,7 +17,7 @@ universe u
 variable {G : Type*} [Group G]
 variable {V : Type u} [AddCommGroup V] [Module ℂ V]
 
-/-- A type construction on complex vector spaces. -/
+/-- A type construction on types. -/
 @[source_ref "Chapter4/Discussion_after_Theorem4.6.2" (role := supporting)]
 def conjugateModule (V : Type u) : Type u := V
 

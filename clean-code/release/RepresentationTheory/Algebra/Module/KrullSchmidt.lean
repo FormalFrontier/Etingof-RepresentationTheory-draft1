@@ -8,7 +8,6 @@ import Mathlib.RingTheory.Length
 import Mathlib.RingTheory.LocalRing.Basic
 import Mathlib.RingTheory.Nilpotent.Basic
 import RepresentationTheory.LinearAlgebra.ModuleDecompositions
-import RepresentationTheory.Alignment.Attribute
 
 
 
@@ -236,7 +235,6 @@ private lemma exists_indecomposable_decomposition_aux
 
 
 /-- An Artinian and Noetherian module has a finite internal spanning family satisfying the displayed module property. -/
-@[source_ref "Chapter3/Remark3.8.6" (role := primary)]
 theorem exists_internalFamily [IsArtinian A V] [IsNoetherian A V] :
     ∃ (n : ℕ) (W : Fin n → Submodule A V),
       (∀ i, RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate A (W i)) ∧ iSup W = ⊤ ∧ iSupIndep W := by
@@ -786,7 +784,6 @@ private lemma krull_schmidt_uniqueness_aux_finiteLength
 
 
 /-- Two finite internal spanning families satisfying the displayed property have equal lengths and equivalent members after a permutation. -/
-@[source_ref "Chapter3/Remark3.8.6" (role := primary)]
 theorem internalFamily_unique_up_to_permutation [IsArtinian A V] [IsNoetherian A V]
     {n m : ℕ} (W : Fin n → Submodule A V) (W' : Fin m → Submodule A V)
     (hW_indec : ∀ i, RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate A (W i))

@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.Quiver.LinearAlgebra.Auxiliary
-import RepresentationTheory.Alignment.Attribute
 
 set_option backward.isDefEq.respectTransparency false
 
@@ -416,7 +415,6 @@ set_option maxHeartbeats 12800000 in
 
 
 /-- A surjective map has a nonempty codomain. -/
-@[source_ref "Chapter6/Proposition6.6.6" (role := primary)]
 theorem RepresentationTheory.Surjective.nonempty_of_surjective
     {k : Type*} [Field k]
     {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q]

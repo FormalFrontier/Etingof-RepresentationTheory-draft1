@@ -404,7 +404,10 @@ lemma scalarMatrix_action_homogeneous (m : ℕ) (s : kˣ) (x : RepresentationThe
     simp [smul_smul, mul_comm]
   | add x y hx hy => simp only [map_add, hx, hy, smul_add]
 
-/-- A scalar matrix acts on the auxiliary subtype by the scalar raised to the sum of the indices. -/
+/--
+A scalar matrix acts on the auxiliary subtype by the scalar raised to the sum of the indexed
+weights.
+-/
 lemma scalarMatrix_action_auxiliarySubtype (a : Fin n → ℕ) (s : kˣ) (v : RepresentationTheory.GeneralLinearGroup.WeightCharacter.schurSubmodule k n a) :
     RepresentationTheory.GeneralLinearGroup.WeightCharacter.schurSubmoduleRepresentation k n a (scalarMatrix k n s) v = ((s : k) ^ (∑ i, a i)) • v := by
   apply Subtype.ext

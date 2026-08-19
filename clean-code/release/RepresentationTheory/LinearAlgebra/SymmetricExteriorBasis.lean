@@ -292,3 +292,15 @@ theorem Module.Basis.symmetricExteriorTensor_counit_apply
 end KBasis
 
 end RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Auxiliary.statement019265 := _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.exteriorPower_coordinate_delete
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Auxiliary.statement021167 := _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor_reindex
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Auxiliary.statement021834 := _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Finset.orderEmbOfFin_erase_succAbove_rank
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Auxiliary.statement021835 := _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Finset.orderEmbOfFin_rank

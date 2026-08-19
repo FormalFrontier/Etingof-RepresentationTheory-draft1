@@ -50,7 +50,10 @@ def auxiliaryRelation
     (V W : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) : Prop :=
   Function.Surjective (auxiliaryElidedDefinition V W)
 
-/-- At a vertex satisfying the second distinguished property, every linear object is related to its associated auxiliary object. -/
+/--
+At a vertex satisfying the second distinguished property, every value of the displayed
+quiver-indexed type is related to its associated auxiliary object.
+-/
 @[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
 theorem any_relates_to_auxiliaryObjectAtVertex [DecidableEq Q]
     (i : Q) (hi : auxiliaryVertexPropertyTwo i)
@@ -67,7 +70,10 @@ theorem any_relates_to_auxiliaryObjectAtVertex [DecidableEq Q]
     exact ⟨fun a b => funext fun x => x.elim0⟩
   exact LinearMap.ext fun x => hsub.elim _ _
 
-/-- At a vertex satisfying the first distinguished property, its associated auxiliary object is related to every linear object. -/
+/--
+At a vertex satisfying the first distinguished property, its associated auxiliary object is
+related to every value of the displayed quiver-indexed type.
+-/
 @[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
 theorem auxiliaryObjectAtVertex_relates_to_any [DecidableEq Q]
     (i : Q) (hi : auxiliaryVertexPropertyOne i)
@@ -115,3 +121,6 @@ theorem existsAuxiliaryDataWithVertexValues [DecidableEq Q]
     (auxiliaryVertexValue_eq_of_fin_basis basis i).symm⟩
 
 end RepresentationTheory.Quiver.Auxiliary
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.Quiver.Auxiliary.Auxiliary.statement013184 := _root_.RepresentationTheory.Quiver.Auxiliary.auxiliaryElidedDefinition

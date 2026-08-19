@@ -152,9 +152,11 @@ theorem transposeMulMvPolynomialAlgHom_map_mvPolynomialX
     Matrix.of_apply, transposeMulMvPolynomialAlgHom_X, Matrix.mul_apply,
     MvPolynomial.smul_eq_C_mul, Matrix.transpose_apply]
 
-/-- The transpose-multiplication polynomial algebra homomorphism maps the determinant of the
-coordinate matrix to the constant polynomial given by the matrix determinant times the
-coordinate-matrix determinant. -/
+/--
+The transpose-multiplication polynomial algebra homomorphism maps the determinant of the
+coordinate matrix to the product of the constant polynomial associated with the matrix
+determinant and the coordinate-matrix determinant.
+-/
 theorem transposeMulMvPolynomialAlgHom_det_mvPolynomialX
     (M : Matrix (Fin N) (Fin N) k) :
     transposeMulMvPolynomialAlgHom M

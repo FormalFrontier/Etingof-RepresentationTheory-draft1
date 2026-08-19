@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.LieAlgebra.BigradedCocycleLifts
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Bigraded Pairing -/
 

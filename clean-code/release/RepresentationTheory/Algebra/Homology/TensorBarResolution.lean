@@ -959,3 +959,15 @@ instance tensorBarResolution_complex_finite (n : ℕ)
 end Resolution
 
 end RepresentationTheory.Algebra.Homology.TensorBarResolution
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias _root_.RepresentationTheory.Algebra.Homology.TensorBarResolution.Auxiliary.statement000662 := _root_.RepresentationTheory.Algebra.Homology.TensorBarResolution.splitHead_aux
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias _root_.RepresentationTheory.Algebra.Homology.TensorBarResolution.Auxiliary.statement000664 := _root_.RepresentationTheory.Algebra.Homology.TensorBarResolution.splitHead_aux_1
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias _root_.RepresentationTheory.Algebra.Homology.TensorBarResolution.Auxiliary.statement000713 := _root_.RepresentationTheory.Algebra.Homology.TensorBarResolution.barBoundary_aux
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias _root_.RepresentationTheory.Algebra.Homology.TensorBarResolution.Auxiliary.statement000715 := _root_.RepresentationTheory.Algebra.Homology.TensorBarResolution.barBoundary_aux_1

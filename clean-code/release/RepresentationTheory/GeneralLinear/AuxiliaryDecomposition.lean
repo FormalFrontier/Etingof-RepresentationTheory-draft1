@@ -771,3 +771,9 @@ theorem iso_of_auxiliaryConditions_and_finrank_eq (N : ℕ)
 end
 
 end RepresentationTheory.GeneralLinear.AuxiliaryDecomposition
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.GeneralLinear.AuxiliaryDecomposition.Auxiliary.statement023057 := _root_.RepresentationTheory.GeneralLinear.AuxiliaryDecomposition.auxiliaryDefinition
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GeneralLinear.AuxiliaryDecomposition.Auxiliary.statement023063 := _root_.RepresentationTheory.GeneralLinear.AuxiliaryDecomposition.weightedAuxiliaryValue_sum_eq

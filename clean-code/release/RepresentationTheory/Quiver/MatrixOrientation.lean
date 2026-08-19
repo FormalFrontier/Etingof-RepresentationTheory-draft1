@@ -4,7 +4,6 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: mathlib-initiative
 -/
 
-import RepresentationTheory.Alignment.Attribute
 import RepresentationTheory.AuxiliaryIntegerMatrixProperty
 import RepresentationTheory.QuiverVertexReversal
 

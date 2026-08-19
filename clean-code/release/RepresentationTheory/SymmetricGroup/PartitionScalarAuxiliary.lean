@@ -379,3 +379,9 @@ theorem exists_rankOneIdempotent_smul_eq_restriction
   exact ⟨α, π, hα_ne, hπ_idem, hπ_rank, hf_eq⟩
 
 end RepresentationTheory.SymmetricGroup.PartitionScalarAuxiliary
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SymmetricGroup.PartitionScalarAuxiliary.Auxiliary.statement024682 := _root_.RepresentationTheory.SymmetricGroup.PartitionScalarAuxiliary.exists_rankOneIdempotent_smul_eq_restriction
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SymmetricGroup.PartitionScalarAuxiliary.Auxiliary.statement024684 := _root_.RepresentationTheory.SymmetricGroup.PartitionScalarAuxiliary.restriction_eq_zero_of_partition_ne

@@ -96,3 +96,12 @@ theorem sum_variables_pow_eq_sum_finrank_smul (N n : ℕ) :
   rw [auxiliaryValue_eq_finrank]
 
 end RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary.Auxiliary.statement017888 := _root_.RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary.ratCastAuxiliaryValue_eq_finrank
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary.Auxiliary.statement017889 := _root_.RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary.auxiliaryValue_eq_finrank
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary.Auxiliary.statement023530 := _root_.RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary.sum_variables_pow_eq_sum_finrank_smul

@@ -2060,3 +2060,9 @@ theorem negativeProjective_equiv_sign_xor :
 end ProjectiveClassification
 
 end RepresentationTheory.InvolutiveSquareZeroAlgebra
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.InvolutiveSquareZeroAlgebra.Auxiliary.statement013309 := _root_.RepresentationTheory.InvolutiveSquareZeroAlgebra.opaqueTheorem
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.InvolutiveSquareZeroAlgebra.Auxiliary.statement013314 := _root_.RepresentationTheory.InvolutiveSquareZeroAlgebra.opaqueTheoremB

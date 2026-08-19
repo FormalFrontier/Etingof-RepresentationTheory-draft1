@@ -973,3 +973,6 @@ theorem nonempty_algEquiv_matrix_prod_auxiliaryAlgebra :
   exact ⟨AlgEquiv.ofBijective φ ⟨hinj', hsurj⟩⟩
 
 end RepresentationTheory.PermutationRepresentation.CharTwo
+
+/-- An auxiliary statement whose displayed formal type is unavailable. -/
+alias _root_.RepresentationTheory.PermutationRepresentation.CharTwo.Auxiliary.statement014084 := _root_.RepresentationTheory.PermutationRepresentation.CharTwo.unitsToAuxiliaryAlgebra_property

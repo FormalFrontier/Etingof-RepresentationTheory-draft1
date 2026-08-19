@@ -188,3 +188,15 @@ theorem generalLinear_commutator_eq_specialLinear_range
     exact specialLinear_mem_commutator s a₀ ha0 ha1
 
 end RepresentationTheory.SpecialLinear.Commutator
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SpecialLinear.Commutator.Auxiliary.statement025267 := _root_.RepresentationTheory.SpecialLinear.Commutator.auxiliaryElement_commutator_eq
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SpecialLinear.Commutator.Auxiliary.statement025275 := _root_.RepresentationTheory.SpecialLinear.Commutator.auxiliaryElement'_commutator_eq
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SpecialLinear.Commutator.Auxiliary.statement025283 := _root_.RepresentationTheory.SpecialLinear.Commutator.auxiliaryElement_commutator_constant_eq
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SpecialLinear.Commutator.Auxiliary.statement025289 := _root_.RepresentationTheory.SpecialLinear.Commutator.auxiliaryElementOfNonzero_mem_commutator

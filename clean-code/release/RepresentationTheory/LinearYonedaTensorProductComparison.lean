@@ -335,3 +335,9 @@ theorem linearYonedaTensorProductComplexIso_hom_f (i : ℕ) :
       (RepresentationTheory.HomologicalAlgebra.TensorProductProjectiveResolution.TensorProductProjectiveResolution.linearYonedaTotalIsoTensorObjComponent k N₁ N₂ hN P₁ P₂ i).hom := rfl
 
 end RepresentationTheory.LinearYonedaTensorProductComparison
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias _root_.RepresentationTheory.LinearYonedaTensorProductComparison.Auxiliary.statement023404 := _root_.RepresentationTheory.LinearYonedaTensorProductComparison.Auxiliary.opaqueResultA
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias _root_.RepresentationTheory.LinearYonedaTensorProductComparison.Auxiliary.statement024733 := _root_.RepresentationTheory.LinearYonedaTensorProductComparison.Auxiliary.opaqueResultB

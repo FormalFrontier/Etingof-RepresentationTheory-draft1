@@ -375,3 +375,6 @@ theorem isSimpleModule_partitionSubmodule (k : Type*) [Field k] [CharZero k]
       exact Submodule.smul_of_tower_mem N (f a)⁻¹ hcn₀_N
 
 end RepresentationTheory.MonoidAlgebra.PartitionSubmoduleSandwich
+
+/-- A monoid-algebra element coerces to its coefficient function on the indexing type. -/
+alias _root_.RepresentationTheory.MonoidAlgebra.PartitionSubmoduleSandwich.monoidAlgebraCoefficientsCoeFun := _root_.RepresentationTheory.MonoidAlgebra.PartitionSubmoduleSandwich.monoidAlgebraCoeFun

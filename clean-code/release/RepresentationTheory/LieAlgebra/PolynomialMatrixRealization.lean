@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.LieAlgebra.AuxiliaryBracketCalculus
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Polynomial matrix realization -/
 

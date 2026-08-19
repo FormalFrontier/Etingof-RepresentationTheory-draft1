@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.ParameterizedAlgebra.FiniteSimpleModules
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Finite-Order Modules -/
 
@@ -191,7 +190,6 @@ theorem diagonalWeightUnit_val_mul_cyclicShiftUnit_val (hqorder : orderOf q = N)
 
 omit [NeZero N] in
 /-- The complex-valued functions on `Fin N` have finrank `N`. -/
-@[source_ref "Chapter2/Problem2.7.5" (role := supporting)]
 theorem finrank_finFunction : Module.finrank ℂ (Fin N → ℂ) = N := by simp
 
 /-- The first distinguished generator acts by the cyclic shift endomorphism. -/

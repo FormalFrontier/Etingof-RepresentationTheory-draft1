@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.DerivedFunctorExactness
-import RepresentationTheory.Alignment.Attribute
 
 set_option backward.isDefEq.respectTransparency false
 

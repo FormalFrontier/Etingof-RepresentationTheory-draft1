@@ -5,7 +5,6 @@ Authors: Kim Morrison
 -/
 
 import RepresentationTheory.Algebra.Module.Dual.SimpleFamilies
-import RepresentationTheory.Alignment.Attribute
 
 /-!
 # Trace additivity for representations
@@ -32,8 +31,6 @@ instance quotient_moduleFinite : Module.Finite k (V ⧸ W) :=
   Module.Finite.of_surjective (W.mkQ.restrictScalars k) W.mkQ_surjective
 
 /-- The trace-valued function of an action on a finite-dimensional module is the sum of its values on an invariant submodule and the corresponding quotient. -/
-@[source_ref "Chapter3/Exercise3.6.1" (role := primary),
-  source_ref "Chapter3/Theorem3.7.1/Derived6" (role := supporting)]
 theorem representationTrace_eq_submodule_add_quotient :
     RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A V
       = RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A (W : Type _) +

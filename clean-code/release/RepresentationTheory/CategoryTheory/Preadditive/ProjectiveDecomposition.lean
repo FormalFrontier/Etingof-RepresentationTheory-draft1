@@ -187,3 +187,9 @@ theorem iffExistsPositiveMultiplicities {ι : Type v} [Fintype ι] (P : ι → C
 end Classification
 
 end RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias _root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities.Auxiliary.statement021691 := _root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities.aux
+
+/-- The formal statement of this declaration is unavailable in the packet. -/
+alias _root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities.Auxiliary.statement021692 := _root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities.aux'

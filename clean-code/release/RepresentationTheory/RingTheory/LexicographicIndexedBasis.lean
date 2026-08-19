@@ -6,7 +6,6 @@ Authors: mathlib-initiative
 
 import RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators
 import Mathlib.Data.Prod.Lex
-import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.FreeAlgebra.PolynomialOperators
 

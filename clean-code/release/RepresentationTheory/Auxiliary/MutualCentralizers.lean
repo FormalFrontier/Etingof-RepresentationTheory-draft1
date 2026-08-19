@@ -331,7 +331,6 @@ set_option maxHeartbeats 4000000 in
 set_option synthInstance.maxHeartbeats 1500000 in
 
 /-- An auxiliary-space decomposition can be selected with compatible component maps and an intertwining condition for an associated algebra action. -/
-@[source_ref "Chapter5/Theorem5.18.4" (role := supporting)]
 theorem exists_auxiliarySpace_decomposition_with_compatibility
     [IsAlgClosed k] [CharZero k] :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
@@ -505,3 +504,8 @@ theorem exists_fin_auxiliarySpace_decomposition
     L, ⟨e⟩⟩
 
 end RepresentationTheory.Auxiliary.MutualCentralizers
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.Auxiliary.MutualCentralizers.Auxiliary.statement016575 := _root_.RepresentationTheory.Auxiliary.MutualCentralizers.exists_auxiliarySpace_decomposition_with_compatibility
+
+attribute [source_ref "Chapter5/Theorem5.18.4" (role := supporting)] _root_.RepresentationTheory.Auxiliary.MutualCentralizers.Auxiliary.statement016575

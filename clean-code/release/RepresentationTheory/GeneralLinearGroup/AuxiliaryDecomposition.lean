@@ -426,3 +426,6 @@ theorem GeneralLinearGroup.AuxiliaryDecomposition.isSemisimpleModule_of_auxiliar
     (GeneralLinearGroup.AuxiliaryDecomposition.iSup_spanningAuxiliarySubrepresentation_eq_top k N M h_span)
 
 end RepresentationTheory.GeneralLinearGroup.AuxiliaryDecomposition
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.GeneralLinearGroup.AuxiliaryDecomposition.auxiliaryElidedStatement006716 := _root_.RepresentationTheory.GeneralLinearGroup.AuxiliaryDecomposition.GeneralLinearGroup.AuxiliaryDecomposition.auxiliaryGeneralLinearElement_eq_noncommProd

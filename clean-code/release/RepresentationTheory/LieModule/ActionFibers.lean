@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.Algebra.Lie.ComplexMatrixModuleClassification
-import RepresentationTheory.Alignment.Attribute
 
 attribute [local instance 100] LieRing.ofAssociativeRing
 
@@ -58,7 +57,6 @@ theorem actionFiberEquiv_of_distinguishedElementAction_eq [FiniteDimensional ℂ
   rfl
 
 /-- A nilpotent endomorphism occurs as the action of the distinguished element, uniquely up to Lie module equivalence. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := primary)]
 theorem exists_actionFiber_of_isNilpotent [FiniteDimensional ℂ V]
     (A : Module.End ℂ V) (hA : IsNilpotent A) :
     (∃ ρ : _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra →ₗ⁅ℂ⁆ Module.End ℂ V, ρ _root_.RepresentationTheory.LieAlgebra.Sl2Representations.raisingElement = A) ∧

@@ -5,7 +5,6 @@ Authors: Kim Morrison
 -/
 
 import RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions
-import RepresentationTheory.Alignment.Attribute
 
 /-! # Basis presentations of universal enveloping algebras -/
 
@@ -18,7 +17,6 @@ variable (L : Type v) [LieRing L] [LieAlgebra k L]
 variable {ι : Type w} (b : Module.Basis ι k L)
 
 /-- An algebra equivalence between a basis-dependent presentation of a Lie algebra and its universal enveloping algebra. -/
-@[source_ref "Chapter2/Remark2.9.10" (role := primary)]
 noncomputable def basisPresentationEquivUniversalEnveloping :
     RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.UniversalEnvelopingAlgebra.auxiliaryBasisType
         k L b ≃ₐ[k]

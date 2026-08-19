@@ -6,7 +6,6 @@ Authors: mathlib-initiative
 
 import Mathlib
 import RepresentationTheory.Mathlib.Algebra.Homology.CochainComplex.Monoidal
-import RepresentationTheory.Alignment.Attribute
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex
 
@@ -437,3 +436,12 @@ end Auxiliary
 add_decl_doc sigmaInclusion_naturality_assoc
 
 end RepresentationTheory.HomologicalAlgebra.TensorProductHomology
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.HomologicalAlgebra.TensorProductHomology.Auxiliary.statement020807 := _root_.RepresentationTheory.HomologicalAlgebra.TensorProductHomology.tensorLeft_homologyCokernel_isColimit
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.HomologicalAlgebra.TensorProductHomology.Auxiliary.statement020810 := _root_.RepresentationTheory.HomologicalAlgebra.TensorProductHomology.tensorRight_homologyCokernel_isColimit
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.HomologicalAlgebra.TensorProductHomology.Auxiliary.statement024742 := _root_.RepresentationTheory.HomologicalAlgebra.TensorProductHomology.sigmaInclusion_pair_comp_totalHomologyTensorToTensorHomology

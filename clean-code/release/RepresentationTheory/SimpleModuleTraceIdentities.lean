@@ -386,3 +386,12 @@ theorem nonemptyLinearEquiv_of_shared_trace_eq
 end RepresentationTheory.SimpleModuleTraceIdentities
 
 end
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SimpleModuleTraceIdentities.Auxiliary.statement023203 := _root_.RepresentationTheory.SimpleModuleTraceIdentities.nonemptyLinearEquiv_of_common_trace_eq
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SimpleModuleTraceIdentities.Auxiliary.statement023207 := _root_.RepresentationTheory.SimpleModuleTraceIdentities.nonemptyLinearEquiv_of_shared_trace_eq
+
+/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+alias _root_.RepresentationTheory.SimpleModuleTraceIdentities.Auxiliary.statement024302 := _root_.RepresentationTheory.SimpleModuleTraceIdentities.exists_trace_eq_of_isSimpleModule
