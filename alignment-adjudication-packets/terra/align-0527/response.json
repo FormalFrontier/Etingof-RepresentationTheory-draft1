@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:9114a9d22a78ca0a0e50",
-      "rationale": "For a highest-weight vector w, the displayed equality directly identifies E^k F^k w with a named polynomial in H applied to w; the separate natDegree theorem supplies the degree-k property.",
-      "role": "primary"
+      "rationale": "For a highest-weight vector w, the displayed equality identifies E^k F^k w with a named polynomial in H applied to w, but it does not itself state that this polynomial has degree k, so it states only part of the combined claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:38c08521823ad745a9cd",
@@ -13,8 +13,8 @@
     },
     {
       "association_id": "association:09e7aa091434ea7075eb",
-      "rationale": "This theorem directly supplies the degree-k clause by stating that the polynomial used in the polynomial-action formula has natural degree k.",
-      "role": "primary"
+      "rationale": "This theorem states that the named polynomial has natural degree k, but it does not itself state the E^k F^k w polynomial-action identity, so it states only the degree component of the combined claim.",
+      "role": "supporting"
     }
   ]
 }
