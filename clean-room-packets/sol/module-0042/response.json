@@ -108,8 +108,8 @@
     },
     {
       "temporary_id": "decl-003648",
-      "new_name": "jordanOperator_coordinate_formula",
-      "docstring": "A coordinate evaluation formula for the Jordan operator."
+      "new_name": "auxiliaryFact",
+      "docstring": "An auxiliary theorem whose formal expression is unavailable in displayed form."
     },
     {
       "temporary_id": "decl-003649",
@@ -158,8 +158,8 @@
     },
     {
       "temporary_id": "decl-003671",
-      "new_name": "jordanNilpotent_coordinate_formula",
-      "docstring": "A coordinate evaluation formula for the nilpotent Jordan shift."
+      "new_name": "auxiliaryFact_aux1",
+      "docstring": "An auxiliary theorem whose formal expression is unavailable in displayed form."
     },
     {
       "temporary_id": "decl-003672",
@@ -168,8 +168,8 @@
     },
     {
       "temporary_id": "decl-003674",
-      "new_name": "jordanNilpotent_boundary_formula",
-      "docstring": "A boundary-coordinate formula for the nilpotent Jordan shift."
+      "new_name": "auxiliaryFact_aux2",
+      "docstring": "An auxiliary theorem whose formal expression is unavailable in displayed form."
     },
     {
       "temporary_id": "decl-003677",
