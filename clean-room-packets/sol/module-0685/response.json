@@ -58,13 +58,13 @@
     },
     {
       "temporary_id": "decl-023397",
-      "new_name": "TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne",
-      "docstring": "An auxiliary theorem whose formal type was unavailable for inspection."
+      "new_name": "Auxiliary.statement023397",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
     },
     {
       "temporary_id": "decl-023398",
-      "new_name": "TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne_assoc",
-      "docstring": "A second auxiliary theorem whose formal type was unavailable for inspection."
+      "new_name": "Auxiliary.statement023398",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
     },
     {
       "temporary_id": "decl-023399",

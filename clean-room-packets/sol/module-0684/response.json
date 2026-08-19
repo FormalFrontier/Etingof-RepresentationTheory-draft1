@@ -43,13 +43,13 @@
     },
     {
       "temporary_id": "decl-023404",
-      "new_name": "Auxiliary.opaqueResultA",
-      "docstring": "Auxiliary result retained because its formal type could not be pretty printed."
+      "new_name": "Auxiliary.statement023404",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
     },
     {
       "temporary_id": "decl-024733",
-      "new_name": "Auxiliary.opaqueResultB",
-      "docstring": "Auxiliary result retained because its formal type could not be pretty printed."
+      "new_name": "Auxiliary.statement024733",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
     }
   ]
 }
