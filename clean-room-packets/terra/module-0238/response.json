@@ -68,8 +68,8 @@
     },
     {
       "temporary_id": "decl-014630",
-      "new_name": "auxiliaryPairing_auxiliaryTheorem",
-      "docstring": "An auxiliary theorem involving the scalar-valued pairing on functions from a finite group."
+      "new_name": "auxiliaryUnavailableStatementOne",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
     },
     {
       "temporary_id": "decl-014631",
@@ -83,8 +83,8 @@
     },
     {
       "temporary_id": "decl-014635",
-      "new_name": "auxiliaryPairing_auxiliaryTheorem'",
-      "docstring": "An additional auxiliary theorem involving the scalar-valued pairing on functions from a finite group."
+      "new_name": "auxiliaryUnavailableStatementTwo",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
     },
     {
       "temporary_id": "decl-032680",
