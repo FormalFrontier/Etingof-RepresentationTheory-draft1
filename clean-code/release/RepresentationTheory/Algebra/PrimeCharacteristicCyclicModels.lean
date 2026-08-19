@@ -131,7 +131,7 @@ private noncomputable def famRepFree (α c : k) :
   FreeAlgebra.lift k (famRepGen k p α c)
 
 private lemma famRep_rel (α c : k) :
-    ∀ ⦃a b⦄, WeylAlgebraRel k a b → famRepFree k p α c a = famRepFree k p α c b := by
+    ∀ ⦃a b⦄, RepresentationTheory.FreeAlgebra.PolynomialOperators.freeAlgebraRelation k a b → famRepFree k p α c a = famRepFree k p α c b := by
   intro a b ⟨ha, hb⟩
   subst ha; subst hb
   simp only [famRepFree, map_mul, map_add, map_one, FreeAlgebra.lift_ι_apply, famRepGen,
@@ -141,30 +141,30 @@ private lemma famRep_rel (α c : k) :
 
 
 
-noncomputable def modelRepresentation (α c : k) : WeylAlgebra k →ₐ[k] Module.End k (Fin p → k) :=
+noncomputable def modelRepresentation (α c : k) : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k →ₐ[k] Module.End k (Fin p → k) :=
   RingQuot.liftAlgHom k ⟨famRepFree k p α c, famRep_rel k p α c⟩
 
 
 /-- The position generator is represented by the cyclic position endomorphism. -/
-@[simp] theorem modelRepresentation_positionGenerator (α c : k) : modelRepresentation k p α c (WeylAlgebra.x k) = cyclicPositionEnd k p α := by
-  simp [modelRepresentation, WeylAlgebra.x, WeylAlgebra.mk, RingQuot.liftAlgHom_mkAlgHom_apply, famRepFree,
+@[simp] theorem modelRepresentation_positionGenerator (α c : k) : modelRepresentation k p α c (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k) = cyclicPositionEnd k p α := by
+  simp [modelRepresentation, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.fromFreeAlgebra, RingQuot.liftAlgHom_mkAlgHom_apply, famRepFree,
     FreeAlgebra.lift_ι_apply, famRepGen]
 
 
 /-- The derivative generator is represented by the derivative-plus-scalar endomorphism. -/
-@[simp] theorem modelRepresentation_derivativeGenerator (α c : k) : modelRepresentation k p α c (WeylAlgebra.y k) = derivativeAddScalarEnd k p c := by
-  simp [modelRepresentation, WeylAlgebra.y, WeylAlgebra.mk, RingQuot.liftAlgHom_mkAlgHom_apply, famRepFree,
+@[simp] theorem modelRepresentation_derivativeGenerator (α c : k) : modelRepresentation k p α c (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k) = derivativeAddScalarEnd k p c := by
+  simp [modelRepresentation, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.fromFreeAlgebra, RingQuot.liftAlgHom_mkAlgHom_apply, famRepFree,
     FreeAlgebra.lift_ι_apply, famRepGen]
 
 
 
 /-- The module structure of the displayed algebra on field-valued functions on `Fin p` determined by two scalar parameters. -/
-@[reducible] noncomputable def modelModule (α c : k) : Module (WeylAlgebra k) (Fin p → k) :=
+@[reducible] noncomputable def modelModule (α c : k) : Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (Fin p → k) :=
   Module.compHom (Fin p → k) (modelRepresentation k p α c).toRingHom
 /-- The model-module action agrees with evaluation of the associated algebra representation. -/
 
 
-theorem modelModule_smul_eq_representation_apply (α c : k) (a : WeylAlgebra k) (f : Fin p → k) :
+theorem modelModule_smul_eq_representation_apply (α c : k) (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (f : Fin p → k) :
     letI := modelModule k p α c
     a • f = modelRepresentation k p α c a f := rfl
 /-- The base-field and algebra actions on the finite-function model form a scalar tower. -/
@@ -173,7 +173,7 @@ theorem modelModule_smul_eq_representation_apply (α c : k) (a : WeylAlgebra k) 
 
 theorem modelModule_isScalarTower (α c : k) :
     letI := modelModule k p α c
-    IsScalarTower k (WeylAlgebra k) (Fin p → k) := by
+    IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (Fin p → k) := by
   letI := modelModule k p α c
   refine ⟨fun a b f => ?_⟩
   change modelRepresentation k p α c (a • b) f = a • (modelRepresentation k p α c b f)
@@ -398,7 +398,7 @@ theorem cyclicPositionEnd_pow_single_zero (α : k) (i : ℕ) (hi : i < p) :
 
 
 theorem modelRepresentation_derivativeGenerator_sub_scalar (α c : k) :
-    modelRepresentation k p α c (WeylAlgebra.y k - c • 1) = derivativeAddScalarEnd k p 0 := by
+    modelRepresentation k p α c (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k - c • 1) = derivativeAddScalarEnd k p 0 := by
   rw [map_sub, map_smul, map_one, modelRepresentation_derivativeGenerator]
   refine LinearMap.ext fun f => ?_
   funext j
@@ -411,7 +411,7 @@ theorem modelRepresentation_derivativeGenerator_sub_scalar (α c : k) :
 
 theorem modelModule_smulCommClass (α c : k) :
     letI := modelModule k p α c
-    SMulCommClass k (WeylAlgebra k) (Fin p → k) := by
+    SMulCommClass k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (Fin p → k) := by
   letI := modelModule k p α c
   refine ⟨fun a b f => ?_⟩
   change a • modelRepresentation k p α c b f = modelRepresentation k p α c b (a • f)
@@ -425,7 +425,7 @@ theorem modelModule_smulCommClass (α c : k) :
 
 theorem modelModule_isSimpleModule (α c : k) :
     letI := modelModule k p α c
-    IsSimpleModule (WeylAlgebra k) (Fin p → k) := by
+    IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (Fin p → k) := by
   letI := modelModule k p α c
   haveI := modelModule_isScalarTower k p α c
   haveI := modelModule_smulCommClass k p α c
@@ -441,29 +441,29 @@ theorem modelModule_isSimpleModule (α c : k) :
     refine mul_ne_zero (fun h => ?_) hfm
     have hd : p ∣ Nat.factorial (m : ℕ) := (CharP.cast_eq_zero_iff k p _).mp h
     exact absurd ((Nat.Prime.dvd_factorial (Fact.out : p.Prime)).mp hd) (not_le.mpr m.isLt)
-  set y₀ : WeylAlgebra k := WeylAlgebra.y k - c • 1 with hy₀
+  set y₀ : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k := RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k - c • 1 with hy₀
   have key : (y₀ ^ (m : ℕ)) • f = s • (Pi.single (0 : Fin p) (1 : k) : Fin p → k) := by
     rw [hs, hy₀, modelModule_smul_eq_representation_apply, map_pow, modelRepresentation_derivativeGenerator_sub_scalar]
     exact derivativeEnd_pow_eq_factorial_smul_single_zero k p f m hmax
   have hx : ∀ j : Fin p,
-      (WeylAlgebra.x k ^ (j : ℕ)) • (Pi.single (0 : Fin p) (1 : k) : Fin p → k)
+      (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (j : ℕ)) • (Pi.single (0 : Fin p) (1 : k) : Fin p → k)
         = (Pi.single j (1 : k) : Fin p → k) := by
     intro j
     rw [modelModule_smul_eq_representation_apply, map_pow, modelRepresentation_positionGenerator, cyclicPositionEnd_pow_single_zero k p α (j : ℕ) j.isLt,
       Fin.cast_val_eq_self]
-  refine ⟨∑ j : Fin p, (s⁻¹ * z j) • (WeylAlgebra.x k ^ (j : ℕ) * y₀ ^ (m : ℕ)), ?_⟩
+  refine ⟨∑ j : Fin p, (s⁻¹ * z j) • (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (j : ℕ) * y₀ ^ (m : ℕ)), ?_⟩
   rw [LinearMap.toSpanSingleton_apply, Finset.sum_smul]
   have step : ∀ j : Fin p,
-      ((s⁻¹ * z j) • (WeylAlgebra.x k ^ (j : ℕ) * y₀ ^ (m : ℕ))) • f
+      ((s⁻¹ * z j) • (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (j : ℕ) * y₀ ^ (m : ℕ))) • f
         = (Pi.single j (z j) : Fin p → k) := by
     intro j
-    have e1 : ((s⁻¹ * z j) • (WeylAlgebra.x k ^ (j : ℕ) * y₀ ^ (m : ℕ))) • f
-        = (s⁻¹ * z j) • ((WeylAlgebra.x k ^ (j : ℕ) * y₀ ^ (m : ℕ)) • f) := smul_assoc _ _ _
-    have e2 : (WeylAlgebra.x k ^ (j : ℕ) * y₀ ^ (m : ℕ)) • f
-        = (WeylAlgebra.x k ^ (j : ℕ)) • ((y₀ ^ (m : ℕ)) • f) := mul_smul _ _ _
-    have e3 : s • ((WeylAlgebra.x k ^ (j : ℕ)) •
+    have e1 : ((s⁻¹ * z j) • (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (j : ℕ) * y₀ ^ (m : ℕ))) • f
+        = (s⁻¹ * z j) • ((RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (j : ℕ) * y₀ ^ (m : ℕ)) • f) := smul_assoc _ _ _
+    have e2 : (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (j : ℕ) * y₀ ^ (m : ℕ)) • f
+        = (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (j : ℕ)) • ((y₀ ^ (m : ℕ)) • f) := mul_smul _ _ _
+    have e3 : s • ((RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (j : ℕ)) •
           (Pi.single (0 : Fin p) (1 : k) : Fin p → k))
-        = (WeylAlgebra.x k ^ (j : ℕ)) • (s • (Pi.single (0 : Fin p) (1 : k) : Fin p → k)) :=
+        = (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (j : ℕ)) • (s • (Pi.single (0 : Fin p) (1 : k) : Fin p → k)) :=
       smul_comm _ _ _
     rw [e1, e2, key, ← e3, hx j, smul_smul (s⁻¹ * z j) s,
       show s⁻¹ * z j * s = z j by
@@ -509,15 +509,15 @@ theorem eq_of_pow_prime_eq_pow_prime {c c' : k} (h : c ^ p = c' ^ p) : c = c' :=
 
 /-- An auxiliary type parameterized by four elements of a field of prime characteristic. -/
 abbrev FourScalarParameterType (α c α' c' : k) : Type _ :=
-  @LinearEquiv (WeylAlgebra k) (WeylAlgebra k) _ _
-    (RingHom.id (WeylAlgebra k)) (RingHom.id (WeylAlgebra k)) _ _
+  @LinearEquiv (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) _ _
+    (RingHom.id (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)) (RingHom.id (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)) _ _
     (Fin p → k) (Fin p → k) _ _ (modelModule k p α c) (modelModule k p α' c')
 
 variable {k p}
 /-- A map represented by the four-scalar auxiliary type intertwines the two displayed algebra actions. -/
 
 
-theorem fourScalarParameterMap_intertwines_action {α c α' c' : k} (e : FourScalarParameterType k p α c α' c') (a : WeylAlgebra k)
+theorem fourScalarParameterMap_intertwines_action {α c α' c' : k} (e : FourScalarParameterType k p α c α' c') (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)
     (f : Fin p → k) : e (modelRepresentation k p α c a f) = modelRepresentation k p α' c' a (e f) :=
   map_smulₛₗ e a f
 /-- A map represented by the four-scalar auxiliary type commutes with scalar multiplication by the base field. -/
@@ -526,7 +526,7 @@ theorem fourScalarParameterMap_intertwines_action {α c α' c' : k} (e : FourSca
 
 theorem fourScalarParameterMap_map_smul {α c α' c' : k} (e : FourScalarParameterType k p α c α' c') (a : k)
     (f : Fin p → k) : e (a • f) = a • e f := by
-  have h := fourScalarParameterMap_intertwines_action e (algebraMap k (WeylAlgebra k) a) f
+  have h := fourScalarParameterMap_intertwines_action e (algebraMap k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) a) f
   simpa only [AlgHom.commutes, Module.algebraMap_end_apply] using h
 
 variable (k p)
@@ -554,9 +554,9 @@ theorem nonempty_fourScalarParameterType_iff (α c α' c' : k) :
     rw [Pi.zero_apply] at hj
     obtain ⟨f, rfl⟩ : ∃ f, e f = g := ⟨e.symm g, e.apply_symm_apply g⟩
 
-    have hx := fourScalarParameterMap_intertwines_action e (WeylAlgebra.x k ^ p) f
+    have hx := fourScalarParameterMap_intertwines_action e (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ p) f
 
-    have hy := fourScalarParameterMap_intertwines_action e (WeylAlgebra.y k ^ p) f
+    have hy := fourScalarParameterMap_intertwines_action e (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ p) f
     simp only [map_pow, modelRepresentation_positionGenerator, modelRepresentation_derivativeGenerator, cyclicPositionEnd_pow_prime, derivativeAddScalarEnd_pow_prime, LinearMap.smul_apply,
       Module.End.one_apply, fourScalarParameterMap_map_smul e] at hx hy
     refine ⟨?_, eq_of_pow_prime_eq_pow_prime k p ?_⟩
@@ -565,7 +565,7 @@ theorem nonempty_fourScalarParameterType_iff (α c α' c' : k) :
     · have := congrFun hy j
       simpa only [Pi.smul_apply, smul_eq_mul] using mul_right_cancel₀ hj this
   · rintro ⟨rfl, rfl⟩
-    exact ⟨@LinearEquiv.refl (WeylAlgebra k) (Fin p → k) _ _ (modelModule k p α c)⟩
+    exact ⟨@LinearEquiv.refl (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (Fin p → k) _ _ (modelModule k p α c)⟩
 
 
 
@@ -581,14 +581,14 @@ omit [Fact (Nat.Prime p)] [CharP k p] in
 
 
 theorem map_smul_of_map_smul_generators {V W : Type*}
-    [AddCommGroup V] [Module k V] [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V]
-    [AddCommGroup W] [Module k W] [Module (WeylAlgebra k) W] [IsScalarTower k (WeylAlgebra k) W]
+    [AddCommGroup V] [Module k V] [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V]
+    [AddCommGroup W] [Module k W] [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) W] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) W]
     (e : V →ₗ[k] W)
-    (hx : ∀ z : V, e (WeylAlgebra.x k • z) = WeylAlgebra.x k • e z)
-    (hy : ∀ z : V, e (WeylAlgebra.y k • z) = WeylAlgebra.y k • e z) :
-    ∀ (a : WeylAlgebra k) (z : V), e (a • z) = a • e z := by
+    (hx : ∀ z : V, e (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k • z) = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k • e z)
+    (hy : ∀ z : V, e (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • z) = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • e z) :
+    ∀ (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (z : V), e (a • z) = a • e z := by
   intro a
-  obtain ⟨a', rfl⟩ := RingQuot.mkAlgHom_surjective k (WeylAlgebraRel k) a
+  obtain ⟨a', rfl⟩ := RingQuot.mkAlgHom_surjective k (RepresentationTheory.FreeAlgebra.PolynomialOperators.freeAlgebraRelation k) a
   have ha' : a' ∈ Algebra.adjoin k (Set.range (FreeAlgebra.ι k)) := by
     rw [FreeAlgebra.adjoin_range_ι]; exact Algebra.mem_top
   induction ha' using Algebra.adjoin_induction with
@@ -612,9 +612,9 @@ theorem map_smul_of_map_smul_generators {V W : Type*}
 
 
 /-- An auxiliary type parameterized by a module over the displayed algebra and two field elements. -/
-abbrev ModuleScalarParameterType (V : Type*) [AddCommGroup V] [Module (WeylAlgebra k) V] (α c : k) : Type _ :=
-  @LinearEquiv (WeylAlgebra k) (WeylAlgebra k) _ _
-    (RingHom.id (WeylAlgebra k)) (RingHom.id (WeylAlgebra k)) _ _
+abbrev ModuleScalarParameterType (V : Type*) [AddCommGroup V] [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] (α c : k) : Type _ :=
+  @LinearEquiv (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) _ _
+    (RingHom.id (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)) (RingHom.id (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)) _ _
     V (Fin p → k) _ _ inferInstance (modelModule k p α c)
 /-- For every finite-dimensional simple module over the displayed algebra, the associated auxiliary type is nonempty for some pair of field elements. -/
 @[source_ref "Chapter2/Problem2.7.4" (role := supporting)]
@@ -624,10 +624,11 @@ abbrev ModuleScalarParameterType (V : Type*) [AddCommGroup V] [Module (WeylAlgeb
 
 
 theorem exists_nonempty_moduleScalarParameterType [IsAlgClosed k] (V : Type*) [AddCommGroup V] [Module k V]
-    [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V] [FiniteDimensional k V]
-    [IsSimpleModule (WeylAlgebra k) V] :
+    [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [FiniteDimensional k V]
+    [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] :
     ∃ α c : k, Nonempty (ModuleScalarParameterType k p V α c) := by
-  obtain ⟨α, c, b, hbx, hby⟩ := exists_normalForm k p V
+  obtain ⟨α, c, b, hbx, hby⟩ :=
+    RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.exists_cyclic_basis_of_simpleModule k p V
   refine ⟨α, c, ?_⟩
   letI := modelModule k p α c
   haveI := modelModule_isScalarTower k p α c
@@ -639,21 +640,21 @@ theorem exists_nonempty_moduleScalarParameterType [IsAlgClosed k] (V : Type*) [A
     intro g
     exact (Fintype.sum_equiv (Equiv.addRight (1 : Fin p)) (fun i => g (i + 1)) g
       (fun i => by simp)).symm
-  have hx : ∀ f : Fin p → k, ψ (WeylAlgebra.x k • f) = WeylAlgebra.x k • ψ f := by
+  have hx : ∀ f : Fin p → k, ψ (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k • f) = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k • ψ f := by
     intro f
-    have hsm : (WeylAlgebra.x k • f : Fin p → k) = cyclicPositionEnd k p α f := by
+    have hsm : (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k • f : Fin p → k) = cyclicPositionEnd k p α f := by
       rw [modelModule_smul_eq_representation_apply k p α c, modelRepresentation_positionGenerator]
     rw [hsm, hψ, hψ, Finset.smul_sum, reindex fun j => cyclicPositionEnd k p α f j • b j]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [smul_comm, hbx i, smul_smul, cyclicPositionEnd_apply, add_sub_cancel_right, cyclicPositionCoeff, mul_comm]
-  have hy : ∀ f : Fin p → k, ψ (WeylAlgebra.y k • f) = WeylAlgebra.y k • ψ f := by
+  have hy : ∀ f : Fin p → k, ψ (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • f) = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • ψ f := by
     intro f
-    have hsm : (WeylAlgebra.y k • f : Fin p → k) = derivativeAddScalarEnd k p c f := by
+    have hsm : (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • f : Fin p → k) = derivativeAddScalarEnd k p c f := by
       rw [modelModule_smul_eq_representation_apply k p α c, modelRepresentation_derivativeGenerator]
 
-    have hR : ∑ j, WeylAlgebra.y k • (f j • b j)
+    have hR : ∑ j, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • (f j • b j)
         = ∑ i : Fin p, ((c * f (i + 1)) • b (i + 1) + (successorCoeff k p i * f (i + 1)) • b i) := by
-      rw [reindex fun j => WeylAlgebra.y k • (f j • b j)]
+      rw [reindex fun j => RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • (f j • b j)]
       refine Finset.sum_congr rfl fun i _ => ?_
       rw [smul_comm, hby i, smul_add, smul_smul, smul_smul, successorCoeff_eq_cast_add_one]
       push_cast
@@ -665,8 +666,8 @@ theorem exists_nonempty_moduleScalarParameterType [IsAlgClosed k] (V : Type*) [A
     rw [hsm, hψ, hψ, Finset.smul_sum, hR, hL, Finset.sum_add_distrib, Finset.sum_add_distrib]
     exact congrArg₂ (· + ·) (reindex fun j => (c * f j) • b j) rfl
   have hlin := map_smul_of_map_smul_generators k (ψ : (Fin p → k) →ₗ[k] V) hx hy
-  exact ⟨(show @LinearEquiv (WeylAlgebra k) (WeylAlgebra k) _ _
-      (RingHom.id (WeylAlgebra k)) (RingHom.id (WeylAlgebra k)) _ _
+  exact ⟨(show @LinearEquiv (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) _ _
+      (RingHom.id (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)) (RingHom.id (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)) _ _
       (Fin p → k) V _ _ (modelModule k p α c) _ from
     { toFun := ψ, map_add' := ψ.map_add, map_smul' := hlin
       invFun := ψ.symm, left_inv := ψ.left_inv, right_inv := ψ.right_inv }).symm⟩
@@ -677,10 +678,10 @@ variable {k p}
 
 
 theorem moduleScalarParameterMap_map_smul {V : Type*} [AddCommGroup V] [Module k V]
-    [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V] {α c : k}
+    [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] {α c : k}
     (e : ModuleScalarParameterType k p V α c) (a : k) (z : V) : e (a • z) = a • e z := by
   letI := modelModule k p α c
-  have h : e (algebraMap k (WeylAlgebra k) a • z) = algebraMap k (WeylAlgebra k) a • e z :=
+  have h : e (algebraMap k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) a • z) = algebraMap k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) a • e z :=
     map_smulₛₗ e _ z
   rw [algebraMap_smul] at h
   rw [h, modelModule_smul_eq_representation_apply k p α c, AlgHom.commutes, Module.algebraMap_end_apply]
@@ -690,7 +691,7 @@ variable (k p)
 
 
 noncomputable def moduleScalarParameterTypeToLinearEquiv {V : Type*} [AddCommGroup V] [Module k V]
-    [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V] {α c : k}
+    [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] {α c : k}
     (e : ModuleScalarParameterType k p V α c) : V ≃ₗ[k] (Fin p → k) :=
   letI := modelModule k p α c
   { toFun := e
@@ -714,8 +715,8 @@ noncomputable def moduleScalarParameterTypeToLinearEquiv {V : Type*} [AddCommGro
 
 
 theorem existsUnique_nonempty_moduleScalarParameterType [IsAlgClosed k] (V : Type*) [AddCommGroup V] [Module k V]
-    [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V] [FiniteDimensional k V]
-    [IsSimpleModule (WeylAlgebra k) V] :
+    [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [FiniteDimensional k V]
+    [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] :
     ∃! q : k × k, Nonempty (ModuleScalarParameterType k p V q.1 q.2) := by
   obtain ⟨α, c, ⟨e⟩⟩ := exists_nonempty_moduleScalarParameterType k p V
   refine ⟨(α, c), ⟨e⟩, ?_⟩
@@ -728,8 +729,8 @@ theorem existsUnique_nonempty_moduleScalarParameterType [IsAlgClosed k] (V : Typ
 
 
 theorem finrank_eq_prime_of_isSimpleModule [IsAlgClosed k] (V : Type*) [AddCommGroup V] [Module k V]
-    [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V] [FiniteDimensional k V]
-    [IsSimpleModule (WeylAlgebra k) V] :
+    [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [FiniteDimensional k V]
+    [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] :
     Module.finrank k V = p := by
   obtain ⟨α, c, ⟨e⟩⟩ := exists_nonempty_moduleScalarParameterType k p V
   rw [(moduleScalarParameterTypeToLinearEquiv k p e).finrank_eq, finrank_finFunction k p]

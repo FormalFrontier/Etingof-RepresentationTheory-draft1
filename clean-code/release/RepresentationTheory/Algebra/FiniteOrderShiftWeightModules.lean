@@ -200,7 +200,7 @@ theorem diagonalWeightUnit_val_mul_cyclicShiftUnit_val (hqorder : orderOf q = N)
 
 /-- The module structure on complex-valued functions on `Fin N` determined by finite-order, shift, and weight parameters. -/
 @[reducible] noncomputable def finiteOrderModule (hqorder : orderOf q = N) :
-    Module (qWeylAlgebra ℂ q) (Fin N → ℂ) :=
+    Module (RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShiftSubalgebra ℂ q) (Fin N → ℂ) :=
   RepresentationTheory.QuantumTorus.Representations.moduleOfQCommute q (cyclicShiftUnit α N) (diagonalWeightUnit q β N) (diagonalWeightUnit_val_mul_cyclicShiftUnit_val q α β N hqorder)
 
 omit [NeZero N] in
@@ -235,7 +235,7 @@ theorem secondGenerator_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
 
 theorem finiteOrderModule_isScalarTower (hqorder : orderOf q = N) :
     letI := finiteOrderModule q α β N hqorder
-    IsScalarTower ℂ (qWeylAlgebra ℂ q) (Fin N → ℂ) :=
+    IsScalarTower ℂ (RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShiftSubalgebra ℂ q) (Fin N → ℂ) :=
   RepresentationTheory.QuantumTorus.Representations.moduleOfQCommute_isScalarTower q (cyclicShiftUnit α N) (diagonalWeightUnit q β N) (diagonalWeightUnit_val_mul_cyclicShiftUnit_val q α β N hqorder)
 /-- The value of a natural multiple of one in `Fin N` is the natural number modulo `N`. -/
 

@@ -11,6 +11,7 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.Algebra.FiniteOrderShiftWeightEquivalences
 
 open Module
+open RepresentationTheory.Algebra.FiniteOrderShiftWeightModules
 
 variable {k : Type*} [CommRing k] (q : kˣ)
 variable {V : Type*} [AddCommGroup V] [Module k V]
@@ -19,12 +20,13 @@ variable {V : Type*} [AddCommGroup V] [Module k V]
 
 
 theorem auxiliaryIndexedUnit_conj (X Y E : (Module.End k V)ˣ) (i j : ℤ) :
-    op (E * X * E⁻¹) (E * Y * E⁻¹) i j = ↑E * op X Y i j * ↑E⁻¹ := by
+    RepresentationTheory.QuantumTorus.Representations.monomialEnd (E * X * E⁻¹) (E * Y * E⁻¹) i j =
+      ↑E * RepresentationTheory.QuantumTorus.Representations.monomialEnd X Y i j * ↑E⁻¹ := by
   have hconj : ∀ u : (Module.End k V)ˣ, E * u * E⁻¹ = MulAut.conj E u := fun _ => rfl
   have key : (E * X * E⁻¹) ^ i * (E * Y * E⁻¹) ^ j = E * (X ^ i * Y ^ j) * E⁻¹ := by
     rw [hconj X, hconj Y, ← map_zpow, ← map_zpow, ← map_mul, hconj]
   have hval := congrArg Units.val key
-  simpa [op, mul_assoc] using hval
+  simpa [RepresentationTheory.QuantumTorus.Representations.monomialEnd, mul_assoc] using hval
 /-- If a unit intertwines each of two pairs of generators satisfying the same displayed commutation relation, then it conjugates the associated representations on every algebra element. -/
 
 
@@ -33,19 +35,23 @@ theorem auxiliaryIndexedUnit_conj (X Y E : (Module.End k V)ˣ) (i j : ℤ) :
 theorem representation_apply_eq_conj_of_intertwines_generators (X Y X' Y' E : (Module.End k V)ˣ)
     (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y))
     (hrel' : (↑Y' : Module.End k V) * ↑X' = (q : k) • (↑X' * ↑Y'))
-    (hX : E * X = X' * E) (hY : E * Y = Y' * E) (a : qWeylAlgebra k q) :
-    toEnd q X' Y' hrel' a = ↑E * toEnd q X Y hrel a * ↑E⁻¹ := by
+    (hX : E * X = X' * E) (hY : E * Y = Y' * E) (a : RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShiftSubalgebra k q) :
+    RepresentationTheory.QuantumTorus.Representations.representationOfQCommute q X' Y' hrel' a =
+      ↑E * RepresentationTheory.QuantumTorus.Representations.representationOfQCommute q X Y hrel a * ↑E⁻¹ := by
   have hX' : X' = E * X * E⁻¹ := by rw [hX, mul_inv_cancel_right]
   have hY' : Y' = E * Y * E⁻¹ := by rw [hY, mul_inv_cancel_right]
   subst hX'
   subst hY'
-  have key : (toEnd q (E * X * E⁻¹) (E * Y * E⁻¹) hrel').toLinearMap
+  have key : (RepresentationTheory.QuantumTorus.Representations.representationOfQCommute q
+      (E * X * E⁻¹) (E * Y * E⁻¹) hrel').toLinearMap
       = (LinearMap.mulRight k (↑E⁻¹ : Module.End k V)).comp
           ((LinearMap.mulLeft k (↑E : Module.End k V)).comp
-            (toEnd q X Y hrel).toLinearMap) := by
-    refine (basis q).ext fun p => ?_
-    simp only [basis_apply, AlgHom.toLinearMap_apply, LinearMap.coe_comp, Function.comp_apply,
-      LinearMap.mulRight_apply, LinearMap.mulLeft_apply, toEnd_qWeylMono]
+            (RepresentationTheory.QuantumTorus.Representations.representationOfQCommute q X Y hrel).toLinearMap) := by
+    refine (RepresentationTheory.QuantumTorus.Representations.monomialBasis q).ext fun p => ?_
+    simp only [RepresentationTheory.QuantumTorus.Representations.monomialBasis_apply,
+      AlgHom.toLinearMap_apply, LinearMap.coe_comp, Function.comp_apply,
+      LinearMap.mulRight_apply, LinearMap.mulLeft_apply,
+      RepresentationTheory.QuantumTorus.Representations.representationOfQCommute_monomial]
     exact auxiliaryIndexedUnit_conj X Y E p.1 p.2
   exact DFunLike.congr_fun key a
 
@@ -56,6 +62,7 @@ end RepresentationTheory.Algebra.FiniteOrderShiftWeightEquivalences
 namespace RepresentationTheory.Algebra.FiniteOrderShiftWeightEquivalences
 
 open Module
+open RepresentationTheory.Algebra.FiniteOrderShiftWeightModules
 
 
 
@@ -190,17 +197,17 @@ instance threeUnitParameter_nontrivial : Nontrivial (ThreeUnitParameterType q α
 /-- The displayed algebra module structure on the type parameterized by three complex units. -/
 
 
-noncomputable instance threeUnitParameterModule : Module (qWeylAlgebra ℂ q) (ThreeUnitParameterType q α β) :=
+noncomputable instance threeUnitParameterModule : Module (RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShiftSubalgebra ℂ q) (ThreeUnitParameterType q α β) :=
   finiteOrderModule q α β (orderOf q) rfl
 
 
 /-- The complex scalar action and displayed algebra action on the three-unit-parameter type form a scalar tower. -/
-instance threeUnitParameterIsScalarTower : IsScalarTower ℂ (qWeylAlgebra ℂ q) (ThreeUnitParameterType q α β) :=
+instance threeUnitParameterIsScalarTower : IsScalarTower ℂ (RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShiftSubalgebra ℂ q) (ThreeUnitParameterType q α β) :=
   finiteOrderModule_isScalarTower q α β (orderOf q) rfl
 /-- The displayed algebra action agrees with evaluation of the representation determined by the corresponding cyclic shift and diagonal weight units. -/
 
 
-theorem threeUnitParameter_smul_eq_representation_apply (a : qWeylAlgebra ℂ q) (f : ThreeUnitParameterType q α β) :
+theorem threeUnitParameter_smul_eq_representation_apply (a : RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShiftSubalgebra ℂ q) (f : ThreeUnitParameterType q α β) :
     a • f = RepresentationTheory.QuantumTorus.Representations.representationOfQCommute q (cyclicShiftUnit α (orderOf q)) (diagonalWeightUnit q β (orderOf q))
       (diagonalWeightUnit_val_mul_cyclicShiftUnit_val q α β (orderOf q) rfl) a f := rfl
 
@@ -272,7 +279,7 @@ theorem auxiliaryEndomorphismUnit_apply_inv_apply (m : ℕ) (g : Fin (orderOf q)
 
 
 noncomputable def moduleLinearEquivOfUnitPowerRelation (m : ℕ) (hβ : (β : ℂ) = (β' : ℂ) * (q : ℂ) ^ m) :
-    ThreeUnitParameterType q α β ≃ₗ[qWeylAlgebra ℂ q] ThreeUnitParameterType q α β' where
+    ThreeUnitParameterType q α β ≃ₗ[RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShiftSubalgebra ℂ q] ThreeUnitParameterType q α β' where
   toFun f := ((auxiliaryEndomorphismUnit q α m : (Module.End ℂ (Fin (orderOf q) → ℂ))ˣ) :
     Module.End ℂ (Fin (orderOf q) → ℂ)) f
   invFun f := (((auxiliaryEndomorphismUnit q α m)⁻¹ : (Module.End ℂ (Fin (orderOf q) → ℂ))ˣ) :
@@ -308,7 +315,7 @@ variable (q α β α' β' : ℂˣ) [NeZero (orderOf q)]
 
 
 
-theorem parameters_eq_of_moduleLinearEquiv (e : ThreeUnitParameterType q α β ≃ₗ[qWeylAlgebra ℂ q] ThreeUnitParameterType q α' β') :
+theorem parameters_eq_of_moduleLinearEquiv (e : ThreeUnitParameterType q α β ≃ₗ[RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShiftSubalgebra ℂ q] ThreeUnitParameterType q α' β') :
     α = α' ∧ (β : ℂ) ^ orderOf q = (β' : ℂ) ^ orderOf q := by
   obtain ⟨v, hv⟩ := exists_ne (0 : ThreeUnitParameterType q α β)
   have hev : e v ≠ 0 := fun h => hv (e.map_eq_zero_iff.mp h)
@@ -336,7 +343,7 @@ theorem parameters_eq_of_moduleLinearEquiv (e : ThreeUnitParameterType q α β �
 
 
 theorem nonempty_moduleLinearEquiv_iff :
-    Nonempty (ThreeUnitParameterType q α β ≃ₗ[qWeylAlgebra ℂ q] ThreeUnitParameterType q α' β')
+    Nonempty (ThreeUnitParameterType q α β ≃ₗ[RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShiftSubalgebra ℂ q] ThreeUnitParameterType q α' β')
       ↔ α = α' ∧ (β : ℂ) ^ orderOf q = (β' : ℂ) ^ orderOf q := by
   constructor
   · rintro ⟨e⟩
