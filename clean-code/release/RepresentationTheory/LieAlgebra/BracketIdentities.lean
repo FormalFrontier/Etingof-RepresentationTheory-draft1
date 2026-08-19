@@ -13,17 +13,17 @@ namespace RepresentationTheory.LieAlgebra.BracketIdentities
 variable {k L : Type*} [Field k] [LieRing L] [LieAlgebra k L]
 
 /-- The bracket distributes over addition in its left argument. -/
-@[source_ref "Chapter2/Discussion_2.9_heading" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.9_heading" (role := supporting)]
 theorem bracket_add_left (x y z : L) : ⁅x + y, z⁆ = ⁅x, z⁆ + ⁅y, z⁆ :=
   LieRing.add_lie x y z
 
 /-- The bracket distributes over addition in its right argument. -/
-@[source_ref "Chapter2/Discussion_2.9_heading" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.9_heading" (role := supporting)]
 theorem bracket_add_right (x y z : L) : ⁅x, y + z⁆ = ⁅x, y⁆ + ⁅x, z⁆ :=
   LieRing.lie_add x y z
 
 /-- Scalar multiplication may be pulled out of the left argument of a Lie bracket. -/
-@[source_ref "Chapter2/Discussion_2.9_heading" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.9_heading" (role := supporting)]
 theorem bracket_smul_left (a : k) (x y : L) : ⁅a • x, y⁆ = a • ⁅x, y⁆ := by
   calc
     ⁅a • x, y⁆ = -⁅y, a • x⁆ := (lie_skew _ _).symm
@@ -31,7 +31,7 @@ theorem bracket_smul_left (a : k) (x y : L) : ⁅a • x, y⁆ = a • ⁅x, y�
     _ = a • ⁅x, y⁆ := by rw [← smul_neg, lie_skew]
 
 /-- Scalar multiplication may be pulled out of the right argument of a Lie bracket. -/
-@[source_ref "Chapter2/Discussion_2.9_heading" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.9_heading" (role := supporting)]
 theorem bracket_smul_right (a : k) (x y : L) : ⁅x, a • y⁆ = a • ⁅x, y⁆ :=
   LieAlgebra.lie_smul a x y
 

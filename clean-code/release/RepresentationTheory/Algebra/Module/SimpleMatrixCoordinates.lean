@@ -193,7 +193,7 @@ omit [DecidableEq ι] in
 set_option linter.unusedFintypeInType false in
 /-- A submodule of the displayed direct sum admits bounded multiplicities and injective coordinate data. -/
 @[source_ref "Chapter3/Discussion_after_Lemma3.1.6/Derived4" (role := supporting),
-  source_ref "Chapter3/Proposition3.1.4" (role := primary),
+  source_ref "Chapter3/Proposition3.1.4" (role := supporting),
   source_ref "Chapter3/Remark3.1.5" (role := primary)]
 theorem exists_injective_coordinates_directSum (n : ι → ℕ)
     (hd : ∀ ⦃i j⦄, Nonempty (V i ≃ₗ[A] V j) → i = j)

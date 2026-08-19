@@ -13,13 +13,13 @@ This module defines auxiliary transformations of integer-valued vectors indexed 
 -/
 
 /-- An auxiliary transformation of an integer-valued finite vector determined by a matrix and a second vector. -/
-@[source_ref "Chapter6/Definition6.4.10" (role := primary)]
+@[source_ref "Chapter6/Definition6.4.10" (role := supporting)]
 def RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryVectorTransform (n : ℕ)
     (A : Matrix (Fin n) (Fin n) ℤ) (α : Fin n → ℤ) (v : Fin n → ℤ) : Fin n → ℤ :=
   v - (dotProduct v (A.mulVec α)) • α
 
 /-- An auxiliary transformation of an integer-valued finite vector determined by a matrix and a selected coordinate. -/
-@[source_ref "Chapter6/Definition6.4.10" (role := primary)]
+@[source_ref "Chapter6/Definition6.4.10" (role := supporting)]
 def RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryCoordinateTransform (n : ℕ)
     (A : Matrix (Fin n) (Fin n) ℤ) (i : Fin n) : (Fin n → ℤ) → (Fin n → ℤ) :=
   RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryVectorTransform n A

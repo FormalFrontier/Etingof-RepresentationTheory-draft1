@@ -37,7 +37,7 @@ end RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositi
 namespace RepresentationTheory.Algebra.Module.AuxiliaryPredicates.Module
 
 /-- A semisimple module satisfying the auxiliary predicate is simple. -/
-@[source_ref "Chapter2/Discussion_after_Theorem2.1.2" (role := primary)]
+@[source_ref "Chapter2/Discussion_after_Theorem2.1.2" (role := supporting)]
 theorem isSimpleModule_of_auxiliaryPredicate
     (A V : Type*) [Ring A] [AddCommGroup V] [Module A V] [IsSemisimpleModule A V]
     (h : RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate

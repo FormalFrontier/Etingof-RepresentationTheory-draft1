@@ -159,7 +159,7 @@ lemma moduleProperty_closedUnderImages {X Y : ModuleCat.{max u v} (coefficientRi
 /-- Every abelian category is equivalent to a full subcategory of modules selected by an object
 property containing zero and closed under isomorphisms, finite products, finite coproducts,
 kernels, cokernels, and images. -/
-@[source_ref "Chapter7/Introduction_7.7" (role := primary),
+@[source_ref "Chapter7/Introduction_7.7" (role := supporting),
   source_ref "Chapter7/Definition7.7.1" (role := primary)]
 theorem exists_moduleCatFullSubcategoryEquivalence :
     ∃ (A : Type (max u v)) (_ : Ring A) (P : ObjectProperty (ModuleCat.{max u v} A)),

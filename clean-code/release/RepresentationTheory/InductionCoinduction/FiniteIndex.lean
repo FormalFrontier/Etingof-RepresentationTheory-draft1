@@ -11,7 +11,7 @@ open CategoryTheory
 namespace RepresentationTheory.InductionCoinduction.FiniteIndex
 
 /-- The isomorphism from induction to coinduction for a finite-index subgroup. -/
-@[source_ref "Chapter5/Remark5.8.2" (role := primary)]
+@[source_ref "Chapter5/Remark5.8.2" (role := supporting)]
 noncomputable def indCoindIsoOfFiniteIndex
     {k : Type*} [CommRing k]
     {G : Type*} [Group G] (H : Subgroup G)
@@ -21,7 +21,7 @@ noncomputable def indCoindIsoOfFiniteIndex
   Rep.indCoindIso A ≪≫ Rep.coindIso H.subtype A
 
 /-- The natural isomorphism between induction and coinduction functors for a finite-index subgroup. -/
-@[simps!, source_ref "Chapter5/Remark5.8.2" (role := primary)]
+@[simps!, source_ref "Chapter5/Remark5.8.2" (role := supporting)]
 noncomputable def indFunctorIsoCoindFunctorOfFiniteIndex
     {k : Type*} [CommRing k]
     {G : Type*} [Group G] (H : Subgroup G)

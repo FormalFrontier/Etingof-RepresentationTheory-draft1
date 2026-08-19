@@ -424,14 +424,14 @@ theorem firstFiveRepresentationFamily_tensor_character (i j : Fin 5) (g : _root_
   exact firstFiveRepresentationFamily_character_mul i j g
 
 /-- Each tensor product in the first five-entry family is isomorphic to the representation formed from its multiplicity vector. -/
-@[source_ref "Chapter4/Example4.9.1" (role := primary)]
+@[source_ref "Chapter4/Example4.9.1" (role := supporting)]
 theorem firstFiveRepresentationFamily_tensor_iso_multiplicitySum (i j : Fin 5) :
     Nonempty ((_root_.RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations i ⊗ _root_.RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations j : FDRep ℂ _root_.RepresentationTheory.Group.PermutationSubgroupData.permutationSubgroupFin5) ≅
       multiplicitySum _root_.RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations (firstFiveTensorMultiplicities i j)) :=
   iso_multiplicitySum_of_character_eq _root_.RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations (firstFiveTensorMultiplicities i j) _ (firstFiveRepresentationFamily_tensor_character i j)
 
 /-- Each tensor product in the first five-entry family is isomorphic to the corresponding indexed biproduct. -/
-@[source_ref "Chapter4/Example4.9.1" (role := primary)]
+@[source_ref "Chapter4/Example4.9.1" (role := supporting)]
 theorem firstFiveRepresentationFamily_tensor_iso_biproduct (i j : Fin 5) :
     Nonempty ((_root_.RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations i ⊗ _root_.RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations j : FDRep ℂ _root_.RepresentationTheory.Group.PermutationSubgroupData.permutationSubgroupFin5) ≅
       ⨁ fun p : (k : Fin 5) × Fin (firstFiveTensorMultiplicities i j k) => _root_.RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations p.1) :=

@@ -228,7 +228,7 @@ lemma jordanEigenvector_mem_of_invariant (lam : k) (n : ℕ) [NeZero n] {W : Sub
   exact W.smul_mem c⁻¹ u.2
 
 /-- The polynomial module associated to a scalar parameter and a natural-number block size. -/
-@[source_ref "Chapter2/Example2.3.14" (role := primary)]
+@[source_ref "Chapter2/Example2.3.14" (role := supporting)]
 abbrev JordanBlockModule (lam : k) (n : ℕ) := Module.AEval' (jordanOperator lam n)
 
 /-- A Jordan-block module of nonzero size is nontrivial. -/
