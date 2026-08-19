@@ -1,95 +1,95 @@
 {
-  "module_name": "Algebra.WeylAlgebra.PolynomialBimodule",
+  "module_name": "Algebra.Module.AuxiliaryRepresentations",
   "declarations": [
     {
       "temporary_id": "decl-024751",
-      "new_name": "PolynomialCarrier",
-      "docstring": "The polynomial carrier for two commuting actions of a Weyl-type complex algebra."
+      "new_name": "AuxiliaryCarrier",
+      "docstring": "An auxiliary type."
     },
     {
       "temporary_id": "decl-024752",
-      "new_name": "left_right_distinguishedElement_actions_one",
-      "docstring": "On the unit polynomial, the two actions exchange the values of two distinguished algebra elements."
+      "new_name": "first_second_representation_auxiliaryElements_apply_one",
+      "docstring": "At one, the first representation of one displayed element equals the second representation of the other, and conversely."
     },
     {
       "temporary_id": "decl-024753",
-      "new_name": "normalFormLinearMap",
-      "docstring": "The complex-linear polynomial normal-form map from the Weyl-type algebra."
+      "new_name": "auxiliaryLinearMap",
+      "docstring": "A complex-linear map from the displayed algebra to the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024756",
-      "new_name": "normalFormLinearMap_indexedElement",
-      "docstring": "The normal-form map sends the algebra element indexed by two natural numbers to the corresponding product of powers of the first two polynomial variables."
+      "new_name": "auxiliaryLinearMap_indexedElement",
+      "docstring": "The auxiliary linear map sends the displayed doubly indexed element to the corresponding product of powers of the first two polynomial variables."
     },
     {
       "temporary_id": "decl-024757",
-      "new_name": "leftPolynomialRepresentation",
-      "docstring": "The left algebra action on the polynomial carrier by complex-linear endomorphisms."
+      "new_name": "firstRepresentation",
+      "docstring": "A first algebra homomorphism to the complex-linear endomorphisms of the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024759",
-      "new_name": "left_right_polynomialRepresentations_commute",
-      "docstring": "Every endomorphism from the left polynomial representation commutes with every endomorphism from the right representation."
+      "new_name": "first_second_representations_commute",
+      "docstring": "Every endomorphism from the first representation commutes with every endomorphism from the second representation."
     },
     {
       "temporary_id": "decl-024760",
-      "new_name": "leftPolynomialRepresentation_firstDistinguishedElement",
-      "docstring": "The left polynomial representation sends the first distinguished algebra element to the first left operator."
+      "new_name": "firstRepresentation_auxiliaryElement1",
+      "docstring": "The first representation sends one displayed algebra element to the first auxiliary endomorphism."
     },
     {
       "temporary_id": "decl-024761",
-      "new_name": "leftPolynomialRepresentation_secondDistinguishedElement",
-      "docstring": "The left polynomial representation sends the second distinguished algebra element to the second left operator."
+      "new_name": "firstRepresentation_auxiliaryElement2",
+      "docstring": "The first representation sends the other displayed algebra element to the second auxiliary endomorphism."
     },
     {
       "temporary_id": "decl-024762",
-      "new_name": "polynomialAlgebraModule_aux1",
-      "docstring": "An auxiliary module structure over the Weyl-type algebra on the polynomial carrier."
+      "new_name": "auxiliaryAlgebraModule1",
+      "docstring": "An auxiliary module structure over the displayed algebra on the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024763",
-      "new_name": "leftFirstOperator",
-      "docstring": "The first complex-linear endomorphism in the left action on the polynomial carrier."
+      "new_name": "auxiliaryEndomorphism1",
+      "docstring": "A first auxiliary complex-linear endomorphism of the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024766",
-      "new_name": "leftFirstOperator_commute_rightFirstOperator",
-      "docstring": "The first left operator commutes with the first right operator."
+      "new_name": "auxiliaryEndomorphism1_commute_auxiliaryEndomorphism3",
+      "docstring": "The first auxiliary endomorphism commutes with the third."
     },
     {
       "temporary_id": "decl-024767",
-      "new_name": "leftFirstOperator_commute_rightSecondOperator",
-      "docstring": "The first left operator commutes with the second right operator."
+      "new_name": "auxiliaryEndomorphism1_commute_auxiliaryEndomorphism4",
+      "docstring": "The first auxiliary endomorphism commutes with the fourth."
     },
     {
       "temporary_id": "decl-024768",
-      "new_name": "leftSecondOperator",
-      "docstring": "The second complex-linear endomorphism in the left action on the polynomial carrier."
+      "new_name": "auxiliaryEndomorphism2",
+      "docstring": "A second auxiliary complex-linear endomorphism of the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024770",
-      "new_name": "leftSecondOperator_commute_rightFirstOperator",
-      "docstring": "The second left operator commutes with the first right operator."
+      "new_name": "auxiliaryEndomorphism2_commute_auxiliaryEndomorphism3",
+      "docstring": "The second auxiliary endomorphism commutes with the third."
     },
     {
       "temporary_id": "decl-024771",
-      "new_name": "leftSecondOperator_commute_rightSecondOperator",
-      "docstring": "The second left operator commutes with the second right operator."
+      "new_name": "auxiliaryEndomorphism2_commute_auxiliaryEndomorphism4",
+      "docstring": "The second auxiliary endomorphism commutes with the fourth."
     },
     {
       "temporary_id": "decl-024772",
-      "new_name": "leftSecondOperator_mul_leftFirstOperator",
-      "docstring": "The product of the second and first left operators equals the reverse product plus the identity."
+      "new_name": "auxiliaryEndomorphism2_mul_auxiliaryEndomorphism1",
+      "docstring": "The product of the second and first auxiliary endomorphisms equals the reverse product plus the identity."
     },
     {
       "temporary_id": "decl-024774",
-      "new_name": "polynomialAlgebraModule_aux2",
-      "docstring": "A second auxiliary module structure over the Weyl-type algebra on the polynomial carrier."
+      "new_name": "auxiliaryAlgebraModule2",
+      "docstring": "A second auxiliary module structure over the displayed algebra on the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024775",
       "new_name": "endomorphismPair_aux1",
-      "docstring": "An auxiliary pair of complex-linear endomorphisms of the polynomial carrier."
+      "docstring": "An auxiliary pair of complex-linear endomorphisms of the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024779",
@@ -99,7 +99,7 @@
     {
       "temporary_id": "decl-024780",
       "new_name": "endomorphismPair_aux2",
-      "docstring": "A second auxiliary pair of complex-linear endomorphisms of the polynomial carrier."
+      "docstring": "A second auxiliary pair of complex-linear endomorphisms of the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024782",
@@ -108,98 +108,98 @@
     },
     {
       "temporary_id": "decl-024783",
-      "new_name": "normalFormLinearEquiv",
-      "docstring": "A complex-linear equivalence between the Weyl-type algebra and its polynomial normal-form carrier."
+      "new_name": "auxiliaryLinearEquiv",
+      "docstring": "A complex-linear equivalence between the displayed algebra and the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024785",
-      "new_name": "normalFormLinearEquiv_toLinearMap",
-      "docstring": "The linear map underlying the normal-form equivalence is the polynomial normal-form map."
+      "new_name": "auxiliaryLinearEquiv_toLinearMap",
+      "docstring": "The linear map underlying the auxiliary equivalence is the displayed auxiliary linear map."
     },
     {
       "temporary_id": "decl-024786",
-      "new_name": "normalFormLinearEquiv_indexedElement",
-      "docstring": "The normal-form equivalence sends the algebra element indexed by two natural numbers to the corresponding product of polynomial-variable powers."
+      "new_name": "auxiliaryLinearEquiv_indexedElement",
+      "docstring": "The auxiliary equivalence sends the displayed doubly indexed element to the corresponding product of polynomial-variable powers."
     },
     {
       "temporary_id": "decl-024787",
-      "new_name": "regularLinearEquivPolynomialNormalForm",
-      "docstring": "A module-linear equivalence from the regular module to the polynomial normal-form module."
+      "new_name": "regularLinearEquivAuxiliaryCarrier",
+      "docstring": "A module-linear equivalence from the regular module of the displayed algebra to the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024789",
-      "new_name": "regularLinearEquivPolynomialNormalForm_apply",
-      "docstring": "The regular-module equivalence sends an algebra element to its left action on the unit polynomial."
+      "new_name": "regularLinearEquivAuxiliaryCarrier_apply",
+      "docstring": "The regular-module equivalence sends an algebra element to the value at one of its image under the first representation."
     },
     {
       "temporary_id": "decl-024790",
       "new_name": "regularSubmodule_not_isSimpleModule",
-      "docstring": "No submodule of the regular module of the Weyl-type complex algebra is simple."
+      "docstring": "No submodule of the regular module of the displayed complex algebra is simple."
     },
     {
       "temporary_id": "decl-024791",
-      "new_name": "rightPolynomialRepresentation",
-      "docstring": "The right algebra action on the polynomial carrier by complex-linear endomorphisms."
+      "new_name": "secondRepresentation",
+      "docstring": "A second algebra homomorphism to the complex-linear endomorphisms of the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024793",
-      "new_name": "rightPolynomialRepresentation_firstDistinguishedElement",
-      "docstring": "The right polynomial representation sends the first distinguished algebra element to the first right operator."
+      "new_name": "secondRepresentation_auxiliaryElement1",
+      "docstring": "The second representation sends one displayed algebra element to the third auxiliary endomorphism."
     },
     {
       "temporary_id": "decl-024794",
-      "new_name": "rightPolynomialRepresentation_secondDistinguishedElement",
-      "docstring": "The right polynomial representation sends the second distinguished algebra element to the second right operator."
+      "new_name": "secondRepresentation_auxiliaryElement2",
+      "docstring": "The second representation sends the other displayed algebra element to the fourth auxiliary endomorphism."
     },
     {
       "temporary_id": "decl-024795",
-      "new_name": "rightFirstOperator",
-      "docstring": "The first complex-linear endomorphism in the right action on the polynomial carrier."
+      "new_name": "auxiliaryEndomorphism3",
+      "docstring": "A third auxiliary complex-linear endomorphism of the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024797",
-      "new_name": "rightSecondOperator",
-      "docstring": "The second complex-linear endomorphism in the right action on the polynomial carrier."
+      "new_name": "auxiliaryEndomorphism4",
+      "docstring": "A fourth auxiliary complex-linear endomorphism of the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024799",
-      "new_name": "rightSecondOperator_mul_rightFirstOperator",
-      "docstring": "The product of the second and first right operators equals the reverse product plus the identity."
+      "new_name": "auxiliaryEndomorphism4_mul_auxiliaryEndomorphism3",
+      "docstring": "The product of the fourth and third auxiliary endomorphisms equals the reverse product plus the identity."
     },
     {
       "temporary_id": "decl-024801",
-      "new_name": "polynomialTensorProductModule",
-      "docstring": "The module structure on the polynomial carrier over the tensor product of the two acting algebras."
+      "new_name": "auxiliaryTensorProductModule",
+      "docstring": "A module structure on the auxiliary carrier over the displayed tensor-product algebra."
     },
     {
       "temporary_id": "decl-024802",
-      "new_name": "polynomialTensorProductModule_isSimpleModule",
-      "docstring": "The polynomial carrier is simple as a module over the tensor product algebra."
+      "new_name": "auxiliaryTensorProductModule_isSimpleModule",
+      "docstring": "The auxiliary carrier is simple as a module over the displayed tensor-product algebra."
     },
     {
       "temporary_id": "decl-024803",
-      "new_name": "not_equivariant_tensorProductFactorization",
-      "docstring": "The polynomial tensor-product-algebra module cannot be obtained from the stated equivariant tensor product of two modules when the first is simple and the second is nontrivial."
+      "new_name": "not_equivariant_tensorProductEquiv",
+      "docstring": "No displayed linear equivalence from the tensor product of the two modules to the auxiliary carrier can satisfy the stated equivariance relation when the first module is simple and the second is nontrivial."
     },
     {
       "temporary_id": "decl-024804",
-      "new_name": "tensorProductPolynomialRepresentation",
-      "docstring": "The tensor-product algebra representation on the polynomial carrier."
+      "new_name": "tensorProductRepresentation",
+      "docstring": "An algebra homomorphism from the displayed tensor-product algebra to endomorphisms of the auxiliary carrier."
     },
     {
       "temporary_id": "decl-024809",
-      "new_name": "tensorProductPolynomialRepresentation_not_factor_finiteDimensional",
-      "docstring": "The tensor-product polynomial representation does not factor through any finite-dimensional complex algebra."
+      "new_name": "tensorProductRepresentation_not_factor_finiteDimensional",
+      "docstring": "The displayed tensor-product representation does not factor through any finite-dimensional complex algebra."
     },
     {
       "temporary_id": "decl-024810",
-      "new_name": "tensorProductPolynomialRepresentation_tmul",
-      "docstring": "On a pure tensor, the tensor-product representation is the product of the corresponding left and right actions."
+      "new_name": "tensorProductRepresentation_tmul",
+      "docstring": "On a pure tensor, the tensor-product representation is the product of the corresponding first and second representations."
     },
     {
       "temporary_id": "decl-024811",
-      "new_name": "mul_secondDistinguishedElement_ne_one",
-      "docstring": "No element of the Weyl-type complex algebra multiplied by its second distinguished algebra element equals one."
+      "new_name": "mul_auxiliaryElement_ne_one",
+      "docstring": "No element of the displayed complex algebra multiplied by the displayed auxiliary element equals one."
     }
   ]
 }

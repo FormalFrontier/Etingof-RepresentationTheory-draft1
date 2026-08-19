@@ -14,12 +14,12 @@
     {
       "temporary_id": "decl-023473",
       "new_name": "exists_linearIndependent_coordinates_directSum",
-      "docstring": "A submodule of the displayed direct sum admits linearly independent coordinate data after an equivalence."
+      "docstring": "A submodule of the displayed direct sum admits bounded multiplicities and linearly independent coordinate data satisfying the stated expansion formula."
     },
     {
       "temporary_id": "decl-023474",
       "new_name": "exists_linearIndependent_coordinates_pi",
-      "docstring": "A submodule of the displayed function module admits linearly independent coordinate data after an equivalence."
+      "docstring": "A submodule of the displayed function module admits bounded multiplicities and linearly independent coordinate data satisfying the stated expansion formula."
     },
     {
       "temporary_id": "decl-023475",
