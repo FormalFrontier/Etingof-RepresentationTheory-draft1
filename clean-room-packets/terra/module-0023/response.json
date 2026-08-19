@@ -1,10 +1,10 @@
 {
-  "module_name": "Algebra.Quiver.Representation.Constructions",
+  "module_name": "Algebra.Quiver.AuxiliaryConstructions",
   "declarations": [
     {
       "temporary_id": "decl-014966",
-      "new_name": "binaryConstruction",
-      "docstring": "Combines two quiver-indexed objects over a commutative semiring into one object."
+      "new_name": "auxiliaryBinaryConstruction",
+      "docstring": "Combines two auxiliary quiver-indexed objects over a commutative semiring into one auxiliary object."
     }
   ]
 }

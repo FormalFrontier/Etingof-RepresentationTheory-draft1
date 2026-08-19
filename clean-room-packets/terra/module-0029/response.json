@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-005197",
       "new_name": "of_isSimpleModule",
-      "docstring": "The enclosing module predicate holds for every simple module."
+      "docstring": "The enclosing auxiliary predicate holds for every simple module."
     },
     {
       "temporary_id": "decl-005290",

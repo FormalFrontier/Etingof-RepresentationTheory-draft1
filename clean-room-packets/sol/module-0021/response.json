@@ -1,200 +1,200 @@
 {
-  "module_name": "Quiver.PathAlgebra",
+  "module_name": "Quiver.AuxiliaryPathStructures",
   "declarations": [
     {
       "temporary_id": "decl-000900",
-      "new_name": "Quiver.OppositePathAlgebra",
-      "docstring": "The opposite of the path algebra of a quiver over a field."
+      "new_name": "Quiver.AuxiliaryOppositeType",
+      "docstring": "An auxiliary type associated with a field and a quiver."
     },
     {
       "temporary_id": "decl-000965",
-      "new_name": "opOfPath",
-      "docstring": "The element of the opposite path algebra represented by a single bundled path."
+      "new_name": "auxiliaryElementOfPath",
+      "docstring": "An element of the auxiliary type associated with a bundled quiver path."
     },
     {
       "temporary_id": "decl-000967",
-      "new_name": "opOfPath_mul_opOfPath",
-      "docstring": "Multiplying opposite-algebra basis elements associated to composable paths represents their composite."
+      "new_name": "auxiliaryElement_mul_auxiliaryElement",
+      "docstring": "Multiplying the designated auxiliary elements of composable paths gives the element of their composite."
     },
     {
       "temporary_id": "decl-000968",
-      "new_name": "opOfPath_mul_opOfPath_eq_zero",
-      "docstring": "Opposite-algebra basis elements multiply to zero when the corresponding paths are not composable."
+      "new_name": "auxiliaryElement_mul_auxiliaryElement_eq_zero",
+      "docstring": "The designated auxiliary elements multiply to zero when the corresponding paths are not composable."
     },
     {
       "temporary_id": "decl-001013",
-      "new_name": "sum_vertexElement_eq_one",
-      "docstring": "For a finite vertex type, the sum of the vertex-associated elements is one in the opposite path algebra."
+      "new_name": "sum_auxiliaryVertexElement_eq_one",
+      "docstring": "For a finite vertex type, the sum of the designated vertex elements is one in the auxiliary type."
     },
     {
       "temporary_id": "decl-001025",
-      "new_name": "vertexElement",
-      "docstring": "An opposite path-algebra element associated to a vertex."
+      "new_name": "auxiliaryVertexElement",
+      "docstring": "An auxiliary element associated with a vertex of the quiver."
     },
     {
       "temporary_id": "decl-001027",
-      "new_name": "unop_opOfPath",
-      "docstring": "Removing the opposite wrapper from a path basis element gives the corresponding path-algebra basis element."
+      "new_name": "unop_auxiliaryElement_eq_auxiliaryOfPath",
+      "docstring": "Removing the opposite wrapper from the designated auxiliary element gives the corresponding auxiliary path element."
     },
     {
       "temporary_id": "decl-005820",
-      "new_name": "Quiver.PathAlgebra",
-      "docstring": "The vector space of finitely supported coefficients on all paths of a quiver, equipped with path concatenation."
+      "new_name": "Quiver.AuxiliaryPathType",
+      "docstring": "An auxiliary type associated with a field and a quiver."
     },
     {
       "temporary_id": "decl-005914",
-      "new_name": "mulPath",
-      "docstring": "The path-algebra product of two bundled paths, represented as a basis vector when they compose and as zero otherwise."
+      "new_name": "auxiliaryProduct",
+      "docstring": "The auxiliary product of two quiver paths is a basis vector when they compose and zero otherwise."
     },
     {
       "temporary_id": "decl-005916",
-      "new_name": "mulPath_of_composable",
-      "docstring": "The product attached to two composable paths is the basis vector of their composite."
+      "new_name": "auxiliaryProduct_of_composable",
+      "docstring": "The auxiliary product attached to two composable paths is the basis vector of their composite."
     },
     {
       "temporary_id": "decl-005917",
-      "new_name": "mulPath_of_not_composable",
-      "docstring": "The product attached to paths with unequal intermediate vertices is zero."
+      "new_name": "auxiliaryProduct_of_not_composable",
+      "docstring": "The auxiliary product attached to paths with unequal intermediate vertices is zero."
     },
     {
       "temporary_id": "decl-005918",
-      "new_name": "mulPath_vertexPath",
-      "docstring": "Multiplication by a length-zero path on the left selects paths with the matching source vertex."
+      "new_name": "auxiliaryProduct_vertexPath",
+      "docstring": "The auxiliary product by a length-zero path on the left selects paths with the matching source vertex."
     },
     {
       "temporary_id": "decl-005919",
-      "new_name": "mulPath_pathVertex",
-      "docstring": "Multiplication by a length-zero path on the right selects paths with the matching target vertex."
+      "new_name": "auxiliaryProduct_pathVertex",
+      "docstring": "The auxiliary product by a length-zero path on the right selects paths with the matching target vertex."
     },
     {
       "temporary_id": "decl-006075",
       "new_name": "induction_on",
-      "docstring": "A property of path-algebra elements follows from its zero, addition, and single-basis-vector cases."
+      "docstring": "A property of auxiliary elements follows from its zero, addition, and single-basis-vector cases."
     },
     {
       "temporary_id": "decl-006076",
       "new_name": "instAddCommGroup",
-      "docstring": "The additive commutative group structure on a path algebra."
+      "docstring": "The additive commutative group structure on the auxiliary type."
     },
     {
       "temporary_id": "decl-006148",
       "new_name": "instAlgebra",
-      "docstring": "The algebra structure on a path algebra when the quiver has finitely many vertices."
+      "docstring": "The algebra structure on the auxiliary type when the quiver has finitely many vertices."
     },
     {
       "temporary_id": "decl-006149",
       "new_name": "instInhabited",
-      "docstring": "The canonical inhabited structure on a path algebra."
+      "docstring": "The canonical inhabited structure on the auxiliary type."
     },
     {
       "temporary_id": "decl-006151",
       "new_name": "instModule",
-      "docstring": "The scalar module structure on a path algebra."
+      "docstring": "The scalar module structure on the auxiliary type."
     },
     {
       "temporary_id": "decl-006185",
       "new_name": "instNonUnitalNonAssocRing",
-      "docstring": "The distributive multiplication structure on a path algebra before associativity and a unit are installed."
+      "docstring": "The distributive multiplication structure on the auxiliary type before associativity and a unit are installed."
     },
     {
       "temporary_id": "decl-006190",
       "new_name": "instNonUnitalRing",
-      "docstring": "The associative nonunital ring structure on a path algebra."
+      "docstring": "The associative nonunital ring structure on the auxiliary type."
     },
     {
       "temporary_id": "decl-006194",
       "new_name": "instOne",
-      "docstring": "The multiplicative identity on a path algebra with finitely many vertices."
+      "docstring": "The multiplicative identity on the auxiliary type with finitely many vertices."
     },
     {
       "temporary_id": "decl-006195",
       "new_name": "instRing",
-      "docstring": "The unital ring structure on a path algebra with finitely many vertices."
+      "docstring": "The unital ring structure on the auxiliary type with finitely many vertices."
     },
     {
       "temporary_id": "decl-006270",
-      "new_name": "mulLinearMap",
-      "docstring": "Path-algebra multiplication expressed as a linear map into linear maps."
+      "new_name": "auxiliaryMulLinearMap",
+      "docstring": "Auxiliary multiplication expressed as a linear map into linear maps."
     },
     {
       "temporary_id": "decl-006277",
       "new_name": "mul_assoc",
-      "docstring": "Path-algebra multiplication is associative."
+      "docstring": "Auxiliary multiplication is associative."
     },
     {
       "temporary_id": "decl-006278",
-      "new_name": "mul_eq_mulLinearMap",
-      "docstring": "The path-algebra product agrees with the bilinear multiplication map."
+      "new_name": "mul_eq_auxiliaryMulLinearMap",
+      "docstring": "The auxiliary product agrees with the bilinear multiplication map."
     },
     {
       "temporary_id": "decl-006280",
       "new_name": "mul_one",
-      "docstring": "One is a right identity for a path algebra with finitely many vertices."
+      "docstring": "One is a right identity for the auxiliary type with finitely many vertices."
     },
     {
       "temporary_id": "decl-006281",
       "new_name": "mul_smul",
-      "docstring": "Scalar multiplication in the right factor commutes with path-algebra multiplication."
+      "docstring": "Scalar multiplication in the right factor commutes with auxiliary multiplication."
     },
     {
       "temporary_id": "decl-006286",
-      "new_name": "ofPath",
-      "docstring": "The path-algebra basis element represented by a bundled path."
+      "new_name": "auxiliaryOfPath",
+      "docstring": "The auxiliary basis element represented by a bundled quiver path."
     },
     {
       "temporary_id": "decl-006299",
-      "new_name": "auxiliaryElement",
-      "docstring": "An auxiliary path-algebra element available when the vertex type is finite."
+      "new_name": "finiteAuxiliaryElement",
+      "docstring": "An auxiliary element available when the vertex type is finite."
     },
     {
       "temporary_id": "decl-006300",
       "new_name": "one_eq_sum_single_vertexPath",
-      "docstring": "The unit is the sum of the single basis vectors belonging to length-zero paths."
+      "docstring": "The unit of the auxiliary type is the sum of the single basis vectors belonging to length-zero paths."
     },
     {
       "temporary_id": "decl-006301",
       "new_name": "one_eq_sum_ofPath_vertexPath",
-      "docstring": "The unit is the sum of the embedded length-zero paths over all vertices."
+      "docstring": "The unit of the auxiliary type is the sum of the embedded length-zero paths over all vertices."
     },
     {
       "temporary_id": "decl-006302",
       "new_name": "one_mul",
-      "docstring": "One is a left identity for a path algebra with finitely many vertices."
+      "docstring": "One is a left identity for the auxiliary type with finitely many vertices."
     },
     {
       "temporary_id": "decl-006370",
       "new_name": "single_mul_single",
-      "docstring": "The product of two weighted path basis vectors is their coefficient product times the path product."
+      "docstring": "The product of two weighted auxiliary basis vectors is their coefficient product times the auxiliary product."
     },
     {
       "temporary_id": "decl-006371",
       "new_name": "single_mul_single_mul_single_assoc",
-      "docstring": "Multiplication is associative on three weighted path basis vectors."
+      "docstring": "Auxiliary multiplication is associative on three weighted basis vectors."
     },
     {
       "temporary_id": "decl-006373",
       "new_name": "smul_mul",
-      "docstring": "Scalar multiplication in the left factor commutes with path-algebra multiplication."
+      "docstring": "Scalar multiplication in the left factor commutes with auxiliary multiplication."
     },
     {
       "temporary_id": "decl-006374",
       "new_name": "smul_zero",
-      "docstring": "A scalar multiple of the zero path-algebra element is zero."
+      "docstring": "A scalar multiple of the zero auxiliary element is zero."
     },
     {
       "temporary_id": "decl-006375",
       "new_name": "smul_single_one",
-      "docstring": "Scaling a path basis vector with coefficient one replaces its coefficient by the scalar."
+      "docstring": "Scaling an auxiliary basis vector with coefficient one replaces its coefficient by the scalar."
     },
     {
       "temporary_id": "decl-006494",
       "new_name": "sum_vertexPath_eq_one",
-      "docstring": "The sum of all embedded length-zero paths is the multiplicative identity."
+      "docstring": "The sum of all embedded length-zero paths is the multiplicative identity of the auxiliary type."
     },
     {
       "temporary_id": "decl-014880",
-      "new_name": "Quiver.BundledPath",
-      "docstring": "A quiver path bundled together with its source and target vertices."
+      "new_name": "Quiver.AuxiliaryBundledPathType",
+      "docstring": "An auxiliary type associated with paths in a quiver."
     },
     {
       "temporary_id": "decl-014881",
