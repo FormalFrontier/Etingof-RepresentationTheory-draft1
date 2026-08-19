@@ -346,13 +346,13 @@ theorem derivativeEnd_pow_eq_factorial_smul_single_zero (f : Fin p → k) (m : F
     have hjlt : (j : ℕ) < p := j.isLt
     have hmlt : (m : ℕ) < p := m.isLt
     rcases lt_or_ge ((j : ℕ) + (m : ℕ)) p with hlt | hge
-    · 
+    ·
       have hval : ((j + (((m : ℕ) : ℕ) : Fin p) : Fin p) : ℕ) = (j : ℕ) + (m : ℕ) := by
         rw [Fin.val_add, Fin.val_cast_of_lt hmlt, Nat.mod_eq_of_lt hlt]
       have hgt : m < j + (((m : ℕ) : ℕ) : Fin p) := by
         rw [Fin.lt_def, hval]; omega
       rw [hmax _ hgt, mul_zero]
-    · 
+    ·
       set t₀ := p - 1 - (j : ℕ) with ht₀
       have ht₀m : t₀ < (m : ℕ) := by omega
       have hsum : ((j : ℕ) : Fin p) + ((t₀ : ℕ) : Fin p) + 1 = 0 := by
@@ -434,7 +434,7 @@ theorem modelModule_isSimpleModule (α c : k) :
     infer_instance
   refine isSimpleModule_iff_toSpanSingleton_surjective.mpr ⟨inferInstance, fun f hf z => ?_⟩
   obtain ⟨m, hfm, hmax⟩ := exists_top_index k p f hf
-  
+
   set s : k := (Nat.factorial (m : ℕ) : k) * f m with hs
   have hs0 : s ≠ 0 := by
     rw [hs]
@@ -547,15 +547,15 @@ theorem nonempty_fourScalarParameterType_iff (α c α' c' : k) :
     Nonempty (FourScalarParameterType k p α c α' c') ↔ α = α' ∧ c = c' := by
   constructor
   · rintro ⟨e⟩
-    
+
     haveI : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
     obtain ⟨g, hg⟩ := exists_ne (0 : Fin p → k)
     obtain ⟨j, hj⟩ := Function.ne_iff.mp hg
     rw [Pi.zero_apply] at hj
     obtain ⟨f, rfl⟩ : ∃ f, e f = g := ⟨e.symm g, e.apply_symm_apply g⟩
-    
+
     have hx := fourScalarParameterMap_intertwines_action e (WeylAlgebra.x k ^ p) f
-    
+
     have hy := fourScalarParameterMap_intertwines_action e (WeylAlgebra.y k ^ p) f
     simp only [map_pow, modelRepresentation_positionGenerator, modelRepresentation_derivativeGenerator, cyclicPositionEnd_pow_prime, derivativeAddScalarEnd_pow_prime, LinearMap.smul_apply,
       Module.End.one_apply, fourScalarParameterMap_map_smul e] at hx hy
@@ -631,10 +631,10 @@ theorem exists_nonempty_moduleScalarParameterType [IsAlgClosed k] (V : Type*) [A
   refine ⟨α, c, ?_⟩
   letI := modelModule k p α c
   haveI := modelModule_isScalarTower k p α c
-  
+
   set ψ : (Fin p → k) ≃ₗ[k] V := b.equivFun.symm
   have hψ : ∀ f : Fin p → k, ψ f = ∑ j, f j • b j := fun f => b.equivFun_symm_apply f
-  
+
   have reindex : ∀ g : Fin p → V, ∑ j, g j = ∑ i : Fin p, g (i + 1) := by
     intro g
     exact (Fintype.sum_equiv (Equiv.addRight (1 : Fin p)) (fun i => g (i + 1)) g
@@ -650,7 +650,7 @@ theorem exists_nonempty_moduleScalarParameterType [IsAlgClosed k] (V : Type*) [A
     intro f
     have hsm : (WeylAlgebra.y k • f : Fin p → k) = derivativeAddScalarEnd k p c f := by
       rw [modelModule_smul_eq_representation_apply k p α c, modelRepresentation_derivativeGenerator]
-    
+
     have hR : ∑ j, WeylAlgebra.y k • (f j • b j)
         = ∑ i : Fin p, ((c * f (i + 1)) • b (i + 1) + (successorCoeff k p i * f (i + 1)) • b i) := by
       rw [reindex fun j => WeylAlgebra.y k • (f j • b j)]
