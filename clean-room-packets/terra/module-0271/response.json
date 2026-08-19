@@ -53,8 +53,8 @@
     },
     {
       "temporary_id": "decl-005115",
-      "new_name": "auxiliaryQuotient",
-      "docstring": "An auxiliary result about the quotient action associated with an invariant submodule."
+      "new_name": "auxiliaryElidedStatement005115",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     }
   ]
 }

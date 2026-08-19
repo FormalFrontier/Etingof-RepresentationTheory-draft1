@@ -1,10 +1,10 @@
 {
-  "module_name": "AuxiliarySimpleModuleData",
+  "module_name": "AuxiliaryElidedStatement",
   "declarations": [
     {
       "temporary_id": "decl-001452",
-      "new_name": "exists_auxiliary_simple_module_data",
-      "docstring": "There exist auxiliary data satisfying the displayed subsingleton-fiber, simple-module, uniqueness, equivariance, and compatibility conditions."
+      "new_name": "auxiliaryElidedStatement001452",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     }
   ]
 }
