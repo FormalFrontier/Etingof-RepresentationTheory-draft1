@@ -30,22 +30,20 @@ theorem exists_coatom_subobject_aux1 : ∃ I : Submodule Aᵐᵒᵖ Aᵐᵒᵖ, 
 /-- A nontrivial ring admits a coatom among the displayed subobjects. -/
 @[source_ref "Chapter2/Problem2.4.1" (role := supporting)]
 theorem exists_coatom_subobject_aux2 : ∃ I : TwoSidedIdeal A, IsCoatom I := by
-  have bot_ne_top : (⊥ : TwoSidedIdeal A) ≠ ⊤ := by
+  have hbot : (⊥ : TwoSidedIdeal A) ≠ ⊤ := by
     intro h
-    have one_mem : (1 : A) ∈ (⊥ : TwoSidedIdeal A) := by
-      rw [h]
-      trivial
-    simp only [TwoSidedIdeal.mem_bot] at one_mem
-    exact one_ne_zero one_mem
-  have chain_upper_bound : ∀ c ⊆ {I : TwoSidedIdeal A | I ≠ ⊤}, IsChain (· ≤ ·) c →
+    have h1 : (1 : A) ∈ (⊥ : TwoSidedIdeal A) := by rw [h]; trivial
+    simp only [TwoSidedIdeal.mem_bot] at h1
+    exact one_ne_zero h1
+  have hbound : ∀ c ⊆ {I : TwoSidedIdeal A | I ≠ ⊤}, IsChain (· ≤ ·) c →
       ∃ ub ∈ {I : TwoSidedIdeal A | I ≠ ⊤}, ∀ z ∈ c, z ≤ ub := by
-    intro c hc chain
+    intro c hcs hchain
     rcases c.eq_empty_or_nonempty with rfl | ⟨I₀, hI₀⟩
-    · exact ⟨⊥, bot_ne_top, by simp⟩
+    · exact ⟨⊥, hbot, by simp⟩
     · refine ⟨TwoSidedIdeal.mk' {x | ∃ I ∈ c, x ∈ I}
         ⟨I₀, hI₀, I₀.zero_mem⟩ ?_ ?_ ?_ ?_, ?_, ?_⟩
       · rintro x y ⟨I, hI, hx⟩ ⟨J, hJ, hy⟩
-        rcases chain.total hI hJ with h | h
+        rcases hchain.total hI hJ with h | h
         · exact ⟨J, hJ, J.add_mem (h hx) hy⟩
         · exact ⟨I, hI, I.add_mem hx (h hy)⟩
       · rintro x ⟨I, hI, hx⟩
@@ -54,15 +52,15 @@ theorem exists_coatom_subobject_aux2 : ∃ I : TwoSidedIdeal A, IsCoatom I := by
         exact ⟨I, hI, I.mul_mem_left x y hy⟩
       · rintro x y ⟨I, hI, hx⟩
         exact ⟨I, hI, I.mul_mem_right x y hx⟩
-      · intro union_eq_top
-        have one_mem := (TwoSidedIdeal.one_mem_iff _).mpr union_eq_top
-        rw [TwoSidedIdeal.mem_mk'] at one_mem
-        obtain ⟨I, hI, one_mem⟩ := one_mem
-        exact (hc hI) ((TwoSidedIdeal.one_mem_iff I).mp one_mem)
+      · intro hUtop
+        have h1 := (TwoSidedIdeal.one_mem_iff _).mpr hUtop
+        rw [TwoSidedIdeal.mem_mk'] at h1
+        obtain ⟨I, hI, h1⟩ := h1
+        exact (hcs hI) ((TwoSidedIdeal.one_mem_iff I).mp h1)
       · intro z hz x hx
         exact (TwoSidedIdeal.mem_mk' _ _ _ _ _ _ x).mpr ⟨z, hz, hx⟩
-  obtain ⟨m, hm⟩ := zorn_le₀ {I : TwoSidedIdeal A | I ≠ ⊤} chain_upper_bound
-  refine ⟨m, hm.1, fun b hb ↦ ?_⟩
+  obtain ⟨m, hm⟩ := zorn_le₀ {I : TwoSidedIdeal A | I ≠ ⊤} hbound
+  refine ⟨m, hm.1, fun b hb => ?_⟩
   by_contra hbne
   exact absurd (lt_of_le_of_lt (hm.2 hbne hb.le) hb) (lt_irrefl b)
 
