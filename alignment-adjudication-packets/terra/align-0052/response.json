@@ -8,13 +8,13 @@
     },
     {
       "association_id": "association:427ef019534c3f8340c5",
-      "role": "primary",
-      "rationale": "Its type directly defines the staircase shift rho as a natural-valued finitely supported function indexed by Fin n, with n as the independent variable count."
+      "role": "supporting",
+      "rationale": "The type only gives a Fin n-indexed Finsupp family; it exposes the count parameter but does not state that its values form the staircase rho."
     },
     {
       "association_id": "association:382fb79a69e9af7968fb",
-      "role": "primary",
-      "rationale": "Its type directly defines the Vandermonde polynomial in variables indexed by Fin n, exposing the source's independent variable-count parameter."
+      "role": "supporting",
+      "rationale": "The type only gives an n-parameter polynomial with variables Fin n; it does not display the formula establishing that the polynomial is Vandermonde."
     }
   ]
 }
