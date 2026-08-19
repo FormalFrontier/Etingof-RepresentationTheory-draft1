@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:e092842b57f1a60f6906",
-      "role": "primary",
-      "rationale": "The formal type directly states that ZMod p has cardinality p when p is prime, which is the element-count part of the source claim."
+      "role": "supporting",
+      "rationale": "The type states that ZMod p has cardinality p, but it does not itself supply the field structure also asserted by the source claim."
     },
     {
       "association_id": "association:6b681e4862ac43ed9fa5",
-      "role": "primary",
-      "rationale": "The formal type directly supplies a Field structure on ZMod p when p is prime, which is the field-structure part of the source claim."
+      "role": "supporting",
+      "rationale": "The type supplies a Field structure on ZMod p, but it does not itself state the cardinality-p assertion also included in the source claim."
     }
   ]
 }

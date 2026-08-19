@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:bc9906ed9888e548354a",
-      "role": "primary",
-      "rationale": "The formal type directly equates the number of conjugacy classes of the displayed GL2 group with the square of the displayed field cardinality minus one, under its stated hypotheses."
+      "role": "supporting",
+      "rationale": "The type gives the q²−1 count only under the additional hypothesis p ≠ 2, so it is a characteristic-specific case rather than the full source claim for GL₂(F_q)."
     }
   ]
 }

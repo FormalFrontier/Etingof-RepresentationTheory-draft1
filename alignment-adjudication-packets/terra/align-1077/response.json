@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:2ecc79f4ba2b6513d1fb",
-      "role": "primary",
-      "rationale": "The formal type directly states that any displayed indecomposable k-module V admits a linear equivalence with k, expressing the asserted uniqueness up to isomorphism."
+      "role": "supporting",
+      "rationale": "The type states that every indecomposable k-module is linearly equivalent to k, but it does not itself state that k is indecomposable, which is also part of the source claim."
     }
   ]
 }
