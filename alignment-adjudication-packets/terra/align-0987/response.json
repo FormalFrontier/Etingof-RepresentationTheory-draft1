@@ -1,10 +1,1 @@
-{
-  "packet_id": "align-0987",
-  "associations": [
-    {
-      "association_id": "association:9eef54ae0c8660cbc097",
-      "role": "primary",
-      "rationale": "It directly states existence and uniqueness of a constructed-family representative for every simple representation."
-    }
-  ]
-}
+{"packet_id":"align-0987","associations":[{"association_id":"association:9eef54ae0c8660cbc097","role":"supporting","rationale":"The type asserts a unique index into the opaque constructedFamily, but the index type is elided, so the displayed evidence does not expose the constructed families being classified."}]}
