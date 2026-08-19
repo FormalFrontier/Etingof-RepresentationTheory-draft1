@@ -25,6 +25,6 @@ jobs:
           use-mathlib-cache: true
       - name: Check release legal filenames
         run: |
-          test -f LICENCE
-          test ! -e LICENSE
+          test -f LICENSE
+          test ! -e LICENCE
           test -f NOTICE

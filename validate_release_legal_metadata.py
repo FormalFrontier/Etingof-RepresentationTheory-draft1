@@ -45,9 +45,9 @@ def require_nonpersisting_checkouts(path: Path, errors: list[str]) -> None:
 
 
 def validate_public(root: Path, errors: list[str]) -> None:
-    if (root / "LICENSE").exists():
-        errors.append(f"{root}: LICENSE must not exist; the required filename is LICENCE")
-    licence = require_file(root, "LICENCE", errors)
+    if (root / "LICENCE").exists():
+        errors.append(f"{root}: LICENCE must not exist; the required filename is LICENSE")
+    licence = require_file(root, "LICENSE", errors)
     readme = require_file(root, "README.md", errors)
     notice = require_file(root, "NOTICE", errors)
     require_text(
@@ -71,7 +71,7 @@ def validate_public(root: Path, errors: list[str]) -> None:
     require_text(notice, ("Copyright 2026 mathlib-initiative", "Apache License"), errors)
     public_ci = require_file(root, ".github/workflows/ci.yml", errors)
     notify = require_file(root, ".github/workflows/notify-verso.yml", errors)
-    require_text(public_ci, ("leanprover/lean-action@v1", "test -f LICENCE"), errors)
+    require_text(public_ci, ("leanprover/lean-action@v1", "test -f LICENSE"), errors)
     require_text(
         notify,
         (
@@ -90,14 +90,14 @@ def validate_public(root: Path, errors: list[str]) -> None:
             errors.append(f"{path}: missing mathlib-initiative copyright header")
         if "Copyright (c) 2026 Kim Morrison" in text:
             errors.append(f"{path}: retained superseded personal copyright header")
-        if "file LICENSE" in text[:400]:
-            errors.append(f"{path}: header names LICENSE instead of LICENCE")
+        if "file LICENCE" in text[:400]:
+            errors.append(f"{path}: header names LICENCE instead of LICENSE")
 
 
 def validate_private(root: Path, errors: list[str]) -> None:
-    if (root / "LICENSE").exists():
-        errors.append(f"{root}: LICENSE must not exist; the required filename is LICENCE")
-    licence = require_file(root, "LICENCE", errors)
+    if (root / "LICENCE").exists():
+        errors.append(f"{root}: LICENCE must not exist; the required filename is LICENSE")
+    licence = require_file(root, "LICENSE", errors)
     readme = require_file(root, "README.md", errors)
     require_text(
         licence,
