@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:d7c2ca96413bd3e37b84",
-      "role": "primary",
-      "rationale": "This categorical equivalence directly states the equivalence between group representations and group-algebra modules."
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so the claimed categorical equivalence cannot be verified from the isolated evidence."
     },
     {
       "association_id": "association:77321718994d6fa3af09",

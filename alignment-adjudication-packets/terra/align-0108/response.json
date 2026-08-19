@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:d217b9fedb1ef678e05b",
-      "role": "primary",
-      "rationale": "This construction directly packages invertible component morphisms as a natural isomorphism."
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so packaging invertible components as a natural isomorphism is not directly evidenced."
     },
     {
       "association_id": "association:89de4bd30b6c60a7e5b9",
-      "role": "primary",
-      "rationale": "This declaration defines the natural-transformation type of natural families of component morphisms."
+      "role": "supporting",
+      "rationale": "The displayed type only assigns a Type to a pair of functors; it does not expose component morphisms or the naturality condition."
     }
   ]
 }

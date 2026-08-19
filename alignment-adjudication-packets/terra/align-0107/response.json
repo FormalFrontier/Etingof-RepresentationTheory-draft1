@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:8e457d30a1f5d472f8be",
-      "role": "primary",
-      "rationale": "This algebra equivalence directly realizes a finite-dimensional semisimple algebra as a finite product of full matrix algebras."
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so the finite product of full matrix algebras is not directly evidenced."
     }
   ]
 }
