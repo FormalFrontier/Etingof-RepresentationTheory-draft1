@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-019429",
-      "new_name": "finrank_eq_sum_finrank_auxiliaryWeightSpace",
-      "docstring": "The ambient dimension is the sum of the dimensions of its auxiliary weight spaces."
+      "new_name": "auxiliaryElidedStatement019429",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-019525",
@@ -28,8 +28,8 @@
     },
     {
       "temporary_id": "decl-019534",
-      "new_name": "auxiliaryRepresentation_polynomial_eq_sum_auxiliaryFinrank_smul",
-      "docstring": "The auxiliary representation polynomial is the displayed finite sum with coefficients given by auxiliary finranks over `Complex`."
+      "new_name": "auxiliaryElidedStatement019534",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-019540",

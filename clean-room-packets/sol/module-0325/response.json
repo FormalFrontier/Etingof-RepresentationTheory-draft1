@@ -88,13 +88,13 @@
     },
     {
       "temporary_id": "decl-020303",
-      "new_name": "Partition.auxiliaryCornerSum_mul_hookLengthProduct_eq_factorial",
-      "docstring": "Assuming the auxiliary factorial identity at one size, the sum of the auxiliary cardinalities obtained at the outer corners, multiplied by the hook-length product, is the successor factorial."
+      "new_name": "auxiliaryElidedStatement020303",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-023751",
-      "new_name": "Partition.auxiliaryCard_eq_sum_removeOuterCorner",
-      "docstring": "The auxiliary cardinality for a partition of successor size equals the sum of the corresponding auxiliary cardinalities over its outer-corner reductions."
+      "new_name": "auxiliaryElidedStatement023751",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-025214",
