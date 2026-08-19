@@ -3,18 +3,18 @@
   "declarations": [
     {
       "temporary_id": "decl-023203",
-      "new_name": "nonemptyLinearEquiv_of_common_trace_eq",
-      "docstring": "Two simple submodules whose restricted traces equal the same prescribed values are linearly equivalent."
+      "new_name": "Auxiliary.statement023203",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-023207",
-      "new_name": "nonemptyLinearEquiv_of_shared_trace_eq",
-      "docstring": "A shared family of restricted trace equalities for two simple submodules yields a linear equivalence between them."
+      "new_name": "Auxiliary.statement023207",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024302",
-      "new_name": "exists_trace_eq_of_isSimpleModule",
-      "docstring": "For a simple submodule, there is a witness whose associated value equals the restricted trace for every permutation."
+      "new_name": "Auxiliary.statement024302",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     }
   ]
 }

@@ -28,8 +28,8 @@
     },
     {
       "temporary_id": "decl-020909",
-      "new_name": "isSimpleModule_of_auxiliary_piTensorProduct_action",
-      "docstring": "Auxiliary result deriving simplicity of the displayed representation module from agreement with the displayed tensor-product action."
+      "new_name": "Auxiliary.statement020909",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-021601",
@@ -48,13 +48,13 @@
     },
     {
       "temporary_id": "decl-023467",
-      "new_name": "eq_bot_or_eq_top_of_auxiliary_unit_invariant",
-      "docstring": "Auxiliary result showing that the displayed unit-invariant submodule is either bottom or top."
+      "new_name": "Auxiliary.statement023467",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-023468",
-      "new_name": "auxiliary_smul_mem_of_unit_invariant",
-      "docstring": "Auxiliary result showing closure under the displayed subtype action from invariance under the given units."
+      "new_name": "Auxiliary.statement023468",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-023635",

@@ -18,13 +18,13 @@
     },
     {
       "temporary_id": "decl-024682",
-      "new_name": "exists_rankOneIdempotent_smul_eq_restriction",
-      "docstring": "Under the stated trace identities, the restricted operator is a nonzero scalar multiple of an idempotent with one-dimensional range."
+      "new_name": "Auxiliary.statement024682",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024684",
-      "new_name": "restriction_eq_zero_of_partition_ne",
-      "docstring": "Under the stated trace identities, the restricted operator vanishes for a partition distinct from the specified one."
+      "new_name": "Auxiliary.statement024684",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024688",

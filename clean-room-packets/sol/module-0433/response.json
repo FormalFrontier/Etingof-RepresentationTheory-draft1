@@ -28,8 +28,8 @@
     },
     {
       "temporary_id": "decl-016580",
-      "new_name": "existsIndexedSimpleDecomposition",
-      "docstring": "There exist indexed simple submodules, labels, and compatible equivariant maps."
+      "new_name": "Auxiliary.statement016580",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016581",
@@ -48,8 +48,8 @@
     },
     {
       "temporary_id": "decl-018409",
-      "new_name": "auxiliary",
-      "docstring": "Auxiliary definition whose formal type is unavailable."
+      "new_name": "Auxiliary.statement018409",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-018412",
