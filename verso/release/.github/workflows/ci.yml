@@ -108,7 +108,7 @@ jobs:
         if: ${{ always() && steps.formalization_build.outcome == 'failure' }}
         uses: actions/upload-artifact@v4
         with:
-          name: formalization-build-log-${{ github.run_id }}-shard-${{ matrix.shard }}
+          name: formalization-build-log-${{ github.run_id }}-attempt-${{ github.run_attempt }}-shard-${{ matrix.shard }}
           path: ${{ runner.temp }}/formalization-shard-${{ matrix.shard }}-build.log
           if-no-files-found: error
           retention-days: 7
@@ -136,7 +136,7 @@ jobs:
           path: ${{ runner.temp }}/formalization-shard-${{ matrix.shard }}.tar.gz
           if-no-files-found: error
           compression-level: 0
-          retention-days: 1
+          retention-days: 7
           overwrite: true
 
   formalization:
