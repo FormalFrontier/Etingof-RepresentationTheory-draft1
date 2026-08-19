@@ -178,13 +178,13 @@
     },
     {
       "temporary_id": "decl-008421",
-      "new_name": "cyclicForwardEndomorphism_apply_last",
-      "docstring": "The cyclic forward endomorphism sends the last coordinate vector to the first scaled by its parameter."
+      "new_name": "Auxiliary.statement008421",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-008428",
-      "new_name": "cyclicForwardEndomorphism_apply_lt_last",
-      "docstring": "Away from the last index, the cyclic forward endomorphism sends a coordinate vector to its successor."
+      "new_name": "Auxiliary.statement008428",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-008433",
@@ -193,13 +193,13 @@
     },
     {
       "temporary_id": "decl-008439",
-      "new_name": "weightedBackwardEndomorphism_apply_pos",
-      "docstring": "At a positive index, the weighted backward endomorphism moves to the predecessor with the displayed recurrence coefficient."
+      "new_name": "Auxiliary.statement008439",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-008446",
-      "new_name": "weightedBackwardEndomorphism_apply_zero",
-      "docstring": "At index zero, the weighted backward endomorphism sends the coordinate vector to the last one scaled by the third parameter."
+      "new_name": "Auxiliary.statement008446",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-008451",
@@ -298,8 +298,8 @@
     },
     {
       "temporary_id": "decl-008534",
-      "new_name": "standardBackwardEndomorphism_apply_pos",
-      "docstring": "At a positive index, the standard backward endomorphism moves to the predecessor with coefficient given by the index and scalar parameter."
+      "new_name": "Auxiliary.statement008534",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-008542",
@@ -308,13 +308,13 @@
     },
     {
       "temporary_id": "decl-008552",
-      "new_name": "standardCyclicForwardEndomorphism_apply_last",
-      "docstring": "The standard cyclic forward endomorphism sends the last coordinate vector to the first scaled by its parameter."
+      "new_name": "Auxiliary.statement008552",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-008558",
-      "new_name": "standardCyclicForwardEndomorphism_apply_lt_last",
-      "docstring": "Away from the last index, the standard cyclic forward endomorphism sends each coordinate vector to its successor."
+      "new_name": "Auxiliary.statement008558",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-008564",

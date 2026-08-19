@@ -48,7 +48,7 @@
     },
     {
       "temporary_id": "decl-023335",
-      "new_name": "monoidAlgebraCoeFun",
+      "new_name": "monoidAlgebraCoefficientsCoeFun",
       "docstring": "A monoid-algebra element coerces to its coefficient function on the indexing type."
     }
   ]

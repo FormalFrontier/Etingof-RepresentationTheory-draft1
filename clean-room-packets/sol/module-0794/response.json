@@ -38,13 +38,13 @@
     },
     {
       "temporary_id": "decl-016951",
-      "new_name": "cycleParameter_fst_leftInverse",
-      "docstring": "The first components of the cycle parameters for a centralizing permutation and its inverse compose to the identity in one order."
+      "new_name": "Auxiliary.statement016951",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016952",
-      "new_name": "cycleParameter_fst_rightInverse",
-      "docstring": "The first components of the cycle parameters for a centralizing permutation and its inverse compose to the identity in the other order."
+      "new_name": "Auxiliary.statement016952",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016953",
