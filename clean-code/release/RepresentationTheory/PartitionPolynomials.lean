@@ -300,7 +300,7 @@ theorem coefficient_partitionDerivedExponentVector_mul_auxiliaryPermutationPolyn
 
 set_option backward.isDefEq.respectTransparency false in
 /-- Expresses a signed auxiliary value as a coefficient of a multivariate polynomial. -/
-@[source_ref"Chapter5/Theorem5.15.1"(role:=primary),
+@[source_ref"Chapter5/Theorem5.15.1"(role:=supporting),
   source_ref"Chapter5/Discussion_proof_of_Frobenius_character_formula"(role:=primary)]
 theorem signedAuxiliaryValue_eq_coefficient {n N : ℕ} (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (hlen : (auxiliaryPartitionNatList la).length ≤ N) :

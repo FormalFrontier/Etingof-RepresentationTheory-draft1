@@ -219,7 +219,7 @@ lemma self_mul_ne_zero (n : ℕ) (la : Nat.Partition n) :
   exact this h_tr_zero
 
 /-- The submodule associated with any partition is simple as a module. -/
-@[source_ref "Chapter5/Introduction_5.12" (role := primary),
+@[source_ref "Chapter5/Introduction_5.12" (role := supporting),
   source_ref "Chapter5/Theorem5.12.2" (role := primary),
   source_ref "Chapter5/Discussion_proof_of_Theorem5.12.2" (role := primary)]
 theorem partitionSubmodule_isSimpleModule

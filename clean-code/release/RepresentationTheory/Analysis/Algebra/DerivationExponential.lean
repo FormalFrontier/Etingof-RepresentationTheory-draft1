@@ -86,7 +86,7 @@ variable (hD : ∀ x y : A, D (x * y) = D x * y + x * D y)
 
 include hD in
 /-- The exponential of a scaled derivation preserves multiplication. -/
-@[source_ref "Chapter2/Remark2.9.4" (role := primary)]
+@[source_ref "Chapter2/Remark2.9.4" (role := supporting)]
 theorem exp_smul_map_mul (t : ℝ) (a b : A) :
     exp (t • D) (a * b) = exp (t • D) a * exp (t • D) b := by
   set u : ℝ → A := fun s => exp (s • D) (a * b) with hu_def
@@ -121,7 +121,7 @@ theorem derivation_apply_one : D 1 = 0 := by
 
 include hD in
 /-- The exponential of a scaled derivation fixes the multiplicative identity. -/
-@[source_ref "Chapter2/Remark2.9.4" (role := primary)]
+@[source_ref "Chapter2/Remark2.9.4" (role := supporting)]
 theorem exp_smul_apply_one (t : ℝ) : exp (t • D) 1 = 1 := by
   set u : ℝ → A := fun s => exp (s • D) 1 with hu_def
   have hu : ∀ s, HasDerivAt u (D (u s)) s := fun s => hasDerivAt_exp_smul_apply D 1 s
