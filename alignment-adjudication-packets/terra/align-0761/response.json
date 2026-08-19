@@ -1,10 +1,1 @@
-{
-  "associations": [
-    {
-      "association_id": "association:f402b894729bd3ec1b51",
-      "rationale": "The formal type directly gives an isomorphism from the induced Specht representation to the direct sum over addable squares, exactly the requested branching-rule isomorphism.",
-      "role": "primary"
-    }
-  ],
-  "packet_id": "align-0761"
-}
+{"associations":[{"association_id":"association:f402b894729bd3ec1b51","rationale":"The type gives an isomorphism to the opaque addSquareSumFDRep target, so the displayed evidence does not expose the requested direct sum over addable squares.","role":"supporting"}],"packet_id":"align-0761"}
