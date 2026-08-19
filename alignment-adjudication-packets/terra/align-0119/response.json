@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:a1d54c3fa0e75fa90b4f",
-      "role": "primary",
-      "rationale": "This characteristic-p power identity directly yields x^p - 1 = (x - 1)^p for commuting elements."
+      "role": "supporting",
+      "rationale": "The packet displays a null formal type, so the stated characteristic-p identity cannot be verified from the isolated evidence."
     }
   ]
 }

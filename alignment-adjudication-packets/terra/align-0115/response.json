@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:f7ebb1be766d44e28951",
-      "role": "primary",
-      "rationale": "This additive character map defines the character of a virtual representation."
+      "role": "supporting",
+      "rationale": "The type only supplies an additive map to functions; it does not state that its values are the corresponding integer combinations of irreducible characters."
     },
     {
       "association_id": "association:d75ae96970bf751b19a9",

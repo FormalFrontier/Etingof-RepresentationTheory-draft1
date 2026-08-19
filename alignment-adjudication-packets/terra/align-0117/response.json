@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:47b66cbef29d0e1bd5a8",
-      "role": "primary",
-      "rationale": "This declaration directly defines the type of algebra homomorphisms characterized in the source claim."
+      "role": "supporting",
+      "rationale": "The displayed type is only an opaque Type-valued declaration and does not expose k-linearity, multiplicativity, or preservation of one."
     }
   ]
 }
