@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:3a4b617a3dc1887035c7",
-      "rationale": "The formal type states that an arrow generator multiplied on the right by the vertex idempotent at its source equals that arrow generator, directly matching the first printed relation.",
-      "role": "primary"
+      "rationale": "The formal type states the first printed relation, but it does not itself state the zero-product relation at all other vertices, so it covers only one component of the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:c7a6591a8571b8d1935b",
-      "rationale": "The formal type states that right multiplication by a vertex idempotent at any distinct vertex is zero, directly matching the second printed relation.",
-      "role": "primary"
+      "rationale": "The formal type states the zero-product relation at vertices distinct from the source, but it does not itself state the identity relation at the source, so it covers only one component of the complete claim.",
+      "role": "supporting"
     }
   ]
 }

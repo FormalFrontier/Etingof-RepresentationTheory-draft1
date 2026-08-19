@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:2418729a0b517c77b0b3",
-      "rationale": "Assuming target elements satisfy the displayed idempotent, orthogonality, unit, and arrow relations, the formal type asserts existence and uniqueness of a homomorphism sending the generators to those elements, exactly stating the defining-relations claim.",
-      "role": "primary"
+      "rationale": "The displayed type gives an ExistsUnique witness satisfying the generator equations, but the witness type is elided, so it does not directly expose that the unique witness is an algebra homomorphism from P_Q.",
+      "role": "supporting"
     }
   ]
 }

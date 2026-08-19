@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:446e3d21e408347f12c2",
-      "rationale": "The formal type supplies an A_i-module structure on the subtype given by the range of the i-th idempotent projection, directly defining the factor representation asserted for the summand 1_i V.",
-      "role": "primary"
+      "rationale": "The formal type supplies an A_i-module structure on the range of the opaque map idemProj, but it does not itself identify that range with the summand 1_i V required by the claim.",
+      "role": "supporting"
     }
   ]
 }
