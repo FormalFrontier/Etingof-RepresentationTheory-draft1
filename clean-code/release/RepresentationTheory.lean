@@ -818,6 +818,9 @@ import RepresentationTheory.Quiver.AuxiliaryFiniteConstructions
 import RepresentationTheory.RingTheory.LexicographicIndexedBasis
 import RepresentationTheory.RingTheory.SimpleModuleSimultaneousAction
 import RepresentationTheory.ModuleTheory.AuxiliaryCondition
+import RepresentationTheory.Module.RelSeriesAuxiliary
+import RepresentationTheory.LinearAlgebra.FunctionSpaceEndomorphism
+import RepresentationTheory.Module.SubmoduleQuotientAuxiliary
 
 /-!
 # Representation theory formalization
