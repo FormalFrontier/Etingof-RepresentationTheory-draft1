@@ -1,10 +1,1 @@
-{
-  "packet_id": "align-0928",
-  "associations": [
-    {
-      "association_id": "association:d3716b5e02ef69344060",
-      "role": "primary",
-      "rationale": "The theorem directly produces irreducible factor representations whose external tensor product is equivariantly isomorphic to the given irreducible representation."
-    }
-  ]
-}
+{"packet_id":"align-0928","associations":[{"association_id":"association:d3716b5e02ef69344060","role":"supporting","rationale":"The type asserts irreducible factor representations and an intertwining equation, but the witness e has an elided type, so the displayed evidence does not directly expose an equivariant isomorphism."}]}
