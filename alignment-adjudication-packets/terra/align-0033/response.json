@@ -2,6 +2,6 @@
   "packet_id": "align-0033",
   "associations": [
     {"association_id": "association:9c75a9835a22a3f3375c", "role": "primary", "rationale": "This instance directly equips the carrier of a LieSubalgebra with the inherited Lie algebra structure."},
-    {"association_id": "association:e48104692f6ec7a2d8b2", "role": "primary", "rationale": "LieSubalgebra is the declaration defining the bracket-closed subspace notion in the source statement."}
+    {"association_id": "association:e48104692f6ec7a2d8b2", "role": "supporting", "rationale": "Its formal type is null in the packet, so the displayed evidence does not directly state the bracket-closed-subspace claim."}
   ]
 }

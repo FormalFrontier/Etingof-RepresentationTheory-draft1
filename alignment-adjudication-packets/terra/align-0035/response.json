@@ -1,6 +1,6 @@
 {
   "packet_id": "align-0035",
   "associations": [
-    {"association_id": "association:30d6a0bc8bfc9d2f6ffc", "role": "primary", "rationale": "The theorem directly produces reflection vertices ending at an indecomposable representation with a simple-root dimension vector."}
+    {"association_id": "association:30d6a0bc8bfc9d2f6ffc", "role": "supporting", "rationale": "The type gives a numerical iterated-simple-reflection equation and separately an indecomposable W with simple-root dimensions, but does not state that W is obtained from ρ by the categorical reflection sequence."}
   ]
 }
