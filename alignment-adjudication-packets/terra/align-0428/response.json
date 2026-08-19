@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:ad88dea0f15342f1fc90",
-      "role": "primary",
-      "rationale": "The theorem directly rules out a tensor-product realization of the counterexample module when the first Weyl-algebra factor is simple and the second is nontrivial."
+      "role": "supporting",
+      "rationale": "The theorem rules out a tensor-product realization of the counterexample module when the first factor is simple and the second is nontrivial, but it does not itself state that the counterexample module is simple or identify its displayed concrete realization."
     }
   ]
 }

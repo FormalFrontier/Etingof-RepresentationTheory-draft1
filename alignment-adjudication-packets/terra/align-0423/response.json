@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:3cfaba4bfcc61e1271e6",
-      "role": "primary",
-      "rationale": "The theorem directly states that, for finitely many vertices, the sum of all trivial paths equals one."
+      "role": "supporting",
+      "rationale": "The theorem states that, for finitely many vertices, the sum of all trivial paths equals one, but it does not itself state the source claim's resulting unitality assertion."
     }
   ]
 }

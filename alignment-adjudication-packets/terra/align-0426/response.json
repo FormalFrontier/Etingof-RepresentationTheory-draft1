@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:988a8a31637c5d3450b3",
-      "role": "primary",
-      "rationale": "The theorem directly gives the cardinality of the combined constructed index family by the displayed sum, which simplifies to q squared minus one."
+      "role": "supporting",
+      "rationale": "The theorem gives the cardinality of the combined constructed index family by a sum that simplifies to q squared minus one, but it does not itself state simplicity or pairwise nonisomorphism of the family."
     },
     {
       "association_id": "association:f601842dd58b480aaf8d",
-      "role": "primary",
-      "rationale": "The theorem directly states that isomorphic members of the constructed family have equal indices, giving pairwise nonisomorphism."
+      "role": "supporting",
+      "rationale": "The theorem states pairwise nonisomorphism of the constructed family, but it does not itself state the family's cardinality, simplicity, or its decomposition into the three named kinds."
     },
     {
       "association_id": "association:15121b7a54c292600b84",
-      "role": "primary",
-      "rationale": "The theorem directly states that every member of the constructed family is simple."
+      "role": "supporting",
+      "rationale": "The theorem states that every member of the constructed family is simple, but it does not itself state the family's cardinality, pairwise nonisomorphism, or its decomposition into the three named kinds."
     }
   ]
 }
