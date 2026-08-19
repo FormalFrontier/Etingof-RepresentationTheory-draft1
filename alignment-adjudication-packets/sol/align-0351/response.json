@@ -8,13 +8,13 @@
     },
     {
       "association_id": "association:2ce686a11530e4196f26",
-      "role": "primary",
-      "rationale": "The equality directly identifies the image of e under the equivalence with its displayed two-by-two matrix."
+      "role": "supporting",
+      "rationale": "The equality identifies the image of e with its displayed matrix, but it states neither the corresponding identifications for f and h nor that the three elements form a basis, so it is only partial evidence."
     },
     {
       "association_id": "association:4f034cdd7d67b5404ff4",
-      "role": "primary",
-      "rationale": "The equality directly identifies the image of f under the equivalence with its displayed two-by-two matrix."
+      "role": "supporting",
+      "rationale": "The equality identifies the image of f with its displayed matrix, but it states neither the corresponding identifications for e and h nor that the three elements form a basis, so it is only partial evidence."
     },
     {
       "association_id": "association:17fde40df168b9129bab",
