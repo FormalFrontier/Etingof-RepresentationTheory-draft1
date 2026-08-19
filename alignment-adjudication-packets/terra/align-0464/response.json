@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:9f2481e27344c022a401",
-      "role": "primary",
-      "rationale": "The equality directly states that S4 has five conjugacy classes."
+      "role": "supporting",
+      "rationale": "The equality states that S4 has five conjugacy classes, but it does not itself state the irreducible dimensions or their sum-of-squares value required by the complete source claim."
     },
     {
       "association_id": "association:cdf995f0ae156db2da25",
