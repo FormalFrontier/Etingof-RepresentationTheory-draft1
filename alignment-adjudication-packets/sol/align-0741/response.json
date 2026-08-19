@@ -18,13 +18,13 @@
     },
     {
       "association_id": "association:9c9f9b8354b39a52210d",
-      "role": "primary",
-      "rationale": "The type directly classifies all simple representations of the usual finite affine group for fields of cardinality greater than two, including their number and dimensions."
+      "role": "supporting",
+      "rationale": "The type classifies the usual affine group only for fields of cardinality greater than two; it does not itself cover the cardinality-two case needed for the complete finite-field classification."
     },
     {
       "association_id": "association:cb899284ab6bc74545d7",
-      "role": "primary",
-      "rationale": "This directly gives the strengthened affine-group classification on the usual group, including the counts, dimensions, and named representatives."
+      "role": "supporting",
+      "rationale": "This strengthened classification is restricted to fields of cardinality greater than two; it does not itself cover the cardinality-two case needed for the complete finite-field classification."
     },
     {
       "association_id": "association:8da1c3122913492f0b19",
@@ -33,8 +33,8 @@
     },
     {
       "association_id": "association:43cf9eaff236a0baac53",
-      "role": "primary",
-      "rationale": "The type directly supplies the exceptional cardinality-two classification for the usual finite affine group."
+      "role": "supporting",
+      "rationale": "The type gives only the exceptional cardinality-two classification; it does not itself cover the fields of cardinality greater than two needed for the complete finite-field classification."
     },
     {
       "association_id": "association:7c002e682c2fd3b82753",
