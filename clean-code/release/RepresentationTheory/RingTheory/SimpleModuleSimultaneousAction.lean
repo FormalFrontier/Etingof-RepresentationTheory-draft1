@@ -19,8 +19,8 @@ theorem RepresentationTheory.RingTheory.SimpleModuleSimultaneousAction.exists_sm
     [FiniteDimensional k V] [IsSimpleModule A V]
     {n : ℕ} (v : Fin n → V) (hv : LinearIndependent k v) (w : Fin n → V) :
     ∃ a : A, ∀ i, a • v i = w i := by
-  
-  
+
+
   let b : Basis (Fin n) k (Submodule.span k (Set.range v)) := Basis.span hv
   let f₀ : (Submodule.span k (Set.range v)) →ₗ[k] V := b.constr k w
   obtain ⟨f, hf⟩ := f₀.exists_extend
@@ -31,7 +31,7 @@ theorem RepresentationTheory.RingTheory.SimpleModuleSimultaneousAction.exists_sm
     rw [Basis.constr_basis] at h1
     rwa [show (Submodule.span k (Set.range v)).subtype (b i) = v i from
       Basis.coe_span_apply hv i] at h1
-  
+
   obtain ⟨a, ha⟩ := RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.algebra_smul_surjective k A V f
   refine ⟨a, fun i => ?_⟩
   have h := LinearMap.congr_fun ha (v i)

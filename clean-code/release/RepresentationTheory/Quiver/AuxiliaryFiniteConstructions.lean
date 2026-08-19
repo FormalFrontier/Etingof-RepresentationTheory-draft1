@@ -418,12 +418,12 @@ theorem auxiliaryStatement {v w : Fin n} (e₁ : v ⟶ w)
     (fun lam => auxiliaryProperty_auxiliaryQuiverConstruction_of_support_pair k _ hS e₁ (by rw [hone lam]; exact one_ne_zero)) ?_
   rintro lam mu ⟨φ⟩
   have hgv := auxiliaryComponentScalar_ne_zero k φ hSv
-  
+
   have hvw : auxiliaryComponentScalar k φ hSw = auxiliaryComponentScalar k φ hSv := by
     have h := auxiliaryComponentScalar_mul_arrowScalar k φ hSv hSw e₁
     rw [hone lam, hone mu, mul_one, one_mul] at h
     exact h
-  
+
   have h := auxiliaryComponentScalar_mul_arrowScalar k φ hSa hSb e₂
   rw [hlam lam, hlam mu] at h
   have hga : auxiliaryComponentScalar k φ hSa = auxiliaryComponentScalar k φ hSv := by
@@ -518,20 +518,20 @@ theorem auxiliaryQuiverProperty_iff_explicitConditions (hconn : QuiverUndirected
         IsDynkinDiagram n (quiverUndirectedAdj n)) := by
   constructor
   · intro hfrt
-    
+
     have hloop : ∀ v : Fin n, IsEmpty (v ⟶ v) := by
       intro v
       rw [← not_nonempty_iff]
       intro hcon
       exact not_auxiliaryQuiverProperty_of_loop k hcon.some hfrt
-    
+
     have hbi : ∀ v w : Fin n, Nonempty (v ⟶ w) → Nonempty (w ⟶ v) → False := by
       rintro v w ⟨e₁⟩ ⟨e₂⟩
       by_cases hvw : v = w
       · subst hvw
         exact (hloop v).false e₁
       · exact not_auxiliaryQuiverProperty_of_oppositeArrows k hvw e₁ e₂ hfrt
-    
+
     have hsub : ∀ a b : Fin n, Subsingleton (a ⟶ b) := by
       intro a b
       refine ⟨fun e₁ e₂ => ?_⟩

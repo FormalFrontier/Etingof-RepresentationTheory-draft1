@@ -34,11 +34,11 @@ abbrev AuxiliaryQuiverType (k : Type) [CommSemiring k] (n : ℕ) [Quiver.{0} (Fi
 def AuxiliaryQuiverProperty (k : Type) [Field k] (n : ℕ)
     [Quiver.{0} (Fin n)] : Prop :=
   ∃ (m : ℕ) (reps : Fin m → AuxiliaryQuiverType k n),
-    
+
     (∀ i, ∀ v, Module.Finite k ((reps i).obj v)) ∧
-    
+
     (∀ i, (reps i).IsIndecomposable) ∧
-    
+
     (∀ (ρ : AuxiliaryQuiverType k n),
       (∀ v, Module.Finite k (ρ.obj v)) →
       ρ.IsIndecomposable →
@@ -146,11 +146,11 @@ private lemma not_posdef_not_HasFiniteRepresentationType
   intro hfrt
   obtain ⟨x, hx_ne, hx_not_pd⟩ := h_not_posdef
   classical
-  
+
   haveI hfin : ∀ a b : Fin n, Fintype (a ⟶ b) := fun a b =>
     if h : Nonempty (a ⟶ b) then Fintype.ofSubsingleton h.some
     else @Fintype.ofIsEmpty _ (not_nonempty_iff.mp h)
-  
+
   obtain ⟨_m, reps, _hrfin, _hrindec, hrcover⟩ := hfrt
   have hcover : ∀ (W : QuiverRepresentation.{0, 0, 0, 0} k (Fin n)),
       (∀ v, Module.Free k (W.obj v)) → (∀ v, Module.Finite k (W.obj v)) →
@@ -159,7 +159,7 @@ private lemma not_posdef_not_HasFiniteRepresentationType
     obtain ⟨i, ⟨e⟩⟩ := hrcover W hWfin hWindec
     exact ⟨reps i, ⟨i, rfl⟩, e.equivAt,
       fun {a b} f => by ext y; simpa using e.commutes f y⟩
-  
+
   haveI horb : ∀ m' : Fin n → ℕ,
       Finite (MulAction.orbitRel.Quotient (repGroup k m') (repSpace (k := k) m')) :=
     fun m' => orbitRel_quotient_finite_of_finite_reps m' (Set.range reps)
@@ -190,10 +190,10 @@ private lemma isDynkinDiagram_HasFiniteRepresentationType
     (hDynkin : IsDynkinDiagram n (auxiliaryMatrix n)) :
     AuxiliaryQuiverProperty k n := by
   set adj := auxiliaryMatrix n with hadj
-  
+
   have h_fin_roots := Theorem_6_5_2a_finiteness hDynkin
   haveI : Fintype {d : Fin n → ℤ | IsPositiveRoot n adj d} := h_fin_roots.fintype
-  
+
   have h_exist : ∀ (r : {d : Fin n → ℤ | IsPositiveRoot n adj d}),
       ∃ (ρ : AuxiliaryQuiverType k n),
         (∀ v, Module.Free k (ρ.obj v)) ∧
@@ -204,24 +204,24 @@ private lemma isDynkinDiagram_HasFiniteRepresentationType
     obtain ⟨ρ, hFree, hFin, hIndec, hDim⟩ :=
       (Theorem_6_5_2c_bijection hDynkin k hOrient α hα).1
     exact ⟨ρ, hFree, hFin, hIndec, hDim⟩
-  
+
   choose rep hRep_free hRep_fin hRep_indec hRep_dim using h_exist
-  
+
   set m := Fintype.card {d : Fin n → ℤ | IsPositiveRoot n adj d}
   obtain ⟨rootEnum⟩ := Fintype.truncEquivFin {d : Fin n → ℤ | IsPositiveRoot n adj d}
   refine ⟨m, fun i => rep (rootEnum.symm i),
     fun i => hRep_fin _, fun i => hRep_indec _, ?_⟩
-  
+
   intro ρ hρ_fin hρ_indec
-  
+
   set d_ρ := fun v => (Module.finrank k (ρ.obj v) : ℤ)
-  
-  
+
+
   haveI hρ_free : ∀ v, Module.Free k (ρ.obj v) := fun v =>
     @Module.Free.of_divisionRing k (ρ.obj v) _ (addCommGroupOfRing (k := k)) _
-  
+
   have hBdd := indecomposable_bilinearForm_eq_two hDynkin hOrient ρ hρ_indec
-  
+
   have hd_pos : ∀ i, 0 ≤ d_ρ i := fun i => Int.natCast_nonneg _
   have hd_nonzero : d_ρ ≠ 0 := by
     obtain ⟨v, hv⟩ := hρ_indec.1
@@ -233,23 +233,23 @@ private lemma isDynkinDiagram_HasFiniteRepresentationType
     exact absurd hv (not_nontrivial (ρ.obj v))
   have hd_root : IsPositiveRoot n adj d_ρ :=
     ⟨⟨hd_nonzero, by rwa [cartanMatrix] at hBdd⟩, hd_pos⟩
-  
+
   set root : {d : Fin n → ℤ | IsPositiveRoot n adj d} := ⟨d_ρ, hd_root⟩
   use rootEnum root
-  
+
   have hrw : rootEnum.symm (rootEnum root) = root := rootEnum.symm_apply_apply root
-  
+
   have h_unique := (Theorem_6_5_2c_bijection hDynkin k hOrient d_ρ hd_root).2
-  
+
   haveI : ∀ v, Module.Free k ((rep root).obj v) := hRep_free root
   haveI : ∀ v, Module.Finite k ((rep root).obj v) := hRep_fin root
-  
+
   have hρ_dimv : ∀ v, (d_ρ v : ℤ) = ↑(Module.finrank k (ρ.obj v)) := fun _ => rfl
   have hrep_dimv : ∀ v, (d_ρ v : ℤ) = ↑(Module.finrank k ((rep root).obj v)) :=
     hRep_dim root
-  
+
   obtain ⟨iso⟩ := h_unique ρ (rep root) hρ_indec (hRep_indec root) hρ_dimv hrep_dimv
-  
+
   exact ⟨by change QuiverRepresentationEquiv k (Fin n) ρ (rep (rootEnum.symm (rootEnum root)))
             rw [hrw]; exact iso.toEquiv⟩
 /-- Under the displayed quiver and auxiliary hypotheses, the auxiliary matrix property implies the auxiliary quiver property over a field. -/
@@ -287,16 +287,16 @@ theorem auxiliaryQuiverProperty_iff_auxiliaryMatrixProperty (k : Type) [Field k]
     AuxiliaryQuiverProperty k n ↔
       IsDynkinDiagram n (auxiliaryMatrix n) := by
   constructor
-  · 
+  ·
     intro hfrt
     refine ⟨auxiliaryMatrix_isSymm, auxiliaryMatrix_diagonal, auxiliaryMatrix_entry_eq_zero_or_one,
       hconn, fun x hx => ?_⟩
-    
-    
+
+
     by_contra h_not_pos
     exact absurd hfrt
       (not_posdef_not_HasFiniteRepresentationType k n hOrient hconn ⟨x, hx, h_not_pos⟩)
-  · 
+  ·
     exact isDynkinDiagram_HasFiniteRepresentationType k n hOrient hconn
 
 end RepresentationTheory.Quiver.AuxiliaryFiniteProperties
