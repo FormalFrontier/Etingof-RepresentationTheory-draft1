@@ -33,7 +33,7 @@ universe u
 
 
 /-- Relates the displayed degree-zero object to an additive commutative group object. -/
-@[source_ref "Chapter8/Problem8.2.6" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem AuxiliaryDegreeZeroIso
     (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
     (M : ModuleCat.{u} Aᵐᵒᵖ) :
@@ -42,7 +42,7 @@ theorem AuxiliaryDegreeZeroIso
 
 
 /-- Provides an additive equivalence from the displayed degree-zero construction to module morphisms. -/
-@[source_ref "Chapter8/Problem8.2.6" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem AuxiliaryDegreeZeroAddEquiv
     (A : Type u) [Ring A] (M N : ModuleCat.{u} A) :
     Nonempty (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses M N 0 ≃+ (M ⟶ N)) :=
@@ -123,7 +123,7 @@ theorem AuxiliaryDegreeOneAddEquiv
 
 
 /-- Shows that the covariant sequence associated to a short exact complex is exact at adjacent indices. -/
-@[source_ref "Chapter8/Problem8.2.6" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem covariantSequence_exact
     (A : Type u) [Ring A] (M : ModuleCat.{u} A)
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact)
@@ -159,7 +159,7 @@ lemma AuxiliaryShortComplexHom_comp
 
 
 /-- Obtains an exact five-arrow sequence from a short exact complex and the displayed module data. -/
-@[source_ref "Chapter8/Problem8.2.6" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem AuxiliaryCovariantExactSequence
     (A : Type u) [Ring A] (M : ModuleCat.{u} Aᵐᵒᵖ)
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact)
@@ -310,7 +310,7 @@ end BalancingIV
 
 
 /-- Exhibits an isomorphism between the displayed object and a left-derived functor value. -/
-@[source_ref "Chapter8/Problem8.2.6" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem AuxiliaryLeftDerivedIso
     (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
     (M : ModuleCat.{u} Aᵐᵒᵖ) (n : ℕ) :
@@ -361,7 +361,7 @@ theorem AuxiliaryLeftDerivedIso
 
 
 /-- Shows that the contravariant sequence associated to a short exact complex is exact at adjacent indices. -/
-@[source_ref "Chapter8/Problem8.2.6" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem contravariantSequence_exact
     (A : Type u) [Ring A] (N : ModuleCat.{u} A)
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact)
@@ -371,7 +371,7 @@ theorem contravariantSequence_exact
 
 
 /-- Obtains an exact five-arrow sequence from a short exact complex using the displayed functors. -/
-@[source_ref "Chapter8/Problem8.2.6" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem AuxiliaryContravariantExactSequence
     (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
     {S : ShortComplex (ModuleCat.{u} Aᵐᵒᵖ)} (hS : S.ShortExact)

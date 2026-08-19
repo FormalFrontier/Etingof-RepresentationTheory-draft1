@@ -439,7 +439,7 @@ theorem sixVectorAuxiliarySet_isCrystallographicRootSet :
 /-- The eight-vector construction has the stated root-set, membership, matrix, and permuted
 adjacency properties. -/
 @[source_ref "Chapter6/Section6.9_heading" (role := supporting),
-  source_ref "Chapter6/Problem6.9.2" (role := primary)]
+  source_ref "Chapter6/Problem6.9.2" (role := supporting)]
 theorem eightRationalVectors_configuration :
     IsCrystallographicRootSet
       (Auxiliary.rationalVectorSetTransform Auxiliary.rationalVectorSetC) ∧

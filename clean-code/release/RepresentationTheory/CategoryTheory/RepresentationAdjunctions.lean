@@ -32,14 +32,14 @@ universe u v
 attribute [local instance] LieRing.ofAssociativeRing
 
 /-- Tensoring by the right dual of a finite-dimensional group representation is left adjoint to tensoring by the representation. -/
-@[source_ref "Chapter7/Example7.6.3" (role := primary)]
+@[source_ref "Chapter7/Example7.6.3" (role := supporting)]
 noncomputable def RepresentationTheory.CategoryTheory.RepresentationAdjunctions.rightDualTensorLeftAdjunction
     (k : Type u) (G : Type v) [Field k] [Group G] (V : FDRep k G) :
     tensorLeft (Vᘁ) ⊣ tensorLeft V :=
   tensorLeftAdjunction V Vᘁ
 
 /-- Tensoring by a finite-dimensional group representation is left adjoint to tensoring by its right dual. -/
-@[source_ref "Chapter7/Example7.6.3" (role := primary)]
+@[source_ref "Chapter7/Example7.6.3" (role := supporting)]
 noncomputable def RepresentationTheory.CategoryTheory.RepresentationAdjunctions.tensorLeftRightDualAdjunction
     (k : Type u) (G : Type v) [Field k] [Group G] (V : FDRep k G) :
     tensorLeft V ⊣ tensorLeft (Vᘁ) :=
@@ -305,7 +305,7 @@ noncomputable def tensorLeftCongr {V V' : FiniteDimensionalLieRep k L}
       | tmul v w => simp)
 
 /-- Tensoring with a representation is left adjoint to tensoring with its dual. -/
-@[source_ref "Chapter7/Example7.6.3" (role := primary)]
+@[source_ref "Chapter7/Example7.6.3" (role := supporting)]
 noncomputable def tensorDualAdjunction (V : FiniteDimensionalLieRep k L) :
     tensorLeft V ⊣ tensorLeft (dual V) :=
   Adjunction.mkOfHomEquiv {
@@ -346,7 +346,7 @@ noncomputable def tensorDualAdjunction (V : FiniteDimensionalLieRep k L) :
   }
 
 /-- Tensoring with a dual representation is left adjoint to tensoring with the representation. -/
-@[source_ref "Chapter7/Example7.6.3" (role := primary)]
+@[source_ref "Chapter7/Example7.6.3" (role := supporting)]
 noncomputable def dualTensorAdjunction (V : FiniteDimensionalLieRep k L) :
     tensorLeft (dual V) ⊣ tensorLeft V :=
   (tensorDualAdjunction (dual V)).ofNatIsoRight

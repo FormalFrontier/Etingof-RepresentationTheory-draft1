@@ -374,7 +374,7 @@ theorem card_conjClasses_alternatingGroup_four :
     Fintype.card (ConjClasses (alternatingGroup (Fin 4))) = 4 := card_conjClasses_alternatingSubgroupFour
 
 /-- The fibers of the class-index map have cardinalities one, four, four, and three. -/
-@[source_ref "Chapter4/Introduction_4.8" (role := primary)]
+@[source_ref "Chapter4/Introduction_4.8" (role := supporting)]
 theorem card_conjugacyClassIndex_fiber (j : Fin 4) :
     (Finset.univ.filter fun g => conjugacyClassIndex g = j).card = ![1, 4, 4, 3] j :=
   card_fiber_conjugacyClassIndex j
@@ -410,12 +410,12 @@ noncomputable def alternatingGroupFourRepresentations :
     Fin 4 → FDRep ℂ (alternatingGroup (Fin 4)) := indexedIrreducibleRepresentations
 
 /-- Every representation in the specified four-element family for the alternating group on four points is simple. -/
-@[source_ref "Chapter4/Introduction_4.8" (role := primary)]
+@[source_ref "Chapter4/Introduction_4.8" (role := supporting)]
 theorem alternatingGroupFourRepresentations_simple (i : Fin 4) :
     CategoryTheory.Simple (alternatingGroupFourRepresentations i) := indexedIrreducibleRepresentations_simple i
 
 /-- The indexed representations of the alternating group on four points have character values given by the auxiliary table on the selected representatives. -/
-@[source_ref "Chapter4/Introduction_4.8" (role := primary)]
+@[source_ref "Chapter4/Introduction_4.8" (role := supporting)]
 theorem alternatingGroupFourRepresentations_character (i j : Fin 4) :
     (alternatingGroupFourRepresentations i).character (conjugacyClassRepresentative j) = auxiliaryCharacterTable i j :=
   indexedIrreducibleRepresentations_character i j
@@ -427,7 +427,7 @@ theorem alternatingGroupFourRepresentations_pairwise_nonisomorphic (i j : Fin 4)
   indexedIrreducibleRepresentations_pairwise_nonisomorphic i j hij
 
 /-- Every simple finite-dimensional complex representation of the alternating group on four points is isomorphic to an indexed member of the specified family. -/
-@[source_ref "Chapter4/Introduction_4.8" (role := primary)]
+@[source_ref "Chapter4/Introduction_4.8" (role := supporting)]
 theorem simpleRepresentation_iso_alternatingGroupFourRepresentation (V : FDRep ℂ (alternatingGroup (Fin 4)))
     [CategoryTheory.Simple V] :
     ∃ i : Fin 4, Nonempty (V ≅ alternatingGroupFourRepresentations i) :=

@@ -20,7 +20,7 @@ open scoped TensorProduct
 
 set_option maxHeartbeats 800000 in
 /-- An auxiliary result whose formal statement is unavailable. -/
-@[source_ref "Chapter5/Discussion_proof_of_Theorem5.9.1" (role := primary),
+@[source_ref "Chapter5/Discussion_proof_of_Theorem5.9.1" (role := supporting),
   source_ref "Chapter5/Remark5.9.2" (role := supporting)]
 theorem RepresentationTheory.AuxiliaryUnavailableStatement.auxiliary_theorem
     {G : Type*} [Group G] [Fintype G]

@@ -12,7 +12,7 @@ namespace RepresentationTheory.HomologicalComplexShortExactHomology
 
 /-- Returns a morphism from the homology of the third object in degree i to the homology of the
 first object in degree j for related degrees. -/
-@[source_ref "Chapter7/Definition7.8.6" (role := primary)]
+@[source_ref "Chapter7/Definition7.8.6" (role := supporting)]
 noncomputable abbrev homologyHomThirdToFirstOfRel
     {C ι : Type*} [Category C] [Abelian C] {c : ComplexShape ι}
     {S : ShortComplex (HomologicalComplex C c)}

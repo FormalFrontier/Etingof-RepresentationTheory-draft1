@@ -130,7 +130,7 @@ noncomputable def Auxiliary.rightModuleTensorProductObjectIsoSigma (i : ℕ)
     (RepresentationTheory.ModuleCat.RightTensor.rightTensorProjectiveResolutionHomologyIso k A₂ N₂ M₂ P₂ p.1.2).symm)
 
 /-- For opposite-side module objects and a componentwise scalar action on pure tensors, asserts the existence of a degreewise isomorphism with the indexed sum over complementary degrees. -/
-@[source_ref "Chapter8/Problem8.2.8" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.8" (role := supporting)]
 theorem Auxiliary.nonempty_rightModuleTensorProductObjectIsoSigma (i : ℕ)
     (hN : ∀ (a₁ : A₁) (a₂ : A₂) (n₁ : N₁) (n₂ : N₂),
       (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (n₁ ⊗ₜ[k] n₂ : N₁ ⊗[k] N₂)
@@ -248,7 +248,7 @@ noncomputable def Auxiliary.projectiveResolutionTensorProductObjectIsoSigma (i :
       (RepresentationTheory.Algebra.Homology.LinearYoneda.ModuleCat.linearYonedaHomologyIsoOfProjectiveResolution k A₂ (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) P₂ p.1.2).symm)
 
 /-- Under finite projective resolution hypotheses and compatibility of scalar multiplication on pure tensors, asserts the existence of a degreewise isomorphism with the indexed sum of tensor products in complementary degrees. -/
-@[source_ref "Chapter8/Problem8.2.8" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.8" (role := supporting)]
 theorem Auxiliary.nonempty_projectiveResolutionTensorProductObjectIsoSigma (i : ℕ)
     (P₁ : ProjectiveResolution (ModuleCat.of A₁ M₁))
     (P₂ : ProjectiveResolution (ModuleCat.of A₂ M₂))

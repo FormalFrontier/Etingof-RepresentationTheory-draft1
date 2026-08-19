@@ -150,7 +150,7 @@ theorem equivariantLinearMapsMap_comp {V'' : Type u} [AddCommGroup V''] [Module 
   rfl
 
 /-- The functor sending a module to the module of equivariant maps into its Pi tensor product. -/
-@[source_ref "Chapter7/Example7.2.2" (role := primary)]
+@[source_ref "Chapter7/Example7.2.2" (role := supporting)]
 noncomputable def equivariantLinearMapsFunctor : ModuleCat.{u} k ⥤ ModuleCat.{u} k where
   obj V := ModuleCat.of k (equivariantLinearMaps π V)
   map f := ModuleCat.ofHom (equivariantLinearMapsMap π f.hom)

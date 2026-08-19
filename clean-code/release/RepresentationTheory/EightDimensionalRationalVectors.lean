@@ -535,7 +535,7 @@ private lemma disjoint_int_half {I : Finset Auxiliary.parameterType} {J : Finset
 set_option maxRecDepth 10000 in
 
 /-- The transformed third auxiliary vector set has cardinality two hundred forty. -/
-@[source_ref "Chapter6/Problem6.9.2" (role := primary)]
+@[source_ref "Chapter6/Problem6.9.2" (role := supporting)]
 theorem ncard_setTransform_rationalVectorSetC : (Auxiliary.rationalVectorSetTransform Auxiliary.rationalVectorSetC).ncard = 240 := by
   have hset : Auxiliary.rationalVectorSetTransform Auxiliary.rationalVectorSetC = ↑((univ.filter (fun p : Auxiliary.parameterType => p.1 < p.2.1)).image Auxiliary.parameterRationalVector ∪
       (univ.filter (fun s => Even (boolVectorWeight s))).image signVector) := by
@@ -565,7 +565,7 @@ theorem ncard_setTransform_rationalVectorSetC : (Auxiliary.rationalVectorSetTran
 set_option maxRecDepth 40000 in
 
 /-- The transformed second auxiliary vector set has cardinality one hundred twenty-six. -/
-@[source_ref "Chapter6/Problem6.9.2" (role := primary)]
+@[source_ref "Chapter6/Problem6.9.2" (role := supporting)]
 theorem ncard_setTransform_rationalVectorSetB : (Auxiliary.rationalVectorSetTransform Auxiliary.rationalVectorSetB).ncard = 126 := by
   have hset : Auxiliary.rationalVectorSetTransform Auxiliary.rationalVectorSetB =
       ↑((univ.filter (fun p : Auxiliary.parameterType => p.1 < p.2.1 ∧ Auxiliary.parameterIntegerVector p 0 = Auxiliary.parameterIntegerVector p 1)).image Auxiliary.parameterRationalVector ∪
@@ -602,7 +602,7 @@ theorem ncard_setTransform_rationalVectorSetB : (Auxiliary.rationalVectorSetTran
 set_option maxRecDepth 40000 in
 
 /-- The transformed first auxiliary vector set has cardinality seventy-two. -/
-@[source_ref "Chapter6/Problem6.9.2" (role := primary)]
+@[source_ref "Chapter6/Problem6.9.2" (role := supporting)]
 theorem ncard_setTransform_rationalVectorSetA : (Auxiliary.rationalVectorSetTransform Auxiliary.rationalVectorSetA).ncard = 72 := by
   have hset : Auxiliary.rationalVectorSetTransform Auxiliary.rationalVectorSetA =
       ↑((univ.filter (fun p : Auxiliary.parameterType => p.1 < p.2.1 ∧ Auxiliary.parameterIntegerVector p 0 = Auxiliary.parameterIntegerVector p 1 ∧ Auxiliary.parameterIntegerVector p 1 = Auxiliary.parameterIntegerVector p 2)).image

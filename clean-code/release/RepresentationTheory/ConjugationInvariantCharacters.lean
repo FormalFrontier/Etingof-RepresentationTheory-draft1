@@ -48,7 +48,7 @@ end Semiring
 variable [Field k]
 
 /-- The character of a finite-dimensional group representation belongs to the conjugation-invariant submodule. -/
-@[source_ref "Chapter4/Introduction_4.2" (role := primary)]
+@[source_ref "Chapter4/Introduction_4.2" (role := supporting)]
 theorem character_mem_conjugationInvariantSubmodule (V : FDRep k G) :
     V.character ∈ conjugationInvariantSubmodule k G := by
   intro g h

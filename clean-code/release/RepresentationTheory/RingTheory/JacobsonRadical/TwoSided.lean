@@ -20,7 +20,7 @@ theorem mul_mem_jacobson (A : Type*) [Ring A]
 
 /-- The Jacobson radical of a ring is a two-sided ideal. -/
 @[source_ref "Chapter3/Proposition3.5.2" (role := primary),
-  source_ref "Chapter3/Proposition3.5.3" (role := primary)]
+  source_ref "Chapter3/Proposition3.5.3" (role := supporting)]
 theorem jacobson_isTwoSided (A : Type*) [Ring A] :
     (Ideal.jacobson (⊥ : Ideal A)).IsTwoSided :=
   inferInstance

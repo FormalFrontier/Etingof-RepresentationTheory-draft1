@@ -330,7 +330,7 @@ theorem copowerActionMap_tmul (P : C)
 add_decl_doc copowerActionMap_tmul_assoc
 
 /-- The morphism from the finite copower on the scalar tensor product to the finite copower on a module carrier. -/
-@[source_ref "Chapter9/Problem9.6.5" (role := primary)]
+@[source_ref "Chapter9/Problem9.6.5" (role := supporting)]
 noncomputable def modulePresentationRelation (P : C) (X : FGModuleCat.{v} (oppositeEnd P)) :
     finiteCopower (k := k) P (TensorProduct k (oppositeEnd P) X) ⟶
       finiteCopower (k := k) P X :=
@@ -942,7 +942,7 @@ theorem finiteCopowerEvaluation_naturality {Y Z : C} (f : Y ⟶ Z) :
 
 
 /-- The natural morphism from the module-valued functor followed by the presentation functor to the identity functor. -/
-@[source_ref "Chapter9/Problem9.6.5" (role := primary)]
+@[source_ref "Chapter9/Problem9.6.5" (role := supporting)]
 noncomputable def moduleThenPresentationHom :
     hp.fgModuleFunctor ⋙ modulePresentationFunctor (k := k) P ⟶ 𝟭 C where
   app Y := presentationEvaluation (k := k) (P := P) Y
@@ -975,7 +975,7 @@ noncomputable instance presentationEvaluation_epi (Y : C) :
 
 
 /-- Every component of the natural morphism from the module-presentation composite to the identity is an epimorphism. -/
-@[source_ref "Chapter9/Problem9.6.5" (role := primary)]
+@[source_ref "Chapter9/Problem9.6.5" (role := supporting)]
 theorem moduleThenPresentationHom_app_epi (Y : C) : Epi ((moduleThenPresentationHom (k := k) (P := P)).app Y) := by
   change Epi (presentationEvaluation (k := k) (P := P) Y)
   infer_instance
@@ -1053,7 +1053,7 @@ theorem presentationEvaluationIso_hom (Y : C) :
 
 
 /-- The natural morphism from the module-presentation composite to the identity functor is an isomorphism. -/
-@[source_ref "Chapter9/Problem9.6.5" (role := primary)]
+@[source_ref "Chapter9/Problem9.6.5" (role := supporting)]
 theorem moduleThenPresentationHom_isIso : IsIso (moduleThenPresentationHom (k := k) (P := P)) := by
   let e : hp.fgModuleFunctor ⋙ modulePresentationFunctor (k := k) P ≅ 𝟭 C :=
     NatIso.ofComponents

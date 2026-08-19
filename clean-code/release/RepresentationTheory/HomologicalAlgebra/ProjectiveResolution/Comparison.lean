@@ -27,7 +27,7 @@ variable {A : Type u} [Ring A] {M : ModuleCat.{u} A}
 
 /-- Between two projective resolutions of the same module, there exists a complex morphism
 satisfying the displayed composition equality. -/
-@[source_ref "Chapter8/Problem8.2.5" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.5" (role := supporting)]
 theorem existsHom_comp_pi
     (P Q : ProjectiveResolution M) :
     ∃ f : P.complex ⟶ Q.complex, f ≫ Q.π = P.π :=
@@ -141,7 +141,7 @@ noncomputable abbrev modulePairGroup (P : ProjectiveResolution M) (n : ℕ) : Ad
 
 /-- The degree-n groups attached to a left module and two projective resolutions of an opposite-ring
 module are isomorphic. -/
-@[source_ref "Chapter8/Problem8.2.5" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.5" (role := supporting)]
 noncomputable def modulePairGroupIso (P Q : ProjectiveResolution M) (n : ℕ) :
     modulePairGroup N P n ≅ modulePairGroup N Q n :=
   functorHomologyIso
@@ -180,7 +180,7 @@ theorem modulePairGroupMap_eq_of_comm (P Q : ProjectiveResolution M)
 
 /-- The hom of the module-pair group isomorphism from a projective resolution to itself is the
 identity. -/
-@[source_ref "Chapter8/Problem8.2.5" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.5" (role := supporting)]
 theorem modulePairGroupIso_self_hom (P : ProjectiveResolution M) (n : ℕ) :
     (modulePairGroupIso N P P n).hom = 𝟙 _ :=
   functorHomologyIso_self_hom
@@ -188,7 +188,7 @@ theorem modulePairGroupIso_self_hom (P : ProjectiveResolution M) (n : ℕ) :
       A N) P n
 
 /-- The composite of two module-pair group isomorphisms equals the direct isomorphism. -/
-@[source_ref "Chapter8/Problem8.2.5" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.5" (role := supporting)]
 theorem modulePairGroupIso_comp_hom (P Q R : ProjectiveResolution M) (n : ℕ) :
     (modulePairGroupIso N P Q n).hom ≫ (modulePairGroupIso N Q R n).hom =
       (modulePairGroupIso N P R n).hom :=
@@ -229,7 +229,7 @@ noncomputable def linearYonedaObjMap (P Q : ProjectiveResolution M)
 
 /-- Two complex morphisms satisfying the displayed composition equalities induce equal maps on
 degree-n linear Yoneda objects. -/
-@[source_ref "Chapter8/Problem8.2.5" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.5" (role := supporting)]
 theorem linearYonedaObjMap_eq_of_comm (P Q : ProjectiveResolution M)
     (φ ψ : Q.complex ⟶ P.complex)
     (hφ : φ ≫ P.π = Q.π)
@@ -251,7 +251,7 @@ noncomputable def linearYonedaHomotopyEquiv (P Q : ProjectiveResolution M) :
       (F.mapHomotopyEquiv (ProjectiveResolution.homotopyEquiv Q P))
 
 /-- The degree-n linear Yoneda objects for two projective resolutions are isomorphic. -/
-@[source_ref "Chapter8/Problem8.2.5" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.5" (role := supporting)]
 noncomputable def linearYonedaObjIso (P Q : ProjectiveResolution M) (n : ℕ) :
     linearYonedaObj k N P n ≅ linearYonedaObj k N Q n :=
   (linearYonedaHomotopyEquiv k N P Q).toHomologyIso n

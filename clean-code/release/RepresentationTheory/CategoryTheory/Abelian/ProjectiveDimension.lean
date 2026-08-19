@@ -191,7 +191,7 @@ theorem moduleFinite_over_base_of_moduleFinite_over_algebra
 /--
 Constructs a projective resolution with finite scalar-restricted terms from a finite module of
 bounded projective dimension. -/
-@[source_ref "Chapter9/Problem9.4.2" (role := primary)]
+@[source_ref "Chapter9/Problem9.4.2" (role := supporting)]
 theorem exists_finite_projectiveResolution_of_hasProjectiveDimensionLE
     {k : Type u} [Field k] [Algebra k R] [Module.Finite k R]
     (M : ModuleCat.{u} R) [Module k M] [IsScalarTower k R M] [Module.Finite k M]

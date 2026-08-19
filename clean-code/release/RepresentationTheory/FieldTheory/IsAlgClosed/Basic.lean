@@ -30,11 +30,11 @@ theorem isAlgClosed_iff_nonconstant_root (k : Type*) [Field k] :
 theorem Complex.isAlgClosed : IsAlgClosed ℂ := inferInstance
 
 /-- A primality witness equips integers modulo that number with a field structure. -/
-@[source_ref "Chapter2/Discussion_2.2_intro" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.2_intro" (role := supporting)]
 noncomputable abbrev ZMod.fieldOfPrime (p : ℕ) [Fact p.Prime] : Field (ZMod p) := inferInstance
 
 /-- The finite type cardinality of integers modulo a prime equals that prime. -/
-@[source_ref "Chapter2/Discussion_2.2_intro" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.2_intro" (role := supporting)]
 theorem ZMod.card_eq_prime (p : ℕ) [Fact p.Prime] : Fintype.card (ZMod p) = p := ZMod.card p
 
 /-- The algebraic closure of integers modulo a prime is algebraically closed. -/

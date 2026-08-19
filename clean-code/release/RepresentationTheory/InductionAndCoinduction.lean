@@ -54,7 +54,7 @@ theorem RepresentationTheory.InductionAndCoinduction.mem_coinducedSpace_iff
   Representation.mem_coindV H.subtype ρ f
 
 /-- A function in the coinduced space intertwines left multiplication by a subgroup element with the subgroup action. -/
-@[source_ref "Chapter5/Definition5.8.1" (role := primary),
+@[source_ref "Chapter5/Definition5.8.1" (role := supporting),
   source_ref "Chapter5/Discussion_verification_of_Ind" (role := supporting)]
 theorem RepresentationTheory.InductionAndCoinduction.coinduced_equivariance
     {G : Type*} [Group G]
@@ -66,8 +66,8 @@ theorem RepresentationTheory.InductionAndCoinduction.coinduced_equivariance
   f.prop h x
 
 /-- The coinduced action by a group element evaluates an equivariant function after right multiplication by that element. -/
-@[simp, source_ref "Chapter5/Definition5.8.1" (role := primary),
-  source_ref "Chapter5/Discussion_verification_of_Ind" (role := primary)]
+@[simp, source_ref "Chapter5/Definition5.8.1" (role := supporting),
+  source_ref "Chapter5/Discussion_verification_of_Ind" (role := supporting)]
 theorem RepresentationTheory.InductionAndCoinduction.coinduced_apply
     {G : Type*} [Group G]
     (H : Subgroup G)
@@ -89,7 +89,7 @@ theorem RepresentationTheory.InductionAndCoinduction.coinduced_one
   rfl
 
 /-- The coinduced action of a product is the composite of the two coinduced actions. -/
-@[source_ref "Chapter5/Discussion_verification_of_Ind" (role := primary)]
+@[source_ref "Chapter5/Discussion_verification_of_Ind" (role := supporting)]
 theorem RepresentationTheory.InductionAndCoinduction.coinduced_mul
     {G : Type*} [Group G]
     (H : Subgroup G)

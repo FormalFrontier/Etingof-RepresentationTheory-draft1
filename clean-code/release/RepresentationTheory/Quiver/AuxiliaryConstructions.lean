@@ -99,7 +99,7 @@ private theorem subsingleton_of_bot_eq_top {M : Type*} [AddCommMonoid M] [Module
   rw [ha, hb]
 
 /-- Under the displayed finiteness and auxiliary predicates, some vertex has a nonempty associated auxiliary object. -/
-@[source_ref "Chapter3/Problem3.9.3" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 theorem exists_vertex_nonempty_auxiliaryObject [DecidableEq Q] [Finite Q]
     (hQ : HasAuxiliaryQuiverProperty Q) (ρ : AuxiliaryQuiverModuleData k Q)
     (hρ : HasAuxiliaryProperty ρ) :
@@ -245,7 +245,7 @@ theorem exists_vertex_nonempty_auxiliaryObject [DecidableEq Q] [Finite Q]
   simp only [h1, h2, LinearMap.zero_apply, map_zero]
 
 /-- Characterizes the displayed auxiliary relation on vertices by emptiness of the quiver hom type. -/
-@[source_ref "Chapter3/Problem3.9.3" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 theorem auxiliaryRelation_iff_isEmpty_hom [DecidableEq Q] (i j : Q) :
     auxiliaryRelation (auxiliaryObjectAtVertex (k := k) i) (auxiliaryObjectAtVertex j) ↔ IsEmpty (i ⟶ j) := by
   -- Both simple representations have all arrow maps zero, so the Ext differential is the
@@ -359,7 +359,7 @@ theorem auxiliaryPairing_vertex [DecidableEq Q] (i j : Q) :
   exact sub_self (0 : (auxiliaryObjectAtVertex (k := k) i).obj p.1 →ₗ[k] (auxiliaryObjectAtVertex (k := k) j).obj p.2.1)
 
 /-- The dimension of the auxiliary type equals the cardinality of the quiver hom type. -/
-@[source_ref "Chapter3/Problem3.9.3" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.3" (role := supporting)]
 theorem finrank_homObject [DecidableEq Q] [Fintype Q] [∀ a b : Q, Fintype (a ⟶ b)]
     (i j : Q) :
     Module.finrank k (homObject (k := k) i j) = Fintype.card (i ⟶ j) := by

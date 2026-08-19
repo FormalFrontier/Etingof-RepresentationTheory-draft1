@@ -58,7 +58,7 @@ example : ∃ f g : Module.End k (Fin 2 → k), f * g ≠ g * f := by
 
 /-- For a nontrivial commutative ring and a natural number greater than one, there are elements
 with unequal products in opposite orders. -/
-@[source_ref "Chapter2/Discussion_commutativity_examples" (role := primary)]
+@[source_ref "Chapter2/Discussion_commutativity_examples" (role := supporting)]
 theorem exists_noncommuting_pair_of_one_lt (n : ℕ) (hn : 1 < n) :
     ∃ a b : FreeAlgebra k (Fin n), a * b ≠ b * a := by
   let i0 : Fin n := ⟨0, by omega⟩

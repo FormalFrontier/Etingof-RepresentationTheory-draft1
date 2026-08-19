@@ -11,7 +11,7 @@ namespace RepresentationTheory.ModuleTheory.Idempotent
 /-- The linear maps from the span of an idempotent element are equivalent to module elements fixed by that idempotent. -/
 @[source_ref "Chapter5/Discussion_proof_of_Lemma5.13.4" (role := primary),
   source_ref "Chapter5/Introduction_5.13" (role := supporting),
-  source_ref "Chapter5/Lemma5.13.4" (role := primary)]
+  source_ref "Chapter5/Lemma5.13.4" (role := supporting)]
 noncomputable def linearMapSpanSingletonEquivFixedByIdempotent
     {A : Type*} [Ring A]
     (e : A) (he : IsIdempotentElem e)

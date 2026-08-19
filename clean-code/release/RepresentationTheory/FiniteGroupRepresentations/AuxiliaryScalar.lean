@@ -12,7 +12,7 @@ namespace RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar
 /-- An auxiliary complex scalar attached to a finite-dimensional complex representation of a
 finite group. -/
 @[source_ref "Chapter5/Definition5.1.4" (role := supporting),
-  source_ref "Chapter5/Introduction" (role := primary)]
+  source_ref "Chapter5/Introduction" (role := supporting)]
 noncomputable def auxiliaryRepresentationScalar
     {G : Type*} [Group G] [Fintype G] [DecidableEq G]
     {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]

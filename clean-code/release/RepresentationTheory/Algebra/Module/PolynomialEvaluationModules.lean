@@ -598,7 +598,7 @@ lemma auxiliaryAlgebraRepresentation_algebraMap_apply (n k : ℕ) (c : ℂ) (y :
   rw [AlgHom.commutes, Module.algebraMap_end_apply]
 
 /-- When there is more than one generator, there is a natural-number-indexed family of auxiliary modules satisfying the displayed predicate and pairwise nonisomorphic over the auxiliary algebra. -/
-@[source_ref "Chapter3/Problem3.9.2" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.2" (role := supporting)]
 theorem exists_pairwise_nonisomorphic_auxiliaryModules {n : ℕ} (hn : 1 < n) :
     ∃ (M : ℕ → Type) (_ : ∀ k, AddCommGroup (M k)) (_ : ∀ k, Module (AuxiliaryAlgebra n) (M k)),
       (∀ k, RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate (AuxiliaryAlgebra n) (M k)) ∧

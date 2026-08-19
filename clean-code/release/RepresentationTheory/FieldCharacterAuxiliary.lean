@@ -139,7 +139,7 @@ lemma exists_unitCharacterTransform_eq {χ₁ χ₂ : Multiplicative K →* ℂ�
 open Classical in
 
 /-- For a finite field with more than two elements, supplies pairwise nonisomorphic simple representatives with the displayed dimension counts. -/
-@[source_ref "Chapter5/Exercise5.27.2" (role := primary)]
+@[source_ref "Chapter5/Exercise5.27.2" (role := supporting)]
 theorem exists_simpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
     ∃ (n : ℕ) (W : Fin n → FDRep ℂ (Auxiliary K)),
       (∀ i, Simple (W i)) ∧
@@ -382,7 +382,7 @@ theorem exists_simpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
 open Classical in
 
 /-- Provides two one-dimensional simple representatives when the field has cardinality two. -/
-@[source_ref "Chapter5/Exercise5.27.2" (role := primary)]
+@[source_ref "Chapter5/Exercise5.27.2" (role := supporting)]
 theorem exists_simpleRepresentatives_of_card_eq_two (hq : Fintype.card K = 2) :
     ∃ (n : ℕ) (W : Fin n → FDRep ℂ (Auxiliary K)),
       (∀ i, Simple (W i)) ∧
@@ -668,7 +668,7 @@ omit [Fintype K] in
 open Classical in
 
 /-- For a finite field with more than two elements, provides simple representation representatives and the displayed dimension counts for an auxiliary group. -/
-@[source_ref "Chapter5/Exercise5.27.2" (role := primary)]
+@[source_ref "Chapter5/Exercise5.27.2" (role := supporting)]
 theorem exists_auxiliarySimpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
     ∃ (n : ℕ) (W : Fin n → FDRep ℂ (RepresentationTheory.AffineGroupRepresentations.AffineGroup K)),
       (∀ i, Simple (W i)) ∧
@@ -692,7 +692,7 @@ theorem exists_auxiliarySimpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.c
 open Classical in
 
 /-- Provides two one-dimensional simple representatives for an auxiliary group when the field has cardinality two. -/
-@[source_ref "Chapter5/Exercise5.27.2" (role := primary)]
+@[source_ref "Chapter5/Exercise5.27.2" (role := supporting)]
 theorem exists_auxiliarySimpleRepresentatives_of_card_eq_two (hq : Fintype.card K = 2) :
     ∃ (n : ℕ) (W : Fin n → FDRep ℂ (RepresentationTheory.AffineGroupRepresentations.AffineGroup K)),
       (∀ i, Simple (W i)) ∧

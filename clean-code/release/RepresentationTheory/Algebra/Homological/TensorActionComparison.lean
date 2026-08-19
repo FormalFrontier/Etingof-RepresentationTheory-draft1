@@ -940,7 +940,7 @@ theorem auxiliaryProjectiveResolution_quasiIso
 
 
 /-- A projective resolution of the coefficient module object selected by a finite basis. -/
-@[source_ref "Chapter8/Problem8.2.10" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def coefficientProjectiveResolution
     (b : Module.Basis (Fin (Module.finrank k V)) k V) :
     RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData

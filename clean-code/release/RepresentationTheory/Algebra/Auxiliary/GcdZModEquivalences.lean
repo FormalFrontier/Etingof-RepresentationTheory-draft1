@@ -133,7 +133,7 @@ theorem Algebra.Auxiliary.componentAtOne_addEquiv_pi_zmod_gcd
       (Int.natAbs_ne_zero.mpr (hE l))).some).addCommGroupIsoToAddEquiv
 
 /-- There are choices `D` and `E` for which the values at zero and one are additively equivalent to doubly indexed families of `ZMod`s with gcd moduli, while every value at an index `n + 2` is subsingleton. -/
-@[source_ref "Chapter8/Problem8.2.7" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.7" (role := supporting)]
 theorem Algebra.Auxiliary.exists_gcdZModComponentEquivalences_and_higher_subsingleton
     [Module.Finite ℤ M] [Module.Finite ℤ N] :
     ∃ (D : RepresentationTheory.Algebra.Module.DirectSumData.Module.DirectSumData ℤ M)

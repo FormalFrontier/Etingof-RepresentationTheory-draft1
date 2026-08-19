@@ -922,7 +922,7 @@ private lemma principalSeries_simple_of_ne
       exact principalSeries_delta_spans_top p n chi1 chi2 S g hgS hgnone hgsome
 
 /-- The auxiliary paired representation is simple when its two monoid homomorphisms differ. -/
-@[source_ref "Chapter5/Theorem5.25.2" (role := primary)]
+@[source_ref "Chapter5/Theorem5.25.2" (role := supporting)]
 theorem auxiliaryPairedRepresentation_simple_of_ne
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) (hne : chi1 ≠ chi2) :
     Simple (auxiliaryPairedRepresentation p n chi1 chi2) :=
@@ -1135,7 +1135,7 @@ private lemma principalSeriesSubmodule_finrank [NeZero n]
   rw [← Nat.card_eq_fintype_card, GaloisField.card p n (NeZero.ne n)]
 
 /-- The auxiliary paired representation has the displayed finite dimension. -/
-@[source_ref "Chapter5/Discussion_5.25.3" (role := primary),
+@[source_ref "Chapter5/Discussion_5.25.3" (role := supporting),
   source_ref "Chapter5/Theorem5.25.2" (role := supporting)]
 theorem auxiliaryPairedRepresentation_finrank [NeZero n]
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) :
@@ -2113,7 +2113,7 @@ private lemma complementW_iso_implies_eq
     exact_mod_cast h3
 
 /-- Two auxiliary representations are isomorphic exactly when their associated monoid homomorphisms agree. -/
-@[source_ref "Chapter5/Theorem5.25.2" (role := primary)]
+@[source_ref "Chapter5/Theorem5.25.2" (role := supporting)]
 theorem auxiliaryRepresentation_iso_iff
     (mu nu : (GaloisField p n)ˣ →* ℂˣ) :
     Nonempty (auxiliaryRepresentation p n mu ≅ auxiliaryRepresentation p n nu) ↔
@@ -2518,7 +2518,7 @@ private lemma pair_eq_of_sum_eq
       exact hcard_ne (hrhs.symm.trans (lhs_eq.symm.trans hlhs))
 
 /-- Under the stated inequalities, two auxiliary paired representations are isomorphic exactly when their unordered monoid-homomorphism pairs agree. -/
-@[source_ref "Chapter5/Theorem5.25.2" (role := primary)]
+@[source_ref "Chapter5/Theorem5.25.2" (role := supporting)]
 theorem auxiliaryPairedRepresentation_iso_iff [NeZero n]
     (chi1 chi2 chi1' chi2' : (GaloisField p n)ˣ →* ℂˣ)
     (hne : chi1 ≠ chi2) (hne' : chi1' ≠ chi2') :

@@ -18,7 +18,7 @@ universe u v w
 namespace RepresentationTheory.Algebra.Homology.ProjectiveResolutionAuxiliary
 
 /-- A basis-indexed projective resolution of the displayed module over a symmetric algebra. -/
-@[source_ref "Chapter8/Problem8.2.10" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def basisProjectiveResolutionAuxiliary {k : Type u} [CommRing k] {V : Type v}
     [AddCommGroup V] [Module k V] {κ : Type w} [LinearOrder κ] [Fintype κ]
     (b : Module.Basis κ k V) :
@@ -59,7 +59,7 @@ variable (k U W : Type u) [Field k]
   [AddCommGroup W] [Module k W]
 
 /-- An auxiliary projective resolution of the displayed module associated with a finite-dimensional module and a second module over a field. -/
-@[source_ref "Chapter8/Problem8.2.10" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def finiteDimensionalProjectiveResolutionAuxiliary :
     CategoryTheory.ProjectiveResolution
       (RepresentationTheory.Algebra.Homology.SymmetricAlgebra.ProductResolution.productSymmetricAlgebraModule k U W) :=
@@ -94,7 +94,7 @@ variable {k V κ : Type u} [Field k] [AddCommGroup V] [Module k V]
 variable [LinearOrder κ] [Fintype κ] (b : Module.Basis κ k V)
 
 /-- A basis-indexed isomorphism from the displayed module construction to the dual of an exterior power. -/
-@[source_ref "Chapter8/Problem8.2.10" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def basisIndexedDualExteriorPowerIsoAuxiliary (i : ℕ) :
     RepresentationTheory.Algebra.Homology.LinearYoneda.ModuleCat.linearYonedaHomology k
         (SymmetricAlgebra k V)
@@ -106,7 +106,7 @@ noncomputable def basisIndexedDualExteriorPowerIsoAuxiliary (i : ℕ) :
   RepresentationTheory.Algebra.Homology.SymmetricAlgebraResolution.SymmetricAlgebra.indexedObjectIsoExteriorPowerDual k V b i
 
 /-- A basis-indexed isomorphism from the displayed module construction to an exterior power. -/
-@[source_ref "Chapter8/Problem8.2.10" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def basisIndexedExteriorPowerIsoAuxiliary (i : ℕ) :
     RepresentationTheory.ModuleCat.RightTensor.auxiliaryIndexedModuleFunctorObj k
         (SymmetricAlgebra k V)

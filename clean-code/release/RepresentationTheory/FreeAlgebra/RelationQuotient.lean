@@ -22,7 +22,7 @@ abbrev FreeAlgebra.relationRingCon : RingCon (FreeAlgebra k X) :=
   (TwoSidedIdeal.span (Set.range rel)).ringCon
 
 /-- An auxiliary type depending on a free algebra and a family of its elements. -/
-@[source_ref "Chapter2/Discussion_2.1_overview/Derived4" (role := primary),
+@[source_ref "Chapter2/Discussion_2.1_overview/Derived4" (role := supporting),
   source_ref "Chapter2/Discussion_2.6" (role := supporting)]
 abbrev FreeAlgebra.AuxiliaryType : Type _ := (_root_.RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.relationRingCon k X R rel).Quotient
 

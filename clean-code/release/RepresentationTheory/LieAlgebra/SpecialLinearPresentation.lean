@@ -121,7 +121,7 @@ theorem bracket_basis0_basis1 : ⁅(basis0 : CoordinateTriple k), (basis1 : Coor
   apply CoordinateTriple.ext <;> simp [bracket_apply, basis0, basis1, basis2]
 
 /-- An auxiliary declaration whose formal expression is unavailable in displayed form. -/
-@[source_ref "Chapter2/Example2.9.12" (role := primary)]
+@[source_ref "Chapter2/Example2.9.12" (role := supporting)]
 theorem auxiliary_fact_aux5 (k : Type*) [CommRing k] :
     (ι k (basis2 : CoordinateTriple k)) * (ι k basis0) - (ι k basis0) * (ι k basis2) = (2 : k) • ι k basis0 ∧
     (ι k (basis2 : CoordinateTriple k)) * (ι k basis1) - (ι k basis1) * (ι k basis2) = (-2 : k) • ι k basis1 ∧

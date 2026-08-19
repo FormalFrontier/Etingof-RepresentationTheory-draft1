@@ -266,7 +266,7 @@ lemma sum_pairUnitChar_shear (β γ b c : ZMod p) :
 
 open Classical in
 /-- There is a complete nonisomorphic family of simple representations of the auxiliary type, with dimensions one or the prime and with the specified counts. -/
-@[source_ref "Chapter5/Exercise5.27.2" (role := primary)]
+@[source_ref "Chapter5/Exercise5.27.2" (role := supporting)]
 theorem auxiliaryType_exists_simpleRepresentatives :
     ∃ (n : ℕ) (W : Fin n → FDRep ℂ (AuxiliaryType p)),
       (∀ i, Simple (W i)) ∧

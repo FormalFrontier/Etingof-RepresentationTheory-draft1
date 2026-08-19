@@ -17,7 +17,7 @@ abbrev punitModule (A : Type*) [Ring A] : Module A PUnit :=
   inferInstance
 
 /-- The canonical module structure of a ring over itself. -/
-@[source_ref "Chapter2/Example2.3.3" (role := primary)]
+@[source_ref "Chapter2/Example2.3.3" (role := supporting)]
 abbrev selfModule (A : Type*) [Ring A] : Module A A :=
   inferInstance
 
@@ -27,7 +27,7 @@ abbrev oppositeSelfModule (A : Type*) [Ring A] : Module Aᵐᵒᵖ A :=
   inferInstance
 
 /-- Scalar multiplication by an opposite-ring element is multiplication in reverse order. -/
-@[source_ref "Chapter2/Example2.3.3" (role := primary)]
+@[source_ref "Chapter2/Example2.3.3" (role := supporting)]
 theorem op_smul_eq_mul (A : Type*) [Ring A] (a b : A) :
     MulOpposite.op a • b = b * a :=
   rfl

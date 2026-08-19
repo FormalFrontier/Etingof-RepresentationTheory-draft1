@@ -484,7 +484,7 @@ end DirectSum
 
 open CategoryTheory.Limits in
 /-- Every acyclic cochain complex over a field has a decomposition into two-term complexes with invertible differentials. -/
-@[source_ref "Chapter7/Exercise7.8.4" (role := primary)]
+@[source_ref "Chapter7/Exercise7.8.4" (role := supporting)]
 theorem exists_acyclicComplexIso_sigmaTwoTermComplex {k : Type u} [Field k]
     (K : CochainComplex (ModuleCat.{u} k) ℤ) (hK : K.Acyclic) :
     ∃ (V : ℤ → ModuleCat.{u} k) (D : ℤ → CochainComplex (ModuleCat.{u} k) ℤ),

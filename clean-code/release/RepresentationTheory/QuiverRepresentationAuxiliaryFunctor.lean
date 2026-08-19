@@ -219,7 +219,7 @@ noncomputable def auxiliaryRepresentationMap
 /-- The endofunctor on quiver representations obtained from the auxiliary construction at a distinguished vertex. -/
 @[source_ref "Chapter6/Definition6.6.3" (role := supporting),
   source_ref "Chapter6/Definition6.6.3_maps" (role := primary),
-  source_ref "Chapter7/Example7.2.2" (role := primary)]
+  source_ref "Chapter7/Example7.2.2" (role := supporting)]
 noncomputable def auxiliaryRepresentationFunctor
     (k : Type*) [CommSemiring k] (Q : Type*) [inst : DecidableEq Q] [Quiver Q]
     (i : Q) (hi : RepresentationTheory.QuiverVertexPredicates.vertexProperty Q i) :

@@ -220,7 +220,7 @@ theorem standardCliffordRepresentation_secondIsotropicFamily
   simp [secondIsotropicFamily, _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticSpaceAction]
 
 /-- The standard Clifford representation is bijective. -/
-@[source_ref "Chapter3/Problem3.9.5" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 theorem standardCliffordRepresentation_bijective
     (B : LinearMap.BilinForm ℂ V)
     (hsymm : ∀ x y, B x y = B y x)
@@ -242,7 +242,7 @@ noncomputable def cliffordAlgEquivEnd
     (standardCliffordRepresentation_bijective B hsymm hnd n hdim)
 
 /-- The standard carrier is a simple module for the even-dimensional Clifford algebra. -/
-@[source_ref "Chapter3/Problem3.9.5" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 theorem standardCarrier_isSimpleModule
     (B : LinearMap.BilinForm ℂ V)
     (hsymm : ∀ x y, B x y = B y x)
@@ -346,7 +346,7 @@ theorem evenCliffordModule_isSimpleModule
   infer_instance
 
 /-- Every simple module over the even-dimensional Clifford algebra is linearly equivalent to the distinguished module carrier. -/
-@[source_ref "Chapter3/Problem3.9.5" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 theorem simpleModule_linearEquiv_evenCliffordModule
     (B : LinearMap.BilinForm ℂ V)
     (hsymm : ∀ x y, B x y = B y x)

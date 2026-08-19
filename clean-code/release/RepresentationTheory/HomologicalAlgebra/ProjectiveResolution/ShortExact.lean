@@ -335,7 +335,7 @@ instance CategoryTheory.ShortComplex.ShortExact.middleAugmentation_quasiIso : Qu
     exact hS₁.exactAt_X₂ (n + 1) (P₁.complex_exactAt_succ n) (P₃.complex_exactAt_succ n)
 
 /-- A projective resolution of the middle object obtained from resolutions of the outer objects. -/
-@[source_ref "Chapter8/Problem8.2.6" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 noncomputable def CategoryTheory.ShortComplex.ShortExact.middleProjectiveResolution : ProjectiveResolution S.X₂ where
   complex := CategoryTheory.ShortComplex.ShortExact.middleComplex hS P₁ P₃
   π := CategoryTheory.ShortComplex.ShortExact.middleAugmentation hS P₁ P₃

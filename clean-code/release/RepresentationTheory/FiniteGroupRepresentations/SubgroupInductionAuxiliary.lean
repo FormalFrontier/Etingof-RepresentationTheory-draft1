@@ -367,7 +367,7 @@ lemma sum_eq_intCast_of_pointwise_eq_intCast (F : Equiv.Perm (Fin 3) → ℂ) (g
 
 /-- The representation induced from the auxiliary trivial representation is isomorphic to the displayed biproduct. -/
 @[source_ref "Chapter5/Introduction_5.11" (role := supporting),
-  source_ref "Chapter5/Discussion_5.11_examples" (role := primary),
+  source_ref "Chapter5/Discussion_5.11_examples" (role := supporting),
   source_ref "Chapter5/Discussion_5.11_examples/Derived01" (role := supporting)]
 theorem induced_auxiliary_trivial_iso_biprod :
     Nonempty (FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliary_subgroup auxiliary_trivial_representation) ≅ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation) := by
@@ -440,7 +440,7 @@ theorem induced_auxiliary_trivial_iso_biprod :
     rw [hR]; exact_mod_cast hL
 
 /-- The representation induced from the auxiliary sign representation is isomorphic to the displayed biproduct. -/
-@[source_ref "Chapter5/Discussion_5.11_examples" (role := primary),
+@[source_ref "Chapter5/Discussion_5.11_examples" (role := supporting),
   source_ref "Chapter5/Discussion_5.11_examples/Derived01" (role := supporting)]
 theorem induced_auxiliary_sign_iso_biprod :
     Nonempty (FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliary_subgroup auxiliary_sign_representation) ≅ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) := by
@@ -518,7 +518,7 @@ theorem induced_auxiliary_sign_iso_biprod :
     rw [hR]; exact_mod_cast hL
 
 /-- The representation induced from the auxiliary subrepresentation is isomorphic to the displayed iterated biproduct. -/
-@[source_ref "Chapter5/Discussion_5.11_examples" (role := primary),
+@[source_ref "Chapter5/Discussion_5.11_examples" (role := supporting),
   source_ref "Chapter5/Discussion_5.11_examples/Derived01" (role := supporting)]
 theorem induced_auxiliary_subrepresentation_iso_biprod :
     Nonempty

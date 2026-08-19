@@ -58,7 +58,7 @@ def toData' {C : Type*} [Category C] [Limits.HasZeroMorphisms C] {Z X : C}
 end ZeroMorphismsData
 
 /-- A short complex in an abelian category is short exact exactly when its first map is mono, its second map is epi, and the induced cokernel morphism is an isomorphism. -/
-@[source_ref "Chapter7/Definition7.8.2" (role := primary)]
+@[source_ref "Chapter7/Definition7.8.2" (role := supporting)]
 theorem shortExact_iff_mono_epi_isIso_cokernelDesc {C : Type*} [Category C]
     [Abelian C] (S : ShortComplex C) :
     S.ShortExact ↔ Mono S.f ∧ Epi S.g ∧

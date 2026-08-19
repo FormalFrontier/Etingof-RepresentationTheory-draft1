@@ -128,7 +128,7 @@ theorem auxiliaryTheoremF
     exact (Nat.not_even_one) heven
 
 /-- A simple complex representation of a finite cyclic group of positive order is isomorphic to one of the auxiliary representations. -/
-@[source_ref "Chapter5/Example5.1.3" (role := primary)]
+@[source_ref "Chapter5/Example5.1.3" (role := supporting)]
 theorem simpleFiniteCyclicRepresentationIsoAuxiliary
     {n : ℕ} [NeZero n] (S : FDRep ℂ (Multiplicative (ZMod n)))
     [CategoryTheory.Simple S] :
@@ -255,7 +255,7 @@ theorem auxiliaryTheoremD
     rw [ZMod.val_one, pow_one]
 
 /-- An auxiliary condition on the value constructed from a cyclic character holds exactly when the character is trivial or agrees with the specified character for some proof that two divides the order. -/
-@[source_ref "Chapter5/Example5.1.3" (role := primary)]
+@[source_ref "Chapter5/Example5.1.3" (role := supporting)]
 theorem auxiliaryCharacterCriterion_eq_one_or_eq_specifiedEvenOrder
     {n : ℕ} [NeZero n] (ξ : Multiplicative (ZMod n) →* ℂˣ) :
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo (RepresentationTheory.ComplexUnitCharacters.representationOfComplexUnitCharacter ξ) ↔
@@ -281,7 +281,7 @@ theorem auxiliaryCharacterCriterion_eq_one_or_eq_specifiedEvenOrder
     · exact auxiliaryPropertyForEvenCyclicCharacter hn
 
 /-- An auxiliary condition on the value constructed from a cyclic character holds exactly when the character is nontrivial and differs from the specified character for every proof that two divides the order. -/
-@[source_ref "Chapter5/Example5.1.3" (role := primary)]
+@[source_ref "Chapter5/Example5.1.3" (role := supporting)]
 theorem auxiliaryCharacterCriterionForFiniteCyclicGroup
     {n : ℕ} [NeZero n] (ξ : Multiplicative (ZMod n) →* ℂˣ) :
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationProperty (RepresentationTheory.ComplexUnitCharacters.representationOfComplexUnitCharacter ξ) ↔
@@ -387,7 +387,7 @@ theorem mem_invariantSubmodule_of_stable_under_auxiliaryPermutations (ρ : Repre
 
 
 /-- A simple finite-dimensional complex representation of the symmetric group on three letters has the auxiliary property. -/
-@[source_ref "Chapter5/Example5.1.3" (role := primary)]
+@[source_ref "Chapter5/Example5.1.3" (role := supporting)]
 theorem auxiliaryPropertyOfSimpleSymmetricThreeRepresentation
     {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     (ρ : Representation ℂ (Equiv.Perm (Fin 3)) V)
@@ -723,7 +723,7 @@ lemma auxiliarySymmetricGroupCoefficient_im_eq_zero (n : ℕ) (la : Nat.Partitio
   simp
 
 /-- A simple finite-dimensional complex representation of the symmetric group on four letters has the auxiliary property. -/
-@[source_ref "Chapter5/Example5.1.3" (role := primary)]
+@[source_ref "Chapter5/Example5.1.3" (role := supporting)]
 theorem auxiliaryPropertyOfSimpleSymmetricFourRepresentation
     {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     (ρ : Representation ℂ (Equiv.Perm (Fin 4)) V)
@@ -1007,7 +1007,7 @@ theorem auxiliaryPropertyOfEvenDimensionalSimpleAlternatingFiveRepresentation
 end A5EvenAssembly
 
 /-- A simple finite-dimensional complex representation of the alternating group on five letters has the auxiliary property. -/
-@[source_ref "Chapter5/Example5.1.3" (role := primary)]
+@[source_ref "Chapter5/Example5.1.3" (role := supporting)]
 theorem auxiliaryPropertyOfSimpleAlternatingFiveRepresentation
     {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     (ρ : Representation ℂ (alternatingGroup (Fin 5)) V)

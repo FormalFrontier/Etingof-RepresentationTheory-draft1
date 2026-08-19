@@ -113,7 +113,7 @@ noncomputable def moduleEndofunctorOfType (R : Type u) [CommRing R] (ι : Type u
     exact SymmetricPower.map_comp _ _
 
 /-- A natural-number-indexed family of endofunctors on modules over a commutative ring. -/
-@[source_ref "Chapter7/Example7.2.2" (role := primary)]
+@[source_ref "Chapter7/Example7.2.2" (role := supporting)]
 noncomputable abbrev moduleEndofunctorOfNat (R : Type) [CommRing R] (n : ℕ) :
     ModuleCat.{v} R ⥤ ModuleCat.{v} R :=
   moduleEndofunctorOfType R (Fin n)

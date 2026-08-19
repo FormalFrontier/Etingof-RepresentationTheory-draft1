@@ -846,7 +846,7 @@ theorem induced_restrictedCharacter_iso_biprod :
 
 /-- The representation induced from the trivial character of the second auxiliary subgroup is isomorphic to the indicated binary direct sum. -/
 @[source_ref "Chapter5/Introduction_5.11" (role := supporting),
-  source_ref "Chapter5/Discussion_5.11_examples" (role := primary)]
+  source_ref "Chapter5/Discussion_5.11_examples" (role := supporting)]
 theorem induced_trivial_auxiliarySubgroupB_iso_biprod :
     Nonempty
       (FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliarySubgroupB (representationOfUnitsHom (1 : ↥auxiliarySubgroupB →* ℂˣ))) ≅ auxiliaryRepresentationThree ⊞ auxiliaryRepresentationOne) := by
@@ -897,7 +897,7 @@ theorem induced_trivial_auxiliarySubgroupB_iso_biprod :
     rw [hR]; exact_mod_cast hL
 
 /-- The representation induced from the first character of the second auxiliary subgroup is isomorphic to the indicated auxiliary representation. -/
-@[source_ref "Chapter5/Discussion_5.11_examples" (role := primary)]
+@[source_ref "Chapter5/Discussion_5.11_examples" (role := supporting)]
 theorem induced_auxiliaryCharacterOne_iso_auxiliaryRepresentation :
     Nonempty (FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliarySubgroupB (representationOfUnitsHom auxiliaryCharacterOne)) ≅ auxiliaryRepresentationTwo) := by
   refine RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq _ _ _ rfl (fun S hS => ?_)
@@ -1002,7 +1002,7 @@ theorem induced_character_of_isPrimitiveRoot_iso_auxiliaryRepresentation (χ : �
     rw [hR]; exact_mod_cast hL
 
 /-- The representation induced from the second character of the second auxiliary subgroup is isomorphic to the indicated auxiliary representation. -/
-@[source_ref "Chapter5/Discussion_5.11_examples" (role := primary)]
+@[source_ref "Chapter5/Discussion_5.11_examples" (role := supporting)]
 theorem induced_auxiliaryCharacterTwo_iso_auxiliaryRepresentation :
     Nonempty (FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliarySubgroupB (representationOfUnitsHom auxiliaryCharacterTwo)) ≅ auxiliaryRepresentationTwo) :=
   induced_character_of_isPrimitiveRoot_iso_auxiliaryRepresentation auxiliaryCharacterTwo (by

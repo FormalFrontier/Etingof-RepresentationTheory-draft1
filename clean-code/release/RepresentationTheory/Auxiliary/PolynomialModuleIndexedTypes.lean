@@ -130,7 +130,7 @@ theorem Auxiliary.indexZero_addEquiv_finitePower_prod_pi_quotient
       k (D.quotientGenerator i) (E.quotientGenerator l) (hE l)).some
 
 /-- For finite modules over a polynomial ring, there exist auxiliary data yielding the displayed additive equivalences at indices 0 and 1, and the displayed type at every index n + 2 is subsingleton. -/
-@[source_ref "Chapter8/Problem8.2.7" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.7" (role := supporting)]
 theorem Auxiliary.finitePolynomialModules_indexZeroOne_addEquiv_and_indexAddTwo_subsingleton
     [Module.Finite k[X] M] [Module.Finite k[X] N] :
     ∃ (D : RepresentationTheory.Algebra.Module.DirectSumData.Module.DirectSumData k[X] M)

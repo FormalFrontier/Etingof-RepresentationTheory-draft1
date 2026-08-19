@@ -76,7 +76,7 @@ theorem exp_smul_comp_apply (s t : ℝ) (a : A) :
   simpa [hc] using congrFun huniq s
 
 /-- Exponentials of two scalar multiples of the same continuous linear map multiply to the exponential of the sum of the scalars. -/
-@[source_ref "Chapter2/Remark2.9.4" (role := primary)]
+@[source_ref "Chapter2/Remark2.9.4" (role := supporting)]
 theorem exp_add_smul (s t : ℝ) : exp ((s + t) • D) = exp (s • D) * exp (t • D) :=
   ContinuousLinearMap.ext fun a => by
     rw [mul_apply_eq_comp]

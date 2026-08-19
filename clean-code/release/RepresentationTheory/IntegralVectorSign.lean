@@ -16,8 +16,8 @@ private abbrev cartanQ (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) (x : Fin n �
   dotProduct x ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec x)
 
 /-- Under the given matrix and vector hypotheses, the integer vector has either only nonnegative coordinates or only nonpositive coordinates. -/
-@[source_ref "Chapter6/Lemma6.4.6" (role := primary),
-  source_ref "Chapter6/Remark6.4.8" (role := primary)]
+@[source_ref "Chapter6/Lemma6.4.6" (role := supporting),
+  source_ref "Chapter6/Remark6.4.8" (role := supporting)]
 theorem all_nonnegative_or_all_nonpositive (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
     (hdyn : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj)
     (x : Fin n → ℤ)

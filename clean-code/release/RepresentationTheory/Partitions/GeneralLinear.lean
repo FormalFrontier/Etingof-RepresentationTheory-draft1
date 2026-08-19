@@ -677,7 +677,7 @@ theorem partitionIndexedRepresentation_associatedValue_eq_of_partitionLength_le_
     (partitionFromPaddedFunction_parts_eq_of_partitionLength_le_rank N la hcard)
 
 /-- In admissible rank, the cast of the finite rank of the associated representation equals the specified value of its rank-indexed partition function. -/
-@[source_ref "Chapter5/Theorem5.22.1" (role := primary)]
+@[source_ref "Chapter5/Theorem5.22.1" (role := supporting)]
 theorem partitionIndexedRepresentation_finrank_cast_eq_associatedValue
     [IsAlgClosed k] (N : ℕ) {n : ℕ}
     (la : Nat.Partition n) (hcard : Multiset.card la.parts ≤ N) :
@@ -721,14 +721,14 @@ theorem selectedPartitionOfTwo_parts_card_eq_two :
   decide
 
 /-- Over the complex numbers, the submodule indexed by the selected partition of two is bottom in rank one. -/
-@[source_ref "Chapter5/Theorem5.22.1" (role := primary)]
+@[source_ref "Chapter5/Theorem5.22.1" (role := supporting)]
 theorem selectedPartitionOfTwo_complexSubmodule_rank_one_eq_bot :
     partitionIndexedSubmodule ℂ 1 selectedPartitionOfTwo = ⊥ := by
   rw [partitionIndexedSubmodule_eq_bot_iff_rank_lt_partitionLength]
   decide
 
 /-- Over the complex numbers, the submodule indexed by the selected partition of two is nonzero in rank two. -/
-@[source_ref "Chapter5/Theorem5.22.1" (role := primary)]
+@[source_ref "Chapter5/Theorem5.22.1" (role := supporting)]
 theorem selectedPartitionOfTwo_complexSubmodule_rank_two_ne_bot :
     partitionIndexedSubmodule ℂ 2 selectedPartitionOfTwo ≠ ⊥ := by
   rw [partitionIndexedSubmodule_ne_bot_iff_partitionLength_le_rank]

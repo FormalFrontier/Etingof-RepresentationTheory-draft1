@@ -49,7 +49,7 @@ def Partition.StrictDominates {n : ℕ} (la mu : Nat.Partition n) : Prop :=
 
 
 /-- The strict lexicographic order on partitions of the same natural number. -/
-@[source_ref "Chapter5/Discussion_lexicographic_ordering" (role := primary)]
+@[source_ref "Chapter5/Discussion_lexicographic_ordering" (role := supporting)]
 def Partition.LexLt {n : ℕ} (la mu : Nat.Partition n) : Prop :=
   toLex (fun i : ℕ => (auxiliaryPartitionNatList la).getD i 0) <
     toLex (fun i : ℕ => (auxiliaryPartitionNatList mu).getD i 0)
@@ -583,7 +583,7 @@ theorem sandwich_single_eq_zero_of_strictDominates (n : ℕ) (la mu : Nat.Partit
 
 /-- If one partition strictly dominates another, their associated group-algebra elements give zero when placed on either side of any group-algebra element. -/
 @[source_ref "Chapter5/Introduction_5.13" (role := supporting),
-  source_ref "Chapter5/Lemma5.13.2" (role := primary)]
+  source_ref "Chapter5/Lemma5.13.2" (role := supporting)]
 theorem sandwich_eq_zero_of_strictDominates
     (n : ℕ) (la mu : Nat.Partition n)
     (hdom : Partition.StrictDominates la mu)
@@ -664,7 +664,7 @@ theorem sandwich_single_eq_zero_of_not_dominates (n : ℕ) (la mu : Nat.Partitio
 
 
 /-- If `mu` does not dominate `la`, the elements associated with `la` and `mu` give zero when placed on either side of any group-algebra element. -/
-@[source_ref "Chapter5/Lemma5.13.2" (role := primary)]
+@[source_ref "Chapter5/Lemma5.13.2" (role := supporting)]
 theorem sandwich_eq_zero_of_not_dominates
     (n : ℕ) (la mu : Nat.Partition n)
     (h : ¬ Partition.Dominates mu la)

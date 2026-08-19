@@ -308,7 +308,7 @@ noncomputable def quotientRepresentationMap
 
 /-- The endofunctor on quiver representations arising from the quotient-based transformation at a distinguished vertex. -/
 @[source_ref "Chapter6/Definition6.6.4" (role := supporting),
-  source_ref "Chapter7/Example7.2.2" (role := primary)]
+  source_ref "Chapter7/Example7.2.2" (role := supporting)]
 
 
 noncomputable def quotientRepresentationFunctor

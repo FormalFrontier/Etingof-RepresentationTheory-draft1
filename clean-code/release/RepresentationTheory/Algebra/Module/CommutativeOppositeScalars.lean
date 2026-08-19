@@ -23,12 +23,12 @@ def toMulOppositeRingHom : A →+* Aᵐᵒᵖ :=
   (RingHom.id A).toOpposite fun x y => mul_comm x y
 
 /-- A module over the opposite of a commutative ring obtained from a module over the ring. -/
-@[source_ref "Chapter2/Remark2.3.2" (role := primary)]
+@[source_ref "Chapter2/Remark2.3.2" (role := supporting)]
 abbrev moduleOverMulOpposite [Module A M] : Module Aᵐᵒᵖ M :=
   Module.compHom M (fromMulOppositeRingHom A)
 
 /-- The induced opposite-ring scalar action agrees with the original scalar action. -/
-@[source_ref "Chapter2/Remark2.3.2" (role := primary)]
+@[source_ref "Chapter2/Remark2.3.2" (role := supporting)]
 theorem op_smul_eq_smul [Module A M] (a : A) (m : M) :
     letI := moduleOverMulOpposite A M
     (MulOpposite.op a) • m = a • m := rfl

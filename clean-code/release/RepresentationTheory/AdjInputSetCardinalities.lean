@@ -100,7 +100,7 @@ private lemma E6_count :
 
 
 /-- Using six as the parameter and the `adj` field as input gives a finite set with thirty-six elements. -/
-@[source_ref "Chapter6/Example6.4.9" (role := primary)]
+@[source_ref "Chapter6/Example6.4.9" (role := supporting)]
 theorem set_from_adj_at_six_finite_and_ncard_eq :
     (RepresentationTheory.MatrixBoundedVectors.integerVectors 6 RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.E6.matrix).Finite ∧
     Set.ncard
@@ -381,7 +381,7 @@ private lemma E7_count :
 
 
 /-- The set obtained with parameter seven from the `adj` field is finite and has sixty-three elements. -/
-@[source_ref "Chapter6/Example6.4.9" (role := primary)]
+@[source_ref "Chapter6/Example6.4.9" (role := supporting)]
 theorem set_from_adj_at_seven_finite_and_ncard_eq :
     (RepresentationTheory.MatrixBoundedVectors.integerVectors 7 RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.E7.matrix).Finite ∧
     Set.ncard
@@ -644,7 +644,7 @@ private lemma E8_count :
 
 
 /-- Supplying eight and the `adj` field produces a finite set whose cardinality is one hundred twenty. -/
-@[source_ref "Chapter6/Example6.4.9" (role := primary)]
+@[source_ref "Chapter6/Example6.4.9" (role := supporting)]
 theorem set_from_adj_at_eight_finite_and_ncard_eq :
     (RepresentationTheory.MatrixBoundedVectors.integerVectors 8 RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.E8.matrix).Finite ∧
     Set.ncard

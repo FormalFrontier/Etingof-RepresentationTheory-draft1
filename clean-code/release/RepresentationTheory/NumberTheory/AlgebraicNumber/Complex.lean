@@ -10,7 +10,7 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.NumberTheory.AlgebraicNumber.Complex
 
 /-- A distinguished integer subalgebra of the complex numbers. -/
-@[source_ref "Chapter5/Discussion_after_Proposition5.2.3" (role := primary),
+@[source_ref "Chapter5/Discussion_after_Proposition5.2.3" (role := supporting),
   source_ref "Chapter5/Proposition5.2.4" (role := supporting)]
 noncomputable abbrev distinguishedIntSubalgebra : Subalgebra ℤ ℂ := integralClosure ℤ ℂ
 
@@ -22,7 +22,7 @@ theorem mem_distinguishedIntSubalgebra_iff {x : ℂ} :
   mem_integralClosure_iff ℤ ℂ
 
 /-- A distinguished rational intermediate field in the complex numbers. -/
-@[source_ref "Chapter5/Discussion_after_Proposition5.2.3" (role := primary),
+@[source_ref "Chapter5/Discussion_after_Proposition5.2.3" (role := supporting),
   source_ref "Chapter5/Proposition5.2.4" (role := supporting)]
 noncomputable abbrev distinguishedRatIntermediateField : IntermediateField ℚ ℂ :=
   algebraicClosure ℚ ℂ

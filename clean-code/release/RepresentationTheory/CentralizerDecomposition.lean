@@ -156,7 +156,7 @@ variable (k : Type u) [Field k]
   (E : Type v) [AddCommGroup E] [Module k E] [Module.Finite k E]
 
 /-- A faithful semisimple subalgebra of endomorphisms equals its double centralizer. -/
-@[source_ref "Chapter5/Theorem5.18.1" (role := primary)]
+@[source_ref "Chapter5/Theorem5.18.1" (role := supporting)]
 theorem centralizer_centralizer_eq
     (A : Subalgebra k (Module.End k E))
     [IsSemisimpleRing A]
@@ -219,7 +219,7 @@ theorem centralizer_centralizer_eq
     exact Subalgebra.le_centralizer_centralizer k
 
 /-- The centralizer of a faithful semisimple algebra action on a finite-dimensional space is semisimple. -/
-@[source_ref "Chapter5/Theorem5.18.1" (role := primary)]
+@[source_ref "Chapter5/Theorem5.18.1" (role := supporting)]
 theorem isSemisimpleRing_centralizer
     (A : Subalgebra k (Module.End k E))
     [IsSemisimpleRing A]

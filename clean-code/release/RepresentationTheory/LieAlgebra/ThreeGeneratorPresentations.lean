@@ -100,19 +100,19 @@ def distinguishedElement_aux2 : AuxiliaryType k := ((0 : k), (0 : k), (1 : k))
 
 /-- The bracket of the displayed elements has the stated value. -/
 @[simp, source_ref "Chapter2/Example2.9.13" (role := supporting),
-  source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived7" (role := primary)]
+  source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived7" (role := supporting)]
 theorem bracket_eq_aux3 : ⁅(distinguishedElement_aux6 : AuxiliaryType k), (distinguishedElement_aux5 : AuxiliaryType k)⁆ = (distinguishedElement_aux2 : AuxiliaryType k) := by
   simp [bracket_eq, distinguishedElement_aux5, distinguishedElement_aux6, distinguishedElement_aux2]
 
 /-- The bracket of the displayed elements has the stated value. -/
 @[simp, source_ref "Chapter2/Example2.9.13" (role := supporting),
-  source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived7" (role := primary)]
+  source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived7" (role := supporting)]
 theorem bracket_eq_aux1 : ⁅(distinguishedElement_aux5 : AuxiliaryType k), (distinguishedElement_aux2 : AuxiliaryType k)⁆ = 0 := by
   apply AuxiliaryType.ext <;> simp [bracket_eq, distinguishedElement_aux5, distinguishedElement_aux2]
 
 /-- The bracket of the displayed elements has the stated value. -/
 @[simp, source_ref "Chapter2/Example2.9.13" (role := supporting),
-  source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived7" (role := primary)]
+  source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived7" (role := supporting)]
 theorem bracket_eq_aux2 : ⁅(distinguishedElement_aux6 : AuxiliaryType k), (distinguishedElement_aux2 : AuxiliaryType k)⁆ = 0 := by
   apply AuxiliaryType.ext <;> simp [bracket_eq, distinguishedElement_aux6, distinguishedElement_aux2]
 

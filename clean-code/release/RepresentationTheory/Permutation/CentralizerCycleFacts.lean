@@ -154,7 +154,7 @@ noncomputable def centralizerMulEquivAuxiliaryPermutation :
         permCongrHom_auxiliaryEquiv_apply]))
 
 /-- The singleton centralizer of a finite permutation is multiplicatively equivalent to an indexed family of auxiliary groups. -/
-@[source_ref "Chapter5/Theorem5.14.3" (role := primary)]
+@[source_ref "Chapter5/Theorem5.14.3" (role := supporting)]
 noncomputable def centralizerMulEquivAuxiliaryProduct :
     _root_.Subgroup.centralizer {g} ≃*
       ∀ m : ℕ, CentralizerFactor (AuxiliaryIndexedType g m) m :=
@@ -164,7 +164,7 @@ noncomputable def centralizerMulEquivAuxiliaryProduct :
 noncomputable def auxiliaryNatValue (m : ℕ) : ℕ := Nat.card (AuxiliaryIndexedType g m)
 
 /-- The singleton centralizer of a finite permutation is multiplicatively equivalent to a product of auxiliary groups on finite types. -/
-@[source_ref "Chapter5/Theorem5.14.3" (role := primary)]
+@[source_ref "Chapter5/Theorem5.14.3" (role := supporting)]
 noncomputable def centralizerMulEquivFinAuxiliaryProduct :
     _root_.Subgroup.centralizer {g} ≃*
       ∀ m : ℕ, CentralizerFactor (Fin (auxiliaryNatValue g m)) m :=
@@ -226,7 +226,7 @@ theorem auxiliaryNatValue_one_eq_card_fixedPoints :
   Nat.card_congr (auxiliaryIndexedTypeOneEquivFixedPoints g)
 
 /-- The cardinality of a finite permutation's singleton centralizer is a product determined by its auxiliary natural values. -/
-@[source_ref "Chapter5/Theorem5.14.3" (role := primary)]
+@[source_ref "Chapter5/Theorem5.14.3" (role := supporting)]
 theorem card_centralizer_eq_prod_auxiliaryNatValue :
     Nat.card (_root_.Subgroup.centralizer {g}) =
       ∏ m ∈ Finset.range (Nat.card α + 1),

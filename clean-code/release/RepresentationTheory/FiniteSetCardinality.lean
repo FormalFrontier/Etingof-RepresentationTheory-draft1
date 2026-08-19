@@ -907,7 +907,7 @@ private lemma Dn_result (n : ℕ) (hn : 4 ≤ n) :
 end DnRootCount
 
 /-- For every natural number at least four, the specified set is finite and has exactly `n * (n - 1)` elements. -/
-@[source_ref "Chapter6/Example6.4.9" (role := primary)]
+@[source_ref "Chapter6/Example6.4.9" (role := supporting)]
 theorem finite_and_ncard_eq_mul_sub_one (n : ℕ) (hn : 4 ≤ n) :
     (RepresentationTheory.MatrixBoundedVectors.integerVectors n (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D n hn).matrix).Finite ∧
     Set.ncard (RepresentationTheory.MatrixBoundedVectors.integerVectors n (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D n hn).matrix) =

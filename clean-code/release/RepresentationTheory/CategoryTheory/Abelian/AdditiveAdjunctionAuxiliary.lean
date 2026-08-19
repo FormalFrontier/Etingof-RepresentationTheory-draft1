@@ -23,7 +23,7 @@ namespace RepresentationTheory.CategoryTheory.Abelian.AdditiveAdjunctionAuxiliar
 
 /-- An additive adjunction between abelian categories satisfies both auxiliary properties in the
 conclusion. -/
-@[source_ref "Chapter7/Exercise7.9.7" (role := primary)]
+@[source_ref "Chapter7/Exercise7.9.7" (role := supporting)]
 theorem auxiliaryProperties {C : Type*} {D : Type*} [Category C] [Category D]
     [_root_.CategoryTheory.Abelian C] [_root_.CategoryTheory.Abelian D]
     (F : C ⥤ D) (G : D ⥤ C)

@@ -1388,7 +1388,7 @@ noncomputable def negativeSimpleEquivOfInvolutionNeg [IsSimpleModule Algebra S]
 
 
 /-- Every compatible simple algebra module is equivalent to the positive or negative simple module. -/
-@[source_ref "Chapter9/Problem9.3.2" (role := primary)]
+@[source_ref "Chapter9/Problem9.3.2" (role := supporting)]
 theorem simpleModule_equiv_positive_or_negative (S : Type u) [AddCommGroup S] [Module ℂ S]
     [Module Algebra S] [IsScalarTower ℂ Algebra S] [IsSimpleModule Algebra S] :
     Nonempty (S ≃ₗ[Algebra] PositiveSimple) ∨ Nonempty (S ≃ₗ[Algebra] NegativeSimple) := by
@@ -1400,7 +1400,7 @@ theorem simpleModule_equiv_positive_or_negative (S : Type u) [AddCommGroup S] [M
 
 
 /-- No algebra module is simultaneously equivalent to both signed simple modules. -/
-@[source_ref "Chapter9/Problem9.3.2" (role := primary)]
+@[source_ref "Chapter9/Problem9.3.2" (role := supporting)]
 theorem not_equiv_both_simpleModules (S : Type u) [AddCommGroup S] [Module Algebra S] :
     ¬(Nonempty (S ≃ₗ[Algebra] PositiveSimple) ∧ Nonempty (S ≃ₗ[Algebra] NegativeSimple)) := by
   rintro ⟨⟨e₁⟩, ⟨e₂⟩⟩

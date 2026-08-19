@@ -26,7 +26,7 @@ noncomputable def auxiliaryPartitionNatList {n : ℕ} (la : Nat.Partition n) : L
   la.parts.sort (· ≥ ·)
 
 /-- A second auxiliary type indexed by a natural number and a partition of it. -/
-@[source_ref "Chapter5/Definition5.12.1" (role := primary)]
+@[source_ref "Chapter5/Definition5.12.1" (role := supporting)]
 noncomputable def AuxiliaryPartitionTarget (n : ℕ) (la : Nat.Partition n) : Type :=
   let parts := (auxiliaryPartitionNatList la)
   let Cell := { c : ℕ × ℕ // c.1 < parts.length ∧ c.2 < parts.getD c.1 0 }
@@ -104,19 +104,19 @@ noncomputable def auxiliaryPartitionGroupAlgebraElementC (n : ℕ) (la : Nat.Par
   auxiliaryPartitionGroupAlgebraElementA n la * auxiliaryPartitionGroupAlgebraElementB n la
 
 /-- Another auxiliary complex permutation group algebra element indexed by a partition. -/
-@[source_ref "Chapter5/Discussion_Young_projectors" (role := primary)]
+@[source_ref "Chapter5/Discussion_Young_projectors" (role := supporting)]
 noncomputable def auxiliaryPartitionGroupAlgebraElementF (n : ℕ) (la : Nat.Partition n) :
     MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
   (Nat.card (auxiliaryPartitionPermutationSubgroupB n la) : ℂ)⁻¹ • auxiliaryPartitionGroupAlgebraElementB n la
 
 /-- An additional auxiliary complex permutation group algebra element indexed by a partition. -/
-@[source_ref "Chapter5/Discussion_Young_projectors" (role := primary)]
+@[source_ref "Chapter5/Discussion_Young_projectors" (role := supporting)]
 noncomputable def auxiliaryPartitionGroupAlgebraElementE (n : ℕ) (la : Nat.Partition n) :
     MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
   (Nat.card (auxiliaryPartitionPermutationSubgroupA n la) : ℂ)⁻¹ • auxiliaryPartitionGroupAlgebraElementA n la
 
 /-- An auxiliary complex permutation group algebra element indexed by a partition. -/
-@[source_ref "Chapter5/Discussion_Young_projectors" (role := primary)]
+@[source_ref "Chapter5/Discussion_Young_projectors" (role := supporting)]
 noncomputable def auxiliaryPartitionGroupAlgebraElementD (n : ℕ) (la : Nat.Partition n) :
     MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
   auxiliaryPartitionGroupAlgebraElementF n la * auxiliaryPartitionGroupAlgebraElementE n la
@@ -307,12 +307,12 @@ private theorem canonicalFun_col_inc (n : ℕ) (la : Nat.Partition n)
   omega
 
 /-- Selects an object of the auxiliary target type for each partition. -/
-@[source_ref "Chapter5/Definition5.12.1" (role := primary)]
+@[source_ref "Chapter5/Definition5.12.1" (role := supporting)]
 noncomputable def chosenAuxiliaryPartitionTarget (n : ℕ) (la : Nat.Partition n) : AuxiliaryPartitionTarget n la :=
   ⟨canonicalFun n la, canonicalFun_bijective n la⟩
 
 /-- Selects an object of the auxiliary source type for each partition. -/
-@[source_ref "Chapter5/Definition5.12.1" (role := primary)]
+@[source_ref "Chapter5/Definition5.12.1" (role := supporting)]
 noncomputable def chosenAuxiliaryPartitionSource (n : ℕ) (la : Nat.Partition n) :
     AuxiliaryPartitionSource n la :=
   ⟨canonicalFun n la, canonicalFun_bijective n la,

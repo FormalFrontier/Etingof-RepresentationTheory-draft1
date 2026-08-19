@@ -681,7 +681,7 @@ theorem negativeSpinRepresentationOfBilin_cliffordMap
 
 /-- There is no Clifford-module linear equivalence from the second odd-dimensional carrier to the
 first. -/
-@[source_ref "Chapter3/Problem3.9.5" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 theorem isEmpty_linearEquiv_secondOddCliffordModule_firstOddCliffordModule
     (B : LinearMap.BilinForm ℂ V)
     (hsymm : ∀ x y, B x y = B y x)
@@ -867,7 +867,7 @@ theorem finiteDimensional_simpleModule_equiv_first_or_second
 
 /-- Every simple module for the odd-dimensional Clifford algebra is linearly equivalent to the
 first or second distinguished module. -/
-@[source_ref "Chapter3/Problem3.9.5" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 theorem simpleModule_equiv_first_or_second
     (B : LinearMap.BilinForm ℂ V)
     (hsymm : ∀ x y, B x y = B y x)

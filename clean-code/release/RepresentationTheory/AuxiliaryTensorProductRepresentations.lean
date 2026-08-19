@@ -230,7 +230,7 @@ variable {M : Type u} [AddCommGroup M] [Module k M] [FiniteDimensional k M]
 
 omit [Fintype G] [Fintype H] in
 /-- An auxiliary representation of a product group admits the displayed tensor-product description. -/
-@[source_ref "Chapter5/Theorem5.6.1" (role := primary)]
+@[source_ref "Chapter5/Theorem5.6.1" (role := supporting)]
 theorem auxiliary_exists_tensorProduct
     (τ : Representation k (G × H) M) (hτ : IsAuxiliary τ) :
     ∃ (V W : Type u) (_ : AddCommGroup V) (_ : Module k V) (_ : FiniteDimensional k V)

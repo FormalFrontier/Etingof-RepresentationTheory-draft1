@@ -13,7 +13,7 @@ noncomputable section
 namespace RepresentationTheory.CyclicCharacterSpan
 
 /-- The character of a simple complex representation lies in the rational span of the displayed auxiliary images of characters associated with cyclic subgroups. -/
-@[source_ref "Chapter5/Corollary5.26.3" (role := primary)]
+@[source_ref "Chapter5/Corollary5.26.3" (role := supporting)]
 theorem simple_character_mem_rat_span_zpowers_auxiliary_images
     (G : Type) [Group G] [Fintype G]
     (V : FDRep ℂ G) [CategoryTheory.Simple V] :

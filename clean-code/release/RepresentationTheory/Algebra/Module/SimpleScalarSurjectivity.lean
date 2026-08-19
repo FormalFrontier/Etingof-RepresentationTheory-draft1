@@ -14,7 +14,7 @@ namespace RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity
 open _root_.Module in
 /-- For a finite-dimensional simple module over an algebraically closed field, the algebra action
 is surjective. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary),
+@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting),
   source_ref "Chapter3/Introduction_to_3.2" (role := supporting),
   source_ref "Chapter3/Corollary3.2.1/Derived2" (role := supporting),
   source_ref "Chapter3/Theorem3.2.2" (role := primary),

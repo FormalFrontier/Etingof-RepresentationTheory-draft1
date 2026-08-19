@@ -139,7 +139,7 @@ theorem projective_exists_epi_of_forall_simple_exists_ne_zero
 
 /-- For a projective object, nonemptiness of its auxiliary type is equivalent to the existence of
 a nonzero morphism for every simple object. -/
-@[source_ref "Chapter9/Exercise9.6.3" (role := primary)]
+@[source_ref "Chapter9/Exercise9.6.3" (role := supporting)]
 theorem nonempty_auxiliary_iff_forall_simple_exists_ne_zero
     [RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional C]
     (P : C) [Projective P] :
@@ -169,7 +169,7 @@ theorem nonempty_auxiliary_iff_forall_simple_exists_ne_zero
            projective_exists_epi_of_forall_simple_exists_ne_zero P hHom X }⟩
 
 /-- There exists an object whose associated auxiliary type is nonempty. -/
-@[source_ref "Chapter9/Exercise9.6.3" (role := primary)]
+@[source_ref "Chapter9/Exercise9.6.3" (role := supporting)]
 theorem exists_object_with_nonempty_auxiliary (C : Type u) [Category.{v} C]
     [RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional C] :
     ∃ P : C,

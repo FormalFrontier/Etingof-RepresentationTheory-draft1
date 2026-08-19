@@ -25,7 +25,7 @@ theorem RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.equiv_field
       LinearEquiv.symm
 
 /-- An indecomposable vector space over a field is linearly equivalent to the field itself. -/
-@[source_ref "Chapter2/Example2.3.14" (role := primary)]
+@[source_ref "Chapter2/Example2.3.14" (role := supporting)]
 theorem RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.equiv_field_of_isIndecomposableModule
     (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
     (hV : RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate k V) : Nonempty (V ≃ₗ[k] k) := by
@@ -237,7 +237,7 @@ instance jordanBlockModule_nontrivial (lam : k) (n : ℕ) [NeZero n] :
   (Module.AEval'.of (jordanOperator lam n)).symm.toEquiv.nontrivial
 
 /-- Every nonempty Jordan-block module is indecomposable. -/
-@[source_ref "Chapter2/Example2.3.14" (role := primary)]
+@[source_ref "Chapter2/Example2.3.14" (role := supporting)]
 theorem jordanBlockModule_isIndecomposable (lam : k) (n : ℕ) [NeZero n] :
     RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate (Polynomial k) (JordanBlockModule lam n) := by
   set φ := jordanOperator lam n with hφ
@@ -560,7 +560,7 @@ theorem exists_equiv_pi_jordanBlock [IsAlgClosed k] [FiniteDimensional k M] :
     (LinearEquiv.piCongrLeft R (fun i : I => JordanBlockModule (lam i) (expo i)) e).symm⟩
 
 /-- A finite-dimensional indecomposable polynomial module over an algebraically closed field is linearly equivalent to a nonempty Jordan block. -/
-@[source_ref "Chapter2/Example2.3.14" (role := primary)]
+@[source_ref "Chapter2/Example2.3.14" (role := supporting)]
 theorem equiv_jordanBlock_of_isIndecomposableModule [IsAlgClosed k] [FiniteDimensional k M]
     (h : RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate (Polynomial k) M) :
     ∃ (lam : k) (n : ℕ), 0 < n ∧ Nonempty (M ≃ₗ[Polynomial k] JordanBlockModule lam n) := by

@@ -263,7 +263,7 @@ universe u in
 
 
 /-- Under the given matrix and quiver hypotheses, the predicate on integer vectors has finitely many solutions, holds for the componentwise finrank vector of every object with the stated property, and classifies such objects by that vector up to the specified relation. -/
-@[source_ref "Chapter6/Discussion_after_Example6.3.1" (role := primary),
+@[source_ref "Chapter6/Discussion_after_Example6.3.1" (role := supporting),
   source_ref "Chapter6/Theorem6.5.2" (role := primary)]
 theorem Quiver.finite_and_finrankVector_classification
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}

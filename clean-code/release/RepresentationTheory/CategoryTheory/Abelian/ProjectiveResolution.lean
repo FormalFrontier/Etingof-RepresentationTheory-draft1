@@ -170,7 +170,7 @@ instance freeProjectiveResolution_free (M : ModuleCat.{u} A) (n : ℕ) :
 
 /-- Shows that a module has a projective resolution with free underlying modules in every
 degree. -/
-@[source_ref "Chapter8/Exercise8.2.2" (role := primary)]
+@[source_ref "Chapter8/Exercise8.2.2" (role := supporting)]
 theorem exists_free_projectiveResolution (A : Type u) [Ring A] (M : ModuleCat.{u} A) :
     ∃ P : RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData M,
       ∀ n, Module.Free A (P.complex.X n) :=

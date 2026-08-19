@@ -454,7 +454,7 @@ private noncomputable def spechtEvalMap (n : ℕ) (la : Nat.Partition n)
 /-- Every simple module in this family admits a linear identification with a suitably chosen membership-defined subtype. -/
 @[source_ref "Chapter5/Introduction_5.12" (role := primary),
   source_ref "Chapter5/Theorem5.12.2" (role := supporting),
-  source_ref "Chapter5/Discussion_proof_of_Theorem5.12.2" (role := primary)]
+  source_ref "Chapter5/Discussion_proof_of_Theorem5.12.2" (role := supporting)]
 theorem exists_linearEquiv_to_subtype
     (n : ℕ) (M : Type) [AddCommGroup M] [Module (natIndexedType n) M]
     [IsSimpleModule (natIndexedType n) M] :

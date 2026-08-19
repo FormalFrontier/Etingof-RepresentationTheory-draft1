@@ -12,7 +12,7 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.Combinatorics.Quiver.FourVertices
 
 /-- A quiver structure on the four-element type. -/
-@[source_ref "Chapter2/Example2.8.2" (role := primary)]
+@[source_ref "Chapter2/Example2.8.2" (role := supporting)]
 instance fourVertexQuiver : Quiver (Fin 4) where
   Hom a b :=
     if a = 0 ∧ b = 1 then Unit

@@ -141,7 +141,7 @@ private lemma exists_involution_trace_eq_frobeniusSchur
   exact ⟨g₀, hg₀sq, hFS.trans htr.symm⟩
 
 /-- Auxiliary declaration whose formal type could not be displayed. -/
-@[source_ref "Chapter5/Theorem5.1.5" (role := primary)]
+@[source_ref "Chapter5/Theorem5.1.5" (role := supporting)]
 theorem auxiliaryStatement
     [NeZero (Nat.card G : ℂ)] [Invertible (Fintype.card G : ℂ)]
     (ρ : Representation ℂ G V)
@@ -172,7 +172,7 @@ theorem auxiliaryStatement
   exact trace_involution_eq_pm_one hdim g₀ hg₀sq
 
 /-- For a simple complex representation whose character is not invariant under inversion, an associated auxiliary value vanishes. -/
-@[source_ref "Chapter5/Theorem5.1.5" (role := primary)]
+@[source_ref "Chapter5/Theorem5.1.5" (role := supporting)]
 theorem auxiliaryValue_eq_zero_of_character_not_inversionInvariant
     [NeZero (Nat.card G : ℂ)] [Invertible (Fintype.card G : ℂ)]
     (ρ : Representation ℂ G V)

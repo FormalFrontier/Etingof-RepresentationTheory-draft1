@@ -16,7 +16,7 @@ This module defines a type parameterized by two categories.
 namespace RepresentationTheory.Categories
 
 /-- A type parameterized by two categories. -/
-@[source_ref "Chapter7/Definition7.4.1" (role := primary)]
+@[source_ref "Chapter7/Definition7.4.1" (role := supporting)]
 abbrev ParameterizedType (C : Type*) (D : Type*) [CategoryTheory.Category C]
     [CategoryTheory.Category D] := CategoryTheory.Equivalence C D
 

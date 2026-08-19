@@ -447,7 +447,7 @@ theorem auxiliary_exists_equivariantLinearEquiv
     auxiliary_equivariantLinearEquiv_of_apply_eq_sub n k r ν _ (fun _ => rfl)⟩
 
 /-- A simple auxiliary subrepresentation is the range of a compatible linear map. -/
-@[source_ref "Chapter5/Discussion_proof_of_Theorem5.23.2" (role := primary)]
+@[source_ref "Chapter5/Discussion_proof_of_Theorem5.23.2" (role := supporting)]
 theorem auxiliary_exists_range_eq_of_isSimpleModule
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (S : Subrepresentation (RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction.generalLinearGroupLocalizationRepresentation k n))
@@ -613,7 +613,7 @@ theorem auxiliaryDirectSumMap_bijective (n : ℕ) (k : Type) [Field k] [IsAlgClo
   ⟨auxiliaryDirectSumMap_injective n k, auxiliaryDirectSumMap_surjective n k⟩
 
 /-- The displayed representations and linear equivalence satisfy the indicated auxiliary predicate. -/
-@[source_ref "Chapter5/Theorem5.23.2" (role := primary)]
+@[source_ref "Chapter5/Theorem5.23.2" (role := supporting)]
 theorem auxiliary_nonempty_representationRelation
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     Nonempty { e : Localization.Away (RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization.auxiliary_matrix_polynomial k n) ≃ₗ[k]

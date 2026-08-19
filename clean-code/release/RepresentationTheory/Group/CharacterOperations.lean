@@ -18,7 +18,7 @@ namespace RepresentationTheory.Group.CharacterOperations
 variable {k G : Type u} [Field k] [Group G]
 
 /-- The character of a tensor product is the product of the two characters. -/
-@[source_ref "Chapter4/Discussion_4.4" (role := primary)]
+@[source_ref "Chapter4/Discussion_4.4" (role := supporting)]
 theorem character_tensor (V W : FDRep k G) (g : G) :
     (V ⊗ W).character g = V.character g * W.character g := by
   rw [FDRep.char_tensor]; rfl

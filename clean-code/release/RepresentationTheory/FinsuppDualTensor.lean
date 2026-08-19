@@ -76,7 +76,7 @@ end RepresentationTheory.FinsuppDualTensor
 
 open RepresentationTheory.FinsuppDualTensor in
 /-- The canonical distribution map from a tensor product of duals of finitely supported sequences is not surjective. -/
-@[source_ref "Chapter8/Problem8.2.8/Derived2" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.8/Derived2" (role := supporting)]
 theorem RepresentationTheory.FinsuppDualTensor.dualDistrib_finsuppNat_not_surjective
     (k : Type u) [Field k] :
     ¬ Function.Surjective

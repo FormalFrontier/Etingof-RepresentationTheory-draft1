@@ -862,7 +862,7 @@ theorem card_conjClasses_eq_sum_auxiliaryCounts :
 
 
 /-- The number of conjugacy classes is one less than the square of the finite-field cardinality when the characteristic is not two and the extension degree is nonzero. -/
-@[source_ref "Chapter5/Discussion_5.25.1" (role := primary),
+@[source_ref "Chapter5/Discussion_5.25.1" (role := supporting),
   source_ref "Chapter5/Discussion_complementary_series_summary/Derived01" (role := supporting)]
 theorem card_conjClasses_eq_fieldCard_sq_sub_one (hp2 : p ≠ 2) (hn : n ≠ 0) :
     Nat.card (ConjClasses (GL2' p n)) =

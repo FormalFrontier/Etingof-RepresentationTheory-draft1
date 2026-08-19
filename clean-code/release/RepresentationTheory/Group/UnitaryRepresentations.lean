@@ -12,7 +12,7 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.Group.UnitaryRepresentations
 
 /-- A finite-dimensional complex inner-product representation of a group. -/
-@[source_ref "Chapter4/Definition4.6.1" (role := primary)]
+@[source_ref "Chapter4/Definition4.6.1" (role := supporting)]
 structure UnitaryRepresentation
     (G : Type*) [Group G]
     (V : Type*) [NormedAddCommGroup V] [InnerProductSpace ℂ V] [FiniteDimensional ℂ V] where

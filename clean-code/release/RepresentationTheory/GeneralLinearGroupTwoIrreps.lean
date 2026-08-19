@@ -53,7 +53,7 @@ theorem galoisField_hasAuxiliaryProperty (hp2 : p ≠ 2) (hn : n ≠ 0) :
   exact RepresentationTheory.FiniteGroups.GL2Conjugacy.card_conjClasses_eq_fieldCard_sq_sub_one hp2 hn
 
 /-- Computes the number of conjugacy classes of the two-dimensional general linear group. -/
-@[source_ref "Chapter5/Discussion_complementary_series_summary" (role := primary)]
+@[source_ref "Chapter5/Discussion_complementary_series_summary" (role := supporting)]
 theorem card_conjClasses_generalLinearGroup_two (hp2 : p ≠ 2) (hn : n ≠ 0) :
     (Fintype.card (GaloisField p n) - 1)
       + Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2
@@ -100,7 +100,7 @@ theorem exists_auxiliaryType_card (hp2 : p ≠ 2) (hn : n ≠ 0) :
 
 open CategoryTheory in
 /-- There exists a complete pairwise nonisomorphic family of simple representations of the stated size. -/
-@[source_ref "Chapter5/Discussion_complementary_series_summary" (role := primary)]
+@[source_ref "Chapter5/Discussion_complementary_series_summary" (role := supporting)]
 theorem exists_completeSimpleFamily_card (hp2 : p ≠ 2) (hn : n ≠ 0) :
     ∃ (m : ℕ) (V : Fin m → FDRep ℂ (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n))),
       (∀ i, Simple (V i)) ∧
@@ -164,7 +164,7 @@ noncomputable def auxiliaryRepresentation (hp2 : p ≠ 2) (hn : n ≠ 0)
     | .inr j => RepresentationTheory.GaloisFieldCharacters.GaloisField.fdRepOfAuxiliaryIndex p n hp2 j
 
 /-- Every representation in the indexed family is simple. -/
-@[source_ref "Chapter5/Discussion_complementary_series_summary" (role := primary),
+@[source_ref "Chapter5/Discussion_complementary_series_summary" (role := supporting),
   source_ref "Chapter5/Discussion_complementary_series_summary/Derived01" (role := supporting)]
 theorem auxiliaryRepresentation_simple (hp2 : p ≠ 2) (hn : n ≠ 0) :
     ∀ i : AuxiliaryIndexType p n hn, Simple (auxiliaryRepresentation p n hp2 hn i) := by
@@ -207,7 +207,7 @@ theorem auxiliaryRepresentation_sumComponents_nonisomorphic
       omega
 
 /-- Isomorphic representations in the indexed family have equal indices. -/
-@[source_ref "Chapter5/Discussion_complementary_series_summary" (role := primary),
+@[source_ref "Chapter5/Discussion_complementary_series_summary" (role := supporting),
   source_ref "Chapter5/Discussion_complementary_series_summary/Derived01" (role := supporting)]
 theorem auxiliaryRepresentation_iso_injective (hp2 : p ≠ 2) (hn : n ≠ 0) :
     ∀ i j : AuxiliaryIndexType p n hn,
@@ -242,7 +242,7 @@ theorem card_auxiliaryIndexType (hn : n ≠ 0) :
     GaloisField.card p n hn]
 
 /-- Every simple representation is isomorphic to a unique member of the indexed family. -/
-@[source_ref "Chapter5/Discussion_complementary_series_summary" (role := primary),
+@[source_ref "Chapter5/Discussion_complementary_series_summary" (role := supporting),
   source_ref "Chapter5/Discussion_complementary_series_summary/Derived01" (role := supporting)]
 theorem existsUnique_auxiliaryRepresentation_iso (hp2 : p ≠ 2) (hn : n ≠ 0) :
     ∀ U : FDRep ℂ (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)), Simple U →

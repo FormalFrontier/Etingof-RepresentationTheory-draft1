@@ -51,7 +51,7 @@ def auxiliaryRelation
   Function.Surjective (auxiliaryElidedDefinition V W)
 
 /-- At a vertex satisfying the second distinguished property, every linear object is related to its associated auxiliary object. -/
-@[source_ref "Chapter6/Problem6.9.3" (role := primary)]
+@[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
 theorem any_relates_to_auxiliaryObjectAtVertex [DecidableEq Q]
     (i : Q) (hi : auxiliaryVertexPropertyTwo i)
     (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) :
@@ -68,7 +68,7 @@ theorem any_relates_to_auxiliaryObjectAtVertex [DecidableEq Q]
   exact LinearMap.ext fun x => hsub.elim _ _
 
 /-- At a vertex satisfying the first distinguished property, its associated auxiliary object is related to every linear object. -/
-@[source_ref "Chapter6/Problem6.9.3" (role := primary)]
+@[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
 theorem auxiliaryObjectAtVertex_relates_to_any [DecidableEq Q]
     (i : Q) (hi : auxiliaryVertexPropertyOne i)
     (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) :
@@ -98,7 +98,7 @@ theorem auxiliaryVertexValue_eq_of_fin_basis
   rw [auxiliaryVertexValue, Module.finrank_eq_card_basis (basis v), Fintype.card_fin]
 
 /-- Under the displayed ordering and finite-basis hypotheses, there is auxiliary data satisfying the two stated equalities. -/
-@[source_ref "Chapter6/Problem6.9.3" (role := primary),
+@[source_ref "Chapter6/Problem6.9.3" (role := supporting),
   source_ref "Chapter6/Section6.9_heading" (role := supporting)]
 theorem existsAuxiliaryDataWithVertexValues [DecidableEq Q]
     (Vα : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)

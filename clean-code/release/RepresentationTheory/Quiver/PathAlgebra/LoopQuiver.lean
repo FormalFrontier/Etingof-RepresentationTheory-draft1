@@ -440,7 +440,7 @@ noncomputable def quiverNatMatrix (Q : Type u) [Quiver Q] : Matrix Q Q ℕ :=
   Matrix.of fun i j => Nat.card (Quiver.Path i j)
 
 /-- Under the stated path-indexed linear-equivalence hypothesis, an associated matrix equals the quiver natural-number matrix. -/
-@[source_ref "Chapter9/Problem9.4.6" (role := primary)]
+@[source_ref "Chapter9/Problem9.4.6" (role := supporting)]
 theorem associatedMatrix_eq_quiverNatMatrix_of_pathIndexedLinearEquiv
     {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q]
     (hacyclic : ∀ (i : Q) (p : Quiver.Path i i), p = Quiver.Path.nil)

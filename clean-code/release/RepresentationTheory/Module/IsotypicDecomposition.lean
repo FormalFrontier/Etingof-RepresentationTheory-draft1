@@ -54,7 +54,7 @@ variable (k : Type*) (A : Type*) (V : Type*)
 
 /-- For a finite-dimensional simple module over an algebraically closed field, evaluation is a
 linear equivalence from its algebra-endomorphism space tensored with the module to the module. -/
-@[source_ref "Chapter3/Remark3.1.3" (role := primary)]
+@[source_ref "Chapter3/Remark3.1.3" (role := supporting)]
 noncomputable def endomorphismTensorSelfEquiv :
     (V →ₗ[A] V) ⊗[k] V ≃ₗ[k] V :=
   LinearEquiv.ofLinear
@@ -209,7 +209,7 @@ variable (k : Type*) (A : Type*) {ι : Type*} (X : ι → Type*) (V : Type*)
 
 /-- The evaluation map from the direct sum of hom-space tensor products associated with a family
 of modules into the target module. -/
-@[source_ref "Chapter3/Remark3.1.3" (role := primary)]
+@[source_ref "Chapter3/Remark3.1.3" (role := supporting)]
 noncomputable def isotypicEvaluation :
     (⨁ i, (X i →ₗ[A] V) ⊗[k] X i) →ₗ[k] V :=
   DirectSum.toModule k ι V (fun i => homTensorEvaluation k A (X i) V)
@@ -218,7 +218,7 @@ omit [IsAlgClosed k] [Fintype ι] [∀ i, IsSimpleModule A (X i)]
   [∀ i, FiniteDimensional k (X i)] [FiniteDimensional k V] [IsSemisimpleModule A V] in
 /-- The isotypic evaluation map sends a pure tensor included from one direct-sum component to
 evaluation of its homomorphism on its vector. -/
-@[source_ref "Chapter3/Remark3.1.3" (role := primary), simp]
+@[source_ref "Chapter3/Remark3.1.3" (role := supporting), simp]
 theorem isotypicEvaluation_lof_tmul (i : ι) (g : X i →ₗ[A] V) (x : X i) :
     isotypicEvaluation k A X V
         (DirectSum.lof k ι (fun i => (X i →ₗ[A] V) ⊗[k] X i) i (g ⊗ₜ[k] x)) =

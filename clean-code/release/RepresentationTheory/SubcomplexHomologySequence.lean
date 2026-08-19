@@ -196,7 +196,7 @@ noncomputable def boundaryHomologyClass (i j : ℤ)
 
 /-- The connecting morphism from quotient homology in one degree to subcomplex homology in an
 adjacent degree. -/
-@[source_ref "Chapter7/Problem7.8.5" (role := primary)]
+@[source_ref "Chapter7/Problem7.8.5" (role := supporting)]
 noncomputable def connectingHom (i j : ℤ) (hij : (ComplexShape.up ℤ).Rel i j) :
     C.quotientComplex.homology i ⟶ C.subcomplex.homology j :=
   C.subcomplexQuotientSequence_shortExact.δ i j hij
@@ -217,7 +217,7 @@ theorem connectingHom_apply_quotientHomologyClass (i j : ℤ)
 
 /-- Representatives defining the same quotient homology class have equal lifted-differential
 homology classes. -/
-@[source_ref "Chapter7/Problem7.8.5" (role := primary)]
+@[source_ref "Chapter7/Problem7.8.5" (role := supporting)]
 theorem boundaryHomologyClass_eq_of_quotientHomologyClass_eq (i j : ℤ)
     (hij : (ComplexShape.up ℤ).Rel i j)
     (x y : D.X i)
@@ -233,7 +233,7 @@ theorem boundaryHomologyClass_eq_of_quotientHomologyClass_eq (i j : ℤ)
 
 /-- Two representatives with the same image in the quotient complex determine the same
 lifted-differential homology class. -/
-@[source_ref "Chapter7/Problem7.8.5" (role := primary)]
+@[source_ref "Chapter7/Problem7.8.5" (role := supporting)]
 theorem boundaryHomologyClass_eq_of_quotientMap_eq (i j : ℤ)
     (hij : (ComplexShape.up ℤ).Rel i j) (x y : D.X i)
     (hx : C.quotientComplex.d i j (C.quotientHom.f i x) = 0)

@@ -17,7 +17,7 @@ namespace RepresentationTheory.LinearAlgebra.Matrix.TwoIdentitySub
 namespace Matrix
 
 /-- Under the given matrix condition, the quadratic form defined by twice the identity minus the matrix is strictly positive on every nonzero integer vector. -/
-@[source_ref "Chapter6/Lemma6.4.2" (role := primary)]
+@[source_ref "Chapter6/Lemma6.4.2" (role := supporting)]
 theorem dotProduct_mulVec_two_smul_one_sub_pos (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
     (haux : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj)
     (x : Fin n → ℤ) (hx : x ≠ 0) :
@@ -82,7 +82,7 @@ private lemma even_sum_of_symmetric_zero_diagonal {n : ℕ} (f : Fin n → Fin n
   exact even_two_mul _
 
 /-- For a symmetric integer matrix with zero diagonal, the quadratic form defined by twice the identity minus that matrix takes only even values. -/
-@[source_ref "Chapter6/Lemma6.4.2" (role := primary)]
+@[source_ref "Chapter6/Lemma6.4.2" (role := supporting)]
 theorem even_dotProduct_mulVec_two_smul_one_sub (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)
     (hdiag : ∀ i, adj i i = 0)

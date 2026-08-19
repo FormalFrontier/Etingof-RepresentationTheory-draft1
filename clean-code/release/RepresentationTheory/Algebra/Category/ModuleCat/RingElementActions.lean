@@ -510,7 +510,7 @@ theorem simpleModules_satisfyCondition_of_scalarActsAsIdentity [Small.{v} R] {f 
       ⟨f * c, f * c', hg1ne, hg2ne, g1idem, g2idem, hfc_comm, hfc'_comm, g12, hfsum⟩
 
 /-- Morphisms between modules are subsingleton under the displayed simple-module conditions. -/
-@[source_ref "Chapter9/Problem9.5.3" (role := primary)]
+@[source_ref "Chapter9/Problem9.5.3" (role := supporting)]
 theorem hom_subsingleton_of_simpleModule_conditions [Small.{v} R]
     {S T : ModuleCat.{v} R} (hS : IsSimpleModule R S) (hT : IsSimpleModule R T)
     {M N : ModuleCat.{v} R} (hM : auxiliaryModuleRelation'''' R S M)

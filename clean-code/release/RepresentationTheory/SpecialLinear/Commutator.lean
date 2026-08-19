@@ -167,7 +167,7 @@ theorem specialLinear_mem_commutator (s : SpecialLinearGroup (Fin 2) F)
       (auxiliaryElement_mem_commutator _ a₀ ha0 ha1)
 
 /-- For a positive-degree Galois field with more than two elements, the commutator subgroup of its two-dimensional general linear group equals the range of the special linear group embedding. -/
-@[source_ref "Chapter5/Proposition5.25.1" (role := primary)]
+@[source_ref "Chapter5/Proposition5.25.1" (role := supporting)]
 theorem generalLinear_commutator_eq_specialLinear_range
     (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ) (_hn : 0 < n)
     (hq : 2 < Nat.card (GaloisField p n)) :

@@ -186,7 +186,7 @@ end InnerProductSpace.Core
 open InnerProductSpace.Core in
 set_option linter.unusedFintypeInType false in
 /-- An auxiliary positive-scalar conclusion for two invariant inner product cores on a nontrivial irreducible finite-dimensional complex representation. -/
-@[source_ref "Chapter4/Theorem4.6.2" (role := primary)]
+@[source_ref "Chapter4/Theorem4.6.2" (role := supporting)]
 theorem Representation.auxiliaryInvariantInnerProductResult
     (G : Type*) [Group G] [Fintype G]
     (V : Type*) [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]

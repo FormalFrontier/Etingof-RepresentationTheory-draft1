@@ -41,7 +41,7 @@ theorem finiteDimensional_of_isSimpleModule (k : Type*) (A : Type*) (V : Type*)
 set_option linter.unusedFintypeInType false in
 /-- The cardinality of a finite family of pairwise nonisomorphic simple modules is at most the
 dimension of the algebra. -/
-@[source_ref "Chapter3/Theorem3.5.4" (role := primary)]
+@[source_ref "Chapter3/Theorem3.5.4" (role := supporting)]
 theorem card_le_finrank_of_pairwise_nonisomorphic (k : Type*) (A : Type*) (ι : Type*)
     [Field k] [IsAlgClosed k] [Ring A] [Algebra k A] [FiniteDimensional k A] [Fintype ι]
     (V : ι → Type*) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]

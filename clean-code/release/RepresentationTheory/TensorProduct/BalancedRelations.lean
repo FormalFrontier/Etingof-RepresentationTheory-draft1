@@ -95,7 +95,7 @@ instance resFunctor_preservesFiniteColimits (φ : G →* H) :
 
 
 /-- Restriction of representations along a group homomorphism preserves finite limits and finite colimits. -/
-@[source_ref "Chapter7/Example7.9.6" (role := primary)]
+@[source_ref "Chapter7/Example7.9.6" (role := supporting)]
 theorem resFunctor_preservesFiniteLimits_and_colimits (φ : G →* H) :
     PreservesFiniteLimits (Rep.resFunctor.{u, u, u} (k := k) φ) ∧
       PreservesFiniteColimits (Rep.resFunctor.{u, u, u} (k := k) φ) :=
@@ -123,7 +123,7 @@ instance indFunctor_preservesFiniteLimits_of_finiteIndex :
 
 
 /-- Induction from a finite-index subgroup preserves finite limits and finite colimits. -/
-@[source_ref "Chapter7/Example7.9.6" (role := primary)]
+@[source_ref "Chapter7/Example7.9.6" (role := supporting)]
 theorem indFunctor_preservesFiniteLimits_and_colimits_of_finiteIndex :
     PreservesFiniteLimits (Rep.indFunctor.{u, u, u} k S.subtype) ∧
       PreservesFiniteColimits (Rep.indFunctor.{u, u, u} k S.subtype) :=
@@ -156,7 +156,7 @@ theorem subsingleton_linearMap_zmodTwo_int : Subsingleton (ZMod 2 →ₗ[ℤ] �
 
 
 /-- For every integer-linear map from the integers to `ZMod 2`, postcomposition with that map is not surjective on linear maps with source `ZMod 2`. -/
-@[source_ref "Chapter7/Example7.9.6" (role := primary)]
+@[source_ref "Chapter7/Example7.9.6" (role := supporting)]
 theorem postcomp_intToZModTwo_not_surjective (g : ℤ →ₗ[ℤ] ZMod 2) :
     ¬ Function.Surjective (fun φ : ZMod 2 →ₗ[ℤ] ℤ => g.comp φ) := by
   haveI := subsingleton_linearMap_zmodTwo_int
@@ -308,7 +308,7 @@ theorem BalancedTensorQuotient.map_surjective (g : N →ₗ[A] P) (hg : Function
 
 
 /-- Exactness is preserved by the induced map on balanced tensor quotients when the second map is onto. -/
-@[source_ref "Chapter7/Example7.9.6" (role := primary)]
+@[source_ref "Chapter7/Example7.9.6" (role := supporting)]
 theorem BalancedTensorQuotient.exact_map (f : M →ₗ[A] N) (g : N →ₗ[A] P) (hfg : Function.Exact f g)
     (hg : Function.Surjective g) :
     Function.Exact (BalancedTensorQuotient.map A X f) (BalancedTensorQuotient.map A X g) := by
@@ -344,7 +344,7 @@ lemma op_int_smul_eq_smul (X : Type*) [AddCommGroup X] (a : ℤ) (x : X) :
 
 
 /-- The balanced-quotient map induced by multiplication by two over the integers with left factor `ZMod 2` is not injective. -/
-@[source_ref "Chapter7/Example7.9.6" (role := primary)]
+@[source_ref "Chapter7/Example7.9.6" (role := supporting)]
 theorem BalancedTensorQuotient.map_mulTwo_not_injective :
     ¬ Function.Injective (BalancedTensorQuotient.map ℤ (ZMod 2) (LinearMap.lsmul ℤ ℤ (2 : ℤ))) := by
   intro hinj

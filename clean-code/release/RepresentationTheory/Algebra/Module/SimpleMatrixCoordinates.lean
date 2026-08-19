@@ -39,7 +39,7 @@ section Matrix
 variable {A : Type*} [Ring A] {V : Type*} [AddCommGroup V] [Module A V]
 
 /-- An additive equivalence between linear maps of finite function modules and matrices of module endomorphisms. -/
-@[source_ref "Chapter3/Remark3.1.5" (role := primary)]
+@[source_ref "Chapter3/Remark3.1.5" (role := supporting)]
 def linearMapAddEquivMatrix (r n : ℕ) :
     ((Fin r → V) →ₗ[A] (Fin n → V)) ≃+ Matrix (Fin r) (Fin n) (Module.End A V) where
   toFun f i j :=
@@ -227,7 +227,7 @@ variable {A : Type*} [Ring A] {V : Type*} [AddCommGroup V] [Module A V]
   [IsSimpleModule A V]
 
 /-- The endomorphism ring of a simple module admits a division ring structure. -/
-@[source_ref "Chapter3/Remark3.1.5" (role := primary)]
+@[source_ref "Chapter3/Remark3.1.5" (role := supporting)]
 theorem nonempty_divisionRing_end : Nonempty (DivisionRing (Module.End A V)) := by
   classical exact ⟨inferInstance⟩
 

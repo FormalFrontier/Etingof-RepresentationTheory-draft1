@@ -325,7 +325,7 @@ theorem adjunction_homEquiv
   rfl
 
 /-- The left endofunctor satisfies the required auxiliary condition. -/
-@[source_ref "Chapter7/Exercise7.9.8" (role := primary)]
+@[source_ref "Chapter7/Exercise7.9.8" (role := supporting)]
 theorem auxiliaryLeftEndofunctorCondition :
     RepresentationTheory.FunctorPredicateLogic.Right (leftEndofunctor (k := k) hi) := by
   haveI := (adjunction (k := k) (Q := Q) hi).leftAdjoint_preservesColimits
@@ -333,7 +333,7 @@ theorem auxiliaryLeftEndofunctorCondition :
 
 set_option linter.unusedFintypeInType false in
 /-- The right endofunctor satisfies the required auxiliary condition when the associated indexing type is finite. -/
-@[source_ref "Chapter7/Exercise7.9.8" (role := primary)]
+@[source_ref "Chapter7/Exercise7.9.8" (role := supporting)]
 theorem auxiliaryRightEndofunctorCondition :
     RepresentationTheory.FunctorPredicateLogic.Left (rightEndofunctor (k := k) hi) := by
   haveI := (adjunction (k := k) (Q := Q) hi).rightAdjoint_preservesLimits

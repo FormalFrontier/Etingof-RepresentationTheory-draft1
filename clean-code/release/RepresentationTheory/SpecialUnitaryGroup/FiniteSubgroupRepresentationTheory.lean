@@ -1402,7 +1402,7 @@ lemma tensorMultiplicity_le_one_of_nontrivial (hW : IsCompleteSimpleFamily W) (h
   · exact tensorMultiplicity_le_one_of_ne W hW hm h
 
 /-- An auxiliary classification property holds for the integer pairing under the stated finiteness, size, and nontriviality hypotheses. -/
-@[source_ref "Chapter6/Problem6.1.6" (role := primary),
+@[source_ref "Chapter6/Problem6.1.6" (role := supporting),
   source_ref "Chapter6/Problem6.1.6/Derived4" (role := supporting),
   source_ref "Chapter6/Problem6.1.6/Derived5" (role := supporting),
   source_ref "Chapter6/Problem6.1.6/Derived7" (role := supporting)]

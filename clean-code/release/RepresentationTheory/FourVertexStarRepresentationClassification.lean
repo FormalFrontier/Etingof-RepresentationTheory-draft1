@@ -358,7 +358,7 @@ noncomputable instance standardRepresentation_isVertexFinite (k : Type u) [Field
   (canonicalDimensionRealization k d).vertexFinite v
 
 /-- Every standard representation indexed by an admissible dimension is indecomposable. -/
-@[source_ref "Chapter6/Example6.3.1" (role := primary)]
+@[source_ref "Chapter6/Example6.3.1" (role := supporting)]
 theorem standardRepresentation_isIndecomposable (k : Type u) [Field k]
     (d : AdmissibleDimension) : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryCondition k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA
       (standardRepresentation k d) :=
@@ -420,7 +420,7 @@ private theorem canonical_index_eq_of_iso {k : Type} [Field k]
       (standardRepresentation_dimension_apply k e v).symm)
 
 /-- Standard representations attached to distinct admissible dimensions are not equivalent. -/
-@[source_ref "Chapter6/Example6.3.1" (role := primary)]
+@[source_ref "Chapter6/Example6.3.1" (role := supporting)]
 theorem standardRepresentation_not_equiv_of_ne {k : Type} [Field k]
     {d e : AdmissibleDimension} (hde : d ≠ e) :
     ¬ Nonempty (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData k _ (Fin 4) RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA

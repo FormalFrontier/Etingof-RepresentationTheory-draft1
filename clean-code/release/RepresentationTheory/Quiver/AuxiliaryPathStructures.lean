@@ -306,7 +306,7 @@ end Quiver.AuxiliaryPathType
 
 /-- An auxiliary type associated with a field and a quiver. -/
 @[source_ref "Chapter2/Definition2.8.4" (role := supporting),
-  source_ref "Chapter2/Discussion_path_algebra_intro" (role := primary)]
+  source_ref "Chapter2/Discussion_path_algebra_intro" (role := supporting)]
 abbrev Quiver.AuxiliaryOppositeType (k : Type*) (Q : Type*) [Field k] [Quiver Q]
     [DecidableEq Q] : Type _ :=
   (Quiver.AuxiliaryPathType k Q)ᵐᵒᵖ

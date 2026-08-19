@@ -123,7 +123,7 @@ theorem auxiliaryDegreeOneEquiv
       (D.quotientGenerator i) (E.quotientGenerator l) (hD i) (hE l)).some).addCommGroupIsoToAddEquiv
 
 /-- Provides auxiliary data with prescribed degree-zero and degree-one equivalences and triviality in all higher displayed degrees. -/
-@[source_ref "Chapter8/Problem8.2.7" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.7" (role := supporting)]
 theorem auxiliaryDegreeZeroDegreeOneAndHigherSubsingleton
     [Module.Finite k[X] M] [Module.Finite k[X] N] :
     ∃ (D : RepresentationTheory.Algebra.Module.DirectSumData.Module.DirectSumData k[X] M)

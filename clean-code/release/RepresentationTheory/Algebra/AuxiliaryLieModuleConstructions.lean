@@ -24,7 +24,7 @@ variable {ι : Type w} (b : Module.Basis ι k L)
 attribute [local instance 100] LieRing.ofAssociativeRing
 
 /-- An auxiliary type associated with a module over a commutative ring. -/
-@[source_ref "Chapter2/Definition2.12.1" (role := primary)]
+@[source_ref "Chapter2/Definition2.12.1" (role := supporting)]
 abbrev SymmetricAlgebra.auxiliaryModel (k : Type*) (V : Type*) [CommRing k]
     [AddCommGroup V] [Module k V] :=
   SymmetricAlgebra k V

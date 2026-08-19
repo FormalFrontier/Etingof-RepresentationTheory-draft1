@@ -199,7 +199,7 @@ def partitionFourAuxiliaryOne : Nat.Partition 4 where
   parts_sum := by decide
 
 /-- The complex subspace associated with the auxiliary partition of three has dimension two. -/
-@[source_ref "Chapter5/Example5.12.3" (role := primary)]
+@[source_ref "Chapter5/Example5.12.3" (role := supporting)]
 theorem finrank_partitionThreeAuxiliary_eq_two :
     Module.finrank ℂ (_root_.RepresentationTheory.PartitionAuxiliary.partitionSubmodule 3 partitionThreeAuxiliary) = 2 := by
   rw [_root_.RepresentationTheory.YoungDiagram.PartitionFormulas.finrank_auxiliary_subtype_eq_card, _root_.RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.Partition.auxiliaryCard_eq_factorial_div_hookLengthProduct,
@@ -208,7 +208,7 @@ theorem finrank_partitionThreeAuxiliary_eq_two :
   rfl
 
 /-- The complex subspace associated with the second auxiliary partition of four has dimension two. -/
-@[source_ref "Chapter5/Example5.12.3" (role := primary)]
+@[source_ref "Chapter5/Example5.12.3" (role := supporting)]
 theorem finrank_partitionFourAuxiliaryTwo_eq_two :
     Module.finrank ℂ (_root_.RepresentationTheory.PartitionAuxiliary.partitionSubmodule 4 partitionFourAuxiliaryTwo) = 2 := by
   rw [_root_.RepresentationTheory.YoungDiagram.PartitionFormulas.finrank_auxiliary_subtype_eq_card, _root_.RepresentationTheory.Combinatorics.YoungDiagram.CornerStatistics.Partition.auxiliaryCard_eq_factorial_div_hookLengthProduct,

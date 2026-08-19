@@ -346,7 +346,7 @@ instance finiteLengthParameterModuleFunctor_isEquivalence :
     (finiteLengthParameterModuleFunctor R k hS).IsEquivalence where
 
 /-- An equivalence between finite-length parameter-associated modules and finite-length modules satisfying the displayed condition. -/
-@[source_ref "Chapter9/Problem9.5.3" (role := primary)]
+@[source_ref "Chapter9/Problem9.5.3" (role := supporting)]
 noncomputable def finiteLengthParameterEquivalence :
     ObjectProperty.FullSubcategory
         (fun N : ModuleCat.{v} (parameterAssociatedType R (simpleModuleParameter R k hS)) =>

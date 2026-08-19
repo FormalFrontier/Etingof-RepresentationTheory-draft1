@@ -72,7 +72,7 @@ noncomputable def twistedLatticeShiftSubalgebra : Subalgebra k (Module.End k (Tw
       twistedLatticeShift k q (0, 1), twistedLatticeShift k q (0, -1)}
 
 /-- The shifts in the two coordinate directions commute up to multiplication by the twisting unit. -/
-@[source_ref "Chapter2/Discussion_2.7_intro" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.7_intro" (role := supporting)]
 theorem twistedLatticeShift_generators_commute_up_to_unit :
     twistedLatticeShift k q (0, 1) * twistedLatticeShift k q (1, 0) =
       (↑q : k) • (twistedLatticeShift k q (1, 0) * twistedLatticeShift k q (0, 1)) := by

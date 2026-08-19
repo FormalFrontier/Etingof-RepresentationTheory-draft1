@@ -23,7 +23,7 @@ noncomputable def rightCosetCorrection (H : Subgroup G) (g : G) : H :=
       = g * (Quotient.mk'' g : Quotient (QuotientGroup.rightRel H)).out⁻¹ := rfl
 
 /-- The coinduced representation is linearly equivalent to functions from right cosets. -/
-@[source_ref "Chapter5/Remark5.8.3" (role := primary)]
+@[source_ref "Chapter5/Remark5.8.3" (role := supporting)]
 noncomputable def coindVEquivRightCosetFunctions (H : Subgroup G) (ρ : Representation ℂ H V) :
     Representation.coindV H.subtype ρ ≃ₗ[ℂ]
       (Quotient (QuotientGroup.rightRel H) → V) where

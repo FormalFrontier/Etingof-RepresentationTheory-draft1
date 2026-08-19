@@ -132,7 +132,7 @@ lemma homologyMap_toHomologyComplex_comp_fromHomologyComplex (i : ℤ) :
 end SplitField
 
 /-- The composite of two differentials in the tensor product complex is zero. -/
-@[source_ref "Chapter7/Problem7.8.7" (role := primary)]
+@[source_ref "Chapter7/Problem7.8.7" (role := supporting)]
 theorem tensorProduct_d_comp_d (C D : CochainComplex (ModuleCat.{u} k) ℤ) (i j l : ℤ) :
     (binaryOperation C D).d i j ≫ (binaryOperation C D).d j l = 0 :=
   (binaryOperation C D).d_comp_d i j l

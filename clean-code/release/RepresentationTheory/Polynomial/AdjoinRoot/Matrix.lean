@@ -92,7 +92,7 @@ theorem AdjoinRoot.minpoly_root_eq_of_monic [Nontrivial R] (p : R[X]) (hp : p.Mo
   rw [hc, eq_one_of_monic_natDegree_zero hcmonic hc0, mul_one]
 
 /-- The characteristic polynomial of the auxiliary matrix of a monic polynomial is that polynomial. -/
-@[source_ref "Chapter5/Proposition5.2.3" (role := primary)]
+@[source_ref "Chapter5/Proposition5.2.3" (role := supporting)]
 theorem Polynomial.charpoly_auxiliaryMatrix_eq_of_monic [Nontrivial R] (p : R[X]) (hp : p.Monic) :
     (Polynomial.auxiliaryMatrix p).charpoly = p := by
   have h := charpoly_leftMulMatrix (AdjoinRoot.powerBasis' hp)
@@ -101,7 +101,7 @@ theorem Polynomial.charpoly_auxiliaryMatrix_eq_of_monic [Nontrivial R] (p : R[X]
   exact h
 
 /-- A root of a monic polynomial remains a root of the characteristic polynomial after mapping its auxiliary matrix. -/
-@[source_ref "Chapter5/Proposition5.2.3" (role := primary)]
+@[source_ref "Chapter5/Proposition5.2.3" (role := supporting)]
 theorem Polynomial.isRoot_charpoly_map_auxiliaryMatrix_of_monic [Nontrivial R]
     {S : Type*} [CommRing S] (φ : R →+* S) (p : R[X]) (hp : p.Monic) (z : S)
     (hz : p.eval₂ φ z = 0) :

@@ -50,7 +50,7 @@ theorem exists_order_target_lt_source {n : ℕ} {adj : Matrix (Fin n) (Fin n) �
   exact hempty.elim arr
 
 /-- Under the stated compatibility and thinness assumptions, there is a witness whose associated natural-number values agree with the supplied integer vector, as do those of a further witness. -/
-@[source_ref "Chapter6/Problem6.9.3" (role := primary)]
+@[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
 theorem exists_witness_with_prescribed_values
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hDynkin : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj)

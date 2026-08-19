@@ -244,7 +244,7 @@ theorem _root_.RepresentationTheory.SymmetricGroup.PartitionDominance.Partition.
   omega
 
 /-- The root-order relation is equivalent to the reversed auxiliary relation. -/
-@[source_ref "Chapter5/Remark5.15.5" (role := primary)]
+@[source_ref "Chapter5/Remark5.15.5" (role := supporting)]
 theorem Partition.rootOrder_iff_auxiliaryRelation {n : ℕ} (la mu : Nat.Partition n) :
     Partition.rootOrder la mu ↔ Partition.Dominates mu la :=
   ⟨Partition.rootOrder.auxiliaryRelation_of_le,
@@ -258,7 +258,7 @@ theorem Partition.rootOrder.antisymm {n : ℕ} {la mu : Nat.Partition n}
     (Partition.rootOrder.auxiliaryRelation_of_le h₁))
 
 /-- The root relation on partitions defines a partial order. -/
-@[source_ref "Chapter5/Remark5.15.5" (role := primary)]
+@[source_ref "Chapter5/Remark5.15.5" (role := supporting)]
 instance Partition.rootOrder_isPartialOrder (n : ℕ) :
     IsPartialOrder (Nat.Partition n) Partition.rootOrder where
   refl := Partition.rootOrder.refl

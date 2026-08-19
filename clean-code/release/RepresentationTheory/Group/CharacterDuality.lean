@@ -70,19 +70,19 @@ def characterGroupPiEquiv {ι : Type*} [Fintype ι] [DecidableEq ι]
   Pi.monoidHomMulEquiv G ℂˣ
 
 /-- A finite commutative group is multiplicatively equivalent to its character group. -/
-@[source_ref "Chapter4/Example4.3_FiniteAbelianGroups" (role := primary)]
+@[source_ref "Chapter4/Example4.3_FiniteAbelianGroups" (role := supporting)]
 theorem nonempty_characterGroupEquiv (G : Type*) [CommGroup G] [Finite G] :
     Nonempty (G ≃* characterGroup G) :=
   (CommGroup.monoidHom_mulEquiv_of_hasEnoughRootsOfUnity G ℂ).map MulEquiv.symm
 
 /-- A finite commutative group is multiplicatively equivalent to the character group of its character group. -/
-@[source_ref "Chapter4/Example4.3_FiniteAbelianGroups" (role := primary)]
+@[source_ref "Chapter4/Example4.3_FiniteAbelianGroups" (role := supporting)]
 noncomputable def characterGroupDualEquiv (G : Type*) [CommGroup G] [Finite G] :
     G ≃* characterGroup (characterGroup G) :=
   (CommGroup.monoidHomMonoidHomEquiv G ℂ).symm
 
 /-- The double-character equivalence has the displayed value at a group element and character. -/
-@[simp, source_ref "Chapter4/Example4.3_FiniteAbelianGroups" (role := primary)]
+@[simp, source_ref "Chapter4/Example4.3_FiniteAbelianGroups" (role := supporting)]
 theorem characterGroupDualEquiv_apply (G : Type*) [CommGroup G] [Finite G]
     (g : G) (χ : characterGroup G) :
     characterGroupDualEquiv G g χ = χ g :=

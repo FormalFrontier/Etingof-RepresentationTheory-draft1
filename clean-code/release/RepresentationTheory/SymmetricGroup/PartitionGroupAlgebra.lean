@@ -138,7 +138,7 @@ open Pointwise in
 
 /-- If a permutation does not lie in the product of the two displayed sets, there is a swap in the first set whose conjugate by that permutation lies in the second set. -/
 @[source_ref "Chapter5/Lemma5.13.1" (role := supporting),
-  source_ref "Chapter5/Discussion_end_of_Lemma5.13.1_proof" (role := primary)]
+  source_ref "Chapter5/Discussion_end_of_Lemma5.13.1_proof" (role := supporting)]
 theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
     (σ : Equiv.Perm (Fin n))
     (hσ : σ ∉ (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la : Set (Equiv.Perm (Fin n))) *

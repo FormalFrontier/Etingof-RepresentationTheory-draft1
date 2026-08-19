@@ -942,7 +942,7 @@ theorem Auxiliary.basisTensorProjectiveResolution_isZeroAbove
 
 
 /-- Constructs an auxiliary projective resolution for the displayed module. -/
-@[source_ref "Chapter8/Problem8.2.10" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def Auxiliary.projectiveResolution [FiniteDimensional k V]
     (M : ModuleCat.{u} (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V)) : ProjectiveResolution M :=
   Auxiliary.basisTensorProjectiveResolution k V (Module.finBasis k V) M
@@ -951,7 +951,7 @@ noncomputable def Auxiliary.projectiveResolution [FiniteDimensional k V]
 
 
 /-- Shows that the displayed resolution has zero components above the finite rank. -/
-@[source_ref "Chapter8/Problem8.2.10" (role := primary)]
+@[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 theorem Auxiliary.projectiveResolution_isZeroAbove [FiniteDimensional k V]
     (M : ModuleCat.{u} (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V)) (i : ℕ) (hi : Module.finrank k V < i) :
     IsZero ((Auxiliary.projectiveResolution k V M).complex.X i) :=

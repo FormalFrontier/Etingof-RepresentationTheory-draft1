@@ -3538,7 +3538,7 @@ theorem finrank_weightSpace_schurRepresentation
 
 
 /-- The weight character of the representation attached to a weakly decreasing tuple is its corresponding symmetric polynomial. -/
-@[source_ref "Chapter5/Theorem5.22.1" (role := primary)]
+@[source_ref "Chapter5/Theorem5.22.1" (role := supporting)]
 theorem weightCharacter_schurRepresentation_eq
     (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
     weightCharacter k N (schurRepresentation k N lam) = RepresentationTheory.SymmetricPolynomials.Alternant.partitionPolynomial N lam := by
@@ -3931,7 +3931,7 @@ theorem eval_one_schurPolynomial (N : ℕ) (lam : Fin N → ℕ)
 
 
 /-- The dimension of the representation indexed by a weakly decreasing tuple is given by its rational dimension expression. -/
-@[source_ref "Chapter5/Theorem5.22.1" (role := primary)]
+@[source_ref "Chapter5/Theorem5.22.1" (role := supporting)]
 theorem finrank_schurRepresentation_eq (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
     (Module.finrank k (schurRepresentation k N lam) : ℚ) = schurDimension N lam := by
   rw [finrank_schurRepresentation_eq_eval_one_weightCharacter k N lam hlam, weightCharacter_schurRepresentation_eq k N lam hlam,

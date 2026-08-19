@@ -341,7 +341,7 @@ lemma iso_of_hom_finrank_eq
 
 /-- Finite-dimensional representations with equal characters are isomorphic under the displayed
 hypotheses. -/
-@[source_ref "Chapter4/Corollary4.2.4" (role := primary)]
+@[source_ref "Chapter4/Corollary4.2.4" (role := supporting)]
 theorem iso_of_character_eq
     (G : Type) [Group G] [Finite G]
     (V W : FDRep k G)
@@ -350,7 +350,7 @@ theorem iso_of_character_eq
   iso_of_hom_finrank_eq V W (finrank_hom_eq_of_character_eq V W h)
 
 /-- Complex finite-dimensional representations with equal characters are isomorphic. -/
-@[source_ref "Chapter4/Corollary4.2.4" (role := primary)]
+@[source_ref "Chapter4/Corollary4.2.4" (role := supporting)]
 theorem complex_iso_of_character_eq
     (G : Type) [Group G] [Finite G]
     (V W : FDRep ℂ G)

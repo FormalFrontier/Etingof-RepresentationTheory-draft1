@@ -21,7 +21,7 @@ variable {K A V W L : Type*}
   [Field L] [Algebra K L]
 
 /-- A retraction after tensor extension yields a retraction before tensor extension under finite-dimensionality hypotheses. -/
-@[source_ref "Chapter3/Problem3.8.4" (role := primary)]
+@[source_ref "Chapter3/Problem3.8.4" (role := supporting)]
 theorem exists_retract_of_tensorRetract
     [FiniteDimensional K V] [FiniteDimensional K W]
     (h : ∃ (i : (L ⊗[K] V) →ₗ[L ⊗[K] A] (L ⊗[K] W))

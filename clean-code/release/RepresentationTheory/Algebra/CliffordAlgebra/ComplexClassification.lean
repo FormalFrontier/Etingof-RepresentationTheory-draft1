@@ -846,7 +846,7 @@ set_option maxHeartbeats 400000 in
 
 
 /-- For a symmetric nondegenerate form of dimension twice a natural number, the Clifford algebra is algebra-equivalent to the endomorphism algebra of a space of dimension the corresponding power of two. -/
-@[source_ref "Chapter3/Problem3.9.5" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 theorem exists_algEquiv_end_of_finrank_even
     (hsymm : ∀ x y, B x y = B y x) (hnd : B.Nondegenerate)
     (n : ℕ) (hdim : Module.finrank ℂ V = 2 * n) :
@@ -1072,7 +1072,7 @@ set_option maxHeartbeats 1600000 in
 
 
 /-- For a symmetric nondegenerate form of dimension twice a natural number plus one, the Clifford algebra is algebra-equivalent to a product of two endomorphism algebras on a space of dimension the corresponding power of two. -/
-@[source_ref "Chapter3/Problem3.9.5" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 theorem exists_algEquiv_prod_end_of_finrank_odd
     (hsymm : ∀ x y, B x y = B y x) (hnd : B.Nondegenerate)
     (n : ℕ) (hdim : Module.finrank ℂ V = 2 * n + 1) :

@@ -152,17 +152,17 @@ noncomputable def standardMatrixRepresentation : QuaternionGroup 2 →* Matrix (
 @[simp] theorem standardMatrixRepresentation_xa (i : ZMod 4) : standardMatrixRepresentation (xa i) = secondGeneratorMatrix * firstGeneratorMatrix ^ i.val := rfl
 
 /-- The standard matrix representation sends the first cyclic generator to the first generator matrix. -/
-@[source_ref "Chapter4/Example4.3_Q8" (role := primary)]
+@[source_ref "Chapter4/Example4.3_Q8" (role := supporting)]
 theorem standardMatrixRepresentation_a_one : standardMatrixRepresentation (a 1) = firstGeneratorMatrix := by
   rw [standardMatrixRepresentation_a, show ((1 : ZMod (2 * 2)).val) = 1 from rfl, pow_one]
 
 /-- The standard matrix representation sends the zeroth element of the second coset to the second generator matrix. -/
-@[source_ref "Chapter4/Example4.3_Q8" (role := primary)]
+@[source_ref "Chapter4/Example4.3_Q8" (role := supporting)]
 theorem standardMatrixRepresentation_xa_zero : standardMatrixRepresentation (xa 0) = secondGeneratorMatrix := by
   rw [standardMatrixRepresentation_xa, show ((0 : ZMod (2 * 2)).val) = 0 from rfl, pow_zero, mul_one]
 
 /-- The standard matrix representation sends the third element of the second coset to the third distinguished matrix. -/
-@[source_ref "Chapter4/Example4.3_Q8" (role := primary)]
+@[source_ref "Chapter4/Example4.3_Q8" (role := supporting)]
 theorem standardMatrixRepresentation_xa_three : standardMatrixRepresentation (xa 3) = thirdDistinguishedMatrix := by
   rw [standardMatrixRepresentation_xa, show ((3 : ZMod (2 * 2)).val) = 3 from rfl, firstGeneratorMatrix_pow_three, mul_neg,
     ← firstGeneratorMatrix_mul_secondGeneratorMatrix_eq_neg, firstGeneratorMatrix_mul_secondGeneratorMatrix]
@@ -395,7 +395,7 @@ lemma linearRepresentation_aux1_simple : Simple linearRepresentation_aux1 :=
   (FDRep.simple_iff_char_is_norm_one _).mpr (representationOfLinearCharacter_character_norm linearCharacter_aux1)
 
 /-- The distinguished two-dimensional quaternion-group representation is simple. -/
-@[source_ref "Chapter4/Example4.3_Q8" (role := primary)]
+@[source_ref "Chapter4/Example4.3_Q8" (role := supporting)]
 lemma standardRepresentation_simple : Simple standardRepresentation :=
   (FDRep.simple_iff_char_is_norm_one _).mpr standardRepresentation_character_norm
 

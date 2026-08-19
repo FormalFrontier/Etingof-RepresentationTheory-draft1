@@ -18,7 +18,7 @@ open scoped Classical in
 /-- An integral linear combination of pairwise nonisomorphic simple characters with self-inner
 product one and positive degree has exactly one coefficient equal to one. -/
 @[source_ref "Chapter5/Discussion_before_Lemma5.7.2" (role := supporting),
-  source_ref "Chapter5/Lemma5.7.2" (role := primary)]
+  source_ref "Chapter5/Lemma5.7.2" (role := supporting)]
 theorem exists_singleton_of_character_selfInner_eq_one
     {G : Type} [Group G] [Fintype G] [Invertible (Fintype.card G : ℂ)]
     {ι : Type*} [Fintype ι]

@@ -105,14 +105,14 @@ abbrev fieldNatAuxiliaryType : Type _ :=
 
 
 /-- For a positive exponent, the field-and-natural-number auxiliary type is simple over the corresponding adjoin-root algebra. -/
-@[source_ref "Chapter3/Example3.5.6" (role := primary)]
+@[source_ref "Chapter3/Example3.5.6" (role := supporting)]
 theorem isSimpleModule_fieldNatAuxiliaryType (hn : 0 < n) :
     IsSimpleModule (AdjoinRoot (X ^ n : k[X])) (fieldNatAuxiliaryType k n) :=
   isSimpleModule_iff_isCoatom.mpr (Ideal.isMaximal_def.mp (span_root_isMaximal k n hn))
 
 
 /-- The adjoined root acts as zero on the field-and-natural-number auxiliary type. -/
-@[source_ref "Chapter3/Example3.5.6" (role := primary)]
+@[source_ref "Chapter3/Example3.5.6" (role := supporting)]
 theorem root_smul_fieldNatAuxiliaryType (m : fieldNatAuxiliaryType k n) :
     AdjoinRoot.root (X ^ n : k[X]) • m = 0 := by
   induction m using Submodule.Quotient.induction_on with
@@ -128,14 +128,14 @@ noncomputable def fieldNatAuxiliaryTypeAlgEquiv (hn : 0 < n) : fieldNatAuxiliary
 
 
 /-- For a positive natural-number parameter, the corresponding field-indexed auxiliary type has dimension one over the ground field. -/
-@[source_ref "Chapter3/Example3.5.6" (role := primary)]
+@[source_ref "Chapter3/Example3.5.6" (role := supporting)]
 theorem finrank_fieldNatAuxiliaryType (hn : 0 < n) :
     Module.finrank k (fieldNatAuxiliaryType k n) = 1 := by
   rw [(fieldNatAuxiliaryTypeAlgEquiv k n hn).toLinearEquiv.finrank_eq, Module.finrank_self]
 
 
 /-- For a positive exponent, every simple module over the corresponding adjoin-root algebra is linearly equivalent to the field-and-natural-number auxiliary type. -/
-@[source_ref "Chapter3/Example3.5.6" (role := primary)]
+@[source_ref "Chapter3/Example3.5.6" (role := supporting)]
 theorem nonempty_equiv_fieldNatAuxiliaryType (hn : 0 < n) (M : Type*) [AddCommGroup M]
     [Module (AdjoinRoot (X ^ n : k[X])) M] [IsSimpleModule (AdjoinRoot (X ^ n : k[X])) M] :
     Nonempty (M ≃ₗ[AdjoinRoot (X ^ n : k[X])] fieldNatAuxiliaryType k n) := by

@@ -479,7 +479,7 @@ theorem GaloisField.eq_or_eq_characterCardPow_of_auxiliaryIso
 omit [DecidableEq (GaloisField p n)] in
 
 /-- Isomorphism criterion for auxiliary objects indexed by nonfixed characters -/
-@[source_ref "Chapter5/Discussion_5.25.4" (role := primary)]
+@[source_ref "Chapter5/Discussion_5.25.4" (role := supporting)]
 theorem GaloisField.auxiliaryIso_iff_eq_or_eq_characterCardPow
     (hp2 : p ≠ 2) (hn : 0 < n)
     (nu mu : K p n →* ℂˣ)
@@ -551,7 +551,7 @@ def GaloisField.fdRepOfAuxiliaryIndex (hp2 : p ≠ 2) (i : GaloisField.Auxiliary
 omit [DecidableEq (GaloisField p n)] in
 
 /-- Simplicity of the representation associated to an auxiliary index -/
-@[source_ref "Chapter5/Discussion_5.25.4" (role := primary)]
+@[source_ref "Chapter5/Discussion_5.25.4" (role := supporting)]
 theorem GaloisField.simple_fdRepOfAuxiliaryIndex (hp2 : p ≠ 2) (i : GaloisField.AuxiliaryIndex p n) :
     Simple (GaloisField.fdRepOfAuxiliaryIndex p n hp2 i) := by
   classical
@@ -570,7 +570,7 @@ theorem GaloisField.finrank_fdRepOfAuxiliaryIndex (hp2 : p ≠ 2) (i : GaloisFie
 omit [DecidableEq (GaloisField p n)] in
 
 /-- Equality of auxiliary indices determined by isomorphic associated representations -/
-@[source_ref "Chapter5/Discussion_5.25.4" (role := primary)]
+@[source_ref "Chapter5/Discussion_5.25.4" (role := supporting)]
 theorem GaloisField.eq_of_fdRepOfAuxiliaryIndex_iso (hp2 : p ≠ 2) :
     ∀ i j : GaloisField.AuxiliaryIndex p n,
       Nonempty (GaloisField.fdRepOfAuxiliaryIndex p n hp2 i ≅ GaloisField.fdRepOfAuxiliaryIndex p n hp2 j) → i = j := by
@@ -619,7 +619,7 @@ theorem GaloisField.natCard_auxiliaryIndex :
 omit [DecidableEq (GaloisField p n)] [Fintype (GL2 p n)] in
 
 /-- Family of pairwise nonisomorphic simple objects with prescribed index cardinality -/
-@[source_ref "Chapter5/Discussion_5.25.4" (role := primary)]
+@[source_ref "Chapter5/Discussion_5.25.4" (role := supporting)]
 theorem GaloisField.exists_pairwise_nonisomorphic_simple_family (hp2 : p ≠ 2) :
     ∃ (ι : Type) (F : ι → FDRep ℂ (GL2 p n)),
       (∀ i, Simple (F i)) ∧

@@ -283,7 +283,7 @@ def singleton_difference_set : Set (Fin (n + 1) → ℤ) :=
   {x | x ∈ zero_sum_submodule n ∧ x ≠ 0 ∧ dotProduct x x = 2}
 
 /-- A function belongs to the singleton-difference set exactly when it is the difference of two unit singleton functions at distinct indices. -/
-@[source_ref "Chapter6/Example6.4.9" (role := primary)]
+@[source_ref "Chapter6/Example6.4.9" (role := supporting)]
 theorem mem_singleton_difference_set_iff (x : Fin (n + 1) → ℤ) :
     x ∈ singleton_difference_set n ↔
       ∃ i j : Fin (n + 1), i ≠ j ∧ x = Pi.single i 1 - Pi.single j 1 := by
@@ -452,7 +452,7 @@ private lemma card_strictPairs :
   omega
 
 /-- The auxiliary set has cardinality `n * (n + 1) / 2`. -/
-@[source_ref "Chapter6/Example6.4.9" (role := primary)]
+@[source_ref "Chapter6/Example6.4.9" (role := supporting)]
 theorem auxiliary_set_ncard : Set.ncard (auxiliary_set n) = n * (n + 1) / 2 := by
   have hset : auxiliary_set n =
       ↑((univ.filter (fun p : Fin (n + 1) × Fin (n + 1) => p.1 < p.2)).image

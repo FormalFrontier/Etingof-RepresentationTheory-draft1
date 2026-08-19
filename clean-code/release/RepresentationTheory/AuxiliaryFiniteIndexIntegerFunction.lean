@@ -13,7 +13,7 @@ This module defines an integer-valued function on a pair of indices in the same 
 -/
 
 /-- An auxiliary integer-valued function of two indices in the same finite type. -/
-@[source_ref "Chapter6/Definition6.4.5" (role := primary)]
+@[source_ref "Chapter6/Definition6.4.5" (role := supporting)]
 def RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction.auxiliaryValue (n : ℕ) (i : Fin n) :
     Fin n → ℤ :=
   Pi.single i 1

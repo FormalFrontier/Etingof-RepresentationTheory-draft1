@@ -21,7 +21,7 @@ field has dimension one. -/
 @[source_ref "Chapter2/Corollary2.3.12" (role := primary),
   source_ref "Chapter2/Discussion_proof_Corollary2.3.12" (role := supporting),
   source_ref "Chapter2/Discussion_proof_Corollary2.3.12/Derived2" (role := supporting),
-  source_ref "Chapter2/Discussion_proof_Corollary2.3.12/Derived3" (role := primary)]
+  source_ref "Chapter2/Discussion_proof_Corollary2.3.12/Derived3" (role := supporting)]
 theorem finrank_eq_one
     {k : Type*} [Field k] [IsAlgClosed k]
     {A : Type*} [CommRing A] [Algebra k A]

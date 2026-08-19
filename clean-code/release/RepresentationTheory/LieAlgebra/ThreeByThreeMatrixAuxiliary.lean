@@ -82,7 +82,7 @@ noncomputable def matrixLieEquivAux :
     fin_cases i <;> fin_cases j <;> simp [toMatrixAux]
 
 /-- On the specified element, the auxiliary Lie equivalence has value equal to the matrix unit in row one and column two. -/
-@[source_ref "Chapter2/Discussion_concrete_Lie_examples" (role := primary), simp]
+@[source_ref "Chapter2/Discussion_concrete_Lie_examples" (role := supporting), simp]
 theorem matrixLieEquivAux_apply_eq_single_12 :
     ((matrixLieEquivAux k
         (distinguishedElement_aux5 : AuxiliaryType k) : matrixLieSubalgebraAux k) :
@@ -92,7 +92,7 @@ theorem matrixLieEquivAux_apply_eq_single_12 :
   fin_cases i <;> fin_cases j <;> simp [toMatrixAux, distinguishedElement_aux5]
 
 /-- On the specified element, the auxiliary Lie equivalence has value equal to the matrix unit in row zero and column one. -/
-@[source_ref "Chapter2/Discussion_concrete_Lie_examples" (role := primary), simp]
+@[source_ref "Chapter2/Discussion_concrete_Lie_examples" (role := supporting), simp]
 theorem matrixLieEquivAux_apply_eq_single_01 :
     ((matrixLieEquivAux k
         (distinguishedElement_aux6 : AuxiliaryType k) : matrixLieSubalgebraAux k) :
@@ -102,7 +102,7 @@ theorem matrixLieEquivAux_apply_eq_single_01 :
   fin_cases i <;> fin_cases j <;> simp [toMatrixAux, distinguishedElement_aux6]
 
 /-- On the specified element, the auxiliary Lie equivalence has value equal to the matrix unit in row zero and column two. -/
-@[source_ref "Chapter2/Discussion_concrete_Lie_examples" (role := primary), simp]
+@[source_ref "Chapter2/Discussion_concrete_Lie_examples" (role := supporting), simp]
 theorem matrixLieEquivAux_apply_eq_single_02 :
     ((matrixLieEquivAux k
         (distinguishedElement_aux2 : AuxiliaryType k) : matrixLieSubalgebraAux k) :
