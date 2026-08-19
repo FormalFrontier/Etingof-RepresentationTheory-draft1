@@ -13,7 +13,7 @@ namespace RepresentationTheory.InvariantComplements
 
 /-- A finite-dimensional complex representation preserving the inner product admits an invariant
 complementary submodule to every invariant submodule. -/
-@[source_ref "Chapter4/Theorem4.6.3" (role := primary)]
+@[source_ref "Chapter4/Theorem4.6.3" (role := supporting)]
 theorem exists_invariant_isCompl_of_preserves_inner
     (G : Type*) [Group G]
     (V : Type*) [NormedAddCommGroup V] [InnerProductSpace ℂ V] [FiniteDimensional ℂ V]

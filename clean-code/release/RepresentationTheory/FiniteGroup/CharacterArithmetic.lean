@@ -18,7 +18,7 @@ open Finset
 variable {G : Type*} [Group G]
 
 /-- Raising elements of a group to an exponent coprime to its cardinality is bijective. -/
-@[source_ref "Chapter5/Remark5.2.8" (role := primary)]
+@[source_ref "Chapter5/Remark5.2.8" (role := supporting)]
 theorem pow_bijective_of_card_coprime {j : ℕ} (h : (Nat.card G).Coprime j) :
     Function.Bijective (fun g : G => g ^ j) :=
   Nat.Coprime.pow_left_bijective h
@@ -30,7 +30,7 @@ theorem pow_eq_one_iff_of_card_coprime {j : ℕ} (h : (Nat.card G).Coprime j) {g
   simpa using hg
 
 /-- Composing a function with a coprime power map does not change its product over the nonidentity elements of a finite group. -/
-@[source_ref "Chapter5/Remark5.2.8" (role := primary)]
+@[source_ref "Chapter5/Remark5.2.8" (role := supporting)]
 theorem prod_nonidentity_comp_pow_eq {M : Type*} [CommMonoid M] [Fintype G] [DecidableEq G] {j : ℕ}
     (h : (Nat.card G).Coprime j) (f : G → M) :
     ∏ g ∈ univ.filter (· ≠ 1), f (g ^ j) = ∏ g ∈ univ.filter (· ≠ 1), f g := by
@@ -366,4 +366,3 @@ theorem character_pairing_product_not_rat_between_zero_one {G : Type} [Group G] 
   rw [hq]; exact hmem
 
 end RepresentationTheory.FiniteGroup.CharacterArithmetic
-

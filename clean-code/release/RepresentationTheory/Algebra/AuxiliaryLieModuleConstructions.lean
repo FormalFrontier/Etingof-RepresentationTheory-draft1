@@ -57,7 +57,7 @@ theorem ExteriorAlgebra.generator_sq_eq_zero (V : Type v) [AddCommGroup V] [Modu
   ExteriorAlgebra.ι_sq_zero x
 
 /-- The commutator of two canonical enveloping generators equals the generator associated with their Lie bracket. -/
-@[source_ref "Chapter2/Definition2.12.1" (role := primary)]
+@[source_ref "Chapter2/Definition2.12.1" (role := supporting)]
 theorem UniversalEnvelopingAlgebra.generator_commutator (x y : L) :
     UniversalEnvelopingAlgebra.ι k x * UniversalEnvelopingAlgebra.ι k y -
         UniversalEnvelopingAlgebra.ι k y * UniversalEnvelopingAlgebra.ι k x =

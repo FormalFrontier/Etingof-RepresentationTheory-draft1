@@ -14,7 +14,7 @@ import RepresentationTheory.Alignment.Attribute
 open Complex Matrix QuaternionGroup
 
 /-- The quaternion group of order eight has five conjugacy classes. -/
-@[source_ref "Chapter4/Example4.3_Q8" (role := primary)]
+@[source_ref "Chapter4/Example4.3_Q8" (role := supporting)]
 theorem RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.card_conjClasses_quaternionGroup :
     Fintype.card (ConjClasses (QuaternionGroup 2)) = 5 := by
   decide
@@ -571,7 +571,7 @@ theorem simpleRepresentation_iso_standard_or_linear (S : FDRep ℂ (QuaternionGr
 
 
 /-- An element of the quaternion group of order eight lies in the center exactly when it is the zeroth or second cyclic element. -/
-@[source_ref "Chapter4/Example4.3_Q8" (role := primary)]
+@[source_ref "Chapter4/Example4.3_Q8" (role := supporting)]
 theorem mem_center_iff (g : QuaternionGroup 2) :
     g ∈ Subgroup.center (QuaternionGroup 2) ↔ g = a 0 ∨ g = a 2 := by
   rw [Subgroup.mem_center_iff]

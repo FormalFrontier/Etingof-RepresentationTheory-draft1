@@ -32,7 +32,7 @@ theorem MonoidAlgebra.isSemisimpleRing_of_isUnit_card
   infer_instance
 
 /-- For a finite group over an algebraically closed field in which the group order is nonzero, there is a finite family of positive natural numbers whose squares sum to the group order. -/
-@[source_ref "Chapter4/Theorem4.1.1" (role := primary)]
+@[source_ref "Chapter4/Theorem4.1.1" (role := supporting)]
 theorem FiniteGroup.exists_positive_dimensions_sum_sq_eq_card
     (k : Type u) (G : Type u) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [NeZero (Nat.card G : k)] :
