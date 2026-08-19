@@ -13,8 +13,8 @@
     },
     {
       "association_id": "association:68789f0afd8a21610c0a",
-      "rationale": "The formal type directly states that every Specht module indexed by a partition is simple, establishing that the modules used in the classification are irreducible.",
-      "role": "primary"
+      "rationale": "The formal type states that every partition-indexed Specht module is simple, which supplies one direction needed for the section-level classification but does not itself state that all irreducible representations are described by Specht modules.",
+      "role": "supporting"
     }
   ]
 }
