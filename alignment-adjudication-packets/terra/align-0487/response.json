@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:83bbdc6aafd325bed789",
-      "rationale": "The formal type directly supplies a polynomial-model equivalence and states the actions of h, e, and f by the three displayed differential operators.",
-      "role": "primary"
+      "rationale": "The formal type supplies a polynomial-model equivalence and states the actions of h, e, and f by the displayed differential operators, but it does not itself assert that this d-dimensional model is irreducible.",
+      "role": "supporting"
     }
   ]
 }
