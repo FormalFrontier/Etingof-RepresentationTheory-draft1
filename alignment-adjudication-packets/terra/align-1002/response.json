@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:07d988e1eb04f4b9eae4",
-      "rationale": "It identifies the commutator submodule of matrices with the kernel of trace, directly expressing that every matrix commutator is traceless.",
-      "role": "primary"
+      "rationale": "It identifies an opaque commutator submodule with the trace kernel; deriving the elementwise commutator statement requires additional reasoning.",
+      "role": "supporting"
     }
   ]
 }

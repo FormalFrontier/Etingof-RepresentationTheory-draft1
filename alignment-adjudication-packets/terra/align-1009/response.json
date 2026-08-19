@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:114ccdca383d57baefa0",
-      "rationale": "It directly states that the principal-series representation has finrank p^n + 1, i.e. q + 1 for q = p^n.",
-      "role": "primary"
+      "rationale": "It gives the dimension formula, one component of the combined induction-from-Borel and dimension claim.",
+      "role": "supporting"
     }
   ]
 }

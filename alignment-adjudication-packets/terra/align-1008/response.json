@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:e9cd426f0e9a6832f274",
-      "rationale": "It directly gives the concrete vanishing witness: the one-plus-one Schur submodule in dimension one is bottom.",
-      "role": "primary"
+      "rationale": "It gives the concrete vanishing witness, one branch of the combined claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:8d549910f90740314681",
-      "rationale": "It directly gives the concrete nonvanishing witness: the corresponding submodule in dimension two is not bottom.",
-      "role": "primary"
+      "rationale": "It gives the concrete nonvanishing witness, one branch of the combined claim.",
+      "role": "supporting"
     }
   ]
 }

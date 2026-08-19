@@ -3,23 +3,23 @@
   "associations": [
     {
       "association_id": "association:3b7ac6461018e0d14c89",
-      "rationale": "The proposition that the displayed finite-dimensional representation is Simple directly states the source claim's irreducibility assertion.",
-      "role": "primary"
+      "rationale": "It establishes irreducibility, one component of the combined matrix-action and irreducibility claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:b511e54a4c5de62ffc57",
-      "rationale": "The equality identifies the representation's action at the i-generator with rhoI, directly recording one displayed matrix action.",
-      "role": "primary"
+      "rationale": "It gives one generator's matrix action, one component of the combined claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:7aaaaa41d0bb7b01ff27",
-      "rationale": "The equality identifies the representation's action at the j-generator with rhoJ, directly recording one displayed matrix action.",
-      "role": "primary"
+      "rationale": "It gives one generator's matrix action, one component of the combined claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:da6b0b250b906ac16c01",
-      "rationale": "The equality identifies the representation's action at the k-generator with rhoK, directly recording one displayed matrix action.",
-      "role": "primary"
+      "rationale": "It gives one generator's matrix action, one component of the combined claim.",
+      "role": "supporting"
     }
   ]
 }
