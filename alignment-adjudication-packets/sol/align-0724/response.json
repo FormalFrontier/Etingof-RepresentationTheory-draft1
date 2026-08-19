@@ -33,18 +33,18 @@
     },
     {
       "association_id": "association:75371f7fa71a8ae498a4",
-      "role": "primary",
-      "rationale": "The type directly supplies the multiplication-table entry qI * qJ = qK."
+      "role": "supporting",
+      "rationale": "The type supplies only one multiplication-table entry; it does not state the complete requested quaternion basis, multiplication table, and Q8 construction."
     },
     {
       "association_id": "association:f66ed6852f1a460839fb",
-      "role": "primary",
-      "rationale": "The type directly supplies the multiplication-table entry qI * qK = -qJ."
+      "role": "supporting",
+      "rationale": "The type supplies only one multiplication-table entry; it does not state the complete requested quaternion basis, multiplication table, and Q8 construction."
     },
     {
       "association_id": "association:e568567ae58f944975d8",
-      "role": "primary",
-      "rationale": "The type directly supplies the multiplication-table entry qJ * qI = -qK."
+      "role": "supporting",
+      "rationale": "The type supplies only one multiplication-table entry; it does not state the complete requested quaternion basis, multiplication table, and Q8 construction."
     },
     {
       "association_id": "association:531c04230b23f7cf4109",
@@ -53,18 +53,18 @@
     },
     {
       "association_id": "association:505db2939dc19c1d43d5",
-      "role": "primary",
-      "rationale": "The type directly supplies the multiplication-table entry qJ * qK = qI."
+      "role": "supporting",
+      "rationale": "The type supplies only one multiplication-table entry; it does not state the complete requested quaternion basis, multiplication table, and Q8 construction."
     },
     {
       "association_id": "association:d96eb257cd4727db2faf",
-      "role": "primary",
-      "rationale": "The type directly supplies the multiplication-table entry qK * qI = qJ."
+      "role": "supporting",
+      "rationale": "The type supplies only one multiplication-table entry; it does not state the complete requested quaternion basis, multiplication table, and Q8 construction."
     },
     {
       "association_id": "association:7aab2d9a641e6c929442",
-      "role": "primary",
-      "rationale": "The type directly supplies the multiplication-table entry qK * qJ = -qI."
+      "role": "supporting",
+      "rationale": "The type supplies only one multiplication-table entry; it does not state the complete requested quaternion basis, multiplication table, and Q8 construction."
     },
     {
       "association_id": "association:d5c1730ddeb5f5ac5574",
@@ -73,8 +73,8 @@
     },
     {
       "association_id": "association:9b4ba19d0abc4ee663a4",
-      "role": "primary",
-      "rationale": "The type directly defines a four-indexed real basis of the quaternions, matching the requested quaternion basis construction."
+      "role": "supporting",
+      "rationale": "The type gives only a four-indexed real quaternion basis; it does not itself state the complete requested multiplication table and Q8 construction."
     }
   ]
 }

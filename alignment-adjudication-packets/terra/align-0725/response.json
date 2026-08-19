@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:067d3a3de5b7160a3dd4",
-      "role": "primary",
-      "rationale": "The type directly states that quaternion norm-squared sends a product to the product of the norms."
+      "role": "supporting",
+      "rationale": "The type gives only multiplicativity of norm-squared, not the complete two-part claim including reversal of products by conjugation."
     },
     {
       "association_id": "association:ab907faae51a2d53476b",
-      "role": "primary",
-      "rationale": "The type directly states that quaternion conjugation reverses the order of a product."
+      "role": "supporting",
+      "rationale": "The type gives only reversal of products by conjugation, not the complete two-part claim including multiplicativity of the quaternion norm."
     }
   ]
 }

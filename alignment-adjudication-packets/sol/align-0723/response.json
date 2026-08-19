@@ -8,18 +8,18 @@
     },
     {
       "association_id": "association:c8ed448fd1e082c36528",
-      "role": "primary",
-      "rationale": "The type directly states that every nonzero element of the commutant is a unit, giving the division-algebra property."
+      "role": "supporting",
+      "rationale": "The type gives only the division-algebra component for the commutant; it does not itself identify the equivariant endomorphisms and their four-dimensionality required by the complete source claim."
     },
     {
       "association_id": "association:5e608109351f8bbe6fb1",
-      "role": "primary",
-      "rationale": "The type directly states that the real finrank of the commutant is four."
+      "role": "supporting",
+      "rationale": "The type gives only the four-dimensionality component for the commutant; it does not itself identify the equivariant endomorphisms and division property required by the complete source claim."
     },
     {
       "association_id": "association:f5318ee65ab9e841150e",
-      "role": "primary",
-      "rationale": "The equivalence directly identifies membership in the commutant with commuting with every SU(2) action, hence with equivariant endomorphisms."
+      "role": "supporting",
+      "rationale": "The equivalence gives only the equivariant-endomorphism identification component; it does not itself state the commutant's four-dimensionality and division property required by the complete source claim."
     }
   ]
 }
