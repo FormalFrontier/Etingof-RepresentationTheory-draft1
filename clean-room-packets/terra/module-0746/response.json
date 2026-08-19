@@ -3,13 +3,13 @@
   "declarations": [
     {
       "temporary_id": "decl-013909",
-      "new_name": "unrenderedMatrixTheorem",
-      "docstring": "The formal statement of this theorem was not rendered in the packet."
+      "new_name": "Auxiliary.statement013909",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-013910",
-      "new_name": "unrenderedTheorem",
-      "docstring": "The formal statement of this theorem was not rendered in the packet."
+      "new_name": "Auxiliary.statement013910",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-013911",
@@ -38,13 +38,13 @@
     },
     {
       "temporary_id": "decl-013918",
-      "new_name": "linearMapFinranks_matrixAuxiliary",
-      "docstring": "The formal statement of this theorem was not rendered in the packet."
+      "new_name": "Auxiliary.statement013918",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-013919",
-      "new_name": "linearMapFinranks_matrixAuxiliaryTwo",
-      "docstring": "The formal statement of this theorem was not rendered in the packet."
+      "new_name": "Auxiliary.statement013919",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-013920",

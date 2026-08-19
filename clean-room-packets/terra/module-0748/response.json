@@ -88,8 +88,8 @@
     },
     {
       "temporary_id": "decl-014176",
-      "new_name": "centerScalar_ext_comp",
-      "docstring": "The action of a central scalar commutes with composition of an extension class."
+      "new_name": "Auxiliary.statement014176",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     }
   ]
 }
