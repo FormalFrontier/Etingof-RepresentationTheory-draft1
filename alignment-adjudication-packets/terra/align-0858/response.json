@@ -1,10 +1,1 @@
-{
-  "packet_id": "align-0858",
-  "associations": [
-    {
-      "association_id": "association:750df956a99e6edcca33",
-      "role": "primary",
-      "rationale": "The declaration universally asserts existence of an object equipped with IsProgenerator in every finite abelian category."
-    }
-  ]
-}
+{"packet_id":"align-0858","associations":[{"association_id":"association:750df956a99e6edcca33","role":"supporting","rationale":"The type asserts existence only through the opaque IsProgenerator predicate, so the displayed evidence does not directly state that the object is both projective and a generator."}]}
