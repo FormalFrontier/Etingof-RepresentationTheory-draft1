@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:1ec2ca4f91f295c114ef",
-      "role": "primary",
-      "rationale": "The formal equality directly states that the hom-space finrank from the permutation module indexed by a partition to the corresponding Specht module is one."
+      "role": "supporting",
+      "rationale": "The equality directly states the diagonal Hom-space dimension, but it does not state the source claim's lexicographic vanishing clause."
     },
     {
       "association_id": "association:c2c75a86490842dcfb47",
@@ -13,8 +13,8 @@
     },
     {
       "association_id": "association:9b65fd9ea25b56f005bc",
-      "role": "primary",
-      "rationale": "The formal implication directly states that every such homomorphism is zero when the target partition is lexicographically below the source partition."
+      "role": "supporting",
+      "rationale": "The implication directly states the lexicographic vanishing clause, but it does not state the source claim's diagonal Hom-space dimension."
     }
   ]
 }

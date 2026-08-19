@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:38955d2aa6a012d0dc1b",
-      "role": "primary",
-      "rationale": "The formal type directly states that each standard module for the product of matrix algebras is simple, covering the irreducibility assertion."
+      "role": "supporting",
+      "rationale": "The formal type directly states that each standard module is simple, but it does not state the source claim's additional assertion that a matrix element can send any chosen nonzero vector to any target vector."
     }
   ]
 }

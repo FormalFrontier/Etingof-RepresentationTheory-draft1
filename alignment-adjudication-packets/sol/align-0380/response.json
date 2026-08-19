@@ -8,13 +8,13 @@
     },
     {
       "association_id": "association:4de6159b56e669637bbe",
-      "role": "primary",
-      "rationale": "The equality directly states additivity of the pure tensor operation in its right-module argument."
+      "role": "supporting",
+      "rationale": "The equality states additivity in the first argument, but it does not itself state the free-abelian-group quotient construction, second-argument additivity, or balancing relation, so it is partial evidence."
     },
     {
       "association_id": "association:b7a8f37b1cff5e572ec1",
-      "role": "primary",
-      "rationale": "The equality directly states the balancing relation between the right action on the first factor and the left action on the second factor."
+      "role": "supporting",
+      "rationale": "The equality states the balancing relation, but it does not itself state the free-abelian-group quotient construction or both additivity relations, so it is partial evidence."
     },
     {
       "association_id": "association:17b7b5f64903e8cc4ab1",
@@ -23,8 +23,8 @@
     },
     {
       "association_id": "association:d85b6b1b09595638f6cf",
-      "role": "primary",
-      "rationale": "The equality directly states additivity of the pure tensor operation in its left-module argument."
+      "role": "supporting",
+      "rationale": "The equality states additivity in the second argument, but it does not itself state the free-abelian-group quotient construction, first-argument additivity, or balancing relation, so it is partial evidence."
     }
   ]
 }
