@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:7c8f058a5e89fbac0a56",
-      "role": "primary",
-      "rationale": "It directly provides a filtration whose successive displayed quotient modules are simple for every finite-dimensional module."
+      "role": "supporting",
+      "rationale": "The displayed type gives an existential object with simple successive quotients, but its filtration type and the required endpoints 0 and V are elided rather than directly stated."
     }
   ]
 }
