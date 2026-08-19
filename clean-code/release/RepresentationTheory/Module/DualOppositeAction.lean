@@ -18,10 +18,10 @@ variable (k A V : Type*)
     [CommRing k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [SMulCommClass A k V]
 
-/-- A type-valued construction parameterized by a commutative ring, an auxiliary type, and a
-module over that ring. -/
+/-- An auxiliary type-valued construction depending on a commutative ring, another type, and a
+module over the ring. -/
 @[source_ref "Chapter3/Definition3.3.2" (role := supporting)]
-abbrev ParameterizedModuleType (k _A V : Type*)
+abbrev AuxiliaryModuleType (k _A V : Type*)
     [CommRing k] [AddCommGroup V] [Module k V] : Type _ :=
   Module.Dual k V
 
@@ -54,11 +54,11 @@ instance dualMulOppositeModule : Module Aᵐᵒᵖ (Module.Dual k V) where
   add_smul a b f := by ext v; simp [add_smul]
   zero_smul f := by ext v; simp
 
-example : Module Aᵐᵒᵖ (ParameterizedModuleType k A V) := inferInstance
+example : Module Aᵐᵒᵖ (AuxiliaryModuleType k A V) := inferInstance
 
 end DualRepresentation
 
 end RepresentationTheory.Module.DualOppositeAction
 
 attribute [nolint unusedArguments]
-  RepresentationTheory.Module.DualOppositeAction.ParameterizedModuleType
+  RepresentationTheory.Module.DualOppositeAction.AuxiliaryModuleType

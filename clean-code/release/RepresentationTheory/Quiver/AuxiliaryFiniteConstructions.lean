@@ -9,31 +9,35 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.Quiver.AuxiliaryFiniteConstructions
 
-open .QuiverRepresentation
+open RepresentationTheory.CategoryTheory.QuiverLinearDiagrams
+open RepresentationTheory.CategoryTheory.QuiverLinearMaps
+open RepresentationTheory.Quiver.AuxiliaryFiniteProperties
+open RepresentationTheory.AuxiliaryIntegerMatrixProperty
+open RepresentationTheory.Quiver.MatrixOrientation
 
 
 
 section EquivGroupoid
 
-variable {k Q : Type*} [CommSemiring k] [Quiver Q] {ρ₁ ρ₂ ρ₃ : QuiverRepresentation k Q}
+variable {k Q : Type*} [CommSemiring k] [Quiver Q] {ρ₁ ρ₂ ρ₃ : AuxiliaryQuiverModuleData k Q}
 
 
 /-- Reverses the source and target parameters of the displayed auxiliary relation. -/
-def QuiverRepresentationEquiv.symm (e : QuiverRepresentationEquiv k Q ρ₁ ρ₂) :
-    QuiverRepresentationEquiv k Q ρ₂ ρ₁ where
-  equivAt v := (e.equivAt v).symm
-  commutes {v w} f x := by
-    rw [LinearEquiv.symm_apply_eq, e.commutes f, LinearEquiv.apply_symm_apply]
+def _root_.RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverEquivData.symm
+    (e : AuxiliaryQuiverEquivData k Q ρ₁ ρ₂) : AuxiliaryQuiverEquivData k Q ρ₂ ρ₁ where
+  app v := (e.app v).symm
+  naturality {v w} f x := by
+    rw [LinearEquiv.symm_apply_eq, e.naturality f, LinearEquiv.apply_symm_apply]
 
 
 /-- Composes two instances of the displayed auxiliary relation. -/
-def QuiverRepresentationEquiv.trans (e₁ : QuiverRepresentationEquiv k Q ρ₁ ρ₂)
-    (e₂ : QuiverRepresentationEquiv k Q ρ₂ ρ₃) :
-    QuiverRepresentationEquiv k Q ρ₁ ρ₃ where
-  equivAt v := (e₁.equivAt v).trans (e₂.equivAt v)
-  commutes {v w} f x := by
+def _root_.RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverEquivData.trans
+    (e₁ : AuxiliaryQuiverEquivData k Q ρ₁ ρ₂) (e₂ : AuxiliaryQuiverEquivData k Q ρ₂ ρ₃) :
+    AuxiliaryQuiverEquivData k Q ρ₁ ρ₃ where
+  app v := (e₁.app v).trans (e₂.app v)
+  naturality {v w} f x := by
     simp only [LinearEquiv.trans_apply]
-    rw [e₁.commutes f, e₂.commutes f]
+    rw [e₁.naturality f, e₂.naturality f]
 
 end EquivGroupoid
 
@@ -131,9 +135,9 @@ variable (k : Type) [Field k] {n : ℕ} [Quiver.{0} (Fin n)]
 
 
 abbrev auxiliaryQuiverConstruction (S : Fin n → Prop) [DecidablePred S] (c : ∀ a b : Fin n, (a ⟶ b) → k) :
-    FinQuiverRep k n where
+    AuxiliaryQuiverType k n where
   obj j := Fin (if S j then 1 else 0) → k
-  mapLinear {a b} e := c a b e • auxiliaryFinFunctionLinearMap k (if S a then 1 else 0) (if S b then 1 else 0)
+  map {a b} e := c a b e • auxiliaryFinFunctionLinearMap k (if S a then 1 else 0) (if S b then 1 else 0)
 
 variable (S : Fin n → Prop) [DecidablePred S]
 /-- At a vertex satisfying the support predicate, its one-dimensional finite function space is linearly equivalent to the field. -/
@@ -163,7 +167,7 @@ variable {S}
 
 lemma supportedVertexLinearEquiv_arrowMap (c : ∀ a b : Fin n, (a ⟶ b) → k) {a b : Fin n} (ha : S a) (hb : S b)
     (e : a ⟶ b) (x : Fin (if S a then 1 else 0) → k) :
-    supportedVertexLinearEquiv k S hb ((auxiliaryQuiverConstruction k S c).mapLinear e x) = c a b e * supportedVertexLinearEquiv k S ha x := by
+    supportedVertexLinearEquiv k S hb ((auxiliaryQuiverConstruction k S c).map e x) = c a b e * supportedVertexLinearEquiv k S ha x := by
   change supportedVertexLinearEquiv k S hb ((c a b e • auxiliaryFinFunctionLinearMap k _ _) x) = _
   rw [LinearMap.smul_apply, map_smul, smul_eq_mul, supportedVertexLinearEquiv, supportedVertexLinearEquiv,
     finOneLinearEquiv_map_auxiliaryFinFunctionLinearMap]
@@ -172,7 +176,7 @@ lemma supportedVertexLinearEquiv_arrowMap (c : ∀ a b : Fin n, (a ⟶ b) → k)
 
 lemma auxiliaryQuiverConstruction_arrowMap_surjective (c : ∀ a b : Fin n, (a ⟶ b) → k) {a b : Fin n} (ha : S a)
     (hb : S b) (e : a ⟶ b) (hc : c a b e ≠ 0) :
-    Function.Surjective ((auxiliaryQuiverConstruction k S c).mapLinear e) := by
+    Function.Surjective ((auxiliaryQuiverConstruction k S c).map e) := by
   intro y
   refine ⟨(supportedVertexLinearEquiv k S ha).symm ((c a b e)⁻¹ * supportedVertexLinearEquiv k S hb y), ?_⟩
   apply (supportedVertexLinearEquiv k S hb).injective
@@ -184,7 +188,7 @@ lemma auxiliaryQuiverConstruction_arrowMap_surjective (c : ∀ a b : Fin n, (a �
 
 
 lemma auxiliaryProperty_auxiliaryQuiverConstruction_of_support_singleton (c : ∀ a b : Fin n, (a ⟶ b) → k) {v : Fin n}
-    (hS : ∀ j, S j ↔ j = v) : (auxiliaryQuiverConstruction k S c).IsIndecomposable := by
+    (hS : ∀ j, S j ↔ j = v) : (auxiliaryQuiverConstruction k S c).AuxiliaryCondition := by
   have hSv : S v := (hS v).mpr rfl
   refine ⟨⟨v, nontrivial_of_linearEquiv_field (supportedVertexLinearEquiv k S hSv)⟩, ?_⟩
   intro W₁ W₂ _ _ hcompl
@@ -208,7 +212,7 @@ lemma auxiliaryProperty_auxiliaryQuiverConstruction_of_support_singleton (c : �
 private lemma suppRep_pair_aux (c : ∀ a b : Fin n, (a ⟶ b) → k) {v w : Fin n}
     (hS : ∀ j, S j ↔ (j = v ∨ j = w)) (e₁ : v ⟶ w) (hc : c v w e₁ ≠ 0)
     (W₁ W₂ : ∀ j, Submodule k ((auxiliaryQuiverConstruction k S c).obj j))
-    (hW₂ : ∀ {a b : Fin n} (e : a ⟶ b), ∀ x ∈ W₂ a, (auxiliaryQuiverConstruction k S c).mapLinear e x ∈ W₂ b)
+    (hW₂ : ∀ {a b : Fin n} (e : a ⟶ b), ∀ x ∈ W₂ a, (auxiliaryQuiverConstruction k S c).map e x ∈ W₂ b)
     (hcompl : ∀ j, IsCompl (W₁ j) (W₂ j)) (hv : W₁ v = ⊥) : ∀ j, W₁ j = ⊥ := by
   have hSv : S v := (hS v).mpr (Or.inl rfl)
   have hSw : S w := (hS w).mpr (Or.inr rfl)
@@ -236,7 +240,7 @@ private lemma suppRep_pair_aux (c : ∀ a b : Fin n, (a ⟶ b) → k) {v w : Fin
 
 lemma auxiliaryProperty_auxiliaryQuiverConstruction_of_support_pair (c : ∀ a b : Fin n, (a ⟶ b) → k) {v w : Fin n}
     (hS : ∀ j, S j ↔ (j = v ∨ j = w)) (e₁ : v ⟶ w) (hc : c v w e₁ ≠ 0) :
-    (auxiliaryQuiverConstruction k S c).IsIndecomposable := by
+    (auxiliaryQuiverConstruction k S c).AuxiliaryCondition := by
   have hSv : S v := (hS v).mpr (Or.inl rfl)
   refine ⟨⟨v, nontrivial_of_linearEquiv_field (supportedVertexLinearEquiv k S hSv)⟩, ?_⟩
   intro W₁ W₂ hW₁ hW₂ hcompl
@@ -252,14 +256,14 @@ variable {c c' : ∀ a b : Fin n, (a ⟶ b) → k}
 
 
 
-def auxiliaryComponentScalar (φ : QuiverRepresentationEquiv k (Fin n) (auxiliaryQuiverConstruction k S c) (auxiliaryQuiverConstruction k S c'))
+def auxiliaryComponentScalar (φ : AuxiliaryQuiverEquivData k (Fin n) (auxiliaryQuiverConstruction k S c) (auxiliaryQuiverConstruction k S c'))
     {j : Fin n} (hj : S j) : k :=
-  supportedVertexLinearEquiv k S hj (φ.equivAt j ((supportedVertexLinearEquiv k S hj).symm 1))
+  supportedVertexLinearEquiv k S hj (φ.app j ((supportedVertexLinearEquiv k S hj).symm 1))
 /-- After the displayed identification at a supported vertex, the component of the auxiliary map is multiplication by its component scalar. -/
 
-lemma componentMap_eq_auxiliaryComponentScalar_mul (φ : QuiverRepresentationEquiv k (Fin n) (auxiliaryQuiverConstruction k S c) (auxiliaryQuiverConstruction k S c'))
+lemma componentMap_eq_auxiliaryComponentScalar_mul (φ : AuxiliaryQuiverEquivData k (Fin n) (auxiliaryQuiverConstruction k S c) (auxiliaryQuiverConstruction k S c'))
     {j : Fin n} (hj : S j) (t : k) :
-    supportedVertexLinearEquiv k S hj (φ.equivAt j ((supportedVertexLinearEquiv k S hj).symm t))
+    supportedVertexLinearEquiv k S hj (φ.app j ((supportedVertexLinearEquiv k S hj).symm t))
       = auxiliaryComponentScalar k φ hj * t := by
   have ht : (supportedVertexLinearEquiv k S hj).symm t = t • (supportedVertexLinearEquiv k S hj).symm 1 := by
     rw [← map_smul, smul_eq_mul, mul_one]
@@ -267,12 +271,12 @@ lemma componentMap_eq_auxiliaryComponentScalar_mul (φ : QuiverRepresentationEqu
 /-- The component scalar of the displayed auxiliary map at a supported vertex is nonzero. -/
 
 lemma auxiliaryComponentScalar_ne_zero
-    (φ : QuiverRepresentationEquiv k (Fin n) (auxiliaryQuiverConstruction k S c) (auxiliaryQuiverConstruction k S c'))
+    (φ : AuxiliaryQuiverEquivData k (Fin n) (auxiliaryQuiverConstruction k S c) (auxiliaryQuiverConstruction k S c'))
     {j : Fin n} (hj : S j) : auxiliaryComponentScalar k φ hj ≠ 0 := by
   intro h
   rw [auxiliaryComponentScalar] at h
   have h1 : ((supportedVertexLinearEquiv k S hj).symm 1 : Fin (if S j then 1 else 0) → k) = 0 := by
-    apply (φ.equivAt j).injective
+    apply (φ.app j).injective
     rw [map_zero]
     exact (supportedVertexLinearEquiv k S hj).injective (by rw [h, map_zero])
   have : (1 : k) = 0 := by
@@ -284,15 +288,15 @@ lemma auxiliaryComponentScalar_ne_zero
 
 
 lemma auxiliaryComponentScalar_mul_arrowScalar
-    (φ : QuiverRepresentationEquiv k (Fin n) (auxiliaryQuiverConstruction k S c) (auxiliaryQuiverConstruction k S c'))
+    (φ : AuxiliaryQuiverEquivData k (Fin n) (auxiliaryQuiverConstruction k S c) (auxiliaryQuiverConstruction k S c'))
     {a b : Fin n} (ha : S a) (hb : S b) (e : a ⟶ b) :
     auxiliaryComponentScalar k φ hb * c a b e = c' a b e * auxiliaryComponentScalar k φ ha := by
-  have h1 : (auxiliaryQuiverConstruction k S c).mapLinear e ((supportedVertexLinearEquiv k S ha).symm 1)
+  have h1 : (auxiliaryQuiverConstruction k S c).map e ((supportedVertexLinearEquiv k S ha).symm 1)
       = (supportedVertexLinearEquiv k S hb).symm (c a b e) := by
     apply (supportedVertexLinearEquiv k S hb).injective
     rw [supportedVertexLinearEquiv_arrowMap k c ha hb, LinearEquiv.apply_symm_apply,
       LinearEquiv.apply_symm_apply, mul_one]
-  have hcomm := congrArg (supportedVertexLinearEquiv k S hb) (φ.commutes e ((supportedVertexLinearEquiv k S ha).symm 1))
+  have hcomm := congrArg (supportedVertexLinearEquiv k S hb) (φ.naturality e ((supportedVertexLinearEquiv k S ha).symm 1))
   rw [h1, componentMap_eq_auxiliaryComponentScalar_mul, supportedVertexLinearEquiv_arrowMap k c' ha hb, componentMap_eq_auxiliaryComponentScalar_mul, mul_one] at hcomm
   exact hcomm
 
@@ -308,12 +312,12 @@ variable (k : Type) [Field k] [IsAlgClosed k] {n : ℕ} [Quiver.{0} (Fin n)]
 
 
 lemma not_auxiliaryQuiverProperty_of_parameterizedFamily
-    (R : k → FinQuiverRep k n)
+    (R : k → AuxiliaryQuiverType k n)
     (hfin : ∀ lam v, Module.Finite k ((R lam).obj v))
-    (hindec : ∀ lam, (R lam).IsIndecomposable)
+    (hindec : ∀ lam, (R lam).AuxiliaryCondition)
     (hsep : ∀ lam mu : k,
-      Nonempty (QuiverRepresentationEquiv k (Fin n) (R lam) (R mu)) → lam = mu) :
-    ¬ HasFiniteRepresentationType k n := by
+      Nonempty (AuxiliaryQuiverEquivData k (Fin n) (R lam) (R mu)) → lam = mu) :
+    ¬ AuxiliaryQuiverProperty k n := by
   rintro ⟨m, reps, -, -, hcover⟩
   choose F hF using fun lam => hcover (R lam) (hfin lam) (hindec lam)
   have hinj : Function.Injective F := by
@@ -321,7 +325,7 @@ lemma not_auxiliaryQuiverProperty_of_parameterizedFamily
     refine hsep lam mu ?_
     obtain ⟨e₁⟩ := hF lam
     obtain ⟨e₂⟩ := hF mu
-    have e₂' : QuiverRepresentationEquiv k (Fin n) (R mu) (reps (F lam)) := by
+    have e₂' : AuxiliaryQuiverEquivData k (Fin n) (R mu) (reps (F lam)) := by
       rw [hlm]; exact e₂
     exact ⟨e₁.trans e₂'.symm⟩
   haveI : Finite k := Finite.of_injective F hinj
@@ -330,7 +334,8 @@ lemma not_auxiliaryQuiverProperty_of_parameterizedFamily
 
 private def loopSupp (v : Fin n) : Fin n → Prop := fun j => j = v
 
-instance (v : Fin n) : DecidablePred (loopSupp (n := n) v) :=
+/-- A decision procedure for the auxiliary predicate associated with a finite vertex. -/
+instance auxiliaryVertexPredicateDecidable (v : Fin n) : DecidablePred (loopSupp (n := n) v) :=
   fun j => inferInstanceAs (Decidable (j = v))
 /-- For a quiver over an algebraically closed field, a loop contradicts the auxiliary quiver property. -/
 
@@ -338,7 +343,7 @@ instance (v : Fin n) : DecidablePred (loopSupp (n := n) v) :=
 
 
 theorem not_auxiliaryQuiverProperty_of_loop {v : Fin n} (e₀ : v ⟶ v) :
-    ¬ HasFiniteRepresentationType k n := by
+    ¬ AuxiliaryQuiverProperty k n := by
   have hS : ∀ j, loopSupp (n := n) v j ↔ j = v := fun _ => Iff.rfl
   have hSv : loopSupp (n := n) v v := rfl
   refine not_auxiliaryQuiverProperty_of_parameterizedFamily k
@@ -361,7 +366,8 @@ variable (k : Type) [Field k] [IsAlgClosed k] {n : ℕ} [Quiver.{0} (Fin n)]
 
 private def pairSupp (v w : Fin n) : Fin n → Prop := fun j => j = v ∨ j = w
 
-instance (v w : Fin n) : DecidablePred (pairSupp (n := n) v w) :=
+/-- A decision procedure for the auxiliary predicate associated with a pair of finite vertices. -/
+instance auxiliaryVertexPairPredicateDecidable (v w : Fin n) : DecidablePred (pairSupp (n := n) v w) :=
   fun j => inferInstanceAs (Decidable (j = v ∨ j = w))
 
 
@@ -397,7 +403,7 @@ theorem auxiliaryStatement {v w : Fin n} (e₁ : v ⟶ w)
     (E₂ : (a : Fin n) × (b : Fin n) × (a ⟶ b))
     (hE₂a : E₂.1 = v ∨ E₂.1 = w) (hE₂b : E₂.2.1 = v ∨ E₂.2.1 = w)
     (hne : E₂ ≠ (⟨v, w, e₁⟩ : (a : Fin n) × (b : Fin n) × (a ⟶ b))) :
-    ¬ HasFiniteRepresentationType k n := by
+    ¬ AuxiliaryQuiverProperty k n := by
   obtain ⟨a₂, b₂, e₂⟩ := E₂
   simp only at hE₂a hE₂b
   set S : Fin n → Prop := pairSupp v w with hSdef
@@ -440,7 +446,7 @@ theorem auxiliaryStatement {v w : Fin n} (e₁ : v ⟶ w)
 
 
 theorem not_auxiliaryQuiverProperty_of_parallelArrows {v w : Fin n} (e₁ e₂ : v ⟶ w)
-    (hne : e₁ ≠ e₂) : ¬ HasFiniteRepresentationType k n := by
+    (hne : e₁ ≠ e₂) : ¬ AuxiliaryQuiverProperty k n := by
   refine auxiliaryStatement k e₁ ⟨v, w, e₂⟩ (Or.inl rfl)
     (Or.inr rfl) ?_
   intro h
@@ -452,7 +458,7 @@ theorem not_auxiliaryQuiverProperty_of_parallelArrows {v w : Fin n} (e₁ e₂ :
 
 
 theorem not_auxiliaryQuiverProperty_of_oppositeArrows {v w : Fin n} (hvw : v ≠ w) (e₁ : v ⟶ w)
-    (e₂ : w ⟶ v) : ¬ HasFiniteRepresentationType k n := by
+    (e₂ : w ⟶ v) : ¬ AuxiliaryQuiverProperty k n := by
   refine auxiliaryStatement k e₁ ⟨w, v, e₂⟩ (Or.inr rfl)
     (Or.inl rfl) ?_
   intro h
@@ -471,13 +477,13 @@ variable (k : Type) [Field k] [IsAlgClosed k] (n : ℕ) [Quiver.{0} (Fin n)]
 
 
 lemma auxiliaryQuiverProperty_iff_no_loops_no_twoCycles :
-    IsOrientationOf ‹Quiver (Fin n)› (quiverUndirectedAdj n) ↔
+    IsMatrixOrientation ‹Quiver (Fin n)› (auxiliaryMatrix n) ↔
       ((∀ v : Fin n, IsEmpty (v ⟶ v)) ∧
         ∀ v w : Fin n, Nonempty (v ⟶ w) → Nonempty (w ⟶ v) → False) := by
   constructor
   · rintro ⟨h₁, -, h₃⟩
     refine ⟨fun v => h₁ v v ?_, h₃⟩
-    rw [quiverUndirectedAdj_diag]
+    rw [auxiliaryMatrix_diagonal]
     exact zero_ne_one
   · rintro ⟨hloop, hbi⟩
     refine ⟨?_, ?_, hbi⟩
@@ -486,12 +492,12 @@ lemma auxiliaryQuiverProperty_iff_no_loops_no_twoCycles :
       · exact h ▸ hloop i
       · rw [← not_nonempty_iff]
         intro hcon
-        exact hij (by simp [quiverUndirectedAdj, h, hcon])
+        exact hij (by simp [auxiliaryMatrix, h, hcon])
     · intro i j hij
       by_contra hcon
       rw [not_or] at hcon
-      have : quiverUndirectedAdj n i j = 0 := by
-        simp only [quiverUndirectedAdj]
+      have : auxiliaryMatrix n i j = 0 := by
+        simp only [auxiliaryMatrix]
         rw [if_neg]
         rintro ⟨-, h | h⟩
         · exact hcon.1 h
@@ -510,12 +516,13 @@ lemma auxiliaryQuiverProperty_iff_no_loops_no_twoCycles :
 
 
 
-theorem auxiliaryQuiverProperty_iff_explicitConditions (hconn : QuiverUndirectedConnected n) :
-    HasFiniteRepresentationType k n ↔
+@[source_ref "Chapter2/Theorem2.1.2" (role := supporting)]
+theorem auxiliaryQuiverProperty_iff_explicitConditions (hconn : AuxiliaryQuiverCondition n) :
+    AuxiliaryQuiverProperty k n ↔
       ((∀ v : Fin n, IsEmpty (v ⟶ v)) ∧
         (∀ v w : Fin n, Nonempty (v ⟶ w) → Nonempty (w ⟶ v) → False) ∧
         (∀ a b : Fin n, Subsingleton (a ⟶ b)) ∧
-        IsDynkinDiagram n (quiverUndirectedAdj n)) := by
+        IsAuxiliaryMatrix n (auxiliaryMatrix n)) := by
   constructor
   · intro hfrt
 
@@ -541,25 +548,26 @@ theorem auxiliaryQuiverProperty_iff_explicitConditions (hconn : QuiverUndirected
       by_contra hne
       exact not_auxiliaryQuiverProperty_of_parallelArrows k e₁ e₂ hne hfrt
     haveI := hsub
-    have hOrient : IsOrientationOf ‹Quiver (Fin n)› (quiverUndirectedAdj n) :=
+    have hOrient : IsMatrixOrientation ‹Quiver (Fin n)› (auxiliaryMatrix n) :=
       (auxiliaryQuiverProperty_iff_no_loops_no_twoCycles n).mpr ⟨hloop, hbi⟩
-    exact ⟨hloop, hbi, hsub, (Theorem_2_1_2 k n hOrient hconn).mp hfrt⟩
+    exact ⟨hloop, hbi, hsub, (auxiliaryQuiverProperty_iff_auxiliaryMatrixProperty k n hOrient hconn).mp hfrt⟩
   · rintro ⟨hloop, hbi, hsub, hDynkin⟩
     haveI := hsub
-    have hOrient : IsOrientationOf ‹Quiver (Fin n)› (quiverUndirectedAdj n) :=
+    have hOrient : IsMatrixOrientation ‹Quiver (Fin n)› (auxiliaryMatrix n) :=
       (auxiliaryQuiverProperty_iff_no_loops_no_twoCycles n).mpr ⟨hloop, hbi⟩
-    exact (Theorem_2_1_2 k n hOrient hconn).mpr hDynkin
+    exact (auxiliaryQuiverProperty_iff_auxiliaryMatrixProperty k n hOrient hconn).mpr hDynkin
 /-- Under the auxiliary quiver condition, the auxiliary quiver property is equivalent to the two displayed auxiliary properties together with subsingleton arrow types. -/
 
 
 
 
 
-theorem auxiliaryQuiverProperty_iff_auxiliaryConditions (hconn : QuiverUndirectedConnected n) :
-    HasFiniteRepresentationType k n ↔
-      (IsOrientationOf ‹Quiver (Fin n)› (quiverUndirectedAdj n) ∧
+@[source_ref "Chapter2/Theorem2.1.2" (role := supporting)]
+theorem auxiliaryQuiverProperty_iff_auxiliaryConditions (hconn : AuxiliaryQuiverCondition n) :
+    AuxiliaryQuiverProperty k n ↔
+      (IsMatrixOrientation ‹Quiver (Fin n)› (auxiliaryMatrix n) ∧
         (∀ a b : Fin n, Subsingleton (a ⟶ b)) ∧
-        IsDynkinDiagram n (quiverUndirectedAdj n)) := by
+        IsAuxiliaryMatrix n (auxiliaryMatrix n)) := by
   rw [auxiliaryQuiverProperty_iff_explicitConditions k n hconn, auxiliaryQuiverProperty_iff_no_loops_no_twoCycles n]
   tauto
 

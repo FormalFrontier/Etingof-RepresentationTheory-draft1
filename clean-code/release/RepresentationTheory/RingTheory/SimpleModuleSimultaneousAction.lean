@@ -5,7 +5,6 @@ Authors: mathlib-initiative
 -/
 
 import RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity
-import RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity
 import RepresentationTheory.Alignment.Attribute
 
 open Module in
@@ -13,6 +12,9 @@ open Module in
 
 
 /-- On a simple finite-dimensional module over an algebraically closed field, any prescribed images of a finite linearly independent family are simultaneously realized by one algebra element. -/
+@[source_ref "Chapter3/Corollary3.2.1" (role := primary),
+  source_ref "Chapter3/Introduction_to_3.2" (role := supporting),
+  source_ref "Chapter3/Theorem3.2.2/Derived2" (role := supporting)]
 theorem RepresentationTheory.RingTheory.SimpleModuleSimultaneousAction.exists_smul_eq_on_linearIndependent (k : Type*) (A : Type*) (V : Type*)
     [Field k] [IsAlgClosed k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]

@@ -437,7 +437,7 @@ private noncomputable def sl2_irrep_equiv
 end PrimitiveVectorTheory
 
 /-- For every positive rank there exists an irreducible module of that rank, unique up to Lie-module equivalence. -/
-theorem existsUniqueIrreducibleOfFinrank (d : ℕ+) :
+theorem exists_unique_irreducible_of_finrank (d : ℕ+) :
 
     (∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V)
        (_ : LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) (_ : LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V),
@@ -483,7 +483,7 @@ theorem exists_irreducible_of_finrank (d : ℕ+) :
     ∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V)
       (_ : LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) (_ : LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V),
       Module.finrank ℂ V = d ∧ LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V :=
-  (existsUniqueIrreducibleOfFinrank d).1
+  (exists_unique_irreducible_of_finrank d).1
 
 /-- Two irreducible modules of the same prescribed positive rank are nonemptily Lie-module equivalent. -/
 @[source_ref "Chapter2/Theorem2.1.1" (role := primary)]
@@ -495,7 +495,7 @@ theorem nonempty_equiv_of_irreducible_finrank_eq (d : ℕ+) :
       Module.finrank ℂ V = d → LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V →
       Module.finrank ℂ W = d → LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W →
       Nonempty (V ≃ₗ⁅ℂ, RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra⁆ W) :=
-  (existsUniqueIrreducibleOfFinrank d).2
+  (exists_unique_irreducible_of_finrank d).2
 
 private noncomputable def binaryExponent (d : ℕ+) (i : Fin d) : Fin 2 →₀ ℕ :=
   Finsupp.single 0 ((d : ℕ) - 1 - (i : ℕ)) + Finsupp.single 1 (i : ℕ)
@@ -733,8 +733,8 @@ private lemma f_action (d : ℕ+) :
   simpa [LinearMap.comp_apply, RepresentationTheory.LieAlgebra.Sl2Representations.coordinateVector] using f_action_basis d i
 
 /-- There is a polynomial realization in which the three specified operators act by the displayed differential expressions. -/
-@[source_ref "Chapter2/Theorem2.1.1" (role := primary)]
-theorem exists_polynomialModel (d : ℕ+) :
+@[source_ref "Chapter2/Theorem2.1.1" (role := supporting)]
+theorem exists_polynomial_model (d : ℕ+) :
     ∃ Φ : (Fin d → ℂ) ≃ₗ[ℂ]
         ↑(MvPolynomial.homogeneousSubmodule (Fin 2) ℂ ((d : ℕ) - 1)),
       ∀ v : Fin d → ℂ,
@@ -802,9 +802,9 @@ open RepresentationTheory.LieAlgebra.Sl2Representations
 variable {V : Type*} [AddCommGroup V] [Module ℂ V]
   [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V]
 
-/-- The distinguished linear endomorphism associated with the specified Lie-module structure. -/
+/-- An auxiliary linear endomorphism depending on the specified Lie-module structure. -/
 @[nolint defsWithUnderscore]
-noncomputable def distinguishedModuleEndomorphism : Module.End ℂ V :=
+noncomputable def auxiliaryModuleEndomorphism : Module.End ℂ V :=
   (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V weightElement) ^ 2 +
   2 • ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V raisingElement) * (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement)) +
   2 • ((toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement) * (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V raisingElement))
@@ -836,9 +836,9 @@ private lemma end_EF :
   rw [eq_comm, sub_eq_iff_eq_add, add_comm] at this; exact this
 
 private lemma sl2_casimir_eq :
-    distinguishedModuleEndomorphism (V := V) = (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V weightElement) ^ 2 +
+    auxiliaryModuleEndomorphism (V := V) = (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V weightElement) ^ 2 +
     2 • toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V weightElement + 4 • (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement * toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V raisingElement) := by
-  unfold distinguishedModuleEndomorphism
+  unfold auxiliaryModuleEndomorphism
   have hEF := end_EF (V := V)
   simp only [sq]
   rw [hEF]
@@ -846,8 +846,8 @@ private lemma sl2_casimir_eq :
   abel
 
 private lemma sl2_casimir_comm (x : RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra) :
-    distinguishedModuleEndomorphism (V := V) ∘ₗ (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V x) =
-    (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V x) ∘ₗ distinguishedModuleEndomorphism := by
+    auxiliaryModuleEndomorphism (V := V) ∘ₗ (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V x) =
+    (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V x) ∘ₗ auxiliaryModuleEndomorphism := by
   set H := toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V weightElement; set E := toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V raisingElement; set F := toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V loweringElement
   have hHE := end_HE (V := V)
   have hHF := end_HF (V := V)
@@ -861,12 +861,12 @@ private lemma sl2_casimir_comm (x : RepresentationTheory.Algebra.Lie.ComplexTwoB
   simp only [map_add, map_smul, LinearMap.comp_add, LinearMap.add_comp,
     LinearMap.comp_smul, LinearMap.smul_comp]
 
-  have casimir_rw : ∀ (X : Module.End ℂ V), distinguishedModuleEndomorphism ∘ₗ X = X ∘ₗ distinguishedModuleEndomorphism →
-      ∀ (c : ℂ), c • (distinguishedModuleEndomorphism ∘ₗ X) = c • (X ∘ₗ distinguishedModuleEndomorphism) :=
+  have casimir_rw : ∀ (X : Module.End ℂ V), auxiliaryModuleEndomorphism ∘ₗ X = X ∘ₗ auxiliaryModuleEndomorphism →
+      ∀ (c : ℂ), c • (auxiliaryModuleEndomorphism ∘ₗ X) = c • (X ∘ₗ auxiliaryModuleEndomorphism) :=
     fun _ h c => by rw [h]
 
-  have hComm : ∀ X, X = H ∨ X = E ∨ X = F → distinguishedModuleEndomorphism ∘ₗ X = X ∘ₗ distinguishedModuleEndomorphism := by
-    intro X hX; ext v; unfold distinguishedModuleEndomorphism
+  have hComm : ∀ X, X = H ∨ X = E ∨ X = F → auxiliaryModuleEndomorphism ∘ₗ X = X ∘ₗ auxiliaryModuleEndomorphism := by
+    intro X hX; ext v; unfold auxiliaryModuleEndomorphism
     simp only [sq, Module.End.mul_eq_comp, LinearMap.comp_apply,
       LinearMap.add_apply, LinearMap.smul_apply,
       show toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V weightElement = H from rfl, show toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V raisingElement = E from rfl,
@@ -884,19 +884,19 @@ private lemma sl2_casimir_comm (x : RepresentationTheory.Algebra.Lie.ComplexTwoB
 
 private lemma casimir_eigenspace_lie_invariant (c₀ : ℂ) :
     ∀ (x : RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra) (v : V),
-    v ∈ (distinguishedModuleEndomorphism (V := V)).eigenspace c₀ →
-      ⁅x, v⁆ ∈ (distinguishedModuleEndomorphism (V := V)).eigenspace c₀ := by
+    v ∈ (auxiliaryModuleEndomorphism (V := V)).eigenspace c₀ →
+      ⁅x, v⁆ ∈ (auxiliaryModuleEndomorphism (V := V)).eigenspace c₀ := by
   intro x v hv
   rw [Module.End.mem_eigenspace_iff] at hv ⊢
   have hcomm := sl2_casimir_comm (V := V) x
-  have hCxv : distinguishedModuleEndomorphism (V := V) (⁅x, v⁆) = (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V x) (distinguishedModuleEndomorphism v) :=
+  have hCxv : auxiliaryModuleEndomorphism (V := V) (⁅x, v⁆) = (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V x) (auxiliaryModuleEndomorphism v) :=
     LinearMap.congr_fun hcomm v
   rw [hCxv, hv, map_smul, LieModule.toEnd_apply_apply]
 
 private lemma casimir_on_irreducible_scalar
     (hirr : LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) [Nontrivial V]
     (m : V) (n : ℕ) (P : isSl2Triple_weight_raising_lowering.HasPrimitiveVectorWith m (n : ℂ)) :
-    distinguishedModuleEndomorphism (V := V) = (n * (n + 2) : ℂ) • (1 : Module.End ℂ V) := by
+    auxiliaryModuleEndomorphism (V := V) = (n * (n + 2) : ℂ) • (1 : Module.End ℂ V) := by
 
   set H := toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V weightElement
   set E := toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V raisingElement
@@ -910,7 +910,7 @@ private lemma casimir_on_irreducible_scalar
     change ⁅raisingElement, m⁆ = 0
     exact P.lie_e
 
-  have hCm : distinguishedModuleEndomorphism (V := V) m = c • m := by
+  have hCm : auxiliaryModuleEndomorphism (V := V) m = c • m := by
     rw [sl2_casimir_eq]
     simp only [LinearMap.add_apply, LinearMap.smul_apply, sq, Module.End.mul_apply]
     rw [hHm, map_smul, hHm, hEm, map_zero, smul_zero]
@@ -918,11 +918,11 @@ private lemma casimir_on_irreducible_scalar
     simp only [add_zero, two_nsmul, ← add_smul]
     congr 1; ring
 
-  have hm_eigen : m ∈ (distinguishedModuleEndomorphism (V := V)).eigenspace c := by
+  have hm_eigen : m ∈ (auxiliaryModuleEndomorphism (V := V)).eigenspace c := by
     rw [Module.End.mem_eigenspace_iff]; exact hCm
 
   let N : LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V :=
-    LieSubmodule.mk ((distinguishedModuleEndomorphism (V := V)).eigenspace c)
+    LieSubmodule.mk ((auxiliaryModuleEndomorphism (V := V)).eigenspace c)
       (fun {x v} hv ↦ casimir_eigenspace_lie_invariant c x v hv)
   have hN_ne : N ≠ ⊥ := by
     intro h
@@ -935,7 +935,7 @@ private lemma casimir_on_irreducible_scalar
   ext v
   have hv_in : v ∈ (⊤ : LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) := LieSubmodule.mem_top v
   rw [← hN_top] at hv_in
-  have hv_eigen := (Module.End.mem_eigenspace_iff.mp hv_in : distinguishedModuleEndomorphism v = c • v)
+  have hv_eigen := (Module.End.mem_eigenspace_iff.mp hv_in : auxiliaryModuleEndomorphism v = c • v)
   simp only [LinearMap.smul_apply]
   exact hv_eigen
 
@@ -1029,7 +1029,7 @@ private lemma sl2_trivial_of_casimir_zero_aux (d : ℕ) :
     ∀ {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
     [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W],
     finrank ℂ W ≤ d →
-    (∀ v : W, distinguishedModuleEndomorphism (V := W) v = 0) →
+    (∀ v : W, auxiliaryModuleEndomorphism (V := W) v = 0) →
     ∀ (x : RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra) (v : W), ⁅x, v⁆ = 0 := by
   induction d with
   | zero =>
@@ -1046,7 +1046,7 @@ private lemma sl2_trivial_of_casimir_zero_aux (d : ℕ) :
       obtain ⟨m, μ, P⟩ := exists_primitiveVector (V := W)
       obtain ⟨n, hn⟩ := P.exists_nat; rw [hn] at P
       have hCscalar := casimir_on_irreducible_scalar hirr m n P
-      have hC0 : distinguishedModuleEndomorphism (V := W) = 0 := by ext w; exact hC w
+      have hC0 : auxiliaryModuleEndomorphism (V := W) = 0 := by ext w; exact hC w
 
       have hn0 : (n : ℂ) * ((n : ℂ) + 2) = 0 := by
         by_contra hne
@@ -1104,9 +1104,9 @@ private lemma sl2_trivial_of_casimir_zero_aux (d : ℕ) :
         have hfQ : finrank ℂ (W ⧸ N.toSubmodule) < finrank ℂ W := by
           have := Submodule.finrank_quotient_add_finrank N.toSubmodule; omega
 
-        have hCN : ∀ w : ↥N, distinguishedModuleEndomorphism (V := ↥N) w = 0 := by
+        have hCN : ∀ w : ↥N, auxiliaryModuleEndomorphism (V := ↥N) w = 0 := by
           intro w; apply Subtype.val_injective
-          simp only [ZeroMemClass.coe_zero, distinguishedModuleEndomorphism, LinearMap.add_apply,
+          simp only [ZeroMemClass.coe_zero, auxiliaryModuleEndomorphism, LinearMap.add_apply,
             LinearMap.smul_apply, sq, Module.End.mul_apply,
             LieModule.toEnd_apply_apply]
           exact hC ↑w
@@ -1116,12 +1116,12 @@ private lemma sl2_trivial_of_casimir_zero_aux (d : ℕ) :
           have h1 := ih (show finrank ℂ ↥N ≤ d from by omega) hCN y w
           rw [← LieSubmodule.coe_bracket]; simp [h1]
 
-        have hCQ : ∀ w : W ⧸ N, distinguishedModuleEndomorphism (V := W ⧸ N) w = 0 := by
+        have hCQ : ∀ w : W ⧸ N, auxiliaryModuleEndomorphism (V := W ⧸ N) w = 0 := by
           intro w
           obtain ⟨w, rfl⟩ := LieSubmodule.Quotient.surjective_mk' N w
           have mk'_lie := fun (a : RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra) (b : W) =>
             (LieSubmodule.Quotient.mk' N).map_lie a b |>.symm
-          simp only [distinguishedModuleEndomorphism, LinearMap.add_apply, LinearMap.smul_apply, sq,
+          simp only [auxiliaryModuleEndomorphism, LinearMap.add_apply, LinearMap.smul_apply, sq,
             Module.End.mul_apply, LieModule.toEnd_apply_apply, mk'_lie]
           exact congrArg _ (hC w)
 
@@ -1136,7 +1136,7 @@ private lemma sl2_trivial_of_casimir_zero_aux (d : ℕ) :
 private lemma sl2_trivial_action_of_trivial_subquotients
     {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V]
-    (h : ∀ (_x : RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra) (v : V), distinguishedModuleEndomorphism (V := V) v = 0) :
+    (h : ∀ (_x : RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra) (v : V), auxiliaryModuleEndomorphism (V := V) v = 0) :
     ∀ (x : RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra) (v : V), ⁅x, v⁆ = 0 :=
   sl2_trivial_of_casimir_zero_aux (finrank ℂ V) le_rfl (fun v => h weightElement v)
 
@@ -1157,11 +1157,11 @@ private lemma casimir_eigenspace_complement
     {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V]
     (N : LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) (c₀ : ℂ)
-    (hInj : ∀ v ∈ N.toSubmodule, distinguishedModuleEndomorphism v = c₀ • v → v = 0)
-    (hImg : ∀ v : V, distinguishedModuleEndomorphism v - c₀ • v ∈ N.toSubmodule) :
+    (hInj : ∀ v ∈ N.toSubmodule, auxiliaryModuleEndomorphism v = c₀ • v → v = 0)
+    (hImg : ∀ v : V, auxiliaryModuleEndomorphism v - c₀ • v ∈ N.toSubmodule) :
     ∃ N' : LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V, IsCompl N N' := by
 
-  set K := (distinguishedModuleEndomorphism (V := V)).eigenspace c₀
+  set K := (auxiliaryModuleEndomorphism (V := V)).eigenspace c₀
   have hK_lie : ∀ (x : RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra) (v : V), v ∈ K → ⁅x, v⁆ ∈ K :=
     casimir_eigenspace_lie_invariant c₀
   let K' : LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V :=
@@ -1178,10 +1178,10 @@ private lemma casimir_eigenspace_complement
 
     rw [codisjoint_iff]
 
-    have hK_eq : K = LinearMap.ker (distinguishedModuleEndomorphism (V := V) - c₀ • 1) :=
+    have hK_eq : K = LinearMap.ker (auxiliaryModuleEndomorphism (V := V) - c₀ • 1) :=
       Module.End.eigenspace_def
 
-    have hRange : LinearMap.range (distinguishedModuleEndomorphism (V := V) - c₀ • 1) ≤ N.toSubmodule := by
+    have hRange : LinearMap.range (auxiliaryModuleEndomorphism (V := V) - c₀ • 1) ≤ N.toSubmodule := by
       intro w hw
       obtain ⟨v, hv⟩ := LinearMap.mem_range.mp hw
       simp only [LinearMap.sub_apply, LinearMap.smul_apply] at hv
@@ -1189,7 +1189,7 @@ private lemma casimir_eigenspace_complement
       exact hImg v
 
     have hRN := LinearMap.finrank_range_add_finrank_ker
-      (distinguishedModuleEndomorphism (V := V) - c₀ • 1)
+      (auxiliaryModuleEndomorphism (V := V) - c₀ • 1)
     have hRangeFinrank := Submodule.finrank_mono hRange
     rw [← hK_eq] at hRN
 
@@ -1201,21 +1201,21 @@ private lemma casimir_quotient_comm
     {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V]
     (M : LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) (v : V) :
-    LieSubmodule.Quotient.mk' M (distinguishedModuleEndomorphism v) =
-    distinguishedModuleEndomorphism (V := V ⧸ M) (LieSubmodule.Quotient.mk' M v) := by
+    LieSubmodule.Quotient.mk' M (auxiliaryModuleEndomorphism v) =
+    auxiliaryModuleEndomorphism (V := V ⧸ M) (LieSubmodule.Quotient.mk' M v) := by
   have hmk_lie := fun (a : RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra) (b : V) =>
     (LieSubmodule.Quotient.mk' M).map_lie a b |>.symm
-  simp only [distinguishedModuleEndomorphism, LinearMap.add_apply, LinearMap.smul_apply, sq, Module.End.mul_apply,
+  simp only [auxiliaryModuleEndomorphism, LinearMap.add_apply, LinearMap.smul_apply, sq, Module.End.mul_apply,
     LieModule.toEnd_apply_apply, hmk_lie, map_add, map_nsmul]
 
 private lemma casimir_sub_maps_to_submodule
     {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V]
     (M : LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) (c₀ : ℂ)
-    (hQ_casimir : ∀ v : V ⧸ M, distinguishedModuleEndomorphism (V := V ⧸ M) v = c₀ • v) :
-    ∀ v : V, distinguishedModuleEndomorphism v - c₀ • v ∈ M.toSubmodule := by
+    (hQ_casimir : ∀ v : V ⧸ M, auxiliaryModuleEndomorphism (V := V ⧸ M) v = c₀ • v) :
+    ∀ v : V, auxiliaryModuleEndomorphism v - c₀ • v ∈ M.toSubmodule := by
   intro v
-  have hq : LieSubmodule.Quotient.mk' M (distinguishedModuleEndomorphism v - c₀ • v) = 0 := by
+  have hq : LieSubmodule.Quotient.mk' M (auxiliaryModuleEndomorphism v - c₀ • v) = 0 := by
     rw [map_sub, map_smul, casimir_quotient_comm, hQ_casimir, sub_self]
   rwa [LieSubmodule.Quotient.mk_eq_zero] at hq
 
@@ -1342,30 +1342,30 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
 
   set c_irr := (n : ℂ) * ((n : ℂ) + 2)
 
-  have hQ_casimir : ∀ v : V ⧸ N, distinguishedModuleEndomorphism (V := V ⧸ N) v = c_irr • v := by
+  have hQ_casimir : ∀ v : V ⧸ N, auxiliaryModuleEndomorphism (V := V ⧸ N) v = c_irr • v := by
     intro v
     have h := LinearMap.congr_fun hC v
     simp only [LinearMap.smul_apply] at h
     exact h
 
-  have hImg : ∀ v : V, distinguishedModuleEndomorphism v - c_irr • v ∈ N.toSubmodule :=
+  have hImg : ∀ v : V, auxiliaryModuleEndomorphism v - c_irr • v ∈ N.toSubmodule :=
     casimir_sub_maps_to_submodule N c_irr hQ_casimir
 
-  by_cases hInj : ∀ v ∈ N.toSubmodule, distinguishedModuleEndomorphism v = c_irr • v → v = 0
+  by_cases hInj : ∀ v ∈ N.toSubmodule, auxiliaryModuleEndomorphism v = c_irr • v → v = 0
   ·
     exact casimir_eigenspace_complement N c_irr hInj hImg
   ·
 
-    by_cases hc_zero : c_irr = 0 ∧ ∀ v ∈ N.toSubmodule, distinguishedModuleEndomorphism v = c_irr • v
+    by_cases hc_zero : c_irr = 0 ∧ ∀ v ∈ N.toSubmodule, auxiliaryModuleEndomorphism v = c_irr • v
     ·
       have hc := hc_zero.1
       have hAllN := hc_zero.2
       simp only [hc, zero_smul, sub_zero] at hImg hAllN hQ_casimir ⊢
 
       have hN_triv : ∀ (x : RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra) (v : ↥N), ⁅x, (v : V)⁆ = 0 := by
-        have hCN : ∀ w : ↥N, distinguishedModuleEndomorphism (V := ↥N) w = 0 := by
+        have hCN : ∀ w : ↥N, auxiliaryModuleEndomorphism (V := ↥N) w = 0 := by
           intro w; apply Subtype.val_injective
-          simp only [ZeroMemClass.coe_zero, distinguishedModuleEndomorphism, LinearMap.add_apply,
+          simp only [ZeroMemClass.coe_zero, auxiliaryModuleEndomorphism, LinearMap.add_apply,
             LinearMap.smul_apply, sq, Module.End.mul_apply,
             LieModule.toEnd_apply_apply]
           exact hAllN w.val w.property
@@ -1376,7 +1376,7 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
 
       have hQ_triv : ∀ (x : RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra) (v : V), (⁅x, v⁆ : V) ∈ N := by
 
-        have hCQ : ∀ w : V ⧸ N, distinguishedModuleEndomorphism (V := V ⧸ N) w = 0 := by
+        have hCQ : ∀ w : V ⧸ N, auxiliaryModuleEndomorphism (V := V ⧸ N) w = 0 := by
 
           intro w; exact hQ_casimir w
         have hQ_act := sl2_trivial_action_of_trivial_subquotients (fun _ v => hCQ v)
@@ -1396,11 +1396,11 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
       push Not at hInj
       obtain ⟨v₀, hv₀_mem, hv₀_C, hv₀_ne⟩ := hInj
 
-      have hv₀_eigen : v₀ ∈ (distinguishedModuleEndomorphism (V := V)).eigenspace c_irr :=
+      have hv₀_eigen : v₀ ∈ (auxiliaryModuleEndomorphism (V := V)).eigenspace c_irr :=
         Module.End.mem_eigenspace_iff.mpr hv₀_C
 
       let Ec : LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V :=
-        LieSubmodule.mk ((distinguishedModuleEndomorphism (V := V)).eigenspace c_irr)
+        LieSubmodule.mk ((auxiliaryModuleEndomorphism (V := V)).eigenspace c_irr)
           (fun {x v} hv ↦ casimir_eigenspace_lie_invariant c_irr x v hv)
 
       have hv₀_inter : v₀ ∈ (Ec ⊓ N : LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) := ⟨hv₀_eigen, hv₀_mem⟩
@@ -1410,7 +1410,7 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
         rcases eq_or_lt_of_le (inf_le_right (a := Ec) (b := N)) with h | h
         · exact h ▸ inf_le_left
         · exact absurd (hN_atom.2 _ h) hEN_ne
-      have hAllN : ∀ v ∈ N.toSubmodule, distinguishedModuleEndomorphism v = c_irr • v := by
+      have hAllN : ∀ v ∈ N.toSubmodule, auxiliaryModuleEndomorphism v = c_irr • v := by
         intro w hw; exact Module.End.mem_eigenspace_iff.mp (hN_le_Ec hw)
 
       obtain ⟨mN, μN, PN⟩ := exists_primitiveVector (V := N)
@@ -1422,7 +1422,7 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
       have hmN_e : ⁅raisingElement, (mN : V)⁆ = 0 := by
         have := congrArg Subtype.val PN.lie_e
         simp only [LieSubmodule.coe_bracket, ZeroMemClass.coe_zero] at this; exact this
-      have hCmN : distinguishedModuleEndomorphism (V := V) (mN : V) = ((nN : ℂ) * ((nN : ℂ) + 2)) • (mN : V) := by
+      have hCmN : auxiliaryModuleEndomorphism (V := V) (mN : V) = ((nN : ℂ) * ((nN : ℂ) + 2)) • (mN : V) := by
         have hH' : (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V weightElement) (mN : V) = (nN : ℂ) • (mN : V) := by
           change ⁅weightElement, (mN : V)⁆ = _; exact hmN_h
         have hE' : (toEnd ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V raisingElement) (mN : V) = 0 := by
@@ -1924,17 +1924,17 @@ theorem lieSubmodule_complementedLattice (V : Type*) [AddCommGroup V] [Module �
     ComplementedLattice (LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) :=
   complementedLattice_sl2_aux (finrank ℂ V) V le_rfl
 
-/-- A proposition associated with a module over a Lie algebra. -/
-def LieModuleCondition (R L V : Type*) [CommRing R] [LieRing L] [LieAlgebra R L]
+/-- An auxiliary proposition depending on a module over a Lie algebra. -/
+def AuxiliaryLieModuleCondition (R L V : Type*) [CommRing R] [LieRing L] [LieAlgebra R L]
     [AddCommGroup V] [Module R V] [LieRingModule L V] [LieModule R L V] : Prop :=
   Nontrivial V ∧ ∀ (W₁ W₂ : LieSubmodule R L V),
     IsCompl W₁ W₂ → W₁ = ⊥ ∨ W₂ = ⊥
 
-/-- The specified module condition implies irreducibility for a finite-dimensional module. -/
+/-- The auxiliary module condition implies irreducibility for a finite-dimensional module. -/
 @[source_ref "Chapter2/Theorem2.1.1" (role := primary)]
-theorem isIrreducible_of_lieModuleCondition (V : Type*) [AddCommGroup V] [Module ℂ V]
+theorem isIrreducible_of_auxiliaryLieModuleCondition (V : Type*) [AddCommGroup V] [Module ℂ V]
     [FiniteDimensional ℂ V] [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V]
-    (hV : LieModuleCondition ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) :
+    (hV : AuxiliaryLieModuleCondition ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) :
     LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V := by
   letI : Nontrivial V := hV.1
   letI : ComplementedLattice (LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) := lieSubmodule_complementedLattice V
@@ -1948,4 +1948,3 @@ theorem isIrreducible_of_lieModuleCondition (V : Type*) [AddCommGroup V] [Module
 end CompleteReducibility
 
 end RepresentationTheory.LieAlgebra.FiniteDimensionalModules
-

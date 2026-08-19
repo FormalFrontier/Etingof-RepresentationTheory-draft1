@@ -17,10 +17,11 @@ namespace RepresentationTheory.LinearAlgebra.MatrixTraceKernels
 
 open Matrix
 
-/-- For square matrices indexed by a finite type, the specified submodule is the kernel of the trace map. -/
+/-- For square matrices indexed by a finite type, the auxiliary submodule is the kernel of the
+trace linear map. -/
 @[source_ref "Chapter3/Theorem3.6.2" (role := primary),
   source_ref "Chapter3/Theorem3.6.2/Derived9" (role := supporting)]
-theorem matrixSubmodule_eq_traceKernel
+theorem auxiliaryMatrixSubmodule_eq_traceKernel
     (k : Type*) [CommRing k] (n : Type*) [Fintype n] [DecidableEq n] :
     RepresentationTheory.Algebra.Trace.CommutatorQuotient.commutatorSubmodule k (Matrix n n k) =
       LinearMap.ker (Matrix.traceLinearMap n k k) := by
@@ -96,14 +97,15 @@ theorem matrixSubmodule_eq_traceKernel
         rw [e2]
         exact Submodule.smul_mem _ _ (hoff i j hp)
 
-/-- For finite square matrices, the specified submodule is the kernel of the trace map. -/
+/-- For square matrices indexed by `Fin d`, the auxiliary submodule is the kernel of the trace
+linear map. -/
 @[source_ref "Chapter3/Theorem3.6.2" (role := primary),
   source_ref "Chapter3/Theorem3.6.2/Derived11" (role := supporting)]
-theorem finMatrixSubmodule_eq_traceKernel
+theorem auxiliaryFinMatrixSubmodule_eq_traceKernel
     (k : Type*) [CommRing k] (d : ℕ) :
     RepresentationTheory.Algebra.Trace.CommutatorQuotient.commutatorSubmodule k
         (Matrix (Fin d) (Fin d) k) =
       LinearMap.ker (Matrix.traceLinearMap (Fin d) k k) :=
-  matrixSubmodule_eq_traceKernel k (Fin d)
+  auxiliaryMatrixSubmodule_eq_traceKernel k (Fin d)
 
 end RepresentationTheory.LinearAlgebra.MatrixTraceKernels
