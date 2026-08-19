@@ -264,9 +264,10 @@ theorem operatorRepresentation_injective : Function.Injective (operatorRepresent
 
 end RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators
 
-namespace RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra
+namespace RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra
 
 open RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators
+open RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra
 
 variable (k : Type*) [CommRing k] [Nontrivial k]
 
@@ -292,7 +293,7 @@ theorem comparisonMap_not_injective_of_charP (p : ℕ) [Fact p.Prime] [CharP k p
   exact hy (hinj ((toPolynomialEnd_power_second_eq_zero k p).trans
     (map_zero (toPolynomialEnd k)).symm))
 
-end RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra
+end RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra
 
 namespace RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators
 
@@ -306,7 +307,7 @@ theorem operatorRepresentation_injective_and_comparisonMap_not_injective
     (p : ℕ) [Fact p.Prime] [CharP k p] :
     Function.Injective (operatorRepresentation k) ∧
       ¬ Function.Injective (toPolynomialEnd k) :=
-  ⟨operatorRepresentation_injective k, OperatorAlgebra.comparisonMap_not_injective_of_charP k p⟩
+  ⟨operatorRepresentation_injective k, AuxiliaryAlgebra.comparisonMap_not_injective_of_charP k p⟩
 
 /-- The doubly indexed operator monomials are linearly independent and their range spans the whole algebra. -/
 @[source_ref "Chapter2/Proposition2.7.1" (role := primary)]
@@ -314,7 +315,7 @@ theorem operatorMonomials_linearIndependent_and_span :
     LinearIndependent k (fun p : ℕ × ℕ => OperatorAlgebra.monomialOperator k p.1 p.2) ∧
     ⊤ ≤ Submodule.span k
       (Set.range (fun p : ℕ × ℕ => OperatorAlgebra.monomialOperator k p.1 p.2)) :=
-  ⟨OperatorAlgebra.operatorMonomials_linearIndependent k,
+  ⟨AuxiliaryAlgebra.operatorMonomials_linearIndependent k,
     OperatorAlgebra.span_monomialOperator k⟩
 
 end RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators

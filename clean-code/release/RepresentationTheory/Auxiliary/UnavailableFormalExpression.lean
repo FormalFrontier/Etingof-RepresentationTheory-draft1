@@ -10,7 +10,7 @@ import RepresentationTheory.Alignment.Attribute
 
 /-! # An auxiliary formal statement -/
 
-namespace RepresentationTheory.OpaqueFormalStatement
+namespace RepresentationTheory.Auxiliary.UnavailableFormalExpression
 
 open Real
 
@@ -65,9 +65,9 @@ private lemma three_not_dvd_scaledCosine (n : ℕ) : ¬ (3 ∣ scaledCosine n) :
   have hnMod := (hmod n).1
   omega
 
-/-- States the proposition represented by this declaration. -/
+/-- An auxiliary theorem whose formal expression is unavailable in displayed form. -/
 @[source_ref "Chapter2/Problem2.13.1" (role := supporting)]
-theorem opaqueFormalStatement : Irrational (arccos (1 / 3) / π) := by
+theorem auxiliaryFact : Irrational (arccos (1 / 3) / π) := by
   intro h
   obtain ⟨r, hr⟩ := h
   set θ := arccos (1 / 3) with hθdef
@@ -95,4 +95,4 @@ theorem opaqueFormalStatement : Irrational (arccos (1 / 3) / π) := by
     omega
   exact three_not_dvd_scaledCosine (2 * r.den) (hb_eq ▸ dvd_pow_self 3 hn0)
 
-end RepresentationTheory.OpaqueFormalStatement
+end RepresentationTheory.Auxiliary.UnavailableFormalExpression

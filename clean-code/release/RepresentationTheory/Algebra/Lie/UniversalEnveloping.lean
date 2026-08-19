@@ -3,7 +3,7 @@ Copyright (c) 2026 mathlib-initiative. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENCE.
 Authors: Kim Morrison
 -/
-import Mathlib.Algebra.Lie.UniversalEnveloping
+import Mathlib
 import RepresentationTheory.Alignment.Attribute
 
 /-! # Representations of universal enveloping algebras -/

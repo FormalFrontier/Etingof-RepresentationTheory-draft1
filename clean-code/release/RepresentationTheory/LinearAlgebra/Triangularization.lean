@@ -4,8 +4,8 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: Kim Morrison
 -/
 
-import RepresentationTheory.Infrastructure.Triangularization
 import RepresentationTheory.LinearAlgebra.SymmetricTensors
+import RepresentationTheory.Infrastructure.Triangularization
 import RepresentationTheory.Alignment.Attribute
 
 /-! # Triangular bases and induced traces -/
