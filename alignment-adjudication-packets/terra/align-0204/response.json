@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:7c6163a21f7ca60cd018",
-      "role": "primary",
-      "rationale": "It directly states the claim's assertion that the tensor product of the two rational-function fields is not a field."
+      "role": "supporting",
+      "rationale": "It directly states only that the tensor-product algebra is not a field; the displayed type does not itself state irreducibility of the factors or non-irreducibility of their tensor product."
     },
     {
       "association_id": "association:44b8f4fdf40ce963cf6b",
