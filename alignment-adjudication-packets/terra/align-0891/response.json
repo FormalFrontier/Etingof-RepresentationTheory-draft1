@@ -2,13 +2,13 @@
   "associations": [
     {
       "association_id": "association:ad9f6d08d03294f7ff7e",
-      "rationale": "Directly states, over an algebraically closed characteristic-zero field, that equal characters yield an isomorphism.",
-      "role": "primary"
+      "rationale": "The type gives the implication only under the additional displayed algebraically closed hypothesis, so it does not directly state the full characteristic-zero claim as displayed.",
+      "role": "supporting"
     },
     {
       "association_id": "association:27be423d2b69eeb5da35",
-      "rationale": "Directly states the complex specialization that equal characters yield an isomorphism.",
-      "role": "primary"
+      "rationale": "The type gives only the Complex specialization, not the full displayed characteristic-zero field claim.",
+      "role": "supporting"
     }
   ],
   "packet_id": "align-0891"
