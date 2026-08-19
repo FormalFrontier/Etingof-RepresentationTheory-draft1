@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:a05e8787f2699b105e77",
-      "role": "primary",
-      "rationale": "The formal type places every character in the class-function submodule, stating conjugacy-class constancy."
+      "role": "supporting",
+      "rationale": "It places characters in a named class-function submodule, rather than explicitly displaying conjugacy-class constancy."
     },
     {
       "association_id": "association:2737a38bb11c2649d7d5",
-      "role": "primary",
-      "rationale": "The declared character-conjugacy result directly states the character invariance asserted by the claim."
+      "role": "supporting",
+      "rationale": "Its formal type is unavailable, so the displayed evidence cannot directly verify the claim."
     }
   ]
 }

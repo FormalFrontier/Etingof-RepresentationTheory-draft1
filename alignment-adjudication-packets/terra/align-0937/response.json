@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:5c844a55892dc3be6d27",
-      "role": "primary",
-      "rationale": "Its formal type states that each canonical representative is indecomposable."
+      "role": "supporting",
+      "rationale": "It proves indecomposability, one component of the combined representative-and-nonisomorphism claim."
     },
     {
       "association_id": "association:0f091fdf2322535ecd63",
-      "role": "primary",
-      "rationale": "Its formal type states that canonical representatives for distinct classes are nonisomorphic."
+      "role": "supporting",
+      "rationale": "It proves nonisomorphism of distinct representatives, one component of the combined claim."
     }
   ]
 }

@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:1c0ad6522cdd1cf8dda3",
-      "role": "primary",
-      "rationale": "Its formal type says every root is componentwise nonnegative or componentwise nonpositive."
+      "role": "supporting",
+      "rationale": "It proves the dichotomy under an explicit Dynkin-diagram hypothesis absent from the displayed source claim."
     }
   ]
 }

@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:9af91f2c0e223a98a6a4",
-      "role": "primary",
-      "rationale": "Its formal type directly asserts integrality of the class-size times character value divided by dimension."
+      "role": "supporting",
+      "rationale": "It proves integrality only for a simple representation and under an explicit positive-dimension hypothesis."
     }
   ]
 }

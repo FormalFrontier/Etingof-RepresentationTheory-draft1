@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:14e3f7649fa9479516ba",
-      "role": "primary",
-      "rationale": "The declared sl2 universal-relations result directly states the listed generator relations in U(sl2)."
+      "role": "supporting",
+      "rationale": "The displayed formal type failed to pretty print, so it cannot directly verify all three stated relations."
     }
   ]
 }

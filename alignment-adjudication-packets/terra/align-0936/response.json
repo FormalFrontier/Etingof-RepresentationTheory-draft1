@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:13873abd357e6e66a1b7",
-      "role": "primary",
-      "rationale": "Its formal type asserts existence of a filtration whose successive quotient modules are simple."
+      "role": "supporting",
+      "rationale": "It gives simple quotients for an existentially elided filtration object, without directly displaying the full filtration claim."
     }
   ]
 }

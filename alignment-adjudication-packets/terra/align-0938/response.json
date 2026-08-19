@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:d3c6181b3bc52fc301fb",
-      "role": "primary",
-      "rationale": "TensorProduct.map defines the induced linear map A tensor B in the source claim."
+      "role": "supporting",
+      "rationale": "Its formal type is unavailable, so the displayed evidence cannot directly establish the well-defined linear map."
     },
     {
       "association_id": "association:a55dde8d3a4433a0f237",
-      "role": "primary",
-      "rationale": "TensorProduct.map_tmul states the induced map's required value on pure tensors."
+      "role": "supporting",
+      "rationale": "Its formal type is unavailable, so the displayed evidence cannot directly establish the stated pure-tensor formula."
     }
   ]
 }
