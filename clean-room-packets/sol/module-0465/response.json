@@ -23,8 +23,8 @@
     },
     {
       "temporary_id": "decl-016575",
-      "new_name": "exists_auxiliarySpace_decomposition_with_compatibility",
-      "docstring": "An auxiliary-space decomposition can be selected with compatible component maps and an intertwining condition for an associated algebra action."
+      "new_name": "Auxiliary.statement016575",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016576",

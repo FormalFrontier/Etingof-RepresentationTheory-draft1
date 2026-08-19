@@ -63,8 +63,8 @@
     },
     {
       "temporary_id": "decl-022996",
-      "new_name": "auxiliary_ne_bot_of_antitone",
-      "docstring": "An auxiliary construction indexed by an antitone finite sequence is nontrivial."
+      "new_name": "schurSubmodule_ne_bot_of_antitone",
+      "docstring": "The Schur submodule indexed by an antitone finite sequence is nontrivial."
     }
   ]
 }

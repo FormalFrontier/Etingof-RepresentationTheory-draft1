@@ -63,8 +63,8 @@
     },
     {
       "temporary_id": "decl-017875",
-      "new_name": "Auxiliary.cast_characterValue_eq",
-      "docstring": "The rational cast of the auxiliary character value agrees with the corresponding permutation value."
+      "new_name": "Auxiliary.statement017875",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-018377",
@@ -78,8 +78,8 @@
     },
     {
       "temporary_id": "decl-018734",
-      "new_name": "Auxiliary.eval_one_eq_weightMultiplicitySum",
-      "docstring": "Evaluating a weight character at all variables equal to one sums the dimensions of its nonzero weight spaces."
+      "new_name": "Auxiliary.statement018734",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-018966",
@@ -223,8 +223,8 @@
     },
     {
       "temporary_id": "decl-023204",
-      "new_name": "Auxiliary.nonempty_linearEquiv_of_simple_character_eq",
-      "docstring": "Two simple invariant subspaces with the same permutation character are linearly equivalent over the commutant algebra."
+      "new_name": "Auxiliary.statement023204",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-023572",
@@ -233,8 +233,8 @@
     },
     {
       "temporary_id": "decl-023616",
-      "new_name": "mem_of_mem_symmetricInvariantSubmodule",
-      "docstring": "A submodule over the symmetric endomorphism algebra is closed under the action of each permutation."
+      "new_name": "permutationAction_mem_of_mem",
+      "docstring": "A submodule over the permutation-action algebra is closed under the action of each permutation."
     },
     {
       "temporary_id": "decl-024090",
@@ -253,18 +253,18 @@
     },
     {
       "temporary_id": "decl-024124",
-      "new_name": "symmetricEndomorphismRing",
-      "docstring": "The ring structure on endomorphisms commuting with the finite symmetric-group action."
+      "new_name": "permutationActionAlgebraRingOfFinite",
+      "docstring": "The permutation-action algebra of a finite module carries its induced ring structure."
     },
     {
       "temporary_id": "decl-024301",
-      "new_name": "Auxiliary.exists_partition_character_eq_of_simple",
-      "docstring": "Every simple submodule for the symmetric endomorphism algebra has the permutation character associated with some partition."
+      "new_name": "Auxiliary.statement024301",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024303",
-      "new_name": "Auxiliary.trace_symmetrizerEndomorphism_restrict",
-      "docstring": "The trace of the restricted symmetrizer endomorphism is a coefficient-weighted sum of restricted permutation traces."
+      "new_name": "Auxiliary.statement024303",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024490",
@@ -284,7 +284,7 @@
     {
       "temporary_id": "decl-024667",
       "new_name": "symmetrizerEndomorphismMem",
-      "docstring": "The symmetrizer endomorphism bundled as an element commuting with the symmetric-group action."
+      "docstring": "The symmetrizer endomorphism bundled as an element of the permutation-action algebra."
     },
     {
       "temporary_id": "decl-024669",
@@ -308,8 +308,8 @@
     },
     {
       "temporary_id": "decl-024678",
-      "new_name": "Auxiliary.restrict_symmetrizerEndomorphism_sq",
-      "docstring": "Restricting a quasi-idempotent symmetrizer endomorphism to an invariant subspace preserves its quadratic relation."
+      "new_name": "Auxiliary.statement024678",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024679",
@@ -318,18 +318,18 @@
     },
     {
       "temporary_id": "decl-024681",
-      "new_name": "Auxiliary.exists_rankOneProjection_of_character_eq",
-      "docstring": "The expected permutation character yields a nonzero scalar and a rank-one idempotent expressing the restricted symmetrizer action."
+      "new_name": "Auxiliary.statement024681",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024683",
-      "new_name": "Auxiliary.restrict_symmetrizerEndomorphism_eq_zero_of_character_ne",
-      "docstring": "A simple constituent indexed by a different partition is annihilated by the symmetrizer endomorphism."
+      "new_name": "Auxiliary.statement024683",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-024685",
       "new_name": "map_symmetrizerEndomorphism_tmul",
-      "docstring": "Under an isotypic direct-sum decomposition, the symmetrizer endomorphism acts on a pure tensor through its first factor."
+      "docstring": "Under the given direct-sum tensor-product equivalence, the symmetrizer endomorphism acts on a pure tensor through its first factor."
     },
     {
       "temporary_id": "decl-024686",
