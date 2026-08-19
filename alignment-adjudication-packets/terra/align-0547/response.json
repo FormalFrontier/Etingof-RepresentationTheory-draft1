@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:858b2d283d005a19753e",
-      "rationale": "The type directly states that no Lie-module equivalence exists between any oneDimModule and any Fam member, which is the asserted disjointness.",
-      "role": "primary"
+      "rationale": "The type states that no Lie-module equivalence exists between any oneDimModule and any Fam member, but it gives only the disjointness component and does not itself state the family isomorphism criterion required by the full claim.",
+      "role": "supporting"
     }
   ]
 }
