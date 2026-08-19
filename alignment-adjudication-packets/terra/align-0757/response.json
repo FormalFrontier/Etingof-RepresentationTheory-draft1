@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:e8f0e99042ba57905bae",
-      "role": "primary",
-      "rationale": "This directly identifies the induction of a nontrivial one-dimensional irreducible representation from the order-twelve subgroup with the five-dimensional A5 representation."
+      "role": "supporting",
+      "rationale": "This gives only the nontrivial one-dimensional case of induction from the order-twelve subgroup; it does not itself state the complete set of decompositions requested for all such induced representations."
     },
     {
       "association_id": "association:2a1015db8f76030fbb12",
-      "role": "primary",
-      "rationale": "This directly gives the A5 direct-sum decomposition induced from a three-dimensional irreducible representation of the order-twelve subgroup."
+      "role": "supporting",
+      "rationale": "This gives only the three-dimensional case of induction from the order-twelve subgroup; it does not itself state the complete set of decompositions requested for all such induced representations."
     },
     {
       "association_id": "association:71bda3f413b7150d7c4a",
-      "role": "primary",
-      "rationale": "This directly gives the A5 direct-sum decomposition induced from the trivial representation of the order-twelve subgroup."
+      "role": "supporting",
+      "rationale": "This gives only the trivial case of induction from the order-twelve subgroup; it does not itself state the complete set of decompositions requested for all such induced representations."
     }
   ]
 }

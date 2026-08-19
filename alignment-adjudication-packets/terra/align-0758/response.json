@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:7ae80cabd820de6524fc",
-      "role": "primary",
-      "rationale": "This directly gives the A5 direct-sum decomposition induced from a nontrivial irreducible representation of the order-four subgroup."
+      "role": "supporting",
+      "rationale": "This gives only the nontrivial-character case of induction from the order-four subgroup; it does not itself state the complete set of decompositions requested for all such induced representations."
     },
     {
       "association_id": "association:de98d7ea629f94f3dd78",
-      "role": "primary",
-      "rationale": "This directly gives the A5 direct-sum decomposition induced from the trivial representation of the order-four subgroup."
+      "role": "supporting",
+      "rationale": "This gives only the trivial-character case of induction from the order-four subgroup; it does not itself state the complete set of decompositions requested for all such induced representations."
     }
   ]
 }

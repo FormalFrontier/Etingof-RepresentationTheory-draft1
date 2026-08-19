@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:74367f3d5907c9765e53",
-      "role": "primary",
-      "rationale": "This directly gives the two possible A5 direct-sum decompositions of an induced nontrivial irreducible representation from a subgroup of order five."
+      "role": "supporting",
+      "rationale": "This gives only the nontrivial-character cases of induction from a subgroup of order five; it does not itself state the complete set of decompositions requested for all such induced representations."
     },
     {
       "association_id": "association:bf0b5462c7196ec48ba3",
-      "role": "primary",
-      "rationale": "This directly gives the A5 direct-sum decomposition of the induced trivial representation from a subgroup of order five."
+      "role": "supporting",
+      "rationale": "This gives only the trivial-character case of induction from a subgroup of order five; it does not itself state the complete set of decompositions requested for all such induced representations."
     }
   ]
 }
