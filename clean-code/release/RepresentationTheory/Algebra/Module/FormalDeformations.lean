@@ -38,7 +38,7 @@ structure FormalRepresentationDeformation where
       = ∑ p ∈ Finset.antidiagonal n, (coeff p.1 a).comp (coeff p.2 b)
 
 /-- The canonical formal representation deformation associated with the original module action. -/
-@[source_ref "Chapter3/Problem3.9.4" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.4" (role := supporting)]
 noncomputable def canonicalDeformation : FormalRepresentationDeformation k A V where
   coeff n := if n = 0 then actionLinearMap k A V else 0
   coeff_zero := by simp

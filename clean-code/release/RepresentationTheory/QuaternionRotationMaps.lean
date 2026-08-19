@@ -153,7 +153,7 @@ theorem matrixAction_011564
 
 
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting)]
 theorem valueFormula_011596 (q₁ q₂ : ℍ[ℝ]) :
     star (q₁ * q₂) = star q₂ * star q₁ :=
   star_mul q₁ q₂
@@ -161,7 +161,7 @@ theorem valueFormula_011596 (q₁ q₂ : ℍ[ℝ]) :
 
 
 /-- A norm-square identity for the displayed quaternion expression. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting)]
 theorem quaternionNorm_011503 (q₁ q₂ : ℍ[ℝ]) :
     Quaternion.normSq (q₁ * q₂) = Quaternion.normSq q₁ * Quaternion.normSq q₂ :=
   map_mul Quaternion.normSq q₁ q₂
@@ -409,22 +409,22 @@ noncomputable def quaternionK : ℍ[ℝ] := ⟨0, 0, 0, 1⟩
 @[source_ref "Chapter4/Problem4.12.7" (role := supporting), simp] lemma Auxiliary011536 : quaternionK * quaternionK = -1 := by ext <;> simp [quaternionK]
 
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary), simp] lemma valueFormula_011515 : quaternionI * quaternionJ = quaternionK := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting), simp] lemma valueFormula_011515 : quaternionI * quaternionJ = quaternionK := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary), simp] lemma valueFormula_011524 : quaternionJ * quaternionI = -quaternionK := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting), simp] lemma valueFormula_011524 : quaternionJ * quaternionI = -quaternionK := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary), simp] lemma valueFormula_011526 : quaternionJ * quaternionK = quaternionI := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting), simp] lemma valueFormula_011526 : quaternionJ * quaternionK = quaternionI := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary), simp] lemma valueFormula_011535 : quaternionK * quaternionJ = -quaternionI := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting), simp] lemma valueFormula_011535 : quaternionK * quaternionJ = -quaternionI := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary), simp] lemma valueFormula_011534 : quaternionK * quaternionI = quaternionJ := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting), simp] lemma valueFormula_011534 : quaternionK * quaternionI = quaternionJ := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
 /-- The equality displayed in the formal statement. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary), simp] lemma valueFormula_011516 : quaternionI * quaternionK = -quaternionJ := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting), simp] lemma valueFormula_011516 : quaternionI * quaternionK = -quaternionJ := by ext <;> simp [quaternionI, quaternionJ, quaternionK]
 
 
 
 /-- The quaternion-valued construction specified by the displayed formal signature. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting)]
 noncomputable def quaternionBasis : Module.Basis (Fin 4) ℝ ℍ[ℝ] :=
   QuaternionAlgebra.basisOneIJK _ _ _
 
@@ -1037,7 +1037,7 @@ noncomputable def equivariantEndomorphismAlgebra : Subalgebra ℝ (Module.End �
   Subalgebra.centralizer ℝ (Set.range specialUnitaryEndomorphism)
 
 /-- A matrix identity for the displayed action or transformation. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting)]
 lemma matrixAction_011500 {f : Module.End ℝ (Fin 2 → ℂ)} :
     f ∈ equivariantEndomorphismAlgebra ↔
       ∀ (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) (v : Fin 2 → ℂ),
@@ -1072,7 +1072,7 @@ lemma membershipCharacterization_011479 {f : Module.End ℝ (Fin 2 → ℂ)} (hf
 
 
 /-- A membership statement for the displayed set, submodule, or subgroup. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting)]
 theorem membershipCharacterization_011477 (x : equivariantEndomorphismAlgebra) (hx : x ≠ 0) : IsUnit x := by
   set f : Module.End ℝ (Fin 2 → ℂ) := (x : Module.End ℝ (Fin 2 → ℂ)) with hfdef
   have hf : f ∈ equivariantEndomorphismAlgebra := x.2
@@ -1266,7 +1266,7 @@ lemma surjective_011485 : Function.Surjective evaluationLinearMap := by
 
 
 /-- A cardinality or dimension identity for the displayed finite object. -/
-@[source_ref "Chapter4/Problem4.12.7" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.7" (role := supporting)]
 theorem cardinalityFormula_011488 : Module.finrank ℝ equivariantEndomorphismAlgebra = 4 := by
   have hbij : Function.Bijective evaluationLinearMap := ⟨injective_011484, surjective_011485⟩
   rw [(LinearEquiv.ofBijective evaluationLinearMap hbij).finrank_eq]

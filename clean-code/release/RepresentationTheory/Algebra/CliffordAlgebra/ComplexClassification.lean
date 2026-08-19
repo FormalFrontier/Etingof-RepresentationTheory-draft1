@@ -300,7 +300,7 @@ omit [FiniteDimensional ℂ V] in
 
 
 /-- The orthogonal-basis monomials span the entire Clifford algebra. -/
-@[source_ref "Chapter3/Problem3.9.5" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 theorem span_range_basisMonomial_eq_top (hv : B.IsOrthoᵢ v) :
     Submodule.span ℂ (Set.range (basisMonomial B v)) = ⊤ := by
   set W := Submodule.span ℂ (Set.range (basisMonomial B v)) with hWdef
@@ -332,7 +332,7 @@ include v in
 
 
 /-- The Clifford algebra on a space with a finite basis of size N has complex dimension two to the power N. -/
-@[source_ref "Chapter3/Problem3.9.5" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 theorem finrank_eq_two_pow : Module.finrank ℂ (BilinearCliffordAlgebra B) = 2 ^ N := by
   haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
   rw [(CliffordAlgebra.equivExterior (quadraticForm B)).finrank_eq,
@@ -341,7 +341,7 @@ theorem finrank_eq_two_pow : Module.finrank ℂ (BilinearCliffordAlgebra B) = 2 
 
 
 /-- The complex basis of a Clifford algebra indexed by finite subsets of an orthogonal basis. -/
-@[source_ref "Chapter3/Problem3.9.5" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
 noncomputable def finsetMonomialBasis (hv : B.IsOrthoᵢ v) :
     Module.Basis (Finset (Fin N)) ℂ (BilinearCliffordAlgebra B) :=
   basisOfTopLeSpanOfCardEqFinrank (basisMonomial B v) (span_range_basisMonomial_eq_top B v hv).ge

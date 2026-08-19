@@ -91,7 +91,7 @@ section PartsAB
 variable {A : Type*} [Ring A]
 
 /-- The proposition that a vector generates its module. -/
-@[source_ref "Chapter2/Problem2.5.2" (role := primary)]
+@[source_ref "Chapter2/Problem2.5.2" (role := supporting)]
 def IsCyclicVector {V : Type*} [AddCommGroup V] [Module A V] (v : V) : Prop :=
   Submodule.span A {v} = ⊤
 
@@ -129,7 +129,7 @@ theorem isSimpleModule_iff_forall_ne_zero_isCyclicVector (V : Type*) [AddCommGro
             exact top_le_iff.mp hle }
 
 /-- For a nontrivial module, cyclicity is equivalent to the existence of a linear equivalence with a quotient of its coefficient ring by an ideal. -/
-@[source_ref "Chapter2/Problem2.5.2" (role := primary)]
+@[source_ref "Chapter2/Problem2.5.2" (role := supporting)]
 theorem isCyclicModule_iff_nonempty_linearEquiv_quotient (V : Type*) [AddCommGroup V] [Module A V] [Nontrivial V] :
     IsCyclicModule (A := A) V ↔
       ∃ I : Submodule A A, Nonempty (V ≃ₗ[A] (A ⧸ I)) := by

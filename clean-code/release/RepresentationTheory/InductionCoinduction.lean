@@ -48,14 +48,14 @@ lemma indIdIso_inv_apply (V : Rep k G) (v : V) :
 variable (H : Subgroup G)
 
 /-- After restriction to a subgroup, induction along the identity homomorphism is isomorphic to the original representation. -/
-@[source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := primary)]
+@[source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := supporting)]
 noncomputable def restrictIndIdIso (V : Rep k G) :
     (Rep.resFunctor H.subtype).obj (Rep.ind (MonoidHom.id G) V) ≅
       (Rep.resFunctor H.subtype).obj V :=
   (Rep.resFunctor H.subtype).mapIso (indIdIso k G V)
 
 /-- The inverse of the restricted identity-induction isomorphism sends a vector to the induced vector constructed at the group identity. -/
-@[source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := primary), simp]
+@[source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := supporting), simp]
 lemma restrictIndIdIso_inv_apply (V : Rep k G) (v : V) :
     (restrictIndIdIso k G H V).inv.hom v =
       Representation.IndV.mk (MonoidHom.id G) V.ρ 1 v :=
@@ -97,14 +97,14 @@ lemma coindIdIso_hom_apply (V : Rep k G)
   rfl
 
 /-- After restriction to a subgroup, coinduction along the identity homomorphism is isomorphic to the original representation. -/
-@[source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := primary)]
+@[source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := supporting)]
 noncomputable def restrictCoindIdIso (V : Rep k G) :
     (Rep.resFunctor H.subtype).obj (Rep.coind (MonoidHom.id G) V) ≅
       (Rep.resFunctor H.subtype).obj V :=
   (Rep.resFunctor H.subtype).mapIso (coindIdIso k G V)
 
 /-- The forward map of the restricted identity-coinduction isomorphism evaluates a coinduced vector at the group identity. -/
-@[source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := primary), simp]
+@[source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := supporting), simp]
 lemma restrictCoindIdIso_hom_apply (V : Rep k G)
     (f : (Rep.coind (MonoidHom.id G) V).V) :
     (restrictCoindIdIso k G H V).hom.hom f = f.1 1 :=
@@ -115,7 +115,7 @@ variable [Finite G]
 attribute [local instance] Subgroup.fintypeQuotientOfFiniteIndex
 
 /-- For a finite ambient group, coinduction from a subgroup is isomorphic to induction from that subgroup. -/
-@[source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := primary)]
+@[source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := supporting)]
 noncomputable def coindIsoIndOfFinite (W : Rep k H) :
     Rep.coind H.subtype W ≅ Rep.ind H.subtype W :=
   open scoped Classical in (Rep.indCoindIso W).symm
@@ -134,7 +134,7 @@ noncomputable def coindToIndCosetAuxiliary (W : Rep k H)
             simp_all))
 
 /-- The forward finite-group comparison map is the sum of its auxiliary induced vectors over all right cosets. -/
-@[source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := primary)]
+@[source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := supporting)]
 theorem coindIsoIndOfFinite_hom_apply (W : Rep k H)
     (f : (Rep.coind H.subtype W).V) :
     (coindIsoIndOfFinite k G H W).hom.hom f =

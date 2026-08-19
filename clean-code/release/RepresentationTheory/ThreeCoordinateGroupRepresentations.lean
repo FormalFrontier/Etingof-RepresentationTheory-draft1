@@ -177,7 +177,7 @@ def shiftScaleAction (z : ℂ) (g : ThreeCoordinateGroup p) : (ZMod p → ℂ) �
     funext t; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; ring
 
 /-- Computes the shift-scale action on a function value. -/
-@[source_ref "Chapter4/Problem4.12.2" (role := primary), simp]
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting), simp]
 theorem shiftScaleAction_apply (z : ℂ) (g : ThreeCoordinateGroup p) (f : ZMod p → ℂ) (t : ZMod p) :
     shiftScaleAction z g f t = z ^ (g.secondCoordinate * t - g.thirdCoordinate).val * f (t - g.firstCoordinate) := rfl
 
@@ -214,7 +214,7 @@ theorem shiftScaleRepresentation_secondGenerator_apply [NeZero p] (z : ℂ) (hz 
   simp [shiftScaleRepresentation_apply, shiftScaleAction_apply, secondGenerator]
 
 /-- There is a unique representation satisfying the displayed shift and scaling action formulas. -/
-@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem existsUnique_shift_scale_representation [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1) :
     ∃! ρ : Representation ℂ (ThreeCoordinateGroup p) (ZMod p → ℂ),
       (∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (firstGenerator p) f) t = f (t - 1)) ∧
@@ -477,7 +477,7 @@ theorem ker_coordinateQuotient_le_ker [Fact p.Prime] (ρ : ThreeCoordinateGroup 
   exact pow_mem centralGenerator_mem_commutator _
 
 /-- Equates characters on the coordinate quotient with characters on the group. -/
-@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 noncomputable def characterPrecompositionEquiv (p : ℕ) [Fact p.Prime] :
     (Multiplicative (ZMod p × ZMod p) →* ℂˣ) ≃ (ThreeCoordinateGroup p →* ℂˣ) :=
   (MonoidHom.liftOfSurjective (coordinateQuotientHom p) (coordinateQuotientHom_surjective p)).symm.trans
@@ -502,7 +502,7 @@ theorem character_card_eq_square [Fact p.Prime] :
   ring
 
 /-- Produces an invariant direct-sum decomposition into one-dimensional submodules under the stated action formulas. -/
-@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem exists_invariant_line_decomposition [Fact p.Prime]
     (ρ : Representation ℂ (ThreeCoordinateGroup p) (ZMod p → ℂ))
     (hx : ∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (firstGenerator p) f) t = f (t - 1))
@@ -718,7 +718,7 @@ theorem surjective_of_injective_sum_eq {n : ℕ} {ι : Type*} [Fintype ι]
   exact ⟨i, hi⟩
 
 /-- Every displayed simple representation is isomorphic to one of the two stated forms. -/
-@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem simple_representation_iso_character_or_shiftScale [Fact p.Prime]
     (U : FDRep ℂ (ThreeCoordinateGroup p)) [hUsimple : Simple U] :
     (∃ χ : ThreeCoordinateGroup p →* ℂˣ,
@@ -859,7 +859,7 @@ theorem simple_representation_iso_character_or_shiftScale [Fact p.Prime]
   · exact Or.inr ⟨zof k, hzof_p k, hzof_ne1 k, hUEi⟩
 
 /-- Two displayed character representations are isomorphic exactly when their characters agree. -/
-@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem character_iso_iff (χ χ' : ThreeCoordinateGroup p →* ℂˣ) :
     Nonempty (FDRep.of (RepresentationTheory.PermutationDegreeThree.representationOfUnitCharacter χ) ≅
         FDRep.of (RepresentationTheory.PermutationDegreeThree.representationOfUnitCharacter χ')) ↔ χ = χ' := by
@@ -872,7 +872,7 @@ theorem character_iso_iff (χ χ' : ThreeCoordinateGroup p →* ℂˣ) :
   · rintro rfl; exact ⟨Iso.refl _⟩
 
 /-- Two displayed shift-scale representations are isomorphic exactly when their parameters agree. -/
-@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem shiftScaleRepresentation_iso_iff [Fact p.Prime] {z z' : ℂ} (hz : z ^ p = 1) (hz' : z' ^ p = 1) :
     Nonempty (FDRep.of (shiftScaleRepresentation z hz) ≅ FDRep.of (shiftScaleRepresentation z' hz')) ↔ z = z' := by
   haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
@@ -885,7 +885,7 @@ theorem shiftScaleRepresentation_iso_iff [Fact p.Prime] {z z' : ℂ} (hz : z ^ p
   · rintro rfl; exact ⟨Iso.refl _⟩
 
 /-- States nonisomorphism between the displayed character representation and an auxiliary representation. -/
-@[source_ref "Chapter4/Problem4.12.2" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem character_representation_not_iso_auxiliary [Fact p.Prime] (χ : ThreeCoordinateGroup p →* ℂˣ) {z : ℂ} (hz : z ^ p = 1) :
     ¬ Nonempty (FDRep.of (RepresentationTheory.PermutationDegreeThree.representationOfUnitCharacter χ) ≅ FDRep.of (shiftScaleRepresentation z hz)) := by
   haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩

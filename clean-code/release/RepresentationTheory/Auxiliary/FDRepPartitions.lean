@@ -213,7 +213,7 @@ private theorem partitionFDRep_predecessor_finrank_hom (n : ℕ) (μ : Nat.Parti
   exact_mod_cast hvalue
 
 /-- For each partition of `n`, the two auxiliary finite-dimensional complex representations of `Perm (Fin (n + 1))` have a nonempty type of isomorphisms. -/
-@[source_ref "Chapter5/Problem5.16.1" (role := primary)]
+@[source_ref "Chapter5/Problem5.16.1" (role := supporting)]
 theorem auxiliaryFDRepOfPartitionIso (n : ℕ) (μ : Nat.Partition n) :
     Nonempty (auxiliaryFDRepOfPartitionPrime n μ ≅ auxiliaryFDRepOfPartition n μ) := by
   classical

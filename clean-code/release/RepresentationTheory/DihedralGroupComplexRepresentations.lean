@@ -285,7 +285,7 @@ theorem auxiliaryRootOfUnity_isPrimitiveRoot [NeZero N] : IsPrimitiveRoot (auxil
   unfold auxiliaryRootOfUnity; exact Complex.isPrimitiveRoot_exp N (NeZero.ne N)
 
 /-- When twice the residue index is nonzero, the module associated with the indexed dihedral representation is simple. -/
-@[source_ref "Chapter4/Problem4.12.1" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.1" (role := supporting)]
 theorem twoDimensionalRepresentation_isSimpleModule [NeZero N] (j : ZMod N) (hj : (2 : ZMod N) * j ≠ 0) :
     IsSimpleModule (MonoidAlgebra ℂ (DihedralGroup N)) (twoDimensionalRepresentation N j).asModule := by
   rw [← Representation.irreducible_iff_isSimpleModule_asModule]
@@ -375,7 +375,7 @@ theorem trace_twoDimensionalRepresentation_rotation [NeZero N] (j k : ZMod N) :
   simp [twoDimensionalRepresentationMatrix, Matrix.trace, Matrix.diag, Fin.sum_univ_two]
 
 /-- If the displayed phase sums for two indices differ, no linear equivalence intertwines the corresponding representations at every group element. -/
-@[source_ref "Chapter4/Problem4.12.1" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.1" (role := supporting)]
 theorem twoDimensionalRepresentations_not_equivalent_of_trace_ne [NeZero N] {j j' : ZMod N}
     (hne : cyclicPhase N j 1 + (cyclicPhase N j 1)⁻¹ ≠ cyclicPhase N j' 1 + (cyclicPhase N j' 1)⁻¹) :
     ¬ ∃ T : (Fin 2 → ℂ) ≃ₗ[ℂ] (Fin 2 → ℂ),
@@ -466,7 +466,7 @@ def linearCharacterOfUnitPair (u w : ℂˣ) (huN : u ^ N = 1) (hu2 : u ^ 2 = 1) 
     (k : ZMod N) : linearCharacterOfUnitPair u w huN hu2 hw2 (DihedralGroup.sr k) = w * u ^ k.val := rfl
 
 /-- Complex-unit-valued homomorphisms from a dihedral group are equivalent to pairs of units satisfying the displayed power constraints. -/
-@[source_ref "Chapter4/Problem4.12.1" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.1" (role := supporting)]
 def linearCharactersEquivUnitPairs (N : ℕ) [NeZero N] :
     (DihedralGroup N →* ℂˣ) ≃
       {p : ℂˣ × ℂˣ // (p.1 ^ N = 1 ∧ p.1 ^ 2 = 1) ∧ p.2 ^ 2 = 1} where
@@ -683,7 +683,7 @@ theorem AuxiliaryParameter.ext (j j' : AuxiliaryParameter N)
     exact absurd (Nat.le_of_dvd hsum_pos hdvd) (by omega)
 
 /-- Every simple finite-dimensional complex representation of a dihedral group is isomorphic either to a one-dimensional representation from a linear character or to an indexed two-dimensional representation with nonzero doubled index. -/
-@[source_ref "Chapter4/Problem4.12.1" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.1" (role := supporting)]
 theorem simpleRepresentation_iso_linear_or_twoDimensional
     (U : FDRep ℂ (DihedralGroup N)) [hUsimple : Simple U] :
     (∃ χ : DihedralGroup N →* ℂˣ,
@@ -946,7 +946,7 @@ theorem auxiliaryDirectSumRepresentation_character [NeZero N] (g : DihedralGroup
   ring
 
 /-- The tensor square of the representation indexed by one is isomorphic to the auxiliary product-space representation. -/
-@[source_ref "Chapter4/Problem4.12.1" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.1" (role := supporting)]
 theorem tensorSquare_twoDimensionalRepresentation_one_iso_auxiliaryDirectSum [NeZero N] :
     Nonempty ((FDRep.of (twoDimensionalRepresentation N 1) ⊗ FDRep.of (twoDimensionalRepresentation N 1)) ≅ FDRep.of (auxiliaryDirectSumRepresentation N)) := by
   apply RepresentationTheory.Group.CharacterAuxiliary.iso_of_character_eq (DihedralGroup N)

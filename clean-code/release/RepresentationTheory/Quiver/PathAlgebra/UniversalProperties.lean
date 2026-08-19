@@ -244,14 +244,14 @@ theorem oppositeVertexArrow_adjoin_eq_top [Fintype Q] :
       exact hsc.symm ▸ hmem
 
 /-- For a finite quiver, the sum of all opposite vertex elements is one. -/
-@[source_ref "Chapter2/Problem2.8.6" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.6" (role := supporting)]
 theorem sum_oppositeVertex_eq_one [Fintype Q] :
     ∑ i, oppositeVertex k Q i = 1 := by
   exact
     _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.sum_auxiliaryVertexElement_eq_one
 
 /-- Every opposite vertex element is idempotent. -/
-@[source_ref "Chapter2/Problem2.8.6" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.6" (role := supporting)]
 theorem oppositeVertex_mul_self [Fintype Q] (i : Q) :
     oppositeVertex k Q i * oppositeVertex k Q i = oppositeVertex k Q i := by
   rw [oppositeVertex,
@@ -260,7 +260,7 @@ theorem oppositeVertex_mul_self [Fintype Q] (i : Q) :
     Quiver.Path.nil_comp]
 
 /-- Distinct opposite vertex elements multiply to zero. -/
-@[source_ref "Chapter2/Problem2.8.6" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.6" (role := supporting)]
 theorem oppositeVertex_mul_oppositeVertex_of_ne [Fintype Q] (i j : Q) (h : i ≠ j) :
     oppositeVertex k Q i * oppositeVertex k Q j = 0 := by
   exact
@@ -268,7 +268,7 @@ theorem oppositeVertex_mul_oppositeVertex_of_ne [Fintype Q] (i j : Q) (h : i ≠
       Quiver.Path.nil Quiver.Path.nil h.symm
 
 /-- An opposite arrow element multiplied on the right by its source vertex element is unchanged. -/
-@[source_ref "Chapter2/Problem2.8.6" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.6" (role := supporting)]
 theorem oppositeArrow_mul_sourceVertex [Fintype Q] {i j : Q} (e : i ⟶ j) :
     oppositeArrow k Q e * oppositeVertex k Q i = oppositeArrow k Q e := by
   rw [oppositeArrow, oppositeVertex,
@@ -277,7 +277,7 @@ theorem oppositeArrow_mul_sourceVertex [Fintype Q] {i j : Q} (e : i ⟶ j) :
     Quiver.Path.nil_comp]
 
 /-- An opposite arrow element multiplied on the right by a different vertex element is zero. -/
-@[source_ref "Chapter2/Problem2.8.6" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.6" (role := supporting)]
 theorem oppositeArrow_mul_vertex_of_ne_source [Fintype Q] {i j : Q} (l : Q)
     (e : i ⟶ j) (h : l ≠ i) :
     oppositeArrow k Q e * oppositeVertex k Q l = 0 := by
@@ -286,7 +286,7 @@ theorem oppositeArrow_mul_vertex_of_ne_source [Fintype Q] {i j : Q} (l : Q)
       Quiver.Path.nil e.toPath h
 
 /-- The target vertex element multiplied on the left by an opposite arrow element leaves the arrow unchanged. -/
-@[source_ref "Chapter2/Problem2.8.6" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.6" (role := supporting)]
 theorem targetVertex_mul_oppositeArrow [Fintype Q] {i j : Q} (e : i ⟶ j) :
     oppositeVertex k Q j * oppositeArrow k Q e = oppositeArrow k Q e := by
   rw [oppositeVertex,
@@ -296,7 +296,7 @@ theorem targetVertex_mul_oppositeArrow [Fintype Q] {i j : Q} (e : i ⟶ j) :
     Quiver.Path.comp_nil]
 
 /-- A vertex element different from the target multiplied on the left by an opposite arrow element is zero. -/
-@[source_ref "Chapter2/Problem2.8.6" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.6" (role := supporting)]
 theorem vertex_mul_oppositeArrow_of_ne_target [Fintype Q] {i j : Q} (l : Q)
     (e : i ⟶ j) (h : l ≠ j) :
     oppositeVertex k Q l * oppositeArrow k Q e = 0 := by
@@ -457,7 +457,7 @@ theorem existsUnique_pathAlgebraHom [Fintype Q]
       rw [pathElement_cons, map_mul, map_mul, ih, hψ.2 _ _ e, hφarrow _ _ e]
 
 /-- Compatible orthogonal vertex idempotents and oppositely oriented arrow elements determine a unique algebra homomorphism from the opposite path algebra. -/
-@[source_ref "Chapter2/Problem2.8.6" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.6" (role := supporting)]
 theorem existsUnique_oppositePathAlgebraHom [Fintype Q]
     (B : Type*) [Ring B] [Algebra k B]
     (P : Q → B) (A : ∀ i j : Q, (i ⟶ j) → B)

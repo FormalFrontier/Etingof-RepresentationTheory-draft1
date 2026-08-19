@@ -18,13 +18,13 @@ noncomputable def regularEndRingEquivOpposite (A : Type*) [Ring A] :
   (RingEquiv.moduleEndSelf A).symm
 
 /-- Evaluating the equivalence on an endomorphism gives the opposite of its value at one. -/
-@[simp, source_ref "Chapter2/Problem2.3.17" (role := primary)]
+@[simp, source_ref "Chapter2/Problem2.3.17" (role := supporting)]
 theorem regularEndRingEquivOpposite_apply (A : Type*) [Ring A] (f : Module.End A A) :
     regularEndRingEquivOpposite A f = MulOpposite.op (f 1) :=
   rfl
 
 /-- The inverse equivalence sends an opposite element to right multiplication by that element. -/
-@[source_ref "Chapter2/Problem2.3.17" (role := primary)]
+@[source_ref "Chapter2/Problem2.3.17" (role := supporting)]
 theorem regularEndRingEquivOpposite_symm_apply (A : Type*) [Ring A] (a x : A) :
     (regularEndRingEquivOpposite A).symm (MulOpposite.op a) x = x * a := by
   simp only [regularEndRingEquivOpposite, RingEquiv.symm_symm]

@@ -39,7 +39,7 @@ theorem modelParameter_injective (hqorder : orderOf q = N) :
 /-! ### Irreducibility -/
 
 /-- The finite function-space module with the displayed action is simple. -/
-@[source_ref "Chapter2/Problem2.7.5" (role := primary)]
+@[source_ref "Chapter2/Problem2.7.5" (role := supporting)]
 theorem finFunctionModule_isSimple (hqorder : orderOf q = N) :
     letI := finiteOrderModule q α β N hqorder
     IsSimpleModule (twistedLatticeShiftSubalgebra ℂ q) (Fin N → ℂ) := by

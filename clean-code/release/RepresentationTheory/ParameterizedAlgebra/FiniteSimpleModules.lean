@@ -62,7 +62,7 @@ private theorem zpow_eq_one_imp (hq : ¬ IsOfFinOrder q) {n : ℤ} (h : (↑(q ^
 
 
 /-- If the parameter has infinite multiplicative order, the center of the displayed subalgebra is trivial. -/
-@[source_ref "Chapter2/Problem2.7.5" (role := primary)]
+@[source_ref "Chapter2/Problem2.7.5" (role := supporting)]
 theorem center_eq_bot_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
     Subalgebra.center ℂ (twistedLatticeShiftSubalgebra ℂ q) = ⊥ := by
   refine le_antisymm ?_ ?_
@@ -286,7 +286,7 @@ private theorem kappa_conjY (a : twistedLatticeShiftSubalgebra ℂ q) (r : ℤ �
 
 
 /-- The displayed subalgebra is a simple ring when the parameter is not of finite order. -/
-@[source_ref "Chapter2/Problem2.7.5" (role := primary)]
+@[source_ref "Chapter2/Problem2.7.5" (role := supporting)]
 theorem isSimpleRing_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
     IsSimpleRing (twistedLatticeShiftSubalgebra ℂ q) := by
 
@@ -410,7 +410,7 @@ theorem isSimpleRing_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
 
 
 /-- Raising the parameter to the complex dimension of the module gives one. -/
-@[source_ref "Chapter2/Problem2.7.5" (role := primary)]
+@[source_ref "Chapter2/Problem2.7.5" (role := supporting)]
 theorem pow_finrank_eq_one
     (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (twistedLatticeShiftSubalgebra ℂ q) V]
     [IsScalarTower ℂ (twistedLatticeShiftSubalgebra ℂ q) V] [FiniteDimensional ℂ V] :

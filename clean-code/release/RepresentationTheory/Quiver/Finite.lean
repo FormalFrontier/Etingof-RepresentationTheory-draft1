@@ -40,7 +40,7 @@ def RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix (n : ℕ) (adj : Matrix
               W.AuxiliaryCondition → ∃ V ∈ reps, W.Related V
 
 /-- A zero-one quiver adjacency matrix has every diagonal entry equal to zero. -/
-@[source_ref "Chapter6/Problem6.1.5_parts" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.5_parts" (role := supporting)]
 theorem RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix.diagonal_eq_zero_of_entries_eq_zero_or_one {n : ℕ}
     {adj : Matrix (Fin n) (Fin n) ℤ} (hft : RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix n adj)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1) : ∀ i, adj i i = 0 := by

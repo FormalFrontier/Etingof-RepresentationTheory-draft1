@@ -158,7 +158,7 @@ private lemma det_pathCartan : ∀ n : ℕ, (pathCartan n).det = (n : ℤ) + 1
 
 
 /-- The Cartan determinant of type A of rank n is n + 1. -/
-@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := supporting)]
 theorem det_cartanMatrix_typeA (n : ℕ) (hn : 1 ≤ n) :
     (cartanMatrix (FiniteIntegerMatrixModels.FiniteMatrixModel.A n hn)).det = (n : ℤ) + 1 := by
   rw [cartan_A_eq_pathCartan n hn, det_pathCartan n]
@@ -284,7 +284,7 @@ private lemma det_dCartan : ∀ m : ℕ, (dCartan (m + 4)).det = 4
 
 
 /-- The Cartan determinant of type D is four. -/
-@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := supporting)]
 theorem det_cartanMatrix_typeD (n : ℕ) (hn : 4 ≤ n) :
     (cartanMatrix (FiniteIntegerMatrixModels.FiniteMatrixModel.D n hn)).det = 4 := by
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 4 := ⟨n - 4, by omega⟩
@@ -313,7 +313,7 @@ theorem typeD_isFiniteSimplyLaced (n : ℕ) (hn : 4 ≤ n) :
 
 
 /-- The Cartan determinant of type E6 is three. -/
-@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := supporting)]
 theorem det_cartanMatrix_typeE6 : (cartanMatrix FiniteIntegerMatrixModels.FiniteMatrixModel.E6).det = 3 := by
   have hC : cartanMatrix FiniteIntegerMatrixModels.FiniteMatrixModel.E6 =
       !![2,-1,0,0,0,0; -1,2,-1,0,0,0; 0,-1,2,-1,0,-1;
@@ -323,7 +323,7 @@ theorem det_cartanMatrix_typeE6 : (cartanMatrix FiniteIntegerMatrixModels.Finite
 
 
 /-- The Cartan determinant of type E7 is two. -/
-@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := supporting)]
 theorem det_cartanMatrix_typeE7 : (cartanMatrix FiniteIntegerMatrixModels.FiniteMatrixModel.E7).det = 2 := by
   have hC : cartanMatrix FiniteIntegerMatrixModels.FiniteMatrixModel.E7 =
       !![2,-1,0,0,0,0,0; -1,2,-1,0,0,0,0; 0,-1,2,-1,0,0,-1;
@@ -334,7 +334,7 @@ theorem det_cartanMatrix_typeE7 : (cartanMatrix FiniteIntegerMatrixModels.Finite
 
 
 /-- The Cartan determinant of type E8 is one. -/
-@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := supporting)]
 theorem det_cartanMatrix_typeE8 : (cartanMatrix FiniteIntegerMatrixModels.FiniteMatrixModel.E8).det = 1 := by
   have hC : cartanMatrix FiniteIntegerMatrixModels.FiniteMatrixModel.E8 =
       !![2,-1,0,0,0,0,0,0; -1,2,-1,0,0,0,0,0; 0,-1,2,-1,0,0,0,-1;
@@ -533,7 +533,7 @@ theorem sum_adjacency_entries_eq_twice_rank_sub_two_of_isFiniteSimplyLaced {n : 
 
 
 /-- Every vertex in a finite simply laced Dynkin diagram has degree at most three. -/
-@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := supporting)]
 theorem vertexDegree_le_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj) (v : Fin n) : vertexDegree adj v ≤ 3 := by
   by_contra hdeg
@@ -645,7 +645,7 @@ private lemma reachable_of_isChain {n : ℕ} (G : SimpleGraph (Fin n)) :
 
 
 /-- A finite simply laced Dynkin diagram has at most one vertex of degree three. -/
-@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := supporting)]
 theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj) (v w : Fin n)
     (hv : vertexDegree adj v = 3) (hw : vertexDegree adj w = 3) : v = w := by

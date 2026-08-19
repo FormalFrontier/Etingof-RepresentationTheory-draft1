@@ -724,7 +724,7 @@ lemma auxiliaryRepresentation_simple : Simple (auxiliaryRepresentation K) :=
 open Classical in
 
 /-- For a finite field with more than two elements, provides simple representatives with the displayed character and dimension classification. -/
-@[source_ref "Chapter5/Exercise5.27.2" (role := primary)]
+@[source_ref "Chapter5/Exercise5.27.2" (role := supporting)]
 theorem exists_classifiedAuxiliarySimpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
     ∃ (n : ℕ) (W : Fin n → FDRep ℂ (RepresentationTheory.AffineGroupRepresentations.AffineGroup K)),
       (∀ i, Simple (W i)) ∧

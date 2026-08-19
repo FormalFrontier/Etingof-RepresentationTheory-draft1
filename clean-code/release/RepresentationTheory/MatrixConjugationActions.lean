@@ -165,7 +165,7 @@ theorem smul_one_eq_zero_of_trace_eq_zero {c : ℝ} (h : (c • (1 : realMatrixS
 
 
 /-- An auxiliary internal direct-sum assertion. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.11" (role := supporting)]
 theorem auxiliaryInternalDirectSum :
     DirectSum.IsInternal ![auxiliaryRealSubmoduleA, auxiliaryRealSubmoduleB, auxiliaryRealSubmoduleD] := by
   refine DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top ?_ ?_
@@ -275,12 +275,12 @@ theorem auxiliaryConjunction :
     rw [smul_one_eq_zero_of_trace_eq_zero (auxiliaryRealMatrixResultF.mp htsym).2, zero_smul]
 
 /-- Computes the dimension of the displayed real submodule. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.11" (role := supporting)]
 theorem auxiliaryRealSubmoduleA_finrank : Module.finrank ℝ auxiliaryRealSubmoduleA = 1 := by
   rw [auxiliaryRealSubmoduleA, finrank_span_singleton (one_ne_zero)]
 
 /-- Computes the dimension of the displayed real submodule. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.11" (role := supporting)]
 theorem auxiliaryRealSubmoduleB_finrank : Module.finrank ℝ auxiliaryRealSubmoduleB = 3 := by
   classical
   set v : Fin 3 → realMatrixSpace :=
@@ -323,7 +323,7 @@ theorem auxiliaryRealSubmoduleB_finrank : Module.finrank ℝ auxiliaryRealSubmod
   rw [hspan, finrank_span_eq_card hindep, Fintype.card_fin]
 
 /-- The displayed real submodule has dimension five. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.11" (role := supporting)]
 theorem auxiliaryRealSubmoduleD_finrank : Module.finrank ℝ auxiliaryRealSubmoduleD = 5 := by
   classical
   set v : Fin 5 → realMatrixSpace :=
@@ -760,7 +760,7 @@ private theorem conjRep_Dz_w4 : realConjugationRepresentation matrixSubmonoidEle
 
 
 /-- An auxiliary statement about real submodules of the displayed matrix space. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.11" (role := supporting)]
 theorem auxiliaryRealSubmoduleClassification (U : Submodule ℝ realMatrixSpace) (hUle : U ≤ auxiliaryRealSubmoduleB)
     (hUinv : ∀ (A : realMatrixSubmonoid), ∀ M ∈ U, realConjugationRepresentation A M ∈ U) :
     U = ⊥ ∨ U = auxiliaryRealSubmoduleB := by
@@ -833,7 +833,7 @@ theorem auxiliaryRealSubmoduleClassification (U : Submodule ℝ realMatrixSpace)
 
 
 /-- An auxiliary statement about real submodules of the displayed matrix space. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.11" (role := supporting)]
 theorem auxiliaryRealSubmoduleResult (U : Submodule ℝ realMatrixSpace) (hUle : U ≤ auxiliaryRealSubmoduleD)
     (hUinv : ∀ (A : realMatrixSubmonoid), ∀ M ∈ U, realConjugationRepresentation A M ∈ U) :
     U = ⊥ ∨ U = auxiliaryRealSubmoduleD := by
@@ -1145,7 +1145,7 @@ private theorem conjRepc_Dz_w4 : complexConjugationRepresentation matrixSubmonoi
 
 
 /-- An auxiliary statement about complex submodules of the displayed matrix space. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.11" (role := supporting)]
 theorem auxiliaryComplexSubmoduleClassification (U : Submodule ℂ complexMatrixSpace) (hUle : U ≤ auxiliaryComplexSubmoduleA)
     (hUinv : ∀ (A : realMatrixSubmonoid), ∀ M ∈ U, complexConjugationRepresentation A M ∈ U) :
     U = ⊥ ∨ U = auxiliaryComplexSubmoduleA := by
@@ -1214,7 +1214,7 @@ theorem auxiliaryComplexSubmoduleClassification (U : Submodule ℂ complexMatrix
 
 
 /-- An auxiliary statement about complex submodules of the displayed matrix space. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.11" (role := supporting)]
 theorem auxiliaryComplexSubmoduleResult (U : Submodule ℂ complexMatrixSpace)
     (hUle : U ≤ auxiliaryComplexSubmoduleB)
     (hUinv : ∀ (A : realMatrixSubmonoid), ∀ M ∈ U, complexConjugationRepresentation A M ∈ U) :
@@ -1720,7 +1720,7 @@ theorem auxiliaryUniversalResultE (f : auxiliaryRealSubmoduleC →ₗ[ℝ] realM
 
 
 /-- An auxiliary universally quantified assertion. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.11" (role := supporting)]
 theorem auxiliaryUniversalResultA (f : auxiliaryRealSubmoduleC →ₗ[ℝ] realMatrixSpace)
     (hf : ∀ A : realMatrixSubmonoid, f.comp (auxiliaryRealRepresentationB A) = (realConjugationRepresentation A).comp f) :
     ∃ K μ : ℝ,
@@ -1735,7 +1735,7 @@ theorem auxiliaryUniversalResultA (f : auxiliaryRealSubmoduleC →ₗ[ℝ] realM
 
 
 /-- An auxiliary universally quantified assertion. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.11" (role := supporting)]
 theorem auxiliaryUniversalResultB (f : auxiliaryRealSubmoduleC →ₗ[ℝ] realMatrixSpace)
     (hf : ∀ A : realMatrixSubmonoid, f.comp (auxiliaryRealRepresentationB A) = (realConjugationRepresentation A).comp f) :
     ∃ K μ : ℝ, ∀ x y : auxiliaryRealSubmoduleC, (x : realMatrixSpace) ∈ auxiliaryRealSubmoduleA → (y : realMatrixSpace) ∈ auxiliaryRealSubmoduleD →
@@ -1745,7 +1745,7 @@ theorem auxiliaryUniversalResultB (f : auxiliaryRealSubmoduleC →ₗ[ℝ] realM
 
 
 /-- An auxiliary universally quantified assertion. -/
-@[source_ref "Chapter4/Problem4.12.11" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.11" (role := supporting)]
 theorem auxiliaryUniversalResultC (f : auxiliaryRealSubmoduleC →ₗ[ℝ] realMatrixSpace)
     (hf : ∀ A : realMatrixSubmonoid, f.comp (auxiliaryRealRepresentationB A) = (realConjugationRepresentation A).comp f) :
     ∃ K μ : ℝ, ∀ d : auxiliaryRealSubmoduleC, ∃ x ∈ auxiliaryRealSubmoduleA, ∃ y ∈ auxiliaryRealSubmoduleD,

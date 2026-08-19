@@ -259,7 +259,7 @@ theorem finrank_le_sq_of_finite_compatible_action_orbits
 
 
 /-- A polynomial representation of a general linear group with finite orbit quotient has dimension at most the square of the matrix size. -/
-@[source_ref "Chapter6/Problem6.1.2" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.2" (role := supporting)]
 theorem finrank_le_sq_of_finite_representation_orbits
     [Infinite k]
     {V : Type*} [AddCommGroup V] [Module k V] [Module.Finite k V]

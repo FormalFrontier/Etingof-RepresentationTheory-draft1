@@ -250,7 +250,7 @@ lemma character_auxiliaryBiprod_card_two (g : Auxiliary.ambientType) :
                                                                                               
                                                                                          
 /-- The auxiliary construction applied to a simple representation with constant character one on a subgroup of cardinality two is isomorphic to the displayed iterated biproduct. -/
-@[source_ref "Chapter5/Problem5.11.1" (role := primary)]
+@[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_character_one_card_two_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 2)
     (σ : FDRep ℂ ↥H) [Simple σ] (htriv : ∀ h : ↥H, σ.character h = 1) :
     Nonempty (Auxiliary.representationConstruction σ ≅
@@ -452,7 +452,7 @@ lemma Auxiliary.statement012048 (g : Auxiliary.ambientType) :
                                                                                      
                                           
 /-- The auxiliary construction applied to a simple representation whose character is not constantly one on a subgroup of cardinality two is isomorphic to the displayed iterated biproduct. -/
-@[source_ref "Chapter5/Problem5.11.1" (role := primary)]
+@[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_nontrivial_card_two_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 2)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
     Nonempty (Auxiliary.representationConstruction σ ≅
@@ -596,7 +596,7 @@ lemma character_auxiliaryBiprod_card_three (g : Auxiliary.ambientType) :
                                                                                             
                                                                                            
 /-- The auxiliary construction applied to a simple representation with constant character one on a subgroup of cardinality three is isomorphic to the displayed iterated biproduct. -/
-@[source_ref "Chapter5/Problem5.11.1" (role := primary)]
+@[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_character_one_card_three_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 3)
     (σ : FDRep ℂ ↥H) [Simple σ] (htriv : ∀ h : ↥H, σ.character h = 1) :
     Nonempty (Auxiliary.representationConstruction σ ≅ RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo) := by
@@ -809,7 +809,7 @@ lemma Auxiliary.statement012058 (g : Auxiliary.ambientType) :
                                                                           
                                                         
 /-- The auxiliary construction applied to a simple representation whose character is not constantly one on a subgroup of cardinality three is isomorphic to the displayed iterated biproduct. -/
-@[source_ref "Chapter5/Problem5.11.1" (role := primary)]
+@[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_nontrivial_card_three_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 3)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
     Nonempty (Auxiliary.representationConstruction σ ≅ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo) := by
@@ -943,7 +943,7 @@ lemma character_auxiliaryBiprod_card_five (g : Auxiliary.ambientType) :
                                                                                      
                  
 /-- The auxiliary construction applied to a simple representation with constant character one on a subgroup of cardinality five is isomorphic to the displayed iterated biproduct. -/
-@[source_ref "Chapter5/Problem5.11.1" (role := primary)]
+@[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_character_one_card_five_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 5)
     (σ : FDRep ℂ ↥H) [Simple σ] (htriv : ∀ h : ↥H, σ.character h = 1) :
     Nonempty (Auxiliary.representationConstruction σ ≅ RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo) := by
@@ -1277,7 +1277,7 @@ lemma Auxiliary.statement012079 (g : Auxiliary.ambientType) :
                                                                                              
                                                 
 /-- The auxiliary construction applied to a simple representation whose character is not constantly one on a subgroup of cardinality five is isomorphic to one of the two displayed biproducts. -/
-@[source_ref "Chapter5/Problem5.11.1" (role := primary)]
+@[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_nontrivial_card_five_iso_auxiliaryBiprod_or (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 5)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
     Nonempty (Auxiliary.representationConstruction σ ≅ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo) ∨
@@ -1589,7 +1589,7 @@ lemma character_auxiliaryBiprod_card_twelve (g : Auxiliary.ambientType) :
                                                                                          
                                     
 /-- The auxiliary construction applied to a simple representation with constant character one on a subgroup of cardinality twelve is isomorphic to the displayed biproduct. -/
-@[source_ref "Chapter5/Problem5.11.1" (role := primary)]
+@[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_character_one_card_twelve_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) [Simple σ] (_hdim : Module.finrank ℂ σ = 1)
     (htriv : ∀ h : ↥H, σ.character h = 1) :
@@ -1962,7 +1962,7 @@ lemma Auxiliary.statement012011 (g : Auxiliary.ambientType) :
                                                                                         
                                                           
 /-- An auxiliary isomorphism statement for the image of a simple rank-one subgroup representation whose character is not constantly one. -/
-@[source_ref "Chapter5/Problem5.11.1" (role := primary)]
+@[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem Auxiliary.simpleFinrankOneNontrivialIso (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 1)
     (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
@@ -2569,7 +2569,7 @@ lemma Auxiliary.statement012026 (g : Auxiliary.ambientType) :
                                                                                 
                                                                                      
 /-- The auxiliary construction applied to a simple rank-three representation of a subgroup of cardinality twelve is isomorphic to the displayed iterated biproduct. -/
-@[source_ref "Chapter5/Problem5.11.1" (role := primary)]
+@[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_finrank_three_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 3) :
     Nonempty (Auxiliary.representationConstruction σ ≅ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo) := by
@@ -2734,7 +2734,7 @@ lemma character_auxiliaryBiprod_card_four (g : Auxiliary.ambientType) :
                                                                                       
                                                  
 /-- The auxiliary construction applied to a simple representation with constant character one on a subgroup of cardinality four is isomorphic to the displayed iterated biproduct. -/
-@[source_ref "Chapter5/Problem5.11.1" (role := primary)]
+@[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_character_one_card_four_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 4)
     (σ : FDRep ℂ ↥H) [Simple σ] (htriv : ∀ h : ↥H, σ.character h = 1) :
     Nonempty (Auxiliary.representationConstruction σ ≅ RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo) := by
@@ -2839,7 +2839,7 @@ lemma Auxiliary.statement012037 (g : Auxiliary.ambientType) :
                                                                                             
                                                                       
 /-- The auxiliary construction applied to a simple representation whose character is not constantly one on a subgroup of cardinality four is isomorphic to the displayed iterated biproduct. -/
-@[source_ref "Chapter5/Problem5.11.1" (role := primary)]
+@[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_nontrivial_card_four_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 4)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
     Nonempty (Auxiliary.representationConstruction σ ≅ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo) := by

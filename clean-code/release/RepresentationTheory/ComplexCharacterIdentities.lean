@@ -123,7 +123,7 @@ theorem trace_auxiliaryMap_eq_ite [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1) (hz1
   · rw [if_neg ha, mul_zero, if_neg (fun h => ha h.1)]
 
 /-- The trace of a representation satisfying the auxiliary property is `p * z⁻¹ ^ c.val` when the first two coordinates vanish, and zero otherwise. -/
-@[source_ref "Chapter4/Problem4.12.9" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.9" (role := supporting)]
 theorem trace_eq_ite_of_auxiliaryProperty [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1)
     (hz1 : z ≠ 1)
     (ρ : Representation ℂ
@@ -299,7 +299,7 @@ theorem sum_multiplicativeCharacters_eq_ite (a b c : ZMod p) :
   · rw [if_neg fun hab => h (hiff.mp hab), if_neg h]
 
 /-- The tensor product of representations satisfying the auxiliary property for two roots is nonemptily isomorphic to the specified auxiliary object for the product root. -/
-@[source_ref "Chapter4/Problem4.12.9" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.9" (role := supporting)]
 theorem tensor_iso_auxiliaryObject
     (z w : ℂ) (hz : z ^ p = 1) (hw : w ^ p = 1)
     (hz1 : z ≠ 1) (hw1 : w ≠ 1) (hzw : z * w ≠ 1)
@@ -323,7 +323,7 @@ theorem tensor_iso_auxiliaryObject
     z w hz hw hz1 hw1 hzw ρz ρw ρzw hρz hρw hρzw g
 
 /-- The tensor product of representations associated to inverse nontrivial roots is nonemptily isomorphic to the specified auxiliary object formed from all multiplicative-character representations. -/
-@[source_ref "Chapter4/Problem4.12.9" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.9" (role := supporting)]
 theorem tensor_iso_multiplicativeCharacterAuxiliaryObject
     (z w : ℂ) (hz : z ^ p = 1) (hz1 : z ≠ 1) (hw1 : w ≠ 1) (hzw : z * w = 1)
     (ρz ρw : Representation ℂ
@@ -350,7 +350,7 @@ theorem tensor_iso_multiplicativeCharacterAuxiliaryObject
   exact trace_mul_trace_eq_ite_of_inverseRoots z w hz hz1 hw1 hzw ρz ρw hρz hρw a b c
 
 /-- The tensor product of representations satisfying the auxiliary property for two roots is nonemptily isomorphic to the displayed biproduct of the product-root representation. -/
-@[source_ref "Chapter4/Problem4.12.9" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.9" (role := supporting)]
 theorem tensor_iso_biproduct
     (z w : ℂ) (hz : z ^ p = 1) (hw : w ^ p = 1)
     (hz1 : z ≠ 1) (hw1 : w ≠ 1) (hzw : z * w ≠ 1)
@@ -367,7 +367,7 @@ theorem tensor_iso_biproduct
     e ≪≫ RepresentationTheory.Representation.FiniteProducts.finiteProductIsoBiproduct _
 
 /-- The tensor product of representations associated to inverse nontrivial roots is nonemptily isomorphic to the biproduct of all one-dimensional multiplicative-character representations. -/
-@[source_ref "Chapter4/Problem4.12.9" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.9" (role := supporting)]
 theorem tensor_iso_multiplicativeCharacterBiproduct
     (z w : ℂ) (hz : z ^ p = 1) (hz1 : z ≠ 1) (hw1 : w ≠ 1) (hzw : z * w = 1)
     (ρz ρw : Representation ℂ
@@ -389,7 +389,7 @@ theorem tensor_iso_multiplicativeCharacterBiproduct
 
 omit [Fact p.Prime] in
 /-- The tensor product of the one-dimensional representations attached to two multiplicative characters is isomorphic to the representation attached to their product. -/
-@[source_ref "Chapter4/Problem4.12.9" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.9" (role := supporting)]
 def tensorMultiplicativeCharacterIso
     (χ χ' :
       RepresentationTheory.ThreeCoordinateGroupRepresentations.ThreeCoordinateGroup p →* ℂˣ) :
@@ -418,7 +418,7 @@ def tensorMultiplicativeCharacterIso
 
 omit [Fact p.Prime] in
 /-- The tensor product of two one-dimensional multiplicative-character representations is nonemptily isomorphic to the representation of the product character. -/
-@[source_ref "Chapter4/Problem4.12.9" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.9" (role := supporting)]
 theorem tensor_multiplicativeCharacter_iso_mul
     (χ χ' :
       RepresentationTheory.ThreeCoordinateGroupRepresentations.ThreeCoordinateGroup p →* ℂˣ) :
@@ -434,7 +434,7 @@ theorem tensor_multiplicativeCharacter_iso_mul
   ⟨tensorMultiplicativeCharacterIso χ χ'⟩
 
 /-- Tensoring a representation satisfying the auxiliary property with a one-dimensional multiplicative-character representation yields an isomorphic representation. -/
-@[source_ref "Chapter4/Problem4.12.9" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.9" (role := supporting)]
 theorem tensor_multiplicativeCharacter_iso_self
     (χ : RepresentationTheory.ThreeCoordinateGroupRepresentations.ThreeCoordinateGroup p →* ℂˣ)
     (z : ℂ) (hz : z ^ p = 1) (hz1 : z ≠ 1)

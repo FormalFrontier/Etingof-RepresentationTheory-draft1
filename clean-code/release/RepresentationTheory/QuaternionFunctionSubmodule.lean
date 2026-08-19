@@ -55,7 +55,7 @@ theorem mem_auxiliaryFunctionSubmodule_iff {f : QuaternionGroup 2 → ℂ} :
 
 
 /-- The auxiliary function submodule is preserved by the displayed group representation. -/
-@[source_ref "Chapter4/Exercise4.3.1" (role := primary)]
+@[source_ref "Chapter4/Exercise4.3.1" (role := supporting)]
 theorem auxiliaryFunctionSubmodule_invariant (g : QuaternionGroup 2)
     (f : QuaternionGroup 2 → ℂ) (hf : f ∈ auxiliaryFunctionSubmodule) :
     rightTranslationRepresentation g f ∈ auxiliaryFunctionSubmodule := by
@@ -162,14 +162,14 @@ noncomputable def auxiliarySubmoduleEquivFinTwo : auxiliaryFunctionSubmodule ≃
 
 
 /-- The auxiliary complex function submodule has dimension two. -/
-@[source_ref "Chapter4/Exercise4.3.1" (role := primary)]
+@[source_ref "Chapter4/Exercise4.3.1" (role := supporting)]
 theorem finrank_auxiliaryFunctionSubmodule :
     Module.finrank ℂ auxiliaryFunctionSubmodule = 2 := by
   rw [auxiliarySubmoduleEquivFinTwo.finrank_eq, Module.finrank_fin_fun]
 
 
 /-- An invariant submodule contained in the auxiliary function submodule is either zero or the whole auxiliary submodule. -/
-@[source_ref "Chapter4/Exercise4.3.1" (role := primary)]
+@[source_ref "Chapter4/Exercise4.3.1" (role := supporting)]
 theorem invariant_submodule_eq_bot_or_auxiliaryFunctionSubmodule
     (U : Submodule ℂ (QuaternionGroup 2 → ℂ))
     (hUle : U ≤ auxiliaryFunctionSubmodule)

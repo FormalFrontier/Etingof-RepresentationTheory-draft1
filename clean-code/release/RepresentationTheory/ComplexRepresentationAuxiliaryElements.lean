@@ -146,7 +146,7 @@ private lemma trace_asAlgebraHom_psi (V W : FDRep ℂ G) :
   rfl
 
 /-- A simple representation sends its associated auxiliary group-algebra element to the identity linear map. -/
-@[source_ref "Chapter4/Problem4.5.2" (role := primary)]
+@[source_ref "Chapter4/Problem4.5.2" (role := supporting)]
 theorem map_auxiliaryElement_eq_id (V : FDRep ℂ G) [Simple V] :
     Representation.asAlgebraHom V.ρ (auxiliaryElement V) = LinearMap.id := by
   haveI : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero card_ne_zero_cx
@@ -170,7 +170,7 @@ theorem map_auxiliaryElement_eq_id (V : FDRep ℂ G) [Simple V] :
   rw [hTc, hc1, one_smul]
 
 /-- The algebra action of one simple representation sends the auxiliary element of a nonisomorphic simple representation to zero. -/
-@[source_ref "Chapter4/Problem4.5.2" (role := primary)]
+@[source_ref "Chapter4/Problem4.5.2" (role := supporting)]
 theorem map_auxiliaryElement_eq_zero_of_not_iso (V W : FDRep ℂ G) [Simple V] [Simple W]
     (h : IsEmpty (W ≅ V)) :
     Representation.asAlgebraHom W.ρ (auxiliaryElement V) = 0 := by
@@ -293,7 +293,7 @@ private lemma psi_mul_psi_eq (A B : FDRep ℂ G) :
   simp only [Finset.smul_sum, smul_smul]
 
 /-- The auxiliary group-algebra element associated to a simple representation is idempotent. -/
-@[source_ref "Chapter4/Problem4.5.2" (role := primary)]
+@[source_ref "Chapter4/Problem4.5.2" (role := supporting)]
 theorem auxiliaryElement_mul_self (V : FDRep ℂ G) [Simple V] :
     auxiliaryElement V * auxiliaryElement V = auxiliaryElement V := by
   rw [psi_mul_psi_eq V V, psi_eq V, Finset.smul_sum]
@@ -302,7 +302,7 @@ theorem auxiliaryElement_mul_self (V : FDRep ℂ G) [Simple V] :
   rw [conv_self V, smul_smul]
 
 /-- The product of the auxiliary group-algebra elements of two nonisomorphic simple representations is zero. -/
-@[source_ref "Chapter4/Problem4.5.2" (role := primary)]
+@[source_ref "Chapter4/Problem4.5.2" (role := supporting)]
 theorem auxiliaryElement_mul_eq_zero_of_not_iso (V W : FDRep ℂ G) [Simple V] [Simple W]
     (h : IsEmpty (W ≅ V)) :
     auxiliaryElement W * auxiliaryElement V = 0 := by

@@ -16,19 +16,19 @@ namespace RepresentationTheory.Ring.CoatomExistence
 variable (A : Type*) [Ring A] [Nontrivial A]
 
 /-- A nontrivial ring admits a coatom among the displayed subobjects. -/
-@[source_ref "Chapter2/Problem2.4.1" (role := primary)]
+@[source_ref "Chapter2/Problem2.4.1" (role := supporting)]
 theorem exists_coatom_subobject : ∃ I : Submodule A A, IsCoatom I :=
   let ⟨I, hI⟩ := Ideal.exists_maximal A
   ⟨I, Ideal.isMaximal_def.mp hI⟩
 
 /-- A nontrivial ring admits a coatom among the displayed subobjects. -/
-@[source_ref "Chapter2/Problem2.4.1" (role := primary)]
+@[source_ref "Chapter2/Problem2.4.1" (role := supporting)]
 theorem exists_coatom_subobject_aux1 : ∃ I : Submodule Aᵐᵒᵖ Aᵐᵒᵖ, IsCoatom I :=
   let ⟨I, hI⟩ := Ideal.exists_maximal Aᵐᵒᵖ
   ⟨I, Ideal.isMaximal_def.mp hI⟩
 
 /-- A nontrivial ring admits a coatom among the displayed subobjects. -/
-@[source_ref "Chapter2/Problem2.4.1" (role := primary)]
+@[source_ref "Chapter2/Problem2.4.1" (role := supporting)]
 theorem exists_coatom_subobject_aux2 : ∃ I : TwoSidedIdeal A, IsCoatom I := by
   have bot_ne_top : (⊥ : TwoSidedIdeal A) ≠ ⊤ := by
     intro h

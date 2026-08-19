@@ -1281,7 +1281,7 @@ theorem characterFormula_011305 [Fintype K]
                                                                                           
                                                                
 /-- A cardinality or dimension identity for the displayed finite object. -/
-@[source_ref "Chapter4/Problem4.12.6" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.6" (role := supporting)]
 theorem cardinalityFormula_011306 [Fintype K] [DecidableEq K]
     (hK : 3 ≤ Fintype.card K) (χ : AffineGroup K →* ℂˣ) :
     Nonempty ((Representation.tprod (characterRepresentation χ) (augmentationSubrepresentation (K := K)).toRepresentation).Equiv
@@ -1698,7 +1698,7 @@ theorem characterFormula_011332 {K : Type} [Field K] [Finite (AffineGroup K)]
                                                                                         
                                      
 /-- A cardinality or dimension identity for the displayed finite object. -/
-@[source_ref "Chapter4/Problem4.12.6" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.6" (role := supporting)]
 theorem cardinalityFormula_011270 {K : Type} [Field K] [Fintype K] [DecidableEq K]
     [Fintype (AffineGroup K →* ℂˣ)] (hK : 3 ≤ Fintype.card K) :
     Nonempty (((augmentationSubrepresentation (K := K)).toRepresentation.tprod (augmentationSubrepresentation (K := K)).toRepresentation).Equiv

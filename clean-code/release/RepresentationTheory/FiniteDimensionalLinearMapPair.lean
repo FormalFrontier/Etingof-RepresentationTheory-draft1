@@ -758,7 +758,7 @@ noncomputable def AuxiliaryClass.rep : AuxiliaryClass → FiniteDimensionalLinea
   | .preinjective n => auxiliaryModelC n n.2
 
 /-- The chosen representative satisfies the auxiliary condition. -/
-@[source_ref "Chapter6/Problem6.9.1" (role := primary)]
+@[source_ref "Chapter6/Problem6.9.1" (role := supporting)]
 theorem AuxiliaryClass.rep_auxiliaryCondition (c : AuxiliaryClass) :
     c.rep.AuxiliaryCondition := by
   cases c with
@@ -792,7 +792,7 @@ private theorem auxiliaryModelA_B_not_injective (n : ℕ) (hn : 0 < n) :
   exact auxiliaryEigenvalueModel_zero_A_not_injective n hn
 
 /-- Two auxiliary classes are equal when their representatives are equivalent. -/
-@[source_ref "Chapter6/Problem6.9.1" (role := primary)]
+@[source_ref "Chapter6/Problem6.9.1" (role := supporting)]
 theorem AuxiliaryClass.eq_of_rep_equiv {c d : AuxiliaryClass} (e : c.rep.Equiv d.rep) :
     c = d := by
   cases c with

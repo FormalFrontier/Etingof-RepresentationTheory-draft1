@@ -294,7 +294,7 @@ theorem single_mul_single (i : Fin r) (a b : 𝒜 i) :
 
 
 /-- The module structure over one factor on the range of the corresponding indexed auxiliary endomorphism. -/
-@[source_ref "Chapter3/Problem3.3.3" (role := primary)]
+@[source_ref "Chapter3/Problem3.3.3" (role := supporting)]
 instance auxiliaryRangeModule (i : Fin r) :
     Module (𝒜 i) (LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) where
   smul a x := ⟨(Pi.single i a : ∀ j, 𝒜 j) • (x : V), by
@@ -364,7 +364,7 @@ theorem isSimpleModule_auxiliaryRange_iff (i : Fin r) :
 
 
 /-- A module over a finite product of rings is simple exactly when one indexed auxiliary endomorphism range is simple over its factor and every other such range is zero. -/
-@[source_ref "Chapter3/Problem3.3.3" (role := primary)]
+@[source_ref "Chapter3/Problem3.3.3" (role := supporting)]
 theorem isSimpleModule_pi_iff_exists_simple_auxiliaryRange :
     IsSimpleModule (∀ i, 𝒜 i) V ↔
       ∃ i, IsSimpleModule (𝒜 i) (LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) ∧

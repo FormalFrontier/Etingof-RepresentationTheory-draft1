@@ -41,7 +41,7 @@ noncomputable def hilbertSeries {k A : Type*} [Field k] [Ring A] [Algebra k A]
     (Module.finrank k (G.component n) : ℤ)
 
 /-- The coefficient of the Hilbert series in degree `n` is the integer cast of the finrank of the corresponding homogeneous component. -/
-@[source_ref "Chapter2/Problem2.8.11" (role := primary), simp]
+@[source_ref "Chapter2/Problem2.8.11" (role := supporting), simp]
 theorem hilbertSeries_coeff {k A : Type*} [Field k] [Ring A] [Algebra k A]
     (G : LocallyFiniteGrading k A) (n : ℕ) :
     PowerSeries.coeff n (hilbertSeries G) =
@@ -50,7 +50,7 @@ theorem hilbertSeries_coeff {k A : Type*} [Field k] [Ring A] [Algebra k A]
   PowerSeries.coeff_mk _ _
 
 /-- The degree-`n` homogeneous submodule of polynomials in `m` variables has the stated binomial-coefficient finrank. -/
-@[source_ref "Chapter2/Problem2.8.11" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.11" (role := supporting)]
 theorem finrank_mvPolynomialHomogeneousSubmodule (k : Type*) [Field k] (m n : ℕ) :
     Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin m) k n) = (n + m - 1).choose n := by
   classical
@@ -71,7 +71,7 @@ theorem finrank_mvPolynomialHomogeneousSubmodule (k : Type*) [Field k] (m n : �
     Finset.card_finsuppAntidiag_nat_eq_choose, Finset.card_univ, Fintype.card_fin, Nat.add_comm]
 
 /-- The power series with the displayed multichoose coefficients is an inverse of `(1 - X) ^ m`. -/
-@[source_ref "Chapter2/Problem2.8.11" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.11" (role := supporting)]
 theorem one_sub_X_pow_mul_powerSeries_multichoose (k : Type*) [Field k] (m : ℕ) :
     (1 - PowerSeries.X : PowerSeries k) ^ m *
       PowerSeries.mk (fun n => ((n + m - 1).choose n : k)) = 1 := by
@@ -124,7 +124,7 @@ theorem card_lists_length_eq_pow (m n : ℕ) :
     Fintype.card_fin, Fintype.card_fin]
 
 /-- The degree-`n` submodule of the free-monoid algebra on `m` generators has finrank `m ^ n`. -/
-@[source_ref "Chapter2/Problem2.8.11" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.11" (role := supporting)]
 theorem finrank_freeMonoidDegreeSubmodule (k : Type*) [Field k] (m n : ℕ) :
     Module.finrank k (freeMonoidDegreeSubmodule k m n) = m ^ n := by
   let b : Module.Basis {w : FreeMonoid (Fin m) // w.length = n} k
@@ -141,7 +141,7 @@ theorem finrank_freeMonoidDegreeSubmodule (k : Type*) [Field k] (m n : ℕ) :
     _ = m ^ n := card_lists_length_eq_pow m n
 
 /-- The power series with coefficients `m ^ n` is an inverse of `1 - m • X`. -/
-@[source_ref "Chapter2/Problem2.8.11" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.11" (role := supporting)]
 theorem one_sub_nat_smul_X_mul_powerSeries_pow (k : Type*) [Field k] (m : ℕ) :
     (1 - (m : ℕ) • PowerSeries.X : PowerSeries k) *
       PowerSeries.mk (fun n => ((m ^ n : ℕ) : k)) = 1 := by
@@ -158,14 +158,14 @@ theorem one_sub_nat_smul_X_mul_powerSeries_pow (k : Type*) [Field k] (m : ℕ) :
     ring
 
 /-- The `n`-th exterior power of an `m`-dimensional finite function space has finrank `m.choose n`. -/
-@[source_ref "Chapter2/Problem2.8.11" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.11" (role := supporting)]
 theorem finrank_exteriorPower_finFunction (k : Type*) [Field k] (m n : ℕ) :
     Module.finrank k (⋀[k]^n (Fin m → k)) = m.choose n := by
 
   rw [exteriorPower.finrank_eq, Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
 
 /-- The power series with binomial coefficients `m.choose n` is `(1 + X) ^ m`. -/
-@[source_ref "Chapter2/Problem2.8.11" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.11" (role := supporting)]
 theorem powerSeries_choose_eq_one_add_X_pow (k : Type*) [Field k] (m : ℕ) :
     PowerSeries.mk (fun n => ((m.choose n : ℕ) : k)) = (1 + PowerSeries.X : PowerSeries k) ^ m := by
 
@@ -366,7 +366,7 @@ theorem ones_dot_matrix_mul_ones (A : Matrix Q Q (PowerSeries k)) :
   exact Finset.sum_comm
 
 /-- The generating series for total quiver path counts is obtained by multiplying the inverse adjacency-series matrix by all-ones vectors. -/
-@[source_ref "Chapter2/Problem2.8.11" (role := primary)]
+@[source_ref "Chapter2/Problem2.8.11" (role := supporting)]
 theorem pathCountSeries_eq_ones_mul_matrixInverse_mul_ones :
     (mk fun n => ((∑ i : Q, ∑ j : Q, Nat.card {p : Quiver.Path i j // p.length = n} : ℕ) : k))
       = (fun _ => 1) ᵥ* (1 - (X : PowerSeries k) • adjacencyConstantMatrix k Q)⁻¹ ⬝ᵥ (fun _ => 1) := by

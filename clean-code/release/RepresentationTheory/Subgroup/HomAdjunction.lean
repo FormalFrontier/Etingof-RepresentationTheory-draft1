@@ -78,7 +78,7 @@ variable (k G H)
 /-- An isomorphism between the two displayed module-valued Hom functors on ambient and subgroup representations. -/
 @[source_ref "Chapter5/Introduction_5.10" (role := primary),
   source_ref "Chapter5/Theorem5.10.1" (role := primary),
-  source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := primary)]
+  source_ref "Chapter5/Discussion_Problem5.10.2_parts" (role := supporting)]
 noncomputable def ambientSubgroupHomFunctorIso :
     subgroupToAmbientHomFunctor.{w} k G H ≅ ambientToSubgroupHomFunctor.{w} k G H :=
   NatIso.ofComponents (fun V => ambientSubgroupHomIso V.unop)

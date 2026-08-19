@@ -20,9 +20,9 @@ import RepresentationTheory.Alignment.Attribute
 open _root_.RepresentationTheory in
 
 /-- For a symmetric zero-one adjacency matrix in which every pair of vertices is joined by a walk, the two specified matrix conditions are equivalent. -/
-@[source_ref "Chapter6/Problem6.1.5" (role := primary),
+@[source_ref "Chapter6/Problem6.1.5" (role := supporting),
   source_ref "Chapter6/Problem6.1.5_theorem" (role := primary),
-  source_ref "Chapter6/Problem6.1.5_parts" (role := primary)]
+  source_ref "Chapter6/Problem6.1.5_parts" (role := supporting)]
 theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.iff_of_symmetric_zeroOne_walkConnected
     (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)

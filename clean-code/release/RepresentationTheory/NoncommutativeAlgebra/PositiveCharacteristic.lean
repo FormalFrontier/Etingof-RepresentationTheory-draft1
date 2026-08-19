@@ -430,7 +430,7 @@ end CharZeroSimple
 
 
 /-- The p-th power of the first displayed generator belongs to the center in characteristic p. -/
-@[source_ref "Chapter2/Problem2.7.4" (role := primary)]
+@[source_ref "Chapter2/Problem2.7.4" (role := supporting)]
 theorem power_firstGenerator_mem_center (k : Type*) [Field k] (p : ℕ) [CharP k p] :
     RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ p ∈ Subalgebra.center k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) := by
   apply mem_center_of_comm_gen
@@ -447,7 +447,7 @@ theorem power_firstGenerator_mem_center (k : Type*) [Field k] (p : ℕ) [CharP k
 
 
 /-- The p-th power of the second displayed generator belongs to the center in characteristic p. -/
-@[source_ref "Chapter2/Problem2.7.4" (role := primary)]
+@[source_ref "Chapter2/Problem2.7.4" (role := supporting)]
 theorem power_secondGenerator_mem_center (k : Type*) [Field k] (p : ℕ) [CharP k p] :
     RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ p ∈ Subalgebra.center k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) := by
   apply mem_center_of_comm_gen

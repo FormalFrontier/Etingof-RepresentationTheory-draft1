@@ -248,7 +248,7 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineDynkinDi
 
 /-- The mark vector is annihilated by two times the identity minus the adjacency matrix. -/
 @[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := supporting),
-  source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
+  source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := supporting)]
 theorem AffineDynkinDiagram.two_smul_one_sub_adjacency_mulVec_marks_eq_zero (t : AffineDynkinDiagram) :
     (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adjacency).mulVec t.marks = 0 := by
   cases t with
@@ -283,8 +283,8 @@ theorem AffineDynkinDiagram.two_smul_one_sub_adjacency_mulVec_marks_eq_zero (t :
   | E8tilde => decide
 
 /-- The determinant of two times the identity minus an affine Dynkin adjacency matrix is zero. -/
-@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := primary),
-  source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.3_continued_E7_E8" (role := supporting),
+  source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := supporting)]
 theorem AffineDynkinDiagram.det_two_smul_one_sub_adjacency_eq_zero (t : AffineDynkinDiagram) :
     (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adjacency).det = 0 := by
   have hr : 0 < t.rank := by cases t <;> simp only [AffineDynkinDiagram.rank] <;> omega
@@ -612,7 +612,7 @@ theorem AffineDynkinDiagram.exists_adjacency_path (t : AffineDynkinDiagram) (i j
             (.head (b := ⟨5, by decide⟩) ?_ (.single ?_))))) <;> decide
 
 /-- The adjacency matrix attached to an indexed affine Dynkin diagram satisfies the affine Dynkin matrix predicate. -/
-@[source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := supporting)]
 theorem AffineDynkinDiagram.adjacency_isAffineDynkinMatrix (t : AffineDynkinDiagram) :
     IsAffineDynkinMatrix t.rank t.adjacency := by
   have hsymm : t.adjacency.IsSymm := AffineDynkinDiagram.adjacency_isSymm t
@@ -649,7 +649,7 @@ theorem AffineDynkinDiagram.adjacency_isAffineDynkinMatrix (t : AffineDynkinDiag
 /-! ## Part (f): the classification of Dynkin diagrams -/
 
 /-- A nonempty integer matrix has finite Dynkin type exactly when it is equivalent to the adjacency matrix of an indexed finite Dynkin diagram. -/
-@[source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := supporting)]
 theorem isFiniteDynkinMatrix_iff_exists_equiv (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n) :
     RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj ↔
     ∃ t : RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel, ∃ σ : Fin t.rank ≃ Fin n, ∀ i j, adj (σ i) (σ j) = t.matrix i j :=
@@ -4822,7 +4822,7 @@ lemma IsAffineDynkinMatrix.exists_equiv_affineDiagram_of_entrySum_lt_two_mul_car
     exact exists_equiv_affineDiagram_of_entrySum_lt_two_mul_card_of_degree_le_three adj hn hD hacyc hdeg3
 
 /-- A nonempty integer matrix is affine Dynkin exactly when it is equivalent to the adjacency matrix of an indexed affine Dynkin diagram. -/
-@[source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := primary)]
+@[source_ref "Chapter6/Problem6.1.3_continued_tildeE" (role := supporting)]
 theorem isAffineDynkinMatrix_iff_exists_equiv (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n) :
     IsAffineDynkinMatrix n adj ↔
     ∃ t : AffineDynkinDiagram, ∃ σ : Fin t.rank ≃ Fin n, ∀ i j, adj (σ i) (σ j) = t.adjacency i j := by

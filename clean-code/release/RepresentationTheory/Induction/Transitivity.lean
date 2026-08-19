@@ -392,7 +392,7 @@ theorem exists_induction_transitivity_intertwiner
 
 /-- For nested subgroups, there is a map from induction through the intermediate subgroup to direct
 induction that commutes with the ambient group actions. -/
-@[source_ref "Chapter5/Problem5.8.4" (role := primary)]
+@[source_ref "Chapter5/Problem5.8.4" (role := supporting)]
 theorem exists_induction_transitivity_intertwiner_of_le
     (H K : Subgroup G) (hKH : K ≤ H) (ρ : Representation ℂ K V) :
     ∃ e : Representation.IndV H.subtype

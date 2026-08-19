@@ -38,7 +38,7 @@ theorem extensionAction_apply_mk (f : A →ₗ[k] (W →ₗ[k] V)) (a : A) (v : 
   simp [extensionAction, Algebra.lsmul_coe]
 
 /-- The extension action preserves multiplication exactly when the defining linear map is an extension cocycle. -/
-@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 theorem extensionAction_mul_iff (f : A →ₗ[k] (W →ₗ[k] V)) :
     (∀ a b : A, extensionAction k A V W f (a * b)
         = (extensionAction k A V W f a).comp (extensionAction k A V W f b))
@@ -87,7 +87,7 @@ theorem coboundary_apply_apply (X : W →ₗ[k] V) (a : A) (w : W) :
     LinearMap.flip_apply, AlgHom.toLinearMap_apply, Algebra.lsmul_coe]
 
 /-- Every coboundary satisfies the extension cocycle condition. -/
-@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 theorem isExtensionCocycle_coboundary (X : W →ₗ[k] V) : IsExtensionCocycle k A V W (coboundary k A V W X) := by
   intro a b
   ext w
@@ -621,13 +621,13 @@ theorem range_inclusion_eq_ker_projection :
     exact ⟨u.toProd.1, ExtensionModule.toProd_injective (by simp [Prod.ext_iff, hu])⟩
 
 /-- The canonical inclusion and projection of an extension module form an exact pair. -/
-@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 theorem exact_inclusion_projection :
     Function.Exact (inclusion f hf) (projection f hf) :=
   LinearMap.exact_iff.mpr range_inclusion_eq_ker_projection.symm
 
 /-- The quotient of an extension module by the range of its canonical inclusion is linearly equivalent to the second module. -/
-@[source_ref "Chapter3/Problem3.9.1" (role := primary)]
+@[source_ref "Chapter3/Problem3.9.1" (role := supporting)]
 noncomputable def quotientRangeInclusionEquiv (g : A →ₗ[k] (W →ₗ[k] V)) (hg : IsExtensionCocycle k A V W g) :
     (ExtensionModule k A V W g hg ⧸ LinearMap.range (inclusion g hg)) ≃ₗ[A] W :=
   (Submodule.quotEquivOfEq _ _ range_inclusion_eq_ker_projection).trans

@@ -337,7 +337,7 @@ open RepresentationTheory.RepresentationPolynomialFunctions
 
 
 /-- Produces a nonzero equivariant map into a symmetric-power representation under the stated hypotheses. -/
-@[source_ref "Chapter4/Problem4.12.10" (role := primary)]
+@[source_ref "Chapter4/Problem4.12.10" (role := supporting)]
 theorem RepresentationTheory.RepresentationPolynomialFunctions.exists_nonzero_symmetric_power_intertwiner {G : Type*} [Group G] [Fintype G]
     {V : Type} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     (ρ : Representation ℂ G V) (hρ : Function.Injective ρ)

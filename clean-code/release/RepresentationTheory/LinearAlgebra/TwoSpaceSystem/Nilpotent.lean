@@ -1465,7 +1465,7 @@ theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSyst
         (ρ.Equiv (RepresentationTheory.FiniteDimensionalLinearMapPair.auxiliaryEigenvalueModel n hn lam)) from ⟨e⟩)⟩
 
 /-- Two parameters are equal when their representatives both admit the prescribed relation to the same system. -/
-@[source_ref "Chapter6/Problem6.9.1" (role := primary)]
+@[source_ref "Chapter6/Problem6.9.1" (role := supporting)]
 theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.Auxiliary.eq_of_nonempty_rep_relations (ρ : RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair ℂ)
     {c d : RepresentationTheory.FiniteDimensionalLinearMapPair.AuxiliaryClass} (ec : Nonempty (ρ.Equiv c.rep))
     (ed : Nonempty (ρ.Equiv d.rep)) : c = d := by
