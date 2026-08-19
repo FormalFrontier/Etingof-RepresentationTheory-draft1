@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:57392793c16dab98b4ee",
-      "role": "primary",
-      "rationale": "Problem_8_2_6_iii_ext certifies exactness of the covariant Ext sequence from every short exact second-argument complex in adjacent degrees."
+      "role": "supporting",
+      "rationale": "The type gives only the Ext long-exact-sequence component in the second argument; it does not itself state the Tor sequence required by the complete source claim."
     },
     {
       "association_id": "association:9621651294309e9cd36f",
-      "role": "primary",
-      "rationale": "Problem_8_2_6_iii_tor exhibits a connecting morphism making the displayed Tor sequence exact for every short exact second-argument complex."
+      "role": "supporting",
+      "rationale": "The type gives only the Tor long-exact-sequence component in the second argument; it does not itself state the Ext sequence required by the complete source claim."
     }
   ]
 }

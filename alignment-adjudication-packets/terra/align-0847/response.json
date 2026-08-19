@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:4d7fc38d5a5756129753",
-      "role": "primary",
-      "rationale": "Problem_8_2_6_iv gives an isomorphism from Tor to the nth left-derived tensor functor applied to the second argument, directly the resolution computation."
+      "role": "supporting",
+      "rationale": "The type identifies Tor with an opaque leftDerived tensor-functor value, but it does not visibly state computation from a projective resolution of the second argument."
     }
   ]
 }

@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:236a72c76badb21f629d",
-      "role": "primary",
-      "rationale": "Problem_8_2_6_v_ext certifies exactness of the contravariant Ext sequence arising from every short exact first-argument complex."
+      "role": "supporting",
+      "rationale": "The type gives only the Ext long-exact-sequence component in the first argument; it does not itself state the Tor sequence required by the complete source claim."
     },
     {
       "association_id": "association:614c99d69b1023fb5197",
-      "role": "primary",
-      "rationale": "Problem_8_2_6_v_tor exhibits a connecting morphism making the displayed Tor sequence exact for every short exact first-argument complex."
+      "role": "supporting",
+      "rationale": "The type gives only the Tor long-exact-sequence component in the first argument; it does not itself state the Ext sequence required by the complete source claim."
     }
   ]
 }

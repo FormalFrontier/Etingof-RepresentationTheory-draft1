@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:be05e1a20fecc4ed862e",
-      "role": "primary",
-      "rationale": "Problem_8_2_6_i_ext asserts an additive equivalence Ext(M,N,0) ≃ Hom(M,N), directly the Ext-zero identification."
+      "role": "supporting",
+      "rationale": "The type gives only the Ext-zero-to-Hom identification; it does not itself state the Tor-zero-to-tensor-product identification required by the complete source claim."
     },
     {
       "association_id": "association:6ec193bad218a512fe08",
-      "role": "primary",
-      "rationale": "Problem_8_2_6_i_tor asserts an isomorphism Tor(A,N,M,0) ≅ N tensorOver A M, directly the Tor-zero identification."
+      "role": "supporting",
+      "rationale": "The type gives only the Tor-zero-to-tensor-product identification; it does not itself state the Ext-zero-to-Hom identification required by the complete source claim."
     }
   ]
 }

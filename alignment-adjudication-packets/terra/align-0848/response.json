@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:79e9b4ce56229307bea2",
-      "role": "primary",
-      "rationale": "horseshoeResolution takes a short exact sequence and projective resolutions of its endpoints and returns a projective resolution of the middle object, the horseshoe construction."
+      "role": "supporting",
+      "rationale": "The type returns a projective resolution of the middle object, but it does not display the direct-sum terms required by the complete horseshoe-resolution claim."
     },
     {
       "association_id": "association:954bca591593809c30ea",

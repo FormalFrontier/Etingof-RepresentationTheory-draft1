@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:069eef481ebf710541a2",
-      "role": "primary",
-      "rationale": "extComparison directly returns an isomorphism between ExtByResolution for arbitrary resolutions P and Q in each degree."
+      "role": "supporting",
+      "rationale": "The type gives only the Ext comparison-isomorphism component; it does not itself state the required independence of compatible lifts."
     },
     {
       "association_id": "association:aeeab295110908671c47",
@@ -23,8 +23,8 @@
     },
     {
       "association_id": "association:d3f9bc9a2b82027f67c6",
-      "role": "primary",
-      "rationale": "extLiftMap_independent states that any two compatible Ext lifts induce equal maps in every degree, directly supplying the required independence."
+      "role": "supporting",
+      "rationale": "The type gives only the compatible-lift independence component; it does not itself state the Ext comparison-isomorphism component required by the complete source claim."
     }
   ]
 }

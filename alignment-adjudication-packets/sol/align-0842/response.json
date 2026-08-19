@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:3ca39619560f6baccc9e",
-      "role": "primary",
-      "rationale": "torComparison returns an isomorphism between TorByResolution for arbitrary resolutions P and Q in every degree, directly giving comparison isomorphisms."
+      "role": "supporting",
+      "rationale": "The type gives only the comparison-isomorphism component; it does not itself state the identity and composition laws required by the complete source claim."
     },
     {
       "association_id": "association:bb699f752813c5b4b786",
-      "role": "primary",
-      "rationale": "torComparison_refl states that the comparison isomorphism for a resolution with itself has identity hom, the required identity law."
+      "role": "supporting",
+      "rationale": "The type gives only the identity-law component; it does not itself state comparison isomorphisms and the composition law required by the complete source claim."
     },
     {
       "association_id": "association:cade92bd809cdab1bac6",
-      "role": "primary",
-      "rationale": "torComparison_trans states that composing P-to-Q and Q-to-R comparison maps equals the P-to-R comparison map, the required composition law."
+      "role": "supporting",
+      "rationale": "The type gives only the composition-law component; it does not itself state comparison isomorphisms and the identity law required by the complete source claim."
     },
     {
       "association_id": "association:a83d5f15af8dd004e342",
