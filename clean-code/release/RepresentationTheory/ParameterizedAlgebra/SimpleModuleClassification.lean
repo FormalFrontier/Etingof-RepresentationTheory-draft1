@@ -60,7 +60,7 @@ theorem linearEquiv_of_commutes_with_generators
         E _ _ h1 h2 hy f
   have hpre :
       (((↑) : twistedLatticeShiftSubalgebra ℂ q →
-          Module.End ℂ (TwistedLatticeShiftSpace ℂ)) ⁻¹'
+          Module.End ℂ (Auxiliary ℂ)) ⁻¹'
         {twistedLatticeShift ℂ q (1, 0), twistedLatticeShift ℂ q (-1, 0),
           twistedLatticeShift ℂ q (0, 1), twistedLatticeShift ℂ q (0, -1)}) =
       ({monomial q (1, 0), monomial q (-1, 0), monomial q (0, 1),

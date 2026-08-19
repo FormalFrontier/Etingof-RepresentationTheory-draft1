@@ -28,48 +28,48 @@ private theorem toLex_add (p q : ℕ × ℕ) :
     toLex (0, 0) = (0 : ℕ ×ₗ ℕ) := rfl
 
 /-- The lexicographically indexed monomials form a basis over the coefficient ring. -/
-noncomputable def FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis :
-    Basis (ℕ ×ₗ ℕ) k (FreeAlgebra.PolynomialOperators.OperatorAlgebra k) :=
+noncomputable def FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis :
+    Basis (ℕ ×ₗ ℕ) k (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) :=
   (Basis.mk (Algebra.IntegerIndexedPolynomialOperators.operatorMonomials_linearIndependent_and_span k).1
     (Algebra.IntegerIndexedPolynomialOperators.operatorMonomials_linearIndependent_and_span k).2).reindex toLex
 
 /-- Evaluating the monomial basis at an index gives the monomial with the two corresponding exponents. -/
-@[simp] theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis_apply (p : ℕ ×ₗ ℕ) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k p =
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator k (ofLex p).1 (ofLex p).2 := by
-  rw [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis, Basis.reindex_apply, Basis.mk_apply]
+@[simp] theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis_apply (p : ℕ ×ₗ ℕ) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k p =
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement k (ofLex p).1 (ofLex p).2 := by
+  rw [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis, Basis.reindex_apply, Basis.mk_apply]
   rfl
 
 /-- The linear functional extracting the coefficient of a lexicographically indexed monomial. -/
-noncomputable def FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff (p : ℕ ×ₗ ℕ) : FreeAlgebra.PolynomialOperators.OperatorAlgebra k →ₗ[k] k :=
-  (Finsupp.lapply p).comp (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k).repr.toLinearMap
+noncomputable def FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff (p : ℕ ×ₗ ℕ) : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k →ₗ[k] k :=
+  (Finsupp.lapply p).comp (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k).repr.toLinearMap
 
 /-- A monomial coefficient functional evaluates on a basis monomial as the corresponding Kronecker delta. -/
-@[simp] theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis (p q : ℕ ×ₗ ℕ) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k q) = if q = p then 1 else 0 := by
-  change ((FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k).repr (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k q)) p = _
-  rw [(FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k).repr_self]
+@[simp] theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis (p q : ℕ ×ₗ ℕ) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k q) = if q = p then 1 else 0 := by
+  change ((FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k).repr (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k q)) p = _
+  rw [(FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k).repr_self]
   simp [Finsupp.single_apply, eq_comm]
 
 /-- The submodule spanned up to a lexicographic monomial index. -/
-noncomputable def FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration (p : ℕ ×ₗ ℕ) :
-    Submodule k (FreeAlgebra.PolynomialOperators.OperatorAlgebra k) :=
-  Submodule.span k ((FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k) '' Set.Iic p)
+noncomputable def FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration (p : ℕ ×ₗ ℕ) :
+    Submodule k (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) :=
+  Submodule.span k ((FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k) '' Set.Iic p)
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwBasis_mem_filtration {p q : ℕ ×ₗ ℕ} (hqp : q ≤ p) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k q ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p :=
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwBasis_mem_filtration {p q : ℕ ×ₗ ℕ} (hqp : q ≤ p) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k q ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p :=
   Submodule.subset_span ⟨q, hqp, rfl⟩
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_eq_zero_of_mem_filtration
-    {a : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} {p q : ℕ ×ₗ ℕ}
-    (ha : a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p) (hqp : ¬ q ≤ p) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k q a = 0 := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_eq_zero_of_mem_filtration
+    {a : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} {p q : ℕ ×ₗ ℕ}
+    (ha : a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p) (hqp : ¬ q ≤ p) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k q a = 0 := by
   apply Submodule.span_induction (R := k)
-    (s := (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k) '' Set.Iic p)
-    (p := fun a _ => FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k q a = 0)
+    (s := (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k) '' Set.Iic p)
+    (p := fun a _ => FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k q a = 0)
   · intro a ha
     obtain ⟨r, hrp, rfl⟩ := ha
-    rw [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis, if_neg]
+    rw [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis, if_neg]
     intro hrq
     subst r
     exact hqp hrp
@@ -129,63 +129,63 @@ private theorem lex_add_lt_add_of_le_of_lt {a b c d : ℕ ×ₗ ℕ}
   exact lex_add_lt_add_of_lt_of_le hcd hab
 
 omit [Nontrivial k] in
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_mul_x_pow_succ (n : ℕ) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) =
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k +
-        (n + 1) • FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ n := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.y_mul_x_pow_succ (n : ℕ) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) =
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k +
+        (n + 1) • FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ n := by
   induction n with
-  | zero => simpa using FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator_mul_firstOperator k
+  | zero => simpa using FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator_mul_firstOperator k
   | succ n ih =>
       calc
-        FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1 + 1) =
-            FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) * FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k := by
+        FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1 + 1) =
+            FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k := by
               rw [pow_succ, mul_assoc]
-        _ = (FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k +
-              (n + 1) • FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ n) * FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k := by rw [ih]
-        _ = FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) *
-              (FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k) +
-              (n + 1) • FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) := by
+        _ = (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k +
+              (n + 1) • FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ n) * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k := by rw [ih]
+        _ = FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) *
+              (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k) +
+              (n + 1) • FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) := by
               rw [add_mul, mul_assoc, smul_mul_assoc, ← pow_succ]
-        _ = FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) *
-              (FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k + 1) +
-              (n + 1) • FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) := by
-              rw [FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator_mul_firstOperator]
-        _ = FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1 + 1) * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k +
-              (n + 1 + 1) • FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) := by
+        _ = FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) *
+              (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k + 1) +
+              (n + 1) • FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) := by
+              rw [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator_mul_firstOperator]
+        _ = FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1 + 1) * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k +
+              (n + 1 + 1) • FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) := by
               rw [mul_add, mul_one, ← mul_assoc, ← pow_succ, add_assoc,
-                add_comm (FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1))
-                  ((n + 1) • FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1)), ← succ_nsmul]
+                add_comm (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1))
+                  ((n + 1) • FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1)), ← succ_nsmul]
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_mul_pbwBasis (p : ℕ ×ₗ ℕ) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k p =
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k (p + toLex (0, 1)) +
-        (ofLex p).1 • FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.y_mul_pbwBasis (p : ℕ ×ₗ ℕ) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k p =
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k (p + toLex (0, 1)) +
+        (ofLex p).1 • FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k
           (toLex ((ofLex p).1 - 1, (ofLex p).2)) := by
   induction p using Lex.rec with | _ p =>
     rcases p with ⟨i, j⟩
     cases i with
-    | zero => simp [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator, pow_succ']
+    | zero => simp [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement, pow_succ']
     | succ i =>
-        simp only [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis_apply, ofLex_toLex, ofLex_add,
+        simp only [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis_apply, ofLex_toLex, ofLex_add,
           Prod.fst_add, Prod.snd_add, add_zero]
-        rw [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator,
-          ← mul_assoc, FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_mul_x_pow_succ, add_mul, smul_mul_assoc]
+        rw [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement,
+          ← mul_assoc, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.y_mul_x_pow_succ, add_mul, smul_mul_assoc]
         simp only [pow_succ', mul_assoc, Nat.succ_sub_one]
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_mul_filtration {a : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} {p : ℕ ×ₗ ℕ}
-    (ha : a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k (p + toLex (0, 1)) := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.y_mul_filtration {a : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} {p : ℕ ×ₗ ℕ}
+    (ha : a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k (p + toLex (0, 1)) := by
   apply Submodule.span_induction (R := k)
-    (s := (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k) '' Set.Iic p)
-    (p := fun a _ => FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * a ∈
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k (p + toLex (0, 1)))
+    (s := (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k) '' Set.Iic p)
+    (p := fun a _ => FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * a ∈
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k (p + toLex (0, 1)))
   · intro a ha
     obtain ⟨q, hqp, rfl⟩ := ha
-    rw [FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_mul_pbwBasis]
-    apply (FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k (p + toLex (0, 1))).add_mem
-    · exact FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwBasis_mem_filtration k (lex_add_le_add hqp le_rfl)
-    · apply (FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k (p + toLex (0, 1))).smul_mem
-      apply FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwBasis_mem_filtration k
+    rw [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.y_mul_pbwBasis]
+    apply (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k (p + toLex (0, 1))).add_mem
+    · exact FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwBasis_mem_filtration k (lex_add_le_add hqp le_rfl)
+    · apply (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k (p + toLex (0, 1))).smul_mem
+      apply FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwBasis_mem_filtration k
       induction q using Lex.rec with | _ q =>
         induction p using Lex.rec with | _ p =>
           rcases q with ⟨i, j⟩
@@ -199,25 +199,25 @@ private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_mul_filtration
     exact Submodule.zero_mem _
   · intro a b _ _ ha hb
     rw [mul_add]
-    exact (FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k _).add_mem ha hb
+    exact (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k _).add_mem ha hb
   · intro c a _ ha
     rw [mul_smul_comm]
-    exact (FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k _).smul_mem c ha
+    exact (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k _).smul_mem c ha
   · exact ha
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_y_mul {a : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} {p : ℕ ×ₗ ℕ}
-    (ha : a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (p + toLex (0, 1)) (FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * a) =
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p a := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_y_mul {a : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} {p : ℕ ×ₗ ℕ}
+    (ha : a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (p + toLex (0, 1)) (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * a) =
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p a := by
   apply Submodule.span_induction (R := k)
-    (s := (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k) '' Set.Iic p)
-    (p := fun a _ => FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (p + toLex (0, 1))
-      (FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * a) = FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p a)
+    (s := (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k) '' Set.Iic p)
+    (p := fun a _ => FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (p + toLex (0, 1))
+      (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * a) = FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p a)
   · intro a ha
     obtain ⟨q, hqp, rfl⟩ := ha
-    rw [FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_mul_pbwBasis, map_add, map_nsmul,
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis,
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis]
+    rw [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.y_mul_pbwBasis, map_add, map_nsmul,
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis,
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis]
     have hcorrlt : toLex ((ofLex q).1 - 1, (ofLex q).2) < q + toLex (0, 1) := by
       induction q using Lex.rec with | _ q =>
         rcases q with ⟨i, j⟩
@@ -243,49 +243,49 @@ private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_y_mul {
     simpa [mul_smul_comm] using congrArg (fun z => c • z) ha
   · exact ha
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.x_mul_filtration {a : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} {p : ℕ ×ₗ ℕ}
-    (ha : a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k (toLex (1, 0) + p) := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.x_mul_filtration {a : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} {p : ℕ ×ₗ ℕ}
+    (ha : a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k (toLex (1, 0) + p) := by
   apply Submodule.span_induction (R := k)
-    (s := (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k) '' Set.Iic p)
-    (p := fun a _ => FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * a ∈
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k (toLex (1, 0) + p))
+    (s := (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k) '' Set.Iic p)
+    (p := fun a _ => FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * a ∈
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k (toLex (1, 0) + p))
   · intro a ha
     obtain ⟨q, hqp, rfl⟩ := ha
-    have hmul : FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k q =
-        FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k (toLex (1, 0) + q) := by
+    have hmul : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k q =
+        FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k (toLex (1, 0) + q) := by
       induction q using Lex.rec with | _ q =>
         rcases q with ⟨i, j⟩
-        simp only [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis_apply, ofLex_toLex, ofLex_add,
-          Prod.fst_add, Prod.snd_add, zero_add, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator]
+        simp only [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis_apply, ofLex_toLex, ofLex_add,
+          Prod.fst_add, Prod.snd_add, zero_add, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement]
         rw [show 1 + i = i + 1 by omega, pow_succ', mul_assoc]
     rw [hmul]
-    exact FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwBasis_mem_filtration k (lex_add_le_add le_rfl hqp)
+    exact FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwBasis_mem_filtration k (lex_add_le_add le_rfl hqp)
   · simp
   · intro a b _ _ ha hb
-    simpa [mul_add] using (FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k _).add_mem ha hb
+    simpa [mul_add] using (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k _).add_mem ha hb
   · intro c a _ ha
-    simpa [mul_smul_comm] using (FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k _).smul_mem c ha
+    simpa [mul_smul_comm] using (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k _).smul_mem c ha
   · exact ha
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_x_mul {a : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} {p : ℕ ×ₗ ℕ}
-    (ha : a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (toLex (1, 0) + p) (FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * a) =
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p a := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_x_mul {a : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} {p : ℕ ×ₗ ℕ}
+    (ha : a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (toLex (1, 0) + p) (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * a) =
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p a := by
   apply Submodule.span_induction (R := k)
-    (s := (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k) '' Set.Iic p)
-    (p := fun a _ => FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (toLex (1, 0) + p)
-      (FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * a) = FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p a)
+    (s := (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k) '' Set.Iic p)
+    (p := fun a _ => FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (toLex (1, 0) + p)
+      (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * a) = FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p a)
   · intro a ha
     obtain ⟨q, hqp, rfl⟩ := ha
-    have hmul : FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k q =
-        FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k (toLex (1, 0) + q) := by
+    have hmul : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k q =
+        FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k (toLex (1, 0) + q) := by
       induction q using Lex.rec with | _ q =>
         rcases q with ⟨i, j⟩
-        simp only [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis_apply, ofLex_toLex, ofLex_add,
-          Prod.fst_add, Prod.snd_add, zero_add, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator]
+        simp only [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis_apply, ofLex_toLex, ofLex_add,
+          Prod.fst_add, Prod.snd_add, zero_add, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement]
         rw [show 1 + i = i + 1 by omega, pow_succ', mul_assoc]
-    rw [hmul, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis]
+    rw [hmul, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis]
     by_cases h : q = p
     · subst q
       simp
@@ -299,47 +299,47 @@ private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_x_mul {
     simpa [mul_smul_comm] using congrArg (fun z => c • z) ha
   · exact ha
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.mul_y_filtration {a : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} {p : ℕ ×ₗ ℕ}
-    (ha : a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p) :
-    a * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k (p + toLex (0, 1)) := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.mul_y_filtration {a : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} {p : ℕ ×ₗ ℕ}
+    (ha : a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p) :
+    a * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k (p + toLex (0, 1)) := by
   apply Submodule.span_induction (R := k)
-    (s := (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k) '' Set.Iic p)
-    (p := fun a _ => a * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ∈
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k (p + toLex (0, 1)))
+    (s := (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k) '' Set.Iic p)
+    (p := fun a _ => a * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ∈
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k (p + toLex (0, 1)))
   · intro a ha
     obtain ⟨q, hqp, rfl⟩ := ha
-    have hmul : FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k q * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k =
-        FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k (q + toLex (0, 1)) := by
+    have hmul : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k q * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k =
+        FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k (q + toLex (0, 1)) := by
       induction q using Lex.rec with | _ q =>
         rcases q with ⟨i, j⟩
-        simp only [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis_apply, ofLex_toLex, ofLex_add,
-          Prod.fst_add, Prod.snd_add, add_zero, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator]
+        simp only [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis_apply, ofLex_toLex, ofLex_add,
+          Prod.fst_add, Prod.snd_add, add_zero, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement]
         rw [pow_succ, mul_assoc]
     rw [hmul]
-    exact FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwBasis_mem_filtration k (lex_add_le_add hqp le_rfl)
+    exact FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwBasis_mem_filtration k (lex_add_le_add hqp le_rfl)
   · simp
   · intro a b _ _ ha hb
-    simpa [add_mul] using (FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k _).add_mem ha hb
+    simpa [add_mul] using (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k _).add_mem ha hb
   · intro c a _ ha
-    simpa [smul_mul_assoc] using (FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k _).smul_mem c ha
+    simpa [smul_mul_assoc] using (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k _).smul_mem c ha
   · exact ha
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_mul_y {a : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} {p : ℕ ×ₗ ℕ}
-    (ha : a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (p + toLex (0, 1)) (a * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k) =
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p a := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_mul_y {a : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} {p : ℕ ×ₗ ℕ}
+    (ha : a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (p + toLex (0, 1)) (a * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k) =
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p a := by
   apply Submodule.span_induction (R := k)
-    (s := (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k) '' Set.Iic p)
-    (p := fun a _ => FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (p + toLex (0, 1))
-      (a * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k) = FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p a)
+    (s := (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k) '' Set.Iic p)
+    (p := fun a _ => FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (p + toLex (0, 1))
+      (a * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k) = FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p a)
   · intro a ha
     obtain ⟨q, hqp, rfl⟩ := ha
-    have hmul : FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k q * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k =
-        FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k (q + toLex (0, 1)) := by
+    have hmul : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k q * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k =
+        FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k (q + toLex (0, 1)) := by
       induction q using Lex.rec with | _ q =>
         rcases q with ⟨i, j⟩
-        simp [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator, pow_succ, mul_assoc]
-    rw [hmul, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis]
+        simp [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement, pow_succ, mul_assoc]
+    rw [hmul, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis]
     by_cases h : q = p
     · subst q
       simp
@@ -353,42 +353,42 @@ private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_mul_y {
     simpa [smul_mul_assoc] using congrArg (fun z => c • z) ha
   · exact ha
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_pow_mul_x_pow_mem (i j : ℕ) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ j * FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i ∈
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k (toLex (i, j)) := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.y_pow_mul_x_pow_mem (i j : ℕ) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ j * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i ∈
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k (toLex (i, j)) := by
   induction j with
   | zero =>
-      simpa only [pow_zero, one_mul, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis_apply, ofLex_toLex,
-        FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator, pow_zero, mul_one] using
-        FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwBasis_mem_filtration k (p := toLex (i, 0)) le_rfl
+      simpa only [pow_zero, one_mul, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis_apply, ofLex_toLex,
+        FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement, pow_zero, mul_one] using
+        FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwBasis_mem_filtration k (p := toLex (i, 0)) le_rfl
   | succ j ih =>
       rw [pow_succ', mul_assoc]
-      simpa using FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_mul_filtration k ih
+      simpa using FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.y_mul_filtration k ih
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_y_pow_mul_x_pow (i j : ℕ) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (toLex (i, j))
-      (FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ j * FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i) = 1 := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_y_pow_mul_x_pow (i j : ℕ) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (toLex (i, j))
+      (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ j * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i) = 1 := by
   induction j with
   | zero =>
       rw [pow_zero, one_mul,
-        ← show FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k (toLex (i, 0)) = FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i by
-          simp [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator]]
-      rw [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis, if_pos rfl]
+        ← show FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k (toLex (i, 0)) = FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i by
+          simp [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement]]
+      rw [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis, if_pos rfl]
   | succ j ih =>
       rw [pow_succ', mul_assoc]
-      have h := FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_y_mul k
-        (FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_pow_mul_x_pow_mem k i j)
+      have h := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_y_mul k
+        (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.y_pow_mul_x_pow_mem k i j)
       simpa using h.trans ih
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.x_pow_mul_filtration {a : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} {p : ℕ ×ₗ ℕ}
-    (i : ℕ) (ha : a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i * a ∈
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k (toLex (i, 0) + p) := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.x_pow_mul_filtration {a : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} {p : ℕ ×ₗ ℕ}
+    (i : ℕ) (ha : a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i * a ∈
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k (toLex (i, 0) + p) := by
   induction i with
   | zero => simpa using ha
   | succ i ih =>
       rw [pow_succ', mul_assoc]
-      have h := FreeAlgebra.PolynomialOperators.OperatorAlgebra.x_mul_filtration k ih
+      have h := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.x_mul_filtration k ih
       have hfront : toLex (1, 0) + toLex (i, 0) = toLex (i + 1, 0) := by
         apply ofLex.injective
         change (1 + i, 0 + 0) = (i + 1, 0)
@@ -397,16 +397,16 @@ private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.x_pow_mul_filtra
         rw [← add_assoc, hfront]
       rwa [hidx] at h
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_x_pow_mul {a : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} {p : ℕ ×ₗ ℕ}
-    (i : ℕ) (ha : a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (toLex (i, 0) + p) (FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i * a) =
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p a := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_x_pow_mul {a : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} {p : ℕ ×ₗ ℕ}
+    (i : ℕ) (ha : a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (toLex (i, 0) + p) (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i * a) =
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p a := by
   induction i with
   | zero => simp
   | succ i ih =>
       rw [pow_succ', mul_assoc]
-      have h := FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_x_mul k
-        (FreeAlgebra.PolynomialOperators.OperatorAlgebra.x_pow_mul_filtration k i ha)
+      have h := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_x_mul k
+        (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.x_pow_mul_filtration k i ha)
       have hfront : toLex (1, 0) + toLex (i, 0) = toLex (i + 1, 0) := by
         apply ofLex.injective
         change (1 + i, 0 + 0) = (i + 1, 0)
@@ -416,108 +416,108 @@ private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_x_pow_m
       rw [hidx] at h
       exact h.trans ih
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.mul_y_pow_filtration {a : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} {p : ℕ ×ₗ ℕ}
-    (j : ℕ) (ha : a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p) :
-    a * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ j ∈
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k (p + toLex (0, j)) := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.mul_y_pow_filtration {a : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} {p : ℕ ×ₗ ℕ}
+    (j : ℕ) (ha : a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p) :
+    a * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ j ∈
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k (p + toLex (0, j)) := by
   induction j with
   | zero => simpa using ha
   | succ j ih =>
       rw [pow_succ, ← mul_assoc]
-      simpa [add_assoc] using FreeAlgebra.PolynomialOperators.OperatorAlgebra.mul_y_filtration k ih
+      simpa [add_assoc] using FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.mul_y_filtration k ih
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_mul_y_pow {a : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} {p : ℕ ×ₗ ℕ}
-    (j : ℕ) (ha : a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (p + toLex (0, j)) (a * FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ j) =
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p a := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_mul_y_pow {a : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} {p : ℕ ×ₗ ℕ}
+    (j : ℕ) (ha : a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (p + toLex (0, j)) (a * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ j) =
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p a := by
   induction j with
   | zero => simp
   | succ j ih =>
       rw [pow_succ, ← mul_assoc]
-      have h := FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_mul_y k
-        (FreeAlgebra.PolynomialOperators.OperatorAlgebra.mul_y_pow_filtration k j ha)
+      have h := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_mul_y k
+        (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.mul_y_pow_filtration k j ha)
       simpa [add_assoc] using h.trans ih
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwBasis_mul_mem (p q : ℕ ×ₗ ℕ) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k p * FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k q ∈
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k (p + q) := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwBasis_mul_mem (p q : ℕ ×ₗ ℕ) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k p * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k q ∈
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k (p + q) := by
   induction p using Lex.rec with | _ p =>
     induction q using Lex.rec with | _ q =>
       rcases p with ⟨i, j⟩
       rcases q with ⟨u, v⟩
-      simp only [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis_apply, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator, ofLex_toLex]
-      rw [mul_assoc (FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i) (FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ j),
-        ← mul_assoc (FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ j) (FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ u),
-        ← mul_assoc (FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i)]
-      have hmid := FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_pow_mul_x_pow_mem k u j
-      have hleft := FreeAlgebra.PolynomialOperators.OperatorAlgebra.x_pow_mul_filtration k i hmid
-      have hright := FreeAlgebra.PolynomialOperators.OperatorAlgebra.mul_y_pow_filtration k v hleft
+      simp only [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis_apply, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement, ofLex_toLex]
+      rw [mul_assoc (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i) (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ j),
+        ← mul_assoc (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ j) (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ u),
+        ← mul_assoc (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i)]
+      have hmid := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.y_pow_mul_x_pow_mem k u j
+      have hleft := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.x_pow_mul_filtration k i hmid
+      have hright := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.mul_y_pow_filtration k v hleft
       simpa [add_assoc] using hright
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_basis_mul (p q : ℕ ×ₗ ℕ) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (p + q)
-      (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k p * FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k q) = 1 := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_basis_mul (p q : ℕ ×ₗ ℕ) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (p + q)
+      (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k p * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k q) = 1 := by
   induction p using Lex.rec with | _ p =>
     induction q using Lex.rec with | _ q =>
       rcases p with ⟨i, j⟩
       rcases q with ⟨u, v⟩
-      simp only [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis_apply, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator, ofLex_toLex]
-      rw [mul_assoc (FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i) (FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ j),
-        ← mul_assoc (FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ j) (FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ u),
-        ← mul_assoc (FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i)]
-      have hmid := FreeAlgebra.PolynomialOperators.OperatorAlgebra.y_pow_mul_x_pow_mem k u j
-      have hleft := FreeAlgebra.PolynomialOperators.OperatorAlgebra.x_pow_mul_filtration k i hmid
-      have h1 := FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_mul_y_pow k v hleft
-      have h2 := FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_x_pow_mul k i hmid
-      have h3 := FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_y_pow_mul_x_pow k u j
+      simp only [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis_apply, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement, ofLex_toLex]
+      rw [mul_assoc (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i) (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ j),
+        ← mul_assoc (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ j) (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ u),
+        ← mul_assoc (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i)]
+      have hmid := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.y_pow_mul_x_pow_mem k u j
+      have hleft := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.x_pow_mul_filtration k i hmid
+      have h1 := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_mul_y_pow k v hleft
+      have h2 := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_x_pow_mul k i hmid
+      have h3 := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_y_pow_mul_x_pow k u j
       simpa [add_assoc] using h1.trans (h2.trans h3)
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_basis_mul_of_le
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_basis_mul_of_le
     {p q r s : ℕ ×ₗ ℕ} (hrp : r ≤ p) (hsq : s ≤ q) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (p + q)
-      (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k r * FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k s) =
-        FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k r) *
-          FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k q (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k s) := by
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (p + q)
+      (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k r * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k s) =
+        FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k r) *
+          FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k q (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k s) := by
   by_cases hr : r = p
   · subst r
     by_cases hs : s = q
     · subst s
-      rw [FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_basis_mul, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis,
-        FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis, if_pos rfl, if_pos rfl, mul_one]
+      rw [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_basis_mul, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis,
+        FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis, if_pos rfl, if_pos rfl, mul_one]
     · have hslt : s < q := lt_of_le_of_ne hsq hs
       have hlt : p + s < p + q := lex_add_lt_add_of_le_of_lt le_rfl hslt
-      rw [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis, FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis, if_pos rfl, if_neg hs,
+      rw [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis, FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis, if_pos rfl, if_neg hs,
         mul_zero]
-      exact FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_eq_zero_of_mem_filtration k
-        (FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwBasis_mul_mem k p s) (not_le_of_gt hlt)
+      exact FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_eq_zero_of_mem_filtration k
+        (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwBasis_mul_mem k p s) (not_le_of_gt hlt)
   · have hrlt : r < p := lt_of_le_of_ne hrp hr
     have hlt : r + s < p + q := lex_add_lt_add_of_lt_of_le hrlt hsq
-    rw [FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_basis, if_neg hr, zero_mul]
-    exact FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_eq_zero_of_mem_filtration k
-      (FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwBasis_mul_mem k r s) (not_le_of_gt hlt)
+    rw [FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_basis, if_neg hr, zero_mul]
+    exact FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_eq_zero_of_mem_filtration k
+      (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwBasis_mul_mem k r s) (not_le_of_gt hlt)
 
 /-- For elements in prescribed filtration pieces, the coefficient at the sum of their indices is the product of the leading coefficients. -/
-theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_mul
-    {a b : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} {p q : ℕ ×ₗ ℕ}
-    (ha : a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p)
-    (hb : b ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k q) :
-    FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (p + q) (a * b) =
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p a * FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k q b := by
+theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_mul
+    {a b : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} {p q : ℕ ×ₗ ℕ}
+    (ha : a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p)
+    (hb : b ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k q) :
+    FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (p + q) (a * b) =
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p a * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k q b := by
   apply Submodule.span_induction (R := k)
-    (s := (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k) '' Set.Iic p)
-    (p := fun a _ => FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (p + q) (a * b) =
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p a * FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k q b)
+    (s := (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k) '' Set.Iic p)
+    (p := fun a _ => FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (p + q) (a * b) =
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p a * FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k q b)
   · intro a ha
     obtain ⟨r, hrp, rfl⟩ := ha
     apply Submodule.span_induction (R := k)
-      (s := (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k) '' Set.Iic q)
-      (p := fun b _ => FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k (p + q)
-        (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k r * b) =
-          FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k r) *
-            FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k q b)
+      (s := (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k) '' Set.Iic q)
+      (p := fun b _ => FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k (p + q)
+        (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k r * b) =
+          FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k r) *
+            FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k q b)
     · intro b hb
       obtain ⟨s, hsq, rfl⟩ := hb
-      exact FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwCoeff_basis_mul_of_le k hrp hsq
+      exact FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwCoeff_basis_mul_of_le k hrp hsq
     · simp
     · intro x y _ _ hx hy
       simpa [mul_add, mul_add] using congrArg₂ (· + ·) hx hy
@@ -532,44 +532,44 @@ theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_mul
     simpa [smul_mul_assoc, mul_assoc] using congrArg (fun z => c • z) hx
   · exact ha
 
-private theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.exists_leading
-    {a : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} (ha : a ≠ 0) :
-    ∃ p : ℕ ×ₗ ℕ, a ∈ FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p ∧
-      FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff k p a ≠ 0 := by
+private theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.exists_leading
+    {a : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} (ha : a ≠ 0) :
+    ∃ p : ℕ ×ₗ ℕ, a ∈ FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p ∧
+      FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff k p a ≠ 0 := by
   classical
-  set f := (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k).repr a
-  have hf : f ≠ 0 := fun hf => ha ((FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k).repr.injective
+  set f := (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k).repr a
+  have hf : f ≠ 0 := fun hf => ha ((FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k).repr.injective
     (hf.trans (map_zero _).symm))
   have hsupport : f.support.Nonempty := Finsupp.support_nonempty_iff.mpr hf
   let p := f.support.max' hsupport
   refine ⟨p, ?_, ?_⟩
-  · have heq : (Finsupp.linearCombination k (FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialBasis k)) f = a := by
+  · have heq : (Finsupp.linearCombination k (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialBasis k)) f = a := by
       simp [f]
     rw [← heq, Finsupp.linearCombination_apply]
     apply Submodule.sum_mem
     intro q hq
-    exact (FreeAlgebra.PolynomialOperators.OperatorAlgebra.degreeFiltration k p).smul_mem _
-      (FreeAlgebra.PolynomialOperators.OperatorAlgebra.pbwBasis_mem_filtration k (Finset.le_max' f.support q hq))
+    exact (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.degreeFiltration k p).smul_mem _
+      (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.pbwBasis_mem_filtration k (Finset.le_max' f.support q hq))
   · change f p ≠ 0
     exact Finsupp.mem_support_iff.mp (Finset.max'_mem f.support hsupport)
 
 /-- The product of two nonzero elements is nonzero when the coefficient ring has no zero divisors. -/
-theorem FreeAlgebra.PolynomialOperators.OperatorAlgebra.mul_ne_zero [NoZeroDivisors k]
-    {a b : FreeAlgebra.PolynomialOperators.OperatorAlgebra k} (ha : a ≠ 0) (hb : b ≠ 0) : a * b ≠ 0 := by
+theorem FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.mul_ne_zero [NoZeroDivisors k]
+    {a b : FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} (ha : a ≠ 0) (hb : b ≠ 0) : a * b ≠ 0 := by
   classical
-  obtain ⟨p, haF, hap⟩ := FreeAlgebra.PolynomialOperators.OperatorAlgebra.exists_leading k ha
-  obtain ⟨q, hbF, hbq⟩ := FreeAlgebra.PolynomialOperators.OperatorAlgebra.exists_leading k hb
+  obtain ⟨p, haF, hap⟩ := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.exists_leading k ha
+  obtain ⟨q, hbF, hbq⟩ := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.exists_leading k hb
   intro hab
-  have hcoeff := FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialCoeff_mul k haF hbF
+  have hcoeff := FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.monomialCoeff_mul k haF hbF
   rw [hab, map_zero] at hcoeff
   exact (_root_.mul_ne_zero hap hbq) hcoeff.symm
 
 /-- The monomial algebra has no zero divisors when its coefficient ring does. -/
 noncomputable instance RingTheory.OrderedMonomialBasis.noZeroDivisors [NoZeroDivisors k] :
-    NoZeroDivisors (FreeAlgebra.PolynomialOperators.OperatorAlgebra k) :=
-  noZeroDivisors_iff (FreeAlgebra.PolynomialOperators.OperatorAlgebra k) |>.2 fun {a b} hab => by
+    NoZeroDivisors (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) :=
+  noZeroDivisors_iff (FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) |>.2 fun {a b} hab => by
     by_contra h
     push Not at h
-    exact FreeAlgebra.PolynomialOperators.OperatorAlgebra.mul_ne_zero k h.1 h.2 hab
+    exact FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.mul_ne_zero k h.1 h.2 hab
 
 end RepresentationTheory

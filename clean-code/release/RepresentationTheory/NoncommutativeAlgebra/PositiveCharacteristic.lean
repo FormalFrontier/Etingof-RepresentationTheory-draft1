@@ -25,60 +25,60 @@ open RepresentationTheory
 
 
 private lemma y_mul_x_pow_succ (k : Type*) [Field k] (n : ℕ) :
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1)
-      = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k + (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ n := by
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1)
+      = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k + (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ n := by
   induction n with
-  | zero => simp only [zero_add, pow_one, pow_zero, one_smul]; exact RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator_mul_firstOperator k
+  | zero => simp only [zero_add, pow_one, pow_zero, one_smul]; exact RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator_mul_firstOperator k
   | succ n ih =>
-    calc RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1 + 1)
-        = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k := by
+    calc RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1 + 1)
+        = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k := by
           rw [pow_succ, mul_assoc]
-      _ = (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k + (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ n)
-            * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k := by rw [ih]
-      _ = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) * (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k)
-            + (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) := by
+      _ = (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k + (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ n)
+            * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k := by rw [ih]
+      _ = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) * (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k)
+            + (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) := by
           rw [add_mul, mul_assoc, smul_mul_assoc, ← pow_succ]
-      _ = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) * (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k + 1)
-            + (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) := by rw [RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator_mul_firstOperator]
-      _ = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1 + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k
-            + (n + 1 + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) := by
+      _ = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) * (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k + 1)
+            + (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) := by rw [RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator_mul_firstOperator]
+      _ = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1 + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k
+            + (n + 1 + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) := by
           rw [mul_add, mul_one, ← mul_assoc, ← pow_succ, add_assoc,
-            add_comm (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1)) ((n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1)),
+            add_comm (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1)) ((n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1)),
             ← succ_nsmul]
 
 
 private lemma x_mul_y_pow_succ (k : Type*) [Field k] (n : ℕ) :
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1)
-      = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k - (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ n := by
-  have hxy : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k - 1 := by
-    rw [eq_sub_iff_add_eq]; exact (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator_mul_firstOperator k).symm
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1)
+      = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k - (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ n := by
+  have hxy : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k - 1 := by
+    rw [eq_sub_iff_add_eq]; exact (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator_mul_firstOperator k).symm
   induction n with
   | zero => simp only [zero_add, pow_one, pow_zero, one_smul]; exact hxy
   | succ n ih =>
-    calc RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1 + 1)
-        = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k := by
+    calc RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1 + 1)
+        = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k := by
           rw [pow_succ, mul_assoc]
-      _ = (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k - (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ n)
-            * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k := by rw [ih]
-      _ = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1) * (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k)
-            - (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1) := by
+      _ = (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k - (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ n)
+            * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k := by rw [ih]
+      _ = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1) * (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k)
+            - (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1) := by
           rw [sub_mul, mul_assoc, smul_mul_assoc, ← pow_succ]
-      _ = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1) * (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k - 1)
-            - (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1) := by rw [hxy]
-      _ = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1 + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k
-            - (n + 1 + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1) := by
+      _ = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1) * (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k - 1)
+            - (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1) := by rw [hxy]
+      _ = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1 + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k
+            - (n + 1 + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1) := by
           rw [mul_sub, mul_one, ← mul_assoc, ← pow_succ, sub_sub,
-            add_comm (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1)) ((n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1)),
+            add_comm (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1)) ((n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1)),
             ← succ_nsmul]
 
 
-private theorem mem_center_of_comm_gen (k : Type*) [Field k] {z : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k}
-    (hx : z * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * z)
-    (hy : z * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * z) :
-    z ∈ Subalgebra.center k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) := by
+private theorem mem_center_of_comm_gen (k : Type*) [Field k] {z : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k}
+    (hx : z * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * z)
+    (hy : z * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * z) :
+    z ∈ Subalgebra.center k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) := by
   rw [Subalgebra.mem_center_iff]
   intro b
-  obtain ⟨a, rfl⟩ := RingQuot.mkAlgHom_surjective k (RepresentationTheory.FreeAlgebra.PolynomialOperators.freeAlgebraRelation k) b
+  obtain ⟨a, rfl⟩ := RingQuot.mkAlgHom_surjective k (RepresentationTheory.FreeAlgebra.PolynomialOperators.auxiliaryRelation k) b
   have ha : a ∈ Algebra.adjoin k (Set.range (FreeAlgebra.ι k)) := by
     rw [FreeAlgebra.adjoin_range_ι]; exact Algebra.mem_top
   induction ha using Algebra.adjoin_induction with
@@ -97,19 +97,19 @@ private theorem mem_center_of_comm_gen (k : Type*) [Field k] {z : Representation
 /-- Every finite-dimensional module of the displayed algebra has zero base-field dimension in characteristic zero. -/
 @[source_ref "Chapter2/Problem2.7.4" (role := primary)]
 theorem finrank_eq_zero_of_charZero (k : Type*) [Field k] [CharZero k]
-    (V : Type*) [AddCommGroup V] [Module k V] [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V]
-    [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [FiniteDimensional k V] :
+    (V : Type*) [AddCommGroup V] [Module k V] [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V]
+    [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] [FiniteDimensional k V] :
     Module.finrank k V = 0 := by
 
 
-  haveI : SMulCommClass (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) k V :=
+  haveI : SMulCommClass (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) k V :=
     ⟨fun a c v => by
-      simp only [← algebraMap_smul (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) c, ← mul_smul, Algebra.commutes]⟩
-  let φ : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k →ₐ[k] Module.End k V := Algebra.lsmul k k V
-  set X := φ (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k) with hX
-  set Y := φ (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k) with hY
+      simp only [← algebraMap_smul (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) c, ← mul_smul, Algebra.commutes]⟩
+  let φ : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k →ₐ[k] Module.End k V := Algebra.lsmul k k V
+  set X := φ (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k) with hX
+  set Y := φ (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k) with hY
   have hcomm : Y * X = X * Y + 1 := by
-    rw [hX, hY, ← map_mul, ← map_mul, ← map_one φ, ← map_add, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator_mul_firstOperator]
+    rw [hX, hY, ← map_mul, ← map_mul, ← map_one φ, ← map_add, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator_mul_firstOperator]
 
   have htr : LinearMap.trace k V (Y * X) = LinearMap.trace k V (X * Y) :=
     LinearMap.trace_mul_comm k Y X
@@ -123,54 +123,54 @@ section AdDerivations
 
 variable (k : Type*) [Field k]
 
-open RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra
+open RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra
 
 
-private noncomputable def adx : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k →ₗ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k :=
-  LinearMap.mulLeft k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k) - LinearMap.mulRight k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k)
+private noncomputable def adx : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k →ₗ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k :=
+  LinearMap.mulLeft k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k) - LinearMap.mulRight k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k)
 
 
-private noncomputable def ady : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k →ₗ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k :=
-  LinearMap.mulLeft k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k) - LinearMap.mulRight k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k)
+private noncomputable def ady : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k →ₗ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k :=
+  LinearMap.mulLeft k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k) - LinearMap.mulRight k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k)
 
-private lemma adx_apply (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) :
-    adx k a = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * a - a * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k := by
+private lemma adx_apply (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) :
+    adx k a = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * a - a * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k := by
   simp [adx, LinearMap.mulLeft_apply, LinearMap.mulRight_apply]
 
-private lemma ady_apply (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) :
-    ady k a = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * a - a * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k := by
+private lemma ady_apply (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) :
+    ady k a = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * a - a * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k := by
   simp [ady, LinearMap.mulLeft_apply, LinearMap.mulRight_apply]
 
-private lemma adx_monomial_zero (i : ℕ) : adx k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator k i 0) = 0 := by
-  rw [adx_apply, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator, pow_zero, mul_one, ← pow_succ, ← pow_succ', sub_self]
+private lemma adx_monomial_zero (i : ℕ) : adx k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement k i 0) = 0 := by
+  rw [adx_apply, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement, pow_zero, mul_one, ← pow_succ, ← pow_succ', sub_self]
 
 private lemma adx_monomial_succ (i n : ℕ) :
-    adx k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator k i (n + 1))
-      = (-((n : k) + 1)) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator k i n := by
-  have hYX : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k
-      = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ (n + 1)
-        + (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ n := by
+    adx k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement k i (n + 1))
+      = (-((n : k) + 1)) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement k i n := by
+  have hYX : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k
+      = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ (n + 1)
+        + (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ n := by
     have h := x_mul_y_pow_succ k n; rw [h]; abel
-  simp only [adx_apply, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator]
-  rw [← mul_assoc, ← pow_succ', mul_assoc (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i), hYX, mul_add,
+  simp only [adx_apply, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement]
+  rw [← mul_assoc, ← pow_succ', mul_assoc (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i), hYX, mul_add,
     ← mul_assoc, ← pow_succ, mul_smul_comm, sub_add_eq_sub_sub, sub_self, zero_sub,
     ← Nat.cast_smul_eq_nsmul (R := k) (n + 1)]
   push_cast
   module
 
-private lemma ady_monomial_zero (j : ℕ) : ady k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator k 0 j) = 0 := by
-  rw [ady_apply, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator, pow_zero, one_mul, ← pow_succ, ← pow_succ', sub_self]
+private lemma ady_monomial_zero (j : ℕ) : ady k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement k 0 j) = 0 := by
+  rw [ady_apply, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement, pow_zero, one_mul, ← pow_succ, ← pow_succ', sub_self]
 
 private lemma ady_monomial_succ (n j : ℕ) :
-    ady k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator k (n + 1) j)
-      = ((n : k) + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator k n j := by
-  have hYX : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1)
-      = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k + (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ n :=
+    ady k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement k (n + 1) j)
+      = ((n : k) + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement k n j := by
+  have hYX : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1)
+      = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1) * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k + (n + 1) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ n :=
     y_mul_x_pow_succ k n
-  simp only [ady_apply, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator]
+  simp only [ady_apply, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement]
   rw [← mul_assoc, hYX, add_mul,
-    mul_assoc (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1)), ← pow_succ', smul_mul_assoc,
-    mul_assoc (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (n + 1)), ← pow_succ,
+    mul_assoc (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1)), ← pow_succ', smul_mul_assoc,
+    mul_assoc (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (n + 1)), ← pow_succ,
     add_sub_cancel_left, ← Nat.cast_smul_eq_nsmul (R := k) (n + 1)]
   congr 1
   push_cast; ring
@@ -183,22 +183,22 @@ section CharZeroSimple
 
 variable (k : Type*) [Field k] [CharZero k]
 
-open RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra Module
+open RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra Module
 
 
-private noncomputable def monBasis : Basis (ℕ × ℕ) k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) :=
-  Basis.mk (RepresentationTheory.FreeAlgebra.PolynomialOperators.polynomialOperators_basis k).1 (RepresentationTheory.FreeAlgebra.PolynomialOperators.polynomialOperators_basis k).2
+private noncomputable def monBasis : Basis (ℕ × ℕ) k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) :=
+  Basis.mk (RepresentationTheory.FreeAlgebra.PolynomialOperators.indexedElement_linearIndependent_and_span k).1 (RepresentationTheory.FreeAlgebra.PolynomialOperators.indexedElement_linearIndependent_and_span k).2
 
 private lemma monBasis_apply (p : ℕ × ℕ) :
-    monBasis k p = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator k p.1 p.2 :=
+    monBasis k p = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement k p.1 p.2 :=
   Basis.mk_apply _ _ _
 
 private lemma repr_monomial (i j : ℕ) :
-    (monBasis k).repr (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator k i j) = Finsupp.single (i, j) 1 := by
+    (monBasis k).repr (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement k i j) = Finsupp.single (i, j) 1 := by
   rw [← monBasis_apply k (i, j)]; exact (monBasis k).repr_self _
 
 
-private lemma repr_adx_apply (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (i j : ℕ) :
+private lemma repr_adx_apply (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) (i j : ℕ) :
     (monBasis k).repr (adx k a) (i, j)
       = -((j : k) + 1) * (monBasis k).repr a (i, j + 1) := by
   have key :
@@ -228,7 +228,7 @@ private lemma repr_adx_apply (a : RepresentationTheory.FreeAlgebra.PolynomialOpe
     LinearEquiv.coe_coe, Finsupp.lapply_apply, smul_eq_mul] using this
 
 
-private lemma repr_ady_apply (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (i j : ℕ) :
+private lemma repr_ady_apply (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) (i j : ℕ) :
     (monBasis k).repr (ady k a) (i, j)
       = ((i : k) + 1) * (monBasis k).repr a (i + 1, j) := by
   have key :
@@ -258,19 +258,19 @@ private lemma repr_ady_apply (a : RepresentationTheory.FreeAlgebra.PolynomialOpe
     LinearEquiv.coe_coe, Finsupp.lapply_apply, smul_eq_mul] using this
 
 
-private noncomputable def yDeg (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) : ℕ :=
+private noncomputable def yDeg (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) : ℕ :=
   ((monBasis k).repr a).support.sup Prod.snd
 
 
-private noncomputable def xDeg (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) : ℕ :=
+private noncomputable def xDeg (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) : ℕ :=
   ((monBasis k).repr a).support.sup Prod.fst
 
-private lemma repr_ne_zero_of_ne_zero {a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k} (ha : a ≠ 0) :
+private lemma repr_ne_zero_of_ne_zero {a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} (ha : a ≠ 0) :
     (monBasis k).repr a ≠ 0 := fun h => ha (by
   have := (monBasis k).linearCombination_repr a
   rw [h, map_zero] at this; exact this.symm)
 
-private lemma adx_ne_zero {a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k} (ha : a ≠ 0) (hy : 0 < yDeg k a) :
+private lemma adx_ne_zero {a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} (ha : a ≠ 0) (hy : 0 < yDeg k a) :
     adx k a ≠ 0 := by
   obtain ⟨m, hm⟩ := Nat.exists_eq_succ_of_ne_zero (Nat.pos_iff_ne_zero.mp hy)
   have hsupne : ((monBasis k).repr a).support.Nonempty :=
@@ -289,7 +289,7 @@ private lemma adx_ne_zero {a : RepresentationTheory.FreeAlgebra.PolynomialOperat
     neg_ne_zero.mpr (by exact_mod_cast Nat.succ_ne_zero m)
   exact (mul_ne_zero hcoeff hpa) hval
 
-private lemma ady_ne_zero {a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k} (ha : a ≠ 0) (hx : 0 < xDeg k a) :
+private lemma ady_ne_zero {a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} (ha : a ≠ 0) (hx : 0 < xDeg k a) :
     ady k a ≠ 0 := by
   obtain ⟨m, hm⟩ := Nat.exists_eq_succ_of_ne_zero (Nat.pos_iff_ne_zero.mp hx)
   have hsupne : ((monBasis k).repr a).support.Nonempty :=
@@ -307,7 +307,7 @@ private lemma ady_ne_zero {a : RepresentationTheory.FreeAlgebra.PolynomialOperat
   have hcoeff : ((m : k) + 1) ≠ 0 := by exact_mod_cast Nat.succ_ne_zero m
   exact (mul_ne_zero hcoeff hpa) hval
 
-private lemma yDeg_adx_lt {a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k} (hy : 0 < yDeg k a) :
+private lemma yDeg_adx_lt {a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} (hy : 0 < yDeg k a) :
     yDeg k (adx k a) < yDeg k a := by
   rw [yDeg, Finset.sup_lt_iff hy]
   intro q hq
@@ -317,7 +317,7 @@ private lemma yDeg_adx_lt {a : RepresentationTheory.FreeAlgebra.PolynomialOperat
     Finset.le_sup (f := Prod.snd) (Finsupp.mem_support_iff.mpr hr)
   omega
 
-private lemma xDeg_ady_lt {a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k} (hx : 0 < xDeg k a) :
+private lemma xDeg_ady_lt {a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} (hx : 0 < xDeg k a) :
     xDeg k (ady k a) < xDeg k a := by
   rw [xDeg, Finset.sup_lt_iff hx]
   intro q hq
@@ -327,7 +327,7 @@ private lemma xDeg_ady_lt {a : RepresentationTheory.FreeAlgebra.PolynomialOperat
     Finset.le_sup (f := Prod.fst) (Finsupp.mem_support_iff.mpr hr)
   omega
 
-private lemma yDeg_ady_eq_zero {a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k} (hy : yDeg k a = 0) :
+private lemma yDeg_ady_eq_zero {a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k} (hy : yDeg k a = 0) :
     yDeg k (ady k a) = 0 := by
   rw [yDeg]
   refine Nat.le_zero.mp (Finset.sup_le fun q hq => ?_)
@@ -338,9 +338,9 @@ private lemma yDeg_ady_eq_zero {a : RepresentationTheory.FreeAlgebra.PolynomialO
   omega
 
 
-private lemma one_mem_of_yDeg_zero (I : TwoSidedIdeal (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)) :
-    ∀ (n : ℕ) (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k), xDeg k a = n → yDeg k a = 0 → a ∈ I → a ≠ 0 →
-      (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) ∈ I := by
+private lemma one_mem_of_yDeg_zero (I : TwoSidedIdeal (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k)) :
+    ∀ (n : ℕ) (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k), xDeg k a = n → yDeg k a = 0 → a ∈ I → a ≠ 0 →
+      (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) ∈ I := by
   intro n
   induction n using Nat.strong_induction_on with
   | _ n ih =>
@@ -368,9 +368,9 @@ private lemma one_mem_of_yDeg_zero (I : TwoSidedIdeal (RepresentationTheory.Free
         by_cases hp : p = (0, 0)
         · rw [hp, if_pos rfl]
         · rw [if_neg (Ne.symm hp), Finsupp.notMem_support_iff.mp (fun h => hp (hsupp p h))]
-      have hone : monBasis k (0, 0) = (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) := by
-        rw [monBasis_apply, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator]; simp
-      have ha1 : a = c • (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) := by
+      have hone : monBasis k (0, 0) = (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) := by
+        rw [monBasis_apply, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement]; simp
+      have ha1 : a = c • (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) := by
         have h := (monBasis k).linearCombination_repr a
         rw [hrepr, Finsupp.linearCombination_single, hone] at h
         exact h.symm
@@ -387,9 +387,9 @@ private lemma one_mem_of_yDeg_zero (I : TwoSidedIdeal (RepresentationTheory.Free
       exact ih _ hlt (ady k a) rfl hy' hmem hne
 
 
-private lemma one_mem_of_mem (I : TwoSidedIdeal (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)) :
-    ∀ (n : ℕ) (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k), yDeg k a = n → a ∈ I → a ≠ 0 →
-      (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) ∈ I := by
+private lemma one_mem_of_mem (I : TwoSidedIdeal (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k)) :
+    ∀ (n : ℕ) (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k), yDeg k a = n → a ∈ I → a ≠ 0 →
+      (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) ∈ I := by
   intro n
   induction n using Nat.strong_induction_on with
   | _ n ih =>
@@ -406,21 +406,21 @@ private lemma one_mem_of_mem (I : TwoSidedIdeal (RepresentationTheory.FreeAlgebr
 
 /-- The displayed algebra is a simple ring over any characteristic-zero field. -/
 @[source_ref "Chapter2/Problem2.7.4" (role := primary)]
-theorem isSimpleRing_of_charZero : IsSimpleRing (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) := by
-  have hnt : (0 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) ≠ 1 := by
+theorem isSimpleRing_of_charZero : IsSimpleRing (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) := by
+  have hnt : (0 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) ≠ 1 := by
     intro h
     have h2 := congrArg (RepresentationTheory.FreeAlgebra.PolynomialOperators.toPolynomialEnd k) h
     rw [map_zero, map_one] at h2
     have h3 := congrArg (fun f : Module.End k (Polynomial k) => f Polynomial.X) h2
     simp only [LinearMap.zero_apply, Module.End.one_apply] at h3
     exact Polynomial.X_ne_zero h3.symm
-  haveI : Nontrivial (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) := ⟨0, 1, hnt⟩
+  haveI : Nontrivial (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) := ⟨0, 1, hnt⟩
   apply IsSimpleRing.of_eq_bot_or_eq_top
   intro I
   rw [or_iff_not_imp_left]
   intro hI
   obtain ⟨a, haI, ha⟩ :=
-    SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hI : (⊥ : TwoSidedIdeal (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)) < I)
+    SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hI : (⊥ : TwoSidedIdeal (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k)) < I)
   rw [TwoSidedIdeal.mem_bot] at ha
   exact (I.one_mem_iff).mp (one_mem_of_mem k I (yDeg k a) a rfl haI ha)
 
@@ -432,15 +432,15 @@ end CharZeroSimple
 /-- The p-th power of the first displayed generator belongs to the center in characteristic p. -/
 @[source_ref "Chapter2/Problem2.7.4" (role := supporting)]
 theorem power_firstGenerator_mem_center (k : Type*) [Field k] (p : ℕ) [CharP k p] :
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ p ∈ Subalgebra.center k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) := by
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ p ∈ Subalgebra.center k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) := by
   apply mem_center_of_comm_gen
-  · exact (Commute.refl (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k)).pow_left p
+  · exact (Commute.refl (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k)).pow_left p
   ·
     cases p with
     | zero => simp
     | succ n =>
       have h := y_mul_x_pow_succ k n
-      have hz : (n + 1 : ℕ) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ n = 0 := by
+      have hz : (n + 1 : ℕ) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ n = 0 := by
         rw [← Nat.cast_smul_eq_nsmul (R := k), CharP.cast_eq_zero, zero_smul]
       rw [hz, add_zero] at h
       exact h.symm
@@ -449,18 +449,18 @@ theorem power_firstGenerator_mem_center (k : Type*) [Field k] (p : ℕ) [CharP k
 /-- The p-th power of the second displayed generator belongs to the center in characteristic p. -/
 @[source_ref "Chapter2/Problem2.7.4" (role := supporting)]
 theorem power_secondGenerator_mem_center (k : Type*) [Field k] (p : ℕ) [CharP k p] :
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ p ∈ Subalgebra.center k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) := by
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ p ∈ Subalgebra.center k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) := by
   apply mem_center_of_comm_gen
   ·
     cases p with
     | zero => simp
     | succ n =>
       have h := x_mul_y_pow_succ k n
-      have hz : (n + 1 : ℕ) • RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ n = 0 := by
+      have hz : (n + 1 : ℕ) • RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ n = 0 := by
         rw [← Nat.cast_smul_eq_nsmul (R := k), CharP.cast_eq_zero, zero_smul]
       rw [hz, sub_zero] at h
       exact h.symm
-  · exact (Commute.refl (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k)).pow_left p
+  · exact (Commute.refl (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k)).pow_left p
 
 
 
@@ -468,22 +468,22 @@ section CharPCenter
 
 variable (k : Type*) [Field k]
 
-open RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra Module
+open RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra Module
 
 
-private noncomputable def monBasisP : Basis (ℕ × ℕ) k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) :=
+private noncomputable def monBasisP : Basis (ℕ × ℕ) k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) :=
   Basis.mk (RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators.operatorMonomials_linearIndependent_and_span k).1 (RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators.operatorMonomials_linearIndependent_and_span k).2
 
 private lemma monBasisP_apply (p : ℕ × ℕ) :
-    monBasisP k p = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator k p.1 p.2 :=
+    monBasisP k p = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement k p.1 p.2 :=
   Basis.mk_apply _ _ _
 
 private lemma repr_monomialP (i j : ℕ) :
-    (monBasisP k).repr (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator k i j) = Finsupp.single (i, j) 1 := by
+    (monBasisP k).repr (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement k i j) = Finsupp.single (i, j) 1 := by
   rw [← monBasisP_apply k (i, j)]; exact (monBasisP k).repr_self _
 
 
-private lemma repr_adx_applyP (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (i j : ℕ) :
+private lemma repr_adx_applyP (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) (i j : ℕ) :
     (monBasisP k).repr (adx k a) (i, j)
       = -((j : k) + 1) * (monBasisP k).repr a (i, j + 1) := by
   have key :
@@ -513,7 +513,7 @@ private lemma repr_adx_applyP (a : RepresentationTheory.FreeAlgebra.PolynomialOp
     LinearEquiv.coe_coe, Finsupp.lapply_apply, smul_eq_mul] using this
 
 
-private lemma repr_ady_applyP (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (i j : ℕ) :
+private lemma repr_ady_applyP (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) (i j : ℕ) :
     (monBasisP k).repr (ady k a) (i, j)
       = ((i : k) + 1) * (monBasisP k).repr a (i + 1, j) := by
   have key :
@@ -548,8 +548,8 @@ end CharPCenter
 /-- In prime characteristic, the center is generated by the displayed p-th powers. -/
 @[source_ref "Chapter2/Problem2.7.4" (role := primary)]
 theorem center_eq_adjoin_powers (k : Type*) [Field k] (p : ℕ) [Fact (Nat.Prime p)] [CharP k p] :
-    Subalgebra.center k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)
-      = Algebra.adjoin k {RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ p, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ p} := by
+    Subalgebra.center k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k)
+      = Algebra.adjoin k {RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ p, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ p} := by
   apply le_antisymm
   ·
 
@@ -557,10 +557,10 @@ theorem center_eq_adjoin_powers (k : Type*) [Field k] (p : ℕ) [Fact (Nat.Prime
 
     have hadx : adx k z = 0 := by
       rw [adx_apply, sub_eq_zero]
-      exact Subalgebra.mem_center_iff.mp hz (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k)
+      exact Subalgebra.mem_center_iff.mp hz (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k)
     have hady : ady k z = 0 := by
       rw [ady_apply, sub_eq_zero]
-      exact Subalgebra.mem_center_iff.mp hz (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k)
+      exact Subalgebra.mem_center_iff.mp hz (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k)
     set c := (monBasisP k).repr z with hc
 
     have hcoefY : ∀ (i j : ℕ), 1 ≤ j → (j : k) * c (i, j) = 0 := by
@@ -604,19 +604,19 @@ theorem center_eq_adjoin_powers (k : Type*) [Field k] (p : ℕ) [Fact (Nat.Prime
     rintro ⟨i, j⟩ hq
     obtain ⟨hd1, hd2⟩ := hsupp (i, j) hq
 
-    have hmem : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator k i j ∈
-        Algebra.adjoin k {RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ p, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ p} := by
-      have hxpS : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ p ∈
-          Algebra.adjoin k {RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ p, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ p} :=
+    have hmem : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement k i j ∈
+        Algebra.adjoin k {RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ p, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ p} := by
+      have hxpS : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ p ∈
+          Algebra.adjoin k {RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ p, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ p} :=
         Algebra.subset_adjoin (Set.mem_insert _ _)
-      have hypS : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ p ∈
-          Algebra.adjoin k {RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ p, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ p} :=
+      have hypS : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ p ∈
+          Algebra.adjoin k {RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ p, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ p} :=
         Algebra.subset_adjoin (Set.mem_insert_of_mem _ rfl)
-      have hx1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i = (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ p) ^ (i / p) := by
+      have hx1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i = (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ p) ^ (i / p) := by
         rw [← pow_mul, Nat.mul_div_cancel' hd1]
-      have hy1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ j = (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k ^ p) ^ (j / p) := by
+      have hy1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ j = (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k ^ p) ^ (j / p) := by
         rw [← pow_mul, Nat.mul_div_cancel' hd2]
-      rw [RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator, hx1, hy1]
+      rw [RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement, hx1, hy1]
       exact mul_mem (pow_mem hxpS _) (pow_mem hypS _)
     rw [monBasisP_apply]
     exact Subalgebra.smul_mem _ hmem _
@@ -632,11 +632,11 @@ theorem center_eq_adjoin_powers (k : Type*) [Field k] (p : ℕ) [Fact (Nat.Prime
 
 
 private lemma mem_of_invariant (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
-    [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V]
-    [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] (Wk : Submodule k V)
-    (hstab : ∀ (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (z : V), z ∈ Wk → a • z ∈ Wk)
+    [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V]
+    [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] (Wk : Submodule k V)
+    (hstab : ∀ (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) (z : V), z ∈ Wk → a • z ∈ Wk)
     (hne : ∃ z ∈ Wk, z ≠ 0) : ∀ z : V, z ∈ Wk := by
-  let WA : Submodule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V :=
+  let WA : Submodule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V :=
     { carrier := Wk
       add_mem' := fun ha hb => Wk.add_mem ha hb
       zero_mem' := Wk.zero_mem
@@ -655,14 +655,14 @@ private lemma mem_of_invariant (k : Type*) [Field k] (V : Type*) [AddCommGroup V
 
 
 private lemma central_smul_scalar (k : Type*) [Field k] [IsAlgClosed k] (V : Type*)
-    [AddCommGroup V] [Module k V] [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V]
-    [FiniteDimensional k V] [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V]
-    (z : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (hz : z ∈ Subalgebra.center k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k)) :
+    [AddCommGroup V] [Module k V] [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V]
+    [FiniteDimensional k V] [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V]
+    (z : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) (hz : z ∈ Subalgebra.center k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k)) :
     ∃ μ : k, ∀ w : V, z • w = μ • w := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V
   obtain ⟨μ, hμ⟩ := (Algebra.lsmul k k V z).exists_eigenvalue
   refine ⟨μ, ?_⟩
-  have hstab : ∀ (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (w : V),
+  have hstab : ∀ (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) (w : V),
       w ∈ Module.End.eigenspace (Algebra.lsmul k k V z) μ →
       a • w ∈ Module.End.eigenspace (Algebra.lsmul k k V z) μ := by
     intro a w hw
@@ -703,40 +703,40 @@ private lemma add_one_cases (p : ℕ) [Fact (Nat.Prime p)] (i : Fin p) :
 @[source_ref "Chapter2/Problem2.7.4" (role := supporting)]
 theorem exists_cyclic_basis_of_simpleModule (k : Type*) [Field k] [IsAlgClosed k] (p : ℕ)
     [Fact (Nat.Prime p)] [CharP k p]
-    (V : Type*) [AddCommGroup V] [Module k V] [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V]
-    [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [FiniteDimensional k V]
-    [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] :
+    (V : Type*) [AddCommGroup V] [Module k V] [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V]
+    [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] [FiniteDimensional k V]
+    [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] :
     ∃ (α c : k) (b : Module.Basis (Fin p) k V),
       (∀ i : Fin p,
-        RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k • b i = (if (i + 1 : Fin p) = 0 then α else 1) • b (i + 1)) ∧
+        RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k • b i = (if (i + 1 : Fin p) = 0 then α else 1) • b (i + 1)) ∧
       (∀ i : Fin p,
-        RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • b (i + 1) = c • b (i + 1) + (((i : ℕ) + 1 : ℕ) : k) • b i) := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V
+        RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k • b (i + 1) = c • b (i + 1) + (((i : ℕ) + 1 : ℕ) : k) • b i) := by
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V
   have p_pos : 0 < p := (Fact.out : p.Prime).pos
   have hfac : ∀ m : ℕ, m < p → ((m.factorial : ℕ) : k) ≠ 0 := by
     intro m hm
     rw [ne_eq, CharP.cast_eq_zero_iff k p, Nat.Prime.dvd_factorial Fact.out]
     exact Nat.not_le.mpr hm
 
-  obtain ⟨lam, hlam⟩ := (Algebra.lsmul k k V (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k)).exists_eigenvalue
+  obtain ⟨lam, hlam⟩ := (Algebra.lsmul k k V (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k)).exists_eigenvalue
   obtain ⟨v, hv⟩ := hlam.exists_hasEigenvector
-  have hyv : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • v = lam • v := by
+  have hyv : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k • v = lam • v := by
     have h := Module.End.mem_eigenspace_iff.mp hv.1
     rwa [Algebra.lsmul_apply] at h
   have hv0 : v ≠ 0 := hv.2
-  set w : ℕ → V := fun i => RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i • v with hwdef
-  have hwv : ∀ i, w i = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i • v := fun _ => rfl
+  set w : ℕ → V := fun i => RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i • v with hwdef
+  have hwv : ∀ i, w i = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i • v := fun _ => rfl
   have hw0 : w 0 = v := by rw [hwv, pow_zero, one_smul]
 
-  obtain ⟨μ, hμ⟩ := central_smul_scalar k V (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ p) (power_firstGenerator_mem_center k p)
+  obtain ⟨μ, hμ⟩ := central_smul_scalar k V (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ p) (power_firstGenerator_mem_center k p)
 
-  set N : Module.End k V := Algebra.lsmul k k V (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k) - lam • 1 with hN
+  set N : Module.End k V := Algebra.lsmul k k V (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k) - lam • 1 with hN
   have hNstep : ∀ i : ℕ, N (w (i + 1)) = ((i + 1 : ℕ) : k) • w i := by
     intro i
     rw [hwv (i + 1), hN, LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply,
       Algebra.lsmul_apply, ← mul_smul, y_mul_x_pow_succ k i, add_smul, mul_smul, hyv,
-      smul_comm (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ (i + 1)) lam v,
-      ← Nat.cast_smul_eq_nsmul k (i + 1) (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ i), smul_assoc, hwv i]
+      smul_comm (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ (i + 1)) lam v,
+      ← Nat.cast_smul_eq_nsmul k (i + 1) (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ i), smul_assoc, hwv i]
     abel
   have hN0 : N (w 0) = 0 := by
     rw [hwv, hN, LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply,
@@ -793,7 +793,7 @@ theorem exists_cyclic_basis_of_simpleModule (k : Type*) [Field k] [IsAlgClosed k
   have hgen_mem : ∀ i : Fin p, w (i : ℕ) ∈ Wk := fun i => Submodule.subset_span ⟨i, rfl⟩
   have hshift : ∀ t : ℕ, w (p + t) = μ • w t := by
     intro t
-    rw [hwv (p + t), hwv t, pow_add, mul_smul, hμ (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k ^ t • v)]
+    rw [hwv (p + t), hwv t, pow_add, mul_smul, hμ (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k ^ t • v)]
   have hall_mem : ∀ j : ℕ, w j ∈ Wk := by
     intro j
     induction j using Nat.strong_induction_on with
@@ -804,26 +804,26 @@ theorem exists_cyclic_basis_of_simpleModule (k : Type*) [Field k] [IsAlgClosed k
         subst ht
         rw [hshift]
         exact Wk.smul_mem μ (ih t (by omega))
-  have hx_stab : ∀ z ∈ Wk, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k • z ∈ Wk := by
+  have hx_stab : ∀ z ∈ Wk, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k • z ∈ Wk := by
     intro z hz
     rw [hWk] at hz
     induction hz using Submodule.span_induction with
     | mem u hu =>
         obtain ⟨i, rfl⟩ := hu
-        change RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k • w (i : ℕ) ∈ Wk
+        change RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k • w (i : ℕ) ∈ Wk
         rw [hwv, ← mul_smul, ← pow_succ', ← hwv]
         exact hall_mem ((i : ℕ) + 1)
     | zero => rw [smul_zero]; exact Wk.zero_mem
     | add a b _ _ ha hb => rw [smul_add]; exact Wk.add_mem ha hb
     | smul c a _ ha => rw [smul_comm]; exact Wk.smul_mem c ha
-  have hy_stab : ∀ z ∈ Wk, RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • z ∈ Wk := by
+  have hy_stab : ∀ z ∈ Wk, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k • z ∈ Wk := by
     intro z hz
     rw [hWk] at hz
     induction hz using Submodule.span_induction with
     | mem u hu =>
         obtain ⟨i, rfl⟩ := hu
-        change RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • w (i : ℕ) ∈ Wk
-        have hNexp : N (w (i : ℕ)) = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • w (i : ℕ) - lam • w (i : ℕ) := by
+        change RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k • w (i : ℕ) ∈ Wk
+        have hNexp : N (w (i : ℕ)) = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k • w (i : ℕ) - lam • w (i : ℕ) := by
           rw [hN, LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply,
             Algebra.lsmul_apply]
         have hNwi : N (w (i : ℕ)) ∈ Wk := by
@@ -832,16 +832,16 @@ theorem exists_cyclic_basis_of_simpleModule (k : Type*) [Field k] [IsAlgClosed k
           | succ j =>
               rw [hNstep]
               exact Wk.smul_mem _ (hall_mem j)
-        have key : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator k • w (i : ℕ) = N (w (i : ℕ)) + lam • w (i : ℕ) := by
+        have key : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k • w (i : ℕ) = N (w (i : ℕ)) + lam • w (i : ℕ) := by
           rw [hNexp]; abel
         rw [key]
         exact Wk.add_mem hNwi (Wk.smul_mem lam (hall_mem (i : ℕ)))
     | zero => rw [smul_zero]; exact Wk.zero_mem
     | add a b _ _ ha hb => rw [smul_add]; exact Wk.add_mem ha hb
     | smul c a _ ha => rw [smul_comm]; exact Wk.smul_mem c ha
-  have ha_stab : ∀ (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) (z : V), z ∈ Wk → a • z ∈ Wk := by
+  have ha_stab : ∀ (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) (z : V), z ∈ Wk → a • z ∈ Wk := by
     intro a
-    obtain ⟨a', rfl⟩ := RingQuot.mkAlgHom_surjective k (RepresentationTheory.FreeAlgebra.PolynomialOperators.freeAlgebraRelation k) a
+    obtain ⟨a', rfl⟩ := RingQuot.mkAlgHom_surjective k (RepresentationTheory.FreeAlgebra.PolynomialOperators.auxiliaryRelation k) a
     have ha' : a' ∈ Algebra.adjoin k (Set.range (FreeAlgebra.ι k)) := by
       rw [FreeAlgebra.adjoin_range_ι]; exact Algebra.mem_top
     induction ha' using Algebra.adjoin_induction with
@@ -872,7 +872,7 @@ theorem exists_cyclic_basis_of_simpleModule (k : Type*) [Field k] [IsAlgClosed k
   refine ⟨μ, lam, Module.Basis.mk hli_p hsp, ?_, ?_⟩
   · intro i
     simp only [Module.Basis.mk_apply]
-    have hstep : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator k • w (i : ℕ) = w ((i : ℕ) + 1) := by
+    have hstep : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k • w (i : ℕ) = w ((i : ℕ) + 1) := by
       rw [hwv, hwv, ← mul_smul, ← pow_succ']
     rcases add_one_cases p i with ⟨hp, h0⟩ | ⟨hlt, hval⟩
     · rw [h0, if_pos rfl, hstep, hp, Fin.val_zero, hw0]
@@ -897,9 +897,9 @@ theorem exists_cyclic_basis_of_simpleModule (k : Type*) [Field k] [IsAlgClosed k
 /-- A finite-dimensional simple module over an algebraically closed field of prime characteristic has dimension p. -/
 theorem finrank_eq_prime_of_simpleModule (k : Type*) [Field k] [IsAlgClosed k] (p : ℕ)
     [Fact (Nat.Prime p)] [CharP k p]
-    (V : Type*) [AddCommGroup V] [Module k V] [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V]
-    [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] [FiniteDimensional k V]
-    [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k) V] :
+    (V : Type*) [AddCommGroup V] [Module k V] [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V]
+    [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] [FiniteDimensional k V]
+    [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] :
     Module.finrank k V = p := by
   obtain ⟨_, _, b, _, _⟩ := exists_cyclic_basis_of_simpleModule k p V
   rw [Module.finrank_eq_card_basis b, Fintype.card_fin]
