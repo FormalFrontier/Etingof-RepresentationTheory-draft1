@@ -18,8 +18,8 @@
     },
     {
       "association_id": "association:a7cb12ba36e6e972dedc",
-      "rationale": "The type directly states that the transported even-dimensional Spinor module is simple under the nondegeneracy and dimension hypotheses, matching the claimed irreducibility step.",
-      "role": "primary"
+      "rationale": "The type directly states simplicity of the transported even-dimensional Spinor module, but this is only the irreducibility component and does not state the full construction, contraction, and odd-parity-actions claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:d4c8bb791c1f96f31748",
@@ -28,8 +28,8 @@
     },
     {
       "association_id": "association:0055ce950e8b3c3998a4",
-      "rationale": "The type directly states that the concrete hyperbolic Spinor module is simple, exactly supplying the irreducibility assertion in the described proof.",
-      "role": "primary"
+      "rationale": "The type directly states simplicity of the hyperbolic Spinor module, but this is only the irreducibility component and does not state the full construction, contraction, and odd-parity-actions claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:aa3c734633f2af80beb2",

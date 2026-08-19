@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:26835808b2abb3f9ba7e",
-      "rationale": "The type directly gives, for nondegenerate B in dimension 2n, an algebra equivalence Cl(V) ≃ End(S) together with dim S = 2^n; this is the matrix-algebra classification stated in the claim, with the irreducible-count clause following from it.",
-      "role": "primary"
+      "rationale": "The type directly gives the matrix-algebra equivalence and dim S = 2^n, but it does not state the claim's one-irreducible-representation conclusion; that conclusion is a consequence of the displayed equivalence.",
+      "role": "supporting"
     }
   ]
 }

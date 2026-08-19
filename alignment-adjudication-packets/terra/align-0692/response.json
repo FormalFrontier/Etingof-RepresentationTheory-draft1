@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:6ec2734da5d1956a56bd",
-      "rationale": "The type directly gives, for nondegenerate B in dimension 2n+1, an algebra equivalence Cl(V) ≃ End(S) × End(S) and dim S = 2^n; this is the two-block classification stated in the claim, with the representation-count clause following from it.",
-      "role": "primary"
+      "rationale": "The type directly gives the two-block algebra equivalence and dim S = 2^n, but it does not state the claim's exactly-two-irreducible-representations conclusion; that conclusion is a consequence of the displayed equivalence.",
+      "role": "supporting"
     }
   ]
 }
