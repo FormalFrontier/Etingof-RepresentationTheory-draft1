@@ -1,6 +1,6 @@
 {
-  "module_name": "Module.DistinguishedElement",
+  "module_name": "Module.Auxiliary",
   "declarations": [
-    { "temporary_id": "decl-014743", "new_name": "distinguishedElement_unique", "docstring": "Any two elements satisfying the displayed distinguished-element predicate are equal." }
+    { "temporary_id": "decl-014743", "new_name": "auxiliary_unique", "docstring": "An auxiliary uniqueness result for module elements." }
   ]
 }

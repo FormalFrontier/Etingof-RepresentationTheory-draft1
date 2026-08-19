@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-014872",
-      "new_name": "TwistedLatticeShiftSpace",
-      "docstring": "A module on which integer-pair-indexed twisted shift endomorphisms act."
+      "new_name": "Auxiliary",
+      "docstring": "An auxiliary type associated with a commutative ring."
     },
     {
       "temporary_id": "decl-022218",
@@ -18,13 +18,13 @@
     },
     {
       "temporary_id": "decl-022223",
-      "new_name": "twistedLatticeShift_auxiliary_identity_one",
-      "docstring": "An auxiliary identity satisfied by the indexed twisted shift endomorphisms."
+      "new_name": "auxiliaryOne",
+      "docstring": "An auxiliary result."
     },
     {
       "temporary_id": "decl-022224",
-      "new_name": "twistedLatticeShift_auxiliary_identity_two",
-      "docstring": "A second auxiliary identity satisfied by the indexed twisted shift endomorphisms."
+      "new_name": "auxiliaryTwo",
+      "docstring": "An auxiliary result."
     },
     {
       "temporary_id": "decl-022225",
@@ -53,13 +53,13 @@
     },
     {
       "temporary_id": "decl-022232",
-      "new_name": "twistedLatticeShift_auxiliary_identity_three",
-      "docstring": "A further auxiliary identity for the indexed twisted shift endomorphisms."
+      "new_name": "auxiliaryThree",
+      "docstring": "An auxiliary result."
     },
     {
       "temporary_id": "decl-022233",
-      "new_name": "twistedLatticeShift_auxiliary_identity_four",
-      "docstring": "A fourth auxiliary identity for the indexed twisted shift endomorphisms."
+      "new_name": "auxiliaryFour",
+      "docstring": "An auxiliary result."
     },
     {
       "temporary_id": "decl-022234",
