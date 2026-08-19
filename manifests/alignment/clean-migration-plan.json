@@ -3583,7 +3583,7 @@
         "EtingofRepresentationTheory.Chapter6.Definition6_5_1": "RepresentationTheory.AuxiliaryFiniteDimensionalFamily",
         "EtingofRepresentationTheory.Chapter6.Lemma6_7_2": "RepresentationTheory.IntegerMatrix.ReflectionDynamics",
         "EtingofRepresentationTheory.Chapter6.Proposition6_6_5": "RepresentationTheory.QuiverRepresentation.Auxiliary",
-        "EtingofRepresentationTheory.Chapter6.Proposition6_6_6": "RepresentationTheory.Surjective",
+        "EtingofRepresentationTheory.Chapter6.Proposition6_6_6": "RepresentationTheory.Quiver.FiniteFreeSurjectivity",
         "EtingofRepresentationTheory.Chapter6.Proposition6_6_7": "RepresentationTheory.Quiver.AuxiliaryAtVertex",
         "EtingofRepresentationTheory.Chapter6.Proposition6_6_8": "RepresentationTheory.Quiver.AuxiliaryNatInt",
         "EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure": "RepresentationTheory.Quiver.LinearAlgebra.Auxiliary",
@@ -4118,7 +4118,7 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.Surjective",
+      "new_module": "RepresentationTheory.Quiver.FiniteFreeSurjectivity",
       "old_module": "EtingofRepresentationTheory.Chapter6.Proposition6_6_6",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure": "RepresentationTheory.Quiver.LinearAlgebra.Auxiliary"
