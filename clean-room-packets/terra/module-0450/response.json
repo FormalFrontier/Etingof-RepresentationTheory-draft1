@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-016523",
       "new_name": "exists_linear_equiv_membership_subtype_over_auxiliary_scalars",
-      "docstring": "Every simple module over the auxiliary scalar type is nonempty linearly equivalent to one of the specified membership subtypes."
+      "docstring": "Every simple module over the auxiliary scalar type is linearly equivalent to one of the specified membership subtypes."
     },
     {
       "temporary_id": "decl-017966",
       "new_name": "exists_linear_equiv_membership_subtype_over_permutation_monoid_algebra",
-      "docstring": "Every simple module over the monoid algebra of permutations of `Fin n` is nonempty linearly equivalent to one of the specified membership subtypes."
+      "docstring": "Every simple module over the monoid algebra of permutations of `Fin n` is linearly equivalent to one of the specified membership subtypes."
     },
     {
       "temporary_id": "decl-020770",

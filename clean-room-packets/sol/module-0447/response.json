@@ -58,8 +58,8 @@
     },
     {
       "temporary_id": "decl-019782",
-      "new_name": "opaqueAuxiliaryTheorem",
-      "docstring": "An auxiliary theorem whose formal statement is unavailable in the packet."
+      "new_name": "Auxiliary.statement019782",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-019788",
