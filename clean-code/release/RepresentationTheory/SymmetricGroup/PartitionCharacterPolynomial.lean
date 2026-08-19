@@ -29,12 +29,12 @@ open RepresentationTheory.Combinatorics.PermutationPowerSeries
 open RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions
 
 /-- An auxiliary multivariable polynomial indexed by `n`. -/
-@[source_ref "Chapter5/Introduction_5.15" (role := primary)]
+@[source_ref "Chapter5/Introduction_5.15" (role := supporting)]
 noncomputable def auxiliaryPolynomial (n : ℕ) : MvPolynomial (Fin n) ℂ :=
   ∏ i : Fin n, ∏ j ∈ Finset.Ioi i, (MvPolynomial.X j - MvPolynomial.X i)
 
 /-- An auxiliary natural-valued finitely supported function on `Fin n`. -/
-@[source_ref "Chapter5/Introduction_5.15" (role := primary)]
+@[source_ref "Chapter5/Introduction_5.15" (role := supporting)]
 noncomputable def auxiliaryFinsupp (n : ℕ) : Fin n →₀ ℕ :=
   Finsupp.equivFunOnFinite.symm (fun i => n - 1 - i.val)
 

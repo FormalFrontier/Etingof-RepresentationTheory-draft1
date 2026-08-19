@@ -14,7 +14,7 @@ namespace RepresentationTheory.Mathlib.LinearAlgebra.Projective
 universe u v
 
 /-- A module is projective exactly when every surjective linear map onto it has a linear section. -/
-@[source_ref "Chapter8/Theorem8.1.1" (role := primary)]
+@[source_ref "Chapter8/Theorem8.1.1" (role := supporting)]
 theorem Module.Projective.iff_surjective_has_section
     (R : Type u) [Ring R]
     (P : Type v) [AddCommGroup P] [Module R P] [Small.{v} R] :
@@ -32,7 +32,7 @@ theorem Module.Projective.iff_surjective_has_section
     exact ⟨e.toLinearMap ∘ₗ g, hg⟩
 
 /-- A module is projective exactly when it is a retract of a suitable module. -/
-@[source_ref "Chapter8/Theorem8.1.1" (role := primary)]
+@[source_ref "Chapter8/Theorem8.1.1" (role := supporting)]
 theorem Module.Projective.iff_exists_retract
     (R : Type u) [Ring R]
     (P : Type v) [AddCommGroup P] [Module R P] :
@@ -49,7 +49,7 @@ theorem Module.Projective.iff_exists_retract
     exact Module.Projective.of_split i s his
 
 /-- A module is projective exactly when applying linear maps from it preserves the displayed short exact sequence conditions. -/
-@[source_ref "Chapter8/Theorem8.1.1" (role := primary)]
+@[source_ref "Chapter8/Theorem8.1.1" (role := supporting)]
 theorem Module.Projective.iff_hom_preserves_short_exact
     (R : Type u) [Ring R]
     (P : Type v) [AddCommGroup P] [Module R P] [Small.{v} R] :

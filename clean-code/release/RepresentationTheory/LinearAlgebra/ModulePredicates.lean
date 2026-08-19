@@ -12,7 +12,7 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.LinearAlgebra.ModulePredicates
 
 /-- An auxiliary predicate on a module over a ring. -/
-@[source_ref "Chapter2/Definition2.7.3" (role := primary),
+@[source_ref "Chapter2/Definition2.7.3" (role := supporting),
   source_ref "Chapter2/Remark2.7.2/Derived2" (role := supporting)]
 abbrev AuxiliaryModulePredicate (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] :=

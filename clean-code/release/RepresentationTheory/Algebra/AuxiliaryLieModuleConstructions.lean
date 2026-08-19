@@ -130,7 +130,7 @@ noncomputable def ExteriorAlgebra.auxiliaryModelDirectSumEquiv
       RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv n
 
 /-- An element of a free algebra associated with a basis and a pair of basis indices. -/
-@[source_ref "Chapter2/Definition2.9.9" (role := primary)]
+@[source_ref "Chapter2/Definition2.9.9" (role := supporting)]
 noncomputable def UniversalEnvelopingAlgebra.auxiliaryBasisPairElement (ij : ι × ι) : FreeAlgebra k ι :=
   FreeAlgebra.ι k ij.1 * FreeAlgebra.ι k ij.2 -
     FreeAlgebra.ι k ij.2 * FreeAlgebra.ι k ij.1 -

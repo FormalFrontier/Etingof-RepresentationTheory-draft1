@@ -309,13 +309,13 @@ theorem representationFamily_tensor_character (i j : Fin 3) (g : AuxiliaryType) 
   exact representationFamily_character_mul i j g
 
 /-- Each tensor product in the three-entry family is isomorphic to its multiplicity sum. -/
-@[source_ref "Chapter4/Example4.9.1" (role := primary)]
+@[source_ref "Chapter4/Example4.9.1" (role := supporting)]
 theorem representationFamily_tensor_iso_multiplicitySum (i j : Fin 3) :
     Nonempty ((representationFamily i ⊗ representationFamily j : FDRep ℂ AuxiliaryType) ≅ multiplicitySum representationFamily (representationFamilyTensorMultiplicities i j)) :=
   iso_multiplicitySum_of_character_eq representationFamily (representationFamilyTensorMultiplicities i j) _ (representationFamily_tensor_character i j)
 
 /-- Each tensor product in the three-entry family is isomorphic to the corresponding biproduct. -/
-@[source_ref "Chapter4/Example4.9.1" (role := primary)]
+@[source_ref "Chapter4/Example4.9.1" (role := supporting)]
 theorem representationFamily_tensor_iso_biproduct (i j : Fin 3) :
     Nonempty ((representationFamily i ⊗ representationFamily j : FDRep ℂ AuxiliaryType) ≅
       ⨁ fun p : (k : Fin 3) × Fin (representationFamilyTensorMultiplicities i j k) => representationFamily p.1) :=

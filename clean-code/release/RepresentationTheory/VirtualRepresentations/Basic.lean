@@ -124,7 +124,7 @@ theorem auxiliary {W W' : FDRep ℂ G} (hW : Simple W) (hW' : Simple W')
     ← Finsupp.single_add, add_neg_cancel, Finsupp.single_zero]
 
 /-- The additive homomorphism sending a virtual representation to its complex-valued character. -/
-@[source_ref "Chapter5/Definition5.7.1" (role := primary)]
+@[source_ref "Chapter5/Definition5.7.1" (role := supporting)]
 noncomputable def character : VirtualRepresentation G →+ (G → ℂ) :=
   Finsupp.liftAddHom (α := SimpleCharacter ℂ G) (M := ℤ) (N := G → ℂ)
     fun c => zmultiplesHom (G → ℂ) (SimpleCharacter.value c)

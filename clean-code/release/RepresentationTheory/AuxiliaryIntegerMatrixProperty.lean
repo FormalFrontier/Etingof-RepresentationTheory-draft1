@@ -14,7 +14,7 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.AuxiliaryIntegerMatrixProperty
 
 /-- An auxiliary property of an integer matrix indexed by a finite type. -/
-@[source_ref "Chapter2/Theorem2.1.2/Derived4" (role := primary),
+@[source_ref "Chapter2/Theorem2.1.2/Derived4" (role := supporting),
   source_ref "Chapter6/Definition6.1.4" (role := supporting)]
 def IsAuxiliaryMatrix (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) : Prop :=
   adj.IsSymm ∧

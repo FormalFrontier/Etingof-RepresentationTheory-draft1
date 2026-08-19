@@ -307,7 +307,7 @@ noncomputable def quotientRepresentationMap
       quotientAuxiliaryVertexMap_transition f hi a b (inst a i) (inst b i) e x)
 
 /-- The endofunctor on quiver representations arising from the quotient-based transformation at a distinguished vertex. -/
-@[source_ref "Chapter6/Definition6.6.4" (role := primary),
+@[source_ref "Chapter6/Definition6.6.4" (role := supporting),
   source_ref "Chapter7/Example7.2.2" (role := primary)]
 
 

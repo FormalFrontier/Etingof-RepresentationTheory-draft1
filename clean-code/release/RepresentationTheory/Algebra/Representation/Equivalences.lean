@@ -47,14 +47,14 @@ def representationLinearEquivHomEquiv :
       (LinearMap.GeneralLinearGroup.generalLinearEquiv k V))
 
 /-- The linear automorphism obtained from a representation acts as the original representation. -/
-@[simp, source_ref "Chapter2/Example2.3.14_continued" (role := primary)]
+@[simp, source_ref "Chapter2/Example2.3.14_continued" (role := supporting)]
 theorem representationLinearEquivHomEquiv_apply
     (ρ : Representation k G V) (g : G) (v : V) :
     representationLinearEquivHomEquiv k G V ρ g v = ρ g v := rfl
 
 /-- The representation recovered from a homomorphism to linear automorphisms has its specified
 action. -/
-@[source_ref "Chapter2/Example2.3.14_continued" (role := primary)]
+@[source_ref "Chapter2/Example2.3.14_continued" (role := supporting)]
 theorem representationLinearEquivHomEquiv_symm_apply
     (f : G →* (V ≃ₗ[k] V)) (g : G) (v : V) :
     (representationLinearEquivHomEquiv k G V).symm f g v = f g v := rfl

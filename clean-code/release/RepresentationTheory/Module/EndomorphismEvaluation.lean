@@ -91,7 +91,7 @@ end
 
 /-- The endomorphism space of a finite-dimensional simple module is semisimple as a module over
 the acting algebra. -/
-@[source_ref "Chapter3/Example3.1.2" (role := primary)]
+@[source_ref "Chapter3/Example3.1.2" (role := supporting)]
 theorem endomorphismModule_isSemisimple (k : Type*) (A : Type*) (V : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]

@@ -14,7 +14,7 @@ namespace RepresentationTheory.RingTheory.SimpleModuleDimensionBound
 open Finset Module in
 
 /-- For a finite family of pairwise nonisomorphic finite-dimensional simple modules, the sum of the squares of their ranks is at most the rank of the algebra. -/
-@[source_ref "Chapter3/Corollary3.5.5" (role := primary)]
+@[source_ref "Chapter3/Corollary3.5.5" (role := supporting)]
 theorem sum_finrank_sq_le (k : Type*) (A : Type*)
     [Field k] [IsAlgClosed k] [Ring A] [Algebra k A] [FiniteDimensional k A]
     (ι : Type*) [Fintype ι]

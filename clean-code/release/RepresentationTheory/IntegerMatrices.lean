@@ -58,7 +58,7 @@ theorem integerMatrixB_operationAtThreeZeroOneTwo_eq_oneOneOneTwo :
   decide
 
 /-- Shows that the displayed tuple `(2, 1, 1, 1)` satisfies the given membership predicate. -/
-@[source_ref "Chapter6/Example6.8.5" (role := primary)]
+@[source_ref "Chapter6/Example6.8.5" (role := supporting)]
 theorem tuple2111_mem :
     (2, 1, 1, 1) ∈ RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.fourVertexDimensionTuples := by
   decide

@@ -38,12 +38,12 @@ noncomputable abbrev ZMod.fieldOfPrime (p : ℕ) [Fact p.Prime] : Field (ZMod p)
 theorem ZMod.card_eq_prime (p : ℕ) [Fact p.Prime] : Fintype.card (ZMod p) = p := ZMod.card p
 
 /-- The algebraic closure of integers modulo a prime is algebraically closed. -/
-@[source_ref "Chapter2/Discussion_2.2_intro" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.2_intro" (role := supporting)]
 theorem AlgebraicClosure.zmod_isAlgClosed (p : ℕ) [Fact p.Prime] :
     IsAlgClosed (AlgebraicClosure (ZMod p)) := inferInstance
 
 /-- The algebraic closure of integers modulo a prime has the corresponding characteristic. -/
-@[source_ref "Chapter2/Discussion_2.2_intro" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.2_intro" (role := supporting)]
 theorem AlgebraicClosure.zmod_charP (p : ℕ) [Fact p.Prime] :
     CharP (AlgebraicClosure (ZMod p)) p := inferInstance
 

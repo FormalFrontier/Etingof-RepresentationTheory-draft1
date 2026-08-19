@@ -14,7 +14,7 @@ type.
 -/
 
 /-- An auxiliary transformation of square integer matrices indexed by a finite type. -/
-@[source_ref "Chapter6/Definition6.4.1" (role := primary)]
+@[source_ref "Chapter6/Definition6.4.1" (role := supporting)]
 def RepresentationTheory.AuxiliaryIntegerMatrixTransform.auxiliaryTransform (n : ℕ)
     (adj : Matrix (Fin n) (Fin n) ℤ) : Matrix (Fin n) (Fin n) ℤ :=
   2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj

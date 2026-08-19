@@ -739,7 +739,7 @@ The following isomorphisms are obtained by computing multiplicities through Frob
 reciprocity and explicit character values on the two auxiliary subgroups. -/
 
 /-- The representation induced from the trivial character of the first auxiliary subgroup is isomorphic to the indicated binary direct sum. -/
-@[source_ref "Chapter5/Introduction_5.11" (role := primary),
+@[source_ref "Chapter5/Introduction_5.11" (role := supporting),
   source_ref "Chapter5/Discussion_5.11_examples" (role := primary)]
 theorem induced_trivial_auxiliarySubgroupA_iso_biprod :
     Nonempty
@@ -845,7 +845,7 @@ theorem induced_restrictedCharacter_iso_biprod :
     rw [hR]; exact_mod_cast hL
 
 /-- The representation induced from the trivial character of the second auxiliary subgroup is isomorphic to the indicated binary direct sum. -/
-@[source_ref "Chapter5/Introduction_5.11" (role := primary),
+@[source_ref "Chapter5/Introduction_5.11" (role := supporting),
   source_ref "Chapter5/Discussion_5.11_examples" (role := primary)]
 theorem induced_trivial_auxiliarySubgroupB_iso_biprod :
     Nonempty

@@ -19,7 +19,7 @@ variable {k : Type*} (A : Type*) {X : Type*}
   {ι : Type*} [Fintype ι]
 
 /-- The linear map that expands a finite family of algebra coefficients against a module basis. -/
-@[source_ref "Chapter3/Remark3.3.4" (role := primary)]
+@[source_ref "Chapter3/Remark3.3.4" (role := supporting)]
 noncomputable def basisExpansion (b : Basis ι k X) : (ι → A) →ₗ[A] X where
   toFun a := ∑ i, (a i • b i : X)
   map_add' a a' := by
@@ -29,7 +29,7 @@ noncomputable def basisExpansion (b : Basis ι k X) : (ι → A) →ₗ[A] X whe
 
 omit [Algebra k A] [IsScalarTower k A X] in
 /-- The basis expansion is the sum of the coefficients acting on their basis elements. -/
-@[simp, source_ref "Chapter3/Remark3.3.4" (role := primary)]
+@[simp, source_ref "Chapter3/Remark3.3.4" (role := supporting)]
 theorem basisExpansion_apply (b : Basis ι k X) (a : ι → A) :
     basisExpansion A b a = ∑ i, (a i • b i : X) := rfl
 

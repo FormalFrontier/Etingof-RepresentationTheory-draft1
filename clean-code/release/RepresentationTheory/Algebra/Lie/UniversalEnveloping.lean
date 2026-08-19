@@ -18,7 +18,7 @@ variable (V : Type*) [AddCommGroup V] [Module k V]
 
 /-- Equivalence between Lie actions on a module and algebra homomorphisms from the universal enveloping algebra to its endomorphisms. -/
 @[source_ref "Chapter2/Example2.9.8/Derived5" (role := primary),
-  source_ref "Chapter2/Exercise2.9.11" (role := primary),
+  source_ref "Chapter2/Exercise2.9.11" (role := supporting),
   source_ref "Chapter2/Problem2.14.3/Derived2" (role := supporting)]
 noncomputable def representationAlgHomEquiv :
     (L →ₗ⁅k⁆ Module.End k V) ≃

@@ -185,7 +185,7 @@ theorem linearMap_to_mem_eq_zero_of_not_partitionRelation
   exact Subtype.ext hv₀_val_zero
 set_option linter.style.longLine false in
 /-- When the target partition is lexicographically smaller than the source partition, every linear map into its membership subtype is zero. -/
-@[source_ref "Chapter5/Proposition5.14.1" (role := primary)]
+@[source_ref "Chapter5/Proposition5.14.1" (role := supporting)]
 theorem linearMap_to_mem_eq_zero_of_lexLt
     (n : ℕ) (la mu : Nat.Partition n)
     (h : Partition.LexLt mu la) :
@@ -398,7 +398,7 @@ private lemma equivariant_map_row_invariant (n : ℕ) (la : Nat.Partition n)
 end
 set_option linter.style.longLine false in
 /-- The complex finrank of linear maps from the partition-indexed type to the indicated membership subtype is one. -/
-@[source_ref "Chapter5/Proposition5.14.1" (role := primary),
+@[source_ref "Chapter5/Proposition5.14.1" (role := supporting),
   source_ref "Chapter5/Discussion_proof_of_Proposition5.14.1" (role := primary)]
 theorem finrank_linearMap_to_mem_eq_one
     (n : ℕ) (la : Nat.Partition n) :

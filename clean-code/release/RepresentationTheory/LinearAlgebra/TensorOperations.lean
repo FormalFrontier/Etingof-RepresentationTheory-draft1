@@ -141,7 +141,7 @@ variable {k : Type*} [CommRing k] {V W U : Type*}
   [AddCommGroup V] [Module k V] [AddCommGroup W] [Module k W] [AddCommGroup U] [Module k U]
 
 /-- A linear map between the displayed modules. -/
-@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 def linearMap_aux3 (A : V →ₗ[k] W) (n : ℕ) : AuxiliaryType_aux2 k V n →ₗ[k] AuxiliaryType_aux2 k W n :=
   PiTensorProduct.map fun _ : Fin n => A
 
@@ -176,12 +176,12 @@ lemma submodule_le (A : V →ₗ[k] W) (n : ℕ) :
   rw [← map_apply_aux8, hT]
 
 /-- A linear map between the displayed modules. -/
-@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 def linearMap_aux2 (A : V →ₗ[k] W) (n : ℕ) : AuxiliaryType_aux1 k V n →ₗ[k] AuxiliaryType_aux1 k W n :=
   Submodule.mapQ _ _ (linearMap_aux3 A n) (submodule_le_aux2 A n)
 
 /-- A linear map between the displayed modules. -/
-@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 def linearMap (A : V →ₗ[k] W) (n : ℕ) : AuxiliaryType k V n →ₗ[k] AuxiliaryType k W n :=
   Submodule.mapQ _ _ (linearMap_aux3 A n) (submodule_le A n)
 
@@ -214,7 +214,7 @@ lemma displayed_eq (n : ℕ) : linearMap (LinearMap.id : V →ₗ[k] V) n = Line
   | add a b ha hb => simp only [map_add, ha, hb]
 
 /-- The composite of the displayed linear maps is the stated map. -/
-@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 lemma linearMap_comp_eq_aux2 (A : W →ₗ[k] U) (B : V →ₗ[k] W) (n : ℕ) :
     linearMap_aux2 (A ∘ₗ B) n = linearMap_aux2 A n ∘ₗ linearMap_aux2 B n := by
   refine LinearMap.ext fun x => ?_
@@ -231,7 +231,7 @@ lemma linearMap_comp_eq_aux2 (A : W →ₗ[k] U) (B : V →ₗ[k] W) (n : ℕ) :
   | add a b ha hb => simp only [map_add, ha, hb, LinearMap.comp_apply]
 
 /-- The composite of the displayed linear maps is the stated map. -/
-@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 lemma linearMap_comp_eq (A : W →ₗ[k] U) (B : V →ₗ[k] W) (n : ℕ) :
     linearMap (A ∘ₗ B) n = linearMap A n ∘ₗ linearMap B n := by
   refine LinearMap.ext fun x => ?_
@@ -463,7 +463,7 @@ theorem topExteriorPower_map [FiniteDimensional k V] {N : ℕ} (hN : Module.finr
   simp
 
 /-- The determinant of a composite endomorphism is the product of the two determinants. -/
-@[source_ref "Chapter2/Problem2.11.3" (role := primary)]
+@[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 theorem det_comp [FiniteDimensional k V] {N : ℕ}
     (hN : Module.finrank k V = N) (A B : V →ₗ[k] V) :
     LinearMap.det (A ∘ₗ B) = LinearMap.det A * LinearMap.det B := by

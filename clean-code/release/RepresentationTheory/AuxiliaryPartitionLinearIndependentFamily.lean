@@ -173,7 +173,7 @@ noncomputable def auxiliaryObject {n : ℕ}
 
 /-- The two displayed auxiliary natural-number quantities associated with the pair of partitions are equal. -/
 @[source_ref "Chapter5/Proposition5.14.1" (role := primary),
-  source_ref "Chapter5/Definition5.14.2" (role := primary),
+  source_ref "Chapter5/Definition5.14.2" (role := supporting),
   source_ref "Chapter5/Remark5.15.5" (role := supporting)]
 theorem auxiliary_nat_values_eq (n : ℕ)
     (mu nu : Nat.Partition n) :

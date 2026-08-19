@@ -78,7 +78,7 @@ noncomputable def conjugateLinearEquivDual (c : InnerProductSpace.Core ℂ V) :
     conjugateLinearEquivDual c v w = c.inner v w := rfl
 
 /-- For an inner-product-preserving representation, the conjugate-to-dual equivalence intertwines the conjugate and dual actions. -/
-@[source_ref "Chapter4/Discussion_after_Theorem4.6.2" (role := primary)]
+@[source_ref "Chapter4/Discussion_after_Theorem4.6.2" (role := supporting)]
 theorem conjugateLinearEquivDual_intertwines (ρ : Representation ℂ G V)
     (c : InnerProductSpace.Core ℂ V)
     (hc : ∀ (g : G) (v w : V), c.inner (ρ g v) (ρ g w) = c.inner v w)

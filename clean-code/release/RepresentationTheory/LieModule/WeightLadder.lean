@@ -140,7 +140,7 @@ theorem squarefree_factorialRootPolynomial (k : ℕ) :
     exact (prime_X_sub_C (i : ℂ)).squarefree
 
 /-- The polynomial indexed by k has natural degree k. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := primary)]
+@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 theorem natDegree_factorialRootPolynomial (k : ℕ) :
     (factorialRootPolynomial k).natDegree = k := by
   induction k with
@@ -288,7 +288,7 @@ theorem firstAction_auxiliaryIterate_succ (k : ℕ) (w : M) :
       module
 
 /-- On a vector annihilated by the first displayed action, relates two iterated operators to polynomial evaluation. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := primary)]
+@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 theorem polynomialAction_after_iteratedOperator (k : ℕ) (w : M)
     (hE : ⁅raisingElement, w⁆ = 0) :
     iteratedOperator k (distinguishedElement_aux1 k w) =

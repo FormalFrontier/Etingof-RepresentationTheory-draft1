@@ -200,7 +200,7 @@ end RepresentationTheory.AuxiliaryModuleData
 namespace RepresentationTheory.GeneralLinear.AuxiliaryRepresentations
 
 /-- Assigns a finite-dimensional representation of the general linear group to each auxiliary parameter over an algebraically closed field. -/
-@[source_ref "Chapter5/Discussion_after_Definition5.23.1" (role := primary)]
+@[source_ref "Chapter5/Discussion_after_Definition5.23.1" (role := supporting)]
 noncomputable def auxiliaryGeneralLinearFDRep
     (n : ℕ) (lam : RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex n)
     (k : Type*) [Field k] [IsAlgClosed k] :

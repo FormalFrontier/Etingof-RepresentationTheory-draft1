@@ -397,7 +397,7 @@ theorem auxiliarySubmoduleEquivSymmetricPower_map
     LinearMap.coe_restrict_apply]
 
 /-- Constructs a linear equivalence from an auxiliary submodule to the nth exterior power. -/
-@[source_ref "Chapter5/Example5.19.3" (role := primary)]
+@[source_ref "Chapter5/Example5.19.3" (role := supporting)]
 noncomputable def auxiliarySubmoduleEquivExteriorPower
     {k : Type} [Field k] [CharZero k]
     {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
@@ -451,7 +451,7 @@ noncomputable def auxiliarySubmoduleMap
   (PiTensorProduct.map (fun _ : Fin n => g)).restrict (fun _ hx => piTensorProductMap_mem_auxiliarySubmodule g hx)
 
 /-- Shows that the exterior-power equivalence commutes with induced linear maps. -/
-@[source_ref "Chapter5/Example5.19.3" (role := primary)]
+@[source_ref "Chapter5/Example5.19.3" (role := supporting)]
 theorem auxiliarySubmoduleEquivExteriorPower_map
     {k : Type} [Field k] [CharZero k]
     {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]

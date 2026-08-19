@@ -59,7 +59,7 @@ theorem crossProductMatrix_bracket (u v : Fin 3 → ℝ) :
 attribute [local instance 100] LieRing.ofAssociativeRing
 
 /-- Lie equivalence between three-dimensional real vectors and the orthogonal Lie subalgebra. -/
-@[source_ref "Chapter2/Exercise2.9.5" (role := primary)]
+@[source_ref "Chapter2/Exercise2.9.5" (role := supporting)]
 noncomputable def crossProductLieEquivOrthogonal :
     (Fin 3 → ℝ) ≃ₗ⁅ℝ⁆ Orthogonal.so (Fin 3) ℝ where
   toFun v := ⟨crossProductMatrix v, crossProductMatrix_mem_orthogonal v⟩
@@ -93,7 +93,7 @@ noncomputable def crossProductLieEquivOrthogonal :
       linarith [h 0 0, h 0 1, h 0 2, h 1 0, h 1 1, h 1 2, h 2 0, h 2 1, h 2 2]
 
 /-- There exists a Lie equivalence from the orthogonal Lie subalgebra to three-dimensional real vectors. -/
-@[source_ref "Chapter2/Exercise2.9.5" (role := primary)]
+@[source_ref "Chapter2/Exercise2.9.5" (role := supporting)]
 theorem orthogonalLieEquiv_nonempty :
     Nonempty (Orthogonal.so (Fin 3) ℝ ≃ₗ⁅ℝ⁆ (Fin 3 → ℝ)) :=
   ⟨crossProductLieEquivOrthogonal.symm⟩

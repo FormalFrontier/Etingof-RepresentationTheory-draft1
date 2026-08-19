@@ -32,14 +32,14 @@ noncomputable def quaternionGroupRepFamily :
   _root_.RepresentationTheory.QuaternionGroupTwo.irreducibleRepresentations
 
 /-- Every representation in the quaternion-group family is simple. -/
-@[source_ref "Chapter4/Example4.8.1" (role := primary)]
+@[source_ref "Chapter4/Example4.8.1" (role := supporting)]
 theorem simple_quaternionGroupRepFamily (i : Fin 5) :
     CategoryTheory.Simple (quaternionGroupRepFamily i) :=
   _root_.RepresentationTheory.QuaternionGroupTwo.irreducibleRepresentations_simple i
 
 /-- The character of an indexed quaternion-group representation at an indexed group element
 equals the displayed value. -/
-@[source_ref "Chapter4/Example4.8.1" (role := primary)]
+@[source_ref "Chapter4/Example4.8.1" (role := supporting)]
 theorem character_quaternionGroupRepFamily_apply (i j : Fin 5) :
     (quaternionGroupRepFamily i).character
         (_root_.RepresentationTheory.QuaternionGroupTwo.selectedQuaternionGroupElements j) =
@@ -48,7 +48,7 @@ theorem character_quaternionGroupRepFamily_apply (i j : Fin 5) :
   _root_.RepresentationTheory.QuaternionGroupTwo.irreducibleRepresentations_character i j
 
 /-- Representations at distinct indices in the quaternion-group family are not isomorphic. -/
-@[source_ref "Chapter4/Example4.8.1" (role := primary)]
+@[source_ref "Chapter4/Example4.8.1" (role := supporting)]
 theorem quaternionGroupRepFamily_not_iso_of_ne (i j : Fin 5) (hij : i ≠ j) :
     ¬ Nonempty (quaternionGroupRepFamily i ≅ quaternionGroupRepFamily j) :=
   _root_.RepresentationTheory.QuaternionGroupTwo.irreducibleRepresentations_pairwise_nonisomorphic

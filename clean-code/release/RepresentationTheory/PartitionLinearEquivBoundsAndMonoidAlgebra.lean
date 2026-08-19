@@ -40,7 +40,7 @@ private lemma young_symmetrizer_annihilates_specht (n : ℕ) (la mu : Nat.Partit
 /-- Distinct partitions of `n` determine subtypes whose type of linear equivalences is empty. -/
 @[source_ref "Chapter5/Introduction_5.12" (role := supporting),
   source_ref "Chapter5/Theorem5.12.2" (role := primary),
-  source_ref "Chapter5/Discussion_proof_of_Theorem5.12.2" (role := primary)]
+  source_ref "Chapter5/Discussion_proof_of_Theorem5.12.2" (role := supporting)]
 theorem isEmpty_linearEquiv_of_ne_partition
     (n : ℕ) (la mu : Nat.Partition n) (h : la ≠ mu) :
     IsEmpty ((partitionSubmodule n la) ≃ₗ[natIndexedType n] (partitionSubmodule n mu)) := by

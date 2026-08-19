@@ -20,7 +20,7 @@ variable (k A : Type*) [CommRing k] [Ring A] [Algebra k A]
 abbrev TwoSidedIdeal.AuxiliaryType (I : TwoSidedIdeal A) : Type _ := I.ringCon.Quotient
 
 /-- The algebra structure on the ideal-dependent auxiliary type. -/
-@[source_ref "Chapter2/Discussion_2.5_well_defined" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.5_well_defined" (role := supporting)]
 abbrev TwoSidedIdeal.auxiliaryAlgebra (I : TwoSidedIdeal A) : Algebra k (_root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.AuxiliaryType A I) :=
   inferInstance
 

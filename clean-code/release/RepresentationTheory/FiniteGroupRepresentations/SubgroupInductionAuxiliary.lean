@@ -366,7 +366,7 @@ lemma sum_eq_intCast_of_pointwise_eq_intCast (F : Equiv.Perm (Fin 3) → ℂ) (g
 /-! ## Three induced-representation decompositions -/
 
 /-- The representation induced from the auxiliary trivial representation is isomorphic to the displayed biproduct. -/
-@[source_ref "Chapter5/Introduction_5.11" (role := primary),
+@[source_ref "Chapter5/Introduction_5.11" (role := supporting),
   source_ref "Chapter5/Discussion_5.11_examples" (role := primary),
   source_ref "Chapter5/Discussion_5.11_examples/Derived01" (role := supporting)]
 theorem induced_auxiliary_trivial_iso_biprod :

@@ -59,7 +59,7 @@ theorem ker_auxiliaryTypeToUnits_le_ker_character (hn : 0 < n)
   exact Abelianization.commutator_subset_ker ρ
 
 /-- An equivalence between characters of field units and characters of the auxiliary type. -/
-@[source_ref "Chapter5/Discussion_1dim_reps" (role := primary),
+@[source_ref "Chapter5/Discussion_1dim_reps" (role := supporting),
   source_ref "Chapter5/Discussion_1dim_reps/Derived01" (role := supporting)]
 noncomputable def unitsCharacterEquiv (hn : 0 < n)
     (hq : 2 < Nat.card (GaloisField p n)) :
@@ -76,7 +76,7 @@ theorem unitsCharacterEquiv_apply (hn : 0 < n)
   rfl
 
 /-- Computes the number of homomorphisms from the auxiliary type to complex units. -/
-@[source_ref "Chapter5/Discussion_1dim_reps" (role := primary),
+@[source_ref "Chapter5/Discussion_1dim_reps" (role := supporting),
   source_ref "Chapter5/Discussion_1dim_reps/Derived01" (role := supporting)]
 theorem card_auxiliaryType_complexCharacters (hn : 0 < n)
     (hq : 2 < Nat.card (GaloisField p n)) :

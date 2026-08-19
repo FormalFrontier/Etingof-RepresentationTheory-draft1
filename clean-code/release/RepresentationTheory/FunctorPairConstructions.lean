@@ -15,7 +15,7 @@ This module provides constructions associated with pairs of functors between the
 namespace RepresentationTheory.FunctorPairConstructions
 
 /-- The type associated with two functors between the same pair of categories. -/
-@[source_ref "Chapter7/Definition7.3.1" (role := primary)]
+@[source_ref "Chapter7/Definition7.3.1" (role := supporting)]
 abbrev associatedType {C : Type*} {D : Type*} [CategoryTheory.Category C]
     [CategoryTheory.Category D] (F G : CategoryTheory.Functor C D) :=
   CategoryTheory.NatTrans F G

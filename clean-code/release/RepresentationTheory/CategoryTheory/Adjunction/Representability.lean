@@ -21,13 +21,13 @@ variable {C : Type*} {D : Type*} [Category C] [Category D]
 variable {F : Functor C D} {G : Functor D C}
 
 /-- The composite of a right adjoint with the covariant hom functor at an object is corepresented by the image of that object under the left adjoint. -/
-@[source_ref "Chapter7/Discussion_after_Definition7.6.1" (role := primary)]
+@[source_ref "Chapter7/Discussion_after_Definition7.6.1" (role := supporting)]
 noncomputable def corepresentableBy (adj : F ⊣ G) (X : C) :
     (G ⋙ coyoneda.obj (op X)).CorepresentableBy (F.obj X) :=
   adj.corepresentableBy X
 
 /-- The composite of the opposite left adjoint with the contravariant hom functor at an object is represented by the image of that object under the right adjoint. -/
-@[source_ref "Chapter7/Discussion_after_Definition7.6.1" (role := primary)]
+@[source_ref "Chapter7/Discussion_after_Definition7.6.1" (role := supporting)]
 noncomputable def representableBy (adj : F ⊣ G) (Y : D) :
     (F.op ⋙ yoneda.obj Y).RepresentableBy (G.obj Y) :=
   adj.representableBy Y

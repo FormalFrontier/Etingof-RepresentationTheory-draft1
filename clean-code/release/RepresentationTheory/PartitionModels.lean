@@ -226,7 +226,7 @@ theorem exists_perm_equivariant_complexification (n : ℕ) (la : Nat.Partition n
 /-- Every simple module over the displayed algebra admits a partition-indexed model whose
 rational permutation module is simple and whose complex scalar extension intertwines the
 permutation action. -/
-@[source_ref"Chapter5/Corollary5.12.4"(role:=primary)]
+@[source_ref"Chapter5/Corollary5.12.4"(role:=supporting)]
 theorem exists_partition_model_with_equivariant_complexification
     (n : ℕ) (M : Type)
     [AddCommGroup M] [Module (PartitionAuxiliary.natIndexedType n) M]

@@ -12,7 +12,7 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.LinearAlgebra.ModuleDecompositions
 
 /-- An auxiliary predicate on a module over a ring. -/
-@[source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived2" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived2" (role := supporting)]
 def AuxiliaryDecompositionPredicate (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] : Prop :=
   Nontrivial V ∧ ∀ (W₁ W₂ : Submodule A V),

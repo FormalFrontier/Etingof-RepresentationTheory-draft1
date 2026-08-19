@@ -960,7 +960,7 @@ theorem not_nonempty_lieModuleEquiv_of_parameters {γ γ' : kˣ} {a a' : k} (h :
   fun hh => h ((nonempty_lieModuleEquiv_iff γ γ' a a').mp hh)
 
 /-- A displayed one-dimensional module is not equivalent to a module in the modular family. -/
-@[source_ref "Chapter2/Problem2.16.2" (role := primary)]
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 theorem not_nonempty_lieModuleEquiv_modular (μ : k) (γ : kˣ) (a : k) :
     ¬ Nonempty (AuxiliaryType_aux1 k μ ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType k p γ a) := by
   rintro ⟨φ⟩

@@ -1799,7 +1799,7 @@ private lemma indecomposable_reduces_to_simpleRoot
 
 
 /-- Under the displayed hypotheses, there exist a vertex list, a finite index, a second quiver, and an auxiliary representation satisfying the stated equalities and finiteness conditions. -/
-@[source_ref "Chapter6/Theorem6.8.1" (role := primary)]
+@[source_ref "Chapter6/Theorem6.8.1" (role := supporting)]
 theorem auxiliary_exists_data_of_representation
     (hDynkin : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj)
     {k : Type*} [Field k]

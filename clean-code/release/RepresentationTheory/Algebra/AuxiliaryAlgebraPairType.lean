@@ -17,7 +17,7 @@ set_option linter.style.whitespace false
 namespace RepresentationTheory.Algebra.AuxiliaryAlgebraPairType
 
 /-- An auxiliary type depending on two algebras over a commutative ring. -/
-@[source_ref "Chapter2/Definition2.2.6" (role := primary)]
+@[source_ref "Chapter2/Definition2.2.6" (role := supporting)]
 abbrev AuxiliaryAlgebraPairType (k : Type*) (A B : Type*) [CommRing k] [Ring A] [Ring B]
     [Algebra k A] [Algebra k B] :=
   A →ₐ[k] B

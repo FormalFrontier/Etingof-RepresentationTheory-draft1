@@ -3274,7 +3274,7 @@ omit [IsAlgClosed k] in
                                                                                         
                                                        
 /-- The auxiliary witness type is nonempty exactly when the two parameters satisfy the designated condition. -/
-@[source_ref "Chapter2/Problem2.16.4" (role := primary)]
+@[source_ref "Chapter2/Problem2.16.4" (role := supporting)]
 theorem nonempty_parameterEquivWitness_iff (a b : ModuleParameter k p) :
     Nonempty (parameterEquivWitness k a b) ↔
       ModuleParameter.parameterEquivCondition k a b :=

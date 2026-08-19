@@ -13,7 +13,7 @@ import RepresentationTheory.Alignment.Attribute
 set_option maxRecDepth 10000 in
 
 /-- The permutation group on four elements has five conjugacy classes. -/
-@[source_ref "Chapter4/Example4.3_S4" (role := primary)]
+@[source_ref "Chapter4/Example4.3_S4" (role := supporting)]
 theorem RepresentationTheory.PermutationDegreeFour.card_conjClasses_perm_fin_four :
     Fintype.card (ConjClasses (Equiv.Perm (Fin 4))) = 5 := by
   decide

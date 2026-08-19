@@ -17,7 +17,7 @@ set_option linter.style.whitespace false
 namespace RepresentationTheory.Algebra.AuxiliaryFieldCommRingType
 
 /-- An auxiliary type depending on a field and a commutative ring. -/
-@[source_ref "Chapter2/Definition2.2.5" (role := primary)]
+@[source_ref "Chapter2/Definition2.2.5" (role := supporting)]
 abbrev AuxiliaryFieldCommRingType (k : Type*) (A : Type*) [Field k] [CommRing A] :=
   Algebra k A
 

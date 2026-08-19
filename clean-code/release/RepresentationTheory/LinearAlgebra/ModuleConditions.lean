@@ -13,7 +13,7 @@ import RepresentationTheory.Alignment.Attribute
 namespace RepresentationTheory.LinearAlgebra.ModuleConditions
 
 /-- An auxiliary predicate on a module over a ring. -/
-@[source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable" (role := primary),
+@[source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable" (role := supporting),
   source_ref "Chapter2/Definition2.3.5" (role := supporting)]
 abbrev AuxiliaryModuleCondition (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] :=

@@ -24,7 +24,7 @@ variable [Semiring k]
 abbrev AuxiliaryFunctionSpace := G → k
 
 /-- A scalar submodule of the auxiliary function space associated with a group. -/
-@[source_ref "Chapter4/Introduction_4.2" (role := primary)]
+@[source_ref "Chapter4/Introduction_4.2" (role := supporting)]
 def conjugationInvariantSubmodule : Submodule k (AuxiliaryFunctionSpace k G) where
   carrier := {f | ∀ g h : G, f (h * g * h⁻¹) = f g}
   zero_mem' := by simp

@@ -65,7 +65,7 @@ noncomputable def auxiliaryComponentLinearEquiv (n : ℕ)
 
 /-- An auxiliary linear equivalence from the displayed partition-dependent space to a direct sum indexed by partitions. -/
 @[source_ref "Chapter5/Discussion_proof_of_Proposition5.14.1" (role := primary),
-  source_ref "Chapter5/Proposition5.14.1" (role := primary)]
+  source_ref "Chapter5/Proposition5.14.1" (role := supporting)]
 
 
 

@@ -500,7 +500,7 @@ theorem generalLinear_equivariant_of_specialLinear_equivariant {lam mu : Represe
   exact congrArg _ (hf h v)
 
 /-- Equivalence in the representation setoid implies constant-shift equivalence. -/
-@[source_ref "Chapter5/Remark5.23.3" (role := primary)]
+@[source_ref "Chapter5/Remark5.23.3" (role := supporting)]
 theorem shiftEquiv_of_representationRelated {lam mu : RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex n}
     (h : (representationSetoid n k).r lam mu) : RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex.ShiftEquiv lam mu := by
   rcases Nat.eq_zero_or_pos n with rfl | hn

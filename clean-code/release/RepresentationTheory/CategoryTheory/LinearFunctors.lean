@@ -38,32 +38,32 @@ universe u
 variable {k G H : Type u} [Field k] [Group G] [Group H] (φ : G →* H)
 
 /-- Restriction along a group homomorphism is an additive functor. -/
-@[source_ref "Chapter7/Example7.9.2" (role := primary)]
+@[source_ref "Chapter7/Example7.9.2" (role := supporting)]
 theorem resFunctor_additive : (Rep.resFunctor (k := k) φ).Additive := inferInstance
 
 /-- Restriction along a group homomorphism is linear over the coefficient field. -/
-@[source_ref "Chapter7/Example7.9.2" (role := primary)]
+@[source_ref "Chapter7/Example7.9.2" (role := supporting)]
 theorem resFunctor_linear : (Rep.resFunctor (k := k) φ).Linear k := inferInstance
 
 /-- Induction along a group homomorphism is an additive functor. -/
-@[source_ref "Chapter7/Example7.9.2" (role := primary)]
+@[source_ref "Chapter7/Example7.9.2" (role := supporting)]
 theorem indFunctor_additive : (Rep.indFunctor.{u} k φ).Additive :=
   (Rep.indResAdjunction k φ).left_adjoint_additive
 
 /-- Induction along a group homomorphism is linear over the coefficient field. -/
-@[source_ref "Chapter7/Example7.9.2" (role := primary)]
+@[source_ref "Chapter7/Example7.9.2" (role := supporting)]
 theorem indFunctor_linear : (Rep.indFunctor.{u} k φ).Linear k :=
   leftAdjoint_linear_of_rightAdjoint_additive_linear k (Rep.indResAdjunction k φ)
 
 variable (V : Rep k G)
 
 /-- The linear co-Yoneda functor evaluated at a representation is additive. -/
-@[source_ref "Chapter7/Example7.9.2" (role := primary)]
+@[source_ref "Chapter7/Example7.9.2" (role := supporting)]
 theorem linearCoyoneda_obj_additive : ((linearCoyoneda k (Rep k G)).obj (op V)).Additive :=
   inferInstance
 
 /-- The linear co-Yoneda functor evaluated at a representation is linear over the coefficient field. -/
-@[source_ref "Chapter7/Example7.9.2" (role := primary)]
+@[source_ref "Chapter7/Example7.9.2" (role := supporting)]
 theorem linearCoyoneda_obj_linear : ((linearCoyoneda k (Rep k G)).obj (op V)).Linear k where
   map_smul {X Y} f r := by
     ext g

@@ -48,7 +48,7 @@ theorem dualMap_dualMap_comp_eval
 
 
 /-- A vector space is finite-dimensional exactly when it is linearly equivalent to its double dual. -/
-@[source_ref "Chapter7/Example7.3.2" (role := primary)]
+@[source_ref "Chapter7/Example7.3.2" (role := supporting)]
 theorem nonempty_doubleDualLinearEquiv_iff_finiteDimensional (k V : Type u)
     [Field k] [AddCommGroup V] [Module k V] :
     Nonempty (V ≃ₗ[k] Module.Dual k (Module.Dual k V)) ↔ FiniteDimensional k V := by
@@ -82,7 +82,7 @@ noncomputable def finitelyGeneratedModuleDoubleDualFunctor (k : Type u) [Field k
 open CategoryTheory in
 
 /-- An isomorphism from the identity functor to double dualization on finitely generated modules. -/
-@[source_ref "Chapter7/Example7.3.2" (role := primary)]
+@[source_ref "Chapter7/Example7.3.2" (role := supporting)]
 noncomputable def finitelyGeneratedModuleDoubleDualIso (k : Type u) [Field k] :
     𝟭 (FGModuleCat.{u} k) ≅ finitelyGeneratedModuleDoubleDualFunctor k :=
   NatIso.ofComponents
@@ -223,7 +223,7 @@ theorem invariantLinearMapToDual_not_bijective_of_finrank_ge_three
 open CategoryTheory in
 
 /-- No natural isomorphism exists from the identity functor to dualization on the core of finitely generated modules. -/
-@[source_ref "Chapter7/Example7.3.2" (role := primary)]
+@[source_ref "Chapter7/Example7.3.2" (role := supporting)]
 theorem isEmpty_iso_id_finitelyGeneratedModuleDualFunctor (k : Type u) [Field k] :
     IsEmpty (𝟭 (Core (FGModuleCat.{u} k)) ≅ finitelyGeneratedModuleDualFunctor k) := by
   refine ⟨fun ε => ?_⟩

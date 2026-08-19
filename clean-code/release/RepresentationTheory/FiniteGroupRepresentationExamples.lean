@@ -1274,7 +1274,7 @@ theorem existsSimpleQuaternionRepresentationWithAuxiliaryProperty :
       rw [hdet, one_mul]
 
 /-- Every complex representation of the quaternion group on the complex numbers has the auxiliary property. -/
-@[source_ref "Chapter5/Example5.1.3" (role := primary)]
+@[source_ref "Chapter5/Example5.1.3" (role := supporting)]
 theorem auxiliaryPropertyForQuaternionRepresentationOnComplex
     (ρ : Representation ℂ (QuaternionGroup 2) ℂ) :
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo ρ := by
@@ -1308,7 +1308,7 @@ theorem auxiliaryPropertyForQuaternionRepresentationOnComplex
   exact mul_self_eq_one_iff.mp hsq
 
 /-- A simple two-dimensional complex representation of the quaternion group is isomorphic to the specified representation. -/
-@[source_ref "Chapter5/Example5.1.3" (role := primary)]
+@[source_ref "Chapter5/Example5.1.3" (role := supporting)]
 theorem simpleQuaternionRepresentationOfFinrankTwoIso
     {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     (σ : Representation ℂ (QuaternionGroup 2) V)

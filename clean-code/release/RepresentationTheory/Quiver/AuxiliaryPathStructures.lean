@@ -358,7 +358,7 @@ noncomputable def auxiliaryVertexElement (i : Q) : Quiver.AuxiliaryOppositeType 
   auxiliaryElementOfPath (k := k) ⟨i, i, Quiver.Path.nil⟩
 
 /-- For a finite vertex type, the sum of the designated vertex elements is one in the auxiliary type. -/
-@[source_ref "Chapter2/Remark2.8.5" (role := primary)]
+@[source_ref "Chapter2/Remark2.8.5" (role := supporting)]
 theorem sum_auxiliaryVertexElement_eq_one [Fintype Q] :
     (∑ i, auxiliaryVertexElement (k := k) (Q := Q) i : Quiver.AuxiliaryOppositeType k Q) = 1 := by
   apply MulOpposite.unop_injective

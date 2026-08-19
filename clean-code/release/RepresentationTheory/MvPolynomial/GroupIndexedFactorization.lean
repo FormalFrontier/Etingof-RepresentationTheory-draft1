@@ -956,7 +956,7 @@ private lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.Decomposition
 
 
 /-- The auxiliary group-indexed polynomial factors into powers of pairwise nonassociated irreducible polynomials, with the number of factors equal to the number of conjugacy classes. -/
-@[source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := primary)]
+@[source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := supporting)]
 theorem RepresentationTheory.MvPolynomial.GroupIndexedFactorization.exists_irreducible_factorization_of_auxiliaryGroupPolynomial
     (k : Type u) (G : Type u) [Field k] [IsAlgClosed k]
     [Group G] [Fintype G] [DecidableEq G]

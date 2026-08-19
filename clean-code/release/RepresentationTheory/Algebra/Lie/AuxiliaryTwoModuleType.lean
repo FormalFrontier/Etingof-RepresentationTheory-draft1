@@ -19,7 +19,7 @@ open scoped TensorProduct
 namespace RepresentationTheory.Algebra.Lie.AuxiliaryTwoModuleType
 
 /-- An auxiliary type depending on a Lie algebra and two of its modules. -/
-@[nolint unusedArguments, source_ref "Chapter2/Definition2.14.1" (role := primary)]
+@[nolint unusedArguments, source_ref "Chapter2/Definition2.14.1" (role := supporting)]
 abbrev AuxiliaryLieModuleType (k : Type*) (L : Type*) (V : Type*) (W : Type*)
     [CommRing k] [LieRing L] [LieAlgebra k L]
     [AddCommGroup V] [Module k V] [LieRingModule L V] [LieModule k L V]

@@ -155,7 +155,7 @@ theorem centralEndomorphism_bracket_eq_zero (x : complexTwoByTwoMatrixLieSubalge
 
 
 /-- The distinguished endomorphism commutes with every Lie action. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := primary)]
+@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 theorem centralEndomorphism_commutes_action (x : complexTwoByTwoMatrixLieSubalgebra) (m : M) :
     ⁅x, centralEndomorphism M m⁆ = centralEndomorphism M ⁅x, m⁆ := by
   have hcomm : LieModule.toEnd ℂ complexTwoByTwoMatrixLieSubalgebra M x * centralEndomorphism M

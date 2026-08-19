@@ -19,7 +19,7 @@ noncomputable abbrev factorModule {A V : Type*}
   s i.succ ⧸ (s i.castSucc).comap (s i.succ).subtype
 
 /-- Two composition series with bottom head and top last term are equivalent. -/
-@[source_ref "Chapter3/Theorem3.7.1" (role := primary)]
+@[source_ref "Chapter3/Theorem3.7.1" (role := supporting)]
 theorem equivalent (A : Type*) (V : Type*)
     [Ring A] [AddCommGroup V] [Module A V]
     (s₁ s₂ : CompositionSeries (Submodule A V))

@@ -227,7 +227,7 @@ theorem auxiliaryRepresentation_iso_injective (hp2 : p ≠ 2) (hn : n ≠ 0) :
     simpa [auxiliaryRepresentation] using h
 
 /-- Computes the cardinality of the auxiliary index type. -/
-@[source_ref "Chapter5/Discussion_complementary_series_summary" (role := primary),
+@[source_ref "Chapter5/Discussion_complementary_series_summary" (role := supporting),
   source_ref "Chapter5/Discussion_complementary_series_summary/Derived01" (role := supporting)]
 theorem card_auxiliaryIndexType (hn : n ≠ 0) :
     Nat.card (AuxiliaryIndexType p n hn) =

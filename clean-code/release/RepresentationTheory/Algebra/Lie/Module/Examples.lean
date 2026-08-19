@@ -34,13 +34,13 @@ theorem punitTrivialModule_subsingleton :
 variable (V : Type*) [AddCommGroup V] [Module k V]
 
 /-- A property of the trivial Lie module. -/
-@[source_ref "Chapter2/Example2.9.8" (role := primary)]
+@[source_ref "Chapter2/Example2.9.8" (role := supporting)]
 theorem trivialModuleProperty :
     LieModule.AuxiliaryPredicate k L (TrivialLieModule k L V) := inferInstance
 
 omit [CommRing k] [LieAlgebra k L] [Module k V] in
 /-- The action bracket on a trivial Lie module is zero. -/
-@[source_ref "Chapter2/Example2.9.8" (role := primary)]
+@[source_ref "Chapter2/Example2.9.8" (role := supporting)]
 theorem trivialModule_bracket_eq_zero
     (a : L) (v : TrivialLieModule k L V) : ⁅a, v⁆ = 0 := rfl
 

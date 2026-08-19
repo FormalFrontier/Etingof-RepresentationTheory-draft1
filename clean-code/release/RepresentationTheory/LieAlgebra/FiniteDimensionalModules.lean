@@ -764,7 +764,7 @@ theorem exists_polynomialModel (d : ℕ+) :
     And.intro hh (And.intro he hf)
 
 /-- An irreducible module of rank one more than a natural number is nonemptily equivalent to the corresponding finite function module. -/
-@[source_ref "Chapter2/Problem2.15.1" (role := primary)]
+@[source_ref "Chapter2/Problem2.15.1" (role := supporting)]
 theorem nonempty_lieModuleEquiv_finFunction_of_irreducible (lam : ℕ)
     {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V]
@@ -1918,7 +1918,7 @@ private lemma complementedLattice_sl2_aux (d : ℕ) :
     exact complement_case_disjoint d ih hd N W hNbot hW_atom hWN_bot
 
 /-- Lie submodules of a finite-dimensional module over the specified Lie algebra form a complemented lattice. -/
-@[source_ref "Chapter2/Theorem2.1.1" (role := primary)]
+@[source_ref "Chapter2/Theorem2.1.1" (role := supporting)]
 theorem lieSubmodule_complementedLattice (V : Type*) [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] :
     ComplementedLattice (LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) :=

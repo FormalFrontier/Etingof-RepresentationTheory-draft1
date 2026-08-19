@@ -16,7 +16,7 @@ namespace RepresentationTheory.FiniteGroup.CharacterPairing
 /-- The group-order-normalized sum of the character of V times the inverse-argument character of
 W equals the dimension of the morphism space from W to V. -/
 @[source_ref "Chapter4/Introduction_4.5" (role := supporting),
-  source_ref "Chapter4/Introduction_4.8" (role := primary),
+  source_ref "Chapter4/Introduction_4.8" (role := supporting),
   source_ref "Chapter4/Theorem4.5.1" (role := primary)]
 theorem FiniteGroup.normalized_characterPairing_eq_finrank_hom
     {k : Type u} {G : Type v} [Field k] [Group G] [Fintype G]

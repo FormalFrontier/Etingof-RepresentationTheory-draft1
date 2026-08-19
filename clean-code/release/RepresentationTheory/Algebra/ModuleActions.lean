@@ -33,13 +33,13 @@ section Associativity
 variable {A V : Type*} [Ring A] [AddCommGroup V]
 
 /-- Scalar multiplication by a product agrees with successive scalar multiplication. -/
-@[source_ref "Chapter2/Definition2.3.1" (role := primary)]
+@[source_ref "Chapter2/Definition2.3.1" (role := supporting)]
 theorem mul_smul [Module A V] (a b : A) (v : V) :
     (a * b) • v = a • (b • v) :=
   SemigroupAction.mul_smul a b v
 
 /-- The action of the opposite of a product is successive action in reversed order. -/
-@[source_ref "Chapter2/Definition2.3.1" (role := primary)]
+@[source_ref "Chapter2/Definition2.3.1" (role := supporting)]
 theorem op_mul_smul [Module Aᵐᵒᵖ V] (a b : A) (v : V) :
     MulOpposite.op (a * b) • v = MulOpposite.op b • (MulOpposite.op a • v) := by
   change (MulOpposite.op b * MulOpposite.op a) • v = _

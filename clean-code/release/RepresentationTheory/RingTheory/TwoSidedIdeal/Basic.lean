@@ -18,15 +18,15 @@ open scoped Pointwise
 variable (A : Type*) [Ring A]
 
 /-- A second auxiliary type depending on a ring. -/
-@[source_ref "Chapter2/Discussion_2.4_heading" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.4_heading" (role := supporting)]
 abbrev Ring.AuxiliaryType' := Submodule A A
 
 /-- A third auxiliary type depending on a ring. -/
-@[source_ref "Chapter2/Discussion_2.4_heading" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.4_heading" (role := supporting)]
 abbrev Ring.AuxiliaryType'' := Submodule Aᵐᵒᵖ Aᵐᵒᵖ
 
 /-- An auxiliary type depending on a ring. -/
-@[source_ref "Chapter2/Discussion_2.4_heading" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.4_heading" (role := supporting)]
 abbrev Ring.AuxiliaryType := TwoSidedIdeal A
 
 /-- An auxiliary predicate on rings. -/

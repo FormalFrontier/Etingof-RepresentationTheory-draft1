@@ -19,7 +19,7 @@ noncomputable abbrev biproductShortComplex (X Z : C) : ShortComplex C :=
   ShortComplex.mk (biprod.inl : X ⟶ X ⊞ Z) biprod.snd (by simp)
 
 /-- A splitting of the short complex associated with a binary biproduct. -/
-@[source_ref "Chapter7/Example7.8.3" (role := primary)]
+@[source_ref "Chapter7/Example7.8.3" (role := supporting)]
 noncomputable def biproductShortComplexSplitting (X Z : C) :
     (biproductShortComplex X Z).Splitting :=
   ShortComplex.Splitting.ofHasBinaryBiproduct X Z
@@ -62,7 +62,7 @@ noncomputable def biprodSndSplitEpi (X Z : C) :
   (biproductShortComplexSplitting X Z).splitEpi_g
 
 /-- The binary-biproduct short complex is short exact when a zero object is available. -/
-@[source_ref "Chapter7/Example7.8.3" (role := primary)]
+@[source_ref "Chapter7/Example7.8.3" (role := supporting)]
 theorem biproductShortComplex_shortExact [HasZeroObject C] (X Z : C) :
     (biproductShortComplex X Z).ShortExact :=
   (biproductShortComplexSplitting X Z).shortExact

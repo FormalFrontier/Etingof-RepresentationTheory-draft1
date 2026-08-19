@@ -153,21 +153,21 @@ theorem quotientToTensorProduct_smul (a : k) (q : tensorProductQuotient k V W) :
   (quotientToTensorProductAddEquiv k V W).apply_symm_apply _
 
 /-- Module structure on the quotient used to construct the tensor product. -/
-@[source_ref "Chapter2/Exercise2.11.2" (role := primary)]
+@[source_ref "Chapter2/Exercise2.11.2" (role := supporting)]
 noncomputable instance quotientModule : Module k (tensorProductQuotient k V W) :=
   Function.Injective.module k (quotientToTensorProductAddEquiv k V W).toAddMonoidHom
     (quotientToTensorProductAddEquiv k V W).injective
     (quotientToTensorProduct_smul k V W)
 
 /-- Linear equivalence from the defining quotient to the tensor product. -/
-@[source_ref "Chapter2/Exercise2.11.2" (role := primary)]
+@[source_ref "Chapter2/Exercise2.11.2" (role := supporting)]
 noncomputable def quotientToTensorProductLinearEquiv :
     (tensorProductQuotient k V W) ≃ₗ[k] (_root_.TensorProduct k V W) where
   toAddEquiv := quotientToTensorProductAddEquiv k V W
   map_smul' := quotientToTensorProduct_smul k V W
 
 /-- The quotient-to-tensor-product linear equivalence sends a generating pair to its pure tensor. -/
-@[source_ref "Chapter2/Exercise2.11.2" (role := primary)]
+@[source_ref "Chapter2/Exercise2.11.2" (role := supporting)]
 theorem quotientToTensorProductLinearEquiv_mk_pair (v : V) (w : W) :
     quotientToTensorProductLinearEquiv k V W
         (QuotientAddGroup.mk' (tensorProductRelationSubgroup k V W)

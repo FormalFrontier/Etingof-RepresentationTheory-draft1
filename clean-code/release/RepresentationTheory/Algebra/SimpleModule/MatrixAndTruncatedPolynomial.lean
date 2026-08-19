@@ -339,7 +339,7 @@ instance instModuleAuxiliaryMatrixSubalgebra (i : Fin n) : Module (auxiliaryMatr
 
 
 /-- Scalar multiplication by an element of the auxiliary matrix subalgebra is multiplication by its corresponding diagonal entry. -/
-@[source_ref "Chapter3/Example3.5.6" (role := primary)]
+@[source_ref "Chapter3/Example3.5.6" (role := supporting)]
 theorem smul_eq_diagonalEntry_mul (i : Fin n) (s : auxiliaryMatrixSubalgebra k n)
     (v : finiteIndexAuxiliaryType k n i) :
     s • v = (show k from s.val i i) * (show k from v) := rfl
@@ -348,14 +348,14 @@ end finiteIndexAuxiliaryType
 
 
 /-- Every finite-index auxiliary type has dimension one over the ground field. -/
-@[source_ref "Chapter3/Example3.5.6" (role := primary)]
+@[source_ref "Chapter3/Example3.5.6" (role := supporting)]
 theorem finrank_finiteIndexAuxiliaryType (i : Fin n) :
     Module.finrank k (finiteIndexAuxiliaryType k n i) = 1 :=
   Module.finrank_self k
 
 
 /-- Each finite-index auxiliary type is simple over the auxiliary matrix subalgebra. -/
-@[source_ref "Chapter3/Example3.5.6" (role := primary)]
+@[source_ref "Chapter3/Example3.5.6" (role := supporting)]
 theorem isSimpleModule_finiteIndexAuxiliaryType (i : Fin n) :
     IsSimpleModule (auxiliaryMatrixSubalgebra k n) (finiteIndexAuxiliaryType k n i) := by
   rw [isSimpleModule_iff_toSpanSingleton_surjective]
@@ -409,7 +409,7 @@ theorem mul_diagonalMatrixUnit_apply (i : Fin n) (T : Matrix (Fin n) (Fin n) k) 
 
 
 /-- Finite-index auxiliary types at distinct indices are not linearly equivalent over the auxiliary matrix subalgebra. -/
-@[source_ref "Chapter3/Example3.5.6" (role := primary)]
+@[source_ref "Chapter3/Example3.5.6" (role := supporting)]
 theorem not_nonempty_equiv_finiteIndexAuxiliaryType {i j : Fin n} (hij : i ≠ j) :
     ¬ Nonempty (finiteIndexAuxiliaryType k n i ≃ₗ[auxiliaryMatrixSubalgebra k n]
       finiteIndexAuxiliaryType k n j) := by
@@ -494,7 +494,7 @@ theorem auxiliaryIdeal_smul_eq_zero_of_isSimpleModule {z : auxiliaryMatrixSubalg
 
 
 /-- Every simple module over the auxiliary matrix subalgebra is linearly equivalent to a finite-index auxiliary type at some index. -/
-@[source_ref "Chapter3/Example3.5.6" (role := primary)]
+@[source_ref "Chapter3/Example3.5.6" (role := supporting)]
 theorem exists_equiv_finiteIndexAuxiliaryType :
     ∃ i : Fin n, Nonempty (M ≃ₗ[auxiliaryMatrixSubalgebra k n] finiteIndexAuxiliaryType k n i) := by
   haveI : Nontrivial M := IsSimpleModule.nontrivial (auxiliaryMatrixSubalgebra k n) M

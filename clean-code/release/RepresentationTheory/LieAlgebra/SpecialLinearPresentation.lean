@@ -106,7 +106,7 @@ def basis1 : CoordinateTriple k := ((0 : k), (1 : k), (0 : k))
 def basis2 : CoordinateTriple k := ((0 : k), (0 : k), (1 : k))
 
 /-- The bracket of the indicated distinguished basis elements has the displayed value. -/
-@[simp, source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived4" (role := primary)]
+@[simp, source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived4" (role := supporting)]
 theorem bracket_basis2_basis0 : ⁅(basis2 : CoordinateTriple k), (basis0 : CoordinateTriple k)⁆ = (2 : k) • (basis0 : CoordinateTriple k) := by
   apply CoordinateTriple.ext <;> simp [bracket_apply, basis0, basis2]
 
@@ -116,7 +116,7 @@ theorem auxiliary_fact_aux7 : ⁅(basis2 : CoordinateTriple k), (basis1 : Coordi
   apply CoordinateTriple.ext <;> simp [bracket_apply, basis1, basis2]
 
 /-- The bracket of the indicated distinguished basis elements has the displayed value. -/
-@[simp, source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived4" (role := primary)]
+@[simp, source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived4" (role := supporting)]
 theorem bracket_basis0_basis1 : ⁅(basis0 : CoordinateTriple k), (basis1 : CoordinateTriple k)⁆ = (basis2 : CoordinateTriple k) := by
   apply CoordinateTriple.ext <;> simp [bracket_apply, basis0, basis1, basis2]
 
@@ -416,13 +416,13 @@ theorem bracket_eq (u v : CoordinateTriple k) : lieEquiv k ⁅u, v⁆ = ⁅lieEq
   LieHom.map_lie (lieEquiv k).toLieHom u v
 
 /-- The displayed matrices are equal. -/
-@[simp, source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived3" (role := primary)]
+@[simp, source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived3" (role := supporting)]
 theorem matrix_eq_aux1 (k : Type*) [CommRing k] :
     (lieEquiv k (basis0 : CoordinateTriple k) : Matrix (Fin 2) (Fin 2) k) = !![0, 1; 0, 0] := by
   ext i j; fin_cases i <;> fin_cases j <;> simp [matrix, basis0]
 
 /-- The displayed matrices are equal. -/
-@[simp, source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived3" (role := primary)]
+@[simp, source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived3" (role := supporting)]
 theorem matrix_eq_aux2 (k : Type*) [CommRing k] :
     (lieEquiv k (basis1 : CoordinateTriple k) : Matrix (Fin 2) (Fin 2) k) = !![0, 0; 1, 0] := by
   ext i j; fin_cases i <;> fin_cases j <;> simp [matrix, basis1]

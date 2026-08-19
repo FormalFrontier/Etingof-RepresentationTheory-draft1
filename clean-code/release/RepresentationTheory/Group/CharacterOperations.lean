@@ -24,7 +24,7 @@ theorem character_tensor (V W : FDRep k G) (g : G) :
   rw [FDRep.char_tensor]; rfl
 
 /-- The character of the dual representation is the character evaluated at the inverse group element. -/
-@[source_ref "Chapter4/Discussion_4.4" (role := primary)]
+@[source_ref "Chapter4/Discussion_4.4" (role := supporting)]
 theorem character_dual (V : FDRep k G) (g : G) :
     (of (dual V.ρ)).character g = V.character g⁻¹ :=
   FDRep.char_dual V g
