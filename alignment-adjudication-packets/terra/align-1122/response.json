@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:55d83fe9be1bfdc7fb5c",
-      "role": "primary",
-      "rationale": "The displayed equality exp((s+t)D) = exp(sD) * exp(tD) directly states the one-parameter composition law."
+      "role": "supporting",
+      "rationale": "It establishes the one-parameter composition law, but does not show that the exponential maps are algebra automorphisms."
     },
     {
       "association_id": "association:20e8df699a9c53858c09",

@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:5cbea02fd943b6b293ae",
-      "role": "primary",
-      "rationale": "For monic p, the formal type directly identifies the characteristic polynomial of the companion matrix with p."
+      "role": "supporting",
+      "rationale": "It establishes the characteristic-polynomial component, but not the root-to-eigenvalue component of the combined claim."
     },
     {
       "association_id": "association:bf45d0b43c0f05907cfd",
-      "role": "primary",
-      "rationale": "The formal type sends a root z of p to a root of the characteristic polynomial of the mapped companion matrix, directly stating the spectral part of the claim in characteristic-polynomial form."
+      "role": "supporting",
+      "rationale": "It establishes the root-to-characteristic-root component, but not the characteristic-polynomial identity in the combined claim."
     },
     {
       "association_id": "association:33ad38f39345f51ce0d5",
