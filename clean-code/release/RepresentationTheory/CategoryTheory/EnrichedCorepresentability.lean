@@ -15,7 +15,7 @@ universe w v u
 variable (V : Type v) [Category.{w} V] [MonoidalCategory V]
 
 /-- An auxiliary type operator parameterized by a monoidal category. -/
-@[source_ref "Chapter7/Discussion_after_Example7.1.5" (role := primary)]
+@[source_ref "Chapter7/Discussion_after_Example7.1.5" (role := supporting)]
 abbrev AuxiliaryMonoidalTypeOperator (C : Type u) := CategoryTheory.EnrichedCategory V C
 
 /-- The composition morphism between enriched hom-objects. -/

@@ -968,7 +968,7 @@ noncomputable def vertexProjector (i : Q) : Module.End k V :=
   actionAlgHom (k := k) (V := V) (vertexElement (k := k) (Q := Q) i)
 
 /-- The submodule of vectors belonging to a specified vertex. -/
-@[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := primary)]
+@[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := supporting)]
 noncomputable def vertexSubmodule (i : Q) : Submodule k V :=
   LinearMap.range (vertexProjector (k := k) (V := V) i)
 
@@ -990,14 +990,14 @@ theorem arrowElement_smul_mem_target {i j : Q} (e : i ⟶ j) (x : V) :
   rfl
 
 /-- The linear map between vertex submodules induced by a quiver arrow. -/
-@[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := primary)]
+@[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := supporting)]
 noncomputable def arrowMapOnVertexParts {i j : Q} (e : i ⟶ j) :
     vertexSubmodule (k := k) (V := V) i →ₗ[k] vertexSubmodule (k := k) (V := V) j :=
   LinearMap.restrict (actionAlgHom (k := k) (V := V) (arrowElement (k := k) e))
     (fun x _ => arrowElement_smul_mem_target (k := k) e x)
 
 /-- Constructs a quiver representation from a module over the quiver algebra. -/
-@[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := primary)]
+@[source_ref "Chapter2/Discussion_quiver_rep_bijection" (role := supporting)]
 noncomputable def representationOfModule : AuxiliaryQuiverModuleData k Q where
   obj i := vertexSubmodule (k := k) (V := V) i
   map e := arrowMapOnVertexParts (k := k) (V := V) e
