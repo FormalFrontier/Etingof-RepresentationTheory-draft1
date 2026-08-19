@@ -33,13 +33,13 @@
     },
     {
       "temporary_id": "decl-001572",
-      "new_name": "filtration_to_polynomial_quotient_equivariant",
-      "docstring": "The map from a filtration level to the polynomial quotient intertwines the displayed general linear group actions."
+      "new_name": "auxiliaryElidedStatement001572",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-001573",
-      "new_name": "filtration_to_polynomial_quotient_map_denominator_embedding",
-      "docstring": "The quotient map sends the degree-indexed polynomial embedding to the canonical class of the polynomial."
+      "new_name": "auxiliaryElidedStatement001573",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-001574",
