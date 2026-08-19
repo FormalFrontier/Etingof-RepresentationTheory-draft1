@@ -12,12 +12,12 @@
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Algebra.Module.TensorProduct",
+      "new_module": "RepresentationTheory.Algebra.AuxiliaryTwoModuleType",
       "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_11_1",
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Algebra.BasisQuotientPresentations",
+      "new_module": "RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions",
       "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_12_1",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Definition2_9_9": "RepresentationTheory.Algebra.Lie.AssociatedTypes",
@@ -26,34 +26,34 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.Algebra.Lie.TensorProduct",
+      "new_module": "RepresentationTheory.Algebra.Lie.AuxiliaryTwoModuleType",
       "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_14_1",
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Algebra.Lie.Dual",
+      "new_module": "RepresentationTheory.Algebra.Lie.AuxiliarySingleModuleType",
       "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_14_2",
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Algebra.NonUnitalStructure",
+      "new_module": "RepresentationTheory.Algebra.AuxiliaryStructure",
       "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_2_1",
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Algebra.DesignatedElements",
+      "new_module": "RepresentationTheory.Algebra.AuxiliaryPredicates",
       "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_2_2",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Definition2_2_1": "RepresentationTheory.Algebra.NonUnitalStructure"
+        "EtingofRepresentationTheory.Chapter2.Definition2_2_1": "RepresentationTheory.Algebra.AuxiliaryStructure"
       }
     },
     {
-      "new_module": "RepresentationTheory.Algebra.FieldCommRing",
+      "new_module": "RepresentationTheory.Algebra.AuxiliaryFieldCommRingType",
       "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_2_5",
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Algebra.ModulePair",
+      "new_module": "RepresentationTheory.Algebra.AuxiliaryAlgebraPairType",
       "old_module": "EtingofRepresentationTheory.Chapter2.Definition2_2_6",
       "renamed_imports": {}
     },
@@ -621,7 +621,7 @@
       "new_module": "RepresentationTheory.Module.DistinguishedElement",
       "old_module": "EtingofRepresentationTheory.Chapter2.Proposition2_2_3",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Definition2_2_2": "RepresentationTheory.Algebra.DesignatedElements"
+        "EtingofRepresentationTheory.Chapter2.Definition2_2_2": "RepresentationTheory.Algebra.AuxiliaryPredicates"
       }
     },
     {
@@ -686,7 +686,7 @@
       "new_module": "RepresentationTheory.Algebra.Lie.UniversalEnveloping.BasisPresentation",
       "old_module": "EtingofRepresentationTheory.Chapter2.Remark2_9_10",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Definition2_12_1": "RepresentationTheory.Algebra.BasisQuotientPresentations"
+        "EtingofRepresentationTheory.Chapter2.Definition2_12_1": "RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions"
       }
     },
     {
