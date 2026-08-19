@@ -346,7 +346,7 @@ end Main
 section ImageAlgebras
 
 /-- The algebra homomorphism from the tensor product of the ranges of two commuting actions to endomorphisms of their common module. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary)]
+@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)]
 noncomputable def tensorProductRangeAction
     {k A B M : Type*} [CommSemiring k] [Semiring A] [Semiring B]
     [Algebra k A] [Algebra k B] [AddCommMonoid M] [Module k M]
@@ -372,7 +372,7 @@ theorem tensorProductRangeAction_tmul
   exact Algebra.TensorProduct.lift_tmul _ _ _ _ _
 
 /-- The module structure induced by two commuting algebra actions over the tensor product of their ranges. -/
-@[reducible, source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary)]
+@[reducible, source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)]
 noncomputable def tensorProductRangeModule
     {k A B M : Type*} [CommSemiring k] [Semiring A] [Semiring B]
     [Algebra k A] [Algebra k B] [AddCommMonoid M] [Module k M]

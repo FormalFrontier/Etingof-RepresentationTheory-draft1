@@ -17,7 +17,7 @@ abbrev coyonedaObjectProperty {C : Type*} [CategoryTheory.Category C] (P : C) :=
 
 /-- A property of an object in a category. -/
 @[source_ref "Chapter8/Definition8.1.8" (role := primary),
-  source_ref "Chapter8/Discussion_after_Example8.1.7" (role := primary)]
+  source_ref "Chapter8/Discussion_after_Example8.1.7" (role := supporting)]
 abbrev yonedaObjectProperty {C : Type*} [CategoryTheory.Category C] (I : C) :=
   CategoryTheory.Injective I
 
