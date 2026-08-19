@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:ae20a5cc3216ead8e791",
-      "rationale": "The type directly shows that an integral combination of pairwise nonisomorphic irreducible characters with norm one and positive identity value has exactly one coefficient equal to one and all others zero.",
-      "role": "primary"
+      "rationale": "It gives a coefficient characterization for a virtual character expressed in a chosen family, from which the stated irreducible-character conclusion requires additional reasoning.",
+      "role": "supporting"
     }
   ]
 }

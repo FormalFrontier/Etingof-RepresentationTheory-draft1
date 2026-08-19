@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:44024744f82a7b1523f1",
-      "rationale": "The type directly states that the characters of the four indexed representations on the four class representatives equal the displayed table entries.",
-      "role": "primary"
+      "rationale": "It gives the character-table entries, one component of the combined classes, rows, quotient, and deleted-representation claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:277bc7d1b33285469481",
-      "rationale": "The type directly gives the four conjugacy-class sizes as 1, 4, 4, and 3, matching the displayed four-class data.",
-      "role": "primary"
+      "rationale": "It gives the class-size data, one component of the combined claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:53ef2439c459b9b8e132",
-      "rationale": "The type directly states that every simple complex representation of A4 is isomorphic to one of the four indexed representations, establishing completeness.",
-      "role": "primary"
+      "rationale": "It establishes completeness of the indexed irreducibles, one component of the combined claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:972d94fb23d54a103459",
@@ -28,8 +28,8 @@
     },
     {
       "association_id": "association:4a4b7b22c1226f09bdfe",
-      "rationale": "The type directly states that each of the four indexed representations is simple, matching the assertion that the four displayed rows are irreducible.",
-      "role": "primary"
+      "rationale": "It establishes irreducibility of the indexed rows, one component of the combined claim.",
+      "role": "supporting"
     }
   ]
 }

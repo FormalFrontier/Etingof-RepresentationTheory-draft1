@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:ae4a496843916ce301f2",
-      "rationale": "For a symmetric zero-diagonal adjacency matrix, the type directly asserts that the associated Cartan quadratic value is even for every integer vector.",
-      "role": "primary"
+      "rationale": "It establishes even-valuedness, one component of the combined positive-definite and even-valued claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:fc9d38882c1d040b150c",
-      "rationale": "For a Dynkin diagram, the type directly asserts strict positivity of the Cartan quadratic value on every nonzero integer vector, expressing positive definiteness.",
-      "role": "primary"
+      "rationale": "It establishes positive definiteness, one component of the combined positive-definite and even-valued claim.",
+      "role": "supporting"
     }
   ]
 }

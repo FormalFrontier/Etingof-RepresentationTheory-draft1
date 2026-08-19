@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:3ecfa87217faa288d743",
-      "rationale": "The type directly states that the A-linear endomorphism ring of a simple module V carries a division-ring structure, which is the Schur-lemma clause.",
-      "role": "primary"
+      "rationale": "It establishes the division-ring clause, one component of the combined matrix-entry and Schur-lemma claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:970f65214891ca60a263",
-      "rationale": "The type directly identifies A-linear maps between finite powers of V with matrices whose entries are End_A(V), matching the matrix-entry claim.",
-      "role": "primary"
+      "rationale": "It establishes the matrix-entry identification, one component of the combined claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:dc5bb65a829ba09ae029",

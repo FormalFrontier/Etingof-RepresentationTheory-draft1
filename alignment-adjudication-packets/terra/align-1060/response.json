@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:e3881278d016ae697ea6",
-      "rationale": "The type directly bounds the cardinality of every finite pairwise-nonisomorphic family of simple modules by finrank_k A, expressing the claimed finiteness bound.",
-      "role": "primary"
+      "rationale": "It gives a bound for an already finite pairwise-nonisomorphic family, one component of the full finiteness-and-exhaustiveness claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:8b97b4407d00baab5e8b",
