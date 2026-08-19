@@ -28,8 +28,8 @@
     },
     {
       "temporary_id": "decl-016667",
-      "new_name": "auxiliary_result",
-      "docstring": "An auxiliary result."
+      "new_name": "Auxiliary.statement016667",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-016677",
@@ -44,7 +44,7 @@
     {
       "temporary_id": "decl-016679",
       "new_name": "exists_orthogonal_idempotents_with_finrank",
-      "docstring": "For a pairwise nonisomorphic exhaustive family of simple modules, there are pairwise orthogonal idempotents whose associated submodules have Kronecker-delta dimensions."
+      "docstring": "For a finite pairwise nonisomorphic family of simple modules, there are pairwise orthogonal idempotents whose associated submodules have Kronecker-delta dimensions."
     },
     {
       "temporary_id": "decl-016685",
@@ -108,8 +108,8 @@
     },
     {
       "temporary_id": "decl-016753",
-      "new_name": "exists_projective_family_with_finrank_hom",
-      "docstring": "There exists a family of finite projective modules whose linear-map dimensions against the chosen simple modules are Kronecker deltas and which has the displayed uniqueness property."
+      "new_name": "Auxiliary.statement016753",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-016754",
