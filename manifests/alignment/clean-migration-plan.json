@@ -1019,7 +1019,7 @@
       "renamed_imports": {}
     },
     {
-      "new_module": "RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor",
+      "new_module": "RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation",
       "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter3.Problem3_9_5": "RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification"
@@ -1037,7 +1037,7 @@
       "new_module": "RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules",
       "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor": "RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor"
+        "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor": "RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation"
       }
     },
     {
@@ -1065,7 +1065,7 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.Algebra.WeylAlgebra.PolynomialBimodule",
+      "new_module": "RepresentationTheory.Algebra.Module.AuxiliaryRepresentations",
       "old_module": "EtingofRepresentationTheory.Chapter3.Remark3_10_3",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.WeylAlgebraDomain": "RepresentationTheory.RingTheory.LexicographicIndexedBasis",
