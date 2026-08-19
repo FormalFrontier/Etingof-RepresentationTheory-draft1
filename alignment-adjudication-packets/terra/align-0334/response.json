@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:18ec564e111b5f254758",
-      "rationale": "The formal type directly identifies the Young-rule multiplicity with the corresponding Kostka number, stating the equality clause of the source assertion.",
-      "role": "primary"
+      "rationale": "The formal type identifies the Young-rule multiplicity with the corresponding Kostka number, but it states only the equality clause and not the semistandard-tableau counting claim.",
+      "role": "supporting"
     }
   ]
 }

@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:c0b453bd0a4425ee6f10",
-      "rationale": "The formal type directly gives an isomorphism decomposing the displayed induced representation as a biproduct of the standard and trivial representations.",
-      "role": "primary"
+      "rationale": "The formal type gives one explicit induced-representation decomposition, but it does not state the section-level claim that the decompositions are obtained using the preceding character tables.",
+      "role": "supporting"
     },
     {
       "association_id": "association:794a8194207e64bedd69",
-      "rationale": "The formal type directly gives an isomorphism decomposing the displayed induced representation as a biproduct of the trivial and sign representations.",
-      "role": "primary"
+      "rationale": "The formal type gives one explicit induced-representation decomposition, but it does not state the section-level claim that the decompositions are obtained using the preceding character tables.",
+      "role": "supporting"
     },
     {
       "association_id": "association:aa30dea77471eb4f669e",
-      "rationale": "The formal type directly gives an isomorphism decomposing the displayed induced representation as a biproduct of the trivial and standard representations.",
-      "role": "primary"
+      "rationale": "The formal type gives one explicit induced-representation decomposition, but it does not state the section-level claim that the decompositions are obtained using the preceding character tables.",
+      "role": "supporting"
     }
   ]
 }
