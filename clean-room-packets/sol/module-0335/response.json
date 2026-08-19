@@ -113,8 +113,8 @@
     },
     {
       "temporary_id": "decl-004485",
-      "new_name": "GaloisField.auxiliaryCharacter_eq_characterCardPow",
-      "docstring": "Auxiliary character construction as the cardinality-power transform"
+      "new_name": "auxiliaryElidedStatement004485",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-004542",

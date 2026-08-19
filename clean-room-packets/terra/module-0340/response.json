@@ -18,8 +18,8 @@
     },
     {
       "temporary_id": "decl-005116",
-      "new_name": "auxiliary_restrict",
-      "docstring": "Shows that the displayed property holds for the restrictions to a submodule preserved by every matrix-indexed linear map."
+      "new_name": "auxiliaryElidedStatement005116",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-018335",

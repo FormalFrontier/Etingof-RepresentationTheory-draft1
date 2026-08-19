@@ -18,8 +18,8 @@
     },
     {
       "temporary_id": "decl-004580",
-      "new_name": "conjugate_auxiliaryFunctionValue_eq_auxiliaryFunctionValue_cardPowerUnit",
-      "docstring": "Conjugating the displayed function value at α by the auxiliary element gives the function value at the unit constructed using the cardinality power."
+      "new_name": "auxiliaryElidedStatement004580",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-004584",

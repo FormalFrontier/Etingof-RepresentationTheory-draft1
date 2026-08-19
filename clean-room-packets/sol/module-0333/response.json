@@ -58,8 +58,8 @@
     },
     {
       "temporary_id": "decl-017910",
-      "new_name": "multiplicativeCharacterMatrixFunction_eq_character_topLeft",
-      "docstring": "For an element satisfying the auxiliary predicate with zero lower-left entry, the matrix-function value is the character of its top-left entry."
+      "new_name": "auxiliaryElidedStatement017910",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-017918",
@@ -68,8 +68,8 @@
     },
     {
       "temporary_id": "decl-017919",
-      "new_name": "distinguishedMatrixUnitFunction_auxiliaryProperty",
-      "docstring": "An auxiliary assertion relating the distinguished matrix-unit function to a predicate on matrix units."
+      "new_name": "auxiliaryUnavailableStatement017919",
+      "docstring": "An auxiliary statement whose formal type was unavailable."
     },
     {
       "temporary_id": "decl-017920",
