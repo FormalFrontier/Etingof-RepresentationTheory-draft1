@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:cb089f02dd603a228f14",
-      "role": "primary",
-      "rationale": "Under the displayed hypothesis that the group cardinality is a unit in the field, the theorem directly states that the group algebra is a semisimple ring."
+      "role": "supporting",
+      "rationale": "The formal theorem derives semisimplicity only from the explicit hypothesis that the group cardinality is a unit in the field, whereas the displayed source claim states semisimplicity without that condition. Packet-only evidence therefore does not directly state the displayed claim."
     }
   ]
 }

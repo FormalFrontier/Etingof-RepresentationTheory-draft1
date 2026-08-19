@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:016aca882104bf9df6fb",
-      "role": "primary",
-      "rationale": "The proposition directly states integrality of the displayed class-size scalar built from the character value and representation dimension."
+      "role": "supporting",
+      "rationale": "The proposition states algebraic integrality of the class-sum scalar, but it does not also state integrality of character values or the finite-sum conclusion, so it covers only part of the displayed claim."
     },
     {
       "association_id": "association:817fce9b378834d4d628",
@@ -13,8 +13,8 @@
     },
     {
       "association_id": "association:bf6671157b283374f5e9",
-      "role": "primary",
-      "rationale": "The theorem directly states that every displayed character value is integral over the integers."
+      "role": "supporting",
+      "rationale": "The theorem states algebraic integrality of character values, but it does not also state integrality of the class-sum scalars or the finite-sum conclusion, so it covers only part of the displayed claim."
     }
   ]
 }
