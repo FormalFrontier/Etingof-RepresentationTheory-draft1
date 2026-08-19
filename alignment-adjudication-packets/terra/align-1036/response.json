@@ -1,10 +1,1 @@
-{
-  "packet_id": "align-1036",
-  "associations": [
-    {
-      "association_id": "association:21af04821bb92d6d6a4f",
-      "rationale": "The formal type directly gives the equivalence between A-linear maps from the span of an idempotent and elements fixed by that idempotent.",
-      "role": "primary"
-    }
-  ]
-}
+{"packet_id":"align-1036","associations":[{"association_id":"association:21af04821bb92d6d6a4f","rationale":"The type gives an abstract equivalence between Hom_A(Ae,M) and the e-fixed elements, but it does not itself identify the forward map as evaluation at e or state the inverse formula.","role":"supporting"}]}

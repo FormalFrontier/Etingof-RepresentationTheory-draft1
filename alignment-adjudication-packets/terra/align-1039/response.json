@@ -1,15 +1,1 @@
-{
-  "packet_id": "align-1039",
-  "associations": [
-    {
-      "association_id": "association:e8edba467836a6a6c8fe",
-      "rationale": "The theorem directly realizes any finite-dimensional simple subrepresentation of the coordinate-ring representation as the range of an equivariant map from an algebraic irreducible representation.",
-      "role": "primary"
-    },
-    {
-      "association_id": "association:6ef4a66f04bfac7cb50d",
-      "rationale": "This containment in the supremum of Peter-Weyl summand ranges is a consequence locating the simple subrepresentation within the decomposition, rather than the realization statement itself.",
-      "role": "supporting"
-    }
-  ]
-}
+{"packet_id":"align-1039","associations":[{"association_id":"association:e8edba467836a6a6c8fe","rationale":"The type realizes a simple subrepresentation as the range of an equivariant map, but the existential map and weight types are elided and it does not display the matrix-coefficient construction asserted by the source.","role":"supporting"},{"association_id":"association:6ef4a66f04bfac7cb50d","rationale":"This containment in the supremum of Peter-Weyl summand ranges is a consequence locating the simple subrepresentation within the decomposition, rather than the realization statement itself.","role":"supporting"}]}
