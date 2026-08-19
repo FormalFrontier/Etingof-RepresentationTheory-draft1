@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:7a7749f78aa1679afd77",
-      "rationale": "The theorem directly gives an internal direct sum of one-dimensional invariant subspaces with injectively indexed characters, stating the multiplicity-free decomposition of R1.",
-      "role": "primary"
+      "rationale": "The theorem directly gives the multiplicity-free decomposition component of R1, but it does not itself state the accompanying classification of all one-dimensional representations required by the complete source claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:e2806d43c41490ab4bbc",
@@ -23,8 +23,8 @@
     },
     {
       "association_id": "association:5e8ac9421216819d55d5",
-      "rationale": "The equivalence directly classifies all one-dimensional representations by characters of the ZMod p product.",
-      "role": "primary"
+      "rationale": "The equivalence gives the one-dimensional-representation classification component, but it does not itself state the required multiplicity-free decomposition of R1.",
+      "role": "supporting"
     },
     {
       "association_id": "association:b15af7468f81cff4ccdd",
