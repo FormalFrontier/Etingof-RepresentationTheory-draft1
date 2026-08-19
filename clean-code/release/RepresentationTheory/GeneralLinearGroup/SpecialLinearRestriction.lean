@@ -536,7 +536,7 @@ theorem auxiliaryQuotientMap_bijective : Function.Bijective (auxiliaryQuotientMa
   ⟨auxiliaryQuotientMap_injective n k, auxiliaryQuotientMap_surjective n k⟩
 
 /-- An auxiliary equivalence with the quotient by representation equivalence. -/
-@[source_ref "Chapter5/Remark5.23.3" (role := primary)]
+@[source_ref "Chapter5/Remark5.23.3" (role := supporting)]
 noncomputable def auxiliaryQuotientEquiv : AuxiliaryType n ≃ Quotient (representationSetoid n k) :=
   Equiv.ofBijective _ (auxiliaryQuotientMap_bijective n k)
 

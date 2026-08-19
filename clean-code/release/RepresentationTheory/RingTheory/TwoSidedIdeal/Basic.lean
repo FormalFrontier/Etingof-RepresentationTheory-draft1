@@ -42,11 +42,11 @@ abbrev Ring.auxiliaryElement' : _root_.RepresentationTheory.RingTheory.TwoSidedI
 abbrev Ring.auxiliaryElement : _root_.RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType A := ⊤
 
 /-- An auxiliary map from an element of the enclosing type to a second ring-dependent type. -/
-@[source_ref "Chapter2/Discussion_2.4_heading" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.4_heading" (role := supporting)]
 abbrev Ring.AuxiliaryType.auxiliaryMap (I : _root_.RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType A) : _root_.RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType' A := I.asIdeal
 
 /-- An auxiliary map from an element of the enclosing type to a third ring-dependent type. -/
-@[source_ref "Chapter2/Discussion_2.4_heading" (role := primary)]
+@[source_ref "Chapter2/Discussion_2.4_heading" (role := supporting)]
 abbrev Ring.AuxiliaryType.auxiliaryMap' (I : _root_.RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType A) : _root_.RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType'' A := I.asIdealOpposite
 
 /-- An auxiliary construction from sets of ring elements into the second auxiliary type. -/

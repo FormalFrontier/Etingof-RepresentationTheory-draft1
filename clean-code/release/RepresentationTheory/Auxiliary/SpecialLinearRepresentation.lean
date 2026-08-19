@@ -853,7 +853,7 @@ theorem finiteProperty_exists_equiv
 
 
 /-- Under module simplicity, gives an equivalent representation from the displayed family. -/
-@[source_ref "Chapter5/Remark5.23.3" (role := primary)]
+@[source_ref "Chapter5/Remark5.23.3" (role := supporting)]
 theorem finiteProperty'_exists_equiv
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     {Y : Type} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]

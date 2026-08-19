@@ -285,7 +285,7 @@ theorem exists_algEquiv_pi_matrix_of_isSemisimpleRing (A : Type*) [Ring A] [Alge
   exact (AlgEquiv.ofBijective (Algebra.ofId k (D i)) hbij).symm.mapMatrix
 
 /-- The tensor product of two finite-dimensional semisimple algebras over an algebraically closed field is semisimple. -/
-@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := primary)]
+@[source_ref "Chapter3/Discussion_proof_of_Theorem3.10.2" (role := supporting)]
 theorem isSemisimpleRing_tensorProduct
     (A B : Type*) [Ring A] [Algebra k A] [FiniteDimensional k A] [IsSemisimpleRing A]
     [Ring B] [Algebra k B] [FiniteDimensional k B] [IsSemisimpleRing B] :
