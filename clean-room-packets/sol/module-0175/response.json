@@ -8,8 +8,8 @@
     },
     {
       "temporary_id": "decl-020627",
-      "new_name": "tensorProductJacobsonIdeal_isTwoSided",
-      "docstring": "The distinguished Jacobson ideal in a tensor product of algebras is two-sided."
+      "new_name": "tensorProductIdeal_aux3_isTwoSided",
+      "docstring": "The third auxiliary ideal of the tensor product is two-sided."
     },
     {
       "temporary_id": "decl-020860",
@@ -23,8 +23,8 @@
     },
     {
       "temporary_id": "decl-020862",
-      "new_name": "tensorProductJacobsonIdeal_isNilpotent",
-      "docstring": "The distinguished Jacobson ideal in the tensor product of two finite-dimensional algebras is nilpotent."
+      "new_name": "tensorProductIdeal_aux3_isNilpotent",
+      "docstring": "The third auxiliary ideal of the tensor product is nilpotent when both factors are finite-dimensional."
     },
     {
       "temporary_id": "decl-020892",
@@ -33,18 +33,18 @@
     },
     {
       "temporary_id": "decl-021009",
-      "new_name": "jacobson_le_tensorProductJacobsonIdeal_of_isSemisimpleRing",
-      "docstring": "If the tensor product of the semisimple quotients is semisimple, the Jacobson radical of the tensor product is contained in the distinguished tensor-product ideal."
+      "new_name": "jacobson_le_tensorProductIdeal_aux3_of_isSemisimpleRing",
+      "docstring": "If the tensor product of the Jacobson-radical quotients is semisimple, the Jacobson radical of the tensor product is contained in the third auxiliary ideal."
     },
     {
       "temporary_id": "decl-021010",
-      "new_name": "jacobson_tensorProduct_eq",
-      "docstring": "For finite-dimensional algebras over an algebraically closed field, the Jacobson radical of their tensor product equals the distinguished tensor-product ideal."
+      "new_name": "jacobson_tensorProduct_eq_aux3",
+      "docstring": "For finite-dimensional algebras over an algebraically closed field, the Jacobson radical of their tensor product equals the third auxiliary ideal."
     },
     {
       "temporary_id": "decl-021011",
-      "new_name": "jacobson_tensorProduct_actionRange_eq",
-      "docstring": "For two algebra actions on a finite-dimensional vector space over an algebraically closed field, the Jacobson radical of the tensor product of their ranges is the corresponding distinguished ideal."
+      "new_name": "jacobson_tensorProduct_actionRange_eq_aux3",
+      "docstring": "For two algebra actions on a finite-dimensional vector space over an algebraically closed field, the Jacobson radical of the tensor product of their ranges equals the corresponding third auxiliary ideal."
     },
     {
       "temporary_id": "decl-021432",
@@ -78,8 +78,8 @@
     },
     {
       "temporary_id": "decl-022273",
-      "new_name": "quotientTensorProductJacobsonIdealAlgEquiv",
-      "docstring": "The quotient by the distinguished tensor-product ideal is algebra-equivalent to the tensor product of the factor algebras modulo their Jacobson radicals."
+      "new_name": "quotientTensorProductIdealAux3AlgEquiv",
+      "docstring": "The quotient by the third auxiliary tensor-product ideal is algebra-equivalent to the tensor product of the factor algebras modulo their Jacobson radicals."
     },
     {
       "temporary_id": "decl-022277",
@@ -93,18 +93,18 @@
     },
     {
       "temporary_id": "decl-022280",
-      "new_name": "tensorProductJacobsonIdeal",
-      "docstring": "The distinguished ideal of a tensor-product algebra formed from the Jacobson radicals of its two factors."
+      "new_name": "tensorProductIdeal_aux3",
+      "docstring": "A third auxiliary ideal of a tensor-product algebra."
     },
     {
       "temporary_id": "decl-022281",
-      "new_name": "tensorProductJacobsonIdeal_eq_ker",
-      "docstring": "The distinguished tensor-product ideal is the kernel of the map to the tensor product of the Jacobson-radical quotients."
+      "new_name": "tensorProductIdeal_aux3_eq_ker",
+      "docstring": "The third auxiliary tensor-product ideal is the kernel of the map to the tensor product of the Jacobson-radical quotients."
     },
     {
       "temporary_id": "decl-022282",
-      "new_name": "tensorProductJacobsonIdeal_le_jacobson",
-      "docstring": "For finite-dimensional factor algebras, the distinguished tensor-product ideal is contained in the Jacobson radical of the tensor product."
+      "new_name": "tensorProductIdeal_aux3_le_jacobson",
+      "docstring": "For finite-dimensional factor algebras, the third auxiliary tensor-product ideal is contained in the Jacobson radical of the tensor product."
     },
     {
       "temporary_id": "decl-024037",

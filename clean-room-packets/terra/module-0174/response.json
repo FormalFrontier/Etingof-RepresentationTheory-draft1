@@ -1,4 +1,4 @@
-{"module_name":"Algebra.Module.KrullSchmidt","declarations":[
+{"module_name":"Algebra.Module.InternalFamilyDecomposition","declarations":[
 {"temporary_id":"decl-018865","new_name":"exists_internalFamily","docstring":"An Artinian and Noetherian module has a finite internal spanning family satisfying the displayed module property."},
 {"temporary_id":"decl-020854","new_name":"isLocalRing_end","docstring":"Under the displayed module property, the endomorphism ring of an Artinian and Noetherian module is local."},
 {"temporary_id":"decl-020859","new_name":"nilpotent_or_isUnit_end","docstring":"Under the displayed module property, every endomorphism is nilpotent or a unit."},
