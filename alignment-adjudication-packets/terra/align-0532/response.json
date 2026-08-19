@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:e8ea0afe8fcdfb5132d1",
-      "rationale": "The theorem directly states that the named Casimir commutes with the action of every sl2 element, which is the centrality clause of the source claim.",
-      "role": "primary"
+      "rationale": "The theorem states that the named Casimir commutes with every sl2 action, but it does not itself display its scalar action on V_lambda, so it states only the centrality component of the combined claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:b90602ebee72ef692df1",
-      "rationale": "The displayed equality directly expands EF + FE + H^2/2 on V_lambda and identifies it with the scalar lambda(lambda+2)/2 times the identity.",
-      "role": "primary"
+      "rationale": "The displayed equality expands EF + FE + H^2/2 on V_lambda and identifies its scalar action, but it does not itself state centrality, so it states only the scalar-action component of the combined claim.",
+      "role": "supporting"
     }
   ]
 }

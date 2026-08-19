@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:cebb79fa4f2d76b70d33",
-      "rationale": "For an irreducible module of displayed dimension lam + 1, the type directly gives an sl(2)-module equivalence with the standard lam + 1 dimensional model.",
-      "role": "primary"
+      "rationale": "For an irreducible module of dimension lam + 1, the type gives an sl(2)-module equivalence with the standard model, but it does not itself assert existence of that irreducible model or display the E, F, and H matrices required by the complete claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:a478de6f68de83364dcb",
