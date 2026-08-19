@@ -85,7 +85,8 @@ jobs:
           use-mathlib-cache: true
           use-github-cache: false
       - name: Build the owned formalization targets
-        id: formalization-build
+        id: formalization_build
+        continue-on-error: true
         env:
           SHARD: ${{ matrix.shard }}
         run: |
@@ -104,13 +105,16 @@ jobs:
             exit 1
           fi
       - name: Upload failed shard build diagnostics
-        if: ${{ always() && steps.formalization-build.outcome == 'failure' }}
+        if: ${{ always() && steps.formalization_build.outcome == 'failure' }}
         uses: actions/upload-artifact@v4
         with:
           name: formalization-build-log-${{ github.run_id }}-shard-${{ matrix.shard }}
           path: ${{ runner.temp }}/formalization-shard-${{ matrix.shard }}-build.log
           if-no-files-found: error
           retention-days: 7
+      - name: Fail the shard after uploading build diagnostics
+        if: ${{ always() && steps.formalization_build.outcome == 'failure' }}
+        run: exit 1
       - name: Extract the strong formalization shard payload
         env:
           SHARD: ${{ matrix.shard }}
