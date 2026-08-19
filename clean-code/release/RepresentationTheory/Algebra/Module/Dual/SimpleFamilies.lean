@@ -81,7 +81,7 @@ theorem linearIndependent_moduleDualElement (k : Type*) (A : Type*)
   rw [hsum, htr_target_i, mul_one] at h0'
   exact h0'
 
-attribute [source_ref "Chapter3/Theorem3.6.2" (role := primary)]
+attribute [source_ref "Chapter3/Theorem3.6.2" (role := supporting)]
   linearIndependent_moduleDualElement
 attribute [source_ref "Chapter3/Theorem3.7.1/Derived7" (role := primary)]
   linearIndependent_moduleDualElement

@@ -294,7 +294,7 @@ theorem sum_conjugates_auxCharacterExtension
   rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
 
 /-- Identifies the character of the two-parameter auxiliary representation with trivial second parameter. -/
-@[source_ref "Chapter5/Discussion_5.25.3" (role := primary)]
+@[source_ref "Chapter5/Discussion_5.25.3" (role := supporting)]
 theorem character_auxTwoParameter_rightOne
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)] [Fintype (GL2 p n)]
     (alpha : (GaloisField p n)ˣ →* ℂˣ) (g : GL2 p n) :
@@ -472,7 +472,7 @@ lemma sum_parameterFunction_swap [Fintype (GaloisField p n)] [DecidableEq (Galoi
     (RepresentationTheory.FiniteFieldMatrixCharacterFormulas.parameterFunction_involution p n a b c i).symm
 
 /-- Identifies the character of the auxiliary representation at the trivial unit character with a specified complex-valued function. -/
-@[source_ref "Chapter5/Discussion_5.25.3" (role := primary)]
+@[source_ref "Chapter5/Discussion_5.25.3" (role := supporting)]
 theorem character_auxFamily_one [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     (g : GL2 p n) :
     (RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryRepresentation p n 1).character g =

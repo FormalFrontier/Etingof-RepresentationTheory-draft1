@@ -19,7 +19,7 @@ open scoped TensorProduct
 namespace RepresentationTheory.Algebra.AuxiliaryTwoModuleType
 
 /-- An auxiliary type depending on two modules over a commutative ring. -/
-@[source_ref "Chapter2/Definition2.11.1" (role := primary)]
+@[source_ref "Chapter2/Definition2.11.1" (role := supporting)]
 abbrev AuxiliaryModuleType (k : Type*) (V W : Type*) [CommRing k]
     [AddCommGroup V] [AddCommGroup W] [Module k V] [Module k W] :=
   V ⊗[k] W
