@@ -36,13 +36,13 @@ variable (X Y : (Module.End k V)ˣ)
 /-- The product of the underlying endomorphisms of two integer powers of a unit is the underlying endomorphism at the sum of the exponents. -/
 theorem val_zpow_mul_val_zpow (i i' : ℤ) :
     (↑(X ^ i) : Module.End k V) * ↑(X ^ i') = ↑(X ^ (i + i')) := by
-  rw [zpow_add]
+  rw [zpow_add];
   rfl
 
 /-- An auxiliary form of the identity multiplying the underlying endomorphisms of two integer powers of a unit. -/
 theorem auxiliaryValZpowMulValZpow (j j' : ℤ) :
     (↑(Y ^ j) : Module.End k V) * ↑(Y ^ j') = ↑(Y ^ (j + j')) := by
-  rw [zpow_add]
+  rw [zpow_add];
   rfl
 
 /-- The unit of the endomorphism algebra induced by a unit of the coefficient ring. -/

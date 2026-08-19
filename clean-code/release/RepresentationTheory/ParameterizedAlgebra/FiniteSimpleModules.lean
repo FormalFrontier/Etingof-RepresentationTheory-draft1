@@ -423,8 +423,8 @@ theorem pow_finrank_eq_one
   set X' : twistedLatticeShiftSubalgebra ℂ q := ⟨twistedLatticeShift ℂ q (-1, 0), twistedLatticeShift_mem_generatedSubalgebra ℂ q _⟩ with hX'
   set Y' : twistedLatticeShiftSubalgebra ℂ q := ⟨twistedLatticeShift ℂ q (0, -1), twistedLatticeShift_mem_generatedSubalgebra ℂ q _⟩ with hY'
 
-  have hXX' : X * X' = 1 := by apply Subtype.ext; simpa using twistedLatticeShift_auxiliary_identity_three ℂ q
-  have hYY' : Y * Y' = 1 := by apply Subtype.ext; simpa using twistedLatticeShift_auxiliary_identity_four ℂ q
+  have hXX' : X * X' = 1 := by apply Subtype.ext; simpa using auxiliaryThree ℂ q
+  have hYY' : Y * Y' = 1 := by apply Subtype.ext; simpa using auxiliaryFour ℂ q
 
   have hrel : Y * X = (q : ℂ) • (X * Y) := by
     apply Subtype.ext; simpa using twistedLatticeShift_generators_commute_up_to_unit ℂ q
@@ -605,11 +605,11 @@ theorem center_eq_adjoin_generators_of_isOfFinOrder (_hq : IsOfFinOrder q) :
     have hXX' : gX q * gX' q = 1 := by
       apply Subtype.ext
       rw [MulMemClass.coe_mul, coe_gX, coe_gX', OneMemClass.coe_one]
-      exact twistedLatticeShift_auxiliary_identity_three ℂ q
+      exact auxiliaryThree ℂ q
     have hYY' : gY q * gY' q = 1 := by
       apply Subtype.ext
       rw [MulMemClass.coe_mul, coe_gY, coe_gY', OneMemClass.coe_one]
-      exact twistedLatticeShift_auxiliary_identity_four ℂ q
+      exact auxiliaryFour ℂ q
 
     have hconjX : gX q * z * gX' q = z := by
       rw [Subalgebra.mem_center_iff.mp hz (gX q), mul_assoc, hXX', mul_one]

@@ -497,7 +497,7 @@ theorem displayed_eq_aux1 (k : Type*) [CommRing k] :
   exact hmk
 
 /-- A distinguished value of the displayed type. -/
-noncomputable def distinguishedElement_aux4 (k : Type*) [CommRing k] : RepresentationTheory.FreeAlgebra.PolynomialOperators.freeAlgebraGenerator → AuxiliaryType_aux2 k :=
+noncomputable def distinguishedElement_aux4 (k : Type*) [CommRing k] : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryIndex → AuxiliaryType_aux2 k :=
   ![distinguishedElement k, distinguishedElement_aux1 k]
 
 /-- An algebra homomorphism between the displayed algebras. -/
@@ -506,7 +506,7 @@ noncomputable def algHom_aux5 (k : Type*) [CommRing k] :
   RingQuot.liftAlgHom k
     ⟨FreeAlgebra.lift k (distinguishedElement_aux4 k), by
       rintro a b ⟨rfl, rfl⟩
-      simp only [RepresentationTheory.FreeAlgebra.PolynomialOperators.freeAlgebraGeneratorLeft, RepresentationTheory.FreeAlgebra.PolynomialOperators.freeAlgebraGeneratorRight, map_mul, map_add, map_one,
+      simp only [RepresentationTheory.FreeAlgebra.PolynomialOperators.auxiliaryFreeAlgebraElement, RepresentationTheory.FreeAlgebra.PolynomialOperators.auxiliaryFreeAlgebraElement', map_mul, map_add, map_one,
         FreeAlgebra.lift_ι_apply, distinguishedElement_aux4, Matrix.cons_val_zero, Matrix.cons_val_one]
       exact displayed_eq_aux1 k⟩
 
@@ -514,14 +514,14 @@ noncomputable def algHom_aux5 (k : Type*) [CommRing k] :
 @[simp] theorem map_apply_aux9 (k : Type*) [CommRing k] :
     algHom_aux5 k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator k) = distinguishedElement k := by
   rw [algHom_aux5, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.fromFreeAlgebra, RingQuot.liftAlgHom_mkAlgHom_apply,
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.freeAlgebraGeneratorLeft, FreeAlgebra.lift_ι_apply]
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.auxiliaryFreeAlgebraElement, FreeAlgebra.lift_ι_apply]
   simp [distinguishedElement_aux4]
 
 /-- The displayed map sends the specified input to the stated value. -/
 @[simp] theorem map_apply_aux10 (k : Type*) [CommRing k] :
     algHom_aux5 k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator k) = distinguishedElement_aux1 k := by
   rw [algHom_aux5, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator, RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.fromFreeAlgebra, RingQuot.liftAlgHom_mkAlgHom_apply,
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.freeAlgebraGeneratorRight, FreeAlgebra.lift_ι_apply]
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.auxiliaryFreeAlgebraElement', FreeAlgebra.lift_ι_apply]
   simp [distinguishedElement_aux4]
 
 /-- The displayed map sends the specified input to the stated value. -/
