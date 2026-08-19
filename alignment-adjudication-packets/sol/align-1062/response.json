@@ -13,8 +13,8 @@
     },
     {
       "association_id": "association:c0e5071a4666d8ee09fa",
-      "rationale": "The type directly states that the y generator times the x generator equals q times x times y.",
-      "role": "primary"
+      "rationale": "The type states the q-commutation relation, but it does not itself state that both generators are invertible as also required by the source presentation.",
+      "role": "supporting"
     },
     {
       "association_id": "association:fdcdb7aaeffddd7c02dc",

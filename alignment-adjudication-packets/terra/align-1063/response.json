@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:69476c15fc6e0d25f9ca",
-      "rationale": "Under surjectivity of the sink map, the type directly gives an isomorphism from the two opposite reflections back to the original representation.",
-      "role": "primary"
+      "rationale": "The type gives the double-reflection isomorphism only in the surjective sink-map case; it does not state the injective source-map case also included in the source claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:fa1815c1480a0cc75dbb",
-      "rationale": "Under injectivity of the source map, the type directly gives an isomorphism from the two opposite reflections back to the original representation.",
-      "role": "primary"
+      "rationale": "The type gives the double-reflection isomorphism only in the injective source-map case; it does not state the surjective sink-map case also included in the source claim.",
+      "role": "supporting"
     }
   ]
 }

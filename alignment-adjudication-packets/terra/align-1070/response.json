@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:dd2af1b36ed5984c2d95",
-      "rationale": "The type directly identifies c under the matrix equivalence with the matrix unit E02.",
-      "role": "primary"
+      "rationale": "The type identifies c with E02, but it does not itself identify x and y with the other two matrix units in the displayed basis.",
+      "role": "supporting"
     },
     {
       "association_id": "association:aa4ea53ddc7a5033271b",
-      "rationale": "The type directly identifies x under the matrix equivalence with the matrix unit E12.",
-      "role": "primary"
+      "rationale": "The type identifies x with E12, but it does not itself identify y and c with the other two matrix units in the displayed basis.",
+      "role": "supporting"
     },
     {
       "association_id": "association:8f9e175642d1ee167a2c",
-      "rationale": "The type directly identifies y under the matrix equivalence with the matrix unit E01.",
-      "role": "primary"
+      "rationale": "The type identifies y with E01, but it does not itself identify x and c with the other two matrix units in the displayed basis.",
+      "role": "supporting"
     }
   ]
 }

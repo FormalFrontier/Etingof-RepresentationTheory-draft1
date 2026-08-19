@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:a19a9edfb6737a547271",
-      "rationale": "The type defines the algebraic-integer object as a bundled subalgebra of the complex numbers over the integers.",
-      "role": "primary"
+      "rationale": "The type defines the bundled algebraic-integer object, but it does not itself define the algebraic-number object also identified in the source claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:448118055ca47329cfbc",
-      "rationale": "The type defines the algebraic-number object as a bundled intermediate field of the complex numbers over the rationals.",
-      "role": "primary"
+      "rationale": "The type defines the bundled algebraic-number object, but it does not itself define the algebraic-integer object also identified in the source claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:726d45939687dc72ea0d",
