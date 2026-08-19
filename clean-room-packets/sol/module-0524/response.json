@@ -128,8 +128,8 @@
     },
     {
       "temporary_id": "decl-000593",
-      "new_name": "auxiliary_theorem",
-      "docstring": "An auxiliary result whose formal statement is unavailable."
+      "new_name": "Auxiliary.statement000593",
+      "docstring": "The formal statement of this declaration is unavailable in the packet."
     },
     {
       "temporary_id": "decl-000600",
