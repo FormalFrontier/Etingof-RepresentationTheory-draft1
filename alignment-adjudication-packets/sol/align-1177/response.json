@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:8a81a25363facf638794",
-      "rationale": "The displayed type directly defines YoungTableau for a partition of n, visibly formalizing the source claim that tableaux of partitions are represented.",
-      "role": "primary"
+      "rationale": "It supplies the YoungTableau type for a partition, one component of the broader representation-and-canonical-tableau claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:c89a9063f641cadf4bb8",
-      "rationale": "The displayed function directly supplies a canonical StandardYoungTableau for every partition, visibly formalizing the canonical increasing-tableau part of the source claim.",
-      "role": "primary"
+      "rationale": "It supplies a standard tableau for each partition, one component of the broader claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:d78a759d97c24d5ca59a",
-      "rationale": "The displayed function directly supplies a canonical YoungTableau for every partition, visibly formalizing the canonical-tableau part of the source claim.",
-      "role": "primary"
+      "rationale": "It supplies a YoungTableau for each partition, one component of the broader claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:69e4dc8d5b19cccb886e",
