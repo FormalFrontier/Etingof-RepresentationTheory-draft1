@@ -361,7 +361,7 @@ abbrev ringCon (k : Type*) [CommRing k] :
 abbrev AuxiliaryType_aux2 (k : Type*) [CommRing k] : Type _ := (ringCon k).Quotient
 
 /-- The displayed map sends the specified input to the stated value. -/
-@[source_ref "Chapter2/Example2.9.13" (role := primary)]
+@[source_ref "Chapter2/Example2.9.13" (role := supporting)]
 theorem map_apply_aux14 (k : Type*) [CommRing k] :
     (ringCon k).mk' (ι k (distinguishedElement_aux2 : AuxiliaryType k)) = (ringCon k).mk' 1 := by
   have h : ringCon k (ι k (distinguishedElement_aux2 : AuxiliaryType k)) 1 := by
@@ -576,7 +576,7 @@ theorem algHom_comp_eq_aux2 (k : Type*) [CommRing k] :
   exact AlgHom.congr_fun key a
 
 /-- An algebra equivalence between the displayed algebras. -/
-@[source_ref "Chapter2/Example2.9.13" (role := primary)]
+@[source_ref "Chapter2/Example2.9.13" (role := supporting)]
 noncomputable def algEquiv_aux1 (k : Type*) [CommRing k] :
     AuxiliaryType_aux2 k ≃ₐ[k] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra k :=
   AlgEquiv.ofAlgHom (algHom_aux6 k) (algHom_aux5 k) (algHom_comp_eq_aux3 k) (algHom_comp_eq_aux2 k)

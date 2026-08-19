@@ -50,7 +50,7 @@ theorem SymmetricAlgebra.generator_mul_comm (V : Type v) [AddCommGroup V] [Modul
   mul_comm _ _
 
 /-- Every canonical exterior-algebra generator has square zero. -/
-@[source_ref "Chapter2/Definition2.12.1" (role := primary)]
+@[source_ref "Chapter2/Definition2.12.1" (role := supporting)]
 theorem ExteriorAlgebra.generator_sq_eq_zero (V : Type v) [AddCommGroup V] [Module k V]
     (x : V) :
     ExteriorAlgebra.ι k x * ExteriorAlgebra.ι k x = 0 :=

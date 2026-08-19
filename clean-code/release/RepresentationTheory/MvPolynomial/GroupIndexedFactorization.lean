@@ -140,7 +140,7 @@ private lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.Decomposition
 
 
 /-- The auxiliary group-indexed polynomial equals the product of the indexed auxiliary polynomials to their prescribed powers, scaled by the sign of inversion. -/
-@[source_ref "Chapter4/Theorem4.10.2" (role := primary),
+@[source_ref "Chapter4/Theorem4.10.2" (role := supporting),
   source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := supporting)]
 lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryGroupPolynomial_eq_sign_smul_prod_auxiliaryPolynomial_pow [NeZero (Nat.card G : k)]
     (D : RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData k G) :

@@ -19,7 +19,7 @@ variable (k : Type*) {A : Type*} [Field k] [AddCommGroup A] [Module k A]
   [inst : AuxiliaryStructure k A]
 
 /-- An auxiliary predicate on elements of a module equipped with the referenced auxiliary structure. -/
-@[source_ref "Chapter2/Definition2.2.2" (role := primary),
+@[source_ref "Chapter2/Definition2.2.2" (role := supporting),
   source_ref "Chapter2/Discussion_2.1_overview/Derived2" (role := supporting)]
 def auxiliaryPredicate (e : A) : Prop :=
   ∀ a : A, inst.op e a = a ∧ inst.op a e = a
