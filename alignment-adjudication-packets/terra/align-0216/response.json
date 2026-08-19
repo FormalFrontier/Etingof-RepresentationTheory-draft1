@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:d74c8ddb27578d73a3f9",
-      "role": "primary",
-      "rationale": "It directly establishes that the displayed representation carrier is subsingleton, hence is the zero vector space."
+      "role": "supporting",
+      "rationale": "It establishes that the displayed carrier is subsingleton, supporting its identification as the zero vector space, but does not itself state that this space is a representation."
     }
   ]
 }
