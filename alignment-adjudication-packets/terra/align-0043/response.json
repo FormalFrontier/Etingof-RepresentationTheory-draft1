@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:0fc116db8c7bb4227b25",
-      "role": "primary",
-      "rationale": "Its type directly includes both assertions in the source claim: every block factor P j is irreducible, and factors with distinct indices are not associated."
+      "role": "supporting",
+      "rationale": "The type produces irreducible, pairwise nonassociated factors P in a factorization, but it does not identify those P as the source's block determinants."
     }
   ]
 }
