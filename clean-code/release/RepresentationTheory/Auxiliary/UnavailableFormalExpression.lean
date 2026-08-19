@@ -76,13 +76,10 @@ theorem auxiliaryFact : Irrational (arccos (1 / 3) / π) := by
   rw [eq_div_iff hπ] at hr
   have hden : (r.den : ℝ) ≠ 0 := by exact_mod_cast r.den_ne_zero
   have hrq : (r : ℝ) * (r.den : ℝ) = (r.num : ℝ) := by
-    rw [Rat.cast_def]
-    field_simp
+    rw [Rat.cast_def]; field_simp
   have harg : (↑(2 * r.den) : ℝ) * θ = (r.num : ℝ) * (2 * π) := by
     have hθ2 : θ = (r : ℝ) * π := hr.symm
-    rw [hθ2]
-    push_cast
-    linear_combination (2 * π) * hrq
+    rw [hθ2]; push_cast; linear_combination (2 * π) * hrq
   have hcos1 : cos ((↑(2 * r.den) : ℝ) * θ) = 1 := by
     rw [harg]
     exact Real.cos_int_mul_two_pi r.num
