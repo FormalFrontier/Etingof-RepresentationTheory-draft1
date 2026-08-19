@@ -4,12 +4,12 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: mathlib-initiative
 -/
 
-import EtingofRepresentationTheory.Chapter3.Theorem3_6_2
+import RepresentationTheory.Algebra.Module.Dual.SimpleFamilies
 import RepresentationTheory.Alignment.Attribute
 
 open Module
 
-namespace Etingof
+namespace RepresentationTheory.LinearAlgebra.FunctionSpaceEndomorphism
 
 section Diagonal
 
@@ -24,8 +24,8 @@ def linearMapOnFunctions {ι : Type*} (f : V →ₗ[k] V) : (ι → V) →ₗ[k]
   LinearMap.pi fun i => f ∘ₗ LinearMap.proj i
 
 
-@[simp]
 /-- The pointwise endomorphism of a function space applies the original linear map at each input. -/
+@[simp]
 lemma linearMapOnFunctions_apply {ι : Type*} (f : V →ₗ[k] V) (g : ι → V) (i : ι) :
     linearMapOnFunctions k V f g i = f (g i) := rfl
 
@@ -73,8 +73,10 @@ variable (k : Type*) (A : Type*) (V : Type*)
 
 
 /-- For a finite family of copies of a module, the auxiliary function is the family cardinality times its value for the module. -/
+@[source_ref "Chapter3/Theorem3.7.1/Derived6" (role := supporting)]
 theorem auxiliaryFunction_finFun (n : ℕ) (a : A) :
-    Etingof.character k A (Fin n → V) a = n • Etingof.character k A V a := by
+    RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A (Fin n → V) a =
+      n • RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A V a := by
 
 
   have h1 : (Algebra.lsmul k k (Fin n → V) : A →ₐ[k] Module.End k (Fin n → V)) a
@@ -83,19 +85,27 @@ theorem auxiliaryFunction_finFun (n : ℕ) (a : A) :
     intro g
     funext i
     rfl
-  simp only [Etingof.character, LinearMap.comp_apply, AlgHom.toLinearMap_apply, h1]
+  simp only [RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement,
+    LinearMap.comp_apply, AlgHom.toLinearMap_apply, h1]
   exact trace_linearMapOnFunctions k V n _
+
+attribute [source_ref "Chapter3/Theorem3.7.1/Derived9" (role := supporting)]
+  auxiliaryFunction_finFun
 
 
 
 
 
 /-- In characteristic p, the auxiliary function for p copies of a module is zero. -/
+@[source_ref "Chapter3/Theorem3.7.1" (role := primary)]
 theorem auxiliaryFunction_finFun_eq_zero_of_char (p : ℕ) [CharP k p] :
-    Etingof.character k A (Fin p → V) = 0 := by
+    RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A (Fin p → V) = 0 := by
   ext a
   rw [auxiliaryFunction_finFun k A V p a, LinearMap.zero_apply, nsmul_eq_mul, CharP.cast_eq_zero, zero_mul]
 
+attribute [source_ref "Chapter3/Theorem3.7.1/Derived9" (role := supporting)]
+  auxiliaryFunction_finFun_eq_zero_of_char
+
 end Footnote
 
-end Etingof
+end RepresentationTheory.LinearAlgebra.FunctionSpaceEndomorphism

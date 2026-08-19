@@ -4,12 +4,12 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: mathlib-initiative
 -/
 
-import EtingofRepresentationTheory.Chapter3.Theorem3_6_2
+import RepresentationTheory.Algebra.Module.Dual.SimpleFamilies
 import RepresentationTheory.Alignment.Attribute
 
 open Module
 
-namespace Etingof
+namespace RepresentationTheory.Module.SubmoduleQuotientAuxiliary
 
 section Exercise361
 
@@ -21,21 +21,25 @@ variable (k : Type*) (A : Type*) (V : Type*)
 
 
 
-instance : Module.Finite k (W : Type _) :=
+/-- An invariant submodule of a finite-dimensional module is finite over the base field. -/
+instance submodule_moduleFinite : Module.Finite k (W : Type _) :=
   Module.Finite.of_injective (W.subtype.restrictScalars k) Subtype.val_injective
 
 
 
-instance : Module.Finite k (V ⧸ W) :=
+/-- The quotient by an invariant submodule of a finite-dimensional module is finite over the base field. -/
+instance quotient_moduleFinite : Module.Finite k (V ⧸ W) :=
   Module.Finite.of_surjective (W.mkQ.restrictScalars k) W.mkQ_surjective
 
 
 
 
 /-- The auxiliary function for a finite-dimensional module is the sum of those for an invariant submodule and the corresponding quotient. -/
+@[source_ref "Chapter3/Exercise3.6.1" (role := primary)]
 theorem auxiliaryFunction_eq_submodule_add_quotient :
-    Etingof.character k A V
-      = Etingof.character k A (W : Type _) + Etingof.character k A (V ⧸ W) := by
+    RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A V =
+      RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A (W : Type _) +
+        RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement k A (V ⧸ W) := by
   classical
   ext a
 
@@ -105,6 +109,9 @@ theorem auxiliaryFunction_eq_submodule_add_quotient :
     _ = LinearMap.trace k (W : Type _) fW + LinearMap.trace k (V ⧸ W) fQ := by
         rw [hterm1, hterm2]
 
+attribute [source_ref "Chapter3/Theorem3.7.1/Derived6" (role := supporting)]
+  auxiliaryFunction_eq_submodule_add_quotient
+
 end Exercise361
 
-end Etingof
+end RepresentationTheory.Module.SubmoduleQuotientAuxiliary
