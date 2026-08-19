@@ -24,9 +24,15 @@ abbrev AuxiliaryLieModuleType (k : Type*) (L : Type*) (V : Type*)
     [AddCommGroup V] [Module k V] [LieRingModule L V] [LieModule k L V] :=
   Module.Dual k V
 
-variable {k L V : Type*}
+variable (k : Type*) (L : Type*) (V : Type*)
     [CommRing k] [LieRing L] [LieAlgebra k L]
     [AddCommGroup V] [Module k V] [LieRingModule L V] [LieModule k L V]
+
+example : LieRingModule L (AuxiliaryLieModuleType k L V) := inferInstance
+
+example : LieModule k L (AuxiliaryLieModuleType k L V) := inferInstance
+
+variable {k L V}
 
 /-- Evaluating the bracket of a Lie element with an auxiliary element gives the negated evaluation at the bracket of that Lie element with the vector. -/
 @[simp, source_ref "Chapter2/Definition2.14.2" (role := primary)]
