@@ -19,7 +19,7 @@
     {
       "temporary_id": "decl-006661",
       "new_name": "Matrix.transposeMulMvPolynomialAlgHom_det_mvPolynomialX",
-      "docstring": "The transpose-multiplication polynomial algebra homomorphism maps the determinant of the coordinate matrix to the constant polynomial given by the matrix determinant times the coordinate-matrix determinant."
+      "docstring": "The transpose-multiplication polynomial algebra homomorphism maps the determinant of the coordinate matrix to the product of the constant polynomial associated with the matrix determinant and the coordinate-matrix determinant."
     },
     {
       "temporary_id": "decl-006662",

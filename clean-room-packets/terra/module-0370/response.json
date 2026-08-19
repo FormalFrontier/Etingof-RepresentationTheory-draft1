@@ -18,8 +18,8 @@
     },
     {
       "temporary_id": "decl-006690",
-      "new_name": "Auxiliary.GeneralLinearGroupRepresentationDecomposition.existsElidedData",
-      "docstring": "Under the displayed hypotheses on a finite-dimensional representation, asserts an existential statement whose terminal predicate is elided."
+      "new_name": "auxiliaryElidedStatement006690",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     }
   ]
 }
