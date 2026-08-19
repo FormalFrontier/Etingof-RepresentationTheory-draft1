@@ -126,13 +126,6 @@ def synchronize(
         for declaration, reference, old_role, new_role in sorted(changes):
             lines = text.splitlines(keepends=True)
             position = declarations.get(declaration)
-            if position is None or len(position) < 6:
-                raise ValueError(
-                    f"missing source position for {declaration} in {module}"
-                )
-            start_line = position[0]
-            selection_line = position[4]
-            segment = "".join(lines[start_line : selection_line + 1])
             pattern = re.compile(
                 r"(source_ref\s*\""
                 + re.escape(reference)
@@ -140,6 +133,46 @@ def synchronize(
                 + re.escape(old_role)
                 + r"(\s*\))"
             )
+            if position is None or len(position) < 6:
+                # Lean's identifier index can omit declarations such as
+                # ``abbrev``.  In that case, select a pre-declaration
+                # attribute by both its reference and the explicit local
+                # declaration name in the immediately following command.
+                local_name = declaration.rsplit(".", 1)[-1]
+                name_pattern = re.compile(
+                    r"(?<![A-Za-z0-9_'])"
+                    + re.escape(local_name)
+                    + r"(?![A-Za-z0-9_'])"
+                )
+                candidates: list[re.Match[str]] = []
+                for match in pattern.finditer(text):
+                    close = text.find("]", match.end())
+                    if close < 0:
+                        continue
+                    tail = text[close + 1 : close + 2001]
+                    tail = tail.split("\n\n", 1)[0]
+                    if name_pattern.search(tail):
+                        candidates.append(match)
+                if len(candidates) != 1:
+                    raise ValueError(
+                        f"missing source position and expected one "
+                        f"pre-declaration {old_role} attribute for "
+                        f"{declaration} | {reference}, found {len(candidates)}"
+                    )
+                match = candidates[0]
+                text = (
+                    text[: match.start()]
+                    + match.group(1)
+                    + new_role
+                    + match.group(2)
+                    + text[match.end() :]
+                )
+                total += 1
+                continue
+
+            start_line = position[0]
+            selection_line = position[4]
+            segment = "".join(lines[start_line : selection_line + 1])
             matches = list(pattern.finditer(segment))
             if len(matches) == 1:
                 match = matches[0]
