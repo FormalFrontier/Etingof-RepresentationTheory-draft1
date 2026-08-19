@@ -53,23 +53,23 @@
     },
     {
       "association_id": "association:08c3d6afb1b252220a7d",
-      "rationale": "The formal implication says that distinct inducing characters make the principal-series representation simple, exactly stating part (1).",
-      "role": "primary"
+      "rationale": "The type states only part (1), not the decomposition and isomorphism classifications in parts (2) and (3).",
+      "role": "supporting"
     },
     {
       "association_id": "association:2c2b0574fb0c2eb24454",
-      "rationale": "The conjunction gives the equal-character principal series as the determinant character plus a simple complement W_mu of dimension q, directly stating part (2).",
-      "role": "primary"
+      "rationale": "The type states only part (2), not the irreducibility and isomorphism assertions in parts (1) and (3).",
+      "role": "supporting"
     },
     {
       "association_id": "association:6ae844f5ba649963440e",
-      "rationale": "The equivalence classifies W_mu up to isomorphism exactly by equality of mu, directly stating the first assertion of part (3).",
-      "role": "primary"
+      "rationale": "The type states only the first isomorphism assertion of part (3), not the other numbered conclusions of the theorem.",
+      "role": "supporting"
     },
     {
       "association_id": "association:0d2b1fbfa40130a4b04a",
-      "rationale": "For unequal pairs, the equivalence identifies principal-series isomorphism exactly with equality of the unordered character pairs, directly stating the second assertion of part (3).",
-      "role": "primary"
+      "rationale": "The type states only the second isomorphism assertion of part (3), not the theorem's irreducibility, decomposition, and first isomorphism conclusions.",
+      "role": "supporting"
     }
   ]
 }

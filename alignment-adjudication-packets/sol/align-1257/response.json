@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:9c2fe87dc8ab74f8f2b5",
-      "rationale": "The equivalence says the partition-indexed Schur module is zero exactly when N is smaller than the number of parts, directly matching the theorem's vanishing clause.",
-      "role": "primary"
+      "rationale": "The equivalence states only the vanishing clause; it does not itself include the character and Weyl-dimension formulas also asserted by the theorem.",
+      "role": "supporting"
     },
     {
       "association_id": "association:9a90d8c388bf4aeaf837",
@@ -13,13 +13,13 @@
     },
     {
       "association_id": "association:f25249493b49ccb0aaa6",
-      "rationale": "For an antitone N-component highest weight, the formal equality identifies the Schur module's formal character with the Schur polynomial, directly stating the character clause in its nonvanishing parameterization.",
-      "role": "primary"
+      "rationale": "The type states only the Schur-character clause and does not itself include the vanishing criterion or dimension formula.",
+      "role": "supporting"
     },
     {
       "association_id": "association:2be7b51aba0252f3cf58",
-      "rationale": "The formal equality gives the Schur module's dimension as weylDimension, the formalized Weyl product appearing in the source, so it directly states the dimension clause.",
-      "role": "primary"
+      "rationale": "The type states only the Weyl-dimension clause and does not itself include the vanishing criterion or Schur-character formula.",
+      "role": "supporting"
     },
     {
       "association_id": "association:bf59f9d1968df9db6615",
@@ -28,8 +28,8 @@
     },
     {
       "association_id": "association:d65b5bebaeaa2238e322",
-      "rationale": "Under the source's N-at-least-number-of-parts hypothesis, this equality directly gives the partition-indexed module's dimension by the Weyl dimension expression.",
-      "role": "primary"
+      "rationale": "The type gives the dimension formula on the nonvanishing branch only, not the theorem's vanishing and character clauses.",
+      "role": "supporting"
     },
     {
       "association_id": "association:2281b9d5608e8fda2659",
@@ -38,8 +38,8 @@
     },
     {
       "association_id": "association:bbd28a30a70be7aa1a4b",
-      "rationale": "With the number-of-parts bound assumed, the equality directly identifies the partition-indexed module's formal character with the corresponding Schur polynomial.",
-      "role": "primary"
+      "rationale": "The type gives the character formula on the nonvanishing branch only, not the theorem's vanishing and dimension clauses.",
+      "role": "supporting"
     }
   ]
 }
