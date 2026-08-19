@@ -822,6 +822,7 @@ import RepresentationTheory.ModuleTheory.AuxiliaryCondition
 import RepresentationTheory.Module.RelSeriesAuxiliary
 import RepresentationTheory.LinearAlgebra.FunctionSpaceEndomorphism
 import RepresentationTheory.Module.SubmoduleQuotientAuxiliary
+import RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap
 
 /-!
 # Representation theory formalization
