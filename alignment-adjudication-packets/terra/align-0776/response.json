@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:3b8d88efecdac3542f7b",
-      "role": "primary",
-      "rationale": "It directly states the finite-orbit dimension bound finrank V ≤ n² for a GL representation."
+      "role": "supporting",
+      "rationale": "It directly gives the dimension-bound component, but it does not itself construct the rational-function field embedding also required by the complete source claim."
     }
   ]
 }

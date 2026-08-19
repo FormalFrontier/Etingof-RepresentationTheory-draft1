@@ -8,8 +8,8 @@
     },
     {
       "association_id": "association:1665a96b7272bd53a9de",
-      "role": "primary",
-      "rationale": "This directly gives an intertwining equivalence between staged induction and induction from the smaller subgroup."
+      "role": "supporting",
+      "rationale": "The type gives an existential witness satisfying an intertwining equation, but the witness's type is elided; it does not visibly state a natural representation isomorphism for induction in stages."
     }
   ]
 }

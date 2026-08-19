@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:e87a7a1b9e8c288bd909",
-      "rationale": "The formal type directly computes the A_n Cartan determinant as n + 1, which is part of the source claim.",
-      "role": "primary"
+      "rationale": "The formal type computes only the A_n determinant; it does not itself state the D_n determinant and positivity components of the complete source claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:b879d619104bc3bf444a",
-      "rationale": "The formal type directly computes the D_n Cartan determinant as 4, which is part of the source claim.",
-      "role": "primary"
+      "rationale": "The formal type computes only the D_n determinant; it does not itself state the A_n determinant and positivity components of the complete source claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:32ea4b426128190e0ed2",
