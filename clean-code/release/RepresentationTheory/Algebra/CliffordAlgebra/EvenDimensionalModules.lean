@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENCE.
 Authors: mathlib-initiative
 -/
 
-import RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor
+import RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation
 import Mathlib.LinearAlgebra.QuadraticForm.AlgClosed
 import RepresentationTheory.Alignment.Attribute
 
@@ -18,21 +18,21 @@ variable {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
 
 /-- The bilinear form associated to the standard even-dimensional quadratic form separates points in its left argument. -/
 theorem standardEvenQuadraticForm_associated_separatingLeft (n : ℕ) :
-    (QuadraticMap.associated (R := ℂ) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n)).SeparatingLeft := by
+    (QuadraticMap.associated (R := ℂ) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm n)).SeparatingLeft := by
   intro x hx
   rcases x with ⟨f, u⟩
   apply Prod.ext
   · apply LinearMap.ext
     intro v
     have h := hx (0, v)
-    simpa [_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm, QuadraticMap.associated_apply,
+    simpa [_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm, QuadraticMap.associated_apply,
       QuadraticForm.dualProd, LinearMap.dualProd] using h
   · apply funext
     intro i
     let g : Module.Dual ℂ (Fin n → ℂ) :=
       LinearMap.proj i
     have h := hx (g, 0)
-    simpa [g, _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm, QuadraticMap.associated_apply,
+    simpa [g, _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm, QuadraticMap.associated_apply,
       QuadraticForm.dualProd, LinearMap.dualProd] using h
 
 /-- An isometric equivalence from the quadratic form associated to the given bilinear form to the standard even-dimensional quadratic form. -/
@@ -41,14 +41,14 @@ noncomputable def standardEvenQuadraticFormIsometryEquiv
     (hsymm : ∀ x y, B x y = B y x)
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n) :
-    (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B).IsometryEquiv (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) := by
-  let e₀ : V ≃ₗ[ℂ] _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticSpace n :=
-    LinearEquiv.ofFinrankEq V (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticSpace n) (by
+    (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B).IsometryEquiv (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm n) := by
+  let e₀ : V ≃ₗ[ℂ] _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType1 n :=
+    LinearEquiv.ofFinrankEq V (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType1 n) (by
       rw [hdim]
-      simp [_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticSpace, Module.finrank_prod]
+      simp [_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType1, Module.finrank_prod]
       omega)
   let Q₀ : QuadraticForm ℂ V :=
-    (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n).comp e₀.toLinearMap
+    (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm n).comp e₀.toLinearMap
   have hB : (QuadraticMap.associated (R := ℂ) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B)).SeparatingLeft := by
     rw [QuadraticMap.associated_left_inverse ℂ hsymm]
     exact hnd.1
@@ -66,7 +66,7 @@ noncomputable def standardEvenQuadraticFormIsometryEquiv
       (QuadraticForm.equivalent_of_isAlgClosed (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B) Q₀ hB hQ₀)
   exact e₁.trans
     (QuadraticMap.isometryEquivOfCompLinearEquiv
-      (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) e₀).symm
+      (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm n) e₀).symm
 
 /-- The coordinate vector at an index of a finite complex function space. -/
 def coordinateVector (n : ℕ) (i : Fin n) : Fin n → ℂ :=
@@ -102,23 +102,23 @@ theorem standardEvenQuadraticFormIsometryEquiv_associated
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n) (x y : V) :
     B x y =
-      QuadraticMap.associated (R := ℂ) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n)
+      QuadraticMap.associated (R := ℂ) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm n)
         (standardEvenQuadraticFormIsometryEquiv B hsymm hnd n hdim x)
         (standardEvenQuadraticFormIsometryEquiv B hsymm hnd n hdim y) := by
   let e := standardEvenQuadraticFormIsometryEquiv B hsymm hnd n hdim
   change B x y =
-    QuadraticMap.associated (R := ℂ) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) (e x) (e y)
+    QuadraticMap.associated (R := ℂ) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm n) (e x) (e y)
   calc
     B x y =
         QuadraticMap.associated (R := ℂ) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B) x y := by
       rw [QuadraticMap.associated_left_inverse ℂ hsymm]
-    _ = QuadraticMap.associated (R := ℂ) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) (e x) (e y) := by
+    _ = QuadraticMap.associated (R := ℂ) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm n) (e x) (e y) := by
       have hxy :
-          _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n (e x + e y) = _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B (x + y) := by
+          _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm n (e x + e y) = _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B (x + y) := by
         calc
-          _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n (e x + e y) =
-              _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n (e (x + y)) :=
-            congrArg (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm n) (e.toLinearEquiv.map_add x y).symm
+          _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm n (e x + e y) =
+              _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm n (e (x + y)) :=
+            congrArg (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm n) (e.toLinearEquiv.map_add x y).symm
           _ = _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B (x + y) := e.map_app (x + y)
       simp only [QuadraticMap.associated_apply]
       rw [hxy, e.map_app, e.map_app]
@@ -134,7 +134,7 @@ theorem firstIsotropicFamily_pair_self
       (firstIsotropicFamily B hsymm hnd n hdim j) = 0 := by
   rw [standardEvenQuadraticFormIsometryEquiv_associated B hsymm hnd n hdim]
   simp only [firstIsotropicFamily, QuadraticMap.IsometryEquiv.apply_symm_apply]
-  simp [_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm, QuadraticMap.associated_apply,
+  simp [_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm, QuadraticMap.associated_apply,
     QuadraticForm.dualProd]
 
 /-- The bilinear form vanishes on every pair of vectors in the second indexed family. -/
@@ -148,7 +148,7 @@ theorem secondIsotropicFamily_pair_self
       (secondIsotropicFamily B hsymm hnd n hdim j) = 0 := by
   rw [standardEvenQuadraticFormIsometryEquiv_associated B hsymm hnd n hdim]
   simp only [secondIsotropicFamily, QuadraticMap.IsometryEquiv.apply_symm_apply]
-  simp [_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm, QuadraticMap.associated_apply,
+  simp [_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm, QuadraticMap.associated_apply,
     QuadraticForm.dualProd]
 
 /-- Pairing the first and second indexed families gives one half on matching indices and zero otherwise. -/
@@ -165,7 +165,7 @@ theorem firstIsotropicFamily_pair_secondIsotropicFamily
   simp only [firstIsotropicFamily, secondIsotropicFamily,
     QuadraticMap.IsometryEquiv.apply_symm_apply]
   simp [coordinateVector, coordinateCovector,
-    _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticForm, QuadraticMap.associated_apply, QuadraticForm.dualProd]
+    _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.quadraticForm, QuadraticMap.associated_apply, QuadraticForm.dualProd]
 
 /-- The standard representation of the Clifford algebra of an even-dimensional nondegenerate symmetric complex bilinear form. -/
 @[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
@@ -174,8 +174,8 @@ noncomputable def standardCliffordRepresentation
     (hsymm : ∀ x y, B x y = B y x)
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n) :
-    _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra B →ₐ[ℂ] Module.End ℂ (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n) :=
-  (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.cliffordRepresentation n).comp
+    _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra B →ₐ[ℂ] Module.End ℂ (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n) :=
+  (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.cliffordRepresentation n).comp
     (CliffordAlgebra.equivOfIsometry
       (standardEvenQuadraticFormIsometryEquiv B hsymm hnd n hdim)).toAlgHom
 
@@ -188,8 +188,8 @@ theorem standardCliffordRepresentation_iota
     (hdim : Module.finrank ℂ V = 2 * n) (x : V) :
     standardCliffordRepresentation B hsymm hnd n hdim
         (CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B) x) =
-      _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticSpaceAction n (standardEvenQuadraticFormIsometryEquiv B hsymm hnd n hdim x) := by
-  simp [standardCliffordRepresentation, _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.cliffordRepresentation]
+      _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.auxiliaryType1Action n (standardEvenQuadraticFormIsometryEquiv B hsymm hnd n hdim x) := by
+  simp [standardCliffordRepresentation, _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.cliffordRepresentation]
 
 /-- The standard representation sends a generator from the first isotropic family to the prescribed operator on the corresponding coordinate vector. -/
 @[simp]
@@ -201,9 +201,9 @@ theorem standardCliffordRepresentation_firstIsotropicFamily
     standardCliffordRepresentation B hsymm hnd n hdim
         (CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B)
           (firstIsotropicFamily B hsymm hnd n hdim i)) =
-      _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.vectorAction n (coordinateVector n i) := by
+      _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.vectorAction n (coordinateVector n i) := by
   rw [standardCliffordRepresentation_iota]
-  simp [firstIsotropicFamily, _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticSpaceAction]
+  simp [firstIsotropicFamily, _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.auxiliaryType1Action]
 
 /-- The standard representation sends a generator from the second isotropic family to the prescribed operator on the corresponding coordinate covector. -/
 @[simp]
@@ -215,9 +215,9 @@ theorem standardCliffordRepresentation_secondIsotropicFamily
     standardCliffordRepresentation B hsymm hnd n hdim
         (CliffordAlgebra.ι (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm B)
           (secondIsotropicFamily B hsymm hnd n hdim i)) =
-      _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.dualAction n (coordinateCovector n i) := by
+      _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.dualAction n (coordinateCovector n i) := by
   rw [standardCliffordRepresentation_iota]
-  simp [secondIsotropicFamily, _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.quadraticSpaceAction]
+  simp [secondIsotropicFamily, _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.auxiliaryType1Action]
 
 /-- The standard Clifford representation is bijective. -/
 @[source_ref "Chapter3/Problem3.9.5" (role := supporting)]
@@ -227,7 +227,7 @@ theorem standardCliffordRepresentation_bijective
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n) :
     Function.Bijective (standardCliffordRepresentation B hsymm hnd n hdim) :=
-  (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.cliffordRepresentation_bijective n).comp
+  (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.cliffordRepresentation_bijective n).comp
     (CliffordAlgebra.equivOfIsometry
       (standardEvenQuadraticFormIsometryEquiv B hsymm hnd n hdim)).bijective
 
@@ -237,7 +237,7 @@ noncomputable def cliffordAlgEquivEnd
     (hsymm : ∀ x y, B x y = B y x)
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n) :
-    _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra B ≃ₐ[ℂ] Module.End ℂ (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n) :=
+    _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra B ≃ₐ[ℂ] Module.End ℂ (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n) :=
   AlgEquiv.ofBijective (standardCliffordRepresentation B hsymm hnd n hdim)
     (standardCliffordRepresentation_bijective B hsymm hnd n hdim)
 
@@ -248,20 +248,20 @@ theorem standardCarrier_isSimpleModule
     (hsymm : ∀ x y, B x y = B y x)
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n) :
-    @IsSimpleModule (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra B) _ (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n) _
-      (Module.compHom (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n)
+    @IsSimpleModule (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra B) _ (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n) _
+      (Module.compHom (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n)
         (standardCliffordRepresentation B hsymm hnd n hdim).toRingHom) := by
-  letI : Nontrivial (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n) :=
-    Module.nontrivial_of_finrank_pos (by rw [_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.finrank_spinorSpace]; positivity)
-  letI : Module (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra B) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n) :=
-    Module.compHom (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n)
+  letI : Nontrivial (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n) :=
+    Module.nontrivial_of_finrank_pos (by rw [_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.finrank_auxiliaryType2]; positivity)
+  letI : Module (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra B) (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n) :=
+    Module.compHom (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n)
       (standardCliffordRepresentation B hsymm hnd n hdim).toRingHom
   letI : RingHomSurjective
       (standardCliffordRepresentation B hsymm hnd n hdim).toRingHom :=
     ⟨(standardCliffordRepresentation_bijective B hsymm hnd n hdim).2⟩
-  let e : _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n →ₛₗ[
-      (standardCliffordRepresentation B hsymm hnd n hdim).toRingHom] _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n :=
-    { AddMonoidHom.id (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n) with map_smul' := fun _ _ => rfl }
+  let e : _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n →ₛₗ[
+      (standardCliffordRepresentation B hsymm hnd n hdim).toRingHom] _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n :=
+    { AddMonoidHom.id (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n) with map_smul' := fun _ _ => rfl }
   rw [e.isSimpleModule_iff_of_bijective Function.bijective_id]
   infer_instance
 
@@ -271,7 +271,7 @@ def EvenCliffordModule
     (_hsymm : ∀ x y, B x y = B y x)
     (_hnd : B.Nondegenerate) (n : ℕ)
     (_hdim : Module.finrank ℂ V = 2 * n) :=
-  ULift (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n)
+  ULift (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n)
 
 /-- The additive commutative group structure on the distinguished even-dimensional Clifford-module carrier. -/
 instance evenCliffordModuleAddCommGroup
@@ -280,7 +280,7 @@ instance evenCliffordModuleAddCommGroup
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n) :
     AddCommGroup (EvenCliffordModule B hsymm hnd n hdim) :=
-  inferInstanceAs (AddCommGroup (ULift (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n)))
+  inferInstanceAs (AddCommGroup (ULift (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n)))
 
 /-- The complex module structure on the distinguished even-dimensional Clifford-module carrier. -/
 instance evenCliffordModuleComplexModule
@@ -289,7 +289,7 @@ instance evenCliffordModuleComplexModule
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n) :
     Module ℂ (EvenCliffordModule B hsymm hnd n hdim) :=
-  inferInstanceAs (Module ℂ (ULift (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n)))
+  inferInstanceAs (Module ℂ (ULift (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n)))
 
 /-- A complex-linear equivalence from the standard carrier to the distinguished even-dimensional Clifford-module carrier. -/
 noncomputable def standardCarrierLinearEquivEvenCliffordModule
@@ -297,7 +297,7 @@ noncomputable def standardCarrierLinearEquivEvenCliffordModule
     (hsymm : ∀ x y, B x y = B y x)
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n) :
-    _root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n ≃ₗ[ℂ] EvenCliffordModule B hsymm hnd n hdim :=
+    _root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n ≃ₗ[ℂ] EvenCliffordModule B hsymm hnd n hdim :=
   ULift.moduleEquiv.symm
 
 /-- The Clifford algebra action by complex-linear endomorphisms on the distinguished even-dimensional carrier. -/
@@ -327,8 +327,8 @@ theorem evenCliffordModule_isSimpleModule
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n) :
     IsSimpleModule (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra B) (EvenCliffordModule B hsymm hnd n hdim) := by
-  letI : Nontrivial (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace n) :=
-    Module.nontrivial_of_finrank_pos (by rw [_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.finrank_spinorSpace]; positivity)
+  letI : Nontrivial (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.AuxiliaryType2 n) :=
+    Module.nontrivial_of_finrank_pos (by rw [_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.finrank_auxiliaryType2]; positivity)
   letI : Nontrivial (EvenCliffordModule B hsymm hnd n hdim) :=
     (standardCarrierLinearEquivEvenCliffordModule B hsymm hnd n hdim).symm.toEquiv.nontrivial
   letI : RingHomSurjective
@@ -360,7 +360,7 @@ theorem simpleModule_linearEquiv_evenCliffordModule
     IsSimpleRing.of_ringEquiv
       (CliffordAlgebra.equivOfIsometry
         (standardEvenQuadraticFormIsometryEquiv B hsymm hnd n hdim)).symm.toRingEquiv
-      (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.clifford_isSimpleRing n)
+      (_root_.RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.clifford_isSimpleRing n)
   letI : IsArtinianRing (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra B) :=
     IsArtinianRing.of_finite ℂ (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra B)
   letI : IsSimpleModule (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra B)
