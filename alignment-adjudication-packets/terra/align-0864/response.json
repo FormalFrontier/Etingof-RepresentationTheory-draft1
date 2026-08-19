@@ -7,8 +7,8 @@
     },
     {
       "association_id": "association:30bc83df14484989d4dc",
-      "rationale": "Under finite-dimensional hypotheses, the type directly produces a projective resolution whose every term is finite-dimensional.",
-      "role": "primary"
+      "rationale": "The type gives finite-dimensional terms only under the additional displayed HasProjectiveDimensionLE M d hypothesis, so it does not directly state the unrestricted finite-dimensional source claim.",
+      "role": "supporting"
     }
   ],
   "packet_id": "align-0864"

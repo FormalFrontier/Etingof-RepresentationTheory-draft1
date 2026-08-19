@@ -2,13 +2,13 @@
   "associations": [
     {
       "association_id": "association:9750685c0fabc4d41c07",
-      "rationale": "The formal type says every simple module is linearly equivalent to Splus or Sminus, directly stating exhaustiveness.",
-      "role": "primary"
+      "rationale": "The formal type gives only the exhaustiveness component of the classification; it does not itself state the irredundancy required by the complete source claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:8836a802ba1dae2cb014",
-      "rationale": "The formal type rules out equivalence to both Splus and Sminus for a module, directly stating irredundancy.",
-      "role": "primary"
+      "rationale": "The formal type gives only the irredundancy component; it does not itself state the exhaustiveness required by the complete source claim.",
+      "role": "supporting"
     },
     {
       "association_id": "association:ce1c992e2bbd43091645",
