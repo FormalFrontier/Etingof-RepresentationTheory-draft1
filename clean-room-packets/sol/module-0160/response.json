@@ -3,28 +3,28 @@
   "declarations": [
     {
       "temporary_id": "decl-009945",
-      "new_name": "arrowCoefficient",
-      "docstring": "The scalar coefficient of an arrow map after choosing linear equivalences from its source and target vertex spaces to the field."
+      "new_name": "auxiliaryDefinition1",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009948",
-      "new_name": "arrowCoefficient_apply",
-      "docstring": "The coefficient of an arrow is obtained by applying its target equivalence to the arrow map evaluated at the inverse image of one under its source equivalence."
+      "new_name": "auxiliaryDefinition1_apply",
+      "docstring": "The first auxiliary definition is evaluated by applying the target equivalence to the displayed arrow map at the inverse image of one under the source equivalence."
     },
     {
       "temporary_id": "decl-009949",
-      "new_name": "auxiliary_fact1",
-      "docstring": "An auxiliary statement involving a displayed quiver representation and its dimension data."
+      "new_name": "auxiliaryFact1",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009950",
-      "new_name": "auxiliary_fact2",
-      "docstring": "An auxiliary statement about the vertex spaces of a displayed quiver representation."
+      "new_name": "auxiliaryFact2",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009951",
-      "new_name": "auxiliary_fact3",
-      "docstring": "An auxiliary statement involving a displayed quiver representation and representation-equivalence data."
+      "new_name": "auxiliaryFact3",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009962",
@@ -48,33 +48,33 @@
     },
     {
       "temporary_id": "decl-009975",
-      "new_name": "auxiliary_fact4",
-      "docstring": "An auxiliary theorem about the vertex spaces of the displayed two-vertex representation."
+      "new_name": "auxiliaryFact4",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009976",
-      "new_name": "auxiliary_fact5",
-      "docstring": "A second auxiliary theorem about the vertex spaces of the displayed two-vertex representation."
+      "new_name": "auxiliaryFact5",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009977",
-      "new_name": "auxiliaryLeftVertexEquiv",
-      "docstring": "An auxiliary linear equivalence associated with the first distinguished vertex of a two-vertex representation."
+      "new_name": "auxiliaryDefinition2",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009979",
-      "new_name": "auxiliary_fact6",
-      "docstring": "An auxiliary evaluation theorem for the linear equivalence at the first distinguished vertex."
+      "new_name": "auxiliaryFact6",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009980",
-      "new_name": "auxiliaryRightVertexEquiv",
-      "docstring": "An auxiliary linear equivalence associated with the second distinguished vertex of a two-vertex representation."
+      "new_name": "auxiliaryDefinition3",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009981",
-      "new_name": "auxiliary_fact7",
-      "docstring": "An auxiliary evaluation theorem for the linear equivalence at the second distinguished vertex."
+      "new_name": "auxiliaryFact7",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009983",
@@ -88,8 +88,8 @@
     },
     {
       "temporary_id": "decl-009985",
-      "new_name": "nonempty_equiv_twoVertexRepresentation_of_support",
-      "docstring": "A representation supported on two distinct one-dimensional vertex spaces, with all other relevant arrow maps zero, is equivalent to the associated two-vertex representation."
+      "new_name": "nonempty_equiv_auxiliaryDefinition5_of_support",
+      "docstring": "Under the displayed two-vertex support and zero-map hypotheses, the representation admits the displayed equivalence to the fifth auxiliary definition."
     },
     {
       "temporary_id": "decl-009986",
@@ -98,18 +98,18 @@
     },
     {
       "temporary_id": "decl-009987",
-      "new_name": "auxiliaryCoefficientData",
-      "docstring": "Auxiliary coefficient data associated with a quiver representation and a displayed two-vertex representation."
+      "new_name": "auxiliaryDefinition4",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009992",
-      "new_name": "auxiliary_fact8",
-      "docstring": "An auxiliary relation between coefficient data and one-coordinate linear equivalences."
+      "new_name": "auxiliaryFact8",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009993",
-      "new_name": "auxiliary_fact9",
-      "docstring": "A second auxiliary relation between coefficient data and one-coordinate linear equivalences."
+      "new_name": "auxiliaryFact9",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009994",
@@ -143,8 +143,8 @@
     },
     {
       "temporary_id": "decl-010015",
-      "new_name": "auxiliary_fact10",
-      "docstring": "An auxiliary dimension statement for the displayed two-vertex representation."
+      "new_name": "auxiliaryFact10",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010017",
@@ -158,8 +158,8 @@
     },
     {
       "temporary_id": "decl-010022",
-      "new_name": "linearEquivOfVertexEq_rfl",
-      "docstring": "Transporting a vertex-space linear equivalence along reflexivity leaves it unchanged."
+      "new_name": "auxiliaryFact22",
+      "docstring": "An auxiliary proposition whose formal type is partially elided."
     },
     {
       "temporary_id": "decl-010023",
@@ -168,8 +168,8 @@
     },
     {
       "temporary_id": "decl-010026",
-      "new_name": "auxiliaryFinFunctionLinearMap_apply",
-      "docstring": "An auxiliary evaluation formula for the linear map between finite function spaces."
+      "new_name": "auxiliaryFact11",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010027",
@@ -183,78 +183,78 @@
     },
     {
       "temporary_id": "decl-010030",
-      "new_name": "twoVertexRepresentation",
-      "docstring": "A quiver representation determined by two vertices and scalar coefficient data on arrows."
+      "new_name": "auxiliaryDefinition5",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010033",
-      "new_name": "auxiliaryTwoVertexEquiv",
-      "docstring": "Auxiliary equivalence data between displayed two-vertex representations."
+      "new_name": "auxiliaryDefinition6",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010035",
-      "new_name": "zeroTwoVertexAuxiliaryEquiv",
-      "docstring": "Displayed equivalence data between the zero-coefficient two-vertex representation and an auxiliary construction on its two vertices."
+      "new_name": "zeroAuxiliaryEquivalenceData",
+      "docstring": "Displayed equivalence data between the fifth auxiliary definition at zero and the displayed construction on its two vertices."
     },
     {
       "temporary_id": "decl-010037",
-      "new_name": "auxiliaryVertexEquiv",
-      "docstring": "An auxiliary linear equivalence associated with a vertex space of a two-vertex representation."
+      "new_name": "auxiliaryDefinition7",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010038",
-      "new_name": "auxiliary_fact11",
-      "docstring": "An auxiliary statement about a vertex space of the two-vertex representation."
+      "new_name": "auxiliaryFact12",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010040",
-      "new_name": "auxiliary_fact12",
-      "docstring": "A second auxiliary statement about a vertex space of the two-vertex representation."
+      "new_name": "auxiliaryFact13",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010042",
-      "new_name": "auxiliary_fact13",
-      "docstring": "An auxiliary statement relating the zero-coefficient two-vertex representation to the displayed predicate."
+      "new_name": "auxiliaryFact14",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010043",
-      "new_name": "auxiliary_fact14",
-      "docstring": "An auxiliary formula involving an arrow map of the two-vertex representation and the finite-function linear map."
+      "new_name": "auxiliaryFact15",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010044",
-      "new_name": "auxiliary_fact15",
-      "docstring": "An auxiliary formula for an arrow map of the two-vertex representation."
+      "new_name": "auxiliaryFact16",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010045",
-      "new_name": "auxiliary_fact16",
-      "docstring": "A second auxiliary formula involving an arrow map and the finite-function linear map."
+      "new_name": "auxiliaryFact17",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010046",
-      "new_name": "auxiliary_fact17",
-      "docstring": "A further auxiliary formula for an arrow map of the two-vertex representation."
+      "new_name": "auxiliaryFact18",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010047",
-      "new_name": "auxiliary_fact18",
-      "docstring": "An auxiliary compatibility statement for vertex equivalences and arrow maps of two-vertex representations."
+      "new_name": "auxiliaryFact19",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010048",
-      "new_name": "auxiliary_fact19",
-      "docstring": "An auxiliary statement about the spaces of a two-vertex representation."
+      "new_name": "auxiliaryFact20",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-010049",
-      "new_name": "twoVertexRepresentation_zero_arrowMap",
-      "docstring": "Every arrow map in the zero-coefficient two-vertex representation is zero."
+      "new_name": "auxiliaryDefinition5_zero_map",
+      "docstring": "Every displayed arrow-indexed map of the fifth auxiliary definition at zero is zero."
     },
     {
       "temporary_id": "decl-010050",
-      "new_name": "not_auxiliaryProperty_twoVertexRepresentation_zero",
-      "docstring": "The zero-coefficient two-vertex representation does not satisfy the displayed predicate."
+      "new_name": "not_auxiliaryProperty_auxiliaryDefinition5_zero",
+      "docstring": "The fifth auxiliary definition at zero does not satisfy the displayed predicate."
     },
     {
       "temporary_id": "decl-010055",
@@ -263,13 +263,13 @@
     },
     {
       "temporary_id": "decl-010056",
-      "new_name": "exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two",
-      "docstring": "Under the displayed quiver hypothesis, a representation of total dimension two is equivalent to a two-vertex representation, either with zero coefficients or with a specified nonzero arrow coefficient."
+      "new_name": "exists_equiv_auxiliaryDefinition5_of_totalDimension_eq_two",
+      "docstring": "Under the displayed quiver hypothesis, a representation of total dimension two admits the displayed equivalence to the fifth auxiliary definition, either at zero or at data nonzero on a displayed arrow."
     },
     {
       "temporary_id": "decl-010057",
-      "new_name": "auxiliary_fact20",
-      "docstring": "An auxiliary statement involving two-vertex representations and displayed representation-equivalence data."
+      "new_name": "auxiliaryFact21",
+      "docstring": "An auxiliary proposition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-015032",

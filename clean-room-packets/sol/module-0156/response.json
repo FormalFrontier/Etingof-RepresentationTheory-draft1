@@ -228,8 +228,8 @@
     },
     {
       "temporary_id": "decl-009645",
-      "new_name": "zeroLinearEquivProd",
-      "docstring": "The extension module associated with the zero cocycle is linearly equivalent over the algebra to the product module."
+      "new_name": "auxiliaryDefinition",
+      "docstring": "An auxiliary definition whose formal type is partially elided."
     },
     {
       "temporary_id": "decl-009651",

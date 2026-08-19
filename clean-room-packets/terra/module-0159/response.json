@@ -23,13 +23,13 @@
     },
     {
       "temporary_id": "decl-009953",
-      "new_name": "auxiliaryPairing",
-      "docstring": "An auxiliary construction associated to a pair of quiver representations."
+      "new_name": "auxiliaryDefinition",
+      "docstring": "An auxiliary definition whose formal type is unavailable."
     },
     {
       "temporary_id": "decl-009961",
-      "new_name": "auxiliaryPairing_vertex",
-      "docstring": "The auxiliary construction vanishes on the displayed representations associated to vertices."
+      "new_name": "auxiliaryDefinition_vertex_eq_zero",
+      "docstring": "The auxiliary definition evaluates to zero on the displayed pair of vertex-associated objects."
     },
     {
       "temporary_id": "decl-009974",
