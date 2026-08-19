@@ -1,15 +1,15 @@
 {
-  "module_name": "Algebra.Lie.ComplexMatrixModuleClassification",
+  "module_name": "Algebra.Lie.AuxiliaryEndomorphismKernelProfiles",
   "declarations": [
     {
       "temporary_id": "decl-015675",
-      "new_name": "standardModuleEquivOfNatEq",
-      "docstring": "Equality of two natural-number parameters induces an equivalence between the corresponding standard Lie modules."
+      "new_name": "finSuccFunctionLieModuleEquivOfEq",
+      "docstring": "Equality of two natural-number parameters induces a Lie-module equivalence between the corresponding finite complex function spaces."
     },
     {
       "temporary_id": "decl-015683",
-      "new_name": "fintypeValueMultiset",
-      "docstring": "The multiset of values of a natural-number-valued function on a finite type."
+      "new_name": "auxiliaryNatMultiset",
+      "docstring": "An auxiliary multiset of natural numbers associated with a natural-number-valued function on a finite type."
     },
     {
       "temporary_id": "decl-015830",
@@ -28,28 +28,28 @@
     },
     {
       "temporary_id": "decl-016004",
-      "new_name": "finrank_ker_standardEndomorphism_pow",
-      "docstring": "The kernel of the specified power of the standard endomorphism on a finite coordinate space has dimension equal to the minimum of the exponent and the space dimension."
+      "new_name": "finrank_ker_auxiliaryEndomorphism_finFunction_pow",
+      "docstring": "The kernel of the displayed endomorphism power on complex-valued functions on `Fin d` has dimension `min k d`."
     },
     {
       "temporary_id": "decl-016005",
-      "new_name": "finrank_ker_distinguishedAction_pow_eq_of_equiv",
-      "docstring": "Equivalent Lie modules have equal dimensions of the kernels of every power of their distinguished action endomorphisms."
+      "new_name": "finrank_ker_auxiliaryEndomorphism_pow_eq_of_equiv",
+      "docstring": "Equivalent Lie modules have equal dimensions of the kernels of every power of their auxiliary endomorphisms."
     },
     {
       "temporary_id": "decl-016006",
-      "new_name": "finrank_ker_distinguishedAction_pi_pow",
-      "docstring": "For a finite product of finite-dimensional Lie modules, the kernel dimension of a power of the distinguished action is the sum of the component kernel dimensions."
+      "new_name": "finrank_ker_auxiliaryEndomorphism_pi_pow",
+      "docstring": "For a finite dependent product, the kernel dimension of a power of the auxiliary endomorphism is the sum of the component kernel dimensions."
     },
     {
       "temporary_id": "decl-016007",
-      "new_name": "finrank_ker_distinguishedAction_standardPi_pow",
-      "docstring": "For a finite product of standard modules, the kernel dimension of a distinguished-action power is the sum of the minima of the exponent and the component dimensions."
+      "new_name": "finrank_ker_auxiliaryEndomorphism_finSuccPi_pow",
+      "docstring": "For the displayed dependent complex function space, the kernel dimension is the sum of `min k (n i + 1)` over the index type."
     },
     {
       "temporary_id": "decl-016010",
-      "new_name": "valueMultisetInvariant_eq_sum_min",
-      "docstring": "The natural-number invariant associated to a finite multiset of module parameters is a sum of truncated parameter successors."
+      "new_name": "auxiliaryNatMultiset_function_eq_sum_min",
+      "docstring": "The displayed function of the auxiliary multiset equals the sum of `min k (n i + 1)` over the finite index type."
     },
     {
       "temporary_id": "decl-016011",
@@ -58,23 +58,23 @@
     },
     {
       "temporary_id": "decl-016031",
-      "new_name": "distinguishedActionEndomorphism",
-      "docstring": "The module endomorphism obtained by applying a representation of the distinguished matrix Lie subalgebra to a fixed element."
+      "new_name": "auxiliaryEndomorphism",
+      "docstring": "An auxiliary complex-linear endomorphism of the displayed Lie module."
     },
     {
       "temporary_id": "decl-016035",
-      "new_name": "distinguishedActionEndomorphism_intertwines",
-      "docstring": "A Lie-module equivalence intertwines the distinguished action endomorphisms of its source and target."
+      "new_name": "auxiliaryEndomorphism_intertwines",
+      "docstring": "A Lie-module equivalence intertwines the auxiliary endomorphisms of its source and target."
     },
     {
       "temporary_id": "decl-016036",
-      "new_name": "distinguishedActionEndomorphism_standardModule",
-      "docstring": "On the standard finite-coordinate module, the distinguished action endomorphism is evaluation of the representation at the selected Lie element."
+      "new_name": "auxiliaryEndomorphism_finFunction",
+      "docstring": "On the finite complex function space, the auxiliary endomorphism is evaluation of the displayed representation at the displayed element."
     },
     {
       "temporary_id": "decl-016037",
-      "new_name": "distinguishedActionEndomorphism_pi",
-      "docstring": "The distinguished action endomorphism on a dependent function module is the pointwise family of component endomorphisms."
+      "new_name": "auxiliaryEndomorphism_pi",
+      "docstring": "The auxiliary endomorphism on a dependent function module is the pointwise family of component endomorphisms."
     },
     {
       "temporary_id": "decl-016038",
@@ -83,13 +83,13 @@
     },
     {
       "temporary_id": "decl-016087",
-      "new_name": "nonempty_equiv_of_distinguishedAction_kernelProfile_eq",
-      "docstring": "Two finite-dimensional modules for the distinguished matrix Lie subalgebra are equivalent when all powers of their distinguished action endomorphisms have kernels of equal dimension."
+      "new_name": "nonempty_equiv_of_auxiliaryEndomorphism_kernelProfile_eq",
+      "docstring": "Two finite-dimensional modules for the displayed Lie algebra are equivalent when all powers of their auxiliary endomorphisms have kernels of equal dimension."
     },
     {
       "temporary_id": "decl-016113",
-      "new_name": "zero_not_mem_fintypeValueMultiset",
-      "docstring": "Zero does not occur in the value multiset of the specified natural-number parameter family."
+      "new_name": "zero_not_mem_auxiliaryNatMultiset",
+      "docstring": "Zero does not belong to the auxiliary multiset associated with the displayed natural-number-valued function."
     }
   ]
 }

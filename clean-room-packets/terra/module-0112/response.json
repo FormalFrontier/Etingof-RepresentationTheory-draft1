@@ -1,30 +1,30 @@
 {
-  "module_name": "Algebra.Polynomial.OperatorSubalgebra",
+  "module_name": "Algebra.Polynomial.EndomorphismAuxiliary",
   "declarations": [
     {
       "temporary_id": "decl-016894",
-      "new_name": "operator_pair_adjoin_eq_top",
-      "docstring": "The two distinguished endomorphisms generate the full algebra under consideration."
+      "new_name": "auxiliary_adjoin_pair_eq_top",
+      "docstring": "Adjoining the two displayed elements gives the top subalgebra."
     },
     {
       "temporary_id": "decl-016895",
-      "new_name": "equivOperatorRange",
-      "docstring": "An algebra equivalence from the ambient algebra to the range subalgebra of its polynomial endomorphism action."
+      "new_name": "auxiliaryAlgEquiv",
+      "docstring": "An auxiliary algebra equivalence to the subtype of the displayed subalgebra."
     },
     {
       "temporary_id": "decl-016896",
-      "new_name": "equivOperatorRange_apply",
-      "docstring": "The underlying endomorphism of the range equivalence agrees with the associated polynomial action map."
+      "new_name": "auxiliaryAlgEquiv_apply",
+      "docstring": "The value underlying the auxiliary algebra equivalence agrees with the displayed map."
     },
     {
       "temporary_id": "decl-016925",
-      "new_name": "operatorMap_range",
-      "docstring": "The range of the polynomial endomorphism map is the designated operator subalgebra."
+      "new_name": "auxiliaryMap_range",
+      "docstring": "The range of the displayed algebra homomorphism equals the displayed subalgebra."
     },
     {
       "temporary_id": "decl-022062",
-      "new_name": "polynomialOperatorSubalgebra",
-      "docstring": "A subalgebra of linear endomorphisms of the polynomial module over a commutative ring."
+      "new_name": "auxiliaryEndomorphismSubalgebra",
+      "docstring": "An auxiliary subalgebra of endomorphisms of the polynomial module over a commutative ring."
     }
   ]
 }

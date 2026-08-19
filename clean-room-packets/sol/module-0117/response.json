@@ -1,35 +1,35 @@
 {
-  "module_name": "LieAlgebra.Sl2Representations",
+  "module_name": "LieAlgebra.MatrixSubalgebraRepresentationAuxiliary",
   "declarations": [
     {
       "temporary_id": "decl-015716",
-      "new_name": "quadraticGeneratorCombination_eq_smul_id",
-      "docstring": "In the `d`-dimensional coordinate representation, the displayed symmetric quadratic combination of the raising, lowering, and weight operators is `((d - 1) * (d + 1) / 2)` times the identity."
+      "new_name": "auxiliaryQuadraticCombination_eq_smul_id",
+      "docstring": "For the displayed representation, the stated quadratic combination of three auxiliary elements is `((d - 1) * (d + 1) / 2)` times the identity."
     },
     {
       "temporary_id": "decl-015717",
-      "new_name": "quadraticGeneratorCombination_succ_eq_smul_id",
-      "docstring": "In the representation indexed by `lam + 1`, the displayed symmetric quadratic combination is `(lam * (lam + 2) / 2)` times the identity."
+      "new_name": "auxiliaryQuadraticCombination_succ_eq_smul_id",
+      "docstring": "In the representation indexed by `lam + 1`, the stated quadratic combination of three auxiliary elements is `(lam * (lam + 2) / 2)` times the identity."
     },
     {
       "temporary_id": "decl-015822",
-      "new_name": "coordinateVector",
-      "docstring": "The displayed coordinate vector in the space of complex-valued functions on `Fin d`."
+      "new_name": "auxiliaryCoordinateFunction",
+      "docstring": "An auxiliary complex-valued function of two indices in `Fin d`."
     },
     {
       "temporary_id": "decl-015824",
-      "new_name": "coordinateVector_apply",
-      "docstring": "The coordinate vector indexed by `k` is one at `k` and zero at every other index."
+      "new_name": "auxiliaryCoordinateFunction_apply",
+      "docstring": "The auxiliary function indexed by `k` is one at `k` and zero at every other index."
     },
     {
       "temporary_id": "decl-015895",
-      "new_name": "lieModule_finFunction",
-      "docstring": "The complex-valued functions on `Fin d` form a Lie module over the displayed special-linear Lie algebra."
+      "new_name": "finFunctionLieModule",
+      "docstring": "The complex-valued functions on `Fin d` carry the displayed Lie-module structure."
     },
     {
       "temporary_id": "decl-015896",
-      "new_name": "lieRingModule_finFunction",
-      "docstring": "The Lie-ring module structure on complex-valued functions on `Fin d` for the displayed special-linear Lie algebra."
+      "new_name": "finFunctionLieRingModule",
+      "docstring": "A Lie-ring-module structure on the complex-valued functions on `Fin d` for the displayed Lie algebra."
     },
     {
       "temporary_id": "decl-015897",
@@ -38,108 +38,108 @@
     },
     {
       "temporary_id": "decl-015898",
-      "new_name": "isIrreducible_finFunction",
+      "new_name": "finFunction_isIrreducible",
       "docstring": "For nonzero `d`, the displayed Lie-module structure on complex-valued functions on `Fin d` is irreducible."
     },
     {
       "temporary_id": "decl-015962",
-      "new_name": "bracket_raising_lowering",
-      "docstring": "The bracket of the raising and lowering elements is the weight element."
+      "new_name": "bracket_auxiliaryElement1_auxiliaryElement2",
+      "docstring": "The bracket of the first and second auxiliary elements is the third auxiliary element."
     },
     {
       "temporary_id": "decl-015963",
-      "new_name": "bracket_eq_representation_apply",
-      "docstring": "The Lie action of an element on a coordinate vector is evaluation of the corresponding endomorphism in the displayed representation."
+      "new_name": "bracket_eq_auxiliaryRepresentation_apply",
+      "docstring": "The Lie action on a complex-valued function is evaluation of the corresponding endomorphism in the displayed representation."
     },
     {
       "temporary_id": "decl-015964",
-      "new_name": "bracket_weight_raising",
-      "docstring": "The bracket of the weight element with the raising element is twice the raising element."
+      "new_name": "bracket_auxiliaryElement3_auxiliaryElement1",
+      "docstring": "The bracket of the third auxiliary element with the first is twice the first."
     },
     {
       "temporary_id": "decl-015965",
-      "new_name": "bracket_weight_lowering",
-      "docstring": "The bracket of the weight element with the lowering element is negative twice the lowering element."
+      "new_name": "bracket_auxiliaryElement3_auxiliaryElement2",
+      "docstring": "The bracket of the third auxiliary element with the second is negative twice the second."
     },
     {
       "temporary_id": "decl-015969",
-      "new_name": "bracket_raising_coordinateVector",
-      "docstring": "The raising element sends the coordinate vector at `i` to `i` times the coordinate vector at `i - 1`."
+      "new_name": "bracket_auxiliaryElement1_auxiliaryCoordinateFunction",
+      "docstring": "The first auxiliary element sends the function at `i` to `i` times the function at `i - 1`."
     },
     {
       "temporary_id": "decl-015980",
-      "new_name": "bracket_lowering_coordinateVector",
-      "docstring": "When `i + 1 < d`, the lowering element sends the coordinate vector at `i` to `(d - 1 - i)` times the coordinate vector at `i + 1`."
+      "new_name": "bracket_auxiliaryElement2_auxiliaryCoordinateFunction",
+      "docstring": "When `i + 1 < d`, the second auxiliary element sends the function at `i` to `(d - 1 - i)` times the function at `i + 1`."
     },
     {
       "temporary_id": "decl-015986",
-      "new_name": "bracket_lowering_coordinateVector_eq_zero",
-      "docstring": "The lowering element sends the final coordinate vector to zero."
+      "new_name": "bracket_auxiliaryElement2_auxiliaryCoordinateFunction_eq_zero",
+      "docstring": "The second auxiliary element sends the final indexed function to zero."
     },
     {
       "temporary_id": "decl-015991",
-      "new_name": "bracket_weight_coordinateVector",
-      "docstring": "The weight element acts on the coordinate vector at `i` by the scalar `d - 1 - 2 * i`."
+      "new_name": "bracket_auxiliaryElement3_auxiliaryCoordinateFunction",
+      "docstring": "The third auxiliary element acts on the function at `i` by the scalar `d - 1 - 2 * i`."
     },
     {
       "temporary_id": "decl-016042",
-      "new_name": "finFunctionRepresentation",
-      "docstring": "The Lie algebra representation on complex-valued functions on `Fin d`."
+      "new_name": "auxiliaryFinFunctionRepresentation",
+      "docstring": "An auxiliary Lie homomorphism to the endomorphisms of complex-valued functions on `Fin d`."
     },
     {
       "temporary_id": "decl-016054",
-      "new_name": "lieHomOfSl2Triple",
-      "docstring": "The Lie homomorphism to endomorphisms determined by three endomorphisms satisfying the displayed `sl₂` bracket relations."
+      "new_name": "auxiliaryLieHomOfBracketRelations",
+      "docstring": "An auxiliary Lie homomorphism to endomorphisms from three endomorphisms satisfying the displayed bracket relations."
     },
     {
       "temporary_id": "decl-016063",
-      "new_name": "lieHomOfSl2Triple_apply_raising",
-      "docstring": "The Lie homomorphism associated with an `sl₂` triple sends the raising element to the specified endomorphism `E`."
+      "new_name": "auxiliaryLieHomOfBracketRelations_apply_element1",
+      "docstring": "The auxiliary Lie homomorphism sends the first displayed element to `E`."
     },
     {
       "temporary_id": "decl-016064",
-      "new_name": "lieHomOfSl2Triple_apply_lowering",
-      "docstring": "The Lie homomorphism associated with an `sl₂` triple sends the lowering element to the specified endomorphism `F`."
+      "new_name": "auxiliaryLieHomOfBracketRelations_apply_element2",
+      "docstring": "The auxiliary Lie homomorphism sends the second displayed element to `F`."
     },
     {
       "temporary_id": "decl-016065",
-      "new_name": "lieHomOfSl2Triple_apply_weight",
-      "docstring": "The Lie homomorphism associated with an `sl₂` triple sends the weight element to the specified endomorphism `H`."
+      "new_name": "auxiliaryLieHomOfBracketRelations_apply_element3",
+      "docstring": "The auxiliary Lie homomorphism sends the third displayed element to `H`."
     },
     {
       "temporary_id": "decl-016097",
-      "new_name": "raisingElement",
-      "docstring": "The raising element of the displayed special-linear Lie algebra."
+      "new_name": "auxiliaryElement1",
+      "docstring": "The first auxiliary element of the displayed Lie algebra."
     },
     {
       "temporary_id": "decl-016102",
-      "new_name": "eq_linearCombination_weight_raising_lowering",
-      "docstring": "Every element of the displayed special-linear Lie algebra is the stated linear combination of the weight, raising, and lowering elements using its matrix entries."
+      "new_name": "eq_linearCombination_auxiliaryElements",
+      "docstring": "Every displayed element is the stated linear combination of the three auxiliary elements using its matrix entries."
     },
     {
       "temporary_id": "decl-016103",
-      "new_name": "loweringElement",
-      "docstring": "The lowering element of the displayed special-linear Lie algebra."
+      "new_name": "auxiliaryElement2",
+      "docstring": "The second auxiliary element of the displayed Lie algebra."
     },
     {
       "temporary_id": "decl-016106",
-      "new_name": "weightElement",
-      "docstring": "The weight element of the displayed special-linear Lie algebra."
+      "new_name": "auxiliaryElement3",
+      "docstring": "The third auxiliary element of the displayed Lie algebra."
     },
     {
       "temporary_id": "decl-016108",
-      "new_name": "weightElement_ne_zero",
-      "docstring": "The weight element is nonzero."
+      "new_name": "auxiliaryElement3_ne_zero",
+      "docstring": "The third auxiliary element is nonzero."
     },
     {
       "temporary_id": "decl-016109",
       "new_name": "entry_one_one_eq_neg_entry_zero_zero",
-      "docstring": "For every element of the displayed special-linear Lie algebra, the `(1, 1)` entry is the negation of the `(0, 0)` entry."
+      "docstring": "For every element of the displayed matrix Lie algebra, the `(1, 1)` entry is the negation of the `(0, 0)` entry."
     },
     {
       "temporary_id": "decl-016110",
-      "new_name": "isSl2Triple_weight_raising_lowering",
-      "docstring": "The weight, raising, and lowering elements form an `sl₂` triple."
+      "new_name": "isSl2Triple_auxiliaryElements",
+      "docstring": "The third, first, and second auxiliary elements form an `sl₂` triple."
     }
   ]
 }

@@ -9,12 +9,12 @@
     {
       "temporary_id": "decl-021448",
       "new_name": "smul_eq_op_smul",
-      "docstring": "The induced scalar action agrees with the original action of the corresponding opposite-ring element."
+      "docstring": "The induced scalar action agrees with the given action of the corresponding opposite-ring element."
     },
     {
       "temporary_id": "decl-021818",
       "new_name": "toMulOppositeRingHom",
-      "docstring": "The canonical ring homomorphism from a commutative ring to its opposite ring."
+      "docstring": "A ring homomorphism from a commutative ring to its opposite ring."
     },
     {
       "temporary_id": "decl-022792",
@@ -24,12 +24,12 @@
     {
       "temporary_id": "decl-022793",
       "new_name": "op_smul_eq_smul",
-      "docstring": "The induced opposite-ring scalar action agrees with the original scalar action."
+      "docstring": "The induced opposite-ring scalar action agrees with the given scalar action."
     },
     {
       "temporary_id": "decl-024451",
       "new_name": "fromMulOppositeRingHom",
-      "docstring": "The canonical ring homomorphism from the opposite of a commutative ring back to the ring."
+      "docstring": "A ring homomorphism from the opposite of a commutative ring back to the ring."
     }
   ]
 }

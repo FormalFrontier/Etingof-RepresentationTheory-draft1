@@ -1,10 +1,10 @@
 {
-  "module_name": "Algebra.Lie.ComplexTwoByTwoMatrices",
+  "module_name": "Algebra.Lie.ComplexMatrixSubalgebraAuxiliary",
   "declarations": [
     {
       "temporary_id": "decl-023226",
-      "new_name": "complexTwoByTwoMatrixLieSubalgebra",
-      "docstring": "A distinguished complex Lie subalgebra of two-by-two complex matrices."
+      "new_name": "auxiliaryLieSubalgebra",
+      "docstring": "An auxiliary complex Lie subalgebra of two-by-two complex matrices."
     }
   ]
 }
