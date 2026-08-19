@@ -43,8 +43,8 @@
     },
     {
       "temporary_id": "decl-004279",
-      "new_name": "auxiliaryResolutionDifferential_exact",
-      "docstring": "The short complex formed by consecutive auxiliary resolution differentials is exact."
+      "new_name": "Auxiliary.statement004279",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-004280",
@@ -93,8 +93,8 @@
     },
     {
       "temporary_id": "decl-004291",
-      "new_name": "auxiliaryResolutionShortComplex_exact",
-      "docstring": "The short complex connecting a resolution term and auxiliary syzygy is exact."
+      "new_name": "Auxiliary.statement004291",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-004292",
@@ -108,8 +108,8 @@
     },
     {
       "temporary_id": "decl-004300",
-      "new_name": "auxiliaryOpaqueDefinition",
-      "docstring": "An auxiliary definition whose formal expression is unavailable."
+      "new_name": "Auxiliary.statement004300",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-004307",
