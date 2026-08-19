@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:c0c32290206bf5b72775",
-      "role": "primary",
-      "rationale": "simpleRoot is the declaration defining a coordinate-vector-valued simple-root construction, directly matching the stated simple roots."
+      "role": "supporting",
+      "rationale": "The displayed type only gives a function from two Fin indices to Int; it does not directly state that the values are the standard coordinate vectors."
     }
   ]
 }

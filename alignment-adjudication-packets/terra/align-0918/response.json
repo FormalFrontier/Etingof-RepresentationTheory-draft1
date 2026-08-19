@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:73e66503c7e9e6f9680f",
-      "role": "primary",
-      "rationale": "IsSemisimpleRepresentation is the source-specific semisimplicity predicate, directly defining the property discussed in the source claim."
+      "role": "supporting",
+      "rationale": "The displayed type only exposes IsSemisimpleRepresentation as an opaque predicate; it does not directly state the equivalence with a direct sum of irreducibles."
     },
     {
       "association_id": "association:139d3089b6087ea0e28e",
@@ -13,8 +13,8 @@
     },
     {
       "association_id": "association:2581c08451b77418333f",
-      "role": "primary",
-      "rationale": "The iff theorem directly characterizes a semisimple module by the existence of a dfinsupp (direct-sum) linear equivalence, matching the source's exact equivalence between semisimplicity and decomposition into irreducible representations."
+      "role": "supporting",
+      "rationale": "The formal type is unavailable, so the packet provides no displayed evidence that this theorem states the complete semisimplicity/direct-sum equivalence."
     }
   ]
 }
