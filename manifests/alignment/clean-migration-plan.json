@@ -743,7 +743,7 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.Quiver.FiniteTypeCriterion",
+      "new_module": "RepresentationTheory.Quiver.AuxiliaryFiniteProperties",
       "old_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_2",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.Definition2_8_10": "RepresentationTheory.CategoryTheory.QuiverLinearMaps",
@@ -760,14 +760,14 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.Quiver.AuxiliaryRepresentationProperties",
+      "new_module": "RepresentationTheory.Quiver.AuxiliaryFiniteConstructions",
       "old_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_2_General",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Theorem2_1_2": "RepresentationTheory.Quiver.FiniteTypeCriterion"
+        "EtingofRepresentationTheory.Chapter2.Theorem2_1_2": "RepresentationTheory.Quiver.AuxiliaryFiniteProperties"
       }
     },
     {
-      "new_module": "RepresentationTheory.RingTheory.OrderedMonomialBasis",
+      "new_module": "RepresentationTheory.RingTheory.LexicographicIndexedBasis",
       "old_module": "EtingofRepresentationTheory.Chapter2.WeylAlgebraDomain",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter2.FaithfulWeylModule": "RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators"
@@ -788,7 +788,7 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.RingTheory.SimpleModuleDensity",
+      "new_module": "RepresentationTheory.RingTheory.SimpleModuleSimultaneousAction",
       "old_module": "EtingofRepresentationTheory.Chapter3.Corollary3_2_1",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter3.Theorem3_2_2": "RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity"
@@ -802,7 +802,7 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.ModuleTheory.ModuleCondition",
+      "new_module": "RepresentationTheory.ModuleTheory.AuxiliaryCondition",
       "old_module": "EtingofRepresentationTheory.Chapter3.Definition3_1_1",
       "renamed_imports": {}
     },
@@ -995,7 +995,7 @@
       "new_module": "RepresentationTheory.Quiver.AuxiliaryConstructions",
       "old_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.Theorem2_1_2": "RepresentationTheory.Quiver.FiniteTypeCriterion",
+        "EtingofRepresentationTheory.Chapter2.Theorem2_1_2": "RepresentationTheory.Quiver.AuxiliaryFiniteProperties",
         "EtingofRepresentationTheory.Chapter6.Problem6_9_3": "RepresentationTheory.Quiver.Auxiliary"
       }
     },
@@ -1068,7 +1068,7 @@
       "new_module": "RepresentationTheory.Algebra.WeylAlgebra.PolynomialBimodule",
       "old_module": "EtingofRepresentationTheory.Chapter3.Remark3_10_3",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter2.WeylAlgebraDomain": "RepresentationTheory.RingTheory.OrderedMonomialBasis",
+        "EtingofRepresentationTheory.Chapter2.WeylAlgebraDomain": "RepresentationTheory.RingTheory.LexicographicIndexedBasis",
         "EtingofRepresentationTheory.Chapter2.WeylAlgebraUniversal": "RepresentationTheory.RingTheory.EndomorphismRelationAction"
       }
     },
