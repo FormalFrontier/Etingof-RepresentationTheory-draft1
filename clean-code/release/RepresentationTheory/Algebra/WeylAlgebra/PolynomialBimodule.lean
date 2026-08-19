@@ -182,22 +182,22 @@ theorem leftSecondOperator_commute_rightSecondOperator : Commute leftSecondOpera
 
 /-- The left algebra action on the polynomial carrier by complex-linear endomorphisms. -/
 noncomputable def leftPolynomialRepresentation :
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ →ₐ[ℂ] Module.End ℂ PolynomialCarrier :=
-  RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.endomorphismAction ℂ PolynomialCarrier leftFirstOperator leftSecondOperator leftSecondOperator_mul_leftFirstOperator
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ →ₐ[ℂ] Module.End ℂ PolynomialCarrier :=
+  RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.endomorphismAction ℂ PolynomialCarrier leftFirstOperator leftSecondOperator leftSecondOperator_mul_leftFirstOperator
 
 /-- The right algebra action on the polynomial carrier by complex-linear endomorphisms. -/
 noncomputable def rightPolynomialRepresentation :
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ →ₐ[ℂ] Module.End ℂ PolynomialCarrier :=
-  RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.endomorphismAction ℂ PolynomialCarrier rightFirstOperator rightSecondOperator rightSecondOperator_mul_rightFirstOperator
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ →ₐ[ℂ] Module.End ℂ PolynomialCarrier :=
+  RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.endomorphismAction ℂ PolynomialCarrier rightFirstOperator rightSecondOperator rightSecondOperator_mul_rightFirstOperator
 
 /-- Every endomorphism from the left polynomial representation commutes with every endomorphism from the right representation. -/
-theorem left_right_polynomialRepresentations_commute (a b : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) :
+theorem left_right_polynomialRepresentations_commute (a b : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) :
     Commute (leftPolynomialRepresentation a) (rightPolynomialRepresentation b) := by
   have commute_second (T : Module.End ℂ PolynomialCarrier)
       (hx : Commute T rightFirstOperator) (hy : Commute T rightSecondOperator) :
-      ∀ b : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ, Commute T (rightPolynomialRepresentation b) := by
+      ∀ b : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ, Commute T (rightPolynomialRepresentation b) := by
     intro b
-    refine RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.induction_on (p := fun b => Commute T (rightPolynomialRepresentation b))
+    refine RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.induction_on (p := fun b => Commute T (rightPolynomialRepresentation b))
       ℂ b ?_ ?_ ?_ ?_ ?_
     · simpa [rightPolynomialRepresentation] using hx
     · simpa [rightPolynomialRepresentation] using hy
@@ -210,7 +210,7 @@ theorem left_right_polynomialRepresentations_commute (a b : RepresentationTheory
     · intro u v hu hv
       rw [map_mul]
       exact hu.mul_right hv
-  refine RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.induction_on
+  refine RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.induction_on
     (p := fun a => Commute (leftPolynomialRepresentation a) (rightPolynomialRepresentation b)) ℂ a ?_ ?_ ?_ ?_ ?_
   · simpa [leftPolynomialRepresentation] using
       commute_second leftFirstOperator leftFirstOperator_commute_rightFirstOperator leftFirstOperator_commute_rightSecondOperator b
@@ -228,43 +228,43 @@ theorem left_right_polynomialRepresentations_commute (a b : RepresentationTheory
 
 /-- The tensor-product algebra representation on the polynomial carrier. -/
 noncomputable def tensorProductPolynomialRepresentation :
-    (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) →ₐ[ℂ]
+    (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) →ₐ[ℂ]
       Module.End ℂ PolynomialCarrier :=
   Algebra.TensorProduct.lift leftPolynomialRepresentation rightPolynomialRepresentation left_right_polynomialRepresentations_commute
 
 /-- The module structure on the polynomial carrier over the tensor product of the two acting algebras. -/
 @[reducible] noncomputable def polynomialTensorProductModule :
-    Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ)
+    Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ)
       PolynomialCarrier :=
   Module.compHom PolynomialCarrier tensorProductPolynomialRepresentation.toRingHom
 
 /-- On a pure tensor, the tensor-product representation is the product of the corresponding left and right actions. -/
-@[simp] theorem tensorProductPolynomialRepresentation_tmul (a b : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) :
+@[simp] theorem tensorProductPolynomialRepresentation_tmul (a b : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) :
   tensorProductPolynomialRepresentation (a ⊗ₜ[ℂ] b) = leftPolynomialRepresentation a * rightPolynomialRepresentation b := by
   exact Algebra.TensorProduct.lift_tmul _ _ _ _ _
 
 /-- The left polynomial representation sends the first distinguished algebra element to the first left operator. -/
-@[simp] theorem leftPolynomialRepresentation_firstDistinguishedElement : leftPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator ℂ) = leftFirstOperator := by
+@[simp] theorem leftPolynomialRepresentation_firstDistinguishedElement : leftPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator ℂ) = leftFirstOperator := by
   simp [leftPolynomialRepresentation]
 
 /-- The left polynomial representation sends the second distinguished algebra element to the second left operator. -/
-@[simp] theorem leftPolynomialRepresentation_secondDistinguishedElement : leftPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator ℂ) = leftSecondOperator := by
+@[simp] theorem leftPolynomialRepresentation_secondDistinguishedElement : leftPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ) = leftSecondOperator := by
   simp [leftPolynomialRepresentation]
 
 /-- The right polynomial representation sends the first distinguished algebra element to the first right operator. -/
-@[simp] theorem rightPolynomialRepresentation_firstDistinguishedElement : rightPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator ℂ) = rightFirstOperator := by
+@[simp] theorem rightPolynomialRepresentation_firstDistinguishedElement : rightPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator ℂ) = rightFirstOperator := by
   simp [rightPolynomialRepresentation]
 
 /-- The right polynomial representation sends the second distinguished algebra element to the second right operator. -/
-@[simp] theorem rightPolynomialRepresentation_secondDistinguishedElement : rightPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator ℂ) = rightSecondOperator := by
+@[simp] theorem rightPolynomialRepresentation_secondDistinguishedElement : rightPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ) = rightSecondOperator := by
   simp [rightPolynomialRepresentation]
 
 /-- On the unit polynomial, the two actions exchange the values of two distinguished algebra elements. -/
 theorem left_right_distinguishedElement_actions_one :
-    leftPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator ℂ) 1 =
-        rightPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator ℂ) 1 ∧
-      rightPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator ℂ) 1 =
-        leftPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator ℂ) 1 := by
+    leftPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ) 1 =
+        rightPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator ℂ) 1 ∧
+      rightPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ) 1 =
+        leftPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator ℂ) 1 := by
   constructor <;>
     simp [leftSecondOperator, leftFirstOperator, rightSecondOperator, rightFirstOperator, endomorphismPair_aux2, endomorphismPair_aux1]
 
@@ -277,11 +277,11 @@ private lemma pderiv_zero_bivariate_C (p : ℂ[X]) :
 @[source_ref "Chapter3/Remark3.10.3" (role := supporting)]
 theorem polynomialTensorProductModule_isSimpleModule :
     letI := polynomialTensorProductModule
-    IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ)
+    IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ)
       PolynomialCarrier := by
   classical
   letI := polynomialTensorProductModule
-  let A := RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ
+  let A := RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ
   refine { exists_pair_ne := ⟨⊥, ⊤, bot_ne_top⟩, eq_bot_or_eq_top := fun S => ?_ }
   rcases eq_or_ne S ⊥ with rfl | hS
   · exact Or.inl rfl
@@ -289,21 +289,21 @@ theorem polynomialTensorProductModule_isSimpleModule :
   obtain ⟨p, hpS, hp0⟩ := (Submodule.ne_bot_iff S).mp hS
   have hact (a : A) (q : PolynomialCarrier) : a • q = tensorProductPolynomialRepresentation a q := rfl
   have hX0 (q : PolynomialCarrier) (hq : q ∈ S) : X 0 * q ∈ S := by
-    have := S.smul_mem ((RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator ℂ) ⊗ₜ[ℂ] (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ)) hq
+    have := S.smul_mem ((RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator ℂ) ⊗ₜ[ℂ] (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ)) hq
     simpa [hact, tensorProductPolynomialRepresentation_tmul, leftFirstOperator, endomorphismPair_aux1, Module.End.mul_apply] using this
   have hX1 (q : PolynomialCarrier) (hq : q ∈ S) : X 1 * q ∈ S := by
-    have := S.smul_mem ((1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) ⊗ₜ[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator ℂ) hq
+    have := S.smul_mem ((1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) ⊗ₜ[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator ℂ) hq
     simpa [hact, tensorProductPolynomialRepresentation_tmul, rightFirstOperator, endomorphismPair_aux1, Module.End.mul_apply] using this
   have hD0 (q : PolynomialCarrier) (hq : q ∈ S) : pderiv 0 q ∈ S := by
     have := S.smul_mem
-      (((RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator ℂ) ⊗ₜ[ℂ] (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ)) -
-        ((1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) ⊗ₜ[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator ℂ)) hq
+      (((RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ) ⊗ₜ[ℂ] (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ)) -
+        ((1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) ⊗ₜ[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator ℂ)) hq
     simpa [sub_smul, hact, tensorProductPolynomialRepresentation_tmul, leftSecondOperator, rightFirstOperator, endomorphismPair_aux2, endomorphismPair_aux1,
       Module.End.mul_apply] using this
   have hD1 (q : PolynomialCarrier) (hq : q ∈ S) : pderiv 1 q ∈ S := by
     have := S.smul_mem
-      (((1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) ⊗ₜ[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator ℂ) -
-        ((RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.firstOperator ℂ) ⊗ₜ[ℂ] (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ))) hq
+      (((1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) ⊗ₜ[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ) -
+        ((RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.firstOperator ℂ) ⊗ₜ[ℂ] (1 : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ))) hq
     simpa [sub_smul, hact, tensorProductPolynomialRepresentation_tmul, rightSecondOperator, leftFirstOperator, endomorphismPair_aux2, endomorphismPair_aux1,
       Module.End.mul_apply] using this
   let e := Polynomial.Bivariate.equivMvPolynomial ℂ
@@ -391,12 +391,12 @@ theorem polynomialTensorProductModule_isSimpleModule :
 /-- The tensor-product polynomial representation does not factor through any finite-dimensional complex algebra. -/
 theorem tensorProductPolynomialRepresentation_not_factor_finiteDimensional
     (Q : Type*) [Ring Q] [Algebra ℂ Q] [FiniteDimensional ℂ Q]
-    (q : (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) →ₐ[ℂ] Q)
+    (q : (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) →ₐ[ℂ] Q)
     (r : Q →ₐ[ℂ] Module.End ℂ PolynomialCarrier) :
     tensorProductPolynomialRepresentation ≠ r.comp q := by
   classical
   intro hfactor
-  let A := RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ
+  let A := RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ
   letI := polynomialTensorProductModule
   letI : IsSimpleModule A PolynomialCarrier := polynomialTensorProductModule_isSimpleModule
   let orbitQ : Q →ₗ[ℂ] PolynomialCarrier := {
@@ -418,9 +418,9 @@ theorem tensorProductPolynomialRepresentation_not_factor_finiteDimensional
   exact one_ne_zero (finrank_zero_iff_forall_zero.mp hfinrank 1)
 
 private noncomputable def weylBasis :
-    Module.Basis (ℕ × ℕ) ℂ (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) :=
-  Module.Basis.mk (RepresentationTheory.FreeAlgebra.PolynomialOperators.polynomialOperators_basis (k := ℂ)).1
-    (RepresentationTheory.FreeAlgebra.PolynomialOperators.polynomialOperators_basis (k := ℂ)).2
+    Module.Basis (ℕ × ℕ) ℂ (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) :=
+  Module.Basis.mk (RepresentationTheory.FreeAlgebra.PolynomialOperators.indexedElement_linearIndependent_and_span (k := ℂ)).1
+    (RepresentationTheory.FreeAlgebra.PolynomialOperators.indexedElement_linearIndependent_and_span (k := ℂ)).2
 
 private noncomputable def bivariateBasis :
     Module.Basis (ℕ × ℕ) ℂ PolynomialCarrier :=
@@ -434,20 +434,20 @@ private theorem bivariateBasis_apply (i j : ℕ) :
 
 /-- A complex-linear equivalence between the Weyl-type algebra and its polynomial normal-form carrier. -/
 noncomputable def normalFormLinearEquiv :
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ ≃ₗ[ℂ] PolynomialCarrier :=
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ ≃ₗ[ℂ] PolynomialCarrier :=
   weylBasis.equiv bivariateBasis (Equiv.refl (ℕ × ℕ))
 
 /-- The normal-form equivalence sends the algebra element indexed by two natural numbers to the corresponding product of polynomial-variable powers. -/
 @[simp] theorem normalFormLinearEquiv_indexedElement (i j : ℕ) :
-    normalFormLinearEquiv (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator ℂ i j) = X 0 ^ i * X 1 ^ j := by
-  rw [← show weylBasis (i, j) = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator ℂ i j by
+    normalFormLinearEquiv (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement ℂ i j) = X 0 ^ i * X 1 ^ j := by
+  rw [← show weylBasis (i, j) = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement ℂ i j by
     exact Module.Basis.mk_apply _ _ _]
   rw [normalFormLinearEquiv, Module.Basis.equiv_apply, bivariateBasis_apply]
   rfl
 
 /-- The complex-linear polynomial normal-form map from the Weyl-type algebra. -/
 noncomputable def normalFormLinearMap :
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ →ₗ[ℂ] PolynomialCarrier where
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ →ₗ[ℂ] PolynomialCarrier where
   toFun a := leftPolynomialRepresentation a 1
   map_add' a b := by simp
   map_smul' c a := by simp
@@ -466,9 +466,9 @@ private lemma firstY_pow_one (j : ℕ) :
 
 /-- The normal-form map sends the algebra element indexed by two natural numbers to the corresponding product of powers of the first two polynomial variables. -/
 @[simp] theorem normalFormLinearMap_indexedElement (i j : ℕ) :
-    normalFormLinearMap (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator ℂ i j) = X 0 ^ i * X 1 ^ j := by
-  change leftPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator ℂ i j) 1 = _
-  rw [RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator, map_mul, map_pow, map_pow,
+    normalFormLinearMap (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement ℂ i j) = X 0 ^ i * X 1 ^ j := by
+  change leftPolynomialRepresentation (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement ℂ i j) 1 = _
+  rw [RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement, map_mul, map_pow, map_pow,
     Module.End.mul_apply, leftPolynomialRepresentation_firstDistinguishedElement, leftPolynomialRepresentation_secondDistinguishedElement, firstY_pow_one]
   induction i with
   | zero => simp
@@ -482,21 +482,21 @@ theorem normalFormLinearEquiv_toLinearMap :
     normalFormLinearEquiv.toLinearMap = normalFormLinearMap := by
   apply weylBasis.ext
   intro p
-  rw [show weylBasis p = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator ℂ p.1 p.2 by
+  rw [show weylBasis p = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement ℂ p.1 p.2 by
     exact Module.Basis.mk_apply _ _ _]
   simp [normalFormLinearEquiv_indexedElement, normalFormLinearMap_indexedElement]
 
 /-- An auxiliary module structure over the Weyl-type algebra on the polynomial carrier. -/
 @[reducible] noncomputable def polynomialAlgebraModule_aux1 :
-    Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) PolynomialCarrier :=
+    Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) PolynomialCarrier :=
   Module.compHom PolynomialCarrier leftPolynomialRepresentation.toRingHom
 
 /-- A second auxiliary module structure over the Weyl-type algebra on the polynomial carrier. -/
-local instance polynomialAlgebraModule_aux2 : Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) PolynomialCarrier :=
+local instance polynomialAlgebraModule_aux2 : Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) PolynomialCarrier :=
   polynomialAlgebraModule_aux1
 
 private noncomputable def firstOrbitLinear :
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ →ₗ[RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ] PolynomialCarrier where
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ →ₗ[RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ] PolynomialCarrier where
   toFun a := leftPolynomialRepresentation a 1
   map_add' a b := by simp
   map_smul' a b := by
@@ -515,11 +515,11 @@ private theorem firstOrbitLinear_bijective : Function.Bijective firstOrbitLinear
 
 /-- A module-linear equivalence from the regular module to the polynomial normal-form module. -/
 noncomputable def regularLinearEquivPolynomialNormalForm :
-    RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ ≃ₗ[RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ] PolynomialCarrier :=
+    RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ ≃ₗ[RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ] PolynomialCarrier :=
   LinearEquiv.ofBijective firstOrbitLinear firstOrbitLinear_bijective
 
 /-- The regular-module equivalence sends an algebra element to its left action on the unit polynomial. -/
-@[simp] theorem regularLinearEquivPolynomialNormalForm_apply (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) :
+@[simp] theorem regularLinearEquivPolynomialNormalForm_apply (a : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) :
     regularLinearEquivPolynomialNormalForm a = leftPolynomialRepresentation a 1 := rfl
 
 /-- If a nonzero element of a domain cannot be multiplied on the left to obtain one, no submodule of the regular module is simple. -/
@@ -544,8 +544,8 @@ theorem submodule_not_isSimpleModule_of_no_mul_eq_one
   exact hyleft r (mul_right_cancel₀ (Subtype.coe_ne_coe.mpr ha) hmul)
 
 /-- No element of the Weyl-type complex algebra multiplied by its second distinguished algebra element equals one. -/
-theorem mul_secondDistinguishedElement_ne_one (r : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) :
-    r * RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator ℂ ≠ 1 := by
+theorem mul_secondDistinguishedElement_ne_one (r : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) :
+    r * RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ ≠ 1 := by
   intro h
   have hop := congrArg (fun f : Module.End ℂ (Polynomial ℂ) => f 1)
     (congrArg (RepresentationTheory.FreeAlgebra.PolynomialOperators.toPolynomialEnd ℂ) h)
@@ -553,14 +553,14 @@ theorem mul_secondDistinguishedElement_ne_one (r : RepresentationTheory.FreeAlge
 
 /-- No submodule of the regular module of the Weyl-type complex algebra is simple. -/
 theorem regularSubmodule_not_isSimpleModule
-    (I : Submodule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ)) :
-    ¬ IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) I := by
-  have hy : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator ℂ ≠ 0 := by
-    rw [show RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator ℂ = RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator ℂ 0 1 by
-      simp [RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.monomialOperator]]
-    exact (RepresentationTheory.FreeAlgebra.PolynomialOperators.polynomialOperators_basis (k := ℂ)).1.ne_zero (0, 1)
-  letI : Nontrivial (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) := ⟨⟨RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator ℂ, 0, hy⟩⟩
-  exact submodule_not_isSimpleModule_of_no_mul_eq_one _ (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator ℂ)
+    (I : Submodule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ)) :
+    ¬ IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) I := by
+  have hy : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ ≠ 0 := by
+    rw [show RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement ℂ 0 1 by
+      simp [RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement]]
+    exact (RepresentationTheory.FreeAlgebra.PolynomialOperators.indexedElement_linearIndependent_and_span (k := ℂ)).1.ne_zero (0, 1)
+  letI : Nontrivial (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) := ⟨⟨RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ, 0, hy⟩⟩
+  exact submodule_not_isSimpleModule_of_no_mul_eq_one _ (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ)
     hy mul_secondDistinguishedElement_ne_one I
 
 /-- The polynomial tensor-product-algebra module cannot be obtained from the stated equivariant tensor product of two modules when the first is simple and the second is nontrivial. -/
@@ -568,20 +568,20 @@ theorem regularSubmodule_not_isSimpleModule
 theorem not_equivariant_tensorProductFactorization
     (V W : Type*)
     [AddCommGroup V] [Module ℂ V]
-    [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) V]
-    [IsScalarTower ℂ (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) V]
+    [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) V]
+    [IsScalarTower ℂ (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) V]
     [AddCommGroup W] [Module ℂ W]
-    [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) W]
-    [IsScalarTower ℂ (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) W]
-    [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) V] [Nontrivial W]
+    [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) W]
+    [IsScalarTower ℂ (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) W]
+    [IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) V] [Nontrivial W]
     (e : V ⊗[ℂ] W ≃ₗ[ℂ] PolynomialCarrier)
-    (hequiv : ∀ (a b : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ) (t : V ⊗[ℂ] W),
+    (hequiv : ∀ (a b : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) (t : V ⊗[ℂ] W),
       e (TensorProduct.map
-          ((Algebra.lsmul ℂ ℂ V : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ →ₐ[ℂ] Module.End ℂ V) a)
-          ((Algebra.lsmul ℂ ℂ W : RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ →ₐ[ℂ] Module.End ℂ W) b) t) =
+          ((Algebra.lsmul ℂ ℂ V : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ →ₐ[ℂ] Module.End ℂ V) a)
+          ((Algebra.lsmul ℂ ℂ W : RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ →ₐ[ℂ] Module.End ℂ W) b) t) =
         tensorProductPolynomialRepresentation (a ⊗ₜ[ℂ] b) (e t)) : False := by
   classical
-  let R := RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra ℂ
+  let R := RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ
   obtain ⟨w, hw⟩ := exists_ne (0 : W)
   obtain ⟨ψ, hψ⟩ := Module.Projective.exists_dual_eq_one ℂ hw
   let f : V →ₗ[R] PolynomialCarrier :=
