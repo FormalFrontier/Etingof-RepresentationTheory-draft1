@@ -1,10 +1,1 @@
-{
-  "packet_id": "align-0969",
-  "associations": [
-    {
-      "association_id": "association:6fc2258b1a788c7f8619",
-      "role": "primary",
-      "rationale": "The UnitaryRepresentation declaration directly defines the finite-dimensional complex representation structure named in the claim."
-    }
-  ]
-}
+{"packet_id":"align-0969","associations":[{"association_id":"association:6fc2258b1a788c7f8619","role":"supporting","rationale":"The displayed type only introduces UnitaryRepresentation as a type; it does not expose the representation data or preservation of the positive-definite Hermitian form."}]}

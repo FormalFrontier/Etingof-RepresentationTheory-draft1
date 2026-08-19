@@ -1,15 +1,1 @@
-{
-  "packet_id": "align-0968",
-  "associations": [
-    {
-      "association_id": "association:0f4fc5ccfa936207d280",
-      "role": "primary",
-      "rationale": "The symmetric-algebra definition directly defines S(V), the quotient construction specified by the claim."
-    },
-    {
-      "association_id": "association:5fc3d91d312a72cf6243",
-      "role": "supporting",
-      "rationale": "It proves that degree-one generators commute, a defining consequence, but does not itself state the quotient definition."
-    }
-  ]
-}
+{"packet_id":"align-0968","associations":[{"association_id":"association:0f4fc5ccfa936207d280","role":"supporting","rationale":"The displayed type only introduces SymmetricAlgebraDef as a type depending on k and V; it does not expose a quotient of T(V) or the imposed commutativity relations."},{"association_id":"association:5fc3d91d312a72cf6243","role":"supporting","rationale":"It proves that degree-one generators commute, a defining consequence, but does not itself state the quotient definition."}]}
