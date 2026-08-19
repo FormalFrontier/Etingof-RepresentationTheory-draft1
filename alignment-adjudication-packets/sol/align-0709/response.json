@@ -18,8 +18,8 @@
     },
     {
       "association_id": "association:b7ee67ba9ab84f6f5407",
-      "rationale": "For each p-th root z, the type directly asserts existence and uniqueness of a representation with the prescribed xGen and yGen actions.",
-      "role": "primary"
+      "rationale": "The type asserts construction and uniqueness from the two generator actions, but it does not itself compute the action of every group element.",
+      "role": "supporting"
     },
     {
       "association_id": "association:3b0194a5730c7ac06607",
@@ -38,8 +38,8 @@
     },
     {
       "association_id": "association:7b612adc61fbc501d4db",
-      "rationale": "The type gives an explicit pointwise formula for rhoLin z g acting on f at t for an arbitrary Heisenberg element g, directly providing the requested full action computation.",
-      "role": "primary"
+      "rationale": "The type gives the arbitrary-element action formula, but it does not itself assert construction and uniqueness of the representation.",
+      "role": "supporting"
     }
   ]
 }

@@ -38,8 +38,8 @@
     },
     {
       "association_id": "association:9b50e0a2db0adf0f2744",
-      "rationale": "The type directly asserts a nonempty categorical isomorphism between the tensor square of the standard Vrep and the constructed right-hand-side representation.",
-      "role": "primary"
+      "rationale": "The type asserts an actual isomorphism, but its target is the opaque helper rhsRep, so the displayed formal type does not expose the claimed tensor-square decomposition.",
+      "role": "supporting"
     }
   ]
 }

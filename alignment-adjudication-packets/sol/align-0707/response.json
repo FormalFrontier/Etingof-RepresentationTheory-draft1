@@ -8,18 +8,18 @@
     },
     {
       "association_id": "association:e3880c0ea107af3959d8",
-      "rationale": "The type directly proves that every nondegenerate member Vrep N j in the classified two-dimensional family is irreducible.",
-      "role": "primary"
+      "rationale": "The type proves irreducibility only for the nondegenerate Vrep family, one component of the full odd/even classification.",
+      "role": "supporting"
     },
     {
       "association_id": "association:637e0ac705e0fd7a6fd1",
-      "rationale": "The type directly distinguishes members of the two-dimensional family when their character invariants differ, supplying the non-isomorphism part of the classification.",
-      "role": "primary"
+      "rationale": "The type supplies only a non-isomorphism criterion within the two-dimensional family, not the complete classification.",
+      "role": "supporting"
     },
     {
       "association_id": "association:a067ba35d822d7cdfbd6",
-      "rationale": "The displayed equivalence directly classifies all one-dimensional characters by the stated parameter constraints.",
-      "role": "primary"
+      "rationale": "The displayed equivalence classifies only the one-dimensional characters, one component of the full odd/even irreducible classification.",
+      "role": "supporting"
     },
     {
       "association_id": "association:9247848859337bf23c9b",
@@ -43,8 +43,8 @@
     },
     {
       "association_id": "association:922280afcefbc05d1a9f",
-      "rationale": "The type quantifies over every simple finite-dimensional representation and says it is isomorphic either to a character representation or to a nondegenerate Vrep, directly giving exhaustiveness of the classification.",
-      "role": "primary"
+      "rationale": "The type gives exhaustiveness up to a character representation or nondegenerate Vrep, but does not itself state irreducibility, non-isomorphism, or the odd/even parameter lists needed for the complete classification.",
+      "role": "supporting"
     },
     {
       "association_id": "association:59de08bca43565515106",

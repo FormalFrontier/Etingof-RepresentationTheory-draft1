@@ -3,13 +3,13 @@
   "associations": [
     {
       "association_id": "association:82384940d330c0722a74",
-      "rationale": "The type directly states that every SO(3)-invariant real submodule of the skew summand is zero or the whole summand, i.e. that the three-dimensional summand is irreducible over R.",
-      "role": "primary"
+      "rationale": "The type proves irreducibility only for the real skew, three-dimensional summand; the source claim requires irreducibility of both named summands.",
+      "role": "supporting"
     },
     {
       "association_id": "association:209ed0b948eb035f2863",
-      "rationale": "The type directly states that every SO(3)-invariant real submodule of the traceless-symmetric summand is zero or the whole summand, i.e. that the five-dimensional summand is irreducible over R.",
-      "role": "primary"
+      "rationale": "The type proves irreducibility only for the real traceless-symmetric, five-dimensional summand; the source claim requires irreducibility of both named summands.",
+      "role": "supporting"
     }
   ]
 }

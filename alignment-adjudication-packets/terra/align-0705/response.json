@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:c3532dd7c2c225a9e0c7",
-      "rationale": "For an equivariant map on symSub, the theorem gives scalar actions on the scalar and traceless-symmetric summands and explicitly states that every output remains in symSub, directly covering the two moduli and stress symmetry.",
-      "role": "primary"
+      "rationale": "The type gives the two scalar actions on separate summands and states that outputs remain symmetric, but it does not itself state the two-parameter formula for an arbitrary decomposed strain.",
+      "role": "supporting"
     },
     {
       "association_id": "association:09471a8ab27286c43840",
-      "rationale": "For every scalar part x and traceless-symmetric part y in symSub, the type directly gives f(x + y) = Kx + μy, which is the asserted two-parameter Hooke-law formula on decomposed strains.",
-      "role": "primary"
+      "rationale": "The type gives the two-parameter formula for a scalar part plus a traceless-symmetric part, but it does not itself assert symmetry of every stress output.",
+      "role": "supporting"
     },
     {
       "association_id": "association:ae76dfabf04c66142efb",
-      "rationale": "The type quantifies over every strain in symSub, decomposes it into scalar and traceless-symmetric parts, and gives the two-parameter formula for its image, directly stating the Hooke-law formula on the exact domain.",
-      "role": "primary"
+      "rationale": "The type gives a decomposition and two-parameter formula for every strain in symSub, but it does not itself assert symmetry of every stress output.",
+      "role": "supporting"
     }
   ]
 }
