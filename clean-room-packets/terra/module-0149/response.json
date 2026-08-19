@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-009370",
       "new_name": "exists_fgSubalgebra_retract",
-      "docstring": "A tensor-product-module retraction descends to a retraction over a finitely generated subalgebra."
+      "docstring": "Given the displayed tensor-product-module retraction, there exists a finitely generated subalgebra over which a retraction exists."
     },
     {
       "temporary_id": "decl-009371",
       "new_name": "exists_fgSubalgebra_equiv",
-      "docstring": "A tensor-product-module equivalence descends to an equivalence over a finitely generated subalgebra."
+      "docstring": "Given the displayed tensor-product-module equivalence, there exists a finitely generated subalgebra over which an equivalence exists."
     }
   ]
 }
