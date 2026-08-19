@@ -784,7 +784,7 @@
       "new_module": "RepresentationTheory.LinearAlgebra.MatrixTraceKernels",
       "old_module": "EtingofRepresentationTheory.Chapter3.CommutatorMatrixTraceless",
       "renamed_imports": {
-        "EtingofRepresentationTheory.Chapter3.Introduction3_6": "RepresentationTheory.Algebra.Trace.CommutatorQuotient"
+        "EtingofRepresentationTheory.Chapter3.Introduction3_6": "RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap"
       }
     },
     {
@@ -870,7 +870,7 @@
       }
     },
     {
-      "new_module": "RepresentationTheory.Algebra.Trace.CommutatorQuotient",
+      "new_module": "RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap",
       "old_module": "EtingofRepresentationTheory.Chapter3.Introduction3_6",
       "renamed_imports": {
         "EtingofRepresentationTheory.Chapter3.Theorem3_6_2": "RepresentationTheory.Algebra.Module.Dual.SimpleFamilies"
