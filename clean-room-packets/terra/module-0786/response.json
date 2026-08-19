@@ -33,7 +33,7 @@
     },
     {
       "temporary_id": "decl-020898",
-      "new_name": "isSeparator_regularModule",
+      "new_name": "FGModuleCat.isSeparator_regularModule",
       "docstring": "A ring regarded as a finitely generated module over itself is a separator."
     },
     {

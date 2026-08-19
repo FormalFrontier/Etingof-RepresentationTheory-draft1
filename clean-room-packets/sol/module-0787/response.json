@@ -133,8 +133,8 @@
     },
     {
       "temporary_id": "decl-017130",
-      "new_name": "auxiliary_theorem",
-      "docstring": "An auxiliary result whose formal type is unavailable."
+      "new_name": "Auxiliary.statement017130",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-018783",

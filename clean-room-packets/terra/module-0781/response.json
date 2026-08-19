@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-004835",
-      "new_name": "auxiliary_representationFromSubgroupCharacter",
-      "docstring": "An auxiliary result involving the representation associated with subgroup character data."
+      "new_name": "Auxiliary.statement004835",
+      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
     },
     {
       "temporary_id": "decl-004836",

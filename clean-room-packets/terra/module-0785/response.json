@@ -3,13 +3,13 @@
   "declarations": [
     {
       "temporary_id": "decl-005220",
-      "new_name": "auxiliarySubalgebraEquivEnd",
-      "docstring": "An algebra equivalence from the designated subalgebra associated with an auxiliary endomorphism to the opposite endomorphism algebra of the module."
+      "new_name": "Auxiliary.statement005220",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-005222",
-      "new_name": "auxiliarySubringEquivEnd",
-      "docstring": "A ring equivalence from the designated subring associated with an auxiliary endomorphism to the opposite endomorphism ring of the module."
+      "new_name": "Auxiliary.statement005222",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-005234",

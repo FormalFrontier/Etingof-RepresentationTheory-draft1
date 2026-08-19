@@ -93,8 +93,8 @@
     },
     {
       "temporary_id": "decl-005090",
-      "new_name": "ofSimple_representation",
-      "docstring": "Forming simple-character data from its representative recovers the original datum."
+      "new_name": "Auxiliary.statement005090",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-005091",
@@ -103,8 +103,8 @@
     },
     {
       "temporary_id": "decl-005092",
-      "new_name": "ofSimple_surjective_fromSimpleObjects",
-      "docstring": "Mapping auxiliary simple objects to their simple-character data is surjective."
+      "new_name": "Auxiliary.statement005092",
+      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
     },
     {
       "temporary_id": "decl-005093",
