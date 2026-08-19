@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:a5a32df8e9f6ec4543a6",
-      "role": "primary",
-      "rationale": "This declaration defines the enriched-category structure with hom-objects in a monoidal category."
+      "role": "supporting",
+      "rationale": "The displayed type is an opaque type-valued declaration and does not expose either hom-objects or composition morphisms."
     },
     {
       "association_id": "association:e9861db6e548676e4ba1",

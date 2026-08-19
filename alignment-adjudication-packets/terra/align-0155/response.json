@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:f87afce4fb199dc7b295",
-      "role": "primary",
-      "rationale": "This natural tensor-product associator directly gives the stated identification."
+      "role": "supporting",
+      "rationale": "The formal type is null, so the displayed evidence does not directly state the natural tensor-product associativity claim."
     }
   ]
 }

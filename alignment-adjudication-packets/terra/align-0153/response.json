@@ -3,8 +3,8 @@
   "associations": [
     {
       "association_id": "association:260b90c45f79e3126dc7",
-      "role": "primary",
-      "rationale": "Its conclusion directly gives an iterated sequence of simple reflections carrying the nonnegative root to a simple root."
+      "role": "supporting",
+      "rationale": "The conclusion gives some sequence of simple reflections carrying the root to a simple root, but the displayed type has no condition stating that the sequence is admissible."
     }
   ]
 }

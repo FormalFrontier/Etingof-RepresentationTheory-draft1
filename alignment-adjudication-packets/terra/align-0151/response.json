@@ -3,18 +3,18 @@
   "associations": [
     {
       "association_id": "association:304e2bf4a890ad95d02c",
-      "role": "primary",
-      "rationale": "This supplies the restricted one-edge linear map between the vertex spaces."
+      "role": "supporting",
+      "rationale": "The type supplies a linear map for each quiver arrow between named vertex spaces, but it does not display that the map is the restriction of the one-edge operator."
     },
     {
       "association_id": "association:5187d514c4bc447e7047",
-      "role": "primary",
-      "rationale": "This constructs the quiver representation determined by the path-algebra module."
+      "role": "supporting",
+      "rationale": "The type returns a quiver representation from the module context, but its vertex spaces and restricted one-edge arrow formulas are elided in the opaque result."
     },
     {
       "association_id": "association:69d6d085d7cd59ef2a18",
-      "role": "primary",
-      "rationale": "This defines the vertex subspace p_iV used in the claimed representation."
+      "role": "supporting",
+      "rationale": "The type only returns a submodule for each vertex and does not display the claimed identification with p_iV."
     }
   ]
 }
