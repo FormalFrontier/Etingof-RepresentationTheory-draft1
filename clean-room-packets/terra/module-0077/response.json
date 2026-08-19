@@ -1,5 +1,5 @@
 {
-  "module_name": "LieAlgebra.FiniteDimensionalModels",
+  "module_name": "LieAlgebra.ParameterFourConstructions",
   "declarations": [
     {
       "temporary_id": "decl-007352",
@@ -8,28 +8,28 @@
     },
     {
       "temporary_id": "decl-007651",
-      "new_name": "fourDimensionalBasis",
-      "docstring": "A basis for the displayed vector space indexed by a finite four-element type."
+      "new_name": "parameterFourBasis",
+      "docstring": "A basis for the displayed module at parameter four."
     },
     {
       "temporary_id": "decl-007654",
-      "new_name": "fourDimensionalBasis_apply",
-      "docstring": "Computes the four-dimensional basis vector at an index."
+      "new_name": "parameterFourBasis_apply",
+      "docstring": "Computes the parameter-four basis vector at an index."
     },
     {
       "temporary_id": "decl-007675",
-      "new_name": "fourDimensionalLieEquiv",
-      "docstring": "A Lie algebra equivalence from the displayed four-dimensional model to the specified subtype."
+      "new_name": "parameterFourLieEquiv",
+      "docstring": "A Lie algebra equivalence from the displayed parameter-four module to the specified subtype."
     },
     {
       "temporary_id": "decl-007683",
-      "new_name": "fourDimensionalLieEquiv_apply",
-      "docstring": "Computes the Lie equivalence on an element of the four-dimensional model."
+      "new_name": "parameterFourLieEquiv_apply",
+      "docstring": "Computes the parameter-four Lie equivalence on an element."
     },
     {
       "temporary_id": "decl-007695",
-      "new_name": "modelMap_injective",
-      "docstring": "The displayed linear map from the finite-dimensional model is injective."
+      "new_name": "parameterFourMap_injective",
+      "docstring": "The displayed linear map from the parameter-four module is injective."
     },
     {
       "temporary_id": "decl-007719",
@@ -38,8 +38,8 @@
     },
     {
       "temporary_id": "decl-008099",
-      "new_name": "not_moduleFinite_fourDimensionalModel",
-      "docstring": "The displayed four-dimensional-indexed model is not finite as a module over the field."
+      "new_name": "not_moduleFinite_parameterFour",
+      "docstring": "The displayed module at parameter four is not finite over the field."
     },
     {
       "temporary_id": "decl-008111",
@@ -48,8 +48,8 @@
     },
     {
       "temporary_id": "decl-008210",
-      "new_name": "span_range_modelMap_eq_top",
-      "docstring": "The range of the displayed map spans the whole ambient module."
+      "new_name": "span_range_parameterFourMap_eq_top",
+      "docstring": "The range of the displayed map spans the parameter-four module."
     },
     {
       "temporary_id": "decl-008221",
