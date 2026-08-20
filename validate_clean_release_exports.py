@@ -8,11 +8,47 @@ import json
 import re
 import shutil
 import subprocess
+import tomllib
 from collections import defaultdict
 from pathlib import Path
 
 
 IMPORT = re.compile(r"(?m)^\s*(?:public\s+)?import\s+([^\s]+)\s*$")
+
+
+def manifest_consistency_errors(release: Path) -> list[str]:
+    """Report dependency pins that the resolved manifest does not honour.
+
+    `lake build` never re-resolves dependencies, so a `lakefile.toml` whose
+    revision has moved ahead of `lake-manifest.json` builds happily against the
+    stale checkout and still exits zero. The manifest is deliberately excluded
+    from materialization, so the published repository would resolve the new
+    revision while these artifacts were validated against the old one.
+    """
+
+    lakefile = release / "lakefile.toml"
+    manifest = release / "lake-manifest.json"
+    if not lakefile.exists() or not manifest.exists():
+        return []
+    config = tomllib.loads(lakefile.read_text(encoding="utf-8"))
+    resolved = {
+        package.get("name"): package
+        for package in json.loads(manifest.read_text(encoding="utf-8")).get("packages", [])
+    }
+    errors = []
+    for require in config.get("require", []):
+        name = require.get("name")
+        package = resolved.get(name)
+        if package is None:
+            errors.append(f"lake-manifest.json: does not resolve required dependency {name}")
+            continue
+        wanted = require.get("rev")
+        if wanted is not None and package.get("inputRev") != wanted:
+            errors.append(
+                f"lake-manifest.json: {name} is resolved from "
+                f"{package.get('inputRev')!r} but lakefile.toml requires {wanted!r}"
+            )
+    return errors
 
 
 def build_staleness_errors(release: Path) -> list[str]:
@@ -22,24 +58,45 @@ def build_staleness_errors(release: Path) -> list[str]:
     keys its build on content hashes recorded in `.trace`, and restoring a
     module from the artifact cache preserves the artifact's original timestamp,
     so an untouched checkout routinely leaves every `.ilean` older than its
-    source. Ask Lake instead: it owns those traces, and `--no-build` fails
-    exactly when a target is not up to date.
+    source. Ask Lake instead: it owns those traces, and `--no-build` exits 3
+    when a target is not up to date.
     """
 
+    errors = manifest_consistency_errors(release)
     lake = shutil.which("lake")
     if lake is None:
-        return ["cannot verify build currency: `lake` is not on PATH"]
-    completed = subprocess.run(
-        [lake, "--no-build", "build", "RepresentationTheory"],
-        cwd=release,
-        capture_output=True,
-        text=True,
-    )
+        return errors + ["cannot verify build currency: `lake` is not on PATH"]
+    try:
+        completed = subprocess.run(
+            [
+                lake,
+                "--quiet",
+                "--log-level=error",
+                "--no-build",
+                "build",
+                "RepresentationTheory",
+                "alignmentExport",
+            ],
+            cwd=release,
+            capture_output=True,
+            text=True,
+            timeout=900,
+        )
+    except subprocess.TimeoutExpired:
+        return errors + ["cannot verify build currency: `lake --no-build build` timed out"]
+    except OSError as error:
+        return errors + [f"cannot verify build currency: {error}"]
     if completed.returncode == 0:
-        return []
-    detail = (completed.stderr or completed.stdout or "").strip().splitlines()
-    tail = " / ".join(detail[-3:]) if detail else f"exit status {completed.returncode}"
-    return [f"built artifacts are not up to date with the source: {tail}"]
+        return errors
+    detail = "\n".join(part for part in (completed.stdout, completed.stderr) if part).strip()
+    tail = " / ".join(detail.splitlines()[-3:])[:500]
+    if completed.returncode == 3:
+        errors.append(f"built artifacts are not up to date with the source: {tail}")
+    else:
+        errors.append(
+            f"cannot verify build currency: lake exited {completed.returncode}: {tail}"
+        )
+    return errors
 
 
 def read_jsonl(path: Path) -> list[dict]:
