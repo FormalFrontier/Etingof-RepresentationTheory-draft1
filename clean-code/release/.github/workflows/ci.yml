@@ -12,8 +12,13 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Bootstrap the generated Lake manifest
         run: |
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
@@ -28,3 +33,29 @@ jobs:
           test -f LICENSE
           test ! -e LICENCE
           test -f NOTICE
+      # The aligned Verso repository pins this repository as a Lake dependency and
+      # would otherwise recompile every module here. `enableArtifactCache` in
+      # lakefile.toml populates the Lake artifact cache during the build above, so
+      # recording the mappings now is a no-op rebuild that only reads them back.
+      - name: Record the artifact cache mappings
+        run: lake build -o outputs.jsonl RepresentationTheory alignmentExport
+      - name: Stage the formalization artifacts
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        run: |
+          lake cache stage outputs.jsonl staging
+          tar --create --gzip \
+            --file "formalization-$GITHUB_SHA.tar.gz" staging
+          ls -l "formalization-$GITHUB_SHA.tar.gz"
+      - name: Publish the formalization artifacts
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! gh release view formalization-cache >/dev/null 2>&1; then
+            gh release create formalization-cache \
+              --title "Formalization artifact cache" \
+              --notes "Lake artifact cache payloads consumed by the aligned Verso repository. One asset per \`main\` revision; not a source release." \
+              --latest=false
+          fi
+          gh release upload formalization-cache \
+            "formalization-$GITHUB_SHA.tar.gz" --clobber
