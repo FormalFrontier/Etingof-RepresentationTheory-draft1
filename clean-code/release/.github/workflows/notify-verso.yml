@@ -48,6 +48,39 @@ jobs:
           release="formalization-cache-$REVISION"
           asset="formalization-$REVISION.tar.gz"
           sidecar="$asset.sha256"
+          tag_name=$(gh release view "$release" \
+            --repo "$GITHUB_REPOSITORY" --json tagName --jq .tagName)
+          target=$(gh release view "$release" \
+            --repo "$GITHUB_REPOSITORY" --json targetCommitish --jq .targetCommitish)
+          is_draft=$(gh release view "$release" \
+            --repo "$GITHUB_REPOSITORY" --json isDraft --jq .isDraft)
+          immutable=$(gh api \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "repos/$GITHUB_REPOSITORY/releases/tags/$release" \
+            --jq .immutable)
+          if test "$tag_name" != "$release" || test "$target" != "$REVISION" ||
+             test "$is_draft" != false || test "$immutable" != true; then
+            echo "::error::Artifact release metadata is not published, immutable, and revision-bound."
+            exit 1
+          fi
+          names=$(gh release view "$release" \
+            --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name')
+          count=0
+          have_asset=false
+          have_sidecar=false
+          while IFS= read -r name; do
+            if test -z "$name"; then continue; fi
+            count=$((count + 1))
+            case "$name" in
+              "$asset") have_asset=true ;;
+              "$sidecar") have_sidecar=true ;;
+              *) echo "::error::Unexpected release asset: $name"; exit 1 ;;
+            esac
+          done <<< "$names"
+          if test "$count" -ne 2 || test "$have_asset" != true || test "$have_sidecar" != true; then
+            echo "::error::Artifact release does not contain the exact pair."
+            exit 1
+          fi
           tag_type=$(gh api \
             "repos/$GITHUB_REPOSITORY/git/ref/tags/$release" \
             --jq .object.type)

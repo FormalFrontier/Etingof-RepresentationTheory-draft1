@@ -9,6 +9,16 @@ from pathlib import Path
 
 
 PUBLIC_HEADER = "Copyright (c) 2026 mathlib-initiative. All rights reserved."
+CHECKOUT_ACTION = "actions/checkout@11d5960a326750d5838078e36cf38b85af677262"
+UPLOAD_ARTIFACT_ACTION = (
+    "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
+)
+DOWNLOAD_ARTIFACT_ACTION = (
+    "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093"
+)
+LEAN_ACTION = "leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9"
+ELAN_REVISION = "464c9d28395000a2a0128e07081e4956d50eced2"
+ELAN_SHA256 = "a620ff1641616222c8d37c54845492004bb84d6877cdbc944dd65c1aa685bf53"
 PRIVATE_HEADER = (
     "Copyright (c) 2026 American Mathematical Society. All rights reserved."
 )
@@ -34,7 +44,11 @@ def require_nonpersisting_checkouts(path: Path, errors: list[str]) -> None:
     if not path.is_file():
         return
     lines = path.read_text(encoding="utf-8").splitlines()
-    checkouts = [index for index, line in enumerate(lines) if line.strip() == "- uses: actions/checkout@v4"]
+    checkouts = [
+        index
+        for index, line in enumerate(lines)
+        if line.strip() == f"- uses: {CHECKOUT_ACTION} # v4"
+    ]
     if not checkouts:
         errors.append(f"{path}: contains no pinned checkout steps")
         return
@@ -71,7 +85,19 @@ def validate_public(root: Path, errors: list[str]) -> None:
     require_text(notice, ("Copyright 2026 mathlib-initiative", "Apache License"), errors)
     public_ci = require_file(root, ".github/workflows/ci.yml", errors)
     notify = require_file(root, ".github/workflows/notify-verso.yml", errors)
-    require_text(public_ci, ("leanprover/lean-action@v1", "test -f LICENCE"), errors)
+    require_text(
+        public_ci,
+        (
+            LEAN_ACTION,
+            UPLOAD_ARTIFACT_ACTION,
+            DOWNLOAD_ARTIFACT_ACTION,
+            ELAN_REVISION,
+            ELAN_SHA256,
+            "test -f LICENCE",
+        ),
+        errors,
+    )
+    require_nonpersisting_checkouts(public_ci, errors)
     require_text(
         notify,
         (
@@ -160,8 +186,10 @@ def validate_private(root: Path, errors: list[str]) -> None:
     require_text(
         private_ci,
         (
-            "leanprover/lean-action@v1",
-            "actions/upload-artifact@v4",
+            LEAN_ACTION,
+            UPLOAD_ARTIFACT_ACTION,
+            ELAN_REVISION,
+            ELAN_SHA256,
             "_out/html-multi",
             "AlignmentExport.lean",
             "sync_formalization_panels.py --check",
@@ -197,7 +225,14 @@ def validate_private(root: Path, errors: list[str]) -> None:
             '"repos/$GITHUB_REPOSITORY/actions/runs/$run_id"',
             'if test "$conclusion" != success',
             "gh pr merge",
-            "--auto",
+            "matching-refs/heads/automation/formalization-",
+            "--disable-auto",
+            "gh pr close",
+            LEAN_ACTION,
+            UPLOAD_ARTIFACT_ACTION,
+            DOWNLOAD_ARTIFACT_ACTION,
+            ELAN_REVISION,
+            ELAN_SHA256,
         ),
         errors,
     )
@@ -206,6 +241,8 @@ def validate_private(root: Path, errors: list[str]) -> None:
         require_nonpersisting_checkouts(updater, errors)
         if "git add " in updater_text:
             errors.append(f"{updater}: privileged updater must consume only the validated patch artifact")
+        if "--auto" in updater_text:
+            errors.append(f"{updater}: dependency updates must merge immediately, never via auto-merge")
         patch_scope = (
             "git diff --binary --full-index -- \\\n"
             "            lakefile.toml \\\n"
@@ -241,12 +278,13 @@ def validate_private(root: Path, errors: list[str]) -> None:
             '.headSha == \\"$head_sha\\" and .createdAt >= \\"$dispatch_started\\"',
             '"repos/$GITHUB_REPOSITORY/actions/runs/$run_id"',
             'if test "$conclusion" != success',
-            'gh pr merge "$pr_url" --match-head-commit "$head_sha" --auto --squash',
+            'gh pr merge "$pr_url" \\',
+            '--match-head-commit "$head_sha" --squash --delete-branch',
         )
         positions = [updater_text.find(marker) for marker in ci_merge_order]
         if any(position < 0 for position in positions) or positions != sorted(positions):
             errors.append(
-                f"{updater}: must bind the dispatched head run and require its success before auto-merge"
+                f"{updater}: must bind the dispatched head run and require its success before merge"
             )
     workflow_text = "\n".join(
         path.read_text(encoding="utf-8")

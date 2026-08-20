@@ -32,7 +32,7 @@ jobs:
           sudo rm -rf -- /usr/local/.ghcup
           sudo rm -rf -- /opt/hostedtoolcache/CodeQL
           df -h /
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
       - name: Validate the dispatched public revision
@@ -61,8 +61,14 @@ jobs:
           FORMALIZATION_SHA: ${{ steps.revision.outputs.revision }}
         run: |
           python3 scripts/update_formalization_dependency.py "$FORMALIZATION_SHA"
-          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
-            sh -s -- -y --default-toolchain none
+          elan_init="$RUNNER_TEMP/elan-init.sh"
+          curl --fail --location --silent --show-error \
+            --proto '=https' --tlsv1.2 \
+            --output "$elan_init" \
+            https://raw.githubusercontent.com/leanprover/elan/464c9d28395000a2a0128e07081e4956d50eced2/elan-init.sh
+          echo "a620ff1641616222c8d37c54845492004bb84d6877cdbc944dd65c1aa685bf53  $elan_init" |
+            sha256sum --check --strict -
+          sh "$elan_init" -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
           "$HOME/.elan/bin/lake" update
       # The dispatching revision has already been built and published by the
@@ -76,6 +82,39 @@ jobs:
           release="$FORMALIZATION_RELEASE_PREFIX$REVISION"
           asset="formalization-$REVISION.tar.gz"
           sidecar="$asset.sha256"
+          tag_name=$(gh release view "$release" \
+            --repo "$FORMALIZATION_REPO" --json tagName --jq .tagName)
+          target=$(gh release view "$release" \
+            --repo "$FORMALIZATION_REPO" --json targetCommitish --jq .targetCommitish)
+          is_draft=$(gh release view "$release" \
+            --repo "$FORMALIZATION_REPO" --json isDraft --jq .isDraft)
+          immutable=$(gh api \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "repos/$FORMALIZATION_REPO/releases/tags/$release" \
+            --jq .immutable)
+          if test "$tag_name" != "$release" || test "$target" != "$REVISION" ||
+             test "$is_draft" != false || test "$immutable" != true; then
+            echo "::error::Artifact release metadata is not published, immutable, and revision-bound."
+            exit 1
+          fi
+          names=$(gh release view "$release" \
+            --repo "$FORMALIZATION_REPO" --json assets --jq '.assets[].name')
+          count=0
+          have_asset=false
+          have_sidecar=false
+          while IFS= read -r name; do
+            if test -z "$name"; then continue; fi
+            count=$((count + 1))
+            case "$name" in
+              "$asset") have_asset=true ;;
+              "$sidecar") have_sidecar=true ;;
+              *) echo "::error::Unexpected release asset: $name"; exit 1 ;;
+            esac
+          done <<< "$names"
+          if test "$count" -ne 2 || test "$have_asset" != true || test "$have_sidecar" != true; then
+            echo "::error::Artifact release does not contain the exact pair."
+            exit 1
+          fi
           tag_type=$(gh api \
             "repos/$FORMALIZATION_REPO/git/ref/tags/$release" \
             --jq .object.type)
@@ -128,36 +167,59 @@ jobs:
           import tarfile
           from pathlib import PurePosixPath
 
+          max_members = 100_000
+          max_file_size = 2 * 1024**3
+          max_total_size = 16 * 1024**3
           archive = sys.argv[1]
-          seen = set()
           with tarfile.open(archive, "r:gz") as handle:
               members = handle.getmembers()
-              if not members:
-                  raise SystemExit(f"empty artifact archive: {archive}")
+              if not members or len(members) > max_members:
+                  raise SystemExit("artifact archive member count is invalid")
+              seen = set()
+              total_size = 0
               for member in members:
-                  path = PurePosixPath(member.name)
-                  if path.is_absolute() or ".." in path.parts:
-                      raise SystemExit(f"unsafe archive member: {member.name!r}")
-                  if not path.parts or path.parts[0] != "staging":
-                      raise SystemExit(f"archive member outside staging/: {member.name!r}")
-                  if not (member.isdir() or member.isfile()):
+                  parsed = PurePosixPath(member.name)
+                  normalized = parsed.as_posix()
+                  if (
+                      member.name != normalized
+                      or parsed.is_absolute()
+                      or ".." in parsed.parts
+                      or not parsed.parts
+                      or parsed.parts[0] != "staging"
+                      or "\\" in member.name
+                      or any(ord(character) < 32 or ord(character) == 127 for character in member.name)
+                  ):
+                      raise SystemExit(f"noncanonical archive member: {member.name!r}")
+                  if normalized in seen:
+                      raise SystemExit(f"duplicate normalized archive member: {normalized!r}")
+                  seen.add(normalized)
+                  if member.isfile():
+                      if member.size < 0 or member.size > max_file_size:
+                          raise SystemExit(f"archive member exceeds 2 GiB: {member.name}")
+                      total_size += member.size
+                      if total_size > max_total_size:
+                          raise SystemExit("artifact archive exceeds 16 GiB expanded")
+                  elif not member.isdir():
                       raise SystemExit(f"unsupported archive member type: {member.name!r}")
-                  if member.name in seen:
-                      raise SystemExit(f"duplicate archive member: {member.name!r}")
-                  seen.add(member.name)
+              if "staging" not in seen:
+                  raise SystemExit("artifact archive omits the staging root")
           PY
-          mkdir -p "$RUNNER_TEMP/formalization-cache"
-          test -z "$(find "$RUNNER_TEMP/formalization-cache" -mindepth 1 -print -quit)"
+          cache_root="$RUNNER_TEMP/formalization-cache"
+          if test -e "$cache_root" || test -L "$cache_root"; then
+            echo "::error::Refusing pre-existing cache extraction path."
+            exit 1
+          fi
+          mkdir -- "$cache_root"
           tar --extract --gzip \
             --file "$archive" \
-            --directory "$RUNNER_TEMP/formalization-cache" \
+            --directory "$cache_root" \
             --no-same-owner --no-same-permissions
-          lake cache unstage "$RUNNER_TEMP/formalization-cache/staging"
+          lake cache unstage "$cache_root/staging"
       # Asserted before the build below: afterwards every target is up to date
       # whether it was replayed or recompiled, so the check would be vacuous.
       - name: Verify the updated formalization was replayed, not rebuilt
         run: lake --no-build build @RepresentationTheoryFormalization
-      - uses: leanprover/lean-action@v1
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1
         with:
           build: true
           test: false
@@ -200,7 +262,7 @@ jobs:
             IntroductionToRepresentationTheoryVerso/Content \
             > "$RUNNER_TEMP/formalization-update.patch"
       - name: Upload the validated dependency update
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: formalization-update-${{ github.run_id }}
           path: ${{ runner.temp }}/formalization-update.patch
@@ -223,7 +285,7 @@ jobs:
         run: |
           echo "The dependency update preparation job did not succeed." >&2
           exit 1
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
       - name: Revalidate current public main before privileged update
@@ -248,7 +310,7 @@ jobs:
           fi
           echo "revision=$REVISION" >> "$GITHUB_OUTPUT"
       - name: Download the validated dependency update
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: formalization-update-${{ github.run_id }}
           path: ${{ runner.temp }}/formalization-update
@@ -265,6 +327,7 @@ jobs:
           import os
           import re
           import subprocess
+          import tomllib
           from pathlib import Path
 
           prefix = b"IntroductionToRepresentationTheoryVerso/Content/"
@@ -289,15 +352,47 @@ jobs:
           sha = os.environ["FORMALIZATION_SHA"]
           if re.fullmatch(r"[0-9a-f]{40}", sha) is None:
               raise SystemExit("dispatched formalization SHA is not canonical")
-          stanza = re.compile(
-              r'(\[\[require\]\]\nname = "RepresentationTheoryFormalization"\n'
-              r'git = "[^"\n]+"\nrev = ")[^"\n]+("\n)'
+          verso_url = "https://github.com/leanprover/verso.git"
+          verso_rev = "e09d21a5f7f66c9fc985b73197708298569bf583"
+          formalization_url = (
+              "https://github.com/mathlib-initiative/EtingofRepresentationTheory.git"
           )
+
+          def validate_dependencies(source: str) -> str:
+              config = tomllib.loads(source)
+              requires = config.get("require")
+              if not isinstance(requires, list) or len(requires) != 2:
+                  raise SystemExit("lakefile must contain exactly two Git dependencies")
+              revision = requires[1].get("rev") if isinstance(requires[1], dict) else None
+              if not isinstance(revision, str) or re.fullmatch(r"[0-9a-f]{40}", revision) is None:
+                  raise SystemExit("lakefile formalization revision is not canonical")
+              expected_requires = [
+                  {"name": "verso", "git": verso_url, "rev": verso_rev},
+                  {
+                      "name": "RepresentationTheoryFormalization",
+                      "git": formalization_url,
+                      "rev": revision,
+                  },
+              ]
+              if requires != expected_requires:
+                  raise SystemExit("lakefile dependency layout is not canonical")
+              return revision
+
           base = subprocess.check_output(["git", "show", "HEAD:lakefile.toml"]).decode("utf-8")
-          expected, count = stanza.subn(lambda match: match.group(1) + sha + match.group(2), base)
-          if count != 1:
-              raise SystemExit("base lakefile does not contain exactly one canonical formalization stanza")
-          if Path("lakefile.toml").read_text(encoding="utf-8") != expected:
+          base_revision = validate_dependencies(base)
+          old_stanza = (
+              '[[require]]\nname = "RepresentationTheoryFormalization"\n'
+              f'git = "{formalization_url}"\nrev = "{base_revision}"\n'
+          )
+          new_stanza = (
+              '[[require]]\nname = "RepresentationTheoryFormalization"\n'
+              f'git = "{formalization_url}"\nrev = "{sha}"\n'
+          )
+          if base.count(old_stanza) != 1:
+              raise SystemExit("base lakefile formalization stanza text is not canonical")
+          expected = base.replace(old_stanza, new_stanza, 1)
+          staged = Path("lakefile.toml").read_text(encoding="utf-8")
+          if staged != expected or validate_dependencies(staged) != sha:
               raise SystemExit("staged lakefile is not the exact canonical dispatched-SHA update")
           PY
       - name: Create or refresh dependency update pull request
@@ -314,11 +409,49 @@ jobs:
             exit 1
           fi
           if git diff --cached --quiet; then
-            echo "The requested formalization revision is already pinned."
+            has_update=false
+          else
+            has_update=true
+          fi
+          branch="automation/formalization-${FORMALIZATION_SHA:0:12}"
+          current_pr_url=""
+          reserved_prs=$(gh pr list \
+            --state open --limit 1000 \
+            --json number,headRefName,url,autoMergeRequest \
+            --jq '.[] | select(.headRefName | startswith("automation/formalization-")) | [.number, .headRefName, .url, (.autoMergeRequest != null)] | @tsv')
+          while IFS=$'\t' read -r number head_ref url auto_merge; do
+            if test -z "$number"; then
+              continue
+            fi
+            if test "$has_update" = true && test "$head_ref" = "$branch" && test -z "$current_pr_url"; then
+              current_pr_url="$url"
+              if test "$auto_merge" = true; then
+                gh pr merge "$url" --disable-auto
+              fi
+            else
+              gh pr close "$number" \
+                --comment "Closing stale reserved formalization automation before publishing $FORMALIZATION_SHA."
+            fi
+          done <<< "$reserved_prs"
+          reserved_refs=$(gh api --paginate \
+            "repos/$GITHUB_REPOSITORY/git/matching-refs/heads/automation/formalization-" \
+            --jq '.[].ref')
+          while IFS= read -r full_ref; do
+            if test -z "$full_ref"; then
+              continue
+            fi
+            stale_branch=${full_ref#refs/heads/}
+            if test "$has_update" = true && test "$stale_branch" = "$branch"; then
+              continue
+            fi
+            gh api --method DELETE \
+              "repos/$GITHUB_REPOSITORY/git/refs/heads/$stale_branch"
+          done <<< "$reserved_refs"
+          if test "$has_update" = false; then
+            echo "The requested formalization revision is already pinned; stale automation was removed."
             exit 0
           fi
           gh auth setup-git --hostname github.com --force
-          branch="automation/formalization-${FORMALIZATION_SHA:0:12}"
           lease="refs/heads/$branch:"
           remote_ref=$(git ls-remote --heads origin "refs/heads/$branch")
           remote_sha=${remote_ref%%[[:space:]]*}
@@ -334,7 +467,10 @@ jobs:
           git commit -m "Update formalization to ${FORMALIZATION_SHA:0:12}"
           head_sha=$(git rev-parse HEAD)
           git push --force-with-lease="$lease" origin "HEAD:refs/heads/$branch"
-          pr_url=$(gh pr list --head "$branch" --state open --json url --jq '.[0].url')
+          pr_url="$current_pr_url"
+          if test -z "$pr_url"; then
+            pr_url=$(gh pr list --head "$branch" --state open --json url --jq '.[0].url')
+          fi
           if [ -z "$pr_url" ]; then
             pr_url=$(gh pr create \
               --base main \
@@ -395,4 +531,5 @@ jobs:
             echo "::error::Public main advanced to $current_public_main before merge."
             exit 1
           fi
-          gh pr merge "$pr_url" --match-head-commit "$head_sha" --auto --squash
+          gh pr merge "$pr_url" \
+            --match-head-commit "$head_sha" --squash --delete-branch

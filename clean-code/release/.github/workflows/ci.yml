@@ -14,16 +14,22 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
       - name: Bootstrap the generated Lake manifest
         run: |
-          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
-            sh -s -- -y --default-toolchain none
+          elan_init="$RUNNER_TEMP/elan-init.sh"
+          curl --fail --location --silent --show-error \
+            --proto '=https' --tlsv1.2 \
+            --output "$elan_init" \
+            https://raw.githubusercontent.com/leanprover/elan/464c9d28395000a2a0128e07081e4956d50eced2/elan-init.sh
+          echo "a620ff1641616222c8d37c54845492004bb84d6877cdbc944dd65c1aa685bf53  $elan_init" |
+            sha256sum --check --strict -
+          sh "$elan_init" -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
           "$HOME/.elan/bin/lake" update
-      - uses: leanprover/lean-action@v1
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1
         with:
           use-mathlib-cache: true
       - name: Check release legal filenames
@@ -43,22 +49,124 @@ jobs:
           (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         run: |
           lake cache stage outputs.jsonl staging
-          tar --create --gzip \
-            --file "formalization-$GITHUB_SHA.tar.gz" staging
-          size="$(stat -c %s "formalization-$GITHUB_SHA.tar.gz")"
+          python3 - staging <<'PY'
+          import os
+          import stat
+          import sys
+          from pathlib import Path, PurePosixPath
+
+          max_members = 100_000
+          max_file_size = 2 * 1024**3
+          max_total_size = 16 * 1024**3
+          root = Path(sys.argv[1])
+          if not root.is_dir() or root.is_symlink():
+              raise SystemExit("staged cache root must be a real directory")
+          seen = {root.name}
+          members = 1
+          total_size = 0
+          stack = [root]
+          while stack:
+              directory = stack.pop()
+              with os.scandir(directory) as entries:
+                  for entry in entries:
+                      relative = Path(entry.path).relative_to(root.parent).as_posix()
+                      parsed = PurePosixPath(relative)
+                      normalized = parsed.as_posix()
+                      if (
+                          relative != normalized
+                          or parsed.is_absolute()
+                          or ".." in parsed.parts
+                          or not parsed.parts
+                          or parsed.parts[0] != "staging"
+                          or "\\" in relative
+                          or any(ord(character) < 32 or ord(character) == 127 for character in relative)
+                      ):
+                          raise SystemExit(f"noncanonical staged path: {relative!r}")
+                      if normalized in seen:
+                          raise SystemExit(f"duplicate normalized staged path: {normalized!r}")
+                      seen.add(normalized)
+                      members += 1
+                      if members > max_members:
+                          raise SystemExit("staged cache exceeds the 100000-member limit")
+                      metadata = entry.stat(follow_symlinks=False)
+                      if stat.S_ISDIR(metadata.st_mode):
+                          stack.append(Path(entry.path))
+                      elif stat.S_ISREG(metadata.st_mode):
+                          if metadata.st_size > max_file_size:
+                              raise SystemExit(f"staged file exceeds 2 GiB: {relative}")
+                          total_size += metadata.st_size
+                          if total_size > max_total_size:
+                              raise SystemExit("staged cache exceeds 16 GiB expanded")
+                      else:
+                          raise SystemExit(f"unsupported staged file type: {relative}")
+          print(f"Validated staged tree: {members} members, {total_size} bytes")
+          PY
+          asset="formalization-$GITHUB_SHA.tar.gz"
+          unset POSIXLY_CORRECT
+          LC_ALL=C TZ=UTC tar \
+            --sort=name \
+            --format=posix \
+            --mtime='@0' \
+            --owner=0 --group=0 --numeric-owner \
+            --mode='u+rwX,go+rX,go-w' \
+            --pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime \
+            --create --file=- staging |
+            gzip --no-name --best > "$asset"
+          python3 - "$asset" <<'PY'
+          import sys
+          import tarfile
+          from pathlib import PurePosixPath
+
+          max_members = 100_000
+          max_file_size = 2 * 1024**3
+          max_total_size = 16 * 1024**3
+          archive = sys.argv[1]
+          with tarfile.open(archive, "r:gz") as handle:
+              members = handle.getmembers()
+              if not members or len(members) > max_members:
+                  raise SystemExit("artifact archive member count is invalid")
+              seen = set()
+              total_size = 0
+              for member in members:
+                  parsed = PurePosixPath(member.name)
+                  normalized = parsed.as_posix()
+                  if (
+                      member.name != normalized
+                      or parsed.is_absolute()
+                      or ".." in parsed.parts
+                      or not parsed.parts
+                      or parsed.parts[0] != "staging"
+                      or "\\" in member.name
+                      or any(ord(character) < 32 or ord(character) == 127 for character in member.name)
+                  ):
+                      raise SystemExit(f"noncanonical archive member: {member.name!r}")
+                  if normalized in seen:
+                      raise SystemExit(f"duplicate normalized archive member: {normalized!r}")
+                  seen.add(normalized)
+                  if member.isfile():
+                      if member.size < 0 or member.size > max_file_size:
+                          raise SystemExit(f"archive member exceeds 2 GiB: {member.name}")
+                      total_size += member.size
+                      if total_size > max_total_size:
+                          raise SystemExit("artifact archive exceeds 16 GiB expanded")
+                  elif not member.isdir():
+                      raise SystemExit(f"unsupported archive member type: {member.name!r}")
+              if "staging" not in seen:
+                  raise SystemExit("artifact archive omits the staging root")
+          PY
+          size="$(stat -c %s "$asset")"
           echo "Staged payload: $size bytes"
           # A GitHub release asset must stay below 2 GiB.
           if test "$size" -ge 2147483648; then
             echo "::error::Staged payload exceeds the 2 GiB release asset limit."
             exit 1
           fi
-          sha256sum "formalization-$GITHUB_SHA.tar.gz" \
-            > "formalization-$GITHUB_SHA.tar.gz.sha256"
+          sha256sum "$asset" > "$asset.sha256"
       - name: Hand the payload to the publish job
         if: >-
           github.ref == 'refs/heads/main' &&
           (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: formalization-payload-${{ github.sha }}
           path: |
@@ -84,7 +192,7 @@ jobs:
       cancel-in-progress: false
     steps:
       - name: Download the staged payload
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: formalization-payload-${{ github.sha }}
       - name: Publish the formalization artifacts
@@ -95,6 +203,11 @@ jobs:
           release="formalization-cache-$GITHUB_SHA"
           asset="formalization-$GITHUB_SHA.tar.gz"
           sidecar="$asset.sha256"
+          if ! { test -f "$asset" && test ! -L "$asset" &&
+                 test -f "$sidecar" && test ! -L "$sidecar"; }; then
+            echo "::error::Local artifact pair is incomplete or not regular files."
+            exit 1
+          fi
           python3 - "$sidecar" "$asset" <<'PY'
           import re
           import sys
@@ -106,45 +219,91 @@ jobs:
               raise SystemExit(f"noncanonical checksum sidecar: {sidecar}")
           PY
           sha256sum --check --strict "$sidecar"
-          if ! gh release view "$release" >/dev/null 2>&1; then
+          published_now=false
+          create_draft=true
+          if gh release view "$release" --repo "$GH_REPO" >/dev/null 2>&1; then
+            tag_name=$(gh release view "$release" --repo "$GH_REPO" --json tagName --jq .tagName)
+            target=$(gh release view "$release" --repo "$GH_REPO" --json targetCommitish --jq .targetCommitish)
+            is_draft=$(gh release view "$release" --repo "$GH_REPO" --json isDraft --jq .isDraft)
+            if test "$tag_name" != "$release" || test "$target" != "$GITHUB_SHA"; then
+              echo "::error::Release metadata is not bound to $GITHUB_SHA."
+              exit 1
+            fi
+            if test "$is_draft" = true; then
+              # Draft assets can be left partial by an interrupted job. Rebuild a
+              # metadata-correct reserved draft instead of trusting that state.
+              gh release delete "$release" \
+                --repo "$GH_REPO" --cleanup-tag --yes
+            elif test "$is_draft" = false; then
+              create_draft=false
+            else
+              echo "::error::Release $release has an invalid draft state."
+              exit 1
+            fi
+          fi
+          if test "$create_draft" = true; then
             gh release create "$release" \
+              --repo "$GH_REPO" \
               --target "$GITHUB_SHA" \
+              --draft \
               --title "Formalization artifact cache $GITHUB_SHA" \
               --notes "Lake artifact cache payload for public main revision \`$GITHUB_SHA\`; consumed only through the explicitly named assets, never through GitHub-generated source archives." \
-              --latest=false ||
-              gh release view "$release" >/dev/null
+              --latest=false
+            is_draft=true
           fi
-          tag_type=$(gh api \
-            "repos/$GH_REPO/git/ref/tags/$release" \
-            --jq .object.type)
-          tag_sha=$(gh api \
-            "repos/$GH_REPO/git/ref/tags/$release" \
-            --jq .object.sha)
-          if test "$tag_type" != commit || test "$tag_sha" != "$GITHUB_SHA"; then
-            echo "::error::Release $release is not bound to $GITHUB_SHA."
+          tag_name=$(gh release view "$release" --repo "$GH_REPO" --json tagName --jq .tagName)
+          target=$(gh release view "$release" --repo "$GH_REPO" --json targetCommitish --jq .targetCommitish)
+          is_draft=$(gh release view "$release" --repo "$GH_REPO" --json isDraft --jq .isDraft)
+          if test "$tag_name" != "$release" || test "$target" != "$GITHUB_SHA"; then
+            echo "::error::Release metadata is not bound to $GITHUB_SHA."
             exit 1
           fi
-          assets=$(gh release view "$release" --json assets --jq '.assets[].name')
-          if printf '%s\n' "$assets" | grep -qxF "$asset"; then
-            have_asset=true
-          else
+          classify_assets() {
+            names=$(gh release view "$release" \
+              --repo "$GH_REPO" --json assets --jq '.assets[].name')
+            count=0
             have_asset=false
-          fi
-          if printf '%s\n' "$assets" | grep -qxF "$sidecar"; then
-            have_sidecar=true
-          else
             have_sidecar=false
+            while IFS= read -r name; do
+              if test -z "$name"; then
+                continue
+              fi
+              count=$((count + 1))
+              case "$name" in
+                "$asset") have_asset=true ;;
+                "$sidecar") have_sidecar=true ;;
+                *)
+                  echo "::error::Unexpected release asset: $name" >&2
+                  return 2
+                  ;;
+              esac
+            done <<< "$names"
+            if test "$count" -eq 0; then
+              echo empty
+            elif test "$count" -eq 2 && test "$have_asset" = true && test "$have_sidecar" = true; then
+              echo complete
+            else
+              echo "::error::Release $release has a partial artifact pair." >&2
+              return 2
+            fi
+          }
+          asset_state=$(classify_assets)
+          if test "$asset_state" = empty; then
+            if test "$is_draft" != true; then
+              echo "::error::Published release $release has no artifact pair."
+              exit 1
+            fi
+            gh release upload "$release" "$asset" "$sidecar" --repo "$GH_REPO"
+            asset_state=$(classify_assets)
           fi
-          if test "$have_asset" != "$have_sidecar"; then
-            echo "::error::Release $release contains only one member of the artifact pair."
+          if test "$asset_state" != complete; then
+            echo "::error::Release $release does not contain the exact artifact pair."
             exit 1
-          fi
-          if test "$have_asset" = false; then
-            gh release upload "$release" "$asset" "$sidecar"
           fi
           verify_dir="$RUNNER_TEMP/published-formalization-cache"
           mkdir "$verify_dir"
           gh release download "$release" \
+            --repo "$GH_REPO" \
             --pattern "$asset" \
             --pattern "$sidecar" \
             --dir "$verify_dir"
@@ -164,4 +323,63 @@ jobs:
               raise SystemExit(f"noncanonical checksum sidecar: {sidecar}")
           PY
           (cd "$verify_dir" && sha256sum --check --strict "$sidecar")
-          echo "Verified immutable artifact pair on revision-bound release $release."
+          cmp --silent "$asset" "$verify_dir/$asset"
+          cmp --silent "$sidecar" "$verify_dir/$sidecar"
+          if test "$is_draft" = true; then
+            tag_query_error="$RUNNER_TEMP/formalization-tag-query.err"
+            if tag_identity=$(gh api \
+              "repos/$GH_REPO/git/ref/tags/$release" \
+              --jq '[.object.type, .object.sha] | @tsv' \
+              2>"$tag_query_error"); then
+              IFS="$(printf '\t')" read -r tag_type tag_sha <<< "$tag_identity"
+              if test "$tag_type" != commit || test "$tag_sha" != "$GITHUB_SHA"; then
+                echo "::error::Existing tag $release is not a direct reference to $GITHUB_SHA."
+                exit 1
+              fi
+            elif ! grep -qF 'HTTP 404' "$tag_query_error"; then
+              cat "$tag_query_error" >&2
+              echo "::error::Could not determine whether tag $release already exists."
+              exit 1
+            fi
+            gh release edit "$release" \
+              --repo "$GH_REPO" --draft=false --latest=false
+            published_now=true
+          fi
+          publication_ready=false
+          for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            if ! is_draft=$(gh release view "$release" \
+              --repo "$GH_REPO" --json isDraft --jq .isDraft 2>/dev/null); then
+              is_draft=unknown
+            fi
+            if ! immutable=$(gh api \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "repos/$GH_REPO/releases/tags/$release" \
+              --jq .immutable 2>/dev/null); then
+              immutable=unknown
+            fi
+            tag_identity=""
+            if tag_identity=$(gh api \
+              "repos/$GH_REPO/git/ref/tags/$release" \
+              --jq '[.object.type, .object.sha] | @tsv' 2>/dev/null); then
+              IFS="$(printf '\t')" read -r tag_type tag_sha <<< "$tag_identity"
+              if test "$tag_type" != commit || test "$tag_sha" != "$GITHUB_SHA"; then
+                break
+              fi
+            fi
+            if test "$is_draft" = false && test "$immutable" = true &&
+               test -n "$tag_identity"; then
+              publication_ready=true
+              break
+            fi
+            sleep 2
+          done
+          if test "$publication_ready" != true; then
+            if test "$published_now" = true; then
+              gh release delete "$release" \
+                --repo "$GH_REPO" --cleanup-tag --yes ||
+                echo "::error::Failed to clean up newly published release $release."
+            fi
+            echo "::error::Release $release did not become immutable with an exact revision tag."
+            exit 1
+          fi
+          echo "Verified deterministic immutable artifact pair on release $release."

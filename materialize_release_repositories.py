@@ -24,6 +24,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
@@ -269,6 +270,22 @@ def assert_verso_dependency(
         f"git = {toml_string(clean_git_url)}\n"
         f"rev = {toml_string(clean_git_rev)}"
     )
+    try:
+        config = tomllib.loads(lakefile)
+    except tomllib.TOMLDecodeError as error:
+        raise MaterializationError(f"Verso lakefile is not valid TOML: {error}") from error
+    expected_dependencies = [
+        {"name": "verso", "git": verso_git_url, "rev": verso_git_rev},
+        {
+            "name": "RepresentationTheoryFormalization",
+            "git": clean_git_url,
+            "rev": clean_git_rev,
+        },
+    ]
+    if config.get("require") != expected_dependencies:
+        raise MaterializationError(
+            "Verso lakefile must contain only the exact requested Git dependencies"
+        )
     if "enableArtifactCache = true" not in lakefile:
         raise MaterializationError("Verso lakefile does not enable the Lake artifact cache")
     if verso_stanza not in lakefile:
@@ -525,7 +542,7 @@ def self_test() -> dict[str, object]:
         lean_destination = root / "lean"
         verso_destination = root / "verso"
         kwargs = {
-            "clean_git_url": "https://example.invalid/representation-theory-formalization.git",
+            "clean_git_url": DEFAULT_CLEAN_GIT_URL,
             "clean_git_rev": "0123456789abcdef0123456789abcdef01234567",
             "verso_git_url": DEFAULT_VERSO_GIT_URL,
             "verso_git_rev": DEFAULT_VERSO_GIT_REV,

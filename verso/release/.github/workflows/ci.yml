@@ -27,20 +27,10 @@ jobs:
           sudo rm -rf -- /usr/local/.ghcup
           sudo rm -rf -- /opt/hostedtoolcache/CodeQL
           df -h /
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-      - name: Bootstrap the generated Lake manifest
-        run: |
-          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
-            sh -s -- -y --default-toolchain none
-          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
-          "$HOME/.elan/bin/lake" update
-      # The pinned formalization is built once by the public repository and
-      # published as a Lake artifact cache payload. Loading it here lets Lake
-      # replay the pinned oleans instead of recompiling ~800 modules, which no
-      # hosted runner can do within its time limit.
-      - name: Resolve the pinned formalization revision
+      - name: Validate the exact pinned Git dependency layout
         id: pin
         run: |
           revision="$(python3 - <<'PY'
@@ -48,26 +38,52 @@ jobs:
           import re
           import tomllib
 
+          verso_url = "https://github.com/leanprover/verso.git"
+          verso_rev = "e09d21a5f7f66c9fc985b73197708298569bf583"
+          formalization_url = (
+              "https://github.com/mathlib-initiative/EtingofRepresentationTheory.git"
+          )
           config = tomllib.loads(pathlib.Path("lakefile.toml").read_text(encoding="utf-8"))
-          pins = [
-              require.get("rev")
-              for require in config.get("require", [])
-              if require.get("name") == "RepresentationTheoryFormalization"
+          requires = config.get("require")
+          if not isinstance(requires, list) or len(requires) != 2:
+              raise SystemExit("lakefile.toml must contain exactly two Git dependencies")
+          revision = requires[1].get("rev") if isinstance(requires[1], dict) else None
+          if not isinstance(revision, str) or re.fullmatch(r"[0-9a-f]{40}", revision) is None:
+              raise SystemExit("formalization revision is not exact lowercase 40-hex")
+          expected = [
+              {"name": "verso", "git": verso_url, "rev": verso_rev},
+              {
+                  "name": "RepresentationTheoryFormalization",
+                  "git": formalization_url,
+                  "rev": revision,
+              },
           ]
-          if (
-              len(pins) != 1
-              or not isinstance(pins[0], str)
-              or re.fullmatch(r"[0-9a-f]{40}", pins[0]) is None
-          ):
+          if requires != expected:
               raise SystemExit(
-                  "lakefile.toml must pin RepresentationTheoryFormalization to exactly one "
-                  "lowercase 40-hex revision"
+                  "lakefile.toml must contain only the canonical Verso and "
+                  "formalization Git dependency stanzas"
               )
-          print(pins[0])
+          print(revision)
           PY
           )"
           echo "revision=$revision" >> "$GITHUB_OUTPUT"
           echo "Pinned formalization revision: $revision"
+      - name: Bootstrap the generated Lake manifest
+        run: |
+          elan_init="$RUNNER_TEMP/elan-init.sh"
+          curl --fail --location --silent --show-error \
+            --proto '=https' --tlsv1.2 \
+            --output "$elan_init" \
+            https://raw.githubusercontent.com/leanprover/elan/464c9d28395000a2a0128e07081e4956d50eced2/elan-init.sh
+          echo "a620ff1641616222c8d37c54845492004bb84d6877cdbc944dd65c1aa685bf53  $elan_init" |
+            sha256sum --check --strict -
+          sh "$elan_init" -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/lake" update
+      # The pinned formalization is built once by the public repository and
+      # published as a Lake artifact cache payload. Loading it here lets Lake
+      # replay the pinned oleans instead of recompiling ~800 modules, which no
+      # hosted runner can do within its time limit.
       - name: Download the pinned formalization artifacts
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -76,6 +92,39 @@ jobs:
           release="$FORMALIZATION_RELEASE_PREFIX$REVISION"
           asset="formalization-$REVISION.tar.gz"
           sidecar="$asset.sha256"
+          tag_name=$(gh release view "$release" \
+            --repo "$FORMALIZATION_REPO" --json tagName --jq .tagName)
+          target=$(gh release view "$release" \
+            --repo "$FORMALIZATION_REPO" --json targetCommitish --jq .targetCommitish)
+          is_draft=$(gh release view "$release" \
+            --repo "$FORMALIZATION_REPO" --json isDraft --jq .isDraft)
+          immutable=$(gh api \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "repos/$FORMALIZATION_REPO/releases/tags/$release" \
+            --jq .immutable)
+          if test "$tag_name" != "$release" || test "$target" != "$REVISION" ||
+             test "$is_draft" != false || test "$immutable" != true; then
+            echo "::error::Artifact release metadata is not published, immutable, and revision-bound."
+            exit 1
+          fi
+          names=$(gh release view "$release" \
+            --repo "$FORMALIZATION_REPO" --json assets --jq '.assets[].name')
+          count=0
+          have_asset=false
+          have_sidecar=false
+          while IFS= read -r name; do
+            if test -z "$name"; then continue; fi
+            count=$((count + 1))
+            case "$name" in
+              "$asset") have_asset=true ;;
+              "$sidecar") have_sidecar=true ;;
+              *) echo "::error::Unexpected release asset: $name"; exit 1 ;;
+            esac
+          done <<< "$names"
+          if test "$count" -ne 2 || test "$have_asset" != true || test "$have_sidecar" != true; then
+            echo "::error::Artifact release does not contain the exact pair."
+            exit 1
+          fi
           tag_type=$(gh api \
             "repos/$FORMALIZATION_REPO/git/ref/tags/$release" \
             --jq .object.type)
@@ -129,36 +178,59 @@ jobs:
           import tarfile
           from pathlib import PurePosixPath
 
+          max_members = 100_000
+          max_file_size = 2 * 1024**3
+          max_total_size = 16 * 1024**3
           archive = sys.argv[1]
-          seen = set()
           with tarfile.open(archive, "r:gz") as handle:
               members = handle.getmembers()
-              if not members:
-                  raise SystemExit(f"empty artifact archive: {archive}")
+              if not members or len(members) > max_members:
+                  raise SystemExit("artifact archive member count is invalid")
+              seen = set()
+              total_size = 0
               for member in members:
-                  path = PurePosixPath(member.name)
-                  if path.is_absolute() or ".." in path.parts:
-                      raise SystemExit(f"unsafe archive member: {member.name!r}")
-                  if not path.parts or path.parts[0] != "staging":
-                      raise SystemExit(f"archive member outside staging/: {member.name!r}")
-                  if not (member.isdir() or member.isfile()):
+                  parsed = PurePosixPath(member.name)
+                  normalized = parsed.as_posix()
+                  if (
+                      member.name != normalized
+                      or parsed.is_absolute()
+                      or ".." in parsed.parts
+                      or not parsed.parts
+                      or parsed.parts[0] != "staging"
+                      or "\\" in member.name
+                      or any(ord(character) < 32 or ord(character) == 127 for character in member.name)
+                  ):
+                      raise SystemExit(f"noncanonical archive member: {member.name!r}")
+                  if normalized in seen:
+                      raise SystemExit(f"duplicate normalized archive member: {normalized!r}")
+                  seen.add(normalized)
+                  if member.isfile():
+                      if member.size < 0 or member.size > max_file_size:
+                          raise SystemExit(f"archive member exceeds 2 GiB: {member.name}")
+                      total_size += member.size
+                      if total_size > max_total_size:
+                          raise SystemExit("artifact archive exceeds 16 GiB expanded")
+                  elif not member.isdir():
                       raise SystemExit(f"unsupported archive member type: {member.name!r}")
-                  if member.name in seen:
-                      raise SystemExit(f"duplicate archive member: {member.name!r}")
-                  seen.add(member.name)
+              if "staging" not in seen:
+                  raise SystemExit("artifact archive omits the staging root")
           PY
-          mkdir -p "$RUNNER_TEMP/formalization-cache"
-          test -z "$(find "$RUNNER_TEMP/formalization-cache" -mindepth 1 -print -quit)"
+          cache_root="$RUNNER_TEMP/formalization-cache"
+          if test -e "$cache_root" || test -L "$cache_root"; then
+            echo "::error::Refusing pre-existing cache extraction path."
+            exit 1
+          fi
+          mkdir -- "$cache_root"
           tar --extract --gzip \
             --file "$archive" \
-            --directory "$RUNNER_TEMP/formalization-cache" \
+            --directory "$cache_root" \
             --no-same-owner --no-same-permissions
-          lake cache unstage "$RUNNER_TEMP/formalization-cache/staging"
+          lake cache unstage "$cache_root/staging"
       # Asserted before the build below: afterwards every target is up to date
       # whether it was replayed or recompiled, so the check would be vacuous.
       - name: Verify the pinned formalization was replayed, not rebuilt
         run: lake --no-build build @RepresentationTheoryFormalization
-      - uses: leanprover/lean-action@v1
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1
         with:
           build: true
           test: false
@@ -176,7 +248,7 @@ jobs:
           test -f LICENCE
           test ! -e LICENSE
       - name: Upload access-controlled site artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: etingof-representation-theory-verso-${{ github.sha }}
           path: _out/html-multi
