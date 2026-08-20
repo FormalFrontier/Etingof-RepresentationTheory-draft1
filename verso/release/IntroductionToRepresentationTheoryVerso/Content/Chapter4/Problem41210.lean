@@ -29,12 +29,12 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.RepresentationPolynomialFunctions.exists_nonzero_symmetric_power_intertwiner}
-
 {Manual.docstring RepresentationTheory.RepresentationPolynomialFunctions.exists_surjective_equivariant_graded_map}
 
 {Manual.docstring RepresentationTheory.TensorPowerRepresentations.exists_nonzero_intertwiner_to_tensorPower_of_injective}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.RepresentationPolynomialFunctions.exists_nonzero_symmetric_power_intertwiner}
 
 {Manual.docstring RepresentationTheory.RepresentationPolynomialFunctions.gradedMatrixCoefficient}

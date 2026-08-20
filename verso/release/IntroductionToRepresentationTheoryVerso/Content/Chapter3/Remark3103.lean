@@ -24,12 +24,10 @@ tag := "Chapter3/Remark3.10.3/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.Algebra.WeylAlgebra.PolynomialBimodule.not_equivariant_tensorProductFactorization}
-
-{Manual.docstring RepresentationTheory.Algebra.WeylAlgebra.PolynomialBimodule.not_isField_tensorProduct_ratFunc_self}
-
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.WeylAlgebra.PolynomialBimodule.polynomialTensorProductModule_isSimpleModule}
+{Manual.docstring RepresentationTheory.Algebra.Module.AuxiliaryRepresentations.auxiliaryTensorProductModule_isSimpleModule}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.AuxiliaryRepresentations.not_equivariant_tensorProductEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.AuxiliaryRepresentations.not_isField_tensorProduct_ratFunc_self}

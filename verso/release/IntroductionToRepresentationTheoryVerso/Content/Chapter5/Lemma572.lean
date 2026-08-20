@@ -27,6 +27,6 @@ tag := "Chapter5/Lemma5.7.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FiniteGroup.Character.Irreducibility.exists_singleton_of_character_selfInner_eq_one}

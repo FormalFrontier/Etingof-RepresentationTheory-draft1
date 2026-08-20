@@ -26,4 +26,4 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.OddOrderAuxiliary.oddCardinality_exists_auxiliarySimpleRepresentation}
+{Manual.docstring RepresentationTheory.OddOrderAuxiliary.oddCardinality_exists_simpleRepresentation_not_auxiliaryProperty}

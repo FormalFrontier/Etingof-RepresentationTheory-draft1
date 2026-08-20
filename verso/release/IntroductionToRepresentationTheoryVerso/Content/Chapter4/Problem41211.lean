@@ -44,11 +44,13 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryConjunction}
+
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryComplexSubmoduleClassification}
 
 {Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryComplexSubmoduleResult}
-
-{Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryConjunction}
 
 {Manual.docstring RepresentationTheory.MatrixConjugationActions.auxiliaryInternalDirectSum}
 

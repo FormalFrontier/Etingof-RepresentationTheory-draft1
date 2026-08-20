@@ -31,18 +31,18 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Group.CharacterDuality.characterGroupDualEquiv}
-
-{Manual.docstring RepresentationTheory.Group.CharacterDuality.characterGroupDualEquiv_apply}
-
 {Manual.docstring RepresentationTheory.Group.CharacterDuality.characterGroupPiEquiv}
 
 {Manual.docstring RepresentationTheory.Group.CharacterDuality.characterGroupProdEquiv}
 
 {Manual.docstring RepresentationTheory.Group.CharacterDuality.finrank_eq_one_of_isSimpleModule}
 
-{Manual.docstring RepresentationTheory.Group.CharacterDuality.nonempty_characterGroupEquiv}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Group.CharacterDuality.characterGroup}
+
+{Manual.docstring RepresentationTheory.Group.CharacterDuality.characterGroupDualEquiv}
+
+{Manual.docstring RepresentationTheory.Group.CharacterDuality.characterGroupDualEquiv_apply}
+
+{Manual.docstring RepresentationTheory.Group.CharacterDuality.nonempty_characterGroupEquiv}

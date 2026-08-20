@@ -23,10 +23,6 @@ tag := "Chapter3/Example3.1.2/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.Module.EndomorphismEvaluation.endomorphismModule_isSemisimple}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Module.EndomorphismEvaluation.endApplyBasisLinearEquiv}
@@ -36,3 +32,5 @@ number := false
 {Manual.docstring RepresentationTheory.Module.EndomorphismEvaluation.endApplyFinBasisLinearEquiv}
 
 {Manual.docstring RepresentationTheory.Module.EndomorphismEvaluation.endApplyFinBasisLinearEquiv_apply}
+
+{Manual.docstring RepresentationTheory.Module.EndomorphismEvaluation.endomorphismModule_isSemisimple}

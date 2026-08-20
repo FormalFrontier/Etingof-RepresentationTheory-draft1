@@ -25,6 +25,6 @@ tag := "Chapter5/Corollary5.26.3/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CyclicCharacterSpan.simple_character_mem_rat_span_zpowers_auxiliary_images}

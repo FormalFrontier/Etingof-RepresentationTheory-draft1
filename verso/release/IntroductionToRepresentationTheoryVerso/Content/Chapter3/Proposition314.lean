@@ -33,16 +33,16 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_equiv_directSum_fin}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_linearIndependent_coordinates_directSum}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_linearIndependent_coordinates_pi}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates.exists_injective_coordinates_directSum}
-
 {Manual.docstring RepresentationTheory.Module.SimpleSubmodule.exists_isSimpleModule_subtype}
 
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_equiv_pi_fin}
 
+{Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_linearIndependent_coordinates_directSum}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_linearIndependent_coordinates_pi}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.isIsotypicOfType_fin_fun}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates.exists_injective_coordinates_directSum}

@@ -23,6 +23,6 @@ tag := "Chapter2/Remark2.8.5/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.sum_vertexElement_eq_one}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.sum_auxiliaryVertexElement_eq_one}

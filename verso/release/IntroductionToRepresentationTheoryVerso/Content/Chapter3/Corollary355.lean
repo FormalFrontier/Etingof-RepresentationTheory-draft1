@@ -30,10 +30,8 @@ tag := "Chapter3/Corollary3.5.5/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.RingTheory.SimpleModuleDimensionBound.sum_finrank_sq_le}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Semisimplicity.EndomorphismProduct.nonempty_algEquiv_quotient_endProduct}
+
+{Manual.docstring RepresentationTheory.RingTheory.SimpleModuleDimensionBound.sum_finrank_sq_le}

@@ -39,16 +39,16 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Module.Examples.punitTrivialModuleProperty}
 
-{Manual.docstring RepresentationTheory.Algebra.Lie.Module.Examples.punitTrivialModule_subsingleton}
-
-{Manual.docstring RepresentationTheory.Algebra.Lie.Module.Examples.trivialModuleProperty}
-
-{Manual.docstring RepresentationTheory.Algebra.Lie.Module.Examples.trivialModule_bracket_eq_zero}
-
 {Manual.docstring RepresentationTheory.Algebra.Lie.UniversalEnveloping.representationAlgHomEquiv}
 
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Module.Examples.adjointRepresentation}
 
+{Manual.docstring RepresentationTheory.Algebra.Lie.Module.Examples.punitTrivialModule_subsingleton}
+
 {Manual.docstring RepresentationTheory.Algebra.Lie.Module.Examples.selfProperty}
+
+{Manual.docstring RepresentationTheory.Algebra.Lie.Module.Examples.trivialModuleProperty}
+
+{Manual.docstring RepresentationTheory.Algebra.Lie.Module.Examples.trivialModule_bracket_eq_zero}

@@ -23,6 +23,6 @@ tag := "Chapter2/Definition2.2.6/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.ModulePair.AlgebraPairConstruction}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryAlgebraPairType.AuxiliaryAlgebraPairType}

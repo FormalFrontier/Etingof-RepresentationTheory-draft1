@@ -38,8 +38,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.FormalDeformations.auxiliaryDeformationProperty_of_auxiliaryType_subsingleton}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.FormalDeformations.canonicalDeformation}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.FormalDeformations.AuxiliaryDeformationProperty}
@@ -47,3 +45,5 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Module.FormalDeformations.AuxiliaryDeformationRel}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.FormalDeformations.FormalRepresentationDeformation}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.FormalDeformations.canonicalDeformation}

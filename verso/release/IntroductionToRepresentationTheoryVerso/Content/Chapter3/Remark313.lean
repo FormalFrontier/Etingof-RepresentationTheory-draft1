@@ -23,15 +23,9 @@ tag := "Chapter3/Remark3.1.3/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Module.IsotypicDecomposition.endomorphismTensorSelfEquiv}
-
-{Manual.docstring RepresentationTheory.Module.IsotypicDecomposition.isotypicEvaluation}
-
-{Manual.docstring RepresentationTheory.Module.IsotypicDecomposition.isotypicEvaluation_lof_tmul}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Module.IsotypicDecomposition.endomorphismTensorSelfEquiv_tmul}
 
@@ -41,6 +35,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.Module.IsotypicDecomposition.isotypicDecompositionEquiv}
 
+{Manual.docstring RepresentationTheory.Module.IsotypicDecomposition.isotypicEvaluation}
+
 {Manual.docstring RepresentationTheory.Module.IsotypicDecomposition.isotypicEvaluation_injective}
+
+{Manual.docstring RepresentationTheory.Module.IsotypicDecomposition.isotypicEvaluation_lof_tmul}
 
 {Manual.docstring RepresentationTheory.Module.IsotypicDecomposition.isotypicEvaluation_surjective}

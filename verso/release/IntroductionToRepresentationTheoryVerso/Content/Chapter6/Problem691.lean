@@ -46,18 +46,18 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.FiniteDimensionalLinearMapPair.AuxiliaryClass.eq_of_rep_equiv}
-
-{Manual.docstring RepresentationTheory.FiniteDimensionalLinearMapPair.AuxiliaryClass.rep_auxiliaryCondition}
-
-{Manual.docstring RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.Auxiliary.eq_of_nonempty_rep_relations}
-
 {Manual.docstring RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.exists_related_nonzero_scalar_of_not_isNilpotent}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.nonempty_nilpotentBlockDecomposition}
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearMapPair.AuxiliaryClass.eq_of_rep_equiv}
+
+{Manual.docstring RepresentationTheory.FiniteDimensionalLinearMapPair.AuxiliaryClass.rep_auxiliaryCondition}
+
 {Manual.docstring RepresentationTheory.FiniteDimensionalLinearMapPair.combinedEndomorphism_isNilpotent_of_comp_isNilpotent}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.Auxiliary.eq_of_nonempty_rep_relations}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.Auxiliary.property_of_compatibility}

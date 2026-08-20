@@ -26,6 +26,6 @@ tag := "Chapter3/Discussion_proof_of_Theorem3.8.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.IndependentSpanningFamilies.eq_card_and_exists_equiv_of_iSupIndep}

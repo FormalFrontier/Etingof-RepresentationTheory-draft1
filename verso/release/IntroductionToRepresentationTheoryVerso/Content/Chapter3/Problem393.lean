@@ -26,34 +26,34 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryConstructions.hasAuxiliaryProperty_vertex}
+
+{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.exists_equiv_auxiliaryDefinition5_of_totalDimension_eq_two}
+
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.Quiver.AuxiliaryConstructions.auxiliaryRelation_iff_isEmpty_hom}
 
 {Manual.docstring RepresentationTheory.Quiver.AuxiliaryConstructions.exists_vertex_nonempty_auxiliaryObject}
 
 {Manual.docstring RepresentationTheory.Quiver.AuxiliaryConstructions.finrank_homObject}
 
-{Manual.docstring RepresentationTheory.Quiver.AuxiliaryConstructions.hasAuxiliaryProperty_vertex}
-
-{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two}
-
-{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.zeroTwoVertexAuxiliaryEquiv}
-
-### Supporting declarations
-
 {Manual.docstring RepresentationTheory.Quiver.AuxiliaryConstructions.not_auxiliaryProperty_or_exists_bijective_map}
 
-{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryTwoVertexEquiv}
+{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition5}
 
-{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact10}
+{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryDefinition6}
 
-{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact13}
+{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact10}
 
-{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact20}
+{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact14}
 
-{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliary_fact3}
+{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact21}
+
+{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.auxiliaryFact3}
+
+{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.not_auxiliaryProperty_auxiliaryDefinition5_zero}
 
 {Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.not_auxiliaryProperty_or_exists_bijectiveArrow_of_totalDimension_eq_two}
 
-{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.not_auxiliaryProperty_twoVertexRepresentation_zero}
-
-{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.twoVertexRepresentation}
+{Manual.docstring RepresentationTheory.Quiver.TwoDimensionalRepresentations.zeroAuxiliaryEquivalenceData}

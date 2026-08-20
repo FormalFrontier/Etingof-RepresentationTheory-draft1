@@ -33,10 +33,12 @@ number := false
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.IntegralRootSystem.WeylGroup.IntegralRootSystem.finite_weylGroup}
 
+{Manual.docstring RepresentationTheory.LinearAlgebra.IntegralRootSystem.WeylGroup.IntegralRootSystem.weylGroupRootAction_injective}
+
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.LinearAlgebra.IntegralRootSystem.WeylGroup.IntegralRootSystem.reflection_eq_self_of_dotProduct_eq_zero}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.IntegralRootSystem.WeylGroup.IntegralRootSystem.reflection_preserves_dotProduct_mulVec}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.IntegralRootSystem.WeylGroup.IntegralRootSystem.reflection_self}
-
-{Manual.docstring RepresentationTheory.LinearAlgebra.IntegralRootSystem.WeylGroup.IntegralRootSystem.weylGroupRootAction_injective}

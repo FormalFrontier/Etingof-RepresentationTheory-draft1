@@ -23,7 +23,7 @@ tag := "Chapter2/Exercise2.9.5/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.ThreeDimensional.crossProductLieEquivOrthogonal}
 

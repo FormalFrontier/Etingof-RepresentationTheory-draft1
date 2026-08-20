@@ -37,12 +37,10 @@ tag := "Chapter5/Discussion_1dim_reps/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryTypeCharacters.card_auxiliaryType_complexCharacters}
 
 {Manual.docstring RepresentationTheory.AuxiliaryTypeCharacters.unitsCharacterEquiv}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryTypeCharacters.unitsCharacterEquiv_apply}

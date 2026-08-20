@@ -33,11 +33,11 @@ number := false
 
 {Manual.docstring RepresentationTheory.AuxiliaryRepresentationParameters.auxiliaryRepresentation_linearEquiv_iff_parameters_eq}
 
-{Manual.docstring RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.auxiliaryGeneralLinearFDRep}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex}
+
+{Manual.docstring RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.auxiliaryGeneralLinearFDRep}
 
 {Manual.docstring RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt}
 

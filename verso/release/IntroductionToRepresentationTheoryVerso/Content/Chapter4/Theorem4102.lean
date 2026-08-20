@@ -29,6 +29,6 @@ tag := "Chapter4/Theorem4.10.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryGroupPolynomial_eq_sign_smul_prod_auxiliaryPolynomial_pow}

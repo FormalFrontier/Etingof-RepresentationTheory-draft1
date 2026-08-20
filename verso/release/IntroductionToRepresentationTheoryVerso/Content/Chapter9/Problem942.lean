@@ -34,8 +34,6 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveDimension.exists_finite_projectiveResolution_of_hasProjectiveDimensionLE}
-
 {Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveDimension.hasProjectiveDimensionLE_iff_ext_subsingleton}
 
 {Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveDimension.projectiveResolution_object_projective_of_hasProjectiveDimensionLE}
@@ -47,3 +45,5 @@ number := false
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryProjectiveResolution.exists_finite_projectiveResolution}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveDimension.exists_finite_projectiveResolution_of_hasProjectiveDimensionLE}

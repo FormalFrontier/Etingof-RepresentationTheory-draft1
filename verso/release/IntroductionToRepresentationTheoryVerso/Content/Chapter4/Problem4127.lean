@@ -44,19 +44,53 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.matrixAction_011564}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.multiplicativeEquivalence_011606}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011486}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011514}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011525}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011536}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011577}
+
 {Manual.docstring RepresentationTheory.QuaternionRotationMaps.cardinalityFormula_011488}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.cardinalityFormula_011489}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.equivariantEndomorphismAlgebra}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.injective_011546}
 
 {Manual.docstring RepresentationTheory.QuaternionRotationMaps.matrixAction_011500}
 
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.matrixAction_011564}
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.membershipCharacterization_011460}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.membershipCharacterization_011463}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.membershipCharacterization_011466}
 
 {Manual.docstring RepresentationTheory.QuaternionRotationMaps.membershipCharacterization_011477}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.multiplicativeEquivalence_011606}
 
 {Manual.docstring RepresentationTheory.QuaternionRotationMaps.quaternionBasis}
 
 {Manual.docstring RepresentationTheory.QuaternionRotationMaps.quaternionNorm_011503}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.realUnitQuaternions}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.surjective_011547}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.surjective_011572}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.unitQuaternionToRotation}
+
+{Manual.docstring RepresentationTheory.QuaternionRotationMaps.unitQuaternionToSpecialUnitary}
 
 {Manual.docstring RepresentationTheory.QuaternionRotationMaps.valueFormula_011515}
 
@@ -71,37 +105,3 @@ number := false
 {Manual.docstring RepresentationTheory.QuaternionRotationMaps.valueFormula_011535}
 
 {Manual.docstring RepresentationTheory.QuaternionRotationMaps.valueFormula_011596}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011486}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011514}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011525}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011536}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.Auxiliary011577}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.cardinalityFormula_011489}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.equivariantEndomorphismAlgebra}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.injective_011546}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.membershipCharacterization_011460}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.membershipCharacterization_011463}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.membershipCharacterization_011466}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.realUnitQuaternions}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.surjective_011547}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.surjective_011572}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.unitQuaternionToRotation}
-
-{Manual.docstring RepresentationTheory.QuaternionRotationMaps.unitQuaternionToSpecialUnitary}

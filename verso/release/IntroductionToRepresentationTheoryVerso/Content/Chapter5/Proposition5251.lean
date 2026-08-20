@@ -53,6 +53,6 @@ tag := "Chapter5/Proposition5.25.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.SpecialLinear.Commutator.generalLinear_commutator_eq_specialLinear_range}

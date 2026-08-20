@@ -25,7 +25,7 @@ tag := "Chapter7/Example7.8.3/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CategoryTheory.ShortComplex.Biproduct.biproductShortComplexSplitting}
 

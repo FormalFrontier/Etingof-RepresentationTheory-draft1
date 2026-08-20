@@ -56,11 +56,11 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex.tensorProduct_acyclic_of_acyclic}
 
-{Manual.docstring RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex.tensorProduct_d_comp_d}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex.exists_biprod_inr_comp_iso_inv_homologyMap_isIso}
+
+{Manual.docstring RepresentationTheory.Algebra.Homology.CochainComplex.HomologyComplex.tensorProduct_d_comp_d}
 
 {Manual.docstring RepresentationTheory.HomologicalComplex.TensorHomology.homologyTensorToSigmaIso}
 

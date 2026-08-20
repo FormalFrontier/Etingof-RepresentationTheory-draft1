@@ -33,8 +33,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.TensorEquivDescent.exists_equiv_of_tensorEquiv}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.TensorSplitDescent.exists_retract_of_tensorRetract}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.EquivalenceTransfers.exists_equiv_of_fin_fun_equiv}
@@ -50,3 +48,5 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Module.TensorRestriction.exists_equiv_of_tensorEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.TensorRestriction.exists_retract_of_tensorRetract}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TensorSplitDescent.exists_retract_of_tensorRetract}

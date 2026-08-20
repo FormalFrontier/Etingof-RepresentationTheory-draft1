@@ -24,14 +24,12 @@ tag := "Chapter3/Problem3.8.3/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.Algebra.Module.FiniteDecompositions.bijective_or_nilpotent}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.FiniteDecompositions.exists_internal_family}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.FiniteDecompositions.internal_family_unique_up_to_permutation}
-
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.FiniteDecompositions.sum_nilpotent}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteDecompositions.bijective_or_nilpotent_of_auxiliaryProperty}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteDecompositions.exists_internal_family_satisfying_auxiliaryProperty}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteDecompositions.internal_families_equal_length_and_corresponding_equiv}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteDecompositions.sum_nilpotent_of_auxiliaryProperty}

@@ -27,11 +27,7 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.InvolutiveSquareZeroAlgebra.not_equiv_both_simpleModules}
-
 {Manual.docstring RepresentationTheory.InvolutiveSquareZeroAlgebra.projectiveFamilyMatrix_eq_ones}
-
-{Manual.docstring RepresentationTheory.InvolutiveSquareZeroAlgebra.simpleModule_equiv_positive_or_negative}
 
 {Manual.docstring RepresentationTheory.InvolutiveSquareZeroAlgebra.simpleModule_equiv_positive_xor_negative}
 
@@ -41,6 +37,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.InvolutiveSquareZeroAlgebra.negativeProjective_projectiveCoverProperties}
 
+{Manual.docstring RepresentationTheory.InvolutiveSquareZeroAlgebra.not_equiv_both_simpleModules}
+
 {Manual.docstring RepresentationTheory.InvolutiveSquareZeroAlgebra.positiveProjective_projectiveCoverProperties}
 
 {Manual.docstring RepresentationTheory.InvolutiveSquareZeroAlgebra.projectiveFamily_existsUnique_equiv}
+
+{Manual.docstring RepresentationTheory.InvolutiveSquareZeroAlgebra.simpleModule_equiv_positive_or_negative}

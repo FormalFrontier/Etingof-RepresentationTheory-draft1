@@ -36,4 +36,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.Nilpotence.nilpotent_le_jacobson}
 
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.RingTheory.JacobsonRadical.TwoSided.jacobson_isTwoSided}

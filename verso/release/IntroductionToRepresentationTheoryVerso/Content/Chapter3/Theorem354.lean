@@ -41,8 +41,6 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.Simple.FiniteDimensional.card_le_finrank_of_pairwise_nonisomorphic}
-
 {Manual.docstring RepresentationTheory.Algebra.Module.Simple.FiniteDimensional.finiteDimensional_of_isSimpleModule}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.family_algebra_smul_surjective}
@@ -54,6 +52,8 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients.exists_finite_coatomFamily}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Simple.FiniteDimensional.card_le_finrank_of_pairwise_nonisomorphic}
 
 {Manual.docstring RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients.exists_finite_coatomFamily_algEquiv_quotient}
 

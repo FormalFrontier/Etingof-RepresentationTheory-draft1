@@ -31,16 +31,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.algEquiv}
 
-{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.algEquiv_aux1}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.bracket_eq_aux1}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.bracket_eq_aux2}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.bracket_eq_aux3}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.map_apply_aux14}
-
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.property_and}
 
 ### Supporting declarations
@@ -51,6 +41,14 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.AuxiliaryType_aux2}
 
+{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.algEquiv_aux1}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.bracket_eq_aux1}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.bracket_eq_aux2}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.bracket_eq_aux3}
+
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.distinguishedElement_aux2}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.distinguishedElement_aux5}
@@ -58,3 +56,5 @@ number := false
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.distinguishedElement_aux6}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.exists_witness}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.map_apply_aux14}

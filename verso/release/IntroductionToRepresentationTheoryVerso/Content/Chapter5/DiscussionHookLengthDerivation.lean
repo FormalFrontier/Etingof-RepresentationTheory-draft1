@@ -50,8 +50,6 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliary_finrank_eq_pairwise_difference_formula}
-
 {Manual.docstring RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliary_partition_value_eq_descPochhammer_determinant_formula}
 
 {Manual.docstring RepresentationTheory.YoungDiagram.PartitionFormulas.det_descPochhammer_eval_eq_det_pow}
@@ -70,4 +68,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.SymmetricPolynomials.Alternant.partitionExpansionCoeff}
 
-{Manual.docstring RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliary_finrank_eq_power_determinant_formula}
+{Manual.docstring RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliaryElidedStatement019460}
+
+{Manual.docstring RepresentationTheory.YoungDiagram.PartitionFormulas.auxiliaryElidedStatement019461}

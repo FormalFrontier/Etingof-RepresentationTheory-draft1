@@ -33,12 +33,14 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.Module.FunctorEndomorphisms.moduleIdentityEndRingEquivCenter}
+
+{Manual.docstring RepresentationTheory.Module.FunctorEndomorphisms.restrictionEndRingEquivAlgebra}
+
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.Module.FunctorEndomorphisms.finitelyGeneratedModuleDoubleDualIso}
 
 {Manual.docstring RepresentationTheory.Module.FunctorEndomorphisms.isEmpty_iso_id_finitelyGeneratedModuleDualFunctor}
 
-{Manual.docstring RepresentationTheory.Module.FunctorEndomorphisms.moduleIdentityEndRingEquivCenter}
-
 {Manual.docstring RepresentationTheory.Module.FunctorEndomorphisms.nonempty_doubleDualLinearEquiv_iff_finiteDimensional}
-
-{Manual.docstring RepresentationTheory.Module.FunctorEndomorphisms.restrictionEndRingEquivAlgebra}

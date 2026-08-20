@@ -31,10 +31,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.CategoryTheory.Abelian.YonedaFiniteLimitColimitPreservation.coyonedaObjectProperty_iff}
 
-{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.YonedaFiniteLimitColimitPreservation.yonedaObjectProperty}
-
 {Manual.docstring RepresentationTheory.CategoryTheory.Abelian.YonedaFiniteLimitColimitPreservation.yonedaObjectProperty_iff}
 
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CategoryTheory.Abelian.YonedaFiniteLimitColimitPreservation.coyonedaObjectProperty}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.YonedaFiniteLimitColimitPreservation.yonedaObjectProperty}

@@ -35,7 +35,7 @@ tag := "Chapter5/Problem5.11.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FiniteGroupDegreeFiveCharacters.Auxiliary.simpleFinrankOneNontrivialIso}
 

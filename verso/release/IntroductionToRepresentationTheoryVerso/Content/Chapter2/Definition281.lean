@@ -31,4 +31,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Foundations.TypeFamilies.TypeIndexedFamily}
+{Manual.docstring RepresentationTheory.Foundations.TypeFamilies.AuxiliaryTypeFamily}

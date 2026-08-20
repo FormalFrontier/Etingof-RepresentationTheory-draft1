@@ -27,6 +27,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.ModuleEnd.OppositeRing.regularEndRingEquivOpposite}
 
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.ModuleEnd.OppositeRing.regularEndRingEquivOpposite_apply}
 
 {Manual.docstring RepresentationTheory.ModuleEnd.OppositeRing.regularEndRingEquivOpposite_symm_apply}

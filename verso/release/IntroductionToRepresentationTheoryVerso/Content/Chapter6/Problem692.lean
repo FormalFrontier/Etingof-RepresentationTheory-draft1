@@ -33,7 +33,11 @@ tag := "Chapter6/Problem6.9.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.rationalVectorSetA}
+
+{Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.rationalVectorSetB}
 
 {Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.ncard_setTransform_rationalVectorSetA}
 
@@ -41,15 +45,9 @@ number := false
 
 {Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.ncard_setTransform_rationalVectorSetC}
 
-{Manual.docstring RepresentationTheory.RationalVectorRootSystems.eightRationalVectors_configuration}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.rationalVectorSetA}
-
-{Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.Auxiliary.rationalVectorSetB}
-
 {Manual.docstring RepresentationTheory.EightDimensionalRationalVectors.rationalVectorSetC_integerSpan_characterization}
+
+{Manual.docstring RepresentationTheory.RationalVectorRootSystems.eightRationalVectors_configuration}
 
 {Manual.docstring RepresentationTheory.RationalVectorRootSystems.eightVectorAuxiliarySet_isCrystallographicRootSet}
 

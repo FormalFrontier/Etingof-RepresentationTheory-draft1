@@ -26,18 +26,20 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.exists_linearEquiv_directSum_standardModules}
-
-{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.matrixProductLinearEquivDirectSumColumns}
-
-{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.piMatrixProductLinearEquivDirectSum}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.BasisExpansion.basisExpansion}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.BasisExpansion.basisExpansion_apply}
-
 {Manual.docstring RepresentationTheory.Algebra.Module.BasisExpansion.basisExpansion_surjective}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.BasisExpansion.eq_basisExpansion_of_apply}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.BasisExpansion.quotientKerBasisExpansionEquiv}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.exists_linearEquiv_directSum_columnModules}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.piAuxiliaryLinearEquivDirectSum}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.BasisExpansion.basisExpansion}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.BasisExpansion.basisExpansion_apply}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryLinearEquivDirectSumColumns}

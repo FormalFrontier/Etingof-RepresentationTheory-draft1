@@ -27,10 +27,8 @@ tag := "Chapter5/Theorem5.15.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.PartitionPolynomials.signedAuxiliaryValue_eq_coefficient}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliarySignSmul_eq_coefficient}

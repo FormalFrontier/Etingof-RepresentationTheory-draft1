@@ -25,7 +25,7 @@ tag := "Chapter4/Exercise4.3.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.QuaternionFunctionSubmodule.auxiliaryFunctionSubmodule_invariant}
 

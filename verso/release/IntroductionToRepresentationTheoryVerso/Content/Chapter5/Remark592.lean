@@ -33,6 +33,6 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Auxiliary.UnavailableStatement.auxiliary}
+{Manual.docstring RepresentationTheory.Auxiliary.UnavailableStatement.Auxiliary.statement015437}
 
 {Manual.docstring RepresentationTheory.AuxiliaryUnavailableStatement.auxiliary_theorem}

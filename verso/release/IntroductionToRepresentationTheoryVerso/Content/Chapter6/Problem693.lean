@@ -30,7 +30,7 @@ tag := "Chapter6/Problem6.9.3/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Quiver.Auxiliary.any_relates_to_auxiliaryObjectAtVertex}
 
@@ -39,8 +39,6 @@ number := false
 {Manual.docstring RepresentationTheory.Quiver.Auxiliary.existsAuxiliaryDataWithVertexValues}
 
 {Manual.docstring RepresentationTheory.Quiver.VertexOrder.Quiver.exists_witness_with_prescribed_values}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.QuiverRepresentation.VertexCompositionSeries.IsElementaryExtensionAt}
 

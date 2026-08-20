@@ -38,14 +38,14 @@ number := false
 
 {Manual.docstring RepresentationTheory.PartitionAuxiliary.perm_eq_one_of_mem_of_mem}
 
-{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionTarget}
-
-{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.chosenAuxiliaryPartitionSource}
-
-{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.chosenAuxiliaryPartitionTarget}
-
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionTarget}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.chosenAuxiliaryPartitionSource}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.chosenAuxiliaryPartitionTarget}

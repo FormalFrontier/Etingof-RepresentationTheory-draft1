@@ -33,12 +33,6 @@ tag := "Chapter5/Problem5.24.1/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.SymmetricGroupAlgebra.SignTwist.signTwistAlgHom_apply_of_smul}
-
-{Manual.docstring RepresentationTheory.SymmetricGroupAlgebra.SignTwist.signTwistAlgHom_map_span_singleton}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionSubmodules.exists_equivariantMap}
@@ -53,4 +47,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.SymmetricGroupAlgebra.SignTwist.signTwistAlgHom_apply_of}
 
+{Manual.docstring RepresentationTheory.SymmetricGroupAlgebra.SignTwist.signTwistAlgHom_apply_of_smul}
+
 {Manual.docstring RepresentationTheory.SymmetricGroupAlgebra.SignTwist.signTwistAlgHom_bijective}
+
+{Manual.docstring RepresentationTheory.SymmetricGroupAlgebra.SignTwist.signTwistAlgHom_map_span_singleton}

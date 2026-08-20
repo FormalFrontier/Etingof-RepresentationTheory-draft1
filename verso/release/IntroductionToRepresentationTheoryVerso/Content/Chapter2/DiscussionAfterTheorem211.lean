@@ -29,22 +29,22 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.oppositeModuleRepresentationQuotientEquiv}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.oppositeModuleRepresentationQuotientEquiv}
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.QuiverLinearDiagram}
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData}
 
-{Manual.docstring RepresentationTheory.Foundations.TypeFamilies.TypeIndexedFamily}
+{Manual.docstring RepresentationTheory.Foundations.TypeFamilies.AuxiliaryTypeFamily}
 
-{Manual.docstring RepresentationTheory.Quiver.FiniteTypeCriterion.FiniteQuiverRepresentation}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryFiniteProperties.AuxiliaryQuiverProperty}
 
-{Manual.docstring RepresentationTheory.Quiver.FiniteTypeCriterion.QuiverRepresentationFiniteness}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryFiniteProperties.AuxiliaryQuiverType}
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.oppositeDirectSumAlgebraModule}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.oppositeDirectSumAlgebraModule}
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.oppositeReconstructionLinearEquiv}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.oppositeReconstructionLinearEquiv}
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.oppositeRepresentationOfModule}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.oppositeRepresentationOfModule}
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.PathAlgebra.toModuleOppositeRepresentationEquiv}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.toModuleOppositeRepresentationEquiv}

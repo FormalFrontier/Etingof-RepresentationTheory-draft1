@@ -37,9 +37,19 @@ number := false
 
 {Manual.docstring RepresentationTheory.ParameterizedAlgebra.FiniteSimpleModules.center_eq_adjoin_generators_of_isOfFinOrder}
 
-{Manual.docstring RepresentationTheory.ParameterizedAlgebra.FiniteSimpleModules.center_eq_bot_of_not_isOfFinOrder}
-
 {Manual.docstring RepresentationTheory.ParameterizedAlgebra.FiniteSimpleModules.finrank_eq_orderOf}
+
+{Manual.docstring RepresentationTheory.ParameterizedAlgebra.SimpleModuleClassification.exists_model_equiv}
+
+{Manual.docstring RepresentationTheory.ParameterizedAlgebra.SimpleModuleClassification.finiteSimpleModule_finrank_eq_orderOf}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.FiniteOrderShiftWeightEquivalences.nonempty_moduleLinearEquiv_iff}
+
+{Manual.docstring RepresentationTheory.Algebra.FiniteOrderShiftWeightModules.finrank_finFunction}
+
+{Manual.docstring RepresentationTheory.ParameterizedAlgebra.FiniteSimpleModules.center_eq_bot_of_not_isOfFinOrder}
 
 {Manual.docstring RepresentationTheory.ParameterizedAlgebra.FiniteSimpleModules.isSimpleRing_of_not_isOfFinOrder}
 
@@ -47,16 +57,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.ParameterizedAlgebra.ModelModules.finFunctionModule_isSimple}
 
-{Manual.docstring RepresentationTheory.ParameterizedAlgebra.SimpleModuleClassification.exists_model_equiv}
-
-{Manual.docstring RepresentationTheory.ParameterizedAlgebra.SimpleModuleClassification.finiteSimpleModule_finrank_eq_orderOf}
-
-{Manual.docstring RepresentationTheory.QuantumTorus.FiniteOrderModuleEquivalences.nonempty_moduleLinearEquiv_iff}
-
-### Supporting declarations
-
 {Manual.docstring RepresentationTheory.ParameterizedAlgebra.SimpleModuleClassification.exists_model_parameters_unique}
 
 {Manual.docstring RepresentationTheory.ParameterizedAlgebra.SimpleModuleExistence.isOfFinOrder_iff_exists_nontrivial_finiteModule}
-
-{Manual.docstring RepresentationTheory.QuantumTorus.FiniteOrderModules.finrank_finFunction}

@@ -26,6 +26,6 @@ tag := "Chapter5/Proposition5.3.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CharacterIntegrality.isIntegral_card_conjClass_mul_character_div_finrank}

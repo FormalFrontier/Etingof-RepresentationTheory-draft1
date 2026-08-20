@@ -27,6 +27,6 @@ tag := "Chapter4/Theorem4.6.3/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.InvariantComplements.exists_invariant_isCompl_of_preserves_inner}

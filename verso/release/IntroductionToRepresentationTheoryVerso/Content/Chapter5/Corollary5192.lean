@@ -27,4 +27,4 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.AuxiliarySimpleModuleData.exists_auxiliary_simple_module_data}
+{Manual.docstring RepresentationTheory.AuxiliaryElidedStatement.auxiliaryElidedStatement001452}

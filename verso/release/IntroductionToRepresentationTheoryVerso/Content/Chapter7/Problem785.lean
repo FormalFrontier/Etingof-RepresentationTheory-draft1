@@ -37,16 +37,16 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.SubcomplexHomologySequence.Auxiliary.statement013193}
+
+{Manual.docstring RepresentationTheory.SubcomplexHomologySequence.Auxiliary.statement013257}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.SubcomplexHomologySequence.Subcomplex.Auxiliary.statement013213}
+
 {Manual.docstring RepresentationTheory.SubcomplexHomologySequence.Subcomplex.boundaryHomologyClass_eq_of_quotientHomologyClass_eq}
 
 {Manual.docstring RepresentationTheory.SubcomplexHomologySequence.Subcomplex.boundaryHomologyClass_eq_of_quotientMap_eq}
 
 {Manual.docstring RepresentationTheory.SubcomplexHomologySequence.Subcomplex.connectingHom}
-
-{Manual.docstring RepresentationTheory.SubcomplexHomologySequence.shortExact_homologySequence_exact}
-
-{Manual.docstring RepresentationTheory.SubcomplexHomologySequence.subcomplex_homologySequence_exact}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.SubcomplexHomologySequence.Subcomplex.connectingHom_eq_delta}

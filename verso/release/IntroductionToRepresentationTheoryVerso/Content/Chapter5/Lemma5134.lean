@@ -25,6 +25,6 @@ tag := "Chapter5/Lemma5.13.4/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.ModuleTheory.Idempotent.linearMapSpanSingletonEquivFixedByIdempotent}

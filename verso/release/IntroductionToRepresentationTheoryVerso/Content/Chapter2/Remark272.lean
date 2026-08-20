@@ -27,10 +27,10 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Polynomial.OperatorSubalgebra.polynomialOperatorSubalgebra}
+{Manual.docstring RepresentationTheory.Algebra.Polynomial.EndomorphismAuxiliary.auxiliaryEndomorphismSubalgebra}
 
-{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.equivOperatorRange}
+{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.auxiliaryAlgEquiv}
 
-{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.operatorMap_range}
+{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.auxiliaryMap_range}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModulePredicates.AuxiliaryModulePredicate}

@@ -23,6 +23,6 @@ tag := "Chapter2/Definition2.2.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.NonUnitalStructure.NonUnitalAlgebraStructure.DesignatedElement}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryStructure.AuxiliaryStructure.auxiliaryPredicate}

@@ -36,12 +36,12 @@ number := false
 
 {Manual.docstring RepresentationTheory.ConjugationInvariantCharacters.character_eq_auxiliaryMap_apply}
 
-{Manual.docstring RepresentationTheory.ConjugationInvariantCharacters.character_mem_conjugationInvariantSubmodule}
-
-{Manual.docstring RepresentationTheory.ConjugationInvariantCharacters.conjugationInvariantSubmodule}
-
 {Manual.docstring RepresentationTheory.ConjugationInvariantCharacters.mem_conjugationInvariantSubmodule_iff}
 
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.ConjugationInvariantCharacters.AuxiliaryFunctionSpace}
+
+{Manual.docstring RepresentationTheory.ConjugationInvariantCharacters.character_mem_conjugationInvariantSubmodule}
+
+{Manual.docstring RepresentationTheory.ConjugationInvariantCharacters.conjugationInvariantSubmodule}

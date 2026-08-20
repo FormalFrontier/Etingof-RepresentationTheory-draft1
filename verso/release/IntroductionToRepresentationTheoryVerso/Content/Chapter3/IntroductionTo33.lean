@@ -31,6 +31,6 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.MatrixProduct}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.Auxiliary}
 
-{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.matrixProduct_simpleModule_classification}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryAlgebra_simpleModule_classification}

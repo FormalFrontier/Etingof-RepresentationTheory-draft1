@@ -25,7 +25,7 @@ tag := "Chapter4/Corollary4.2.4/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Group.CharacterAuxiliary.complex_iso_of_character_eq}
 

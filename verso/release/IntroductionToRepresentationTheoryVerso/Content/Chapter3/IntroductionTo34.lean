@@ -31,4 +31,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.Filtrations.exists_filtration_simple_quotients}
+{Manual.docstring RepresentationTheory.Algebra.Module.Filtrations.exists_auxiliaryData_simple_quotients}

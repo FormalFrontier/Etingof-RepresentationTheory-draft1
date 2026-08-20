@@ -33,14 +33,14 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Ring.ModuleStructures.op_smul_eq_mul}
-
 {Manual.docstring RepresentationTheory.Algebra.Ring.ModuleStructures.punitModule}
-
-{Manual.docstring RepresentationTheory.Algebra.Ring.ModuleStructures.selfModule}
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary}
+
+{Manual.docstring RepresentationTheory.Algebra.Ring.ModuleStructures.op_smul_eq_mul}
 
 {Manual.docstring RepresentationTheory.Algebra.Ring.ModuleStructures.oppositeSelfModule}
+
+{Manual.docstring RepresentationTheory.Algebra.Ring.ModuleStructures.selfModule}

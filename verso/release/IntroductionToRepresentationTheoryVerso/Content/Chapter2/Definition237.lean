@@ -29,4 +29,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.ProductModules.BinaryTypeConstructor}
+{Manual.docstring RepresentationTheory.LinearAlgebra.ProductModules.AuxiliaryBinaryTypeConstructor}

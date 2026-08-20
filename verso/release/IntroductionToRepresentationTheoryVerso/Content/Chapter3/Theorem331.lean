@@ -25,10 +25,10 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.exists_linearEquiv_directSum_standardModules}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.columnModule_aux1_equiv_imp_eq}
 
-{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.simpleModule_linearEquiv_standardModule}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.column_isSimpleModule}
 
-{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.standardModule_equiv_imp_eq}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.exists_linearEquiv_directSum_columnModules}
 
-{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.standardModule_isSimpleModule}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.simpleModule_linearEquiv_columnModule}

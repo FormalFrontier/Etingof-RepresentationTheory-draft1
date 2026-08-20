@@ -61,10 +61,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.FiniteGroup.exists_complete_simple_family_with_groupAlgebra_equiv}
 
-{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.FiniteGroup.exists_positive_dimensions_sum_sq_eq_card}
-
-{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.MonoidAlgebra.isSemisimpleRing_of_isUnit_card}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryFDRepIsoAuxiliary}
@@ -72,3 +68,7 @@ number := false
 {Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryFDRepIsoAuxiliaryPrime}
 
 {Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.FiniteGroup.exists_complete_simple_family_endomorphismRepresentation}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.FiniteGroup.exists_positive_dimensions_sum_sq_eq_card}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.RegularRepresentationDecomposition.MonoidAlgebra.isSemisimpleRing_of_isUnit_card}

@@ -23,6 +23,6 @@ tag := "Chapter2/Definition2.2.5/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.FieldCommRing.FieldCommRingConstruction}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryFieldCommRingType.AuxiliaryFieldCommRingType}

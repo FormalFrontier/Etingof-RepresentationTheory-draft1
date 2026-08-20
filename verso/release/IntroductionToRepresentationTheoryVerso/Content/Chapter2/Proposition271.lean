@@ -55,8 +55,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShift_mul}
 
-{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.span_monomialOperator}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators.IntegerIndexedPolynomialModule}
@@ -70,3 +68,5 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators.operatorRepresentation_weightedLoweringGenerator}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShifts_linearIndependent_and_span}
+
+{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.span_range_indexedElement}

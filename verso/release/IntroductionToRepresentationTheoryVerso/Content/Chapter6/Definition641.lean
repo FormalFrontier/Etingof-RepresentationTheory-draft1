@@ -33,6 +33,6 @@ tag := "Chapter6/Definition6.4.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryIntegerMatrixTransform.auxiliaryTransform}

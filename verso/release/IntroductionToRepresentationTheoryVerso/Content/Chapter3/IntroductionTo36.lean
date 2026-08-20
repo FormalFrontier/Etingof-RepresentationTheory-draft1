@@ -35,16 +35,16 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Trace.CommutatorQuotient.commutatorSubmodule_le_trace_ker}
+{Manual.docstring RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.auxiliarySubmodule_le_ker}
 
-{Manual.docstring RepresentationTheory.Algebra.Trace.CommutatorQuotient.traceOnCommutatorQuotient}
+{Manual.docstring RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.linearMapOnAuxiliaryQuotient}
 
 ### Supporting declarations
 
+{Manual.docstring RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.auxiliaryLinearMap_mul_comm}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.auxiliarySubmodule}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.linearMapOnAuxiliaryQuotient_mk}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.moduleDualElement}
-
-{Manual.docstring RepresentationTheory.Algebra.Trace.CommutatorQuotient.commutatorSubmodule}
-
-{Manual.docstring RepresentationTheory.Algebra.Trace.CommutatorQuotient.representationTrace_mul_comm}
-
-{Manual.docstring RepresentationTheory.Algebra.Trace.CommutatorQuotient.traceOnCommutatorQuotient_mk}

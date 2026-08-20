@@ -25,6 +25,6 @@ tag := "Chapter7/Exercise7.9.7/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CategoryTheory.Abelian.AdditiveAdjunctionAuxiliary.auxiliaryProperties}

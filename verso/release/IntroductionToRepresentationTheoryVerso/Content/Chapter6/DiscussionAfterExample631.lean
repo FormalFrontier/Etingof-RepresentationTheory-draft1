@@ -25,10 +25,8 @@ tag := "Chapter6/Discussion_after_Example6.3.1/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.Quiver.DimensionVectorClassification.Quiver.finite_and_finrankVector_classification}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.FourVertexStarRepresentation.existsUnique_equiv_standardRepresentation_of_isIndecomposable}
+
+{Manual.docstring RepresentationTheory.Quiver.DimensionVectorClassification.Quiver.finite_and_finrankVector_classification}

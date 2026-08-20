@@ -42,14 +42,14 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.family_algebra_smul_surjective}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.MatrixTraceKernels.finMatrixSubmodule_eq_traceKernel}
+{Manual.docstring RepresentationTheory.LinearAlgebra.MatrixTraceKernels.auxiliaryFinMatrixSubmodule_eq_traceKernel}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.MatrixTraceKernels.matrixSubmodule_eq_traceKernel}
+{Manual.docstring RepresentationTheory.LinearAlgebra.MatrixTraceKernels.auxiliaryMatrixSubmodule_eq_traceKernel}
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.matrixProduct_simpleModule_classification}
+{Manual.docstring RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.linearMapOnAuxiliaryQuotient}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.mem_span_moduleDualElement_of_commutes_mul}
 
-{Manual.docstring RepresentationTheory.Algebra.Trace.CommutatorQuotient.traceOnCommutatorQuotient}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryAlgebra_simpleModule_classification}

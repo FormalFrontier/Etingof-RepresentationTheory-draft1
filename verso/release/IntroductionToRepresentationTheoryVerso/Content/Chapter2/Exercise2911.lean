@@ -23,6 +23,6 @@ tag := "Chapter2/Exercise2.9.11/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.UniversalEnveloping.representationAlgHomEquiv}

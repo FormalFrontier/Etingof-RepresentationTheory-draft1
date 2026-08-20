@@ -27,10 +27,10 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveResolution.exists_free_projectiveResolution}
-
 {Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveResolution.nonempty_projectiveResolution}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveResolution.exists_free_projectiveResolution}
 
 {Manual.docstring RepresentationTheory.CategoryTheory.Abelian.ProjectiveResolution.freeProjectiveResolution}

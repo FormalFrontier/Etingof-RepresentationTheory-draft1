@@ -31,13 +31,7 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.JordanBlockModule}
-
-{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.equiv_field_of_isIndecomposableModule}
-
 {Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.equiv_field_of_isSimpleModule}
-
-{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.equiv_jordanBlock_of_isIndecomposableModule}
 
 {Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.exists_equiv_pi_jordanBlock}
 
@@ -47,10 +41,16 @@ number := false
 
 {Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.jordanBlockModule_equiv_iff}
 
-{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.jordanBlockModule_isIndecomposable}
-
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.jordanOperator}
+{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.JordanBlockModule}
 
-{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.jordanOperator_coordinate_formula}
+{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.auxiliaryFact}
+
+{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.equiv_field_of_isIndecomposableModule}
+
+{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.equiv_jordanBlock_of_isIndecomposableModule}
+
+{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.jordanBlockModule_isIndecomposable}
+
+{Manual.docstring RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.jordanOperator}

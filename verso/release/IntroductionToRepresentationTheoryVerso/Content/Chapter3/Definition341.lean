@@ -25,8 +25,8 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Module.CompositionData.ModuleCompositionData.toRelSeries}
+{Manual.docstring RepresentationTheory.Module.RelSeriesAuxiliary.ModuleRelSeriesAuxiliary.toRelSeries}
 
-{Manual.docstring RepresentationTheory.Module.CompositionData.ModuleCompositionData.toRelSeries_head}
+{Manual.docstring RepresentationTheory.Module.RelSeriesAuxiliary.ModuleRelSeriesAuxiliary.toRelSeries_head}
 
-{Manual.docstring RepresentationTheory.Module.CompositionData.ModuleCompositionData.toRelSeries_last}
+{Manual.docstring RepresentationTheory.Module.RelSeriesAuxiliary.ModuleRelSeriesAuxiliary.toRelSeries_last}

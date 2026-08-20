@@ -33,7 +33,7 @@ tag := "Chapter7/Example7.9.6/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.TensorProduct.BalancedRelations.BalancedTensorQuotient.exact_map}
 

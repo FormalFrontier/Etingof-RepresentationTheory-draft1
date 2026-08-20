@@ -24,7 +24,7 @@ tag := "Chapter5/Example5.1.3/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FiniteGroupRepresentationExamples.auxiliaryCharacterCriterionForFiniteCyclicGroup}
 
@@ -38,10 +38,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.FiniteGroupRepresentationExamples.auxiliaryPropertyOfSimpleSymmetricThreeRepresentation}
 
+{Manual.docstring RepresentationTheory.FiniteGroupRepresentationExamples.existsSimpleQuaternionRepresentationWithAuxiliaryProperty}
+
 {Manual.docstring RepresentationTheory.FiniteGroupRepresentationExamples.simpleFiniteCyclicRepresentationIsoAuxiliary}
 
 {Manual.docstring RepresentationTheory.FiniteGroupRepresentationExamples.simpleQuaternionRepresentationOfFinrankTwoIso}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.FiniteGroupRepresentationExamples.existsSimpleQuaternionRepresentationWithAuxiliaryProperty}

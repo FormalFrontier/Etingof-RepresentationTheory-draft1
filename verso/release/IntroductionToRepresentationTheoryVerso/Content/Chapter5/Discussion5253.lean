@@ -51,14 +51,12 @@ tag := "Chapter5/Discussion_5.25.3/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation}
 
 {Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_finrank}
 
 {Manual.docstring RepresentationTheory.FiniteFieldMatrixCharacterFormulas.character_auxFamily_one}
 
 {Manual.docstring RepresentationTheory.FiniteFieldMatrixCharacterFormulas.character_auxTwoParameter_rightOne}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation}

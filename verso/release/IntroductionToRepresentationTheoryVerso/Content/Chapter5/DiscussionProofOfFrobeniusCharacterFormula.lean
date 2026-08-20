@@ -63,6 +63,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.LexicographicPermutations.partitionAuxiliaryValue_eq_adjusted_perm_iff}
 
-{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryResultA}
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.Auxiliary.statement017213}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.sum_auxiliaryPartitionPermutationValue_mul_inv}

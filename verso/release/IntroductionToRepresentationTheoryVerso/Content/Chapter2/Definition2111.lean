@@ -30,6 +30,6 @@ tag := "Chapter2/Definition2.11.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.TensorProduct.ModuleTensorProduct}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryTwoModuleType.AuxiliaryModuleType}

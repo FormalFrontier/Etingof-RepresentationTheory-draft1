@@ -35,4 +35,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.TensorProductAuxiliary.pairedPowerSpaceAux_basis}
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorProductAuxiliary.moduleAuxiliaryType_basis}

@@ -37,19 +37,17 @@ tag := "Chapter5/Theorem5.18.1/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.CentralizerDecomposition.centralizer_centralizer_eq}
-
-{Manual.docstring RepresentationTheory.CentralizerDecomposition.isSemisimpleRing_centralizer}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CentralizerDecomposition.AuxiliaryDecompositionData.ofEquiv}
 
+{Manual.docstring RepresentationTheory.CentralizerDecomposition.centralizer_centralizer_eq}
+
 {Manual.docstring RepresentationTheory.CentralizerDecomposition.exists_auxiliary_decomposition_data}
 
 {Manual.docstring RepresentationTheory.CentralizerDecomposition.exists_auxiliary_evaluation_equiv}
+
+{Manual.docstring RepresentationTheory.CentralizerDecomposition.isSemisimpleRing_centralizer}
 
 {Manual.docstring RepresentationTheory.IsotypicCentralizer.existsIsSimpleModuleSubmoduleLinearMapEquiv}
 

@@ -34,4 +34,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.TensorProductSimplicity.exists_tensorFactorization_of_simpleBimodule}
+{Manual.docstring RepresentationTheory.Algebra.Module.TensorProductSimplicity.auxiliary}

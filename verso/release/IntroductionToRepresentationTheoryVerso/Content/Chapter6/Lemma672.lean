@@ -94,6 +94,6 @@ tag := "Chapter6/Lemma6.7.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.IntegerMatrix.ReflectionDynamics.exists_iterate_apply_lt_zero}

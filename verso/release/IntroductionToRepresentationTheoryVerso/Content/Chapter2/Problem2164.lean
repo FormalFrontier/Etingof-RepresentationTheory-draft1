@@ -27,8 +27,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieModule.IrreducibleParameterModules.exists_parameterModule_equiv}
 
-{Manual.docstring RepresentationTheory.LieModule.IrreducibleParameterModules.nonempty_parameterEquivWitness_iff}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.finrank_finFunction}
@@ -42,6 +40,8 @@ number := false
 {Manual.docstring RepresentationTheory.LieModule.IrreducibleParameterModules.ModuleParameter}
 
 {Manual.docstring RepresentationTheory.LieModule.IrreducibleParameterModules.isIrreducible_parameterModule}
+
+{Manual.docstring RepresentationTheory.LieModule.IrreducibleParameterModules.nonempty_parameterEquivWitness_iff}
 
 {Manual.docstring RepresentationTheory.LieModule.IrreducibleParameterModules.parameterModuleLieHom}
 

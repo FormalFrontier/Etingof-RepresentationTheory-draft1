@@ -31,15 +31,15 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced_apply}
-
-{Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced_equivariance}
-
 {Manual.docstring RepresentationTheory.InductionAndCoinduction.finiteIndexInducedIsoCoinduced}
 
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced}
+
+{Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced_apply}
+
+{Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced_equivariance}
 
 {Manual.docstring RepresentationTheory.InductionAndCoinduction.finiteIndexInduced}
 

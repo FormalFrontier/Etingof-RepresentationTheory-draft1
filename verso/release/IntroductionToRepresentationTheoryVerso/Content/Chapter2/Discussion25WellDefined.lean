@@ -47,8 +47,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom_mul_right_congr}
 
-{Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgebra}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.Ring.AuxiliaryType}
+
+{Manual.docstring RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgebra}

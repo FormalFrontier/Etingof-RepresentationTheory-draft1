@@ -33,14 +33,12 @@ tag := "Chapter8/Problem8.2.8/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Auxiliary.TensorProductGradedComparisons.Auxiliary.nonempty_projectiveResolutionTensorProductObjectIsoSigma}
 
 {Manual.docstring RepresentationTheory.Auxiliary.TensorProductGradedComparisons.Auxiliary.nonempty_rightModuleTensorProductObjectIsoSigma}
 
-{Manual.docstring RepresentationTheory.FinsuppDualTensor.dualDistrib_finsuppNat_not_surjective}
-
-### Supporting declarations
-
 {Manual.docstring RepresentationTheory.Auxiliary.TensorProductGradedComparisons.Auxiliary.nonempty_tensorProductGradedPieceLinearEquivDirectSum}
+
+{Manual.docstring RepresentationTheory.FinsuppDualTensor.dualDistrib_finsuppNat_not_surjective}

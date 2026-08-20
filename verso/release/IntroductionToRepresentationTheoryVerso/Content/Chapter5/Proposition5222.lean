@@ -29,10 +29,12 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.GeneralLinearGroup.ExteriorPower.auxiliaryFiniteDimensionalRepresentationsIso}
-
-{Manual.docstring RepresentationTheory.GeneralLinearGroup.ExteriorPower.exteriorPowerRepresentation_apply}
-
 {Manual.docstring RepresentationTheory.GeneralLinearGroup.ExteriorPower.shiftedAuxiliaryRepresentationTensorAuxiliaryIsoNonempty}
 
 {Manual.docstring RepresentationTheory.GeneralLinearGroup.ExteriorPower.shiftedAuxiliaryRepresentationTensorIsoNonempty}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.GeneralLinearGroup.ExteriorPower.auxiliaryFiniteDimensionalRepresentationsIso}
+
+{Manual.docstring RepresentationTheory.GeneralLinearGroup.ExteriorPower.exteriorPowerRepresentation_apply}

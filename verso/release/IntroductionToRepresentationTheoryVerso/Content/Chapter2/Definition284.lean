@@ -27,14 +27,14 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.opOfPath_mul_opOfPath}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.auxiliaryElement_mul_auxiliaryElement}
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.opOfPath_mul_opOfPath_eq_zero}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.auxiliaryElement_mul_auxiliaryElement_eq_zero}
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType}
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.opOfPath}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.auxiliaryElementOfPath}
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.vertexElement}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.auxiliaryVertexElement}

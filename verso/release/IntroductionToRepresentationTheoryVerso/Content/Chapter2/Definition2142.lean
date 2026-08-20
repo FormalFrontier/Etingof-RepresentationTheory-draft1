@@ -27,8 +27,8 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Lie.Dual.lie_bracket_dual_apply}
+{Manual.docstring RepresentationTheory.Algebra.Lie.AuxiliarySingleModuleType.auxiliary_lie_bracket_apply}
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Lie.Dual.LieModuleDual}
+{Manual.docstring RepresentationTheory.Algebra.Lie.AuxiliarySingleModuleType.AuxiliaryLieModuleType}

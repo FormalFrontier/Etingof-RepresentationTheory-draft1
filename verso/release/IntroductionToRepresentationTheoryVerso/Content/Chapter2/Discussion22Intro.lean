@@ -37,14 +37,16 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.Complex.isAlgClosed}
+
+{Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.isAlgClosed_iff_nonconstant_root}
+
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.AlgebraicClosure.zmod_charP}
 
 {Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.AlgebraicClosure.zmod_isAlgClosed}
 
-{Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.Complex.isAlgClosed}
-
 {Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.ZMod.card_eq_prime}
 
 {Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.ZMod.fieldOfPrime}
-
-{Manual.docstring RepresentationTheory.FieldTheory.IsAlgClosed.Basic.isAlgClosed_iff_nonconstant_root}

@@ -25,10 +25,8 @@ tag := "Chapter3/Lemma3.4.2/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.Algebra.Module.Filtrations.exists_filtration_simple_quotients}
-
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Filtrations.exists_auxiliaryData_simple_quotients}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Filtrations.exists_relSeries_bot_top}

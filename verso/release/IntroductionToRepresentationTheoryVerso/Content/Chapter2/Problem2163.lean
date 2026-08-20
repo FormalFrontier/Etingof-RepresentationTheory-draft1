@@ -37,8 +37,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ExplicitConstructions.not_moduleFinite}
 
-{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModels.fourDimensionalBasis}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LieAlgebra.AuxiliaryBracketCalculus.card_degree_two_mul_add_one}
@@ -58,3 +56,5 @@ number := false
 {Manual.docstring RepresentationTheory.LieAlgebra.ExplicitConstructions.indexedLieIdeal}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ExplicitConstructions.lieHom_aux5}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ParameterFourConstructions.parameterFourBasis}

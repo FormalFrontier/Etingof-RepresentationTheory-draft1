@@ -45,25 +45,15 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.exact_inclusion_projection}
-
 {Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.nonempty_linearEquiv_iff_exists_sub_smul_mem_coboundaries}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.nonempty_linearEquiv_of_sub_mem_coboundaries}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.quotientRangeInclusionEquiv}
-
 {Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.sub_mem_coboundaries_of_shear_linearEquiv}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.zeroLinearEquivProd}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.auxiliaryMapSubmodule}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.coboundary_eq_zero_iff}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.extensionAction_mul_iff}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.isExtensionCocycle_coboundary}
 
 ### Supporting declarations
 
@@ -71,7 +61,13 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule}
 
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.auxiliaryDefinition}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.exact_inclusion_projection}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.nonempty_linearEquiv_prod_iff_mem_coboundaries}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.ExtensionModule.quotientRangeInclusionEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.IsExtensionCocycle}
 
@@ -86,5 +82,9 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.exists_isExtensionEquiv_of_sub_mem_coboundaries}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.extensionAction}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.extensionAction_mul_iff}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.isExtensionCocycle_coboundary}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.ExtensionCocycles.sub_mem_coboundaries_of_shear_isExtensionEquiv}

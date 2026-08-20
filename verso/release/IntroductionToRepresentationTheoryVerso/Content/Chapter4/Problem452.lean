@@ -34,7 +34,9 @@ tag := "Chapter4/Problem4.5.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.ComplexRepresentationAuxiliaryElements.auxiliaryElement}
 
 {Manual.docstring RepresentationTheory.ComplexRepresentationAuxiliaryElements.auxiliaryElement_mul_eq_zero_of_not_iso}
 
@@ -43,7 +45,3 @@ number := false
 {Manual.docstring RepresentationTheory.ComplexRepresentationAuxiliaryElements.map_auxiliaryElement_eq_id}
 
 {Manual.docstring RepresentationTheory.ComplexRepresentationAuxiliaryElements.map_auxiliaryElement_eq_zero_of_not_iso}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.ComplexRepresentationAuxiliaryElements.auxiliaryElement}

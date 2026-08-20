@@ -107,8 +107,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_centralizer_eq_generalLinearFactors_of_auxiliaryThree}
 
-{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_conjClasses_eq_fieldCard_sq_sub_one}
-
 {Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_conjOrbit_eq_fieldCard_sq_add_self_of_auxiliaryFour}
 
 {Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_conjOrbit_eq_fieldCard_sq_sub_one_of_auxiliaryTwo}
@@ -138,3 +136,5 @@ number := false
 {Manual.docstring RepresentationTheory.FiniteFieldUnitClassDecomposition.card_classPredicateDelta}
 
 {Manual.docstring RepresentationTheory.FiniteFieldUnitClassDecomposition.card_classPredicateGamma}
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_conjClasses_eq_fieldCard_sq_sub_one}

@@ -33,6 +33,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Quiver.EndofunctorAdjunction.auxiliaryEndofunctorConditions}
 
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.Quiver.EndofunctorAdjunction.auxiliaryLeftEndofunctorCondition}
 
 {Manual.docstring RepresentationTheory.Quiver.EndofunctorAdjunction.auxiliaryRightEndofunctorCondition}

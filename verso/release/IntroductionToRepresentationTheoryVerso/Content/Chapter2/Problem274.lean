@@ -44,20 +44,20 @@ number := false
 
 {Manual.docstring RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.isSimpleRing_of_charZero}
 
-{Manual.docstring RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.power_firstGenerator_mem_center}
-
-{Manual.docstring RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.power_secondGenerator_mem_center}
-
-{Manual.docstring RepresentationTheory.WeylAlgebra.ModularSimpleModules.modelModule_isSimpleModule}
-
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.PrimeCharacteristicCyclicModels.existsUnique_nonempty_moduleScalarParameterType}
+
+{Manual.docstring RepresentationTheory.Algebra.PrimeCharacteristicCyclicModels.exists_nonempty_moduleScalarParameterType}
+
+{Manual.docstring RepresentationTheory.Algebra.PrimeCharacteristicCyclicModels.finrank_finFunction}
+
+{Manual.docstring RepresentationTheory.Algebra.PrimeCharacteristicCyclicModels.modelModule_isSimpleModule}
+
+{Manual.docstring RepresentationTheory.Algebra.PrimeCharacteristicCyclicModels.nonempty_fourScalarParameterType_iff}
 
 {Manual.docstring RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.exists_cyclic_basis_of_simpleModule}
 
-{Manual.docstring RepresentationTheory.WeylAlgebra.ModularSimpleModules.existsUnique_nonempty_moduleScalarParameterType}
+{Manual.docstring RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.power_firstGenerator_mem_center}
 
-{Manual.docstring RepresentationTheory.WeylAlgebra.ModularSimpleModules.exists_nonempty_moduleScalarParameterType}
-
-{Manual.docstring RepresentationTheory.WeylAlgebra.ModularSimpleModules.finrank_finFunction}
-
-{Manual.docstring RepresentationTheory.WeylAlgebra.ModularSimpleModules.nonempty_fourScalarParameterType_iff}
+{Manual.docstring RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.power_secondGenerator_mem_center}

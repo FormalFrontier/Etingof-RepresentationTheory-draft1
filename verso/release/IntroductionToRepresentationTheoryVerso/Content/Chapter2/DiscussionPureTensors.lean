@@ -28,10 +28,10 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.TensorProductAuxiliary.diagonalTensorAux_ne_tmul}
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorProductAuxiliary.tensorAux_ne_tmul}
 
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.TensorProductAuxiliary.PairedPowerSpaceAux}
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorProductAuxiliary.moduleAuxiliaryType}

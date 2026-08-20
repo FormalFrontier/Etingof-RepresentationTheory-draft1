@@ -30,7 +30,7 @@ tag := "Chapter5/Introduction_5.11/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryRepresentationComputations.induced_trivial_auxiliarySubgroupA_iso_biprod}
 

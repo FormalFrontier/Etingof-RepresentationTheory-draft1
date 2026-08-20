@@ -50,13 +50,19 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.InductionCoinduction.finiteGroupFDRepAuxiliaryDualIso}
+
+{Manual.docstring RepresentationTheory.InductionCoinduction.indResAdjunction}
+
+{Manual.docstring RepresentationTheory.Subgroup.HomAdjunction.ambientSubgroupHomEquiv}
+
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.InductionCoinduction.coindIsoIndOfFinite}
 
 {Manual.docstring RepresentationTheory.InductionCoinduction.coindIsoIndOfFinite_hom_apply}
 
-{Manual.docstring RepresentationTheory.InductionCoinduction.finiteGroupFDRepAuxiliaryDualIso}
-
-{Manual.docstring RepresentationTheory.InductionCoinduction.indResAdjunction}
+{Manual.docstring RepresentationTheory.InductionCoinduction.indResHomLinearEquiv}
 
 {Manual.docstring RepresentationTheory.InductionCoinduction.restrictCoindIdIso}
 
@@ -66,10 +72,4 @@ number := false
 
 {Manual.docstring RepresentationTheory.InductionCoinduction.restrictIndIdIso_inv_apply}
 
-{Manual.docstring RepresentationTheory.Subgroup.HomAdjunction.ambientSubgroupHomEquiv}
-
 {Manual.docstring RepresentationTheory.Subgroup.HomAdjunction.ambientSubgroupHomFunctorIso}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.InductionCoinduction.indResHomLinearEquiv}

@@ -204,12 +204,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.Group.OuterAutomorphismTwist.twistedRepresentation_iso}
 
-{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.character_quaternionGroupRepFamily_apply}
-
-{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.quaternionGroupRepFamily_not_iso_of_ne}
-
-{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.simple_quaternionGroupRepFamily}
-
 {Manual.docstring RepresentationTheory.TensorSquareSpectralDecomposition.character_indexedSimpleRepresentations}
 
 {Manual.docstring RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations_pairwise_nonisomorphic}
@@ -232,13 +226,19 @@ number := false
 
 {Manual.docstring RepresentationTheory.Group.SmallRepresentationData.character_permFin4RepFamily_apply}
 
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.character_quaternionGroupRepFamily_apply}
+
 {Manual.docstring RepresentationTheory.Group.SmallRepresentationData.permFin4RepFamily}
 
 {Manual.docstring RepresentationTheory.Group.SmallRepresentationData.permFin4RepFamily_not_iso_of_ne}
 
 {Manual.docstring RepresentationTheory.Group.SmallRepresentationData.quaternionGroupRepFamily}
 
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.quaternionGroupRepFamily_not_iso_of_ne}
+
 {Manual.docstring RepresentationTheory.Group.SmallRepresentationData.simple_permFin4RepFamily}
+
+{Manual.docstring RepresentationTheory.Group.SmallRepresentationData.simple_quaternionGroupRepFamily}
 
 {Manual.docstring RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne}
 

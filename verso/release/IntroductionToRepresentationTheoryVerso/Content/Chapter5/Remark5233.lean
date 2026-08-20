@@ -29,10 +29,12 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.GeneralLinearGroup.SpecialLinearRestriction.restrictToSpecialLinear_constShift_equiv}
+
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.Auxiliary.SpecialLinearRepresentation.SpecialLinearRepresentation.finiteProperty'_exists_equiv}
 
 {Manual.docstring RepresentationTheory.GeneralLinearGroup.SpecialLinearRestriction.auxiliaryQuotientEquiv}
-
-{Manual.docstring RepresentationTheory.GeneralLinearGroup.SpecialLinearRestriction.restrictToSpecialLinear_constShift_equiv}
 
 {Manual.docstring RepresentationTheory.GeneralLinearGroup.SpecialLinearRestriction.shiftEquiv_of_representationRelated}

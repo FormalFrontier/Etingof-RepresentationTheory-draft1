@@ -29,13 +29,13 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_linearIndependent_coordinates_directSum}
-
 {Manual.docstring RepresentationTheory.Module.SemisimpleHomDecomposition.mem_ker_iff_forall_multiplicityComponent_eq_zero}
 
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.ComplementConstructions.exists_map_agreeing_on_iSup_of_internal}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_linearIndependent_coordinates_directSum}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates.exists_injective_coordinates_directSum}
 

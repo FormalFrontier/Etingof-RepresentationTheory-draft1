@@ -34,16 +34,14 @@ tag := "Chapter2/Remark2.11.4/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.BalancedTensorProduct.add_left}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.BalancedTensorProduct.add_right}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.BalancedTensorProduct.op_smul_left_eq_smul_right}
-
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.BalancedTensorProduct}
+{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.Auxiliary}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.BalancedTensorProduct.mk}
+{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.Auxiliary.add_left}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.Auxiliary.add_right}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.Auxiliary.mk}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.Auxiliary.op_smul_left_eq_smul_right}

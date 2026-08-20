@@ -30,12 +30,10 @@ tag := "Chapter5/Introduction_5.15/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.PartitionPolynomials.partitionExponentVector}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryFinsupp}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryPolynomial}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.PartitionPolynomials.partitionExponentVector}

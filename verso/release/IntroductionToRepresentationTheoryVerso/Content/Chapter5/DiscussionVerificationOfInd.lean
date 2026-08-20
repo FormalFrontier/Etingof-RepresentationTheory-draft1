@@ -33,15 +33,13 @@ tag := "Chapter5/Discussion_verification_of_Ind/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced_apply}
 
-{Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced_mul}
-
-### Supporting declarations
-
 {Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced_equivariance}
+
+{Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced_mul}
 
 {Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced_one}
 

@@ -74,13 +74,15 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.DerivedFunctorExactness.AuxiliaryContravariantExactSequence}
-
-{Manual.docstring RepresentationTheory.DerivedFunctorExactness.AuxiliaryCovariantExactSequence}
-
 {Manual.docstring RepresentationTheory.DerivedFunctorExactness.AuxiliaryDegreeOneAddEquiv}
 
 {Manual.docstring RepresentationTheory.DerivedFunctorExactness.AuxiliaryDegreeOneExtAddEquiv}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.DerivedFunctorExactness.AuxiliaryContravariantExactSequence}
+
+{Manual.docstring RepresentationTheory.DerivedFunctorExactness.AuxiliaryCovariantExactSequence}
 
 {Manual.docstring RepresentationTheory.DerivedFunctorExactness.AuxiliaryDegreeZeroAddEquiv}
 
@@ -93,7 +95,5 @@ number := false
 {Manual.docstring RepresentationTheory.DerivedFunctorExactness.covariantSequence_exact}
 
 {Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.ShortExact.CategoryTheory.ShortComplex.ShortExact.middleProjectiveResolution}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.ShortExact.CategoryTheory.ShortComplex.ShortExact.resolutionShortComplex_shortExact}

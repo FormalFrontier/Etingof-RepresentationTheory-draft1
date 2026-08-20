@@ -39,29 +39,17 @@ tag := "Chapter2/Problem2.8.11/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.LocallyFiniteGrading}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.card_paths_length_eq_adjacencyMatrix_pow}
 
 {Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.finrank_exteriorPower_finFunction}
 
 {Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.finrank_freeMonoidDegreeSubmodule}
 
 {Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.finrank_mvPolynomialHomogeneousSubmodule}
-
-{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.hilbertSeries_coeff}
-
-{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.one_sub_X_pow_mul_powerSeries_multichoose}
-
-{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.one_sub_nat_smul_X_mul_powerSeries_pow}
-
-{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.pathCountSeries_eq_ones_mul_matrixInverse_mul_ones}
-
-{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.powerSeries_choose_eq_one_add_X_pow}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.LocallyFiniteGrading}
-
-{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.card_paths_length_eq_adjacencyMatrix_pow}
 
 {Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.finrank_quiverDegreeSubmodule}
 
@@ -71,6 +59,16 @@ number := false
 
 {Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.hilbertSeries}
 
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.hilbertSeries_coeff}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.one_sub_X_pow_mul_powerSeries_multichoose}
+
 {Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.one_sub_X_smul_adjacency_inv}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.one_sub_nat_smul_X_mul_powerSeries_pow}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.pathCountSeries_eq_ones_mul_matrixInverse_mul_ones}
+
+{Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.powerSeries_choose_eq_one_add_X_pow}
 
 {Manual.docstring RepresentationTheory.GradedAlgebra.HilbertSeries.quiverDegreeSubmodule}

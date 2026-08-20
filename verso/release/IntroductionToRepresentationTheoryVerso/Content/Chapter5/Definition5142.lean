@@ -25,10 +25,8 @@ tag := "Chapter5/Definition5.14.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryPartitionLinearIndependentFamily.auxiliary_nat_values_eq}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryPartitionPairNat}

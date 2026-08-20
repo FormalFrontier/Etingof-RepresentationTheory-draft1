@@ -56,8 +56,6 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.functionSpaceBasis}
-
 {Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.orthogonalitySum_eq_ite}
 
 {Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.orthogonalitySum_eq_zero_of_not_iso}
@@ -68,6 +66,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryLinearMap_mem_invariants}
 
-{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPairing_auxiliaryTheorem}
+{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryUnavailableStatementOne}
 
-{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPairing_auxiliaryTheorem'}
+{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryUnavailableStatementTwo}
+
+{Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.functionSpaceBasis}

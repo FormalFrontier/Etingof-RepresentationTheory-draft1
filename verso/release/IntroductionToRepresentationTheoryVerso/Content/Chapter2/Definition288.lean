@@ -23,8 +23,8 @@ tag := "Chapter2/Definition2.8.8/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
-{Manual.docstring RepresentationTheory.CategoryTheory.QuiverSubdiagrams.QuiverSubdiagram}
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverAuxiliary.AuxiliaryType}
 
-{Manual.docstring RepresentationTheory.CategoryTheory.QuiverSubdiagrams.QuiverSubdiagram.toDiagram}
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverAuxiliary.AuxiliaryType.toDiagram}

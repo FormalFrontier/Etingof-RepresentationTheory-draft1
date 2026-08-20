@@ -31,8 +31,8 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryResultA}
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.Auxiliary.statement017213}
 
-{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryResultC}
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.Auxiliary.statement023280}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.natCast_auxiliary_eq_sum_auxiliary_mul_auxiliary}

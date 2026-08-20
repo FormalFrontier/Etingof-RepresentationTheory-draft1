@@ -27,6 +27,6 @@ tag := "Chapter4/Definition4.6.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Group.UnitaryRepresentations.UnitaryRepresentation}

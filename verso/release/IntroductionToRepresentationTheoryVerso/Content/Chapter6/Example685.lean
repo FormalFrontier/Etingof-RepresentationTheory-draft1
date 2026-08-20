@@ -33,12 +33,10 @@ tag := "Chapter6/Example6.8.5/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.IntegerMatrices.tuple2111_mem}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.IntegerMatrices.integerMatrixB_operationAtThreeZeroOneTwo_eq_oneOneOneTwo}
 
 {Manual.docstring RepresentationTheory.IntegerMatrices.integerMatrixB_operationAtZeroOneTwo_eq_ones}
+
+{Manual.docstring RepresentationTheory.IntegerMatrices.tuple2111_mem}

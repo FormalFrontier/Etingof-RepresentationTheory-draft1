@@ -83,6 +83,6 @@ tag := "Chapter6/Lemma6.4.6/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.IntegralVectorSign.all_nonnegative_or_all_nonpositive}

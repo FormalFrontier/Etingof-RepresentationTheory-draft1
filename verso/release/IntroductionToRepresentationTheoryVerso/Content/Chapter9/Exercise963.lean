@@ -25,7 +25,7 @@ tag := "Chapter9/Exercise9.6.3/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CategoryTheory.Projective.Auxiliary.exists_object_with_nonempty_auxiliary}
 

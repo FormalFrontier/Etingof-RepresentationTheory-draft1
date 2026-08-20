@@ -92,8 +92,8 @@ tag := "Chapter6/Proposition6.6.6/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Quiver.FiniteFreeInjectivity.nonemptyAuxiliaryOfInjective}
 
-{Manual.docstring RepresentationTheory.Surjective.nonempty_of_surjective}
+{Manual.docstring RepresentationTheory.Quiver.FiniteFreeSurjectivity.nonemptyAuxiliaryOfSurjective}

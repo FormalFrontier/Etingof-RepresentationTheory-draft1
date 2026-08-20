@@ -33,13 +33,15 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.oppositeVertexArrow_adjoin_eq_top}
+
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.existsUnique_oppositePathAlgebraHom}
 
 {Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.oppositeArrow_mul_sourceVertex}
 
 {Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.oppositeArrow_mul_vertex_of_ne_source}
-
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.oppositeVertexArrow_adjoin_eq_top}
 
 {Manual.docstring RepresentationTheory.Quiver.PathAlgebra.UniversalProperties.oppositeVertex_mul_oppositeVertex_of_ne}
 

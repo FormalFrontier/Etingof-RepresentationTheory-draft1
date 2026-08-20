@@ -124,12 +124,6 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_iso_iff}
-
-{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_simple_of_ne}
-
-{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryRepresentation_iso_iff}
-
 {Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliary_representation_summary_of_pos}
 
 ### Supporting declarations
@@ -137,6 +131,12 @@ number := false
 {Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryOtherRepresentation_simple}
 
 {Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_finrank}
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_iso_iff}
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_simple_of_ne}
+
+{Manual.docstring RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryRepresentation_iso_iff}
 
 {Manual.docstring RepresentationTheory.FiniteField.AuxiliaryRepresentations.AuxiliaryRepresentation}
 

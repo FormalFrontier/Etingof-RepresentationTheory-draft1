@@ -50,11 +50,7 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleConditions.ModuleCondition}
-
-{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate}
-
-{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate.not_exists_complementarySubmodules}
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate.not_exists_auxiliary_pair}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate.of_isSimpleModule}
 
@@ -62,7 +58,7 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.actionAlgHom}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.actionAlgHom}
 
 {Manual.docstring RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType.algHom_ext}
 
@@ -75,3 +71,7 @@ number := false
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux2}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux3}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleConditions.AuxiliaryModuleCondition}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate}

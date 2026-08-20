@@ -31,20 +31,20 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions.hom_subsingleton_of_simpleModule_conditions}
-
 {Manual.docstring RepresentationTheory.ModuleTheory.SimpleModule.PropertyElementActions.nonempty_equiv_property_subtype}
-
-{Manual.docstring RepresentationTheory.RingTheory.Module.ParameterAssociated.finiteLengthParameterEquivalence}
 
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions.exists_simpleModule_with_condition_of_indecomposable}
+
+{Manual.docstring RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions.hom_subsingleton_of_simpleModule_conditions}
 
 {Manual.docstring RepresentationTheory.PermutationRepresentation.CharTwo.associatedType_card_eq_two}
 
 {Manual.docstring RepresentationTheory.PermutationRepresentation.CharTwo.nonempty_algEquiv_matrix_prod_auxiliaryAlgebra}
 
 {Manual.docstring RepresentationTheory.PermutationRepresentation.CharTwo.simpleModule_iso_distinguished_or_oneDimensional}
+
+{Manual.docstring RepresentationTheory.RingTheory.Module.ParameterAssociated.finiteLengthParameterEquivalence}
 
 {Manual.docstring RepresentationTheory.RingTheory.Module.ParameterAssociated.parameterModuleEquivalence}

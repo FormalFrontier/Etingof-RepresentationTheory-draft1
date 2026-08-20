@@ -29,9 +29,11 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Auxiliary.GcdZModEquivalences.Algebra.Auxiliary.exists_gcdZModComponentEquivalences_and_higher_subsingleton}
-
 {Manual.docstring RepresentationTheory.Auxiliary.IntegerModuleStructure.auxiliaryFiniteIntModuleIndexZeroOneEquivsAndAddTwoSubsingleton}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Auxiliary.GcdZModEquivalences.Algebra.Auxiliary.exists_gcdZModComponentEquivalences_and_higher_subsingleton}
 
 {Manual.docstring RepresentationTheory.Auxiliary.PolynomialModuleIndexedTypes.Auxiliary.finitePolynomialModules_indexZeroOne_addEquiv_and_indexAddTwo_subsingleton}
 

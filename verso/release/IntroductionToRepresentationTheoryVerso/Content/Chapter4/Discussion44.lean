@@ -50,10 +50,12 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Group.CharacterOperations.character_dual}
-
 {Manual.docstring RepresentationTheory.Group.CharacterOperations.character_inv_eq_conj}
 
-{Manual.docstring RepresentationTheory.Group.CharacterOperations.character_tensor}
-
 {Manual.docstring RepresentationTheory.Group.CharacterOperations.dual_iso_iff_character_star_eq}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Group.CharacterOperations.character_dual}
+
+{Manual.docstring RepresentationTheory.Group.CharacterOperations.character_tensor}

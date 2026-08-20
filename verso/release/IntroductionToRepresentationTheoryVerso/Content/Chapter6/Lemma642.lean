@@ -37,7 +37,7 @@ tag := "Chapter6/Lemma6.4.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.Matrix.TwoIdentitySub.Matrix.dotProduct_mulVec_two_smul_one_sub_pos}
 

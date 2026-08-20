@@ -25,7 +25,7 @@ tag := "Chapter4/Problem4.12.9/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.ComplexCharacterIdentities.tensorMultiplicativeCharacterIso}
 

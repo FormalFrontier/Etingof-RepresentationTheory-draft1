@@ -58,4 +58,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.BalancedTensorProduct}
+{Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.Auxiliary}

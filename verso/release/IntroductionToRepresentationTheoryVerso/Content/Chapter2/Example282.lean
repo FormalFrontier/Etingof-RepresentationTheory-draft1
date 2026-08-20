@@ -27,11 +27,9 @@ tag := "Chapter2/Example2.8.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Combinatorics.Quiver.FourVertices.fourVertexQuiver}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Combinatorics.Quiver.FourVertices.fourVertexQuiver.arrow01}
 

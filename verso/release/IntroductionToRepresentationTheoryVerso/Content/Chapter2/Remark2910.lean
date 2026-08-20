@@ -25,6 +25,6 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.basisQuotientEquivEnvelope}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.UniversalEnvelopingAlgebra.auxiliaryBasisEquiv}
 
-{Manual.docstring RepresentationTheory.Algebra.Lie.UniversalEnveloping.BasisPresentation.basisPresentationEquivUniversalEnveloping}
+{Manual.docstring RepresentationTheory.Algebra.Lie.BasisAlgEquivAuxiliary.auxiliaryBasisAlgEquiv}

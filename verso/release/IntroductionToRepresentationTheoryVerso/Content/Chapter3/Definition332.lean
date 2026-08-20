@@ -33,6 +33,6 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Module.DualOppositeAction.ParameterizedModuleType}
+{Manual.docstring RepresentationTheory.Module.DualOppositeAction.AuxiliaryModuleType}
 
 {Manual.docstring RepresentationTheory.Module.DualOppositeAction.dualMulOppositeSMul}

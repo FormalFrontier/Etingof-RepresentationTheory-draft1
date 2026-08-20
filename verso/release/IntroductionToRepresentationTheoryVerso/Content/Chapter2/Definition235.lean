@@ -25,4 +25,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleConditions.ModuleCondition}
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleConditions.AuxiliaryModuleCondition}

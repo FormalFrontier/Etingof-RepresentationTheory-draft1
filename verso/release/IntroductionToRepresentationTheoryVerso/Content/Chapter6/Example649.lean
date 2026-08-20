@@ -89,7 +89,7 @@ tag := "Chapter6/Example6.4.9/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AdjInputSetCardinalities.set_from_adj_at_eight_finite_and_ncard_eq}
 

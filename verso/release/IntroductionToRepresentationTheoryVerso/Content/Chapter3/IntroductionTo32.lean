@@ -35,4 +35,4 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.family_algebra_smul_surjective}
 
-{Manual.docstring RepresentationTheory.RingTheory.SimpleModuleDensity.exists_smul_eq_on_linearIndependent}
+{Manual.docstring RepresentationTheory.RingTheory.SimpleModuleSimultaneousAction.exists_smul_eq_on_linearIndependent}

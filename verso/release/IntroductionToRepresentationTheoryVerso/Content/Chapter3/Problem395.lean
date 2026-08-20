@@ -37,51 +37,49 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.exists_algEquiv_end_of_finrank_even}
-
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.exists_algEquiv_prod_end_of_finrank_odd}
-
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.finrank_eq_two_pow}
-
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.finsetMonomialBasis}
-
 {Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.isSemisimpleRing_iff_nondegenerate}
 
 {Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.isSemisimpleRing_of_nondegenerate}
 
 {Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.nonempty_algEquiv_exterior_of_zero}
 
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.span_range_basisMonomial_eq_top}
+### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.spinorSpace_isSimpleModule}
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.auxiliaryType2_isSimpleModule}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.cliffordRepresentation}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.cliffordRepresentation_bijective}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.dualAction}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.AuxiliaryRepresentation.vectorAction}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.exists_algEquiv_end_of_finrank_even}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.exists_algEquiv_prod_end_of_finrank_odd}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.exists_surjective_algHom_nondegenerate_quotient_of_degenerate}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.finrank_eq_two_pow}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.finsetMonomialBasis}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.span_range_basisMonomial_eq_top}
 
 {Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules.simpleModule_linearEquiv_evenCliffordModule}
 
 {Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules.standardCarrier_isSimpleModule}
 
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules.standardCliffordRepresentation}
+
 {Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules.standardCliffordRepresentation_bijective}
 
 {Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules.isEmpty_linearEquiv_secondOddCliffordModule_firstOddCliffordModule}
-
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules.simpleModule_equiv_first_or_second}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.BilinearCliffordAlgebra}
-
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.exists_surjective_algHom_nondegenerate_quotient_of_degenerate}
-
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm}
-
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.cliffordRepresentation}
-
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.cliffordRepresentation_bijective}
-
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.dualAction}
-
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.ComplexSpinor.vectorAction}
-
-{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.EvenDimensionalModules.standardCliffordRepresentation}
 
 {Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules.isSimpleModule_negativeSpinRepresentationOfBilin}
 
@@ -90,3 +88,5 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules.negativeSpinRepresentationOfBilin}
 
 {Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules.positiveSpinRepresentationOfBilin}
+
+{Manual.docstring RepresentationTheory.Algebra.CliffordAlgebra.OddDimensionalModules.simpleModule_equiv_first_or_second}

@@ -27,6 +27,8 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.CategoryTheory.EnrichedCorepresentability.AuxiliaryMonoidalTypeOperator}
-
 {Manual.docstring RepresentationTheory.CategoryTheory.EnrichedCorepresentability.enrichedComposition}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.EnrichedCorepresentability.AuxiliaryMonoidalTypeOperator}

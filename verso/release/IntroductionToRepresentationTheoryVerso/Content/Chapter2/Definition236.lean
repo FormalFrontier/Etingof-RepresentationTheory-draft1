@@ -29,8 +29,8 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.ModulePairData.ModulePairDatum}
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModulePairAuxiliaries.AuxiliaryModulePairPredicate}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.ModulePairData.ModulePairRelation}
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModulePairAuxiliaries.ModulePairAuxiliary}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.ModulePairData.ModulePairWitness}
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModulePairAuxiliaries.ModulePairAuxiliary'}

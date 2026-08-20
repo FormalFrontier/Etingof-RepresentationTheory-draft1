@@ -29,13 +29,13 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.LoopQuiver.associatedMatrix_eq_quiverNatMatrix_of_pathIndexedLinearEquiv}
-
 {Manual.docstring RepresentationTheory.Quiver.PathAlgebra.LoopQuiver.freeAlgebra_associatedValue_eq_one}
 
 {Manual.docstring RepresentationTheory.Quiver.PathAlgebra.LoopQuiver.quiverAssociatedAlgebra_associatedValue_eq_one_of_exists_arrow}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.LoopQuiver.associatedMatrix_eq_quiverNatMatrix_of_pathIndexedLinearEquiv}
 
 {Manual.docstring RepresentationTheory.Quiver.PathAlgebra.LoopQuiver.freeAlgebraEquivLoopQuiverAssociatedAlgebra}
 

@@ -29,14 +29,14 @@ number := false
 
 {Manual.docstring RepresentationTheory.Analysis.Algebra.DerivationExponential.derivation_of_hasDerivAt_multiplicativeCurve}
 
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Analysis.Algebra.DerivationExponential.derivationExponentialEquiv}
+
 {Manual.docstring RepresentationTheory.Analysis.Algebra.DerivationExponential.exp_add_smul}
 
 {Manual.docstring RepresentationTheory.Analysis.Algebra.DerivationExponential.exp_smul_apply_one}
 
 {Manual.docstring RepresentationTheory.Analysis.Algebra.DerivationExponential.exp_smul_map_mul}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.Analysis.Algebra.DerivationExponential.derivationExponentialEquiv}
 
 {Manual.docstring RepresentationTheory.Analysis.Algebra.DerivationExponential.exp_zero_smul}

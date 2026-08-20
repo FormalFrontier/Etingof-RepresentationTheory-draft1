@@ -30,6 +30,6 @@ tag := "Chapter7/Introduction_7.7/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AbelianCategoryRepresentation.exists_moduleCatFullSubcategoryEquivalence}

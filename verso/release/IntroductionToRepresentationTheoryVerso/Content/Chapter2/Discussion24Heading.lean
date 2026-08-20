@@ -39,16 +39,6 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType}
-
-{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType'}
-
-{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType''}
-
-{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType.auxiliaryMap}
-
-{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType.auxiliaryMap'}
-
 {Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.auxiliarySetMap_le_iff}
 
 {Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.auxiliaryType''_eq}
@@ -60,6 +50,16 @@ number := false
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryPredicate}
+
+{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType}
+
+{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType'}
+
+{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType''}
+
+{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType.auxiliaryMap}
+
+{Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.AuxiliaryType.auxiliaryMap'}
 
 {Manual.docstring RepresentationTheory.RingTheory.TwoSidedIdeal.Basic.Ring.auxiliaryElement}
 

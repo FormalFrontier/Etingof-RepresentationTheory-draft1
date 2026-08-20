@@ -33,13 +33,9 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.DualModules.IsCyclicVector}
-
 {Manual.docstring RepresentationTheory.Algebra.DualModules.RightAlgebraDual.toModuleDual_algebra_smul_apply}
 
 {Manual.docstring RepresentationTheory.Algebra.DualModules.degreeAtLeastTwoIdeal_eq_span_homogeneous}
-
-{Manual.docstring RepresentationTheory.Algebra.DualModules.isCyclicModule_iff_nonempty_linearEquiv_quotient}
 
 {Manual.docstring RepresentationTheory.Algebra.DualModules.isSimpleModule_iff_forall_ne_zero_isCyclicVector}
 
@@ -49,8 +45,12 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.DualModules.IsCyclicModule}
 
+{Manual.docstring RepresentationTheory.Algebra.DualModules.IsCyclicVector}
+
 {Manual.docstring RepresentationTheory.Algebra.DualModules.RightAlgebraDual}
 
 {Manual.docstring RepresentationTheory.Algebra.DualModules.auxiliaryModuleProperty_and_not_isCyclicModule}
+
+{Manual.docstring RepresentationTheory.Algebra.DualModules.isCyclicModule_iff_nonempty_linearEquiv_quotient}
 
 {Manual.docstring RepresentationTheory.Algebra.DualModules.squareZeroPlaneBasis}

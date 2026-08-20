@@ -27,13 +27,11 @@ tag := "Chapter4/Problem4.12.6/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AffineGroupRepresentations.cardinalityFormula_011270}
 
 {Manual.docstring RepresentationTheory.AffineGroupRepresentations.cardinalityFormula_011306}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AffineGroupRepresentations.cardinalityFormula_011354}
 

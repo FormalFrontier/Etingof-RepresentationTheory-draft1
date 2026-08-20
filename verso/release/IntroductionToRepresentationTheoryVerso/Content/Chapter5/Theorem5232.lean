@@ -31,11 +31,9 @@ tag := "Chapter5/Theorem5.23.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryEquivariantDecomposition.auxiliary_nonempty_representationRelation}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryRepresentationDecompositions.auxiliary_exists_directSum_representation_decomposition}
 

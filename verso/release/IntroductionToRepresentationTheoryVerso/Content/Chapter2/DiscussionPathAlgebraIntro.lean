@@ -25,6 +25,8 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.existsModuleRepresentationQuotientEquiv}
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.existsModuleRepresentationQuotientEquiv}
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType}

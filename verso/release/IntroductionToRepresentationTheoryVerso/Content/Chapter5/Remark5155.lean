@@ -33,10 +33,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.auxiliaryValue_eq_rootLe_matrix_sum}
 
-{Manual.docstring RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.rootOrder_iff_auxiliaryRelation}
-
-{Manual.docstring RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.rootOrder_isPartialOrder}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryPartitionLinearIndependentFamily.auxiliary_nat_values_eq}
@@ -44,3 +40,7 @@ number := false
 {Manual.docstring RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.auxiliaryCount_eq_zero_of_not_rootLe}
 
 {Manual.docstring RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.auxiliaryInverseMatrix_apply_eq_zero_of_not_rootLe}
+
+{Manual.docstring RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.rootOrder_iff_auxiliaryRelation}
+
+{Manual.docstring RepresentationTheory.Combinatorics.Partition.RootOrderMatrices.Partition.rootOrder_isPartialOrder}

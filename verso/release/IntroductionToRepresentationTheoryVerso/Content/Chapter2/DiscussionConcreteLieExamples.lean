@@ -45,9 +45,17 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.ThreeDimensional.crossProductLieAlgebra}
 
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux6}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux7}
+
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.bracket_basis0_basis1}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.bracket_basis2_basis0}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.lieEquiv}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.matrix_eq_aux1}
 
@@ -61,18 +69,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeByThreeMatrixAuxiliary.matrixLieEquivAux_apply_eq_single_12}
 
+{Manual.docstring RepresentationTheory.LieAlgebra.ThreeByThreeMatrixAuxiliary.matrixLieSubalgebraAux}
+
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.bracket_eq_aux1}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.bracket_eq_aux2}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ThreeGeneratorPresentations.bracket_eq_aux3}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux6}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux7}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.lieEquiv}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.ThreeByThreeMatrixAuxiliary.matrixLieSubalgebraAux}

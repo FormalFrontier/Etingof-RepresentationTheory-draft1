@@ -25,4 +25,4 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Module.RepresentationTraceAdditivity.representationTrace_eq_submodule_add_quotient}
+{Manual.docstring RepresentationTheory.Module.SubmoduleQuotientAuxiliary.auxiliaryFunction_eq_submodule_add_quotient}

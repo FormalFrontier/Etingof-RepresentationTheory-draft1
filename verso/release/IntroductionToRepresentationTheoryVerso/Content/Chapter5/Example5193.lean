@@ -27,15 +27,15 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.ExteriorSymmetricAuxiliary.auxiliarySubmoduleEquivExteriorPower}
-
-{Manual.docstring RepresentationTheory.Algebra.ExteriorSymmetricAuxiliary.auxiliarySubmoduleEquivExteriorPower_map}
-
 {Manual.docstring RepresentationTheory.Algebra.ExteriorSymmetricAuxiliary.exteriorPower_invariantSubmodule_eq_bot_or_top}
 
 {Manual.docstring RepresentationTheory.Algebra.ExteriorSymmetricAuxiliary.exteriorPower_subsingleton_of_finrank_lt}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.ExteriorSymmetricAuxiliary.auxiliarySubmoduleEquivExteriorPower}
+
+{Manual.docstring RepresentationTheory.Algebra.ExteriorSymmetricAuxiliary.auxiliarySubmoduleEquivExteriorPower_map}
 
 {Manual.docstring RepresentationTheory.Algebra.ExteriorSymmetricAuxiliary.auxiliarySubmoduleEquivSymmetricPower}
 

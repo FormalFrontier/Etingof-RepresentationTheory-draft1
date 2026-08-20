@@ -28,6 +28,6 @@ tag := "Chapter7/Definition7.2.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CategoryPair.AssociatedType}

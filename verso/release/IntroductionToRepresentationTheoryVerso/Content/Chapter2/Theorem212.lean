@@ -70,16 +70,14 @@ tag := "Chapter2/Theorem2.1.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix}
-
-{Manual.docstring RepresentationTheory.Quiver.AuxiliaryRepresentationProperties.auxiliaryGlobalQuiverProperty_iff_auxiliaryConditions}
-
-{Manual.docstring RepresentationTheory.Quiver.AuxiliaryRepresentationProperties.auxiliaryGlobalQuiverProperty_iff_explicitConditions}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel}
 
 {Manual.docstring RepresentationTheory.Matrix.BinaryAdjacencyClassification.Matrix.exists_adjacency_reindexing_iff}
+
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryFiniteConstructions.auxiliaryQuiverProperty_iff_auxiliaryConditions}
+
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryFiniteConstructions.auxiliaryQuiverProperty_iff_explicitConditions}

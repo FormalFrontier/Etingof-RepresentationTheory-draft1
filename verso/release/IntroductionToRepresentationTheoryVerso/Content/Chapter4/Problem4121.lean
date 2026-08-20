@@ -29,18 +29,6 @@ tag := "Chapter4/Problem4.12.1/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.linearCharactersEquivUnitPairs}
-
-{Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.simpleRepresentation_iso_linear_or_twoDimensional}
-
-{Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.tensorSquare_twoDimensionalRepresentation_one_iso_auxiliaryDirectSum}
-
-{Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.twoDimensionalRepresentation_isSimpleModule}
-
-{Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.twoDimensionalRepresentations_not_equivalent_of_trace_ne}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.auxiliaryClassFunctionA}
@@ -69,8 +57,18 @@ number := false
 
 {Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.finrank_eq_one_or_two_of_isSimpleModule}
 
+{Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.linearCharactersEquivUnitPairs}
+
+{Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.simpleRepresentation_iso_linear_or_twoDimensional}
+
+{Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.tensorSquare_twoDimensionalRepresentation_one_iso_auxiliaryDirectSum}
+
 {Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.twoDimensionalRepresentation}
+
+{Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.twoDimensionalRepresentation_isSimpleModule}
 
 {Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.twoDimensionalRepresentation_one_character}
 
 {Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.twoDimensionalRepresentation_two_character}
+
+{Manual.docstring RepresentationTheory.DihedralGroupComplexRepresentations.twoDimensionalRepresentations_not_equivalent_of_trace_ne}

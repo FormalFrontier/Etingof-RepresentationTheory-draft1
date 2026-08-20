@@ -27,7 +27,7 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.RingTheory.SimpleModuleDensity.exists_smul_eq_on_linearIndependent}
+{Manual.docstring RepresentationTheory.RingTheory.SimpleModuleSimultaneousAction.exists_smul_eq_on_linearIndependent}
 
 ### Supporting declarations
 

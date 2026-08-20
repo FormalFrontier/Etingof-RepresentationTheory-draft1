@@ -76,14 +76,6 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.auxiliaryIso_iff_eq_or_eq_characterCardPow}
-
-{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.eq_of_fdRepOfAuxiliaryIndex_iso}
-
-{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.exists_pairwise_nonisomorphic_simple_family}
-
-{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.simple_fdRepOfAuxiliaryIndex}
-
 {Manual.docstring RepresentationTheory.Representation.SubtypeCharacter.subtypeCharacterRepresentationOfPowerNonfixed_character_eq_auxiliary}
 
 {Manual.docstring RepresentationTheory.Representation.SubtypeCharacter.subtypeCharacterRepresentationOfPowerNonfixed_finrank_eq_pow_sub_one}
@@ -94,10 +86,18 @@ number := false
 
 {Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.auxiliaryIso_characterCardPow}
 
+{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.auxiliaryIso_iff_eq_or_eq_characterCardPow}
+
 {Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.characterExponentEquiv}
+
+{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.eq_of_fdRepOfAuxiliaryIndex_iso}
+
+{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.exists_pairwise_nonisomorphic_simple_family}
 
 {Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.fdRepOfAuxiliaryIndex}
 
 {Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.natCard_auxiliaryIndex}
+
+{Manual.docstring RepresentationTheory.GaloisFieldCharacters.GaloisField.simple_fdRepOfAuxiliaryIndex}
 
 {Manual.docstring RepresentationTheory.Representation.SubtypeCharacter.subtypeCharacterRepresentationOfPowerNonfixed}

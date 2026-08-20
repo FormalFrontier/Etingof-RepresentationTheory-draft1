@@ -72,15 +72,15 @@ number := false
 
 {Manual.docstring RepresentationTheory.Permutation.CentralizerCycleFacts.Equiv.Perm.auxiliaryNatValue_one_eq_card_fixedPoints}
 
+{Manual.docstring RepresentationTheory.PermutationPolynomialAuxiliary.partitionPermutationValue_eq_coefficient}
+
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.Permutation.CentralizerCycleFacts.Equiv.Perm.card_centralizer_eq_prod_auxiliaryNatValue}
 
 {Manual.docstring RepresentationTheory.Permutation.CentralizerCycleFacts.Equiv.Perm.centralizerMulEquivAuxiliaryProduct}
 
 {Manual.docstring RepresentationTheory.Permutation.CentralizerCycleFacts.Equiv.Perm.centralizerMulEquivFinAuxiliaryProduct}
-
-{Manual.docstring RepresentationTheory.PermutationPolynomialAuxiliary.partitionPermutationValue_eq_coefficient}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Permutation.CentralizerCycleFacts.Equiv.Perm.minimalPeriod_eq_card_support_cycleOf}
 

@@ -29,6 +29,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Representation.Equivalences.representationLinearEquivHomEquiv}
 
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.Algebra.Representation.Equivalences.representationLinearEquivHomEquiv_apply}
 
 {Manual.docstring RepresentationTheory.Algebra.Representation.Equivalences.representationLinearEquivHomEquiv_symm_apply}

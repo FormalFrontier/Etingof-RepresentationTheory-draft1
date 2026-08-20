@@ -27,9 +27,9 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators.operatorRepresentation_injective}
 
-{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.comparisonMap_not_injective_of_charP}
+{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.comparisonMap_not_injective_of_charP}
 
-{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.toPolynomialEnd_injective}
+{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.toPolynomialEnd_injective}
 
 {Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.derivative_iterate_prime_eq_zero}
 
@@ -37,4 +37,4 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.IntegerIndexedPolynomialOperators.operatorRepresentation_injective_and_comparisonMap_not_injective}
 
-{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.toPolynomialEnd_power_second_eq_zero}
+{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.toPolynomialEnd_power_second_eq_zero}

@@ -33,10 +33,8 @@ tag := "Chapter4/Theorem4.6.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Complex.InvariantInnerProduct.Representation.auxiliaryInvariantInnerProductResult}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Complex.InvariantInnerProduct.Representation.exists_invariantInnerProductCore}

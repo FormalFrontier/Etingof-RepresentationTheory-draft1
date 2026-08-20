@@ -35,15 +35,15 @@ number := false
 
 {Manual.docstring RepresentationTheory.AuxiliarySubmodules.auxiliaryElement_ne_zero}
 
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliarySubmodules.auxiliarySubmoduleLinearEquivIndexedSubmodule}
+
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementD}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementE}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementF}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.AuxiliarySubmodules.auxiliarySubmoduleLinearEquivIndexedSubmodule}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra.left_idempotent_sq}
 

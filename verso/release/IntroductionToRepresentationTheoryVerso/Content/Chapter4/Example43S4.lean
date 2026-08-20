@@ -34,9 +34,9 @@ number := false
 
 {Manual.docstring RepresentationTheory.FiniteGroupRepresentations.SubgroupInductionAuxiliary.simple_iso_auxiliary_cases}
 
-{Manual.docstring RepresentationTheory.PermutationDegreeFour.card_conjClasses_perm_fin_four}
-
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.PermutationDegreeFour.card_conjClasses_perm_fin_four}
 
 {Manual.docstring RepresentationTheory.PermutationDegreeFour.inducedPermutationHom}
 

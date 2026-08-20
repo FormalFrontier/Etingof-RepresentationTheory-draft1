@@ -29,12 +29,12 @@ number := false
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.Partition.Dominates.lexLe}
 
-{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.Partition.LexLt}
-
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.Partition.LexLt.not_dominates}
 
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.Partition.LexLe}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.Partition.LexLt}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.Partition.exists_lexLt}

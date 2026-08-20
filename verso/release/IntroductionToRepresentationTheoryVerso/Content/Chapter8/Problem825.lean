@@ -40,9 +40,19 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.modulePairGroupMap_eq_of_comm}
+
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.existsHom_comp_pi}
 
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaMapOfResolutionHom}
+
 {Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaObjIso}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaObjMap}
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaObjMap_eq_isoHom}
 
 {Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaObjMap_eq_of_comm}
 
@@ -51,16 +61,6 @@ number := false
 {Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.modulePairGroupIso_comp_hom}
 
 {Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.modulePairGroupIso_self_hom}
-
-{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.modulePairGroupMap_eq_of_comm}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaMapOfResolutionHom}
-
-{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaObjMap}
-
-{Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.linearYonedaObjMap_eq_isoHom}
 
 {Manual.docstring RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.CategoryTheory.ProjectiveResolution.modulePairGroupMap}
 

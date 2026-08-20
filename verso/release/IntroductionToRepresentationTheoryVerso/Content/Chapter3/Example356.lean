@@ -27,7 +27,17 @@ number := false
 
 ### Primary declarations
 
+{Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.jacobson_auxiliaryMatrixSubalgebra}
+
+{Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.jacobson_eq_span_root}
+
+### Supporting declarations
+
 {Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.exists_equiv_finiteIndexAuxiliaryType}
+
+{Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.fieldNatAuxiliaryType}
+
+{Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.finiteIndexAuxiliaryType}
 
 {Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.finiteIndexAuxiliaryType.smul_eq_diagonalEntry_mul}
 
@@ -39,18 +49,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.isSimpleModule_finiteIndexAuxiliaryType}
 
-{Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.jacobson_auxiliaryMatrixSubalgebra}
-
-{Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.jacobson_eq_span_root}
-
 {Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.nonempty_equiv_fieldNatAuxiliaryType}
 
 {Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.not_nonempty_equiv_finiteIndexAuxiliaryType}
 
 {Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.root_smul_fieldNatAuxiliaryType}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.fieldNatAuxiliaryType}
-
-{Manual.docstring RepresentationTheory.Algebra.SimpleModule.MatrixAndTruncatedPolynomial.finiteIndexAuxiliaryType}

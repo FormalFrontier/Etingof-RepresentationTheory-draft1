@@ -25,13 +25,11 @@ tag := "Chapter4/Discussion_after_Theorem4.6.2/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.Group.ConjugateDuality.conjugateLinearEquivDual_intertwines}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Group.ConjugateDuality.conjugateLinearEquivDual}
+
+{Manual.docstring RepresentationTheory.Group.ConjugateDuality.conjugateLinearEquivDual_intertwines}
 
 {Manual.docstring RepresentationTheory.Group.ConjugateDuality.conjugateModule}
 

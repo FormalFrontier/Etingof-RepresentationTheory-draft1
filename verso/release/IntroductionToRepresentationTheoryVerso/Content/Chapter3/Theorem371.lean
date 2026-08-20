@@ -37,22 +37,22 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.equivalent}
-
 {Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.exists_permutation_factorEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.length_eq}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.linearIndependent_moduleDualElement}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.Trace.FunctionSpace.representationTrace_finFun_eq_zero_of_char}
+{Manual.docstring RepresentationTheory.LinearAlgebra.FunctionSpaceEndomorphism.auxiliaryFunction_finFun_eq_zero_of_char}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.equivalent}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.factorModule}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Filtrations.exists_relSeries_bot_top}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.Trace.FunctionSpace.representationTrace_finFun}
+{Manual.docstring RepresentationTheory.LinearAlgebra.FunctionSpaceEndomorphism.auxiliaryFunction_finFun}
 
-{Manual.docstring RepresentationTheory.Module.RepresentationTraceAdditivity.representationTrace_eq_submodule_add_quotient}
+{Manual.docstring RepresentationTheory.Module.SubmoduleQuotientAuxiliary.auxiliaryFunction_eq_submodule_add_quotient}

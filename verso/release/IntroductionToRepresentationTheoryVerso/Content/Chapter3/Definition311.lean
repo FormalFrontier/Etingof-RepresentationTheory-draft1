@@ -23,6 +23,6 @@ tag := "Chapter3/Definition3.1.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
-{Manual.docstring RepresentationTheory.ModuleTheory.ModuleCondition.ModuleCondition}
+{Manual.docstring RepresentationTheory.ModuleTheory.AuxiliaryCondition.AuxiliaryModuleCondition}

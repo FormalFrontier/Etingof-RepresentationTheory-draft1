@@ -31,14 +31,14 @@ number := false
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.sandwich_eq_zero_of_lexLt}
 
-{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.sandwich_eq_zero_of_not_dominates}
-
-{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.sandwich_eq_zero_of_strictDominates}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.Partition.LexLt.not_dominates}
 
-{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.dominates_aux}
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.auxiliaryUnavailableStatement022059}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.sandwich_eq_zero_of_not_dominates}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.sandwich_eq_zero_of_strictDominates}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionDominance.sandwich_single_eq_zero_of_not_dominates}

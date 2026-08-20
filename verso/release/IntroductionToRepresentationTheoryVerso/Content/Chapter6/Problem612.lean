@@ -35,10 +35,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.PolynomialRepresentation.FiniteOrbits.exists_isPolynomiallyDense_orbit_of_finite_orbits}
 
-{Manual.docstring RepresentationTheory.PolynomialRepresentation.FiniteOrbits.finrank_le_sq_of_finite_representation_orbits}
-
 {Manual.docstring RepresentationTheory.PolynomialRepresentation.FiniteOrbits.finrank_le_sum_sq_of_finite_representation_orbits}
 
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.PolynomialRepresentation.FiniteOrbits.exists_injective_localizedMatrixVectorSubstitutionAlgHom_of_finite_orbits}
+
+{Manual.docstring RepresentationTheory.PolynomialRepresentation.FiniteOrbits.finrank_le_sq_of_finite_representation_orbits}

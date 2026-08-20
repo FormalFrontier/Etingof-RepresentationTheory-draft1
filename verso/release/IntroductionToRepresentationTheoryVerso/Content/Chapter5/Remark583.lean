@@ -33,10 +33,10 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences.coindVEquivRightCosetFunctions}
-
 {Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences.finrank_indV}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences.coindVEquivRightCosetFunctions}
 
 {Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndexEquivalences.finrank_coindV}

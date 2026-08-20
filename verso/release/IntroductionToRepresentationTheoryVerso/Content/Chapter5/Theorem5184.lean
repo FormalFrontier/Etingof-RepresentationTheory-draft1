@@ -37,14 +37,14 @@ number := false
 
 {Manual.docstring RepresentationTheory.Auxiliary.MutualCentralizers.mutual_centralizer_algebras}
 
-{Manual.docstring RepresentationTheory.PartitionedDecomposition.existsIndexedSimpleDecomposition}
+{Manual.docstring RepresentationTheory.PartitionedDecomposition.Auxiliary.statement016580}
 
 {Manual.docstring RepresentationTheory.PartitionedDecomposition.existsTensorProductDecomposition}
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Auxiliary.MutualCentralizers.associatedSubalgebras_semisimple}
+{Manual.docstring RepresentationTheory.Auxiliary.MutualCentralizers.Auxiliary.statement016575}
 
-{Manual.docstring RepresentationTheory.Auxiliary.MutualCentralizers.exists_auxiliarySpace_decomposition_with_compatibility}
+{Manual.docstring RepresentationTheory.Auxiliary.MutualCentralizers.associatedSubalgebras_semisimple}
 
 {Manual.docstring RepresentationTheory.Auxiliary.TensorDecomposition.existsAuxiliaryDirectSumTensorProductDecomposition}

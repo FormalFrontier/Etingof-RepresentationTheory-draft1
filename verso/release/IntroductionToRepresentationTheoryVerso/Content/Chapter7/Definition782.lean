@@ -33,8 +33,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.CategoryTheory.ShortComplex.Auxiliary.Data.toZeroMorphismsData}
 
-{Manual.docstring RepresentationTheory.CategoryTheory.ShortComplex.Auxiliary.shortExact_iff_mono_epi_isIso_cokernelDesc}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CategoryTheory.ShortComplex.Auxiliary.Data}
@@ -42,3 +40,5 @@ number := false
 {Manual.docstring RepresentationTheory.CategoryTheory.ShortComplex.Auxiliary.ZeroMorphismsData}
 
 {Manual.docstring RepresentationTheory.CategoryTheory.ShortComplex.Auxiliary.ZeroMorphismsData.toData'}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.ShortComplex.Auxiliary.shortExact_iff_mono_epi_isIso_cokernelDesc}

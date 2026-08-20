@@ -31,6 +31,8 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Auxiliary.FDRepPartitions.auxiliaryFDRepOfPartitionIso}
-
 {Manual.docstring RepresentationTheory.Auxiliary.FDRepPartitions.auxiliaryFDRepOfSuccessorPartitionIso}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Auxiliary.FDRepPartitions.auxiliaryFDRepOfPartitionIso}

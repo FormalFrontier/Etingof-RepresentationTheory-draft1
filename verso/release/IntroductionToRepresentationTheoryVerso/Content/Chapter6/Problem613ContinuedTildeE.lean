@@ -57,7 +57,7 @@ tag := "Chapter6/Problem6.1.3_continued_tildeE/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.DynkinDiagram.AffineClassification.AffineDynkinDiagram.adjacency_isAffineDynkinMatrix}
 

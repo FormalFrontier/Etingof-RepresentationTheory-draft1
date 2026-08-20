@@ -25,7 +25,7 @@ tag := "Chapter8/Discussion_after_Example8.1.7/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CategoryTheory.Abelian.YonedaFiniteLimitColimitPreservation.coyonedaObjectProperty}
 

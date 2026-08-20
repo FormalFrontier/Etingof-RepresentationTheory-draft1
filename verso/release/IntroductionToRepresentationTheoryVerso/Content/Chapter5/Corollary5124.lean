@@ -25,10 +25,8 @@ tag := "Chapter5/Corollary5.12.4/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.PartitionModels.exists_partition_model_with_equivariant_complexification}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.PartitionModels.exists_perm_equivariant_complexification}

@@ -27,12 +27,12 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.VirtualRepresentations.Basic.VirtualRepresentation.character}
-
 {Manual.docstring RepresentationTheory.VirtualRepresentations.Basic.VirtualRepresentation.character_apply}
 
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.VirtualRepresentations.Basic.VirtualRepresentation}
+
+{Manual.docstring RepresentationTheory.VirtualRepresentations.Basic.VirtualRepresentation.character}
 
 {Manual.docstring RepresentationTheory.VirtualRepresentations.Basic.VirtualRepresentation.character_single}

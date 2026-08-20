@@ -18,6 +18,21 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 
 """
 
+# The public export validator still requires the approved top-level docstring.
+# Verso also expands inductive constructors, which are generated child declarations
+# outside the clean-room proposal inventory. Permit missing child documentation only
+# for the audited inductive whose constructors have no independently approved prose.
+ALLOW_MISSING_SUBDOCSTRINGS = frozenset(
+    {
+        "RepresentationTheory.Algebra.ParameterizedComplexRelations.Relations",
+    }
+)
+
+
+def docstring_directive(declaration: str) -> str:
+    flag = " +allowMissing" if declaration in ALLOW_MISSING_SUBDOCSTRINGS else ""
+    return f"{{Manual.docstring{flag} {declaration}}}"
+
 
 def module_path(root: Path, module: str) -> Path:
     return root / (module.replace(".", "/") + ".lean")
@@ -63,7 +78,7 @@ def add_formalization_panel(source: str, item: dict, declarations: list[dict]) -
             continue
         body = [f"### {title}"]
         for row in rows:
-            body.append(f"{{Manual.docstring {row['new_fqn']}}}")
+            body.append(docstring_directive(row["new_fqn"]))
         groups.append("\n\n".join(body))
     panel = (
         "\n\n## Formalization\n"

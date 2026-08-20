@@ -29,14 +29,14 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates.exists_injective_coordinates_directSum}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates.linearMapAddEquivMatrix}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates.nonempty_divisionRing_end}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates.injective_iff_matrix_relation}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates.linearIndependent_iff_matrix_relation}
 
+{Manual.docstring RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates.linearMapAddEquivMatrix}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates.linearMapAddEquivMatrix_apply}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.SimpleMatrixCoordinates.nonempty_divisionRing_end}

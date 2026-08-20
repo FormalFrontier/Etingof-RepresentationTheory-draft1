@@ -23,6 +23,6 @@ tag := "Chapter2/Definition2.7.3/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModulePredicates.AuxiliaryModulePredicate}

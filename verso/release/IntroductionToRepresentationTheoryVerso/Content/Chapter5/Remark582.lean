@@ -25,12 +25,10 @@ tag := "Chapter5/Remark5.8.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndex.indCoindIsoOfFiniteIndex}
 
 {Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndex.indFunctorIsoCoindFunctorOfFiniteIndex}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.InductionCoinduction.FiniteIndex.indFunctorIsoCoindFunctorOfFiniteIndex_app}

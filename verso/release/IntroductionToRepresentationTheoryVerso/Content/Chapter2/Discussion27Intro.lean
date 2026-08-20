@@ -33,22 +33,20 @@ tag := "Chapter2/Discussion_2.7_intro/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShift_generators_commute_up_to_unit}
-
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.auxiliaryFour}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.auxiliaryOne}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.auxiliaryThree}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.auxiliaryTwo}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShiftSubalgebra}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShift_auxiliary_identity_four}
+{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShift_generators_commute_up_to_unit}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShift_auxiliary_identity_one}
+{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShift_auxiliary_identity_three}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.TwistedLatticeShifts.twistedLatticeShift_auxiliary_identity_two}
-
-{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra}
-
-{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.OperatorAlgebra.secondOperator_mul_firstOperator}
+{Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator_mul_firstOperator}

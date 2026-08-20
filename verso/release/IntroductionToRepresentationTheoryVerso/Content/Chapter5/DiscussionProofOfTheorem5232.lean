@@ -33,8 +33,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.AuxiliaryEquivariantDecomposition.auxiliaryDirectSumMap_intertwines}
 
-{Manual.docstring RepresentationTheory.AuxiliaryEquivariantDecomposition.auxiliary_exists_range_eq_of_isSimpleModule}
-
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryEquivariantDecomposition.auxiliary_exists_range_eq_of_isSimpleModule}
 
 {Manual.docstring RepresentationTheory.AuxiliaryEquivariantDecomposition.auxiliary_subrepresentation_le_iSup_of_isSimpleModule}

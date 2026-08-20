@@ -15,6 +15,21 @@ PACKAGE = "IntroductionToRepresentationTheoryVerso"
 PANEL_MARKER = "\n\n## Formalization\n"
 REPRESENTATION_IMPORT = re.compile(r"^import RepresentationTheory(?:\.[A-Za-z0-9_'.]+)*\n", re.MULTILINE)
 
+# The public export validator still requires the approved top-level docstring.
+# Verso also expands inductive constructors, which are generated child declarations
+# outside the clean-room proposal inventory. Permit missing child documentation only
+# for the audited inductive whose constructors have no independently approved prose.
+ALLOW_MISSING_SUBDOCSTRINGS = frozenset(
+    {
+        "RepresentationTheory.Algebra.ParameterizedComplexRelations.Relations",
+    }
+)
+
+
+def docstring_directive(declaration: str) -> str:
+    flag = " +allowMissing" if declaration in ALLOW_MISSING_SUBDOCSTRINGS else ""
+    return f"{{Manual.docstring{flag} {declaration}}}"
+
 
 def load_items(root: Path) -> list[dict]:
     payload = json.loads((root / "metadata/items.json").read_text(encoding="utf-8"))
@@ -74,7 +89,7 @@ def panel(item_id: str, rows: list[dict]) -> str:
         if not declarations:
             continue
         body = [f"### {title}"]
-        body.extend(f"{{Manual.docstring {declaration}}}" for declaration in declarations)
+        body.extend(docstring_directive(declaration) for declaration in declarations)
         groups.append("\n\n".join(body))
     return (
         PANEL_MARKER

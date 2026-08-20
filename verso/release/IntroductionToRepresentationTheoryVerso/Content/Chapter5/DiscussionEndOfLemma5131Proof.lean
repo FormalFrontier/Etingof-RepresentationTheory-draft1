@@ -25,6 +25,6 @@ tag := "Chapter5/Discussion_end_of_Lemma5.13.1_proof/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra.exists_swap_mem_left_of_not_mem_mul}

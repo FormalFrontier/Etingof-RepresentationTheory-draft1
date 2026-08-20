@@ -41,14 +41,6 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.modulePresentationRelation}
-
-{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.moduleThenPresentationHom}
-
-{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.moduleThenPresentationHom_app_epi}
-
-{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.moduleThenPresentationHom_isIso}
-
 {Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.presentationThenModuleIso}
 
 ### Supporting declarations
@@ -62,6 +54,14 @@ number := false
 {Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.modulePresentationFunctor}
 
 {Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.modulePresentationObject}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.modulePresentationRelation}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.moduleThenPresentationHom}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.moduleThenPresentationHom_app_epi}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.moduleThenPresentationHom_isIso}
 
 {Manual.docstring RepresentationTheory.CategoryTheory.Linear.FiniteModulePresentationEquivalence.oppositeEndEvaluation}
 

@@ -26,4 +26,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.NonUnitalStructure.NonUnitalAlgebraStructure}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryStructure.AuxiliaryStructure}

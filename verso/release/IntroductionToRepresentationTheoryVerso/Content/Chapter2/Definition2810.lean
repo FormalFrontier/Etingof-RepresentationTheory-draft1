@@ -25,4 +25,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearMaps.QuiverLinearHom}
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData}

@@ -39,6 +39,6 @@ tag := "Chapter6/Definition6.6.4/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.QuiverRepresentationQuotientFunctor.quotientRepresentationFunctor}

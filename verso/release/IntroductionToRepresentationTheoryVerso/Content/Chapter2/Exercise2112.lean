@@ -29,15 +29,13 @@ tag := "Chapter2/Exercise2.11.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.TensorProduct.Quotient.quotientModule}
 
 {Manual.docstring RepresentationTheory.Algebra.TensorProduct.Quotient.quotientToTensorProductLinearEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.TensorProduct.Quotient.quotientToTensorProductLinearEquiv_mk_pair}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Algebra.TensorProduct.Quotient.tensorProductQuotient}
 

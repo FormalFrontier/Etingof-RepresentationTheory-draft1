@@ -29,6 +29,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData.ModuleAuxiliaryData}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData.ModuleAuxiliaryTypeA}
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData.moduleAuxiliaryData}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData.ModuleAuxiliaryTypeB}
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData.moduleAuxiliaryData'}

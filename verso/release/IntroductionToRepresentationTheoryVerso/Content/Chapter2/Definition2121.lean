@@ -39,26 +39,26 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.ExteriorAlgebra.generator_sq_eq_zero}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.ExteriorAlgebra.auxiliaryModelDirectSumEquiv}
 
-{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.ExteriorAlgebra.relationModelEquivFinsupp}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.ExteriorAlgebra.auxiliaryModelEquivFinsupp}
 
-{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.ExteriorAlgebra.relationModelGradedEquiv}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.SymmetricAlgebra.auxiliaryModelDirectSumEquiv}
 
-{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.SymmetricAlgebra.RelationModel}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.SymmetricAlgebra.auxiliaryModelEquivMvPolynomial}
 
-{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.SymmetricAlgebra.relationModelEquivMvPolynomial}
-
-{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.SymmetricAlgebra.relationModelGradedEquiv}
-
-{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.basisQuotientEquivEnvelope}
-
-{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.generator_commutator}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.UniversalEnvelopingAlgebra.auxiliaryBasisEquiv}
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.ExteriorAlgebra.RelationModel}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.ExteriorAlgebra.auxiliaryModel}
 
-{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.SymmetricAlgebra.generator_mul_comm}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.ExteriorAlgebra.generator_sq_eq_zero}
 
-{Manual.docstring RepresentationTheory.Algebra.BasisQuotientPresentations.UniversalEnvelopingAlgebra.QuotientModel}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.SymmetricAlgebra.auxiliaryModel}
+
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.SymmetricAlgebra.generator_mul_comm}
+
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.UniversalEnvelopingAlgebra.auxiliaryType}
+
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryLieModuleConstructions.UniversalEnvelopingAlgebra.generator_commutator}

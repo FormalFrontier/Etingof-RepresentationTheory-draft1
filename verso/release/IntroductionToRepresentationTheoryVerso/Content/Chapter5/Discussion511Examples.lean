@@ -31,13 +31,15 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.AuxiliaryRepresentationComputations.induced_auxiliaryCharacterOne_iso_auxiliaryRepresentation}
-
-{Manual.docstring RepresentationTheory.AuxiliaryRepresentationComputations.induced_auxiliaryCharacterTwo_iso_auxiliaryRepresentation}
-
 {Manual.docstring RepresentationTheory.AuxiliaryRepresentationComputations.induced_restrictedCharacter_iso_biprod}
 
 {Manual.docstring RepresentationTheory.AuxiliaryRepresentationComputations.induced_trivial_auxiliarySubgroupA_iso_biprod}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryRepresentationComputations.induced_auxiliaryCharacterOne_iso_auxiliaryRepresentation}
+
+{Manual.docstring RepresentationTheory.AuxiliaryRepresentationComputations.induced_auxiliaryCharacterTwo_iso_auxiliaryRepresentation}
 
 {Manual.docstring RepresentationTheory.AuxiliaryRepresentationComputations.induced_trivial_auxiliarySubgroupB_iso_biprod}
 

@@ -29,14 +29,14 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.AuxiliaryTensorProductRepresentations.auxiliary_exists_tensorProduct}
-
 {Manual.docstring RepresentationTheory.AuxiliaryTensorProductRepresentations.auxiliary_tensorProduct_characterization}
 
 {Manual.docstring RepresentationTheory.AuxiliaryTensorProductRepresentations.isAuxiliary_tensorProductRepresentation}
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.TensorProductSimplicity.exists_tensorFactorization_of_simpleBimodule}
+{Manual.docstring RepresentationTheory.Algebra.Module.TensorProductSimplicity.auxiliary}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.TensorProductSimplicity.submodule_eq_bot_or_top_of_tensorActions}
+
+{Manual.docstring RepresentationTheory.AuxiliaryTensorProductRepresentations.auxiliary_exists_tensorProduct}

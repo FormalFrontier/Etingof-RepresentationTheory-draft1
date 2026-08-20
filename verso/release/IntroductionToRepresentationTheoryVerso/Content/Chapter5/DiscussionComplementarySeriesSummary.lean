@@ -31,7 +31,11 @@ tag := "Chapter5/Discussion_complementary_series_summary/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_conjClasses_eq_fieldCard_sq_sub_one}
+
+{Manual.docstring RepresentationTheory.GeneralLinearGroupTwoIrreps.auxiliaryRepresentation}
 
 {Manual.docstring RepresentationTheory.GeneralLinearGroupTwoIrreps.auxiliaryRepresentation_iso_injective}
 
@@ -41,19 +45,13 @@ number := false
 
 {Manual.docstring RepresentationTheory.GeneralLinearGroupTwoIrreps.card_conjClasses_generalLinearGroup_two}
 
-{Manual.docstring RepresentationTheory.GeneralLinearGroupTwoIrreps.existsUnique_auxiliaryRepresentation_iso}
-
-{Manual.docstring RepresentationTheory.GeneralLinearGroupTwoIrreps.exists_completeSimpleFamily_card}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.FiniteGroups.GL2Conjugacy.card_conjClasses_eq_fieldCard_sq_sub_one}
-
-{Manual.docstring RepresentationTheory.GeneralLinearGroupTwoIrreps.auxiliaryRepresentation}
-
 {Manual.docstring RepresentationTheory.GeneralLinearGroupTwoIrreps.eq_auxiliaryExpression_of_eq_card_conjClasses}
 
+{Manual.docstring RepresentationTheory.GeneralLinearGroupTwoIrreps.existsUnique_auxiliaryRepresentation_iso}
+
 {Manual.docstring RepresentationTheory.GeneralLinearGroupTwoIrreps.exists_auxiliaryType_card}
+
+{Manual.docstring RepresentationTheory.GeneralLinearGroupTwoIrreps.exists_completeSimpleFamily_card}
 
 {Manual.docstring RepresentationTheory.GeneralLinearGroupTwoIrreps.exists_groupAlgebra_matrixDecomposition}
 

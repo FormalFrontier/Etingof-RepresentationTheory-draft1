@@ -61,15 +61,9 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.nonempty_lieModuleEquiv_finFunction_of_irreducible}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.quadraticGeneratorCombination_succ_eq_smul_id}
-
 {Manual.docstring RepresentationTheory.LieAlgebra.TensorProductDecomposition.nonempty_lieModuleEquiv_directSum}
 
-{Manual.docstring RepresentationTheory.LieModule.ActionFibers.exists_actionFiber_of_isNilpotent}
-
-{Manual.docstring RepresentationTheory.LieModule.CentralAction.centralEndomorphism_commutes_action}
+{Manual.docstring RepresentationTheory.LieModule.ActionAuxiliary.exists_auxiliaryLieAction_of_isNilpotent}
 
 {Manual.docstring RepresentationTheory.LieModule.CentralAction.exists_integral_centralGeneralizedEigenspace_eq_top_of_auxiliaryPredicate}
 
@@ -81,35 +75,37 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieModule.WeightLadder.maxGenEigenspace_eq_eigenspace_of_no_shifted_eigenvalue}
 
-{Manual.docstring RepresentationTheory.LieModule.WeightLadder.natDegree_factorialRootPolynomial}
-
-{Manual.docstring RepresentationTheory.LieModule.WeightLadder.polynomialAction_after_iteratedOperator}
-
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.nonempty_lieModuleEquiv_finFunction_of_irreducible}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary.auxiliaryLieHomOfBracketRelations}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary.auxiliaryLieHomOfBracketRelations_apply_element1}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary.auxiliaryLieHomOfBracketRelations_apply_element2}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary.auxiliaryLieHomOfBracketRelations_apply_element3}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary.auxiliaryQuadraticCombination_succ_eq_smul_id}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary.bracket_auxiliaryElement1_auxiliaryCoordinateFunction}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary.bracket_auxiliaryElement2_auxiliaryCoordinateFunction}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary.bracket_auxiliaryElement2_auxiliaryCoordinateFunction_eq_zero}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary.bracket_auxiliaryElement3_auxiliaryCoordinateFunction}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary.eq_linearCombination_auxiliaryElements}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary.finFunction_isIrreducible}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.MatrixSubalgebraRepresentationAuxiliary.finrank_finFunction}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ModuleProducts.nonempty_lieModuleEquiv_pi_of_finiteDimensional}
 
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.bracket_lowering_coordinateVector}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.bracket_lowering_coordinateVector_eq_zero}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.bracket_raising_coordinateVector}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.bracket_weight_coordinateVector}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.eq_linearCombination_weight_raising_lowering}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.finrank_finFunction}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.isIrreducible_finFunction}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple_apply_lowering}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple_apply_raising}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.Sl2Representations.lieHomOfSl2Triple_apply_weight}
+{Manual.docstring RepresentationTheory.LieModule.CentralAction.centralEndomorphism_commutes_action}
 
 {Manual.docstring RepresentationTheory.LieModule.CentralAction.centralGeneralizedEigenspace_isInternal}
 
@@ -118,6 +114,10 @@ number := false
 {Manual.docstring RepresentationTheory.LieModule.TensorProductDecomposition.exists_tensorProductEndomorphismEquiv}
 
 {Manual.docstring RepresentationTheory.LieModule.WeightLadder.factorialRootPolynomial}
+
+{Manual.docstring RepresentationTheory.LieModule.WeightLadder.natDegree_factorialRootPolynomial}
+
+{Manual.docstring RepresentationTheory.LieModule.WeightLadder.polynomialAction_after_iteratedOperator}
 
 {Manual.docstring RepresentationTheory.LieModule.WeightLadder.squarefree_factorialRootPolynomial}
 

@@ -38,4 +38,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.OpaqueFormalStatement.opaqueFormalStatement}
+{Manual.docstring RepresentationTheory.Auxiliary.UnavailableFormalExpression.auxiliaryFact}

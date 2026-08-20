@@ -36,11 +36,19 @@ tag := "Chapter4/Example4.3_Q8/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.card_conjClasses_quaternionGroup}
 
+{Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.distinguishedRepresentations_pairwise_nonisomorphic}
+
+{Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.linearCharacter}
+
 {Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.mem_center_iff}
+
+{Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.representationOfLinearCharacter}
+
+{Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.simpleRepresentation_iso_standard_or_linear}
 
 {Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.standardMatrixRepresentation_a_one}
 
@@ -49,15 +57,5 @@ number := false
 {Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.standardMatrixRepresentation_xa_zero}
 
 {Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.standardRepresentation_simple}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.distinguishedRepresentations_pairwise_nonisomorphic}
-
-{Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.linearCharacter}
-
-{Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.representationOfLinearCharacter}
-
-{Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.simpleRepresentation_iso_standard_or_linear}
 
 {Manual.docstring RepresentationTheory.GroupRepresentation.QuaternionGroup.ComplexIrreducibles.sum_sq_finrank_distinguishedRepresentations}

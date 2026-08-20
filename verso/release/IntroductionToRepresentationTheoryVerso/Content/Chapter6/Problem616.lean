@@ -40,12 +40,12 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.auxiliaryPairingClassification}
-
-{Manual.docstring RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.exists_positiveMultiplicity_path}
+{Manual.docstring RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.Auxiliary.statement012934}
 
 {Manual.docstring RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.tensorMultiplicity_comm}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.auxiliaryPairingClassification}
 
 {Manual.docstring RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.weighted_auxiliaryRowSum_eq_zero}

@@ -26,9 +26,9 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.KrullSchmidt.exists_internalFamily}
+{Manual.docstring RepresentationTheory.Algebra.Module.InternalFamilyDecomposition.exists_internalFamily}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.KrullSchmidt.internalFamily_unique_up_to_permutation}
+{Manual.docstring RepresentationTheory.Algebra.Module.InternalFamilyDecomposition.internalFamily_unique_up_to_permutation}
 
 ### Supporting declarations
 

@@ -25,7 +25,7 @@ tag := "Chapter7/Example7.9.2/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CategoryTheory.LinearFunctors.indFunctor_additive}
 

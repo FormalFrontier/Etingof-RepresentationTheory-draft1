@@ -29,21 +29,9 @@ number := false
 
 {Manual.docstring RepresentationTheory.DihedralAuxiliary.exists_dihedralSimpleRepresentatives}
 
-{Manual.docstring RepresentationTheory.FieldCharacterAuxiliary.exists_auxiliarySimpleRepresentatives_of_card_eq_two}
-
-{Manual.docstring RepresentationTheory.FieldCharacterAuxiliary.exists_auxiliarySimpleRepresentatives_of_two_lt_card}
-
-{Manual.docstring RepresentationTheory.FieldCharacterAuxiliary.exists_classifiedAuxiliarySimpleRepresentatives_of_two_lt_card}
-
-{Manual.docstring RepresentationTheory.FieldCharacterAuxiliary.exists_simpleRepresentatives_of_card_eq_two}
-
-{Manual.docstring RepresentationTheory.FieldCharacterAuxiliary.exists_simpleRepresentatives_of_two_lt_card}
-
 {Manual.docstring RepresentationTheory.PrimeFieldShearCharacters.auxiliaryGroup_exists_simpleRepresentatives}
 
 {Manual.docstring RepresentationTheory.PrimeFieldShearCharacters.auxiliaryGroup_exists_simpleRepresentatives_with_models}
-
-{Manual.docstring RepresentationTheory.PrimeFieldShearCharacters.auxiliaryType_exists_simpleRepresentatives}
 
 ### Supporting declarations
 
@@ -59,8 +47,20 @@ number := false
 
 {Manual.docstring RepresentationTheory.FieldCharacterAuxiliary.auxiliaryRepresentation}
 
+{Manual.docstring RepresentationTheory.FieldCharacterAuxiliary.exists_auxiliarySimpleRepresentatives_of_card_eq_two}
+
+{Manual.docstring RepresentationTheory.FieldCharacterAuxiliary.exists_auxiliarySimpleRepresentatives_of_two_lt_card}
+
+{Manual.docstring RepresentationTheory.FieldCharacterAuxiliary.exists_classifiedAuxiliarySimpleRepresentatives_of_two_lt_card}
+
+{Manual.docstring RepresentationTheory.FieldCharacterAuxiliary.exists_simpleRepresentatives_of_card_eq_two}
+
+{Manual.docstring RepresentationTheory.FieldCharacterAuxiliary.exists_simpleRepresentatives_of_two_lt_card}
+
 {Manual.docstring RepresentationTheory.FieldCharacterAuxiliary.unitAction}
 
 {Manual.docstring RepresentationTheory.PrimeFieldShearCharacters.AuxiliaryType}
 
 {Manual.docstring RepresentationTheory.PrimeFieldShearCharacters.auxiliaryMulEquiv}
+
+{Manual.docstring RepresentationTheory.PrimeFieldShearCharacters.auxiliaryType_exists_simpleRepresentatives}

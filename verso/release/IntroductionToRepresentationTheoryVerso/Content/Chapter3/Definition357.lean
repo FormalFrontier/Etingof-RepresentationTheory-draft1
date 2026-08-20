@@ -27,6 +27,6 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.FiniteAlgebraModuleSemisimple}
+{Manual.docstring RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.FiniteAlgebraSemisimpleCondition}
 
-{Manual.docstring RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.finiteAlgebraModuleSemisimple_iff}
+{Manual.docstring RepresentationTheory.Algebra.FiniteDimensionalSemisimplicity.finiteAlgebraSemisimpleCondition_iff}

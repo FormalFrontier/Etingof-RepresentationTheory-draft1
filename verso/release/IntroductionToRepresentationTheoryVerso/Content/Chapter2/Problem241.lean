@@ -23,7 +23,7 @@ tag := "Chapter2/Problem2.4.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Ring.CoatomExistence.exists_coatom_subobject}
 

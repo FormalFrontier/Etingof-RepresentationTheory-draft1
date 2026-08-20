@@ -77,7 +77,7 @@ tag := "Chapter7/Discussion_after_Definition7.6.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.CategoryTheory.Adjunction.Representability.corepresentableBy}
 

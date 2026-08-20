@@ -27,8 +27,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.not_forall_irreducible_finrank_eq_one}
 
-{Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.not_nonempty_lieModuleEquiv_modular}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.AuxiliaryType}
@@ -52,3 +50,5 @@ number := false
 {Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.modularFamily_isIrreducible}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.nonempty_lieModuleEquiv_iff}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.not_nonempty_lieModuleEquiv_modular}

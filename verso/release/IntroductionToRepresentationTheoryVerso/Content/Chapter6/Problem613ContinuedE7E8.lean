@@ -66,9 +66,11 @@ tag := "Chapter6/Problem6.1.3_continued_E7_E8/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.DynkinDiagram.AffineClassification.AffineDynkinDiagram.det_two_smul_one_sub_adjacency_eq_zero}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.AffineClassification.AffineDynkinDiagram.two_smul_one_sub_adjacency_mulVec_marks_eq_zero}
 
 {Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.det_cartanMatrix_typeA}
 
@@ -80,15 +82,9 @@ number := false
 
 {Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.det_cartanMatrix_typeE8}
 
-{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced}
-
-{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree_le_three_of_isFiniteSimplyLaced}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.DynkinDiagram.AffineClassification.AffineDynkinDiagram.two_smul_one_sub_adjacency_mulVec_marks_eq_zero}
-
 {Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.det_two_smul_one_sub_cycleAdjacencyMatrix_eq_zero}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced}
 
 {Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.exceptionalTypes_areFiniteSimplyLaced}
 
@@ -97,3 +93,5 @@ number := false
 {Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.typeA_isFiniteSimplyLaced}
 
 {Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.typeD_isFiniteSimplyLaced}
+
+{Manual.docstring RepresentationTheory.DynkinDiagram.FiniteSimplyLaced.vertexDegree_le_three_of_isFiniteSimplyLaced}

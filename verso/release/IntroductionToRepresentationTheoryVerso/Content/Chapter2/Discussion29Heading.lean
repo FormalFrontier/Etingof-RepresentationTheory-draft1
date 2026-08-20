@@ -31,13 +31,15 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.LieAlgebra.BracketIdentities.bracket_add_left}
-
-{Manual.docstring RepresentationTheory.LieAlgebra.BracketIdentities.bracket_add_right}
-
 {Manual.docstring RepresentationTheory.LieAlgebra.BracketIdentities.bracket_eq_neg_bracket_swap}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.BracketIdentities.bracket_self}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.BracketIdentities.bracket_add_left}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.BracketIdentities.bracket_add_right}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.BracketIdentities.bracket_smul_left}
 

@@ -28,10 +28,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterArithmetic.character_pairing_product_not_rat_between_zero_one}
 
-{Manual.docstring RepresentationTheory.FiniteGroup.CharacterArithmetic.pow_bijective_of_card_coprime}
-
-{Manual.docstring RepresentationTheory.FiniteGroup.CharacterArithmetic.prod_nonidentity_comp_pow_eq}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterArithmetic.character_eq_sum_of_card_roots}
@@ -43,5 +39,9 @@ number := false
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterArithmetic.map_character_eq_character_pow}
 
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterArithmetic.map_character_pairing_product_eq_of_card_coprime}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.CharacterArithmetic.pow_bijective_of_card_coprime}
+
+{Manual.docstring RepresentationTheory.FiniteGroup.CharacterArithmetic.prod_nonidentity_comp_pow_eq}
 
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterArithmetic.rat_not_between_zero_one_of_complex_isIntegral}

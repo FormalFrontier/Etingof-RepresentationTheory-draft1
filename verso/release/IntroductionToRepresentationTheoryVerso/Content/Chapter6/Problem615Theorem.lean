@@ -32,4 +32,4 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.iff_of_symmetric_zeroOne_walkConnected}
+{Manual.docstring RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement016733}

@@ -35,22 +35,24 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.dualTensorAdjunction}
-
 {Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.inductionRestrictionAdjunction}
 
 {Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.monoidAlgebraAdjunction}
 
 {Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.restrictionInductionAdjunction}
 
-{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.rightDualTensorLeftAdjunction}
-
 {Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.symmetricAlgebraAdjunction}
 
 {Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.tensorAlgebraAdjunction}
 
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.universalEnvelopingAlgebraAdjunction}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.dualTensorAdjunction}
+
+{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.rightDualTensorLeftAdjunction}
+
 {Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.tensorDualAdjunction}
 
 {Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.tensorLeftRightDualAdjunction}
-
-{Manual.docstring RepresentationTheory.CategoryTheory.RepresentationAdjunctions.universalEnvelopingAlgebraAdjunction}

@@ -43,19 +43,7 @@ number := false
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.SymmetricTensors.finrank_eq}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.det_comp}
-
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.finrank_eq}
-
-{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap}
-
-{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux2}
-
-{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux3}
-
-{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_comp_eq}
-
-{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_comp_eq_aux2}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.topExteriorPower_map}
 
@@ -77,7 +65,19 @@ number := false
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1}
 
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.det_comp}
+
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.distinguishedElement}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux2}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux3}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_comp_eq}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_comp_eq_aux2}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.submodule}
 

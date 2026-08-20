@@ -48,10 +48,6 @@ tag := "Chapter4/Discussion_proof_Theorem4.10.2/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.MvPolynomial.GroupIndexedFactorization.exists_irreducible_factorization_of_auxiliaryGroupPolynomial}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryGroupPolynomial_eq_sign_smul_prod_auxiliaryPolynomial_pow}
@@ -61,3 +57,5 @@ number := false
 {Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryPolynomial_not_associated}
 
 {Manual.docstring RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.totalDegree_auxiliaryPolynomial}
+
+{Manual.docstring RepresentationTheory.MvPolynomial.GroupIndexedFactorization.exists_irreducible_factorization_of_auxiliaryGroupPolynomial}

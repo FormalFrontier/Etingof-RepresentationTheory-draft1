@@ -37,11 +37,7 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.auxiliaryRangeModule}
-
 {Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.exists_equiv_pi_standardModule}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.isSimpleModule_pi_iff_exists_simple_auxiliaryRange}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.isSimpleModule_standardMatrixModule}
 
@@ -53,9 +49,9 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.exists_linearEquiv_directSum_standardModules}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryAlgebra_simpleModule_classification}
 
-{Manual.docstring RepresentationTheory.Algebra.Matrix.ProductSemisimplicity.matrixProduct_simpleModule_classification}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.exists_linearEquiv_directSum_columnModules}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.IndexedAuxiliaryType.componentLinearEquivOfLinearEquiv}
 
@@ -65,6 +61,10 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.IndexedAuxiliaryType.linearEquivOfLinearEquiv}
 
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.auxiliaryRangeModule}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.exists_equiv_indexedAuxiliaryType_auxiliaryRange}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.indexedAuxiliaryEndomorphism}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.isSimpleModule_pi_iff_exists_simple_auxiliaryRange}

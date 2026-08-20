@@ -43,7 +43,7 @@ tag := "Chapter6/Theorem6.8.1/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.AuxiliaryQuiverConstructions.auxiliary_exists_data_of_representation}
 

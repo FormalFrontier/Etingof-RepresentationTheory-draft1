@@ -25,10 +25,8 @@ tag := "Chapter5/Problem5.8.4/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.Induction.Transitivity.Representation.exists_induction_transitivity_intertwiner_of_le}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.InductionAndCoinduction.finiteIndexInducedIsoCoinduced}

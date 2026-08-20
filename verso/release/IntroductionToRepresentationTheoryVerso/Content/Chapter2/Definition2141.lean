@@ -27,6 +27,8 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Lie.TensorProduct.LieModuleTensorProduct}
+{Manual.docstring RepresentationTheory.Algebra.Lie.AuxiliaryTwoModuleType.AuxiliaryLieModuleType.lie_bracket_tmul}
 
-{Manual.docstring RepresentationTheory.Algebra.Lie.TensorProduct.LieModuleTensorProduct.lie_bracket_tmul}
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Lie.AuxiliaryTwoModuleType.AuxiliaryLieModuleType}

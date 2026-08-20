@@ -35,4 +35,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.Module.Projective.unrenderedMatrixTheorem}
+{Manual.docstring RepresentationTheory.LinearAlgebra.Module.Projective.Auxiliary.statement013909}

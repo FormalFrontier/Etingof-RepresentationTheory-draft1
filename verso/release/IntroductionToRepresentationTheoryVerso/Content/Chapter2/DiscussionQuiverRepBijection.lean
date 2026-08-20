@@ -31,18 +31,18 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.arrowMapOnVertexParts}
-
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.existsModuleRepresentationQuotientEquiv}
-
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.representationOfModule}
-
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.vertexSubmodule}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.existsModuleRepresentationQuotientEquiv}
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.RealizesRepresentation}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.RealizesRepresentation}
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.pathEndomorphism}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.arrowMapOnVertexParts}
 
-{Manual.docstring RepresentationTheory.Quiver.PathAlgebra.Quiver.OppositePathAlgebra.pathLinearMap}
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.pathEndomorphism}
+
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.pathLinearMap}
+
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.representationOfModule}
+
+{Manual.docstring RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryOppositeType.vertexSubmodule}

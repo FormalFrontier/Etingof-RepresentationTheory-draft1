@@ -27,6 +27,6 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.PartitionedDecomposition.existsIndexedSimpleDecomposition}
+{Manual.docstring RepresentationTheory.PartitionedDecomposition.Auxiliary.statement016580}
 
 {Manual.docstring RepresentationTheory.Partitions.GeneralLinear.partitionIndexedSubmodule_vanishing_and_representationFormulas}

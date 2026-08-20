@@ -24,13 +24,11 @@ tag := "Chapter5/Discussion_after_Proposition5.2.3/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.NumberTheory.AlgebraicNumber.Complex.distinguishedIntSubalgebra}
 
 {Manual.docstring RepresentationTheory.NumberTheory.AlgebraicNumber.Complex.distinguishedRatIntermediateField}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.NumberTheory.AlgebraicNumber.Complex.mem_distinguishedIntSubalgebra_iff}
 

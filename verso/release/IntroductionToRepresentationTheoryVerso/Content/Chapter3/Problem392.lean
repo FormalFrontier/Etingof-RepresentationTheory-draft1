@@ -30,8 +30,6 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.PolynomialEvaluationModules.auxiliaryType_subsingleton_of_ne}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.PolynomialEvaluationModules.exists_pairwise_nonisomorphic_auxiliaryModules}
-
 {Manual.docstring RepresentationTheory.Algebra.Module.PolynomialEvaluationModules.nonempty_auxiliaryType_linearEquiv}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.TwoDimensionalPolynomialModules.finrank_two_linearEquiv_prod_or_dualNumberModule}
@@ -51,5 +49,7 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Module.PolynomialEvaluationModules.PolynomialAlgebra}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.PolynomialEvaluationModules.exists_evaluation_submodule_and_quotient_of_finrank_two}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.PolynomialEvaluationModules.exists_pairwise_nonisomorphic_auxiliaryModules}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.PolynomialEvaluationModules.smul_eq_aeval_smul}

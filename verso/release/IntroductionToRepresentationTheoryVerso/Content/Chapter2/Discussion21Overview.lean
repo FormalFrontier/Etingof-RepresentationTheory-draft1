@@ -40,26 +40,24 @@ tag := "Chapter2/Discussion_2.1_overview/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.actionAlgHom}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryStructure.AuxiliaryStructure}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.actionAlgHom_eq}
+{Manual.docstring RepresentationTheory.Algebra.AuxiliaryStructure.AuxiliaryStructure.auxiliaryPredicate}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.moduleOfAlgHom}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure.moduleOfAlgHom_actionAlgHom}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.actionAlgHom}
+
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.actionAlgHom_eq}
+
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.moduleOfAlgHom}
+
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.moduleOfAlgHom_actionAlgHom}
 
 {Manual.docstring RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.ProductModules.BinaryTypeConstructor}
-
-### Supporting declarations
-
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingActionStructure}
-
-{Manual.docstring RepresentationTheory.Algebra.NonUnitalStructure.NonUnitalAlgebraStructure}
-
-{Manual.docstring RepresentationTheory.Algebra.NonUnitalStructure.NonUnitalAlgebraStructure.DesignatedElement}
-
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData.ModuleAuxiliaryData}
+
+{Manual.docstring RepresentationTheory.LinearAlgebra.ProductModules.AuxiliaryBinaryTypeConstructor}

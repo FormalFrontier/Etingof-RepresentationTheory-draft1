@@ -25,10 +25,6 @@ tag := "Chapter7/Definition7.8.6/formalization"
 number := false
 %%%
 
-### Primary declarations
-
-{Manual.docstring RepresentationTheory.HomologicalComplexShortExactHomology.homologyHomThirdToFirstOfRel}
-
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.HomologicalComplexShortExactHomology.exact_delta_homologyMap_f}
@@ -36,3 +32,5 @@ number := false
 {Manual.docstring RepresentationTheory.HomologicalComplexShortExactHomology.exact_homologyMap_f_g}
 
 {Manual.docstring RepresentationTheory.HomologicalComplexShortExactHomology.exact_homologyMap_g_delta}
+
+{Manual.docstring RepresentationTheory.HomologicalComplexShortExactHomology.homologyHomThirdToFirstOfRel}

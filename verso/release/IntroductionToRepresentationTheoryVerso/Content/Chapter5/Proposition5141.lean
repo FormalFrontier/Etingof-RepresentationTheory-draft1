@@ -27,14 +27,14 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.AuxiliaryPartitionLinearEquivalences.auxiliaryDirectSumLinearEquiv}
-
 {Manual.docstring RepresentationTheory.AuxiliaryPartitionLinearIndependentFamily.auxiliary_nat_values_eq}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.AuxiliaryPartitionLinearEquivalences.auxiliaryDirectSumLinearEquiv}
 
 {Manual.docstring RepresentationTheory.PartitionLinearMapVanishing.finrank_linearMap_to_mem_eq_one}
 
 {Manual.docstring RepresentationTheory.PartitionLinearMapVanishing.linearMap_to_mem_eq_zero_of_lexLt}
-
-### Supporting declarations
 
 {Manual.docstring RepresentationTheory.PartitionLinearMapVanishing.linearMap_to_mem_eq_zero_of_not_partitionRelation}

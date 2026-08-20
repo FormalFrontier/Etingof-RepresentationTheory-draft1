@@ -33,15 +33,15 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionSubspaceAuxiliary.finrank_partitionFourAuxiliaryTwo_eq_two}
-
-{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionSubspaceAuxiliary.finrank_partitionThreeAuxiliary_eq_two}
-
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionSubspaceAuxiliary.perm_smul_positivePartitionAuxiliaryAlt_eq_self}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionSubspaceAuxiliary.perm_smul_positivePartitionAuxiliary_eq_sign_smul}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionSubspaceAuxiliary.finrank_partitionFourAuxiliaryTwo_eq_two}
+
+{Manual.docstring RepresentationTheory.SymmetricGroup.PartitionSubspaceAuxiliary.finrank_partitionThreeAuxiliary_eq_two}
 
 {Manual.docstring RepresentationTheory.SymmetricGroup.PartitionSubspaceAuxiliary.nonempty_auxiliaryIso_partitionFourAuxiliaryOne}
 

@@ -25,6 +25,6 @@ tag := "Chapter6/Remark6.4.8/formalization"
 number := false
 %%%
 
-### Primary declarations
+### Supporting declarations
 
 {Manual.docstring RepresentationTheory.IntegralVectorSign.all_nonnegative_or_all_nonpositive}

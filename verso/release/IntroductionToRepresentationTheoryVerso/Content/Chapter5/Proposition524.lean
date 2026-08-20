@@ -46,15 +46,15 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.NumberTheory.AlgebraicNumber.Complex.distinguishedIntSubalgebra}
-
-{Manual.docstring RepresentationTheory.NumberTheory.AlgebraicNumber.Complex.distinguishedRatIntermediateField}
-
 {Manual.docstring RepresentationTheory.NumberTheory.AlgebraicNumber.Complex.isAlgClosure_rat_distinguishedRatIntermediateField}
 
 ### Supporting declarations
 
 {Manual.docstring RepresentationTheory.NumberTheory.AlgebraicNumber.Complex.algebra_isAlgebraic_rat_distinguishedRatIntermediateField}
+
+{Manual.docstring RepresentationTheory.NumberTheory.AlgebraicNumber.Complex.distinguishedIntSubalgebra}
+
+{Manual.docstring RepresentationTheory.NumberTheory.AlgebraicNumber.Complex.distinguishedRatIntermediateField}
 
 {Manual.docstring RepresentationTheory.NumberTheory.AlgebraicNumber.Complex.isAlgClosed_distinguishedRatIntermediateField}
 

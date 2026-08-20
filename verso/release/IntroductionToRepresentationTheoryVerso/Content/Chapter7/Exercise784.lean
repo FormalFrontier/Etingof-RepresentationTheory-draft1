@@ -33,8 +33,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.HomologicalAlgebra.AcyclicComplexDecomposition.ShortComplex.nonempty_splitting_of_shortExact}
 
-{Manual.docstring RepresentationTheory.HomologicalAlgebra.AcyclicComplexDecomposition.exists_acyclicComplexIso_sigmaTwoTermComplex}
-
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.HomologicalAlgebra.AcyclicComplexDecomposition.exists_acyclicComplexIso_sigmaTwoTermComplex}
 
 {Manual.docstring RepresentationTheory.HomologicalAlgebra.AcyclicComplexDecomposition.exists_shortExact_isEmpty_splitting}
