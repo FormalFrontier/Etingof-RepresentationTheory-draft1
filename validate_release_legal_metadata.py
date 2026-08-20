@@ -181,6 +181,21 @@ def validate_private(root: Path, errors: list[str]) -> None:
     )
     lakefile = require_file(root, "lakefile.toml", errors)
     require_text(lakefile, ('name = "alignmentExport"', 'root = "AlignmentExport"'), errors)
+    release_setup = require_file(root, ".github/RELEASE_SETUP.md", errors)
+    require_text(
+        release_setup,
+        (
+            "Configure strict branch protection on `main`",
+            "Private Verso CI / build",
+            "Require branches to be up to date before merging",
+            "requests an immediate head-bound squash merge",
+        ),
+        errors,
+    )
+    if release_setup.is_file():
+        setup_text = release_setup.read_text(encoding="utf-8").lower()
+        if "auto-merge" in setup_text:
+            errors.append(f"{release_setup}: must not contain stale auto-merge setup wording")
     private_ci = require_file(root, ".github/workflows/ci.yml", errors)
     updater = require_file(root, ".github/workflows/update-formalization.yml", errors)
     require_text(
@@ -243,6 +258,8 @@ def validate_private(root: Path, errors: list[str]) -> None:
             errors.append(f"{updater}: privileged updater must consume only the validated patch artifact")
         if "--auto" in updater_text:
             errors.append(f"{updater}: dependency updates must merge immediately, never via auto-merge")
+        if updater_text.count('"repos/$GITHUB_REPOSITORY/git/ref/heads/main"') != 2:
+            errors.append(f"{updater}: must query private main before branching and before merge")
         patch_scope = (
             "git diff --binary --full-index -- \\\n"
             "            lakefile.toml \\\n"
@@ -270,6 +287,10 @@ def validate_private(root: Path, errors: list[str]) -> None:
         ):
             errors.append(f"{updater}: write permissions must be isolated to one publishing job")
         ci_merge_order = (
+            "private_base_sha=$(git rev-parse HEAD)",
+            "checked_out_private_main=$(gh api \\",
+            'if test "$private_base_sha" != "$checked_out_private_main"',
+            'git switch -c "$branch"',
             "dispatch_started=$(date -u +%Y-%m-%dT%H:%M:%SZ)",
             'gh workflow run ci.yml --ref "$branch"',
             '--branch "$branch"',
@@ -278,13 +299,16 @@ def validate_private(root: Path, errors: list[str]) -> None:
             '.headSha == \\"$head_sha\\" and .createdAt >= \\"$dispatch_started\\"',
             '"repos/$GITHUB_REPOSITORY/actions/runs/$run_id"',
             'if test "$conclusion" != success',
+            "Public main advanced to $current_public_main before merge.",
+            "current_private_main=$(gh api \\",
+            'if test "$private_base_sha" != "$current_private_main"',
             'gh pr merge "$pr_url" \\',
             '--match-head-commit "$head_sha" --squash --delete-branch',
         )
         positions = [updater_text.find(marker) for marker in ci_merge_order]
         if any(position < 0 for position in positions) or positions != sorted(positions):
             errors.append(
-                f"{updater}: must bind the dispatched head run and require its success before merge"
+                f"{updater}: must bind private main and the dispatched head run before merge"
             )
     workflow_text = "\n".join(
         path.read_text(encoding="utf-8")

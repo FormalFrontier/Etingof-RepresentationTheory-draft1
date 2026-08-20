@@ -401,6 +401,14 @@ jobs:
           FORMALIZATION_SHA: ${{ steps.privileged_revision.outputs.revision }}
           SOURCE_REF: ${{ github.event.client_payload.ref }}
         run: |
+          private_base_sha=$(git rev-parse HEAD)
+          checked_out_private_main=$(gh api \
+            "repos/$GITHUB_REPOSITORY/git/ref/heads/main" \
+            --jq .object.sha)
+          if test "$private_base_sha" != "$checked_out_private_main"; then
+            echo "::error::Checked-out private base $private_base_sha is not current main $checked_out_private_main."
+            exit 1
+          fi
           current_public_main=$(gh api \
             "repos/$FORMALIZATION_REPO/git/ref/heads/main" \
             --jq .object.sha)
@@ -529,6 +537,13 @@ jobs:
             --jq .object.sha)
           if test "$FORMALIZATION_SHA" != "$current_public_main"; then
             echo "::error::Public main advanced to $current_public_main before merge."
+            exit 1
+          fi
+          current_private_main=$(gh api \
+            "repos/$GITHUB_REPOSITORY/git/ref/heads/main" \
+            --jq .object.sha)
+          if test "$private_base_sha" != "$current_private_main"; then
+            echo "::error::Private main advanced to $current_private_main before merge."
             exit 1
           fi
           gh pr merge "$pr_url" \
