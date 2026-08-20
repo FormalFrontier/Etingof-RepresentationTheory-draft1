@@ -196,6 +196,7 @@ def write_verso_lakefile(
         f'''name = "IntroductionToRepresentationTheoryVerso"
 version = "0.1.0"
 defaultTargets = ["IntroductionToRepresentationTheoryVerso", "book", "alignmentExport"]
+enableArtifactCache = true
 
 [[require]]
 name = "verso"
@@ -257,6 +258,8 @@ def assert_verso_dependency(
         f"git = {toml_string(clean_git_url)}\n"
         f"rev = {toml_string(clean_git_rev)}"
     )
+    if "enableArtifactCache = true" not in lakefile:
+        raise MaterializationError("Verso lakefile does not enable the Lake artifact cache")
     if verso_stanza not in lakefile:
         raise MaterializationError("Verso lakefile lacks the requested pinned Verso Git dependency")
     if clean_stanza not in lakefile:

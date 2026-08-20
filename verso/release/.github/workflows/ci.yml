@@ -71,6 +71,7 @@ jobs:
           if ! gh release download "$FORMALIZATION_RELEASE" \
               --repo "$FORMALIZATION_REPO" \
               --pattern "$asset" \
+              --pattern "$asset.sha256" \
               --dir "$RUNNER_TEMP"; then
             echo "::error::No published artifact cache for pinned revision $REVISION."
             echo "The pin in lakefile.toml and the artifacts published by" >&2
@@ -78,16 +79,48 @@ jobs:
             echo "revision, or repin to a revision whose assets exist." >&2
             exit 1
           fi
-          ls -l "$RUNNER_TEMP/$asset"
+          cd "$RUNNER_TEMP"
+          sha256sum --check "$asset.sha256"
+          ls -l "$asset"
       - name: Load the pinned formalization into the Lake cache
         env:
           REVISION: ${{ steps.pin.outputs.revision }}
         run: |
+          archive="$RUNNER_TEMP/formalization-$REVISION.tar.gz"
+          python3 - "$archive" <<'PY'
+          import sys
+          import tarfile
+          from pathlib import PurePosixPath
+
+          archive = sys.argv[1]
+          seen = set()
+          with tarfile.open(archive, "r:gz") as handle:
+              members = handle.getmembers()
+              if not members:
+                  raise SystemExit(f"empty artifact archive: {archive}")
+              for member in members:
+                  path = PurePosixPath(member.name)
+                  if path.is_absolute() or ".." in path.parts:
+                      raise SystemExit(f"unsafe archive member: {member.name!r}")
+                  if not path.parts or path.parts[0] != "staging":
+                      raise SystemExit(f"archive member outside staging/: {member.name!r}")
+                  if not (member.isdir() or member.isfile()):
+                      raise SystemExit(f"unsupported archive member type: {member.name!r}")
+                  if member.name in seen:
+                      raise SystemExit(f"duplicate archive member: {member.name!r}")
+                  seen.add(member.name)
+          PY
+          mkdir -p "$RUNNER_TEMP/formalization-cache"
+          test -z "$(find "$RUNNER_TEMP/formalization-cache" -mindepth 1 -print -quit)"
           tar --extract --gzip \
-            --file "$RUNNER_TEMP/formalization-$REVISION.tar.gz" \
-            --directory "$RUNNER_TEMP" \
+            --file "$archive" \
+            --directory "$RUNNER_TEMP/formalization-cache" \
             --no-same-owner --no-same-permissions
-          lake cache unstage "$RUNNER_TEMP/staging"
+          lake cache unstage "$RUNNER_TEMP/formalization-cache/staging"
+      # Asserted before the build below: afterwards every target is up to date
+      # whether it was replayed or recompiled, so the check would be vacuous.
+      - name: Verify the pinned formalization was replayed, not rebuilt
+        run: lake --no-build build @RepresentationTheoryFormalization
       - uses: leanprover/lean-action@v1
         with:
           build: true
@@ -95,8 +128,6 @@ jobs:
           lint: false
           use-mathlib-cache: true
           use-github-cache: false
-      - name: Verify the pinned formalization was replayed, not rebuilt
-        run: lake --no-build build @RepresentationTheoryFormalization
       - name: Check formalization panels against the pinned public revision
         run: |
           lake env lean --run AlignmentExport.lean > "$RUNNER_TEMP/formalization-alignment.json"
