@@ -6,11 +6,40 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
+import subprocess
 from collections import defaultdict
 from pathlib import Path
 
 
 IMPORT = re.compile(r"(?m)^\s*(?:public\s+)?import\s+([^\s]+)\s*$")
+
+
+def build_staleness_errors(release: Path) -> list[str]:
+    """Report whether the built artifacts are current with respect to the source.
+
+    Comparing source and `.ilean` modification times is not a sound test. Lake
+    keys its build on content hashes recorded in `.trace`, and restoring a
+    module from the artifact cache preserves the artifact's original timestamp,
+    so an untouched checkout routinely leaves every `.ilean` older than its
+    source. Ask Lake instead: it owns those traces, and `--no-build` fails
+    exactly when a target is not up to date.
+    """
+
+    lake = shutil.which("lake")
+    if lake is None:
+        return ["cannot verify build currency: `lake` is not on PATH"]
+    completed = subprocess.run(
+        [lake, "--no-build", "build", "RepresentationTheory"],
+        cwd=release,
+        capture_output=True,
+        text=True,
+    )
+    if completed.returncode == 0:
+        return []
+    detail = (completed.stderr or completed.stdout or "").strip().splitlines()
+    tail = " / ".join(detail[-3:]) if detail else f"exit status {completed.returncode}"
+    return [f"built artifacts are not up to date with the source: {tail}"]
 
 
 def read_jsonl(path: Path) -> list[dict]:
@@ -70,6 +99,8 @@ def main() -> None:
     for module in sorted(umbrella_imports - public_modules):
         errors.append(f"RepresentationTheory.lean: import has no public module source {module}")
 
+    errors.extend(build_staleness_errors(release))
+
     checked_modules = checked_declarations = 0
     for module, proposals in sorted(proposals_by_module.items()):
         source_path = module_path(release, module, ".lean")
@@ -79,9 +110,6 @@ def main() -> None:
         ilean_path = module_path(release / ".lake/build/lib/lean", module, ".ilean")
         if not ilean_path.exists():
             errors.append(f"{module}: missing built identifier index")
-            continue
-        if source_path.stat().st_mtime_ns > ilean_path.stat().st_mtime_ns:
-            errors.append(f"{module}: source is newer than its identifier index")
             continue
         source = source_path.read_text(encoding="utf-8")
         ilean = json.loads(ilean_path.read_text(encoding="utf-8"))
