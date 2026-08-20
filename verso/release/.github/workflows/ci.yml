@@ -80,6 +80,15 @@ jobs:
           sh "$elan_init" -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
           "$HOME/.elan/bin/lake" update
+      - name: Derive the stable Mathlib native cache identity
+        id: mathlib-ir-key
+        env:
+          RUNNER_OS_VALUE: ${{ runner.os }}
+          RUNNER_ARCH_VALUE: ${{ runner.arch }}
+        run: |
+          key_base=$(python3 scripts/mathlib_ir_cache_key.py \
+            "$RUNNER_OS_VALUE" "$RUNNER_ARCH_VALUE")
+          printf 'key-base=%s\n' "$key_base" >> "$GITHUB_OUTPUT"
       # The pinned formalization is built once by the public repository and
       # published as a Lake artifact cache payload. Loading it here lets Lake
       # replay the pinned oleans instead of recompiling ~800 modules, which no
@@ -230,6 +239,17 @@ jobs:
       # whether it was replayed or recompiled, so the check would be vacuous.
       - name: Verify the pinned formalization was replayed, not rebuilt
         run: lake --no-build build @RepresentationTheoryFormalization
+      # Mathlib's cache ships oleans but not the native objects needed to link
+      # the book executable. GitHub cache entries are immutable, so each attempt
+      # restores the newest dependency-compatible prefix and saves to a fresh key.
+      - name: Restore the Mathlib native objects
+        id: mathlib-ir-restore
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .lake/packages/mathlib/.lake/build/ir
+          key: ${{ steps.mathlib-ir-key.outputs.key-base }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            ${{ steps.mathlib-ir-key.outputs.key-base }}-
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1
         with:
           build: true
@@ -237,6 +257,14 @@ jobs:
           lint: false
           use-mathlib-cache: true
           use-github-cache: false
+      # Preserve native compilation from failed builds, but save only when the
+      # restore step ran successfully and produced its per-attempt primary key.
+      - name: Save the Mathlib native objects
+        if: ${{ always() && steps.mathlib-ir-restore.outcome == 'success' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .lake/packages/mathlib/.lake/build/ir
+          key: ${{ steps.mathlib-ir-restore.outputs.cache-primary-key }}
       - name: Check formalization panels against the pinned public revision
         run: |
           lake env lean --run AlignmentExport.lean > "$RUNNER_TEMP/formalization-alignment.json"

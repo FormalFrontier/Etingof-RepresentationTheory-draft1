@@ -43,7 +43,9 @@ SOURCE_NODES = ROOT / "manifests" / "alignment" / "source-nodes.jsonl"
 # path dependencies.  The materialized lakefile pins both public Git inputs,
 # and `lake update` produces the new lock file.
 EXCLUDED_DIRECTORIES = frozenset({".git", ".lake", ".verso", "_out", "__pycache__"})
-EXCLUDED_FILES = frozenset({"alignment-export.json", "lake-manifest.json"})
+EXCLUDED_FILES = frozenset(
+    {"alignment-export.json", "lake-manifest.json", "outputs.jsonl"}
+)
 EXCLUDED_SUFFIXES = frozenset({".olean", ".ilean"})
 EXCLUDED_SUBTREES = frozenset(
     {Path("IntroductionToRepresentationTheoryVerso/Spike")}
@@ -192,6 +194,8 @@ def write_gitignore(destination: Path, *, verso: bool) -> None:
                 "/formalization-alignment.json",
             ]
         )
+    else:
+        lines.append("/outputs.jsonl")
     (destination / ".gitignore").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -533,6 +537,8 @@ def materialize(
 
 def self_test() -> dict[str, object]:
     """Exercise dry-run, safe destination handling, and deterministic materialization."""
+    if not is_excluded(Path("outputs.jsonl")):
+        raise MaterializationError("self-test did not exclude the public Lake mappings file")
     if not is_excluded(Path("alignment-export.json")):
         raise MaterializationError("self-test did not exclude the local alignment export")
     if is_excluded(Path("AlignmentExport.lean")):
@@ -557,7 +563,10 @@ def self_test() -> dict[str, object]:
         verso_destination.mkdir()
         report = materialize(lean_destination, verso_destination, dry_run=False, **kwargs)
         for destination, forbidden in (
-            (lean_destination, (".lake", ".verso", "_out", "lake-manifest.json")),
+            (
+                lean_destination,
+                (".lake", ".verso", "_out", "lake-manifest.json", "outputs.jsonl"),
+            ),
             (
                 verso_destination,
                 (
@@ -571,6 +580,9 @@ def self_test() -> dict[str, object]:
         ):
             if any((destination / name).exists() for name in forbidden):
                 raise MaterializationError("self-test retained an excluded artifact")
+        lean_gitignore = (lean_destination / ".gitignore").read_text(encoding="utf-8")
+        if "/outputs.jsonl" not in lean_gitignore.splitlines():
+            raise MaterializationError("self-test omitted the public outputs ignore rule")
         verso_gitignore = (verso_destination / ".gitignore").read_text(encoding="utf-8")
         if "/alignment-export.json" not in verso_gitignore.splitlines():
             raise MaterializationError("self-test omitted the private alignment-export ignore rule")

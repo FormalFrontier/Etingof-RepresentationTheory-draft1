@@ -16,6 +16,8 @@ UPLOAD_ARTIFACT_ACTION = (
 DOWNLOAD_ARTIFACT_ACTION = (
     "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093"
 )
+CACHE_RESTORE_ACTION = "actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25"
+CACHE_SAVE_ACTION = "actions/cache/save@caa296126883cff596d87d8935842f9db880ef25"
 LEAN_ACTION = "leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9"
 ELAN_REVISION = "464c9d28395000a2a0128e07081e4956d50eced2"
 ELAN_SHA256 = "a620ff1641616222c8d37c54845492004bb84d6877cdbc944dd65c1aa685bf53"
@@ -58,6 +60,56 @@ def require_nonpersisting_checkouts(path: Path, errors: list[str]) -> None:
             errors.append(f"{path}:{index + 1}: checkout must not persist repository credentials")
 
 
+def require_native_cache_contract(path: Path, errors: list[str]) -> None:
+    if not path.is_file():
+        return
+    text = path.read_text(encoding="utf-8")
+    derive_contract = (
+        "      - name: Derive the stable Mathlib native cache identity\n"
+        "        id: mathlib-ir-key\n"
+        "        env:\n"
+        "          RUNNER_OS_VALUE: ${{ runner.os }}\n"
+        "          RUNNER_ARCH_VALUE: ${{ runner.arch }}\n"
+        "        run: |\n"
+        "          key_base=$(python3 scripts/mathlib_ir_cache_key.py \\\n"
+        "            \"$RUNNER_OS_VALUE\" \"$RUNNER_ARCH_VALUE\")\n"
+        "          printf 'key-base=%s\\n' \"$key_base\" >> \"$GITHUB_OUTPUT\"\n"
+    )
+    restore_contract = (
+        "      - name: Restore the Mathlib native objects\n"
+        "        id: mathlib-ir-restore\n"
+        f"        uses: {CACHE_RESTORE_ACTION} # v5\n"
+        "        with:\n"
+        "          path: .lake/packages/mathlib/.lake/build/ir\n"
+        "          key: ${{ steps.mathlib-ir-key.outputs.key-base }}-"
+        "${{ github.run_id }}-${{ github.run_attempt }}\n"
+        "          restore-keys: |\n"
+        "            ${{ steps.mathlib-ir-key.outputs.key-base }}-\n"
+    )
+    save_contract = (
+        "      - name: Save the Mathlib native objects\n"
+        "        if: ${{ always() && steps.mathlib-ir-restore.outcome == 'success' }}\n"
+        f"        uses: {CACHE_SAVE_ACTION} # v5\n"
+        "        with:\n"
+        "          path: .lake/packages/mathlib/.lake/build/ir\n"
+        "          key: ${{ steps.mathlib-ir-restore.outputs.cache-primary-key }}\n"
+    )
+    derive_position = text.find(derive_contract)
+    restore_position = text.find(restore_contract)
+    lean_position = text.find(f"      - uses: {LEAN_ACTION} # v1")
+    save_position = text.find(save_contract)
+    if (
+        min(derive_position, restore_position, lean_position, save_position) < 0
+        or not derive_position < restore_position < lean_position < save_position
+        or text.count(CACHE_RESTORE_ACTION) != 1
+        or text.count(CACHE_SAVE_ACTION) != 1
+        or "hashFiles('lake-manifest.json')" in text
+    ):
+        errors.append(
+            f"{path}: native-object cache must use the validated rotating restore/save contract"
+        )
+
+
 def validate_public(root: Path, errors: list[str]) -> None:
     if (root / "LICENSE").exists():
         errors.append(f"{root}: LICENSE must not exist; the required filename is LICENCE")
@@ -83,6 +135,18 @@ def validate_public(root: Path, errors: list[str]) -> None:
         errors,
     )
     require_text(notice, ("Copyright 2026 mathlib-initiative", "Apache License"), errors)
+    public_gitignore = require_file(root, ".gitignore", errors)
+    require_text(public_gitignore, ("/outputs.jsonl",), errors)
+    public_setup = require_file(root, ".github/RELEASE_SETUP.md", errors)
+    require_text(
+        public_setup,
+        (
+            "before the first push to `main`",
+            "That push triggers the first cache publication",
+            "Immutability is not retroactive",
+        ),
+        errors,
+    )
     public_ci = require_file(root, ".github/workflows/ci.yml", errors)
     notify = require_file(root, ".github/workflows/notify-verso.yml", errors)
     require_text(
@@ -179,6 +243,18 @@ def validate_private(root: Path, errors: list[str]) -> None:
         (PRIVATE_HEADER, "metadata/items.json", "## Formalization", "--check"),
         errors,
     )
+    cache_key_script = require_file(root, "scripts/mathlib_ir_cache_key.py", errors)
+    require_text(
+        cache_key_script,
+        (
+            PRIVATE_HEADER,
+            'CACHE_SCHEMA = "mathlib-ir-v1"',
+            'MATHLIB_URL = "https://github.com/leanprover-community/mathlib4"',
+            "hashlib.sha256(toolchain).hexdigest()",
+            "CANONICAL_REVISION.fullmatch(revision)",
+        ),
+        errors,
+    )
     lakefile = require_file(root, "lakefile.toml", errors)
     require_text(lakefile, ('name = "alignmentExport"', 'root = "AlignmentExport"'), errors)
     release_setup = require_file(root, ".github/RELEASE_SETUP.md", errors)
@@ -202,6 +278,8 @@ def validate_private(root: Path, errors: list[str]) -> None:
         private_ci,
         (
             LEAN_ACTION,
+            CACHE_RESTORE_ACTION,
+            CACHE_SAVE_ACTION,
             UPLOAD_ARTIFACT_ACTION,
             ELAN_REVISION,
             ELAN_SHA256,
@@ -212,6 +290,7 @@ def validate_private(root: Path, errors: list[str]) -> None:
         errors,
     )
     require_nonpersisting_checkouts(private_ci, errors)
+    require_native_cache_contract(private_ci, errors)
     require_text(
         updater,
         (
@@ -244,6 +323,8 @@ def validate_private(root: Path, errors: list[str]) -> None:
             "--disable-auto",
             "gh pr close",
             LEAN_ACTION,
+            CACHE_RESTORE_ACTION,
+            CACHE_SAVE_ACTION,
             UPLOAD_ARTIFACT_ACTION,
             DOWNLOAD_ARTIFACT_ACTION,
             ELAN_REVISION,
@@ -254,6 +335,7 @@ def validate_private(root: Path, errors: list[str]) -> None:
     if updater.is_file():
         updater_text = updater.read_text(encoding="utf-8")
         require_nonpersisting_checkouts(updater, errors)
+        require_native_cache_contract(updater, errors)
         if "git add " in updater_text:
             errors.append(f"{updater}: privileged updater must consume only the validated patch artifact")
         if "--auto" in updater_text:

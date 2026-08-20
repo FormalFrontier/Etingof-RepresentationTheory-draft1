@@ -19,13 +19,15 @@ pair and its checksum before dispatching the revision. Consumers likewise fetch
 only those explicit assets; GitHub-generated source archives are never artifact
 cache inputs.
 
-Enable **immutable releases** in the public repository settings before the first
-cache publication. Immutability is not retroactive, so enabling it later cannot
-protect releases already published. The publish job recreates any interrupted
-reserved draft, uploads and byte-verifies the exact deterministic pair,
-publishes it, and then requires the Releases API to report `immutable: true`.
-Publication fails closed if the repository does not enforce immutability or if
-an existing published release has a partial, unexpected, or byte-different
-asset set. After publication is attempted, automation never deletes the release
-or its tag; a readiness failure is left intact for inspection, rerun, or manual
-remediation so an immutable revision tag cannot be made permanently unusable.
+Enable **immutable releases** in the public repository settings
+before the first push to `main`. That push triggers the first cache publication.
+Immutability is not retroactive, so enabling it later cannot protect releases
+already published. The publish job recreates any interrupted reserved draft,
+uploads and byte-verifies the exact
+deterministic pair, publishes it, and then requires the Releases API to report
+`immutable: true`. Publication fails closed if the repository does not enforce
+immutability or if an existing published release has a partial, unexpected, or
+byte-different asset set. After publication is attempted, automation never
+deletes the release or its tag; a readiness failure is left intact for
+inspection, rerun, or manual remediation so an immutable revision tag cannot be
+made permanently unusable.
