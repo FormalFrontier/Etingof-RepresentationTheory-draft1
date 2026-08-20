@@ -42,6 +42,26 @@ def require_text(path: Path, needles: tuple[str, ...], errors: list[str]) -> Non
             errors.append(f"{path}: missing required text {needle!r}")
 
 
+def require_normalized_text(path: Path, needles: tuple[str, ...], errors: list[str]) -> None:
+    if not path.is_file():
+        return
+    text = " ".join(path.read_text(encoding="utf-8").split())
+    for needle in needles:
+        normalized = " ".join(needle.split())
+        if normalized not in text:
+            errors.append(f"{path}: missing required text {needle!r}")
+
+
+def reject_text(path: Path, needles: tuple[str, ...], errors: list[str]) -> None:
+    if not path.is_file():
+        return
+    text = " ".join(path.read_text(encoding="utf-8").lower().split())
+    for needle in needles:
+        normalized = " ".join(needle.lower().split())
+        if normalized in text:
+            errors.append(f"{path}: contains superseded text {needle!r}")
+
+
 def require_nonpersisting_checkouts(path: Path, errors: list[str]) -> None:
     if not path.is_file():
         return
@@ -121,16 +141,31 @@ def validate_public(root: Path, errors: list[str]) -> None:
         ("Apache License", "Version 2.0, January 2004"),
         errors,
     )
-    require_text(
+    require_normalized_text(
         readme,
         (
             "Introduction to Representation Theory",
             "https://bookstore.ams.org/stml-59/",
             "does not quote or reproduce the book's prose",
-            "do not reproduce the book's structure",
-            "not a derivative work",
+            "machine-readable `source_ref` metadata",
+            "numbered results, discussions, introductions, and section headings",
+            "provided for scholarly cross-reference",
+            "allow aspects of the book's numbering and organization to be inferred",
+            "Lean code, proofs, declaration names, and module structure were written independently",
             "access-controlled",
             "not publicly available",
+        ),
+        errors,
+    )
+    reject_text(
+        readme,
+        (
+            "do not reproduce the book's structure",
+            "does not reproduce the book's structure",
+            "do not reproduce the book's expressive content or organization",
+            "does not reproduce the book's expressive content or organization",
+            "derivative work",
+            "derivative-work",
         ),
         errors,
     )

@@ -9,13 +9,13 @@ representation theory. It covers mathematical material also treated in:
 > Library 59, American Mathematical Society, 2011. ISBN 978-0-8218-5351-1.
 > [AMS catalogue entry](https://bookstore.ams.org/stml-59/)
 
-The Lean source does not quote or reproduce the book's prose. Its modules,
-files, declaration names, documentation, and mathematical organization were
-written independently and do not reproduce the book's structure. The small
-machine-readable citations attached to some declarations identify related
-mathematical results, but do not reproduce the book's expressive content or
-organization. This repository is therefore not a derivative work of the book
-for copyright purposes.
+The Lean source was written independently and does not quote or reproduce the
+book's prose. Some declarations carry machine-readable `source_ref` metadata
+identifying related locations in the book, including numbered results,
+discussions, introductions, and section headings. These references are
+provided for scholarly cross-reference and allow aspects of the book's
+numbering and organization to be inferred. The formalization's Lean code,
+proofs, declaration names, and module structure were written independently.
 
 The American Mathematical Society has a corresponding access-controlled
 repository containing the complete book text together with a Verso rendering
