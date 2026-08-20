@@ -41,7 +41,7 @@ SOURCE_NODES = ROOT / "manifests" / "alignment" / "source-nodes.jsonl"
 # path dependencies.  The materialized lakefile pins both public Git inputs,
 # and `lake update` produces the new lock file.
 EXCLUDED_DIRECTORIES = frozenset({".git", ".lake", ".verso", "_out", "__pycache__"})
-EXCLUDED_FILES = frozenset({"alignment-export.json", "lake-manifest.json"})
+EXCLUDED_FILES = frozenset({"alignment-export.json", "lake-manifest.json", "outputs.jsonl"})
 EXCLUDED_SUFFIXES = frozenset({".olean", ".ilean"})
 EXCLUDED_SUBTREES = frozenset(
     {Path("IntroductionToRepresentationTheoryVerso/Spike")}
