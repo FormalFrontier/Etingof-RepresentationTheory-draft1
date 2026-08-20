@@ -223,7 +223,9 @@ jobs:
             --file "$archive" \
             --directory "$cache_root" \
             --no-same-owner --no-same-permissions
-          lake cache unstage "$cache_root/staging"
+          # The mappings were recorded with the formalization as the public
+          # workspace root. Restore them into that dependency's cache scope.
+          lake cache unstage "$cache_root/staging" RepresentationTheoryFormalization
       # Asserted before the build below: afterwards every target is up to date
       # whether it was replayed or recompiled, so the check would be vacuous.
       - name: Verify the updated formalization was replayed, not rebuilt
