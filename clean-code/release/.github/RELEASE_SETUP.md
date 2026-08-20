@@ -26,4 +26,6 @@ reserved draft, uploads and byte-verifies the exact deterministic pair,
 publishes it, and then requires the Releases API to report `immutable: true`.
 Publication fails closed if the repository does not enforce immutability or if
 an existing published release has a partial, unexpected, or byte-different
-asset set.
+asset set. After publication is attempted, automation never deletes the release
+or its tag; a readiness failure is left intact for inspection, rerun, or manual
+remediation so an immutable revision tag cannot be made permanently unusable.

@@ -219,8 +219,24 @@ jobs:
               raise SystemExit(f"noncanonical checksum sidecar: {sidecar}")
           PY
           sha256sum --check --strict "$sidecar"
-          published_now=false
           create_draft=true
+          validate_optional_tag() {
+            tag_query_error="$RUNNER_TEMP/formalization-tag-query.err"
+            if tag_identity=$(gh api \
+              "repos/$GH_REPO/git/ref/tags/$release" \
+              --jq '[.object.type, .object.sha] | @tsv' \
+              2>"$tag_query_error"); then
+              IFS="$(printf '\t')" read -r tag_type tag_sha <<< "$tag_identity"
+              if test "$tag_type" != commit || test "$tag_sha" != "$GITHUB_SHA"; then
+                echo "::error::Existing tag $release is not a direct reference to $GITHUB_SHA."
+                exit 1
+              fi
+            elif ! grep -qF 'HTTP 404' "$tag_query_error"; then
+              cat "$tag_query_error" >&2
+              echo "::error::Could not determine whether tag $release already exists."
+              exit 1
+            fi
+          }
           if gh release view "$release" --repo "$GH_REPO" >/dev/null 2>&1; then
             tag_name=$(gh release view "$release" --repo "$GH_REPO" --json tagName --jq .tagName)
             target=$(gh release view "$release" --repo "$GH_REPO" --json targetCommitish --jq .targetCommitish)
@@ -231,9 +247,10 @@ jobs:
             fi
             if test "$is_draft" = true; then
               # Draft assets can be left partial by an interrupted job. Rebuild a
-              # metadata-correct reserved draft instead of trusting that state.
+              # metadata-correct reserved draft without assuming it created a tag.
+              validate_optional_tag
               gh release delete "$release" \
-                --repo "$GH_REPO" --cleanup-tag --yes
+                --repo "$GH_REPO" --yes
             elif test "$is_draft" = false; then
               create_draft=false
             else
@@ -326,24 +343,9 @@ jobs:
           cmp --silent "$asset" "$verify_dir/$asset"
           cmp --silent "$sidecar" "$verify_dir/$sidecar"
           if test "$is_draft" = true; then
-            tag_query_error="$RUNNER_TEMP/formalization-tag-query.err"
-            if tag_identity=$(gh api \
-              "repos/$GH_REPO/git/ref/tags/$release" \
-              --jq '[.object.type, .object.sha] | @tsv' \
-              2>"$tag_query_error"); then
-              IFS="$(printf '\t')" read -r tag_type tag_sha <<< "$tag_identity"
-              if test "$tag_type" != commit || test "$tag_sha" != "$GITHUB_SHA"; then
-                echo "::error::Existing tag $release is not a direct reference to $GITHUB_SHA."
-                exit 1
-              fi
-            elif ! grep -qF 'HTTP 404' "$tag_query_error"; then
-              cat "$tag_query_error" >&2
-              echo "::error::Could not determine whether tag $release already exists."
-              exit 1
-            fi
+            validate_optional_tag
             gh release edit "$release" \
               --repo "$GH_REPO" --draft=false --latest=false
-            published_now=true
           fi
           publication_ready=false
           for attempt in 1 2 3 4 5 6 7 8 9 10; do
@@ -374,12 +376,8 @@ jobs:
             sleep 2
           done
           if test "$publication_ready" != true; then
-            if test "$published_now" = true; then
-              gh release delete "$release" \
-                --repo "$GH_REPO" --cleanup-tag --yes ||
-                echo "::error::Failed to clean up newly published release $release."
-            fi
             echo "::error::Release $release did not become immutable with an exact revision tag."
+            echo "::error::Inspect the published state and rerun after any required manual remediation."
             exit 1
           fi
           echo "Verified deterministic immutable artifact pair on release $release."
