@@ -36,6 +36,14 @@ jobs:
             sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
           "$HOME/.elan/bin/lake" update
+      # Mathlib's own cache ships oleans but not native objects, and linking the
+      # `book` executable needs them: 8264 C compilations that no other cache
+      # covers. The pinned Mathlib revision makes them reusable across runs.
+      - name: Restore the Mathlib native objects
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/packages/mathlib/.lake/build/ir
+          key: mathlib-ir-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
       # The pinned formalization is built once by the public repository and
       # published as a Lake artifact cache payload. Loading it here lets Lake
       # replay the pinned oleans instead of recompiling ~800 modules, which no
@@ -128,6 +136,16 @@ jobs:
           lint: false
           use-mathlib-cache: true
           use-github-cache: false
+      # Saved unconditionally: a failure in rendering or validation below must
+      # not discard hours of native compilation and force the next run to redo
+      # it. Making the save depend on total success is what deadlocked the
+      # previous sharded design.
+      - name: Save the Mathlib native objects
+        if: ${{ always() }}
+        uses: actions/cache/save@v5
+        with:
+          path: .lake/packages/mathlib/.lake/build/ir
+          key: mathlib-ir-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
       - name: Check formalization panels against the pinned public revision
         run: |
           lake env lean --run AlignmentExport.lean > "$RUNNER_TEMP/formalization-alignment.json"
