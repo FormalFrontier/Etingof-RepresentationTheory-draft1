@@ -12,8 +12,11 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Bootstrap the generated Lake manifest
         run: |
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf |
@@ -28,3 +31,137 @@ jobs:
           test -f LICENCE
           test ! -e LICENSE
           test -f NOTICE
+      # The aligned Verso repository pins this repository as a Lake dependency and
+      # would otherwise recompile every module here. `enableArtifactCache` in
+      # lakefile.toml populates the Lake artifact cache during the build above, so
+      # recording the mappings now is a no-op rebuild that only reads them back.
+      - name: Record the artifact cache mappings
+        run: lake build -o outputs.jsonl RepresentationTheory alignmentExport
+      - name: Stage the formalization artifacts
+        if: >-
+          github.ref == 'refs/heads/main' &&
+          (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        run: |
+          lake cache stage outputs.jsonl staging
+          tar --create --gzip \
+            --file "formalization-$GITHUB_SHA.tar.gz" staging
+          size="$(stat -c %s "formalization-$GITHUB_SHA.tar.gz")"
+          echo "Staged payload: $size bytes"
+          # A GitHub release asset must stay below 2 GiB.
+          if test "$size" -ge 2147483648; then
+            echo "::error::Staged payload exceeds the 2 GiB release asset limit."
+            exit 1
+          fi
+          sha256sum "formalization-$GITHUB_SHA.tar.gz" \
+            > "formalization-$GITHUB_SHA.tar.gz.sha256"
+      - name: Hand the payload to the publish job
+        if: >-
+          github.ref == 'refs/heads/main' &&
+          (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        uses: actions/upload-artifact@v4
+        with:
+          name: formalization-payload-${{ github.sha }}
+          path: |
+            formalization-${{ github.sha }}.tar.gz
+            formalization-${{ github.sha }}.tar.gz.sha256
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 1
+
+  # Separated from `build` so that repository write access is never available to
+  # the checkout, the toolchain bootstrap, or any code the build executes.
+  publish:
+    needs: build
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    concurrency:
+      group: formalization-cache-publish
+      cancel-in-progress: false
+    steps:
+      - name: Download the staged payload
+        uses: actions/download-artifact@v4
+        with:
+          name: formalization-payload-${{ github.sha }}
+      - name: Publish the formalization artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          release="formalization-cache-$GITHUB_SHA"
+          asset="formalization-$GITHUB_SHA.tar.gz"
+          sidecar="$asset.sha256"
+          python3 - "$sidecar" "$asset" <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+
+          sidecar, asset = sys.argv[1:]
+          contents = Path(sidecar).read_text(encoding="ascii")
+          if re.fullmatch(rf"[0-9a-f]{{64}}  {re.escape(asset)}\n", contents) is None:
+              raise SystemExit(f"noncanonical checksum sidecar: {sidecar}")
+          PY
+          sha256sum --check --strict "$sidecar"
+          if ! gh release view "$release" >/dev/null 2>&1; then
+            gh release create "$release" \
+              --target "$GITHUB_SHA" \
+              --title "Formalization artifact cache $GITHUB_SHA" \
+              --notes "Lake artifact cache payload for public main revision \`$GITHUB_SHA\`; consumed only through the explicitly named assets, never through GitHub-generated source archives." \
+              --latest=false ||
+              gh release view "$release" >/dev/null
+          fi
+          tag_type=$(gh api \
+            "repos/$GH_REPO/git/ref/tags/$release" \
+            --jq .object.type)
+          tag_sha=$(gh api \
+            "repos/$GH_REPO/git/ref/tags/$release" \
+            --jq .object.sha)
+          if test "$tag_type" != commit || test "$tag_sha" != "$GITHUB_SHA"; then
+            echo "::error::Release $release is not bound to $GITHUB_SHA."
+            exit 1
+          fi
+          assets=$(gh release view "$release" --json assets --jq '.assets[].name')
+          if printf '%s\n' "$assets" | grep -qxF "$asset"; then
+            have_asset=true
+          else
+            have_asset=false
+          fi
+          if printf '%s\n' "$assets" | grep -qxF "$sidecar"; then
+            have_sidecar=true
+          else
+            have_sidecar=false
+          fi
+          if test "$have_asset" != "$have_sidecar"; then
+            echo "::error::Release $release contains only one member of the artifact pair."
+            exit 1
+          fi
+          if test "$have_asset" = false; then
+            gh release upload "$release" "$asset" "$sidecar"
+          fi
+          verify_dir="$RUNNER_TEMP/published-formalization-cache"
+          mkdir "$verify_dir"
+          gh release download "$release" \
+            --pattern "$asset" \
+            --pattern "$sidecar" \
+            --dir "$verify_dir"
+          if ! { test -f "$verify_dir/$asset" && test ! -L "$verify_dir/$asset" &&
+                 test -f "$verify_dir/$sidecar" && test ! -L "$verify_dir/$sidecar"; }; then
+            echo "::error::Published artifact pair is incomplete or not regular files."
+            exit 1
+          fi
+          python3 - "$verify_dir/$sidecar" "$asset" <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+
+          sidecar, asset = sys.argv[1:]
+          contents = Path(sidecar).read_text(encoding="ascii")
+          if re.fullmatch(rf"[0-9a-f]{{64}}  {re.escape(asset)}\n", contents) is None:
+              raise SystemExit(f"noncanonical checksum sidecar: {sidecar}")
+          PY
+          (cd "$verify_dir" && sha256sum --check --strict "$sidecar")
+          echo "Verified immutable artifact pair on revision-bound release $release."

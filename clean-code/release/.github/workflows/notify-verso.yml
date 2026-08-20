@@ -12,14 +12,18 @@ permissions:
 jobs:
   dispatch:
     if: >-
-      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_dispatch' &&
+       github.ref == 'refs/heads/main') ||
       (github.event.workflow_run.conclusion == 'success' &&
-       github.event.workflow_run.head_branch == 'main')
+       github.event.workflow_run.head_branch == 'main' &&
+       (github.event.workflow_run.event == 'push' ||
+        github.event.workflow_run.event == 'workflow_dispatch'))
     runs-on: ubuntu-latest
     steps:
       - name: Dispatch the tested formalization revision
         env:
           DISPATCH_TOKEN: ${{ secrets.VERSO_REPO_DISPATCH_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
           REVISION: ${{ github.event.workflow_run.head_sha || github.sha }}
           SOURCE_REF: ${{ github.event.workflow_run.head_branch || github.ref }}
         run: |
@@ -27,6 +31,56 @@ jobs:
             echo "VERSO_REPO_DISPATCH_TOKEN is not configured" >&2
             exit 1
           fi
+          python3 - "$REVISION" <<'PY'
+          import re
+          import sys
+
+          if re.fullmatch(r"[0-9a-f]{40}", sys.argv[1]) is None:
+              raise SystemExit("formalization revision is not exact lowercase 40-hex")
+          PY
+          current_main=$(gh api \
+            "repos/$GITHUB_REPOSITORY/git/ref/heads/main" \
+            --jq .object.sha)
+          if test "$REVISION" != "$current_main"; then
+            echo "::error::Refusing to dispatch stale revision $REVISION; public main is $current_main."
+            exit 1
+          fi
+          release="formalization-cache-$REVISION"
+          asset="formalization-$REVISION.tar.gz"
+          sidecar="$asset.sha256"
+          tag_type=$(gh api \
+            "repos/$GITHUB_REPOSITORY/git/ref/tags/$release" \
+            --jq .object.type)
+          tag_sha=$(gh api \
+            "repos/$GITHUB_REPOSITORY/git/ref/tags/$release" \
+            --jq .object.sha)
+          if test "$tag_type" != commit || test "$tag_sha" != "$REVISION"; then
+            echo "::error::Artifact release $release is not bound to revision $REVISION."
+            exit 1
+          fi
+          verify_dir="$RUNNER_TEMP/formalization-cache"
+          mkdir "$verify_dir"
+          gh release download "$release" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern "$asset" \
+            --pattern "$sidecar" \
+            --dir "$verify_dir"
+          if ! { test -f "$verify_dir/$asset" && test ! -L "$verify_dir/$asset" &&
+                 test -f "$verify_dir/$sidecar" && test ! -L "$verify_dir/$sidecar"; }; then
+            echo "::error::Published artifact pair is incomplete or not regular files."
+            exit 1
+          fi
+          python3 - "$verify_dir/$sidecar" "$asset" <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+
+          sidecar, asset = sys.argv[1:]
+          contents = Path(sidecar).read_text(encoding="ascii")
+          if re.fullmatch(rf"[0-9a-f]{{64}}  {re.escape(asset)}\n", contents) is None:
+              raise SystemExit(f"noncanonical checksum sidecar: {sidecar}")
+          PY
+          (cd "$verify_dir" && sha256sum --check --strict "$sidecar")
           curl --fail-with-body --request POST \
             --header "Accept: application/vnd.github+json" \
             --header "Authorization: Bearer $DISPATCH_TOKEN" \

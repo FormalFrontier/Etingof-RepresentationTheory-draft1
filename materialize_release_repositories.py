@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -61,10 +62,18 @@ DEFAULT_VERSO_GIT_REV = "e09d21a5f7f66c9fc985b73197708298569bf583"
 DEFAULT_CLEAN_GIT_URL = (
     "https://github.com/mathlib-initiative/EtingofRepresentationTheory.git"
 )
+CANONICAL_GIT_REVISION = re.compile(r"[0-9a-f]{40}")
 
 
 class MaterializationError(RuntimeError):
     """A requested output would be unsafe or would violate release policy."""
+
+
+def require_canonical_clean_revision(revision: str) -> None:
+    if CANONICAL_GIT_REVISION.fullmatch(revision) is None:
+        raise MaterializationError(
+            "--clean-git-rev must be an exact lowercase 40-hex commit revision"
+        )
 
 
 @dataclass(frozen=True)
@@ -192,10 +201,12 @@ def write_verso_lakefile(
     verso_git_url: str,
     verso_git_rev: str,
 ) -> None:
+    require_canonical_clean_revision(clean_git_rev)
     (destination / "lakefile.toml").write_text(
         f'''name = "IntroductionToRepresentationTheoryVerso"
 version = "0.1.0"
 defaultTargets = ["IntroductionToRepresentationTheoryVerso", "book", "alignmentExport"]
+enableArtifactCache = true
 
 [[require]]
 name = "verso"
@@ -244,6 +255,7 @@ def assert_verso_dependency(
     verso_git_url: str,
     verso_git_rev: str,
 ) -> None:
+    require_canonical_clean_revision(clean_git_rev)
     lakefile = (destination / "lakefile.toml").read_text(encoding="utf-8")
     verso_stanza = (
         "[[require]]\n"
@@ -257,6 +269,8 @@ def assert_verso_dependency(
         f"git = {toml_string(clean_git_url)}\n"
         f"rev = {toml_string(clean_git_rev)}"
     )
+    if "enableArtifactCache = true" not in lakefile:
+        raise MaterializationError("Verso lakefile does not enable the Lake artifact cache")
     if verso_stanza not in lakefile:
         raise MaterializationError("Verso lakefile lacks the requested pinned Verso Git dependency")
     if clean_stanza not in lakefile:
@@ -417,8 +431,10 @@ def materialize(
             raise MaterializationError(
                 "--derive-clean-rev cannot be combined with --clean-git-rev"
             )
-    elif clean_git_rev is None or not clean_git_rev.strip():
-        raise MaterializationError("--clean-git-rev must be nonempty")
+    elif clean_git_rev is None:
+        raise MaterializationError("--clean-git-rev must be provided")
+    else:
+        require_canonical_clean_revision(clean_git_rev)
     if not verso_git_url.strip() or not verso_git_rev.strip():
         raise MaterializationError("--verso-git-url and --verso-git-rev must be nonempty")
     for source in (CLEAN_SOURCE, VERSO_SOURCE, BOOK_BLOBS):
@@ -510,7 +526,7 @@ def self_test() -> dict[str, object]:
         verso_destination = root / "verso"
         kwargs = {
             "clean_git_url": "https://example.invalid/representation-theory-formalization.git",
-            "clean_git_rev": "0123456789abcdef",
+            "clean_git_rev": "0123456789abcdef0123456789abcdef01234567",
             "verso_git_url": DEFAULT_VERSO_GIT_URL,
             "verso_git_rev": DEFAULT_VERSO_GIT_REV,
             "init_git": False,
@@ -615,6 +631,25 @@ def self_test() -> dict[str, object]:
                     raise
             else:
                 raise MaterializationError(f"self-test accepted an empty {option} override")
+        for invalid_revision in (
+            "0123456789abcdef",
+            "ABCDEF0123456789ABCDEF0123456789ABCDEF01",
+            "g123456789abcdef0123456789abcdef01234567",
+        ):
+            try:
+                materialize(
+                    root / "invalid-revision-lean",
+                    root / "invalid-revision-verso",
+                    dry_run=True,
+                    **{**kwargs, "clean_git_rev": invalid_revision},
+                )
+            except MaterializationError as error:
+                if "exact lowercase 40-hex" not in str(error):
+                    raise
+            else:
+                raise MaterializationError(
+                    "self-test accepted a noncanonical public revision"
+                )
         derived_lean = root / "derived-lean"
         derived_verso = root / "derived-verso"
         derived = materialize(
