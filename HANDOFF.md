@@ -299,13 +299,16 @@ what must hold.
   outstanding item: the corpus is the source of the mathematics, and anything it
   proves should appear in the public library under a clean-room name. Audit this
   by comparing the two, not by trusting counts.
-- The corpus does not formalize every item of the book. It is, however,
-  effectively complete on what it does cover: it contains no `sorry`, and
-  records exactly one statement it does not prove, Ado's theorem, using
-  `proof_wanted`, which elaborates the proposition without introducing a proof
-  term or an axiom. How much of the book is formalized is a separate question
-  from whether the migration carried the corpus across, and the two should not
-  be conflated.
+- The corpus formalizes the whole book, with an explicitly enumerated set of
+  exceptions in `skipped-exercises.md`: seven current intentional omissions, plus
+  the Ado-Iwasawa theorem, recorded as an approved `proof_wanted` that
+  typechecks the statement without producing a proof term or an axiom.
+  `scripts/check_proof_placeholders.py` enforces that correspondence, so nothing
+  can be omitted silently. The corpus contains no `sorry`.
+
+  This makes the gap above sharper rather than softer: the things missing from
+  the public library are results the corpus actually proved, not book content
+  that was never formalized. Only the enumerated exceptions are accepted gaps.
 
 ### Build clean, with nothing logged
 
@@ -370,6 +373,11 @@ These are the acceptance criteria. Verify them; do not weaken them.
   reciprocally reviewed;
 - the public root build, export validator, exact source-ref validator, rename
   audit, and leak scan all pass;
+- every `source_ref` resolves to a real book item, **and** every declaration in
+  the public library that formalizes book content carries one. The two
+  directions are separate requirements: an uncited declaration is an unrecorded
+  use of the source, and because the aligned edition's panels are generated from
+  these attributes, it also never appears beside the text it belongs to;
 - panel synchronization is idempotent;
 - the complete private Verso build and render passes, and every exported
   formalization reference resolves in the rendered HTML;
