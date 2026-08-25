@@ -35,7 +35,7 @@ mathlib-initiative hosts this private repository on behalf of the American
 Mathematical Society and assisted with the technical preparation of the Verso
 alignment. mathlib-initiative disclaims any copyright, ownership, or other
 intellectual-property claim in the book, its text, and this aligned edition.
-See [LICENCE](LICENCE) for the repository's access and use terms.
+See [LICENSE](LICENSE) for the repository's access and use terms.
 
 This repository and its rendered output are not public. Do not publish, copy,
 distribute, or grant access without express authorization from the American

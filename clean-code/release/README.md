@@ -33,9 +33,9 @@ lake exe cache get
 lake build
 ```
 
-## Licence
+## License
 
 Copyright 2026 mathlib-initiative.
 
 The Lean formalization in this repository is licensed under the
-[Apache License, Version 2.0](LICENCE). See [NOTICE](NOTICE).
+[Apache License, Version 2.0](LICENSE). See [NOTICE](NOTICE).
