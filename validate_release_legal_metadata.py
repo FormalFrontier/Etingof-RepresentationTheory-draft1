@@ -9,6 +9,9 @@ from pathlib import Path
 
 
 PUBLIC_HEADER = "Copyright (c) 2026 mathlib-initiative. All rights reserved."
+PUBLIC_LICENSE_LINE = (
+    "Released under Apache 2.0 license as described in the file LICENSE."
+)
 CHECKOUT_ACTION = "actions/checkout@11d5960a326750d5838078e36cf38b85af677262"
 UPLOAD_ARTIFACT_ACTION = (
     "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
@@ -131,9 +134,9 @@ def require_native_cache_contract(path: Path, errors: list[str]) -> None:
 
 
 def validate_public(root: Path, errors: list[str]) -> None:
-    if (root / "LICENSE").exists():
-        errors.append(f"{root}: LICENSE must not exist; the required filename is LICENCE")
-    licence = require_file(root, "LICENCE", errors)
+    if (root / "LICENCE").exists():
+        errors.append(f"{root}: LICENCE must not exist; the required filename is LICENSE")
+    licence = require_file(root, "LICENSE", errors)
     readme = require_file(root, "README.md", errors)
     notice = require_file(root, "NOTICE", errors)
     require_text(
@@ -192,7 +195,8 @@ def validate_public(root: Path, errors: list[str]) -> None:
             DOWNLOAD_ARTIFACT_ACTION,
             ELAN_REVISION,
             ELAN_SHA256,
-            "test -f LICENCE",
+            "test -f LICENSE",
+            "test ! -e LICENCE",
         ),
         errors,
     )
@@ -215,14 +219,16 @@ def validate_public(root: Path, errors: list[str]) -> None:
             errors.append(f"{path}: missing mathlib-initiative copyright header")
         if "Copyright (c) 2026 Kim Morrison" in text:
             errors.append(f"{path}: retained superseded personal copyright header")
-        if "file LICENSE" in text[:400]:
-            errors.append(f"{path}: header names LICENSE instead of LICENCE")
+        if "file LICENCE" in text[:400]:
+            errors.append(f"{path}: header names LICENCE instead of LICENSE")
+        elif PUBLIC_LICENSE_LINE not in text[:400]:
+            errors.append(f"{path}: header is missing the Apache 2.0 LICENSE line")
 
 
 def validate_private(root: Path, errors: list[str]) -> None:
-    if (root / "LICENSE").exists():
-        errors.append(f"{root}: LICENSE must not exist; the required filename is LICENCE")
-    licence = require_file(root, "LICENCE", errors)
+    if (root / "LICENCE").exists():
+        errors.append(f"{root}: LICENCE must not exist; the required filename is LICENSE")
+    licence = require_file(root, "LICENSE", errors)
     readme = require_file(root, "README.md", errors)
     require_text(
         licence,

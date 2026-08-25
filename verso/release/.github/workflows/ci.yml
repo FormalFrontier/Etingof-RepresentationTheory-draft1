@@ -275,8 +275,8 @@ jobs:
         run: python3 scripts/build_site.py
       - name: Check private legal filenames
         run: |
-          test -f LICENCE
-          test ! -e LICENSE
+          test -f LICENSE
+          test ! -e LICENCE
       - name: Upload access-controlled site artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

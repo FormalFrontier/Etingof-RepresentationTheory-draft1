@@ -34,8 +34,8 @@ jobs:
           use-mathlib-cache: true
       - name: Check release legal filenames
         run: |
-          test -f LICENCE
-          test ! -e LICENSE
+          test -f LICENSE
+          test ! -e LICENCE
           test -f NOTICE
       # The aligned Verso repository pins this repository as a Lake dependency and
       # would otherwise recompile every module here. `enableArtifactCache` in
