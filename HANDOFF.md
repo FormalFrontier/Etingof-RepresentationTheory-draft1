@@ -307,6 +307,20 @@ what must hold.
   from whether the migration carried the corpus across, and the two should not
   be conflated.
 
+### Build clean, with no warnings
+
+All three repositories must build warning-free. Every build must succeed under
+`lake build --wfail`, which is `--fail-level=warning`, so that a warning is a
+build failure rather than something to scroll past.
+
+This is not cosmetic. Warnings accumulated until the public build was emitting
+roughly twenty-two thousand lines of them, at which point the linter stopped
+being a signal: nobody reads the twenty-two-thousand-and-first, and a genuine
+diagnostic hides in the noise. Any lint that is genuinely not worth fixing
+should be disabled explicitly, with a reason, rather than left firing.
+
+Wire `--wfail` into CI for all three repositories so this cannot regress.
+
 ### Remove defensive sorry-free and axiom-free commentary
 
 The original corpus carries roughly ten comments and docstrings asserting that a
@@ -324,8 +338,16 @@ is corpus cleanup, worth doing because
 `mathlib-initiative/Etingof-RepresentationTheory-draft1` is public and the corpus
 is visible in it. Take care not to delete the `proof_wanted` declaration for
 Ado's theorem in `Chapter2/Remark2_9_3.lean` while removing the sentence that
-describes it, and keep any `#print axioms` check that genuinely guards against a
-specific known hazard rather than merely restating the baseline.
+describes it.
+
+Remove the `#print axioms` scaffolding as well. The one comment that appeared to
+justify itself, in the public library's
+`RepresentationTheory/TensorProduct/BalancedRelations.lean`, warns that a bare
+`lake env lean` reports a spurious `sorryAx` for that section. It was checked:
+those declarations depend only on `propext`, `Classical.choice` and `Quot.sound`,
+and the predicted spurious report does not occur under Lake 5.0 either. The
+comment describes behaviour that no longer exists and trains readers to distrust
+a correct tool, so it should go with the rest.
 
 ## Requirements the published repositories must satisfy
 
