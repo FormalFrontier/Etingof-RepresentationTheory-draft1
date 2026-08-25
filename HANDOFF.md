@@ -307,6 +307,26 @@ what must hold.
   from whether the migration carried the corpus across, and the two should not
   be conflated.
 
+### Remove defensive sorry-free and axiom-free commentary
+
+The original corpus carries roughly ten comments and docstrings asserting that a
+result is "sorry-free", carries "no extra axioms", or is "genuinely sorry-free",
+along with eight files whose purpose is a `#print axioms` check. Remove them.
+
+Being sorry-free and axiom-free is the baseline expectation of a Lean
+development, not an achievement. Announcing it invites the reader to wonder why
+it needed saying, and to suspect the parts that stay silent. It reads as
+defensive rather than confident.
+
+The migrated public library already contains none of this: the clean-room
+docstrings were written from packets and never inherited the commentary. So this
+is corpus cleanup, worth doing because
+`mathlib-initiative/Etingof-RepresentationTheory-draft1` is public and the corpus
+is visible in it. Take care not to delete the `proof_wanted` declaration for
+Ado's theorem in `Chapter2/Remark2_9_3.lean` while removing the sentence that
+describes it, and keep any `#print axioms` check that genuinely guards against a
+specific known hazard rather than merely restating the baseline.
+
 ## Requirements the published repositories must satisfy
 
 These are the acceptance criteria. Verify them; do not weaken them.
